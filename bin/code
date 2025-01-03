@@ -43,7 +43,7 @@ abort parsed.help if input.empty?
 
 require_relative "../config/environment"
 
-profile = parsed.options.profile || !parsed.options.profiler.empty?
+profile = parsed.options.profile || parsed.options.profiler
 require "ruby-prof" if profile
 
 RubyProf.start if profile
