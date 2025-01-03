@@ -71,9 +71,8 @@ class Program < ApplicationRecord
   end
 
   def scheduled_jobs
-    SolidQueue::Job
-      .where(
-        <<~SQL,
+    SolidQueue::Job.where(
+      <<~SQL.squish,
           class_name = :class_name
           AND
           (
