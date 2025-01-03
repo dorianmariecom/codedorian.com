@@ -61,6 +61,7 @@ class Program < ApplicationRecord
 
   def unschedule!
     SolidQueue::ScheduledExecution.discard_all_from_jobs(scheduled_jobs)
+    scheduled_jobs.destroy_all
   end
 
   def schedule!
@@ -71,9 +72,29 @@ class Program < ApplicationRecord
   end
 
   def scheduled_jobs
-    SolidQueue::Job.where(class_name: "EvaluateAndScheduleJob").where(
-      "arguments like ?",
-      "%<to_global_id>s%"
+    SolidQueue::Job
+      .where(
+        <<~SQL,
+          class_name = :class_name
+          AND
+          (
+            (
+              (
+                (
+                  (
+                    (
+                      (
+                        arguments::jsonb
+                      )->>'arguments'
+                    )::jsonb
+                  )->0
+                )::jsonb
+              )->>'program'
+            )::jsonb
+          )->>'_aj_globalid' = :global_id
+      SQL
+      class_name: "EvaluateAndScheduleJob",
+      global_id: to_global_id.to_s
     )
   end
 

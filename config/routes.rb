@@ -80,6 +80,8 @@ Rails.application.routes.draw do
   resources :password_validations
   resource :session
 
+  match "/auth/callback/messenger", to: "messenger#create", via: :all
+
   get "up", to: "static#up"
   get "about", to: "static#about"
   get "terms", to: "static#terms"
