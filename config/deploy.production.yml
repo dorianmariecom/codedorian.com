@@ -33,11 +33,11 @@ registry:
   - KAMAL_REGISTRY_USERNAME
 servers:
   jobs:
-    cmd: bin/rake solid_queue:start
+    cmd: bin/jobs
     hosts:
     - 138.201.175.197
   push:
-    cmd: bin/rpush start -f
+    cmd: bin/push
     hosts:
     - 138.201.175.197
   web:
