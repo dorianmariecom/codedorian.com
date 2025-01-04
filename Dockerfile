@@ -1,8 +1,8 @@
-ARG RUBY_VERSION="3.3.5"
+arg RUBY_VERSION="3.3.5"
 
-FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
+from registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
 
-ENV BUNDLER_VERSION="2.5.16" \
+env BUNDLER_VERSION="2.5.16" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
     BUNDLE_WITHOUT="development" \
@@ -12,8 +12,8 @@ ENV BUNDLER_VERSION="2.5.16" \
     RAILS_ENV="production" \
     RUBY_INSTALL_VERSION="0.9.3"
 
-RUN apt-get update
-RUN apt-get install -y \
+run apt-get update
+run apt-get install -y \
     autoconf \
     build-essential \
     curl \
@@ -28,30 +28,30 @@ RUN apt-get install -y \
     vim \
     wget
 
-WORKDIR /rails
+workdir /rails
 
-RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/
-RUN /tmp/node-build-master/bin/node-build $NODE_VERSION /usr/local/node
+run curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/
+run /tmp/node-build-master/bin/node-build $NODE_VERSION /usr/local/node
 
-COPY Gemfile Gemfile.lock ./
+copy Gemfile Gemfile.lock ./
 
-RUN gem install bundler -v "$BUNDLER_VERSION"
-RUN bundle install
+run gem install bundler -v "$BUNDLER_VERSION"
+run bundle install
 
-COPY package.json package-lock.json ./
+copy package.json package-lock.json ./
 
-RUN npm ci
+run npm ci
 
-COPY . .
+copy . .
 
-RUN HOST=example.com \
+run HOST=example.com \
     HOSTS=example.com \
     BASE_URL=https://example.com \
     RAILS_MASTER_KEY_DUMMY=1 \
     SECRET_KEY_BASE_DUMMY=1 \
     ./bin/rails assets:precompile
 
-ENTRYPOINT ["/rails/bin/docker-entrypoint"]
+entrypoint ["/rails/bin/docker-entrypoint"]
 
-EXPOSE 3000
-CMD ["./bin/thrust", "./bin/web"]
+expose 3000
+cmd ["./bin/thrust", "./bin/web"]
