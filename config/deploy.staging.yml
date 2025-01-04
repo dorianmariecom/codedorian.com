@@ -40,10 +40,6 @@ servers:
     cmd: bin/push
     hosts:
     - 138.201.175.197
-  bash:
-    cmd: "/bin/true"
-    hosts:
-    - 138.201.175.197
   web:
   - 138.201.175.197
 service: codedorian-staging
