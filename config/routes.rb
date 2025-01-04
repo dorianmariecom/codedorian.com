@@ -54,7 +54,6 @@ Rails.application.routes.draw do
         collection { delete "/", to: "schedules#destroy_all" }
       end
 
-      resources(:data) { collection { delete "/", to: "data#destroy_all" } }
       resources(:devices) do
         collection { delete "/", to: "devices#destroy_all" }
       end
