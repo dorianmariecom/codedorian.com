@@ -41,7 +41,7 @@ servers:
     hosts:
     - 138.201.175.197
   bash:
-    cmd: /bin/bash
+    cmd: "/bin/true"
     hosts:
     - 138.201.175.197
   web:
