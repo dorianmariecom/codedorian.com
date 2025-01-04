@@ -3,4 +3,5 @@
 set -e
 
 git push
-git push heroku
+kamal deploy -d production $@
+kamal deploy -d staging $@
