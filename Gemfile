@@ -8,6 +8,10 @@ git_source(:hotwired) { |name| "https://github.com/hotwired/#{name}" }
 
 ruby "3.3.5"
 
+gem "importmap-rails", dorian: "importmap-rails" # https://github.com/rails/importmap-rails/pull/257, https://github.com/rails/importmap-rails/pull/256
+gem "rails", rails: :rails
+gem "turbo-rails", hotwired: "turbo-rails"
+
 gem "bcrypt"
 gem "brakeman"
 gem "bundler-audit"
@@ -17,7 +21,6 @@ gem "dorian-arguments"
 gem "dotenv-rails"
 gem "faker"
 gem "heroicon"
-gem "importmap-rails", dorian: "importmap-rails" # https://github.com/rails/importmap-rails/pull/257, https://github.com/rails/importmap-rails/pull/256
 gem "irb"
 gem "kamal"
 gem "kaminari"
@@ -32,7 +35,6 @@ gem "propshaft"
 gem "puma"
 gem "pundit"
 gem "rack-attack"
-gem "rails", rails: :rails
 gem "redis"
 gem "rpush"
 gem "slim-rails"
@@ -43,7 +45,6 @@ gem "solid_queue"
 gem "stimulus-rails"
 gem "tailwindcss-rails"
 gem "thruster", require: false
-gem "turbo-rails", hotwired: "turbo-rails"
 gem "zxcvbn-ruby", require: "zxcvbn"
 
 group :production do
