@@ -18,8 +18,8 @@ Rails.application.configure do
   config.log_tags = [:request_id]
   config.public_file_server.enabled = true
   config.require_master_key = ENV["RAILS_MASTER_KEY_DUMMY"].blank?
-  config.solid_errors.email_from = "dorian@codedorian.com"
-  config.solid_errors.email_to = "dorian@codedorian.com"
+  config.solid_errors.email_from = "dorian@dorianmarie.com"
+  config.solid_errors.email_to = "dorian@dorianmarie.com"
   config.solid_errors.send_emails = true
   config.action_mailer.smtp_settings =
     Rails.application.credentials.smtp_settings
