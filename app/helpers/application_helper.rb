@@ -18,7 +18,7 @@ module ApplicationHelper
   end
 
   def fake_verification_codes(length: 4)
-    Array.new(3) { rand(10**length).to_s.rjust(n, "0") }
+    Array.new(3) { rand(10**length).to_s.rjust(length, "0") }
   end
 
   def fake_email_addresses
