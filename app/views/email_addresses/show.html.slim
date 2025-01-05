@@ -26,7 +26,7 @@
 - if @email_address.not_verified?
   - if @email_address.verification_code_sent?
       = form_for @email_address, url: email_address_verification_code_path(id) do |f|
-        = render "shared/field", f: f, field: :verification_code, type: :verification_code, value: verification_code_param, required: true, fake: fake_verification_codes(n: 6)
+        = render "shared/field", f: f, field: :verification_code, type: :verification_code, value: verification_code_param, required: true, fake: fake_verification_codes(length: 6)
         p=> f.submit t(".verify"), class: "bg-black text-white px-4 py-2 rounded cursor-pointer"
       .p= button_to t(".cancel"), [@email_address, :verification_code], method: :delete, class: "a text-red-600"
   - else
