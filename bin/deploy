@@ -3,5 +3,7 @@
 set -e
 
 git push
+kamal lock release -d production
 kamal deploy -d production $@
+kamal lock release -d staging
 kamal deploy -d staging $@
