@@ -1,7 +1,0 @@
-.p= button_to t(".new"), new_url, method: :get, class: "bg-black text-white rounded px-4 py-2 cursor-pointer"
-
-.p= button_to t(".delete_all"), url, method: :delete, class: "a text-red-600" if @data.any?
-
-= paginate @data
-= render partial: "data/datum", collection: @data
-= paginate @data

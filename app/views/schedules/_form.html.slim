@@ -1,6 +1,0 @@
-= form_for schedule do |f|
-  = render "shared/field", f: f, field: :program_id, type: :select, options: program_options(program_id: f.object.program_id)
-  = render "shared/field", f: f, field: :starts_at, type: :time, value: f.object.starts_at || (Time.zone.now.beginning_of_hour + 1.hour)
-  = render "shared/field", f: f, field: :interval, type: :select, options: schedule_interval_options(interval: f.object.interval)
-
-  = f.submit submit, class: "bg-black text-white px-4 py-2 rounded cursor-pointer"

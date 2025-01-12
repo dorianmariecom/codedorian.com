@@ -1,4 +1,0 @@
-= form_for :session, url: session_path do |f|
-  = render "shared/field", f: f, scope: :session, field: :email_address, type: :email_address, required: true, value: email_address_param, autocomplete: :email, fake: fake_email_addresses
-  = render "shared/field", f: f, scope: :session, field: :password, type: :password, required: true, value: password_param, autocomplete: "current-password", fake: fake_passwords
-  = f.submit t(".submit"), class: "bg-black text-white px-4 py-2 rounded cursor-pointer"

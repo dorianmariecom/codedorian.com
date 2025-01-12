@@ -1,5 +1,0 @@
-.p= button_to t(".delete_all"), url, method: :delete, class: "a text-red-600" if @executions.any?
-
-= paginate @executions
-= render partial: "executions/execution", collection: @executions
-= paginate @executions

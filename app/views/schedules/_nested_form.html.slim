@@ -1,7 +1,0 @@
-.pl-4.border-l.border-black.mb-4.schedule(data-new-record="#{f.object.new_record?}")
-  = f.hidden_field :_destroy
-
-  = render "shared/field", f: f, field: :starts_at, type: :time, value: f.object.starts_at || (Time.zone.now.beginning_of_hour + 1.hour)
-  = render "shared/field", f: f, field: :interval, type: :select, options: schedule_interval_options(interval: f.object.interval)
-
-  p= link_to t(".remove"), schedules_path, data: { action: "schedule#remove" }
