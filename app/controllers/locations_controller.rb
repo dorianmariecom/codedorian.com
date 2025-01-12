@@ -11,20 +11,16 @@ class LocationsController < ApplicationController
     authorize Location
 
     @locations = scope.page(params[:page])
-    @breadcrumbs = [@user, :locations]
   end
 
   def show
-    @breadcrumbs = [@user, @location]
   end
 
   def new
     @location = authorize scope.new
-    @breadcrumbs = [@user, @location, :new]
   end
 
   def edit
-    @breadcrumbs = [@user, @location, :edit]
   end
 
   def create

@@ -6,7 +6,6 @@ class UsersController < ApplicationController
   def index
     authorize User
     @users = scope.page(params[:page])
-    @breadcrumbs = :users
   end
 
   def show
@@ -27,16 +26,13 @@ class UsersController < ApplicationController
       policy_scope(Execution).where(program: @programs).page(params[:page])
     @schedules =
       policy_scope(Schedule).where(program: @programs).page(params[:page])
-    @breadcrumbs = @user
   end
 
   def new
     @user = authorize scope.new
-    @breadcrumbs = [@user, :new]
   end
 
   def edit
-    @breadcrumbs = [@user, :edit]
   end
 
   def create

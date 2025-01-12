@@ -10,21 +10,17 @@ class DevicesController < ApplicationController
   def index
     authorize Device
 
-    @breadcrumbs = [@user, :devices]
     @devices = scope.page(params[:page])
   end
 
   def show
-    @breadcrumbs = [@user, @device]
   end
 
   def new
     @device = authorize scope.new
-    @breadcrumbs = [@user, @device, :new]
   end
 
   def edit
-    @breadcrumbs = [@user, @device, :edit]
   end
 
   def create

@@ -11,20 +11,16 @@ class NamesController < ApplicationController
     authorize Name
 
     @names = scope.page(params[:page])
-    @breadcrumbs = [@user, :names]
   end
 
   def show
-    @breadcrumbs = [@user, @name]
   end
 
   def new
     @name = authorize scope.new
-    @breadcrumbs = [@user, @name, :new]
   end
 
   def edit
-    @breadcrumbs = [@user, @name, :edit]
   end
 
   def create

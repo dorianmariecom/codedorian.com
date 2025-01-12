@@ -11,11 +11,9 @@ class ExecutionsController < ApplicationController
     authorize Execution
 
     @executions = scope.page(params[:page])
-    @breadcrumbs = [@user, @program, :executions]
   end
 
   def show
-    @breadcrumbs = [@user, @program, @execution]
   end
 
   def destroy

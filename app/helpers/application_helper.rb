@@ -115,6 +115,7 @@ module ApplicationHelper
         .gsub(/\(\?#.+\)/, "")
         .gsub(/\(\?-\w+:/, "(")
         .gsub(/\s/, "")
+
     Regexp.new(str).source
   end
 
@@ -132,72 +133,5 @@ module ApplicationHelper
 
   def device_tokens
     current_user.devices.map(&:token)
-  end
-
-  def code_env
-    case request.host
-    when "localhost"
-      "local"
-    when "dev.codedorian.com"
-      "dev"
-    when "staging.codedorian.com"
-      "staging"
-    else
-      "production"
-    end
-  end
-
-  def breadcrumbs_t(key)
-    t("breadcrumbs.#{key}")
-  end
-
-  def breadcrumb_to_links(breadcrumb, previous:)
-    if breadcrumb.is_an?(ApplicationRecord)
-      # @user, :data
-      if breadcrumb.persisted?
-        [
-          [
-            breadcrumbs_t(breadcrumb.model_plural),
-            previous + [breadcrumb.model_plural]
-          ],
-          [breadcrumb, breadcrumb]
-        ]
-      else
-        [
-          [
-            breadcrumbs_t(breadcrumb.model_plural),
-            previous + [breadcrumb.model_plural]
-          ]
-        ]
-      end
-    elsif %i[new edit].include?(breadcrumb)
-      # :new, @user, :datum
-      [
-        [
-          breadcrumbs_t(breadcrumb),
-          [breadcrumb, *previous[...-1], previous[-1].model_singular]
-        ]
-      ]
-    else
-      # @user, :data
-      [[breadcrumbs_t(breadcrumb), previous + [breadcrumb]]]
-    end
-  end
-
-  def breadcrumbs
-    breadcrumbs = Array.wrap(@breadcrumbs).compact.uniq
-    return if breadcrumbs.empty?
-
-    links = [[t("breadcrumbs.home"), root_path]]
-
-    links +=
-      breadcrumbs
-        .map
-        .with_index do |breadcrumb, index|
-          breadcrumb_to_links(breadcrumb, previous: breadcrumbs[...index])
-        end
-        .flatten(1)
-
-    tag.p { safe_join(links.map { |text, path| link_to(text, path) }, " > ") }
   end
 end

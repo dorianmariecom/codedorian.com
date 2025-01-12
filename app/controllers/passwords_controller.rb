@@ -11,20 +11,16 @@ class PasswordsController < ApplicationController
     authorize Password
 
     @passwords = scope.page(params[:page])
-    @breadcrumbs = [@user, :passwords]
   end
 
   def show
-    @breadcrumbs = [@user, @password]
   end
 
   def new
     @password = authorize scope.new
-    @breadcrumbs = [@user, @password, :new]
   end
 
   def edit
-    @breadcrumbs = [@user, @password, :edit]
   end
 
   def create

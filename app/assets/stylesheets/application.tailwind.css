@@ -3,61 +3,6 @@
 @import url("tailwindcss/utilities");
 @import url("intl-tel-input/build/css/intlTelInput");
 
-* {
-  @apply break-words;
-}
-
-pre,
-code {
-  @apply whitespace-pre-wrap mt-0;
-}
-
 .p {
-  @apply my-5;
-}
-
-.a {
-  color: var(--tw-prose-links);
-  @apply underline font-medium;
-}
-
-.a.text-red-600 {
-  color: theme("colors.red.600");
-}
-
-.iti {
-  @apply w-full;
-}
-
-.font-bold > a {
-  font-weight: 700;
-}
-
-.sourceCode {
-  @apply !mt-0;
-  background-color: var(--tw-prose-pre-bg) !important;
-}
-
-.dt {
-  @apply !no-underline text-orange-400;
-}
-
-.code.code\:local {
-  @apply border-green-500;
-}
-
-.code.code\:dev {
-  @apply border-yellow-500;
-}
-
-.code.code\:staging {
-  @apply border-orange-500;
-}
-
-.code.code\:production {
-  @apply border-white;
-}
-
-.code-app .code-app\:inline-block {
-  @apply inline-block;
+  @apply pb-5;
 }

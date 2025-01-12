@@ -1,0 +1,31 @@
+doctype html
+html
+  head
+    title= title
+    meta(name="viewport" content="width=device-width,initial-scale=1")
+    meta(charset="utf-8")
+    meta(name="turbo-refresh-method" content="morph")
+    meta(name="turbo-refresh-scroll" content="preserve")
+    = csp_meta_tag
+    = csrf_meta_tags
+    = javascript_importmap_tags
+    = stylesheet_link_tag "tailwind", "data-turbo-track": "reload"
+
+  body.max-w-xs.mx-auto.border-t-4.border-black.p-6
+    = link_to "code", root_path, class: "block text-center p underline"
+    .grid.grid-cols-2.gap-6
+      = link_to "register", new_user_path, class: "inline-block p underline text-right"
+      = link_to "log in", new_session_path, class: "inline-block p underline"
+    .grid.grid-cols-2.gap-6
+      = link_to "programs", programs_path, class: "inline-block p underline text-right"
+      = link_to "messages", messages_path, class: "inline-block p underline"
+
+    .p.font-bold= title
+
+    = yield
+
+    = link_to "documentation", pages_path, class: "block text-center p underline"
+    = link_to "source", source_path, class: "block text-center p underline"
+    = link_to "about", about_path, class: "block text-center p underline"
+    = link_to "privacy policy", privacy_path, class: "block text-center p underline"
+    = link_to "terms and conditions", terms_path, class: "block text-center p underline"

@@ -11,21 +11,17 @@ class PhoneNumbersController < ApplicationController
     authorize PhoneNumber
 
     @phone_numbers = scope.page(params[:page])
-    @breadcrumbs = [@user, :phone_numbers]
   end
 
   def show
-    @breadcrumbs = [@user, @phone_number]
   end
 
   def new
     @phone_number =
       authorize scope.new(primary: current_user.phone_numbers.none?)
-    @breadcrumbs = [@user, @phone_number, :new]
   end
 
   def edit
-    @breadcrumbs = [@user, @phone_number, :edit]
   end
 
   def create

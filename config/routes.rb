@@ -57,6 +57,11 @@ Rails.application.routes.draw do
       resources(:devices) do
         collection { delete "/", to: "devices#destroy_all" }
       end
+
+      resources(:messages) do
+        collection { delete "/", to: "messages#destroy_all" }
+      end
+
       resources(:guests) { collection { delete "/", to: "guests#destroy_all" } }
       resources(:names) { collection { delete "/", to: "names#destroy_all" } }
       resources(:pages) { collection { delete "/", to: "pages#destroy_all" } }
@@ -91,5 +96,5 @@ Rails.application.routes.draw do
   match "/422", to: "errors#unprocessable_entity", via: :all
   match "/500", to: "errors#internal_server_error", via: :all
 
-  root to: "programs#new"
+  root to: "static#home"
 end
