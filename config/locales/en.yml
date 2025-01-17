@@ -1,5 +1,30 @@
 ---
 en:
+  layouts:
+    application:
+      title: code
+      register: register
+      log_in: log in
+      programs: programs
+      messages: messages
+      documentation: documentation
+      source: source
+      about: about
+      privacy: privacy
+      terms: terms
   static:
     home:
       title: home
+      paragraphs:
+        - welcome to code
+        - the programming language for the internet age
+        - here you can use, create, schedule, execute, and manage your programs
+    up:
+      title: /up
+  users:
+    new:
+      title: register
+      submit: register
+      name: name
+      time_zone: time zone
+      password: password

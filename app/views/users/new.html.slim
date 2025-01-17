@@ -1,0 +1,12 @@
+= form_for @user do |f|
+  = f.fields_for :names, Name.new do |name_f|
+    .p
+      = name_f.label :name, t(".name"), class: "block font-bold"
+      = name_f.text_field :name, class: "p-2 border border-black w-full rounded"
+  -# name
+  -# email address
+  -# phone number
+  -# password
+  -# time zone
+
+  .p= f.submit t(".submit"), class: "rounded px-4 py-2 bg-black hover:bg-gray-800 focus:bg-gray-700 text-white cursor-pointer"

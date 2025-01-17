@@ -12,20 +12,21 @@ html
     = stylesheet_link_tag "tailwind", "data-turbo-track": "reload"
 
   body.max-w-xs.mx-auto.border-t-4.border-black.p-6
-    = link_to "code", root_path, class: "block text-center p underline"
+    = link_to t(".title"), root_path, class: "block text-center p underline"
+
     .grid.grid-cols-2.gap-6
-      = link_to "register", new_user_path, class: "inline-block p underline text-right"
-      = link_to "log in", new_session_path, class: "inline-block p underline"
+      = link_to t(".register"), new_user_path, class: "inline-block p underline text-right"
+      = link_to t(".log_in"), new_session_path, class: "inline-block p underline"
     .grid.grid-cols-2.gap-6
-      = link_to "programs", programs_path, class: "inline-block p underline text-right"
-      = link_to "messages", messages_path, class: "inline-block p underline"
+      = link_to t(".programs"), programs_path, class: "inline-block p underline text-right"
+      = link_to t(".messages"), messages_path, class: "inline-block p underline"
 
     .p.font-bold= title
 
     = yield
 
-    = link_to "documentation", pages_path, class: "block text-center p underline"
-    = link_to "source", source_path, class: "block text-center p underline"
-    = link_to "about", about_path, class: "block text-center p underline"
-    = link_to "privacy policy", privacy_path, class: "block text-center p underline"
-    = link_to "terms and conditions", terms_path, class: "block text-center p underline"
+    = link_to t(".documentation"), documentation_path, class: "block text-center p underline"
+    = link_to t(".source"), source_path, class: "block text-center p underline"
+    = link_to t(".about"), about_path, class: "block text-center p underline"
+    = link_to t(".privacy"), privacy_path, class: "block text-center p underline"
+    = link_to t(".terms"), terms_path, class: "block text-center p underline"

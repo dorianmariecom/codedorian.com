@@ -64,7 +64,6 @@ Rails.application.routes.draw do
 
       resources(:guests) { collection { delete "/", to: "guests#destroy_all" } }
       resources(:names) { collection { delete "/", to: "names#destroy_all" } }
-      resources(:pages) { collection { delete "/", to: "pages#destroy_all" } }
       resources(:tokens) { collection { delete "/", to: "tokens#destroy_all" } }
       resources(:users) { collection { delete "/", to: "users#destroy_all" } }
     end
@@ -87,6 +86,7 @@ Rails.application.routes.draw do
   match "/auth/callback/messenger", to: "messenger#create", via: :all
 
   get "up", to: "static#up"
+  get "documentation", to: "static#documentation"
   get "about", to: "static#about"
   get "terms", to: "static#terms"
   get "privacy", to: "static#privacy"

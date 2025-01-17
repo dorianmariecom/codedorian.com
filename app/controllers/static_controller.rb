@@ -9,6 +9,9 @@ class StaticController < ApplicationController
   def home
   end
 
+  def documentation
+  end
+
   def up
   end
 

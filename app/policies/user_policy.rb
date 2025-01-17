@@ -14,7 +14,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def index?
-    current_user?
+    true
   end
 
   def show?
@@ -22,7 +22,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def create?
-    current_user.is_a?(Guest)
+    true
   end
 
   def update?
