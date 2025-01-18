@@ -91,35 +91,39 @@ class LocationsController < ApplicationController
 
   def location_params
     if admin?
-      params.require(:location).permit(
-        :user_id,
-        :primary,
-        :verified,
-        :location,
-        :city,
-        :street_number,
-        :route,
-        :county,
-        :state,
-        :postal_code,
-        :country,
-        :latitude,
-        :longitude
+      params.expect(
+        location: %i[
+          user_id
+          primary
+          verified
+          location
+          city
+          street_number
+          route
+          county
+          state
+          postal_code
+          country
+          latitude
+          longitude
+        ]
       )
     else
-      params.require(:location).permit(
-        :user_id,
-        :primary,
-        :location,
-        :city,
-        :street_number,
-        :route,
-        :county,
-        :state,
-        :postal_code,
-        :country,
-        :latitude,
-        :longitude
+      params.expect(
+        location: %i[
+          user_id
+          primary
+          location
+          city
+          street_number
+          route
+          county
+          state
+          postal_code
+          country
+          latitude
+          longitude
+        ]
       )
     end
   end

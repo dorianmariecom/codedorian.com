@@ -119,10 +119,12 @@ class ProgramsController < ApplicationController
   end
 
   def program_params
-    params.require(:program).permit(
-      :user_id,
-      :input,
-      schedules_attributes: %i[id _destroy starts_at interval]
+    params.expect(
+      program: [
+        :user_id,
+        :input,
+        { schedules_attributes: %i[id _destroy starts_at interval] }
+      ]
     )
   end
 end

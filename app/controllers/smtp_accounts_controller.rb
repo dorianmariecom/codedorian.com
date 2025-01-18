@@ -96,29 +96,33 @@ class SmtpAccountsController < ApplicationController
 
   def smtp_account_params
     if admin?
-      params.require(:smtp_account).permit(
-        :user_id,
-        :primary,
-        :verified,
-        :display_name,
-        :address,
-        :port,
-        :user_name,
-        :password,
-        :authentication,
-        :enable_starttls_auto
+      params.expect(
+        smtp_account: %i[
+          user_id
+          primary
+          verified
+          display_name
+          address
+          port
+          user_name
+          password
+          authentication
+          enable_starttls_auto
+        ]
       )
     else
-      params.require(:smtp_account).permit(
-        :user_id,
-        :primary,
-        :display_name,
-        :address,
-        :port,
-        :user_name,
-        :password,
-        :authentication,
-        :enable_starttls_auto
+      params.expect(
+        smtp_account: %i[
+          user_id
+          primary
+          display_name
+          address
+          port
+          user_name
+          password
+          authentication
+          enable_starttls_auto
+        ]
       )
     end
   end

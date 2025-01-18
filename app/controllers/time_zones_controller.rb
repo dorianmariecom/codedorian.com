@@ -91,14 +91,9 @@ class TimeZonesController < ApplicationController
 
   def time_zone_params
     if admin?
-      params.require(:time_zone).permit(
-        :user_id,
-        :primary,
-        :verified,
-        :time_zone
-      )
+      params.expect(time_zone: %i[user_id primary verified time_zone])
     else
-      params.require(:time_zone).permit(:user_id, :primary, :time_zone)
+      params.expect(time_zone: %i[user_id primary time_zone])
     end
   end
 end

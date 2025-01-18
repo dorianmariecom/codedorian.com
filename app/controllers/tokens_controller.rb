@@ -90,6 +90,6 @@ class TokensController < ApplicationController
   end
 
   def token_params
-    params.require(:token).permit(:user_id, :token)
+    params.expect(token: %i[user_id token])
   end
 end

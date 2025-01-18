@@ -90,6 +90,6 @@ class DevicesController < ApplicationController
   end
 
   def device_params
-    params.require(:device).permit(:user_id, :token, :platform)
+    params.expect(device: %i[user_id token platform])
   end
 end
