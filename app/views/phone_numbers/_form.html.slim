@@ -1,0 +1,23 @@
+.phone-number.border-l.border-black.pl-5
+  = f.hidden_field :_destroy
+
+  h2.font-bold.p= t(".phone_number")
+
+  .p(data-controller="phone-number" data-phone-number-trim="true")
+    = f.hidden_field :phone_number, data: { phone_number_target: "hidden" }
+    = f.label :phone_number_input, class: "label", data: { phone_number_target: "label" }
+    = f.phone_field :phone_number_input, value: f.object.formatted, class: "input", data: { phone_number_target: "input", action: "phone-number#input", form_type: "other" }, autocomplete: "tel"
+    .text-red-600(hidden data-phone-number-target="error")
+
+  .p
+    = f.label :primary, class: "label"
+    = f.check_box :primary
+
+  - if admin?
+    .p
+      = f.label :verified, class: "label"
+      = f.check_box :verified
+
+  .p
+    button.button.button--link(data-action="nested#remove")
+      = t(".remove")

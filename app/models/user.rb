@@ -1,20 +1,26 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  has_many :data, dependent: :destroy
+  has_many :addresses, dependent: :destroy
   has_many :devices, dependent: :destroy
   has_many :email_addresses, dependent: :destroy
+  has_many :handles, dependent: :destroy
   has_many :locations, dependent: :destroy
   has_many :names, dependent: :destroy
   has_many :passwords, dependent: :destroy
   has_many :phone_numbers, dependent: :destroy
   has_many :programs, dependent: :destroy
-  has_many :prompts, dependent: :destroy
-  has_many :slack_accounts, dependent: :destroy
-  has_many :smtp_accounts, dependent: :destroy
   has_many :time_zones, dependent: :destroy
   has_many :tokens, dependent: :destroy
-  has_many :x_accounts, dependent: :destroy
+
+  accepts_nested_attributes_for :addresses, allow_destroy: true
+  accepts_nested_attributes_for :email_addresses, allow_destroy: true
+  accepts_nested_attributes_for :handles, allow_destroy: true
+  accepts_nested_attributes_for :locations, allow_destroy: true
+  accepts_nested_attributes_for :names, allow_destroy: true
+  accepts_nested_attributes_for :passwords, allow_destroy: true
+  accepts_nested_attributes_for :phone_numbers, allow_destroy: true
+  accepts_nested_attributes_for :time_zones, allow_destroy: true
 
   after_create { tokens.create! }
 

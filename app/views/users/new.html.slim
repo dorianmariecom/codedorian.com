@@ -1,12 +1,14 @@
 = form_for @user do |f|
-  = f.fields_for :names, Name.new do |name_f|
+  - if admin?
     .p
-      = name_f.label :name, t(".name"), class: "block font-bold"
-      = name_f.text_field :name, class: "p-2 border border-black w-full rounded"
-  -# name
-  -# email address
-  -# phone number
-  -# password
-  -# time zone
+      = f.label :admin, class: "label"
+      = f.check_box :admin
 
-  .p= f.submit t(".submit"), class: "rounded px-4 py-2 bg-black hover:bg-gray-800 focus:bg-gray-700 text-white cursor-pointer"
+  = render "names/nested", f: f
+  = render "handles/nested", f: f
+  = render "email_addresses/nested", f: f
+  = render "phone_numbers/nested", f: f
+  = render "addresses/nested", f: f
+  = render "passwords/nested", f: f
+  = render "time_zones/nested", f: f
+  .p= f.submit t(".submit"), class: "button"

@@ -1,0 +1,22 @@
+.email-address.border-l.border-black.pl-5
+  = f.hidden_field :_destroy
+
+  h2.font-bold.p= t(".email_address")
+
+  .p(data-controller="validation" data-validation-trim-value="true" data-validation-gender-value="feminine")
+    = f.label :email_address, class: "label", data: { validation_target: "label" }
+    = f.email_field :email_address, class: "input", required: true, data: { validation_target: "input", action: "validation#input", form_type: "other" }, autocomplete: "email"
+    .text-red-600(hidden data-validation-target="error")
+
+  .p
+    = f.label :primary, class: "label"
+    = f.check_box :primary
+
+  - if admin?
+    .p
+      = f.label :verified, class: "label"
+      = f.check_box :verified
+
+  .p
+    button.button.button--link(data-action="nested#remove")
+      = t(".remove")

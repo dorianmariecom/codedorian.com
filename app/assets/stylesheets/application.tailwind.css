@@ -4,5 +4,57 @@
 @import url("intl-tel-input/build/css/intlTelInput");
 
 .p {
-  @apply pb-5;
+  @apply mb-5;
+}
+
+.button {
+  @apply bg-black hover:bg-gray-800 focus:bg-gray-600;
+  @apply px-4 py-2 rounded text-white;
+
+  &.button--link {
+    @apply underline;
+    @apply rounded-none p-0;
+    @apply bg-transparent hover:bg-transparent focus:bg-transparent;
+    @apply text-black;
+  }
+
+  &.button--red {
+    @apply text-red-600;
+  }
+}
+
+.label {
+  @apply block;
+
+  .field_with_errors & {
+    @apply text-red-600;
+  }
+}
+
+.input {
+  @apply p-2 rounded w-full;
+  @apply border border-black hover:border-gray-800 focus:border-gray-600;
+  @apply focus:ring-offset-0 focus:ring-0;
+
+  .field_with_errors & {
+    @apply border-red-600;
+  }
+
+  &.input--touched {
+    &:invalid {
+      @apply border-red-600;
+    }
+  }
+}
+
+.center {
+  @apply flex grow items-center justify-center;
+}
+
+.iti {
+  @apply block;
+
+  .iti__tel-input {
+    padding-left: 50px;
+  }
 }

@@ -1,30 +1,124 @@
 ---
 en:
+  activerecord:
+    attributes:
+      handle:
+        handle: handle
+        primary: primary?
+        verified: verified?
+      name:
+        family_name: family name
+        given_name: given name
+        primary: primary?
+        verified: verified?
+      email_address:
+        email_address: email address
+        primary: primary?
+        verified: verified?
+      phone_number:
+        phone_number: phone number
+        phone_number_input: phone number
+        primary: primary?
+        verified: verified?
+      address:
+        address: address
+        primary: primary?
+        verified: verified?
+      password:
+        password: password
+        primary: primary?
+        verified: verified?
+      user:
+        admin: admin?
+  addresses:
+    form:
+      address: address
+      remove: remove address
+    nested:
+      add: add address
+  email_addresses:
+    form:
+      email_address: email address
+      remove: remove email address
+    nested:
+      add: add email address
+  handles:
+    form:
+      handle: handle
+      remove: remove handle
+    nested:
+      add: add handle
   layouts:
     application:
-      title: code
-      register: register
-      log_in: log in
-      programs: programs
-      messages: messages
-      documentation: documentation
-      source: source
       about: about
+      documentation: documentation
+      log_in: log in
+      log_out: log out
+      messages: messages
       privacy: privacy
+      programs: programs
+      register: register
+      source: source
       terms: terms
+      title: code
+      js:
+        validation:
+          not_present:
+            masculine: must be present
+            feminine: must be present
+          not_valid:
+            masculine: must be valid
+            feminine: must be valid
+          not_email:
+            masculine: must be an email address
+            feminine: must be an email address
+        phone_number:
+          is_possible: is possible
+          invalid_country_code: has invalid country code
+          too_short: is too short
+          too_long: is too long
+          is_possible_local_only: is possible local only
+          invalid_length: has invalid length
+          invalid_phone_number: is invalid phone number
+          not_present: must be present
+          not_valid: must be valid
+  names:
+    form:
+      name: name
+      remove: remove name
+    nested:
+      add: add name
+  passwords:
+    form:
+      password: password
+      remove: remove password
+    nested:
+      add: add password
+  phone_numbers:
+    form:
+      phone_number: phone number
+      remove: remove phone number
+    nested:
+      add: add phone number
+  sessions:
+    destroy:
+      notice: logged out
   static:
     home:
-      title: home
       paragraphs:
-        - welcome to code
-        - the programming language for the internet age
-        - here you can use, create, schedule, execute, and manage your programs
+      - welcome to code
+      - the programming language for the internet age
+      - here you can use, create, schedule, execute, and manage your programs
+      title: home
     up:
-      title: /up
+      title: "/up"
   users:
+    create:
+      notice: registered
     new:
-      title: register
-      submit: register
       name: name
-      time_zone: time zone
       password: password
+      submit: register
+      time_zone: time zone
+      title: register
+

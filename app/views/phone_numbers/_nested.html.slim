@@ -1,0 +1,13 @@
+div(data-controller="nested" data-nested-selector-value=".phone-number")
+  template(data-nested-target="template")
+    = f.fields_for :phone_numbers, PhoneNumber.new, child_index: "NEW_RECORD" do |phone_number_f|
+      = render "phone_numbers/form", f: phone_number_f
+
+  = f.fields_for :phone_numbers do |phone_number_f|
+    = render "phone_numbers/form", f: phone_number_f
+
+  div(data-nested-target="target")
+
+  .p
+    button.button.button--link(data-action="nested#add")
+      = t(".add")

@@ -1,0 +1,21 @@
+.password.border-l.border-black.pl-5
+  = f.hidden_field :_destroy
+
+  h2.font-bold.p= t(".password")
+
+  .p
+    = f.label :password, class: "label"
+    = f.password_field :password, class: "input"
+
+  .p
+    = f.label :primary, class: "label"
+    = f.check_box :primary
+
+  - if admin?
+    .p
+      = f.label :verified, class: "label"
+      = f.check_box :verified
+
+  .p
+    button.button.button--link(data-action="nested#remove")
+      = t(".remove")

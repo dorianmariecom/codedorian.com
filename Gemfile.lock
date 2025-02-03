@@ -168,7 +168,6 @@ GEM
     debug_inspector (1.2.0)
     did-you-mean (0.1.1)
       levenshtein (>= 0.2.0)
-    diff-lcs (1.5.1)
     dorian (2.6.3)
       csv
       dorian-arguments
@@ -445,23 +444,6 @@ GEM
       rainbow
       thor (>= 0.18.1, < 2.0)
       web-push
-    rspec-core (3.13.2)
-      rspec-support (~> 3.13.0)
-    rspec-expectations (3.13.3)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.13.0)
-    rspec-mocks (3.13.2)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.13.0)
-    rspec-rails (7.1.0)
-      actionpack (>= 7.0)
-      activesupport (>= 7.0)
-      railties (>= 7.0)
-      rspec-core (~> 3.13)
-      rspec-expectations (~> 3.13)
-      rspec-mocks (~> 3.13)
-      rspec-support (~> 3.13)
-    rspec-support (3.13.2)
     rubocop (1.69.2)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
@@ -488,11 +470,6 @@ GEM
       rubocop-ast (>= 1.31.1, < 2.0)
     rubocop-rake (0.6.0)
       rubocop (~> 1.0)
-    rubocop-rspec (3.3.0)
-      rubocop (~> 1.61)
-    rubocop-rspec_rails (2.30.0)
-      rubocop (~> 1.61)
-      rubocop-rspec (~> 3, >= 3.0.1)
     ruby-progressbar (1.13.0)
     ruby2_keywords (0.0.5)
     rubyzip (2.4.1)
@@ -653,15 +630,12 @@ DEPENDENCIES
   rails!
   redis
   rpush
-  rspec-rails
   rubocop
   rubocop-capybara
   rubocop-factory_bot
   rubocop-performance
   rubocop-rails
   rubocop-rake
-  rubocop-rspec
-  rubocop-rspec_rails
   selenium-webdriver
   sinatra
   slim-rails

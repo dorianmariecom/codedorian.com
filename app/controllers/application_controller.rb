@@ -46,7 +46,7 @@ class ApplicationController < ActionController::Base
   end
 
   def log_in(user)
-    if Current.user && session[:user_id].present?
+    if Current.user && session[:user_id].present? && user != Current.user
       # leave it as is
     elsif user&.id
       Current.user = user

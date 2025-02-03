@@ -8,10 +8,11 @@ class Name < ApplicationRecord
   scope :verified, -> { where(verified: true) }
   scope :not_verified, -> { where(verified: false) }
 
+  validates :given_name, presence: true
+  validates :family_name, presence: true
   validate { can!(:update, user) }
 
   before_validation { log_in(self.user ||= User.create!) }
-
   before_update { unverify! if name_changed? && verified? }
 
   def unverify!
@@ -34,7 +35,15 @@ class Name < ApplicationRecord
     !verified?
   end
 
+  def name_changed?
+    given_name_changed? || family_name_changed?
+  end
+
+  def full_name
+    [given_name, family_name].compact_blank.join(" ")
+  end
+
   def to_s
-    name.presence || "name##{id}"
+    full_name.presence || "name##{id}"
   end
 end

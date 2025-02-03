@@ -2,6 +2,7 @@
 
 class UsersController < ApplicationController
   before_action :load_user, only: %i[show edit update destroy]
+  skip_after_action :verify_policy_scoped, only: %i[new create]
 
   def index
     authorize User
@@ -9,7 +10,6 @@ class UsersController < ApplicationController
   end
 
   def show
-    # user
     @devices = policy_scope(Device).where(user: @user).page(params[:page])
     @email_addresses =
       policy_scope(EmailAddress).where(user: @user).page(params[:page])
@@ -21,22 +21,17 @@ class UsersController < ApplicationController
     @programs = policy_scope(Program).where(user: @user).page(params[:page])
     @time_zones = policy_scope(TimeZone).where(user: @user).page(params[:page])
     @tokens = policy_scope(Token).where(user: @user).page(params[:page])
-    # programs
-    @executions =
-      policy_scope(Execution).where(program: @programs).page(params[:page])
-    @schedules =
-      policy_scope(Schedule).where(program: @programs).page(params[:page])
   end
 
   def new
-    @user = authorize scope.new
+    @user = authorize User.new
   end
 
   def edit
   end
 
   def create
-    @user = authorize scope.new(user_params)
+    @user = authorize User.new(user_params)
 
     if @user.save
       log_in(@user)
@@ -89,6 +84,19 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    {}
+    if admin?
+      params.require(:user).permit(
+        :admin,
+        names_attributes: %i[id _destroy given_name family_name primary verified],
+        handles_attributes: %i[id _destroy handle primary verified],
+        email_addresses_attributes: %i[id _destroy email_address primary verified],
+      )
+    else
+      params.require(:user).permit(
+        names_attributes: %i[id _destroy given_name family_name primary],
+        handles_attributes: %i[id _destroy handle primary],
+        email_addresses_attributes: %i[id _destroy email_address primary],
+      )
+    end
   end
 end

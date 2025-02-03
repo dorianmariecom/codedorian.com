@@ -11,22 +11,30 @@ html
     = javascript_importmap_tags
     = stylesheet_link_tag "tailwind", "data-turbo-track": "reload"
 
-  body.max-w-xs.mx-auto.border-t-4.border-black.p-6
-    = link_to t(".title"), root_path, class: "block text-center p underline"
+  body.max-w-md.mx-auto.border-t-4.border-black.p-6
+    javascript:
+      window.translations = #{t(".js").to_json.html_safe};
+      window.DEFAULT_COUNTRY_CODE = "#{default_country_code}";
+    = link_to t(".title"), root_path, class: "block text-center p-2 underline"
 
-    .grid.grid-cols-2.gap-6
-      = link_to t(".register"), new_user_path, class: "inline-block p underline text-right"
-      = link_to t(".log_in"), new_session_path, class: "inline-block p underline"
-    .grid.grid-cols-2.gap-6
-      = link_to t(".programs"), programs_path, class: "inline-block p underline text-right"
-      = link_to t(".messages"), messages_path, class: "inline-block p underline"
+    - if registered?
+      .grid.grid-cols-2.gap-6
+        = link_to current_user, current_user, class: "inline-block p-2 underline text-right"
+        = button_to t(".log_out"), session_path, method: :delete, class: "inline-block p-2 underline"
+    - else
+      .grid.grid-cols-2.gap-6
+        = link_to t(".register"), new_user_path, class: "inline-block p-2 underline text-right"
+        = link_to t(".log_in"), new_session_path, class: "inline-block p-2 underline"
+    .grid.grid-cols-2.gap-6.pb-5
+      = link_to t(".programs"), programs_path, class: "inline-block p-2 underline text-right"
+      = link_to t(".messages"), messages_path, class: "inline-block p-2 underline"
 
-    .p.font-bold= title
+    h1.p.font-bold= title
 
     = yield
 
-    = link_to t(".documentation"), documentation_path, class: "block text-center p underline"
-    = link_to t(".source"), source_path, class: "block text-center p underline"
-    = link_to t(".about"), about_path, class: "block text-center p underline"
-    = link_to t(".privacy"), privacy_path, class: "block text-center p underline"
-    = link_to t(".terms"), terms_path, class: "block text-center p underline"
+    = link_to t(".documentation"), documentation_path, class: "block text-center p-2 underline"
+    = link_to t(".source"), source_path, class: "block text-center p-2 underline"
+    = link_to t(".about"), about_path, class: "block text-center p-2 underline"
+    = link_to t(".privacy"), privacy_path, class: "block text-center p-2 underline"
+    = link_to t(".terms"), terms_path, class: "block text-center p-2 underline"
