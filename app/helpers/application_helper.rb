@@ -13,34 +13,6 @@ module ApplicationHelper
     Rails.application.credentials.console_cloud_google_com.api_key
   end
 
-  def fake_locations
-    Array.new(3) { Faker::Address.full_address }
-  end
-
-  def fake_verification_codes(length: 4)
-    Array.new(3) { rand(10**length).to_s.rjust(length, "0") }
-  end
-
-  def fake_email_addresses
-    Array.new(3) { Faker::Internet.email }
-  end
-
-  def fake_phone_numbers
-    Array.new(3) { Faker::PhoneNumber.phone_number_with_country_code }
-  end
-
-  def fake_passwords
-    Array.new(3) { Faker::Internet.password }
-  end
-
-  def fake_time_zones
-    TimeZone::TIME_ZONES.sample(3)
-  end
-
-  def fake_names
-    Array.new(3) { Faker::Name.name }
-  end
-
   def time_zone_options(time_zone: nil)
     TimeZone::TIME_ZONES.map do |option_time_zone|
       [

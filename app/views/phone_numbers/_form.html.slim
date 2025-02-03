@@ -8,15 +8,16 @@
     = f.label :phone_number_input, class: "label", data: { phone_number_target: "label" }
     = f.phone_field :phone_number_input, value: f.object.formatted, class: "input", data: { phone_number_target: "input", action: "phone-number#input", form_type: "other" }, autocomplete: "tel"
     .text-red-600(hidden data-phone-number-target="error")
+    .text-gray-600= Faker::PhoneNumber.phone_number_with_country_code
 
   .p
     = f.label :primary, class: "label"
-    = f.check_box :primary
+    = f.check_box :primary, class: "input"
 
   - if admin?
     .p
       = f.label :verified, class: "label"
-      = f.check_box :verified
+      = f.check_box :verified, class: "input"
 
   .p
     button.button.button--link(data-action="nested#remove")

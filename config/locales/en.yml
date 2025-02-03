@@ -56,6 +56,8 @@ en:
         address:
           not_present: must be present
           not_valid: must be valid
+        password:
+          not_present: must be present
         phone_number:
           invalid_country_code: has invalid country code
           invalid_length: has invalid length
@@ -76,8 +78,6 @@ en:
           not_valid:
             feminine: must be valid
             masculine: must be valid
-        password:
-          not_present: must be present
       log_in: log in
       log_out: log out
       messages: messages
@@ -93,6 +93,17 @@ en:
       remove: remove name
     nested:
       add: add name
+  password_validator:
+    model:
+      sequence:
+        bruteforce: add another word or two, preferably uncommon
+        date: avoid dates and years that are associated with you
+        dictionary: add another word or two, preferably uncommon
+        digits: avoid digits
+        repeat: avoid repeated words or characters
+        sequence: avoid sequences
+        spatial: use longer keyboard patterns with more turns
+        year: avoid recent years, especially if they are associated with you
   passwords:
     form:
       password: password
@@ -126,15 +137,3 @@ en:
       submit: register
       time_zone: time zone
       title: register
-  password_validator:
-    model:
-      sequence:
-        bruteforce: add another word or two, preferably uncommon
-        date: avoid dates and years that are associated with you
-        dictionary: add another word or two, preferably uncommon
-        digits: avoid digits
-        repeat: avoid repeated words or characters
-        sequence: avoid sequences
-        spatial: use longer keyboard patterns with more turns
-        year: avoid recent years, especially if they are associated with you
-

@@ -23,7 +23,7 @@ export default class extends Controller {
 
   static values = {
     trim: { type: Boolean, default: false },
-  }
+  };
 
   connect() {
     if (typeof google !== "undefined") {
@@ -46,7 +46,9 @@ export default class extends Controller {
     const place = this.autocomplete.getPlace();
 
     if (place) {
-      this.addressComponentsTarget.value = JSON.stringify(place.address_components);
+      this.addressComponentsTarget.value = JSON.stringify(
+        place.address_components,
+      );
       this.formattedAddressTarget.value = place.formatted_address;
       this.geometryTarget.value = JSON.stringify(place.geometry);
       this.placeIdTarget.value = place.place_id;

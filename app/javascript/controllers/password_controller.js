@@ -11,13 +11,7 @@ import {
 const t = I18n("password");
 
 export default class extends Controller {
-  static targets = [
-    "input",
-    "error",
-    "show",
-    "hide",
-    "label",
-  ];
+  static targets = ["input", "error", "show", "hide", "label"];
 
   initialize() {
     this.validate = debounce(this.validate, 300).bind(this);

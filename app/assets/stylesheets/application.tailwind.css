@@ -32,9 +32,13 @@
 }
 
 .input {
-  @apply p-2 rounded w-full;
+  @apply p-2 rounded w-full text-black;
   @apply border border-black hover:border-gray-800 focus:border-gray-600;
   @apply focus:ring-offset-0 focus:ring-0;
+
+  &[type="checkbox"] {
+    @apply w-auto;
+  }
 
   .field_with_errors & {
     @apply border-red-600;

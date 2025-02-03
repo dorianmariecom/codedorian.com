@@ -13,15 +13,16 @@
       a(hidden data-password-target="hide" data-action="password#hide")
         = heroicon "eye-slash"
     .text-red-600(hidden data-password-target="error")
+    .text-gray-600= Faker::Internet.password
 
   .p
     = f.label :primary, class: "label"
-    = f.check_box :primary
+    = f.check_box :primary, class: "input"
 
   - if admin?
     .p
       = f.label :verified, class: "label"
-      = f.check_box :verified
+      = f.check_box :verified, class: "input"
 
   .p
     button.button.button--link(data-action="nested#remove")
