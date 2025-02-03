@@ -116,7 +116,8 @@ class UsersController < ApplicationController
           primary
           verified
         ],
-        passwords_attributes: %i[id _destroy password primary verified]
+        passwords_attributes: %i[id _destroy password primary verified],
+        time_zones_attributes: %i[id _destroy time_zone primary verified]
       )
     else
       params.require(:user).permit(
@@ -135,7 +136,8 @@ class UsersController < ApplicationController
           types
           primary
         ],
-        passwords_attributes: %i[id _destroy password primary]
+        passwords_attributes: %i[id _destroy password primary],
+        time_zones_attributes: %i[id _destroy time_zone primary]
       )
     end
   end

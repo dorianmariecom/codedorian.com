@@ -28,6 +28,10 @@ en:
         phone_number_input: phone number
         primary: primary?
         verified: verified?
+      time_zone:
+        time_zone: time zone
+        primary: primary?
+        verified: verified?
       user:
         admin: admin?
   addresses:
@@ -53,6 +57,8 @@ en:
       about: about
       documentation: documentation
       js:
+        time_zone:
+          not_present: must be present
         address:
           not_present: must be present
           not_valid: must be valid
@@ -110,6 +116,12 @@ en:
       remove: remove password
     nested:
       add: add password
+  time_zones:
+    form:
+      time_zone: time zone
+      remove: remove time zone
+    nested:
+      add: add time zone
   phone_numbers:
     form:
       phone_number: phone number
