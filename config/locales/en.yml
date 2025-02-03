@@ -2,6 +2,14 @@
 en:
   activerecord:
     attributes:
+      address:
+        address: address
+        primary: primary?
+        verified: verified?
+      email_address:
+        email_address: email address
+        primary: primary?
+        verified: verified?
       handle:
         handle: handle
         primary: primary?
@@ -11,21 +19,13 @@ en:
         given_name: given name
         primary: primary?
         verified: verified?
-      email_address:
-        email_address: email address
+      password:
+        password: password
         primary: primary?
         verified: verified?
       phone_number:
         phone_number: phone number
         phone_number_input: phone number
-        primary: primary?
-        verified: verified?
-      address:
-        address: address
-        primary: primary?
-        verified: verified?
-      password:
-        password: password
         primary: primary?
         verified: verified?
       user:
@@ -52,6 +52,32 @@ en:
     application:
       about: about
       documentation: documentation
+      js:
+        address:
+          not_present: must be present
+          not_valid: must be valid
+        phone_number:
+          invalid_country_code: has invalid country code
+          invalid_length: has invalid length
+          invalid_phone_number: is invalid phone number
+          is_possible: is possible
+          is_possible_local_only: is possible local only
+          not_present: must be present
+          not_valid: must be valid
+          too_long: is too long
+          too_short: is too short
+        validation:
+          not_email:
+            feminine: must be an email address
+            masculine: must be an email address
+          not_present:
+            feminine: must be present
+            masculine: must be present
+          not_valid:
+            feminine: must be valid
+            masculine: must be valid
+        password:
+          not_present: must be present
       log_in: log in
       log_out: log out
       messages: messages
@@ -61,27 +87,6 @@ en:
       source: source
       terms: terms
       title: code
-      js:
-        validation:
-          not_present:
-            masculine: must be present
-            feminine: must be present
-          not_valid:
-            masculine: must be valid
-            feminine: must be valid
-          not_email:
-            masculine: must be an email address
-            feminine: must be an email address
-        phone_number:
-          is_possible: is possible
-          invalid_country_code: has invalid country code
-          too_short: is too short
-          too_long: is too long
-          is_possible_local_only: is possible local only
-          invalid_length: has invalid length
-          invalid_phone_number: is invalid phone number
-          not_present: must be present
-          not_valid: must be valid
   names:
     form:
       name: name
@@ -121,4 +126,15 @@ en:
       submit: register
       time_zone: time zone
       title: register
+  password_validator:
+    model:
+      sequence:
+        bruteforce: add another word or two, preferably uncommon
+        date: avoid dates and years that are associated with you
+        dictionary: add another word or two, preferably uncommon
+        digits: avoid digits
+        repeat: avoid repeated words or characters
+        sequence: avoid sequences
+        spatial: use longer keyboard patterns with more turns
+        year: avoid recent years, especially if they are associated with you
 

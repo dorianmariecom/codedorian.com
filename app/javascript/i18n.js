@@ -14,12 +14,15 @@ export default (scope) => {
 
     const keys = [scope, ...key.split(".")];
 
-    let translation = keys.reduce((acc, el) => (acc || {})[el], window.translations)
+    let translation = keys.reduce(
+      (acc, el) => (acc || {})[el],
+      window.translations,
+    );
 
     if (!translation) {
       return `[missing translation "${scope}.${key}"]`;
     }
 
     return translation;
-  }
-}
+  };
+};

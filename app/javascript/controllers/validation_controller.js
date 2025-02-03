@@ -15,7 +15,7 @@ export default class extends Controller {
   static values = {
     gender: { type: String, default: "masculine" },
     trim: { type: Boolean, default: false },
-  }
+  };
 
   input() {
     this.inputTarget.classList.add("input--touched");

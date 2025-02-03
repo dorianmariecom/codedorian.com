@@ -8,7 +8,7 @@ export default class extends Controller {
     event.preventDefault();
 
     const existingWrapper = this.element.querySelector(
-      `${this.selectorValue}:not([hidden])`
+      `${this.selectorValue}:not([hidden])`,
     );
 
     const content = this.templateTarget.innerHTML.replace(
@@ -19,20 +19,24 @@ export default class extends Controller {
 
     if (!existingWrapper) {
       const newWrapper = this.element.querySelector(
-        `${this.selectorValue}:not([hidden])`
+        `${this.selectorValue}:not([hidden])`,
       );
 
-      const primaryCheckBoxes = newWrapper?.querySelectorAll('[name$="[primary]"]');
+      const primaryCheckBoxes = newWrapper?.querySelectorAll(
+        '[name$="[primary]"]',
+      );
 
       primaryCheckBoxes?.forEach((primaryCheckBox) => {
         primaryCheckBox.checked = true;
-      })
+      });
 
-      const verifiedCheckBoxes = newWrapper?.querySelectorAll('[name$="[verified]"]');
+      const verifiedCheckBoxes = newWrapper?.querySelectorAll(
+        '[name$="[verified]"]',
+      );
 
       verifiedCheckBoxes?.forEach((verifiedCheckBox) => {
         verifiedCheckBox.checked = true;
-      })
+      });
     }
   }
 

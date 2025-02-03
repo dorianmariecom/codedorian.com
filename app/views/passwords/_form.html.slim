@@ -3,9 +3,16 @@
 
   h2.font-bold.p= t(".password")
 
-  .p
-    = f.label :password, class: "label"
-    = f.password_field :password, class: "input"
+  .p(data-controller="password")
+    = f.label :password, class: "label", data: { password_target: "label" }
+    .flex.gap-2
+      input(hidden autocomplete="username")
+      = f.password_field :password, class: "input", required: true, data: { password_target: "input", action: "password#input", form_type: "other" }, autocomplete: "new-password"
+      a(hidden data-password-target="show" data-action="password#show")
+        = heroicon "eye"
+      a(hidden data-password-target="hide" data-action="password#hide")
+        = heroicon "eye-slash"
+    .text-red-600(hidden data-password-target="error")
 
   .p
     = f.label :primary, class: "label"

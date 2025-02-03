@@ -10,11 +10,16 @@ html
     = csrf_meta_tags
     = javascript_importmap_tags
     = stylesheet_link_tag "tailwind", "data-turbo-track": "reload"
+    javascript:
+      window.googleMapsCallback = () =>
+        window.dispatchEvent(new Event("google-maps-callback"));
+    script(src="https://maps.googleapis.com/maps/api/js?key=#{google_maps_api_key}&callback=googleMapsCallback&loading=async&libraries=places" async defer)
 
   body.max-w-md.mx-auto.border-t-4.border-black.p-6
     javascript:
       window.translations = #{t(".js").to_json.html_safe};
       window.DEFAULT_COUNTRY_CODE = "#{default_country_code}";
+
     = link_to t(".title"), root_path, class: "block text-center p-2 underline"
 
     - if registered?

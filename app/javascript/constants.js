@@ -8,9 +8,5 @@ export const INVALID_CLASSES = [
   "!focus:ring-red-600",
   "!focus:border-red-600",
 ];
-export const LABEL_INVALID_CLASSES = [
-  "!text-red-600",
-];
-export const LABEL_VALID_CLASSES = [
-  "!text-green-600",
-];
+export const LABEL_INVALID_CLASSES = ["!text-red-600"];
+export const LABEL_VALID_CLASSES = ["!text-green-600"];

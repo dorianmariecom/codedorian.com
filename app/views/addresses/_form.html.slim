@@ -3,6 +3,16 @@
 
   h2.font-bold.p= t(".address")
 
+  .p(data-controller="address" data-address-trim-value="true" data-action="google-maps-callback@window->address#connect")
+    = f.hidden_field :address_components, data: { address_target: "addressComponents" }
+    = f.hidden_field :formatted_address, data: { address_target: "formattedAddress" }
+    = f.hidden_field :geometry, data: { address_target: "geometry" }
+    = f.hidden_field :place_id, data: { address_target: "placeId" }
+    = f.hidden_field :types, data: { address_target: "types" }
+    = f.label :address, class: "label", data: { address_target: "label" }
+    = f.text_field :address, class: "input", required: true, data: { address_target: "input", action: "address#input keydown->address#keydown", form_type: "other" }, autocomplete: "street-address"
+    .text-red-600(hidden data-address-target="error")
+
   .p
     = f.label :primary, class: "label"
     = f.check_box :primary

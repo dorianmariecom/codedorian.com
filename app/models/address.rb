@@ -13,9 +13,7 @@ class Address < ApplicationRecord
 
   before_validation { log_in(self.user ||= User.create!) }
 
-  before_update do
-    unverify! if address_changed? && (verified? || verifying?)
-  end
+  before_update { unverify! if address_changed? && (verified? || verifying?) }
 
   def primary?
     !!primary

@@ -9,7 +9,6 @@ class CreateAddresses < ActiveRecord::Migration[8.1]
       t.string :formatted_address
       t.jsonb :geometry
       t.string :place_id
-      t.jsonb :plus_code
       t.jsonb :types
 
       t.timestamps

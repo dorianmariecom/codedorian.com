@@ -87,15 +87,55 @@ class UsersController < ApplicationController
     if admin?
       params.require(:user).permit(
         :admin,
-        names_attributes: %i[id _destroy given_name family_name primary verified],
+        names_attributes: %i[
+          id
+          _destroy
+          given_name
+          family_name
+          primary
+          verified
+        ],
         handles_attributes: %i[id _destroy handle primary verified],
-        email_addresses_attributes: %i[id _destroy email_address primary verified],
+        email_addresses_attributes: %i[
+          id
+          _destroy
+          email_address
+          primary
+          verified
+        ],
+        phone_numbers_attributes: %i[id _destroy phone_number primary verified],
+        addresses_attributes: %i[
+          id
+          _destroy
+          address
+          address_components
+          formatted_address
+          geometry
+          place_id
+          types
+          primary
+          verified
+        ],
+        passwords_attributes: %i[id _destroy password primary verified]
       )
     else
       params.require(:user).permit(
         names_attributes: %i[id _destroy given_name family_name primary],
         handles_attributes: %i[id _destroy handle primary],
         email_addresses_attributes: %i[id _destroy email_address primary],
+        phone_numbers_attributes: %i[id _destroy phone_number primary],
+        addresses_attributes: %i[
+          id
+          _destroy
+          address
+          address_components
+          formatted_address
+          geometry
+          place_id
+          types
+          primary
+        ],
+        passwords_attributes: %i[id _destroy password primary]
       )
     end
   end

@@ -1,5 +1,4 @@
 import { Controller } from "@hotwired/stimulus";
-import intlTelInput from "intl-tel-input";
 import I18n from "i18n";
 import {
   VALID_CLASSES,
@@ -8,56 +7,59 @@ import {
   LABEL_INVALID_CLASSES,
 } from "constants";
 
-const t = I18n("phone_number");
-const DEFAULT_COUNTRY_CODE = window.DEFAULT_COUNTRY_CODE;
-const ERRORS = {
-  0: t("is_possible"),
-  1: t("invalid_country_code"),
-  2: t("too_short"),
-  3: t("too_long"),
-  4: t("is_possible_local_only"),
-  5: t("invalid_length"),
-  "-99": t("invalid_phone_number"),
-};
+const t = I18n("address");
 
 export default class extends Controller {
-  static targets = ["input", "error", "hidden", "label"];
+  static targets = [
+    "input",
+    "error",
+    "label",
+    "addressComponents",
+    "formattedAddress",
+    "geometry",
+    "placeId",
+    "types",
+  ];
 
   static values = {
     trim: { type: Boolean, default: false },
-  };
+  }
 
   connect() {
-    this.iti = intlTelInput(this.inputTarget, {
-      utilsScript: "intl-tel-input/build/js/utils.js",
-      initialCountry: "auto",
-      geoIpLookup: async function (success) {
-        try {
-          const response = await fetch("/country_codes", {
-            method: "POST",
-            headers: { Accept: "application/json" },
-          });
-          const json = await response.json();
-          success(json.country_code || DEFAULT_COUNTRY_CODE);
-        } catch {
-          success(DEFAULT_COUNTRY_CODE);
-        }
-      },
-    });
+    if (typeof google !== "undefined") {
+      this.autocomplete = new google.maps.places.Autocomplete(this.inputTarget);
+      this.autocomplete.addListener("place_changed", this.input.bind(this));
+    }
   }
 
   disconnect() {
-    this.iti = null;
+    this.autocomplete = null;
+  }
+
+  keydown(event) {
+    if (event.code === "Enter") {
+      event.preventDefault();
+    }
   }
 
   input() {
+    const place = this.autocomplete.getPlace();
+
+    if (place) {
+      this.addressComponentsTarget.value = JSON.stringify(place.address_components);
+      this.formattedAddressTarget.value = place.formatted_address;
+      this.geometryTarget.value = JSON.stringify(place.geometry);
+      this.placeIdTarget.value = place.place_id;
+      this.typesTarget.value = JSON.stringify(place.types);
+    }
+
     this.inputTarget.classList.add("input--touched");
 
     if (this.trimValue) {
       this.inputTarget.value = this.inputTarget.value.trim();
     }
 
-    if (this.inputTarget.checkValidity() && this.iti.isValidNumber()) {
+    if (this.inputTarget.checkValidity()) {
       this.errorTarget.hidden = true;
       this.errorTarget.innerText = "";
       this.inputTarget.classList.add(...VALID_CLASSES);
@@ -67,8 +69,6 @@ export default class extends Controller {
     } else {
       if (this.inputTarget.required && !this.inputTarget.value) {
         this.errorTarget.innerText = t("not_present");
-      } else if (!this.iti.isValidNumber()) {
-        this.errorTarget.innerText = ERRORS[this.iti.getValidationError()];
       } else {
         this.errorTarget.innerText = t("not_valid");
       }
