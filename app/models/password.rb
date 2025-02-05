@@ -16,8 +16,6 @@ class Password < ApplicationRecord
   scope :verified, -> { where(verified: true) }
   scope :not_verified, -> { where(verified: false) }
 
-  validates :given_name, presence: true
-  validates :family_name, presence: true
   validate { can!(:update, user) }
 
   before_validation { log_in(self.user ||= User.create!) }

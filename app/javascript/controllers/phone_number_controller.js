@@ -51,6 +51,7 @@ export default class extends Controller {
   }
 
   input() {
+    this.hiddenTarget.value = this.iti.getNumber();
     this.inputTarget.classList.add("input--touched");
 
     if (this.trimValue) {

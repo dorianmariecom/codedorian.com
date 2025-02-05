@@ -1,6 +1,6 @@
 @import url("tailwindcss/base");
-@import url("tailwindcss/components");
 @import url("tailwindcss/utilities");
+@import url("tailwindcss/components");
 @import url("intl-tel-input/build/css/intlTelInput");
 
 .p {
@@ -61,4 +61,12 @@
   .iti__tel-input {
     padding-left: 50px;
   }
+}
+
+[hidden] {
+  @apply hidden;
+}
+
+a {
+  @apply cursor-pointer;
 }

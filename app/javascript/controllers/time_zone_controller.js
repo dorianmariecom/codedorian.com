@@ -16,6 +16,7 @@ export default class extends Controller {
     if (!this.inputTarget.value) {
       const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
       this.inputTarget.value = timeZone;
+      this.input();
     }
   }
 

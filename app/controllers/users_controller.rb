@@ -10,17 +10,6 @@ class UsersController < ApplicationController
   end
 
   def show
-    @devices = policy_scope(Device).where(user: @user).page(params[:page])
-    @email_addresses =
-      policy_scope(EmailAddress).where(user: @user).page(params[:page])
-    @locations = policy_scope(Location).where(user: @user).page(params[:page])
-    @names = policy_scope(Name).where(user: @user).page(params[:page])
-    @passwords = policy_scope(Password).where(user: @user).page(params[:page])
-    @phone_numbers =
-      policy_scope(PhoneNumber).where(user: @user).page(params[:page])
-    @programs = policy_scope(Program).where(user: @user).page(params[:page])
-    @time_zones = policy_scope(TimeZone).where(user: @user).page(params[:page])
-    @tokens = policy_scope(Token).where(user: @user).page(params[:page])
   end
 
   def new
@@ -84,6 +73,8 @@ class UsersController < ApplicationController
   end
 
   def user_params
+    return {} if params[:user].blank?
+
     if admin?
       params.require(:user).permit(
         :admin,

@@ -3,7 +3,7 @@
 
   h2.font-bold.p= t(".phone_number")
 
-  .p(data-controller="phone-number" data-phone-number-trim="true")
+  .p(data-controller="phone-number")
     = f.hidden_field :phone_number, data: { phone_number_target: "hidden" }
     = f.label :phone_number_input, class: "label", data: { phone_number_target: "label" }
     = f.phone_field :phone_number_input, value: f.object.formatted, class: "input", data: { phone_number_target: "input", action: "phone-number#input", form_type: "other" }, autocomplete: "tel"

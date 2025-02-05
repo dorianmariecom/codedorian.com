@@ -1,6 +1,16 @@
 ---
 en:
+  helpers:
+    label:
+      session:
+        email_address: email address
+        password: password
   activerecord:
+    errors:
+      models:
+        phone_number:
+          impossible: impossible
+          invalid: invalid
     attributes:
       address:
         address: address
@@ -128,9 +138,6 @@ en:
       remove: remove phone number
     nested:
       add: add phone number
-  sessions:
-    destroy:
-      notice: logged out
   static:
     home:
       paragraphs:
@@ -149,3 +156,13 @@ en:
       submit: register
       time_zone: time zone
       title: register
+  sessions:
+    new:
+      title: log in
+      submit: log in
+    create:
+      notice: logged in
+      wrong_password: wrong password
+      wrong_email_address: wrong email address
+    destroy:
+      notice: logged out

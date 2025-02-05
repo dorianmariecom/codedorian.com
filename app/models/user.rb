@@ -5,7 +5,6 @@ class User < ApplicationRecord
   has_many :devices, dependent: :destroy
   has_many :email_addresses, dependent: :destroy
   has_many :handles, dependent: :destroy
-  has_many :locations, dependent: :destroy
   has_many :names, dependent: :destroy
   has_many :passwords, dependent: :destroy
   has_many :phone_numbers, dependent: :destroy
@@ -16,7 +15,6 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :addresses, allow_destroy: true
   accepts_nested_attributes_for :email_addresses, allow_destroy: true
   accepts_nested_attributes_for :handles, allow_destroy: true
-  accepts_nested_attributes_for :locations, allow_destroy: true
   accepts_nested_attributes_for :names, allow_destroy: true
   accepts_nested_attributes_for :passwords, allow_destroy: true
   accepts_nested_attributes_for :phone_numbers, allow_destroy: true

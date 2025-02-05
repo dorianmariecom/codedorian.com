@@ -34,6 +34,12 @@ html
       = link_to t(".programs"), programs_path, class: "inline-block p-2 underline text-right"
       = link_to t(".messages"), messages_path, class: "inline-block p-2 underline"
 
+    - if alert.present?
+      .p.text-red-600= alert
+
+    - if notice.present?
+      .p.text-green-600= notice
+
     h1.p.font-bold= title
 
     = yield
