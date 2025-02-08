@@ -1,5 +1,3 @@
-- programs#new
-- programs#index
 - programs#show
 - programs#edit
 - programs#destroy

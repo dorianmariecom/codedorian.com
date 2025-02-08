@@ -122,12 +122,14 @@ class ProgramsController < ApplicationController
     if admin?
       params.require(:program).permit(
         :user_id,
+        :name,
         :input,
         schedules_attributes: %i[id _destroy starts_at interval]
       )
     else
       params.require(:program).permit(
         :input,
+        :name,
         schedules_attributes: %i[id _destroy starts_at interval]
       )
     end

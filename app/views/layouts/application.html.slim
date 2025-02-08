@@ -26,14 +26,17 @@ html
     - if registered?
       .grid.grid-cols-2.gap-6
         = link_to current_user, current_user, class: "inline-block p-2 underline text-right"
-        = button_to t(".log_out"), session_path, method: :delete, class: "inline-block p-2 underline"
+        = button_to t(".log_out"), :session, method: :delete, class: "inline-block p-2 underline"
+      .grid.grid-cols-2.gap-6.pb-5
+        = link_to t(".programs"), [current_user, :programs], class: "inline-block p-2 underline text-right"
+        = link_to t(".messages"), [current_user, :messages], class: "inline-block p-2 underline"
     - else
       .grid.grid-cols-2.gap-6
-        = link_to t(".register"), new_user_path, class: "inline-block p-2 underline text-right"
-        = link_to t(".log_in"), new_session_path, class: "inline-block p-2 underline"
-    .grid.grid-cols-2.gap-6.pb-5
-      = link_to t(".programs"), programs_path, class: "inline-block p-2 underline text-right"
-      = link_to t(".messages"), messages_path, class: "inline-block p-2 underline"
+        = link_to t(".register"), [:new, :user], class: "inline-block p-2 underline text-right"
+        = link_to t(".log_in"), [:new, :session], class: "inline-block p-2 underline"
+      .grid.grid-cols-2.gap-6.pb-5
+        = link_to t(".programs"), :programs, class: "inline-block p-2 underline text-right"
+        = link_to t(".messages"), :messages, class: "inline-block p-2 underline"
 
     - if alert.present?
       .p.text-red-600= alert
@@ -45,8 +48,8 @@ html
 
     = yield
 
-    = link_to t(".documentation"), documentation_path, class: "block text-center p-2 underline"
-    = link_to t(".source"), source_path, class: "block text-center p-2 underline"
-    = link_to t(".about"), about_path, class: "block text-center p-2 underline"
-    = link_to t(".privacy"), privacy_path, class: "block text-center p-2 underline"
-    = link_to t(".terms"), terms_path, class: "block text-center p-2 underline"
+    = link_to t(".documentation"), :documentation, class: "block text-center p-2 underline"
+    = link_to t(".source"), :source, class: "block text-center p-2 underline"
+    = link_to t(".about"), :about, class: "block text-center p-2 underline"
+    = link_to t(".privacy"), :privacy, class: "block text-center p-2 underline"
+    = link_to t(".terms"), :terms, class: "block text-center p-2 underline"

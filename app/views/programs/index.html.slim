@@ -1,1 +1,3 @@
-.p= link_to t(".new"), new_program_path, class: "button"
+.p= link_to t(".new"), [:new, :program], class: "button"
+
+= render @programs

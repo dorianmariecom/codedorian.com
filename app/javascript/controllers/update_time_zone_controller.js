@@ -7,7 +7,7 @@ export default class extends Controller {
     }
 
     const csrfToken = document.querySelector("[name='csrf-token']")?.content;
-    const timeZone  = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     const response = await fetch("/time_zone", {
       method: "PATCH",

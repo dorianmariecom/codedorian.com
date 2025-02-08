@@ -135,18 +135,18 @@ en:
     nested:
       add: add phone number
   programs:
+    create:
+      notice: program created
+    destroy:
+      notice: program deleted
     index:
       new: new program
       title: programs
     new:
       submit: create program
       title: new program
-    create:
-      notice: program created
     update:
       notice: program updated
-    destroy:
-      notice: program deleted
   schedules:
     form:
       remove: remove schedule
