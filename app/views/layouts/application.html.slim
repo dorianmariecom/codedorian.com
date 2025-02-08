@@ -15,10 +15,11 @@ html
         window.dispatchEvent(new Event("google-maps-callback"));
     script(src="https://maps.googleapis.com/maps/api/js?key=#{google_maps_api_key}&callback=googleMapsCallback&loading=async&libraries=places" async defer)
 
-  body.max-w-md.mx-auto.border-t-4.border-black.p-6
+  body.max-w-md.mx-auto.border-t-4.border-black.p-6(data-controller="update-time-zone")
     javascript:
-      window.translations = #{t(".js").to_json.html_safe};
       window.DEFAULT_COUNTRY_CODE = "#{default_country_code}";
+      window.time_zone = "#{current_time_zone}";
+      window.translations = #{t(".js").to_json.html_safe};
 
     = link_to t(".title"), root_path, class: "block text-center p-2 underline"
 

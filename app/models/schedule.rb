@@ -3,10 +3,9 @@
 class Schedule < ApplicationRecord
   INTERVALS = [
     "once",
-    "1 second",
-    "5 second",
-    "10 second",
-    "30 second",
+    "5 seconds",
+    "10 seconds",
+    "30 seconds",
     "1 minute",
     "5 minutes",
     "10 minutes",
@@ -63,6 +62,9 @@ class Schedule < ApplicationRecord
 
   validate { can!(:update, program) }
 
+  after_initialize { self.starts_at ||= default_starts_at }
+  after_initialize { self.interval ||= default_interval }
+
   def once?
     interval == "once"
   end
@@ -83,6 +85,14 @@ class Schedule < ApplicationRecord
     at += duration while at.past?
 
     at
+  end
+
+  def default_starts_at
+    Time.zone.now.beginning_of_hour + 1.hour
+  end
+
+  def default_interval
+    "1 day"
   end
 
   def to_s

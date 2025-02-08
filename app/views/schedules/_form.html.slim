@@ -1,0 +1,18 @@
+.schedule.border-l.border-black.pl-5(data-new-record="#{f.object.new_record?}")
+  = f.hidden_field :_destroy
+
+  h2.font-bold.p= t(".schedule")
+
+  .p
+    = f.label :starts_at, class: "label"
+    = f.datetime_field :starts_at, required: true, class: "input", autocomplete: "off", data: { form_type: "other" }
+    .text-red-600(hidden data-validation-target="error")
+    .text-gray-600= local_time(Time.zone.now)
+
+  .p
+    = f.label :interval, class: "label"
+    = f.select :interval, schedule_interval_options(interval: f.object.interval), {}, required: true, class: "input", data: { form_type: "other" }, autocomplete: "off"
+
+  .p
+    button.button.button--link(data-action="nested#remove")
+      = t(".remove")

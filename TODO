@@ -1,9 +1,20 @@
-# new program
-
-- programs index
-- "new program" button
-- /new page
-- /new form
-- program[input]
-- schedules
-- backend
+- programs#new
+- programs#index
+- programs#show
+- programs#edit
+- programs#destroy
+- programs#destroy_all
+- users#new
+- users#index
+- users#show
+- users#edit
+- users#destroy
+- users#destroy_all
+- messages#new
+- messages#index
+- messages#show
+- messages#edit
+- messages#destroy
+- messages#destroy_all
+- [users#create] captcha
+- [sessions#create] captcha

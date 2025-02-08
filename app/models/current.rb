@@ -2,9 +2,8 @@
 
 class Current < ActiveSupport::CurrentAttributes
   resets { Time.zone = nil }
-  resets { @user = nil }
 
-  attribute :user
+  attribute :user, :time_zone
 
   def user_or_guest
     user || guest
@@ -14,9 +13,9 @@ class Current < ActiveSupport::CurrentAttributes
     (user || guest).admin?
   end
 
-  def user=(user)
+  def time_zone=(time_zone)
+    Time.zone = time_zone
     super
-    Time.zone = time_zone&.time_zone
   end
 
   def user!
@@ -221,31 +220,5 @@ class Current < ActiveSupport::CurrentAttributes
 
   def time_zone?
     !!time_zone
-  end
-
-  def locations
-    (user || guest).locations.verified
-  end
-
-  def locations?
-    locations.any?
-  end
-
-  def locations!
-    raise(Code::Error, "no verified location found") unless locations?
-
-    locations
-  end
-
-  def location
-    locations.verified.primary.first || locations.verified.first
-  end
-
-  def location!
-    location || raise(Code::Error, "no verified location found")
-  end
-
-  def location?
-    !!location
   end
 end

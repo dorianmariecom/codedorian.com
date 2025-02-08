@@ -2,11 +2,27 @@
 
 class UsersController < ApplicationController
   before_action :load_user, only: %i[show edit update destroy]
-  skip_after_action :verify_policy_scoped, only: %i[new create]
+  skip_after_action :verify_policy_scoped, only: %i[new create update_time_zone]
+  skip_after_action :verify_authorized, only: :update_time_zone
 
   def index
     authorize User
     @users = scope.page(params[:page])
+  end
+
+  def update_time_zone
+    return head(:bad_request) if params[:time_zone].blank?
+    unless params[:time_zone].in?(TimeZone::TIME_ZONES)
+      return head(:bad_request)
+    end
+
+    if Current.user
+      Current.user.time_zones.create!(time_zone: params[:time_zone])
+    else
+      session[:time_zone] = params[:time_zone]
+    end
+
+    head :ok
   end
 
   def show

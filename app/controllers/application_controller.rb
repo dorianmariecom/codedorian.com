@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   skip_forgery_protection if: :current_token?
 
   before_action :set_current_user
+  before_action :set_time_zone
   after_action :verify_authorized
   after_action :verify_policy_scoped
   after_action :delete_link_header
@@ -16,6 +17,7 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user
   helper_method :current_user?
+  helper_method :current_time_zone
   helper_method :admin?
   helper_method :can?
 
@@ -43,6 +45,10 @@ class ApplicationController < ActionController::Base
 
   def set_current_user
     log_in(current_user_from_session || current_token&.user)
+  end
+
+  def set_time_zone
+    Current.time_zone ||= session[:time_zone]
   end
 
   def log_in(user)
@@ -73,6 +79,10 @@ class ApplicationController < ActionController::Base
     return if request.headers[:Token].blank?
 
     Token.find_by(token: request.headers[:Token])
+  end
+
+  def current_time_zone
+    current_user&.time_zone&.time_zone || session[:time_zone].presence
   end
 
   def current_token?

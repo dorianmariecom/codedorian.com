@@ -4,11 +4,11 @@
       = f.label :admin, class: "label"
       = f.check_box :admin
 
-  = render "names/nested", f: f
-  = render "handles/nested", f: f
-  = render "email_addresses/nested", f: f
-  = render "phone_numbers/nested", f: f
-  = render "addresses/nested", f: f
-  = render "passwords/nested", f: f
-  = render "time_zones/nested", f: f
+  = render "names/nested", f:
+  = render "handles/nested", f:
+  = render "email_addresses/nested", f:
+  = render "phone_numbers/nested", f:
+  = render "addresses/nested", f:
+  = render "passwords/nested", f:
+  = render "time_zones/nested", f:
   .p= f.submit t(".submit"), class: "button"

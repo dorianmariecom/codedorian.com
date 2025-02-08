@@ -36,6 +36,11 @@ class User < ApplicationRecord
       phone_numbers.verified.first&.phone_number
   end
 
+  def time_zone
+    email_addresses.verified.primary.first&.email_address ||
+      email_addresses.verified.first&.email_address
+  end
+
   def to_s
     name.presence || email_address.presence || phone_number.presence ||
       "user##{id}"

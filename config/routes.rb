@@ -83,7 +83,7 @@ Rails.application.routes.draw do
   resources :password_validations
   resource :session
 
-  match "/auth/callback/messenger", to: "messenger#create", via: :all
+  patch :time_zone, to: "users#update_time_zone"
 
   get "up", to: "static#up"
   get "documentation", to: "static#documentation"

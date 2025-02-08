@@ -11,6 +11,8 @@ ruby "3.3.5"
 gem "importmap-rails", dorian: "importmap-rails" # https://github.com/rails/importmap-rails/pull/257, https://github.com/rails/importmap-rails/pull/256
 gem "rails", rails: :rails
 gem "turbo-rails", hotwired: "turbo-rails"
+gem "thruster", require: false
+gem "zxcvbn-ruby", require: "zxcvbn"
 
 gem "bcrypt"
 gem "brakeman"
@@ -24,6 +26,7 @@ gem "heroicon"
 gem "irb"
 gem "kamal"
 gem "kaminari"
+gem "local_time"
 gem "mission_control-jobs"
 gem "msgpack"
 gem "net-http"
@@ -44,26 +47,7 @@ gem "solid_errors"
 gem "solid_queue"
 gem "stimulus-rails"
 gem "tailwindcss-rails"
-gem "thruster", require: false
-gem "zxcvbn-ruby", require: "zxcvbn"
 
 group :production do
   gem "rack-timeout"
-end
-
-group :development, :test do
-  gem "capybara"
-  gem "factory_bot_rails"
-  gem "pry-rescue"
-  gem "pry-stack_explorer"
-  gem "rubocop"
-  gem "rubocop-capybara"
-  gem "rubocop-factory_bot"
-  gem "rubocop-performance"
-  gem "rubocop-rails"
-  gem "rubocop-rake"
-  gem "selenium-webdriver"
-  gem "sinatra"
-  gem "timecop"
-  gem "webmock"
 end

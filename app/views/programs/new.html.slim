@@ -1,0 +1,13 @@
+= form_for @program do |f|
+  - if admin?
+    .p
+      = f.label :user_id, class: "label"
+      = f.select :user_id, user_options(user_id: f.object.user_id), {}, class: "input"
+
+  .p
+    = f.label :input, class: "label"
+    = f.text_area :input, class: "input"
+
+  = render "schedules/nested", f:
+
+  .p= f.submit t(".submit"), class: "button"

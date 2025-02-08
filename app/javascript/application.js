@@ -2,6 +2,7 @@ import "@hotwired/turbo-rails";
 import "@hotwired/turbo";
 import "controllers";
 import PullToRefresh from "pulltorefreshjs";
+import LocalTime from "local-time";
 
 const updateBorderTopWidth = () => {
   if (localStorage.getItem("codeStatusBarHeight")) {
@@ -53,3 +54,5 @@ PullToRefresh.init({
     window.location.reload();
   },
 });
+
+LocalTime.start();

@@ -1,16 +1,6 @@
 ---
 en:
-  helpers:
-    label:
-      session:
-        email_address: email address
-        password: password
   activerecord:
-    errors:
-      models:
-        phone_number:
-          impossible: impossible
-          invalid: invalid
     attributes:
       address:
         address: address
@@ -38,12 +28,19 @@ en:
         phone_number_input: phone number
         primary: primary?
         verified: verified?
+      program:
+        input: input
       time_zone:
-        time_zone: time zone
         primary: primary?
+        time_zone: time zone
         verified: verified?
       user:
         admin: admin?
+    errors:
+      models:
+        phone_number:
+          impossible: impossible
+          invalid: invalid
   addresses:
     form:
       address: address
@@ -62,13 +59,16 @@ en:
       remove: remove handle
     nested:
       add: add handle
+  helpers:
+    label:
+      session:
+        email_address: email address
+        password: password
   layouts:
     application:
       about: about
       documentation: documentation
       js:
-        time_zone:
-          not_present: must be present
         address:
           not_present: must be present
           not_valid: must be valid
@@ -84,6 +84,8 @@ en:
           not_valid: must be valid
           too_long: is too long
           too_short: is too short
+        time_zone:
+          not_present: must be present
         validation:
           not_email:
             feminine: must be an email address
@@ -126,18 +128,41 @@ en:
       remove: remove password
     nested:
       add: add password
-  time_zones:
-    form:
-      time_zone: time zone
-      remove: remove time zone
-    nested:
-      add: add time zone
   phone_numbers:
     form:
       phone_number: phone number
       remove: remove phone number
     nested:
       add: add phone number
+  programs:
+    index:
+      new: new program
+      title: programs
+    new:
+      submit: create program
+      title: new program
+    create:
+      notice: program created
+    update:
+      notice: program updated
+    destroy:
+      notice: program deleted
+  schedules:
+    form:
+      remove: remove schedule
+      schedule: schedule
+    nested:
+      add: add schedule
+  sessions:
+    create:
+      notice: logged in
+      wrong_email_address: wrong email address
+      wrong_password: wrong password
+    destroy:
+      notice: logged out
+    new:
+      submit: log in
+      title: log in
   static:
     home:
       paragraphs:
@@ -147,6 +172,12 @@ en:
       title: home
     up:
       title: "/up"
+  time_zones:
+    form:
+      remove: remove time zone
+      time_zone: time zone
+    nested:
+      add: add time zone
   users:
     create:
       notice: registered
@@ -156,13 +187,3 @@ en:
       submit: register
       time_zone: time zone
       title: register
-  sessions:
-    new:
-      title: log in
-      submit: log in
-    create:
-      notice: logged in
-      wrong_password: wrong password
-      wrong_email_address: wrong email address
-    destroy:
-      notice: logged out
