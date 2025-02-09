@@ -30,6 +30,7 @@ en:
         verified: verified?
       program:
         input: input
+        name: name
       time_zone:
         primary: primary?
         time_zone: time zone
@@ -145,14 +146,63 @@ en:
     new:
       submit: create program
       title: new program
+    edit:
+      submit: update program
+      title: edit program
+    show:
+      evaluate: evaluate
+      executions: executions
+      input: input
+      name: name
+      not_scheduled_html: would you like to schedule for %{local_time}?
+      schedule: schedule
+      scheduled_html: it's scheduled for %{local_time}
+      schedules: schedules
+      unschedule: unschedule
+      edit: edit program
+      delete: delete program
+      confirm: are you sure you want to delete this program?
     update:
       notice: program updated
   schedules:
     form:
       remove: remove schedule
       schedule: schedule
+    model:
+      days:
+        one: 1 day
+        other: "%{count} days"
+        zero: 0 days
+      hours:
+        one: 1 hour
+        other: "%{count} hours"
+        zero: 0 hours
+      minutes:
+        one: 1 minute
+        other: "%{count} minutes"
+        zero: 0 minutes
+      months:
+        one: 1 month
+        other: "%{count} months"
+        zero: 0 months
+      once: once
+      seconds:
+        one: 1 second
+        other: "%{count} seconds"
+        zero: 0 seconds
+      weeks:
+        one: 1 week
+        other: "%{count} weeks"
+        zero: 0 weeks
+      years:
+        one: 1 year
+        other: "%{count} years"
+        zero: 0 years
     nested:
       add: add schedule
+    schedule:
+      schedule_html: "starts %{local_time}, repeats every %{interval}"
+      schedule_once_html: "starts %{local_time}, doesn't repeat"
   sessions:
     create:
       notice: logged in

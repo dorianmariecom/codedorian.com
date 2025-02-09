@@ -13,7 +13,7 @@ Rails.application.routes.draw do
         collection { delete "/", to: "programs#destroy_all" }
         post :evaluate
         post :schedule
-        delete "schedule", to: "programs#unschedule"
+        post :unschedule
 
         resources(:executions) do
           collection { delete "/", to: "executions#destroy_all" }

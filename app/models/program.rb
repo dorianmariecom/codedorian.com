@@ -9,7 +9,7 @@ class Program < ApplicationRecord
   has_many :executions, dependent: :destroy
   has_many :schedules, dependent: :destroy
 
-  accepts_nested_attributes_for :schedules
+  accepts_nested_attributes_for :schedules, allow_destroy: true
 
   validate { can!(:update, user) }
 
@@ -59,6 +59,14 @@ class Program < ApplicationRecord
 
   def scheduled?
     scheduled_jobs.any?
+  end
+
+  def scheduled_at
+    scheduled_jobs.first&.scheduled_at
+  end
+
+  def scheduled_at?
+    scheduled_at.present?
   end
 
   def unschedule!

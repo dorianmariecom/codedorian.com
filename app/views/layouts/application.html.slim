@@ -15,28 +15,26 @@ html
         window.dispatchEvent(new Event("google-maps-callback"));
     script(src="https://maps.googleapis.com/maps/api/js?key=#{google_maps_api_key}&callback=googleMapsCallback&loading=async&libraries=places" async defer)
 
-  body.max-w-md.mx-auto.border-t-4.border-black.p-6(data-controller="update-time-zone")
+  body.border-t-4.border-black.p-8(data-controller="update-time-zone")
     javascript:
       window.DEFAULT_COUNTRY_CODE = "#{default_country_code}";
       window.time_zone = "#{current_time_zone}";
       window.translations = #{t(".js").to_json.html_safe};
 
-    = link_to t(".title"), root_path, class: "block text-center p-2 underline"
-
     - if registered?
-      .grid.grid-cols-2.gap-6
-        = link_to current_user, current_user, class: "inline-block p-2 underline text-right"
-        = button_to t(".log_out"), :session, method: :delete, class: "inline-block p-2 underline"
-      .grid.grid-cols-2.gap-6.pb-5
-        = link_to t(".programs"), [current_user, :programs], class: "inline-block p-2 underline text-right"
-        = link_to t(".messages"), [current_user, :messages], class: "inline-block p-2 underline"
+      .p
+        => link_to t(".title"), root_path, class: "underline"
+        => link_to current_user, current_user, class: "underline"
+        => button_to t(".log_out"), :session, method: :delete, class: "underline", form_class: "inline-block"
+        => link_to t(".programs"), [current_user, :programs], class: "underline"
+        => link_to t(".messages"), [current_user, :messages], class: "underline"
     - else
-      .grid.grid-cols-2.gap-6
-        = link_to t(".register"), [:new, :user], class: "inline-block p-2 underline text-right"
-        = link_to t(".log_in"), [:new, :session], class: "inline-block p-2 underline"
-      .grid.grid-cols-2.gap-6.pb-5
-        = link_to t(".programs"), :programs, class: "inline-block p-2 underline text-right"
-        = link_to t(".messages"), :messages, class: "inline-block p-2 underline"
+      .p
+        => link_to t(".title"), root_path, class: "underline"
+        => link_to t(".register"), [:new, :user], class: "underline"
+        => link_to t(".log_in"), [:new, :session], class: "underline"
+        => link_to t(".programs"), :programs, class: "underline"
+        => link_to t(".messages"), :messages, class: "underline"
 
     - if alert.present?
       .p.text-red-600= alert
@@ -48,8 +46,9 @@ html
 
     = yield
 
-    = link_to t(".documentation"), :documentation, class: "block text-center p-2 underline"
-    = link_to t(".source"), :source, class: "block text-center p-2 underline"
-    = link_to t(".about"), :about, class: "block text-center p-2 underline"
-    = link_to t(".privacy"), :privacy, class: "block text-center p-2 underline"
-    = link_to t(".terms"), :terms, class: "block text-center p-2 underline"
+    .p
+      => link_to t(".documentation"), :documentation, class: "underline"
+      => link_to t(".source"), :source, class: "underline"
+      => link_to t(".about"), :about, class: "underline"
+      => link_to t(".privacy"), :privacy, class: "underline"
+      => link_to t(".terms"), :terms, class: "underline"

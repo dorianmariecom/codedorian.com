@@ -20,6 +20,7 @@ class ProgramsController < ApplicationController
         .where(program: @program)
         .order(created_at: :desc)
         .page(params[:page])
+
     @schedules =
       policy_scope(Schedule)
         .where(program: @program)

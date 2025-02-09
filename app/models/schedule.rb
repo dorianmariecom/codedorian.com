@@ -72,9 +72,23 @@ class Schedule < ApplicationRecord
   def duration
     return 0 if once?
 
-    count, per = interval.split
+    count * PER.fetch(per)
+  end
 
-    count.to_i * PER.fetch(per)
+  def count
+    return 0 if once?
+
+    interval.split.first.to_i
+  end
+
+  def per
+    return "once" if once?
+
+    interval.split.last.pluralize
+  end
+
+  def translated_interval
+    I18n.t("schedules.model.#{per}", count:)
   end
 
   def next_at

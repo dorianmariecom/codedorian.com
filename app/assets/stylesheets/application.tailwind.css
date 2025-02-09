@@ -3,6 +3,14 @@
 @import url("tailwindcss/components");
 @import url("intl-tel-input/build/css/intlTelInput");
 
+[hidden] {
+  @apply hidden;
+}
+
+a {
+  @apply cursor-pointer;
+}
+
 .p {
   @apply mb-5;
 }
@@ -35,6 +43,7 @@
   @apply p-2 rounded w-full text-black;
   @apply border border-black hover:border-gray-800 focus:border-gray-600;
   @apply focus:ring-offset-0 focus:ring-0;
+  @apply max-w-xs;
 
   &[type="checkbox"] {
     @apply w-auto;
@@ -44,10 +53,8 @@
     @apply border-red-600;
   }
 
-  &.input--touched {
-    &:invalid {
-      @apply border-red-600;
-    }
+  &.input--touched:invalid {
+    @apply border-red-600;
   }
 }
 
@@ -63,10 +70,7 @@
   }
 }
 
-[hidden] {
-  @apply hidden;
-}
-
-a {
-  @apply cursor-pointer;
+.code {
+  @apply whitespace-pre font-mono rounded overflow-auto;
+  @apply border-black border p-2 w-fit;
 }

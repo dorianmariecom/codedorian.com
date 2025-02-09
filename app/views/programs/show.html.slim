@@ -1,1 +1,36 @@
 - content_for(:title, @program)
+
+- if @program.name.present?
+  .p
+    .text-gray-600= t(".name")
+    .font-bold= @program.name
+
+- if @program.input.present?
+  .p
+    .text-gray-600= t(".input")
+    .code= @program.input
+
+- if @program.scheduled_at?
+  .p
+    => t(".scheduled_html", local_time: local_time(@program.scheduled_at))
+    => button_to t(".unschedule"), [@program, :unschedule], method: :post, class: "underline", form_class: "inline-block"
+- elsif @program.next_at?
+  .p
+    => t(".not_scheduled_html", local_time: local_time(@program.next_at))
+    => button_to t(".schedule"), [@program, :schedule], method: :post, class: "underline", form_class: "inline-block"
+
+.p= button_to t(".evaluate"), [@program, :evaluate], method: :post, class: "button"
+
+.p
+  => link_to t(".edit"), [:edit, @program], class: "underline"
+  => button_to t(".delete"), @program, method: :delete, class: "underline", form_class: "inline-block", data: { turbo_confirm: t(".confirm") }
+
+- if @schedules.any?
+  .p.font-bold= t(".schedules")
+
+  = render @schedules
+
+- if @executions.any?
+  .p.font-bold= t(".executions")
+
+  = render @executions
