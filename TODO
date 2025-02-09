@@ -1,19 +1,17 @@
-- programs#edit
-- programs#destroy
-- programs#destroy_all
-- users#new
-- users#index
-- users#show
-- users#edit
-- users#destroy
-- users#destroy_all
-- messages#new
-- messages#index
-- messages#show
-- messages#edit
-- messages#destroy
-- messages#destroy_all
+- users
+- messages
+- schedules
+- executions
+- names
+- handles
+- email addresses
+- phone numbers
+- addresses
+- passwords
+- time zones
 - [users#create] captcha
 - [sessions#create] captcha
 - placeholders
 - fakes
+- create message from code
+- app

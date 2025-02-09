@@ -141,6 +141,8 @@ en:
     destroy:
       notice: program deleted
     index:
+      delete_all: delete all programs
+      confirm: are you sure you want to delete all the programs?
       new: new program
       title: programs
     new:
