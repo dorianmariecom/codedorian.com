@@ -1,5 +1,21 @@
 ---
 en:
+  shared:
+    list:
+      names: names
+      addresses: addresses
+      email_addresses: email addresses
+      handles: handles
+      passwords: passwords
+      phone_numbers: phone numbers
+      time_zones: time zones
+      new_name: new name
+      new_address: new address
+      new_email_address: new email address
+      new_handle: new handle
+      new_password: new password
+      new_phone_number: new phone number
+      new_time_zone: new time zone
   activerecord:
     attributes:
       address:
@@ -67,6 +83,7 @@ en:
         password: password
   layouts:
     application:
+      users: users
       about: about
       documentation: documentation
       js:
@@ -140,18 +157,21 @@ en:
       notice: program created
     destroy:
       notice: program deleted
+    edit:
+      submit: update program
+      title: edit program
     index:
-      delete_all: delete all programs
       confirm: are you sure you want to delete all the programs?
+      delete_all: delete all programs
       new: new program
       title: programs
     new:
       submit: create program
       title: new program
-    edit:
-      submit: update program
-      title: edit program
     show:
+      confirm: are you sure you want to delete this program?
+      delete: delete program
+      edit: edit program
       evaluate: evaluate
       executions: executions
       input: input
@@ -161,9 +181,6 @@ en:
       scheduled_html: it's scheduled for %{local_time}
       schedules: schedules
       unschedule: unschedule
-      edit: edit program
-      delete: delete program
-      confirm: are you sure you want to delete this program?
     update:
       notice: program updated
   schedules:
@@ -203,8 +220,8 @@ en:
     nested:
       add: add schedule
     schedule:
-      schedule_html: "starts %{local_time}, repeats every %{interval}"
-      schedule_once_html: "starts %{local_time}, doesn't repeat"
+      schedule_html: starts %{local_time}, repeats every %{interval}
+      schedule_once_html: starts %{local_time}, doesn't repeat
   sessions:
     create:
       notice: logged in
@@ -231,11 +248,25 @@ en:
     nested:
       add: add time zone
   users:
+    index:
+      title: users
+      new: new user
+      delete_all: delete all
+      confirm: are you sure you want to delete all the users?
+    show:
+      admin: admin
+      edit: edit user
+      delete: delete user
+      confirm: are you sure you want to delete this user?
     create:
-      notice: registered
+      notice: user created
+    update:
+      notice: user updated
+    destroy:
+      notice: user deleted
     new:
-      name: name
-      password: password
-      submit: register
-      time_zone: time zone
-      title: register
+      submit: create user
+      title: new user
+    edit:
+      submit: update user
+      title: edit user

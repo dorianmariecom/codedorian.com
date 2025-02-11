@@ -4,6 +4,10 @@
 
   h2.font-bold.p= t(".password")
 
+  .p
+    = f.label :hint, class: "label"
+    = f.text_field :hint, class: "input"
+
   .p(data-controller="password")
     = f.label :password, class: "label", data: { password_target: "label" }
     .flex.gap-2.items-center

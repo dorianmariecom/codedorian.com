@@ -19,7 +19,7 @@ class Password < ApplicationRecord
   validate { can!(:update, user) }
 
   before_validation { log_in(self.user ||= User.create!) }
-  before_update { unverify! if passsword_changed && verified? }
+  before_update { unverify! if password_changed && verified? }
 
   def unverify!
     update!(verified: false)

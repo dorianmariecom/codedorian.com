@@ -29,10 +29,7 @@ class Execution < ApplicationRecord
   end
 
   def to_s
-    error_sample.presence ||
-      output_sample.presence ||
-      result_sample.presence ||
-      input_sample.presence ||
-      "execution##{id}"
+    error_sample.presence || output_sample.presence || result_sample.presence ||
+      input_sample.presence || "execution##{id}"
   end
 end

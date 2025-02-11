@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   before_action :load_user, only: %i[show edit update destroy]
   skip_after_action :verify_policy_scoped, only: %i[new create update_time_zone]
   skip_after_action :verify_authorized, only: :update_time_zone
+  helper_method :url, :new_url
 
   def index
     authorize User
@@ -15,9 +16,11 @@ class UsersController < ApplicationController
     unless params[:time_zone].in?(TimeZone::TIME_ZONES)
       return head(:bad_request)
     end
+    return head(:bad_request) if Current.time_zone
+    return head(:bad_request) if Current.unverified_time_zone
 
     if Current.user
-      Current.user.time_zones.create!(time_zone: params[:time_zone])
+      Current.unverified_time_zones.create!(time_zone: params[:time_zone])
     else
       session[:time_zone] = params[:time_zone]
     end
@@ -123,7 +126,7 @@ class UsersController < ApplicationController
           primary
           verified
         ],
-        passwords_attributes: %i[id _destroy password primary verified],
+        passwords_attributes: %i[id _destroy hint password primary verified],
         time_zones_attributes: %i[id _destroy time_zone primary verified]
       )
     else
@@ -143,9 +146,17 @@ class UsersController < ApplicationController
           types
           primary
         ],
-        passwords_attributes: %i[id _destroy password primary],
+        passwords_attributes: %i[id _destroy hint password primary],
         time_zones_attributes: %i[id _destroy time_zone primary]
       )
     end
+  end
+
+  def url
+    :users
+  end
+
+  def new_url
+    [:new, :user]
   end
 end

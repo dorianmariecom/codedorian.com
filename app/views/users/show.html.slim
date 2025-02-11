@@ -1,1 +1,16 @@
 - content_for(:title, @user)
+
+- if @user.admin?
+  .p.font-bold= t(".admin")
+
+.p
+  => link_to t(".edit"), [:edit, @user], class: "underline"
+  => button_to t(".delete"), @user, method: :delete, class: "underline", form_class: "inline-block", data: { turbo_confirm: t(".confirm") }
+
+= render "shared/list", user: @user, model: Name
+= render "shared/list", user: @user, model: Handle
+= render "shared/list", user: @user, model: EmailAddress
+= render "shared/list", user: @user, model: PhoneNumber
+= render "shared/list", user: @user, model: Address
+= render "shared/list", user: @user, model: Password
+= render "shared/list", user: @user, model: TimeZone

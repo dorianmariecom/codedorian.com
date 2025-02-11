@@ -62,6 +62,14 @@ Rails.application.routes.draw do
         collection { delete "/", to: "messages#destroy_all" }
       end
 
+      resources(:handles) do
+        collection { delete "/", to: "handles#destroy_all" }
+      end
+
+      resources(:addresses) do
+        collection { delete "/", to: "addresses#destroy_all" }
+      end
+
       resources(:guests) { collection { delete "/", to: "guests#destroy_all" } }
       resources(:names) { collection { delete "/", to: "names#destroy_all" } }
       resources(:tokens) { collection { delete "/", to: "tokens#destroy_all" } }

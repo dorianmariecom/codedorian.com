@@ -28,6 +28,8 @@ html
         => button_to t(".log_out"), :session, method: :delete, class: "underline", form_class: "inline-block"
         => link_to t(".programs"), [current_user, :programs], class: "underline"
         => link_to t(".messages"), [current_user, :messages], class: "underline"
+        - if admin?
+          => link_to t(".users"), :users, class: "underline"
     - else
       .p
         => link_to t(".title"), root_path, class: "underline"
