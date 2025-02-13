@@ -1,14 +1,7 @@
-- users
 - messages
-- schedules
-- executions
-- names
-- handles
-- email addresses
-- phone numbers
-- addresses
-- passwords
-- time zones
+- programs's models
+- user's models
+- static pages
 - [users#create] captcha
 - [sessions#create] captcha
 - placeholders

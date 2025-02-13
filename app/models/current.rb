@@ -151,7 +151,9 @@ class Current < ActiveSupport::CurrentAttributes
   end
 
   def email_addresses!
-    raise(Code::Error, "no verified email addresses found") unless email_addresses?
+    unless email_addresses?
+      raise(Code::Error, "no verified email addresses found")
+    end
     email_addresses
   end
 
@@ -177,7 +179,9 @@ class Current < ActiveSupport::CurrentAttributes
   end
 
   def unverified_email_addresses!
-    raise(Code::Error, "no email addresses found") unless unverified_email_addresses?
+    unless unverified_email_addresses?
+      raise(Code::Error, "no email addresses found")
+    end
     unverified_email_addresses
   end
 
@@ -190,7 +194,9 @@ class Current < ActiveSupport::CurrentAttributes
   end
 
   def unverified_email_address!
-    raise(Code::Error, "email address not found") unless unverified_email_address?
+    unless unverified_email_address?
+      raise(Code::Error, "email address not found")
+    end
     unverified_email_address
   end
 
@@ -229,7 +235,9 @@ class Current < ActiveSupport::CurrentAttributes
   end
 
   def unverified_phone_numbers!
-    raise(Code::Error, "no phone numbers found") unless unverified_phone_numbers?
+    unless unverified_phone_numbers?
+      raise(Code::Error, "no phone numbers found")
+    end
     unverified_phone_numbers
   end
 

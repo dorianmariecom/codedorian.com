@@ -157,6 +157,6 @@ class UsersController < ApplicationController
   end
 
   def new_url
-    [:new, :user]
+    %i[new user]
   end
 end
