@@ -1,0 +1,35 @@
+- content_for(:title, @time_zone)
+
+- if @time_zone.user.present?
+  .p
+    .text-gray-600= t(".user")
+
+    - if can?(:show, @time_zone.user)
+      .font-bold= link_to @time_zone.user, @time_zone.user, class: "underline"
+    - else
+      .font-bold= @time_zone.user
+
+- if @time_zone.time_zone.present?
+  .p
+    .text-gray-600= t(".time_zone")
+    .font-bold= @time_zone.time_zone
+
+.p
+  .text-gray-600= t(".primary")
+  .font-bold= @time_zone.primary?
+
+.p
+  .text-gray-600= t(".verified")
+  .font-bold= @time_zone.verified?
+
+.p
+  .text-gray-600= t(".updated_at")
+  .font-bold= local_time(@time_zone.updated_at)
+
+.p
+  .text-gray-600= t(".created_at")
+  .font-bold= local_time(@time_zone.created_at)
+
+.p
+  => link_to t(".edit"), [:edit, @time_zone], class: "underline"
+  => button_to t(".delete"), @time_zone, method: :delete, class: "underline", form_class: "inline-block"

@@ -97,6 +97,7 @@ class UsersController < ApplicationController
     if admin?
       params.require(:user).permit(
         :admin,
+        :verified,
         names_attributes: %i[
           id
           _destroy

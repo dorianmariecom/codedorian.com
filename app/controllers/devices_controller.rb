@@ -90,6 +90,10 @@ class DevicesController < ApplicationController
   end
 
   def device_params
-    params.require(:device).permit(:user_id, :token, :platform)
+    if admin?
+      params.require(:device).permit(:user_id, :token, :platform)
+    else
+      params.require(:device).permit(:token, :platform)
+    end
   end
 end

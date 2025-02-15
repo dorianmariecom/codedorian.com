@@ -121,7 +121,7 @@ class EmailAddressesController < ApplicationController
         :email_address
       )
     else
-      params.require(:email_address).permit(:user_id, :primary, :email_address)
+      params.require(:email_address).permit(:primary, :email_address)
     end
   end
 end

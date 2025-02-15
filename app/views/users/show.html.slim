@@ -4,6 +4,10 @@
   .p.font-bold= t(".admin")
 
 .p
+  .text-gray-600= t(".verified")
+  .font-bold= @user.verified
+
+.p
   .text-gray-600= t(".updated_at")
   .font-bold= local_time(@user.updated_at)
 

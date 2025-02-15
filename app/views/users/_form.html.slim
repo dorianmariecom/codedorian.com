@@ -4,6 +4,10 @@
       = f.label :admin, class: "label"
       = f.check_box :admin
 
+    .p
+      = f.label :verified, class: "label"
+      = f.check_box :verified
+
   = render "names/nested", f:
   = render "handles/nested", f:
   = render "email_addresses/nested", f:
@@ -11,4 +15,5 @@
   = render "addresses/nested", f:
   = render "passwords/nested", f:
   = render "time_zones/nested", f:
+
   .p= f.submit submit, class: "button"

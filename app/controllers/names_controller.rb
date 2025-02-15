@@ -100,7 +100,6 @@ class NamesController < ApplicationController
       )
     else
       params.require(:name).permit(
-        :user_id,
         :primary,
         :given_name,
         :family_name

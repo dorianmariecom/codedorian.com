@@ -1,6 +1,6 @@
 .p= link_to t(".new"), new_url, class: "button"
 
-- if @names.any?
+- if @email_addresses.any?
   .p= button_to t(".delete_all"), url, method: :delete, class: "underline"
 
-= render @names
+= render @email_addresses

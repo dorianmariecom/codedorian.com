@@ -11,6 +11,8 @@ class User < ApplicationRecord
   has_many :programs, dependent: :destroy
   has_many :time_zones, dependent: :destroy
   has_many :tokens, dependent: :destroy
+  has_many :sent_messages, class_name: "Message", foreign_key: :from_user_id, dependent: :destroy
+  has_many :received_messages, class_name: "Message", foreign_key: :to_user_id, dependent: :destroy
 
   scope :verified, -> { where(verified: true) }
   scope :not_verified, -> { where(verified: false) }

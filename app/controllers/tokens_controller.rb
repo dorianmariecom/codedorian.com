@@ -90,6 +90,10 @@ class TokensController < ApplicationController
   end
 
   def token_params
-    params.require(:token).permit(:user_id, :token)
+    if admin?
+      params.require(:token).permit(:user_id, :token)
+    else
+      params.require(:token).permit(:token)
+    end
   end
 end

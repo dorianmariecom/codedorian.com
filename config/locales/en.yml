@@ -43,29 +43,110 @@ en:
         verified: verified?
       user:
         admin: admin?
+        verified: verified?
     errors:
       models:
         phone_number:
           impossible: impossible
           invalid: invalid
   addresses:
+    create:
+      notice: address created
+    destroy:
+      notice: address deleted
+    edit:
+      submit: update address
+      title: edit address
+    index:
+      delete_all: delete all
+      new: new address
+      title: addresses
     nested:
       add: add address
     nested_form:
       address: address
       remove: remove address
+    new:
+      submit: create address
+      title: new address
+    show:
+      created_at: created at
+      delete: delete address
+      edit: edit address
+      address: address
+      address_components: address components
+      formatted_address: formatted address
+      geometry: geometry
+      place_id: place id
+      types: types
+      primary: primary?
+      updated_at: updated at
+      user: user
+      verified: verified?
+    update:
+      notice: address updated
   email_addresses:
+    create:
+      notice: email address created
+    destroy:
+      notice: email address deleted
+    edit:
+      submit: update email address
+      title: edit email address
+    index:
+      delete_all: delete all
+      new: new email address
+      title: email addresses
     nested:
       add: add email address
     nested_form:
       email_address: email address
       remove: remove email address
+    new:
+      submit: create email address
+      title: new email address
+    show:
+      created_at: created at
+      delete: delete email address
+      edit: edit email address
+      email_address: email address
+      primary: primary?
+      updated_at: updated at
+      user: user
+      verified: verified?
+    update:
+      notice: email address updated
   handles:
+    create:
+      notice: handle created
+    destroy:
+      notice: handle deleted
+    edit:
+      submit: update handle
+      title: edit handle
+    index:
+      delete_all: delete all
+      new: new handle
+      title: handles
     nested:
       add: add handle
     nested_form:
       handle: handle
       remove: remove handle
+    new:
+      submit: create handle
+      title: new handle
+    show:
+      created_at: created at
+      delete: delete handle
+      edit: edit handle
+      handle: handle
+      primary: primary?
+      updated_at: updated at
+      user: user
+      verified: verified?
+    update:
+      notice: handle updated
   helpers:
     label:
       session:
@@ -187,17 +268,68 @@ en:
         spatial: use longer keyboard patterns with more turns
         year: avoid recent years, especially if they are associated with you
   passwords:
+    create:
+      notice: password created
+    destroy:
+      notice: password deleted
+    edit:
+      submit: update password
+      title: edit password
+    index:
+      delete_all: delete all
+      new: new password
+      title: passwords
     nested:
       add: add password
     nested_form:
       password: password
       remove: remove password
+    new:
+      submit: create password
+      title: new password
+    show:
+      created_at: created at
+      delete: delete password
+      edit: edit password
+      hint: hint
+      password: password
+      primary: primary?
+      updated_at: updated at
+      user: user
+      verified: verified?
+    update:
+      notice: password updated
   phone_numbers:
+    create:
+      notice: phone number created
+    destroy:
+      notice: phone number deleted
+    edit:
+      submit: update phone number
+      title: edit phone number
+    index:
+      delete_all: delete all
+      new: new phone number
+      title: phone numbers
     nested:
       add: add phone number
     nested_form:
       phone_number: phone number
       remove: remove phone number
+    new:
+      submit: create phone number
+      title: new phone number
+    show:
+      created_at: created at
+      delete: delete phone number
+      edit: edit phone number
+      phone_number: phone number
+      primary: primary?
+      updated_at: updated at
+      user: user
+      verified: verified?
+    update:
+      notice: phone number updated
   programs:
     create:
       notice: program created
@@ -305,11 +437,36 @@ en:
     up:
       title: "/up"
   time_zones:
+    create:
+      notice: time zone created
+    destroy:
+      notice: time zone deleted
+    edit:
+      submit: update time zone
+      title: edit time zone
+    index:
+      delete_all: delete all
+      new: new time zone
+      title: time zones
     nested:
       add: add time zone
     nested_form:
-      remove: remove time zone
       time_zone: time zone
+      remove: remove time zone
+    new:
+      submit: create time zone
+      title: new time zone
+    show:
+      created_at: created at
+      delete: delete time zone
+      edit: edit time zone
+      time_zone: time zone
+      primary: primary?
+      updated_at: updated at
+      user: user
+      verified: verified?
+    update:
+      notice: time zone updated
   users:
     create:
       notice: user created
@@ -327,6 +484,7 @@ en:
       title: new user
     show:
       admin: admin
+      verified: verified?
       created_at: created at
       delete: delete user
       edit: edit user

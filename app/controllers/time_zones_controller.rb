@@ -98,7 +98,7 @@ class TimeZonesController < ApplicationController
         :time_zone
       )
     else
-      params.require(:time_zone).permit(:user_id, :primary, :time_zone)
+      params.require(:time_zone).permit(:primary, :time_zone)
     end
   end
 end
