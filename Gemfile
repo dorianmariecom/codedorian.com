@@ -51,3 +51,5 @@ gem "tailwindcss-rails"
 group :production do
   gem "rack-timeout"
 end
+
+gem "image_processing", "~> 1.14"

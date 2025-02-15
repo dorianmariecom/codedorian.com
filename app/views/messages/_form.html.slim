@@ -1,0 +1,18 @@
+= form_for message do |f|
+  - if admin?
+    .p
+      = f.label :from_user_id, class: "label"
+      = f.select :from_user_id, user_options(user_id: f.object.user_id), {}, class: "input"
+    .p
+      = f.label :to_user_id, class: "label"
+      = f.select :to_user_id, user_options(user_id: f.object.user_id), {}, class: "input"
+
+  .p
+    = f.label :subject, class: "label"
+    = f.rich_textarea :subject, class: "input"
+
+  .p
+    = f.label :body, class: "label"
+    = f.rich_textarea :body, class: "input"
+
+  .p= f.submit submit, class: "button"

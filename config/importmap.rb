@@ -16,3 +16,5 @@ pin "@googlemaps/js-api-loader", to: "@googlemaps--js-api-loader.js" # @1.16.6
 pin "@hotwired/turbo", to: "@hotwired--turbo.js" # @8.0.5
 pin "pulltorefreshjs" # @0.1.22
 pin "local-time" # @3.0.2
+pin "trix"
+pin "@rails/actiontext", to: "actiontext.esm.js"

@@ -29,6 +29,12 @@ en:
         primary: primary?
         verified: verified?
       program:
+        user_id: user
+        input: input
+        name: name
+      message:
+        from_user: from user
+        to_user: to user
         input: input
         name: name
       time_zone:
@@ -270,3 +276,34 @@ en:
       edit: edit user
     update:
       notice: user updated
+  messages:
+    create:
+      notice: message created
+    destroy:
+      notice: message deleted
+    edit:
+      submit: update message
+      title: edit message
+    index:
+      confirm: are you sure you want to delete all the messages?
+      delete_all: delete all messages
+      new: new message
+      title: messages
+    new:
+      submit: create message
+      title: new message
+    show:
+      confirm: are you sure you want to delete this message?
+      delete: delete message
+      edit: edit message
+      evaluate: evaluate
+      executions: executions
+      input: input
+      name: name
+      not_scheduled_html: would you like to schedule for %{local_time}?
+      schedule: schedule
+      scheduled_html: it's scheduled for %{local_time}
+      schedules: schedules
+      unschedule: unschedule
+    update:
+      notice: message updated
