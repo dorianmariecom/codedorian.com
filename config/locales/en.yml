@@ -49,23 +49,23 @@ en:
           impossible: impossible
           invalid: invalid
   addresses:
-    form:
-      address: address
-      remove: remove address
     nested:
       add: add address
+    nested_form:
+      address: address
+      remove: remove address
   email_addresses:
-    form:
-      email_address: email address
-      remove: remove email address
     nested:
       add: add email address
+    nested_form:
+      email_address: email address
+      remove: remove email address
   handles:
-    form:
-      handle: handle
-      remove: remove handle
     nested:
       add: add handle
+    nested_form:
+      handle: handle
+      remove: remove handle
   helpers:
     label:
       session:
@@ -187,17 +187,17 @@ en:
         spatial: use longer keyboard patterns with more turns
         year: avoid recent years, especially if they are associated with you
   passwords:
-    form:
-      password: password
-      remove: remove password
     nested:
       add: add password
+    nested_form:
+      password: password
+      remove: remove password
   phone_numbers:
-    form:
-      phone_number: phone number
-      remove: remove phone number
     nested:
       add: add phone number
+    nested_form:
+      phone_number: phone number
+      remove: remove phone number
   programs:
     create:
       notice: program created
@@ -305,11 +305,11 @@ en:
     up:
       title: "/up"
   time_zones:
-    form:
-      remove: remove time zone
-      time_zone: time zone
     nested:
       add: add time zone
+    nested_form:
+      remove: remove time zone
+      time_zone: time zone
   users:
     create:
       notice: user created
