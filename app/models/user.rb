@@ -72,6 +72,14 @@ class User < ApplicationRecord
     !verified?
   end
 
+  def admin?
+    !!admin
+  end
+
+  def not_admin?
+    !admin?
+  end
+
   def to_s
     name.presence || email_address.presence || phone_number.presence ||
       t("to_s", id:)

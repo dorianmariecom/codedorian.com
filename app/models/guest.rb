@@ -31,6 +31,10 @@ class Guest
   def unverify! = nil
   def verified? = false
   def not_verified? = true
+  def admin? = false
+  def not_admin? = true
+  def admin = false
+  def verified = false
 
   def to_signed_global_id(_purpose: nil, _expires_in: nil) = ""
   def signed_id(_purpose: nil, _expires_in: nil) = ""

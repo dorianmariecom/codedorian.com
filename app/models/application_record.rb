@@ -40,6 +40,6 @@ class ApplicationRecord < ActiveRecord::Base
   end
 
   def t(key, ...)
-    I18.t("#{model_plural}.model.#{key}", ...)
+    I18n.t("#{model_plural}.model.#{key}", ...)
   end
 end

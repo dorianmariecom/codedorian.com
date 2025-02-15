@@ -85,6 +85,8 @@ en:
       verified: verified?
     update:
       notice: address updated
+    model:
+      to_s: address#%{id}
   email_addresses:
     create:
       notice: email address created
@@ -116,6 +118,8 @@ en:
       verified: verified?
     update:
       notice: email address updated
+    model:
+      to_s: email_address#%{id}
   executions:
     destroy:
       notice: execution deleted
@@ -131,6 +135,8 @@ en:
       program: program
       result: result
       updated_at: updated at
+    model:
+      to_s: execution#%{id}
   handles:
     create:
       notice: handle created
@@ -162,6 +168,8 @@ en:
       verified: verified?
     update:
       notice: handle updated
+    model:
+      to_s: handle#%{id}
   helpers:
     label:
       session:
@@ -239,6 +247,8 @@ en:
       updated_at: updated at
     update:
       notice: message updated
+    model:
+      to_s: message#%{id}
   names:
     create:
       notice: name created
@@ -271,6 +281,8 @@ en:
       verified: verified?
     update:
       notice: name updated
+    model:
+      to_s: name#%{id}
   password_validator:
     model:
       sequence:
@@ -314,6 +326,8 @@ en:
       verified: verified?
     update:
       notice: password updated
+    model:
+      to_s: password#%{id}
   phone_numbers:
     create:
       notice: phone number created
@@ -345,6 +359,8 @@ en:
       verified: verified?
     update:
       notice: phone number updated
+    model:
+      to_s: phone_number#%{id}
   programs:
     create:
       notice: program created
@@ -377,6 +393,8 @@ en:
       user: user
     update:
       notice: program updated
+    model:
+      to_s: program#%{id}
   schedules:
     create:
       notice: schedule created
@@ -419,6 +437,7 @@ en:
         one: 1 year
         other: "%{count} years"
         zero: 0 years
+      to_s: schedule#%{id}
     nested:
       add: add schedule
     nested_form:
@@ -508,6 +527,8 @@ en:
       verified: verified?
     update:
       notice: time zone updated
+    model:
+      to_s: time_zone#%{id}
   users:
     create:
       notice: user created
@@ -532,3 +553,11 @@ en:
       verified: verified?
     update:
       notice: user updated
+    model:
+      to_s: user#%{id}
+  tokens:
+    model:
+      to_s: token#%{id}
+  devices:
+    model:
+      to_s: device#%{id}
