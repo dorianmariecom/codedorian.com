@@ -116,6 +116,21 @@ en:
       verified: verified?
     update:
       notice: email address updated
+  executions:
+    destroy:
+      notice: execution deleted
+    index:
+      delete_all: delete all
+      title: executions
+    show:
+      created_at: created at
+      delete: delete execution
+      error: error
+      input: input
+      output: output
+      program: program
+      result: result
+      updated_at: updated at
   handles:
     create:
       notice: handle created
@@ -363,9 +378,17 @@ en:
     update:
       notice: program updated
   schedules:
-    form:
-      remove: remove schedule
-      schedule: schedule
+    create:
+      notice: schedule created
+    destroy:
+      notice: schedule deleted
+    edit:
+      submit: update schedule
+      title: edit schedule
+    index:
+      delete_all: delete all
+      new: new schedule
+      title: schedules
     model:
       days:
         one: 1 day
@@ -398,9 +421,27 @@ en:
         zero: 0 years
     nested:
       add: add schedule
+    nested_form:
+      remove: remove schedule
+      schedule: schedule
+    new:
+      submit: create schedule
+      title: new schedule
     schedule:
       schedule_html: starts %{local_time}, repeats every %{interval}
       schedule_once_html: starts %{local_time}, doesn't repeat
+    show:
+      created_at: created at
+      delete: delete schedule
+      edit: edit schedule
+      interval: interval
+      program: program
+      schedule_html: starts %{local_time}, repeats every %{interval}
+      schedule_once_html: starts %{local_time}, doesn't repeat
+      starts_at: starts at
+      updated_at: updated at
+    update:
+      notice: schedule updated
   sessions:
     create:
       notice: logged in

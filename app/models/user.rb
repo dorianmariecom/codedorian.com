@@ -74,6 +74,6 @@ class User < ApplicationRecord
 
   def to_s
     name.presence || email_address.presence || phone_number.presence ||
-      "user##{id}"
+      t("to_s", id:)
   end
 end

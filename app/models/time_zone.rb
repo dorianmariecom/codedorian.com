@@ -41,6 +41,6 @@ class TimeZone < ApplicationRecord
   end
 
   def to_s
-    time_zone.presence || "time_zone##{id}"
+    time_zone.presence || t("to_s", id:)
   end
 end

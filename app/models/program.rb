@@ -112,6 +112,6 @@ class Program < ApplicationRecord
   end
 
   def to_s
-    name.presence || input_sample.presence || "program##{id}"
+    name.presence || input_sample.presence || t("to_s", id:)
   end
 end

@@ -12,6 +12,6 @@ class Device < ApplicationRecord
   before_validation { log_in(self.user ||= User.create!) }
 
   def to_s
-    platform.presence || "device##{id}"
+    platform.presence || t("to_s", id:)
   end
 end

@@ -35,6 +35,6 @@ class Handle < ApplicationRecord
   end
 
   def to_s
-    handle.presence || "handle##{id}"
+    handle.presence || t("to_s", id:)
   end
 end

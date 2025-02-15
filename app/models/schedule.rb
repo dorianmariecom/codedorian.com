@@ -88,7 +88,7 @@ class Schedule < ApplicationRecord
   end
 
   def translated_interval
-    I18n.t("schedules.model.#{per}", count:)
+    t(per, count:)
   end
 
   def next_at
@@ -110,6 +110,6 @@ class Schedule < ApplicationRecord
   end
 
   def to_s
-    "#{starts_at}: #{interval}"
+    t("to_s", id:)
   end
 end

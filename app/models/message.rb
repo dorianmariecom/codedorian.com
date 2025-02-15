@@ -53,6 +53,6 @@ class Message < ApplicationRecord
   end
 
   def to_s
-    subject&.to_plain_text.presence || "message##{id}"
+    subject&.to_plain_text.presence || t("to_s", id:)
   end
 end

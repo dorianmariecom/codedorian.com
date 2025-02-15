@@ -30,6 +30,6 @@ class Execution < ApplicationRecord
 
   def to_s
     error_sample.presence || output_sample.presence || result_sample.presence ||
-      input_sample.presence || "execution##{id}"
+      input_sample.presence || t("to_s", id:)
   end
 end

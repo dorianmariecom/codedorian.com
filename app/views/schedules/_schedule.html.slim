@@ -1,5 +1,5 @@
 .p= link_to schedule, class: "underline" do
   - if schedule.once?
-    = t(".schedule_once_html", local_time: local_time(schedule.starts_at), interval:schedule.translated_interval)
+    = t(".schedule_once_html", local_time: local_time(schedule.starts_at), interval: schedule.translated_interval)
   - else
-    = t(".schedule_html", local_time: local_time(schedule.starts_at), interval:schedule.translated_interval)
+    = t(".schedule_html", local_time: local_time(schedule.starts_at), interval: schedule.translated_interval)

@@ -47,6 +47,6 @@ class Password < ApplicationRecord
   end
 
   def to_s
-    hint.presence || "password##{id}"
+    hint.presence || t("to_s", id:)
   end
 end

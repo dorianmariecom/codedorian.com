@@ -38,4 +38,8 @@ class ApplicationRecord < ActiveRecord::Base
   def model_plural
     self.class.name.underscore.pluralize.to_sym
   end
+
+  def t(key, ...)
+    I18.t("#{model_plural}.model.#{key}", ...)
+  end
 end

@@ -10,6 +10,6 @@ class Token < ApplicationRecord
   before_validation { log_in(self.user ||= User.create!) }
 
   def to_s
-    token.presence || "token##{id}"
+    token.presence || t("to_s", id:)
   end
 end

@@ -1,62 +1,38 @@
 # frozen_string_literal: true
 
 class Guest
-  def self.singular_route_key
-    :guest
-  end
+  def self.singular_route_key = :guest
+  def self.route_key = :guests
 
-  def self.route_key
-    :guests
-  end
+  def id = nil
+  def to_model = self
+  def model_name = Guest
+  def persisted? = false
 
-  def id
-    nil
-  end
-
-  def time_zone
-    nil
-  end
-
-  def admin?
-    false
-  end
-
-  def to_model
-    self
-  end
-
-  def model_name
-    Guest
-  end
-
-  def persisted?
-    false
-  end
-
-  def data = Datum.none
+  def addresses = Address.none
   def devices = Device.none
   def email_addresses = EmailAddress.none
-  def locations = Location.none
+  def handles = Handle.none
   def names = Name.none
   def passwords = Password.none
   def phone_numbers = PhoneNumber.none
   def programs = Program.none
-  def prompts = Prompt.none
-  def slack_accounts = SlackAccount.none
-  def smtp_accounts = SmtpAccount.none
   def time_zones = TimeZone.none
   def tokens = Token.none
-  def x_accounts = XAcount.none
+  def sent_messages = Message.none
+  def received_messages = Message.none
 
-  def to_signed_global_id(_purpose: nil, _expires_in: nil)
-    ""
-  end
+  def name = nil
+  def email_address = nil
+  def phone_number = nil
+  def time_zone = nil
+  def verify! = nil
+  def admin! = nil
+  def unverify! = nil
+  def verified? = false
+  def not_verified? = true
 
-  def signed_id(_purpose: nil, _expires_in: nil)
-    ""
-  end
-
-  def to_s
-    "guest"
-  end
+  def to_signed_global_id(_purpose: nil, _expires_in: nil) = ""
+  def signed_id(_purpose: nil, _expires_in: nil) = ""
+  def to_s = "guest"
 end

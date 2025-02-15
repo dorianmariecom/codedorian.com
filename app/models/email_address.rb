@@ -103,6 +103,6 @@ class EmailAddress < ApplicationRecord
   end
 
   def to_s
-    email_address.presence || "email_address##{id}"
+    email_address.presence || t("to_s", id:)
   end
 end
