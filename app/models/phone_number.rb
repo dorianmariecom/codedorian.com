@@ -5,7 +5,7 @@ class PhoneNumber < ApplicationRecord
   BRAND = "CodeDorian"
   VERIFICATION_CODE_REGEXP = /\A[0-9 ]+\z/
 
-  belongs_to :user, default: -> { Current.user }, touch: true
+  belongs_to :user, default: -> { Current.user! }, touch: true
 
   scope :primary, -> { where(primary: true) }
   scope :not_primary, -> { where(primary: false) }

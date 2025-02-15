@@ -21,6 +21,14 @@ class MessagePolicy < ApplicationPolicy
     true
   end
 
+  def read?
+    from_current_user? || to_current_user? || admin?
+  end
+
+  def unread?
+    from_current_user? || to_current_user? || admin?
+  end
+
   def update?
     from_current_user? || to_current_user? || admin?
   end

@@ -5,7 +5,7 @@ class Password < ApplicationRecord
 
   has_secure_password
 
-  belongs_to :user, default: -> { Current.user }, touch: true
+  belongs_to :user, default: -> { Current.user! }, touch: true
 
   validate { can!(:update, user) }
 

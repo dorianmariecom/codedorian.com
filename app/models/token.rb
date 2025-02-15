@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Token < ApplicationRecord
-  belongs_to :user, default: -> { Current.user }, touch: true
+  belongs_to :user, default: -> { Current.user! }, touch: true
 
   validates :token, presence: true
   validate { can!(:update, user) }

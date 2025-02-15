@@ -4,7 +4,7 @@ class Program < ApplicationRecord
   TIMEOUT = 60
   INPUT_SAMPLE_SIZE = 140
 
-  belongs_to :user, default: -> { Current.user }, touch: true
+  belongs_to :user, default: -> { Current.user! }, touch: true
 
   has_many :executions, dependent: :destroy
   has_many :schedules, dependent: :destroy

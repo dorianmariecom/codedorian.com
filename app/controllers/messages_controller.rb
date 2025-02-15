@@ -2,8 +2,7 @@
 
 class MessagesController < ApplicationController
   before_action :load_user
-  before_action :load_message,
-                only: %i[show edit update destroy]
+  before_action :load_message, only: %i[show edit update destroy read unread]
 
   helper_method :url
   helper_method :new_url
@@ -15,33 +14,16 @@ class MessagesController < ApplicationController
   end
 
   def show
-    @executions =
-      policy_scope(Execution)
-        .where(message: @message)
-        .order(created_at: :desc)
-        .page(params[:page])
-
-    @schedules =
-      policy_scope(Schedule)
-        .where(message: @message)
-        .order(created_at: :desc)
-        .page(params[:page])
   end
 
-  def evaluate
-    @message.evaluate!
+  def read
+    @message.read!
 
     redirect_back_or_to(@message)
   end
 
-  def schedule
-    @message.schedule!
-
-    redirect_back_or_to(@message)
-  end
-
-  def unschedule
-    @message.unschedule!
+  def unread
+    @message.unread!
 
     redirect_back_or_to(@message)
   end
@@ -57,7 +39,7 @@ class MessagesController < ApplicationController
     @message = authorize scope.new(message_params)
 
     if @message.save
-      log_in(@message.user)
+      log_in(@message.from_user)
       redirect_to @message, notice: t(".notice")
     else
       flash.now.alert = @message.alert
@@ -67,7 +49,7 @@ class MessagesController < ApplicationController
 
   def update
     if @message.update(message_params)
-      log_in(@message.user)
+      log_in(@message.from_user)
       redirect_to @message, notice: t(".notice")
     else
       flash.now.alert = @message.alert
@@ -100,7 +82,15 @@ class MessagesController < ApplicationController
   end
 
   def scope
-    @user ? policy_scope(Message).where(user: @user) : policy_scope(Message)
+    if @user
+      base_scope.where(from_user: @user).or(base_scope.where(to_user: @user))
+    else
+      policy_scope(Message)
+    end
+  end
+
+  def base_scope
+    policy_scope(Message)
   end
 
   def url
@@ -126,17 +116,10 @@ class MessagesController < ApplicationController
         :to_user_id,
         :subject,
         :body,
-        :seen,
         :read
       )
     else
-      params.require(:message).permit(
-        :user_id,
-        :title,
-        :subject,
-        :body,
-        :read
-      )
+      params.require(:message).permit(:subject, :body)
     end
   end
 end

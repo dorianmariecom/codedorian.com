@@ -1,7 +1,8 @@
 @import url("tailwindcss/base");
 @import url("tailwindcss/utilities");
 @import url("tailwindcss/components");
-@import url("intl-tel-input/build/css/intlTelInput");
+@import url("intl-tel-input/build/css/intlTelInput.css");
+@import "actiontext.css";
 
 [hidden] {
   @apply hidden;

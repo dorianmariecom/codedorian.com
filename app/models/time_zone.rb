@@ -6,7 +6,7 @@ class TimeZone < ApplicationRecord
       time_zone.tzinfo.canonical_identifier
     end
 
-  belongs_to :user, default: -> { Current.user }, touch: true
+  belongs_to :user, default: -> { Current.user! }, touch: true
 
   scope :primary, -> { where(primary: true) }
   scope :not_primary, -> { where(primary: false) }

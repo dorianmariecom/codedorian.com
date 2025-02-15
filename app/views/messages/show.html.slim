@@ -1,0 +1,32 @@
+- content_for(:title, @message)
+
+- if @message.from_user.present?
+  .p
+    .text-gray-600= t(".from_user")
+    .font-bold= @message.from_user
+
+- if @message.to_user.present?
+  .p
+    .text-gray-600= t(".to_user")
+    .font-bold= @message.to_user
+
+- if @message.subject.present?
+  .p
+    .text-gray-600= t(".subject")
+    = @message.subject
+
+- if @message.body.present?
+  .p
+    .text-gray-600= t(".body")
+    = @message.body
+
+- if @message.read?
+  .p
+    => button_to t(".unread"), [@message, :unread], method: :post, class: "underline", form_class: "inline-block"
+- else
+  .p
+    => button_to t(".read"), [@message, :read], method: :post, class: "underline", form_class: "inline-block"
+
+.p
+  => link_to t(".edit"), [:edit, @message], class: "underline"
+  => button_to t(".delete"), @message, method: :delete, class: "underline", form_class: "inline-block", data: { turbo_confirm: t(".confirm") }

@@ -19,7 +19,7 @@ class Current < ActiveSupport::CurrentAttributes
   end
 
   def user!
-    user || raise(Code::Error, "no user found")
+    user || (@user = User.create!)
   end
 
   def user?

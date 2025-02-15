@@ -57,5 +57,5 @@ PullToRefresh.init({
 
 LocalTime.start();
 
-import "trix"
-import "@rails/actiontext"
+import "trix";
+import "@rails/actiontext";
