@@ -1,6 +1,9 @@
-- programs's models
-- user's models
-- static pages
+- /up
+- /documentation
+- /about
+- /terms
+- /privacy
+- /source
 - translate in french
 - [users#create] captcha
 - [sessions#create] captcha

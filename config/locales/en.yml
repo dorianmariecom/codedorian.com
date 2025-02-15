@@ -561,3 +561,10 @@ en:
   devices:
     model:
       to_s: device#%{id}
+  errors:
+    not_found:
+      title: not found
+    internal_server_error:
+      title: internal server error
+    unprocessable_entity:
+      title: unprocessable entity
