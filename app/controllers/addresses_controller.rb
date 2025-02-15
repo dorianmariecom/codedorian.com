@@ -17,8 +17,7 @@ class AddressesController < ApplicationController
   end
 
   def new
-    @address =
-      authorize scope.new(primary: current_user.addresses.none?)
+    @address = authorize scope.new(primary: current_user.addresses.none?)
   end
 
   def edit
@@ -71,11 +70,7 @@ class AddressesController < ApplicationController
   end
 
   def scope
-    if @user
-      policy_scope(Address).where(user: @user)
-    else
-      policy_scope(Address)
-    end
+    @user ? policy_scope(Address).where(user: @user) : policy_scope(Address)
   end
 
   def url

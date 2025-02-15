@@ -70,16 +70,16 @@ en:
       submit: create address
       title: new address
     show:
+      address: address
+      address_components: address components
       created_at: created at
       delete: delete address
       edit: edit address
-      address: address
-      address_components: address components
       formatted_address: formatted address
       geometry: geometry
       place_id: place id
-      types: types
       primary: primary?
+      types: types
       updated_at: updated at
       user: user
       verified: verified?
@@ -451,8 +451,8 @@ en:
     nested:
       add: add time zone
     nested_form:
-      time_zone: time zone
       remove: remove time zone
+      time_zone: time zone
     new:
       submit: create time zone
       title: new time zone
@@ -460,8 +460,8 @@ en:
       created_at: created at
       delete: delete time zone
       edit: edit time zone
-      time_zone: time zone
       primary: primary?
+      time_zone: time zone
       updated_at: updated at
       user: user
       verified: verified?
@@ -484,10 +484,10 @@ en:
       title: new user
     show:
       admin: admin
-      verified: verified?
       created_at: created at
       delete: delete user
       edit: edit user
       updated_at: updated at
+      verified: verified?
     update:
       notice: user updated

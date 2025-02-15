@@ -99,11 +99,7 @@ class NamesController < ApplicationController
         :family_name
       )
     else
-      params.require(:name).permit(
-        :primary,
-        :given_name,
-        :family_name
-      )
+      params.require(:name).permit(:primary, :given_name, :family_name)
     end
   end
 end

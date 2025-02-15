@@ -17,8 +17,7 @@ class HandlesController < ApplicationController
   end
 
   def new
-    @handle =
-      authorize scope.new(primary: current_user.handles.none?)
+    @handle = authorize scope.new(primary: current_user.handles.none?)
   end
 
   def edit
@@ -71,11 +70,7 @@ class HandlesController < ApplicationController
   end
 
   def scope
-    if @user
-      policy_scope(Handle).where(user: @user)
-    else
-      policy_scope(Handle)
-    end
+    @user ? policy_scope(Handle).where(user: @user) : policy_scope(Handle)
   end
 
   def url
@@ -96,12 +91,7 @@ class HandlesController < ApplicationController
 
   def handle_params
     if admin?
-      params.require(:handle).permit(
-        :user_id,
-        :primary,
-        :verified,
-        :handle
-      )
+      params.require(:handle).permit(:user_id, :primary, :verified, :handle)
     else
       params.require(:handle).permit(:primary, :handle)
     end
