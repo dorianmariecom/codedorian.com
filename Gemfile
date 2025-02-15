@@ -10,8 +10,8 @@ ruby "3.3.5"
 
 gem "importmap-rails", dorian: "importmap-rails" # https://github.com/rails/importmap-rails/pull/257, https://github.com/rails/importmap-rails/pull/256
 gem "rails", rails: :rails
-gem "turbo-rails", hotwired: "turbo-rails"
 gem "thruster", require: false
+gem "turbo-rails", hotwired: "turbo-rails"
 gem "zxcvbn-ruby", require: "zxcvbn"
 
 gem "bcrypt"
@@ -32,6 +32,7 @@ gem "msgpack"
 gem "net-http"
 gem "open-uri"
 gem "optparse"
+gem "paper_trail"
 gem "pg"
 gem "phonelib"
 gem "propshaft"

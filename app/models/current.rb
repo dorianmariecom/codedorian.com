@@ -48,6 +48,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def names!
     raise(Code::Error, "no verified names found") unless names?
+
     names
   end
 
@@ -61,6 +62,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def name!
     raise(Code::Error, "no verified name found") unless name?
+
     name
   end
 
@@ -74,6 +76,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def unverified_names!
     raise(Code::Error, "no names found") unless unverified_names?
+
     unverified_names
   end
 
@@ -87,6 +90,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def unverified_name!
     raise(Code::Error, "name not found") unless unverified_name?
+
     unverified_name
   end
 
@@ -100,6 +104,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def handles!
     raise(Code::Error, "no verified handles found") unless handles?
+
     handles
   end
 
@@ -113,6 +118,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def handle!
     raise(Code::Error, "no verified handle found") unless handle?
+
     handle
   end
 
@@ -126,6 +132,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def unverified_handles!
     raise(Code::Error, "no handles found") unless unverified_handles?
+
     unverified_handles
   end
 
@@ -139,6 +146,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def unverified_handle!
     raise(Code::Error, "handle not found") unless unverified_handle?
+
     unverified_handle
   end
 
@@ -154,6 +162,7 @@ class Current < ActiveSupport::CurrentAttributes
     unless email_addresses?
       raise(Code::Error, "no verified email addresses found")
     end
+
     email_addresses
   end
 
@@ -167,6 +176,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def email_address!
     raise(Code::Error, "no verified email address found") unless email_address?
+
     email_address
   end
 
@@ -182,6 +192,7 @@ class Current < ActiveSupport::CurrentAttributes
     unless unverified_email_addresses?
       raise(Code::Error, "no email addresses found")
     end
+
     unverified_email_addresses
   end
 
@@ -197,6 +208,7 @@ class Current < ActiveSupport::CurrentAttributes
     unless unverified_email_address?
       raise(Code::Error, "email address not found")
     end
+
     unverified_email_address
   end
 
@@ -210,6 +222,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def phone_numbers!
     raise(Code::Error, "no verified phone numbers found") unless phone_numbers?
+
     phone_numbers
   end
 
@@ -223,6 +236,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def phone_number!
     raise(Code::Error, "no verified phone number found") unless phone_number?
+
     phone_number
   end
 
@@ -238,6 +252,7 @@ class Current < ActiveSupport::CurrentAttributes
     unless unverified_phone_numbers?
       raise(Code::Error, "no phone numbers found")
     end
+
     unverified_phone_numbers
   end
 
@@ -251,6 +266,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def unverified_phone_number!
     raise(Code::Error, "phone number not found") unless unverified_phone_number?
+
     unverified_phone_number
   end
 
@@ -264,6 +280,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def addresses!
     raise(Code::Error, "no verified addresses found") unless addresses?
+
     addresses
   end
 
@@ -277,6 +294,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def address!
     raise(Code::Error, "no verified address found") unless address?
+
     address
   end
 
@@ -290,6 +308,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def unverified_addresses!
     raise(Code::Error, "no addresses found") unless unverified_addresses?
+
     unverified_addresses
   end
 
@@ -303,6 +322,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def unverified_address!
     raise(Code::Error, "address not found") unless unverified_address?
+
     unverified_address
   end
 
@@ -316,6 +336,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def passwords!
     raise(Code::Error, "no verified passwords found") unless passwords?
+
     passwords
   end
 
@@ -329,6 +350,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def password!
     raise(Code::Error, "no verified password found") unless password?
+
     password
   end
 
@@ -342,6 +364,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def unverified_passwords!
     raise(Code::Error, "no passwords found") unless unverified_passwords?
+
     unverified_passwords
   end
 
@@ -355,6 +378,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def unverified_password!
     raise(Code::Error, "password not found") unless unverified_password?
+
     unverified_password
   end
 
@@ -368,6 +392,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def time_zones!
     raise(Code::Error, "no verified time zones found") unless time_zones?
+
     time_zones
   end
 
@@ -381,6 +406,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def time_zone!
     raise(Code::Error, "no verified time zone found") unless time_zone?
+
     time_zone
   end
 
@@ -394,6 +420,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def unverified_time_zones!
     raise(Code::Error, "no time zones found") unless unverified_time_zones?
+
     unverified_time_zones
   end
 
@@ -407,6 +434,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def unverified_time_zone!
     raise(Code::Error, "time zone not found") unless unverified_time_zone?
+
     unverified_time_zone
   end
 
@@ -420,6 +448,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def programs!
     raise(Code::Error, "no verified programs found") unless programs?
+
     programs
   end
 
@@ -433,6 +462,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def program!
     raise(Code::Error, "no verified program found") unless program?
+
     program
   end
 
@@ -446,6 +476,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def unverified_programs!
     raise(Code::Error, "no programs found") unless unverified_programs?
+
     unverified_programs
   end
 
@@ -459,6 +490,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def unverified_program!
     raise(Code::Error, "program not found") unless unverified_program?
+
     unverified_program
   end
 
@@ -472,6 +504,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def schedules!
     raise(Code::Error, "no verified schedules found") unless schedules?
+
     schedules
   end
 
@@ -485,6 +518,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def schedule!
     raise(Code::Error, "no verified schedule found") unless schedule?
+
     schedule
   end
 
@@ -498,6 +532,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def unverified_schedules!
     raise(Code::Error, "no schedules found") unless unverified_schedules?
+
     unverified_schedules
   end
 
@@ -511,6 +546,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def unverified_schedule!
     raise(Code::Error, "schedule not found") unless unverified_schedule?
+
     unverified_schedule
   end
 
@@ -524,6 +560,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def executions!
     raise(Code::Error, "no verified executions found") unless executions?
+
     executions
   end
 
@@ -537,6 +574,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def execution!
     raise(Code::Error, "no verified execution found") unless execution?
+
     execution
   end
 
@@ -550,6 +588,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def unverified_executions!
     raise(Code::Error, "no executions found") unless unverified_executions?
+
     unverified_executions
   end
 
@@ -563,6 +602,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def unverified_execution!
     raise(Code::Error, "execution not found") unless unverified_execution?
+
     unverified_execution
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_02_15_121003) do
+ActiveRecord::Schema[8.1].define(version: 20_250_215_131_338) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -32,6 +34,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_02_15_121003) do
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index %w[record_type record_id name blob_id],
             name: "index_active_storage_attachments_uniqueness",
@@ -47,12 +50,15 @@ ActiveRecord::Schema[8.1].define(version: 2025_02_15_121003) do
     t.bigint "byte_size", null: false
     t.string "checksum"
     t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
   create_table "active_storage_variant_records", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index %w[blob_id variation_digest],
             name: "index_active_storage_variant_records_uniqueness",
             unique: true
@@ -471,6 +477,22 @@ ActiveRecord::Schema[8.1].define(version: 2025_02_15_121003) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "admin", default: false, null: false
+  end
+
+  create_table "versions", force: :cascade do |t|
+    t.bigint "whodunnit"
+    t.string "item_type", null: false
+    t.bigint "item_id", null: false
+    t.string "event", null: false
+    t.jsonb "object"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.jsonb "object_changes"
+    t.index ["event"], name: "index_versions_on_event"
+    t.index ["item_id"], name: "index_versions_on_item_id"
+    t.index %w[item_type item_id], name: "index_versions_on_item"
+    t.index ["item_type"], name: "index_versions_on_item_type"
+    t.index ["whodunnit"], name: "index_versions_on_whodunnit"
   end
 
   add_foreign_key "active_storage_attachments",

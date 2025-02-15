@@ -43,7 +43,7 @@ class Password < ApplicationRecord
 
   def password=(...)
     self.password_changed = true
-    super(...)
+    super
   end
 
   def to_s

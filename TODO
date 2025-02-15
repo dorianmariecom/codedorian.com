@@ -2,6 +2,7 @@
 - programs's models
 - user's models
 - static pages
+- translate in french
 - [users#create] captcha
 - [sessions#create] captcha
 - placeholders

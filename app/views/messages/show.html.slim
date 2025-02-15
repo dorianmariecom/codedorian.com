@@ -22,9 +22,13 @@
 
 - if @message.read?
   .p
+    - if @message.read_at
+      => t(".read_at_html", local_time: local_time(@message.read_at))
     => button_to t(".unread"), [@message, :unread], method: :post, class: "underline", form_class: "inline-block"
 - else
   .p
+    - if @message.unread_at
+      => t(".unread_at_html", local_time: local_time(@message.unread_at))
     => button_to t(".read"), [@message, :read], method: :post, class: "underline", form_class: "inline-block"
 
 .p

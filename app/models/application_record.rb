@@ -3,10 +3,12 @@
 class ApplicationRecord < ActiveRecord::Base
   include Pundit::Authorization
   include CanConcern
+
   extend Pundit::Authorization
   extend CanConcern
 
   broadcasts_refreshes
+  has_paper_trail
   primary_abstract_class
 
   def self.current_user

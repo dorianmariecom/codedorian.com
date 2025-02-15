@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
 
   before_action :set_current_user
   before_action :set_time_zone
+  before_action :set_paper_trail_whodunnit
   after_action :verify_authorized
   after_action :verify_policy_scoped
   after_action :delete_link_header

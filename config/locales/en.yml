@@ -130,15 +130,17 @@ en:
       submit: create message
       title: new message
     show:
+      body: body
       confirm: are you sure you want to delete this message?
       delete: delete message
       edit: edit message
       from_user: from user
-      to_user: tom user
-      subject: subject
-      body: body
       read: read
+      read_at_html: read at %{local_time}
+      subject: subject
+      to_user: tom user
       unread: unread
+      unread_at_html: unread at %{local_time}
     update:
       notice: message updated
   names:

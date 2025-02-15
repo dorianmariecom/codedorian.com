@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CleanDatabase < ActiveRecord::Migration[8.1]
   def change
     User.destroy_all

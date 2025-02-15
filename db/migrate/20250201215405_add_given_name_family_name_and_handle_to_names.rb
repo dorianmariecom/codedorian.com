@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddGivenNameFamilyNameAndHandleToNames < ActiveRecord::Migration[8.1]
   def change
     add_column :names, :given_name, :string
