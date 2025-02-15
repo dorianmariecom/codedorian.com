@@ -96,16 +96,14 @@ class NamesController < ApplicationController
         :primary,
         :verified,
         :given_name,
-        :family_name,
-        :handle
+        :family_name
       )
     else
       params.require(:name).permit(
         :user_id,
         :primary,
         :given_name,
-        :family_name,
-        :handle
+        :family_name
       )
     end
   end

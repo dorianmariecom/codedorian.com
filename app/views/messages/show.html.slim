@@ -3,12 +3,20 @@
 - if @message.from_user.present?
   .p
     .text-gray-600= t(".from_user")
-    .font-bold= @message.from_user
+
+    - if can?(:show, @message.from_user)
+      .font-bold= link_to @message.from_user, @message.from_user, class: "underline"
+    - else
+      .font-bold= @message.from_user
 
 - if @message.to_user.present?
   .p
     .text-gray-600= t(".to_user")
-    .font-bold= @message.to_user
+
+    - if can?(:show, @message.to_user)
+      .font-bold= link_to @message.to_user, @message.to_user, class: "underline"
+    - else
+      .font-bold= @message.to_user
 
 - if @message.subject.present?
   .p
@@ -19,6 +27,14 @@
   .p
     .text-gray-600= t(".body")
     = @message.body
+
+.p
+  .text-gray-600= t(".updated_at")
+  .font-bold= local_time(@message.updated_at)
+
+.p
+  .text-gray-600= t(".created_at")
+  .font-bold= local_time(@message.created_at)
 
 - if @message.read?
   .p
@@ -33,4 +49,4 @@
 
 .p
   => link_to t(".edit"), [:edit, @message], class: "underline"
-  => button_to t(".delete"), @message, method: :delete, class: "underline", form_class: "inline-block", data: { turbo_confirm: t(".confirm") }
+  => button_to t(".delete"), @message, method: :delete, class: "underline", form_class: "inline-block"

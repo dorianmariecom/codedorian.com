@@ -4,8 +4,16 @@
   .p.font-bold= t(".admin")
 
 .p
+  .text-gray-600= t(".updated_at")
+  .font-bold= local_time(@user.updated_at)
+
+.p
+  .text-gray-600= t(".created_at")
+  .font-bold= local_time(@user.created_at)
+
+.p
   => link_to t(".edit"), [:edit, @user], class: "underline"
-  => button_to t(".delete"), @user, method: :delete, class: "underline", form_class: "inline-block", data: { turbo_confirm: t(".confirm") }
+  => button_to t(".delete"), @user, method: :delete, class: "underline", form_class: "inline-block"
 
 = render "shared/list", user: @user, model: Name
 = render "shared/list", user: @user, model: Handle

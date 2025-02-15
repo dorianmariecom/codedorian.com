@@ -1,5 +1,14 @@
 - content_for(:title, @program)
 
+- if @program.user.present?
+  .p
+    .text-gray-600= t(".user")
+
+    - if can?(:show, @program.user)
+      .font-bold= link_to @program.user, @program.user, class: "underline"
+    - else
+      .font-bold= @program.user
+
 - if @program.name.present?
   .p
     .text-gray-600= t(".name")
@@ -9,6 +18,14 @@
   .p
     .text-gray-600= t(".input")
     .code= @program.input
+
+.p
+  .text-gray-600= t(".updated_at")
+  .font-bold= local_time(@program.updated_at)
+
+.p
+  .text-gray-600= t(".created_at")
+  .font-bold= local_time(@program.created_at)
 
 - if @program.scheduled_at?
   .p
@@ -23,7 +40,7 @@
 
 .p
   => link_to t(".edit"), [:edit, @program], class: "underline"
-  => button_to t(".delete"), @program, method: :delete, class: "underline", form_class: "inline-block", data: { turbo_confirm: t(".confirm") }
+  => button_to t(".delete"), @program, method: :delete, class: "underline", form_class: "inline-block"
 
 - if @schedules.any?
   .p.font-bold= t(".schedules")

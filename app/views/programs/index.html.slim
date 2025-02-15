@@ -1,6 +1,6 @@
 .p= link_to t(".new"), new_url, class: "button"
 
 - if @programs.any?
-  .p= button_to t(".delete_all"), url, method: :delete, class: "underline", data: { turbo_confirm: t(".confirm") }
+  .p= button_to t(".delete_all"), url, method: :delete, class: "underline"
 
 = render @programs

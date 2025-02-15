@@ -12,6 +12,9 @@ class User < ApplicationRecord
   has_many :time_zones, dependent: :destroy
   has_many :tokens, dependent: :destroy
 
+  scope :verified, -> { where(verified: true) }
+  scope :not_verified, -> { where(verified: false) }
+
   accepts_nested_attributes_for :addresses, allow_destroy: true
   accepts_nested_attributes_for :email_addresses, allow_destroy: true
   accepts_nested_attributes_for :handles, allow_destroy: true
@@ -39,6 +42,26 @@ class User < ApplicationRecord
   def time_zone
     email_addresses.verified.primary.first&.email_address ||
       email_addresses.verified.first&.email_address
+  end
+
+  def verify!
+    update!(verified: true)
+  end
+
+  def admin!
+    update!(admin: true)
+  end
+
+  def unverify!
+    update!(verified: false)
+  end
+
+  def verified?
+    !!verified
+  end
+
+  def not_verified?
+    !verified?
   end
 
   def to_s
