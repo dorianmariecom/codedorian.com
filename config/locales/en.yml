@@ -179,6 +179,7 @@ en:
     application:
       about: about
       documentation: documentation
+      up: /up
       js:
         address:
           not_present: must be present
@@ -496,6 +497,7 @@ en:
       title: home
     up:
       title: "/up"
+      up: working
   time_zones:
     create:
       notice: time zone created
