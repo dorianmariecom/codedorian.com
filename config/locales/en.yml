@@ -498,6 +498,8 @@ en:
     up:
       title: "/up"
       up: working
+    documentation:
+      title: documentation
   time_zones:
     create:
       notice: time zone created
