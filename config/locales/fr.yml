@@ -43,6 +43,7 @@ fr:
         verified: vérifié ?
       user:
         admin: administrateur ?
+        locale: langue
         verified: vérifié ?
     errors:
       models:
@@ -192,33 +193,6 @@ fr:
       english: anglais
       french: français
       js:
-        trix:
-          attachFiles: "ajouter des fichiers"
-          bold: "gras"
-          bullets: "puces"
-          byte: "octet"
-          bytes: "octets"
-          captionPlaceholder: "ajouter une légende…"
-          code: "code"
-          heading1: "titre"
-          indent: "augmenter le niveau"
-          italic: "italique"
-          link: "lien"
-          numbers: "nombres"
-          outdent: "diminuer le niveau"
-          quote: "citation"
-          redo: "refaire"
-          remove: "supprimer"
-          strike: "barré"
-          undo: "annuler"
-          unlink: "supprimer le lien"
-          url: "url"
-          urlPlaceholder: "entrer une url…"
-          GB: "go"
-          KB: "ko"
-          MB: "mo"
-          PB: "po"
-          TB: "to"
         address:
           not_present: doit être présente
           not_valid: doit être valide
@@ -236,6 +210,33 @@ fr:
           too_short: est trop court
         time_zone:
           not_present: doit être présent(e)
+        trix:
+          GB: go
+          KB: ko
+          MB: mo
+          PB: po
+          TB: to
+          attachFiles: ajouter des fichiers
+          bold: gras
+          bullets: puces
+          byte: octet
+          bytes: octets
+          captionPlaceholder: ajouter une légende…
+          code: code
+          heading1: titre
+          indent: augmenter le niveau
+          italic: italique
+          link: lien
+          numbers: nombres
+          outdent: diminuer le niveau
+          quote: citation
+          redo: refaire
+          remove: supprimer
+          strike: barré
+          undo: annuler
+          unlink: supprimer le lien
+          url: url
+          urlPlaceholder: entrer une url…
         validation:
           not_email:
             feminine: doit être une adresse e-mail
@@ -636,6 +637,10 @@ fr:
       title: utilisateurs
     model:
       to_s: utilisateur#%{id}
+      locales:
+        fr: français
+        en: anglais
+        none: aucun
     new:
       submit: créer un utilisateur
       title: nouvel utilisateur
@@ -644,6 +649,7 @@ fr:
       created_at: créé à
       delete: supprimer l'utilisateur
       edit: modifier l'utilisateur
+      locale: langue
       updated_at: mis à jour à
       verified: vérifié ?
     update:

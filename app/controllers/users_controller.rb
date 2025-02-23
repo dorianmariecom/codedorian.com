@@ -98,6 +98,7 @@ class UsersController < ApplicationController
       params.require(:user).permit(
         :admin,
         :verified,
+        :locale,
         names_attributes: %i[
           id
           _destroy
@@ -132,6 +133,7 @@ class UsersController < ApplicationController
       )
     else
       params.require(:user).permit(
+        :locale,
         names_attributes: %i[id _destroy given_name family_name primary],
         handles_attributes: %i[id _destroy handle primary],
         email_addresses_attributes: %i[id _destroy email_address primary],

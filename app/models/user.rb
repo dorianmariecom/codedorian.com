@@ -86,6 +86,10 @@ class User < ApplicationRecord
     !admin?
   end
 
+  def translated_locale
+    t("locales.#{locale.presence || "none"}")
+  end
+
   def to_s
     name.presence || email_address.presence || phone_number.presence ||
       t("to_s", id:)

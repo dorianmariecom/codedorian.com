@@ -8,6 +8,10 @@
       = f.label :verified, class: "label"
       = f.check_box :verified
 
+  .p
+    = f.label :locale, class: "label"
+    = f.select :locale, locale_options(locale: f.object.locale.presence || I18n.locale), {}, required: true, class: "input", data: { form_type: "other" }, autocomplete: "off"
+
   = render "names/nested", f:
   = render "handles/nested", f:
   = render "email_addresses/nested", f:

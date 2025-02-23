@@ -43,6 +43,7 @@ en:
         verified: verified?
       user:
         admin: admin?
+        locale: language
         verified: verified?
     errors:
       models:
@@ -192,33 +193,6 @@ en:
       english: english
       french: french
       js:
-        trix:
-          attachFiles: "attach files"
-          bold: "bold"
-          bullets: "bullets"
-          byte: "byte"
-          bytes: "bytes"
-          captionPlaceholder: "add a caption…"
-          code: "code"
-          heading1: "heading"
-          indent: "increase level"
-          italic: "italic"
-          link: "link"
-          numbers: "numbers"
-          outdent: "decrease level"
-          quote: "quote"
-          redo: "redo"
-          remove: "remove"
-          strike: "strikethrough"
-          undo: "undo"
-          unlink: "unlink"
-          url: "url"
-          urlPlaceholder: "enter a url…"
-          GB: "gb"
-          KB: "kb"
-          MB: "mb"
-          PB: "pb"
-          TB: "tb"
         address:
           not_present: must be present
           not_valid: must be valid
@@ -236,6 +210,33 @@ en:
           too_short: is too short
         time_zone:
           not_present: must be present
+        trix:
+          GB: gb
+          KB: kb
+          MB: mb
+          PB: pb
+          TB: tb
+          attachFiles: attach files
+          bold: bold
+          bullets: bullets
+          byte: byte
+          bytes: bytes
+          captionPlaceholder: add a caption…
+          code: code
+          heading1: heading
+          indent: increase level
+          italic: italic
+          link: link
+          numbers: numbers
+          outdent: decrease level
+          quote: quote
+          redo: redo
+          remove: remove
+          strike: strikethrough
+          undo: undo
+          unlink: unlink
+          url: url
+          urlPlaceholder: enter a url…
         validation:
           not_email:
             feminine: must be an email address
@@ -636,6 +637,10 @@ en:
       title: users
     model:
       to_s: user#%{id}
+      locales:
+        fr: french
+        en: english
+        none: none
     new:
       submit: create user
       title: new user
@@ -644,6 +649,7 @@ en:
       created_at: created at
       delete: delete user
       edit: edit user
+      locale: language
       updated_at: updated at
       verified: verified?
     update:

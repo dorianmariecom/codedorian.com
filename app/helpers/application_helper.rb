@@ -58,6 +58,21 @@ module ApplicationHelper
       end
   end
 
+  def locale_options(locale: nil)
+    locale = (locale.presence || I18n.locale).to_s
+
+    I18n
+      .available_locales
+      .map(&:to_s)
+      .map do |available_locale|
+        [
+          I18n.t("users.model.locales.#{available_locale}"),
+          available_locale,
+          { selected: available_locale == locale }
+        ]
+      end
+  end
+
   def default_country_code
     PhoneNumber::DEFAULT_COUNTRY_CODE
   end

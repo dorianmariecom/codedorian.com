@@ -4,6 +4,10 @@
   .p.font-bold= t(".admin")
 
 .p
+  .text-gray-600= t(".locale")
+  .font-bold= @user.translated_locale
+
+.p
   .text-gray-600= t(".verified")
   .font-bold= @user.verified
 
