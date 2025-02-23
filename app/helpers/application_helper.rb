@@ -106,4 +106,12 @@ module ApplicationHelper
   def device_tokens
     current_user.devices.map(&:token)
   end
+
+  def fr?
+    I18n.locale == :fr
+  end
+
+  def en?
+    I18n.locale == :en
+  end
 end

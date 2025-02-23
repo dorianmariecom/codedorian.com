@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
   before_action :set_current_user
   before_action :set_time_zone
   before_action :set_paper_trail_whodunnit
+  before_action :set_locale
   after_action :verify_authorized
   after_action :verify_policy_scoped
   after_action :delete_link_header
@@ -92,5 +93,23 @@ class ApplicationController < ActionController::Base
 
   def current_token?
     !!current_token
+  end
+
+  def set_locale
+    I18n.locale =
+      locale_param.presence || current_user&.locale.presence ||
+        browser_locale.presence || I18n.default_locale
+  end
+
+  def browser_locale
+    http_accept_language.compatible_language_from(I18n.available_locales)
+  end
+
+  def locale_param
+    params[:locale].presence_in(I18n.available_locales.map(&:to_s))
+  end
+
+  def default_url_options
+    { locale: locale_param }
   end
 end

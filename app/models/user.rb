@@ -31,6 +31,12 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :phone_numbers, allow_destroy: true
   accepts_nested_attributes_for :time_zones, allow_destroy: true
 
+  validates :locale,
+            inclusion: {
+              in: I18n.available_locales.map(&:to_s)
+            },
+            allow_blank: true
+
   after_create { tokens.create! }
 
   def name

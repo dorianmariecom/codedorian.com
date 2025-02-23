@@ -55,3 +55,7 @@ html
       => link_to t(".privacy"), :privacy, class: "underline"
       => link_to t(".terms"), :terms, class: "underline"
       => link_to t(".up"), :up, class: "underline"
+      - if fr?
+        => link_to t(".english"), url_for(locale: :en), class: "underline"
+      - else
+        => link_to t(".french"), url_for(locale: :fr), class: "underline"

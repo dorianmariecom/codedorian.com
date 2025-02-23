@@ -1,6 +1,4 @@
-- translate in french
-- [users#create] captcha
-- [sessions#create] captcha
+- [all forms] captcha
 - placeholders
 - fakes
 - create message from code

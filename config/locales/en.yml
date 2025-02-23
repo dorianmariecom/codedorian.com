@@ -15,10 +15,10 @@ en:
         primary: primary?
         verified: verified?
       message:
-        from_user_id: from user
-        to_user_id: to user
-        subject: subject
         body: body
+        from_user_id: from user
+        subject: subject
+        to_user_id: to user
       name:
         family_name: family name
         given_name: given name
@@ -61,6 +61,8 @@ en:
       delete_all: delete all
       new: new address
       title: addresses
+    model:
+      to_s: address#%{id}
     nested:
       add: add address
     nested_form:
@@ -85,8 +87,9 @@ en:
       verified: verified?
     update:
       notice: address updated
+  devices:
     model:
-      to_s: address#%{id}
+      to_s: device#%{id}
   email_addresses:
     create:
       notice: email address created
@@ -99,6 +102,8 @@ en:
       delete_all: delete all
       new: new email address
       title: email addresses
+    model:
+      to_s: email_address#%{id}
     nested:
       add: add email address
     nested_form:
@@ -118,14 +123,21 @@ en:
       verified: verified?
     update:
       notice: email address updated
-    model:
-      to_s: email_address#%{id}
+  errors:
+    internal_server_error:
+      title: internal server error
+    not_found:
+      title: not found
+    unprocessable_entity:
+      title: unprocessable entity
   executions:
     destroy:
       notice: execution deleted
     index:
       delete_all: delete all
       title: executions
+    model:
+      to_s: execution#%{id}
     show:
       created_at: created at
       delete: delete execution
@@ -135,8 +147,6 @@ en:
       program: program
       result: result
       updated_at: updated at
-    model:
-      to_s: execution#%{id}
   handles:
     create:
       notice: handle created
@@ -149,6 +159,8 @@ en:
       delete_all: delete all
       new: new handle
       title: handles
+    model:
+      to_s: handle#%{id}
     nested:
       add: add handle
     nested_form:
@@ -168,8 +180,6 @@ en:
       verified: verified?
     update:
       notice: handle updated
-    model:
-      to_s: handle#%{id}
   helpers:
     label:
       session:
@@ -179,8 +189,36 @@ en:
     application:
       about: about
       documentation: documentation
-      up: /up
+      english: english
+      french: french
       js:
+        trix:
+          attachFiles: "attach files"
+          bold: "bold"
+          bullets: "bullets"
+          byte: "byte"
+          bytes: "bytes"
+          captionPlaceholder: "add a caption…"
+          code: "code"
+          heading1: "heading"
+          indent: "increase level"
+          italic: "italic"
+          link: "link"
+          numbers: "numbers"
+          outdent: "decrease level"
+          quote: "quote"
+          redo: "redo"
+          remove: "remove"
+          strike: "strikethrough"
+          undo: "undo"
+          unlink: "unlink"
+          url: "url"
+          urlPlaceholder: "enter a url…"
+          GB: "gb"
+          KB: "kb"
+          MB: "mb"
+          PB: "pb"
+          TB: "tb"
         address:
           not_present: must be present
           not_valid: must be valid
@@ -217,6 +255,7 @@ en:
       source: source
       terms: terms
       title: code
+      up: "/up"
       users: users
   messages:
     create:
@@ -230,6 +269,8 @@ en:
       delete_all: delete all messages
       new: new message
       title: messages
+    model:
+      to_s: message#%{id}
     new:
       submit: create message
       title: new message
@@ -248,8 +289,6 @@ en:
       updated_at: updated at
     update:
       notice: message updated
-    model:
-      to_s: message#%{id}
   names:
     create:
       notice: name created
@@ -262,6 +301,8 @@ en:
       delete_all: delete all
       new: new name
       title: names
+    model:
+      to_s: name#%{id}
     nested:
       add: add name
     nested_form:
@@ -282,8 +323,6 @@ en:
       verified: verified?
     update:
       notice: name updated
-    model:
-      to_s: name#%{id}
   password_validator:
     model:
       sequence:
@@ -307,6 +346,8 @@ en:
       delete_all: delete all
       new: new password
       title: passwords
+    model:
+      to_s: password#%{id}
     nested:
       add: add password
     nested_form:
@@ -327,8 +368,6 @@ en:
       verified: verified?
     update:
       notice: password updated
-    model:
-      to_s: password#%{id}
   phone_numbers:
     create:
       notice: phone number created
@@ -341,6 +380,8 @@ en:
       delete_all: delete all
       new: new phone number
       title: phone numbers
+    model:
+      to_s: phone_number#%{id}
     nested:
       add: add phone number
     nested_form:
@@ -360,8 +401,6 @@ en:
       verified: verified?
     update:
       notice: phone number updated
-    model:
-      to_s: phone_number#%{id}
   programs:
     create:
       notice: program created
@@ -374,6 +413,8 @@ en:
       delete_all: delete all programs
       new: new program
       title: programs
+    model:
+      to_s: program#%{id}
     new:
       submit: create program
       title: new program
@@ -394,8 +435,6 @@ en:
       user: user
     update:
       notice: program updated
-    model:
-      to_s: program#%{id}
   schedules:
     create:
       notice: schedule created
@@ -430,6 +469,7 @@ en:
         one: 1 second
         other: "%{count} seconds"
         zero: 0 seconds
+      to_s: schedule#%{id}
       weeks:
         one: 1 week
         other: "%{count} weeks"
@@ -438,7 +478,6 @@ en:
         one: 1 year
         other: "%{count} years"
         zero: 0 years
-      to_s: schedule#%{id}
     nested:
       add: add schedule
     nested_form:
@@ -489,27 +528,34 @@ en:
       phone_numbers: phone numbers
       time_zones: time zones
   static:
+    about:
+      about_html: |
+        <p>
+          code is the project of
+          <a href="https://dorianmarie.com">dorian marié</a>
+        </p>
+      title: about
+    documentation:
+      title: documentation
     home:
       home_html: |
         <p>welcome to code</p>
         <p>the programming language for the internet age</p>
         <p>here you can use, create, schedule, execute, and manage your programs</p>
       title: home
-    up:
-      title: "/up"
-      up_html: |
-        <p>working</p>
-    documentation:
-      title: documentation
-    about:
-      title: about
-      about_html: |
-        <p>
-          code is the project of
-          <a href="https://dorianmarie.com">dorian marié</a>
-        </p>
+    privacy:
+      privacy_html: |
+        <p>welcome to codedorian.com ("we," "our," "us"). your privacy is important to us. this privacy policy explains how we collect, use, and protect your information when you use our website.</p>
+        <p>we may collect personal information (such as your name, email, and contact details) and non-personal information (such as browser type and ip address) when you use our website.</p>
+        <p>we use your information to provide, improve, and personalize our services, communicate with you, and ensure the security of our website.</p>
+        <p>we may use cookies and similar tracking technologies to enhance your experience. you can control cookie settings through your browser.</p>
+        <p>we may use third-party services for analytics, payment processing, or other functionalities. these third parties have their own privacy policies governing their use of your information.</p>
+        <p>we take reasonable measures to protect your personal information from unauthorized access, disclosure, or loss.</p>
+        <p>you have the right to access, update, or request deletion of your personal information. contact us for assistance.</p>
+        <p>we may update this privacy policy at any time. your continued use of our website signifies your acceptance of any changes.</p>
+        <p>if you have any questions about this privacy policy, please contact us at <a href="mailto:dorian@dorianmarie.com">dorian@dorianmarie.com</a>.</p>
+      title: privacy policy
     source:
-      title: source
       source_html: |
         <p>
           <a href="https://github.com/dorianmariecom/codedorian.com">
@@ -526,8 +572,8 @@ en:
             language-ruby's source
           </a>
         </p>
+      title: source
     terms:
-      title: terms and conditions
       terms_html: |
         <p>welcome to codedorian.com ("we," "our," "us"). by accessing or using our website, you agree to be bound by these terms and conditions. if you do not agree, please do not use our website.</p>
         <p>you agree to use this website only for lawful purposes and in a way that does not infringe on the rights of others or restrict their use of the site.</p>
@@ -536,18 +582,10 @@ en:
         <p>our website may contain links to third-party sites. we are not responsible for the content or privacy policies of these external sites.</p>
         <p>we may update these terms and conditions at any time. your continued use of the website signifies your acceptance of the updated terms.</p>
         <p>for any questions regarding these terms, please contact us at <a href="mailto:dorian@dorianmarie.com">dorian@dorianmarie.com</a>.</p>
-    privacy:
-      title: privacy policy
-      privacy_html: |
-        <p>welcome to codedorian.com ("we," "our," "us"). your privacy is important to us. this privacy policy explains how we collect, use, and protect your information when you use our website.</p>
-        <p>we may collect personal information (such as your name, email, and contact details) and non-personal information (such as browser type and ip address) when you use our website.</p>
-        <p>we use your information to provide, improve, and personalize our services, communicate with you, and ensure the security of our website.</p>
-        <p>we may use cookies and similar tracking technologies to enhance your experience. you can control cookie settings through your browser.</p>
-        <p>we may use third-party services for analytics, payment processing, or other functionalities. these third parties have their own privacy policies governing their use of your information.</p>
-        <p>we take reasonable measures to protect your personal information from unauthorized access, disclosure, or loss.</p>
-        <p>you have the right to access, update, or request deletion of your personal information. contact us for assistance.</p>
-        <p>we may update this privacy policy at any time. your continued use of our website signifies your acceptance of any changes.</p>
-        <p>if you have any questions about this privacy policy, please contact us at <a href="mailto:dorian@dorianmarie.com">dorian@dorianmarie.com</a>.</p>
+      title: terms and conditions
+    up:
+      title: "/up"
+      up_html: "<p>working</p>\n"
   time_zones:
     create:
       notice: time zone created
@@ -560,6 +598,8 @@ en:
       delete_all: delete all
       new: new time zone
       title: time zones
+    model:
+      to_s: time_zone#%{id}
     nested:
       add: add time zone
     nested_form:
@@ -579,8 +619,9 @@ en:
       verified: verified?
     update:
       notice: time zone updated
+  tokens:
     model:
-      to_s: time_zone#%{id}
+      to_s: token#%{id}
   users:
     create:
       notice: user created
@@ -593,6 +634,8 @@ en:
       delete_all: delete all
       new: new user
       title: users
+    model:
+      to_s: user#%{id}
     new:
       submit: create user
       title: new user
@@ -605,18 +648,3 @@ en:
       verified: verified?
     update:
       notice: user updated
-    model:
-      to_s: user#%{id}
-  tokens:
-    model:
-      to_s: token#%{id}
-  devices:
-    model:
-      to_s: device#%{id}
-  errors:
-    not_found:
-      title: not found
-    internal_server_error:
-      title: internal server error
-    unprocessable_entity:
-      title: unprocessable entity

@@ -81,31 +81,33 @@ Rails.application.routes.draw do
 
   default_url_options(host: ENV.fetch("BASE_URL"))
 
-  constraints AdminConstraints.new do
-    mount SolidErrors::Engine, at: "/errors", as: :errors
-    mount MissionControl::Jobs::Engine, at: "/jobs", as: :jobs
+  scope "(:locale)", locale: /en|fr|/ do
+    constraints AdminConstraints.new do
+      mount SolidErrors::Engine, at: "/errors", as: :errors
+      mount MissionControl::Jobs::Engine, at: "/jobs", as: :jobs
+    end
+
+    resources(:guests, &define)
+    resources(:users, &define)
+    define.call
+
+    resources :country_codes
+    resources :password_validations
+    resource :session
+
+    patch :time_zone, to: "users#update_time_zone"
+
+    get "up", to: "static#up"
+    get "documentation", to: "static#documentation"
+    get "about", to: "static#about"
+    get "terms", to: "static#terms"
+    get "privacy", to: "static#privacy"
+    get "source", to: "static#source"
+
+    match "/404", to: "errors#not_found", via: :all
+    match "/422", to: "errors#unprocessable_entity", via: :all
+    match "/500", to: "errors#internal_server_error", via: :all
+
+    root to: "static#home"
   end
-
-  resources(:guests, &define)
-  resources(:users, &define)
-  define.call
-
-  resources :country_codes
-  resources :password_validations
-  resource :session
-
-  patch :time_zone, to: "users#update_time_zone"
-
-  get "up", to: "static#up"
-  get "documentation", to: "static#documentation"
-  get "about", to: "static#about"
-  get "terms", to: "static#terms"
-  get "privacy", to: "static#privacy"
-  get "source", to: "static#source"
-
-  match "/404", to: "errors#not_found", via: :all
-  match "/422", to: "errors#unprocessable_entity", via: :all
-  match "/500", to: "errors#internal_server_error", via: :all
-
-  root to: "static#home"
 end
