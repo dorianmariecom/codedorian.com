@@ -1,8 +1,7 @@
-@import url("tailwindcss/base");
-@import url("tailwindcss/utilities");
-@import url("tailwindcss/components");
-@import url("intl-tel-input/build/css/intlTelInput.css");
-@import "actiontext.css";
+@import "tailwindcss/base";
+@import "tailwindcss/utilities";
+@import "tailwindcss/components";
+@import "intl-tel-input/build/css/intlTelInput.css";
 
 [hidden] {
   @apply hidden;
@@ -74,4 +73,72 @@ a {
 .code {
   @apply whitespace-pre font-mono rounded overflow-auto;
   @apply border-black border p-2 w-fit;
+}
+
+.content {
+  p {
+    @apply mb-5;
+  }
+
+  a {
+    @apply underline;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-bold;
+  }
+
+  blockquote {
+    @apply border-l border-black pl-2;
+  }
+
+  pre {
+    @apply code;
+  }
+}
+
+trix-editor {
+  @apply min-h-24;
+
+  p {
+    @apply mb-5;
+  }
+
+  a {
+    @apply underline;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-bold;
+  }
+
+  blockquote {
+    @apply border-l border-black pl-2;
+  }
+
+  pre {
+    @apply code;
+  }
+
+  ul {
+    @apply list-disc pl-5;
+  }
+}
+
+trix-toolbar {
+  @apply max-w-sm whitespace-normal;
+
+  .trix-button {
+    @apply border border-black px-2 py-1 mb-2;
+  }
 }
