@@ -38,7 +38,6 @@ class ApplicationController < ActionController::Base
 
   rescue_from Recaptcha::VerifyError do |error|
     redirect_to root_path, alert: error.message
-    binding.irb
   end
 
   def current_user

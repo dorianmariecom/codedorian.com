@@ -140,20 +140,14 @@ module ApplicationHelper
 
   def form_for(record, options = {}, &block)
     super(record, options) do |f|
-      safe_join([
-        capture(f, &block),
-        recaptcha_tag
-      ])
+      safe_join([capture(f, &block), recaptcha_tag])
     end
   end
 
   def button_to(...)
     super.sub(
-      '</form>',
-      safe_join([
-        recaptcha_tag,
-        "</form>".html_safe
-      ])
+      "</form>",
+      safe_join([recaptcha_tag, "</form>".html_safe])
     ).html_safe
   end
 end

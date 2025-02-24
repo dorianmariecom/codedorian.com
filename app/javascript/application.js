@@ -12,4 +12,3 @@ Object.entries(window.translations.trix).forEach(([key, value]) => {
 [...document.querySelectorAll("[type=submit]")].forEach((element) => {
   element.disabled = true;
 });
-

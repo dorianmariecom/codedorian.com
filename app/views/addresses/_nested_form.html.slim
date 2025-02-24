@@ -11,7 +11,7 @@
     = f.hidden_field :place_id, data: { address_target: "placeId" }
     = f.hidden_field :types, data: { address_target: "types" }
     = f.label :address, class: "label", data: { address_target: "label" }
-    = f.text_field :address, class: "input", required: true, data: { address_target: "input", action: "address#input keydown->address#keydown", form_type: "other" }, autocomplete: "street-address"
+    = f.text_field :address, class: "input", required: true, data: { address_target: "input", action: "address#input keydown->address#keydown", form_type: "other" }, autocomplete: "street-address", placeholder: t(".address_placeholder")
     .text-red-600(hidden data-address-target="error")
     .text-gray-600= Faker::Address.full_address
 

@@ -1,0 +1,37 @@
+#!/usr/bin/env ruby
+
+require "dotenv"
+require "easy_translate"
+require "yaml"
+require "readline"
+
+Dotenv.load(".env.development.local")
+
+EasyTranslate.api_key = ENV.fetch("EASY_TRANSLATE_API_KEY")
+
+FROM_PATH = "config/locales/en.yml"
+TO_PATH = "config/locales/fr.yml"
+FROM_YAML = YAML.safe_load_file(FROM_PATH)
+TO_YAML = YAML.safe_load_file(TO_PATH)
+
+def translate(from_yaml, to_yaml)
+  if from_yaml.is_a?(Hash)
+    from_yaml.transform_keys { |key| translate(from_yaml[key], to_yaml&.dig(key)) }
+  else
+    return to_yaml if to_yaml
+
+    puts from_yaml
+
+    translation = EasyTranslate.translate(from_yaml, from: :en, to: :fr)
+    translation = translation.downcase
+
+    Readline.pre_input_hook = -> {
+      Readline.insert_text(translation)
+      Readline.redisplay
+    }
+
+    Readline.readline("> ", true).strip
+  end
+end
+
+File.write(TO_PATH, { "fr" => translate(FROM_YAML["en"], TO_YAML["fr"]) }.to_yaml)

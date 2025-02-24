@@ -25,6 +25,7 @@ en:
         primary: primary?
         verified: verified?
       password:
+        hint: hint
         password: password
         primary: primary?
         verified: verified?
@@ -58,6 +59,8 @@ en:
     edit:
       submit: update address
       title: edit address
+    form:
+      address_placeholder: enter your address
     index:
       delete_all: delete all
       new: new address
@@ -68,6 +71,7 @@ en:
       add: add address
     nested_form:
       address: address
+      address_placeholder: enter your address
       remove: remove address
     new:
       submit: create address
@@ -99,6 +103,8 @@ en:
     edit:
       submit: update email address
       title: edit email address
+    form:
+      email_address_placeholder: enter your email address
     index:
       delete_all: delete all
       new: new email address
@@ -109,6 +115,7 @@ en:
       add: add email address
     nested_form:
       email_address: email address
+      email_address_placeholder: enter your email address
       remove: remove email address
     new:
       submit: create email address
@@ -156,6 +163,8 @@ en:
     edit:
       submit: update handle
       title: edit handle
+    form:
+      handle_placeholder: enter your handle
     index:
       delete_all: delete all
       new: new handle
@@ -166,6 +175,7 @@ en:
       add: add handle
     nested_form:
       handle: handle
+      handle_placeholder: enter your handle
       remove: remove handle
     new:
       submit: create handle
@@ -266,6 +276,9 @@ en:
     edit:
       submit: update message
       title: edit message
+    form:
+      body_placeholder: enter your message's body
+      subject_placeholder: enter your message's subject
     index:
       delete_all: delete all messages
       new: new message
@@ -298,6 +311,9 @@ en:
     edit:
       submit: update name
       title: edit name
+    form:
+      family_name_placeholder: enter your family name
+      given_name_placeholder: enter your given name
     index:
       delete_all: delete all
       new: new name
@@ -307,6 +323,8 @@ en:
     nested:
       add: add name
     nested_form:
+      family_name_placeholder: enter your family name
+      given_name_placeholder: enter your given name
       name: name
       remove: remove name
     new:
@@ -343,6 +361,9 @@ en:
     edit:
       submit: update password
       title: edit password
+    form:
+      hint_placeholder: enter your password's hint
+      password_placeholder: enter your password
     index:
       delete_all: delete all
       new: new password
@@ -352,7 +373,9 @@ en:
     nested:
       add: add password
     nested_form:
+      hint_placeholder: enter your password's hint
       password: password
+      password_placeholder: enter your password
       remove: remove password
     new:
       submit: create password
@@ -377,6 +400,8 @@ en:
     edit:
       submit: update phone number
       title: edit phone number
+    form:
+      phone_number_placeholder: enter your phone number
     index:
       delete_all: delete all
       new: new phone number
@@ -387,6 +412,7 @@ en:
       add: add phone number
     nested_form:
       phone_number: phone number
+      phone_number_placeholder: enter your phone number
       remove: remove phone number
     new:
       submit: create phone number
@@ -410,6 +436,10 @@ en:
     edit:
       submit: update program
       title: edit program
+    form:
+      fake_input: Http.get("https://google.com")
+      input_placeholder: enter your program's input
+      name_placeholder: enter your program's name
     index:
       delete_all: delete all programs
       new: new program
@@ -636,11 +666,11 @@ en:
       new: new user
       title: users
     model:
-      to_s: user#%{id}
       locales:
-        fr: french
         en: english
+        fr: french
         none: none
+      to_s: user#%{id}
     new:
       submit: create user
       title: new user

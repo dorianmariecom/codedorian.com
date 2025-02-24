@@ -9,10 +9,12 @@
 
   .p
     = f.label :subject, class: "label"
-    = f.rich_textarea :subject, class: "input"
+    = f.rich_textarea :subject, placeholder: t(".subject_placeholder"), class: "input"
+    .text-gray-600= Faker::Lorem.sentence
 
   .p
     = f.label :body, class: "label"
-    = f.rich_textarea :body, class: "input"
+    = f.rich_textarea :body, placeholder: t(".body_placeholder"), class: "input"
+    .text-gray-600= Faker::Lorem.paragraph
 
   .p= f.submit submit, class: "button"

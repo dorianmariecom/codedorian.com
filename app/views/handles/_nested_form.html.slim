@@ -6,7 +6,7 @@
 
   .p(data-controller="validation" data-validation-trim-value="true" data-validation-gender-value="masculine")
     = f.label :handle, class: "label", data: { validation_target: "label" }
-    = f.text_field :handle, class: "input", required: true, data: { validation_target: "input", action: "validation#input", form_type: "other" }, autocomplete: "username"
+    = f.text_field :handle, class: "input", required: true, data: { validation_target: "input", action: "validation#input", form_type: "other" }, autocomplete: "username", placeholder: t(".handle_placeholder")
     .text-red-600(hidden data-validation-target="error")
     .text-gray-600= Faker::Internet.username
 

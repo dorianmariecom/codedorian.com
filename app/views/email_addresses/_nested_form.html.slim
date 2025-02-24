@@ -6,7 +6,7 @@
 
   .p(data-controller="validation" data-validation-trim-value="true" data-validation-gender-value="feminine")
     = f.label :email_address, class: "label", data: { validation_target: "label" }
-    = f.email_field :email_address, class: "input", required: true, data: { validation_target: "input", action: "validation#input", form_type: "other" }, autocomplete: "email"
+    = f.email_field :email_address, class: "input", required: true, data: { validation_target: "input", action: "validation#input", form_type: "other" }, autocomplete: "email", placeholder: t(".email_address_placeholder")
     .text-red-600(hidden data-validation-target="error")
     .text-gray-600= Faker::Internet.email
 
