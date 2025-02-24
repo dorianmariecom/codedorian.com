@@ -25,6 +25,7 @@ fr:
         primary: primaire ?
         verified: vérifié ?
       password:
+        hint: indice
         password: mot de passe
         primary: primaire ?
         verified: vérifié ?
@@ -58,6 +59,8 @@ fr:
     edit:
       submit: mettre à jour l'adresse
       title: modifier l'adresse
+    form:
+      address_placeholder: entrez votre adresse
     index:
       delete_all: tout supprimer
       new: nouvelle adresse
@@ -68,6 +71,7 @@ fr:
       add: ajouter une adresse
     nested_form:
       address: adresse
+      address_placeholder: entrez votre adresse
       remove: supprimer l'adresse
     new:
       submit: créer une adresse
@@ -99,6 +103,8 @@ fr:
     edit:
       submit: mettre à jour l'adresse e-mail
       title: modifier l'adresse e-mail
+    form:
+      email_address_placeholder: entrez votre adresse email
     index:
       delete_all: tout supprimer
       new: nouvelle adresse e-mail
@@ -109,6 +115,7 @@ fr:
       add: ajouter une adresse e-mail
     nested_form:
       email_address: adresse e-mail
+      email_address_placeholder: entrez votre adresse email
       remove: supprimer l'adresse e-mail
     new:
       submit: créer une adresse e-mail
@@ -156,6 +163,8 @@ fr:
     edit:
       submit: mettre à jour l'identifiant
       title: modifier l'identifiant
+    form:
+      handle_placeholder: entrez votre pseudo
     index:
       delete_all: tout supprimer
       new: nouvel identifiant
@@ -166,6 +175,7 @@ fr:
       add: ajouter un identifiant
     nested_form:
       handle: identifiant
+      handle_placeholder: entrez votre pseudo
       remove: supprimer l'identifiant
     new:
       submit: créer un identifiant
@@ -266,6 +276,9 @@ fr:
     edit:
       submit: mettre à jour le message
       title: modifier le message
+    form:
+      body_placeholder: entrez le corps de votre message
+      subject_placeholder: entrez l'objet de votre message
     index:
       delete_all: supprimer tous les messages
       new: nouveau message
@@ -298,6 +311,9 @@ fr:
     edit:
       submit: mettre à jour le nom
       title: modifier le nom
+    form:
+      family_name_placeholder: entrez votre nom de famille
+      given_name_placeholder: entrez votre prénom
     index:
       delete_all: tout supprimer
       new: nouveau nom
@@ -307,6 +323,8 @@ fr:
     nested:
       add: ajouter un nom
     nested_form:
+      family_name_placeholder: entrez votre nom de famille
+      given_name_placeholder: entrez votre prénom
       name: nom
       remove: supprimer le nom
     new:
@@ -343,6 +361,9 @@ fr:
     edit:
       submit: mettre à jour le mot de passe
       title: modifier le mot de passe
+    form:
+      hint_placeholder: entrez l'indice de votre mot de passe
+      password_placeholder: entrez votre mot de passe
     index:
       delete_all: tout supprimer
       new: nouveau mot de passe
@@ -352,7 +373,9 @@ fr:
     nested:
       add: ajouter un mot de passe
     nested_form:
+      hint_placeholder: entrez l'indice de votre mot de passe
       password: mot de passe
+      password_placeholder: entrez votre mot de passe
       remove: supprimer le mot de passe
     new:
       submit: créer un mot de passe
@@ -377,6 +400,8 @@ fr:
     edit:
       submit: mettre à jour le numéro de téléphone
       title: modifier le numéro de téléphone
+    form:
+      phone_number_placeholder: entrez votre numéro de téléphone
     index:
       delete_all: tout supprimer
       new: nouveau numéro de téléphone
@@ -387,6 +412,7 @@ fr:
       add: ajouter un numéro de téléphone
     nested_form:
       phone_number: numéro de téléphone
+      phone_number_placeholder: entrez votre numéro de téléphone
       remove: supprimer le numéro de téléphone
     new:
       submit: créer un numéro de téléphone
@@ -410,6 +436,10 @@ fr:
     edit:
       submit: mettre à jour le programme
       title: modifier le programme
+    form:
+      fake_input: Http.get("https://google.com")
+      input_placeholder: entrez l'entrée de votre programme
+      name_placeholder: entrez le nom de votre programme
     index:
       delete_all: supprimer tous les programmes
       new: nouveau programme
@@ -636,11 +666,11 @@ fr:
       new: nouvel utilisateur
       title: utilisateurs
     model:
-      to_s: utilisateur#%{id}
       locales:
-        fr: français
         en: anglais
+        fr: français
         none: aucun
+      to_s: utilisateur#%{id}
     new:
       submit: créer un utilisateur
       title: nouvel utilisateur
