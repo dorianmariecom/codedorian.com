@@ -50,6 +50,7 @@ gem "solid_errors"
 gem "solid_queue"
 gem "stimulus-rails"
 gem "tailwindcss-rails"
+gem "recaptcha"
 
 group :production do
   gem "rack-timeout"

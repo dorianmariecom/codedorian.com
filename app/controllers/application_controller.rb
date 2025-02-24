@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
   before_action :set_time_zone
   before_action :set_paper_trail_whodunnit
   before_action :set_locale
+  before_action :verify_captcha
   after_action :verify_authorized
   after_action :verify_policy_scoped
   after_action :delete_link_header
@@ -33,6 +34,11 @@ class ApplicationController < ActionController::Base
 
   rescue_from ActionController::MissingExactTemplate do |error|
     redirect_to root_path, alert: error.message
+  end
+
+  rescue_from Recaptcha::VerifyError do |error|
+    redirect_to root_path, alert: error.message
+    binding.irb
   end
 
   def current_user
@@ -111,5 +117,19 @@ class ApplicationController < ActionController::Base
 
   def default_url_options
     { locale: locale_param }
+  end
+
+  def recaptcha_secret_key
+    Rails.application.credentials.google_com_recaptcha.secret_key
+  end
+
+  def verify_captcha
+    return if request.get?
+
+    verify_recaptcha!(
+      action: :submit,
+      recaptcha_v3: true,
+      secret_key: recaptcha_secret_key
+    )
   end
 end

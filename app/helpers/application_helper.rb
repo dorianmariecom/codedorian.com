@@ -129,4 +129,31 @@ module ApplicationHelper
   def en?
     I18n.locale == :en
   end
+
+  def recaptcha_site_key
+    Rails.application.credentials.google_com_recaptcha.site_key
+  end
+
+  def recaptcha_tag
+    recaptcha_v3(action: :submit, site_key: recaptcha_site_key, turbo: true)
+  end
+
+  def form_for(record, options = {}, &block)
+    super(record, options) do |f|
+      safe_join([
+        capture(f, &block),
+        recaptcha_tag
+      ])
+    end
+  end
+
+  def button_to(...)
+    super.sub(
+      '</form>',
+      safe_join([
+        recaptcha_tag,
+        "</form>".html_safe
+      ])
+    ).html_safe
+  end
 end

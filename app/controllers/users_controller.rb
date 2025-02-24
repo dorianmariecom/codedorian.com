@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   before_action :load_user, only: %i[show edit update destroy]
   skip_after_action :verify_policy_scoped, only: %i[new create update_time_zone]
   skip_after_action :verify_authorized, only: :update_time_zone
+  skip_before_action :verify_captcha, only: :update_time_zone
   helper_method :url, :new_url
 
   def index

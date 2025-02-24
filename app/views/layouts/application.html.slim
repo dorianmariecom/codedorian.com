@@ -59,3 +59,11 @@ html
         => link_to t(".english"), url_for(locale: :en), class: "underline"
       - else
         => link_to t(".french"), url_for(locale: :fr), class: "underline"
+
+    javascript:
+      window.setInputWithRecaptchaResponseTokenForSubmit = (id, token) => {
+        [...document.querySelectorAll(`#${id}`)].forEach((element) => {
+          element.value = token;
+          element.parentElement.querySelector("[type=submit]").disabled = false;
+        });
+      }

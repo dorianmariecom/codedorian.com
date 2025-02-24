@@ -29,6 +29,10 @@ a {
   &.button--red {
     @apply text-red-600;
   }
+
+  &:disabled {
+    @apply bg-gray-500 pointer-events-none;
+  }
 }
 
 .label {
@@ -141,4 +145,8 @@ trix-toolbar {
   .trix-button {
     @apply border border-black px-2 py-1 mb-2;
   }
+}
+
+.grecaptcha-badge {
+  @apply hidden;
 }

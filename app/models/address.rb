@@ -16,27 +16,33 @@ class Address < ApplicationRecord
   before_update { unverify! if address_changed? && (verified? || verifying?) }
 
   def address_components=(address_components)
-    if address_components.is_a?(String)
+    if address_components.is_a?(String) && address_components.present?
       super(JSON.parse(address_components))
     else
       super
     end
+  rescue JSON::ParserError
+    super
   end
 
   def geometry=(geometry)
-    if geometry.is_a?(String)
+    if geometry.is_a?(String) && geometry.present?
       super(JSON.parse(geometry))
     else
       super
     end
+  rescue JSON::ParserError
+    super
   end
 
   def types=(types)
-    if types.is_a?(String)
+    if types.is_a?(String) && types.present?
       super(JSON.parse(types))
     else
       super
     end
+  rescue JSON::ParserError
+    super
   end
 
   def primary?
