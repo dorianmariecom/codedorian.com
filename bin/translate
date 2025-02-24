@@ -16,21 +16,21 @@ TO_YAML = YAML.safe_load_file(TO_PATH)
 
 def translate(from_yaml, to_yaml)
   if from_yaml.is_a?(Hash)
-    from_yaml.transform_keys { |key| translate(from_yaml[key], to_yaml&.dig(key)) }
+    from_yaml.map { |key, value| [key, translate(from_yaml[key], to_yaml&.dig(key))] }.to_h
   else
     return to_yaml if to_yaml
 
     puts from_yaml
 
     translation = EasyTranslate.translate(from_yaml, from: :en, to: :fr)
-    translation = translation.downcase
+    translation = translation
 
     Readline.pre_input_hook = -> {
       Readline.insert_text(translation)
       Readline.redisplay
     }
 
-    Readline.readline("> ", true).strip
+    Readline.readline("> ", true)
   end
 end
 
