@@ -6,7 +6,7 @@ class TimeZone < ApplicationRecord
       time_zone.tzinfo.canonical_identifier
     end
 
-  belongs_to :user, default: -> { Current.user }, touch: true
+  belongs_to :user, default: -> { Current.user! }, touch: true
 
   scope :primary, -> { where(primary: true) }
   scope :not_primary, -> { where(primary: false) }
@@ -41,6 +41,6 @@ class TimeZone < ApplicationRecord
   end
 
   def to_s
-    time_zone.presence || "time_zone##{id}"
+    time_zone.presence || t("to_s", id:)
   end
 end

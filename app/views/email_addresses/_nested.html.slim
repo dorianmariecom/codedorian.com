@@ -1,0 +1,13 @@
+div(data-controller="nested" data-nested-selector-value=".email-address")
+  template(data-nested-target="template")
+    = f.fields_for :email_addresses, EmailAddress.new, child_index: "NEW_RECORD" do |email_address_f|
+      = render "email_addresses/nested_form", f: email_address_f
+
+  = f.fields_for :email_addresses do |email_address_f|
+    = render "email_addresses/nested_form", f: email_address_f
+
+  div(data-nested-target="target")
+
+  .p
+    button.button.button--link(data-action="nested#add")
+      = t(".add")

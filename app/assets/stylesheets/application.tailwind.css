@@ -1,8 +1,152 @@
-@import url("tailwindcss/base");
-@import url("tailwindcss/components");
-@import url("tailwindcss/utilities");
-@import url("intl-tel-input/build/css/intlTelInput");
+@import "tailwindcss/base";
+@import "tailwindcss/utilities";
+@import "tailwindcss/components";
+@import "intl-tel-input/build/css/intlTelInput.css";
+
+[hidden] {
+  @apply hidden;
+}
+
+a {
+  @apply cursor-pointer;
+}
 
 .p {
-  @apply pb-5;
+  @apply mb-5;
+}
+
+.button {
+  @apply bg-black hover:bg-gray-800 focus:bg-gray-600;
+  @apply px-4 py-2 rounded text-white;
+
+  &.button--link {
+    @apply underline;
+    @apply rounded-none p-0;
+    @apply bg-transparent hover:bg-transparent focus:bg-transparent;
+    @apply text-black;
+  }
+
+  &.button--red {
+    @apply text-red-600;
+  }
+
+  &:disabled {
+    @apply bg-gray-500 pointer-events-none;
+  }
+}
+
+.label {
+  @apply block;
+
+  .field_with_errors & {
+    @apply text-red-600;
+  }
+}
+
+.input {
+  @apply p-2 rounded w-full text-black;
+  @apply border border-black hover:border-gray-800 focus:border-gray-600;
+  @apply focus:ring-offset-0 focus:ring-0;
+  @apply max-w-xs;
+
+  &[type="checkbox"] {
+    @apply w-auto;
+  }
+
+  .field_with_errors & {
+    @apply border-red-600;
+  }
+
+  &.input--touched:invalid {
+    @apply border-red-600;
+  }
+}
+
+.center {
+  @apply flex grow items-center justify-center;
+}
+
+.iti {
+  @apply block;
+
+  .iti__tel-input {
+    padding-left: 50px;
+  }
+}
+
+.code {
+  @apply whitespace-pre font-mono rounded overflow-auto;
+  @apply border-black border p-2 w-fit;
+}
+
+.content {
+  p {
+    @apply mb-5;
+  }
+
+  a {
+    @apply underline;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-bold;
+  }
+
+  blockquote {
+    @apply border-l border-black pl-2;
+  }
+
+  pre {
+    @apply code;
+  }
+}
+
+trix-editor {
+  @apply min-h-24;
+
+  p {
+    @apply mb-5;
+  }
+
+  a {
+    @apply underline;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-bold;
+  }
+
+  blockquote {
+    @apply border-l border-black pl-2;
+  }
+
+  pre {
+    @apply code;
+  }
+
+  ul {
+    @apply list-disc pl-5;
+  }
+}
+
+trix-toolbar {
+  @apply max-w-sm whitespace-normal;
+
+  .trix-button {
+    @apply border border-black px-2 py-1 mb-2;
+  }
+}
+
+.grecaptcha-badge {
+  @apply hidden;
 }

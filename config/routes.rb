@@ -13,7 +13,7 @@ Rails.application.routes.draw do
         collection { delete "/", to: "programs#destroy_all" }
         post :evaluate
         post :schedule
-        delete "schedule", to: "programs#unschedule"
+        post :unschedule
 
         resources(:executions) do
           collection { delete "/", to: "executions#destroy_all" }
@@ -59,7 +59,18 @@ Rails.application.routes.draw do
       end
 
       resources(:messages) do
+        post :read
+        post :unread
+
         collection { delete "/", to: "messages#destroy_all" }
+      end
+
+      resources(:handles) do
+        collection { delete "/", to: "handles#destroy_all" }
+      end
+
+      resources(:addresses) do
+        collection { delete "/", to: "addresses#destroy_all" }
       end
 
       resources(:guests) { collection { delete "/", to: "guests#destroy_all" } }
@@ -70,31 +81,33 @@ Rails.application.routes.draw do
 
   default_url_options(host: ENV.fetch("BASE_URL"))
 
-  constraints AdminConstraints.new do
-    mount SolidErrors::Engine, at: "/errors", as: :errors
-    mount MissionControl::Jobs::Engine, at: "/jobs", as: :jobs
+  scope "(:locale)", locale: /en|fr|/ do
+    constraints AdminConstraints.new do
+      mount SolidErrors::Engine, at: "/errors", as: :errors
+      mount MissionControl::Jobs::Engine, at: "/jobs", as: :jobs
+    end
+
+    resources(:guests, &define)
+    resources(:users, &define)
+    define.call
+
+    resources :country_codes
+    resources :password_validations
+    resource :session
+
+    patch :time_zone, to: "users#update_time_zone"
+
+    get "up", to: "static#up"
+    get "documentation", to: "static#documentation"
+    get "about", to: "static#about"
+    get "terms", to: "static#terms"
+    get "privacy", to: "static#privacy"
+    get "source", to: "static#source"
+
+    match "/404", to: "errors#not_found", via: :all
+    match "/422", to: "errors#unprocessable_entity", via: :all
+    match "/500", to: "errors#internal_server_error", via: :all
+
+    root to: "static#home"
   end
-
-  resources(:guests, &define)
-  resources(:users, &define)
-  define.call
-
-  resources :country_codes
-  resources :password_validations
-  resource :session
-
-  match "/auth/callback/messenger", to: "messenger#create", via: :all
-
-  get "up", to: "static#up"
-  get "documentation", to: "static#documentation"
-  get "about", to: "static#about"
-  get "terms", to: "static#terms"
-  get "privacy", to: "static#privacy"
-  get "source", to: "static#source"
-
-  match "/404", to: "errors#not_found", via: :all
-  match "/422", to: "errors#unprocessable_entity", via: :all
-  match "/500", to: "errors#internal_server_error", via: :all
-
-  root to: "static#home"
 end

@@ -8,6 +8,10 @@ class ApplicationController < ActionController::Base
   skip_forgery_protection if: :current_token?
 
   before_action :set_current_user
+  before_action :set_time_zone
+  before_action :set_paper_trail_whodunnit
+  before_action :set_locale
+  before_action :verify_captcha
   after_action :verify_authorized
   after_action :verify_policy_scoped
   after_action :delete_link_header
@@ -16,6 +20,7 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user
   helper_method :current_user?
+  helper_method :current_time_zone
   helper_method :admin?
   helper_method :can?
 
@@ -24,6 +29,14 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from ActiveRecord::RecordNotFound do |error|
+    redirect_to root_path, alert: error.message
+  end
+
+  rescue_from ActionController::MissingExactTemplate do |error|
+    redirect_to root_path, alert: error.message
+  end
+
+  rescue_from Recaptcha::VerifyError do |error|
     redirect_to root_path, alert: error.message
   end
 
@@ -45,8 +58,12 @@ class ApplicationController < ActionController::Base
     log_in(current_user_from_session || current_token&.user)
   end
 
+  def set_time_zone
+    Current.time_zone ||= session[:time_zone]
+  end
+
   def log_in(user)
-    if Current.user && session[:user_id].present?
+    if Current.user && session[:user_id].present? && user != Current.user
       # leave it as is
     elsif user&.id
       Current.user = user
@@ -75,7 +92,43 @@ class ApplicationController < ActionController::Base
     Token.find_by(token: request.headers[:Token])
   end
 
+  def current_time_zone
+    current_user&.time_zone || session[:time_zone].presence
+  end
+
   def current_token?
     !!current_token
+  end
+
+  def set_locale
+    I18n.locale =
+      locale_param.presence || current_user&.locale.presence ||
+        browser_locale.presence || I18n.default_locale
+  end
+
+  def browser_locale
+    http_accept_language.compatible_language_from(I18n.available_locales)
+  end
+
+  def locale_param
+    params[:locale].presence_in(I18n.available_locales.map(&:to_s))
+  end
+
+  def default_url_options
+    { locale: locale_param }
+  end
+
+  def recaptcha_secret_key
+    Rails.application.credentials.google_com_recaptcha.secret_key
+  end
+
+  def verify_captcha
+    return if request.get?
+
+    verify_recaptcha!(
+      action: :submit,
+      recaptcha_v3: true,
+      secret_key: recaptcha_secret_key
+    )
   end
 end

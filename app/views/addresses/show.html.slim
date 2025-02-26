@@ -1,0 +1,60 @@
+- content_for(:title, @address)
+
+- if @address.user.present?
+  .p
+    .text-gray-600= t(".user")
+
+    - if can?(:show, @address.user)
+      .font-bold= link_to @address.user, @address.user, class: "underline"
+    - else
+      .font-bold= @address.user
+
+- if @address.address.present?
+  .p
+    .text-gray-600= t(".address")
+    .font-bold= @address.address
+
+- if @address.formatted_address.present?
+  .p
+    .text-gray-600= t(".formatted_address")
+    .font-bold= @address.formatted_address
+
+- if @address.address_components.present?
+  .p
+    .text-gray-600= t(".address_components")
+    .code= JSON.pretty_generate(@address.address_components)
+
+- if @address.geometry.present?
+  .p
+    .text-gray-600= t(".geometry")
+    .code= JSON.pretty_generate(@address.geometry)
+
+- if @address.place_id.present?
+  .p
+    .text-gray-600= t(".place_id")
+    .font-bold= @address.place_id
+
+- if @address.types.present?
+  .p
+    .text-gray-600= t(".types")
+    .code= JSON.pretty_generate(@address.types)
+
+.p
+  .text-gray-600= t(".primary")
+  .font-bold= @address.primary?
+
+.p
+  .text-gray-600= t(".verified")
+  .font-bold= @address.verified?
+
+.p
+  .text-gray-600= t(".updated_at")
+  .font-bold= local_time(@address.updated_at)
+
+.p
+  .text-gray-600= t(".created_at")
+  .font-bold= local_time(@address.created_at)
+
+.p
+  => link_to t(".edit"), [:edit, @address], class: "underline"
+  => button_to t(".delete"), @address, method: :delete, class: "underline", form_class: "inline-block"

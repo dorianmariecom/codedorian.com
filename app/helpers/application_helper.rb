@@ -13,34 +13,6 @@ module ApplicationHelper
     Rails.application.credentials.console_cloud_google_com.api_key
   end
 
-  def fake_locations
-    Array.new(3) { Faker::Address.full_address }
-  end
-
-  def fake_verification_codes(length: 4)
-    Array.new(3) { rand(10**length).to_s.rjust(length, "0") }
-  end
-
-  def fake_email_addresses
-    Array.new(3) { Faker::Internet.email }
-  end
-
-  def fake_phone_numbers
-    Array.new(3) { Faker::PhoneNumber.phone_number_with_country_code }
-  end
-
-  def fake_passwords
-    Array.new(3) { Faker::Internet.password }
-  end
-
-  def fake_time_zones
-    TimeZone::TIME_ZONES.sample(3)
-  end
-
-  def fake_names
-    Array.new(3) { Faker::Name.name }
-  end
-
   def time_zone_options(time_zone: nil)
     TimeZone::TIME_ZONES.map do |option_time_zone|
       [
@@ -52,11 +24,11 @@ module ApplicationHelper
   end
 
   def schedule_interval_options(interval: nil)
-    Schedule::INTERVALS.map do |option_interval|
+    Schedule.interval_options.map do |label, value|
       [
-        option_interval,
-        option_interval,
-        { selected: option_interval == interval }
+        label,
+        value,
+        { selected: value == interval }
       ]
     end
   end
@@ -83,6 +55,21 @@ module ApplicationHelper
       .to_a
       .map do |program|
         [program&.to_s, program&.id, { selected: program_id == program&.id }]
+      end
+  end
+
+  def locale_options(locale: nil)
+    locale = (locale.presence || I18n.locale).to_s
+
+    I18n
+      .available_locales
+      .map(&:to_s)
+      .map do |available_locale|
+        [
+          I18n.t("users.model.locales.#{available_locale}"),
+          available_locale,
+          { selected: available_locale == locale }
+        ]
       end
   end
 
@@ -133,5 +120,41 @@ module ApplicationHelper
 
   def device_tokens
     current_user.devices.map(&:token)
+  end
+
+  def fr?
+    I18n.locale == :fr
+  end
+
+  def en?
+    I18n.locale == :en
+  end
+
+  def recaptcha_site_key
+    Rails.application.credentials.google_com_recaptcha.site_key
+  end
+
+  def recaptcha_tag
+    hidden_field_tag(
+      "g-recaptcha-response",
+      "",
+      data: {
+        controller: "recaptcha",
+        action: "turbo:load@window->recaptcha#connect"
+      }
+    )
+  end
+
+  def form_for(record, options = {}, &block)
+    super(record, options) do |f|
+      safe_join([capture(f, &block), recaptcha_tag])
+    end
+  end
+
+  def button_to(...)
+    super.sub(
+      "</form>",
+      safe_join([recaptcha_tag, "</form>".html_safe])
+    ).html_safe
   end
 end

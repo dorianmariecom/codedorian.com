@@ -1,17 +1,18 @@
 # frozen_string_literal: true
 
 class Name < ApplicationRecord
-  belongs_to :user, default: -> { Current.user }, touch: true
+  belongs_to :user, default: -> { Current.user! }, touch: true
 
   scope :primary, -> { where(primary: true) }
   scope :not_primary, -> { where(primary: false) }
   scope :verified, -> { where(verified: true) }
   scope :not_verified, -> { where(verified: false) }
 
+  validates :given_name, presence: true
+  validates :family_name, presence: true
   validate { can!(:update, user) }
 
   before_validation { log_in(self.user ||= User.create!) }
-
   before_update { unverify! if name_changed? && verified? }
 
   def unverify!
@@ -34,7 +35,15 @@ class Name < ApplicationRecord
     !verified?
   end
 
+  def name_changed?
+    given_name_changed? || family_name_changed?
+  end
+
+  def full_name
+    [given_name, family_name].compact_blank.join(" ")
+  end
+
   def to_s
-    name.presence || "name##{id}"
+    full_name.presence || t("to_s", id:)
   end
 end

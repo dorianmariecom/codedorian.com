@@ -1,0 +1,4 @@
+- if @executions.any?
+  .p= button_to t(".delete_all"), url, method: :delete, class: "underline"
+
+= render @executions

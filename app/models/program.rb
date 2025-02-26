@@ -2,13 +2,14 @@
 
 class Program < ApplicationRecord
   TIMEOUT = 60
+  INPUT_SAMPLE_SIZE = 140
 
-  belongs_to :user, default: -> { Current.user }, touch: true
+  belongs_to :user, default: -> { Current.user! }, touch: true
 
   has_many :executions, dependent: :destroy
   has_many :schedules, dependent: :destroy
 
-  accepts_nested_attributes_for :schedules
+  accepts_nested_attributes_for :schedules, allow_destroy: true
 
   validate { can!(:update, user) }
 
@@ -60,6 +61,14 @@ class Program < ApplicationRecord
     scheduled_jobs.any?
   end
 
+  def scheduled_at
+    scheduled_jobs.first&.scheduled_at
+  end
+
+  def scheduled_at?
+    scheduled_at.present?
+  end
+
   def unschedule!
     SolidQueue::ScheduledExecution.discard_all_from_jobs(scheduled_jobs)
     scheduled_jobs.destroy_all
@@ -98,7 +107,11 @@ class Program < ApplicationRecord
     )
   end
 
+  def input_sample
+    input.to_s.truncate(INPUT_SAMPLE_SIZE, omission: "…").presence
+  end
+
   def to_s
-    input.presence || "program##{id}"
+    name.presence || input_sample.presence || t("to_s", id:)
   end
 end

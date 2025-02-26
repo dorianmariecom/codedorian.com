@@ -98,7 +98,7 @@ class PhoneNumbersController < ApplicationController
     if admin?
       params.expect(phone_number: %i[user_id primary verified phone_number])
     else
-      params.expect(phone_number: %i[user_id primary phone_number])
+      params.require(:phone_number).permit(:primary, :phone_number)
     end
   end
 end

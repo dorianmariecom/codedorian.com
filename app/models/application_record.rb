@@ -3,10 +3,12 @@
 class ApplicationRecord < ActiveRecord::Base
   include Pundit::Authorization
   include CanConcern
+
   extend Pundit::Authorization
   extend CanConcern
 
   broadcasts_refreshes
+  has_paper_trail
   primary_abstract_class
 
   def self.current_user
@@ -14,7 +16,19 @@ class ApplicationRecord < ActiveRecord::Base
   end
 
   def self.log_in(user)
-    Current.user = user unless Current.user?
+    Current.user ||= user
+  end
+
+  def self.model_singular
+    self.name.underscore.singularize.to_sym
+  end
+
+  def self.model_plural
+    self.name.underscore.pluralize.to_sym
+  end
+
+  def self.t(key, ...)
+    I18n.t("#{model_plural}.model.#{key}", ...)
   end
 
   def alert
@@ -35,5 +49,9 @@ class ApplicationRecord < ActiveRecord::Base
 
   def model_plural
     self.class.name.underscore.pluralize.to_sym
+  end
+
+  def t(key, ...)
+    I18n.t("#{model_plural}.model.#{key}", ...)
   end
 end

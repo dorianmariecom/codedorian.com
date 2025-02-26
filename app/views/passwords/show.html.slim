@@ -1,0 +1,39 @@
+- content_for(:title, @password)
+
+- if @password.user.present?
+  .p
+    .text-gray-600= t(".user")
+
+    - if can?(:show, @password.user)
+      .font-bold= link_to @password.user, @password.user, class: "underline"
+    - else
+      .font-bold= @password.user
+
+- if @password.hint.present?
+  .p
+    .text-gray-600= t(".hint")
+    .font-bold= @password.hint
+
+.p
+  .text-gray-600= t(".password")
+  .font-bold= "***"
+
+.p
+  .text-gray-600= t(".primary")
+  .font-bold= @password.primary?
+
+.p
+  .text-gray-600= t(".verified")
+  .font-bold= @password.verified?
+
+.p
+  .text-gray-600= t(".updated_at")
+  .font-bold= local_time(@password.updated_at)
+
+.p
+  .text-gray-600= t(".created_at")
+  .font-bold= local_time(@password.created_at)
+
+.p
+  => link_to t(".edit"), [:edit, @password], class: "underline"
+  => button_to t(".delete"), @password, method: :delete, class: "underline", form_class: "inline-block"

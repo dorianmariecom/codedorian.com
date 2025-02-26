@@ -1,0 +1,23 @@
+= form_for user do |f|
+  - if admin?
+    .p
+      = f.label :admin, class: "label"
+      = f.check_box :admin
+
+    .p
+      = f.label :verified, class: "label"
+      = f.check_box :verified
+
+  .p
+    = f.label :locale, class: "label"
+    = f.select :locale, locale_options(locale: f.object.locale.presence || I18n.locale), {}, required: true, class: "input", data: { form_type: "other" }, autocomplete: "off"
+
+  = render "names/nested", f:
+  = render "handles/nested", f:
+  = render "email_addresses/nested", f:
+  = render "phone_numbers/nested", f:
+  = render "addresses/nested", f:
+  = render "passwords/nested", f:
+  = render "time_zones/nested", f:
+
+  .p= f.submit submit, class: "button"

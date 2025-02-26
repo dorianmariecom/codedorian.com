@@ -90,6 +90,6 @@ class PasswordsController < ApplicationController
   end
 
   def password_params
-    params.expect(password: %i[user_id password hint])
+    params.require(:password).permit(:password, :hint)
   end
 end

@@ -4,8 +4,6 @@ class StaticController < ApplicationController
   before_action { authorize :static }
   skip_after_action :verify_policy_scoped
 
-  layout "empty", only: :up
-
   def home
   end
 

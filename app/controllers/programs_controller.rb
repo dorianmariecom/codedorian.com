@@ -20,6 +20,7 @@ class ProgramsController < ApplicationController
         .where(program: @program)
         .order(created_at: :desc)
         .page(params[:page])
+
     @schedules =
       policy_scope(Schedule)
         .where(program: @program)
@@ -119,12 +120,19 @@ class ProgramsController < ApplicationController
   end
 
   def program_params
-    params.expect(
-      program: [
+    if admin?
+      params.require(:program).permit(
         :user_id,
+        :name,
         :input,
-        { schedules_attributes: %i[id _destroy starts_at interval] }
-      ]
-    )
+        schedules_attributes: %i[id _destroy starts_at interval]
+      )
+    else
+      params.require(:program).permit(
+        :input,
+        :name,
+        schedules_attributes: %i[id _destroy starts_at interval]
+      )
+    end
   end
 end

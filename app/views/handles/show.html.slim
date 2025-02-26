@@ -1,0 +1,35 @@
+- content_for(:title, @handle)
+
+- if @handle.user.present?
+  .p
+    .text-gray-600= t(".user")
+
+    - if can?(:show, @handle.user)
+      .font-bold= link_to @handle.user, @handle.user, class: "underline"
+    - else
+      .font-bold= @handle.user
+
+- if @handle.handle.present?
+  .p
+    .text-gray-600= t(".handle")
+    .font-bold= @handle.handle
+
+.p
+  .text-gray-600= t(".primary")
+  .font-bold= @handle.primary?
+
+.p
+  .text-gray-600= t(".verified")
+  .font-bold= @handle.verified?
+
+.p
+  .text-gray-600= t(".updated_at")
+  .font-bold= local_time(@handle.updated_at)
+
+.p
+  .text-gray-600= t(".created_at")
+  .font-bold= local_time(@handle.created_at)
+
+.p
+  => link_to t(".edit"), [:edit, @handle], class: "underline"
+  => button_to t(".delete"), @handle, method: :delete, class: "underline", form_class: "inline-block"

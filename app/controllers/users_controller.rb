@@ -2,41 +2,45 @@
 
 class UsersController < ApplicationController
   before_action :load_user, only: %i[show edit update destroy]
+  skip_after_action :verify_policy_scoped, only: %i[new create update_time_zone]
+  skip_after_action :verify_authorized, only: :update_time_zone
+  skip_before_action :verify_captcha, only: :update_time_zone
+  helper_method :url, :new_url
 
   def index
     authorize User
     @users = scope.page(params[:page])
   end
 
+  def update_time_zone
+    return head(:bad_request) if params[:time_zone].blank?
+    unless params[:time_zone].in?(TimeZone::TIME_ZONES)
+      return head(:bad_request)
+    end
+    return head(:bad_request) if Current.time_zone
+    return head(:bad_request) if Current.unverified_time_zone
+
+    if Current.user
+      Current.unverified_time_zones.create!(time_zone: params[:time_zone])
+    else
+      session[:time_zone] = params[:time_zone]
+    end
+
+    head :ok
+  end
+
   def show
-    # user
-    @devices = policy_scope(Device).where(user: @user).page(params[:page])
-    @email_addresses =
-      policy_scope(EmailAddress).where(user: @user).page(params[:page])
-    @locations = policy_scope(Location).where(user: @user).page(params[:page])
-    @names = policy_scope(Name).where(user: @user).page(params[:page])
-    @passwords = policy_scope(Password).where(user: @user).page(params[:page])
-    @phone_numbers =
-      policy_scope(PhoneNumber).where(user: @user).page(params[:page])
-    @programs = policy_scope(Program).where(user: @user).page(params[:page])
-    @time_zones = policy_scope(TimeZone).where(user: @user).page(params[:page])
-    @tokens = policy_scope(Token).where(user: @user).page(params[:page])
-    # programs
-    @executions =
-      policy_scope(Execution).where(program: @programs).page(params[:page])
-    @schedules =
-      policy_scope(Schedule).where(program: @programs).page(params[:page])
   end
 
   def new
-    @user = authorize scope.new
+    @user = authorize User.new
   end
 
   def edit
   end
 
   def create
-    @user = authorize scope.new(user_params)
+    @user = authorize User.new(user_params)
 
     if @user.save
       log_in(@user)
@@ -89,6 +93,74 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    {}
+    return {} if params[:user].blank?
+
+    if admin?
+      params.require(:user).permit(
+        :admin,
+        :verified,
+        :locale,
+        names_attributes: %i[
+          id
+          _destroy
+          given_name
+          family_name
+          primary
+          verified
+        ],
+        handles_attributes: %i[id _destroy handle primary verified],
+        email_addresses_attributes: %i[
+          id
+          _destroy
+          email_address
+          primary
+          verified
+        ],
+        phone_numbers_attributes: %i[id _destroy phone_number primary verified],
+        addresses_attributes: %i[
+          id
+          _destroy
+          address
+          address_components
+          formatted_address
+          geometry
+          place_id
+          types
+          primary
+          verified
+        ],
+        passwords_attributes: %i[id _destroy hint password primary verified],
+        time_zones_attributes: %i[id _destroy time_zone primary verified]
+      )
+    else
+      params.require(:user).permit(
+        :locale,
+        names_attributes: %i[id _destroy given_name family_name primary],
+        handles_attributes: %i[id _destroy handle primary],
+        email_addresses_attributes: %i[id _destroy email_address primary],
+        phone_numbers_attributes: %i[id _destroy phone_number primary],
+        addresses_attributes: %i[
+          id
+          _destroy
+          address
+          address_components
+          formatted_address
+          geometry
+          place_id
+          types
+          primary
+        ],
+        passwords_attributes: %i[id _destroy hint password primary],
+        time_zones_attributes: %i[id _destroy time_zone primary]
+      )
+    end
+  end
+
+  def url
+    :users
+  end
+
+  def new_url
+    %i[new user]
   end
 end

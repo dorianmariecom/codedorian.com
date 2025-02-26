@@ -116,7 +116,7 @@ class EmailAddressesController < ApplicationController
     if admin?
       params.expect(email_address: %i[user_id verified primary email_address])
     else
-      params.expect(email_address: %i[user_id primary email_address])
+      params.require(:email_address).permit(:primary, :email_address)
     end
   end
 end

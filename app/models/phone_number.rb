@@ -5,7 +5,7 @@ class PhoneNumber < ApplicationRecord
   BRAND = "CodeDorian"
   VERIFICATION_CODE_REGEXP = /\A[0-9 ]+\z/
 
-  belongs_to :user, default: -> { Current.user }, touch: true
+  belongs_to :user, default: -> { Current.user! }, touch: true
 
   scope :primary, -> { where(primary: true) }
   scope :not_primary, -> { where(primary: false) }
@@ -57,30 +57,8 @@ class PhoneNumber < ApplicationRecord
     verification_code.present?
   end
 
-  def reset_verification_code!
-    update!(
-      verification_code: rand(1_000_000).to_s.rjust(6, "0"),
-      verified: false
-    )
-  end
-
-  def send_verification_code!
-    reset_verification_code!
-    query = { api_key:, api_secret:, to: e164, from: BRAND, text: }.to_query
-    uri = URI.parse("https://rest.nexmo.com/sms/json?#{query}")
-    Net::HTTP.get_response(uri)
-  end
-
   def verify!(code)
-    return if code.blank? || verification_code.blank?
-
-    code = code.gsub(/\D/, "")
-    self.verification_code = verification_code.gsub(/\D/, "")
-    if code == verification_code
-      update!(verified: true, verification_code: "")
-    else
-      update!(verified: false, verification_code: "")
-    end
+    update!(verified: true, verification_code: "")
   end
 
   def cancel_verification!
@@ -95,23 +73,7 @@ class PhoneNumber < ApplicationRecord
     verification_code_sent?
   end
 
-  def api_key
-    Rails.application.credentials.rest_nexmo_com.api_key
-  end
-
-  def api_secret
-    Rails.application.credentials.rest_nexmo_com.api_secret
-  end
-
-  def request_id
-    nexmo_request_id
-  end
-
-  def text
-    "your #{ENV.fetch("HOST")} verification code is #{verification_code}"
-  end
-
   def to_s
-    formatted.presence || "phone_number##{id}"
+    formatted.presence || t("to_s", id:)
   end
 end

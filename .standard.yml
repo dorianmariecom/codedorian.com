@@ -1,7 +1,7 @@
 ---
 ignore:
-- "**/*":
-  - Performance/UnfreezeString
-  - Layout/SpaceInsideHashLiteralBraces
-  - Layout/ArgumentAlignment
-  - Layout/MultilineOperationIndentation
+  - "**/*":
+      - Performance/UnfreezeString
+      - Layout/SpaceInsideHashLiteralBraces
+      - Layout/ArgumentAlignment
+      - Layout/MultilineOperationIndentation

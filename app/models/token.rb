@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Token < ApplicationRecord
-  belongs_to :user, default: -> { Current.user }, touch: true
+  belongs_to :user, default: -> { Current.user! }, touch: true
 
   validates :token, presence: true
   validate { can!(:update, user) }
@@ -10,6 +10,6 @@ class Token < ApplicationRecord
   before_validation { log_in(self.user ||= User.create!) }
 
   def to_s
-    token.presence || "token##{id}"
+    token.presence || t("to_s", id:)
   end
 end

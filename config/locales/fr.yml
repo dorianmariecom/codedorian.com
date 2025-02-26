@@ -1,0 +1,691 @@
+---
+fr:
+  activerecord:
+    attributes:
+      schedule:
+        starts_at: commence à
+        interval: intervalle
+        program_id: programme
+      address:
+        address: adresse
+        primary: primaire ?
+        verified: vérifiée ?
+      email_address:
+        email_address: adresse e-mail
+        primary: primaire ?
+        verified: vérifiée ?
+      handle:
+        handle: identifiant
+        primary: primaire ?
+        verified: vérifié ?
+      message:
+        body: contenu
+        from_user_id: expéditeur
+        subject: sujet
+        to_user_id: destinataire
+      name:
+        family_name: nom de famille
+        given_name: prénom
+        primary: primaire ?
+        verified: vérifié ?
+      password:
+        hint: indice
+        password: mot de passe
+        primary: primaire ?
+        verified: vérifié ?
+      phone_number:
+        phone_number: numéro de téléphone
+        phone_number_input: numéro de téléphone
+        primary: primaire ?
+        verified: vérifié ?
+      program:
+        input: entrée
+        name: nom
+        user_id: utilisateur
+      time_zone:
+        primary: primaire ?
+        time_zone: fuseau horaire
+        verified: vérifié ?
+      user:
+        admin: administrateur ?
+        locale: langue
+        verified: vérifié ?
+    errors:
+      models:
+        phone_number:
+          impossible: impossible
+          invalid: invalide
+  addresses:
+    create:
+      notice: adresse créée
+    destroy:
+      notice: adresse supprimée
+    edit:
+      submit: mettre à jour l'adresse
+      title: modifier l'adresse
+    form:
+      address_placeholder: entrez votre adresse
+    index:
+      delete_all: tout supprimer
+      new: nouvelle adresse
+      title: adresses
+    model:
+      to_s: adresse#%{id}
+    nested:
+      add: ajouter une adresse
+    nested_form:
+      address: adresse
+      address_placeholder: entrez votre adresse
+      remove: supprimer l'adresse
+    new:
+      submit: créer une adresse
+      title: nouvelle adresse
+    show:
+      address: adresse
+      address_components: composants de l'adresse
+      created_at: créé à
+      delete: supprimer l'adresse
+      edit: modifier l'adresse
+      formatted_address: adresse formatée
+      geometry: géométrie
+      place_id: id lieu
+      primary: primaire ?
+      types: types
+      updated_at: mis à jour à
+      user: utilisateur
+      verified: vérifiée ?
+    update:
+      notice: adresse mise à jour
+  devices:
+    model:
+      to_s: appareil#%{id}
+  email_addresses:
+    create:
+      notice: adresse e-mail créée
+    destroy:
+      notice: adresse e-mail supprimée
+    edit:
+      submit: mettre à jour l'adresse e-mail
+      title: modifier l'adresse e-mail
+    form:
+      email_address_placeholder: entrez votre adresse email
+    index:
+      delete_all: tout supprimer
+      new: nouvelle adresse e-mail
+      title: adresses e-mail
+    model:
+      to_s: adresse_e-mail#%{id}
+    nested:
+      add: ajouter une adresse e-mail
+    nested_form:
+      email_address: adresse e-mail
+      email_address_placeholder: entrez votre adresse email
+      remove: supprimer l'adresse e-mail
+    new:
+      submit: créer une adresse e-mail
+      title: nouvelle adresse e-mail
+    show:
+      created_at: créé à
+      delete: supprimer l'adresse e-mail
+      edit: modifier l'adresse e-mail
+      email_address: adresse e-mail
+      primary: primaire ?
+      updated_at: mis à jour à
+      user: utilisateur
+      verified: vérifiée ?
+    update:
+      notice: adresse e-mail mise à jour
+  errors:
+    internal_server_error:
+      title: erreur interne du serveur
+    not_found:
+      title: non trouvé
+    unprocessable_entity:
+      title: entité non traitable
+  executions:
+    destroy:
+      notice: exécution supprimée
+    index:
+      delete_all: tout supprimer
+      title: exécutions
+    model:
+      to_s: exécution#%{id}
+    show:
+      created_at: créé à
+      delete: supprimer l'exécution
+      error: erreur
+      input: entrée
+      output: sortie
+      program: programme
+      result: résultat
+      updated_at: mis à jour à
+  handles:
+    create:
+      notice: identifiant créé
+    destroy:
+      notice: identifiant supprimé
+    edit:
+      submit: mettre à jour l'identifiant
+      title: modifier l'identifiant
+    form:
+      handle_placeholder: entrez votre pseudo
+    index:
+      delete_all: tout supprimer
+      new: nouvel identifiant
+      title: identifiants
+    model:
+      to_s: identifiant#%{id}
+    nested:
+      add: ajouter un identifiant
+    nested_form:
+      handle: identifiant
+      handle_placeholder: entrez votre pseudo
+      remove: supprimer l'identifiant
+    new:
+      submit: créer un identifiant
+      title: nouvel identifiant
+    show:
+      created_at: créé à
+      delete: supprimer l'identifiant
+      edit: modifier l'identifiant
+      handle: identifiant
+      primary: primaire ?
+      updated_at: mis à jour à
+      user: utilisateur
+      verified: vérifié ?
+    update:
+      notice: identifiant mis à jour
+  helpers:
+    label:
+      session:
+        email_address: adresse e-mail
+        password: mot de passe
+  layouts:
+    application:
+      about: à propos
+      documentation: documentation
+      english: anglais
+      french: français
+      js:
+        address:
+          not_present: doit être présente
+          not_valid: doit être valide
+        password:
+          not_present: doit être présent
+        phone_number:
+          invalid_country_code: a un indicatif de pays invalide
+          invalid_length: a une longueur invalide
+          invalid_phone_number: est un numéro de téléphone invalide
+          is_possible: est possible
+          is_possible_local_only: est possible uniquement localement
+          not_present: doit être présent
+          not_valid: doit être valide
+          too_long: est trop long
+          too_short: est trop court
+        time_zone:
+          not_present: doit être présent(e)
+        trix:
+          GB: go
+          KB: ko
+          MB: mo
+          PB: po
+          TB: to
+          attachFiles: ajouter des fichiers
+          bold: gras
+          bullets: puces
+          byte: octet
+          bytes: octets
+          captionPlaceholder: ajouter une légende…
+          code: code
+          heading1: titre
+          indent: augmenter le niveau
+          italic: italique
+          link: lien
+          numbers: nombres
+          outdent: diminuer le niveau
+          quote: citation
+          redo: refaire
+          remove: supprimer
+          strike: barré
+          undo: annuler
+          unlink: supprimer le lien
+          url: url
+          urlPlaceholder: entrer une url…
+        validation:
+          not_email:
+            feminine: doit être une adresse e-mail
+            masculine: doit être un e-mail
+          not_present:
+            feminine: doit être présente
+            masculine: doit être présent
+          not_valid:
+            feminine: doit être valide
+            masculine: doit être valide
+      log_in: connexion
+      log_out: déconnexion
+      messages: messages
+      privacy: confidentialité
+      programs: programmes
+      register: s'inscrire
+      source: source
+      terms: conditions
+      title: code
+      up: "/up"
+      users: utilisateurs
+  messages:
+    create:
+      notice: message créé
+    destroy:
+      notice: message supprimé
+    edit:
+      submit: mettre à jour le message
+      title: modifier le message
+    form:
+      body_placeholder: entrez le corps de votre message
+      subject_placeholder: entrez l'objet de votre message
+    index:
+      delete_all: supprimer tous les messages
+      new: nouveau message
+      title: messages
+    model:
+      to_s: message#%{id}
+    new:
+      submit: créer un message
+      title: nouveau message
+    show:
+      body: corps
+      created_at: créé à
+      delete: supprimer le message
+      edit: modifier le message
+      from_user: de l'utilisateur
+      read: lu
+      read_at_html: lu à %{local_time}
+      subject: sujet
+      to_user: à l'utilisateur
+      unread: non lu
+      unread_at_html: non lu à %{local_time}
+      updated_at: mis à jour à
+    update:
+      notice: message mis à jour
+  names:
+    create:
+      notice: nom créé
+    destroy:
+      notice: nom supprimé
+    edit:
+      submit: mettre à jour le nom
+      title: modifier le nom
+    form:
+      family_name_placeholder: entrez votre nom de famille
+      given_name_placeholder: entrez votre prénom
+    index:
+      delete_all: tout supprimer
+      new: nouveau nom
+      title: noms
+    model:
+      to_s: nom#%{id}
+    nested:
+      add: ajouter un nom
+    nested_form:
+      family_name_placeholder: entrez votre nom de famille
+      given_name_placeholder: entrez votre prénom
+      name: nom
+      remove: supprimer le nom
+    new:
+      submit: créer un nom
+      title: nouveau nom
+    show:
+      created_at: créé à
+      delete: supprimer le nom
+      edit: modifier le nom
+      family_name: nom de famille
+      given_name: prénom
+      primary: principal ?
+      updated_at: mis à jour à
+      user: utilisateur
+      verified: vérifié ?
+    update:
+      notice: nom mis à jour
+  password_validator:
+    model:
+      sequence:
+        bruteforce: ajoutez un autre mot ou deux, de préférence peu communs
+        date: évitez les dates et les années qui vous sont associées
+        dictionary: ajoutez un autre mot ou deux, de préférence peu communs
+        digits: évitez les chiffres
+        repeat: évitez les mots ou caractères répétés
+        sequence: évitez les séquences
+        spatial: utilisez des motifs de clavier plus longs avec plus de virages
+        year: évitez les années récentes, surtout si elles vous sont associées
+  passwords:
+    create:
+      notice: mot de passe créé
+    destroy:
+      notice: mot de passe supprimé
+    edit:
+      submit: mettre à jour le mot de passe
+      title: modifier le mot de passe
+    form:
+      hint_placeholder: entrez l'indice de votre mot de passe
+      password_placeholder: entrez votre mot de passe
+    index:
+      delete_all: tout supprimer
+      new: nouveau mot de passe
+      title: mots de passe
+    model:
+      to_s: mot_de_passe#%{id}
+    nested:
+      add: ajouter un mot de passe
+    nested_form:
+      hint_placeholder: entrez l'indice de votre mot de passe
+      password: mot de passe
+      password_placeholder: entrez votre mot de passe
+      remove: supprimer le mot de passe
+    new:
+      submit: créer un mot de passe
+      title: nouveau mot de passe
+    show:
+      created_at: créé à
+      delete: supprimer le mot de passe
+      edit: modifier le mot de passe
+      hint: indice
+      password: mot de passe
+      primary: principal ?
+      updated_at: mis à jour à
+      user: utilisateur
+      verified: vérifié ?
+    update:
+      notice: mot de passe mis à jour
+  phone_numbers:
+    create:
+      notice: numéro de téléphone créé
+    destroy:
+      notice: numéro de téléphone supprimé
+    edit:
+      submit: mettre à jour le numéro de téléphone
+      title: modifier le numéro de téléphone
+    form:
+      phone_number_placeholder: entrez votre numéro de téléphone
+    index:
+      delete_all: tout supprimer
+      new: nouveau numéro de téléphone
+      title: numéros de téléphone
+    model:
+      to_s: numero_de_telephone#%{id}
+    nested:
+      add: ajouter un numéro de téléphone
+    nested_form:
+      phone_number: numéro de téléphone
+      phone_number_placeholder: entrez votre numéro de téléphone
+      remove: supprimer le numéro de téléphone
+    new:
+      submit: créer un numéro de téléphone
+      title: nouveau numéro de téléphone
+    show:
+      created_at: créé à
+      delete: supprimer le numéro de téléphone
+      edit: modifier le numéro de téléphone
+      phone_number: numéro de téléphone
+      primary: principal ?
+      updated_at: mis à jour à
+      user: utilisateur
+      verified: vérifié ?
+    update:
+      notice: numéro de téléphone mis à jour
+  programs:
+    create:
+      notice: programme créé
+    destroy:
+      notice: programme supprimé
+    edit:
+      submit: mettre à jour le programme
+      title: modifier le programme
+    form:
+      fake_input: Http.get("https://google.com")
+      input_placeholder: entrez l'entrée de votre programme
+      name_placeholder: entrez le nom de votre programme
+    index:
+      delete_all: supprimer tous les programmes
+      new: nouveau programme
+      title: programmes
+    model:
+      to_s: programme#%{id}
+    new:
+      submit: créer un programme
+      title: nouveau programme
+    show:
+      created_at: créé à
+      delete: supprimer le programme
+      edit: modifier le programme
+      evaluate: évaluer
+      executions: exécutions
+      input: entrée
+      name: nom
+      not_scheduled_html: souhaitez-vous planifier pour %{local_time} ?
+      schedule: planifier
+      scheduled_html: planifié pour %{local_time}
+      schedules: plannings
+      unschedule: déplanifier
+      updated_at: mis à jour à
+      user: utilisateur
+      new_schedule: nouvel horaire
+    update:
+      notice: programme mis à jour
+  schedules:
+    create:
+      notice: horaire créé
+    destroy:
+      notice: horaire supprimé
+    edit:
+      submit: mettre à jour l'horaire
+      title: modifier l'horaire
+    index:
+      delete_all: tout supprimer
+      new: nouvel horaire
+      title: horaires
+    model:
+      days:
+        one: 1 jour
+        other: "%{count} jours"
+        zero: 0 jour
+      hours:
+        one: 1 heure
+        other: "%{count} heures"
+        zero: 0 heure
+      minutes:
+        one: 1 minute
+        other: "%{count} minutes"
+        zero: 0 minute
+      months:
+        one: 1 mois
+        other: "%{count} mois"
+        zero: 0 mois
+      once: une fois
+      seconds:
+        one: 1 seconde
+        other: "%{count} secondes"
+        zero: 0 seconde
+      to_s: horaire#%{id}
+      weeks:
+        one: 1 semaine
+        other: "%{count} semaines"
+        zero: 0 semaine
+      years:
+        one: 1 an
+        other: "%{count} ans"
+        zero: 0 an
+    nested:
+      add: ajouter un horaire
+    nested_form:
+      remove: supprimer l'horaire
+      schedule: horaire
+    new:
+      submit: créer un horaire
+      title: nouvel horaire
+    schedule:
+      schedule_html: commence le %{local_time}, se répète tous les %{interval}
+      schedule_once_html: commence le %{local_time}, ne se répète pas
+    show:
+      created_at: créé le
+      delete: supprimer l'horaire
+      edit: modifier l'horaire
+      interval: intervalle
+      program: programme
+      schedule_html: commence le %{local_time}, se répète tous les %{interval}
+      schedule_once_html: commence le %{local_time}, ne se répète pas
+      starts_at: commence à
+      updated_at: mis à jour le
+    update:
+      notice: horaire mis à jour
+  sessions:
+    create:
+      notice: connecté
+      wrong_email_address: adresse e-mail incorrecte
+      wrong_password: mot de passe incorrect
+    destroy:
+      notice: déconnecté
+    new:
+      submit: se connecter
+      title: connexion
+  shared:
+    list:
+      addresses: adresses
+      email_addresses: adresses e-mail
+      handles: identifiants
+      names: noms
+      new_address: nouvelle adresse
+      new_email_address: nouvelle adresse e-mail
+      new_handle: nouvel identifiant
+      new_name: nouveau nom
+      new_password: nouveau mot de passe
+      new_phone_number: nouveau numéro de téléphone
+      new_time_zone: nouveau fuseau horaire
+      passwords: mots de passe
+      phone_numbers: numéros de téléphone
+      time_zones: fuseaux horaires
+  static:
+    about:
+      about_html: |
+        <p>
+          code est le projet de
+          <a href="https://dorianmarie.com">dorian marié</a>
+        </p>
+      title: à propos
+    documentation:
+      title: documentation
+    home:
+      home_html: |
+        <p>bienvenue sur code</p>
+        <p>le langage de programmation de l'ère internet</p>
+        <p>ici, vous pouvez utiliser, créer, planifier, exécuter et gérer vos programmes</p>
+      title: accueil
+    privacy:
+      privacy_html: |
+        <p>bienvenue sur codedorian.com ("nous", "notre", "nos"). votre vie privée est importante pour nous. cette politique de confidentialité explique comment nous collectons, utilisons et protégeons vos informations lorsque vous utilisez notre site web.</p>
+        <p>nous pouvons collecter des informations personnelles (comme votre nom, e-mail et coordonnées) et des informations non personnelles (comme le type de navigateur et l'adresse ip) lorsque vous utilisez notre site web.</p>
+        <p>nous utilisons vos informations pour fournir, améliorer et personnaliser nos services, communiquer avec vous et assurer la sécurité de notre site web.</p>
+        <p>nous pouvons utiliser des cookies et des technologies de suivi similaires pour améliorer votre expérience. vous pouvez contrôler les paramètres des cookies via votre navigateur.</p>
+        <p>nous pouvons faire appel à des services tiers pour l'analyse, le traitement des paiements ou d'autres fonctionnalités. ces tiers ont leurs propres politiques de confidentialité régissant l'utilisation de vos informations.</p>
+        <p>nous prenons des mesures raisonnables pour protéger vos informations personnelles contre l'accès non autorisé, la divulgation ou la perte.</p>
+        <p>vous avez le droit d'accéder, de mettre à jour ou de demander la suppression de vos informations personnelles. contactez-nous pour toute assistance.</p>
+        <p>nous pouvons mettre à jour cette politique de confidentialité à tout moment. votre utilisation continue de notre site signifie votre acceptation des éventuelles modifications.</p>
+        <p>si vous avez des questions concernant cette politique de confidentialité, veuillez nous contacter à <a href="mailto:dorian@dorianmarie.com">dorian@dorianmarie.com</a>.</p>
+      title: politique de confidentialité
+    source:
+      source_html: |
+        <p>
+          <a href="https://github.com/dorianmariecom/codedorian.com">
+            code source de codedorian.com
+          </a>
+        </p>
+        <p>
+          <a href="https://github.com/dorianmariecom/code-ruby">
+            code source de code-ruby
+          </a>
+        </p>
+        <p>
+          <a href="https://github.com/dorianmariecom/language-ruby">
+            code source de language-ruby
+          </a>
+        </p>
+      title: code source
+    terms:
+      terms_html: |
+        <p>bienvenue sur codedorian.com ("nous", "notre", "nos"). en accédant à notre site web ou en l'utilisant, vous acceptez d'être lié(e) par ces conditions générales. si vous n'êtes pas d'accord, veuillez ne pas utiliser notre site web.</p>
+        <p>vous acceptez d'utiliser ce site web uniquement à des fins légales et d'une manière qui ne porte pas atteinte aux droits des autres ni ne restreint leur utilisation du site.</p>
+        <p>tout le contenu de ce site, y compris les textes, graphiques et logos, est la propriété de codedorian.com ou sous licence. vous ne pouvez pas copier, reproduire ou distribuer du contenu sans notre permission.</p>
+        <p>nous fournissons ce site "tel quel" sans aucune garantie. nous ne sommes pas responsables des pertes ou dommages résultant de votre utilisation du site.</p>
+        <p>notre site peut contenir des liens vers des sites tiers. nous ne sommes pas responsables du contenu ou des politiques de confidentialité de ces sites externes.</p>
+        <p>nous pouvons mettre à jour ces conditions générales à tout moment. votre utilisation continue du site signifie votre acceptation des modifications.</p>
+        <p>pour toute question concernant ces conditions, veuillez nous contacter à <a href="mailto:dorian@dorianmarie.com">dorian@dorianmarie.com</a>.</p>
+      title: conditions générales
+    up:
+      title: "/up"
+      up_html: "<p>fonctionne</p>\n"
+  time_zones:
+    create:
+      notice: fuseau horaire créé
+    destroy:
+      notice: fuseau horaire supprimé
+    edit:
+      submit: mettre à jour le fuseau horaire
+      title: modifier le fuseau horaire
+    index:
+      delete_all: tout supprimer
+      new: nouveau fuseau horaire
+      title: fuseaux horaires
+    model:
+      to_s: fuseau_horaire#%{id}
+    nested:
+      add: ajouter un fuseau horaire
+    nested_form:
+      remove: supprimer le fuseau horaire
+      time_zone: fuseau horaire
+    new:
+      submit: créer un fuseau horaire
+      title: nouveau fuseau horaire
+    show:
+      created_at: créé à
+      delete: supprimer le fuseau horaire
+      edit: modifier le fuseau horaire
+      primary: principal ?
+      time_zone: fuseau horaire
+      updated_at: mis à jour à
+      user: utilisateur
+      verified: vérifié ?
+    update:
+      notice: fuseau horaire mis à jour
+  tokens:
+    model:
+      to_s: jeton#%{id}
+  users:
+    create:
+      notice: utilisateur créé
+    destroy:
+      notice: utilisateur supprimé
+    edit:
+      submit: mettre à jour l'utilisateur
+      title: modifier l'utilisateur
+    index:
+      delete_all: tout supprimer
+      new: nouvel utilisateur
+      title: utilisateurs
+    model:
+      locales:
+        en: anglais
+        fr: français
+        none: aucun
+      to_s: utilisateur#%{id}
+    new:
+      submit: créer un utilisateur
+      title: nouvel utilisateur
+    show:
+      admin: administrateur
+      created_at: créé à
+      delete: supprimer l'utilisateur
+      edit: modifier l'utilisateur
+      locale: langue
+      updated_at: mis à jour à
+      verified: vérifié ?
+    update:
+      notice: utilisateur mis à jour

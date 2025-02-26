@@ -1,0 +1,41 @@
+- content_for(:title, @execution)
+
+- if @execution.program.present?
+  .p
+    .text-gray-600= t(".program")
+
+    - if can?(:show, @execution.program)
+      .font-bold= link_to @execution.program, @execution.program, class: "underline"
+    - else
+      .font-bold= @execution.program
+
+- if @execution.output.present?
+  .p
+    .text-gray-600= t(".output")
+    .code= @execution.output
+
+- if @execution.result.present?
+  .p
+    .text-gray-600= t(".result")
+    .code= @execution.result
+
+- if @execution.error.present?
+  .p
+    .text-gray-600= t(".error")
+    .code= @execution.error
+
+- if @execution.input.present?
+  .p
+    .text-gray-600= t(".input")
+    .code= @execution.input
+
+.p
+  .text-gray-600= t(".updated_at")
+  .font-bold= local_time(@execution.updated_at)
+
+.p
+  .text-gray-600= t(".created_at")
+  .font-bold= local_time(@execution.created_at)
+
+.p
+  => button_to t(".delete"), @execution, method: :delete, class: "underline", form_class: "inline-block"

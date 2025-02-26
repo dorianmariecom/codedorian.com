@@ -1,10 +1,268 @@
 ---
 en:
+  activerecord:
+    attributes:
+      schedule:
+        starts_at: starts at
+        interval: interval
+        program_id: program
+      address:
+        address: address
+        primary: primary?
+        verified: verified?
+      email_address:
+        email_address: email address
+        primary: primary?
+        verified: verified?
+      handle:
+        handle: handle
+        primary: primary?
+        verified: verified?
+      message:
+        body: body
+        from_user_id: from user
+        subject: subject
+        to_user_id: to user
+      name:
+        family_name: family name
+        given_name: given name
+        primary: primary?
+        verified: verified?
+      password:
+        hint: hint
+        password: password
+        primary: primary?
+        verified: verified?
+      phone_number:
+        phone_number: phone number
+        phone_number_input: phone number
+        primary: primary?
+        verified: verified?
+      program:
+        input: input
+        name: name
+        user_id: user
+      time_zone:
+        primary: primary?
+        time_zone: time zone
+        verified: verified?
+      user:
+        admin: admin?
+        locale: language
+        verified: verified?
+    errors:
+      models:
+        phone_number:
+          impossible: impossible
+          invalid: invalid
+  addresses:
+    create:
+      notice: address created
+    destroy:
+      notice: address deleted
+    edit:
+      submit: update address
+      title: edit address
+    form:
+      address_placeholder: enter your address
+    index:
+      delete_all: delete all
+      new: new address
+      title: addresses
+    model:
+      to_s: address#%{id}
+    nested:
+      add: add address
+    nested_form:
+      address: address
+      address_placeholder: enter your address
+      remove: remove address
+    new:
+      submit: create address
+      title: new address
+    show:
+      address: address
+      address_components: address components
+      created_at: created at
+      delete: delete address
+      edit: edit address
+      formatted_address: formatted address
+      geometry: geometry
+      place_id: place id
+      primary: primary?
+      types: types
+      updated_at: updated at
+      user: user
+      verified: verified?
+    update:
+      notice: address updated
+  devices:
+    model:
+      to_s: device#%{id}
+  email_addresses:
+    create:
+      notice: email address created
+    destroy:
+      notice: email address deleted
+    edit:
+      submit: update email address
+      title: edit email address
+    form:
+      email_address_placeholder: enter your email address
+    index:
+      delete_all: delete all
+      new: new email address
+      title: email addresses
+    model:
+      to_s: email_address#%{id}
+    nested:
+      add: add email address
+    nested_form:
+      email_address: email address
+      email_address_placeholder: enter your email address
+      remove: remove email address
+    new:
+      submit: create email address
+      title: new email address
+    show:
+      created_at: created at
+      delete: delete email address
+      edit: edit email address
+      email_address: email address
+      primary: primary?
+      updated_at: updated at
+      user: user
+      verified: verified?
+    update:
+      notice: email address updated
+  errors:
+    internal_server_error:
+      title: internal server error
+    not_found:
+      title: not found
+    unprocessable_entity:
+      title: unprocessable entity
+  executions:
+    destroy:
+      notice: execution deleted
+    index:
+      delete_all: delete all
+      title: executions
+    model:
+      to_s: execution#%{id}
+    show:
+      created_at: created at
+      delete: delete execution
+      error: error
+      input: input
+      output: output
+      program: program
+      result: result
+      updated_at: updated at
+  handles:
+    create:
+      notice: handle created
+    destroy:
+      notice: handle deleted
+    edit:
+      submit: update handle
+      title: edit handle
+    form:
+      handle_placeholder: enter your handle
+    index:
+      delete_all: delete all
+      new: new handle
+      title: handles
+    model:
+      to_s: handle#%{id}
+    nested:
+      add: add handle
+    nested_form:
+      handle: handle
+      handle_placeholder: enter your handle
+      remove: remove handle
+    new:
+      submit: create handle
+      title: new handle
+    show:
+      created_at: created at
+      delete: delete handle
+      edit: edit handle
+      handle: handle
+      primary: primary?
+      updated_at: updated at
+      user: user
+      verified: verified?
+    update:
+      notice: handle updated
+  helpers:
+    label:
+      session:
+        email_address: email address
+        password: password
   layouts:
     application:
       about: about
       documentation: documentation
+      english: english
+      french: french
+      js:
+        address:
+          not_present: must be present
+          not_valid: must be valid
+        password:
+          not_present: must be present
+        phone_number:
+          invalid_country_code: has invalid country code
+          invalid_length: has invalid length
+          invalid_phone_number: is invalid phone number
+          is_possible: is possible
+          is_possible_local_only: is possible local only
+          not_present: must be present
+          not_valid: must be valid
+          too_long: is too long
+          too_short: is too short
+        time_zone:
+          not_present: must be present
+        trix:
+          GB: gb
+          KB: kb
+          MB: mb
+          PB: pb
+          TB: tb
+          attachFiles: attach files
+          bold: bold
+          bullets: bullets
+          byte: byte
+          bytes: bytes
+          captionPlaceholder: add a caption…
+          code: code
+          heading1: heading
+          indent: increase level
+          italic: italic
+          link: link
+          numbers: numbers
+          outdent: decrease level
+          quote: quote
+          redo: redo
+          remove: remove
+          strike: strikethrough
+          undo: undo
+          unlink: unlink
+          url: url
+          urlPlaceholder: enter a url…
+        validation:
+          not_email:
+            feminine: must be an email address
+            masculine: must be an email address
+          not_present:
+            feminine: must be present
+            masculine: must be present
+          not_valid:
+            feminine: must be valid
+            masculine: must be valid
       log_in: log in
+      log_out: log out
       messages: messages
       privacy: privacy
       programs: programs
@@ -12,19 +270,422 @@ en:
       source: source
       terms: terms
       title: code
+      up: "/up"
+      users: users
+  messages:
+    create:
+      notice: message created
+    destroy:
+      notice: message deleted
+    edit:
+      submit: update message
+      title: edit message
+    form:
+      body_placeholder: enter your message's body
+      subject_placeholder: enter your message's subject
+    index:
+      delete_all: delete all messages
+      new: new message
+      title: messages
+    model:
+      to_s: message#%{id}
+    new:
+      submit: create message
+      title: new message
+    show:
+      body: body
+      created_at: created at
+      delete: delete message
+      edit: edit message
+      from_user: from user
+      read: read
+      read_at_html: read at %{local_time}
+      subject: subject
+      to_user: to user
+      unread: unread
+      unread_at_html: unread at %{local_time}
+      updated_at: updated at
+    update:
+      notice: message updated
+  names:
+    create:
+      notice: name created
+    destroy:
+      notice: name deleted
+    edit:
+      submit: update name
+      title: edit name
+    form:
+      family_name_placeholder: enter your family name
+      given_name_placeholder: enter your given name
+    index:
+      delete_all: delete all
+      new: new name
+      title: names
+    model:
+      to_s: name#%{id}
+    nested:
+      add: add name
+    nested_form:
+      family_name_placeholder: enter your family name
+      given_name_placeholder: enter your given name
+      name: name
+      remove: remove name
+    new:
+      submit: create name
+      title: new name
+    show:
+      created_at: created at
+      delete: delete name
+      edit: edit name
+      family_name: family name
+      given_name: given name
+      primary: primary?
+      updated_at: updated at
+      user: user
+      verified: verified?
+    update:
+      notice: name updated
+  password_validator:
+    model:
+      sequence:
+        bruteforce: add another word or two, preferably uncommon
+        date: avoid dates and years that are associated with you
+        dictionary: add another word or two, preferably uncommon
+        digits: avoid digits
+        repeat: avoid repeated words or characters
+        sequence: avoid sequences
+        spatial: use longer keyboard patterns with more turns
+        year: avoid recent years, especially if they are associated with you
+  passwords:
+    create:
+      notice: password created
+    destroy:
+      notice: password deleted
+    edit:
+      submit: update password
+      title: edit password
+    form:
+      hint_placeholder: enter your password's hint
+      password_placeholder: enter your password
+    index:
+      delete_all: delete all
+      new: new password
+      title: passwords
+    model:
+      to_s: password#%{id}
+    nested:
+      add: add password
+    nested_form:
+      hint_placeholder: enter your password's hint
+      password: password
+      password_placeholder: enter your password
+      remove: remove password
+    new:
+      submit: create password
+      title: new password
+    show:
+      created_at: created at
+      delete: delete password
+      edit: edit password
+      hint: hint
+      password: password
+      primary: primary?
+      updated_at: updated at
+      user: user
+      verified: verified?
+    update:
+      notice: password updated
+  phone_numbers:
+    create:
+      notice: phone number created
+    destroy:
+      notice: phone number deleted
+    edit:
+      submit: update phone number
+      title: edit phone number
+    form:
+      phone_number_placeholder: enter your phone number
+    index:
+      delete_all: delete all
+      new: new phone number
+      title: phone numbers
+    model:
+      to_s: phone_number#%{id}
+    nested:
+      add: add phone number
+    nested_form:
+      phone_number: phone number
+      phone_number_placeholder: enter your phone number
+      remove: remove phone number
+    new:
+      submit: create phone number
+      title: new phone number
+    show:
+      created_at: created at
+      delete: delete phone number
+      edit: edit phone number
+      phone_number: phone number
+      primary: primary?
+      updated_at: updated at
+      user: user
+      verified: verified?
+    update:
+      notice: phone number updated
+  programs:
+    create:
+      notice: program created
+    destroy:
+      notice: program deleted
+    edit:
+      submit: update program
+      title: edit program
+    form:
+      fake_input: Http.get("https://google.com")
+      input_placeholder: enter your program's input
+      name_placeholder: enter your program's name
+    index:
+      delete_all: delete all programs
+      new: new program
+      title: programs
+    model:
+      to_s: program#%{id}
+    new:
+      submit: create program
+      title: new program
+    show:
+      created_at: created at
+      delete: delete program
+      edit: edit program
+      evaluate: evaluate
+      executions: executions
+      input: input
+      name: name
+      not_scheduled_html: would you like to schedule for %{local_time}?
+      schedule: schedule
+      scheduled_html: it's scheduled for %{local_time}
+      schedules: schedules
+      unschedule: unschedule
+      updated_at: updated at
+      user: user
+      new_schedule: new schedule
+    update:
+      notice: program updated
+  schedules:
+    create:
+      notice: schedule created
+    destroy:
+      notice: schedule deleted
+    edit:
+      submit: update schedule
+      title: edit schedule
+    index:
+      delete_all: delete all
+      new: new schedule
+      title: schedules
+    model:
+      days:
+        one: 1 day
+        other: "%{count} days"
+        zero: 0 days
+      hours:
+        one: 1 hour
+        other: "%{count} hours"
+        zero: 0 hours
+      minutes:
+        one: 1 minute
+        other: "%{count} minutes"
+        zero: 0 minutes
+      months:
+        one: 1 month
+        other: "%{count} months"
+        zero: 0 months
+      once: once
+      seconds:
+        one: 1 second
+        other: "%{count} seconds"
+        zero: 0 seconds
+      to_s: schedule#%{id}
+      weeks:
+        one: 1 week
+        other: "%{count} weeks"
+        zero: 0 weeks
+      years:
+        one: 1 year
+        other: "%{count} years"
+        zero: 0 years
+    nested:
+      add: add schedule
+    nested_form:
+      remove: remove schedule
+      schedule: schedule
+    new:
+      submit: create schedule
+      title: new schedule
+    schedule:
+      schedule_html: starts %{local_time}, repeats every %{interval}
+      schedule_once_html: starts %{local_time}, doesn't repeat
+    show:
+      created_at: created at
+      delete: delete schedule
+      edit: edit schedule
+      interval: interval
+      program: program
+      schedule_html: starts %{local_time}, repeats every %{interval}
+      schedule_once_html: starts %{local_time}, doesn't repeat
+      starts_at: starts at
+      updated_at: updated at
+    update:
+      notice: schedule updated
+  sessions:
+    create:
+      notice: logged in
+      wrong_email_address: wrong email address
+      wrong_password: wrong password
+    destroy:
+      notice: logged out
+    new:
+      submit: log in
+      title: log in
+  shared:
+    list:
+      addresses: addresses
+      email_addresses: email addresses
+      handles: handles
+      names: names
+      new_address: new address
+      new_email_address: new email address
+      new_handle: new handle
+      new_name: new name
+      new_password: new password
+      new_phone_number: new phone number
+      new_time_zone: new time zone
+      passwords: passwords
+      phone_numbers: phone numbers
+      time_zones: time zones
   static:
+    about:
+      about_html: |
+        <p>
+          code is the project of
+          <a href="https://dorianmarie.com">dorian marié</a>
+        </p>
+      title: about
+    documentation:
+      title: documentation
     home:
-      paragraphs:
-      - welcome to code
-      - the programming language for the internet age
-      - here you can use, create, schedule, execute, and manage your programs
+      home_html: |
+        <p>welcome to code</p>
+        <p>the programming language for the internet age</p>
+        <p>here you can use, create, schedule, execute, and manage your programs</p>
       title: home
+    privacy:
+      privacy_html: |
+        <p>welcome to codedorian.com ("we," "our," "us"). your privacy is important to us. this privacy policy explains how we collect, use, and protect your information when you use our website.</p>
+        <p>we may collect personal information (such as your name, email, and contact details) and non-personal information (such as browser type and ip address) when you use our website.</p>
+        <p>we use your information to provide, improve, and personalize our services, communicate with you, and ensure the security of our website.</p>
+        <p>we may use cookies and similar tracking technologies to enhance your experience. you can control cookie settings through your browser.</p>
+        <p>we may use third-party services for analytics, payment processing, or other functionalities. these third parties have their own privacy policies governing their use of your information.</p>
+        <p>we take reasonable measures to protect your personal information from unauthorized access, disclosure, or loss.</p>
+        <p>you have the right to access, update, or request deletion of your personal information. contact us for assistance.</p>
+        <p>we may update this privacy policy at any time. your continued use of our website signifies your acceptance of any changes.</p>
+        <p>if you have any questions about this privacy policy, please contact us at <a href="mailto:dorian@dorianmarie.com">dorian@dorianmarie.com</a>.</p>
+      title: privacy policy
+    source:
+      source_html: |
+        <p>
+          <a href="https://github.com/dorianmariecom/codedorian.com">
+            codedorian.com's source
+          </a>
+        </p>
+        <p>
+          <a href="https://github.com/dorianmariecom/code-ruby">
+            code-ruby's source
+          </a>
+        </p>
+        <p>
+          <a href="https://github.com/dorianmariecom/language-ruby">
+            language-ruby's source
+          </a>
+        </p>
+      title: source
+    terms:
+      terms_html: |
+        <p>welcome to codedorian.com ("we," "our," "us"). by accessing or using our website, you agree to be bound by these terms and conditions. if you do not agree, please do not use our website.</p>
+        <p>you agree to use this website only for lawful purposes and in a way that does not infringe on the rights of others or restrict their use of the site.</p>
+        <p>all content on this website, including text, graphics, and logos, is owned by [website name] or licensed to us. you may not copy, reproduce, or distribute any content without our permission.</p>
+        <p>we provide this website "as is" without warranties of any kind. we are not responsible for any loss or damage arising from your use of the website.</p>
+        <p>our website may contain links to third-party sites. we are not responsible for the content or privacy policies of these external sites.</p>
+        <p>we may update these terms and conditions at any time. your continued use of the website signifies your acceptance of the updated terms.</p>
+        <p>for any questions regarding these terms, please contact us at <a href="mailto:dorian@dorianmarie.com">dorian@dorianmarie.com</a>.</p>
+      title: terms and conditions
     up:
       title: "/up"
-  users:
-    new:
-      name: name
-      password: password
-      submit: register
+      up_html: "<p>working</p>\n"
+  time_zones:
+    create:
+      notice: time zone created
+    destroy:
+      notice: time zone deleted
+    edit:
+      submit: update time zone
+      title: edit time zone
+    index:
+      delete_all: delete all
+      new: new time zone
+      title: time zones
+    model:
+      to_s: time_zone#%{id}
+    nested:
+      add: add time zone
+    nested_form:
+      remove: remove time zone
       time_zone: time zone
-      title: register
+    new:
+      submit: create time zone
+      title: new time zone
+    show:
+      created_at: created at
+      delete: delete time zone
+      edit: edit time zone
+      primary: primary?
+      time_zone: time zone
+      updated_at: updated at
+      user: user
+      verified: verified?
+    update:
+      notice: time zone updated
+  tokens:
+    model:
+      to_s: token#%{id}
+  users:
+    create:
+      notice: user created
+    destroy:
+      notice: user deleted
+    edit:
+      submit: update user
+      title: edit user
+    index:
+      delete_all: delete all
+      new: new user
+      title: users
+    model:
+      locales:
+        en: english
+        fr: french
+        none: none
+      to_s: user#%{id}
+    new:
+      submit: create user
+      title: new user
+    show:
+      admin: admin
+      created_at: created at
+      delete: delete user
+      edit: edit user
+      locale: language
+      updated_at: updated at
+      verified: verified?
+    update:
+      notice: user updated
