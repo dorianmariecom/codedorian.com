@@ -7,6 +7,9 @@ import {
   LABEL_INVALID_CLASSES,
 } from "constants";
 
+window.googleMapsCallback = () =>
+  window.dispatchEvent(new Event("google-maps-callback"));
+
 const t = I18n("address");
 
 export default class extends Controller {
@@ -26,10 +29,25 @@ export default class extends Controller {
   };
 
   connect() {
-    if (typeof google !== "undefined") {
-      this.autocomplete = new google.maps.places.Autocomplete(this.inputTarget);
-      this.autocomplete.addListener("place_changed", this.input.bind(this));
-    }
+    const script = document.createElement('script');
+    script.async = true;
+    script.defer = true;
+    script.src = `
+      https://maps.googleapis.com/maps/api/js
+      ?key=${window.GOOGLE_MAPS_API_KEY}
+      &callback=googleMapsCallback
+      &loading=async
+      &libraries=places
+      &time=${Date.now()}
+      &random=${Math.random()}
+    `.replace(/[ \n]/g, "")
+
+    document.head.appendChild(script)
+  }
+
+  load() {
+    this.autocomplete = new google.maps.places.Autocomplete(this.inputTarget);
+    this.autocomplete.addListener("place_changed", this.input.bind(this));
   }
 
   disconnect() {

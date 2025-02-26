@@ -2,6 +2,10 @@
 fr:
   activerecord:
     attributes:
+      schedule:
+        starts_at: commence à
+        interval: intervalle
+        program_id: programme
       address:
         address: adresse
         primary: primaire ?
@@ -464,6 +468,7 @@ fr:
       unschedule: déplanifier
       updated_at: mis à jour à
       user: utilisateur
+      new_schedule: nouvel horaire
     update:
       notice: programme mis à jour
   schedules:

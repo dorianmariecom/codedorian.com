@@ -39,8 +39,8 @@ class User < ApplicationRecord
 
   after_create { tokens.create! }
 
-  def name
-    names.verified.primary.first&.name || names.verified.first&.name
+  def full_name
+    names.verified.primary.first&.full_name || names.verified.first&.full_name
   end
 
   def email_address
@@ -54,12 +54,19 @@ class User < ApplicationRecord
   end
 
   def time_zone
-    email_addresses.verified.primary.first&.email_address ||
-      email_addresses.verified.first&.email_address
+    time_zones.verified.primary.first&.time_zone ||
+      time_zones.verified.first&.time_zone
   end
 
   def verify!
     update!(verified: true)
+    addresses.update!(verified: true)
+    email_addresses.update!(verified: true)
+    handles.update!(verified: true)
+    names.update!(verified: true)
+    passwords.update!(verified: true)
+    phone_numbers.update!(verified: true)
+    time_zones.update!(verified: true)
   end
 
   def admin!
@@ -91,7 +98,11 @@ class User < ApplicationRecord
   end
 
   def to_s
-    name.presence || email_address.presence || phone_number.presence ||
+    full_name.presence || email_address.presence || phone_number.presence ||
       t("to_s", id:)
+  end
+
+  def to_code
+    Code::Object::User.new(id:)
   end
 end

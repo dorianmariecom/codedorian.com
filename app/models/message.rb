@@ -16,6 +16,12 @@ class Message < ApplicationRecord
   scope :read, -> { where(read: true) }
   scope :unread, -> { where(read: false) }
 
+  validate { can!(:update, from_user) }
+  validate { can!(:update, to_user) }
+
+  before_validation { log_in(self.from_user ||= User.create!) }
+  before_validation { self.to_user ||= User.create! }
+
   def read!
     update!(read: true)
   end
@@ -54,5 +60,9 @@ class Message < ApplicationRecord
 
   def to_s
     subject&.to_plain_text.presence || t("to_s", id:)
+  end
+
+  def to_code
+    Code::Object::Message.new(id:)
   end
 end

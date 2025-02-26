@@ -10,16 +10,14 @@ html
     = csrf_meta_tags
     = javascript_importmap_tags
     = stylesheet_link_tag "tailwind", "data-turbo-track": "reload"
-    javascript:
-      window.googleMapsCallback = () =>
-        window.dispatchEvent(new Event("google-maps-callback"));
-    script(src="https://maps.googleapis.com/maps/api/js?key=#{google_maps_api_key}&callback=googleMapsCallback&loading=async&libraries=places" async defer)
 
   body.border-t-4.border-black.p-8(data-controller="update-time-zone")
     javascript:
       window.DEFAULT_COUNTRY_CODE = "#{default_country_code}";
       window.time_zone = "#{current_time_zone}";
       window.translations = #{t(".js").to_json.html_safe};
+      window.RECAPTCHA_SITE_KEY = "#{recaptcha_site_key}";
+      window.GOOGLE_MAPS_API_KEY = "#{google_maps_api_key}";
 
     - if registered?
       .p
@@ -59,11 +57,3 @@ html
         => link_to t(".english"), url_for(locale: :en), class: "underline"
       - else
         => link_to t(".french"), url_for(locale: :fr), class: "underline"
-
-    javascript:
-      window.setInputWithRecaptchaResponseTokenForSubmit = (id, token) => {
-        [...document.querySelectorAll(`#${id}`)].forEach((element) => {
-          element.value = token;
-          element.parentElement.querySelector("[type=submit]").disabled = false;
-        });
-      }

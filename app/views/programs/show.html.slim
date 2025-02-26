@@ -42,12 +42,12 @@
   => link_to t(".edit"), [:edit, @program], class: "underline"
   => button_to t(".delete"), @program, method: :delete, class: "underline", form_class: "inline-block"
 
-- if @schedules.any?
-  .p.font-bold= t(".schedules")
+.p.font-bold= link_to t(".schedules"), [@program, :schedules], class: "underline"
 
-  = render @schedules
+.p= link_to t(".new_schedule"), [:new, @program, :schedule], class: "button"
 
-- if @executions.any?
-  .p.font-bold= t(".executions")
+= render @schedules
 
-  = render @executions
+.p.font-bold= link_to t(".executions"), [@program, :executions], class: "underline"
+
+= render @executions

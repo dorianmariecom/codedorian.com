@@ -1,8 +1,8 @@
 = form_for schedule do |f|
   - if admin?
     .p
-      = f.label :user_id, class: "label"
-      = f.select :user_id, user_options(user_id: f.object.user_id), {}, class: "input"
+      = f.label :program_id, class: "label"
+      = f.select :program_id, program_options(program_id: f.object.program_id), {}, class: "input"
 
   .p
     = f.label :starts_at, class: "label"
@@ -13,14 +13,5 @@
   .p
     = f.label :interval, class: "label"
     = f.select :interval, schedule_interval_options(interval: f.object.interval), {}, required: true, class: "input", data: { form_type: "other" }, autocomplete: "off"
-
-  .p
-    = f.label :primary, class: "label"
-    = f.check_box :primary, class: "input"
-
-  - if admin?
-    .p
-      = f.label :verified, class: "label"
-      = f.check_box :verified, class: "input"
 
   .p= f.submit submit, class: "button"

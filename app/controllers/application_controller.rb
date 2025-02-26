@@ -93,7 +93,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_time_zone
-    current_user&.time_zone&.time_zone || session[:time_zone].presence
+    current_user&.time_zone || session[:time_zone].presence
   end
 
   def current_token?

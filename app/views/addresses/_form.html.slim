@@ -4,7 +4,7 @@
       = f.label :user_id, class: "label"
       = f.select :user_id, user_options(user_id: f.object.user_id), {}, class: "input"
 
-  .p(data-controller="address" data-action="google-maps-callback@window->address#connect")
+  .p(data-controller="address" data-action="google-maps-callback@window->address#load")
     = f.hidden_field :address_components, data: { address_target: "addressComponents" }
     = f.hidden_field :formatted_address, data: { address_target: "formattedAddress" }
     = f.hidden_field :geometry, data: { address_target: "geometry" }

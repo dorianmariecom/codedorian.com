@@ -65,6 +65,18 @@ class Schedule < ApplicationRecord
   after_initialize { self.starts_at ||= default_starts_at }
   after_initialize { self.interval ||= default_interval }
 
+  def self.interval_options
+    INTERVALS.map do |interval|
+      count = interval == "once" ? 0 : interval.split.first.to_i
+      per = interval == "once" ? "once" : interval.split.last.pluralize
+
+      [
+        t(per, count:),
+        interval
+      ]
+    end
+  end
+
   def once?
     interval == "once"
   end

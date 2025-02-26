@@ -24,11 +24,11 @@ module ApplicationHelper
   end
 
   def schedule_interval_options(interval: nil)
-    Schedule::INTERVALS.map do |option_interval|
+    Schedule.interval_options.map do |label, value|
       [
-        option_interval,
-        option_interval,
-        { selected: option_interval == interval }
+        label,
+        value,
+        { selected: value == interval }
       ]
     end
   end
@@ -135,7 +135,14 @@ module ApplicationHelper
   end
 
   def recaptcha_tag
-    recaptcha_v3(action: :submit, site_key: recaptcha_site_key, turbo: true)
+    hidden_field_tag(
+      "g-recaptcha-response",
+      "",
+      data: {
+        controller: "recaptcha",
+        action: "turbo:load@window->recaptcha#connect"
+      }
+    )
   end
 
   def form_for(record, options = {}, &block)

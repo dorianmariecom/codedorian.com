@@ -19,6 +19,18 @@ class ApplicationRecord < ActiveRecord::Base
     Current.user ||= user
   end
 
+  def self.model_singular
+    self.name.underscore.singularize.to_sym
+  end
+
+  def self.model_plural
+    self.name.underscore.pluralize.to_sym
+  end
+
+  def self.t(key, ...)
+    I18n.t("#{model_plural}.model.#{key}", ...)
+  end
+
   def alert
     errors.full_messages.to_sentence
   end

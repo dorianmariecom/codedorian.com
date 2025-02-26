@@ -12,3 +12,12 @@
 
 .p.code
   | Http.get("https://httpbin.org/get")
+
+.p.code
+  | Message.create!(subject: "test", body: "test")
+
+.p.code
+  | Current.user
+
+.p.code
+  | User.find("dorianmariecom")

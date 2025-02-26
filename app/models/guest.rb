@@ -23,7 +23,7 @@ class Guest
   def received_messages = Message.none
 
   def locale = nil
-  def name = nil
+  def full_name = nil
   def email_address = nil
   def phone_number = nil
   def time_zone = nil
