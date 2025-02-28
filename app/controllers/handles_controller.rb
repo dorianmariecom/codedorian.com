@@ -91,9 +91,9 @@ class HandlesController < ApplicationController
 
   def handle_params
     if admin?
-      params.require(:handle).permit(:user_id, :primary, :verified, :handle)
+      params.expect(handle: %i[user_id primary verified handle])
     else
-      params.require(:handle).permit(:primary, :handle)
+      params.expect(handle: %i[primary handle])
     end
   end
 end

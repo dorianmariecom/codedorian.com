@@ -70,10 +70,7 @@ class Schedule < ApplicationRecord
       count = interval == "once" ? 0 : interval.split.first.to_i
       per = interval == "once" ? "once" : interval.split.last.pluralize
 
-      [
-        t(per, count:),
-        interval
-      ]
+      [t(per, count:), interval]
     end
   end
 

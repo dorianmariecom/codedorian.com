@@ -91,26 +91,30 @@ class AddressesController < ApplicationController
 
   def address_params
     if admin?
-      params.require(:address).permit(
-        :user_id,
-        :primary,
-        :verified,
-        :address,
-        :formatted_address,
-        :address_components,
-        :place_id,
-        :types,
-        :geometry
+      params.expect(
+        address: %i[
+          user_id
+          primary
+          verified
+          address
+          formatted_address
+          address_components
+          place_id
+          types
+          geometry
+        ]
       )
     else
-      params.require(:address).permit(
-        :primary,
-        :address,
-        :formatted_address,
-        :address_components,
-        :place_id,
-        :types,
-        :geometry
+      params.expect(
+        address: %i[
+          primary
+          address
+          formatted_address
+          address_components
+          place_id
+          types
+          geometry
+        ]
       )
     end
   end

@@ -10,38 +10,38 @@ env:
   clear:
     RAILS_ENV: production
   secret:
-    - BASE_URL
-    - HOST
-    - HOSTS
-    - RAILS_MASTER_KEY
-    - DATABASE_URL
+  - BASE_URL
+  - HOST
+  - HOSTS
+  - RAILS_MASTER_KEY
+  - DATABASE_URL
 image: dorianmariecom/codedorian.com
 proxy:
   hosts:
-    - code-dorian.com
-    - code.dorianmarie.com
-    - codedorian.co
-    - codedorian.com
-    - codedorian.fr
-    - codedorian.net
-    - codedorian.org
+  - code-dorian.com
+  - code.dorianmarie.com
+  - codedorian.co
+  - codedorian.com
+  - codedorian.fr
+  - codedorian.net
+  - codedorian.org
   ssl: true
 registry:
   password:
-    - KAMAL_REGISTRY_PASSWORD
+  - KAMAL_REGISTRY_PASSWORD
   username:
-    - KAMAL_REGISTRY_USERNAME
+  - KAMAL_REGISTRY_USERNAME
 servers:
   jobs:
     cmd: bin/jobs
     hosts:
-      - 138.201.175.197
+    - 138.201.175.197
   push:
     cmd: bin/push
     hosts:
-      - 138.201.175.197
-  web:
     - 138.201.175.197
+  web:
+  - 138.201.175.197
 service: codedorian
 volumes:
-  - code_storage:/rails/storage
+- code_storage:/rails/storage

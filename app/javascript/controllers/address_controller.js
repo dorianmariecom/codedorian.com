@@ -29,7 +29,7 @@ export default class extends Controller {
   };
 
   connect() {
-    const script = document.createElement('script');
+    const script = document.createElement("script");
     script.async = true;
     script.defer = true;
     script.src = `
@@ -40,9 +40,9 @@ export default class extends Controller {
       &libraries=places
       &time=${Date.now()}
       &random=${Math.random()}
-    `.replace(/[ \n]/g, "")
+    `.replace(/[ \n]/g, "");
 
-    document.head.appendChild(script)
+    document.head.appendChild(script);
   }
 
   load() {

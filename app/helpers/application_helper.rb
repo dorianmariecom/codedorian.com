@@ -25,11 +25,7 @@ module ApplicationHelper
 
   def schedule_interval_options(interval: nil)
     Schedule.interval_options.map do |label, value|
-      [
-        label,
-        value,
-        { selected: value == interval }
-      ]
+      [label, value, { selected: value == interval }]
     end
   end
 
@@ -146,15 +142,15 @@ module ApplicationHelper
   end
 
   def form_for(record, options = {}, &block)
-    super(record, options) do |f|
-      safe_join([capture(f, &block), recaptcha_tag])
-    end
+    super { |f| safe_join([capture(f, &block), recaptcha_tag]) }
   end
 
+  # rubocop:disable Rails/OutputSafety
   def button_to(...)
     super.sub(
       "</form>",
       safe_join([recaptcha_tag, "</form>".html_safe])
     ).html_safe
   end
+  # rubocop:enable Rails/OutputSafety
 end

@@ -14,11 +14,13 @@ class User < ApplicationRecord
   has_many :sent_messages,
            class_name: "Message",
            foreign_key: :from_user_id,
-           dependent: :destroy
+           dependent: :destroy,
+           inverse_of: :from_user
   has_many :received_messages,
            class_name: "Message",
            foreign_key: :to_user_id,
-           dependent: :destroy
+           dependent: :destroy,
+           inverse_of: :to_user
 
   scope :verified, -> { where(verified: true) }
   scope :not_verified, -> { where(verified: false) }

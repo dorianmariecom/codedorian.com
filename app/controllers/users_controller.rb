@@ -96,62 +96,83 @@ class UsersController < ApplicationController
     return {} if params[:user].blank?
 
     if admin?
-      params.require(:user).permit(
-        :admin,
-        :verified,
-        :locale,
-        names_attributes: %i[
-          id
-          _destroy
-          given_name
-          family_name
-          primary
-          verified
-        ],
-        handles_attributes: %i[id _destroy handle primary verified],
-        email_addresses_attributes: %i[
-          id
-          _destroy
-          email_address
-          primary
-          verified
-        ],
-        phone_numbers_attributes: %i[id _destroy phone_number primary verified],
-        addresses_attributes: %i[
-          id
-          _destroy
-          address
-          address_components
-          formatted_address
-          geometry
-          place_id
-          types
-          primary
-          verified
-        ],
-        passwords_attributes: %i[id _destroy hint password primary verified],
-        time_zones_attributes: %i[id _destroy time_zone primary verified]
+      params.expect(
+        user: [
+          :admin,
+          :verified,
+          :locale,
+          {
+            names_attributes: %i[
+              id
+              _destroy
+              given_name
+              family_name
+              primary
+              verified
+            ],
+            handles_attributes: %i[id _destroy handle primary verified],
+            email_addresses_attributes: %i[
+              id
+              _destroy
+              email_address
+              primary
+              verified
+            ],
+            phone_numbers_attributes: %i[
+              id
+              _destroy
+              phone_number
+              primary
+              verified
+            ],
+            addresses_attributes: %i[
+              id
+              _destroy
+              address
+              address_components
+              formatted_address
+              geometry
+              place_id
+              types
+              primary
+              verified
+            ],
+            passwords_attributes: %i[
+              id
+              _destroy
+              hint
+              password
+              primary
+              verified
+            ],
+            time_zones_attributes: %i[id _destroy time_zone primary verified]
+          }
+        ]
       )
     else
-      params.require(:user).permit(
-        :locale,
-        names_attributes: %i[id _destroy given_name family_name primary],
-        handles_attributes: %i[id _destroy handle primary],
-        email_addresses_attributes: %i[id _destroy email_address primary],
-        phone_numbers_attributes: %i[id _destroy phone_number primary],
-        addresses_attributes: %i[
-          id
-          _destroy
-          address
-          address_components
-          formatted_address
-          geometry
-          place_id
-          types
-          primary
-        ],
-        passwords_attributes: %i[id _destroy hint password primary],
-        time_zones_attributes: %i[id _destroy time_zone primary]
+      params.expect(
+        user: [
+          :locale,
+          {
+            names_attributes: %i[id _destroy given_name family_name primary],
+            handles_attributes: %i[id _destroy handle primary],
+            email_addresses_attributes: %i[id _destroy email_address primary],
+            phone_numbers_attributes: %i[id _destroy phone_number primary],
+            addresses_attributes: %i[
+              id
+              _destroy
+              address
+              address_components
+              formatted_address
+              geometry
+              place_id
+              types
+              primary
+            ],
+            passwords_attributes: %i[id _destroy hint password primary],
+            time_zones_attributes: %i[id _destroy time_zone primary]
+          }
+        ]
       )
     end
   end

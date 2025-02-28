@@ -1,10 +1,10 @@
 ---
 AllCops:
   Exclude:
-    - "*/node_modules/**/*"
-    - "*/vendor/**/*"
-    - node_modules/**/*
-    - vendor/**/*
+  - "*/node_modules/**/*"
+  - "*/vendor/**/*"
+  - node_modules/**/*
+  - vendor/**/*
   NewCops: enable
   TargetRubyVersion: 3.3
 Layout/ClosingHeredocIndentation:
@@ -119,11 +119,12 @@ Style/StringLiterals:
   Enabled: false
 Style/StringLiteralsInInterpolation:
   Enabled: false
+plugins:
+- rubocop-performance
+- rubocop-rails
+- rubocop-rake
+- rubocop-rspec
 require:
-  - rubocop-factory_bot
-  - rubocop-performance
-  - rubocop-rails
-  - rubocop-rake
-  - rubocop-rspec
-  - rubocop-rspec_rails
-  - rubocop-capybara
+- rubocop-capybara
+- rubocop-factory_bot
+- rubocop-rspec_rails

@@ -91,15 +91,9 @@ class NamesController < ApplicationController
 
   def name_params
     if admin?
-      params.require(:name).permit(
-        :user_id,
-        :primary,
-        :verified,
-        :given_name,
-        :family_name
-      )
+      params.expect(name: %i[user_id primary verified given_name family_name])
     else
-      params.require(:name).permit(:primary, :given_name, :family_name)
+      params.expect(name: %i[primary given_name family_name])
     end
   end
 end

@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 require "dotenv"
 require "easy_translate"
@@ -16,22 +17,27 @@ TO_YAML = YAML.safe_load_file(TO_PATH)
 
 def translate(from_yaml, to_yaml)
   if from_yaml.is_a?(Hash)
-    from_yaml.map { |key, value| [key, translate(from_yaml[key], to_yaml&.dig(key))] }.to_h
+    from_yaml.to_h do |key, value|
+      [key, translate(from_yaml[key], to_yaml&.dig(key))]
+    end
   else
     return to_yaml if to_yaml
 
     puts from_yaml
 
     translation = EasyTranslate.translate(from_yaml, from: :en, to: :fr)
-    translation = translation
 
-    Readline.pre_input_hook = -> {
-      Readline.insert_text(translation)
-      Readline.redisplay
-    }
+    Readline.pre_input_hook =
+      lambda do
+        Readline.insert_text(translation)
+        Readline.redisplay
+      end
 
     Readline.readline("> ", true)
   end
 end
 
-File.write(TO_PATH, { "fr" => translate(FROM_YAML["en"], TO_YAML["fr"]) }.to_yaml)
+File.write(
+  TO_PATH,
+  { "fr" => translate(FROM_YAML["en"], TO_YAML["fr"]) }.to_yaml
+)

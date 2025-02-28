@@ -91,9 +91,9 @@ class DevicesController < ApplicationController
 
   def device_params
     if admin?
-      params.require(:device).permit(:user_id, :token, :platform)
+      params.expect(device: %i[user_id token platform])
     else
-      params.require(:device).permit(:token, :platform)
+      params.expect(device: %i[token platform])
     end
   end
 end

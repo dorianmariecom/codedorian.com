@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Code
   class Object
     class Current < Dictionary

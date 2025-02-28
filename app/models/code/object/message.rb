@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Code
   class Object
     class Message < Dictionary
@@ -22,7 +24,7 @@ class Code
               from: code_value.code_get("from"),
               to: code_value.code_get("to"),
               subject: code_value.code_get("subject"),
-              body: code_value.code_get("body"),
+              body: code_value.code_get("body")
             )
           else
             code_create!
@@ -42,7 +44,7 @@ class Code
               from: code_value.code_get("from"),
               to: code_value.code_get("to"),
               subject: code_value.code_get("subject"),
-              body: code_value.code_get("body"),
+              body: code_value.code_get("body")
             )
           else
             code_create

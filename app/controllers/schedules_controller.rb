@@ -136,9 +136,9 @@ class SchedulesController < ApplicationController
 
   def schedule_params
     if admin?
-      params.require(:schedule).permit(:program_id, :starts_at, :interval)
+      params.expect(schedule: %i[program_id starts_at interval])
     else
-      params.require(:schedule).permit(:starts_at, :interval)
+      params.expect(schedule: %i[starts_at interval])
     end
   end
 end

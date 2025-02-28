@@ -2,10 +2,6 @@
 fr:
   activerecord:
     attributes:
-      schedule:
-        starts_at: commence à
-        interval: intervalle
-        program_id: programme
       address:
         address: adresse
         primary: primaire ?
@@ -42,6 +38,10 @@ fr:
         input: entrée
         name: nom
         user_id: utilisateur
+      schedule:
+        interval: intervalle
+        program_id: programme
+        starts_at: commence à
       time_zone:
         primary: primaire ?
         time_zone: fuseau horaire
@@ -461,6 +461,7 @@ fr:
       executions: exécutions
       input: entrée
       name: nom
+      new_schedule: nouvel horaire
       not_scheduled_html: souhaitez-vous planifier pour %{local_time} ?
       schedule: planifier
       scheduled_html: planifié pour %{local_time}
@@ -468,7 +469,6 @@ fr:
       unschedule: déplanifier
       updated_at: mis à jour à
       user: utilisateur
-      new_schedule: nouvel horaire
     update:
       notice: programme mis à jour
   schedules:

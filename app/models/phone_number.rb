@@ -57,7 +57,7 @@ class PhoneNumber < ApplicationRecord
     verification_code.present?
   end
 
-  def verify!(code)
+  def verify!(_code)
     update!(verified: true, verification_code: "")
   end
 

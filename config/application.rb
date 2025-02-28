@@ -8,7 +8,7 @@ Bundler.require(*Rails.groups)
 
 class Code
   class Application < Rails::Application
-    config.load_defaults 8.0
+    config.load_defaults 8.1
     config.active_job.queue_adapter = :solid_queue
     config.active_record.automatically_invert_plural_associations = true
     config.active_record.default_column_serializer = JSON

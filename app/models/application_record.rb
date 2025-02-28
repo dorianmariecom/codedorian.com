@@ -20,11 +20,11 @@ class ApplicationRecord < ActiveRecord::Base
   end
 
   def self.model_singular
-    self.name.underscore.singularize.to_sym
+    name.underscore.singularize.to_sym
   end
 
   def self.model_plural
-    self.name.underscore.pluralize.to_sym
+    name.underscore.pluralize.to_sym
   end
 
   def self.t(key, ...)

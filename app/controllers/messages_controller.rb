@@ -111,15 +111,9 @@ class MessagesController < ApplicationController
 
   def message_params
     if admin?
-      params.require(:message).permit(
-        :from_user_id,
-        :to_user_id,
-        :subject,
-        :body,
-        :read
-      )
+      params.expect(message: %i[from_user_id to_user_id subject body read])
     else
-      params.require(:message).permit(:subject, :body)
+      params.expect(message: %i[subject body])
     end
   end
 end
