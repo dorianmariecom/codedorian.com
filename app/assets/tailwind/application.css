@@ -1,6 +1,4 @@
-@import "tailwindcss/base";
-@import "tailwindcss/utilities";
-@import "tailwindcss/components";
+@import "tailwindcss";
 @import "intl-tel-input/build/css/intlTelInput.css";
 
 [hidden] {
@@ -102,7 +100,8 @@ a {
   }
 
   pre {
-    @apply code;
+    @apply whitespace-pre font-mono rounded overflow-auto;
+    @apply border-black border p-2 w-fit;
   }
 }
 
@@ -131,7 +130,8 @@ trix-editor {
   }
 
   pre {
-    @apply code;
+    @apply whitespace-pre font-mono rounded overflow-auto;
+    @apply border-black border p-2 w-fit;
   }
 
   ul {
