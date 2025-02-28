@@ -19,8 +19,7 @@ class Code
     config.mission_control.jobs.show_console_help = false
     config.session_store :cookie_store, expire_after: 1.year
     config.hosts += ENV.fetch("HOSTS").split(",")
-    config.hosts << "3c373a17f753"
-    config.hosts << "fafbd21263d3"
+    config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
     config.i18n.default_locale = :en
     config.i18n.available_locales = %i[en fr]
   end
