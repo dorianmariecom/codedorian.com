@@ -123,7 +123,7 @@ class ApplicationController < ActionController::Base
   end
 
   def verify_captcha
-    return if request.get?
+    return if request.get? || request.head?
 
     verify_recaptcha!(
       action: :submit,
