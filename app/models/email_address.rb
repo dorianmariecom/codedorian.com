@@ -21,9 +21,7 @@ class EmailAddress < ApplicationRecord
 
   before_validation { log_in(self.user ||= User.create!) }
 
-  before_update do
-    not_verified! if email_address_changed? && verified?
-  end
+  before_update { not_verified! if email_address_changed? && verified? }
 
   def self.find_verification_code_signed!(id)
     find_signed!(id, purpose: VERIFICATION_CODE_PURPOSE)

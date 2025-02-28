@@ -21,9 +21,7 @@ class PhoneNumber < ApplicationRecord
 
   before_validation { log_in(self.user ||= User.create!) }
 
-  before_update do
-    not_verified! if phone_number_changed? && verified?
-  end
+  before_update { not_verified! if phone_number_changed? && verified? }
 
   delegate :e164, to: :phonelib
 
