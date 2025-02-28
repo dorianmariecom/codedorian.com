@@ -29,6 +29,15 @@ jobs:
     - rubocop
     - npm-audit
     runs-on: ubuntu-latest
+    env:
+      BASE_URL: "${{secrets.PRODUCTION_BASE_URL}}"
+      DATABASE_URL: "${{secrets.PRODUCTION_DATABASE_URL}}"
+      HOST: "${{secrets.PRODUCTION_HOST}}"
+      HOSTS: "${{secrets.PRODUCTION_HOSTS}}"
+      KAMAL_REGISTRY_PASSWORD: "${{secrets.PRODUCTION_KAMAL_REGISTRY_PASSWORD}}"
+      KAMAL_REGISTRY_USERNAME: "${{secrets.PRODUCTION_KAMAL_REGISTRY_USERNAME}}"
+      RAILS_MASTER_KEY: "${{secrets.PRODUCTION_RAILS_MASTER_KEY}}"
+      SSH_PRIVATE_KEY: "${{secrets.PRODUCTION_SSH_PRIVATE_KEY}}"
     steps:
     - uses: actions/checkout@v4
     - uses: webfactory/ssh-agent@v0.9.0
@@ -49,17 +58,10 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
-    - run: echo ${{secrets.PRODUCTION_REDIS_PASSWORD}} > .env.prod
     - if: github.ref == 'refs/heads/main'
-      run: bin/kamal lock release --destination prod
-    - env:
-        DATABASE_URL: "${{secrets.PRODUCTION_DATABASE_URL}}"
-        KAMAL_REGISTRY_PASSWORD: "${{secrets.PRODUCTION_KAMAL_REGISTRY_PASSWORD}}"
-        KAMAL_REGISTRY_USERNAME: "${{secrets.PRODUCTION_KAMAL_REGISTRY_USERNAME}}"
-        POSTGRES_PASSWORD: "${{secrets.PRODUCTION_POSTGRES_PASSWORD}}"
-        RAILS_MASTER_KEY: "${{secrets.PRODUCTION_RAILS_MASTER_KEY}}"
-      if: github.ref == 'refs/heads/main'
-      run: bin/kamal deploy --skip-push --destination prod
+      run: bin/kamal lock release --destination production
+    - if: github.ref == 'refs/heads/main'
+      run: bin/kamal deploy --skip-push --destination production
   deploy-staging:
     name: Deploy staging
     needs:
@@ -71,6 +73,15 @@ jobs:
     - rubocop
     - npm-audit
     runs-on: ubuntu-latest
+    env:
+      BASE_URL: "${{secrets.STAGING_BASE_URL}}"
+      DATABASE_URL: "${{secrets.STAGING_DATABASE_URL}}"
+      HOST: "${{secrets.STAGING_HOST}}"
+      HOSTS: "${{secrets.STAGING_HOSTS}}"
+      KAMAL_REGISTRY_PASSWORD: "${{secrets.STAGING_KAMAL_REGISTRY_PASSWORD}}"
+      KAMAL_REGISTRY_USERNAME: "${{secrets.STAGING_KAMAL_REGISTRY_USERNAME}}"
+      RAILS_MASTER_KEY: "${{secrets.STAGING_RAILS_MASTER_KEY}}"
+      SSH_PRIVATE_KEY: "${{secrets.STAGING_SSH_PRIVATE_KEY}}"
     steps:
     - uses: actions/checkout@v4
     - uses: webfactory/ssh-agent@v0.9.0
@@ -91,16 +102,9 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
-    - run: echo ${{secrets.STAGING_REDIS_PASSWORD}} > .env.staging
     - if: github.ref == 'refs/heads/main'
       run: bin/kamal lock release --destination staging
-    - env:
-        DATABASE_URL: "${{secrets.STAGING_DATABASE_URL}}"
-        KAMAL_REGISTRY_PASSWORD: "${{secrets.STAGING_KAMAL_REGISTRY_PASSWORD}}"
-        KAMAL_REGISTRY_USERNAME: "${{secrets.STAGING_KAMAL_REGISTRY_USERNAME}}"
-        POSTGRES_PASSWORD: "${{secrets.STAGING_POSTGRES_PASSWORD}}"
-        RAILS_MASTER_KEY: "${{secrets.STAGING_RAILS_MASTER_KEY}}"
-      if: github.ref == 'refs/heads/main'
+    - if: github.ref == 'refs/heads/main'
       run: bin/kamal deploy --skip-push --destination staging
   importmap-audit:
     name: Importmap Audit
