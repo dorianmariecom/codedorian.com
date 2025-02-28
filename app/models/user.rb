@@ -60,7 +60,7 @@ class User < ApplicationRecord
       time_zones.verified.first&.time_zone
   end
 
-  def verify!
+  def verified!
     update!(verified: true)
     addresses.update!(verified: true)
     email_addresses.update!(verified: true)
@@ -71,12 +71,43 @@ class User < ApplicationRecord
     time_zones.update!(verified: true)
   end
 
+  def not_verified!
+    update!(verified: false)
+    addresses.update!(verified: false)
+    email_addresses.update!(verified: false)
+    handles.update!(verified: false)
+    names.update!(verified: false)
+    passwords.update!(verified: false)
+    phone_numbers.update!(verified: false)
+    time_zones.update!(verified: false)
+  end
+
+  def primary!
+    addresses.update!(primary: true)
+    email_addresses.update!(primary: true)
+    handles.update!(primary: true)
+    names.update!(primary: true)
+    passwords.update!(primary: true)
+    phone_numbers.update!(primary: true)
+    time_zones.update!(primary: true)
+  end
+
+  def not_primary!
+    addresses.update!(primary: false)
+    email_addresses.update!(primary: false)
+    handles.update!(primary: false)
+    names.update!(primary: false)
+    passwords.update!(primary: false)
+    phone_numbers.update!(primary: false)
+    time_zones.update!(primary: false)
+  end
+
   def admin!
     update!(admin: true)
   end
 
-  def unverify!
-    update!(verified: false)
+  def not_admin!
+    update!(admin: false)
   end
 
   def verified?

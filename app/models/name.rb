@@ -13,11 +13,7 @@ class Name < ApplicationRecord
   validate { can!(:update, user) }
 
   before_validation { log_in(self.user ||= User.create!) }
-  before_update { unverify! if name_changed? && verified? }
-
-  def unverify!
-    update!(verified: false)
-  end
+  before_update { not_verified! if name_changed? && verified? }
 
   def primary?
     !!primary
@@ -27,12 +23,28 @@ class Name < ApplicationRecord
     !primary?
   end
 
+  def primary!
+    update!(primary: true)
+  end
+
+  def not_primary!
+    update!(primary: false)
+  end
+
   def verified?
     !!verified
   end
 
   def not_verified?
     !verified?
+  end
+
+  def verified!
+    update!(verified: true)
+  end
+
+  def not_verified!
+    update!(verified: false)
   end
 
   def name_changed?

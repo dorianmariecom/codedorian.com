@@ -102,30 +102,30 @@ class UsersController < ApplicationController
           :verified,
           :locale,
           {
-            names_attributes: %i[
+            names_attributes: [%i[
               id
               _destroy
               given_name
               family_name
               primary
               verified
-            ],
-            handles_attributes: %i[id _destroy handle primary verified],
-            email_addresses_attributes: %i[
+            ]],
+            handles_attributes: [%i[id _destroy handle primary verified]],
+            email_addresses_attributes: [%i[
               id
               _destroy
               email_address
               primary
               verified
-            ],
-            phone_numbers_attributes: %i[
+            ]],
+            phone_numbers_attributes: [%i[
               id
               _destroy
               phone_number
               primary
               verified
-            ],
-            addresses_attributes: %i[
+            ]],
+            addresses_attributes: [%i[
               id
               _destroy
               address
@@ -136,16 +136,16 @@ class UsersController < ApplicationController
               types
               primary
               verified
-            ],
-            passwords_attributes: %i[
+            ]],
+            passwords_attributes: [%i[
               id
               _destroy
               hint
               password
               primary
               verified
-            ],
-            time_zones_attributes: %i[id _destroy time_zone primary verified]
+            ]],
+            time_zones_attributes: [%i[id _destroy time_zone primary verified]]
           }
         ]
       )
@@ -154,11 +154,11 @@ class UsersController < ApplicationController
         user: [
           :locale,
           {
-            names_attributes: %i[id _destroy given_name family_name primary],
-            handles_attributes: %i[id _destroy handle primary],
-            email_addresses_attributes: %i[id _destroy email_address primary],
-            phone_numbers_attributes: %i[id _destroy phone_number primary],
-            addresses_attributes: %i[
+            names_attributes: [%i[id _destroy given_name family_name primary]],
+            handles_attributes: [%i[id _destroy handle primary]],
+            email_addresses_attributes: [%i[id _destroy email_address primary]],
+            phone_numbers_attributes: [%i[id _destroy phone_number primary]],
+            addresses_attributes: [%i[
               id
               _destroy
               address
@@ -168,9 +168,9 @@ class UsersController < ApplicationController
               place_id
               types
               primary
-            ],
-            passwords_attributes: %i[id _destroy hint password primary],
-            time_zones_attributes: %i[id _destroy time_zone primary]
+            ]],
+            passwords_attributes: [%i[id _destroy hint password primary]],
+            time_zones_attributes: [%i[id _destroy time_zone primary]]
           }
         ]
       )

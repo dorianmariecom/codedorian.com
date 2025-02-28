@@ -13,7 +13,7 @@ class Address < ApplicationRecord
 
   before_validation { log_in(self.user ||= User.create!) }
 
-  before_update { unverify! if address_changed? && (verified? || verifying?) }
+  before_update { not_verified! if address_changed? && (verified? || verifying?) }
 
   def address_components=(address_components)
     if address_components.is_a?(String) && address_components.present?
@@ -53,6 +53,14 @@ class Address < ApplicationRecord
     !primary?
   end
 
+  def primary!
+    update!(primary: true)
+  end
+
+  def not_primary!
+    update!(primary: false)
+  end
+
   def verified?
     !!verified
   end
@@ -61,7 +69,11 @@ class Address < ApplicationRecord
     !verified?
   end
 
-  def unverify!
+  def verified!
+    update!(verified: true)
+  end
+
+  def not_verified!
     update!(verified: false)
   end
 

@@ -126,7 +126,7 @@ class ProgramsController < ApplicationController
           :user_id,
           :name,
           :input,
-          { schedules_attributes: %i[id _destroy starts_at interval] }
+          { schedules_attributes: [%i[id _destroy starts_at interval]] }
         ]
       )
     else
@@ -134,7 +134,7 @@ class ProgramsController < ApplicationController
         program: [
           :input,
           :name,
-          { schedules_attributes: %i[id _destroy starts_at interval] }
+          { schedules_attributes: [%i[id _destroy starts_at interval]] }
         ]
       )
     end

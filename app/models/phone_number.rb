@@ -2,8 +2,6 @@
 
 class PhoneNumber < ApplicationRecord
   DEFAULT_COUNTRY_CODE = "FR"
-  BRAND = "CodeDorian"
-  VERIFICATION_CODE_REGEXP = /\A[0-9 ]+\z/
 
   belongs_to :user, default: -> { Current.user! }, touch: true
 
@@ -24,8 +22,10 @@ class PhoneNumber < ApplicationRecord
   before_validation { log_in(self.user ||= User.create!) }
 
   before_update do
-    unverify! if phone_number_changed? && (verified? || verifying?)
+    not_verified! if phone_number_changed? && verified?
   end
+
+  delegate :e164, to: :phonelib
 
   def primary?
     !!primary
@@ -33,6 +33,14 @@ class PhoneNumber < ApplicationRecord
 
   def not_primary?
     !primary?
+  end
+
+  def primary!
+    update!(primary: true)
+  end
+
+  def not_primary!
+    update!(primary: false)
   end
 
   def verified?
@@ -43,34 +51,20 @@ class PhoneNumber < ApplicationRecord
     !verified?
   end
 
+  def verified!
+    update!(verified: true)
+  end
+
+  def not_verified!
+    update!(verified: false)
+  end
+
   def phonelib
     Phonelib.parse(phone_number)
   end
 
-  delegate :e164, to: :phonelib
-
   def formatted
     phonelib.international
-  end
-
-  def verification_code_sent?
-    verification_code.present?
-  end
-
-  def verify!(_code)
-    update!(verified: true, verification_code: "")
-  end
-
-  def cancel_verification!
-    update!(verified: false, verification_code: "")
-  end
-
-  def unverify!
-    update!(verified: false, verification_code: "")
-  end
-
-  def verifying?
-    verification_code_sent?
   end
 
   def to_s

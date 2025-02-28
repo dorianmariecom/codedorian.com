@@ -22,14 +22,17 @@ class Guest
   def sent_messages = Message.none
   def received_messages = Message.none
 
+  def verified! = nil
+  def primary! = nil
+  def admin! = nil
+  def not_verified! = nil
+  def not_primary! = nil
+
   def locale = nil
   def full_name = nil
   def email_address = nil
   def phone_number = nil
   def time_zone = nil
-  def verify! = nil
-  def admin! = nil
-  def unverify! = nil
   def verified? = false
   def not_verified? = true
   def admin? = false
