@@ -19,6 +19,15 @@ jobs:
         bundler-cache: true
     - run: bin/bundler-audit check --update
   deploy-production:
+    env:
+      BASE_URL: "${{secrets.PRODUCTION_BASE_URL}}"
+      DATABASE_URL: "${{secrets.PRODUCTION_DATABASE_URL}}"
+      HOST: "${{secrets.PRODUCTION_HOST}}"
+      HOSTS: "${{secrets.PRODUCTION_HOSTS}}"
+      KAMAL_REGISTRY_PASSWORD: "${{secrets.PRODUCTION_KAMAL_REGISTRY_PASSWORD}}"
+      KAMAL_REGISTRY_USERNAME: "${{secrets.PRODUCTION_KAMAL_REGISTRY_USERNAME}}"
+      RAILS_MASTER_KEY: "${{secrets.PRODUCTION_RAILS_MASTER_KEY}}"
+      SSH_PRIVATE_KEY: "${{secrets.PRODUCTION_SSH_PRIVATE_KEY}}"
     name: Deploy production
     needs:
     - brakeman
@@ -29,15 +38,6 @@ jobs:
     - rubocop
     - npm-audit
     runs-on: ubuntu-latest
-    env:
-      BASE_URL: "${{secrets.PRODUCTION_BASE_URL}}"
-      DATABASE_URL: "${{secrets.PRODUCTION_DATABASE_URL}}"
-      HOST: "${{secrets.PRODUCTION_HOST}}"
-      HOSTS: "${{secrets.PRODUCTION_HOSTS}}"
-      KAMAL_REGISTRY_PASSWORD: "${{secrets.PRODUCTION_KAMAL_REGISTRY_PASSWORD}}"
-      KAMAL_REGISTRY_USERNAME: "${{secrets.PRODUCTION_KAMAL_REGISTRY_USERNAME}}"
-      RAILS_MASTER_KEY: "${{secrets.PRODUCTION_RAILS_MASTER_KEY}}"
-      SSH_PRIVATE_KEY: "${{secrets.PRODUCTION_SSH_PRIVATE_KEY}}"
     steps:
     - uses: actions/checkout@v4
     - uses: webfactory/ssh-agent@v0.9.0
@@ -63,6 +63,15 @@ jobs:
     - if: github.ref == 'refs/heads/main'
       run: bin/kamal deploy --skip-push --destination production
   deploy-staging:
+    env:
+      BASE_URL: "${{secrets.STAGING_BASE_URL}}"
+      DATABASE_URL: "${{secrets.STAGING_DATABASE_URL}}"
+      HOST: "${{secrets.STAGING_HOST}}"
+      HOSTS: "${{secrets.STAGING_HOSTS}}"
+      KAMAL_REGISTRY_PASSWORD: "${{secrets.STAGING_KAMAL_REGISTRY_PASSWORD}}"
+      KAMAL_REGISTRY_USERNAME: "${{secrets.STAGING_KAMAL_REGISTRY_USERNAME}}"
+      RAILS_MASTER_KEY: "${{secrets.STAGING_RAILS_MASTER_KEY}}"
+      SSH_PRIVATE_KEY: "${{secrets.STAGING_SSH_PRIVATE_KEY}}"
     name: Deploy staging
     needs:
     - brakeman
@@ -73,15 +82,6 @@ jobs:
     - rubocop
     - npm-audit
     runs-on: ubuntu-latest
-    env:
-      BASE_URL: "${{secrets.STAGING_BASE_URL}}"
-      DATABASE_URL: "${{secrets.STAGING_DATABASE_URL}}"
-      HOST: "${{secrets.STAGING_HOST}}"
-      HOSTS: "${{secrets.STAGING_HOSTS}}"
-      KAMAL_REGISTRY_PASSWORD: "${{secrets.STAGING_KAMAL_REGISTRY_PASSWORD}}"
-      KAMAL_REGISTRY_USERNAME: "${{secrets.STAGING_KAMAL_REGISTRY_USERNAME}}"
-      RAILS_MASTER_KEY: "${{secrets.STAGING_RAILS_MASTER_KEY}}"
-      SSH_PRIVATE_KEY: "${{secrets.STAGING_SSH_PRIVATE_KEY}}"
     steps:
     - uses: actions/checkout@v4
     - uses: webfactory/ssh-agent@v0.9.0
