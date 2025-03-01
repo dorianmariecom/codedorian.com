@@ -55,6 +55,7 @@ jobs:
         context: "."
         push: true
         tags: "${{github.repository}}:${{github.sha}}"
+        platforms: linux/amd64
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
@@ -100,6 +101,7 @@ jobs:
         context: "."
         push: true
         tags: "${{github.repository}}:${{github.sha}}"
+        platforms: linux/amd64
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
