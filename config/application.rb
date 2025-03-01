@@ -19,7 +19,7 @@ class Code
     config.mission_control.jobs.show_console_help = false
     config.session_store :cookie_store, expire_after: 1.year
     config.hosts += ENV.fetch("HOSTS").split(",")
-    config.hosts += ["::1", "127.0.0.1", "localhost"]
+    config.hosts += %w[::1 127.0.0.1 localhost]
     config.host_authorization = {
       exclude: ->(request) { request.path == "/up" }
     }

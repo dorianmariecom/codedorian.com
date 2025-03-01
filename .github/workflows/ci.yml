@@ -53,9 +53,9 @@ jobs:
         cache-from: type=gha
         cache-to: type=gha,mode=max
         context: "."
+        platforms: linux/arm64
         push: true
         tags: "${{github.repository}}:${{github.sha}}"
-        platforms: linux/arm64
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
@@ -99,9 +99,9 @@ jobs:
         cache-from: type=gha
         cache-to: type=gha,mode=max
         context: "."
+        platforms: linux/arm64
         push: true
         tags: "${{github.repository}}:${{github.sha}}"
-        platforms: linux/arm64
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
