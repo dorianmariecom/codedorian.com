@@ -53,7 +53,7 @@ jobs:
         cache-from: type=gha
         cache-to: type=gha,mode=max
         context: "."
-        labels: service=code
+        labels: service=codedorian
         platforms: linux/arm64
         push: true
         tags: "${{github.repository}}:${{github.sha}}"
@@ -100,7 +100,7 @@ jobs:
         cache-from: type=gha
         cache-to: type=gha,mode=max
         context: "."
-        labels: service=code
+        labels: service=codedorian-staging
         platforms: linux/arm64
         push: true
         tags: "${{github.repository}}:${{github.sha}}"
