@@ -13,7 +13,9 @@ class Address < ApplicationRecord
 
   before_validation { log_in(self.user ||= User.create!) }
 
-  before_update { not_verified! if address_changed? && (verified? || verifying?) }
+  before_update do
+    not_verified! if address_changed? && (verified? || verifying?)
+  end
 
   def address_components=(address_components)
     if address_components.is_a?(String) && address_components.present?
