@@ -44,6 +44,18 @@ jobs:
       with:
         ssh-private-key: "${{secrets.PRODUCTION_SSH_PRIVATE_KEY}}"
     - uses: docker/setup-buildx-action@v3
+    - uses: docker/login-action@v3
+      with:
+        password: "${{secrets.PRODUCTION_KAMAL_REGISTRY_PASSWORD}}"
+        username: "${{secrets.PRODUCTION_KAMAL_REGISTRY_USERNAME}}"
+    - uses: docker/build-push-action@v5
+      with:
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+        context: "."
+        push: true
+        tags: "${{github.repository}}:${{github.sha}}"
+        platforms: linux/amd64/v8
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
@@ -51,7 +63,7 @@ jobs:
     - if: github.ref == 'refs/heads/main'
       run: bin/kamal lock release --destination production
     - if: github.ref == 'refs/heads/main'
-      run: bin/kamal deploy --destination production
+      run: bin/kamal deploy --skip-push --destination production
   deploy-staging:
     env:
       BASE_URL: "${{secrets.STAGING_BASE_URL}}"
@@ -77,6 +89,19 @@ jobs:
     - uses: webfactory/ssh-agent@v0.9.0
       with:
         ssh-private-key: "${{secrets.STAGING_SSH_PRIVATE_KEY}}"
+    - uses: docker/setup-buildx-action@v3
+    - uses: docker/login-action@v3
+      with:
+        password: "${{secrets.STAGING_KAMAL_REGISTRY_PASSWORD}}"
+        username: "${{secrets.STAGING_KAMAL_REGISTRY_USERNAME}}"
+    - uses: docker/build-push-action@v5
+      with:
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+        context: "."
+        push: true
+        tags: "${{github.repository}}:${{github.sha}}"
+        platforms: linux/amd64/v8
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
@@ -84,7 +109,7 @@ jobs:
     - if: github.ref == 'refs/heads/main'
       run: bin/kamal lock release --destination staging
     - if: github.ref == 'refs/heads/main'
-      run: bin/kamal deploy --destination staging
+      run: bin/kamal deploy --skip-push --destination staging
   importmap-audit:
     name: Importmap Audit
     runs-on: ubuntu-latest
