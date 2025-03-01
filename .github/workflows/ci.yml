@@ -58,6 +58,7 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
+    - run: env > .kamal/secrets.production
     - if: github.ref == 'refs/heads/main'
       run: bin/kamal lock release --destination production
     - if: github.ref == 'refs/heads/main'
@@ -102,6 +103,7 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
+    - run: env > .kamal/secrets.staging
     - if: github.ref == 'refs/heads/main'
       run: bin/kamal lock release --destination staging
     - if: github.ref == 'refs/heads/main'
