@@ -53,6 +53,7 @@ jobs:
         cache-from: type=gha
         cache-to: type=gha,mode=max
         context: "."
+        labels: service=code
         platforms: linux/arm64
         push: true
         tags: "${{github.repository}}:${{github.sha}}"
@@ -99,6 +100,7 @@ jobs:
         cache-from: type=gha
         cache-to: type=gha,mode=max
         context: "."
+        labels: service=code
         platforms: linux/arm64
         push: true
         tags: "${{github.repository}}:${{github.sha}}"
