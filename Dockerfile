@@ -55,3 +55,5 @@ entrypoint ["/rails/bin/docker-entrypoint"]
 
 expose 3000
 cmd ["./bin/thrust", "./bin/web"]
+
+label codedorian
