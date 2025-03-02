@@ -153,4 +153,28 @@ module ApplicationHelper
     ).html_safe
   end
   # rubocop:enable Rails/OutputSafety
+
+  def localhost?
+    request.host == "localhost"
+  end
+
+  def dev?
+    request.subdomains.first == "dev"
+  end
+
+  def staging?
+    request.subdomains.first == "staging"
+  end
+
+  def body_classes
+    if localhost?
+      "border-green-600"
+    elsif dev?
+      "border-orange-600"
+    elsif staging?
+      "border-blue-600"
+    else
+      "border-black"
+    end
+  end
 end

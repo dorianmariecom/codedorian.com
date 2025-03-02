@@ -11,7 +11,7 @@ html
     = javascript_importmap_tags
     = stylesheet_link_tag "tailwind", "data-turbo-track": "reload"
 
-  body.border-t-4.border-black.p-8(data-controller="update-time-zone")
+  body.border-t-4.p-8(class="#{body_classes}" data-controller="update-time-zone")
     javascript:
       window.DEFAULT_COUNTRY_CODE = "#{default_country_code}";
       window.time_zone = "#{current_time_zone}";
