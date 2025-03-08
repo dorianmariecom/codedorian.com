@@ -177,4 +177,8 @@ module ApplicationHelper
       "border-black"
     end
   end
+
+  def web_app?
+    !hotwire_native_app?
+  end
 end

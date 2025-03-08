@@ -104,6 +104,10 @@ Rails.application.routes.draw do
     get "privacy", to: "static#privacy"
     get "source", to: "static#source"
 
+    resources :configurations, only: [] do
+      get :ios_v1, on: :collection
+    end
+
     match "/404", to: "errors#not_found", via: :all
     match "/422", to: "errors#unprocessable_entity", via: :all
     match "/500", to: "errors#internal_server_error", via: :all
