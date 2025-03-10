@@ -126,7 +126,7 @@ class ApplicationController < ActionController::Base
     return if request.get? || request.head?
 
     verify_recaptcha!(
-      action: :submit,
+      action: params["g-recaptcha-action"],
       recaptcha_v3: true,
       secret_key: recaptcha_secret_key
     )

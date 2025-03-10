@@ -1,0 +1,17 @@
+div=> link_to t(".programs"), [current_user, :programs], class: "underline"
+div=> link_to t(".messages"), [current_user, :messages], class: "underline"
+
+- if admin?
+  div=> link_to t(".users"), :users, class: "underline"
+
+div=> link_to t(".documentation"), :documentation, class: "underline"
+div=> link_to t(".source"), :source, class: "underline"
+div=> link_to t(".about"), :about, class: "underline"
+div=> link_to t(".privacy"), :privacy, class: "underline"
+div=> link_to t(".terms"), :terms, class: "underline"
+div=> link_to t(".up"), :up, class: "underline"
+
+- if fr?
+  div=> link_to t(".english"), url_for(locale: :en), class: "underline"
+- else
+  div=> link_to t(".french"), url_for(locale: :fr), class: "underline"

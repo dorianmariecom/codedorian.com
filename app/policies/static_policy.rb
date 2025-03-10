@@ -28,4 +28,8 @@ class StaticPolicy < ApplicationPolicy
   def source?
     true
   end
+
+  def more?
+    true
+  end
 end

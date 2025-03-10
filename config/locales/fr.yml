@@ -200,12 +200,19 @@ fr:
       session:
         email_address: adresse e-mail
         password: mot de passe
-  layouts:
-    application:
+  application:
+    menu:
+      source: source
+      privacy: confidentialité
       about: à propos
       documentation: documentation
       english: anglais
       french: français
+      terms: termes
+      up: "/up"
+      more: plus
+  layouts:
+    application:
       js:
         address:
           not_present: doit être présente
@@ -264,13 +271,9 @@ fr:
       log_in: connexion
       log_out: déconnexion
       messages: messages
-      privacy: confidentialité
       programs: programmes
       register: s'inscrire
-      source: source
-      terms: conditions
       title: code
-      up: "/up"
       users: utilisateurs
   messages:
     create:

@@ -9,6 +9,10 @@ a {
   @apply cursor-pointer;
 }
 
+.list-none::-webkit-details-marker {
+  display: none;
+}
+
 .p {
   @apply mb-5;
 }

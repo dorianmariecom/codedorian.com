@@ -10,7 +10,7 @@ html
     = stylesheet_link_tag("tailwind", "data-turbo-track": "reload")
     = turbo_refreshes_with(method: :morph, scroll: :preserve)
 
-  body.border-t-4.p-8(class="#{body_classes}" data-controller="update-time-zone")
+  body.border-t-4.p-8(class="#{body_classes}" data-hotwire-native="#{hotwire_native_app?}" data-controller="update-time-zone")
     javascript:
       window.DEFAULT_COUNTRY_CODE = "#{default_country_code}";
       window.time_zone = "#{current_time_zone}";
@@ -18,23 +18,18 @@ html
       window.RECAPTCHA_SITE_KEY = "#{recaptcha_site_key}";
       window.GOOGLE_MAPS_API_KEY = "#{google_maps_api_key}";
 
-    - if web_app?
-      - if registered?
-        .p
-          => link_to t(".title"), root_path, class: "underline"
-          => link_to current_user, current_user, class: "underline"
-          => button_to t(".log_out"), :session, method: :delete, class: "underline", form_class: "inline-block"
-          => link_to t(".programs"), [current_user, :programs], class: "underline"
-          => link_to t(".messages"), [current_user, :messages], class: "underline"
-          - if admin?
-            => link_to t(".users"), :users, class: "underline"
-      - else
-        .p
-          => link_to t(".title"), root_path, class: "underline"
-          => link_to t(".register"), [:new, :user], class: "underline"
-          => link_to t(".log_in"), [:new, :session], class: "underline"
-          => link_to t(".programs"), :programs, class: "underline"
-          => link_to t(".messages"), :messages, class: "underline"
+    - if registered?
+      .p
+        => link_to t(".title"), root_path, class: "underline"
+        => link_to current_user, current_user, class: "underline"
+        => button_to t(".log_out"), :session, method: :delete, class: "underline", form_class: "inline-block"
+        => link_to t(".more"), :more, class: "underline"
+    - else
+      .p
+        => link_to t(".title"), root_path, class: "underline"
+        => link_to t(".register"), [:new, :user], class: "underline"
+        => link_to t(".log_in"), [:new, :session], class: "underline"
+        => link_to t(".more"), :more, class: "underline"
 
     - if alert.present?
       .p.text-red-600= alert
@@ -42,20 +37,6 @@ html
     - if notice.present?
       .p.text-green-600= notice
 
-    - if web_app?
-      h1.p.font-bold= title
+    h1.p.font-bold= title
 
     = yield
-
-    - if web_app?
-      .p
-        => link_to t(".documentation"), :documentation, class: "underline"
-        => link_to t(".source"), :source, class: "underline"
-        => link_to t(".about"), :about, class: "underline"
-        => link_to t(".privacy"), :privacy, class: "underline"
-        => link_to t(".terms"), :terms, class: "underline"
-        => link_to t(".up"), :up, class: "underline"
-        - if fr?
-          => link_to t(".english"), url_for(locale: :en), class: "underline"
-        - else
-          => link_to t(".french"), url_for(locale: :fr), class: "underline"

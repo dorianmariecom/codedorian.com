@@ -202,10 +202,7 @@ en:
         password: password
   layouts:
     application:
-      about: about
-      documentation: documentation
-      english: english
-      french: french
+      more: more
       js:
         address:
           not_present: must be present
@@ -263,14 +260,8 @@ en:
             masculine: must be valid
       log_in: log in
       log_out: log out
-      messages: messages
-      privacy: privacy
-      programs: programs
       register: register
-      source: source
-      terms: terms
       title: code
-      up: "/up"
       users: users
   messages:
     create:
@@ -564,6 +555,18 @@ en:
       phone_numbers: phone numbers
       time_zones: time zones
   static:
+    more:
+      source: source
+      privacy: privacy
+      about: about
+      documentation: documentation
+      english: english
+      french: french
+      terms: terms
+      up: "/up"
+      messages: messages
+      programs: programs
+      title: more
     about:
       about_html: |
         <p>

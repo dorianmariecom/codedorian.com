@@ -14,5 +14,17 @@ module.exports = {
     require("@tailwindcss/container-queries"),
     require("@tailwindcss/forms"),
     require("@tailwindcss/typography"),
+    ({ addVariant }) => {
+      addVariant(
+        "hotwire-native",
+        "html[data-hotwire-native=\"true\"] &",
+      );
+
+      addVariant(
+        "not-hotwire-native",
+        "html[data-hotwire-native=\"false\"]) &",
+      );
+    },
   ],
+}
 };

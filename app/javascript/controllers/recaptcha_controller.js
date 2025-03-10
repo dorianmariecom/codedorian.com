@@ -1,8 +1,10 @@
 import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
+  static targets = ["response", "action"];
+
   connect() {
-    this._typeSubmits().forEach((typeSubmit) => (typeSubmit.disabled = true));
+    this._input().disabled = true;
 
     const script = document.createElement("script");
     script.async = true;
@@ -26,16 +28,14 @@ export default class extends Controller {
 
   execute() {
     grecaptcha
-      .execute(window.RECAPTCHA_SITE_KEY, { action: "submit" })
+      .execute(window.RECAPTCHA_SITE_KEY, { action: this.actionTarget.value })
       .then((token) => {
-        this.element.value = token;
-        this._typeSubmits().forEach(
-          (typeSubmit) => (typeSubmit.disabled = false),
-        );
+        this.responseTarget.value = token;
+        this._input().disabled = false;
       });
   }
 
-  _typeSubmits() {
-    return [...this.element.closest("form").querySelectorAll("[type=submit]")];
+  _input() {
+    return this.element.closest("form").querySelector("[type=submit]");
   }
 }

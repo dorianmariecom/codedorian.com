@@ -24,4 +24,7 @@ class StaticController < ApplicationController
 
   def source
   end
+
+  def more
+  end
 end

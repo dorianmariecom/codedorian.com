@@ -131,14 +131,32 @@ module ApplicationHelper
   end
 
   def recaptcha_tag
-    hidden_field_tag(
-      "g-recaptcha-response",
-      "",
+    content_tag(
+      :div,
       data: {
         controller: "recaptcha",
         action: "turbo:load@window->recaptcha#connect"
       }
-    )
+    ) do
+      safe_join([
+        hidden_field_tag(
+          "g-recaptcha-response",
+          "",
+          id: nil,
+          data: {
+            recaptcha_target: "response"
+          }
+        ),
+        hidden_field_tag(
+          "g-recaptcha-action",
+          SecureRandom.hex,
+          id: nil,
+          data: {
+            recaptcha_target: "action"
+          }
+        )
+      ])
+    end
   end
 
   def form_for(record, options = {}, &block)
@@ -176,9 +194,5 @@ module ApplicationHelper
     else
       "border-black"
     end
-  end
-
-  def web_app?
-    !hotwire_native_app?
   end
 end
