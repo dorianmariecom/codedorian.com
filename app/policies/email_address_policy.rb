@@ -8,7 +8,7 @@ class EmailAddressPolicy < ApplicationPolicy
   end
 
   def index?
-    current_user?
+    true
   end
 
   def show?
@@ -16,7 +16,7 @@ class EmailAddressPolicy < ApplicationPolicy
   end
 
   def create?
-    current_user?
+    true
   end
 
   def update?
@@ -28,7 +28,7 @@ class EmailAddressPolicy < ApplicationPolicy
   end
 
   def destroy_all?
-    current_user?
+    true
   end
 
   private

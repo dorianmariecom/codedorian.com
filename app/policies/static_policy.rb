@@ -32,4 +32,8 @@ class StaticPolicy < ApplicationPolicy
   def more?
     true
   end
+
+  def account?
+    true
+  end
 end

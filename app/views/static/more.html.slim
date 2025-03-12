@@ -1,3 +1,10 @@
+- if registered?
+  div=> link_to current_user, current_user, class: "underline"
+  div=> button_to t(".log_out"), :session, method: :delete, class: "underline", form_class: "inline-block"
+- else
+  div=> link_to t(".register"), [:new, :user], class: "underline"
+  div=> link_to t(".log_in"), [:new, :session], class: "underline"
+
 div=> link_to t(".programs"), [current_user, :programs], class: "underline"
 div=> link_to t(".messages"), [current_user, :messages], class: "underline"
 

@@ -17,3 +17,4 @@ pin "@hotwired/turbo", to: "@hotwired--turbo.js" # @8.0.5
 pin "local-time" # @3.0.2
 pin "trix"
 pin "@rails/actiontext", to: "actiontext.esm.js"
+pin "@hotwired/hotwire-native-bridge", to: "@hotwired--hotwire-native-bridge.js" # @1.0.0

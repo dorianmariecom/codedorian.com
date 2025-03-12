@@ -2,13 +2,19 @@ doctype html
 html
   head
     title= strip_tags(title)
+
     meta(name="viewport" content="width=device-width,initial-scale=1")
     meta(charset="utf-8")
+
     = csp_meta_tag
     = csrf_meta_tags
     = javascript_importmap_tags
     = stylesheet_link_tag("tailwind", "data-turbo-track": "reload")
     = turbo_refreshes_with(method: :morph, scroll: :preserve)
+
+    meta(data-controller="bridge--tab-bar" data-bridge--tab-bar-tabs-value="#{tabs.to_json}")
+    - if registered?
+      meta(data-controller="bridge--notification-token")
 
   body.border-t-4.p-8(class="#{body_classes}" data-hotwire-native="#{hotwire_native_app?}" data-controller="update-time-zone")
     javascript:
@@ -18,18 +24,7 @@ html
       window.RECAPTCHA_SITE_KEY = "#{recaptcha_site_key}";
       window.GOOGLE_MAPS_API_KEY = "#{google_maps_api_key}";
 
-    - if registered?
-      .p
-        => link_to t(".title"), root_path, class: "underline"
-        => link_to current_user, current_user, class: "underline"
-        => button_to t(".log_out"), :session, method: :delete, class: "underline", form_class: "inline-block"
-        => link_to t(".more"), :more, class: "underline"
-    - else
-      .p
-        => link_to t(".title"), root_path, class: "underline"
-        => link_to t(".register"), [:new, :user], class: "underline"
-        => link_to t(".log_in"), [:new, :session], class: "underline"
-        => link_to t(".more"), :more, class: "underline"
+    = render "application/menu"
 
     - if alert.present?
       .p.text-red-600= alert

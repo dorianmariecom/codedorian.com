@@ -9,8 +9,8 @@ class ApplicationController < ActionController::Base
 
   before_action :set_current_user
   before_action :set_time_zone
-  before_action :set_paper_trail_whodunnit
   before_action :set_locale
+  before_action :set_paper_trail_whodunnit
   before_action :verify_captcha
   after_action :verify_authorized
   after_action :verify_policy_scoped
@@ -19,7 +19,11 @@ class ApplicationController < ActionController::Base
   skip_after_action :verify_policy_scoped, if: :mission_control_controller?
 
   helper_method :current_user
+  helper_method :current_guest
+  helper_method :current_user_or_guest
   helper_method :current_user?
+  helper_method :registered?
+  helper_method :guest?
   helper_method :current_time_zone
   helper_method :admin?
   helper_method :can?
@@ -40,8 +44,24 @@ class ApplicationController < ActionController::Base
     redirect_to root_path, alert: error.message
   end
 
-  def current_user
+  def registered?
+    current_user?
+  end
+
+  def guest?
+    !registered?
+  end
+
+  def current_user_or_guest
     Current.user_or_guest
+  end
+
+  def current_user
+    Current.user
+  end
+
+  def current_guest
+    Current.guest
   end
 
   def current_user?

@@ -96,6 +96,22 @@ en:
       verified: verified?
     update:
       notice: address updated
+  application:
+    menu:
+      about: about
+      documentation: documentation
+      english: english
+      french: french
+      log_in: log in
+      log_out: log out
+      messages: messages
+      privacy: privacy
+      programs: programs
+      register: register
+      source: source
+      terms: terms
+      title: code
+      up: "/up"
   devices:
     model:
       to_s: device#%{id}
@@ -159,6 +175,21 @@ en:
       program: program
       result: result
       updated_at: updated at
+  guests:
+    index:
+      title: guests
+    model:
+      locales:
+        en: english
+        fr: french
+        none: none
+      to_s: guest
+    show:
+      admin: admin
+      created_at: created at
+      locale: language
+      updated_at: updated at
+      verified: verified?
   handles:
     create:
       notice: handle created
@@ -196,13 +227,19 @@ en:
     update:
       notice: handle updated
   helpers:
+    application:
+      tabs:
+        account: account
+        home: home
+        messages: messages
+        more: more
+        programs: programs
     label:
       session:
         email_address: email address
         password: password
   layouts:
     application:
-      more: more
       js:
         address:
           not_present: must be present
@@ -536,6 +573,7 @@ en:
     destroy:
       notice: logged out
     new:
+      register: register
       submit: log in
       title: log in
   shared:
@@ -555,18 +593,6 @@ en:
       phone_numbers: phone numbers
       time_zones: time zones
   static:
-    more:
-      source: source
-      privacy: privacy
-      about: about
-      documentation: documentation
-      english: english
-      french: french
-      terms: terms
-      up: "/up"
-      messages: messages
-      programs: programs
-      title: more
     about:
       about_html: |
         <p>
@@ -574,6 +600,10 @@ en:
           <a href="https://dorianmarie.com">dorian marié</a>
         </p>
       title: about
+    account:
+      log_in: log in
+      register: register
+      title: account
     documentation:
       title: documentation
     home:
@@ -582,6 +612,21 @@ en:
         <p>the programming language for the internet age</p>
         <p>here you can use, create, schedule, execute, and manage your programs</p>
       title: home
+    more:
+      about: about
+      documentation: documentation
+      english: english
+      french: french
+      log_in: log in
+      log_out: log out
+      messages: messages
+      privacy: privacy
+      programs: programs
+      register: register
+      source: source
+      terms: terms
+      title: more
+      up: "/up"
     privacy:
       privacy_html: |
         <p>welcome to codedorian.com ("we," "our," "us"). your privacy is important to us. this privacy policy explains how we collect, use, and protect your information when you use our website.</p>
@@ -680,6 +725,7 @@ en:
         none: none
       to_s: user#%{id}
     new:
+      log_in: log in
       submit: create user
       title: new user
     show:
@@ -688,6 +734,7 @@ en:
       delete: delete user
       edit: edit user
       locale: language
+      log_out: log out
       updated_at: updated at
       verified: verified?
     update:

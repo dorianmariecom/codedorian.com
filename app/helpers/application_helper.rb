@@ -73,19 +73,6 @@ module ApplicationHelper
     PhoneNumber::DEFAULT_COUNTRY_CODE
   end
 
-  def email_address_regexp
-    json_regexp(EmailAddress::EMAIL_ADDRESS_REGEXP)
-  end
-
-  def verification_code_regexp
-    json_regexp(PhoneNumber::VERIFICATION_CODE_REGEXP)
-  end
-
-  def whatsapp_to(phone_number, name)
-    phone_number = Phonelib.parse(phone_number).e164
-    link_to(name, "https://wa.me/#{h(phone_number)}")
-  end
-
   def json_regexp(regexp)
     str =
       regexp
@@ -102,20 +89,12 @@ module ApplicationHelper
     Regexp.new(str).source
   end
 
-  def registered?
-    current_user.is_an?(User)
-  end
-
-  def guest?
-    current_user.is_a?(Guest)
-  end
-
   def tokens
-    current_user.tokens.map(&:token)
+    current_user_or_guest.tokens.map(&:token)
   end
 
   def device_tokens
-    current_user.devices.map(&:token)
+    current_user_or_guest.devices.map(&:token)
   end
 
   def fr?
@@ -138,24 +117,26 @@ module ApplicationHelper
         action: "turbo:load@window->recaptcha#connect"
       }
     ) do
-      safe_join([
-        hidden_field_tag(
-          "g-recaptcha-response",
-          "",
-          id: nil,
-          data: {
-            recaptcha_target: "response"
-          }
-        ),
-        hidden_field_tag(
-          "g-recaptcha-action",
-          SecureRandom.hex,
-          id: nil,
-          data: {
-            recaptcha_target: "action"
-          }
-        )
-      ])
+      safe_join(
+        [
+          hidden_field_tag(
+            "g-recaptcha-response",
+            "",
+            id: nil,
+            data: {
+              recaptcha_target: "response"
+            }
+          ),
+          hidden_field_tag(
+            "g-recaptcha-action",
+            SecureRandom.hex,
+            id: nil,
+            data: {
+              recaptcha_target: "action"
+            }
+          )
+        ]
+      )
     end
   end
 
@@ -194,5 +175,35 @@ module ApplicationHelper
     else
       "border-black"
     end
+  end
+
+  def tabs
+    [
+      {
+        title: t("helpers.application.tabs.home"),
+        image: "house.fill",
+        path: root_path
+      },
+      {
+        title: t("helpers.application.tabs.programs"),
+        image: "ellipsis.curlybraces",
+        path: polymorphic_path([current_user_or_guest, :programs])
+      },
+      {
+        title: t("helpers.application.tabs.messages"),
+        image: "message.fill",
+        path: polymorphic_path([current_user_or_guest, :messages])
+      },
+      {
+        title: t("helpers.application.tabs.account"),
+        image: "person.crop.circle.fill",
+        path: account_path
+      },
+      {
+        title: t("helpers.application.tabs.more"),
+        image: "ellipsis",
+        path: more_path
+      }
+    ]
   end
 end

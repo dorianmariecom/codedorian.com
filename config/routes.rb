@@ -103,6 +103,7 @@ Rails.application.routes.draw do
     get "terms", to: "static#terms"
     get "privacy", to: "static#privacy"
     get "source", to: "static#source"
+    get "account", to: "static#account"
     get "more", to: "static#more"
 
     resources :configurations, only: [] do

@@ -8,7 +8,7 @@ class ProgramPolicy < ApplicationPolicy
   end
 
   def index?
-    current_user?
+    true
   end
 
   def show?
@@ -40,7 +40,7 @@ class ProgramPolicy < ApplicationPolicy
   end
 
   def destroy_all?
-    current_user?
+    true
   end
 
   private

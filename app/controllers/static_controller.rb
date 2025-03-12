@@ -25,6 +25,10 @@ class StaticController < ApplicationController
   def source
   end
 
+  def account
+    redirect_to current_user if registered?
+  end
+
   def more
   end
 end

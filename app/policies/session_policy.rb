@@ -6,6 +6,6 @@ class SessionPolicy < ApplicationPolicy
   end
 
   def destroy?
-    current_user?
+    true
   end
 end

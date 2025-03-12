@@ -96,6 +96,22 @@ fr:
       verified: vérifiée ?
     update:
       notice: adresse mise à jour
+  application:
+    menu:
+      about: à propos
+      documentation: documentation
+      english: anglais
+      french: français
+      log_in: se connecter
+      log_out: se déconnecter
+      messages: messages
+      privacy: confidentialité
+      programs: programmes
+      register: s'inscrire
+      source: source
+      terms: termes
+      title: code
+      up: "/up"
   devices:
     model:
       to_s: appareil#%{id}
@@ -159,6 +175,21 @@ fr:
       program: programme
       result: résultat
       updated_at: mis à jour à
+  guests:
+    index:
+      title: invités
+    model:
+      locales:
+        en: anglais
+        fr: français
+        none: aucun
+      to_s: invité
+    show:
+      admin: administrateur
+      created_at: créé à
+      locale: langue
+      updated_at: mis à jour à
+      verified: vérifié ?
   handles:
     create:
       notice: identifiant créé
@@ -196,21 +227,17 @@ fr:
     update:
       notice: identifiant mis à jour
   helpers:
+    application:
+      tabs:
+        account: compte
+        home: accueil
+        messages: messages
+        more: plus
+        programs: programmes
     label:
       session:
         email_address: adresse e-mail
         password: mot de passe
-  application:
-    menu:
-      source: source
-      privacy: confidentialité
-      about: à propos
-      documentation: documentation
-      english: anglais
-      french: français
-      terms: termes
-      up: "/up"
-      more: plus
   layouts:
     application:
       js:
@@ -270,8 +297,6 @@ fr:
             masculine: doit être valide
       log_in: connexion
       log_out: déconnexion
-      messages: messages
-      programs: programmes
       register: s'inscrire
       title: code
       users: utilisateurs
@@ -548,6 +573,7 @@ fr:
     destroy:
       notice: déconnecté
     new:
+      register: s'inscrire
       submit: se connecter
       title: connexion
   shared:
@@ -574,6 +600,10 @@ fr:
           <a href="https://dorianmarie.com">dorian marié</a>
         </p>
       title: à propos
+    account:
+      log_in: se connecter
+      register: s'inscrire
+      title: compte
     documentation:
       title: documentation
     home:
@@ -582,6 +612,21 @@ fr:
         <p>le langage de programmation de l'ère internet</p>
         <p>ici, vous pouvez utiliser, créer, planifier, exécuter et gérer vos programmes</p>
       title: accueil
+    more:
+      about: à propos
+      documentation: documentation
+      english: anglais
+      french: français
+      log_in: se connecter
+      log_out: se déconnecter
+      messages: messages
+      privacy: confidentialité
+      programs: programmes
+      register: s'inscrire
+      source: source
+      terms: termes
+      title: plus
+      up: "/up"
     privacy:
       privacy_html: |
         <p>bienvenue sur codedorian.com ("nous", "notre", "nos"). votre vie privée est importante pour nous. cette politique de confidentialité explique comment nous collectons, utilisons et protégeons vos informations lorsque vous utilisez notre site web.</p>
@@ -680,6 +725,7 @@ fr:
         none: aucun
       to_s: utilisateur#%{id}
     new:
+      log_in: se connecter
       submit: créer un utilisateur
       title: nouvel utilisateur
     show:
@@ -688,6 +734,7 @@ fr:
       delete: supprimer l'utilisateur
       edit: modifier l'utilisateur
       locale: langue
+      log_out: se déconnecter
       updated_at: mis à jour à
       verified: vérifié ?
     update:

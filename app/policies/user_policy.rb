@@ -34,7 +34,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def destroy_all?
-    current_user?
+    true
   end
 
   private

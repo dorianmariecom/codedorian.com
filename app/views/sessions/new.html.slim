@@ -18,3 +18,5 @@
     .text-gray-600= Faker::Internet.password
 
   .p= f.submit t(".submit"), class: "button"
+
+.p= link_to t(".register"), new_user_path, class: "underline"

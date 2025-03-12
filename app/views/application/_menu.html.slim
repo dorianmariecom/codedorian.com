@@ -1,0 +1,28 @@
+- unless hotwire_native_app?
+  .p
+    => link_to t(".title"), root_path, class: "underline"
+
+    - if registered?
+      => link_to current_user, current_user, class: "underline"
+      => button_to t(".log_out"), :session, method: :delete, class: "underline", form_class: "inline-block"
+    - else
+      => link_to t(".register"), [:new, :user], class: "underline"
+      => link_to t(".log_in"), [:new, :session], class: "underline"
+
+    => link_to t(".programs"), [current_user_or_guest, :programs], class: "underline"
+    => link_to t(".messages"), [current_user_or_guest, :messages], class: "underline"
+
+    - if admin?
+      => link_to t(".users"), :users, class: "underline"
+
+    => link_to t(".documentation"), :documentation, class: "underline"
+    => link_to t(".source"), :source, class: "underline"
+    => link_to t(".about"), :about, class: "underline"
+    => link_to t(".privacy"), :privacy, class: "underline"
+    => link_to t(".terms"), :terms, class: "underline"
+    => link_to t(".up"), :up, class: "underline"
+
+    - if fr?
+      => link_to t(".english"), url_for(locale: :en), class: "underline"
+    - else
+      => link_to t(".french"), url_for(locale: :fr), class: "underline"
