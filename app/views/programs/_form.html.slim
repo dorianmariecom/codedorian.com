@@ -16,4 +16,4 @@
 
   = render "schedules/nested", f:
 
-  .p= f.submit submit, class: "button"
+  .p= f.submit submit, class: "button", data: { controller: "bridge--button", bridge__button_title_value: submit }

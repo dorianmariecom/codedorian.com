@@ -3,6 +3,8 @@
 class DevicesController < ApplicationController
   before_action :load_user
   before_action :load_device, only: %i[show edit update destroy]
+  before_action :current_user!, only: :create
+  skip_before_action :verify_captcha, only: :create
 
   helper_method :url
   helper_method :new_url
@@ -28,10 +30,20 @@ class DevicesController < ApplicationController
 
     if @device.save
       log_in(@device.user)
-      redirect_to @device, notice: t(".notice")
+      respond_to do |format|
+        format.html { redirect_to @device, notice: t(".notice") }
+        format.json { render json: { message: t(".notice") } }
+      end
     else
-      flash.now.alert = @device.alert
-      render :new, status: :unprocessable_entity
+      respond_to do |format|
+        format.html do
+          flash.now.alert = @device.alert
+          render :new, status: :unprocessable_entity
+        end
+        format.json do
+          render json: { message: @device.alert }, status: :unprocessable_entity
+        end
+      end
     end
   end
 
@@ -91,9 +103,9 @@ class DevicesController < ApplicationController
 
   def device_params
     if admin?
-      params.expect(device: %i[user_id token platform])
+      params.expect(device: %i[user_id platform token primary verified])
     else
-      params.expect(device: %i[token platform])
+      params.expect(device: %i[platform token primary])
     end
   end
 end

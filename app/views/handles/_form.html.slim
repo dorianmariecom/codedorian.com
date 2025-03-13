@@ -19,4 +19,4 @@
       = f.label :verified, class: "label"
       = f.check_box :verified, class: "input"
 
-  .p= f.submit submit, class: "button"
+  .p= f.submit submit, class: "button", data: { controller: "bridge--button", bridge__button_title_value: submit }

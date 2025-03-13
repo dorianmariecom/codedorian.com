@@ -14,4 +14,4 @@
     = f.label :interval, class: "label"
     = f.select :interval, schedule_interval_options(interval: f.object.interval), {}, required: true, class: "input", data: { form_type: "other" }, autocomplete: "off"
 
-  .p= f.submit submit, class: "button"
+  .p= f.submit submit, class: "button", data: { controller: "bridge--button", bridge__button_title_value: submit }

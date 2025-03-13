@@ -15,8 +15,8 @@ module.exports = {
     require("@tailwindcss/forms"),
     require("@tailwindcss/typography"),
     ({ addVariant }) => {
-      addVariant("hotwire-native", 'html[data-hotwire-native="true"] &');
-      addVariant("not-hotwire-native", 'html[data-hotwire-native="false"]) &');
+      addVariant("hotwire-native", 'body[data-hotwire-native="true"] &');
+      addVariant("not-hotwire-native", 'body[data-hotwire-native="false"]) &');
     },
   ],
 };

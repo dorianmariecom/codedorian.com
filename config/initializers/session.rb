@@ -1,5 +1,5 @@
 Rails.application.config.session_store(
   :cookie_store,
   key: "_code_session",
-  expire_after: nil
+  expire_after: 20.years
 )

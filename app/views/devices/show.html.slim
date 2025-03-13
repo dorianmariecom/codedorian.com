@@ -1,0 +1,40 @@
+- content_for(:title, @device)
+
+- if @device.user.present?
+  .p
+    .text-gray-600= t(".user")
+
+    - if can?(:show, @device.user)
+      .font-bold= link_to @device.user, @device.user, class: "underline"
+    - else
+      .font-bold= @device.user
+
+- if @device.platform.present?
+  .p
+    .text-gray-600= t(".platform")
+    .font-bold= @device.platform
+
+- if @device.token.present?
+  .p
+    .text-gray-600= t(".token")
+    .font-bold= @device.token
+
+.p
+  .text-gray-600= t(".primary")
+  .font-bold= @device.primary?
+
+.p
+  .text-gray-600= t(".verified")
+  .font-bold= @device.verified?
+
+.p
+  .text-gray-600= t(".updated_at")
+  .font-bold= local_time(@device.updated_at)
+
+.p
+  .text-gray-600= t(".created_at")
+  .font-bold= local_time(@device.created_at)
+
+.p
+  => link_to t(".edit"), [:edit, @device], class: "underline"
+  => button_to t(".delete"), @device, method: :delete, class: "underline", form_class: "inline-block"

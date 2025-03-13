@@ -17,4 +17,4 @@
     = f.rich_textarea :body, placeholder: t(".body_placeholder"), class: "input"
     .text-gray-600= Faker::Lorem.paragraph
 
-  .p= f.submit submit, class: "button"
+  .p= f.submit submit, class: "button", data: { controller: "bridge--button", bridge__button_title_value: submit }

@@ -1,0 +1,35 @@
+- content_for(:title, @token)
+
+- if @token.user.present?
+  .p
+    .text-gray-600= t(".user")
+
+    - if can?(:show, @token.user)
+      .font-bold= link_to @token.user, @token.user, class: "underline"
+    - else
+      .font-bold= @token.user
+
+- if @token.token.present?
+  .p
+    .text-gray-600= t(".token")
+    .font-bold= @token.token
+
+.p
+  .text-gray-600= t(".primary")
+  .font-bold= @token.primary?
+
+.p
+  .text-gray-600= t(".verified")
+  .font-bold= @token.verified?
+
+.p
+  .text-gray-600= t(".updated_at")
+  .font-bold= local_time(@token.updated_at)
+
+.p
+  .text-gray-600= t(".created_at")
+  .font-bold= local_time(@token.created_at)
+
+.p
+  => link_to t(".edit"), [:edit, @token], class: "underline"
+  => button_to t(".delete"), @token, method: :delete, class: "underline", form_class: "inline-block"

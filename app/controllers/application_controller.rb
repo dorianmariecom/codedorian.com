@@ -60,6 +60,12 @@ class ApplicationController < ActionController::Base
     Current.user
   end
 
+  def current_user!
+    return if current_user?
+
+    redirect_to root_path, alert: t("application.current_user_required")
+  end
+
   def current_guest
     Current.guest
   end
@@ -109,7 +115,7 @@ class ApplicationController < ActionController::Base
   def current_token
     return if request.headers[:Token].blank?
 
-    Token.find_by(token: request.headers[:Token])
+    @current_token ||= Token.find_by(token: request.headers[:Token])
   end
 
   def current_time_zone

@@ -1,0 +1,6 @@
+.p= link_to t(".new"), new_url, class: "button"
+
+- if @devices.any?
+  .p= button_to t(".delete_all"), url, method: :delete, class: "underline"
+
+= render @devices

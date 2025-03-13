@@ -6,6 +6,11 @@ fr:
         address: adresse
         primary: primaire ?
         verified: vérifiée ?
+      device:
+        platform: plate-forme
+        primary: primaire?
+        token: jeton
+        verified: vérifié ?
       email_address:
         email_address: adresse e-mail
         primary: primaire ?
@@ -45,6 +50,10 @@ fr:
       time_zone:
         primary: primaire ?
         time_zone: fuseau horaire
+        verified: vérifié ?
+      token:
+        primary: primaire?
+        token: jeton
         verified: vérifié ?
       user:
         admin: administrateur ?
@@ -97,6 +106,7 @@ fr:
     update:
       notice: adresse mise à jour
   application:
+    current_user_required: utilisateur actuel requis
     menu:
       about: à propos
       documentation: documentation
@@ -112,9 +122,38 @@ fr:
       terms: termes
       title: code
       up: "/up"
+      users: utilisateurs
   devices:
+    create:
+      notice: appareil créé
+    destroy:
+      notice: appareil supprimé
+    edit:
+      submit: mettre à jour l'appareil
+      title: modifier l'appareil
+    index:
+      delete_all: supprimer tout
+      new: nouvel appareil
+      title: appareils
     model:
       to_s: appareil#%{id}
+    nested:
+      add: ajouter un appareil
+    new:
+      submit: créer un appareil
+      title: nouvel appareil
+    show:
+      created_at: créé à
+      delete: supprimer l'appareil
+      edit: modifier l'appareil
+      platform: plate-forme
+      primary: primaire?
+      token: jeton
+      updated_at: mis à jour à
+      user: utilisateur
+      verified: vérifié ?
+    update:
+      notice: appareil mis à jour
   email_addresses:
     create:
       notice: adresse e-mail créée
@@ -299,7 +338,6 @@ fr:
       log_out: déconnexion
       register: s'inscrire
       title: code
-      users: utilisateurs
   messages:
     create:
       notice: message créé
@@ -579,19 +617,23 @@ fr:
   shared:
     list:
       addresses: adresses
+      devices: appareils
       email_addresses: adresses e-mail
       handles: identifiants
       names: noms
       new_address: nouvelle adresse
+      new_device: nouvel appareil
       new_email_address: nouvelle adresse e-mail
       new_handle: nouvel identifiant
       new_name: nouveau nom
       new_password: nouveau mot de passe
       new_phone_number: nouveau numéro de téléphone
       new_time_zone: nouveau fuseau horaire
+      new_token: nouveau jeton
       passwords: mots de passe
       phone_numbers: numéros de téléphone
       time_zones: fuseaux horaires
+      tokens: jetons
   static:
     about:
       about_html: |
@@ -627,6 +669,7 @@ fr:
       terms: termes
       title: plus
       up: "/up"
+      users: utilisateurs
     privacy:
       privacy_html: |
         <p>bienvenue sur codedorian.com ("nous", "notre", "nos"). votre vie privée est importante pour nous. cette politique de confidentialité explique comment nous collectons, utilisons et protégeons vos informations lorsque vous utilisez notre site web.</p>
@@ -704,8 +747,35 @@ fr:
     update:
       notice: fuseau horaire mis à jour
   tokens:
+    create:
+      notice: jeton créé
+    destroy:
+      notice: jeton supprimé
+    edit:
+      submit: jeton de mise à jour
+      title: modifier le jeton
+    index:
+      delete_all: supprimer tout
+      new: nouveau jeton
+      title: jetons
     model:
       to_s: jeton#%{id}
+    nested:
+      add: ajouter un jeton
+    new:
+      submit: créer un jeton
+      title: nouveau jeton
+    show:
+      created_at: créé à
+      delete: supprimer le jeton
+      edit: modifier le jeton
+      primary: primaire?
+      token: jeton
+      updated_at: mis à jour à
+      user: utilisateur
+      verified: vérifié ?
+    update:
+      notice: jeton mis à jour
   users:
     create:
       notice: utilisateur créé

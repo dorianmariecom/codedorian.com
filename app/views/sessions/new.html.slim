@@ -17,6 +17,6 @@
     .text-red-600(hidden data-password-target="error")
     .text-gray-600= Faker::Internet.password
 
-  .p= f.submit t(".submit"), class: "button"
+  .p= f.submit t(".submit"), class: "button", data: { controller: "bridge--button", bridge__button_title_value: t(".submit") }
 
 .p= link_to t(".register"), new_user_path, class: "underline"

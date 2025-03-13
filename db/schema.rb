@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -12,16 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 20_250_223_194_810) do
+ActiveRecord::Schema[8.1].define(version: 2025_03_12_221817) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "action_text_rich_texts", force: :cascade do |t|
-    t.string "name", null: false
     t.text "body"
-    t.string "record_type", null: false
-    t.bigint "record_id", null: false
     t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.bigint "record_id", null: false
+    t.string "record_type", null: false
     t.datetime "updated_at", null: false
     t.index %w[record_type record_id name],
             name: "index_action_text_rich_texts_uniqueness",
@@ -29,11 +27,11 @@ ActiveRecord::Schema[8.1].define(version: 20_250_223_194_810) do
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "record_type", null: false
-    t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.bigint "record_id", null: false
+    t.string "record_type", null: false
     t.datetime "updated_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index %w[record_type record_id name blob_id],
@@ -42,49 +40,51 @@ ActiveRecord::Schema[8.1].define(version: 20_250_223_194_810) do
   end
 
   create_table "active_storage_blobs", force: :cascade do |t|
-    t.string "key", null: false
-    t.string "filename", null: false
-    t.string "content_type"
-    t.text "metadata"
-    t.string "service_name", null: false
     t.bigint "byte_size", null: false
     t.string "checksum"
+    t.string "content_type"
     t.datetime "created_at", null: false
+    t.string "filename", null: false
+    t.string "key", null: false
+    t.text "metadata"
+    t.string "service_name", null: false
     t.datetime "updated_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
   create_table "active_storage_variant_records", force: :cascade do |t|
     t.bigint "blob_id", null: false
-    t.string "variation_digest", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "variation_digest", null: false
     t.index %w[blob_id variation_digest],
             name: "index_active_storage_variant_records_uniqueness",
             unique: true
   end
 
   create_table "addresses", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.boolean "primary", default: false, null: false
-    t.boolean "verified", default: false, null: false
     t.string "address"
     t.jsonb "address_components"
+    t.datetime "created_at", null: false
     t.string "formatted_address"
     t.jsonb "geometry"
     t.string "place_id"
+    t.boolean "primary", default: false, null: false
     t.jsonb "types"
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.boolean "verified", default: false, null: false
     t.index ["user_id"], name: "index_addresses_on_user_id"
   end
 
   create_table "devices", force: :cascade do |t|
-    t.bigint "user_id"
-    t.string "token"
-    t.string "platform"
     t.datetime "created_at", null: false
+    t.string "platform"
+    t.boolean "primary", default: false, null: false
+    t.string "token"
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.boolean "verified", default: false, null: false
     t.index %w[token user_id],
             name: "index_devices_on_token_and_user_id",
             unique: true
@@ -92,185 +92,185 @@ ActiveRecord::Schema[8.1].define(version: 20_250_223_194_810) do
   end
 
   create_table "email_addresses", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.string "email_address"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string "email_address"
     t.boolean "primary", default: false, null: false
-    t.boolean "verified", default: false, null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
     t.string "verification_code", default: "", null: false
+    t.boolean "verified", default: false, null: false
     t.index ["user_id"], name: "index_email_addresses_on_user_id"
   end
 
   create_table "executions", force: :cascade do |t|
-    t.bigint "program_id", null: false
+    t.datetime "created_at", null: false
+    t.text "error"
     t.text "input"
     t.text "output"
-    t.text "error"
+    t.bigint "program_id", null: false
     t.text "result"
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["program_id"], name: "index_executions_on_program_id"
   end
 
   create_table "handles", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "handle"
+    t.boolean "primary", default: false, null: false
+    t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.boolean "verified", default: false, null: false
-    t.boolean "primary", default: false, null: false
-    t.string "handle"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_handles_on_user_id"
   end
 
   create_table "messages", force: :cascade do |t|
-    t.bigint "from_user_id", null: false
-    t.bigint "to_user_id", null: false
-    t.boolean "read", default: false, null: false
     t.datetime "created_at", null: false
+    t.bigint "from_user_id", null: false
+    t.boolean "read", default: false, null: false
+    t.bigint "to_user_id", null: false
     t.datetime "updated_at", null: false
     t.index ["from_user_id"], name: "index_messages_on_from_user_id"
     t.index ["to_user_id"], name: "index_messages_on_to_user_id"
   end
 
   create_table "names", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.boolean "primary", default: false, null: false
-    t.boolean "verified", default: false, null: false
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "given_name"
     t.string "family_name"
+    t.string "given_name"
+    t.boolean "primary", default: false, null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.boolean "verified", default: false, null: false
     t.index ["user_id"], name: "index_names_on_user_id"
   end
 
   create_table "passwords", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.string "password_digest"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "hint", default: "", null: false
+    t.string "password_digest"
     t.boolean "primary", default: false, null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
     t.boolean "verified", default: false, null: false
     t.index ["user_id"], name: "index_passwords_on_user_id"
   end
 
   create_table "phone_numbers", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.boolean "primary", default: false, null: false
-    t.string "phone_number", null: false
     t.datetime "created_at", null: false
+    t.string "phone_number", null: false
+    t.boolean "primary", default: false, null: false
     t.datetime "updated_at", null: false
-    t.boolean "verified", default: false, null: false
+    t.bigint "user_id", null: false
     t.string "verification_code", default: "", null: false
+    t.boolean "verified", default: false, null: false
     t.index ["user_id"], name: "index_phone_numbers_on_user_id"
   end
 
   create_table "programs", force: :cascade do |t|
-    t.bigint "user_id"
-    t.text "input"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.text "input"
     t.string "name"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
     t.index ["user_id"], name: "index_programs_on_user_id"
   end
 
   create_table "rpush_apps", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "environment"
-    t.text "certificate"
-    t.string "password"
-    t.integer "connections", default: 1, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "type", null: false
-    t.string "auth_key"
-    t.string "client_id"
-    t.string "client_secret"
     t.string "access_token"
     t.datetime "access_token_expiration"
     t.text "apn_key"
     t.string "apn_key_id"
-    t.string "team_id"
+    t.string "auth_key"
     t.string "bundle_id"
+    t.text "certificate"
+    t.string "client_id"
+    t.string "client_secret"
+    t.integer "connections", default: 1, null: false
+    t.datetime "created_at", null: false
+    t.string "environment"
     t.boolean "feedback_enabled", default: true
+    t.string "name", null: false
+    t.string "password"
+    t.string "team_id"
+    t.string "type", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "rpush_feedback", force: :cascade do |t|
+    t.integer "app_id"
+    t.datetime "created_at", null: false
     t.string "device_token"
     t.datetime "failed_at", precision: nil, null: false
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "app_id"
     t.index ["device_token"], name: "index_rpush_feedback_on_device_token"
   end
 
   create_table "rpush_notifications", force: :cascade do |t|
-    t.integer "badge"
-    t.string "device_token"
-    t.string "sound"
     t.text "alert"
+    t.boolean "alert_is_json", default: false, null: false
+    t.integer "app_id", null: false
+    t.integer "badge"
+    t.string "category"
+    t.string "collapse_key"
+    t.boolean "content_available", default: false, null: false
+    t.datetime "created_at", null: false
     t.text "data"
-    t.integer "expiry", default: 86_400
+    t.boolean "delay_while_idle", default: false, null: false
+    t.datetime "deliver_after", precision: nil
     t.boolean "delivered", default: false, null: false
     t.datetime "delivered_at", precision: nil
-    t.boolean "failed", default: false, null: false
-    t.datetime "failed_at", precision: nil
+    t.string "device_token"
+    t.boolean "dry_run", default: false, null: false
     t.integer "error_code"
     t.text "error_description"
-    t.datetime "deliver_after", precision: nil
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "alert_is_json", default: false, null: false
-    t.string "type", null: false
-    t.string "collapse_key"
-    t.boolean "delay_while_idle", default: false, null: false
-    t.text "registration_ids"
-    t.integer "app_id", null: false
-    t.integer "retries", default: 0
-    t.string "uri"
-    t.datetime "fail_after", precision: nil
-    t.boolean "processing", default: false, null: false
-    t.integer "priority"
-    t.text "url_args"
-    t.string "category"
-    t.boolean "content_available", default: false, null: false
-    t.text "notification"
-    t.boolean "mutable_content", default: false, null: false
+    t.integer "expiry", default: 86_400
     t.string "external_device_id"
-    t.string "thread_id"
-    t.boolean "dry_run", default: false, null: false
+    t.datetime "fail_after", precision: nil
+    t.boolean "failed", default: false, null: false
+    t.datetime "failed_at", precision: nil
+    t.boolean "mutable_content", default: false, null: false
+    t.text "notification"
+    t.integer "priority"
+    t.boolean "processing", default: false, null: false
+    t.text "registration_ids"
+    t.integer "retries", default: 0
+    t.string "sound"
     t.boolean "sound_is_json", default: false
+    t.string "thread_id"
+    t.string "type", null: false
+    t.datetime "updated_at", null: false
+    t.string "uri"
+    t.text "url_args"
     t.index %w[delivered failed processing deliver_after created_at],
             name: "index_rpush_notifications_multi",
             where: "((NOT delivered) AND (NOT failed))"
   end
 
   create_table "schedules", force: :cascade do |t|
-    t.bigint "program_id", null: false
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "interval"
+    t.bigint "program_id", null: false
     t.datetime "starts_at"
+    t.datetime "updated_at", null: false
     t.index ["program_id"], name: "index_schedules_on_program_id"
   end
 
   create_table "solid_cable_messages", force: :cascade do |t|
     t.binary "channel", null: false
-    t.binary "payload", null: false
-    t.datetime "created_at", null: false
     t.bigint "channel_hash", null: false
+    t.datetime "created_at", null: false
+    t.binary "payload", null: false
     t.index ["channel"], name: "index_solid_cable_messages_on_channel"
     t.index ["channel_hash"], name: "index_solid_cable_messages_on_channel_hash"
     t.index ["created_at"], name: "index_solid_cable_messages_on_created_at"
   end
 
   create_table "solid_cache_entries", force: :cascade do |t|
-    t.binary "key", null: false
-    t.binary "value", null: false
-    t.datetime "created_at", null: false
-    t.bigint "key_hash", null: false
     t.integer "byte_size", null: false
+    t.datetime "created_at", null: false
+    t.binary "key", null: false
+    t.bigint "key_hash", null: false
+    t.binary "value", null: false
     t.index ["byte_size"], name: "index_solid_cache_entries_on_byte_size"
     t.index %w[key_hash byte_size],
             name: "index_solid_cache_entries_on_key_hash_and_byte_size"
@@ -280,13 +280,13 @@ ActiveRecord::Schema[8.1].define(version: 20_250_223_194_810) do
   end
 
   create_table "solid_errors", force: :cascade do |t|
+    t.datetime "created_at", null: false
     t.text "exception_class", null: false
+    t.string "fingerprint", limit: 64, null: false
     t.text "message", null: false
+    t.datetime "resolved_at"
     t.text "severity", null: false
     t.text "source"
-    t.datetime "resolved_at"
-    t.string "fingerprint", limit: 64, null: false
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["fingerprint"],
             name: "index_solid_errors_on_fingerprint",
@@ -295,21 +295,21 @@ ActiveRecord::Schema[8.1].define(version: 20_250_223_194_810) do
   end
 
   create_table "solid_errors_occurrences", force: :cascade do |t|
-    t.bigint "error_id", null: false
     t.text "backtrace"
     t.json "context"
     t.datetime "created_at", null: false
+    t.bigint "error_id", null: false
     t.datetime "updated_at", null: false
     t.index ["error_id"], name: "index_solid_errors_occurrences_on_error_id"
   end
 
   create_table "solid_queue_blocked_executions", force: :cascade do |t|
-    t.bigint "job_id", null: false
-    t.string "queue_name", null: false
-    t.integer "priority", default: 0, null: false
     t.string "concurrency_key", null: false
-    t.datetime "expires_at", null: false
     t.datetime "created_at", null: false
+    t.datetime "expires_at", null: false
+    t.bigint "job_id", null: false
+    t.integer "priority", default: 0, null: false
+    t.string "queue_name", null: false
     t.index %w[concurrency_key priority job_id],
             name: "index_solid_queue_blocked_executions_for_release"
     t.index %w[expires_at concurrency_key],
@@ -320,9 +320,9 @@ ActiveRecord::Schema[8.1].define(version: 20_250_223_194_810) do
   end
 
   create_table "solid_queue_claimed_executions", force: :cascade do |t|
+    t.datetime "created_at", null: false
     t.bigint "job_id", null: false
     t.bigint "process_id"
-    t.datetime "created_at", null: false
     t.index ["job_id"],
             name: "index_solid_queue_claimed_executions_on_job_id",
             unique: true
@@ -332,24 +332,24 @@ ActiveRecord::Schema[8.1].define(version: 20_250_223_194_810) do
   end
 
   create_table "solid_queue_failed_executions", force: :cascade do |t|
-    t.bigint "job_id", null: false
-    t.text "error"
     t.datetime "created_at", null: false
+    t.text "error"
+    t.bigint "job_id", null: false
     t.index ["job_id"],
             name: "index_solid_queue_failed_executions_on_job_id",
             unique: true
   end
 
   create_table "solid_queue_jobs", force: :cascade do |t|
-    t.string "queue_name", null: false
-    t.string "class_name", null: false
-    t.text "arguments"
-    t.integer "priority", default: 0, null: false
     t.string "active_job_id"
-    t.datetime "scheduled_at"
-    t.datetime "finished_at"
+    t.text "arguments"
+    t.string "class_name", null: false
     t.string "concurrency_key"
     t.datetime "created_at", null: false
+    t.datetime "finished_at"
+    t.integer "priority", default: 0, null: false
+    t.string "queue_name", null: false
+    t.datetime "scheduled_at"
     t.datetime "updated_at", null: false
     t.index ["active_job_id"], name: "index_solid_queue_jobs_on_active_job_id"
     t.index ["class_name"], name: "index_solid_queue_jobs_on_class_name"
@@ -361,22 +361,22 @@ ActiveRecord::Schema[8.1].define(version: 20_250_223_194_810) do
   end
 
   create_table "solid_queue_pauses", force: :cascade do |t|
-    t.string "queue_name", null: false
     t.datetime "created_at", null: false
+    t.string "queue_name", null: false
     t.index ["queue_name"],
             name: "index_solid_queue_pauses_on_queue_name",
             unique: true
   end
 
   create_table "solid_queue_processes", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "hostname"
     t.string "kind", null: false
     t.datetime "last_heartbeat_at", null: false
-    t.bigint "supervisor_id"
-    t.integer "pid", null: false
-    t.string "hostname"
     t.text "metadata"
-    t.datetime "created_at", null: false
     t.string "name", null: false
+    t.integer "pid", null: false
+    t.bigint "supervisor_id"
     t.index ["last_heartbeat_at"],
             name: "index_solid_queue_processes_on_last_heartbeat_at"
     t.index %w[name supervisor_id],
@@ -387,10 +387,10 @@ ActiveRecord::Schema[8.1].define(version: 20_250_223_194_810) do
   end
 
   create_table "solid_queue_ready_executions", force: :cascade do |t|
-    t.bigint "job_id", null: false
-    t.string "queue_name", null: false
-    t.integer "priority", default: 0, null: false
     t.datetime "created_at", null: false
+    t.bigint "job_id", null: false
+    t.integer "priority", default: 0, null: false
+    t.string "queue_name", null: false
     t.index ["job_id"],
             name: "index_solid_queue_ready_executions_on_job_id",
             unique: true
@@ -400,10 +400,10 @@ ActiveRecord::Schema[8.1].define(version: 20_250_223_194_810) do
   end
 
   create_table "solid_queue_recurring_executions", force: :cascade do |t|
-    t.bigint "job_id", null: false
-    t.string "task_key", null: false
-    t.datetime "run_at", null: false
     t.datetime "created_at", null: false
+    t.bigint "job_id", null: false
+    t.datetime "run_at", null: false
+    t.string "task_key", null: false
     t.index ["job_id"],
             name: "index_solid_queue_recurring_executions_on_job_id",
             unique: true
@@ -414,16 +414,16 @@ ActiveRecord::Schema[8.1].define(version: 20_250_223_194_810) do
   end
 
   create_table "solid_queue_recurring_tasks", force: :cascade do |t|
-    t.string "key", null: false
-    t.string "schedule", null: false
-    t.string "command", limit: 2048
-    t.string "class_name"
     t.text "arguments"
-    t.string "queue_name"
-    t.integer "priority", default: 0
-    t.boolean "static", default: true, null: false
-    t.text "description"
+    t.string "class_name"
+    t.string "command", limit: 2048
     t.datetime "created_at", null: false
+    t.text "description"
+    t.string "key", null: false
+    t.integer "priority", default: 0
+    t.string "queue_name"
+    t.string "schedule", null: false
+    t.boolean "static", default: true, null: false
     t.datetime "updated_at", null: false
     t.index ["key"],
             name: "index_solid_queue_recurring_tasks_on_key",
@@ -432,11 +432,11 @@ ActiveRecord::Schema[8.1].define(version: 20_250_223_194_810) do
   end
 
   create_table "solid_queue_scheduled_executions", force: :cascade do |t|
-    t.bigint "job_id", null: false
-    t.string "queue_name", null: false
-    t.integer "priority", default: 0, null: false
-    t.datetime "scheduled_at", null: false
     t.datetime "created_at", null: false
+    t.bigint "job_id", null: false
+    t.integer "priority", default: 0, null: false
+    t.string "queue_name", null: false
+    t.datetime "scheduled_at", null: false
     t.index ["job_id"],
             name: "index_solid_queue_scheduled_executions_on_job_id",
             unique: true
@@ -445,51 +445,53 @@ ActiveRecord::Schema[8.1].define(version: 20_250_223_194_810) do
   end
 
   create_table "solid_queue_semaphores", force: :cascade do |t|
-    t.string "key", null: false
-    t.integer "value", default: 1, null: false
-    t.datetime "expires_at", null: false
     t.datetime "created_at", null: false
+    t.datetime "expires_at", null: false
+    t.string "key", null: false
     t.datetime "updated_at", null: false
+    t.integer "value", default: 1, null: false
     t.index ["expires_at"], name: "index_solid_queue_semaphores_on_expires_at"
     t.index %w[key value], name: "index_solid_queue_semaphores_on_key_and_value"
     t.index ["key"], name: "index_solid_queue_semaphores_on_key", unique: true
   end
 
   create_table "time_zones", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.string "time_zone"
-    t.boolean "primary", default: false, null: false
-    t.boolean "verified", default: false, null: false
     t.datetime "created_at", null: false
+    t.boolean "primary", default: false, null: false
+    t.string "time_zone"
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.boolean "verified", default: false, null: false
     t.index ["user_id"], name: "index_time_zones_on_user_id"
   end
 
   create_table "tokens", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.string "token", null: false
     t.datetime "created_at", null: false
+    t.boolean "primary", default: false, null: false
+    t.string "token", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.boolean "verified", default: false, null: false
     t.index ["user_id"], name: "index_tokens_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.boolean "admin", default: false, null: false
-    t.boolean "verified", default: false, null: false
+    t.datetime "created_at", null: false
     t.string "locale"
+    t.datetime "updated_at", null: false
+    t.boolean "verified", default: false, null: false
   end
 
   create_table "versions", force: :cascade do |t|
-    t.bigint "whodunnit"
-    t.string "item_type", null: false
-    t.bigint "item_id", null: false
-    t.string "event", null: false
-    t.jsonb "object"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string "event", null: false
+    t.bigint "item_id", null: false
+    t.string "item_type", null: false
+    t.jsonb "object"
     t.jsonb "object_changes"
+    t.datetime "updated_at", null: false
+    t.bigint "whodunnit"
     t.index ["event"], name: "index_versions_on_event"
     t.index ["item_id"], name: "index_versions_on_item_id"
     t.index %w[item_type item_id], name: "index_versions_on_item"

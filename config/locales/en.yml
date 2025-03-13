@@ -6,6 +6,11 @@ en:
         address: address
         primary: primary?
         verified: verified?
+      device:
+        platform: platform
+        primary: primary?
+        token: token
+        verified: verified?
       email_address:
         email_address: email address
         primary: primary?
@@ -45,6 +50,10 @@ en:
       time_zone:
         primary: primary?
         time_zone: time zone
+        verified: verified?
+      token:
+        primary: primary?
+        token: token
         verified: verified?
       user:
         admin: admin?
@@ -97,6 +106,7 @@ en:
     update:
       notice: address updated
   application:
+    current_user_required: current user required
     menu:
       about: about
       documentation: documentation
@@ -112,9 +122,38 @@ en:
       terms: terms
       title: code
       up: "/up"
+      users: users
   devices:
+    create:
+      notice: device created
+    destroy:
+      notice: device deleted
+    edit:
+      submit: update device
+      title: edit device
+    index:
+      delete_all: delete all
+      new: new device
+      title: devices
     model:
       to_s: device#%{id}
+    nested:
+      add: add device
+    new:
+      submit: create device
+      title: new device
+    show:
+      created_at: created at
+      delete: delete device
+      edit: edit device
+      platform: platform
+      primary: primary?
+      token: token
+      updated_at: updated at
+      user: user
+      verified: verified?
+    update:
+      notice: device updated
   email_addresses:
     create:
       notice: email address created
@@ -299,7 +338,6 @@ en:
       log_out: log out
       register: register
       title: code
-      users: users
   messages:
     create:
       notice: message created
@@ -579,19 +617,23 @@ en:
   shared:
     list:
       addresses: addresses
+      devices: devices
       email_addresses: email addresses
       handles: handles
       names: names
       new_address: new address
+      new_device: new device
       new_email_address: new email address
       new_handle: new handle
       new_name: new name
       new_password: new password
       new_phone_number: new phone number
       new_time_zone: new time zone
+      new_token: new token
       passwords: passwords
       phone_numbers: phone numbers
       time_zones: time zones
+      tokens: tokens
   static:
     about:
       about_html: |
@@ -627,6 +669,7 @@ en:
       terms: terms
       title: more
       up: "/up"
+      users: users
     privacy:
       privacy_html: |
         <p>welcome to codedorian.com ("we," "our," "us"). your privacy is important to us. this privacy policy explains how we collect, use, and protect your information when you use our website.</p>
@@ -704,8 +747,35 @@ en:
     update:
       notice: time zone updated
   tokens:
+    create:
+      notice: token created
+    destroy:
+      notice: token deleted
+    edit:
+      submit: update token
+      title: edit token
+    index:
+      delete_all: delete all
+      new: new token
+      title: tokens
     model:
       to_s: token#%{id}
+    nested:
+      add: add token
+    new:
+      submit: create token
+      title: new token
+    show:
+      created_at: created at
+      delete: delete token
+      edit: edit token
+      primary: primary?
+      token: token
+      updated_at: updated at
+      user: user
+      verified: verified?
+    update:
+      notice: token updated
   users:
     create:
       notice: user created

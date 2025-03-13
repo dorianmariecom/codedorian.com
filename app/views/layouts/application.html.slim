@@ -12,10 +12,6 @@ html
     = stylesheet_link_tag("tailwind", "data-turbo-track": "reload")
     = turbo_refreshes_with(method: :morph, scroll: :preserve)
 
-    meta(data-controller="bridge--tab-bar" data-bridge--tab-bar-tabs-value="#{tabs.to_json}")
-    - if registered?
-      meta(data-controller="bridge--notification-token")
-
   body.border-t-4.p-8(class="#{body_classes}" data-hotwire-native="#{hotwire_native_app?}" data-controller="update-time-zone")
     javascript:
       window.DEFAULT_COUNTRY_CODE = "#{default_country_code}";
@@ -23,6 +19,11 @@ html
       window.translations = #{t(".js").to_json.html_safe};
       window.RECAPTCHA_SITE_KEY = "#{recaptcha_site_key}";
       window.GOOGLE_MAPS_API_KEY = "#{google_maps_api_key}";
+
+    div(data-controller="bridge--csrf-token")
+    div(data-controller="bridge--tab-bar" data-bridge--tab-bar-tabs-value="#{tabs.to_json}")
+    - if registered?
+      div(data-controller="bridge--notification-token")
 
     = render "application/menu"
 
@@ -32,6 +33,7 @@ html
     - if notice.present?
       .p.text-green-600= notice
 
-    h1.p.font-bold= title
+    - unless hotwire_native_app?
+      h1.p.font-bold= title
 
     = yield

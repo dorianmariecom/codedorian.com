@@ -1,6 +1,18 @@
 @import "tailwindcss";
 @import "intl-tel-input/build/css/intlTelInput.css";
 
+@custom-variant hotwire-native {
+  body[data-hotwire-native="true"] & {
+    @slot;
+  }
+}
+
+@custom-variant not-hotwire-native {
+  body[data-hotwire-native="false"] & {
+    @slot;
+  }
+}
+
 [hidden] {
   @apply hidden;
 }

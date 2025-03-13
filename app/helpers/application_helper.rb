@@ -186,7 +186,7 @@ module ApplicationHelper
       },
       {
         title: t("helpers.application.tabs.programs"),
-        image: "ellipsis.curlybraces",
+        image: "laptopcomputer",
         path: polymorphic_path([current_user_or_guest, :programs])
       },
       {

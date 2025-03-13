@@ -91,9 +91,9 @@ class TokensController < ApplicationController
 
   def token_params
     if admin?
-      params.expect(token: %i[user_id token])
+      params.expect(token: %i[user_id token primary verified])
     else
-      params.expect(token: [:token])
+      params.expect(token: %i[token primary])
     end
   end
 end
