@@ -17,7 +17,7 @@ GIT
 
 GIT
   remote: https://github.com/rails/rails
-  revision: bf80199d4890441465ed12623b09f2324aaf234e
+  revision: ce359806416550c3b1b790c116aee5f0f9a182d4
   specs:
     actioncable (8.1.0.alpha)
       actionpack (= 8.1.0.alpha)
@@ -306,7 +306,7 @@ GEM
     mini_portile2 (2.8.8)
     mini_racer (0.16.0)
       libv8-node (~> 18.19.0.0)
-    minitest (5.25.4)
+    minitest (5.25.5)
     mission_control-jobs (1.0.2)
       actioncable (>= 7.1)
       actionpack (>= 7.1)
@@ -390,7 +390,7 @@ GEM
       activesupport (>= 3.0.0)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (3.1.10)
+    rack (3.1.12)
     rack-attack (6.7.0)
       rack (>= 1.0, < 4)
     rack-session (2.1.0)
