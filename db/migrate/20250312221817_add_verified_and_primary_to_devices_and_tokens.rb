@@ -2,9 +2,14 @@
 
 class AddVerifiedAndPrimaryToDevicesAndTokens < ActiveRecord::Migration[8.1]
   def change
-    add_column :devices, :verified, :boolean, default: false, null: false
-    add_column :devices, :primary, :boolean, default: false, null: false
-    add_column :tokens, :verified, :boolean, default: false, null: false
-    add_column :tokens, :primary, :boolean, default: false, null: false
+    change_table :devices, bulk: true do |t|
+      t.boolean :verified, default: false, null: false
+      t.boolean :primary, default: false, null: false
+    end
+
+    change_table :tokens, bulk: true do |t|
+      t.boolean :verified, default: false, null: false
+      t.boolean :primary, default: false, null: false
+    end
   end
 end

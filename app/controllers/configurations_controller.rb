@@ -7,7 +7,8 @@ class ConfigurationsController < ApplicationController
   def ios_v1
     render(
       json: {
-        settings: {},
+        settings: {
+        },
         rules: [
           { patterns: %w[/new$ /edit$], properties: { context: "modal" } }
         ]
