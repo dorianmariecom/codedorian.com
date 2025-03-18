@@ -5,11 +5,10 @@
   .applications
   .each do |application|
   config.environments.each do |environment|
-    Rails.logger.debug do
-      "#{application[:name]} | #{application[:bundle_id]} | #{environment}... "
-    end
+    puts "#{application[:name]} | #{application[:bundle_id]} | #{environment}... "
+
     if Rpush::Apnsp8::App.find_by(name: application[:name], environment:)
-      Rails.logger.debug "skipping"
+      puts "skipping"
     else
       app = Rpush::Apnsp8::App.new
       app.name = application[:name]
@@ -19,7 +18,7 @@
       app.team_id = config.team_id
       app.bundle_id = application[:bundle_id]
       app.save!
-      Rails.logger.debug "done"
+      puts "done"
     end
   end
 end
