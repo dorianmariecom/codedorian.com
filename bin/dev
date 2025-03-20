@@ -5,4 +5,3 @@ if ! command -v overmind >/dev/null 2>&1; then
 fi
 
 exec overmind start -f Procfile.dev --no-port
-
