@@ -1,0 +1,56 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "json"
+require "net/http"
+require "uri"
+
+TOKEN_FILE = File.join(Dir.home, ".chat")
+TOKEN = File.read(TOKEN_FILE).strip
+
+Dir["app/**/*.slim"].each do |slim_file|
+  slim_content = File.read(slim_file)
+
+  uri = URI.parse("https://api.openai.com/v1/chat/completions")
+
+  http = Net::HTTP.new(uri.host, uri.port)
+  http.use_ssl = true
+
+  request =
+    Net::HTTP::Post.new(
+      uri.path,
+      {
+        "Content-Type" => "application/json",
+        "Authorization" => "Bearer #{TOKEN}"
+      }
+    )
+
+  request.body = {
+    model: "gpt-4o",
+    messages: [
+      { role: :system, content: "translate the slim file to an erb file" },
+      { role: :system, content: "here is the filename for reference" },
+      { role: :user, content: slim_file },
+      { role: :system, content: "here is the content of the file" },
+      { role: "user", content: slim_content },
+      { role: :system, content: "don't preserve the whitespace from slim" },
+      { role: :system, content: "format it nicely with spaces" },
+      { role: :system, content: "embed it in ```erb code block" },
+    ]
+  }.to_json
+
+  response = http.request(request)
+
+  json = JSON.parse(response.body)
+
+  output = json.dig("choices", 0, "message", "content")
+
+  if output
+    puts slim_file
+    puts slim_content
+    puts slim_file.gsub(".slim", ".erb")
+    puts output.split("```erb").last.split("```").first.strip
+  else
+    puts JSON.pretty_generate(json)
+  end
+end

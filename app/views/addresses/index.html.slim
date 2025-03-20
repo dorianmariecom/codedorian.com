@@ -3,4 +3,4 @@
 - if @addresses.any?
   .p= button_to t(".delete_all"), url, method: :delete, class: "underline"
 
-= render @addresses
+= render 'addresses/address', collection: @addresses
