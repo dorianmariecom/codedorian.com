@@ -14,13 +14,20 @@
 
   <div class="p">
     <%= f.label :input, class: "label" %>
-    <%= f.text_area :input, placeholder: t(".input_placeholder"), class: "input whitespace-pre font-mono" %>
+    <%= f.text_area :input,
+                placeholder: t(".input_placeholder"),
+                class: "input whitespace-pre font-mono" %>
     <div class="text-gray-600"><%= t(".fake_input") %></div>
   </div>
 
   <%= render "schedules/nested", f: f %>
 
   <div class="p">
-    <%= f.submit submit, class: "button", data: { controller: "bridge--button", bridge__button_title_value: submit } %>
+    <%= f.submit submit,
+             class: "button",
+             data: {
+               controller: "bridge--button",
+               bridge__button_title_value: submit
+             } %>
   </div>
 <% end %>

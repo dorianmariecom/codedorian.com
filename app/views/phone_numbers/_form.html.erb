@@ -6,12 +6,27 @@
     </div>
   <% end %>
 
-  <p data-controller="phone-number">
+  <div class="p" data-controller="phone-number">
     <%= f.hidden_field :phone_number, data: { phone_number_target: "hidden" } %>
-    <%= f.label :phone_number_input, class: "label", data: { phone_number_target: "label" } %>
-    <%= f.phone_field :phone_number_input, value: f.object.formatted, class: "input", data: { phone_number_target: "input", action: "phone-number#input", form_type: "other" }, autocomplete: "tel", placeholder: t(".phone_number_placeholder") %>
-    <span class="text-red-600" hidden data-phone-number-target="error"></span>
-    <span class="text-gray-600"><%= Faker::PhoneNumber.phone_number_with_country_code %></span>
+    <%= f.label :phone_number_input,
+            class: "label",
+            data: {
+              phone_number_target: "label"
+            } %>
+    <%= f.phone_field :phone_number_input,
+                  value: f.object.formatted,
+                  class: "input",
+                  data: {
+                    phone_number_target: "input",
+                    action: "phone-number#input",
+                    form_type: "other"
+                  },
+                  autocomplete: "tel",
+                  placeholder: t(".phone_number_placeholder") %>
+    <div class="text-red-600" hidden data-phone-number-target="error"></div>
+    <div class="text-gray-600">
+      <%= Faker::PhoneNumber.phone_number_with_country_code %>
+    </div>
   </div>
 
   <div class="p">
@@ -27,6 +42,11 @@
   <% end %>
 
   <div class="p">
-    <%= f.submit submit, class: "button", data: { controller: "bridge--button", bridge__button_title_value: submit } %>
+    <%= f.submit submit,
+             class: "button",
+             data: {
+               controller: "bridge--button",
+               bridge__button_title_value: submit
+             } %>
   </div>
 <% end %>

@@ -2,11 +2,17 @@
   <% if admin? %>
     <div class="p">
       <%= f.label :from_user_id, class: "label" %>
-      <%= f.select :from_user_id, user_options(user_id: f.object.from_user_id), {}, class: "input" %>
+      <%= f.select :from_user_id,
+               user_options(user_id: f.object.from_user_id),
+               {},
+               class: "input" %>
     </div>
     <div class="p">
       <%= f.label :to_user_id, class: "label" %>
-      <%= f.select :to_user_id, user_options(user_id: f.object.to_user_id), {}, class: "input" %>
+      <%= f.select :to_user_id,
+               user_options(user_id: f.object.to_user_id),
+               {},
+               class: "input" %>
     </div>
   <% end %>
 
@@ -23,6 +29,11 @@
   </div>
 
   <div class="p">
-    <%= f.submit submit, class: "button", data: { controller: "bridge--button", bridge__button_title_value: submit } %>
+    <%= f.submit submit,
+             class: "button",
+             data: {
+               controller: "bridge--button",
+               bridge__button_title_value: submit
+             } %>
   </div>
 <% end %>

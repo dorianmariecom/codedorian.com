@@ -2,44 +2,50 @@
 
 <% if @phone_number.user.present? %>
   <div class="p">
-    <span class="text-gray-600"><%= t(".user") %></span>
+    <div class="text-gray-600"><%= t(".user") %></div>
 
     <% if can?(:show, @phone_number.user) %>
-      <span class="font-bold"><%= link_to @phone_number.user, @phone_number.user, class: "underline" %></span>
+      <div class="font-bold">
+        <%= link_to @phone_number.user, @phone_number.user, class: "underline" %>
+      </div>
     <% else %>
-      <span class="font-bold"><%= @phone_number.user %></span>
+      <div class="font-bold"><%= @phone_number.user %></div>
     <% end %>
   </div>
 <% end %>
 
 <% if @phone_number.phone_number.present? %>
   <div class="p">
-    <span class="text-gray-600"><%= t(".phone_number") %></span>
-    <span class="font-bold"><%= @phone_number.phone_number %></span>
+    <div class="text-gray-600"><%= t(".phone_number") %></div>
+    <div class="font-bold"><%= @phone_number.phone_number %></div>
   </div>
 <% end %>
 
 <div class="p">
-  <span class="text-gray-600"><%= t(".primary") %></span>
-  <span class="font-bold"><%= @phone_number.primary? %></span>
+  <div class="text-gray-600"><%= t(".primary") %></div>
+  <div class="font-bold"><%= @phone_number.primary? %></div>
 </div>
 
 <div class="p">
-  <span class="text-gray-600"><%= t(".verified") %></span>
-  <span class="font-bold"><%= @phone_number.verified? %></span>
+  <div class="text-gray-600"><%= t(".verified") %></div>
+  <div class="font-bold"><%= @phone_number.verified? %></div>
 </div>
 
 <div class="p">
-  <span class="text-gray-600"><%= t(".updated_at") %></span>
-  <span class="font-bold"><%= local_time(@phone_number.updated_at) %></span>
+  <div class="text-gray-600"><%= t(".updated_at") %></div>
+  <div class="font-bold"><%= local_time(@phone_number.updated_at) %></div>
 </div>
 
 <div class="p">
-  <span class="text-gray-600"><%= t(".created_at") %></span>
-  <span class="font-bold"><%= local_time(@phone_number.created_at) %></span>
+  <div class="text-gray-600"><%= t(".created_at") %></div>
+  <div class="font-bold"><%= local_time(@phone_number.created_at) %></div>
 </div>
 
 <div class="p">
   <%= link_to t(".edit"), [:edit, @phone_number], class: "underline" %>
-  <%= button_to t(".delete"), @phone_number, method: :delete, class: "underline", form_class: "inline-block" %>
+  <%= button_to t(".delete"),
+            @phone_number,
+            method: :delete,
+            class: "underline",
+            form_class: "inline-block" %>
 </div>

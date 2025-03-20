@@ -1,6 +1,4 @@
-<div class="p">
-  <%= link_to t(".new"), new_url, class: "button" %>
-</div>
+<div class="p"><%= link_to t(".new"), new_url, class: "button" %></div>
 
 <% if @programs.any? %>
   <div class="p">
@@ -8,4 +6,4 @@
   </div>
 <% end %>
 
-<%= render @programs %>
+<%= render partial: "programs/program", collection: @programs, as: :program %>

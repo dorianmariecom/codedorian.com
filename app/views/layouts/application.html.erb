@@ -2,15 +2,19 @@
 <html>
   <head>
     <title><%= strip_tags(title) %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta charset="utf-8" />
     <%= csp_meta_tag %>
     <%= csrf_meta_tags %>
     <%= javascript_importmap_tags %>
     <%= stylesheet_link_tag("tailwind", data: { turbo_track: "reload" }) %>
     <%= turbo_refreshes_with(method: :morph, scroll: :preserve) %>
   </head>
-  <body class="<%= body_classes %> border-t-4 p-8" data-hotwire-native="<%= hotwire_native_app? %>" data-controller="update-time-zone">
+  <body
+    class="<%= body_classes %> border-t-4 p-8"
+    data-hotwire-native="<%= hotwire_native_app? %>"
+    data-controller="update-time-zone"
+  >
     <script>
       window.DEFAULT_COUNTRY_CODE = "<%= default_country_code %>";
       window.time_zone = "<%= current_time_zone %>";
@@ -20,7 +24,10 @@
     </script>
 
     <div data-controller="bridge--csrf-token"></div>
-    <div data-controller="bridge--tab-bar" data-bridge--tab-bar-tabs-value="<%= tabs.to_json %>"></div>
+    <div
+      data-controller="bridge--tab-bar"
+      data-bridge--tab-bar-tabs-value="<%= tabs.to_json %>"
+    ></div>
     <% if registered? %>
       <div data-controller="bridge--notification-token"></div>
     <% end %>

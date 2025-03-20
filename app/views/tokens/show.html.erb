@@ -2,9 +2,11 @@
 
 <% if @token.user.present? %>
   <div class="p">
-    <span class="text-gray-600"><%= t('.user') %></span>
+    <div class="text-gray-600"><%= t(".user") %></div>
     <% if can?(:show, @token.user) %>
-      <strong><%= link_to @token.user, @token.user, class: "underline" %></strong>
+      <strong>
+        <%= link_to @token.user, @token.user, class: "underline" %>
+      </strong>
     <% else %>
       <strong><%= @token.user %></strong>
     <% end %>
@@ -13,32 +15,36 @@
 
 <% if @token.token.present? %>
   <div class="p">
-    <span class="text-gray-600"><%= t('.token') %></span>
+    <div class="text-gray-600"><%= t(".token") %></div>
     <strong><%= @token.token %></strong>
   </div>
 <% end %>
 
 <div class="p">
-  <span class="text-gray-600"><%= t('.primary') %></span>
+  <div class="text-gray-600"><%= t(".primary") %></div>
   <strong><%= @token.primary? %></strong>
 </div>
 
 <div class="p">
-  <span class="text-gray-600"><%= t('.verified') %></span>
+  <div class="text-gray-600"><%= t(".verified") %></div>
   <strong><%= @token.verified? %></strong>
 </div>
 
 <div class="p">
-  <span class="text-gray-600"><%= t('.updated_at') %></span>
+  <div class="text-gray-600"><%= t(".updated_at") %></div>
   <strong><%= local_time(@token.updated_at) %></strong>
 </div>
 
 <div class="p">
-  <span class="text-gray-600"><%= t('.created_at') %></span>
+  <div class="text-gray-600"><%= t(".created_at") %></div>
   <strong><%= local_time(@token.created_at) %></strong>
 </div>
 
 <div class="p">
-  <%= link_to t('.edit'), [:edit, @token], class: "underline" %>
-  <%= button_to t('.delete'), @token, method: :delete, class: "underline", form_class: "inline-block" %>
+  <%= link_to t(".edit"), [:edit, @token], class: "underline" %>
+  <%= button_to t(".delete"),
+            @token,
+            method: :delete,
+            class: "underline",
+            form_class: "inline-block" %>
 </div>

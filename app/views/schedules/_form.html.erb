@@ -1,24 +1,44 @@
 <%= form_for schedule do |f| %>
-  <% if admin? %>
-    <div class="p">
-      <%= f.label :program_id, class: "label" %>
-      <%= f.select :program_id, program_options(program_id: f.object.program_id), {}, class: "input" %>
-    </div>
-  <% end %>
+  <div class="p">
+    <%= f.label :program_id, class: "label" %>
+    <%= f.select :program_id,
+             program_options(program_id: f.object.program_id),
+             {},
+             class: "input" %>
+  </div>
 
   <div class="p">
     <%= f.label :starts_at, class: "label" %>
-    <%= f.datetime_field :starts_at, required: true, class: "input", autocomplete: "off", data: { form_type: "other" } %>
-    <span class="text-red-600" hidden data-validation-target="error"></span>
-    <span class="text-gray-600"><%= local_time(Time.zone.now) %></span>
+    <%= f.datetime_field :starts_at,
+                     required: true,
+                     class: "input",
+                     autocomplete: "off",
+                     data: {
+                       form_type: "other"
+                     } %>
+    <div class="text-red-600" hidden data-validation-target="error"></div>
+    <div class="text-gray-600"><%= local_time(Time.zone.now) %></div>
   </div>
 
   <div class="p">
     <%= f.label :interval, class: "label" %>
-    <%= f.select :interval, schedule_interval_options(interval: f.object.interval), {}, required: true, class: "input", data: { form_type: "other" }, autocomplete: "off" %>
+    <%= f.select :interval,
+             schedule_interval_options(interval: f.object.interval),
+             {},
+             required: true,
+             class: "input",
+             data: {
+               form_type: "other"
+             },
+             autocomplete: "off" %>
   </div>
 
   <div class="p">
-    <%= f.submit submit, class: "button", data: { controller: "bridge--button", bridge__button_title_value: submit } %>
+    <%= f.submit submit,
+             class: "button",
+             data: {
+               controller: "bridge--button",
+               bridge__button_title_value: submit
+             } %>
   </div>
 <% end %>

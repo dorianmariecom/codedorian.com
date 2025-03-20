@@ -2,54 +2,60 @@
 
 <% if @execution.program.present? %>
   <div class="p">
-    <span class="text-gray-600"><%= t(".program") %></span>
+    <div class="text-gray-600"><%= t(".program") %></div>
 
     <% if can?(:show, @execution.program) %>
-      <span class="font-bold"><%= link_to @execution.program, @execution.program, class: "underline" %></span>
+      <div class="font-bold">
+        <%= link_to @execution.program, @execution.program, class: "underline" %>
+      </div>
     <% else %>
-      <span class="font-bold"><%= @execution.program %></span>
+      <div class="font-bold"><%= @execution.program %></div>
     <% end %>
   </div>
 <% end %>
 
 <% if @execution.output.present? %>
   <div class="p">
-    <span class="text-gray-600"><%= t(".output") %></span>
-    <code><%= @execution.output %></code>
+    <div class="text-gray-600"><%= t(".output") %></div>
+    <div class="code"><%= @execution.output %></div>
   </div>
 <% end %>
 
 <% if @execution.result.present? %>
   <div class="p">
-    <span class="text-gray-600"><%= t(".result") %></span>
-    <code><%= @execution.result %></code>
+    <div class="text-gray-600"><%= t(".result") %></div>
+    <div class="code"><%= @execution.result %></div>
   </div>
 <% end %>
 
 <% if @execution.error.present? %>
   <div class="p">
-    <span class="text-gray-600"><%= t(".error") %></span>
-    <code><%= @execution.error %></code>
+    <div class="text-gray-600"><%= t(".error") %></div>
+    <div class="code"><%= @execution.error %></div>
   </div>
 <% end %>
 
 <% if @execution.input.present? %>
   <div class="p">
-    <span class="text-gray-600"><%= t(".input") %></span>
-    <code><%= @execution.input %></code>
+    <div class="text-gray-600"><%= t(".input") %></div>
+    <div class="code"><%= @execution.input %></div>
   </div>
 <% end %>
 
 <div class="p">
-  <span class="text-gray-600"><%= t(".updated_at") %></span>
-  <span class="font-bold"><%= local_time(@execution.updated_at) %></span>
+  <div class="text-gray-600"><%= t(".updated_at") %></div>
+  <div class="font-bold"><%= local_time(@execution.updated_at) %></div>
 </div>
 
 <div class="p">
-  <span class="text-gray-600"><%= t(".created_at") %></span>
-  <span class="font-bold"><%= local_time(@execution.created_at) %></span>
+  <div class="text-gray-600"><%= t(".created_at") %></div>
+  <div class="font-bold"><%= local_time(@execution.created_at) %></div>
 </div>
 
 <div class="p">
-  <%= button_to t(".delete"), @execution, method: :delete, class: "underline", form_class: "inline-block" %>
+  <%= button_to t(".delete"),
+            @execution,
+            method: :delete,
+            class: "underline",
+            form_class: "inline-block" %>
 </div>

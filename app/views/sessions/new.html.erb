@@ -1,43 +1,66 @@
 <%= form_for :session, url: session_path do |f| %>
-  <div class="p" data-controller="validation" data-validation-trim-value="true" data-validation-gender-value="feminine">
+  <div
+    class="p"
+    data-controller="validation"
+    data-validation-trim-value="true"
+    data-validation-gender-value="feminine"
+  >
     <%= f.label :email_address, class: "label", data: { validation_target: "label" } %>
-    <%= f.email_field :email_address, value: email_address_param, class: "input", 
-                      required: true, data: { validation_target: "input", 
-                                              action: "validation#input", 
-                                              form_type: "other" },
-                      autocomplete: "email" %>
+    <%= f.email_field :email_address,
+                  value: email_address_param,
+                  class: "input",
+                  required: true,
+                  data: {
+                    validation_target: "input",
+                    action: "validation#input",
+                    form_type: "other"
+                  },
+                  autocomplete: "email" %>
     <div class="text-red-600" hidden data-validation-target="error"></div>
-    <div class="text-gray-600">
-      <%= Faker::Internet.email %>
-    </div>
+    <div class="text-gray-600"><%= Faker::Internet.email %></div>
   </div>
 
   <div class="p" data-controller="password">
     <%= f.label :password, class: "label", data: { password_target: "label" } %>
     <div class="flex gap-2 items-center">
       <input type="hidden" autocomplete="username" />
-      <%= f.password_field :password, class: "input", value: password_param,
-                           required: true, data: { password_target: "input", 
-                                                   action: "password#input", 
-                                                   form_type: "other" },
-                           autocomplete: "current-password" %>
-      <a class="p-2 flex items-center justify-center" data-password-target="show" data-action="password#show">
+      <%= f.password_field :password,
+                       class: "input",
+                       value: password_param,
+                       required: true,
+                       data: {
+                         password_target: "input",
+                         action: "password#input",
+                         form_type: "other"
+                       },
+                       autocomplete: "current-password" %>
+      <a
+        class="p-2 flex items-center justify-center"
+        data-password-target="show"
+        data-action="password#show"
+      >
         <%= heroicon "eye" %>
       </a>
-      <a class="p-2 flex items-center justify-center" hidden data-password-target="hide" data-action="password#hide">
+      <a
+        class="p-2 flex items-center justify-center"
+        hidden
+        data-password-target="hide"
+        data-action="password#hide"
+      >
         <%= heroicon "eye-slash" %>
       </a>
     </div>
     <div class="text-red-600" hidden data-password-target="error"></div>
-    <div class="text-gray-600">
-      <%= Faker::Internet.password %>
-    </div>
+    <div class="text-gray-600"><%= Faker::Internet.password %></div>
   </div>
 
   <div class="p">
-    <%= f.submit t(".submit"), class: "button", 
-                  data: { controller: "bridge--button", 
-                          bridge__button_title_value: t(".submit") } %>
+    <%= f.submit t(".submit"),
+             class: "button",
+             data: {
+               controller: "bridge--button",
+               bridge__button_title_value: t(".submit")
+             } %>
   </div>
 <% end %>
 

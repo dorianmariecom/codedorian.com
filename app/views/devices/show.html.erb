@@ -2,9 +2,11 @@
 
 <% if @device.user.present? %>
   <div class="p">
-    <span class="text-gray-600"><%= t(".user") %></span>
+    <div class="text-gray-600"><%= t(".user") %></div>
     <% if can?(:show, @device.user) %>
-      <strong><%= link_to @device.user, @device.user, class: "underline" %></strong>
+      <strong>
+        <%= link_to @device.user, @device.user, class: "underline" %>
+      </strong>
     <% else %>
       <strong><%= @device.user %></strong>
     <% end %>
@@ -13,39 +15,43 @@
 
 <% if @device.platform.present? %>
   <div class="p">
-    <span class="text-gray-600"><%= t(".platform") %></span>
+    <div class="text-gray-600"><%= t(".platform") %></div>
     <strong><%= @device.platform %></strong>
   </div>
 <% end %>
 
 <% if @device.token.present? %>
   <div class="p">
-    <span class="text-gray-600"><%= t(".token") %></span>
+    <div class="text-gray-600"><%= t(".token") %></div>
     <strong><%= @device.token %></strong>
   </div>
 <% end %>
 
 <div class="p">
-  <span class="text-gray-600"><%= t(".primary") %></span>
+  <div class="text-gray-600"><%= t(".primary") %></div>
   <strong><%= @device.primary? %></strong>
 </div>
 
 <div class="p">
-  <span class="text-gray-600"><%= t(".verified") %></span>
+  <div class="text-gray-600"><%= t(".verified") %></div>
   <strong><%= @device.verified? %></strong>
 </div>
 
 <div class="p">
-  <span class="text-gray-600"><%= t(".updated_at") %></span>
+  <div class="text-gray-600"><%= t(".updated_at") %></div>
   <strong><%= local_time(@device.updated_at) %></strong>
 </div>
 
 <div class="p">
-  <span class="text-gray-600"><%= t(".created_at") %></span>
+  <div class="text-gray-600"><%= t(".created_at") %></div>
   <strong><%= local_time(@device.created_at) %></strong>
 </div>
 
 <div class="p">
   <%= link_to t(".edit"), [:edit, @device], class: "underline" %>
-  <%= button_to t(".delete"), @device, method: :delete, class: "underline", form_class: "inline-block" %>
+  <%= button_to t(".delete"),
+            @device,
+            method: :delete,
+            class: "underline",
+            form_class: "inline-block" %>
 </div>

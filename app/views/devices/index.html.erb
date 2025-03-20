@@ -1,7 +1,9 @@
 <div class="p"><%= link_to t(".new"), new_url, class: "button" %></div>
 
 <% if @devices.any? %>
-  <div class="p"><%= button_to t(".delete_all"), url, method: :delete, class: "underline" %></div>
+  <div class="p">
+    <%= button_to t(".delete_all"), url, method: :delete, class: "underline" %>
+  </div>
 <% end %>
 
-<%= render @devices %>
+<%= render partial: "devices/device", collection: @devices, as: :device %>

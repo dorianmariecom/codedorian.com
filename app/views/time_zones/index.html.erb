@@ -1,6 +1,4 @@
-<div class="p">
-  <%= link_to t(".new"), new_url, class: "button" %>
-</div>
+<div class="p"><%= link_to t(".new"), new_url, class: "button" %></div>
 
 <% if @time_zones.any? %>
   <div class="p">
@@ -8,4 +6,4 @@
   </div>
 <% end %>
 
-<%= render @time_zones %>
+<%= render partial: "time_zones/time_zone", collection: @time_zones, as: :time_zone %>

@@ -6,9 +6,23 @@
     </div>
   <% end %>
 
-  <div class="p" data-controller="validation" data-validation-trim-value="true" data-validation-gender-value="feminine">
+  <div
+    class="p"
+    data-controller="validation"
+    data-validation-trim-value="true"
+    data-validation-gender-value="feminine"
+  >
     <%= f.label :email_address, class: "label", data: { validation_target: "label" } %>
-    <%= f.email_field :email_address, class: "input", placeholder: t(".email_address_placeholder"), required: true, data: { validation_target: "input", action: "validation#input", form_type: "other" }, autocomplete: "email" %>
+    <%= f.email_field :email_address,
+                  class: "input",
+                  placeholder: t(".email_address_placeholder"),
+                  required: true,
+                  data: {
+                    validation_target: "input",
+                    action: "validation#input",
+                    form_type: "other"
+                  },
+                  autocomplete: "email" %>
     <div class="text-red-600" hidden data-validation-target="error"></div>
     <div class="text-gray-600"><%= Faker::Internet.email %></div>
   </div>
@@ -26,6 +40,11 @@
   <% end %>
 
   <div class="p">
-    <%= f.submit submit, class: "button", data: { controller: "bridge--button", bridge__button_title_value: submit } %>
+    <%= f.submit submit,
+             class: "button",
+             data: {
+               controller: "bridge--button",
+               bridge__button_title_value: submit
+             } %>
   </div>
 <% end %>

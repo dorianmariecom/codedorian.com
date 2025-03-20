@@ -1,7 +1,9 @@
 <div class="p"><%= link_to t(".new"), new_url, class: "button" %></div>
 
 <% if @email_addresses.any? %>
-  <div class="p"><%= button_to t(".delete_all"), url, method: :delete, class: "underline" %></div>
+  <div class="p">
+    <%= button_to t(".delete_all"), url, method: :delete, class: "underline" %>
+  </div>
 <% end %>
 
-<%= render @email_addresses %>
+<%= render partial: "email_addresses/email_address", collection: @email_addresses, as: :email_address %>

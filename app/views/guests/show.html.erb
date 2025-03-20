@@ -1,33 +1,33 @@
 <% content_for :title, @guest %>
 
 <% if @guest.admin? %>
-  <div class="p font-bold"><%= t('.admin') %></div>
+  <div class="p font-bold"><%= t(".admin") %></div>
 <% end %>
 
 <div class="p">
-  <span class="text-gray-600"><%= t('.locale') %></span>
-  <span class="font-bold"><%= @guest.translated_locale %></span>
+  <div class="text-gray-600"><%= t(".locale") %></div>
+  <div class="font-bold"><%= @guest.translated_locale %></div>
 </div>
 
 <div class="p">
-  <span class="text-gray-600"><%= t('.verified') %></span>
-  <span class="font-bold"><%= @guest.verified %></span>
+  <div class="text-gray-600"><%= t(".verified") %></div>
+  <div class="font-bold"><%= @guest.verified %></div>
 </div>
 
 <div class="p">
-  <span class="text-gray-600"><%= t('.updated_at') %></span>
-  <span class="font-bold"><%= local_time(@guest.updated_at) %></span>
+  <div class="text-gray-600"><%= t(".updated_at") %></div>
+  <div class="font-bold"><%= local_time(@guest.updated_at) %></div>
 </div>
 
 <div class="p">
-  <span class="text-gray-600"><%= t('.created_at') %></span>
-  <span class="font-bold"><%= local_time(@guest.created_at) %></span>
+  <div class="text-gray-600"><%= t(".created_at") %></div>
+  <div class="font-bold"><%= local_time(@guest.created_at) %></div>
 </div>
 
-<%= render 'shared/list', user: @guest, model: Name %>
-<%= render 'shared/list', user: @guest, model: Handle %>
-<%= render 'shared/list', user: @guest, model: EmailAddress %>
-<%= render 'shared/list', user: @guest, model: PhoneNumber %>
-<%= render 'shared/list', user: @guest, model: Address %>
-<%= render 'shared/list', user: @guest, model: Password %>
-<%= render 'shared/list', user: @guest, model: TimeZone %>
+<%= render "shared/list", user: @guest, model: Name %>
+<%= render "shared/list", user: @guest, model: Handle %>
+<%= render "shared/list", user: @guest, model: EmailAddress %>
+<%= render "shared/list", user: @guest, model: PhoneNumber %>
+<%= render "shared/list", user: @guest, model: Address %>
+<%= render "shared/list", user: @guest, model: Password %>
+<%= render "shared/list", user: @guest, model: TimeZone %>

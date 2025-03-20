@@ -2,10 +2,11 @@
 
 <% if @email_address.user.present? %>
   <div class="p">
-    <span class="text-gray-600"><%= t(".user") %></span>
-    
+    <div class="text-gray-600"><%= t(".user") %></div>
     <% if can?(:show, @email_address.user) %>
-      <strong class="font-bold"><%= link_to @email_address.user, @email_address.user, class: "underline" %></strong>
+      <strong class="font-bold">
+        <%= link_to @email_address.user, @email_address.user, class: "underline" %>
+      </strong>
     <% else %>
       <strong class="font-bold"><%= @email_address.user %></strong>
     <% end %>
@@ -14,32 +15,40 @@
 
 <% if @email_address.email_address.present? %>
   <div class="p">
-    <span class="text-gray-600"><%= t(".email_address") %></span>
+    <div class="text-gray-600"><%= t(".email_address") %></div>
     <strong class="font-bold"><%= @email_address.email_address %></strong>
   </div>
 <% end %>
 
 <div class="p">
-  <span class="text-gray-600"><%= t(".primary") %></span>
+  <div class="text-gray-600"><%= t(".primary") %></div>
   <strong class="font-bold"><%= @email_address.primary? %></strong>
 </div>
 
 <div class="p">
-  <span class="text-gray-600"><%= t(".verified") %></span>
+  <div class="text-gray-600"><%= t(".verified") %></div>
   <strong class="font-bold"><%= @email_address.verified? %></strong>
 </div>
 
 <div class="p">
-  <span class="text-gray-600"><%= t(".updated_at") %></span>
-  <strong class="font-bold"><%= local_time(@email_address.updated_at) %></strong>
+  <div class="text-gray-600"><%= t(".updated_at") %></div>
+  <strong class="font-bold">
+    <%= local_time(@email_address.updated_at) %>
+  </strong>
 </div>
 
 <div class="p">
-  <span class="text-gray-600"><%= t(".created_at") %></span>
-  <strong class="font-bold"><%= local_time(@email_address.created_at) %></strong>
+  <div class="text-gray-600"><%= t(".created_at") %></div>
+  <strong class="font-bold">
+    <%= local_time(@email_address.created_at) %>
+  </strong>
 </div>
 
 <div class="p">
   <%= link_to t(".edit"), [:edit, @email_address], class: "underline" %>
-  <%= button_to t(".delete"), @email_address, method: :delete, class: "underline", form_class: "inline-block" %>
+  <%= button_to t(".delete"),
+            @email_address,
+            method: :delete,
+            class: "underline",
+            form_class: "inline-block" %>
 </div>

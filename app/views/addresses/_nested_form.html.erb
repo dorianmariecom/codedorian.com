@@ -1,19 +1,36 @@
-<div class="address border-l border-black pl-5" data-new-record="<%= f.object.new_record? %>">
+<div
+  class="address border-l border-black pl-5"
+  data-new-record="<%= f.object.new_record? %>"
+>
   <%= f.hidden_field :id %>
   <%= f.hidden_field :_destroy %>
 
   <h2 class="font-bold p"><%= t(".address") %></h2>
 
-  <div class="p" data-controller="address" data-action="google-maps-callback@window->address#load">
-    <%= f.hidden_field :address_components, data: { address_target: "addressComponents" } %>
+  <div
+    class="p"
+    data-controller="address"
+    data-action="google-maps-callback@window->address#load"
+  >
+    <%= f.hidden_field :address_components,
+                   data: {
+                     address_target: "addressComponents"
+                   } %>
     <%= f.hidden_field :formatted_address, data: { address_target: "formattedAddress" } %>
     <%= f.hidden_field :geometry, data: { address_target: "geometry" } %>
     <%= f.hidden_field :place_id, data: { address_target: "placeId" } %>
     <%= f.hidden_field :types, data: { address_target: "types" } %>
     <%= f.label :address, class: "label", data: { address_target: "label" } %>
-    <%= f.text_field :address, class: "input", required: true, data: { address_target: "input", 
-         action: "address#input keydown->address#keydown", form_type: "other" }, 
-         autocomplete: "street-address", placeholder: t(".address_placeholder") %>
+    <%= f.text_field :address,
+                 class: "input",
+                 required: true,
+                 data: {
+                   address_target: "input",
+                   action: "address#input keydown->address#keydown",
+                   form_type: "other"
+                 },
+                 autocomplete: "street-address",
+                 placeholder: t(".address_placeholder") %>
     <div class="text-red-600 hidden" data-address-target="error"></div>
     <div class="text-gray-600"><%= Faker::Address.full_address %></div>
   </div>

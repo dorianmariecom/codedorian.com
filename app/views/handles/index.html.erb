@@ -1,6 +1,4 @@
-<div class="p">
-  <%= link_to t(".new"), new_url, class: "button" %>
-</div>
+<div class="p"><%= link_to t(".new"), new_url, class: "button" %></div>
 
 <% if @handles.any? %>
   <div class="p">
@@ -8,4 +6,4 @@
   </div>
 <% end %>
 
-<%= render @handles %>
+<%= render partial: "handles/handle", collection: @handles, as: :handle %>

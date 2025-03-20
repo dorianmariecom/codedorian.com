@@ -2,78 +2,86 @@
 
 <% if @address.user.present? %>
   <div class="p">
-    <span class="text-gray-600"><%= t(".user") %></span>
+    <div class="text-gray-600"><%= t(".user") %></div>
     <% if can?(:show, @address.user) %>
-      <span class="font-bold"><%= link_to @address.user, @address.user, class: "underline" %></span>
+      <div class="font-bold">
+        <%= link_to @address.user, @address.user, class: "underline" %>
+      </div>
     <% else %>
-      <span class="font-bold"><%= @address.user %></span>
+      <div class="font-bold"><%= @address.user %></div>
     <% end %>
   </div>
 <% end %>
 
 <% if @address.address.present? %>
   <div class="p">
-    <span class="text-gray-600"><%= t(".address") %></span>
-    <span class="font-bold"><%= @address.address %></span>
+    <div class="text-gray-600"><%= t(".address") %></div>
+    <div class="font-bold"><%= @address.address %></div>
   </div>
 <% end %>
 
 <% if @address.formatted_address.present? %>
   <div class="p">
-    <span class="text-gray-600"><%= t(".formatted_address") %></span>
-    <span class="font-bold"><%= @address.formatted_address %></span>
+    <div class="text-gray-600"><%= t(".formatted_address") %></div>
+    <div class="font-bold"><%= @address.formatted_address %></div>
   </div>
 <% end %>
 
 <% if @address.address_components.present? %>
   <div class="p">
-    <span class="text-gray-600"><%= t(".address_components") %></span>
-    <code><%= JSON.pretty_generate(@address.address_components) %></code>
+    <div class="text-gray-600"><%= t(".address_components") %></div>
+    <div class="code">
+      <%= JSON.pretty_generate(@address.address_components) %>
+    </div>
   </div>
 <% end %>
 
 <% if @address.geometry.present? %>
   <div class="p">
-    <span class="text-gray-600"><%= t(".geometry") %></span>
-    <code><%= JSON.pretty_generate(@address.geometry) %></code>
+    <div class="text-gray-600"><%= t(".geometry") %></div>
+    <div class="code"><%= JSON.pretty_generate(@address.geometry) %></div>
   </div>
 <% end %>
 
 <% if @address.place_id.present? %>
   <div class="p">
-    <span class="text-gray-600"><%= t(".place_id") %></span>
-    <span class="font-bold"><%= @address.place_id %></span>
+    <div class="text-gray-600"><%= t(".place_id") %></div>
+    <div class="font-bold"><%= @address.place_id %></div>
   </div>
 <% end %>
 
 <% if @address.types.present? %>
   <div class="p">
-    <span class="text-gray-600"><%= t(".types") %></span>
-    <code><%= JSON.pretty_generate(@address.types) %></code>
+    <div class="text-gray-600"><%= t(".types") %></div>
+    <div class="code"><%= JSON.pretty_generate(@address.types) %></div>
   </div>
 <% end %>
 
 <div class="p">
-  <span class="text-gray-600"><%= t(".primary") %></span>
-  <span class="font-bold"><%= @address.primary? %></span>
+  <div class="text-gray-600"><%= t(".primary") %></div>
+  <div class="font-bold"><%= @address.primary? %></div>
 </div>
 
 <div class="p">
-  <span class="text-gray-600"><%= t(".verified") %></span>
-  <span class="font-bold"><%= @address.verified? %></span>
+  <div class="text-gray-600"><%= t(".verified") %></div>
+  <div class="font-bold"><%= @address.verified? %></div>
 </div>
 
 <div class="p">
-  <span class="text-gray-600"><%= t(".updated_at") %></span>
-  <span class="font-bold"><%= local_time(@address.updated_at) %></span>
+  <div class="text-gray-600"><%= t(".updated_at") %></div>
+  <div class="font-bold"><%= local_time(@address.updated_at) %></div>
 </div>
 
 <div class="p">
-  <span class="text-gray-600"><%= t(".created_at") %></span>
-  <span class="font-bold"><%= local_time(@address.created_at) %></span>
+  <div class="text-gray-600"><%= t(".created_at") %></div>
+  <div class="font-bold"><%= local_time(@address.created_at) %></div>
 </div>
 
 <div class="p">
   <%= link_to t(".edit"), [:edit, @address], class: "underline" %>
-  <%= button_to t(".delete"), @address, method: :delete, class: "underline", form_class: "inline-block" %>
+  <%= button_to t(".delete"),
+            @address,
+            method: :delete,
+            class: "underline",
+            form_class: "inline-block" %>
 </div>

@@ -3,7 +3,9 @@
 <% if @password.user.present? %>
   <div class="p text-gray-600"><%= t(".user") %></div>
   <% if can?(:show, @password.user) %>
-    <div class="p font-bold"><%= link_to @password.user, @password.user, class: "underline" %></div>
+    <div class="p font-bold">
+      <%= link_to @password.user, @password.user, class: "underline" %>
+    </div>
   <% else %>
     <div class="p font-bold"><%= @password.user %></div>
   <% end %>
@@ -31,5 +33,9 @@
 
 <div class="p">
   <%= link_to t(".edit"), [:edit, @password], class: "underline" %>
-  <%= button_to t(".delete"), @password, method: :delete, class: "underline", form_class: "inline-block" %>
+  <%= button_to t(".delete"),
+            @password,
+            method: :delete,
+            class: "underline",
+            form_class: "inline-block" %>
 </div>
