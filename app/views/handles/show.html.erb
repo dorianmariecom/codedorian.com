@@ -1,0 +1,47 @@
+<% content_for(:title, @handle) %>
+
+<% if @handle.user.present? %>
+  <div class="p">
+    <span class="text-gray-600"><%= t(".user") %></span>
+
+    <% if can?(:show, @handle.user) %>
+      <span class="font-bold">
+        <%= link_to @handle.user, @handle.user, class: "underline" %>
+      </span>
+    <% else %>
+      <span class="font-bold"><%= @handle.user %></span>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @handle.handle.present? %>
+  <div class="p">
+    <span class="text-gray-600"><%= t(".handle") %></span>
+    <span class="font-bold"><%= @handle.handle %></span>
+  </div>
+<% end %>
+
+<div class="p">
+  <span class="text-gray-600"><%= t(".primary") %></span>
+  <span class="font-bold"><%= @handle.primary? %></span>
+</div>
+
+<div class="p">
+  <span class="text-gray-600"><%= t(".verified") %></span>
+  <span class="font-bold"><%= @handle.verified? %></span>
+</div>
+
+<div class="p">
+  <span class="text-gray-600"><%= t(".updated_at") %></span>
+  <span class="font-bold"><%= local_time(@handle.updated_at) %></span>
+</div>
+
+<div class="p">
+  <span class="text-gray-600"><%= t(".created_at") %></span>
+  <span class="font-bold"><%= local_time(@handle.created_at) %></span>
+</div>
+
+<div class="p">
+  <%= link_to t(".edit"), [:edit, @handle], class: "underline" %>
+  <%= button_to t(".delete"), @handle, method: :delete, class: "underline", form_class: "inline-block" %>
+</div>

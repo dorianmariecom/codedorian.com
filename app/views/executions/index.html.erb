@@ -1,0 +1,5 @@
+<% if @executions.any? %>
+  <div class="p"><%= button_to t(".delete_all"), url, method: :delete, class: "underline" %></div>
+<% end %>
+
+<%= render @executions %>

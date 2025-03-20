@@ -1,0 +1,19 @@
+<div data-controller="nested" data-nested-selector-value=".name">
+  <template data-nested-target="template">
+    <%= f.fields_for :names, Name.new, child_index: "NEW_RECORD" do |name_f| %>
+      <%= render "names/nested_form", f: name_f %>
+    <% end %>
+  </template>
+
+  <%= f.fields_for :names do |name_f| %>
+    <%= render "names/nested_form", f: name_f %>
+  <% end %>
+
+  <div data-nested-target="target"></div>
+
+  <div class="p">
+    <button class="button button--link" data-action="nested#add">
+      <%= t(".add") %>
+    </button>
+  </div>
+</div>

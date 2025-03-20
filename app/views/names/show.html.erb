@@ -1,0 +1,51 @@
+<% content_for :title, @name %>
+
+<% if @name.user.present? %>
+  <div class="p">
+    <span class="text-gray-600"><%= t(".user") %></span>
+    <% if can?(:show, @name.user) %>
+      <span class="font-bold"><%= link_to @name.user, @name.user, class: "underline" %></span>
+    <% else %>
+      <span class="font-bold"><%= @name.user %></span>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @name.given_name.present? %>
+  <div class="p">
+    <span class="text-gray-600"><%= t(".given_name") %></span>
+    <span class="font-bold"><%= @name.given_name %></span>
+  </div>
+<% end %>
+
+<% if @name.family_name.present? %>
+  <div class="p">
+    <span class="text-gray-600"><%= t(".family_name") %></span>
+    <span class="font-bold"><%= @name.family_name %></span>
+  </div>
+<% end %>
+
+<div class="p">
+  <span class="text-gray-600"><%= t(".primary") %></span>
+  <span class="font-bold"><%= @name.primary? %></span>
+</div>
+
+<div class="p">
+  <span class="text-gray-600"><%= t(".verified") %></span>
+  <span class="font-bold"><%= @name.verified? %></span>
+</div>
+
+<div class="p">
+  <span class="text-gray-600"><%= t(".updated_at") %></span>
+  <span class="font-bold"><%= local_time(@name.updated_at) %></span>
+</div>
+
+<div class="p">
+  <span class="text-gray-600"><%= t(".created_at") %></span>
+  <span class="font-bold"><%= local_time(@name.created_at) %></span>
+</div>
+
+<div class="p">
+  <%= link_to t(".edit"), [:edit, @name], class: "underline" %>
+  <%= button_to t(".delete"), @name, method: :delete, class: "underline", form_class: "inline-block" %>
+</div>

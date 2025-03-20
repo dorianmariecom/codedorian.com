@@ -1,0 +1,41 @@
+<% content_for :title, @user %>
+
+<% if @user.admin? %>
+  <div class="p font-bold"><%= t(".admin") %></div>
+<% end %>
+
+<div class="p">
+  <span class="text-gray-600"><%= t(".locale") %></span>
+  <span class="font-bold"><%= @user.translated_locale %></span>
+</div>
+
+<div class="p">
+  <span class="text-gray-600"><%= t(".verified") %></span>
+  <span class="font-bold"><%= @user.verified %></span>
+</div>
+
+<div class="p">
+  <span class="text-gray-600"><%= t(".updated_at") %></span>
+  <span class="font-bold"><%= local_time(@user.updated_at) %></span>
+</div>
+
+<div class="p">
+  <span class="text-gray-600"><%= t(".created_at") %></span>
+  <span class="font-bold"><%= local_time(@user.created_at) %></span>
+</div>
+
+<div class="p">
+  <%= button_to t(".log_out"), :session, method: :delete, class: "underline", form_class: "inline-block" %>
+  <%= link_to t(".edit"), [:edit, @user], class: "underline" %>
+  <%= button_to t(".delete"), @user, method: :delete, class: "underline", form_class: "inline-block" %>
+</div>
+
+<%= render "shared/list", user: @user, model: Name %>
+<%= render "shared/list", user: @user, model: Handle %>
+<%= render "shared/list", user: @user, model: EmailAddress %>
+<%= render "shared/list", user: @user, model: PhoneNumber %>
+<%= render "shared/list", user: @user, model: Address %>
+<%= render "shared/list", user: @user, model: Password %>
+<%= render "shared/list", user: @user, model: TimeZone %>
+<%= render "shared/list", user: @user, model: Device %>
+<%= render "shared/list", user: @user, model: Token %>

@@ -1,0 +1,30 @@
+<%= form_for user do |f| %>
+  <% if admin? %>
+    <div class="p">
+      <%= f.label :admin, class: "label" %>
+      <%= f.check_box :admin %>
+    </div>
+
+    <div class="p">
+      <%= f.label :verified, class: "label" %>
+      <%= f.check_box :verified %>
+    </div>
+  <% end %>
+
+  <div class="p">
+    <%= f.label :locale, class: "label" %>
+    <%= f.select :locale, locale_options(locale: f.object.locale.presence || I18n.locale), {}, required: true, class: "input", data: { form_type: "other" }, autocomplete: "off" %>
+  </div>
+
+  <%= render "names/nested", f: f %>
+  <%= render "handles/nested", f: f %>
+  <%= render "email_addresses/nested", f: f %>
+  <%= render "phone_numbers/nested", f: f %>
+  <%= render "addresses/nested", f: f %>
+  <%= render "passwords/nested", f: f %>
+  <%= render "time_zones/nested", f: f %>
+
+  <div class="p">
+    <%= f.submit submit, class: "button", data: { controller: "bridge--button", bridge__button_title_value: submit } %>
+  </div>
+<% end %>

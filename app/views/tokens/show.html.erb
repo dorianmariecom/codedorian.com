@@ -1,0 +1,44 @@
+<% content_for(:title, @token) %>
+
+<% if @token.user.present? %>
+  <div class="p">
+    <span class="text-gray-600"><%= t('.user') %></span>
+    <% if can?(:show, @token.user) %>
+      <strong><%= link_to @token.user, @token.user, class: "underline" %></strong>
+    <% else %>
+      <strong><%= @token.user %></strong>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @token.token.present? %>
+  <div class="p">
+    <span class="text-gray-600"><%= t('.token') %></span>
+    <strong><%= @token.token %></strong>
+  </div>
+<% end %>
+
+<div class="p">
+  <span class="text-gray-600"><%= t('.primary') %></span>
+  <strong><%= @token.primary? %></strong>
+</div>
+
+<div class="p">
+  <span class="text-gray-600"><%= t('.verified') %></span>
+  <strong><%= @token.verified? %></strong>
+</div>
+
+<div class="p">
+  <span class="text-gray-600"><%= t('.updated_at') %></span>
+  <strong><%= local_time(@token.updated_at) %></strong>
+</div>
+
+<div class="p">
+  <span class="text-gray-600"><%= t('.created_at') %></span>
+  <strong><%= local_time(@token.created_at) %></strong>
+</div>
+
+<div class="p">
+  <%= link_to t('.edit'), [:edit, @token], class: "underline" %>
+  <%= button_to t('.delete'), @token, method: :delete, class: "underline", form_class: "inline-block" %>
+</div>

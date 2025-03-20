@@ -1,0 +1,65 @@
+<% content_for(:title, @program) %>
+
+<% if @program.user.present? %>
+  <div class="p">
+    <span class="text-gray-600"><%= t(".user") %></span>
+    <% if can?(:show, @program.user) %>
+      <span class="font-bold"><%= link_to @program.user, @program.user, class: "underline" %></span>
+    <% else %>
+      <span class="font-bold"><%= @program.user %></span>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @program.name.present? %>
+  <div class="p">
+    <span class="text-gray-600"><%= t(".name") %></span>
+    <span class="font-bold"><%= @program.name %></span>
+  </div>
+<% end %>
+
+<% if @program.input.present? %>
+  <div class="p">
+    <span class="text-gray-600"><%= t(".input") %></span>
+    <code><%= @program.input %></code>
+  </div>
+<% end %>
+
+<div class="p">
+  <span class="text-gray-600"><%= t(".updated_at") %></span>
+  <span class="font-bold"><%= local_time(@program.updated_at) %></span>
+</div>
+
+<div class="p">
+  <span class="text-gray-600"><%= t(".created_at") %></span>
+  <span class="font-bold"><%= local_time(@program.created_at) %></span>
+</div>
+
+<% if @program.scheduled_at? %>
+  <div class="p">
+    <%= t(".scheduled_html", local_time: local_time(@program.scheduled_at)) %>
+    <%= button_to t(".unschedule"), [@program, :unschedule], method: :post, class: "underline", form_class: "inline-block" %>
+  </div>
+<% elsif @program.next_at? %>
+  <div class="p">
+    <%= t(".not_scheduled_html", local_time: local_time(@program.next_at)) %>
+    <%= button_to t(".schedule"), [@program, :schedule], method: :post, class: "underline", form_class: "inline-block" %>
+  </div>
+<% end %>
+
+<div class="p"><%= button_to t(".evaluate"), [@program, :evaluate], method: :post, class: "button" %></div>
+
+<div class="p">
+  <%= link_to t(".edit"), [:edit, @program], class: "underline" %>
+  <%= button_to t(".delete"), @program, method: :delete, class: "underline", form_class: "inline-block" %>
+</div>
+
+<div class="p font-bold"><%= link_to t(".schedules"), [@program, :schedules], class: "underline" %></div>
+
+<div class="p"><%= link_to t(".new_schedule"), [:new, @program, :schedule], class: "button" %></div>
+
+<%= render @schedules %>
+
+<div class="p font-bold"><%= link_to t(".executions"), [@program, :executions], class: "underline" %></div>
+
+<%= render @executions %>

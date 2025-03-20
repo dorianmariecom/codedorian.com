@@ -1,0 +1,70 @@
+<% content_for(:title, @message) %>
+
+<% if @message.from_user.present? %>
+  <div class="p">
+    <span class="text-gray-600"><%= t(".from_user") %></span>
+
+    <% if can?(:show, @message.from_user) %>
+      <span class="font-bold"><%= link_to @message.from_user, @message.from_user, class: "underline" %></span>
+    <% else %>
+      <span class="font-bold"><%= @message.from_user %></span>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @message.to_user.present? %>
+  <div class="p">
+    <span class="text-gray-600"><%= t(".to_user") %></span>
+
+    <% if can?(:show, @message.to_user) %>
+      <span class="font-bold"><%= link_to @message.to_user, @message.to_user, class: "underline" %></span>
+    <% else %>
+      <span class="font-bold"><%= @message.to_user %></span>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @message.subject.present? %>
+  <div class="p">
+    <span class="text-gray-600"><%= t(".subject") %></span>
+    <%= @message.subject %>
+  </div>
+<% end %>
+
+<% if @message.body.present? %>
+  <div class="p">
+    <span class="text-gray-600"><%= t(".body") %></span>
+    <%= @message.body %>
+  </div>
+<% end %>
+
+<div class="p">
+  <span class="text-gray-600"><%= t(".updated_at") %></span>
+  <span class="font-bold"><%= local_time(@message.updated_at) %></span>
+</div>
+
+<div class="p">
+  <span class="text-gray-600"><%= t(".created_at") %></span>
+  <span class="font-bold"><%= local_time(@message.created_at) %></span>
+</div>
+
+<% if @message.read? %>
+  <div class="p">
+    <% if @message.read_at %>
+      <span><%= t(".read_at_html", local_time: local_time(@message.read_at)) %></span>
+    <% end %>
+    <%= button_to t(".unread"), [@message, :unread], method: :post, class: "underline", form_class: "inline-block" %>
+  </div>
+<% else %>
+  <div class="p">
+    <% if @message.unread_at %>
+      <span><%= t(".unread_at_html", local_time: local_time(@message.unread_at)) %></span>
+    <% end %>
+    <%= button_to t(".read"), [@message, :read], method: :post, class: "underline", form_class: "inline-block" %>
+  </div>
+<% end %>
+
+<div class="p">
+  <%= link_to t(".edit"), [:edit, @message], class: "underline" %>
+  <%= button_to t(".delete"), @message, method: :delete, class: "underline", form_class: "inline-block" %>
+</div>

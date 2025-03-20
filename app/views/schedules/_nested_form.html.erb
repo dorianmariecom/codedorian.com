@@ -1,0 +1,24 @@
+<div class="schedule border-l border-black pl-5" data-new-record="<%= f.object.new_record? %>">
+  <%= f.hidden_field :id %>
+  <%= f.hidden_field :_destroy %>
+
+  <h2 class="font-bold p"><%= t(".schedule") %></h2>
+
+  <div class="p">
+    <%= f.label :starts_at, class: "label" %>
+    <%= f.datetime_field :starts_at, required: true, class: "input", autocomplete: "off", data: { form_type: "other" } %>
+    <div class="text-red-600" hidden data-validation-target="error"></div>
+    <div class="text-gray-600"><%= local_time(Time.zone.now) %></div>
+  </div>
+
+  <div class="p">
+    <%= f.label :interval, class: "label" %>
+    <%= f.select :interval, schedule_interval_options(interval: f.object.interval), {}, required: true, class: "input", data: { form_type: "other" }, autocomplete: "off" %>
+  </div>
+
+  <div class="p">
+    <button class="button button--link" data-action="nested#remove">
+      <%= t(".remove") %>
+    </button>
+  </div>
+</div>

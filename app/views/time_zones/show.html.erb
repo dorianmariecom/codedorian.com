@@ -1,0 +1,45 @@
+<% content_for :title, @time_zone %>
+
+<% if @time_zone.user.present? %>
+  <div class="p">
+    <span class="text-gray-600"><%= t(".user") %></span>
+  
+    <% if can?(:show, @time_zone.user) %>
+      <span class="font-bold"><%= link_to @time_zone.user, @time_zone.user, class: "underline" %></span>
+    <% else %>
+      <span class="font-bold"><%= @time_zone.user %></span>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @time_zone.time_zone.present? %>
+  <div class="p">
+    <span class="text-gray-600"><%= t(".time_zone") %></span>
+    <span class="font-bold"><%= @time_zone.time_zone %></span>
+  </div>
+<% end %>
+
+<div class="p">
+  <span class="text-gray-600"><%= t(".primary") %></span>
+  <span class="font-bold"><%= @time_zone.primary? %></span>
+</div>
+
+<div class="p">
+  <span class="text-gray-600"><%= t(".verified") %></span>
+  <span class="font-bold"><%= @time_zone.verified? %></span>
+</div>
+
+<div class="p">
+  <span class="text-gray-600"><%= t(".updated_at") %></span>
+  <span class="font-bold"><%= local_time(@time_zone.updated_at) %></span>
+</div>
+
+<div class="p">
+  <span class="text-gray-600"><%= t(".created_at") %></span>
+  <span class="font-bold"><%= local_time(@time_zone.created_at) %></span>
+</div>
+
+<div class="p">
+  <%= link_to t(".edit"), [:edit, @time_zone], class: "underline" %>
+  <%= button_to t(".delete"), @time_zone, method: :delete, class: "underline", form_class: "inline-block" %>
+</div>

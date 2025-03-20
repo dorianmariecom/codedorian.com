@@ -1,0 +1,51 @@
+<% content_for(:title, @device) %>
+
+<% if @device.user.present? %>
+  <div class="p">
+    <span class="text-gray-600"><%= t(".user") %></span>
+    <% if can?(:show, @device.user) %>
+      <strong><%= link_to @device.user, @device.user, class: "underline" %></strong>
+    <% else %>
+      <strong><%= @device.user %></strong>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @device.platform.present? %>
+  <div class="p">
+    <span class="text-gray-600"><%= t(".platform") %></span>
+    <strong><%= @device.platform %></strong>
+  </div>
+<% end %>
+
+<% if @device.token.present? %>
+  <div class="p">
+    <span class="text-gray-600"><%= t(".token") %></span>
+    <strong><%= @device.token %></strong>
+  </div>
+<% end %>
+
+<div class="p">
+  <span class="text-gray-600"><%= t(".primary") %></span>
+  <strong><%= @device.primary? %></strong>
+</div>
+
+<div class="p">
+  <span class="text-gray-600"><%= t(".verified") %></span>
+  <strong><%= @device.verified? %></strong>
+</div>
+
+<div class="p">
+  <span class="text-gray-600"><%= t(".updated_at") %></span>
+  <strong><%= local_time(@device.updated_at) %></strong>
+</div>
+
+<div class="p">
+  <span class="text-gray-600"><%= t(".created_at") %></span>
+  <strong><%= local_time(@device.created_at) %></strong>
+</div>
+
+<div class="p">
+  <%= link_to t(".edit"), [:edit, @device], class: "underline" %>
+  <%= button_to t(".delete"), @device, method: :delete, class: "underline", form_class: "inline-block" %>
+</div>

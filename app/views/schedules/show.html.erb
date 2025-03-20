@@ -1,0 +1,48 @@
+<% content_for(:title) do %>
+  <% if @schedule.once? %>
+    <%= t(".schedule_once_html", local_time: local_time(@schedule.starts_at), interval: @schedule.translated_interval) %>
+  <% else %>
+    <%= t(".schedule_html", local_time: local_time(@schedule.starts_at), interval:@schedule.translated_interval) %>
+  <% end %>
+<% end %>
+
+<% if @schedule.program.present? %>
+  <div class="p">
+    <span class="text-gray-600"><%= t(".program") %></span>
+
+    <% if can?(:show, @schedule.program) %>
+      <span class="font-bold"><%= link_to @schedule.program, @schedule.program, class: "underline" %></span>
+    <% else %>
+      <span class="font-bold"><%= @schedule.program %></span>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @schedule.starts_at.present? %>
+  <div class="p">
+    <span class="text-gray-600"><%= t(".starts_at") %></span>
+    <span class="font-bold"><%= local_time(@schedule.starts_at) %></span>
+  </div>
+<% end %>
+
+<% if @schedule.interval.present? %>
+  <div class="p">
+    <span class="text-gray-600"><%= t(".interval") %></span>
+    <span class="font-bold"><%= @schedule.translated_interval %></span>
+  </div>
+<% end %>
+
+<div class="p">
+  <span class="text-gray-600"><%= t(".updated_at") %></span>
+  <span class="font-bold"><%= local_time(@schedule.updated_at) %></span>
+</div>
+
+<div class="p">
+  <span class="text-gray-600"><%= t(".created_at") %></span>
+  <span class="font-bold"><%= local_time(@schedule.created_at) %></span>
+</div>
+
+<div class="p">
+  <%= link_to t(".edit"), [:edit, @schedule], class: "underline" %>
+  <%= button_to t(".delete"), @schedule, method: :delete, class: "underline", form_class: "inline-block" %>
+</div>
