@@ -15,6 +15,7 @@ export default class extends Controller {
       /NEW_RECORD/g,
       new Date().getTime().toString(),
     );
+
     this.targetTarget.insertAdjacentHTML("beforebegin", content);
 
     if (!existingWrapper) {
