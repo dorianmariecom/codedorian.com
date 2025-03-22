@@ -100,10 +100,10 @@ jobs:
         cache-from: type=gha
         cache-to: type=gha,mode=max
         context: "."
-        labels: service=codedorian-staging
+        labels: service=codedorian
         platforms: linux/arm64
         push: true
-        tags: dorianmariecom/codedorian.com-staging:${{github.sha}}
+        tags: dorianmariecom/codedorian.com:${{github.sha}}
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true

@@ -15,7 +15,7 @@ env:
   - HOSTS
   - RAILS_MASTER_KEY
   - DATABASE_URL
-image: dorianmariecom/codedorian.com-staging
+image: dorianmariecom/codedorian.com
 proxy:
   hosts:
   - staging.code-dorian.com
@@ -42,6 +42,6 @@ servers:
     - 138.201.175.197
   web:
   - 138.201.175.197
-service: codedorian-staging
+service: codedorian
 volumes:
 - code_storage:/rails/storage
