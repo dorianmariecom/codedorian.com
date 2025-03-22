@@ -34,7 +34,13 @@ class Code
         end
       end
 
-      def self.code_create!(from: nil, to: nil, subject: nil, body: nil, path: nil)
+      def self.code_create!(
+        from: nil,
+        to: nil,
+        subject: nil,
+        body: nil,
+        path: nil
+      )
         code_from = from.to_code
         code_to = to.to_code
         code_subject = subject.to_s.to_code
@@ -43,18 +49,19 @@ class Code
         code_from = Current.code_user if code_from.nothing?
         code_to = Current.code_user if code_to.nothing?
 
-        devices = code_from.user.devices.map do |device|
-          next unless device.ios?
+        devices =
+          code_from.user.devices.map do |device|
+            next unless device.ios?
 
-          ios_apps.each do |ios_app|
-            Rpush::Apnsp8::Notification.create!(
-              app: ios_app,
-              device_token: device.token,
-              alert: "#{code_subject}\n#{code_body}".strip,
-              data: { path: code_path.to_s }.compact_blank
-            )
+            ios_apps.each do |ios_app|
+              Rpush::Apnsp8::Notification.create!(
+                app: ios_app,
+                device_token: device.token,
+                alert: "#{code_subject}\n#{code_body}".strip,
+                data: { path: code_path.to_s }.compact_blank
+              )
+            end
           end
-        end
       rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
         raise Code::Error, "notification not saved"
       end
