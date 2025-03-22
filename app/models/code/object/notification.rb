@@ -44,15 +44,15 @@ class Code
         code_to = Current.code_user if code_to.nothing?
 
         devices = code_from.user.devices.map do |device|
-          if device.ios?
-            ios_apps.each do |ios_app|
-              Rpush::Apnsp8::Notification.create!(
-                app: ios_app,
-                device_token: device.token,
-                alert: "#{code_subject}\n#{code_body}".strip,
-                data: { path: code_path.to_s }.compact_blank
-              )
-            end
+          next unless device.ios?
+
+          ios_apps.each do |ios_app|
+            Rpush::Apnsp8::Notification.create!(
+              app: ios_app,
+              device_token: device.token,
+              alert: "#{code_subject}\n#{code_body}".strip,
+              data: { path: code_path.to_s }.compact_blank
+            )
           end
         end
       rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved

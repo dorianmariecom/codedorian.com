@@ -49,7 +49,7 @@ class Code
       end
 
       def user!
-        scope.find_by!(id:)
+        scope.find(id)
       end
 
       def scope
