@@ -196,7 +196,7 @@ module ApplicationHelper
           path: polymorphic_path([current_user, :messages])
         },
         {
-          title: current_user.to_s,
+          title: t("helpers.application.tabs.account"),
           image: "person.crop.circle.fill",
           path: polymorphic_path(current_user)
         },
