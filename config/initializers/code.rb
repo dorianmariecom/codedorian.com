@@ -28,6 +28,13 @@ class Code
         when "User"
           sig(args) { Object.repeat }
           code_arguments.any? ? User.new(*code_arguments.raw) : Class.new(User)
+        when "Notification"
+          sig(args) { Object.repeat }
+          if code_arguments.any?
+            Notification.new(*code_arguments.raw)
+          else
+            Class.new(Notification)
+          end
         else
           original_call(**args)
         end

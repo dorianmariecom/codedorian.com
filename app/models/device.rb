@@ -54,6 +54,14 @@ class Device < ApplicationRecord
     platform_changed? || token_changed?
   end
 
+  def ios?
+    platform == "ios"
+  end
+
+  def android?
+    platform == "android"
+  end
+
   def to_s
     platform.presence || t("to_s", id:)
   end
