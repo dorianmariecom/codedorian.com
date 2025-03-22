@@ -15,6 +15,7 @@ class ApplicationController < ActionController::Base
   after_action :verify_authorized
   after_action :verify_policy_scoped
   after_action :delete_link_header
+  skip_before_action :verify_captcha, if: :mission_control_controller?
   skip_after_action :verify_authorized, if: :mission_control_controller?
   skip_after_action :verify_policy_scoped, if: :mission_control_controller?
 

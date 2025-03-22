@@ -42,14 +42,14 @@ class Code
     end
   end
 
-  include Pundit::Authorization
-  extend Pundit::Authorization
+  include ::Pundit::Authorization
+  extend ::Pundit::Authorization
 
   def self.current_user
-    Current.user
+    ::Current.user
   end
 
   def current_user
-    Current.user
+    ::Current.user
   end
 end

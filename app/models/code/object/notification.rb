@@ -49,25 +49,37 @@ class Code
         code_from = Current.code_user if code_from.nothing?
         code_to = Current.code_user if code_to.nothing?
 
-        devices =
-          code_from.user.devices.map do |device|
-            next unless device.ios?
+        code_from.user.devices.each do |device|
+          next unless device.ios?
 
-            ios_apps.each do |ios_app|
-              Rpush::Apnsp8::Notification.create!(
-                app: ios_app,
-                device_token: device.token,
-                alert: "#{code_subject}\n#{code_body}".strip,
-                data: { path: code_path.to_s }.compact_blank
-              )
-            end
+          ios_apps.each do |ios_app|
+            Rpush::Apnsp8::Notification.create!(
+              app: ios_app,
+              device_token: device.token,
+              alert: "#{code_subject}\n#{code_body}".strip,
+              data: { path: code_path.to_s }.compact_blank
+            )
           end
+        end
+
+        true
       rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
         raise Code::Error, "notification not saved"
       end
 
       def self.ios_apps
         Rpush::Apnsp8::App.all
+      end
+
+      include ::Pundit::Authorization
+      extend ::Pundit::Authorization
+
+      def self.current_user
+        ::Current.user
+      end
+
+      def current_user
+        ::Current.user
       end
     end
   end

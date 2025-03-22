@@ -25,6 +25,17 @@ class Code
       def self.code_user!
         ::Current.user!.to_code
       end
+
+      include ::Pundit::Authorization
+      extend ::Pundit::Authorization
+
+      def self.current_user
+        ::Current.user
+      end
+
+      def current_user
+        ::Current.user
+      end
     end
   end
 end

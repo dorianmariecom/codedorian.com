@@ -87,6 +87,17 @@ class Code
       rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
         raise Code::Error, "message not saved"
       end
+
+      include ::Pundit::Authorization
+      extend ::Pundit::Authorization
+
+      def self.current_user
+        ::Current.user
+      end
+
+      def current_user
+        ::Current.user
+      end
     end
   end
 end

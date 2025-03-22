@@ -47,7 +47,7 @@ class Code
       end
 
       def id
-        code_get("id").to_i
+        code_get("id").to_s.to_i
       end
 
       def user
@@ -60,6 +60,17 @@ class Code
 
       def scope
         policy_scope(::User)
+      end
+
+      include ::Pundit::Authorization
+      extend ::Pundit::Authorization
+
+      def self.current_user
+        ::Current.user
+      end
+
+      def current_user
+        ::Current.user
       end
     end
   end
