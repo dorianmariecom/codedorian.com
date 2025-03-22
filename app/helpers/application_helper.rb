@@ -178,32 +178,62 @@ module ApplicationHelper
   end
 
   def tabs
-    [
-      {
-        title: t("helpers.application.tabs.home"),
-        image: "house.fill",
-        path: root_path
-      },
-      {
-        title: t("helpers.application.tabs.programs"),
-        image: "laptopcomputer",
-        path: polymorphic_path([current_user_or_guest, :programs])
-      },
-      {
-        title: t("helpers.application.tabs.messages"),
-        image: "message.fill",
-        path: polymorphic_path([current_user_or_guest, :messages])
-      },
-      {
-        title: t("helpers.application.tabs.account"),
-        image: "person.crop.circle.fill",
-        path: account_path
-      },
-      {
-        title: t("helpers.application.tabs.more"),
-        image: "ellipsis",
-        path: more_path
-      }
-    ]
+    if current_user?
+      [
+        {
+          title: t("helpers.application.tabs.home"),
+          image: "house.fill",
+          path: root_path
+        },
+        {
+          title: t("helpers.application.tabs.programs"),
+          image: "laptopcomputer",
+          path: polymorphic_path([current_user, :programs])
+        },
+        {
+          title: t("helpers.application.tabs.messages"),
+          image: "message.fill",
+          path: polymorphic_path([current_user, :messages])
+        },
+        {
+          title: current_user.to_s,
+          image: "person.crop.circle.fill",
+          path: polymorphic_path(current_user)
+        },
+        {
+          title: t("helpers.application.tabs.more"),
+          image: "ellipsis",
+          path: more_path
+        }
+      ]
+    else
+      [
+        {
+          title: t("helpers.application.tabs.home"),
+          image: "house.fill",
+          path: root_path
+        },
+        {
+          title: t("helpers.application.tabs.programs"),
+          image: "laptopcomputer",
+          path: polymorphic_path([current_guest, :programs])
+        },
+        {
+          title: t("helpers.application.tabs.messages"),
+          image: "message.fill",
+          path: polymorphic_path([current_guest, :messages])
+        },
+        {
+          title: t("helpers.application.tabs.account"),
+          image: "person.crop.circle.fill",
+          path: account_path
+        },
+        {
+          title: t("helpers.application.tabs.more"),
+          image: "ellipsis",
+          path: more_path
+        }
+      ]
+    end
   end
 end
