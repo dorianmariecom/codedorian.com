@@ -22,12 +22,18 @@ class Code
 
       def self.code_find(value)
         code_value = value.to_code
-        scope_with_handles.where(handles: { handle: code_value.to_s }).first.to_code
+        scope_with_handles
+          .where(handles: { handle: code_value.to_s })
+          .first
+          .to_code
       end
 
       def self.code_find!(value)
         code_value = value.to_code
-        scope_with_handles.where(handles: { handle: code_value.to_s }).first!.to_code
+        scope_with_handles
+          .where(handles: { handle: code_value.to_s })
+          .first!
+          .to_code
       rescue ActiveRecord::RecordNotFound
         raise Code::Error, "user not found"
       end
