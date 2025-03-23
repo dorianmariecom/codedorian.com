@@ -650,6 +650,8 @@ en:
           <a href="https://dorianmarie.com">dorian marié</a>
         </p>
       title: about
+      version: "version: "
+      local: local
     account:
       log_in: log in
       register: register

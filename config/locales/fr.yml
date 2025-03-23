@@ -615,6 +615,14 @@ fr:
       submit: se connecter
       title: connexion
   shared:
+    attribute:
+      address: adresse
+      email_address: adresse email
+      handle: poignée
+      name: nom
+      password: mot de passe
+      phone_number: numéro de téléphone
+      time_zone: fuseau horaire
     list:
       addresses: adresses
       devices: appareils
@@ -642,6 +650,8 @@ fr:
           <a href="https://dorianmarie.com">dorian marié</a>
         </p>
       title: à propos
+      version: 'version : '
+      local: locale
     account:
       log_in: se connecter
       register: s'inscrire

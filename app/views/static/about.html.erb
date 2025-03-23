@@ -1,1 +1,5 @@
 <div class="content"><%= t(".about_html") %></div>
+
+<div class="p">
+  <%= t(".version") %><%= ENV.fetch("KAMAL_VERSION", t(".local")) %>
+</div>
