@@ -26,12 +26,10 @@ Rails.application.routes.draw do
 
       resources :email_addresses do
         collection { delete "/", to: "email_addresses#destroy_all" }
-        resource :verification_code
       end
 
       resources :phone_numbers do
         collection { delete "/", to: "phone_numbers#destroy_all" }
-        resource :verification_code
       end
 
       resources(:executions) do
