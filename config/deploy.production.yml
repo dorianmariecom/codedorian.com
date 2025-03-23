@@ -1,9 +1,9 @@
 ---
 aliases:
-  restart: app boot
   console: app exec --interactive --reuse "bin/rails console"
   dbc: app exec --interactive --reuse "bin/rails dbconsole"
   logs: app logs -f
+  restart: app boot
   shell: app exec --interactive --reuse "bash"
 builder:
   arch: arm64
