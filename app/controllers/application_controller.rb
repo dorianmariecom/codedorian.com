@@ -86,7 +86,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_time_zone
-    Current.time_zone = current_user&.time_zone || session[:time_zone]
+    Current.time_zone = current_time_zone
   end
 
   def log_in(user)
