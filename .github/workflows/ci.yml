@@ -73,7 +73,7 @@ jobs:
       with:
         bundler-cache: true
     - run: env > .kamal/secrets.production
-    - uses: webfactory/ssh-agent@v0.9.0
+    - uses: webfactory/ssh-agent@v0.9.1
       with:
         ssh-private-key: "${{secrets.PRODUCTION_SSH_PRIVATE_KEY}}"
     - if: github.ref == 'refs/heads/main'
@@ -99,7 +99,7 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
-    - uses: webfactory/ssh-agent@v0.9.0
+    - uses: webfactory/ssh-agent@v0.9.1
       with:
         ssh-private-key: "${{secrets.STAGING_SSH_PRIVATE_KEY}}"
     - run: env > .kamal/secrets.staging
