@@ -62,12 +62,12 @@ class Code
         code_from = Current.code_user if code_from.nothing?
         code_to = Current.code_user if code_to.nothing?
 
-        ::Message.create(
-          from_user_id: code_from.code_get("id"),
-          to_user_id: code_to.code_get("id"),
-          subject: code_subject,
-          body: code_body
-        ).to_code
+        ::Message.new(
+          from_user_id: code_from.code_get("id").to_s,
+          to_user_id: code_to.code_get("id").to_s,
+          subject: code_subject.to_s,
+          body: code_body.to_s
+        ).tap(&:save).to_code
       end
 
       def self.code_create!(from: nil, to: nil, subject: nil, body: nil)
@@ -78,12 +78,12 @@ class Code
         code_from = Current.code_user if code_from.nothing?
         code_to = Current.code_user if code_to.nothing?
 
-        ::Message.create!(
+        ::Message.new(
           from_user_id: code_from.code_get("id").to_s,
           to_user_id: code_to.code_get("id").to_s,
           subject: code_subject.to_s,
           body: code_body.to_s
-        ).to_code
+        ).tap(&:save!).to_code
       rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
         raise Code::Error, "message not saved"
       end

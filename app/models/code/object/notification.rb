@@ -62,7 +62,7 @@ class Code
           end
         end
 
-        true
+        Notification.new
       rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
         raise Code::Error, "notification not saved"
       end
