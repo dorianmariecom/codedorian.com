@@ -1,5 +1,6 @@
 ---
 aliases:
+  restart: app boot
   console: app exec --interactive --reuse "bin/rails console"
   dbc: app exec --interactive --reuse "bin/rails dbconsole"
   logs: app logs -f
