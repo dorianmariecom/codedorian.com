@@ -35,16 +35,6 @@ class Program < ApplicationRecord
           error: "#{e.class}: #{e.message}"
         )
 
-      EmailAddressMailer
-        .with(
-          from: "dorian@dorianmarie.com",
-          to: "dorian@dorianmarie.com",
-          subject: execution.error,
-          text: "#{user}\n\n#{self}"
-        )
-        .code_mail
-        .deliver_later
-
       execution
     end
   end
