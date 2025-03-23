@@ -13,9 +13,14 @@ class Current < ActiveSupport::CurrentAttributes
     (user || guest).admin?
   end
 
-  def time_zone=(time_zone)
-    Time.zone = time_zone
+  def user=(user)
+    self.time_zone = user&.time_zone
     super
+  end
+
+  def time_zone=(time_zone)
+    Time.zone = user&.time_zone || time_zone
+    super(user&.time_zone || time_zone)
   end
 
   def user!
