@@ -41,10 +41,22 @@ class User < ApplicationRecord
             },
             allow_blank: true
 
-  after_create { tokens.create! }
+  def name
+    names.verified.primary.first&.name || names.verified.first&.name
+  end
 
-  def full_name
-    names.verified.primary.first&.full_name || names.verified.first&.full_name
+  def address
+    addresses.verified.primary.first&.address ||
+      addresses.verified.first&.address
+  end
+
+  def handle
+    handles.verified.primary.first&.handle || handles.verified.first&.handle
+  end
+
+  def password
+    passwords.verified.primary.first&.password ||
+      passwords.verified.first&.password
   end
 
   def email_address
@@ -62,6 +74,14 @@ class User < ApplicationRecord
       time_zones.verified.first&.time_zone
   end
 
+  def device
+    devices.verified.primary.first&.device || devices.verified.first&.device
+  end
+
+  def token
+    tokens.verified.primary.first&.token || tokens.verified.first&.token
+  end
+
   def verified!
     update!(verified: true)
     addresses.update!(verified: true)
@@ -71,6 +91,8 @@ class User < ApplicationRecord
     passwords.update!(verified: true)
     phone_numbers.update!(verified: true)
     time_zones.update!(verified: true)
+    devices.update!(verified: true)
+    tokens.update!(verified: true)
   end
 
   def not_verified!
@@ -82,6 +104,8 @@ class User < ApplicationRecord
     passwords.update!(verified: false)
     phone_numbers.update!(verified: false)
     time_zones.update!(verified: false)
+    devices.update!(verified: false)
+    tokens.update!(verified: false)
   end
 
   def primary!
@@ -92,6 +116,8 @@ class User < ApplicationRecord
     passwords.update!(primary: true)
     phone_numbers.update!(primary: true)
     time_zones.update!(primary: true)
+    devices.update!(primary: true)
+    tokens.update!(primary: true)
   end
 
   def not_primary!
@@ -102,6 +128,8 @@ class User < ApplicationRecord
     passwords.update!(primary: false)
     phone_numbers.update!(primary: false)
     time_zones.update!(primary: false)
+    devices.update!(primary: false)
+    tokens.update!(primary: false)
   end
 
   def admin!
@@ -133,8 +161,9 @@ class User < ApplicationRecord
   end
 
   def to_s
-    full_name.presence || email_address.presence || phone_number.presence ||
-      t("to_s", id:)
+    handle.presence || name.presence || email_address.presence ||
+      phone_number.presence || address.presence || device.presence ||
+      token.presence || t("to_s", id:)
   end
 
   def to_code

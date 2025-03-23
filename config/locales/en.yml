@@ -615,6 +615,14 @@ en:
       submit: log in
       title: log in
   shared:
+    attribute:
+      address: address
+      email_address: email address
+      handle: handle
+      name: name
+      password: password
+      phone_number: phone number
+      time_zone: time zone
     list:
       addresses: addresses
       devices: devices

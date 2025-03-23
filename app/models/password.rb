@@ -53,6 +53,10 @@ class Password < ApplicationRecord
     update!(verified: false)
   end
 
+  def password
+    "***"
+  end
+
   def password=(...)
     self.password_changed = true
     super

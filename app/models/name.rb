@@ -55,6 +55,10 @@ class Name < ApplicationRecord
     [given_name, family_name].compact_blank.join(" ")
   end
 
+  def name
+    full_name.presence
+  end
+
   def to_s
     full_name.presence || t("to_s", id:)
   end

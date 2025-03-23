@@ -35,7 +35,12 @@ class Guest
   def locale = I18n.locale.to_s
   def updated_at = Time.zone.now
   def created_at = Time.zone.now
-  def full_name = nil
+  def device = nil
+  def token = nil
+  def name = nil
+  def address = nil
+  def handle = nil
+  def password = nil
   def email_address = nil
   def phone_number = nil
   def time_zone = nil

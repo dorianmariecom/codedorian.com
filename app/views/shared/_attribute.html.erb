@@ -1,0 +1,10 @@
+<% user = local_assigns.fetch(:user) %>
+<% field = local_assigns.fetch(:field) %>
+<% value = user.public_send(field) %>
+
+<% if value.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".#{field}") %></div>
+    <div class="font-bold"><%= value %></div>
+  </div>
+<% end %>
