@@ -31,13 +31,15 @@ jobs:
         username: "${{secrets.KAMAL_REGISTRY_USERNAME}}"
     - uses: docker/build-push-action@v5
       with:
-        cache-from: type=registry,ref=user/app:latest
-        cache-to: type=inline
+        cache-from: type=registry,ref=dorianmariecom/codedorian.com:latest
+        cache-to: type=registry,ref=dorianmariecom/codedorian.com:latest,mode=max
         context: "."
         labels: service=codedorian
         platforms: linux/arm64
         push: true
-        tags: dorianmariecom/codedorian.com:${{github.sha}}
+        tags: |
+          dorianmariecom/codedorian.com:${{github.sha}}
+          dorianmariecom/codedorian.com:latest
   bundler-audit:
     name: bundler audit
     runs-on: ubuntu-latest
