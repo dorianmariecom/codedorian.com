@@ -16,7 +16,8 @@ class Code
               to: User.maybe,
               subject: String.maybe,
               body: String.maybe,
-              path: String.maybe
+              path: String.maybe,
+              sound: String.maybe
             }
           end
 
@@ -26,7 +27,8 @@ class Code
               to: code_value.code_get("to"),
               subject: code_value.code_get("subject"),
               body: code_value.code_get("body"),
-              path: code_value.code_get("path")
+              path: code_value.code_get("path"),
+              sound: code_value.code_get("sound")
             )
           else
             code_create!
@@ -39,13 +41,15 @@ class Code
         to: nil,
         subject: nil,
         body: nil,
-        path: nil
+        path: nil,
+        sound: nil
       )
         code_from = from.to_code
         code_to = to.to_code
         code_subject = subject.to_s.to_code
         code_body = body.to_s.to_code
         code_path = path.to_s.to_code
+        code_sound = sound.to_s.to_code
         code_from = Current.code_user if code_from.nothing?
         code_to = Current.code_user if code_to.nothing?
 
@@ -56,8 +60,12 @@ class Code
             Rpush::Apnsp8::Notification.create!(
               app: ios_app,
               device_token: device.token,
-              alert: "#{code_subject}\n#{code_body}".strip,
-              data: { path: code_path.to_s }.compact_blank
+              alert: {
+                title: code_subject.to_s,
+                body: code_body.to_s
+              },
+              data: { path: code_path.to_s }.compact_blank,
+              sound: code_sound.to_s
             )
           end
         end
