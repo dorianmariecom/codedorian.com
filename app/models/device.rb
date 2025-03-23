@@ -62,6 +62,10 @@ class Device < ApplicationRecord
     platform == "android"
   end
 
+  def device
+    platform.presence
+  end
+
   def to_s
     platform.presence || t("to_s", id:)
   end
