@@ -75,6 +75,10 @@ button {
   &.input--touched:invalid {
     @apply border-red-600;
   }
+
+  &.input--code {
+    @apply max-w-full whitespace-pre font-mono h-96;
+  }
 }
 
 .center {
