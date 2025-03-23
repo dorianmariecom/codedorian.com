@@ -1,4 +1,6 @@
 ---
+concurrency:
+  group: ci
 jobs:
   brakeman:
     name: brakeman
@@ -29,13 +31,13 @@ jobs:
         username: "${{secrets.KAMAL_REGISTRY_USERNAME}}"
     - uses: docker/build-push-action@v5
       with:
+        cache-from: type=registry,ref=user/app:latest
+        cache-to: type=inline
         context: "."
         labels: service=codedorian
         platforms: linux/arm64
         push: true
         tags: dorianmariecom/codedorian.com:${{github.sha}}
-        cache-from: type=registry,ref=user/app:latest
-        cache-to: type=inline
   bundler-audit:
     name: bundler audit
     runs-on: ubuntu-latest
