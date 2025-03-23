@@ -649,9 +649,9 @@ fr:
           code est le projet de
           <a href="https://dorianmarie.com">dorian marié</a>
         </p>
+      local: local
       title: à propos
       version: 'version : '
-      local: locale
     account:
       log_in: se connecter
       register: s'inscrire

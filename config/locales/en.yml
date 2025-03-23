@@ -649,9 +649,9 @@ en:
           code is the project of
           <a href="https://dorianmarie.com">dorian marié</a>
         </p>
-      title: about
-      version: "version: "
       local: local
+      title: about
+      version: 'version: '
     account:
       log_in: log in
       register: register
