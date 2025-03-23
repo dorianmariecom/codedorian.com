@@ -49,7 +49,7 @@ class Code
         code_from = Current.code_user if code_from.nothing?
         code_to = Current.code_user if code_to.nothing?
 
-        code_from.user.devices.each do |device|
+        code_to.user.devices.each do |device|
           next unless device.ios?
 
           ios_apps.each do |ios_app|
