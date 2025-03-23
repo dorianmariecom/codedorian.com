@@ -64,7 +64,12 @@ class ApplicationController < ActionController::Base
   def current_user!
     return if current_user?
 
-    redirect_to root_path, alert: t("application.current_user_required")
+    message = alert = t("application.current_user_required")
+
+    respond_to do |format|
+      format.html { redirect_to(root_path, alert:) }
+      format.json { render(json: { message: }, status: :unauthorized) }
+    end
   end
 
   def current_guest
