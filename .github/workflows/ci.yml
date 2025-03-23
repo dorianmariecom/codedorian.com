@@ -10,15 +10,6 @@ jobs:
         bundler-cache: true
     - run: bin/brakeman -A -q --color
   build-image:
-    env:
-      BASE_URL: "${{secrets.PRODUCTION_BASE_URL}}"
-      DATABASE_URL: "${{secrets.PRODUCTION_DATABASE_URL}}"
-      HOST: "${{secrets.PRODUCTION_HOST}}"
-      HOSTS: "${{secrets.PRODUCTION_HOSTS}}"
-      KAMAL_REGISTRY_PASSWORD: "${{secrets.PRODUCTION_KAMAL_REGISTRY_PASSWORD}}"
-      KAMAL_REGISTRY_USERNAME: "${{secrets.PRODUCTION_KAMAL_REGISTRY_USERNAME}}"
-      RAILS_MASTER_KEY: "${{secrets.PRODUCTION_RAILS_MASTER_KEY}}"
-      SSH_PRIVATE_KEY: "${{secrets.PRODUCTION_SSH_PRIVATE_KEY}}"
     name: build image
     needs:
     - brakeman
@@ -38,13 +29,13 @@ jobs:
         username: "${{secrets.KAMAL_REGISTRY_USERNAME}}"
     - uses: docker/build-push-action@v5
       with:
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
         context: "."
         labels: service=codedorian
         platforms: linux/arm64
         push: true
         tags: dorianmariecom/codedorian.com:${{github.sha}}
+        cache-from: type=registry,ref=user/app:latest
+        cache-to: type=inline
   bundler-audit:
     name: bundler audit
     runs-on: ubuntu-latest
