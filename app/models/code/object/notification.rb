@@ -64,7 +64,9 @@ class Code
                 title: code_subject.to_s,
                 body: code_body.to_s
               },
-              data: { path: code_path.to_s },
+              data: {
+                path: code_path.to_s
+              },
               sound: code_sound.to_s
             )
           end
