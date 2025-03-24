@@ -17,7 +17,7 @@ GIT
 
 GIT
   remote: https://github.com/rails/rails
-  revision: 98892a2d43052698465a443c50e9c2aee828f417
+  revision: 9f39c019243138d73bb265ec32da9aee26b2c18f
   specs:
     actioncable (8.1.0.alpha)
       actionpack (= 8.1.0.alpha)
@@ -417,7 +417,7 @@ GEM
     rainbow (3.1.1)
     rake (13.2.1)
     rchardet (1.9.0)
-    rdoc (6.12.0)
+    rdoc (6.13.0)
       psych (>= 4.0.0)
     recaptcha (5.19.0)
     redis (5.4.0)
