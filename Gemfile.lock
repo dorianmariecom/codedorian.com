@@ -17,7 +17,7 @@ GIT
 
 GIT
   remote: https://github.com/rails/rails
-  revision: 98892a2d43052698465a443c50e9c2aee828f417
+  revision: 9f39c019243138d73bb265ec32da9aee26b2c18f
   specs:
     actioncable (8.1.0.alpha)
       actionpack (= 8.1.0.alpha)
@@ -135,7 +135,7 @@ GEM
       bundler (>= 1.2.0, < 3)
       thor (~> 1.0)
     cmdparse (3.0.7)
-    code-ruby (1.2.5)
+    code-ruby (1.2.6)
       activesupport
       base64
       bigdecimal
@@ -417,7 +417,7 @@ GEM
     rainbow (3.1.1)
     rake (13.2.1)
     rchardet (1.9.0)
-    rdoc (6.12.0)
+    rdoc (6.13.0)
       psych (>= 4.0.0)
     recaptcha (5.19.0)
     redis (5.4.0)
@@ -559,11 +559,11 @@ GEM
     tailwindcss-rails (4.2.1)
       railties (>= 7.0.0)
       tailwindcss-ruby (~> 4.0)
-    tailwindcss-ruby (4.0.14)
-    tailwindcss-ruby (4.0.14-aarch64-linux-gnu)
-    tailwindcss-ruby (4.0.14-arm64-darwin)
-    tailwindcss-ruby (4.0.14-x86_64-darwin)
-    tailwindcss-ruby (4.0.14-x86_64-linux-gnu)
+    tailwindcss-ruby (4.0.15)
+    tailwindcss-ruby (4.0.15-aarch64-linux-gnu)
+    tailwindcss-ruby (4.0.15-arm64-darwin)
+    tailwindcss-ruby (4.0.15-x86_64-darwin)
+    tailwindcss-ruby (4.0.15-x86_64-linux-gnu)
     temple (0.10.3)
     terminal-table (4.0.0)
       unicode-display_width (>= 1.1.1, < 4)
