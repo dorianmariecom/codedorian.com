@@ -5,7 +5,7 @@
     <div class="text-gray-600"><%= t(".user") %></div>
     <% if can?(:show, @name.user) %>
       <div class="font-bold">
-        <%= link_to @name.user, @name.user, class: "underline" %>
+        <%= link_to @name.user, @name.user, class: "link" %>
       </div>
     <% else %>
       <div class="font-bold"><%= @name.user %></div>
@@ -48,10 +48,10 @@
 </div>
 
 <div class="p">
-  <%= link_to t(".edit"), [:edit, @name], class: "underline" %>
+  <%= link_to t(".edit"), [:edit, @name], class: "link" %>
   <%= button_to t(".delete"),
             @name,
             method: :delete,
-            class: "underline",
+            class: "button button--link",
             form_class: "inline-block" %>
 </div>

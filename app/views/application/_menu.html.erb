@@ -1,37 +1,37 @@
 <% unless hotwire_native_app? %>
   <div class="p">
-    <%= link_to t(".title"), root_path, class: "underline" %>
+    <%= link_to t(".title"), root_path, class: "link" %>
 
     <% if registered? %>
-      <%= link_to current_user, current_user, class: "underline" %>
+      <%= link_to current_user, current_user, class: "link" %>
       <%= button_to t(".log_out"),
                 :session,
                 method: :delete,
-                class: "underline",
+                class: "button button--link",
                 form_class: "inline-block" %>
     <% else %>
-      <%= link_to t(".register"), %i[new user], class: "underline" %>
-      <%= link_to t(".log_in"), %i[new session], class: "underline" %>
+      <%= link_to t(".register"), %i[new user], class: "link" %>
+      <%= link_to t(".log_in"), %i[new session], class: "link" %>
     <% end %>
 
-    <%= link_to t(".programs"), [current_user_or_guest, :programs], class: "underline" %>
-    <%= link_to t(".messages"), [current_user_or_guest, :messages], class: "underline" %>
+    <%= link_to t(".programs"), [current_user_or_guest, :programs], class: "link" %>
+    <%= link_to t(".messages"), [current_user_or_guest, :messages], class: "link" %>
 
     <% if admin? %>
-      <%= link_to t(".users"), :users, class: "underline" %>
+      <%= link_to t(".users"), :users, class: "link" %>
     <% end %>
 
-    <%= link_to t(".documentation"), :documentation, class: "underline" %>
-    <%= link_to t(".source"), :source, class: "underline" %>
-    <%= link_to t(".about"), :about, class: "underline" %>
-    <%= link_to t(".privacy"), :privacy, class: "underline" %>
-    <%= link_to t(".terms"), :terms, class: "underline" %>
-    <%= link_to t(".up"), :up, class: "underline" %>
+    <%= link_to t(".documentation"), :documentation, class: "link" %>
+    <%= link_to t(".source"), :source, class: "link" %>
+    <%= link_to t(".about"), :about, class: "link" %>
+    <%= link_to t(".privacy"), :privacy, class: "link" %>
+    <%= link_to t(".terms"), :terms, class: "link" %>
+    <%= link_to t(".up"), :up, class: "link" %>
 
     <% if fr? %>
-      <%= link_to t(".english"), url_for(locale: :en), class: "underline" %>
+      <%= link_to t(".english"), url_for(locale: :en), class: "link" %>
     <% else %>
-      <%= link_to t(".french"), url_for(locale: :fr), class: "underline" %>
+      <%= link_to t(".french"), url_for(locale: :fr), class: "link" %>
     <% end %>
 
     <%= Current.translated_env %>

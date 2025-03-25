@@ -8,20 +8,18 @@ export default class extends Controller {
   connect() {
     this._input().disabled = true;
 
-    if (!window.grecaptcha) {
-      const script = document.createElement("script");
-      script.async = true;
-      script.defer = true;
-      script.onload = this.load.bind(this);
-      script.src = `
-        https://www.google.com/recaptcha/api.js
-          ?render=${window.RECAPTCHA_SITE_KEY}
-          &time=${Date.now()}
-          &random=${Math.random()}
-      `.replace(/\s/g, "");
+    const script = document.createElement("script");
+    script.async = true;
+    script.defer = true;
+    script.onload = this.load.bind(this);
+    script.src = `
+      https://www.google.com/recaptcha/api.js
+        ?render=${window.RECAPTCHA_SITE_KEY}
+        &time=${Date.now()}
+        &random=${Math.random()}
+    `.replace(/\s/g, "");
 
-      document.head.appendChild(script);
-    }
+    document.head.appendChild(script);
 
     this.interval = setInterval(this.execute.bind(this), INTERVAL_MILLISECONDS);
   }

@@ -5,7 +5,7 @@
     <div class="text-gray-600"><%= t(".user") %></div>
     <% if can?(:show, @device.user) %>
       <strong>
-        <%= link_to @device.user, @device.user, class: "underline" %>
+        <%= link_to @device.user, @device.user, class: "link" %>
       </strong>
     <% else %>
       <strong><%= @device.user %></strong>
@@ -48,10 +48,10 @@
 </div>
 
 <div class="p">
-  <%= link_to t(".edit"), [:edit, @device], class: "underline" %>
+  <%= link_to t(".edit"), [:edit, @device], class: "link" %>
   <%= button_to t(".delete"),
             @device,
             method: :delete,
-            class: "underline",
+            class: "button button--link",
             form_class: "inline-block" %>
 </div>

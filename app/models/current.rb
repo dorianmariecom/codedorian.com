@@ -51,22 +51,26 @@ class Current < ActiveSupport::CurrentAttributes
 
   def public_suffix
     PublicSuffix.parse(host)
+  rescue PublicSuffix::DomainNotAllowed
+    LOCALHOST_PUBLIC_SUFFIX
   end
 
+  LOCALHOST_PUBLIC_SUFFIX = { sld: nil, tld: :localhost, trd: nil }.to_struct
+
   def sld
-    public_suffix.sld
+    public_suffix.sld.to_s
   end
 
   def tld
-    public_suffix.tld
+    public_suffix.tld.to_s
   end
 
   def trd
-    public_suffix.trd
+    public_suffix.trd.to_s
   end
 
   def domain
-    "#{sld}.#{tld}"
+    sld.present? ? "#{sld}.#{tld}" : tld
   end
 
   def subdomain
@@ -74,7 +78,7 @@ class Current < ActiveSupport::CurrentAttributes
   end
 
   def subdomains
-    subdomain.to_s.split(".")
+    subdomain.split(".")
   end
 
   def first_subdomain

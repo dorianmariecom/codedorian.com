@@ -20,7 +20,7 @@
 
     <% if can?(:show, @schedule.program) %>
       <div class="font-bold">
-        <%= link_to @schedule.program, @schedule.program, class: "underline" %>
+        <%= link_to @schedule.program, @schedule.program, class: "link" %>
       </div>
     <% else %>
       <div class="font-bold"><%= @schedule.program %></div>
@@ -53,10 +53,10 @@
 </div>
 
 <div class="p">
-  <%= link_to t(".edit"), [:edit, @schedule], class: "underline" %>
+  <%= link_to t(".edit"), [:edit, @schedule], class: "link" %>
   <%= button_to t(".delete"),
             @schedule,
             method: :delete,
-            class: "underline",
+            class: "button button--link",
             form_class: "inline-block" %>
 </div>

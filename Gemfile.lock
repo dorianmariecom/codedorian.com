@@ -616,6 +616,7 @@ DEPENDENCIES
   code-ruby
   dorian
   dorian-arguments
+  dorian-to_struct
   dotenv-rails
   easy_translate
   faker

@@ -6,7 +6,7 @@
 
     <% if can?(:show, @phone_number.user) %>
       <div class="font-bold">
-        <%= link_to @phone_number.user, @phone_number.user, class: "underline" %>
+        <%= link_to @phone_number.user, @phone_number.user, class: "link" %>
       </div>
     <% else %>
       <div class="font-bold"><%= @phone_number.user %></div>
@@ -42,10 +42,10 @@
 </div>
 
 <div class="p">
-  <%= link_to t(".edit"), [:edit, @phone_number], class: "underline" %>
+  <%= link_to t(".edit"), [:edit, @phone_number], class: "link" %>
   <%= button_to t(".delete"),
             @phone_number,
             method: :delete,
-            class: "underline",
+            class: "button button--link",
             form_class: "inline-block" %>
 </div>

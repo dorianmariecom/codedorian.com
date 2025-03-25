@@ -37,13 +37,13 @@
   <%= button_to t(".log_out"),
             :session,
             method: :delete,
-            class: "underline",
+            class: "button button--link",
             form_class: "inline-block" %>
-  <%= link_to t(".edit"), [:edit, @user], class: "underline" %>
+  <%= link_to t(".edit"), [:edit, @user], class: "link" %>
   <%= button_to t(".delete"),
             @user,
             method: :delete,
-            class: "underline",
+            class: "button button--link",
             form_class: "inline-block" %>
 </div>
 

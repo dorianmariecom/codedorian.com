@@ -4,7 +4,7 @@
   <div class="p text-gray-600"><%= t(".user") %></div>
   <% if can?(:show, @password.user) %>
     <div class="p font-bold">
-      <%= link_to @password.user, @password.user, class: "underline" %>
+      <%= link_to @password.user, @password.user, class: "link" %>
     </div>
   <% else %>
     <div class="p font-bold"><%= @password.user %></div>
@@ -32,10 +32,10 @@
 <div class="p font-bold"><%= local_time(@password.created_at) %></div>
 
 <div class="p">
-  <%= link_to t(".edit"), [:edit, @password], class: "underline" %>
+  <%= link_to t(".edit"), [:edit, @password], class: "link" %>
   <%= button_to t(".delete"),
             @password,
             method: :delete,
-            class: "underline",
+            class: "button button--link",
             form_class: "inline-block" %>
 </div>

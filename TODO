@@ -1,9 +1,7 @@
-- /subject
-- /body
-- /content
-- tab
 - captcha
+- kto
+- tab
 - badge
-- publish ios app
 - repl
 - ids
+- publish ios app

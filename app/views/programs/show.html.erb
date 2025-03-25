@@ -5,7 +5,7 @@
     <div class="text-gray-600"><%= t(".user") %></div>
     <% if can?(:show, @program.user) %>
       <div class="font-bold">
-        <%= link_to @program.user, @program.user, class: "underline" %>
+        <%= link_to @program.user, @program.user, class: "link" %>
       </div>
     <% else %>
       <div class="font-bold"><%= @program.user %></div>
@@ -43,7 +43,7 @@
     <%= button_to t(".unschedule"),
               [@program, :unschedule],
               method: :post,
-              class: "underline",
+              class: "button button--link",
               form_class: "inline-block" %>
   </div>
 <% elsif @program.next_at? %>
@@ -52,7 +52,7 @@
     <%= button_to t(".schedule"),
               [@program, :schedule],
               method: :post,
-              class: "underline",
+              class: "button button--link",
               form_class: "inline-block" %>
   </div>
 <% end %>
@@ -62,16 +62,16 @@
 </div>
 
 <div class="p">
-  <%= link_to t(".edit"), [:edit, @program], class: "underline" %>
+  <%= link_to t(".edit"), [:edit, @program], class: "link" %>
   <%= button_to t(".delete"),
             @program,
             method: :delete,
-            class: "underline",
+            class: "button button--link",
             form_class: "inline-block" %>
 </div>
 
 <div class="p font-bold">
-  <%= link_to t(".schedules"), [@program, :schedules], class: "underline" %>
+  <%= link_to t(".schedules"), [@program, :schedules], class: "link" %>
 </div>
 
 <div class="p">
@@ -81,7 +81,7 @@
 <%= render partial: "schedules/schedule", collection: @schedules, as: :schedule %>
 
 <div class="p font-bold">
-  <%= link_to t(".executions"), [@program, :executions], class: "underline" %>
+  <%= link_to t(".executions"), [@program, :executions], class: "link" %>
 </div>
 
 <%= render partial: "executions/execution", collection: @executions, as: :execution %>

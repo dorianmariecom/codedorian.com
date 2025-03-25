@@ -6,7 +6,7 @@
 
     <% if can?(:show, @execution.program) %>
       <div class="font-bold">
-        <%= link_to @execution.program, @execution.program, class: "underline" %>
+        <%= link_to @execution.program, @execution.program, class: "link" %>
       </div>
     <% else %>
       <div class="font-bold"><%= @execution.program %></div>
@@ -56,6 +56,6 @@
   <%= button_to t(".delete"),
             @execution,
             method: :delete,
-            class: "underline",
+            class: "button button--link",
             form_class: "inline-block" %>
 </div>

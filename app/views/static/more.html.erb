@@ -1,44 +1,44 @@
 <% if registered? %>
-  <div><%= link_to current_user, current_user, class: "underline" %></div>
+  <div><%= link_to current_user, current_user, class: "link" %></div>
   <div>
     <%= button_to t(".log_out"),
               :session,
               method: :delete,
-              class: "underline",
+              class: "button button--link",
               form_class: "inline-block" %>
   </div>
 <% else %>
-  <div><%= link_to t(".register"), %i[new user], class: "underline" %></div>
-  <div><%= link_to t(".log_in"), %i[new session], class: "underline" %></div>
+  <div><%= link_to t(".register"), %i[new user], class: "link" %></div>
+  <div><%= link_to t(".log_in"), %i[new session], class: "link" %></div>
 <% end %>
 
 <div>
-  <%= link_to t(".programs"), [current_user, :programs], class: "underline" %>
+  <%= link_to t(".programs"), [current_user, :programs], class: "link" %>
 </div>
 <div>
-  <%= link_to t(".messages"), [current_user, :messages], class: "underline" %>
+  <%= link_to t(".messages"), [current_user, :messages], class: "link" %>
 </div>
 
 <% if admin? %>
-  <div><%= link_to t(".users"), :users, class: "underline" %></div>
+  <div><%= link_to t(".users"), :users, class: "link" %></div>
 <% end %>
 
 <div>
-  <%= link_to t(".documentation"), :documentation, class: "underline" %>
+  <%= link_to t(".documentation"), :documentation, class: "link" %>
 </div>
-<div><%= link_to t(".source"), :source, class: "underline" %></div>
-<div><%= link_to t(".about"), :about, class: "underline" %></div>
-<div><%= link_to t(".privacy"), :privacy, class: "underline" %></div>
-<div><%= link_to t(".terms"), :terms, class: "underline" %></div>
-<div><%= link_to t(".up"), :up, class: "underline" %></div>
+<div><%= link_to t(".source"), :source, class: "link" %></div>
+<div><%= link_to t(".about"), :about, class: "link" %></div>
+<div><%= link_to t(".privacy"), :privacy, class: "link" %></div>
+<div><%= link_to t(".terms"), :terms, class: "link" %></div>
+<div><%= link_to t(".up"), :up, class: "link" %></div>
 
 <% if fr? %>
   <div>
-    <%= link_to t(".english"), url_for(locale: :en), class: "underline" %>
+    <%= link_to t(".english"), url_for(locale: :en), class: "link" %>
   </div>
 <% else %>
   <div>
-    <%= link_to t(".french"), url_for(locale: :fr), class: "underline" %>
+    <%= link_to t(".french"), url_for(locale: :fr), class: "link" %>
   </div>
 <% end %>
 

@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
+  DEFAULT_ACTION = "unknown-action"
+  DEFAULT_METHOD = "unknown-method"
+
   def title
     controller = controller_name
     action = action_name
@@ -109,7 +112,7 @@ module ApplicationHelper
     Rails.application.credentials.google_com_recaptcha.site_key
   end
 
-  def recaptcha_tag
+  def recaptcha_tag(action:)
     content_tag(
       :div,
       data: {
@@ -129,7 +132,7 @@ module ApplicationHelper
           ),
           hidden_field_tag(
             "g-recaptcha-action",
-            SecureRandom.hex,
+            action,
             id: nil,
             data: {
               recaptcha_target: "action"
@@ -140,18 +143,32 @@ module ApplicationHelper
     end
   end
 
-  def form_for(record, options = {}, &block)
-    super { |f| safe_join([capture(f, &block), recaptcha_tag]) }
-  end
-
   # rubocop:disable Rails/OutputSafety
-  def button_to(...)
-    super.sub(
+  def insert_recaptcha_tag(form_html)
+    form = Nokogiri::HTML(form_html)
+
+    method = form.at_css(%(input[name="_method"]))&.attr(:value).presence || DEFAULT_METHOD
+    action = form.at_css(:form)&.attr(:action).presence || DEFAULT_ACTION
+    method = method.parameterize.gsub(%r{[^A-Z a-z/_]+}, "_")
+    action = action.parameterize.gsub(%r{[^A-Z a-z/_]+}, "_")
+
+    form_html.sub(
       "</form>",
-      safe_join([recaptcha_tag, "</form>".html_safe])
+      safe_join([
+        recaptcha_tag(action: "#{method}/#{action}"),
+        "</form>".html_safe
+      ])
     ).html_safe
   end
   # rubocop:enable Rails/OutputSafety
+
+  def form_for(...)
+    insert_recaptcha_tag(super)
+  end
+
+  def button_to(...)
+    insert_recaptcha_tag(super)
+  end
 
   def tabs
     if current_user?

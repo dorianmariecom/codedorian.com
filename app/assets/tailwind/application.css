@@ -38,23 +38,31 @@ button {
   @apply mb-5;
 }
 
+.link {
+  @apply underline;
+
+  &:disabled {
+    @apply text-gray-600 pointer-events-none;
+  }
+}
+
 .button {
   @apply bg-black hover:bg-gray-800 focus:bg-gray-600;
   @apply px-4 py-2 rounded text-white;
+
+  &:disabled {
+    @apply bg-gray-600 pointer-events-none;
+  }
 
   &.button--link {
     @apply underline;
     @apply rounded-none p-0;
     @apply bg-transparent hover:bg-transparent focus:bg-transparent;
     @apply text-black;
-  }
 
-  &.button--red {
-    @apply text-red-600;
-  }
-
-  &:disabled {
-    @apply bg-gray-500 pointer-events-none;
+    &:disabled {
+      @apply text-gray-600 bg-transparent pointer-events-none;
+    }
   }
 }
 
