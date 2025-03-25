@@ -1,5 +1,13 @@
 ---
 fr:
+  current:
+    model:
+      envs:
+        test: test
+        local: local
+        dev: dev
+        staging: staging
+        production: production
   activerecord:
     attributes:
       address:

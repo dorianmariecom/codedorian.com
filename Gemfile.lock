@@ -637,6 +637,7 @@ DEPENDENCIES
   pg
   phonelib
   propshaft
+  public_suffix
   puma
   pundit
   rack-attack

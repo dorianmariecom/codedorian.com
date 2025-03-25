@@ -33,5 +33,7 @@
     <% else %>
       <%= link_to t(".french"), url_for(locale: :fr), class: "underline" %>
     <% end %>
+
+    <%= Current.translated_env %>
   </div>
 <% end %>

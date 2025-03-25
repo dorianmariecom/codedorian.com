@@ -17,6 +17,18 @@ class MessagePolicy < ApplicationPolicy
     from_current_user? || to_current_user? || admin?
   end
 
+  def subject?
+    show?
+  end
+
+  def body?
+    show?
+  end
+
+  def content?
+    show?
+  end
+
   def create?
     true
   end

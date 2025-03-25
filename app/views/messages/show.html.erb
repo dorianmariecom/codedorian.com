@@ -30,17 +30,25 @@
 
 <% if @message.subject.present? %>
   <div class="p">
-    <div class="text-gray-600"><%= t(".subject") %></div>
+    <div class="text-gray-600">
+      <%= link_to t(".subject"), [@message, :subject], class: :underline %>
+    </div>
     <%= @message.subject %>
   </div>
 <% end %>
 
 <% if @message.body.present? %>
   <div class="p">
-    <div class="text-gray-600"><%= t(".body") %></div>
+    <div class="text-gray-600">
+      <%= link_to t(".body"), [@message, :body], class: :underline %>
+    </div>
     <%= @message.body %>
   </div>
 <% end %>
+
+<div class="p text-gray-600">
+  <%= link_to t(".content"), [@message, :content], class: :underline %>
+</div>
 
 <div class="p">
   <div class="text-gray-600"><%= t(".updated_at") %></div>

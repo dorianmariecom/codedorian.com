@@ -1,5 +1,13 @@
 ---
 en:
+  current:
+    model:
+      envs:
+        test: test
+        local: local
+        dev: dev
+        staging: staging
+        production: production
   activerecord:
     attributes:
       address:
@@ -367,6 +375,7 @@ en:
       read: read
       read_at_html: read at %{local_time}
       subject: subject
+      content: content
       to_user: to user
       unread: unread
       unread_at_html: unread at %{local_time}

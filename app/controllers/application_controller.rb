@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   skip_forgery_protection if: :current_token?
 
   before_action :set_current_user
+  before_action :set_current_request
   before_action :set_time_zone
   before_action :set_locale
   before_action :set_paper_trail_whodunnit
@@ -88,6 +89,10 @@ class ApplicationController < ActionController::Base
 
   def set_current_user
     log_in(current_user_from_session || current_token&.user)
+  end
+
+  def set_current_request
+    Current.request = request
   end
 
   def set_time_zone

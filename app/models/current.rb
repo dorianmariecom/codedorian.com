@@ -1,9 +1,136 @@
 # frozen_string_literal: true
 
 class Current < ActiveSupport::CurrentAttributes
+  DEFAULT_HOST = "codedorian.com"
+  DEFAULT_BASE_URL = "https://codedorian.com"
+  DEFAULT_HOSTS = DEFAULT_HOST
+  DEFAULT_BG_ENV = "bg-production"
+  BG_ENVS = {
+    test: "bg-test",
+    local: "bg-local",
+    dev: "bg-dev",
+    staging: "bg-staging",
+    production: "bg-production",
+  }
+  DEFAULT_TEXT_ENV = "text-production"
+  TEXT_ENVS = {
+    test: "text-test",
+    local: "text-local",
+    dev: "text-dev",
+    staging: "text-staging",
+    production: "text-production",
+  }
+  DEFAULT_BORDER_ENV = "border-production"
+  BORDER_ENVS = {
+    test: "border-test",
+    local: "border-local",
+    dev: "border-dev",
+    staging: "border-staging",
+    production: "border-production",
+  }
+
   resets { Time.zone = nil }
 
-  attribute :user, :time_zone
+  attribute :user, :time_zone, :request
+
+  def request?
+    !!request
+  end
+
+  def host
+    request? ? request.host : ENV.fetch("HOST", DEFAULT_HOST)
+  end
+
+  def hosts
+    request? ? [host] : ENV.fetch("HOSTS", DEFAULT_HOSTS).split(",")
+  end
+
+  def base_url
+    request? ? request.base_url : ENV.fetch("BASE_URL", DEFAULT_BASE_URL)
+  end
+
+  def public_suffix
+    PublicSuffix.parse(host)
+  end
+
+  def sld
+    public_suffix.sld
+  end
+
+  def tld
+    public_suffix.tld
+  end
+
+  def trd
+    public_suffix.trd
+  end
+
+  def domain
+    "#{sld}.#{tld}"
+  end
+
+  def subdomain
+    trd
+  end
+
+  def subdomains
+    subdomain.to_s.split(".")
+  end
+
+  def first_subdomain
+    subdomains.first.to_s.to_sym
+  end
+
+  def test?
+    env.test?
+  end
+
+  def dev?
+    env.dev?
+  end
+
+  def local?
+    env.local?
+  end
+
+  def staging?
+    env.staging?
+  end
+
+  def production?
+    env.production?
+  end
+
+  def bg_env
+    BG_ENVS.fetch(env.to_sym, DEFAULT_BG_ENV)
+  end
+
+  def text_env
+    TEXT_ENVS.fetch(env.to_sym, DEFAULT_TEXT_ENV)
+  end
+
+  def border_env
+    BORDER_ENVS.fetch(env.to_sym, DEFAULT_BORDER_ENV)
+  end
+
+  def translated_env
+    I18n.t("current.model.envs.#{env}")
+  end
+
+  def env
+    ENV.fetch("CODE_ENV") do
+      case Rails.env.to_sym
+      when :test
+        :test
+      when :development
+        first_subdomain == :dev ? :dev : :local
+      when :production
+        first_subdomain == :staging ? :staging : :production
+      else
+        :production
+      end
+    end.to_s.inquiry
+  end
 
   def user_or_guest
     user || guest

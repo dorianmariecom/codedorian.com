@@ -59,6 +59,9 @@ Rails.application.routes.draw do
       resources(:messages) do
         post :read
         post :unread
+        get :content
+        get :subject
+        get :body
 
         collection { delete "/", to: "messages#destroy_all" }
       end

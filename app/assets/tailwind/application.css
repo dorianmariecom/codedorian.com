@@ -13,6 +13,14 @@
   }
 }
 
+@theme {
+  --color-test: var(--color-blue-600);
+  --color-local: var(--color-purple-600);
+  --color-dev: var(--color-green-600);
+  --color-staging: var(--color-orange-600);
+  --color-production: var(--color-black);
+}
+
 [hidden] {
   @apply hidden;
 }
