@@ -135,7 +135,7 @@ GEM
       bundler (>= 1.2.0, < 3)
       thor (~> 1.0)
     cmdparse (3.0.7)
-    code-ruby (1.2.6)
+    code-ruby (1.2.7)
       activesupport
       base64
       bigdecimal
