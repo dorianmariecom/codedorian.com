@@ -10,7 +10,10 @@
     <%= stylesheet_link_tag("tailwind", data: { turbo_track: "reload" }) %>
     <%= turbo_refreshes_with(method: :morph, scroll: :preserve) %>
   </head>
-  <body class="p-8 border-t-4 <%= Current.border_env %>" data-hotwire-native="<%= hotwire_native_app? %>">
+  <body
+    class="p-8 border-t-4 <%= Current.border_env %>"
+    data-hotwire-native="<%= hotwire_native_app? %>"
+  >
     <script>
       window.DEFAULT_COUNTRY_CODE = "<%= default_country_code %>";
       window.time_zone = "<%= current_time_zone %>";

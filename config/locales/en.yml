@@ -1,13 +1,5 @@
 ---
 en:
-  current:
-    model:
-      envs:
-        test: test
-        local: local
-        dev: dev
-        staging: staging
-        production: production
   activerecord:
     attributes:
       address:
@@ -131,6 +123,14 @@ en:
       title: code
       up: "/up"
       users: users
+  current:
+    model:
+      envs:
+        dev: dev
+        local: local
+        production: production
+        staging: staging
+        test: test
   devices:
     create:
       notice: device created
@@ -368,6 +368,7 @@ en:
       title: new message
     show:
       body: body
+      content: content
       created_at: created at
       delete: delete message
       edit: edit message
@@ -375,7 +376,6 @@ en:
       read: read
       read_at_html: read at %{local_time}
       subject: subject
-      content: content
       to_user: to user
       unread: unread
       unread_at_html: unread at %{local_time}

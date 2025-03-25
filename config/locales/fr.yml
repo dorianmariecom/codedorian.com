@@ -1,13 +1,5 @@
 ---
 fr:
-  current:
-    model:
-      envs:
-        test: test
-        local: local
-        dev: dev
-        staging: staging
-        production: production
   activerecord:
     attributes:
       address:
@@ -131,6 +123,14 @@ fr:
       title: code
       up: "/up"
       users: utilisateurs
+  current:
+    model:
+      envs:
+        dev: dev
+        local: local
+        production: production
+        staging: staging
+        test: test
   devices:
     create:
       notice: appareil créé
