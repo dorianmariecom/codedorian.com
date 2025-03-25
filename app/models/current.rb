@@ -11,7 +11,7 @@ class Current < ActiveSupport::CurrentAttributes
     dev: "bg-dev",
     staging: "bg-staging",
     production: "bg-production"
-  }
+  }.freeze
   DEFAULT_TEXT_ENV = "text-production"
   TEXT_ENVS = {
     test: "text-test",
@@ -19,7 +19,7 @@ class Current < ActiveSupport::CurrentAttributes
     dev: "text-dev",
     staging: "text-staging",
     production: "text-production"
-  }
+  }.freeze
   DEFAULT_BORDER_ENV = "border-production"
   BORDER_ENVS = {
     test: "border-test",
@@ -27,7 +27,7 @@ class Current < ActiveSupport::CurrentAttributes
     dev: "border-dev",
     staging: "border-staging",
     production: "border-production"
-  }
+  }.freeze
 
   resets { Time.zone = nil }
 

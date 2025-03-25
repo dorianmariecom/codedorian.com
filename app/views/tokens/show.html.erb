@@ -4,9 +4,7 @@
   <div class="p">
     <div class="text-gray-600"><%= t(".user") %></div>
     <% if can?(:show, @token.user) %>
-      <strong>
-        <%= link_to @token.user, @token.user, class: "link" %>
-      </strong>
+      <strong><%= link_to @token.user, @token.user, class: "link" %></strong>
     <% else %>
       <strong><%= @token.user %></strong>
     <% end %>

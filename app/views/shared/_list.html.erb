@@ -2,9 +2,7 @@
 <% model = local_assigns.fetch(:model) %>
 
 <div class="p font-bold">
-  <%= link_to t(".#{model.name.underscore.pluralize}"),
-          [user, model],
-          class: "link" %>
+  <%= link_to t(".#{model.name.underscore.pluralize}"), [user, model], class: "link" %>
 </div>
 
 <div class="p">

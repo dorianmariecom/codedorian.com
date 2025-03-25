@@ -4,9 +4,7 @@
   <div class="p">
     <div class="text-gray-600"><%= t(".user") %></div>
     <% if can?(:show, @device.user) %>
-      <strong>
-        <%= link_to @device.user, @device.user, class: "link" %>
-      </strong>
+      <strong><%= link_to @device.user, @device.user, class: "link" %></strong>
     <% else %>
       <strong><%= @device.user %></strong>
     <% end %>
