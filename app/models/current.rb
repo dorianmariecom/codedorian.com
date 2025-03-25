@@ -10,7 +10,7 @@ class Current < ActiveSupport::CurrentAttributes
     local: "bg-local",
     dev: "bg-dev",
     staging: "bg-staging",
-    production: "bg-production",
+    production: "bg-production"
   }
   DEFAULT_TEXT_ENV = "text-production"
   TEXT_ENVS = {
@@ -18,7 +18,7 @@ class Current < ActiveSupport::CurrentAttributes
     local: "text-local",
     dev: "text-dev",
     staging: "text-staging",
-    production: "text-production",
+    production: "text-production"
   }
   DEFAULT_BORDER_ENV = "border-production"
   BORDER_ENVS = {
@@ -26,7 +26,7 @@ class Current < ActiveSupport::CurrentAttributes
     local: "border-local",
     dev: "border-dev",
     staging: "border-staging",
-    production: "border-production",
+    production: "border-production"
   }
 
   resets { Time.zone = nil }
@@ -118,18 +118,21 @@ class Current < ActiveSupport::CurrentAttributes
   end
 
   def env
-    ENV.fetch("CODE_ENV") do
-      case Rails.env.to_sym
-      when :test
-        :test
-      when :development
-        first_subdomain == :dev ? :dev : :local
-      when :production
-        first_subdomain == :staging ? :staging : :production
-      else
-        :production
+    ENV
+      .fetch("CODE_ENV") do
+        case Rails.env.to_sym
+        when :test
+          :test
+        when :development
+          first_subdomain == :dev ? :dev : :local
+        when :production
+          first_subdomain == :staging ? :staging : :production
+        else
+          :production
+        end
       end
-    end.to_s.inquiry
+      .to_s
+      .inquiry
   end
 
   def user_or_guest
