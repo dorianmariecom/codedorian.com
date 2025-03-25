@@ -18,9 +18,9 @@ jobs:
     - bundler-audit
     - importmap-audit
     - importmap-outdated
+    - npm-audit
     - rspec
     - rubocop
-    - npm-audit
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
