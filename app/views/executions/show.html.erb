@@ -1,5 +1,10 @@
 <% content_for(:title, @execution) %>
 
+<div class="p">
+  <div class="text-gray-600"><%= t(".id") %></div>
+  <div class="font-bold"><%= @execution.id %></div>
+</div>
+
 <% if @execution.program.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".program") %></div>

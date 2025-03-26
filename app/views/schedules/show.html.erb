@@ -1,4 +1,8 @@
 <% content_for(:title) do %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".id") %></div>
+    <div class="font-bold"><%= @schedule.id %></div>
+  </div>
   <% if @schedule.once? %>
     <%= t(
       ".schedule_once_html",

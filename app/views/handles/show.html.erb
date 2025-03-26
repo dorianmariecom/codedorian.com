@@ -1,5 +1,10 @@
 <% content_for(:title, @handle) %>
 
+<div class="p">
+  <div class="text-gray-600"><%= t(".id") %></div>
+  <div class="font-bold"><%= @handle.id %></div>
+</div>
+
 <% if @handle.user.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".user") %></div>

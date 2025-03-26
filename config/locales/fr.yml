@@ -103,6 +103,7 @@ fr:
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifiée ?
+      id: id
     update:
       notice: adresse mise à jour
   application:
@@ -160,6 +161,7 @@ fr:
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifié ?
+      id: id
     update:
       notice: appareil mis à jour
   email_addresses:
@@ -196,6 +198,7 @@ fr:
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifiée ?
+      id: id
     update:
       notice: adresse e-mail mise à jour
   errors:
@@ -222,6 +225,7 @@ fr:
       program: programme
       result: résultat
       updated_at: mis à jour à
+      id: id
   guests:
     index:
       title: invités
@@ -237,6 +241,7 @@ fr:
       locale: langue
       updated_at: mis à jour à
       verified: vérifié ?
+      id: id
   handles:
     create:
       notice: identifiant créé
@@ -271,6 +276,7 @@ fr:
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifié ?
+      id: id
     update:
       notice: identifiant mis à jour
   helpers:
@@ -379,6 +385,7 @@ fr:
       unread: non lu
       unread_at_html: non lu à %{local_time}
       updated_at: mis à jour à
+      id: id
     update:
       notice: message mis à jour
   names:
@@ -418,6 +425,7 @@ fr:
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifié ?
+      id: id
     update:
       notice: nom mis à jour
   password_validator:
@@ -468,6 +476,7 @@ fr:
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifié ?
+      id: id
     update:
       notice: mot de passe mis à jour
   phone_numbers:
@@ -504,6 +513,7 @@ fr:
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifié ?
+      id: id
     update:
       notice: numéro de téléphone mis à jour
   programs:
@@ -543,6 +553,7 @@ fr:
       unschedule: déplanifier
       updated_at: mis à jour à
       user: utilisateur
+      id: id
     update:
       notice: programme mis à jour
   schedules:
@@ -609,6 +620,7 @@ fr:
       schedule_once_html: commence le %{local_time}, ne se répète pas
       starts_at: commence à
       updated_at: mis à jour le
+      id: id
     update:
       notice: horaire mis à jour
   sessions:
@@ -762,6 +774,7 @@ fr:
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifié ?
+      id: id
     update:
       notice: fuseau horaire mis à jour
   tokens:
@@ -792,6 +805,7 @@ fr:
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifié ?
+      id: id
     update:
       notice: jeton mis à jour
   users:
@@ -825,5 +839,6 @@ fr:
       log_out: se déconnecter
       updated_at: mis à jour à
       verified: vérifié ?
+      id: id
     update:
       notice: utilisateur mis à jour

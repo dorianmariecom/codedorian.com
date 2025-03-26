@@ -1,5 +1,10 @@
 <% content_for :title, @time_zone %>
 
+<div class="p">
+  <div class="text-gray-600"><%= t(".id") %></div>
+  <div class="font-bold"><%= @time_zone.id %></div>
+</div>
+
 <% if @time_zone.user.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".user") %></div>
