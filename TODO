@@ -1,6 +1,15 @@
-- kto
+v1
+
+- ids
 - tab
 - badge
 - repl
-- ids
 - publish ios app
+- android app
+
+v2
+
+- notification attached images
+- notification actions
+- notification badge
+- notification contact image

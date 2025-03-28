@@ -33,14 +33,14 @@ class UsersController < ApplicationController
   end
 
   def new
-    @user = authorize User.new
+    @user = authorize policy_scope(User).new
   end
 
   def edit
   end
 
   def create
-    @user = authorize User.new(user_params)
+    @user = authorize policy_scope(User).new(user_params)
 
     if @user.save
       log_in(@user)
@@ -82,7 +82,7 @@ class UsersController < ApplicationController
   def load_user
     @user =
       if params[:id] == "me"
-        authorize current_user
+        authorize scope.find(current_user&.id)
       else
         authorize scope.find(params[:id])
       end

@@ -63,7 +63,7 @@ class TokensController < ApplicationController
 
   def load_user
     if params[:user_id] == "me"
-      @user = current_user
+      @user = policy_scope(User).find(current_user&.id)
     elsif params[:user_id].present?
       @user = policy_scope(User).find(params[:user_id])
     end
