@@ -664,6 +664,8 @@ en:
       time_zones: time zones
       tokens: tokens
   static:
+    icon:
+      title: icon
     about:
       about_html: |
         <p>

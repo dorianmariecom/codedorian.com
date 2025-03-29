@@ -1,14 +1,11 @@
 v1
 
-- ids
-- tab
-- badge
-- repl
-- publish ios app
 - android app
 
 v2
 
+- repl
+- badge
 - notification attached images
 - notification actions
 - notification badge

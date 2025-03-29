@@ -31,4 +31,7 @@ class StaticController < ApplicationController
 
   def more
   end
+
+  def icon
+  end
 end

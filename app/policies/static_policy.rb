@@ -36,4 +36,8 @@ class StaticPolicy < ApplicationPolicy
   def account?
     true
   end
+
+  def icon?
+    true
+  end
 end

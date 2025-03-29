@@ -7,27 +7,29 @@ class Current < ActiveSupport::CurrentAttributes
   DEFAULT_BG_ENV = "bg-production"
   BG_ENVS = {
     test: "bg-test",
-    local: "bg-local",
-    dev: "bg-dev",
+    localhost: "bg-localhost",
+    development: "bg-development",
     staging: "bg-staging",
     production: "bg-production"
   }.freeze
   DEFAULT_TEXT_ENV = "text-production"
   TEXT_ENVS = {
     test: "text-test",
-    local: "text-local",
-    dev: "text-dev",
+    localhost: "text-localhost",
+    development: "text-development",
     staging: "text-staging",
     production: "text-production"
   }.freeze
   DEFAULT_BORDER_ENV = "border-production"
   BORDER_ENVS = {
     test: "border-test",
-    local: "border-local",
-    dev: "border-dev",
+    localhost: "border-localhost",
+    development: "border-development",
     staging: "border-staging",
     production: "border-production"
   }.freeze
+
+  LOCALHOST_PUBLIC_SUFFIX = { sld: nil, tld: :localhost, trd: nil }.to_struct
 
   resets { Time.zone = nil }
 
@@ -54,8 +56,6 @@ class Current < ActiveSupport::CurrentAttributes
   rescue PublicSuffix::DomainNotAllowed
     LOCALHOST_PUBLIC_SUFFIX
   end
-
-  LOCALHOST_PUBLIC_SUFFIX = { sld: nil, tld: :localhost, trd: nil }.to_struct
 
   def sld
     public_suffix.sld.to_s
@@ -89,11 +89,11 @@ class Current < ActiveSupport::CurrentAttributes
     env.test?
   end
 
-  def dev?
+  def development?
     env.dev?
   end
 
-  def local?
+  def localhost?
     env.local?
   end
 
@@ -128,7 +128,7 @@ class Current < ActiveSupport::CurrentAttributes
         when :test
           :test
         when :development
-          first_subdomain == :dev ? :dev : :local
+          first_subdomain == :development ? :development : :localhost
         when :production
           first_subdomain == :staging ? :staging : :production
         else
