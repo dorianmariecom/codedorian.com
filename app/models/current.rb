@@ -90,7 +90,7 @@ class Current < ActiveSupport::CurrentAttributes
   end
 
   def development?
-    env.dev?
+    env.development?
   end
 
   def localhost?
@@ -128,7 +128,7 @@ class Current < ActiveSupport::CurrentAttributes
         when :test
           :test
         when :development
-          first_subdomain == :development ? :development : :localhost
+          first_subdomain == :dev ? :development : :localhost
         when :production
           first_subdomain == :staging ? :staging : :production
         else

@@ -127,8 +127,8 @@ fr:
   current:
     model:
       envs:
-        dev: dev
-        local: local
+        development: développement
+        localhost: hôte local
         production: production
         staging: staging
         test: test
@@ -374,6 +374,7 @@ fr:
       title: nouveau message
     show:
       body: corps
+      content: contenu
       created_at: créé à
       delete: supprimer le message
       edit: modifier le message
@@ -669,7 +670,7 @@ fr:
           code est le projet de
           <a href="https://dorianmarie.com">dorian marié</a>
         </p>
-      local: local
+      localhost: hôte local
       title: à propos
       version: 'version : '
     account:
@@ -684,6 +685,8 @@ fr:
         <p>le langage de programmation de l'ère internet</p>
         <p>ici, vous pouvez utiliser, créer, planifier, exécuter et gérer vos programmes</p>
       title: accueil
+    icon:
+      title: icône
     more:
       about: à propos
       documentation: documentation

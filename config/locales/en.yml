@@ -127,8 +127,8 @@ en:
   current:
     model:
       envs:
-        dev: dev
-        local: local
+        development: development
+        localhost: localhost
         production: production
         staging: staging
         test: test
@@ -670,7 +670,7 @@ en:
           code is the project of
           <a href="https://dorianmarie.com">dorian marié</a>
         </p>
-      local: local
+      localhost: localhost
       title: about
       version: 'version: '
     account:
