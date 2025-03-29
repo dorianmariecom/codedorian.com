@@ -22,6 +22,13 @@ class ConfigurationsController < ApplicationController
         settings: {
         },
         rules: [
+          {
+            patterns: [".*"],
+            properties: {
+              uri: "hotwire://fragment/web",
+              pull_to_refresh_enabled: true
+            }
+          },
           { patterns: %w[/new$ /edit$], properties: { context: "modal" } }
         ]
       }
