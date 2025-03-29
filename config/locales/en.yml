@@ -97,13 +97,13 @@ en:
       edit: edit address
       formatted_address: formatted address
       geometry: geometry
+      id: id
       place_id: place id
       primary: primary?
       types: types
       updated_at: updated at
       user: user
       verified: verified?
-      id: id
     update:
       notice: address updated
   application:
@@ -155,13 +155,13 @@ en:
       created_at: created at
       delete: delete device
       edit: edit device
+      id: id
       platform: platform
       primary: primary?
       token: token
       updated_at: updated at
       user: user
       verified: verified?
-      id: id
     update:
       notice: device updated
   email_addresses:
@@ -194,11 +194,11 @@ en:
       delete: delete email address
       edit: edit email address
       email_address: email address
+      id: id
       primary: primary?
       updated_at: updated at
       user: user
       verified: verified?
-      id: id
     update:
       notice: email address updated
   errors:
@@ -220,12 +220,12 @@ en:
       created_at: created at
       delete: delete execution
       error: error
+      id: id
       input: input
       output: output
       program: program
       result: result
       updated_at: updated at
-      id: id
   guests:
     index:
       title: guests
@@ -238,10 +238,10 @@ en:
     show:
       admin: admin
       created_at: created at
+      id: id
       locale: language
       updated_at: updated at
       verified: verified?
-      id: id
   handles:
     create:
       notice: handle created
@@ -272,11 +272,11 @@ en:
       delete: delete handle
       edit: edit handle
       handle: handle
+      id: id
       primary: primary?
       updated_at: updated at
       user: user
       verified: verified?
-      id: id
     update:
       notice: handle updated
   helpers:
@@ -379,6 +379,7 @@ en:
       delete: delete message
       edit: edit message
       from_user: from user
+      id: id
       read: read
       read_at_html: read at %{local_time}
       subject: subject
@@ -386,7 +387,6 @@ en:
       unread: unread
       unread_at_html: unread at %{local_time}
       updated_at: updated at
-      id: id
     update:
       notice: message updated
   names:
@@ -422,11 +422,11 @@ en:
       edit: edit name
       family_name: family name
       given_name: given name
+      id: id
       primary: primary?
       updated_at: updated at
       user: user
       verified: verified?
-      id: id
     update:
       notice: name updated
   password_validator:
@@ -472,12 +472,12 @@ en:
       delete: delete password
       edit: edit password
       hint: hint
+      id: id
       password: password
       primary: primary?
       updated_at: updated at
       user: user
       verified: verified?
-      id: id
     update:
       notice: password updated
   phone_numbers:
@@ -509,12 +509,12 @@ en:
       created_at: created at
       delete: delete phone number
       edit: edit phone number
+      id: id
       phone_number: phone number
       primary: primary?
       updated_at: updated at
       user: user
       verified: verified?
-      id: id
     update:
       notice: phone number updated
   programs:
@@ -544,6 +544,7 @@ en:
       edit: edit program
       evaluate: evaluate
       executions: executions
+      id: id
       input: input
       name: name
       new_schedule: new schedule
@@ -554,7 +555,6 @@ en:
       unschedule: unschedule
       updated_at: updated at
       user: user
-      id: id
     update:
       notice: program updated
   schedules:
@@ -615,13 +615,13 @@ en:
       created_at: created at
       delete: delete schedule
       edit: edit schedule
+      id: id
       interval: interval
       program: program
       schedule_html: starts %{local_time}, repeats every %{interval}
       schedule_once_html: starts %{local_time}, doesn't repeat
       starts_at: starts at
       updated_at: updated at
-      id: id
     update:
       notice: schedule updated
   sessions:
@@ -664,8 +664,6 @@ en:
       time_zones: time zones
       tokens: tokens
   static:
-    icon:
-      title: icon
     about:
       about_html: |
         <p>
@@ -687,6 +685,8 @@ en:
         <p>the programming language for the internet age</p>
         <p>here you can use, create, schedule, execute, and manage your programs</p>
       title: home
+    icon:
+      title: icon
     more:
       about: about
       documentation: documentation
@@ -772,12 +772,12 @@ en:
       created_at: created at
       delete: delete time zone
       edit: edit time zone
+      id: id
       primary: primary?
       time_zone: time zone
       updated_at: updated at
       user: user
       verified: verified?
-      id: id
     update:
       notice: time zone updated
   tokens:
@@ -803,12 +803,12 @@ en:
       created_at: created at
       delete: delete token
       edit: edit token
+      id: id
       primary: primary?
       token: token
       updated_at: updated at
       user: user
       verified: verified?
-      id: id
     update:
       notice: token updated
   users:
@@ -838,10 +838,10 @@ en:
       created_at: created at
       delete: delete user
       edit: edit user
+      id: id
       locale: language
       log_out: log out
       updated_at: updated at
       verified: verified?
-      id: id
     update:
       notice: user updated

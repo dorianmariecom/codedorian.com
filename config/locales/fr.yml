@@ -97,13 +97,13 @@ fr:
       edit: modifier l'adresse
       formatted_address: adresse formatée
       geometry: géométrie
+      id: id
       place_id: id lieu
       primary: primaire ?
       types: types
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifiée ?
-      id: id
     update:
       notice: adresse mise à jour
   application:
@@ -155,13 +155,13 @@ fr:
       created_at: créé à
       delete: supprimer l'appareil
       edit: modifier l'appareil
+      id: id
       platform: plate-forme
       primary: primaire?
       token: jeton
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifié ?
-      id: id
     update:
       notice: appareil mis à jour
   email_addresses:
@@ -194,11 +194,11 @@ fr:
       delete: supprimer l'adresse e-mail
       edit: modifier l'adresse e-mail
       email_address: adresse e-mail
+      id: id
       primary: primaire ?
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifiée ?
-      id: id
     update:
       notice: adresse e-mail mise à jour
   errors:
@@ -220,12 +220,12 @@ fr:
       created_at: créé à
       delete: supprimer l'exécution
       error: erreur
+      id: id
       input: entrée
       output: sortie
       program: programme
       result: résultat
       updated_at: mis à jour à
-      id: id
   guests:
     index:
       title: invités
@@ -238,10 +238,10 @@ fr:
     show:
       admin: administrateur
       created_at: créé à
+      id: id
       locale: langue
       updated_at: mis à jour à
       verified: vérifié ?
-      id: id
   handles:
     create:
       notice: identifiant créé
@@ -272,11 +272,11 @@ fr:
       delete: supprimer l'identifiant
       edit: modifier l'identifiant
       handle: identifiant
+      id: id
       primary: primaire ?
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifié ?
-      id: id
     update:
       notice: identifiant mis à jour
   helpers:
@@ -378,6 +378,7 @@ fr:
       delete: supprimer le message
       edit: modifier le message
       from_user: de l'utilisateur
+      id: id
       read: lu
       read_at_html: lu à %{local_time}
       subject: sujet
@@ -385,7 +386,6 @@ fr:
       unread: non lu
       unread_at_html: non lu à %{local_time}
       updated_at: mis à jour à
-      id: id
     update:
       notice: message mis à jour
   names:
@@ -421,11 +421,11 @@ fr:
       edit: modifier le nom
       family_name: nom de famille
       given_name: prénom
+      id: id
       primary: principal ?
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifié ?
-      id: id
     update:
       notice: nom mis à jour
   password_validator:
@@ -471,12 +471,12 @@ fr:
       delete: supprimer le mot de passe
       edit: modifier le mot de passe
       hint: indice
+      id: id
       password: mot de passe
       primary: principal ?
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifié ?
-      id: id
     update:
       notice: mot de passe mis à jour
   phone_numbers:
@@ -508,12 +508,12 @@ fr:
       created_at: créé à
       delete: supprimer le numéro de téléphone
       edit: modifier le numéro de téléphone
+      id: id
       phone_number: numéro de téléphone
       primary: principal ?
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifié ?
-      id: id
     update:
       notice: numéro de téléphone mis à jour
   programs:
@@ -543,6 +543,7 @@ fr:
       edit: modifier le programme
       evaluate: évaluer
       executions: exécutions
+      id: id
       input: entrée
       name: nom
       new_schedule: nouvel horaire
@@ -553,7 +554,6 @@ fr:
       unschedule: déplanifier
       updated_at: mis à jour à
       user: utilisateur
-      id: id
     update:
       notice: programme mis à jour
   schedules:
@@ -614,13 +614,13 @@ fr:
       created_at: créé le
       delete: supprimer l'horaire
       edit: modifier l'horaire
+      id: id
       interval: intervalle
       program: programme
       schedule_html: commence le %{local_time}, se répète tous les %{interval}
       schedule_once_html: commence le %{local_time}, ne se répète pas
       starts_at: commence à
       updated_at: mis à jour le
-      id: id
     update:
       notice: horaire mis à jour
   sessions:
@@ -769,12 +769,12 @@ fr:
       created_at: créé à
       delete: supprimer le fuseau horaire
       edit: modifier le fuseau horaire
+      id: id
       primary: principal ?
       time_zone: fuseau horaire
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifié ?
-      id: id
     update:
       notice: fuseau horaire mis à jour
   tokens:
@@ -800,12 +800,12 @@ fr:
       created_at: créé à
       delete: supprimer le jeton
       edit: modifier le jeton
+      id: id
       primary: primaire?
       token: jeton
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifié ?
-      id: id
     update:
       notice: jeton mis à jour
   users:
@@ -835,10 +835,10 @@ fr:
       created_at: créé à
       delete: supprimer l'utilisateur
       edit: modifier l'utilisateur
+      id: id
       locale: langue
       log_out: se déconnecter
       updated_at: mis à jour à
       verified: vérifié ?
-      id: id
     update:
       notice: utilisateur mis à jour
