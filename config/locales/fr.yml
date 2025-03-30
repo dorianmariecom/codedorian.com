@@ -685,8 +685,8 @@ fr:
         <p>le langage de programmation de l'ère internet</p>
         <p>ici, vous pouvez utiliser, créer, planifier, exécuter et gérer vos programmes</p>
       title: accueil
-    icon:
-      title: icône
+    icons:
+      title: icônes
     more:
       about: à propos
       documentation: documentation

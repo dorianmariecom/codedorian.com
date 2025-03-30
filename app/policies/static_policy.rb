@@ -37,7 +37,7 @@ class StaticPolicy < ApplicationPolicy
     true
   end
 
-  def icon?
+  def icons?
     true
   end
 end

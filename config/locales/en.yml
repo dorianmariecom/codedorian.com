@@ -685,8 +685,8 @@ en:
         <p>the programming language for the internet age</p>
         <p>here you can use, create, schedule, execute, and manage your programs</p>
       title: home
-    icon:
-      title: icon
+    icons:
+      title: icons
     more:
       about: about
       documentation: documentation

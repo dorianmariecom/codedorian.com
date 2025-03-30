@@ -106,7 +106,7 @@ Rails.application.routes.draw do
     get "source", to: "static#source"
     get "account", to: "static#account"
     get "more", to: "static#more"
-    get "icon", to: "static#icon"
+    get "icons", to: "static#icons"
 
     resources :configurations, only: [] do
       get :ios_v1, on: :collection

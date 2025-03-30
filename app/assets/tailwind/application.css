@@ -14,10 +14,10 @@
 }
 
 @theme {
-  --color-test: var(--color-blue-600);
-  --color-localhost: var(--color-purple-600);
-  --color-development: var(--color-green-600);
-  --color-staging: var(--color-orange-600);
+  --color-test: var(--color-yellow-200);
+  --color-localhost: var(--color-yellow-400);
+  --color-development: var(--color-yellow-600);
+  --color-staging: var(--color-yellow-800);
   --color-production: var(--color-black);
 }
 
