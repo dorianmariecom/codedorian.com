@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_03_23_191120) do
+ActiveRecord::Schema[8.1].define(version: 2025_04_02_130547) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -187,6 +187,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_03_23_191120) do
     t.datetime "created_at", null: false
     t.string "environment"
     t.boolean "feedback_enabled", default: true
+    t.string "firebase_project_id"
+    t.text "json_key"
     t.string "name", null: false
     t.string "password"
     t.string "team_id"

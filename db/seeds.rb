@@ -1,24 +1,27 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-(config = Rails.application.credentials.apple)
-  .applications
-  .each do |application|
-  config.environments.each do |environment|
-    puts "#{application[:name]} | #{application[:bundle_id]} | #{environment}... "
+rpush_config = Rails.application.credentials.rpush
+ios_config = rpush_config.ios
+android_config = rpush_config.android
 
-    if Rpush::Apnsp8::App.find_by(name: application[:name], environment:)
-      puts "skipping"
-    else
-      app = Rpush::Apnsp8::App.new
-      app.name = application[:name]
-      app.apn_key = config.apn_key
-      app.environment = environment
-      app.apn_key_id = config.apn_key_id
-      app.team_id = config.team_id
-      app.bundle_id = application[:bundle_id]
-      app.save!
-      puts "done"
-    end
+rpush_config.applications.each do |application|
+  rpush_config.environments.each do |environment|
+    Rpush::Apnsp8::App.find_or_create_by!(
+      name: application[:name],
+      environment:,
+      bundle_id: application[:bundle_id],
+      team_id: ios_config.team_id,
+      apn_key: ios_config.apn_key,
+      apn_key_id: ios_config.apn_key_id
+    )
+
+    Rpush::Fcm::App.find_or_create_by!(
+      name: application[:name],
+      environment:,
+      bundle_id: application[:bundle_id],
+      firebase_project_id: android_config.firebase_project_id,
+      json_key: android_config.json_key.to_json
+    )
   end
 end
