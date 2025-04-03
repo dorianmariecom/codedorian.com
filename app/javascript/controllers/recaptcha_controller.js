@@ -36,8 +36,7 @@ export default class extends Controller {
 
   execute() {
     if (window.grecaptcha?.enterprise) {
-      grecaptcha
-        .enterprise
+      grecaptcha.enterprise
         .execute(window.RECAPTCHA_SITE_KEY, { action: this.actionTarget.value })
         .then((token) => {
           this.responseTarget.value = token;
