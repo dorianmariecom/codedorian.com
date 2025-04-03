@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Current < ActiveSupport::CurrentAttributes
+  PRODUCTION = "production"
   DEFAULT_HOST = "codedorian.com"
   DEFAULT_BASE_URL = "https://codedorian.com"
   DEFAULT_HOSTS = DEFAULT_HOST
@@ -51,12 +52,20 @@ class Current < ActiveSupport::CurrentAttributes
 
   attribute :user, :time_zone, :request
 
-  def android_app_name
-    ANDROID_APP_NAME.fetch(env, DEFAULT_ANDROID_APP_NAME)
+  def ios_environment
+    PRODUCTION
+  end
+
+  def android_environment
+    PRODUCTION
   end
 
   def ios_app_name
     IOS_APP_NAME.fetch(env, DEFAULT_IOS_APP_NAME)
+  end
+
+  def android_app_name
+    ANDROID_APP_NAME.fetch(env, DEFAULT_ANDROID_APP_NAME)
   end
 
   def request?

@@ -16,6 +16,7 @@ gem "zxcvbn-ruby", require: "zxcvbn"
 
 gem "bcrypt"
 gem "brakeman"
+gem "browser"
 gem "bundle-audit"
 gem "bundler-audit"
 gem "code-ruby"

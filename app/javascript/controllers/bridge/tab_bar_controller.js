@@ -4,12 +4,17 @@ export default class extends BridgeComponent {
   static component = "tab-bar";
 
   static values = {
-    tabs: Array,
+    tabsIos: Array,
+    tabsAndroid: Array,
   };
 
   connect() {
     super.connect();
 
-    this.send("connect", { tabs: this.tabsValue });
+    if (window.platform === "ios") {
+      this.send("connect", { tabs: this.tabsIosValue });
+    } else if (window.platform === "android") {
+      this.send("connect", { tabs: this.tabsAndroidValue });
+    }
   }
 }

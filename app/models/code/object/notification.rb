@@ -53,32 +53,55 @@ class Code
         code_from = Current.code_user if code_from.nothing?
         code_to = Current.code_user if code_to.nothing?
 
-        code_to.user.devices.each do |device|
-          next unless device.ios?
-
-          ios_apps.each do |ios_app|
-            Rpush::Apnsp8::Notification.create!(
-              app: ios_app,
-              device_token: device.token,
-              alert: {
-                title: code_subject.to_s,
-                body: code_body.to_s
-              },
-              data: {
-                path: code_path.to_s
-              },
-              sound: code_sound.to_s
-            )
+        ::ApplicationRecord.transaction do
+          code_to.user.devices.each do |device|
+            if device.ios?
+              ::Rpush::Apnsp8::Notification.create!(
+                app: ios_app,
+                device_token: device.token,
+                alert: {
+                  title: code_subject.to_s,
+                  body: code_body.to_s
+                },
+                data: {
+                  path: code_path.to_s
+                },
+                sound: code_sound.to_s
+              )
+            elsif device.android?
+              ::Rpush::Fcm::Notification.create!(
+                app: android_app,
+                device_token: device.token,
+                notification: {
+                  title: code_subject.to_s,
+                  body: code_body.to_s
+                },
+                data: {
+                  path: code_path.to_s
+                },
+                sound: code_sound.to_s
+              )
+            end
           end
         end
 
         Notification.new
-      rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
+      rescue ::ActiveRecord::RecordInvalid, ::ActiveRecord::RecordNotSaved
         raise Code::Error, "notification not saved"
       end
 
-      def self.ios_apps
-        Rpush::Apnsp8::App.all
+      def self.ios_app
+        ::Rpush::Apnsp8::App.find_by(
+          name: ::Current.ios_app_name,
+          environment: ::Current.ios_environment
+        )
+      end
+
+      def self.android_app
+        ::Rpush::Fcm::App.find_by(
+          name: ::Current.android_app_name,
+          environment: ::Current.android_environment
+        )
       end
 
       include ::Pundit::Authorization

@@ -128,6 +128,7 @@ GEM
     bigdecimal (3.1.9)
     brakeman (7.0.0)
       racc
+    browser (6.2.0)
     builder (3.3.0)
     bundle-audit (0.1.0)
       bundler-audit
@@ -613,6 +614,7 @@ PLATFORMS
 DEPENDENCIES
   bcrypt
   brakeman
+  browser
   bundle-audit
   bundler-audit
   code-ruby
