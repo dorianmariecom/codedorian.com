@@ -13,7 +13,7 @@ export default class extends Controller {
     script.defer = true;
     script.onload = this.load.bind(this);
     script.src = `
-      https://www.google.com/recaptcha/api.js
+        https://www.google.com/recaptcha/enterprise.js
         ?render=${window.RECAPTCHA_SITE_KEY}
         &time=${Date.now()}
         &random=${Math.random()}
@@ -29,14 +29,15 @@ export default class extends Controller {
   }
 
   load() {
-    window.grecaptcha.ready(() => {
+    window.grecaptcha.enterprise.ready(() => {
       this.execute();
     });
   }
 
   execute() {
-    if (window.grecaptcha) {
+    if (window.grecaptcha?.enterprise) {
       grecaptcha
+        .enterprise
         .execute(window.RECAPTCHA_SITE_KEY, { action: this.actionTarget.value })
         .then((token) => {
           this.responseTarget.value = token;

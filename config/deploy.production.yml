@@ -5,6 +5,7 @@ aliases:
   logs: app logs -f
   restart: app boot
   shell: app exec --interactive --reuse "bash"
+  stop: app stop
 builder:
   arch: arm64
 env:

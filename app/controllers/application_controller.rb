@@ -155,8 +155,16 @@ class ApplicationController < ActionController::Base
     { locale: locale_param }
   end
 
-  def recaptcha_secret_key
-    Rails.application.credentials.google_com_recaptcha.secret_key
+  def recaptcha_site_key
+    Rails.application.credentials.google.recaptcha.site_key
+  end
+
+  def recaptcha_api_key
+    Rails.application.credentials.google.recaptcha.api_key
+  end
+
+  def recaptcha_project_id
+    Rails.application.credentials.google.recaptcha.project_id
   end
 
   def verify_captcha
@@ -165,7 +173,9 @@ class ApplicationController < ActionController::Base
     verify_recaptcha!(
       action: params["g-recaptcha-action"],
       recaptcha_v3: true,
-      secret_key: recaptcha_secret_key
+      site_key: recaptcha_site_key,
+      enterprise_api_key: recaptcha_api_key,
+      enterprise_project_id: recaptcha_project_id
     )
   end
 end

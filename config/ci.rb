@@ -8,4 +8,5 @@ CI.run do
   step "bundler audit", "bin/bundler-audit", "check", "--update"
   step "npm audit", "npm", "audit"
   step "rspec", "bin/rspec"
+  step "secrets", "bin/secrets"
 end
