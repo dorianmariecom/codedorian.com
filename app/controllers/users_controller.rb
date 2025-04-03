@@ -26,7 +26,7 @@ class UsersController < ApplicationController
       session[:time_zone] = params[:time_zone]
     end
 
-    head :ok
+    head(:ok)
   end
 
   def show

@@ -28,12 +28,36 @@ class Current < ActiveSupport::CurrentAttributes
     staging: "border-staging",
     production: "border-production"
   }.freeze
+  DEFAULT_IOS_APP_NAME = "codedorian"
+  IOS_APP_NAME = {
+    test: "test",
+    localhost: "localhost",
+    development: "development",
+    staging: "staging",
+    production: "codedorian"
+  }.freeze
+  DEFAULT_ANDROID_APP_NAME = "codedorian"
+  ANDROID_APP_NAME = {
+    test: "test",
+    localhost: "localhost",
+    development: "development",
+    staging: "staging",
+    production: "codedorian"
+  }.freeze
 
   LOCALHOST_PUBLIC_SUFFIX = { sld: nil, tld: :localhost, trd: nil }.to_struct
 
   resets { Time.zone = nil }
 
   attribute :user, :time_zone, :request
+
+  def android_app_name
+    ANDROID_APP_NAME.fetch(env, DEFAULT_ANDROID_APP_NAME)
+  end
+
+  def ios_app_name
+    IOS_APP_NAME.fetch(env, DEFAULT_IOS_APP_NAME)
+  end
 
   def request?
     !!request

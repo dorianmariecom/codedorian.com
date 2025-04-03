@@ -52,11 +52,13 @@ jobs:
   deploy-production:
     env:
       BASE_URL: "${{secrets.PRODUCTION_BASE_URL}}"
+      CODE_ENV: "${{secrets.PRODUCTION_CODE_ENV}}"
       DATABASE_URL: "${{secrets.PRODUCTION_DATABASE_URL}}"
       HOST: "${{secrets.PRODUCTION_HOST}}"
       HOSTS: "${{secrets.PRODUCTION_HOSTS}}"
       KAMAL_REGISTRY_PASSWORD: "${{secrets.PRODUCTION_KAMAL_REGISTRY_PASSWORD}}"
       KAMAL_REGISTRY_USERNAME: "${{secrets.PRODUCTION_KAMAL_REGISTRY_USERNAME}}"
+      RAILS_ENV: "${{secrets.PRODUCTION_RAILS_ENV}}"
       RAILS_MASTER_KEY: "${{secrets.PRODUCTION_RAILS_MASTER_KEY}}"
       SSH_PRIVATE_KEY: "${{secrets.PRODUCTION_SSH_PRIVATE_KEY}}"
     name: deploy production
@@ -79,11 +81,13 @@ jobs:
   deploy-staging:
     env:
       BASE_URL: "${{secrets.STAGING_BASE_URL}}"
+      CODE_ENV: "${{secrets.STAGING_CODE_ENV}}"
       DATABASE_URL: "${{secrets.STAGING_DATABASE_URL}}"
       HOST: "${{secrets.STAGING_HOST}}"
       HOSTS: "${{secrets.STAGING_HOSTS}}"
       KAMAL_REGISTRY_PASSWORD: "${{secrets.STAGING_KAMAL_REGISTRY_PASSWORD}}"
       KAMAL_REGISTRY_USERNAME: "${{secrets.STAGING_KAMAL_REGISTRY_USERNAME}}"
+      RAILS_ENV: "${{secrets.STAGING_RAILS_ENV}}"
       RAILS_MASTER_KEY: "${{secrets.STAGING_RAILS_MASTER_KEY}}"
       SSH_PRIVATE_KEY: "${{secrets.STAGING_SSH_PRIVATE_KEY}}"
     name: deploy staging

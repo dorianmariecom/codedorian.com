@@ -8,14 +8,14 @@ aliases:
 builder:
   arch: arm64
 env:
-  clear:
-    RAILS_ENV: production
   secret:
   - BASE_URL
+  - CODE_ENV
+  - DATABASE_URL
   - HOST
   - HOSTS
+  - RAILS_ENV
   - RAILS_MASTER_KEY
-  - DATABASE_URL
 image: dorianmariecom/codedorian.com
 proxy:
   hosts:

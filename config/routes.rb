@@ -98,15 +98,15 @@ Rails.application.routes.draw do
 
     patch :time_zone, to: "users#update_time_zone"
 
-    get "up", to: "static#up"
-    get "documentation", to: "static#documentation"
-    get "about", to: "static#about"
-    get "terms", to: "static#terms"
-    get "privacy", to: "static#privacy"
-    get "source", to: "static#source"
-    get "account", to: "static#account"
-    get "more", to: "static#more"
-    get "icons", to: "static#icons"
+    get :up, to: "static#up"
+    get :documentation, to: "static#documentation"
+    get :about, to: "static#about"
+    get :terms, to: "static#terms"
+    get :privacy, to: "static#privacy"
+    get :source, to: "static#source"
+    get :account, to: "static#account"
+    get :more, to: "static#more"
+    get :icons, to: "static#icons"
 
     resources :configurations, only: [] do
       get :ios_v1, on: :collection
@@ -118,5 +118,7 @@ Rails.application.routes.draw do
     match "/500", to: "errors#internal_server_error", via: :all
 
     root to: "static#home"
+
+    match "*path", to: "errors#not_found", via: :all
   end
 end

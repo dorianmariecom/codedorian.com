@@ -14,6 +14,7 @@ export default class extends Controller {
       headers: {
         "X-CSRF-Token": csrfToken,
         "Content-Type": "application/json",
+        "Accept": "application/json",
       },
       body: JSON.stringify({ time_zone: timeZone }),
     });
