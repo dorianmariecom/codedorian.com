@@ -1,4 +1,6 @@
-<div><%= link_to current_user_or_guest, current_user_or_guest, class: "link" %></div>
+<div>
+  <%= link_to current_user_or_guest, current_user_or_guest, class: "link" %>
+</div>
 
 <% if registered? %>
   <div>
@@ -20,7 +22,9 @@
   <%= link_to t(".messages"), [current_user_or_guest, :messages], class: "link" %>
 </div>
 <div>
-  <%= link_to t(".repl_sessions"), [current_user_or_guest, :repl_sessions], class: "link" %>
+  <%= link_to t(".repl_sessions"),
+          [current_user_or_guest, :repl_sessions],
+          class: "link" %>
 </div>
 
 <div><%= link_to t(".documentation"), :documentation, class: "link" %></div>

@@ -83,7 +83,11 @@ class ReplSessionsController < ApplicationController
   end
 
   def scope
-    @user ? policy_scope(ReplSession).where(user: @user) : policy_scope(ReplSession)
+    if @user
+      policy_scope(ReplSession).where(user: @user)
+    else
+      policy_scope(ReplSession)
+    end
   end
 
   def url
