@@ -89,7 +89,11 @@ Rails.application.routes.draw do
     end
 
     resources(:guests, &define)
-    resources(:users, &define)
+    resources(:users) do
+      define.call
+
+      post :impersonate
+    end
     define.call
 
     resources :country_codes

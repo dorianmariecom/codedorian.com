@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :load_user, only: %i[show edit update destroy]
+  before_action :load_user, only: %i[show edit update destroy impersonate]
   skip_after_action :verify_policy_scoped, only: %i[new create update_time_zone]
   skip_after_action :verify_authorized, only: :update_time_zone
   skip_before_action :verify_captcha, only: :update_time_zone
@@ -10,6 +10,12 @@ class UsersController < ApplicationController
   def index
     authorize User
     @users = scope.page(params[:page])
+  end
+
+  def impersonate
+    session[:user_id] = @user.id
+
+    redirect_to account_path
   end
 
   def update_time_zone
@@ -81,10 +87,10 @@ class UsersController < ApplicationController
 
   def load_user
     @user =
-      if params[:id] == "me"
+      if params[:id] == "me" || params[:user_id] == "me"
         authorize scope.find(current_user&.id)
       else
-        authorize scope.find(params[:id])
+        authorize scope.find(params[:user_id].presence || params[:id])
       end
   end
 

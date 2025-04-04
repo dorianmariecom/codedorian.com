@@ -21,7 +21,7 @@ export default class extends Controller {
     this.inputTarget.classList.add("input--touched");
 
     if (this.trimValue) {
-      this.inputTarget.value = this.inputTarget.value.trim();
+      this.inputTarget.value = this.inputTarget.value.trimStart();
     }
 
     if (this.inputTarget.checkValidity()) {

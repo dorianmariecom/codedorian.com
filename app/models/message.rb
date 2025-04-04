@@ -19,8 +19,8 @@ class Message < ApplicationRecord
   validate { can!(:update, from_user) }
   validate { can!(:update, to_user) }
 
-  before_validation { log_in(self.from_user ||= User.create!) }
-  before_validation { self.to_user ||= User.create! }
+  before_validation { self.from_user ||= Current.user! }
+  before_validation { self.to_user ||= Current.user! }
 
   def read!
     update!(read: true)

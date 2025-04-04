@@ -21,6 +21,10 @@ class UserPolicy < ApplicationPolicy
     self? || admin?
   end
 
+  def impersonate?
+    admin?
+  end
+
   def create?
     true
   end

@@ -7,7 +7,7 @@
 
 <div class="p">
   <%= link_to t(".new_#{model.name.underscore}"),
-          [:new, model.name.underscore.to_sym],
+          [:new, user, model.name.underscore.to_sym],
           class: "button" %>
 </div>
 

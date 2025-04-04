@@ -39,6 +39,13 @@
 </div>
 
 <div class="p">
+  <% if admin? %>
+    <%= button_to t(".impersonate"),
+              [@user, :impersonate],
+              method: :post,
+              class: "button button--link",
+              form_class: "inline-block" %>
+  <% end %>
   <%= button_to t(".log_out"),
             :session,
             method: :delete,

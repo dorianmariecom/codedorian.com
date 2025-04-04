@@ -191,7 +191,7 @@ class Current < ActiveSupport::CurrentAttributes
   end
 
   def user!
-    user || (@user = User.create!)
+    user || (self.user = User.create!)
   end
 
   def user?

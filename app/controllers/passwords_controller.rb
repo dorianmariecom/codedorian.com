@@ -90,6 +90,10 @@ class PasswordsController < ApplicationController
   end
 
   def password_params
-    params.expect(password: %i[password hint])
+    if admin?
+      params.expect(password: %i[user_id password hint primary verified])
+    else
+      params.expect(password: %i[password hint primary])
+    end
   end
 end
