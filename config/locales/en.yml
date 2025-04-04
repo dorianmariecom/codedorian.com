@@ -130,8 +130,8 @@ en:
       messages: messages
       privacy: privacy
       programs: programs
-      repl_sessions: repl sessions
       register: register
+      repl_sessions: repl sessions
       source: source
       terms: terms
       title: code
