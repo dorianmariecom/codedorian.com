@@ -1,0 +1,74 @@
+<% content_for(:title, @repl_execution) %>
+
+<%= turbo_stream_from @repl_execution %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".id") %></div>
+  <div class="font-bold"><%= @repl_execution.id %></div>
+</div>
+
+<% if @repl_execution.repl_program.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".repl_program") %></div>
+    <% if can?(:show, @repl_execution.repl_program) %>
+      <div class="font-bold">
+        <%= link_to @repl_execution.repl_program, @repl_execution.repl_program, class: "link" %>
+      </div>
+    <% else %>
+      <div class="font-bold"><%= @repl_execution.repl_program %></div>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @repl_execution.output.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".output") %></div>
+    <div class="code"><%= @repl_execution.output %></div>
+  </div>
+<% end %>
+
+<% if @repl_execution.result.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".result") %></div>
+    <div class="code"><%= @repl_execution.result %></div>
+  </div>
+<% end %>
+
+<% if @repl_execution.error.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".error") %></div>
+    <div class="code"><%= @repl_execution.error %></div>
+  </div>
+<% end %>
+
+<% if @repl_execution.input.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".input") %></div>
+    <div class="code"><%= @repl_execution.input %></div>
+  </div>
+<% end %>
+
+<% if @repl_execution.context.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".context") %></div>
+    <div class="code"><%= @repl_execution.context %></div>
+  </div>
+<% end %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".updated_at") %></div>
+  <div class="font-bold"><%= local_time(@execution.updated_at) %></div>
+</div>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".created_at") %></div>
+  <div class="font-bold"><%= local_time(@execution.created_at) %></div>
+</div>
+
+<div class="p">
+  <%= button_to t(".delete"),
+            @repl_execution,
+            method: :delete,
+            class: "button button--link",
+            form_class: "inline-block" %>
+</div>

@@ -1,5 +1,7 @@
 <% content_for(:title, @handle) %>
 
+<%= turbo_stream_from @handle %>
+
 <div class="p">
   <div class="text-gray-600"><%= t(".id") %></div>
   <div class="font-bold"><%= @handle.id %></div>

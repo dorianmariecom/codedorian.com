@@ -1,0 +1,13 @@
+<%= turbo_stream_from @repl_executions %>
+
+<div class="p"><%= link_to t(".new"), new_url, class: "button" %></div>
+
+<% if @repl_executions.any? %>
+  <div class="p">
+    <%= button_to t(".delete_all"), url, method: :delete, class: "button button--link" %>
+  </div>
+<% end %>
+
+<%= render_collection partial: "repl_executions/repl_execution",
+                  collection: @repl_executions,
+                  as: :repl_execution %>

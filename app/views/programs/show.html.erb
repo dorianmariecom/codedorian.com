@@ -1,5 +1,7 @@
 <% content_for(:title, @program) %>
 
+<%= turbo_stream_from @program %>
+
 <div class="p">
   <div class="text-gray-600"><%= t(".id") %></div>
   <div class="font-bold"><%= @program.id %></div>

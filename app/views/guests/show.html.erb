@@ -1,5 +1,7 @@
 <% content_for :title, @guest %>
 
+<%= turbo_stream_from @guest %>
+
 <div class="p">
   <div class="text-gray-600"><%= t(".id") %></div>
   <div class="font-bold"><%= @guest.id %></div>

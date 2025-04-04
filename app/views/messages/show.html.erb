@@ -1,5 +1,7 @@
 <% content_for(:title, @message) %>
 
+<%= turbo_stream_from @message %>
+
 <div class="p">
   <div class="text-gray-600"><%= t(".id") %></div>
   <div class="font-bold"><%= @message.id %></div>

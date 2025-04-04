@@ -16,7 +16,7 @@ class ReplProgramPolicy < ApplicationPolicy
   end
 
   def update?
-    can?(:update, ReplSession)
+    can?(:update, repl_session)
   end
 
   def show?

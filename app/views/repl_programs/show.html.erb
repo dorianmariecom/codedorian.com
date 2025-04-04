@@ -1,5 +1,7 @@
 <% content_for(:title, @repl_program) %>
 
+<%= turbo_stream_from @repl_program %>
+
 <div class="p">
   <div class="text-gray-600"><%= t(".id") %></div>
   <div class="font-bold"><%= @repl_program.id %></div>

@@ -1,5 +1,7 @@
 <% content_for(:title, @repl_session) %>
 
+<%= turbo_stream_from @repl_session %>
+
 <div class="p">
   <div class="text-gray-600"><%= t(".id") %></div>
   <div class="font-bold"><%= @repl_session.id %></div>
@@ -56,6 +58,8 @@
       <%= f.text_field :input, class: "input input--repl" %>
       <%= f.submit t(".evaluate"), class: "button" %>
     </div>
+
+    <%= render partial: "repl_executions/repl_execution", collection: repl_program.repl_executions.sort_by(&:id), as: :repl_execution %>
   <% end %>
 <% end %>
 

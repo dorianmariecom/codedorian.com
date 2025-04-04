@@ -1,5 +1,7 @@
 <% content_for :title, @user %>
 
+<%= turbo_stream_from @user %>
+
 <div class="p">
   <div class="text-gray-600"><%= t(".id") %></div>
   <div class="font-bold"><%= @user.id %></div>

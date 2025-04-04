@@ -30,7 +30,7 @@ class ReplProgramsController < ApplicationController
     if @repl_program.save
       log_in(@repl_program.user)
       @repl_program.evaluate!
-      redirect_to @repl_program, notice: t(".notice")
+      redirect_back_or_to @repl_program, notice: t(".notice")
     else
       flash.now.alert = @repl_program.alert
       render :new, status: :unprocessable_entity
@@ -41,7 +41,7 @@ class ReplProgramsController < ApplicationController
     if @repl_program.update(repl_program_params)
       log_in(@repl_program.user)
       @repl_program.evaluate!
-      redirect_to @repl_program, notice: t(".notice")
+      redirect_back_or_to @repl_program, notice: t(".notice")
     else
       flash.now.alert = @repl_program.alert
       render :edit, status: :unprocessable_entity

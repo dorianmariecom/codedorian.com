@@ -1,5 +1,7 @@
 <% content_for(:title, @token) %>
 
+<%= turbo_stream_from @token %>
+
 <div class="p">
   <div class="text-gray-600"><%= t(".id") %></div>
   <div class="font-bold"><%= @token.id %></div>

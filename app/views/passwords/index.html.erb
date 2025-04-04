@@ -1,3 +1,5 @@
+<%= turbo_stream_from @passwords %>
+
 <div class="p"><%= link_to t(".new"), new_url, class: "button" %></div>
 
 <% if @passwords.any? %>
