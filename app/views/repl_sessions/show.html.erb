@@ -59,7 +59,9 @@
       <%= f.submit t(".evaluate"), class: "button" %>
     </div>
 
-    <%= render partial: "repl_executions/repl_execution", collection: repl_program.repl_executions.sort_by(&:id), as: :repl_execution %>
+    <%= render partial: "repl_executions/repl_execution",
+           collection: repl_program.repl_executions.sort_by(&:id),
+           as: :repl_execution %>
   <% end %>
 <% end %>
 

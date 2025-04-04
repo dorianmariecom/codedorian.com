@@ -579,6 +579,25 @@ en:
       user: user
     update:
       notice: program updated
+  repl_executions:
+    destroy:
+      notice: repl execution deleted
+    index:
+      delete_all: delete all
+      title: repl executions
+    model:
+      to_s: repl_execution#%{id}
+    show:
+      context: context
+      created_at: created at
+      delete: delete repl execution
+      error: error
+      id: id
+      input: input
+      output: output
+      repl_program: repl program
+      result: result
+      updated_at: updated at
   repl_programs:
     create:
       notice: repl program created
@@ -947,22 +966,3 @@ en:
       next: next
       previous: previous
       truncate: "…"
-  repl_executions:
-    destroy:
-      notice: repl execution deleted
-    index:
-      delete_all: delete all
-      title: repl executions
-    model:
-      to_s: repl_execution#%{id}
-    show:
-      created_at: created at
-      delete: delete repl execution
-      error: error
-      id: id
-      input: input
-      output: output
-      repl_program: repl program
-      context: context
-      result: result
-      updated_at: updated at

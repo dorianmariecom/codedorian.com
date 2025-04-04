@@ -71,12 +71,15 @@ class ReplExecutionsController < ApplicationController
   def scope
     scope = policy_scope(ReplExecution)
 
-    if @repl_program
-      scope = scope.where(repl_program: @repl_program)
-    end
+    scope = scope.where(repl_program: @repl_program) if @repl_program
 
     if @repl_session
-      scope = scope.joins(:repl_program).where(repl_program: { repl_session: @repl_session })
+      scope =
+        scope.joins(:repl_program).where(
+          repl_program: {
+            repl_session: @repl_session
+          }
+        )
     end
 
     if @user

@@ -12,7 +12,9 @@
     <div class="text-gray-600"><%= t(".repl_program") %></div>
     <% if can?(:show, @repl_execution.repl_program) %>
       <div class="font-bold">
-        <%= link_to @repl_execution.repl_program, @repl_execution.repl_program, class: "link" %>
+        <%= link_to @repl_execution.repl_program,
+                @repl_execution.repl_program,
+                class: "link" %>
       </div>
     <% else %>
       <div class="font-bold"><%= @repl_execution.repl_program %></div>
