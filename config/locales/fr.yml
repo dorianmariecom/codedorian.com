@@ -947,3 +947,22 @@ fr:
       next: suivant
       previous: précédent
       truncate: "…"
+  repl_executions:
+    destroy:
+      notice: exécution de repl supprimée
+    index:
+      delete_all: supprimer tout
+      title: exécutions de repl
+    model:
+      to_s: repl_execution#%{id}
+    show:
+      created_at: créé à
+      delete: supprimer l'exécution de repl
+      error: erreur
+      id: identifiant
+      input: saisir
+      output: sortir
+      repl_program: programme repl
+      context: contexte
+      result: résultat
+      updated_at: mis à jour à
