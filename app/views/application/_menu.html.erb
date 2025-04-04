@@ -2,8 +2,9 @@
   <div class="p">
     <%= link_to t(".title"), root_path, class: "link" %>
 
+    <%= link_to current_user_or_guest, current_user_or_guest, class: "link" %>
+
     <% if registered? %>
-      <%= link_to current_user, current_user, class: "link" %>
       <%= button_to t(".log_out"),
                 :session,
                 method: :delete,
