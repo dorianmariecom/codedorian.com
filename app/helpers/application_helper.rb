@@ -185,4 +185,12 @@ module ApplicationHelper
   def render_collection(partial:, collection:, as:)
     render("shared/collection", partial:, collection:, as:)
   end
+
+  def turbo_stream_from(first, *streamables, **attributes)
+    if first.is_an?(ActiveRecord::Relation)
+      safe_join(first.map { |model| turbo_stream_from(model) })
+    else
+      super
+    end
+  end
 end
