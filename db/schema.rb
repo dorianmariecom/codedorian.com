@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_04_02_130547) do
+ActiveRecord::Schema[8.1].define(version: 2025_04_04_144954) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -171,6 +171,35 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_02_130547) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.index ["user_id"], name: "index_programs_on_user_id"
+  end
+
+  create_table "repl_executions", force: :cascade do |t|
+    t.text "context"
+    t.datetime "created_at", null: false
+    t.text "error"
+    t.text "input"
+    t.text "output"
+    t.bigint "repl_program_id", null: false
+    t.text "result"
+    t.datetime "updated_at", null: false
+    t.index ["repl_program_id"],
+            name: "index_repl_executions_on_repl_program_id"
+  end
+
+  create_table "repl_programs", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "input"
+    t.bigint "repl_session_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["repl_session_id"], name: "index_repl_programs_on_repl_session_id"
+  end
+
+  create_table "repl_sessions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_repl_sessions_on_user_id"
   end
 
   create_table "rpush_apps", force: :cascade do |t|
@@ -516,6 +545,9 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_02_130547) do
   add_foreign_key "passwords", "users"
   add_foreign_key "phone_numbers", "users"
   add_foreign_key "programs", "users"
+  add_foreign_key "repl_executions", "repl_programs"
+  add_foreign_key "repl_programs", "repl_sessions"
+  add_foreign_key "repl_sessions", "users"
   add_foreign_key "schedules", "programs"
   add_foreign_key "solid_errors_occurrences", "solid_errors", column: "error_id"
   add_foreign_key "solid_queue_blocked_executions",

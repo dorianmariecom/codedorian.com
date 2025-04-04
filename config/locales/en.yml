@@ -289,14 +289,6 @@ en:
     update:
       notice: handle updated
   helpers:
-    page_entries_info:
-      one_page:
-        display_entries:
-          zero: "none found"
-          one: "one found"
-          other: "%{count} found"
-      more_pages:
-        display_entries: "%{total} found"
     application:
       tabs:
         account: account
@@ -308,6 +300,14 @@ en:
       session:
         email_address: email address
         password: password
+    page_entries_info:
+      more_pages:
+        display_entries: "%{total} found"
+      one_page:
+        display_entries:
+          one: one found
+          other: "%{count} found"
+          zero: none found
   layouts:
     application:
       js:

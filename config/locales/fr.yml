@@ -289,14 +289,6 @@ fr:
     update:
       notice: identifiant mis à jour
   helpers:
-    page_entries_info:
-      one_page:
-        display_entries:
-          zero: aucun trouvé
-          one: un trouvé
-          other: "%{count} trouvés"
-      more_pages:
-        display_entries: "%{total} trouvés"
     application:
       tabs:
         account: compte
@@ -308,6 +300,14 @@ fr:
       session:
         email_address: adresse e-mail
         password: mot de passe
+    page_entries_info:
+      more_pages:
+        display_entries: "%{total} trouvés"
+      one_page:
+        display_entries:
+          one: un trouvé
+          other: "%{count} trouvés"
+          zero: aucun trouvé
   layouts:
     application:
       js:

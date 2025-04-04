@@ -2,16 +2,10 @@
 <% collection = local_assigns.fetch(:collection) %>
 <% as = local_assigns.fetch(:as) %>
 
-<div class="p text-gray-600">
-  <%= page_entries_info(collection) %>
-</div>
+<div class="p text-gray-600"><%= page_entries_info(collection) %></div>
 
-<div class="p text-gray-600">
-  <%= paginate(collection) %>
-</div>
+<div class="p text-gray-600"><%= paginate(collection) %></div>
 
 <%= render(partial:, collection:, as:) %>
 
-<div class="p text-gray-600">
-  <%= paginate(collection) %>
-</div>
+<div class="p text-gray-600"><%= paginate(collection) %></div>
