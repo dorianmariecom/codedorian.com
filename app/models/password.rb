@@ -9,7 +9,7 @@ class Password < ApplicationRecord
 
   validate { can!(:update, user) }
 
-  before_validation { log_in(self.user ||= User.create!) }
+  before_validation { self.user ||= Current.user! }
 
   scope :primary, -> { where(primary: true) }
   scope :not_primary, -> { where(primary: false) }
@@ -18,7 +18,7 @@ class Password < ApplicationRecord
 
   validate { can!(:update, user) }
 
-  before_validation { log_in(self.user ||= User.create!) }
+  before_validation { self.user ||= Current.user! }
   before_update { not_verified! if password_changed && verified? }
 
   def primary?

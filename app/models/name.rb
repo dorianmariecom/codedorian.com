@@ -12,7 +12,7 @@ class Name < ApplicationRecord
   validates :family_name, presence: true
   validate { can!(:update, user) }
 
-  before_validation { log_in(self.user ||= User.create!) }
+  before_validation { self.user ||= Current.user! }
   before_update { not_verified! if name_changed? && verified? }
 
   def primary?

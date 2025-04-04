@@ -12,7 +12,7 @@ class Token < ApplicationRecord
   validate { can!(:update, user) }
 
   after_initialize { self.token ||= SecureRandom.hex }
-  before_validation { log_in(self.user ||= User.create!) }
+  before_validation { self.user ||= Current.user! }
 
   before_update { not_verified! if token_changed? && verified? }
 

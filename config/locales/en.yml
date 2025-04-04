@@ -50,6 +50,9 @@ en:
         input: input
         name: name
         user_id: user
+      repl_session:
+        name: name
+        user_id: user
       schedule:
         interval: interval
         program_id: program
@@ -127,6 +130,7 @@ en:
       messages: messages
       privacy: privacy
       programs: programs
+      repl_sessions: repl sessions
       register: register
       source: source
       terms: terms
@@ -574,6 +578,35 @@ en:
       user: user
     update:
       notice: program updated
+  repl_sessions:
+    create:
+      notice: repl session created
+    destroy:
+      notice: repl session deleted
+    edit:
+      submit: update repl session
+      title: edit repl session
+    form:
+      name_placeholder: enter your repl session's name
+    index:
+      delete_all: delete all repl sessions
+      new: new repl session
+      title: repl sessions
+    model:
+      to_s: repl_session#%{id}
+    new:
+      submit: create repl session
+      title: new repl session
+    show:
+      created_at: created at
+      delete: delete repl session
+      edit: edit repl session
+      id: id
+      name: name
+      updated_at: updated at
+      user: user
+    update:
+      notice: repl session updated
   schedules:
     create:
       notice: schedule created

@@ -1,0 +1,45 @@
+<% content_for(:title, @repl_session) %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".id") %></div>
+  <div class="font-bold"><%= @repl_session.id %></div>
+</div>
+
+<% if @repl_session.user.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".user") %></div>
+    <% if can?(:show, @repl_session.user) %>
+      <div class="font-bold">
+        <%= link_to @repl_session.user, @repl_session.user, class: "link" %>
+      </div>
+    <% else %>
+      <div class="font-bold"><%= @repl_session.user %></div>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @repl_session.name.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".name") %></div>
+    <div class="font-bold"><%= @repl_session.name %></div>
+  </div>
+<% end %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".updated_at") %></div>
+  <div class="font-bold"><%= local_time(@repl_session.updated_at) %></div>
+</div>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".created_at") %></div>
+  <div class="font-bold"><%= local_time(@repl_session.created_at) %></div>
+</div>
+
+<div class="p">
+  <%= link_to t(".edit"), [:edit, @repl_session], class: "link" %>
+  <%= button_to t(".delete"),
+            @repl_session,
+            method: :delete,
+            class: "button button--link",
+            form_class: "inline-block" %>
+</div>

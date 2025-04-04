@@ -11,7 +11,7 @@ class Address < ApplicationRecord
   validates :address, presence: true
   validate { can!(:update, user) }
 
-  before_validation { log_in(self.user ||= User.create!) }
+  before_validation { self.user ||= Current.user! }
 
   before_update do
     not_verified! if address_changed? && (verified? || verifying?)

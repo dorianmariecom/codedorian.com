@@ -11,7 +11,7 @@ class Handle < ApplicationRecord
   validates :handle, presence: true
   validate { can!(:update, user) }
 
-  before_validation { log_in(self.user ||= User.create!) }
+  before_validation { self.user ||= Current.user! }
   before_update { not_verified! if handle_changed? && verified? }
 
   def primary?

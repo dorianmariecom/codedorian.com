@@ -1,5 +1,6 @@
+<div><%= link_to current_user_or_guest, current_user_or_guest, class: "link" %></div>
+
 <% if registered? %>
-  <div><%= link_to current_user, current_user, class: "link" %></div>
   <div>
     <%= button_to t(".log_out"),
               :session,
@@ -13,10 +14,13 @@
 <% end %>
 
 <div>
-  <%= link_to t(".programs"), [current_user, :programs], class: "link" %>
+  <%= link_to t(".programs"), [current_user_or_guest, :programs], class: "link" %>
 </div>
 <div>
-  <%= link_to t(".messages"), [current_user, :messages], class: "link" %>
+  <%= link_to t(".messages"), [current_user_or_guest, :messages], class: "link" %>
+</div>
+<div>
+  <%= link_to t(".repl_sessions"), [current_user_or_guest, :repl_sessions], class: "link" %>
 </div>
 
 <% if admin? %>

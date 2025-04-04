@@ -13,7 +13,7 @@ class Program < ApplicationRecord
 
   validate { can!(:update, user) }
 
-  before_validation { log_in(self.user ||= User.create!) }
+  before_validation { self.user ||= Current.user! }
 
   def evaluate!
     Current.with(user:) do

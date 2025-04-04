@@ -1,0 +1,11 @@
+<div class="p"><%= link_to t(".new"), new_url, class: "button" %></div>
+
+<% if @repl_sessions.any? %>
+  <div class="p">
+    <%= button_to t(".delete_all"), url, method: :delete, class: "button button--link" %>
+  </div>
+<% end %>
+
+<%= render_collection partial: "repl_sessions/repl_session",
+                  collection: @repl_sessions,
+                  as: :repl_session %>

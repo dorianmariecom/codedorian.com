@@ -14,7 +14,7 @@ class Device < ApplicationRecord
   validates :token, presence: true, uniqueness: { scope: :user_id }
   validates :platform, inclusion: { in: PLATFORMS }
 
-  before_validation { log_in(self.user ||= User.create!) }
+  before_validation { self.user ||= Current.user! }
 
   before_update { not_verified! if device_changed? && verified? }
 

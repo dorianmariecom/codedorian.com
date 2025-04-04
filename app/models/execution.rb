@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 class Execution < ApplicationRecord
-  INPUT_SAMPLE_SIZE = 140
-  ERROR_SAMPLE_SIZE = 140
-  OUTPUT_SAMPLE_SIZE = 140
-  RESULT_SAMPLE_SIZE = 140
+  INPUT_SAMPLE_SIZE = Program::INPUT_SAMPLE_SIZE
+  ERROR_SAMPLE_SIZE = Program::INPUT_SAMPLE_SIZE
+  OUTPUT_SAMPLE_SIZE = Program::INPUT_SAMPLE_SIZE
+  RESULT_SAMPLE_SIZE = Program::INPUT_SAMPLE_SIZE
 
   belongs_to :program, touch: true
 

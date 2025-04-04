@@ -24,6 +24,34 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :repl_sessions do
+        collection { delete "/", to: "repl_sessions#destroy_all" }
+
+        resources(:repl_programs) do
+          collection { delete "/", to: "repl_programs#destroy_all" }
+
+          resources(:repl_executions) do
+            collection { delete "/", to: "repl_executions#destroy_all" }
+          end
+        end
+
+        resources(:repl_executions) do
+          collection { delete "/", to: "repl_executions#destroy_all" }
+        end
+      end
+
+      resources(:repl_programs) do
+        collection { delete "/", to: "repl_programs#destroy_all" }
+
+        resources(:repl_executions) do
+          collection { delete "/", to: "repl_executions#destroy_all" }
+        end
+      end
+
+      resources(:repl_executions) do
+        collection { delete "/", to: "repl_executions#destroy_all" }
+      end
+
       resources :email_addresses do
         collection { delete "/", to: "email_addresses#destroy_all" }
       end
