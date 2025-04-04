@@ -77,7 +77,9 @@ class ReplProgramsController < ApplicationController
 
     @repl_session =
       if @user
-        policy_scope(ReplSession).where(user: @user).find(params[:repl_session_id])
+        policy_scope(ReplSession).where(user: @user).find(
+          params[:repl_session_id]
+        )
       else
         policy_scope(ReplSession).find(params[:repl_session_id])
       end

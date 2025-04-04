@@ -2,7 +2,11 @@
 <% model = local_assigns.fetch(:model) %>
 <% singular = model.name.underscore %>
 <% plural = model.name.underscore.pluralize %>
-<% collection = policy_scope(model).where(user: user).page(params[:page]).order(created_at: :asc) %>
+<% collection =
+  policy_scope(model)
+    .where(user: user)
+    .page(params[:page])
+    .order(created_at: :asc) %>
 <% partial = "#{plural}/#{singular}" %>
 <% as = singular %>
 

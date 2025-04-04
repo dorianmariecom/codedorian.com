@@ -117,10 +117,7 @@ class ReplSessionsController < ApplicationController
       )
     else
       params.expect(
-        repl_session: [
-          :name,
-          { schedules_attributes: [%i[id _destroy input]] }
-        ]
+        repl_session: [:name, { schedules_attributes: [%i[id _destroy input]] }]
       )
     end
   end

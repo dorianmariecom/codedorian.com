@@ -14,7 +14,10 @@ class ReplProgram < ApplicationRecord
   validate { can!(:update, repl_session) }
 
   def previous_repl_program
-    repl_programs.sort_by(&:id).reverse.detect { |repl_program| repl_program.id < id }
+    repl_programs
+      .sort_by(&:id)
+      .reverse
+      .detect { |repl_program| repl_program.id < id }
   end
 
   def previous_context!
