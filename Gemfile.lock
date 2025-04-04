@@ -17,7 +17,7 @@ GIT
 
 GIT
   remote: https://github.com/rails/rails
-  revision: 2808a5a0ea22d009253b9db1d6d12a03bbfeffbf
+  revision: 6b5c91d2af47c976b57d8a90d372b8ec8fb7c7bd
   specs:
     actioncable (8.1.0.alpha)
       actionpack (= 8.1.0.alpha)
@@ -126,7 +126,7 @@ GEM
     bcrypt_pbkdf (1.1.1-x86_64-darwin)
     benchmark (0.4.0)
     bigdecimal (3.1.9)
-    brakeman (7.0.0)
+    brakeman (7.0.1)
       racc
     browser (6.2.0)
     builder (3.3.0)

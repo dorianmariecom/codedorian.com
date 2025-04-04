@@ -114,7 +114,9 @@ button {
   @apply border-black border p-2 w-fit;
 }
 
-.content {
+.content,
+trix-editor,
+.trix-content {
   p {
     @apply mb-5;
   }
@@ -144,36 +146,6 @@ button {
 
 trix-editor {
   @apply min-h-24;
-
-  p {
-    @apply mb-5;
-  }
-
-  a {
-    @apply underline;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-bold;
-  }
-
-  blockquote {
-    @apply border-l border-black pl-2;
-  }
-
-  pre {
-    @apply whitespace-pre font-mono rounded overflow-auto;
-    @apply border-black border p-2 w-fit;
-  }
-
-  ul {
-    @apply list-disc pl-5;
-  }
 }
 
 trix-toolbar {
