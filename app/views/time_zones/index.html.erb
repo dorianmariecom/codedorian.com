@@ -6,4 +6,6 @@
   </div>
 <% end %>
 
-<%= render partial: "time_zones/time_zone", collection: @time_zones, as: :time_zone %>
+<%= render_collection partial: "time_zones/time_zone",
+                  collection: @time_zones,
+                  as: :time_zone %>

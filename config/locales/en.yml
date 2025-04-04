@@ -3,25 +3,25 @@ en:
   activerecord:
     attributes:
       address:
-        user_id: user
         address: address
         primary: primary?
+        user_id: user
         verified: verified?
       device:
-        user_id: user
         platform: platform
         primary: primary?
         token: token
+        user_id: user
         verified: verified?
       email_address:
-        user_id: user
         email_address: email address
         primary: primary?
+        user_id: user
         verified: verified?
       handle:
-        user_id: user
         handle: handle
         primary: primary?
+        user_id: user
         verified: verified?
       message:
         body: body
@@ -29,22 +29,22 @@ en:
         subject: subject
         to_user_id: to user
       name:
-        user_id: user
         family_name: family name
         given_name: given name
         primary: primary?
+        user_id: user
         verified: verified?
       password:
-        user_id: user
         hint: hint
         password: password
         primary: primary?
+        user_id: user
         verified: verified?
       phone_number:
-        user_id: user
         phone_number: phone number
         phone_number_input: phone number
         primary: primary?
+        user_id: user
         verified: verified?
       program:
         input: input
@@ -55,14 +55,14 @@ en:
         program_id: program
         starts_at: starts at
       time_zone:
-        user_id: user
         primary: primary?
         time_zone: time zone
+        user_id: user
         verified: verified?
       token:
-        user_id: user
         primary: primary?
         token: token
+        user_id: user
         verified: verified?
       user:
         admin: admin?
@@ -289,6 +289,14 @@ en:
     update:
       notice: handle updated
   helpers:
+    page_entries_info:
+      one_page:
+        display_entries:
+          zero: "none found"
+          one: "one found"
+          other: "%{count} found"
+      more_pages:
+        display_entries: "%{total} found"
     application:
       tabs:
         account: account
@@ -848,10 +856,17 @@ en:
       delete: delete user
       edit: edit user
       id: id
+      impersonate: impersonate
       locale: language
       log_out: log out
-      impersonate: impersonate
       updated_at: updated at
       verified: verified?
     update:
       notice: user updated
+  views:
+    pagination:
+      first: first
+      last: last
+      next: next
+      previous: previous
+      truncate: "…"

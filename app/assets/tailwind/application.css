@@ -159,3 +159,19 @@ trix-toolbar {
 .grecaptcha-badge {
   @apply hidden;
 }
+
+.pagination {
+  .first,
+  .prev,
+  .page,
+  .next,
+  .last {
+    a {
+      @apply underline;
+    }
+  }
+
+  .page.current {
+    @apply font-bold;
+  }
+}

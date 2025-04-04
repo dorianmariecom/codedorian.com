@@ -4,4 +4,6 @@
   </div>
 <% end %>
 
-<%= render partial: "executions/execution", collection: @executions, as: :execution %>
+<%= render_collection partial: "executions/execution",
+                  collection: @executions,
+                  as: :execution %>

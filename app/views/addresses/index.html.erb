@@ -6,4 +6,6 @@
   </div>
 <% end %>
 
-<%= render partial: "addresses/address", collection: @addresses, as: :address %>
+<%= render_collection partial: "addresses/address",
+                  collection: @addresses,
+                  as: :address %>

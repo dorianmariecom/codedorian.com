@@ -170,4 +170,8 @@ module ApplicationHelper
   def button_to(...)
     insert_recaptcha_tag(super)
   end
+
+  def render_collection(partial:, collection:, as:)
+    render("shared/collection", partial:, collection:, as:)
+  end
 end

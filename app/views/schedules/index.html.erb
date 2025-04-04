@@ -6,4 +6,6 @@
   </div>
 <% end %>
 
-<%= render partial: "schedules/schedule", collection: @schedules, as: :schedule %>
+<%= render_collection partial: "schedules/schedule",
+                  collection: @schedules,
+                  as: :schedule %>

@@ -1,14 +1,17 @@
 <% user = local_assigns.fetch(:user) %>
 <% model = local_assigns.fetch(:model) %>
+<% singular = model.name.underscore %>
+<% plural = model.name.underscore.pluralize %>
+<% collection = policy_scope(model).where(user: user) %>
+<% partial = "#{plural}/#{singular}" %>
+<% as = singular %>
 
 <div class="p font-bold">
-  <%= link_to t(".#{model.name.underscore.pluralize}"), [user, model], class: "link" %>
+  <%= link_to t(".#{plural}"), [user, plural], class: "link" %>
 </div>
 
 <div class="p">
-  <%= link_to t(".new_#{model.name.underscore}"),
-          [:new, user, model.name.underscore.to_sym],
-          class: "button" %>
+  <%= link_to t(".new_#{singular}"), [:new, user, singular.to_sym], class: "button" %>
 </div>
 
-<%= render policy_scope(model).where(user: user) %>
+<%= render_collection partial:, collection:, as: %>

@@ -6,4 +6,6 @@
   </div>
 <% end %>
 
-<%= render partial: "passwords/password", collection: @passwords, as: :password %>
+<%= render_collection partial: "passwords/password",
+                  collection: @passwords,
+                  as: :password %>

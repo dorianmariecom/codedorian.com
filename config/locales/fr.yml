@@ -5,19 +5,23 @@ fr:
       address:
         address: adresse
         primary: primaire ?
+        user_id: utilisateur
         verified: vérifiée ?
       device:
         platform: plate-forme
         primary: primaire?
         token: jeton
+        user_id: utilisateur
         verified: vérifié ?
       email_address:
         email_address: adresse e-mail
         primary: primaire ?
+        user_id: utilisateur
         verified: vérifiée ?
       handle:
         handle: identifiant
         primary: primaire ?
+        user_id: utilisateur
         verified: vérifié ?
       message:
         body: contenu
@@ -28,16 +32,19 @@ fr:
         family_name: nom de famille
         given_name: prénom
         primary: primaire ?
+        user_id: utilisateur
         verified: vérifié ?
       password:
         hint: indice
         password: mot de passe
         primary: primaire ?
+        user_id: utilisateur
         verified: vérifié ?
       phone_number:
         phone_number: numéro de téléphone
         phone_number_input: numéro de téléphone
         primary: primaire ?
+        user_id: utilisateur
         verified: vérifié ?
       program:
         input: entrée
@@ -50,10 +57,12 @@ fr:
       time_zone:
         primary: primaire ?
         time_zone: fuseau horaire
+        user_id: utilisateur
         verified: vérifié ?
       token:
         primary: primaire?
         token: jeton
+        user_id: utilisateur
         verified: vérifié ?
       user:
         admin: administrateur ?
@@ -280,6 +289,14 @@ fr:
     update:
       notice: identifiant mis à jour
   helpers:
+    page_entries_info:
+      one_page:
+        display_entries:
+          zero: aucun trouvé
+          one: un trouvé
+          other: "%{count} trouvés"
+      more_pages:
+        display_entries: "%{total} trouvés"
     application:
       tabs:
         account: compte
@@ -839,9 +856,17 @@ fr:
       delete: supprimer l'utilisateur
       edit: modifier l'utilisateur
       id: id
+      impersonate: imiter
       locale: langue
       log_out: se déconnecter
       updated_at: mis à jour à
       verified: vérifié ?
     update:
       notice: utilisateur mis à jour
+  views:
+    pagination:
+      first: premier
+      last: dernier
+      next: suivant
+      previous: précédent
+      truncate: "…"
