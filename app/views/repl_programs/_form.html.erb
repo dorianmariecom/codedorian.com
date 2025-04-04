@@ -1,0 +1,44 @@
+<% inline = local_assigns.fetch(:inline, false) %>
+
+<%= form_for repl_program do |f| %>
+  <% if inline %>
+    <%= f.hidden_field :repl_session_id %>
+
+    <div class="p flex gap-4 items-center">
+      <%= f.text_field :input,
+                  placeholder: t(".input_placeholder"),
+                  class: "input input--repl" %>
+      <%= f.submit submit,
+               class: "button",
+               data: {
+                 controller: "bridge--button",
+                 bridge__button_title_value: submit
+               } %>
+    </div>
+  <% else %>
+    <div class="p">
+      <%= f.label :repl_session_id, class: "label" %>
+      <%= f.select :repl_session_id,
+               repl_session_options(repl_session_id: f.object.repl_session_id),
+               {},
+               class: "input" %>
+    </div>
+
+    <div class="p">
+      <%= f.label :input, class: "label" %>
+      <%= f.text_field :input,
+                  placeholder: t(".input_placeholder"),
+                  class: "input input--repl" %>
+      <div class="text-gray-600"><%= t(".fake_input") %></div>
+    </div>
+
+    <div class="p">
+      <%= f.submit submit,
+               class: "button",
+               data: {
+                 controller: "bridge--button",
+                 bridge__button_title_value: submit
+               } %>
+    </div>
+  <% end %>
+<% end %>

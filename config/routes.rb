@@ -27,6 +27,8 @@ Rails.application.routes.draw do
       resources :repl_sessions do
         collection { delete "/", to: "repl_sessions#destroy_all" }
 
+        post :evaluate
+
         resources(:repl_programs) do
           collection { delete "/", to: "repl_programs#destroy_all" }
 

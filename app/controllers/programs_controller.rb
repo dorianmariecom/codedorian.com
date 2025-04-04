@@ -11,7 +11,7 @@ class ProgramsController < ApplicationController
   def index
     authorize Program
 
-    @programs = scope.page(params[:page])
+    @programs = scope.page(params[:page]).order(created_at: :asc)
   end
 
   def show
@@ -24,7 +24,7 @@ class ProgramsController < ApplicationController
     @schedules =
       policy_scope(Schedule)
         .where(program: @program)
-        .order(created_at: :desc)
+        .order(created_at: :asc)
         .page(params[:page])
   end
 

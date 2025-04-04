@@ -10,7 +10,7 @@ class ExecutionsController < ApplicationController
   def index
     authorize Execution
 
-    @executions = scope.page(params[:page])
+    @executions = scope.page(params[:page]).order(created_at: :desc)
   end
 
   def show

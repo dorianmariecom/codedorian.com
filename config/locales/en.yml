@@ -121,6 +121,7 @@ en:
   application:
     current_user_required: current user required
     menu:
+      admin: admin
       about: about
       documentation: documentation
       english: english
@@ -568,10 +569,10 @@ en:
       id: id
       input: input
       name: name
-      new_schedule: new schedule
       not_scheduled_html: would you like to schedule for %{local_time}?
       schedule: schedule
       scheduled_html: it's scheduled for %{local_time}
+      new_schedule: new schedule
       schedules: schedules
       unschedule: unschedule
       updated_at: updated at
@@ -598,6 +599,10 @@ en:
       submit: create repl session
       title: new repl session
     show:
+      evaluate_all: evaluate all
+      evaluate: evaluate
+      new_repl_program: new repl program
+      repl_programs: repl programs
       created_at: created at
       delete: delete repl session
       edit: edit repl session
@@ -747,6 +752,8 @@ en:
       messages: messages
       privacy: privacy
       programs: programs
+      repl_sessions: repl sessions
+      admin: admin
       register: register
       source: source
       terms: terms
@@ -903,3 +910,40 @@ en:
       next: next
       previous: previous
       truncate: "…"
+  repl_programs:
+    create:
+      notice: repl program created
+    destroy:
+      notice: repl program deleted
+    edit:
+      submit: update repl program
+      title: edit repl program
+    index:
+      delete_all: delete all
+      new: new repl program
+      title: repl programs
+    model:
+      to_s: repl_program#%{id}
+    form:
+      input_placeholder: enter your repl program's input
+      fake_input: Http.get("https://google.com")
+    nested:
+      add: add repl program
+    nested_form:
+      fake_input: Http.get("https://google.com")
+      remove: remove repl program
+      input_placeholder: enter your repl program's input
+      repl_program: repl program
+    new:
+      submit: create repl program
+      title: new repl program
+    show:
+      created_at: created at
+      delete: delete repl program
+      edit: edit repl program
+      id: id
+      repl_session: repl session
+      input: input
+      updated_at: updated at
+    update:
+      notice: repl program updated

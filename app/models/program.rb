@@ -27,15 +27,12 @@ class Program < ApplicationRecord
         error: error.string
       )
     rescue Code::Error, Timeout::Error => e
-      execution =
-        executions.create!(
-          input:,
-          result: nil,
-          output: nil,
-          error: "#{e.class}: #{e.message}"
-        )
-
-      execution
+      executions.create!(
+        input:,
+        result: nil,
+        output: nil,
+        error: "#{e.class}: #{e.message}"
+      )
     end
   end
 

@@ -10,7 +10,7 @@ class NamesController < ApplicationController
   def index
     authorize Name
 
-    @names = scope.page(params[:page])
+    @names = scope.page(params[:page]).order(created_at: :asc)
   end
 
   def show

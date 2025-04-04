@@ -43,3 +43,22 @@
             class: "button button--link",
             form_class: "inline-block" %>
 </div>
+
+<div class="p font-bold">
+  <%= link_to t(".repl_programs"), [@repl_session, :repl_programs], class: "link" %>
+</div>
+
+<% (@repl_programs + [@repl_program]).each do |repl_program| %>
+  <%= form_for repl_program do |f| %>
+    <%= f.hidden_field :repl_session_id %>
+
+    <div class="p flex gap-4 items-center">
+      <%= f.text_field :input, class: "input input--repl" %>
+      <%= f.submit t(".evaluate"), class: "button" %>
+    </div>
+  <% end %>
+<% end %>
+
+<p class="p">
+  <%= button_to(t(".evaluate_all"), [@repl_session, :evaluate], class: "button") %>
+</p>

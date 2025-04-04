@@ -21,7 +21,7 @@ class MessagesController < ApplicationController
   def index
     authorize Message
 
-    @messages = scope.page(params[:page])
+    @messages = scope.page(params[:page]).order(created_at: :desc)
   end
 
   def show

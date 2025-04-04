@@ -10,6 +10,8 @@ class ReplExecution < ApplicationRecord
   has_one :repl_session, through: :repl_program
   has_one :user, through: :repl_session
 
+  serialize :context, coder: YAML, yaml: { unsafe_load: true }
+
   validate { can!(:update, repl_program) }
 
   def input_sample

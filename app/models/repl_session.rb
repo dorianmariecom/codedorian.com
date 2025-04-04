@@ -8,12 +8,18 @@ class ReplSession < ApplicationRecord
   has_many :repl_programs, dependent: :destroy
   has_many :repl_executions, through: :repl_programs
 
+  accepts_nested_attributes_for :repl_programs, allow_destroy: true
+
   validate { can!(:update, user) }
 
   before_validation { self.user ||= Current.user! }
 
   def inputs
-    repl_programs.map(&:input)
+    repl_programs.sort_by(&:id).map(&:input)
+  end
+
+  def evaluate!
+    repl_programs.max_by(&:id)&.evaluate!
   end
 
   def input

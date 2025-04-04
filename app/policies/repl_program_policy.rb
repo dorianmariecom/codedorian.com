@@ -12,11 +12,11 @@ class ReplProgramPolicy < ApplicationPolicy
   end
 
   def create?
-    false
+    can?(:create, ReplSession)
   end
 
   def update?
-    false
+    can?(:update, ReplSession)
   end
 
   def show?

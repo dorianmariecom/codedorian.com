@@ -23,10 +23,6 @@
   <%= link_to t(".repl_sessions"), [current_user_or_guest, :repl_sessions], class: "link" %>
 </div>
 
-<% if admin? %>
-  <div><%= link_to t(".users"), :users, class: "link" %></div>
-<% end %>
-
 <div><%= link_to t(".documentation"), :documentation, class: "link" %></div>
 <div><%= link_to t(".source"), :source, class: "link" %></div>
 <div><%= link_to t(".about"), :about, class: "link" %></div>
@@ -41,3 +37,11 @@
 <% end %>
 
 <div><%= Current.translated_env %></div>
+
+<% if admin? %>
+  <b><%= t(".admin") %></b>
+  <div><%= link_to t(".users"), :users, class: "link" %></div>
+  <div><%= link_to t(".programs"), :programs, class: "link" %></div>
+  <div><%= link_to t(".messages"), :messages, class: "link" %></div>
+  <div><%= link_to t(".repl_sessions"), :repl_sessions, class: "link" %></div>
+<% end %>

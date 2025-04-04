@@ -2,7 +2,7 @@
 
 class ReplSessionsController < ApplicationController
   before_action :load_user
-  before_action :load_repl_session, only: %i[show edit update destroy]
+  before_action :load_repl_session, only: %i[show edit update destroy evaluate]
 
   helper_method :url
   helper_method :new_url
@@ -10,15 +10,23 @@ class ReplSessionsController < ApplicationController
   def index
     authorize ReplSession
 
-    @repl_sessions = scope.page(params[:page])
+    @repl_sessions = scope.page(params[:page]).order(created_at: :asc)
+  end
+
+  def evaluate
+    @repl_session.evaluate!
+
+    redirect_back_or_to(@repl_session)
   end
 
   def show
     @repl_programs =
       policy_scope(ReplProgram)
         .where(repl_session: @repl_session)
-        .order(created_at: :desc)
+        .order(created_at: :asc)
         .page(params[:page])
+
+    @repl_program = @repl_programs.new
   end
 
   def new
@@ -96,9 +104,20 @@ class ReplSessionsController < ApplicationController
 
   def repl_session_params
     if admin?
-      params.expect(repl_session: %i[user_id name])
+      params.expect(
+        repl_session: [
+          :user_id,
+          :name,
+          { repl_programs_attributes: [%i[id _destroy input]] }
+        ]
+      )
     else
-      params.expect(repl_session: :name)
+      params.expect(
+        repl_session: [
+          :name,
+          { schedules_attributes: [%i[id _destroy input]] }
+        ]
+      )
     end
   end
 end

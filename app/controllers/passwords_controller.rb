@@ -10,7 +10,7 @@ class PasswordsController < ApplicationController
   def index
     authorize Password
 
-    @passwords = scope.page(params[:page])
+    @passwords = scope.page(params[:page]).order(created_at: :asc)
   end
 
   def show

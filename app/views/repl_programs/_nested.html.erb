@@ -1,0 +1,19 @@
+<div data-controller="nested" data-nested-selector-value=".repl-program">
+  <template data-nested-target="template">
+    <%= f.fields_for :repl_programs, ReplProgram.new, child_index: "NEW_RECORD" do |repl_program_f| %>
+      <%= render "repl_programs/nested_form", f: repl_program_f %>
+    <% end %>
+  </template>
+
+  <%= f.fields_for :repl_programs do |repl_program_f| %>
+    <%= render "repl_programs/nested_form", f: repl_program_f %>
+  <% end %>
+
+  <div data-nested-target="target"></div>
+
+  <div class="p">
+    <button class="button button--link" data-action="nested#add">
+      <%= t(".add") %>
+    </button>
+  </div>
+</div>

@@ -9,7 +9,7 @@ class UsersController < ApplicationController
 
   def index
     authorize User
-    @users = scope.page(params[:page])
+    @users = scope.page(params[:page]).order(created_at: :asc)
   end
 
   def impersonate

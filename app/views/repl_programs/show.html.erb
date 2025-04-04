@@ -1,0 +1,45 @@
+<% content_for(:title, @repl_program) %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".id") %></div>
+  <div class="font-bold"><%= @repl_program.id %></div>
+</div>
+
+<% if @repl_program.repl_session.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".repl_session") %></div>
+    <% if can?(:show, @repl_program.repl_session) %>
+      <div class="font-bold">
+        <%= link_to @repl_program.repl_session, @repl_program.repl_session, class: "link" %>
+      </div>
+    <% else %>
+      <div class="font-bold"><%= @repl_program.repl_session %></div>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @repl_program.input.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".input") %></div>
+    <div class="code"><%= @repl_program.input %></div>
+  </div>
+<% end %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".updated_at") %></div>
+  <div class="font-bold"><%= local_time(@repl_program.updated_at) %></div>
+</div>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".created_at") %></div>
+  <div class="font-bold"><%= local_time(@repl_program.created_at) %></div>
+</div>
+
+<div class="p">
+  <%= link_to t(".edit"), [:edit, @repl_program], class: "link" %>
+  <%= button_to t(".delete"),
+            @repl_program,
+            method: :delete,
+            class: "button button--link",
+            form_class: "inline-block" %>
+</div>

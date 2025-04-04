@@ -10,7 +10,7 @@ class TimeZonesController < ApplicationController
   def index
     authorize TimeZone
 
-    @time_zones = scope.page(params[:page])
+    @time_zones = scope.page(params[:page]).order(created_at: :asc)
   end
 
   def show

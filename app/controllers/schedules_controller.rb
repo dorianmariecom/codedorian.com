@@ -11,7 +11,7 @@ class SchedulesController < ApplicationController
   def index
     authorize Schedule
 
-    @schedules = scope.page(params[:page])
+    @schedules = scope.page(params[:page]).order(created_at: :asc)
   end
 
   def show
@@ -103,27 +103,11 @@ class SchedulesController < ApplicationController
   end
 
   def url
-    if @user && @program
-      [@user, @program, :schedules]
-    elsif @user
-      [@user, :schedules]
-    elsif @program
-      [@program, :schedules]
-    else
-      schedules_path
-    end
+    [@user, @program, :schedules].compact
   end
 
   def new_url
-    if @user && @program
-      [:new, @user, @program, :schedule]
-    elsif @user
-      [:new, @user, :schedule]
-    elsif @program
-      [:new, @program, :schedule]
-    else
-      new_schedule_path
-    end
+    [:new, @user, @program, :schedule].compact
   end
 
   def id

@@ -19,6 +19,10 @@ class ReplSessionPolicy < ApplicationPolicy
     true
   end
 
+  def evaluate?
+    owner? || admin?
+  end
+
   def update?
     owner? || admin?
   end
