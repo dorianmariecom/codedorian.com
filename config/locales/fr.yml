@@ -132,7 +132,7 @@ fr:
       privacy: confidentialité
       programs: programmes
       register: s'inscrire
-      repl_sessions: séances de répétition
+      repl_sessions: repl
       source: source
       terms: termes
       title: code
@@ -604,19 +604,19 @@ fr:
     destroy:
       notice: programme repl supprimé
     edit:
-      submit: mettre à jour le programme de remplacement
-      title: modifier le programme de remplacement
+      submit: mettre à jour le programme repl
+      title: modifier le programme repl
     form:
       fake_input: Http.get("https://google.com")
       input_placeholder: entrez l'entrée de votre programme repl
     index:
       delete_all: supprimer tout
-      new: nouveau programme de remplacement
-      title: programmes de remplacement
+      new: nouveau programme repl
+      title: programmes repl
     model:
       to_s: repl_program#%{id}
     nested:
-      add: ajouter un programme de remplacement
+      add: ajouter un programme repl
     nested_form:
       fake_input: Http.get("https://google.com")
       input_placeholder: entrez l'entrée de votre programme repl
@@ -624,25 +624,25 @@ fr:
       repl_program: programme repl
     new:
       submit: créer un programme repl
-      title: nouveau programme de remplacement
+      title: nouveau programme repl
     show:
       created_at: créé à
       delete: supprimer le programme repl
-      edit: modifier le programme de remplacement
+      edit: modifier le programme repl
       id: identifiant
       input: saisir
-      repl_session: séance de remplacement
+      repl_session: séance repl
       updated_at: mis à jour à
     update:
       notice: programme repl mis à jour
   repl_sessions:
     create:
-      notice: session de remplacement créée
+      notice: session repl créée
     destroy:
-      notice: session de remplacement supprimée
+      notice: session repl supprimée
     edit:
-      submit: mettre à jour la session de remplacement
-      title: modifier la session de remplacement
+      submit: mettre à jour la session repl
+      title: modifier la session repl
     form:
       name_placeholder: entrez le nom de votre session de repl
     index:
@@ -656,18 +656,18 @@ fr:
       title: nouvelle session de repl
     show:
       created_at: créé à
-      delete: supprimer la session de remplacement
-      edit: modifier la session de remplacement
+      delete: supprimer la session repl
+      edit: modifier la session repl
       evaluate: évaluer
       evaluate_all: évaluer tout
       id: identifiant
       name: nom
-      new_repl_program: nouveau programme de remplacement
-      repl_programs: programmes de remplacement
+      new_repl_program: nouveau programme repl
+      repl_programs: programmes repl
       updated_at: mis à jour à
       user: utilisateur
     update:
-      notice: session de remplacement mise à jour
+      notice: session repl mise à jour
   schedules:
     create:
       notice: horaire créé

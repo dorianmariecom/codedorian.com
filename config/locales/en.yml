@@ -132,7 +132,7 @@ en:
       privacy: privacy
       programs: programs
       register: register
-      repl_sessions: repl sessions
+      repl_sessions: repl
       source: source
       terms: terms
       title: code
@@ -812,7 +812,7 @@ en:
       privacy: privacy
       programs: programs
       register: register
-      repl_sessions: repl sessions
+      repl_sessions: repl
       source: source
       terms: terms
       title: more
