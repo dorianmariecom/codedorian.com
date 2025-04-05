@@ -24,7 +24,7 @@ run apt-get install -y \
     postgresql \
     postgresql-contrib \
     libpq-dev \
-    libyaml \
+    libyaml-dev \
     vim \
     wget
 
