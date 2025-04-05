@@ -662,10 +662,10 @@ en:
       evaluate_all: evaluate all
       id: id
       name: name
-      new_repl_program: new repl program
-      repl_programs: repl programs
       new_repl_execution: new repl execution
+      new_repl_program: new repl program
       repl_executions: repl executions
+      repl_programs: repl programs
       updated_at: updated at
       user: user
     update:
