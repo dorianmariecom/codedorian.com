@@ -6,7 +6,7 @@
     "trix": "*"
   },
   "engines": {
-    "node": "23.10.0",
+    "node": "23.11.0",
     "npm": "11.2.0"
   },
   "license": "MIT",

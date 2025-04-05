@@ -1,16 +1,15 @@
-arg RUBY_VERSION="3.3.5"
+arg RUBY_VERSION="3.4.2"
 
 from registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
 
-env BUNDLER_VERSION="2.5.16" \
+env BUNDLER_VERSION="2.6.7" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development" \
-    NODE_VERSION="22.5.1" \
-    NPM_VERSION="10.8.2" \
+    NODE_VERSION="23.11.0" \
+    NPM_VERSION="11.2.0" \
     PATH="/usr/local/node/bin:${PATH}" \
     RAILS_ENV="production" \
-    RUBY_INSTALL_VERSION="0.9.3"
+    RUBY_INSTALL_VERSION="0.10.1"
 
 run apt-get update
 run apt-get install -y \
