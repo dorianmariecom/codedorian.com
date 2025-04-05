@@ -87,7 +87,7 @@ class Code
 
         Notification.new
       rescue ::ActiveRecord::RecordInvalid, ::ActiveRecord::RecordNotSaved
-        raise Code::Error, "notification not saved"
+        raise ::Code::Error, "notification not saved"
       end
 
       def self.ios_app

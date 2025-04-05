@@ -91,7 +91,7 @@ class Code
           .tap(&:save!)
           .to_code
       rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
-        raise Code::Error, "message not saved"
+        raise ::Code::Error, "message not saved"
       end
 
       include ::Pundit::Authorization

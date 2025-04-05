@@ -35,7 +35,7 @@ class Code
           .first!
           .to_code
       rescue ActiveRecord::RecordNotFound
-        raise Code::Error, "user not found"
+        raise ::Code::Error, "user not found"
       end
 
       def self.scope_with_handles
