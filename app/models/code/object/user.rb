@@ -34,7 +34,11 @@ class Code
           .where(handles: { handle: code_value.to_s })
           .first!
           .to_code
-      rescue ActiveRecord::RecordNotFound
+      rescue ActiveRecord::RecordNotFound => e
+        if ::Current.admin?
+          raise ::Code::Error, "user not found (#{e.class}: #{e.message})"
+        end
+
         raise ::Code::Error, "user not found"
       end
 

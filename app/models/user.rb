@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :passwords, dependent: :destroy
   has_many :phone_numbers, dependent: :destroy
   has_many :programs, dependent: :destroy
+  has_many :repl_sessions, dependent: :destroy
   has_many :time_zones, dependent: :destroy
   has_many :tokens, dependent: :destroy
   has_many :sent_messages,

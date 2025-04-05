@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+  ERROR_MESSAGE_LIMIT = 140
+
   include Pundit::Authorization
   include CanConcern
 
@@ -31,19 +33,19 @@ class ApplicationController < ActionController::Base
   helper_method :can?
 
   rescue_from Pundit::NotAuthorizedError do |error|
-    redirect_to root_path, alert: error.message
+    redirect_to root_path, alert: error.message.first(ERROR_MESSAGE_LIMIT)
   end
 
   rescue_from ActiveRecord::RecordNotFound do |error|
-    redirect_to root_path, alert: error.message
+    redirect_to root_path, alert: error.message.first(ERROR_MESSAGE_LIMIT)
   end
 
   rescue_from ActionController::MissingExactTemplate do |error|
-    redirect_to root_path, alert: error.message
+    redirect_to root_path, alert: error.message.first(ERROR_MESSAGE_LIMIT)
   end
 
   rescue_from Recaptcha::VerifyError do |error|
-    redirect_to root_path, alert: error.message
+    redirect_to root_path, alert: error.message.first(ERROR_MESSAGE_LIMIT)
   end
 
   def registered?

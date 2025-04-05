@@ -86,7 +86,12 @@ class Code
         end
 
         Notification.new
-      rescue ::ActiveRecord::RecordInvalid, ::ActiveRecord::RecordNotSaved
+      rescue ::ActiveRecord::RecordInvalid, ::ActiveRecord::RecordNotSaved => e
+        if ::Current.admin?
+          raise ::Code::Error,
+                "notification not saved (#{e.class}: #{e.message})"
+        end
+
         raise ::Code::Error, "notification not saved"
       end
 

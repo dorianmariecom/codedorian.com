@@ -90,7 +90,11 @@ class Code
           )
           .tap(&:save!)
           .to_code
-      rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
+      rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved => e
+        if ::Current.admin?
+          raise ::Code::Error, "message not saved (#{e.class}: #{e.message})"
+        end
+
         raise ::Code::Error, "message not saved"
       end
 
