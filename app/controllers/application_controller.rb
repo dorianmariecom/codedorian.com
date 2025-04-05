@@ -113,6 +113,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def log_out(user)
+    return unless user == Current.user
+
+    Current.user = nil
+    reset_session
+  end
+
   def delete_link_header
     response.headers.delete("Link")
   end

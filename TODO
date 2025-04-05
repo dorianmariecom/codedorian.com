@@ -1,3 +1,7 @@
+- hide elements on keyboard open ios
+- foreground notifications android
+- menu
+- repl tab
 - badge
 - notification attached images
 - notification actions
@@ -5,5 +9,3 @@
 - notification contact image
 - search
 - delete all from search
-- menu
-- repl tab

@@ -70,7 +70,7 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy!
 
-    reset_session
+    log_out(@user)
 
     redirect_to root_path, notice: t(".notice")
   end
