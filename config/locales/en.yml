@@ -664,6 +664,8 @@ en:
       name: name
       new_repl_program: new repl program
       repl_programs: repl programs
+      new_repl_execution: new repl execution
+      repl_executions: repl executions
       updated_at: updated at
       user: user
     update:

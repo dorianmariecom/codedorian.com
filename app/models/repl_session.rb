@@ -19,7 +19,7 @@ class ReplSession < ApplicationRecord
   end
 
   def evaluate!
-    repl_programs.max_by(&:id)&.evaluate!
+    repl_programs.map(&:evaluate!)
   end
 
   def input

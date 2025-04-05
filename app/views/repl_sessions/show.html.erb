@@ -65,6 +65,14 @@
   <% end %>
 <% end %>
 
-<p class="p">
+<div class="p">
   <%= button_to(t(".evaluate_all"), [@repl_session, :evaluate], class: "button") %>
-</p>
+</div>
+
+<div class="p font-bold">
+  <%= link_to t(".repl_executions"), [@repl_session, :repl_executions], class: "link" %>
+</div>
+
+<%= render_collection partial: "repl_executions/repl_execution",
+                  collection: @repl_executions,
+                  as: :repl_execution %>

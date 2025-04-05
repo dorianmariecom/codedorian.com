@@ -27,6 +27,13 @@ class ReplSessionsController < ApplicationController
         .page(params[:page])
 
     @repl_program = @repl_programs.new
+
+    @repl_executions =
+      policy_scope(ReplExecution)
+        .joins(:repl_session)
+        .where(repl_session: { id: @repl_session })
+        .order(created_at: :desc)
+        .page(params[:page])
   end
 
   def new
