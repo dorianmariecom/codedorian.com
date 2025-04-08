@@ -9,7 +9,7 @@ GIT
 
 GIT
   remote: https://github.com/hotwired/turbo-rails
-  revision: 94767d3a84f470c2d0aec8c3f9e2e7c784bc8de7
+  revision: 3db32e42ff768fab58f03dcbe2e34bb0c85ec5e2
   specs:
     turbo-rails (2.0.13)
       actionpack (>= 7.1.0)
