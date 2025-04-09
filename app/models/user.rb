@@ -42,6 +42,30 @@ class User < ApplicationRecord
             },
             allow_blank: true
 
+  def self.verified!
+    ApplicationRecord.transaction do
+      find_each(&:verified!)
+    end
+  end
+
+  def self.admin!
+    ApplicationRecord.transaction do
+      find_each(&:admin!)
+    end
+  end
+
+  def self.not_verified!
+    ApplicationRecord.transaction do
+      find_each(&:not_verified!)
+    end
+  end
+
+  def self.not_admin!
+    ApplicationRecord.transaction do
+      find_each(&:not_admin!)
+    end
+  end
+
   def name
     names.verified.primary.first&.name || names.verified.first&.name
   end
