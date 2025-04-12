@@ -5,6 +5,7 @@ class ReplExecution < ApplicationRecord
   ERROR_SAMPLE_SIZE = Program::INPUT_SAMPLE_SIZE
   OUTPUT_SAMPLE_SIZE = Program::INPUT_SAMPLE_SIZE
   RESULT_SAMPLE_SIZE = Program::INPUT_SAMPLE_SIZE
+  OMISSION = "…"
 
   belongs_to :repl_program, touch: true
   has_one :repl_session, through: :repl_program
@@ -15,19 +16,19 @@ class ReplExecution < ApplicationRecord
   validate { can!(:update, repl_program) }
 
   def input_sample
-    input.to_s.truncate(INPUT_SAMPLE_SIZE, omission: "…").presence
+    input.to_s.truncate(INPUT_SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def output_sample
-    output.to_s.truncate(OUTPUT_SAMPLE_SIZE, omission: "…").presence
+    output.to_s.truncate(OUTPUT_SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def result_sample
-    result.to_s.truncate(RESULT_SAMPLE_SIZE, omission: "…").presence
+    result.to_s.truncate(RESULT_SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def error_sample
-    error.to_s.truncate(ERROR_SAMPLE_SIZE, omission: "…").presence
+    error.to_s.truncate(ERROR_SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def to_s

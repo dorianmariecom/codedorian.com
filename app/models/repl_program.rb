@@ -3,6 +3,7 @@
 class ReplProgram < ApplicationRecord
   INPUT_SAMPLE_SIZE = Program::INPUT_SAMPLE_SIZE
   TIMEOUT = Program::TIMEOUT
+  OMISSION = "…"
 
   belongs_to :repl_session, touch: true
   has_many :repl_executions, dependent: :destroy
@@ -75,7 +76,7 @@ class ReplProgram < ApplicationRecord
   end
 
   def input_sample
-    input.to_s.truncate(INPUT_SAMPLE_SIZE, omission: "…").presence
+    input.to_s.truncate(INPUT_SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def to_s

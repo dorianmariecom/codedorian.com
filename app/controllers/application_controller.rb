@@ -2,6 +2,7 @@
 
 class ApplicationController < ActionController::Base
   ERROR_MESSAGE_LIMIT = 140
+  OMISSION = "…"
 
   include Pundit::Authorization
   include CanConcern
@@ -33,19 +34,43 @@ class ApplicationController < ActionController::Base
   helper_method :can?
 
   rescue_from Pundit::NotAuthorizedError do |error|
-    redirect_to root_path, alert: error.message.first(ERROR_MESSAGE_LIMIT)
+    redirect_to root_path,
+                alert:
+                  error
+                    .message
+                    .to_s
+                    .truncate(INPUT_SAMPLE_SIZE, omission: OMISSION)
+                    .presence
   end
 
   rescue_from ActiveRecord::RecordNotFound do |error|
-    redirect_to root_path, alert: error.message.first(ERROR_MESSAGE_LIMIT)
+    redirect_to root_path,
+                alert:
+                  error
+                    .message
+                    .to_s
+                    .truncate(INPUT_SAMPLE_SIZE, omission: OMISSION)
+                    .presence
   end
 
   rescue_from ActionController::MissingExactTemplate do |error|
-    redirect_to root_path, alert: error.message.first(ERROR_MESSAGE_LIMIT)
+    redirect_to root_path,
+                alert:
+                  error
+                    .message
+                    .to_s
+                    .truncate(INPUT_SAMPLE_SIZE, omission: OMISSION)
+                    .presence
   end
 
   rescue_from Recaptcha::VerifyError do |error|
-    redirect_to root_path, alert: error.message.first(ERROR_MESSAGE_LIMIT)
+    redirect_to root_path,
+                alert:
+                  error
+                    .message
+                    .to_s
+                    .truncate(INPUT_SAMPLE_SIZE, omission: OMISSION)
+                    .presence
   end
 
   def registered?
@@ -70,8 +95,8 @@ class ApplicationController < ActionController::Base
     message = alert = t("application.current_user_required")
 
     respond_to do |format|
-      format.html { redirect_to(root_path, alert: alert) }
       format.json { render(json: { message: message }, status: :unauthorized) }
+      format.all { redirect_to(root_path, alert: alert) }
     end
   end
 

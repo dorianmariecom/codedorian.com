@@ -3,6 +3,7 @@
 class Program < ApplicationRecord
   TIMEOUT = 60
   INPUT_SAMPLE_SIZE = 140
+  OMISSION = "…"
 
   belongs_to :user, default: -> { Current.user! }, touch: true
 
@@ -96,7 +97,7 @@ class Program < ApplicationRecord
   end
 
   def input_sample
-    input.to_s.truncate(INPUT_SAMPLE_SIZE, omission: "…").presence
+    input.to_s.truncate(INPUT_SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def to_s
