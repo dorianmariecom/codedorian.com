@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module SolidErrors
-  class ErrorPolicy < ApplicationPolicy
+  class OccurrencePolicy < ApplicationPolicy
     class Scope < ApplicationPolicy::Scope
       def resolve
         admin? ? scope.all : scope.none

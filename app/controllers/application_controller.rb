@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
                   error
                     .message
                     .to_s
-                    .truncate(INPUT_SAMPLE_SIZE, omission: OMISSION)
+                    .truncate(ERROR_MESSAGE_LIMIT, omission: OMISSION)
                     .presence
   end
 
@@ -49,7 +49,7 @@ class ApplicationController < ActionController::Base
                   error
                     .message
                     .to_s
-                    .truncate(INPUT_SAMPLE_SIZE, omission: OMISSION)
+                    .truncate(ERROR_MESSAGE_LIMIT, omission: OMISSION)
                     .presence
   end
 
@@ -59,7 +59,7 @@ class ApplicationController < ActionController::Base
                   error
                     .message
                     .to_s
-                    .truncate(INPUT_SAMPLE_SIZE, omission: OMISSION)
+                    .truncate(ERROR_MESSAGE_LIMIT, omission: OMISSION)
                     .presence
   end
 
@@ -69,7 +69,7 @@ class ApplicationController < ActionController::Base
                   error
                     .message
                     .to_s
-                    .truncate(INPUT_SAMPLE_SIZE, omission: OMISSION)
+                    .truncate(ERROR_MESSAGE_LIMIT, omission: OMISSION)
                     .presence
   end
 

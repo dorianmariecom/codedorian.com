@@ -125,6 +125,7 @@ en:
       admin: admin
       documentation: documentation
       english: english
+      errors: errors
       french: french
       log_in: log in
       log_out: log out
@@ -133,7 +134,6 @@ en:
       programs: programs
       register: register
       repl_sessions: repl
-      errors: errors
       source: source
       terms: terms
       title: code
@@ -216,14 +216,46 @@ en:
       verified: verified?
     update:
       notice: email address updated
-  errors:
+  error_occurrences:
+    destroy:
+      notice: error occurrence deleted
+    destroy_all:
+      notice: error occurrences deleted
     index:
-      title: errors
       delete_all: delete all
+      title: error occurrences
+    show:
+      app_backtrace: app backtrace
+      context: context
+      created_at: created at
+      delete: delete error occurrence
+      error: error
+      full_backtrace: full backtrace
+      id: id
+      updated_at: updated at
+  errors:
+    destroy:
+      notice: error deleted
+    destroy_all:
+      notice: errors deleted
+    index:
+      delete_all: delete all
+      title: errors
     internal_server_error:
       title: internal server error
     not_found:
       title: not found
+    show:
+      created_at: created at
+      delete: delete error
+      error_occurrences: error occurrences
+      exception_class: exception class
+      id: id
+      message: message
+      severity: severity
+      source: source
+      updated_at: updated at
+      verified: verified?
     unprocessable_entity:
       title: unprocessable entity
   executions:
@@ -314,9 +346,9 @@ en:
         display_entries: "%{total} found"
       one_page:
         display_entries:
-          one: one found
+          one: 1 found
           other: "%{count} found"
-          zero: none found
+          zero: 0 found
   layouts:
     application:
       js:
@@ -809,6 +841,7 @@ en:
       admin: admin
       documentation: documentation
       english: english
+      errors: errors
       french: french
       log_in: log in
       log_out: log out
@@ -817,7 +850,6 @@ en:
       programs: programs
       register: register
       repl_sessions: repl
-      errors: errors
       source: source
       terms: terms
       title: more

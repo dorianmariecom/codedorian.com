@@ -1,1 +1,5 @@
-<div class="p"><%= link_to error.message, error_path(error), class: "link" %></div>
+<div class="p">
+  <%= link_to error.message.truncate(message_limit, omission: omission),
+          error_path(error),
+          class: "link" %>
+</div>

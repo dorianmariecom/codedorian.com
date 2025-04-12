@@ -125,6 +125,7 @@ fr:
       admin: administrateur
       documentation: documentation
       english: anglais
+      errors: erreurs
       french: français
       log_in: se connecter
       log_out: se déconnecter
@@ -215,11 +216,46 @@ fr:
       verified: vérifiée ?
     update:
       notice: adresse e-mail mise à jour
+  error_occurrences:
+    destroy:
+      notice: occurrence d'erreur supprimée
+    destroy_all:
+      notice: occurrences d'erreur supprimées
+    index:
+      delete_all: supprimer tout
+      title: occurrences d'erreurs
+    show:
+      app_backtrace: trace d'application
+      context: contexte
+      created_at: créé à
+      delete: supprimer l'occurrence d'erreur
+      error: erreur
+      full_backtrace: trace complète
+      id: identifiant
+      updated_at: mis à jour à
   errors:
+    destroy:
+      notice: erreur supprimée
+    destroy_all:
+      notice: erreurs supprimées
+    index:
+      delete_all: supprimer tout
+      title: erreurs
     internal_server_error:
       title: erreur interne du serveur
     not_found:
       title: non trouvé
+    show:
+      created_at: créé à
+      delete: supprimer erreur
+      error_occurrences: occurrences d'erreurs
+      exception_class: classe d'exception
+      id: identifiant
+      message: message
+      severity: gravité
+      source: source
+      updated_at: mis à jour à
+      verified: vérifié ?
     unprocessable_entity:
       title: entité non traitable
   executions:
@@ -310,9 +346,9 @@ fr:
         display_entries: "%{total} trouvés"
       one_page:
         display_entries:
-          one: un trouvé
+          one: 1 trouvé
           other: "%{count} trouvés"
-          zero: aucun trouvé
+          zero: 0 trouvé
   layouts:
     application:
       js:
@@ -662,7 +698,9 @@ fr:
       evaluate_all: évaluer tout
       id: identifiant
       name: nom
+      new_repl_execution: nouvelle exécution de repl
       new_repl_program: nouveau programme repl
+      repl_executions: exécutions de repl
       repl_programs: programmes repl
       updated_at: mis à jour à
       user: utilisateur
@@ -803,6 +841,7 @@ fr:
       admin: administrateur
       documentation: documentation
       english: anglais
+      errors: erreurs
       french: français
       log_in: se connecter
       log_out: se déconnecter

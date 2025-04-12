@@ -52,36 +52,14 @@ class ExecutionsController < ApplicationController
   end
 
   def scope
-    if @user && @program
-      policy_scope(Execution).joins(:program).where(
-        program: {
-          id: @program,
-          user_id: @user.id
-        }
-      )
-    elsif @user
-      policy_scope(Execution).joins(:program).where(
-        program: {
-          user_id: @user.id
-        }
-      )
-    elsif @program
-      policy_scope(Execution).where(program: @program)
-    else
-      policy_scope(Execution)
-    end
+    scope = policy_scope(Execution)
+    scope = scope.where(program: @program) if @program
+    scope = scope.joins(:user).where(user: { id: @user }) if @user
+    scope
   end
 
   def url
-    if @user && @program
-      [@user, @program, :executions]
-    elsif @user
-      [@user, :executions]
-    elsif @program
-      [@program, :executions]
-    else
-      executions_path
-    end
+    [@user, @program, :executions].compact
   end
 
   def id

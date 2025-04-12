@@ -2,6 +2,7 @@
 
 class ReplSession < ApplicationRecord
   INPUT_SAMPLE_SIZE = Program::INPUT_SAMPLE_SIZE
+  OMISSION = "…"
 
   belongs_to :user, default: -> { Current.user! }, touch: true
 

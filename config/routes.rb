@@ -107,13 +107,13 @@ Rails.application.routes.draw do
       resources(:errors) do
         collection { delete "/", to: "errors#destroy_all" }
 
-        resources(:error_occurences) do
-          collection { delete "/", to: "guests#destroy_all" }
+        resources(:error_occurrences) do
+          collection { delete "/", to: "error_occurrences#destroy_all" }
         end
       end
 
-      resources(:error_occurences) do
-        collection { delete "/", to: "guests#destroy_all" }
+      resources(:error_occurrences) do
+        collection { delete "/", to: "error_occurrences#destroy_all" }
       end
 
       resources(:guests) { collection { delete "/", to: "guests#destroy_all" } }

@@ -1,0 +1,11 @@
+<%= turbo_stream_from @error_occurrences %>
+
+<% if @error_occurrences.any? %>
+  <div class="p">
+    <%= button_to t(".delete_all"), url, method: :delete, class: "button button--link" %>
+  </div>
+<% end %>
+
+<%= render_collection partial: "error_occurrences/error_occurrence",
+                  collection: @error_occurrences,
+                  as: :error_occurrence %>

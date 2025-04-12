@@ -1,0 +1,62 @@
+<% content_for(:title, @error.message.truncate(message_limit, omission: omission)) %>
+
+<%= turbo_stream_from @error %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".id") %></div>
+  <div class="font-bold"><%= @error.id %></div>
+</div>
+
+<% if @error.exception_class.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".exception_class") %></div>
+    <div class="font-bold"><%= @error.exception_class %></div>
+  </div>
+<% end %>
+
+<% if @error.message.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".message") %></div>
+    <div class="font-bold"><%= @error.message %></div>
+  </div>
+<% end %>
+
+<% if @error.severity.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".severity") %></div>
+    <div class="font-bold"><%= @error.severity %></div>
+  </div>
+<% end %>
+
+<% if @error.source.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".source") %></div>
+    <div class="font-bold"><%= @error.source %></div>
+  </div>
+<% end %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".updated_at") %></div>
+  <div class="font-bold"><%= local_time(@error.updated_at) %></div>
+</div>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".created_at") %></div>
+  <div class="font-bold"><%= local_time(@error.created_at) %></div>
+</div>
+
+<div class="p">
+  <%= button_to t(".delete"),
+            @error,
+            method: :delete,
+            class: "button button--link",
+            form_class: "inline-block" %>
+</div>
+
+<div class="p font-bold">
+  <%= link_to t(".error_occurrences"), [@error, :error_occurrences], class: "link" %>
+</div>
+
+<%= render_collection partial: "error_occurrences/error_occurrence",
+                  collection: @error_occurrences,
+                  as: :error_occurrence %>

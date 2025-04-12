@@ -2,12 +2,13 @@
 
 class ErrorsController < ApplicationController
   EXCEPTIONS = %i[not_found internal_server_error unprocessable_entity].freeze
+  MESSAGE_LIMIT = 140
 
   before_action :load_user
   before_action :load_error, only: %i[show destroy]
   skip_after_action :verify_authorized, only: EXCEPTIONS
   skip_after_action :verify_policy_scoped, only: EXCEPTIONS
-  helper_method :url
+  helper_method :url, :message_limit, :omission
 
   def index
     authorize SolidErrors::Error
@@ -16,6 +17,11 @@ class ErrorsController < ApplicationController
   end
 
   def show
+    @error_occurrences =
+      policy_scope(SolidErrors::Occurrence)
+        .where(error: @error)
+        .page(params[:page])
+        .order(created_at: :desc)
   end
 
   def destroy
@@ -29,7 +35,7 @@ class ErrorsController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(url, notice: t(".notice"))
   end
 
   def not_found
@@ -96,5 +102,13 @@ class ErrorsController < ApplicationController
 
   def url
     [@user, :errors].compact
+  end
+
+  def message_limit
+    MESSAGE_LIMIT
+  end
+
+  def omission
+    OMISSION
   end
 end

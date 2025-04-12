@@ -1,0 +1,79 @@
+<% content_for(:title) do %>
+  <%= local_time(@error_occurrence.created_at) %>
+<% end %>
+
+<%= turbo_stream_from @error_occurrence %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".id") %></div>
+  <div class="font-bold"><%= @error_occurrence.id %></div>
+</div>
+
+<% if @error_occurrence.error.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".error") %></div>
+
+    <% if can?(:show, @error_occurrence.error) %>
+      <div class="font-bold">
+        <%= link_to @error_occurrence.error.message.to_s.truncate(
+                  message_limit,
+                  omission: omission
+                ),
+                error_path(@error_occurrence.error),
+                class: "link" %>
+      </div>
+    <% else %>
+      <div class="font-bold">
+        <%= @error_occurrence.error.message.to_s.truncate(message_limit, omission: omission) %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @error_occurrence.context.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".context") %></div>
+    <div class="code">
+      <%= JSON.pretty_generate(@error_occurrence.context) %>
+    </div>
+  </div>
+<% end %>
+
+<% if @error_occurrence.backtrace.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".app_backtrace") %></div>
+    <div class="code">
+      <%= @error_occurrence
+        .backtrace
+        .lines
+        .grep(/#{Rails.root}/)
+        .map { |line| line.gsub("#{Rails.root}/", "") }
+        .join %>
+    </div>
+  </div>
+<% end %>
+
+<% if @error_occurrence.backtrace.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".full_backtrace") %></div>
+    <div class="code"><%= @error_occurrence.backtrace %></div>
+  </div>
+<% end %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".updated_at") %></div>
+  <div class="font-bold"><%= local_time(@error_occurrence.updated_at) %></div>
+</div>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".created_at") %></div>
+  <div class="font-bold"><%= local_time(@error_occurrence.created_at) %></div>
+</div>
+
+<div class="p">
+  <%= button_to t(".delete"),
+            error_occurrence_path(@error_occurrence),
+            method: :delete,
+            class: "button button--link",
+            form_class: "inline-block" %>
+</div>
