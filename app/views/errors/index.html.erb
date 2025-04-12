@@ -1,0 +1,11 @@
+<%= turbo_stream_from @errors %>
+
+<% if @errors.any? %>
+  <div class="p">
+    <%= button_to t(".delete_all"), url, method: :delete, class: "button button--link" %>
+  </div>
+<% end %>
+
+<%= render_collection partial: "errors/error",
+                  collection: @errors,
+                  as: :error %>

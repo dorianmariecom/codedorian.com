@@ -104,11 +104,11 @@ class ProgramsController < ApplicationController
   end
 
   def url
-    @user ? [@user, :programs] : programs_path
+    [@user, :programs].compact
   end
 
   def new_url
-    @user ? [:new, @user, :program] : new_program_path
+    [:new, @user, :program].compact
   end
 
   def id

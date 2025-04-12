@@ -7,5 +7,13 @@ module SolidErrors
         admin? ? scope.all : scope.none
       end
     end
+
+    def index?
+      admin?
+    end
+
+    def show?
+      admin?
+    end
   end
 end

@@ -104,6 +104,18 @@ Rails.application.routes.draw do
         collection { delete "/", to: "addresses#destroy_all" }
       end
 
+      resources(:errors) do
+        collection { delete "/", to: "errors#destroy_all" }
+
+        resources(:error_occurences) do
+          collection { delete "/", to: "guests#destroy_all" }
+        end
+      end
+
+      resources(:error_occurences) do
+        collection { delete "/", to: "guests#destroy_all" }
+      end
+
       resources(:guests) { collection { delete "/", to: "guests#destroy_all" } }
       resources(:names) { collection { delete "/", to: "names#destroy_all" } }
       resources(:tokens) { collection { delete "/", to: "tokens#destroy_all" } }
@@ -113,11 +125,6 @@ Rails.application.routes.draw do
   default_url_options(host: ENV.fetch("BASE_URL"))
 
   scope "(:locale)", locale: /en|fr|/ do
-    constraints AdminConstraints.new do
-      mount SolidErrors::Engine, at: "/errors", as: :errors
-      mount MissionControl::Jobs::Engine, at: "/jobs", as: :jobs
-    end
-
     resources(:guests, &define)
     resources(:users) do
       define.call

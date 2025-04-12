@@ -133,6 +133,7 @@ en:
       programs: programs
       register: register
       repl_sessions: repl
+      errors: errors
       source: source
       terms: terms
       title: code
@@ -216,6 +217,9 @@ en:
     update:
       notice: email address updated
   errors:
+    index:
+      title: errors
+      delete_all: delete all
     internal_server_error:
       title: internal server error
     not_found:
@@ -813,6 +817,7 @@ en:
       programs: programs
       register: register
       repl_sessions: repl
+      errors: errors
       source: source
       terms: terms
       title: more

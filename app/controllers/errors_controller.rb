@@ -1,8 +1,36 @@
 # frozen_string_literal: true
 
 class ErrorsController < ApplicationController
-  skip_after_action :verify_authorized
-  skip_after_action :verify_policy_scoped
+  EXCEPTIONS = %i[not_found internal_server_error unprocessable_entity].freeze
+
+  before_action :load_user
+  before_action :load_error, only: %i[show destroy]
+  skip_after_action :verify_authorized, only: EXCEPTIONS
+  skip_after_action :verify_policy_scoped, only: EXCEPTIONS
+  helper_method :url
+
+  def index
+    authorize SolidErrors::Error
+
+    @errors = scope.page(params[:page]).order(created_at: :desc)
+  end
+
+  def show
+  end
+
+  def destroy
+    @error.destroy!
+
+    redirect_to(url, notice: t(".notice"))
+  end
+
+  def destroy_all
+    authorize SolidErrors::Error
+
+    scope.destroy_all
+
+    redirect_back_or_to(url)
+  end
 
   def not_found
     @exception = request.env["action_dispatch.exception"]
@@ -46,5 +74,27 @@ class ErrorsController < ApplicationController
       format.html { render status: :unprocessable_entity }
       format.all { redirect_to root_path, alert: t(".title") }
     end
+  end
+
+  private
+
+  def load_user
+    if params[:user_id] == "me"
+      @user = policy_scope(User).find(current_user&.id)
+    elsif params[:user_id].present?
+      @user = policy_scope(User).find(params[:user_id])
+    end
+  end
+
+  def load_error
+    @error = authorize scope.find(params[:error_id].presence || params[:id])
+  end
+
+  def scope
+    policy_scope(SolidErrors::Error)
+  end
+
+  def url
+    [@user, :errors].compact
   end
 end
