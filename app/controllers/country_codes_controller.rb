@@ -11,7 +11,7 @@ class CountryCodesController < ApplicationController
     response = Net::HTTP.get_response(uri)
     json = JSON.parse(response.body)
     country_code = json["country"].presence || PhoneNumber::DEFAULT_COUNTRY_CODE
-    render json: { country_code: }
+    render json: { country_code: country_code }
   end
 
   private

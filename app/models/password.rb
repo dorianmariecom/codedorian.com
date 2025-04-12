@@ -63,6 +63,6 @@ class Password < ApplicationRecord
   end
 
   def to_s
-    hint.presence || t("to_s", id:)
+    hint.presence || t("to_s", id: id)
   end
 end

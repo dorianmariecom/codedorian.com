@@ -183,7 +183,12 @@ module ApplicationHelper
   end
 
   def render_collection(partial:, collection:, as:)
-    render("shared/collection", partial:, collection:, as:)
+    render(
+      "shared/collection",
+      partial: partial,
+      collection: collection,
+      as: as
+    )
   end
 
   def turbo_stream_from(first, *streamables, **attributes)

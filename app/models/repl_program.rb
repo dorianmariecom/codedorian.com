@@ -29,21 +29,28 @@ class ReplProgram < ApplicationRecord
   def evaluate!
     return if previous_repl_execution!&.error.present?
 
-    Current.with(user:) do
+    Current.with(user: user) do
       context = previous_context!
       output = StringIO.new
       error = StringIO.new
-      result = Code.evaluate(input, context:, output:, error:, timeout: TIMEOUT)
+      result =
+        Code.evaluate(
+          input,
+          context: context,
+          output: output,
+          error: error,
+          timeout: TIMEOUT
+        )
       repl_executions.create!(
-        input:,
+        input: input,
         result: result.to_s,
         output: output.string,
         error: error.string,
-        context:
+        context: context
       )
     rescue Code::Error, Timeout::Error => e
       repl_executions.create!(
-        input:,
+        input: input,
         result: nil,
         output: nil,
         error: "#{e.class}: #{e.message}"
@@ -72,6 +79,6 @@ class ReplProgram < ApplicationRecord
   end
 
   def to_s
-    input_sample.presence || t("to_s", id:)
+    input_sample.presence || t("to_s", id: id)
   end
 end

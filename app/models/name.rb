@@ -60,6 +60,6 @@ class Name < ApplicationRecord
   end
 
   def to_s
-    full_name.presence || t("to_s", id:)
+    full_name.presence || t("to_s", id: id)
   end
 end

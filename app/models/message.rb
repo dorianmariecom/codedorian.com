@@ -59,10 +59,10 @@ class Message < ApplicationRecord
   end
 
   def to_s
-    subject&.to_plain_text.presence || t("to_s", id:)
+    subject&.to_plain_text.presence || t("to_s", id: id)
   end
 
   def to_code
-    Code::Object::Message.new(id:)
+    Code::Object::Message.new(id: id)
   end
 end

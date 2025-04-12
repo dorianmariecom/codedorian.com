@@ -66,6 +66,6 @@ class PhoneNumber < ApplicationRecord
   end
 
   def to_s
-    formatted.presence || t("to_s", id:)
+    formatted.presence || t("to_s", id: id)
   end
 end

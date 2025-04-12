@@ -80,6 +80,6 @@ class Address < ApplicationRecord
   end
 
   def to_s
-    address.presence || t("to_s", id:)
+    address.presence || t("to_s", id: id)
   end
 end

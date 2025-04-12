@@ -47,6 +47,6 @@ class Handle < ApplicationRecord
   end
 
   def to_s
-    handle.presence || t("to_s", id:)
+    handle.presence || t("to_s", id: id)
   end
 end

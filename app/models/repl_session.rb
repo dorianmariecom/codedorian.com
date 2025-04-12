@@ -31,6 +31,6 @@ class ReplSession < ApplicationRecord
   end
 
   def to_s
-    name.presence || input_sample.presence || t("to_s", id:)
+    name.presence || input_sample.presence || t("to_s", id: id)
   end
 end

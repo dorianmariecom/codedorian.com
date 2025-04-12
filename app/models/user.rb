@@ -43,27 +43,19 @@ class User < ApplicationRecord
             allow_blank: true
 
   def self.verified!
-    ApplicationRecord.transaction do
-      find_each(&:verified!)
-    end
+    ApplicationRecord.transaction { find_each(&:verified!) }
   end
 
   def self.admin!
-    ApplicationRecord.transaction do
-      find_each(&:admin!)
-    end
+    ApplicationRecord.transaction { find_each(&:admin!) }
   end
 
   def self.not_verified!
-    ApplicationRecord.transaction do
-      find_each(&:not_verified!)
-    end
+    ApplicationRecord.transaction { find_each(&:not_verified!) }
   end
 
   def self.not_admin!
-    ApplicationRecord.transaction do
-      find_each(&:not_admin!)
-    end
+    ApplicationRecord.transaction { find_each(&:not_admin!) }
   end
 
   def name
@@ -188,10 +180,10 @@ class User < ApplicationRecord
   def to_s
     handle.presence || name.presence || email_address.presence ||
       phone_number.presence || address.presence || device.presence ||
-      token.presence || t("to_s", id:)
+      token.presence || t("to_s", id: id)
   end
 
   def to_code
-    Code::Object::User.new(id:)
+    Code::Object::User.new(id: id)
   end
 end

@@ -16,19 +16,20 @@ class Program < ApplicationRecord
   before_validation { self.user ||= Current.user! }
 
   def evaluate!
-    Current.with(user:) do
+    Current.with(user: user) do
       output = StringIO.new
       error = StringIO.new
-      result = Code.evaluate(input, output:, error:, timeout: TIMEOUT)
+      result =
+        Code.evaluate(input, output: output, error: error, timeout: TIMEOUT)
       executions.create!(
-        input:,
+        input: input,
         result: result.to_s,
         output: output.string,
         error: error.string
       )
     rescue Code::Error, Timeout::Error => e
       executions.create!(
-        input:,
+        input: input,
         result: nil,
         output: nil,
         error: "#{e.class}: #{e.message}"
@@ -99,6 +100,6 @@ class Program < ApplicationRecord
   end
 
   def to_s
-    name.presence || input_sample.presence || t("to_s", id:)
+    name.presence || input_sample.presence || t("to_s", id: id)
   end
 end

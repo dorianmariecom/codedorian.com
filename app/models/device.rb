@@ -67,6 +67,6 @@ class Device < ApplicationRecord
   end
 
   def to_s
-    platform.presence || t("to_s", id:)
+    platform.presence || t("to_s", id: id)
   end
 end

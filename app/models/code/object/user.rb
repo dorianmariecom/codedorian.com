@@ -55,7 +55,7 @@ class Code
       end
 
       def user
-        scope.find_by(id:)
+        scope.find_by(id: id)
       end
 
       def user!

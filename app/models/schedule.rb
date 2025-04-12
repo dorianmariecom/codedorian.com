@@ -70,7 +70,7 @@ class Schedule < ApplicationRecord
       count = interval == "once" ? 0 : interval.split.first.to_i
       per = interval == "once" ? "once" : interval.split.last.pluralize
 
-      [t(per, count:), interval]
+      [t(per, count: count), interval]
     end
   end
 
@@ -97,7 +97,7 @@ class Schedule < ApplicationRecord
   end
 
   def translated_interval
-    t(per, count:)
+    t(per, count: count)
   end
 
   def next_at
@@ -119,6 +119,6 @@ class Schedule < ApplicationRecord
   end
 
   def to_s
-    t("to_s", id:)
+    t("to_s", id: id)
   end
 end

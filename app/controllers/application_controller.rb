@@ -70,8 +70,8 @@ class ApplicationController < ActionController::Base
     message = alert = t("application.current_user_required")
 
     respond_to do |format|
-      format.html { redirect_to(root_path, alert:) }
-      format.json { render(json: { message: }, status: :unauthorized) }
+      format.html { redirect_to(root_path, alert: alert) }
+      format.json { render(json: { message: message }, status: :unauthorized) }
     end
   end
 

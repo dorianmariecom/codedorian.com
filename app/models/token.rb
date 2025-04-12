@@ -49,6 +49,6 @@ class Token < ApplicationRecord
   end
 
   def to_s
-    token.presence || t("to_s", id:)
+    token.presence || t("to_s", id: id)
   end
 end
