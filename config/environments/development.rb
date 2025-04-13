@@ -25,6 +25,5 @@ Rails.application.configure do
   config.enable_reloading = true
   config.i18n.raise_on_missing_translations = true
   config.server_timing = true
-  config.action_mailer.smtp_settings =
-    Config.smtp_settings
+  config.action_mailer.smtp_settings = Config.smtp_settings
 end
