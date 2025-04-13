@@ -27,3 +27,5 @@ class Code
     config.i18n.available_locales = %i[en fr]
   end
 end
+
+Config = Rails.application.credentials.to_h.to_deep_struct

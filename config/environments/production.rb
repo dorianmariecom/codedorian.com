@@ -22,7 +22,7 @@ Rails.application.configure do
   config.solid_errors.email_to = "dorian@dorianmarie.com"
   config.solid_errors.send_emails = true
   config.action_mailer.smtp_settings =
-    Rails.application.credentials.smtp_settings
+    Config.smtp_settings
   config.logger =
     ActiveSupport::Logger
       .new($stdout)

@@ -13,7 +13,7 @@ module ApplicationHelper
   end
 
   def google_maps_api_key
-    Rails.application.credentials.google.maps.api_key
+    Config.google.maps.api_key
   end
 
   def time_zone_options(time_zone: nil)
@@ -120,7 +120,7 @@ module ApplicationHelper
   end
 
   def recaptcha_site_key
-    Rails.application.credentials.google.recaptcha.site_key
+    Config.google.recaptcha.site_key
   end
 
   def recaptcha_tag(action:)

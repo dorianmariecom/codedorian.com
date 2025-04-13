@@ -99,6 +99,47 @@ class User < ApplicationRecord
     tokens.verified.primary.first&.token || tokens.verified.first&.token
   end
 
+  def unverified_name
+    names.primary.first&.name || names.first&.name
+  end
+
+  def unverified_address
+    addresses.primary.first&.address ||
+      addresses.first&.address
+  end
+
+  def unverified_handle
+    handles.primary.first&.handle || handles.first&.handle
+  end
+
+  def unverified_password
+    passwords.primary.first&.password ||
+      passwords.first&.password
+  end
+
+  def unverified_email_address
+    email_addresses.primary.first&.email_address ||
+      email_addresses.first&.email_address
+  end
+
+  def unverified_phone_number
+    phone_numbers.primary.first&.phone_number ||
+      phone_numbers.first&.phone_number
+  end
+
+  def unverified_time_zone
+    time_zones.primary.first&.time_zone ||
+      time_zones.first&.time_zone
+  end
+
+  def unverified_device
+    devices.primary.first&.device || devices.first&.device
+  end
+
+  def unverified_token
+    tokens.primary.first&.token || tokens.first&.token
+  end
+
   def verified!
     update!(verified: true)
     addresses.update!(verified: true)
@@ -181,6 +222,12 @@ class User < ApplicationRecord
     handle.presence || name.presence || email_address.presence ||
       phone_number.presence || address.presence || device.presence ||
       token.presence || t("to_s", id: id)
+  end
+
+  def to_unverified_s
+    unverified_handle.presence || unverified_name.presence || unverified_email_address.presence ||
+      unverified_phone_number.presence || unverified_address.presence || unverified_device.presence ||
+      unverified_token.presence || t("to_s", id: id)
   end
 
   def to_code

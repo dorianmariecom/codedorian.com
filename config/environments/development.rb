@@ -26,5 +26,5 @@ Rails.application.configure do
   config.i18n.raise_on_missing_translations = true
   config.server_timing = true
   config.action_mailer.smtp_settings =
-    Rails.application.credentials.smtp_settings
+    Config.smtp_settings
 end

@@ -17,6 +17,6 @@ class CountryCodesController < ApplicationController
   private
 
   def token
-    Rails.application.credentials.ipinfo.token
+    Config.ipinfo.token
   end
 end

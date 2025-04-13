@@ -22,6 +22,7 @@ class ApplicationController < ActionController::Base
   skip_before_action :verify_captcha, if: :mission_control_controller?
   skip_after_action :verify_authorized, if: :mission_control_controller?
   skip_after_action :verify_policy_scoped, if: :mission_control_controller?
+  around_action :set_error_context
 
   helper_method :current_user
   helper_method :current_guest
@@ -190,15 +191,15 @@ class ApplicationController < ActionController::Base
   end
 
   def recaptcha_site_key
-    Rails.application.credentials.google.recaptcha.site_key
+    Config.google.recaptcha.site_key
   end
 
   def recaptcha_api_key
-    Rails.application.credentials.google.recaptcha.api_key
+    Config.google.recaptcha.api_key
   end
 
   def recaptcha_project_id
-    Rails.application.credentials.google.recaptcha.project_id
+    Config.google.recaptcha.project_id
   end
 
   def verify_captcha
@@ -210,6 +211,19 @@ class ApplicationController < ActionController::Base
       site_key: recaptcha_site_key,
       enterprise_api_key: recaptcha_api_key,
       enterprise_project_id: recaptcha_project_id
+    )
+  end
+
+  def set_error_context(&block)
+    Rails.error.handle(
+      context: {
+        registered?: registered?,
+        user_id: Current.user.id,
+        user_to_s: Current.user.to_s,
+        user_to_unverified_s: Current.user.to_unverified_s,
+        user_admin?: Current.admin?
+      },
+      &block
     )
   end
 end
