@@ -18,7 +18,10 @@ class PhoneNumbersController < ApplicationController
 
   def new
     @phone_number =
-      authorize scope.new(primary: current_user.phone_numbers.none?)
+      authorize scope.new(
+                  user: @user,
+                  primary: user_or_guest.phone_numbers.none?
+                )
   end
 
   def edit
@@ -70,6 +73,10 @@ class PhoneNumbersController < ApplicationController
     end
   end
 
+  def user_or_guest
+    @user || Guest.new
+  end
+
   def scope
     if @user
       policy_scope(PhoneNumber).where(user: @user)
@@ -79,11 +86,11 @@ class PhoneNumbersController < ApplicationController
   end
 
   def url
-    @user ? [@user, :phone_numbers] : phone_numbers_path
+    [@user, :phone_numbers].compact
   end
 
   def new_url
-    @user ? [:new, @user, :phone_number] : new_phone_number_path
+    [:new, @user, :phone_number].compact
   end
 
   def id

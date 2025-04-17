@@ -34,45 +34,18 @@ class ApplicationController < ActionController::Base
   helper_method :admin?
   helper_method :can?
 
-  rescue_from Pundit::NotAuthorizedError do |error|
-    redirect_to root_path,
-                alert:
-                  error
-                    .message
-                    .to_s
-                    .truncate(ERROR_MESSAGE_LIMIT, omission: OMISSION)
-                    .presence
-  end
+  REDIRECT_ERROR =
+    lambda do |error|
+      message = error&.message.presence.to_s
+      message_truncated =
+        message.truncate(ERROR_MESSAGE_LIMIT, omission: OMISSION)
+      redirect_to(root_path, alert: message_truncated.presence)
+    end
 
-  rescue_from ActiveRecord::RecordNotFound do |error|
-    redirect_to root_path,
-                alert:
-                  error
-                    .message
-                    .to_s
-                    .truncate(ERROR_MESSAGE_LIMIT, omission: OMISSION)
-                    .presence
-  end
-
-  rescue_from ActionController::MissingExactTemplate do |error|
-    redirect_to root_path,
-                alert:
-                  error
-                    .message
-                    .to_s
-                    .truncate(ERROR_MESSAGE_LIMIT, omission: OMISSION)
-                    .presence
-  end
-
-  rescue_from Recaptcha::VerifyError do |error|
-    redirect_to root_path,
-                alert:
-                  error
-                    .message
-                    .to_s
-                    .truncate(ERROR_MESSAGE_LIMIT, omission: OMISSION)
-                    .presence
-  end
+  rescue_from Pundit::NotAuthorizedError, &REDIRECT_ERROR
+  rescue_from ActiveRecord::RecordNotFound, &REDIRECT_ERROR
+  rescue_from ActionController::MissingExactTemplate, &REDIRECT_ERROR
+  rescue_from Recaptcha::VerifyError, &REDIRECT_ERROR
 
   def registered?
     current_user?
@@ -218,9 +191,9 @@ class ApplicationController < ActionController::Base
     Rails.error.handle(
       context: {
         registered?: registered?,
-        user_id: Current.user.id,
-        user_to_s: Current.user.to_s,
-        user_to_unverified_s: Current.user.to_unverified_s,
+        user_id: Current.user&.id,
+        user_to_s: Current.user&.to_s,
+        user_to_unverified_s: Current.user&.to_unverified_s,
         user_admin?: Current.admin?
       },
       &block

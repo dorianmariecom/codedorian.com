@@ -17,7 +17,8 @@ class TokensController < ApplicationController
   end
 
   def new
-    @token = authorize scope.new
+    @token =
+      authorize scope.new(user: @user, primary: user_or_guest.tokens.none?)
   end
 
   def edit
@@ -69,16 +70,20 @@ class TokensController < ApplicationController
     end
   end
 
+  def user_or_guest
+    @user || Guest.new
+  end
+
   def scope
     @user ? policy_scope(Token).where(user: @user) : policy_scope(Token)
   end
 
   def url
-    @user ? [@user, :tokens] : tokens_path
+    [@user, :tokens].compact
   end
 
   def new_url
-    @user ? [:new, @user, :token] : new_token_path
+    [:new, @user, :token].compact
   end
 
   def id

@@ -6,6 +6,8 @@ require "rails/all"
 
 Bundler.require(*Rails.groups)
 
+require_relative "../lib/middleware/errors"
+
 class Code
   class Application < Rails::Application
     config.load_defaults 8.1
@@ -25,6 +27,7 @@ class Code
     }
     config.i18n.default_locale = :en
     config.i18n.available_locales = %i[en fr]
+    config.middleware.insert_before 0, Middleware::Errors
   end
 end
 

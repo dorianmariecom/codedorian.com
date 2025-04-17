@@ -104,8 +104,7 @@ class User < ApplicationRecord
   end
 
   def unverified_address
-    addresses.primary.first&.address ||
-      addresses.first&.address
+    addresses.primary.first&.address || addresses.first&.address
   end
 
   def unverified_handle
@@ -113,8 +112,7 @@ class User < ApplicationRecord
   end
 
   def unverified_password
-    passwords.primary.first&.password ||
-      passwords.first&.password
+    passwords.primary.first&.password || passwords.first&.password
   end
 
   def unverified_email_address
@@ -128,8 +126,7 @@ class User < ApplicationRecord
   end
 
   def unverified_time_zone
-    time_zones.primary.first&.time_zone ||
-      time_zones.first&.time_zone
+    time_zones.primary.first&.time_zone || time_zones.first&.time_zone
   end
 
   def unverified_device
@@ -225,8 +222,9 @@ class User < ApplicationRecord
   end
 
   def to_unverified_s
-    unverified_handle.presence || unverified_name.presence || unverified_email_address.presence ||
-      unverified_phone_number.presence || unverified_address.presence || unverified_device.presence ||
+    unverified_handle.presence || unverified_name.presence ||
+      unverified_email_address.presence || unverified_phone_number.presence ||
+      unverified_address.presence || unverified_device.presence ||
       unverified_token.presence || t("to_s", id: id)
   end
 

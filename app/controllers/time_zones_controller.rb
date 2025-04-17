@@ -17,7 +17,8 @@ class TimeZonesController < ApplicationController
   end
 
   def new
-    @time_zone = authorize scope.new
+    @time_zone =
+      authorize scope.new(user: @user, primary: user_or_guest.time_zones.none?)
   end
 
   def edit
@@ -69,16 +70,20 @@ class TimeZonesController < ApplicationController
     end
   end
 
+  def user_or_guest
+    @user || Guest.new
+  end
+
   def scope
     @user ? policy_scope(TimeZone).where(user: @user) : policy_scope(TimeZone)
   end
 
   def url
-    @user ? [@user, :time_zones] : time_zones_path
+    [@user, :time_zones].compact
   end
 
   def new_url
-    @user ? [:new, @user, :time_zone] : new_time_zone_path
+    [:new, @user, :time_zone].compact
   end
 
   def id

@@ -17,7 +17,7 @@ class NamesController < ApplicationController
   end
 
   def new
-    @name = authorize scope.new
+    @name = authorize scope.new(user: @user, primary: user_or_guest.names.none?)
   end
 
   def edit
@@ -69,16 +69,20 @@ class NamesController < ApplicationController
     end
   end
 
+  def user_or_guest
+    @user || Guest.new
+  end
+
   def scope
     @user ? policy_scope(Name).where(user: @user) : policy_scope(Name)
   end
 
   def url
-    @user ? [@user, :names] : names_path
+    [@user, :names].compact
   end
 
   def new_url
-    @user ? [:new, @user, :name] : new_name_path
+    [:new, @user, :name].compact
   end
 
   def id

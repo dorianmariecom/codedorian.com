@@ -19,7 +19,10 @@ class EmailAddressesController < ApplicationController
 
   def new
     @email_address =
-      authorize scope.new(primary: current_user.email_addresses.none?)
+      authorize scope.new(
+                  user: @user,
+                  primary: user_or_guest.email_addresses.none?
+                )
   end
 
   def edit
@@ -71,6 +74,10 @@ class EmailAddressesController < ApplicationController
     end
   end
 
+  def user_or_guest
+    @user || Guest.new
+  end
+
   def scope
     if @user
       policy_scope(EmailAddress).where(user: @user)
@@ -84,11 +91,11 @@ class EmailAddressesController < ApplicationController
   end
 
   def url
-    @user ? [@user, :email_addresses] : email_addresses_path
+    [@user, :email_addresses]
   end
 
   def new_url
-    @user ? [:new, @user, :email_address] : new_email_address_path
+    [:new, @user, :email_address]
   end
 
   def load_email_address

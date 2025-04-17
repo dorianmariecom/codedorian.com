@@ -47,7 +47,7 @@ class ProgramsController < ApplicationController
   end
 
   def new
-    @program = authorize scope.new
+    @program = authorize scope.new(user: @user)
   end
 
   def edit

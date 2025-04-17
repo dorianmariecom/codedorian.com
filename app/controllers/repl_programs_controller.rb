@@ -18,7 +18,7 @@ class ReplProgramsController < ApplicationController
   end
 
   def new
-    @repl_program = authorize scope.new
+    @repl_program = authorize scope.new(repl_session: @repl_session)
   end
 
   def edit

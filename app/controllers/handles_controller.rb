@@ -17,7 +17,8 @@ class HandlesController < ApplicationController
   end
 
   def new
-    @handle = authorize scope.new(primary: current_user.handles.none?)
+    @handle =
+      authorize scope.new(user: @user, primary: user_or_guest.handles.none?)
   end
 
   def edit
@@ -69,16 +70,20 @@ class HandlesController < ApplicationController
     end
   end
 
+  def user_or_guest
+    @user || Guest.new
+  end
+
   def scope
     @user ? policy_scope(Handle).where(user: @user) : policy_scope(Handle)
   end
 
   def url
-    @user ? [@user, :handles] : handles_path
+    [@user, :handles].compact
   end
 
   def new_url
-    @user ? [:new, @user, :handle] : new_handle_path
+    [:new, @user, :handle].compact
   end
 
   def id

@@ -21,8 +21,7 @@ Rails.application.configure do
   config.solid_errors.email_from = "dorian@dorianmarie.com"
   config.solid_errors.email_to = "dorian@dorianmarie.com"
   config.solid_errors.send_emails = true
-  config.action_mailer.smtp_settings =
-    Config.smtp_settings
+  config.action_mailer.smtp_settings = Config.smtp_settings.from_deep_struct
   config.logger =
     ActiveSupport::Logger
       .new($stdout)

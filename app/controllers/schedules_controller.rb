@@ -18,7 +18,7 @@ class SchedulesController < ApplicationController
   end
 
   def new
-    @schedule = authorize scope.new
+    @schedule = authorize scope.new(program: @program)
   end
 
   def edit

@@ -19,7 +19,8 @@ class DevicesController < ApplicationController
   end
 
   def new
-    @device = authorize scope.new
+    @device =
+      authorize scope.new(user: @user, primary: user_or_guest.devices.none?)
   end
 
   def edit
@@ -81,16 +82,20 @@ class DevicesController < ApplicationController
     end
   end
 
+  def user_or_guest
+    @user || Guest.new
+  end
+
   def scope
     @user ? policy_scope(Device).where(user: @user) : policy_scope(Device)
   end
 
   def url
-    @user ? [@user, :devices] : devices_path
+    [@user, :devices].compact
   end
 
   def new_url
-    @user ? [:new, @user, :device] : new_device_path
+    [:new, @user, :device].compact
   end
 
   def id

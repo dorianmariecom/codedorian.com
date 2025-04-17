@@ -17,7 +17,8 @@ class AddressesController < ApplicationController
   end
 
   def new
-    @address = authorize scope.new(primary: current_user.addresses.none?)
+    @address =
+      authorize scope.new(user: @user, primary: user_or_guest.addresses.none?)
   end
 
   def edit
@@ -69,16 +70,20 @@ class AddressesController < ApplicationController
     end
   end
 
+  def user_or_guest
+    @user || Guest.new
+  end
+
   def scope
     @user ? policy_scope(Address).where(user: @user) : policy_scope(Address)
   end
 
   def url
-    @user ? [@user, :addresses] : addresses_path
+    [@user, :addresses].compact
   end
 
   def new_url
-    @user ? [:new, @user, :address] : new_address_path
+    [:new, @user, :address].compact
   end
 
   def id

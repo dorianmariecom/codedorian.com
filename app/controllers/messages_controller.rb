@@ -49,7 +49,7 @@ class MessagesController < ApplicationController
   end
 
   def new
-    @message = authorize scope.new
+    @message = authorize scope.new(from_user: @user, to_user: @user)
   end
 
   def edit
@@ -114,11 +114,11 @@ class MessagesController < ApplicationController
   end
 
   def url
-    @user ? [@user, :messages] : messages_path
+    [@user, :messages].compact
   end
 
   def new_url
-    @user ? [:new, @user, :message] : new_message_path
+    [:new, @user, :message].compact
   end
 
   def id

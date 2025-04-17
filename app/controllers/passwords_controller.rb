@@ -17,7 +17,8 @@ class PasswordsController < ApplicationController
   end
 
   def new
-    @password = authorize scope.new
+    @password =
+      authorize scope.new(user: @user, primary: user_or_guest.passwords.none?)
   end
 
   def edit
@@ -69,16 +70,20 @@ class PasswordsController < ApplicationController
     end
   end
 
+  def user_or_guest
+    @user || Guest.new
+  end
+
   def scope
     @user ? policy_scope(Password).where(user: @user) : policy_scope(Password)
   end
 
   def url
-    @user ? [@user, :passwords] : passwords_path
+    [@user, :passwords].compact
   end
 
   def new_url
-    @user ? [:new, @user, :password] : new_password_path
+    [:new, @user, :password].compact
   end
 
   def id

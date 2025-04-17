@@ -37,7 +37,7 @@ class ReplSessionsController < ApplicationController
   end
 
   def new
-    @repl_session = authorize scope.new
+    @repl_session = authorize scope.new(user: @user)
   end
 
   def edit
