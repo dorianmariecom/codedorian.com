@@ -9,7 +9,7 @@ GIT
 
 GIT
   remote: https://github.com/hotwired/turbo-rails
-  revision: 94767d3a84f470c2d0aec8c3f9e2e7c784bc8de7
+  revision: cb47713ab2abc0692e36215cb7e60d48461ae654
   specs:
     turbo-rails (2.0.13)
       actionpack (>= 7.1.0)
@@ -17,7 +17,7 @@ GIT
 
 GIT
   remote: https://github.com/rails/rails
-  revision: 65014e2379546e25407e87e5b3a056e0460361c7
+  revision: 17cde11cd13cf07a7d6c712cb1593881496abacb
   specs:
     actioncable (8.1.0.alpha)
       actionpack (= 8.1.0.alpha)
@@ -148,14 +148,14 @@ GEM
       uri
       zeitwerk
     concurrent-ruby (1.3.5)
-    connection_pool (2.5.0)
+    connection_pool (2.5.1)
     crass (1.0.6)
-    csv (3.3.3)
+    csv (3.3.4)
     date (3.4.1)
     did-you-mean (0.1.1)
       levenshtein (>= 0.2.0)
     diff-lcs (1.6.1)
-    dorian (2.6.3)
+    dorian (2.6.4)
       csv
       dorian-arguments
       dorian-eval
@@ -180,9 +180,9 @@ GEM
     dorian-progress (1.1.2)
       ruby-progressbar
     dorian-to_struct (2.0.2)
-    dotenv (3.1.7)
-    dotenv-rails (3.1.7)
-      dotenv (= 3.1.7)
+    dotenv (3.1.8)
+    dotenv-rails (3.1.8)
+      dotenv (= 3.1.8)
       railties (>= 6.1)
     drb (2.2.1)
     easy_translate (0.5.1)
@@ -194,18 +194,18 @@ GEM
       tzinfo
     faker (3.5.1)
       i18n (>= 1.8.11, < 2)
-    faraday (2.12.2)
+    faraday (2.13.0)
       faraday-net_http (>= 2.0, < 3.5)
       json
       logger
     faraday-net_http (3.4.0)
       net-http (>= 0.5.0)
-    ffi (1.17.1-aarch64-linux-gnu)
-    ffi (1.17.1-arm-linux-gnu)
-    ffi (1.17.1-arm64-darwin)
-    ffi (1.17.1-x86-linux-gnu)
-    ffi (1.17.1-x86_64-darwin)
-    ffi (1.17.1-x86_64-linux-gnu)
+    ffi (1.17.2-aarch64-linux-gnu)
+    ffi (1.17.2-arm-linux-gnu)
+    ffi (1.17.2-arm64-darwin)
+    ffi (1.17.2-x86-linux-gnu)
+    ffi (1.17.2-x86_64-darwin)
+    ffi (1.17.2-x86_64-linux-gnu)
     fugit (1.11.1)
       et-orbi (~> 1, >= 1.2.11)
       raabro (~> 1.4)
@@ -240,7 +240,7 @@ GEM
       geom2d (~> 0.4, >= 0.4.1)
       openssl (>= 2.2.1)
       strscan (>= 3.1.2)
-    http-2 (1.0.2)
+    http-2 (1.1.1)
     http_accept_language (2.1.1)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
@@ -368,12 +368,12 @@ GEM
     paper_trail (16.0.0)
       activerecord (>= 6.1)
       request_store (~> 1.4)
-    parallel (1.26.3)
-    parser (3.3.7.4)
+    parallel (1.27.0)
+    parser (3.3.8.0)
       ast (~> 2.4.1)
       racc
     pg (1.5.9)
-    phonelib (0.10.6)
+    phonelib (0.10.7)
     pp (0.6.2)
       prettyprint
     prettier_print (1.2.1)
@@ -395,7 +395,7 @@ GEM
       activesupport (>= 3.0.0)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (3.1.12)
+    rack (3.1.13)
     rack-attack (6.7.0)
       rack (>= 1.0, < 4)
     rack-session (2.1.0)
@@ -469,7 +469,7 @@ GEM
       rubocop-ast (>= 1.44.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 4.0)
-    rubocop-ast (1.44.0)
+    rubocop-ast (1.44.1)
       parser (>= 3.3.7.2)
       prism (~> 1.4)
     rubocop-capybara (2.22.1)
@@ -548,7 +548,7 @@ GEM
     stimulus-rails (1.3.4)
       railties (>= 6.0.0)
     stringio (3.1.6)
-    strscan (3.1.2)
+    strscan (3.1.3)
     syntax_tree (6.2.0)
       prettier_print (>= 1.2.0)
     syntax_tree-haml (4.0.3)
@@ -558,14 +558,14 @@ GEM
     syntax_tree-xml (0.1.0)
       prettier_print
       syntax_tree (>= 2.0.1)
-    tailwindcss-rails (4.2.1)
+    tailwindcss-rails (4.2.2)
       railties (>= 7.0.0)
       tailwindcss-ruby (~> 4.0)
-    tailwindcss-ruby (4.0.17)
-    tailwindcss-ruby (4.0.17-aarch64-linux-gnu)
-    tailwindcss-ruby (4.0.17-arm64-darwin)
-    tailwindcss-ruby (4.0.17-x86_64-darwin)
-    tailwindcss-ruby (4.0.17-x86_64-linux-gnu)
+    tailwindcss-ruby (4.1.3)
+    tailwindcss-ruby (4.1.3-aarch64-linux-gnu)
+    tailwindcss-ruby (4.1.3-arm64-darwin)
+    tailwindcss-ruby (4.1.3-x86_64-darwin)
+    tailwindcss-ruby (4.1.3-x86_64-linux-gnu)
     temple (0.10.3)
     terminal-table (4.0.0)
       unicode-display_width (>= 1.1.1, < 4)
