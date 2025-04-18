@@ -24,6 +24,8 @@ Layout/MultilineOperationIndentation:
   Enabled: false
 Layout/SpaceInsideHashLiteralBraces:
   Enabled: false
+Lint/ConstantDefinitionInBlock:
+  Enabled: false
 Lint/EmptyClass:
   Enabled: false
 Lint/MissingSuper:
@@ -119,8 +121,6 @@ Style/QuotedSymbols:
 Style/StringLiterals:
   Enabled: false
 Style/StringLiteralsInInterpolation:
-  Enabled: false
-Lint/ConstantDefinitionInBlock:
   Enabled: false
 plugins:
 - rubocop-factory_bot

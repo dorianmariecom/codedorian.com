@@ -7,8 +7,10 @@ Rails.application.config.after_initialize do
       OMISSION = "…"
 
       def to_s
-        "#{exception_class}: #{message}"
-          .truncate(MESSAGE_LIMIT, omission: OMISSION)
+        "#{exception_class}: #{message}".truncate(
+          MESSAGE_LIMIT,
+          omission: OMISSION
+        )
       end
     end
   end

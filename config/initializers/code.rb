@@ -28,7 +28,11 @@ Rails.application.config.after_initialize do
             end
           when "User"
             sig(args) { Object.repeat }
-            code_arguments.any? ? User.new(*code_arguments.raw) : Class.new(User)
+            if code_arguments.any?
+              User.new(*code_arguments.raw)
+            else
+              Class.new(User)
+            end
           when "Notification"
             sig(args) { Object.repeat }
             if code_arguments.any?
