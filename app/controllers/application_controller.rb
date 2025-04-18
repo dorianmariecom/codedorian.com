@@ -190,6 +190,8 @@ class ApplicationController < ActionController::Base
   def set_error_context(&block)
     Rails.error.handle(
       context: {
+        controller: controller_name,
+        action: action_name,
         registered?: registered?,
         user_id: Current.user&.id,
         user_to_s: Current.user&.to_s,

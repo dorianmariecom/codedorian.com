@@ -1,3 +1,5 @@
+<% error = @error_occurrence.error %>
+
 <% content_for(:title) do %>
   <%= local_time(@error_occurrence.created_at) %>
 <% end %>
@@ -15,16 +17,16 @@
 
     <% if can?(:show, @error_occurrence.error) %>
       <div class="font-bold">
-        <%= link_to @error_occurrence.error.message.to_s.truncate(
+        <%= link_to "#{error.exception_class}: #{error.message}".truncate(
                   message_limit,
                   omission: omission
                 ),
-                error_path(@error_occurrence.error),
+                error_path(error),
                 class: "link" %>
       </div>
     <% else %>
       <div class="font-bold">
-        <%= @error_occurrence.error.message.to_s.truncate(message_limit, omission: omission) %>
+        <%= "#{error.exception_class}: #{error.message}".truncate(message_limit, omission: omission) %>
       </div>
     <% end %>
   </div>
@@ -33,23 +35,23 @@
 <% if @error_occurrence.context.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".context") %></div>
-    <div class="code">
-      <%= JSON.pretty_generate(@error_occurrence.context) %>
-    </div>
+    <div class="code"><%=
+      JSON.pretty_generate(@error_occurrence.context)
+    %></div>
   </div>
 <% end %>
 
 <% if @error_occurrence.backtrace.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".app_backtrace") %></div>
-    <div class="code">
-      <%= @error_occurrence
+    <div class="code"><%= @error_occurrence
         .backtrace
         .lines
-        .grep(/#{Rails.root}/)
-        .map { |line| line.gsub("#{Rails.root}/", "") }
-        .join %>
-    </div>
+        .grep(%r{^#{Rails.root}/})
+        .map { |line| line.gsub("#{Rails.root}/", "").strip }
+        .join
+      .strip
+    %></div>
   </div>
 <% end %>
 

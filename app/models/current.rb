@@ -127,7 +127,7 @@ class Current < ActiveSupport::CurrentAttributes
   end
 
   def localhost?
-    env.local?
+    env.localhost?
   end
 
   def staging?

@@ -1,4 +1,4 @@
-<% content_for(:title, @error.message.truncate(message_limit, omission: omission)) %>
+<% content_for(:title, "#{@error.exception_class}: #{@error.message}".truncate(message_limit, omission: omission)) %>
 
 <%= turbo_stream_from @error %>
 
