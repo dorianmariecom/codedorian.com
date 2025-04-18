@@ -1,5 +1,3 @@
-<% error = @error_occurrence.error %>
-
 <% content_for(:title) do %>
   <%= local_time(@error_occurrence.created_at) %>
 <% end %>
@@ -17,16 +15,13 @@
 
     <% if can?(:show, @error_occurrence.error) %>
       <div class="font-bold">
-        <%= link_to "#{error.exception_class}: #{error.message}".truncate(
-                  message_limit,
-                  omission: omission
-                ),
-                error_path(error),
+        <%= link_to @error_occurrence.error,
+                error_path(@error_occurrence.error),
                 class: "link" %>
       </div>
     <% else %>
       <div class="font-bold">
-        <%= "#{error.exception_class}: #{error.message}".truncate(message_limit, omission: omission) %>
+        <%= @error_occurrence.error %>
       </div>
     <% end %>
   </div>
