@@ -2,7 +2,26 @@
 
 <% if @jobs.any? %>
   <div class="p">
-    <%= button_to t(".delete_all"), url, method: :delete, class: "button button--link" %>
+    <%= button_to t(".retry_all"),
+              retry_all_url,
+              method: :post,
+              class: "button button--link",
+              form_class: "inline-block" %>
+    <%= button_to t(".discard_all"),
+              discard_all_url,
+              method: :post,
+              class: "button button--link",
+              form_class: "inline-block" %>
+    <%= button_to t(".destroy_all"),
+              destroy_all_url,
+              method: :delete,
+              class: "button button--link",
+              form_class: "inline-block" %>
+    <%= button_to t(".delete_all"),
+              delete_all_url,
+              method: :delete,
+              class: "button button--link",
+              form_class: "inline-block" %>
   </div>
 <% end %>
 

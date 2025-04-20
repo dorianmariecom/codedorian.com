@@ -67,8 +67,26 @@
 </div>
 
 <div class="p">
+  <%= button_to t(".retry"),
+            [@user, @job, :retry].compact,
+            method: :post,
+            class: "button button--link",
+            form_class: "inline-block" %>
+
+  <%= button_to t(".discard"),
+            [@user, @job, :discard].compact,
+            method: :post,
+            class: "button button--link",
+            form_class: "inline-block" %>
+
+  <%= button_to t(".destroy"),
+            [@user, @job, :destroy].compact,
+            method: :delete,
+            class: "button button--link",
+            form_class: "inline-block" %>
+
   <%= button_to t(".delete"),
-            @job,
+            [@user, @job, :delete].compact,
             method: :delete,
             class: "button button--link",
             form_class: "inline-block" %>

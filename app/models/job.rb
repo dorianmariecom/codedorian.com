@@ -4,6 +4,27 @@ class Job < SolidQueue::Job
   MESSAGE_LIMIT = 140
   OMISSION = "…"
 
+  def self.discard_all
+    find_each(&:discard!)
+  end
+
+  def self.retry_all
+    find_each(&:retry!)
+  end
+
+  def retry!
+    send(:retry)
+  end
+
+  def delete!
+    delete
+  end
+
+  def discard!
+    discard
+  rescue SolidQueue::Execution::UndiscardableError
+  end
+
   def pretty_json_arguments
     JSON.pretty_generate(arguments)
   end

@@ -56,7 +56,9 @@ class ErrorsController < ApplicationController
     @message = error_message_for(@exception)
 
     respond_to do |format|
-      format.json { render(json: { message: @message }, status: :internal_server_error) }
+      format.json do
+        render(json: { message: @message }, status: :internal_server_error)
+      end
       format.html { render(status: :internal_server_error) }
       format.all { redirect_to(root_path, alert: @message) }
     end
@@ -69,7 +71,9 @@ class ErrorsController < ApplicationController
     @message = error_message_for(@exception)
 
     respond_to do |format|
-      format.json { render(json: { message: @message }, status: :unprocessable_entity) }
+      format.json do
+        render(json: { message: @message }, status: :unprocessable_entity)
+      end
       format.html { render(status: :unprocessable_entity) }
       format.all { redirect_to(root_path, alert: @message) }
     end

@@ -350,6 +350,43 @@ en:
           one: 1 found
           other: "%{count} found"
           zero: 0 found
+  jobs:
+    delete:
+      notice: job deleted
+    delete_all:
+      notice: jobs deleted
+    destroy:
+      notice: job destroyed
+    destroy_all:
+      notice: jobs destroyed
+    discard:
+      notice: job discarded
+    discard_all:
+      notice: jobs discarded
+    index:
+      delete_all: delete all jobs
+      destroy_all: destroy all jobs
+      discard_all: discard all jobs
+      retry_all: retry all jobs
+      title: jobs
+    retry:
+      notice: job retried
+    retry_all:
+      notice: jobs retried
+    show:
+      arguments: arguments
+      class_name: class name
+      created_at: created at
+      delete: delete job
+      destroy: destroy job
+      discard: discard job
+      finished_at: finished at
+      id: id
+      priority: priority
+      queue_name: queue name
+      retry: retry job
+      scheduled_at: scheduled at
+      updated_at: updated at
   layouts:
     application:
       js:
@@ -1007,30 +1044,3 @@ en:
       next: next
       previous: previous
       truncate: "…"
-  jobs:
-    destroy:
-      notice: job deleted
-    discard:
-      notice: job discarded
-    retry:
-      notice: job retried
-    destroy_all:
-      notice: jobs deleted
-    discard_all:
-      notice: jobs discarded
-    retry_all:
-      notice: jobs retried
-    index:
-      delete_all: delete all jobs
-      title: jobs
-    show:
-      created_at: created at
-      delete: delete job
-      id: id
-      updated_at: updated at
-      class_name: class name
-      priority: priority
-      queue_name: queue name
-      arguments: arguments
-      scheduled_at: scheduled at
-      finished_at: finished at

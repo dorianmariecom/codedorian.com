@@ -2,8 +2,12 @@
 
 class JobsController < ApplicationController
   before_action :load_user
-  before_action :load_job, only: %i[show destroy]
-  helper_method :url
+  before_action :load_job, only: %i[show destroy delete discard retry]
+  helper_method :url,
+                :discard_all_url,
+                :retry_all_url,
+                :delete_all_url,
+                :destroy_all_url
 
   def index
     authorize Job
@@ -14,10 +18,44 @@ class JobsController < ApplicationController
   def show
   end
 
+  def retry
+    @job.retry!
+
+    redirect_to(url, notice: t(".notice"))
+  end
+
+  def discard
+    @job.discard!
+
+    redirect_to(url, notice: t(".notice"))
+  end
+
+  def delete
+    @job.delete!
+
+    redirect_to(url, notice: t(".notice"))
+  end
+
   def destroy
     @job.destroy!
 
     redirect_to(url, notice: t(".notice"))
+  end
+
+  def retry_all
+    authorize Job
+
+    scope.retry_all
+
+    redirect_back_or_to(url, notice: t(".notice"))
+  end
+
+  def discard_all
+    authorize Job
+
+    scope.discard_all
+
+    redirect_back_or_to(url, notice: t(".notice"))
   end
 
   def destroy_all
@@ -28,48 +66,12 @@ class JobsController < ApplicationController
     redirect_back_or_to(url, notice: t(".notice"))
   end
 
-  def not_found
-    @exception = request.env["action_dispatch.exception"]
+  def delete_all
+    authorize Job
 
-    respond_to do |format|
-      format.json { render(json: { message: :not_found }, status: :not_found) }
-      format.html { render status: :not_found }
-      format.all { redirect_to root_path, alert: t(".title") }
-    end
-  end
+    scope.delete_all
 
-  def internal_server_job
-    @exception = request.env["action_dispatch.exception"]
-
-    respond_to do |format|
-      format.json do
-        render(
-          json: {
-            message: :internal_server_job
-          },
-          status: :internal_server_job
-        )
-      end
-      format.html { render status: :internal_server_job }
-      format.all { redirect_to root_path, alert: t(".title") }
-    end
-  end
-
-  def unprocessable_entity
-    @exception = request.env["action_dispatch.exception"]
-
-    respond_to do |format|
-      format.json do
-        render(
-          json: {
-            message: :unprocessable_entity
-          },
-          status: :unprocessable_entity
-        )
-      end
-      format.html { render status: :unprocessable_entity }
-      format.all { redirect_to root_path, alert: t(".title") }
-    end
+    redirect_back_or_to(url, notice: t(".notice"))
   end
 
   private
@@ -92,5 +94,21 @@ class JobsController < ApplicationController
 
   def url
     [@user, :jobs].compact
+  end
+
+  def retry_all_url
+    [:retry_all, @user, :jobs].compact
+  end
+
+  def discard_all_url
+    [:discard_all, @user, :jobs].compact
+  end
+
+  def delete_all_url
+    [:delete_all, @user, :jobs].compact
+  end
+
+  def destroy_all_url
+    [:destroy_all, @user, :jobs].compact
   end
 end

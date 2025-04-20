@@ -116,7 +116,20 @@ Rails.application.routes.draw do
         collection { delete "/", to: "error_occurrences#destroy_all" }
       end
 
-      resources(:jobs) { collection { delete "/", to: "jobs#destroy_all" } }
+      resources(:jobs) do
+        collection do
+          delete "/destroy_all", to: "jobs#destroy_all"
+          delete "/delete_all", to: "jobs#delete_all"
+          post "/discard_all", to: "jobs#discard_all"
+          post "/retry_all", to: "jobs#retry_all"
+        end
+
+        delete :delete
+        delete :destroy
+        post :discard
+        post :retry
+      end
+
       resources(:guests) { collection { delete "/", to: "guests#destroy_all" } }
       resources(:names) { collection { delete "/", to: "names#destroy_all" } }
       resources(:tokens) { collection { delete "/", to: "tokens#destroy_all" } }

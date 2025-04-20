@@ -127,6 +127,7 @@ fr:
       english: anglais
       errors: erreurs
       french: français
+      jobs: emplois
       log_in: se connecter
       log_out: se déconnecter
       messages: messages
@@ -349,6 +350,43 @@ fr:
           one: 1 trouvé
           other: "%{count} trouvés"
           zero: 0 trouvé
+  jobs:
+    delete:
+      notice: travail supprimé
+    delete_all:
+      notice: emplois supprimés
+    destroy:
+      notice: emploi détruit
+    destroy_all:
+      notice: emplois détruits
+    discard:
+      notice: travail abandonné
+    discard_all:
+      notice: emplois supprimés
+    index:
+      delete_all: supprimer tous les emplois
+      destroy_all: détruire tous les emplois
+      discard_all: abandonner tous les emplois
+      retry_all: réessayer tous les travaux
+      title: emplois
+    retry:
+      notice: travail retenté
+    retry_all:
+      notice: emplois réessayés
+    show:
+      arguments: arguments
+      class_name: nom de la classe
+      created_at: créé à
+      delete: supprimer le travail
+      destroy: détruire un emploi
+      discard: abandonner le travail
+      finished_at: terminé à
+      id: identifiant
+      priority: priorité
+      queue_name: nom de la file d'attente
+      retry: réessayer le travail
+      scheduled_at: prévu à
+      updated_at: mis à jour à
   layouts:
     application:
       js:
@@ -843,6 +881,7 @@ fr:
       english: anglais
       errors: erreurs
       french: français
+      jobs: emplois
       log_in: se connecter
       log_out: se déconnecter
       messages: messages

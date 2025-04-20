@@ -23,6 +23,10 @@ class JobPolicy < ApplicationPolicy
     admin?
   end
 
+  def delete?
+    admin?
+  end
+
   def destroy?
     admin?
   end
@@ -32,6 +36,10 @@ class JobPolicy < ApplicationPolicy
   end
 
   def discard_all?
+    admin?
+  end
+
+  def delete_all?
     admin?
   end
 
