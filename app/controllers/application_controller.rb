@@ -39,8 +39,9 @@ class ApplicationController < ActionController::Base
   helper_method :can?
   helper_method :error_message_for
 
-  REDIRECT_ERROR =
-    ->(error) { redirect_to(root_path, alert: error_message_for(error)) }
+  REDIRECT_ERROR = ->(error) do
+    redirect_to(root_path, alert: error_message_for(error))
+  end
 
   rescue_from Pundit::NotAuthorizedError, &REDIRECT_ERROR
   rescue_from ActiveRecord::RecordNotFound, &REDIRECT_ERROR
