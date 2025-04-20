@@ -5,19 +5,18 @@ class ErrorsController < ApplicationController
 
   before_action :load_user
   before_action :load_error, only: %i[show destroy]
-  skip_after_action :verify_authorized, only: EXCEPTIONS
   skip_after_action :verify_policy_scoped, only: EXCEPTIONS
   helper_method :url
 
   def index
-    authorize SolidErrors::Error
+    authorize Error
 
     @errors = scope.page(params[:page]).order(created_at: :desc)
   end
 
   def show
     @error_occurrences =
-      policy_scope(SolidErrors::Occurrence)
+      policy_scope(ErrorOccurrence)
         .where(error: @error)
         .page(params[:page])
         .order(created_at: :desc)
@@ -30,7 +29,7 @@ class ErrorsController < ApplicationController
   end
 
   def destroy_all
-    authorize SolidErrors::Error
+    authorize Error
 
     scope.destroy_all
 
@@ -38,46 +37,41 @@ class ErrorsController < ApplicationController
   end
 
   def not_found
+    authorize :error
+
     @exception = request.env["action_dispatch.exception"]
+    @message = error_message_for(@exception)
 
     respond_to do |format|
-      format.json { render(json: { message: :not_found }, status: :not_found) }
-      format.html { render status: :not_found }
-      format.all { redirect_to root_path, alert: t(".title") }
+      format.json { render(json: { message: @message }, status: :not_found) }
+      format.html { render(status: :not_found) }
+      format.all { redirect_to(root_path, alert: @message) }
     end
   end
 
   def internal_server_error
+    authorize :error
+
     @exception = request.env["action_dispatch.exception"]
+    @message = error_message_for(@exception)
 
     respond_to do |format|
-      format.json do
-        render(
-          json: {
-            message: :internal_server_error
-          },
-          status: :internal_server_error
-        )
-      end
-      format.html { render status: :internal_server_error }
-      format.all { redirect_to root_path, alert: t(".title") }
+      format.json { render(json: { message: @message }, status: :internal_server_error) }
+      format.html { render(status: :internal_server_error) }
+      format.all { redirect_to(root_path, alert: @message) }
     end
   end
 
   def unprocessable_entity
+    authorize :error
+
     @exception = request.env["action_dispatch.exception"]
+    @message = error_message_for(@exception)
 
     respond_to do |format|
-      format.json do
-        render(
-          json: {
-            message: :unprocessable_entity
-          },
-          status: :unprocessable_entity
-        )
-      end
-      format.html { render status: :unprocessable_entity }
-      format.all { redirect_to root_path, alert: t(".title") }
+      format.json { render(json: { message: @message }, status: :unprocessable_entity) }
+      format.html { render(status: :unprocessable_entity) }
+      format.all { redirect_to(root_path, alert: @message) }
     end
   end
 
@@ -96,7 +90,7 @@ class ErrorsController < ApplicationController
   end
 
   def scope
-    policy_scope(SolidErrors::Error)
+    policy_scope(Error)
   end
 
   def url

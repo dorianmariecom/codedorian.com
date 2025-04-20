@@ -117,7 +117,6 @@ Rails.application.routes.draw do
       end
 
       resources(:jobs) { collection { delete "/", to: "jobs#destroy_all" } }
-
       resources(:guests) { collection { delete "/", to: "guests#destroy_all" } }
       resources(:names) { collection { delete "/", to: "names#destroy_all" } }
       resources(:tokens) { collection { delete "/", to: "tokens#destroy_all" } }

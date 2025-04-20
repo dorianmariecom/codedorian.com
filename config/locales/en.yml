@@ -223,7 +223,7 @@ en:
     destroy_all:
       notice: error occurrences deleted
     index:
-      delete_all: delete all
+      delete_all: delete all error occurrences
       title: error occurrences
     show:
       app_backtrace: app backtrace
@@ -240,7 +240,7 @@ en:
     destroy_all:
       notice: errors deleted
     index:
-      delete_all: delete all
+      delete_all: delete all errors
       title: errors
     internal_server_error:
       title: internal server error
@@ -1007,3 +1007,30 @@ en:
       next: next
       previous: previous
       truncate: "…"
+  jobs:
+    destroy:
+      notice: job deleted
+    discard:
+      notice: job discarded
+    retry:
+      notice: job retried
+    destroy_all:
+      notice: jobs deleted
+    discard_all:
+      notice: jobs discarded
+    retry_all:
+      notice: jobs retried
+    index:
+      delete_all: delete all jobs
+      title: jobs
+    show:
+      created_at: created at
+      delete: delete job
+      id: id
+      updated_at: updated at
+      class_name: class name
+      priority: priority
+      queue_name: queue name
+      arguments: arguments
+      scheduled_at: scheduled at
+      finished_at: finished at

@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   include CanConcern
 
   protect_from_forgery with: :exception
+
   skip_forgery_protection if: :current_token?
 
   before_action :set_current_user
@@ -16,12 +17,15 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
   before_action :set_paper_trail_whodunnit
   before_action :verify_captcha
+
   after_action :verify_authorized
   after_action :verify_policy_scoped
   after_action :delete_link_header
+
   skip_before_action :verify_captcha, if: :mission_control_controller?
   skip_after_action :verify_authorized, if: :mission_control_controller?
   skip_after_action :verify_policy_scoped, if: :mission_control_controller?
+
   around_action :set_error_context
 
   helper_method :current_user
@@ -33,13 +37,11 @@ class ApplicationController < ActionController::Base
   helper_method :current_time_zone
   helper_method :admin?
   helper_method :can?
+  helper_method :error_message_for
 
   REDIRECT_ERROR =
     lambda do |error|
-      message = error&.message.presence.to_s
-      message_truncated =
-        message.truncate(ERROR_MESSAGE_LIMIT, omission: OMISSION)
-      redirect_to(root_path, alert: message_truncated.presence)
+      redirect_to(root_path, alert: error_message_for(error))
     end
 
   rescue_from Pundit::NotAuthorizedError, &REDIRECT_ERROR
@@ -188,7 +190,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_error_context(&block)
-    Rails.error.handle(
+    Rails.error.record(
       context: {
         controller: controller_name,
         action: action_name,
@@ -200,5 +202,12 @@ class ApplicationController < ActionController::Base
       },
       &block
     )
+  end
+
+  def error_message_for(error)
+    class_name = error&.class&.name.to_s
+    message = admin? ? error&.message.presence.to_s : nil
+    to_s = [class_name, message].compact_blank.join(": ")
+    to_s.truncate(ERROR_MESSAGE_LIMIT, omission: OMISSION).presence
   end
 end

@@ -9,7 +9,7 @@ class ErrorOccurrencesController < ApplicationController
   helper_method :url, :message_limit, :omission
 
   def index
-    authorize SolidErrors::Occurrence
+    authorize ErrorOccurrence
 
     @error_occurrences = scope.page(params[:page]).order(created_at: :desc)
   end
@@ -24,7 +24,7 @@ class ErrorOccurrencesController < ApplicationController
   end
 
   def destroy_all
-    authorize SolidErrors::Occurrence
+    authorize ErrorOccurrence
 
     scope.destroy_all
 
@@ -53,7 +53,7 @@ class ErrorOccurrencesController < ApplicationController
   end
 
   def scope
-    scope = policy_scope(SolidErrors::Occurrence)
+    scope = policy_scope(ErrorOccurrence)
     scope = scope.where(error: @error) if @error
     scope
   end

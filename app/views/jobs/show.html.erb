@@ -1,0 +1,75 @@
+<% content_for(:title, @job) %>
+
+<%= turbo_stream_from @job %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".id") %></div>
+  <div class="font-bold"><%= @job.id %></div>
+</div>
+
+<% if @job.class_name.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".class_name") %></div>
+    <div class="font-bold"><%= @job.class_name %></div>
+  </div>
+<% end %>
+
+<% if @job.priority.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".priority") %></div>
+    <div class="font-bold"><%= @job.priority %></div>
+  </div>
+<% end %>
+
+<% if @job.queue_name.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".queue_name") %></div>
+    <div class="font-bold"><%= @job.queue_name %></div>
+  </div>
+<% end %>
+
+<% if @job.arguments.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".arguments") %></div>
+    <div class="code"><%= @job.pretty_json_arguments %></div>
+  </div>
+<% end %>
+
+<% if @job.concurrency_key.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".concurrency_key") %></div>
+    <div class="font-bold"><%= @job.concurrency_key %></div>
+  </div>
+<% end %>
+
+<% if @job.scheduled_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".scheduled_at") %></div>
+    <div class="font-bold"><%= local_time(@job.scheduled_at) %></div>
+  </div>
+<% end %>
+
+<% if @job.finished_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".finished_at") %></div>
+    <div class="font-bold"><%= local_time(@job.finished_at) %></div>
+  </div>
+<% end %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".updated_at") %></div>
+  <div class="font-bold"><%= local_time(@job.updated_at) %></div>
+</div>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".created_at") %></div>
+  <div class="font-bold"><%= local_time(@job.created_at) %></div>
+</div>
+
+<div class="p">
+  <%= button_to t(".delete"),
+            @job,
+            method: :delete,
+            class: "button button--link",
+            form_class: "inline-block" %>
+</div>
