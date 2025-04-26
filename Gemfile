@@ -8,6 +8,8 @@ git_source(:hotwired) { |name| "https://github.com/hotwired/#{name}" }
 
 ruby "3.4.2"
 
+gem "search-rails", path: "../search-rails"
+
 gem "importmap-rails", dorian: "importmap-rails" # https://github.com/rails/importmap-rails/pull/257, https://github.com/rails/importmap-rails/pull/256
 gem "rails", rails: :rails
 gem "thruster", require: false
@@ -20,11 +22,13 @@ gem "browser"
 gem "bundle-audit"
 gem "bundler-audit"
 gem "code-ruby"
+gem "database_cleaner"
 gem "dorian"
 gem "dorian-arguments"
 gem "dorian-to_struct"
 gem "dotenv-rails"
 gem "easy_translate"
+gem "factory_bot_rails"
 gem "faker"
 gem "heroicon"
 gem "http_accept_language"

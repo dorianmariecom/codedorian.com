@@ -8,7 +8,7 @@ Bundler.require(*Rails.groups)
 
 require_relative "../lib/middleware/errors"
 
-class Code
+module CodeApp
   class Application < Rails::Application
     config.load_defaults 8.1
     config.active_job.queue_adapter = :solid_queue

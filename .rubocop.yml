@@ -122,6 +122,10 @@ Style/StringLiterals:
   Enabled: false
 Style/StringLiteralsInInterpolation:
   Enabled: false
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+RSpec/NamedSubject:
+  Enabled: false
 plugins:
 - rubocop-factory_bot
 - rubocop-performance
