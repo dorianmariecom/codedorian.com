@@ -18,7 +18,7 @@ printf "importmap audit: "
 bin/importmap audit 2>&1 > /dev/null && echo "success" || echo "failure"
 
 printf "bundler audit: "
-bin/bundler-audit check --update 2>&1 > /dev/null && echo "success" || echo "failure"
+bin/bundler-audit check --update --quiet 2>&1 > /dev/null && echo "success" || echo "failure"
 
 printf "npm audit: "
 npm audit 2>&1 > /dev/null && echo "success" || echo "failure"
