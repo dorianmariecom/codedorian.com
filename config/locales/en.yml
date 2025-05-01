@@ -823,6 +823,9 @@ en:
       submit: log in
       title: log in
   shared:
+    search:
+      placeholder: enter your search query
+      submit: search
     attribute:
       address: address
       email_address: email address

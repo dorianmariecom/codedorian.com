@@ -52,6 +52,9 @@ class User < ApplicationRecord
     }
   }
 
+  ADMIN_SEARCH_FIELDS = %i[id verified admin updated_at created_at].freeze
+  USER_SEARCH_FIELDS = %i[id verified updated_at created_at].freeze
+
   has_many :addresses, dependent: :destroy
   has_many :devices, dependent: :destroy
   has_many :email_addresses, dependent: :destroy
