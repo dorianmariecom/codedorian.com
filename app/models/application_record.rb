@@ -3,6 +3,7 @@
 class ApplicationRecord < ActiveRecord::Base
   include Pundit::Authorization
   include CanConcern
+  include Search
 
   extend Pundit::Authorization
   extend CanConcern

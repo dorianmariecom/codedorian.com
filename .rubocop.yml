@@ -72,11 +72,17 @@ RSpec/ContextWording:
   Enabled: false
 RSpec/DescribeClass:
   Enabled: false
+RSpec/DescribedClass:
+  Enabled: false
 RSpec/ExampleLength:
   Enabled: false
 RSpec/ExampleWording:
   Enabled: false
+RSpec/LetSetup:
+  Enabled: false
 RSpec/MultipleExpectations:
+  Enabled: false
+RSpec/MultipleMemoizedHelpers:
   Enabled: false
 RSpec/NoExpectationExample:
   Enabled: false
@@ -112,6 +118,8 @@ Style/EmptyMethod:
   Enabled: false
 Style/IfUnlessModifier:
   Enabled: false
+Style/Lambda:
+  Enabled: false
 Style/MultilineBlockChain:
   Enabled: false
 Style/NestedTernaryOperator:
@@ -121,6 +129,8 @@ Style/QuotedSymbols:
 Style/StringLiterals:
   Enabled: false
 Style/StringLiteralsInInterpolation:
+  Enabled: false
+RSpec/NestedGroups:
   Enabled: false
 plugins:
 - rubocop-factory_bot

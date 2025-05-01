@@ -1,8 +1,24 @@
-#!/usr/bin/env ruby
-# frozen_string_literal: true
+#!/bin/bash
 
-require_relative "../config/boot"
-require "active_support/continuous_integration"
+set -e
 
-CI = ActiveSupport::ContinuousIntegration
-require_relative "../config/ci"
+run() {
+  local name="$1"
+  shift
+  printf "%s: ..." "$name"
+  if "$@" >/dev/null 2>/dev/null; then
+    echo " success"
+  else
+    echo " failure"
+    exit 1
+  fi
+}
+
+run "rubocop" bin/rubocop
+run "rspec" bin/rspec
+run "brakeman" bin/brakeman -A -q --color
+run "importmap outdated" bin/importmap outdated
+run "importmap audit" bin/importmap audit
+run "bundler audit" bin/bundler-audit check --update --quiet
+run "npm audit" npm audit
+run "secrets" bin/secrets

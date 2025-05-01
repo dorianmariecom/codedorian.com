@@ -1,6 +1,29 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  self.fields = {
+    id: {
+      node: -> { arel_table[:id] },
+      type: :integer
+    },
+    verified: {
+      node: -> { arel_table[:verified] },
+      type: :boolean
+    },
+    admin: {
+      node: -> { arel_table[:admin] },
+      type: :boolean
+    },
+    updated_at: {
+      node: -> { arel_table[:updated_at] },
+      type: :datetime
+    },
+    created_at: {
+      node: -> { arel_table[:created_at] },
+      type: :datetime
+    }
+  }
+
   has_many :addresses, dependent: :destroy
   has_many :devices, dependent: :destroy
   has_many :email_addresses, dependent: :destroy
