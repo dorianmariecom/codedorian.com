@@ -1,6 +1,34 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  SHARED_FIELDS = {
+    "user:id": {
+      node: -> { User.arel_table[:id] },
+      relation: ->(scope) { scope.joins(:user) },
+      type: :integer
+    },
+    "user:admin": {
+      node: -> { User.arel_table[:admin] },
+      relation: ->(scope) { scope.joins(:user) },
+      type: :boolean
+    },
+    "user:verified": {
+      node: -> { User.arel_table[:verified] },
+      relation: ->(scope) { scope.joins(:user) },
+      type: :boolean
+    },
+    "user:updated_at": {
+      node: -> { User.arel_table[:updated_at] },
+      relation: ->(scope) { scope.joins(:user) },
+      type: :datetime
+    },
+    "user:created_at": {
+      node: -> { User.arel_table[:created_at] },
+      relation: ->(scope) { scope.joins(:user) },
+      type: :datetime
+    }
+  }.freeze
+
   self.fields = {
     id: {
       node: -> { arel_table[:id] },

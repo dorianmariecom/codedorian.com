@@ -56,7 +56,12 @@ RSpec.describe Program do
       "name!<=aaa",
       "name!=aaa",
       "name!>zzz",
-      "name!<aaa"
+      "name!<aaa",
+      "user:id>0",
+      "user:verified:false",
+      "user:admin:false",
+      "user:created_at:today",
+      "user:updated_at:today"
     ].each do |q|
       context q.inspect do
         let!(:q) { q }

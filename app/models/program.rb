@@ -25,7 +25,8 @@ class Program < ApplicationRecord
     created_at: {
       node: -> { arel_table[:created_at] },
       type: :datetime
-    }
+    },
+    **User::SHARED_FIELDS
   }
 
   belongs_to :user, default: -> { Current.user! }, touch: true
