@@ -2,26 +2,23 @@
 
 set -e
 
-printf "rubocop: "
-bin/rubocop 2>&1 >/dev/null && echo "success" || echo "failure" && exit
+run() {
+  local name="$1"
+  shift
+  printf "%s: ..." "$name"
+  if "$@" >/dev/null 2>/dev/null; then
+    echo " success"
+  else
+    echo " failure"
+    exit 1
+  fi
+}
 
-printf "rspec: "
-bin/rspec 2>&1 >/dev/null && echo "success" || echo "failure" && exit
-
-printf "brakeman: "
-bin/brakeman -A -q --color 2>&1 >/dev/null && echo "success" || echo "failure" && exit
-
-printf "importmap outdated: "
-bin/importmap outdated 2>&1 >/dev/null && echo "success" || echo "failure" && exit
-
-printf "importmap audit: "
-bin/importmap audit 2>&1 >/dev/null && echo "success" || echo "failure" && exit
-
-printf "bundler audit: "
-bin/bundler-audit check --update --quiet 2>&1 >/dev/null && echo "success" || echo "failure" && exit
-
-printf "npm audit: "
-npm audit 2>&1 >/dev/null && echo "success" || echo "failure" && exit
-
-printf "secrets: "
-bin/secrets 2>&1 >/dev/null && echo "success" || echo "failure" && exit
+run "rubocop" bin/rubocop
+run "rspec" bin/rspec
+run "brakeman" bin/brakeman -A -q --color
+run "importmap outdated" bin/importmap outdated
+run "importmap audit" bin/importmap audit
+run "bundler audit" bin/bundler-audit check --update --quiet
+run "npm audit" npm audit
+run "secrets" bin/secrets
