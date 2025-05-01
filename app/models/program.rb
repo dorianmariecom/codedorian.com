@@ -6,11 +6,26 @@ class Program < ApplicationRecord
   OMISSION = "…"
 
   self.fields = {
-    id: { node: -> { arel_table[:id] }, type: :integer },
-    name: { node: -> { arel_table[:name] }, type: :string },
-    input: { node: -> { arel_table[:input] }, type: :string },
-    updated_at: { node: -> { arel_table[:updated_at] }, type: :datetime },
-    created_at: { node: -> { arel_table[:created_at] }, type: :datetime }
+    id: {
+      node: -> { arel_table[:id] },
+      type: :integer
+    },
+    name: {
+      node: -> { arel_table[:name] },
+      type: :string
+    },
+    input: {
+      node: -> { arel_table[:input] },
+      type: :string
+    },
+    updated_at: {
+      node: -> { arel_table[:updated_at] },
+      type: :datetime
+    },
+    created_at: {
+      node: -> { arel_table[:created_at] },
+      type: :datetime
+    }
   }
 
   belongs_to :user, default: -> { Current.user! }, touch: true

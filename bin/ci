@@ -3,25 +3,25 @@
 set -e
 
 printf "rubocop: "
-bin/rubocop 2>&1 > /dev/null && echo "success" || echo "failure"
+bin/rubocop 2>&1 >/dev/null && echo "success" || echo "failure"
 
 printf "rspec: "
-bin/rspec 2>&1 > /dev/null && echo "success" || echo "failure"
+bin/rspec 2>&1 >/dev/null && echo "success" || echo "failure"
 
 printf "brakeman: "
-bin/brakeman -A -q --color 2>&1 > /dev/null && echo "success" || echo "failure"
+bin/brakeman -A -q --color 2>&1 >/dev/null && echo "success" || echo "failure"
 
 printf "importmap outdated: "
-bin/importmap outdated 2>&1 > /dev/null && echo "success" || echo "failure"
+bin/importmap outdated 2>&1 >/dev/null && echo "success" || echo "failure"
 
 printf "importmap audit: "
-bin/importmap audit 2>&1 > /dev/null && echo "success" || echo "failure"
+bin/importmap audit 2>&1 >/dev/null && echo "success" || echo "failure"
 
 printf "bundler audit: "
-bin/bundler-audit check --update --quiet 2>&1 > /dev/null && echo "success" || echo "failure"
+bin/bundler-audit check --update --quiet 2>&1 >/dev/null && echo "success" || echo "failure"
 
 printf "npm audit: "
-npm audit 2>&1 > /dev/null && echo "success" || echo "failure"
+npm audit 2>&1 >/dev/null && echo "success" || echo "failure"
 
 printf "secrets: "
-bin/secrets 2>&1 > /dev/null && echo "success" || echo "failure"
+bin/secrets 2>&1 >/dev/null && echo "success" || echo "failure"

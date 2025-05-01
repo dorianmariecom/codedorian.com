@@ -72,9 +72,13 @@ RSpec/ContextWording:
   Enabled: false
 RSpec/DescribeClass:
   Enabled: false
+RSpec/DescribedClass:
+  Enabled: false
 RSpec/ExampleLength:
   Enabled: false
 RSpec/ExampleWording:
+  Enabled: false
+RSpec/LetSetup:
   Enabled: false
 RSpec/MultipleExpectations:
   Enabled: false
@@ -126,9 +130,7 @@ Style/StringLiterals:
   Enabled: false
 Style/StringLiteralsInInterpolation:
   Enabled: false
-RSpec/DescribedClass:
-  Enabled: false
-RSpec/LetSetup:
+RSpec/NestedGroups:
   Enabled: false
 plugins:
 - rubocop-factory_bot
