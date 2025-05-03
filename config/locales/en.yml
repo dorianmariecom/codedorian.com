@@ -826,6 +826,9 @@ en:
     search:
       placeholder: enter your search query
       submit: search
+      key_value: key value
+      free_field: free field
+      advanced: advanced
     attribute:
       address: address
       email_address: email address

@@ -1,4 +1,24 @@
-<form class="p">
-  <%= text_field_tag "search[q]", params.dig(:search, :q), placeholder: t(".placeholder"), class: "input" %>
-  <%= submit_tag t(".submit"), class: "button" %>
+<form
+  data-controller="search"
+  data-search-default-type-value="key_value"
+  data-search-advanced-open-value="true"
+>
+  <div class="p">
+    <%= text_field_tag "search[q]", params.dig(:search, :q), placeholder: t(".placeholder"), class: "input" %>
+    <%= submit_tag t(".submit"), class: "button" %>
+  </div>
+  <details data-search-target="advanced">
+    <summary class="p"><%= t(".advanced") %></summary>
+
+    <div class="p">
+      <label>
+        <input type="radio" name="type" value="key_value" />
+        <%= t(".key_value") %>
+      </label>
+      <label>
+        <input type="radio" name="type" value="free_field" />
+        <%= t(".free_field") %>
+      </label>
+    </div>
+  </details>
 </form>
