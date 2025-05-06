@@ -1,24 +1,107 @@
+<% advanced_open = true %>
+<% default_type = :key_value %>
+<% group_classes = "js-search-group pl-4 border-l border-black" %>
+
 <form
   data-controller="search"
-  data-search-default-type-value="key_value"
-  data-search-advanced-open-value="true"
+  data-search-default-type-value="<%= default_type %>"
+  data-search-advanced-open-value="<%= advanced_open %>"
+  data-search-group-class="<%= group_classes %>"
 >
   <div class="p">
     <%= text_field_tag "search[q]", params.dig(:search, :q), placeholder: t(".placeholder"), class: "input" %>
     <%= submit_tag t(".submit"), class: "button" %>
   </div>
-  <details data-search-target="advanced">
+
+  <details data-action="search#toggleAdvanced" data-search-target="advanced">
     <summary class="p"><%= t(".advanced") %></summary>
 
-    <div class="p">
-      <label>
-        <input type="radio" name="type" value="key_value" />
-        <%= t(".key_value") %>
-      </label>
-      <label>
-        <input type="radio" name="type" value="free_field" />
-        <%= t(".free_field") %>
-      </label>
+    <div class="<%= group_classes %>">
+      <div class="p">
+        <a class="underline" data-action="search#addItem:prevent">
+          <%= t(".add") %>
+        </a>
+      </div>
     </div>
   </details>
+
+  <template data-search-target="itemTemplate">
+    <div class="js-search-item">
+      <div class="pl-4 border-l border-black">
+        <div class="p">
+          <label>
+            <%=
+              radio_button_tag(
+                :type,
+                :key_value,
+                checked: default_type == :key_value,
+                data: { action: "search#chooseKeyValue" }
+              )
+            %>
+            <%= t(".key_value") %>
+          </label>
+          <label>
+            <%=
+              radio_button_tag(
+                :type,
+                :free_field,
+                checked: default_type == :free_field,
+                data: { action: "search#chooseFreeField" }
+              )
+            %>
+            <%= t(".free_field") %>
+          </label>
+        </div>
+        <div class="p js-search-free-field" hidden>
+          <input
+            type="text"
+            name="{free_field_name}"
+            class="input"
+          />
+        </div>
+        <div class="p js-search-key-value">
+          <input
+            type="text"
+            name="{key_value_key_name}"
+            class="input"
+          />
+          <input
+            type="text"
+            name="{key_value_operator_name}"
+            class="input"
+          />
+          <input
+            type="text"
+            name="{key_value_type_name}"
+            class="input"
+          />
+          <input
+            type="text"
+            name="{key_value_value_name}"
+            class="input"
+          />
+          <input
+            type="text"
+            name="{key_value_first_name}"
+            class="input"
+          />
+          <input
+            type="text"
+            name="{key_value_last_name}"
+            class="input"
+          />
+        </div>
+        <div class="p">
+          <a class="underline" data-action="search#removeItem:prevent">
+            <%= t(".remove") %>
+          </a>
+        </div>
+      </div>
+      <div class="p">
+        <a class="underline" data-action="search#addItem">
+          <%= t(".add") %>
+        </a>
+      </div>
+    </div>
+  </template>
 </form>
