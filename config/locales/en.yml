@@ -823,16 +823,6 @@ en:
       submit: log in
       title: log in
   shared:
-    search:
-      and: and
-      or: or
-      remove: remove
-      add: add
-      placeholder: enter your search query
-      submit: search
-      key_value: key value
-      free_field: free field
-      advanced: advanced
     attribute:
       address: address
       email_address: email address
@@ -860,6 +850,16 @@ en:
       phone_numbers: phone numbers
       time_zones: time zones
       tokens: tokens
+    search:
+      add: add
+      advanced: advanced
+      and: and
+      free_field: free field
+      key_value: key value
+      or: or
+      placeholder: enter your search query
+      remove: remove
+      submit: search
   static:
     about:
       about_html: |

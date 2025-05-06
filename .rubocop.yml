@@ -84,6 +84,8 @@ RSpec/MultipleExpectations:
   Enabled: false
 RSpec/MultipleMemoizedHelpers:
   Enabled: false
+RSpec/NestedGroups:
+  Enabled: false
 RSpec/NoExpectationExample:
   Enabled: false
 RSpec/PendingWithoutReason:
@@ -129,8 +131,6 @@ Style/QuotedSymbols:
 Style/StringLiterals:
   Enabled: false
 Style/StringLiteralsInInterpolation:
-  Enabled: false
-RSpec/NestedGroups:
   Enabled: false
 plugins:
 - rubocop-factory_bot

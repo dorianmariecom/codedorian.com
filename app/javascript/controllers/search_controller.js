@@ -1,11 +1,7 @@
 import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
-  static targets = [
-    "advanced",
-    "itemTemplate",
-    "emptyTemplate",
-  ];
+  static targets = ["advanced", "itemTemplate", "emptyTemplate"];
 
   static values = {
     defaultType: { type: String, default: "key_value" },
@@ -14,20 +10,21 @@ export default class extends Controller {
 
   addItem(event) {
     const empty = event.target.closest(".js-search-empty");
-    empty.remove()
+    empty.remove();
 
-    const html = Object.entries(this._rootValues()).reduce((html, [key, value]) => {
-      return html.replaceAll(`{${key}}`, this._escapeHtml(value))
-    }, this.itemTemplateTarget.innerHTML);
+    const html = Object.entries(this._rootValues()).reduce(
+      (html, [key, value]) => {
+        return html.replaceAll(`{${key}}`, this._escapeHtml(value));
+      },
+      this.itemTemplateTarget.innerHTML,
+    );
 
-    this.advancedTarget.insertAdjacentHTML('beforeend', html);
+    this.advancedTarget.insertAdjacentHTML("beforeend", html);
   }
 
-  orItem(event) {
-  }
+  orItem(event) {}
 
-  andItem(event) {
-  }
+  andItem(event) {}
 
   chooseKeyValue(event) {
     const item = event.target.closest(".js-search-item");
@@ -49,6 +46,11 @@ export default class extends Controller {
 
   removeItem(event) {
     event.target.closest(".js-search-item").remove();
+
+    this.advancedTarget.insertAdjacentHTML(
+      "beforeend",
+      this.emptyTemplateTarget.innerHTML,
+    );
   }
 
   toggleAdvanced() {
@@ -89,6 +91,10 @@ export default class extends Controller {
       key_value_first_id: "search_key_value_first",
       key_value_last_name: "search[key_value][last]",
       key_value_last_id: "search_key_value_last",
-    }
+      key_value_checked: this.defaultTypeValue == "key_value" ? "checked" : "",
+      free_field_checked: this.defaultTypeValue == "free_field" ? "checked" : "",
+      key_value_hidden: this.defaultTypeValue == "key_value" ? "" : "hidden",
+      free_field_hidden: this.defaultTypeValue == "free_field" ? "" : "hidden",
+    };
   }
 }

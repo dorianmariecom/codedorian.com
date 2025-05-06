@@ -80,7 +80,8 @@ button {
   @apply focus:ring-offset-0 focus:ring-0;
   @apply max-w-xs;
 
-  &[type="checkbox"] {
+  &[type="checkbox"],
+  &[type="radio"] {
     @apply w-auto;
   }
 

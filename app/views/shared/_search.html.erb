@@ -1,5 +1,6 @@
 <% advanced_open = true %>
-<% default_type = :key_value %>
+<%# default_type = :key_value %>
+<% default_type = :free_field %>
 
 <form
   data-controller="search"
@@ -11,7 +12,11 @@
     <%= submit_tag t(".submit"), class: "button" %>
   </div>
 
-  <details data-action="search#toggleAdvanced" data-search-target="advanced">
+  <details
+    class="pl-4 border-l border-black"
+    data-action="search#toggleAdvanced"
+    data-search-target="advanced"
+  >
     <summary class="p"><%= t(".advanced") %></summary>
 
     <div class="js-search-empty">
@@ -38,8 +43,9 @@
               name="{type_name}"
               type="radio"
               value="key_value"
+              data-search-target="freeFieldType"
               data-action="search#chooseKeyValue"
-              <%= "checked" if default_type == :key_value %>
+              {key_value_checked}
             />
             <%= t(".key_value") %>
           </label>
@@ -50,13 +56,14 @@
               name="{type_name}"
               type="radio"
               value="free_field"
+              data-search-target="freeFieldType"
               data-action="search#chooseFreeField"
-              <%= "checked" if default_type == :free_field %>
+              {free_field_checked}
             />
             <%= t(".free_field") %>
           </label>
         </div>
-        <div class="p js-search-free-field" hidden>
+        <div class="p js-search-free-field" {free_field_hidden}>
           <input
             type="text"
             name="{free_field_name}"
@@ -64,7 +71,7 @@
             class="input"
           />
         </div>
-        <div class="p js-search-key-value">
+        <div class="p js-search-key-value" {key_value_hidden}>
           <input
             type="text"
             name="{key_value_key_name}"

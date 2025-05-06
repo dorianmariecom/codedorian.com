@@ -3,15 +3,15 @@
 set -e
 
 run() {
-  local name="$1"
-  shift
-  printf "%s: ..." "$name"
-  if "$@" >/dev/null 2>/dev/null; then
-    echo " success"
-  else
-    echo " failure"
-    exit 1
-  fi
+    local name="$1"
+    shift
+    printf "%s: ..." "$name"
+    if "$@" >/dev/null 2>/dev/null; then
+        echo " success"
+    else
+        echo " failure"
+        exit 1
+    fi
 }
 
 run "rubocop" bin/rubocop
