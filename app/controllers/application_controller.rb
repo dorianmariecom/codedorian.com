@@ -38,6 +38,7 @@ class ApplicationController < ActionController::Base
   helper_method :admin?
   helper_method :can?
   helper_method :error_message_for
+  helper_method :search_params
 
   REDIRECT_ERROR =
     lambda { |error| redirect_to(root_path, alert: error_message_for(error)) }
@@ -207,5 +208,42 @@ class ApplicationController < ActionController::Base
     message = admin? ? error&.message.presence.to_s : nil
     to_s = [class_name, message].compact_blank.join(": ")
     to_s.truncate(ERROR_MESSAGE_LIMIT, omission: OMISSION).presence
+  end
+
+  def search_params(search = params[:search])
+    search ||= {}
+
+    if search[:type] == "free_field"
+      search[:free_field].presence
+    elsif search[:type] == "key_value"
+      key_value = search[:key_value]
+
+      value =
+        case key_value[:type]
+        when "inclusive_range"
+          key_value[:first]..key_value[:last]
+        when "exclusive_range"
+          key_value[:first]...key_value[:last]
+        else
+          key_value[:value]
+        end
+
+      {
+        key: key_value[:key],
+        operator: key_value[:operator],
+        value: value
+      }
+    elsif %w[and or].include?(search[:operator])
+      {
+        left: search_params(search[:left]),
+        operator: search[:operator],
+        right: search_params(search[:right])
+      }
+    elsif search[:operator] == "not"
+      {
+        operator: search[:operator],
+        right: search_params(search[:right])
+      }
+    end
   end
 end
