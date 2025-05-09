@@ -78,11 +78,9 @@ class PhoneNumbersController < ApplicationController
   end
 
   def scope
-    if @user
-      policy_scope(PhoneNumber).where(user: @user)
-    else
-      policy_scope(PhoneNumber)
-    end
+    scope = searched_policy_scope(PhoneNumber)
+    scope = scope.where(user: @user) if @user
+    scope
   end
 
   def url

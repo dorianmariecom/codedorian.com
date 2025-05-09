@@ -74,7 +74,9 @@ class NamesController < ApplicationController
   end
 
   def scope
-    @user ? policy_scope(Name).where(user: @user) : policy_scope(Name)
+    scope = searched_policy_scope(Name)
+    scope = scope.where(user: @user) if @user
+    scope
   end
 
   def url

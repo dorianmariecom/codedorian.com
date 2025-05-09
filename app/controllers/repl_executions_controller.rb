@@ -69,7 +69,7 @@ class ReplExecutionsController < ApplicationController
   end
 
   def scope
-    scope = policy_scope(ReplExecution)
+    scope = searched_policy_scope(ReplExecution)
 
     scope = scope.where(repl_program: @repl_program) if @repl_program
 

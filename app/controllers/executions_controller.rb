@@ -52,7 +52,7 @@ class ExecutionsController < ApplicationController
   end
 
   def scope
-    scope = policy_scope(Execution)
+    scope = searched_policy_scope(Execution)
     scope = scope.where(program: @program) if @program
     scope = scope.joins(:user).where(user: { id: @user }) if @user
     scope

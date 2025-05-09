@@ -1,3 +1,5 @@
 <%= turbo_stream_from @guests %>
 
+<%= render "shared/search" %>
+
 <%= render_collection partial: "guests/guest", collection: @guests, as: :guest %>

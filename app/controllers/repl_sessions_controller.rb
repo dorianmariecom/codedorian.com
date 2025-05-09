@@ -90,11 +90,9 @@ class ReplSessionsController < ApplicationController
   end
 
   def scope
-    if @user
-      policy_scope(ReplSession).where(user: @user)
-    else
-      policy_scope(ReplSession)
-    end
+    scope = searched_policy_scope(ReplSession)
+    scope = scope.where(user: @user) if @user
+    scope
   end
 
   def url

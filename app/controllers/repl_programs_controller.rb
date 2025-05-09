@@ -86,24 +86,10 @@ class ReplProgramsController < ApplicationController
   end
 
   def scope
-    if @user && @repl_session
-      policy_scope(ReplProgram).joins(:repl_session).where(
-        repl_session: {
-          id: @repl_session,
-          user_id: @user.id
-        }
-      )
-    elsif @user
-      policy_scope(ReplProgram).joins(:repl_session).where(
-        repl_session: {
-          user_id: @user.id
-        }
-      )
-    elsif @repl_session
-      policy_scope(ReplProgram).where(repl_session: @repl_session)
-    else
-      policy_scope(ReplProgram)
-    end
+    scope = searched_policy_scope(ReplProgram)
+    scope = scope.where(repl_session: @repl_session) if @repl_session
+    scope = scope.joins(:repl_session).where(repl_session: { user: @user }) if @user
+    scope
   end
 
   def url

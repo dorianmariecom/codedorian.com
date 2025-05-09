@@ -75,7 +75,9 @@ class TokensController < ApplicationController
   end
 
   def scope
-    @user ? policy_scope(Token).where(user: @user) : policy_scope(Token)
+    scope = searched_policy_scope(Token)
+    scope = scope.where(user: @user) if @user
+    scope
   end
 
   def url

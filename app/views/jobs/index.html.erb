@@ -1,5 +1,7 @@
 <%= turbo_stream_from @jobs %>
 
+<%= render "shared/search" %>
+
 <% if @jobs.any? %>
   <div class="p">
     <%= button_to t(".retry_all"),

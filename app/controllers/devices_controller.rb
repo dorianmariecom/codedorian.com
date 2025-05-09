@@ -87,7 +87,9 @@ class DevicesController < ApplicationController
   end
 
   def scope
-    @user ? policy_scope(Device).where(user: @user) : policy_scope(Device)
+    scope = searched_policy_scope(Device)
+    scope = scope.where(user: @user) if @user
+    scope
   end
 
   def url

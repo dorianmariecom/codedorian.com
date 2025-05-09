@@ -94,7 +94,7 @@ class ErrorsController < ApplicationController
   end
 
   def scope
-    policy_scope(Error)
+    searched_policy_scope(Error)
   end
 
   def url

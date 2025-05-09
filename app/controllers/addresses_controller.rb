@@ -75,7 +75,9 @@ class AddressesController < ApplicationController
   end
 
   def scope
-    @user ? policy_scope(Address).where(user: @user) : policy_scope(Address)
+    scope = searched_policy_scope(Address)
+    scope = scope.where(user: @user) if @user
+    scope
   end
 
   def url

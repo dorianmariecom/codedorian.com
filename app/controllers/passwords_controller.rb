@@ -75,7 +75,9 @@ class PasswordsController < ApplicationController
   end
 
   def scope
-    @user ? policy_scope(Password).where(user: @user) : policy_scope(Password)
+    scope = searched_policy_scope(Password)
+    scope = scope.where(user: @user) if @user
+    scope
   end
 
   def url

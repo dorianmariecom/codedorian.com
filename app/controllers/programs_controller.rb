@@ -100,7 +100,9 @@ class ProgramsController < ApplicationController
   end
 
   def scope
-    @user ? policy_scope(Program).where(user: @user) : policy_scope(Program)
+    scope = searched_policy_scope(Program)
+    scope = scope.where(user: @user) if @user
+    scope
   end
 
   def url

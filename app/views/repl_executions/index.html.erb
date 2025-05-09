@@ -1,5 +1,7 @@
 <%= turbo_stream_from @repl_executions %>
 
+<%= render "shared/search" %>
+
 <% if @repl_executions.any? %>
   <div class="p">
     <%= button_to t(".delete_all"), url, method: :delete, class: "button button--link" %>

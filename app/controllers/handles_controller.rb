@@ -75,7 +75,9 @@ class HandlesController < ApplicationController
   end
 
   def scope
-    @user ? policy_scope(Handle).where(user: @user) : policy_scope(Handle)
+    scope = searched_policy_scope(Handle)
+    scope = scope.where(user: @user) if @user
+    scope
   end
 
   def url

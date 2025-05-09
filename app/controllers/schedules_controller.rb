@@ -82,24 +82,10 @@ class SchedulesController < ApplicationController
   end
 
   def scope
-    if @user && @program
-      policy_scope(Schedule).joins(:program).where(
-        program: {
-          id: @program,
-          user_id: @user.id
-        }
-      )
-    elsif @user
-      policy_scope(Schedule).joins(:program).where(
-        program: {
-          user_id: @user.id
-        }
-      )
-    elsif @program
-      policy_scope(Schedule).where(program: @program)
-    else
-      policy_scope(Schedule)
-    end
+    scope = searched_policy_scope(Schedule)
+    scope = scope.where(progran: @program) if @program
+    scope = scope.joins(:program).where(program: { user: @user }) if @user
+    scope
   end
 
   def url

@@ -89,7 +89,7 @@ class JobsController < ApplicationController
   end
 
   def scope
-    policy_scope(Job)
+    searched_policy_scope(Job)
   end
 
   def url

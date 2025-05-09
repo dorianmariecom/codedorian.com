@@ -79,11 +79,9 @@ class EmailAddressesController < ApplicationController
   end
 
   def scope
-    if @user
-      policy_scope(EmailAddress).where(user: @user)
-    else
-      policy_scope(EmailAddress)
-    end
+    scope = searched_policy_scope(EmailAddress)
+    scope = scope.where(user: @user) if @user
+    scope
   end
 
   def id

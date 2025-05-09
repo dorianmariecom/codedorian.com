@@ -95,11 +95,7 @@ class UsersController < ApplicationController
   end
 
   def scope
-    policy_scope(User).search(q: params.dig(:search, :q), fields: fields)
-  end
-
-  def fields
-    admin? ? User::ADMIN_SEARCH_FIELDS : User::USER_SEARCH_FIELDS
+    searched_policy_scope(User)
   end
 
   def user_params

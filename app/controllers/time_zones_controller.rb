@@ -75,7 +75,9 @@ class TimeZonesController < ApplicationController
   end
 
   def scope
-    @user ? policy_scope(TimeZone).where(user: @user) : policy_scope(TimeZone)
+    scope = searched_policy_scope(TimeZone)
+    scope = scope.where(user: @user) if @user
+    scope
   end
 
   def url

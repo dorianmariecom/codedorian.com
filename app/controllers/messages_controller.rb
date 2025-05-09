@@ -102,15 +102,9 @@ class MessagesController < ApplicationController
   end
 
   def scope
-    if @user
-      base_scope.where(from_user: @user).or(base_scope.where(to_user: @user))
-    else
-      policy_scope(Message)
-    end
-  end
-
-  def base_scope
-    policy_scope(Message)
+    scope = searched_policy_scope(Message)
+    scope = scope.where(from_user: @user).or(scope.where(to_user: @user)) if @user
+    scope
   end
 
   def url
