@@ -65,6 +65,20 @@ class Schedule < ApplicationRecord
   after_initialize { self.starts_at ||= default_starts_at }
   after_initialize { self.interval ||= default_interval }
 
+  def self.search_fields
+    {
+      starts_at: {
+        node: -> { arel_table[:starts_at] },
+        type: :datetime
+      },
+      interval: {
+        node: -> { arel_table[:interval] },
+        type: :string
+      },
+      **base_search_fields
+    }
+  end
+
   def self.interval_options
     INTERVALS.map do |interval|
       count = interval == "once" ? 0 : interval.split.first.to_i

@@ -9,7 +9,7 @@ RSpec.describe User do
 
   describe ".search" do
     subject do
-      described_class.search(q: q, params: params, fields: fields).map(&:to_s)
+      described_class.search(q: q).map(&:to_s)
     end
 
     let!(:user_admin) { create(:user, admin: true) }
@@ -17,8 +17,6 @@ RSpec.describe User do
     let!(:user) { create(:user) }
 
     let!(:q) { "" }
-    let!(:params) { {} }
-    let!(:fields) { described_class.fields.keys }
 
     [
       "",

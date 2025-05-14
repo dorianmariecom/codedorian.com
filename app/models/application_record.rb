@@ -12,6 +12,23 @@ class ApplicationRecord < ActiveRecord::Base
   has_paper_trail
   primary_abstract_class
 
+  def self.base_search_fields
+    {
+      id: {
+        node: -> { arel_table[:id] },
+        type: :integer
+      },
+      updated_at: {
+        node: -> { arel_table[:updated_at] },
+        type: :datetime
+      },
+      created_at: {
+        node: -> { arel_table[:created_at] },
+        type: :datetime
+      }
+    }
+  end
+
   def self.current_user
     Current.user_or_guest
   end

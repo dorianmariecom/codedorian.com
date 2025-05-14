@@ -5,6 +5,7 @@ class Guest
 
   def self.singular_route_key = :guest
   def self.route_key = :guests
+  def self.search(...) = []
 
   def id = "me"
   def to_param = "me"

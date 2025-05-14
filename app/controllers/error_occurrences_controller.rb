@@ -44,7 +44,7 @@ class ErrorOccurrencesController < ApplicationController
   def load_error
     return if params[:error_id].blank?
 
-    @error = policy_scope(SolidErrors::Error).find(params[:error_id])
+    @error = policy_scope(Error).find(params[:error_id])
   end
 
   def load_error_occurrence

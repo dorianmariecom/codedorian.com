@@ -18,6 +18,29 @@ class Device < ApplicationRecord
 
   before_update { not_verified! if device_changed? && verified? }
 
+  def self.search_fields
+    {
+      platform: {
+        node: -> { arel_table[:platform] },
+        type: :string
+      },
+      token: {
+        node: -> { arel_table[:token] },
+        type: :string
+      },
+      primary: {
+        node: -> { arel_table[:primary] },
+        type: :boolean
+      },
+      verified: {
+        node: -> { arel_table[:verified] },
+        type: :boolean
+      },
+      **base_search_fields,
+      **User.associated_search_fields
+    }
+  end
+
   def primary?
     !!primary
   end

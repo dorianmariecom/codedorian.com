@@ -15,6 +15,32 @@ class ReplExecution < ApplicationRecord
 
   validate { can!(:update, repl_program) }
 
+  def self.search_fields
+    {
+      input: {
+        node: -> { arel_table[:input] },
+        type: :string
+      },
+      output: {
+        node: -> { arel_table[:output] },
+        type: :string
+      },
+      result: {
+        node: -> { arel_table[:result] },
+        type: :string
+      },
+      error: {
+        node: -> { arel_table[:error] },
+        type: :string
+      },
+      context: {
+        node: -> { arel_table[:context] },
+        type: :string
+      },
+      **base_search_fields
+    }
+  end
+
   def input_sample
     input.to_s.truncate(INPUT_SAMPLE_SIZE, omission: OMISSION).presence
   end

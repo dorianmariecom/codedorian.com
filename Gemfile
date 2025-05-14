@@ -8,8 +8,6 @@ git_source(:hotwired) { |name| "https://github.com/hotwired/#{name}" }
 
 ruby "3.4.2"
 
-gem "search-rails", path: "../search-rails"
-
 gem "importmap-rails", dorian: "importmap-rails" # https://github.com/rails/importmap-rails/pull/257, https://github.com/rails/importmap-rails/pull/256
 gem "rails", rails: :rails
 gem "thruster", require: false
@@ -63,6 +61,7 @@ gem "rubocop-rails"
 gem "rubocop-rake"
 gem "rubocop-rspec"
 gem "rubocop-rspec_rails"
+gem "search_rails"
 gem "slim-rails"
 gem "solid_cable"
 gem "solid_cache"

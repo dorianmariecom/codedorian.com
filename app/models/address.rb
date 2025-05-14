@@ -17,6 +17,45 @@ class Address < ApplicationRecord
     not_verified! if address_changed? && (verified? || verifying?)
   end
 
+  def self.search_fields
+    {
+      address: {
+        node: -> { arel_table[:address] },
+        type: :string
+      },
+      address_components: {
+        node: -> { arel_table[:address_components] },
+        type: :string
+      },
+      formatted_address: {
+        node: -> { arel_table[:formatted_address] },
+        type: :string
+      },
+      geometry: {
+        node: -> { arel_table[:geometry] },
+        type: :string
+      },
+      place_id: {
+        node: -> { arel_table[:place_id] },
+        type: :string
+      },
+      types: {
+        node: -> { arel_table[:types] },
+        type: :string
+      },
+      primary: {
+        node: -> { arel_table[:primary] },
+        type: :boolean
+      },
+      verified: {
+        node: -> { arel_table[:verified] },
+        type: :boolean
+      },
+      **base_search_fields,
+      **User.associated_search_fields
+    }
+  end
+
   def address_components=(address_components)
     if address_components.is_a?(String) && address_components.present?
       super(JSON.parse(address_components))

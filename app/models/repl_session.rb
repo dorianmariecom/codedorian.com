@@ -15,6 +15,17 @@ class ReplSession < ApplicationRecord
 
   before_validation { self.user ||= Current.user! }
 
+  def self.search_fields
+    {
+      name: {
+        node: -> { arel_table[:name] },
+        type: :string
+      },
+      **base_search_fields,
+      **User.associated_search_fields
+    }
+  end
+
   def inputs
     repl_programs.sort_by(&:id).map(&:input)
   end

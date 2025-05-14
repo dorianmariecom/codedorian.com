@@ -12,6 +12,16 @@ class ReplProgram < ApplicationRecord
 
   validate { can!(:update, repl_session) }
 
+  def self.search_fields
+    {
+      input: {
+        node: -> { arel_table[:input] },
+        type: :string
+      },
+      **base_search_fields
+    }
+  end
+
   def previous_repl_program
     repl_programs
       .sort_by(&:id)

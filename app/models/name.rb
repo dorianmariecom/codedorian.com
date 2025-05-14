@@ -15,6 +15,29 @@ class Name < ApplicationRecord
   before_validation { self.user ||= Current.user! }
   before_update { not_verified! if name_changed? && verified? }
 
+  def self.search_fields
+    {
+      given_name: {
+        node: -> { arel_table[:given_name] },
+        type: :string
+      },
+      family_name: {
+        node: -> { arel_table[:given_name] },
+        type: :string
+      },
+      primary: {
+        node: -> { arel_table[:primary] },
+        type: :boolean
+      },
+      verified: {
+        node: -> { arel_table[:verified] },
+        type: :boolean
+      },
+      **base_search_fields,
+      **User.associated_search_fields
+    }
+  end
+
   def primary?
     !!primary
   end

@@ -23,6 +23,25 @@ class EmailAddress < ApplicationRecord
 
   before_update { not_verified! if email_address_changed? && verified? }
 
+  def self.search_fields
+    {
+      email_address: {
+        node: -> { arel_table[:email_address] },
+        type: :string
+      },
+      primary: {
+        node: -> { arel_table[:primary] },
+        type: :boolean
+      },
+      verified: {
+        node: -> { arel_table[:verified] },
+        type: :boolean
+      },
+      **base_search_fields,
+      **User.associated_search_fields
+    }
+  end
+
   def email_address_with_name
     ActionMailer::Base.email_address_with_name(email_address, user.name)
   end

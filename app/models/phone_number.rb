@@ -25,6 +25,25 @@ class PhoneNumber < ApplicationRecord
 
   delegate :e164, to: :phonelib
 
+  def self.search_fields
+    {
+      phone_number: {
+        node: -> { arel_table[:phone_number] },
+        type: :string
+      },
+      primary: {
+        node: -> { arel_table[:primary] },
+        type: :boolean
+      },
+      verified: {
+        node: -> { arel_table[:verified] },
+        type: :boolean
+      },
+      **base_search_fields,
+      **User.associated_search_fields
+    }
+  end
+
   def primary?
     !!primary
   end

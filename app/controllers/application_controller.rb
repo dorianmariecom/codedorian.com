@@ -210,9 +210,6 @@ class ApplicationController < ActionController::Base
   end
 
   def searched_policy_scope(model)
-    scope = policy_scope(model)
-    q = params.dig(:search, :q)
-    fields = admin? ? model.admin_fields : model.regular_fields
-    scope.search(q: q, fields: fields)
+    policy_scope(model).search(q: params.dig(:search, :q))
   end
 end

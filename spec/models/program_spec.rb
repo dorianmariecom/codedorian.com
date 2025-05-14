@@ -9,7 +9,7 @@ RSpec.describe Program do
 
   describe ".search" do
     subject do
-      described_class.search(q: q, params: params, fields: fields).map(&:to_s)
+      described_class.search(q: q).map(&:to_s)
     end
 
     let!(:program_pomodoro) { create(:program, name: "pomodoro") }
@@ -20,8 +20,6 @@ RSpec.describe Program do
     let!(:program_time_hour) { create(:program, input: "Time.hour") }
 
     let!(:q) { "" }
-    let!(:params) { {} }
-    let!(:fields) { described_class.fields.keys }
 
     [
       "",

@@ -113,15 +113,6 @@ GIT
       thor (~> 1.0, >= 1.2.2)
       zeitwerk (~> 2.6)
 
-PATH
-  remote: ../search-rails
-  specs:
-    search-rails (0.1.0)
-      chronic
-      query-ruby
-      rails
-      zeitwerk
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -530,6 +521,11 @@ GEM
     ruby-vips (2.2.3)
       ffi (~> 1.12)
       logger
+    search_rails (2.0.0)
+      chronic
+      query-ruby
+      rails
+      zeitwerk
     securerandom (0.4.1)
     signet (0.20.0)
       addressable (~> 2.8)
@@ -688,7 +684,7 @@ DEPENDENCIES
   rubocop-rake
   rubocop-rspec
   rubocop-rspec_rails
-  search-rails!
+  search_rails
   slim-rails
   solid_cable
   solid_cache

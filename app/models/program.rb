@@ -5,30 +5,6 @@ class Program < ApplicationRecord
   INPUT_SAMPLE_SIZE = 140
   OMISSION = "…"
 
-  self.fields = {
-    id: {
-      node: -> { arel_table[:id] },
-      type: :integer
-    },
-    name: {
-      node: -> { arel_table[:name] },
-      type: :string
-    },
-    input: {
-      node: -> { arel_table[:input] },
-      type: :string
-    },
-    updated_at: {
-      node: -> { arel_table[:updated_at] },
-      type: :datetime
-    },
-    created_at: {
-      node: -> { arel_table[:created_at] },
-      type: :datetime
-    },
-    **User::SHARED_FIELDS
-  }
-
   belongs_to :user, default: -> { Current.user! }, touch: true
 
   has_many :executions, dependent: :destroy
@@ -39,6 +15,21 @@ class Program < ApplicationRecord
   validate { can!(:update, user) }
 
   before_validation { self.user ||= Current.user! }
+
+  def self.search_fields
+    {
+      name: {
+        node: -> { arel_table[:name] },
+        type: :string
+      },
+      input: {
+        node: -> { arel_table[:input] },
+        type: :string
+      },
+      **base_search_fields,
+      **User.associated_search_fields
+    }
+  end
 
   def evaluate!
     Current.with(user: user) do

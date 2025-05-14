@@ -1,60 +1,6 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  SHARED_FIELDS = {
-    "user:id": {
-      node: -> { User.arel_table[:id] },
-      relation: ->(scope) { scope.joins(:user) },
-      type: :integer
-    },
-    "user:admin": {
-      node: -> { User.arel_table[:admin] },
-      relation: ->(scope) { scope.joins(:user) },
-      type: :boolean
-    },
-    "user:verified": {
-      node: -> { User.arel_table[:verified] },
-      relation: ->(scope) { scope.joins(:user) },
-      type: :boolean
-    },
-    "user:updated_at": {
-      node: -> { User.arel_table[:updated_at] },
-      relation: ->(scope) { scope.joins(:user) },
-      type: :datetime
-    },
-    "user:created_at": {
-      node: -> { User.arel_table[:created_at] },
-      relation: ->(scope) { scope.joins(:user) },
-      type: :datetime
-    }
-  }.freeze
-
-  self.fields = {
-    id: {
-      node: -> { arel_table[:id] },
-      type: :integer
-    },
-    verified: {
-      node: -> { arel_table[:verified] },
-      type: :boolean
-    },
-    admin: {
-      node: -> { arel_table[:admin] },
-      type: :boolean
-    },
-    updated_at: {
-      node: -> { arel_table[:updated_at] },
-      type: :datetime
-    },
-    created_at: {
-      node: -> { arel_table[:created_at] },
-      type: :datetime
-    }
-  }
-
-  ADMIN_SEARCH_FIELDS = %i[id verified admin updated_at created_at].freeze
-  USER_SEARCH_FIELDS = %i[id verified updated_at created_at].freeze
-
   has_many :addresses, dependent: :destroy
   has_many :devices, dependent: :destroy
   has_many :email_addresses, dependent: :destroy
@@ -95,6 +41,50 @@ class User < ApplicationRecord
               in: I18n.available_locales.map(&:to_s)
             },
             allow_blank: true
+
+  def self.associated_search_fields
+    {
+      "user:id": {
+        node: -> { User.arel_table[:id] },
+        relation: ->(scope) { scope.left_joins(:user) },
+        type: :integer
+      },
+      "user:admin": {
+        node: -> { User.arel_table[:admin] },
+        relation: ->(scope) { scope.left_joins(:user) },
+        type: :boolean
+      },
+      "user:verified": {
+        node: -> { User.arel_table[:verified] },
+        relation: ->(scope) { scope.left_joins(:user) },
+        type: :boolean
+      },
+      "user:updated_at": {
+        node: -> { User.arel_table[:updated_at] },
+        relation: ->(scope) { scope.left_joins(:user) },
+        type: :datetime
+      },
+      "user:created_at": {
+        node: -> { User.arel_table[:created_at] },
+        relation: ->(scope) { scope.left_joins(:user) },
+        type: :datetime
+      }
+    }
+  end
+
+  def self.search_fields
+    {
+      verified: {
+        node: -> { arel_table[:verified] },
+        type: :boolean
+      },
+      admin: {
+        node: -> { arel_table[:admin] },
+        type: :boolean
+      },
+      **base_search_fields
+    }
+  end
 
   def self.verified!
     ApplicationRecord.transaction { find_each(&:verified!) }
