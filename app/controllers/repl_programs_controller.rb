@@ -88,8 +88,9 @@ class ReplProgramsController < ApplicationController
   def scope
     scope = searched_policy_scope(ReplProgram)
     scope = scope.where(repl_session: @repl_session) if @repl_session
-    scope =
-      scope.joins(:repl_session).where(repl_session: { user: @user }) if @user
+    if @user
+      scope = scope.joins(:repl_session).where(repl_session: { user: @user })
+    end
     scope
   end
 
