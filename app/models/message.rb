@@ -15,12 +15,18 @@ class Message < ApplicationRecord
 
   scope :read, -> { where(read: true) }
   scope :unread, -> { where(read: false) }
-  scope :left_joins_from_users, -> {
-    joins("LEFT JOIN users AS from_users ON from_users.id = messages.from_user_id")
-  }
-  scope :left_joins_to_users, -> {
-    joins("LEFT JOIN users AS to_users ON to_users.id = messages.to_user_id")
-  }
+  scope :left_joins_from_users,
+        -> do
+          joins(
+            "LEFT JOIN users AS from_users ON from_users.id = messages.from_user_id"
+          )
+        end
+  scope :left_joins_to_users,
+        -> do
+          joins(
+            "LEFT JOIN users AS to_users ON to_users.id = messages.to_user_id"
+          )
+        end
 
   validate { can!(:update, from_user) }
   validate { can!(:update, to_user) }
@@ -31,18 +37,21 @@ class Message < ApplicationRecord
   def self.search_fields
     messages = arel_table
 
-    define_rich_text_join = ->(name) {
-      table = Arel::Table.new(:action_text_rich_texts).alias("#{name}_rich_texts")
-      join = messages
-        .join(table, Arel::Nodes::OuterJoin)
-        .on(
-          table[:record_type].eq(name.to_s.classify)
-            .and(table[:record_id].eq(messages[:id]))
-            .and(table[:name].eq(name.to_s))
-        )
-        .join_sources
+    define_rich_text_join = ->(name) do
+      table =
+        Arel::Table.new(:action_text_rich_texts).alias("#{name}_rich_texts")
+      join =
+        messages
+          .join(table, Arel::Nodes::OuterJoin)
+          .on(
+            table[:record_type]
+              .eq(name.to_s.classify)
+              .and(table[:record_id].eq(messages[:id]))
+              .and(table[:name].eq(name.to_s))
+          )
+          .join_sources
       [table, join]
-    }
+    end
 
     subject_rich_texts, subject_join = define_rich_text_join.call(:subject)
     body_rich_texts, body_join = define_rich_text_join.call(:body)

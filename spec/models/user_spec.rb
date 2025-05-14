@@ -8,9 +8,7 @@ RSpec.describe User do
   before { Current.user = current_user }
 
   describe ".search" do
-    subject do
-      described_class.search(q: q).map(&:to_s)
-    end
+    subject { described_class.search(q: q).map(&:to_s) }
 
     let!(:user_admin) { create(:user, admin: true) }
     let!(:user_verified) { create(:user, verified: true) }
