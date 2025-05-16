@@ -92,7 +92,8 @@ export default class extends Controller {
       key_value_last_name: "search[key_value][last]",
       key_value_last_id: "search_key_value_last",
       key_value_checked: this.defaultTypeValue == "key_value" ? "checked" : "",
-      free_field_checked: this.defaultTypeValue == "free_field" ? "checked" : "",
+      free_field_checked:
+        this.defaultTypeValue == "free_field" ? "checked" : "",
       key_value_hidden: this.defaultTypeValue == "key_value" ? "" : "hidden",
       free_field_hidden: this.defaultTypeValue == "free_field" ? "" : "hidden",
     };

@@ -103,7 +103,9 @@ class MessagesController < ApplicationController
 
   def scope
     scope = searched_policy_scope(Message)
-    scope = scope.where(from_user: @user).or(scope.where(to_user: @user)) if @user
+    if @user
+      scope = scope.where(from_user: @user).or(scope.where(to_user: @user))
+    end
     scope
   end
 

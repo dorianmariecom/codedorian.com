@@ -8,9 +8,7 @@ RSpec.describe Program do
   before { Current.user = current_user }
 
   describe ".search" do
-    subject do
-      described_class.search(q: q).map(&:to_s)
-    end
+    subject { described_class.search(q: q).map(&:to_s) }
 
     let!(:program_pomodoro) { create(:program, name: "pomodoro") }
     let!(:program_pomodoro_start) { create(:program, name: "pomodoro start") }
