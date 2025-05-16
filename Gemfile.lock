@@ -17,7 +17,7 @@ GIT
 
 GIT
   remote: https://github.com/rails/rails
-  revision: a3b37ff166a925f7e069c9068f7ee92808da6e82
+  revision: fcf01b8820b6e4c3bd70ae3cc653229bbe5a1fba
   specs:
     actioncable (8.1.0.alpha)
       actionpack (= 8.1.0.alpha)
@@ -139,7 +139,7 @@ GEM
       thor (~> 1.0)
     chronic (0.10.2)
     cmdparse (3.0.7)
-    code-ruby (1.4.0)
+    code-ruby (1.5.1)
       activesupport
       base64
       bigdecimal
@@ -225,7 +225,7 @@ GEM
       et-orbi (~> 1, >= 1.2.11)
       raabro (~> 1.4)
     geom2d (0.4.1)
-    git (3.0.0)
+    git (3.0.2)
       activesupport (>= 5.0)
       addressable (~> 2.8)
       process_executer (~> 1.3)
@@ -273,7 +273,7 @@ GEM
     json (2.12.0)
     jwt (2.10.1)
       base64
-    kamal (2.6.0)
+    kamal (2.6.1)
       activesupport (>= 7.0)
       base64 (~> 0.2)
       bcrypt_pbkdf (~> 1.0)
@@ -480,7 +480,7 @@ GEM
       rspec-mocks (~> 3.13)
       rspec-support (~> 3.13)
     rspec-support (3.13.3)
-    rubocop (1.75.5)
+    rubocop (1.75.6)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
@@ -524,7 +524,7 @@ GEM
     ruby-vips (2.2.3)
       ffi (~> 1.12)
       logger
-    search_rails (2.0.0)
+    search_rails (2.0.1)
       chronic
       query-ruby
       rails
@@ -588,11 +588,11 @@ GEM
     tailwindcss-rails (4.2.3)
       railties (>= 7.0.0)
       tailwindcss-ruby (~> 4.0)
-    tailwindcss-ruby (4.1.6)
-    tailwindcss-ruby (4.1.6-aarch64-linux-gnu)
-    tailwindcss-ruby (4.1.6-arm64-darwin)
-    tailwindcss-ruby (4.1.6-x86_64-darwin)
-    tailwindcss-ruby (4.1.6-x86_64-linux-gnu)
+    tailwindcss-ruby (4.1.7)
+    tailwindcss-ruby (4.1.7-aarch64-linux-gnu)
+    tailwindcss-ruby (4.1.7-arm64-darwin)
+    tailwindcss-ruby (4.1.7-x86_64-darwin)
+    tailwindcss-ruby (4.1.7-x86_64-linux-gnu)
     temple (0.10.3)
     terminal-table (4.0.0)
       unicode-display_width (>= 1.1.1, < 4)
