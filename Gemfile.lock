@@ -17,7 +17,7 @@ GIT
 
 GIT
   remote: https://github.com/rails/rails
-  revision: fcf01b8820b6e4c3bd70ae3cc653229bbe5a1fba
+  revision: c25c1c1c2175d170e1f7759e72b44bc981201601
   specs:
     actioncable (8.1.0.alpha)
       actionpack (= 8.1.0.alpha)
@@ -417,7 +417,7 @@ GEM
       zeitwerk
     raabro (1.4.0)
     racc (1.8.1)
-    rack (3.1.14)
+    rack (3.1.15)
     rack-attack (6.7.0)
       rack (>= 1.0, < 4)
     rack-session (2.1.1)
