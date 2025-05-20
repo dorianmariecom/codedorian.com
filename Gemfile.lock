@@ -17,7 +17,7 @@ GIT
 
 GIT
   remote: https://github.com/rails/rails
-  revision: fcf01b8820b6e4c3bd70ae3cc653229bbe5a1fba
+  revision: b51311a74a0fdf60a9b036974ba24fe18e81029b
   specs:
     actioncable (8.1.0.alpha)
       actionpack (= 8.1.0.alpha)
@@ -199,6 +199,7 @@ GEM
       thread
       thread_safe
     ed25519 (1.4.0)
+    erb (5.0.1)
     erubi (1.13.1)
     et-orbi (1.2.11)
       tzinfo
@@ -417,7 +418,7 @@ GEM
       zeitwerk
     raabro (1.4.0)
     racc (1.8.1)
-    rack (3.1.14)
+    rack (3.1.15)
     rack-attack (6.7.0)
       rack (>= 1.0, < 4)
     rack-session (2.1.1)
@@ -440,7 +441,8 @@ GEM
     rainbow (3.1.1)
     rake (13.2.1)
     rchardet (1.9.0)
-    rdoc (6.13.1)
+    rdoc (6.14.0)
+      erb
       psych (>= 4.0.0)
     recaptcha (5.19.0)
     redis (5.4.0)
@@ -626,7 +628,7 @@ GEM
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
     yaml (0.4.0)
-    zeitwerk (2.7.2)
+    zeitwerk (2.7.3)
     zxcvbn-ruby (1.2.0)
 
 PLATFORMS
