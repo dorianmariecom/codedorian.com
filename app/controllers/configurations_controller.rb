@@ -25,11 +25,19 @@ class ConfigurationsController < ApplicationController
           {
             patterns: [".*"],
             properties: {
+              context: "default",
               uri: "hotwire://fragment/web",
               pull_to_refresh_enabled: true
             }
           },
-          { patterns: %w[/new$ /edit$], properties: { context: "modal" } }
+          {
+            patterns: %w[/new$ /edit$],
+            properties: {
+              context: "modal",
+              uri: "hotwire://fragment/web/modal/sheet",
+              pull_to_refresh_enabled: false
+            }
+          }
         ]
       }
     )
