@@ -10,7 +10,11 @@ Rails.application.routes.draw do
   define =
     lambda do
       resources :programs do
-        collection { delete "/", to: "programs#destroy_all" }
+        collection do
+          delete "/destroy_all", to: "programs#destroy_all"
+          delete "/delete_all", to: "programs#delete_all"
+        end
+
         post :evaluate
         post :schedule
         post :unschedule

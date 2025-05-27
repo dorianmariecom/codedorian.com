@@ -626,7 +626,6 @@ en:
       input_placeholder: enter your program's input
       name_placeholder: enter your program's name
     index:
-      delete_all: delete all programs
       new: new program
       title: programs
     model:
@@ -823,6 +822,15 @@ en:
       submit: log in
       title: log in
   shared:
+    modal:
+      confirm: confirm
+      cancel: cancel
+    delete:
+      delete_all: delete all
+      destroy_all: destroy all
+      modal_title: are you sure?
+      modal_confirm: "yes"
+      modal_cancel: "no"
     attribute:
       address: address
       email_address: email address

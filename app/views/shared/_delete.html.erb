@@ -1,0 +1,87 @@
+<% collection = local_assigns.fetch(:collection) %>
+<% delete_all_url = local_assigns.fetch(:delete_all_url) %>
+<% destroy_all_url = local_assigns.fetch(:destroy_all_url) %>
+
+<% if collection.any? %>
+  <% if hotwire_native_app? %>
+  <% else %>
+    <div class="p">
+      <div
+        class="inline-block"
+        data-controller="alert"
+      >
+        <%=
+          button_to(
+            t(".delete_all"),
+            delete_all_url,
+            method: :delete,
+            class: "button button--link",
+            form: {
+              data: {
+                alert_target: "form",
+                action: "alert#show:prevent",
+              },
+              class: "inline-block",
+            }
+          )
+        %>
+        <%=
+          render(
+            "shared/modal",
+            data: {
+              alert_target: "modal",
+              action: "
+                modal:hidden->alert#cancel
+                modal:escaped->alert#cancel
+                modal:closed->alert#cancel
+                modal:canceled->alert#cancel
+                modal:confirmed->alert#confirm
+              "
+            },
+            title: t(".modal_title"),
+            confirm: t(".modal_confirm"),
+            cancel: t(".modal_cancel")
+          )
+        %>
+      </div>
+      <div
+        class="inline-block"
+        data-controller="alert"
+      >
+        <%=
+          button_to(
+            t(".destroy_all"),
+            destroy_all_url,
+            method: :delete,
+            class: "button button--link",
+            form: {
+              data: {
+                alert_target: "form",
+                action: "alert#show:prevent",
+              },
+              class: "inline-block",
+            }
+          )
+        %>
+        <%=
+          render(
+            "shared/modal",
+            data: {
+              alert_target: "modal",
+              action: "
+                modal:hidden->alert#cancel
+                modal:escaped->alert#cancel
+                modal:closed->alert#cancel
+                modal:canceled->alert#cancel
+                modal:confirmed->alert#confirm
+              "
+            },
+            title: t(".modal_title"),
+            confirm: t(".modal_confirm"),
+            cancel: t(".modal_cancel")
+          )
+        %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
