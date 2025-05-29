@@ -4,33 +4,35 @@
 <% confirm = local_assigns.fetch(:confirm, t(".confirm")) %>
 <% cancel = local_assigns.fetch(:cancel, t(".cancel")) %>
 <% destructive = local_assigns.fetch(:destructive, false) %>
-<% confirm_classes = local_assigns.fetch(:confirm_classes, destructive ? "button button--red button--link" : "button") %>
+<% confirm_classes =
+  local_assigns.fetch(
+    :confirm_classes,
+    destructive ? "button button--red button--link" : "button"
+  ) %>
 <% cancel_classes = local_assigns.fetch(:cancel_classes, "link") %>
 
-<%=
-  content_tag(
-    :div,
-    hidden: true,
-    class: "bg-black cursor-pointer fixed inset-0 flex items-center justify-center",
-    data: data.merge(
+<%= content_tag(
+  :div,
+  hidden: true,
+  class:
+    "bg-black cursor-pointer fixed inset-0 flex items-center justify-center",
+  data:
+    data.merge(
       controller: "modal",
-      action: "
+      action:
+        "
         #{data[:action]}
         click->modal#hide
         keydown.esc->modal#escape
       "
     )
-  ) do
-%>
+) do %>
   <div
     class="w-xs bg-white p-4 rounded cursor-default"
     data-action="click->modal#nothing:stop"
   >
     <div class="p flex justify-end">
-      <a
-        class="cursor-pointer"
-        data-action="modal#close"
-      >
+      <a class="cursor-pointer" data-action="modal#close">
         <%= heroicon "x-mark" %>
       </a>
     </div>
@@ -42,24 +44,24 @@
     <% end %>
     <div class="flex justify-between items-center">
       <% if cancel.present? %>
-        <%=
-          link_to(
-            cancel,
-            "",
-            data: { action: "modal#cancel:prevent" },
-            class: cancel_classes
-          )
-        %>
+        <%= link_to(
+          cancel,
+          "",
+          data: {
+            action: "modal#cancel:prevent"
+          },
+          class: cancel_classes
+        ) %>
       <% end %>
       <% if confirm.present? %>
-        <%=
-          link_to(
-            confirm,
-            "",
-            data: { action: "modal#confirm:prevent" },
-            class: confirm_classes
-          )
-        %>
+        <%= link_to(
+          confirm,
+          "",
+          data: {
+            action: "modal#confirm:prevent"
+          },
+          class: confirm_classes
+        ) %>
       <% end %>
     </div>
   </div>

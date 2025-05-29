@@ -3,54 +3,46 @@
 <% method = local_assigns.fetch(:method, :delete) %>
 
 <% if hotwire_native_app? %>
-  <%=
-    button_to(
+  <%= button_to(
+    text,
+    url,
+    method: method,
+    class: "button button--link",
+    form: {
+      class: "inline-block"
+    }
+  ) %>
+<% else %>
+  <div class="inline-block" data-controller="alert">
+    <%= button_to(
       text,
       url,
       method: method,
       class: "button button--link",
       form: {
-        class: "inline-block",
-      }
-    )
-  %>
-<% else %>
-  <div
-    class="inline-block"
-    data-controller="alert"
-  >
-    <%=
-      button_to(
-        text,
-        url,
-        method: method,
-        class: "button button--link",
-        form: {
-          data: {
-            alert_target: "form",
-            action: "alert#show:prevent",
-          },
-          class: "inline-block",
-        }
-      )
-    %>
-    <%=
-      render(
-        "shared/modal",
         data: {
-          alert_target: "modal",
-          action: "
-            modal:hidden->alert#cancel
-            modal:escaped->alert#cancel
-            modal:closed->alert#cancel
-            modal:canceled->alert#cancel
-            modal:confirmed->alert#confirm
-          "
+          alert_target: "form",
+          action: "alert#show:prevent"
         },
-        title: t(".modal_title"),
-        confirm: t(".modal_confirm"),
-        cancel: t(".modal_cancel")
-      )
-    %>
+        class: "inline-block"
+      }
+    ) %>
+    <%= render(
+      "shared/modal",
+      data: {
+        alert_target: "modal",
+        action:
+          "
+                modal:hidden->alert#cancel
+                modal:escaped->alert#cancel
+                modal:closed->alert#cancel
+                modal:canceled->alert#cancel
+                modal:confirmed->alert#confirm
+              "
+      },
+      title: t(".modal_title"),
+      confirm: t(".modal_confirm"),
+      cancel: t(".modal_cancel")
+    ) %>
   </div>
 <% end %>

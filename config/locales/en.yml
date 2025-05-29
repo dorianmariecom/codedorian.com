@@ -824,13 +824,6 @@ en:
       submit: log in
       title: log in
   shared:
-    modal:
-      confirm: confirm
-      cancel: cancel
-    confirm:
-      modal_title: are you sure?
-      modal_confirm: "yes"
-      modal_cancel: "no"
     attribute:
       address: address
       email_address: email address
@@ -839,6 +832,10 @@ en:
       password: password
       phone_number: phone number
       time_zone: time zone
+    confirm:
+      modal_cancel: 'no'
+      modal_confirm: 'yes'
+      modal_title: are you sure?
     list:
       addresses: addresses
       devices: devices
@@ -858,6 +855,9 @@ en:
       phone_numbers: phone numbers
       time_zones: time zones
       tokens: tokens
+    modal:
+      cancel: cancel
+      confirm: confirm
     search:
       add: add
       advanced: advanced
