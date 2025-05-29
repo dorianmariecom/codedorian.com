@@ -626,6 +626,8 @@ en:
       input_placeholder: enter your program's input
       name_placeholder: enter your program's name
     index:
+      delete_all: delete all programs
+      destroy_all: destroy all programs
       new: new program
       title: programs
     model:
@@ -825,9 +827,7 @@ en:
     modal:
       confirm: confirm
       cancel: cancel
-    delete:
-      delete_all: delete all
-      destroy_all: destroy all
+    confirm:
       modal_title: are you sure?
       modal_confirm: "yes"
       modal_cancel: "no"

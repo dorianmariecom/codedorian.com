@@ -124,11 +124,11 @@ class ProgramsController < ApplicationController
   end
 
   def delete_all_url
-    [:delete_all, @user, :programs].compact
+    [:delete_all, @user, :programs, { search: { q: q } }].compact
   end
 
   def destroy_all_url
-    [:destroy_all, @user, :programs].compact
+    [:destroy_all, @user, :programs, { search: { q: q } }].compact
   end
 
   def id

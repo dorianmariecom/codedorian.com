@@ -4,7 +4,12 @@
 
 <%= render "shared/search" %>
 
-<%= render "shared/delete", collection: @programs, destroy_all_url:, delete_all_url: %>
+<% if @programs.any? %>
+  <div class="p">
+    <%= render "shared/confirm", url: destroy_all_url, text: t(".destroy_all") %>
+    <%= render "shared/confirm", url: delete_all_url, text: t(".delete_all") %>
+  </div>
+<% end %>
 
 <%= render_collection partial: "programs/program",
                   collection: @programs,

@@ -210,6 +210,10 @@ class ApplicationController < ActionController::Base
   end
 
   def searched_policy_scope(model)
-    policy_scope(model).search(q: params.dig(:search, :q))
+    policy_scope(model).search(q: q)
+  end
+
+  def q
+    params.dig(:search, :q).presence
   end
 end
