@@ -9,7 +9,15 @@
     method: method,
     class: "button button--link",
     form: {
-      class: "inline-block"
+      class: "inline-block",
+      data: {
+        controller: "bridge--alert",
+        action: "bridge-alert#show:prevent",
+        bridge__alert_title_value: t(".modal_title"),
+        bridge__alert_cancel_value: t(".modal_cancel"),
+        bridge__alert_confirm_value: t(".modal_confirm"),
+        bridge__alert_destructive_value: method == :delete,
+      }
     }
   ) %>
 <% else %>
@@ -33,16 +41,17 @@
         alert_target: "modal",
         action:
           "
-                modal:hidden->alert#cancel
-                modal:escaped->alert#cancel
-                modal:closed->alert#cancel
-                modal:canceled->alert#cancel
-                modal:confirmed->alert#confirm
-              "
+            modal:hidden->alert#cancel
+            modal:escaped->alert#cancel
+            modal:closed->alert#cancel
+            modal:canceled->alert#cancel
+            modal:confirmed->alert#confirm
+          "
       },
       title: t(".modal_title"),
+      cancel: t(".modal_cancel"),
       confirm: t(".modal_confirm"),
-      cancel: t(".modal_cancel")
+      destructive: method == :delete,
     ) %>
   </div>
 <% end %>
