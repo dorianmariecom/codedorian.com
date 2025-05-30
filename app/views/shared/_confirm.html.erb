@@ -11,17 +11,17 @@
     form: {
       class: "inline-block",
       data: {
-        controller: "bridge--alert",
-        action: "bridge-alert#show:prevent",
-        bridge__alert_title_value: t(".modal_title"),
-        bridge__alert_cancel_value: t(".modal_cancel"),
-        bridge__alert_confirm_value: t(".modal_confirm"),
-        bridge__alert_destructive_value: method == :delete,
+        controller: "bridge--confirm",
+        action: "bridge--confirm#show:prevent",
+        bridge__confirm_title_value: t(".modal_title"),
+        bridge__confirm_cancel_value: t(".modal_cancel"),
+        bridge__confirm_confirm_value: t(".modal_confirm"),
+        bridge__confirm_destructive_value: method == :delete,
       }
     }
   ) %>
 <% else %>
-  <div class="inline-block" data-controller="alert">
+  <div class="inline-block" data-controller="confirm">
     <%= button_to(
       text,
       url,
@@ -29,8 +29,8 @@
       class: "button button--link",
       form: {
         data: {
-          alert_target: "form",
-          action: "alert#show:prevent"
+          confirm_target: "form",
+          action: "confirm#show:prevent"
         },
         class: "inline-block"
       }
@@ -38,14 +38,14 @@
     <%= render(
       "shared/modal",
       data: {
-        alert_target: "modal",
+        confirm_target: "modal",
         action:
           "
-            modal:hidden->alert#cancel
-            modal:escaped->alert#cancel
-            modal:closed->alert#cancel
-            modal:canceled->alert#cancel
-            modal:confirmed->alert#confirm
+            modal:hidden->confirm#cancel
+            modal:escaped->confirm#cancel
+            modal:closed->confirm#cancel
+            modal:canceled->confirm#cancel
+            modal:confirmed->confirm#confirm
           "
       },
       title: t(".modal_title"),
