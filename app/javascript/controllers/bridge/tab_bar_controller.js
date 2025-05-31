@@ -11,7 +11,8 @@ export default class extends BridgeComponent {
   connect() {
     super.connect();
 
-    const tabs = window.platform === "ios" ? this.tabsIosValue : this.tabsAndroidValue;
+    const tabs =
+      window.platform === "ios" ? this.tabsIosValue : this.tabsAndroidValue;
 
     this.send("connect", { tabs });
   }
