@@ -8,4 +8,12 @@ class ConfigurationPolicy < ApplicationPolicy
   def android_v1?
     true
   end
+
+  def ios_v2?
+    true
+  end
+
+  def android_v2?
+    true
+  end
 end

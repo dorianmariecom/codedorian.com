@@ -276,6 +276,8 @@ Rails.application.routes.draw do
     resources :configurations, only: [] do
       get :ios_v1, on: :collection
       get :android_v1, on: :collection
+      get :ios_v2, on: :collection
+      get :android_v2, on: :collection
     end
 
     match "/404", to: "errors#not_found", via: :all

@@ -38,6 +38,7 @@ class ApplicationController < ActionController::Base
   helper_method :admin?
   helper_method :can?
   helper_method :error_message_for
+  helper_method :version
 
   REDIRECT_ERROR =
     lambda { |error| redirect_to(root_path, alert: error_message_for(error)) }
@@ -215,5 +216,20 @@ class ApplicationController < ActionController::Base
 
   def q
     params.dig(:search, :q).presence
+  end
+
+  def version
+    app_version =
+      request.headers["user-agent"]
+        .to_s
+        .scan(%r{com\.codedorian(?:\.[a-z]+)?/([0-9.]+)})
+        .first
+        &.first
+        .to_s
+        .presence
+
+    app_version ||= "0.0"
+
+    Gem::Version.new(app_version)
   end
 end
