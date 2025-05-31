@@ -28,7 +28,11 @@ class ExecutionPolicy < ApplicationPolicy
   end
 
   def destroy_all?
-    can?(:destroy_all, Program)
+    true
+  end
+
+  def delete_all?
+    true
   end
 
   private

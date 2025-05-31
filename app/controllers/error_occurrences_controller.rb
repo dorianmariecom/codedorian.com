@@ -6,7 +6,11 @@ class ErrorOccurrencesController < ApplicationController
   before_action :load_user
   before_action :load_error
   before_action :load_error_occurrence, only: %i[show destroy]
-  helper_method :url, :message_limit, :omission
+  helper_method :url
+  helper_method :message_limit
+  helper_method :omission
+  helper_method :delete_all_url
+  helper_method :destroy_all_url
 
   def index
     authorize ErrorOccurrence
@@ -28,7 +32,15 @@ class ErrorOccurrencesController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(url, notice: t(".notice"))
+    redirect_back_or_to(url)
+  end
+
+  def delete_all
+    authorize ErrorOccurrence
+
+    scope.delete_all
+
+    redirect_back_or_to(url)
   end
 
   private
@@ -58,8 +70,28 @@ class ErrorOccurrencesController < ApplicationController
     scope
   end
 
+  def delete_all_url
+    [
+      :delete_all,
+      @user,
+      @error,
+      :error_occurrences,
+      { search: { q: q } }
+    ].compact
+  end
+
+  def destroy_all_url
+    [
+      :destroy_all,
+      @user,
+      @error,
+      :error_occurrences,
+      { search: { q: q } }
+    ].compact
+  end
+
   def url
-    [@user, @user, :error_occurrences].compact
+    [@user, @error, :error_occurrences].compact
   end
 
   def message_limit

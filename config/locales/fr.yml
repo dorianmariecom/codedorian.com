@@ -87,7 +87,8 @@ fr:
     form:
       address_placeholder: entrez votre adresse
     index:
-      delete_all: tout supprimer
+      delete_all: supprimer toutes les adresses
+      destroy_all: détruire toutes les adresses
       new: nouvelle adresse
       title: adresses
     model:
@@ -157,7 +158,8 @@ fr:
       submit: mettre à jour l'appareil
       title: modifier l'appareil
     index:
-      delete_all: supprimer tout
+      delete_all: supprimer tous les appareils
+      destroy_all: détruire tous les appareils
       new: nouvel appareil
       title: appareils
     model:
@@ -191,7 +193,8 @@ fr:
     form:
       email_address_placeholder: entrez votre adresse email
     index:
-      delete_all: tout supprimer
+      delete_all: supprimer toutes les adresses e-mail
+      destroy_all: détruire toutes les adresses e-mail
       new: nouvelle adresse e-mail
       title: adresses e-mail
     model:
@@ -220,10 +223,9 @@ fr:
   error_occurrences:
     destroy:
       notice: occurrence d'erreur supprimée
-    destroy_all:
-      notice: occurrences d'erreur supprimées
     index:
-      delete_all: supprimer tout
+      delete_all: supprimer toutes les occurrences d'erreur
+      destroy_all: détruire toutes les occurrences d'erreur
       title: occurrences d'erreurs
     show:
       app_backtrace: trace d'application
@@ -237,10 +239,9 @@ fr:
   errors:
     destroy:
       notice: erreur supprimée
-    destroy_all:
-      notice: erreurs supprimées
     index:
-      delete_all: supprimer tout
+      delete_all: supprimer toutes les erreurs
+      destroy_all: détruire toutes les erreurs
       title: erreurs
     internal_server_error:
       title: erreur interne du serveur
@@ -263,7 +264,8 @@ fr:
     destroy:
       notice: exécution supprimée
     index:
-      delete_all: tout supprimer
+      delete_all: supprimer toutes les exécutions
+      destroy_all: détruire toutes les exécutions
       title: exécutions
     model:
       to_s: exécution#%{id}
@@ -279,6 +281,8 @@ fr:
       updated_at: mis à jour à
   guests:
     index:
+      delete_all: supprimer tous les invités
+      destroy_all: détruire tous les invités
       title: invités
     model:
       locales:
@@ -304,7 +308,8 @@ fr:
     form:
       handle_placeholder: entrez votre pseudo
     index:
-      delete_all: tout supprimer
+      delete_all: supprimer toutes les poignées
+      destroy_all: détruire toutes les poignées
       new: nouvel identifiant
       title: identifiants
     model:
@@ -461,6 +466,7 @@ fr:
       subject_placeholder: entrez l'objet de votre message
     index:
       delete_all: supprimer tous les messages
+      destroy_all: détruire tous les messages
       new: nouveau message
       title: messages
     model:
@@ -497,7 +503,8 @@ fr:
       family_name_placeholder: entrez votre nom de famille
       given_name_placeholder: entrez votre prénom
     index:
-      delete_all: tout supprimer
+      delete_all: supprimer tous les noms
+      destroy_all: détruire tous les noms
       new: nouveau nom
       title: noms
     model:
@@ -548,7 +555,8 @@ fr:
       hint_placeholder: entrez l'indice de votre mot de passe
       password_placeholder: entrez votre mot de passe
     index:
-      delete_all: tout supprimer
+      delete_all: supprimer tous les mots de passe
+      destroy_all: détruire tous les mots de passe
       new: nouveau mot de passe
       title: mots de passe
     model:
@@ -587,7 +595,8 @@ fr:
     form:
       phone_number_placeholder: entrez votre numéro de téléphone
     index:
-      delete_all: tout supprimer
+      delete_all: supprimer tous les numéros de téléphone
+      destroy_all: détruire tous les numéros de téléphone
       new: nouveau numéro de téléphone
       title: numéros de téléphone
     model:
@@ -627,6 +636,7 @@ fr:
       name_placeholder: entrez le nom de votre programme
     index:
       delete_all: supprimer tous les programmes
+      destroy_all: détruire tous les programmes
       new: nouveau programme
       title: programmes
     model:
@@ -657,7 +667,8 @@ fr:
     destroy:
       notice: exécution de repl supprimée
     index:
-      delete_all: supprimer tout
+      delete_all: supprimer toutes les exécutions de repl
+      destroy_all: détruire toutes les exécutions de repl
       title: exécutions de repl
     model:
       to_s: repl_execution#%{id}
@@ -684,7 +695,8 @@ fr:
       fake_input: Http.get("https://google.com")
       input_placeholder: entrez l'entrée de votre programme repl
     index:
-      delete_all: supprimer tout
+      delete_all: supprimer tous les programmes de remplacement
+      destroy_all: détruire tous les programmes repl
       new: nouveau programme repl
       title: programmes repl
     model:
@@ -721,6 +733,7 @@ fr:
       name_placeholder: entrez le nom de votre session de repl
     index:
       delete_all: supprimer toutes les sessions de repl
+      destroy_all: détruire toutes les sessions de repl
       new: nouvelle session de repl
       title: séances de répétition
     model:
@@ -753,7 +766,8 @@ fr:
       submit: mettre à jour l'horaire
       title: modifier l'horaire
     index:
-      delete_all: tout supprimer
+      delete_all: supprimer tous les plannings de remplacement
+      destroy_all: détruire tous les plannings de remplacement
       new: nouvel horaire
       title: horaires
     model:
@@ -831,6 +845,10 @@ fr:
       password: mot de passe
       phone_number: numéro de téléphone
       time_zone: fuseau horaire
+    confirm:
+      modal_cancel: Non
+      modal_confirm: Oui
+      modal_title: es-tu sûr?
     list:
       addresses: adresses
       devices: appareils
@@ -850,6 +868,12 @@ fr:
       phone_numbers: numéros de téléphone
       time_zones: fuseaux horaires
       tokens: jetons
+    modal:
+      cancel: Annuler
+      confirm: confirmer
+    search:
+      placeholder: entrez votre requête de recherche
+      submit: recherche
   static:
     about:
       about_html: |
@@ -946,7 +970,8 @@ fr:
       submit: mettre à jour le fuseau horaire
       title: modifier le fuseau horaire
     index:
-      delete_all: tout supprimer
+      delete_all: supprimer tous les fuseaux horaires
+      destroy_all: détruire tous les fuseaux horaires
       new: nouveau fuseau horaire
       title: fuseaux horaires
     model:
@@ -980,7 +1005,8 @@ fr:
       submit: jeton de mise à jour
       title: modifier le jeton
     index:
-      delete_all: supprimer tout
+      delete_all: supprimer tous les jetons
+      destroy_all: détruire tous les jetons
       new: nouveau jeton
       title: jetons
     model:
@@ -1011,7 +1037,8 @@ fr:
       submit: mettre à jour l'utilisateur
       title: modifier l'utilisateur
     index:
-      delete_all: tout supprimer
+      delete_all: supprimer tous les utilisateurs
+      destroy_all: détruire tous les utilisateurs
       new: nouvel utilisateur
       title: utilisateurs
     model:

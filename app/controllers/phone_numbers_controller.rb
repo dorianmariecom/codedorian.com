@@ -6,6 +6,8 @@ class PhoneNumbersController < ApplicationController
 
   helper_method :url
   helper_method :new_url
+  helper_method :delete_all_url
+  helper_method :destroy_all_url
 
   def index
     authorize PhoneNumber
@@ -63,6 +65,14 @@ class PhoneNumbersController < ApplicationController
     redirect_back_or_to(url)
   end
 
+  def delete_all
+    authorize PhoneNumber
+
+    scope.delete_all
+
+    redirect_back_or_to(url)
+  end
+
   private
 
   def load_user
@@ -81,6 +91,14 @@ class PhoneNumbersController < ApplicationController
     scope = searched_policy_scope(PhoneNumber)
     scope = scope.where(user: @user) if @user
     scope
+  end
+
+  def delete_all_url
+    [:delete_all, @user, :phone_numbers, { search: { q: q } }].compact
+  end
+
+  def destroy_all_url
+    [:destroy_all, @user, :phone_numbers, { search: { q: q } }].compact
   end
 
   def url

@@ -6,6 +6,8 @@ class ReplSessionsController < ApplicationController
 
   helper_method :url
   helper_method :new_url
+  helper_method :delete_all_url
+  helper_method :destroy_all_url
 
   def index
     authorize ReplSession
@@ -76,7 +78,15 @@ class ReplSessionsController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(repl_sessions_path)
+    redirect_back_or_to(url)
+  end
+
+  def delete_all
+    authorize ReplSession
+
+    scope.delete_all
+
+    redirect_back_or_to(url)
   end
 
   private
@@ -93,6 +103,14 @@ class ReplSessionsController < ApplicationController
     scope = searched_policy_scope(ReplSession)
     scope = scope.where(user: @user) if @user
     scope
+  end
+
+  def delete_all_url
+    [:delete_all, @user, :repl_sessions, { search: { q: q } }].compact
+  end
+
+  def destroy_all_url
+    [:destroy_all, @user, :repl_sessions, { search: { q: q } }].compact
   end
 
   def url

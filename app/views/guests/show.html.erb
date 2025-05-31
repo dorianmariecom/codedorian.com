@@ -31,6 +31,14 @@
   <div class="font-bold"><%= local_time(@guest.created_at) %></div>
 </div>
 
+<div class="p">
+  <%= button_to t(".delete"),
+            @guest,
+            method: :delete,
+            class: "button button--link",
+            form_class: "inline-block" %>
+</div>
+
 <%= render "shared/list", user: @guest, model: Name %>
 <%= render "shared/list", user: @guest, model: Handle %>
 <%= render "shared/list", user: @guest, model: EmailAddress %>

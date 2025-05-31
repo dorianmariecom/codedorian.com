@@ -28,7 +28,11 @@ class ReplProgramPolicy < ApplicationPolicy
   end
 
   def destroy_all?
-    can?(:destroy_all, ReplSession)
+    true
+  end
+
+  def delete_all?
+    true
   end
 
   private

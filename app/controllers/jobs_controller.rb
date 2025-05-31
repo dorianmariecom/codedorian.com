@@ -3,11 +3,11 @@
 class JobsController < ApplicationController
   before_action :load_user
   before_action :load_job, only: %i[show destroy delete discard retry]
-  helper_method :url,
-                :discard_all_url,
-                :retry_all_url,
-                :delete_all_url,
-                :destroy_all_url
+  helper_method :url
+  helper_method :discard_all_url
+  helper_method :retry_all_url
+  helper_method :delete_all_url
+  helper_method :destroy_all_url
 
   def index
     authorize Job
@@ -92,6 +92,14 @@ class JobsController < ApplicationController
     searched_policy_scope(Job)
   end
 
+  def delete_all_url
+    [:delete_all, @user, :jobs, { search: { q: q } }].compact
+  end
+
+  def destroy_all_url
+    [:destroy_all, @user, :jobs, { search: { q: q } }].compact
+  end
+
   def url
     [@user, :jobs].compact
   end
@@ -102,13 +110,5 @@ class JobsController < ApplicationController
 
   def discard_all_url
     [:discard_all, @user, :jobs].compact
-  end
-
-  def delete_all_url
-    [:delete_all, @user, :jobs].compact
-  end
-
-  def destroy_all_url
-    [:destroy_all, @user, :jobs].compact
   end
 end

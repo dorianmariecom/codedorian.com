@@ -31,6 +31,10 @@ class TimeZonePolicy < ApplicationPolicy
     true
   end
 
+  def delete_all?
+    true
+  end
+
   private
 
   def user?

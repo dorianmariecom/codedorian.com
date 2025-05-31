@@ -20,74 +20,125 @@ Rails.application.routes.draw do
         post :unschedule
 
         resources(:executions) do
-          collection { delete "/", to: "executions#destroy_all" }
+          collection do
+            delete "/destroy_all", to: "executions#destroy_all"
+            delete "/delete_all", to: "executions#delete_all"
+          end
         end
 
         resources(:schedules) do
-          collection { delete "/", to: "schedules#destroy_all" }
+          collection do
+            delete "/destroy_all", to: "schedules#destroy_all"
+            delete "/delete_all", to: "schedules#delete_all"
+          end
         end
       end
 
       resources :repl_sessions do
-        collection { delete "/", to: "repl_sessions#destroy_all" }
+        collection do
+          delete "/destroy_all", to: "repl_sessions#destroy_all"
+          delete "/delete_all", to: "repl_sessions#delete_all"
+        end
 
         post :evaluate
 
         resources(:repl_programs) do
-          collection { delete "/", to: "repl_programs#destroy_all" }
+          collection do
+            delete "/destroy_all", to: "repl_programs#destroy_all"
+            delete "/delete_all", to: "repl_programs#delete_all"
+          end
 
           resources(:repl_executions) do
-            collection { delete "/", to: "repl_executions#destroy_all" }
+            collection do
+              delete "/destroy_all", to: "repl_executions#destroy_all"
+              delete "/delete_all", to: "repl_executions#delete_all"
+            end
           end
         end
 
         resources(:repl_executions) do
-          collection { delete "/", to: "repl_executions#destroy_all" }
+          collection do
+            delete "/destroy_all", to: "repl_executions#destroy_all"
+            delete "/delete_all", to: "repl_executions#delete_all"
+          end
         end
       end
 
       resources(:repl_programs) do
-        collection { delete "/", to: "repl_programs#destroy_all" }
+        collection do
+          delete "/destroy_all", to: "repl_programs#destroy_all"
+          delete "/delete_all", to: "repl_programs#delete_all"
+        end
 
         resources(:repl_executions) do
-          collection { delete "/", to: "repl_executions#destroy_all" }
+          collection do
+            delete "/destroy_all", to: "repl_executions#destroy_all"
+            delete "/delete_all", to: "repl_executions#delete_all"
+          end
         end
       end
 
       resources(:repl_executions) do
-        collection { delete "/", to: "repl_executions#destroy_all" }
+        collection do
+          delete "/destroy_all", to: "repl_executions#destroy_all"
+          delete "/delete_all", to: "repl_executions#delete_all"
+        end
       end
 
       resources :email_addresses do
-        collection { delete "/", to: "email_addresses#destroy_all" }
+        collection do
+          delete "/destroy_all", to: "email_addresses#destroy_all"
+          delete "/delete_all", to: "email_addresses#delete_all"
+        end
       end
 
       resources :phone_numbers do
-        collection { delete "/", to: "phone_numbers#destroy_all" }
+        collection do
+          delete "/destroy_all", to: "phone_numbers#destroy_all"
+          delete "/delete_all", to: "phone_numbers#delete_all"
+        end
       end
 
       resources(:executions) do
-        collection { delete "/", to: "executions#destroy_all" }
+        collection do
+          delete "/destroy_all", to: "executions#destroy_all"
+          delete "/delete_all", to: "executions#delete_all"
+        end
       end
 
       resources(:time_zones) do
-        collection { delete "/", to: "time_zones#destroy_all" }
+        collection do
+          delete "/destroy_all", to: "time_zones#destroy_all"
+          delete "/delete_all", to: "time_zones#delete_all"
+        end
       end
 
       resources(:locations) do
-        collection { delete "/", to: "locations#destroy_all" }
+        collection do
+          delete "/destroy_all", to: "locations#destroy_all"
+          delete "/delete_all", to: "locations#delete_all"
+        end
       end
 
       resources(:passwords) do
-        collection { delete "/", to: "passwords#destroy_all" }
+        collection do
+          delete "/destroy_all", to: "passwords#destroy_all"
+          delete "/delete_all", to: "passwords#delete_all"
+        end
       end
 
       resources(:schedules) do
-        collection { delete "/", to: "schedules#destroy_all" }
+        collection do
+          delete "/destroy_all", to: "schedules#destroy_all"
+          delete "/delete_all", to: "schedules#delete_all"
+        end
       end
 
       resources(:devices) do
-        collection { delete "/", to: "devices#destroy_all" }
+        collection do
+          delete "/destroy_all", to: "devices#destroy_all"
+          delete "/delete_all", to: "devices#delete_all"
+        end
       end
 
       resources(:messages) do
@@ -97,27 +148,45 @@ Rails.application.routes.draw do
         get :subject
         get :body
 
-        collection { delete "/", to: "messages#destroy_all" }
+        collection do
+          delete "/destroy_all", to: "messages#destroy_all"
+          delete "/delete_all", to: "messages#delete_all"
+        end
       end
 
       resources(:handles) do
-        collection { delete "/", to: "handles#destroy_all" }
+        collection do
+          delete "/destroy_all", to: "handles#destroy_all"
+          delete "/delete_all", to: "handles#delete_all"
+        end
       end
 
       resources(:addresses) do
-        collection { delete "/", to: "addresses#destroy_all" }
+        collection do
+          delete "/destroy_all", to: "addresses#destroy_all"
+          delete "/delete_all", to: "addresses#delete_all"
+        end
       end
 
       resources(:errors) do
-        collection { delete "/", to: "errors#destroy_all" }
+        collection do
+          delete "/destroy_all", to: "errors#destroy_all"
+          delete "/delete_all", to: "errors#delete_all"
+        end
 
         resources(:error_occurrences) do
-          collection { delete "/", to: "error_occurrences#destroy_all" }
+          collection do
+            delete "/destroy_all", to: "error_occurrences#destroy_all"
+            delete "/delete_all", to: "error_occurrences#delete_all"
+          end
         end
       end
 
       resources(:error_occurrences) do
-        collection { delete "/", to: "error_occurrences#destroy_all" }
+        collection do
+          delete "/destroy_all", to: "error_occurrences#destroy_all"
+          delete "/delete_all", to: "error_occurrences#delete_all"
+        end
       end
 
       resources(:jobs) do
@@ -134,21 +203,58 @@ Rails.application.routes.draw do
         post :retry
       end
 
-      resources(:guests) { collection { delete "/", to: "guests#destroy_all" } }
-      resources(:names) { collection { delete "/", to: "names#destroy_all" } }
-      resources(:tokens) { collection { delete "/", to: "tokens#destroy_all" } }
-      resources(:users) { collection { delete "/", to: "users#destroy_all" } }
+      resources(:guests) do
+        collection do
+          delete "/destroy_all", to: "guests#destroy_all"
+          delete "/delete_all", to: "guests#delete_all"
+        end
+      end
+
+      resources(:names) do
+        collection do
+          delete "/destroy_all", to: "names#destroy_all"
+          delete "/delete_all", to: "names#delete_all"
+        end
+      end
+
+      resources(:tokens) do
+        collection do
+          delete "/destroy_all", to: "tokens#destroy_all"
+          delete "/delete_all", to: "tokens#delete_all"
+        end
+      end
+
+      resources(:users) do
+        collection do
+          delete "/destroy_all", to: "users#destroy_all"
+          delete "/delete_all", to: "users#delete_all"
+        end
+      end
     end
 
   default_url_options(host: ENV.fetch("BASE_URL"))
 
   scope "(:locale)", locale: /en|fr|/ do
-    resources(:guests, &define)
+    resources(:guests) do
+      define.call
+
+      collection do
+        delete "/destroy_all", to: "users#destroy_all"
+        delete "/delete_all", to: "users#delete_all"
+      end
+    end
+
     resources(:users) do
       define.call
 
       post :impersonate
+
+      collection do
+        delete "/destroy_all", to: "users#destroy_all"
+        delete "/delete_all", to: "users#delete_all"
+      end
     end
+
     define.call
 
     resources :country_codes

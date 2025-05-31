@@ -53,6 +53,10 @@ class MessagePolicy < ApplicationPolicy
     true
   end
 
+  def delete_all?
+    true
+  end
+
   private
 
   delegate :from_user, :to_user, to: :record

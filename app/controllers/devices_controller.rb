@@ -8,6 +8,8 @@ class DevicesController < ApplicationController
 
   helper_method :url
   helper_method :new_url
+  helper_method :delete_all_url
+  helper_method :destroy_all_url
 
   def index
     authorize Device
@@ -72,6 +74,14 @@ class DevicesController < ApplicationController
     redirect_back_or_to(url)
   end
 
+  def delete_all
+    authorize Device
+
+    scope.delete_all
+
+    redirect_back_or_to(url)
+  end
+
   private
 
   def load_user
@@ -90,6 +100,14 @@ class DevicesController < ApplicationController
     scope = searched_policy_scope(Device)
     scope = scope.where(user: @user) if @user
     scope
+  end
+
+  def delete_all_url
+    [:delete_all, @user, :devices, { search: { q: q } }].compact
+  end
+
+  def destroy_all_url
+    [:destroy_all, @user, :devices, { search: { q: q } }].compact
   end
 
   def url

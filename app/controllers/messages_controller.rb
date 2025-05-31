@@ -17,6 +17,8 @@ class MessagesController < ApplicationController
 
   helper_method :url
   helper_method :new_url
+  helper_method :delete_all_url
+  helper_method :destroy_all_url
 
   def index
     authorize Message
@@ -88,7 +90,15 @@ class MessagesController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(messages_path)
+    redirect_back_or_to(url)
+  end
+
+  def delete_all
+    authorize Message
+
+    scope.delete_all
+
+    redirect_back_or_to(url)
   end
 
   private
@@ -107,6 +117,14 @@ class MessagesController < ApplicationController
       scope = scope.where(from_user: @user).or(scope.where(to_user: @user))
     end
     scope
+  end
+
+  def delete_all_url
+    [:delete_all, @user, :messages, { search: { q: q } }].compact
+  end
+
+  def destroy_all_url
+    [:destroy_all, @user, :messages, { search: { q: q } }].compact
   end
 
   def url

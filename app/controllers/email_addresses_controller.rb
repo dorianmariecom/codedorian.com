@@ -4,9 +4,10 @@ class EmailAddressesController < ApplicationController
   before_action :load_user
   before_action :load_email_address, only: %i[show edit update destroy]
 
-  helper_method :id
   helper_method :url
   helper_method :new_url
+  helper_method :delete_all_url
+  helper_method :destroy_all_url
 
   def index
     authorize EmailAddress
@@ -64,6 +65,14 @@ class EmailAddressesController < ApplicationController
     redirect_back_or_to(url)
   end
 
+  def delete_all
+    authorize EmailAddress
+
+    scope.delete_all
+
+    redirect_back_or_to(url)
+  end
+
   private
 
   def load_user
@@ -86,6 +95,14 @@ class EmailAddressesController < ApplicationController
 
   def id
     params[:email_address_id].presence || params[:id]
+  end
+
+  def delete_all_url
+    [:delete_all, @user, :email_addresses, { search: { q: q } }].compact
+  end
+
+  def destroy_all_url
+    [:destroy_all, @user, :email_addresses, { search: { q: q } }].compact
   end
 
   def url

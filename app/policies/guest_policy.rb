@@ -24,4 +24,8 @@ class GuestPolicy < ApplicationPolicy
   def destroy_all?
     false
   end
+
+  def delete_all?
+    true
+  end
 end

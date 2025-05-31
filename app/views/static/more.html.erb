@@ -11,8 +11,12 @@
               form_class: "inline-block" %>
   </div>
 <% else %>
-  <div class="p"><%= link_to t(".register"), %i[new user], class: "link" %></div>
-  <div class="p"><%= link_to t(".log_in"), %i[new session], class: "link" %></div>
+  <div class="p">
+    <%= link_to t(".register"), %i[new user], class: "link" %>
+  </div>
+  <div class="p">
+    <%= link_to t(".log_in"), %i[new session], class: "link" %>
+  </div>
 <% end %>
 
 <div class="p">
@@ -27,7 +31,9 @@
           class: "link" %>
 </div>
 
-<div class="p"><%= link_to t(".documentation"), :documentation, class: "link" %></div>
+<div class="p">
+  <%= link_to t(".documentation"), :documentation, class: "link" %>
+</div>
 <div class="p"><%= link_to t(".source"), :source, class: "link" %></div>
 <div class="p"><%= link_to t(".about"), :about, class: "link" %></div>
 <div class="p"><%= link_to t(".privacy"), :privacy, class: "link" %></div>
@@ -35,19 +41,27 @@
 <div class="p"><%= link_to t(".up"), :up, class: "link" %></div>
 
 <% if fr? %>
-  <div class="p"><%= link_to t(".english"), url_for(locale: :en), class: "link" %></div>
+  <div class="p">
+    <%= link_to t(".english"), url_for(locale: :en), class: "link" %>
+  </div>
 <% else %>
-  <div class="p"><%= link_to t(".french"), url_for(locale: :fr), class: "link" %></div>
+  <div class="p">
+    <%= link_to t(".french"), url_for(locale: :fr), class: "link" %>
+  </div>
 <% end %>
 
 <div class="p"><%= Current.translated_env %></div>
 
 <% if admin? %>
-  <div class="p"><b><%= t(".admin") %></b></div>
+  <div class="p">
+    <b><%= t(".admin") %></b>
+  </div>
   <div class="p"><%= link_to t(".users"), :users, class: "link" %></div>
   <div class="p"><%= link_to t(".programs"), :programs, class: "link" %></div>
   <div class="p"><%= link_to t(".messages"), :messages, class: "link" %></div>
-  <div class="p"><%= link_to t(".repl_sessions"), :repl_sessions, class: "link" %></div>
+  <div class="p">
+    <%= link_to t(".repl_sessions"), :repl_sessions, class: "link" %>
+  </div>
   <div class="p"><%= link_to t(".errors"), :errors, class: "link" %></div>
   <div class="p"><%= link_to t(".jobs"), :jobs, class: "link" %></div>
 <% end %>

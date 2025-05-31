@@ -5,7 +5,10 @@ class UsersController < ApplicationController
   skip_after_action :verify_policy_scoped, only: %i[new create update_time_zone]
   skip_after_action :verify_authorized, only: :update_time_zone
   skip_before_action :verify_captcha, only: :update_time_zone
-  helper_method :url, :new_url
+  helper_method :url
+  helper_method :new_url
+  helper_method :delete_all_url
+  helper_method :destroy_all_url
 
   def index
     authorize User
@@ -80,7 +83,15 @@ class UsersController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(root_path)
+    redirect_back_or_to(url)
+  end
+
+  def delete_all
+    authorize User
+
+    scope.delete_all
+
+    redirect_back_or_to(url)
   end
 
   private
@@ -167,6 +178,14 @@ class UsersController < ApplicationController
         ]
       )
     end
+  end
+
+  def delete_all_url
+    [:delete_all, :users, { search: { q: q } }].compact
+  end
+
+  def destroy_all_url
+    [:destroy_all, :users, { search: { q: q } }].compact
   end
 
   def url

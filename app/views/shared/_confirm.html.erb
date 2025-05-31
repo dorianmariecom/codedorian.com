@@ -16,7 +16,7 @@
         bridge__confirm_title_value: t(".modal_title"),
         bridge__confirm_cancel_value: t(".modal_cancel"),
         bridge__confirm_confirm_value: t(".modal_confirm"),
-        bridge__confirm_destructive_value: method == :delete,
+        bridge__confirm_destructive_value: method == :delete
       }
     }
   ) %>
@@ -41,17 +41,17 @@
         confirm_target: "modal",
         action:
           "
-            modal:hidden->confirm#cancel
-            modal:escaped->confirm#cancel
-            modal:closed->confirm#cancel
-            modal:canceled->confirm#cancel
-            modal:confirmed->confirm#confirm
-          "
+                modal:hidden->confirm#cancel
+                modal:escaped->confirm#cancel
+                modal:closed->confirm#cancel
+                modal:canceled->confirm#cancel
+                modal:confirmed->confirm#confirm
+              "
       },
       title: t(".modal_title"),
       cancel: t(".modal_cancel"),
       confirm: t(".modal_confirm"),
-      destructive: method == :delete,
+      destructive: method == :delete
     ) %>
   </div>
 <% end %>

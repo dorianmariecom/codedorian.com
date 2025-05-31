@@ -22,4 +22,8 @@ class ErrorOccurrencePolicy < ApplicationPolicy
   def destroy_all?
     admin?
   end
+
+  def delete_all?
+    admin?
+  end
 end

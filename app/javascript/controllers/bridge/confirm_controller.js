@@ -18,7 +18,7 @@ export default class extends BridgeComponent {
         description: this.descriptionValue,
         cancel: this.cancelValue,
         confirm: this.confirmValue,
-        destructive: this.destructiveValue
+        destructive: this.destructiveValue,
       },
       () => {
         this.element.submit();

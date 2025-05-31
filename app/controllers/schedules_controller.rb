@@ -7,6 +7,8 @@ class SchedulesController < ApplicationController
 
   helper_method :url
   helper_method :new_url
+  helper_method :delete_all_url
+  helper_method :destroy_all_url
 
   def index
     authorize Schedule
@@ -57,7 +59,15 @@ class SchedulesController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(schedules_path)
+    redirect_back_or_to(url)
+  end
+
+  def delete_all
+    authorize Schedule
+
+    scope.delete_all
+
+    redirect_back_or_to(url)
   end
 
   private
@@ -86,6 +96,14 @@ class SchedulesController < ApplicationController
     scope = scope.where(progran: @program) if @program
     scope = scope.joins(:program).where(program: { user: @user }) if @user
     scope
+  end
+
+  def delete_all_url
+    [:delete_all, @user, :schedules, { search: { q: q } }].compact
+  end
+
+  def destroy_all_url
+    [:destroy_all, @user, :schedules, { search: { q: q } }].compact
   end
 
   def url

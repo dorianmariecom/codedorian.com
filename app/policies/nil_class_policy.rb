@@ -24,4 +24,8 @@ class NilClassPolicy < ApplicationPolicy
   def destroy_all?
     false
   end
+
+  def delete_all?
+    false
+  end
 end

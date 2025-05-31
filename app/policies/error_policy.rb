@@ -23,6 +23,10 @@ class ErrorPolicy < ApplicationPolicy
     admin?
   end
 
+  def delete_all?
+    admin?
+  end
+
   def not_found?
     true
   end

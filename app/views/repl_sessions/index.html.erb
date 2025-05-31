@@ -6,7 +6,8 @@
 
 <% if @repl_sessions.any? %>
   <div class="p">
-    <%= button_to t(".delete_all"), url, method: :delete, class: "button button--link" %>
+    <%= render "shared/confirm", url: destroy_all_url, text: t(".destroy_all") %>
+    <%= render "shared/confirm", url: delete_all_url, text: t(".delete_all") %>
   </div>
 <% end %>
 

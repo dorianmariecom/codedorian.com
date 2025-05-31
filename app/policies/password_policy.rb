@@ -31,6 +31,10 @@ class PasswordPolicy < ApplicationPolicy
     true
   end
 
+  def delete_all?
+    true
+  end
+
   private
 
   def user?

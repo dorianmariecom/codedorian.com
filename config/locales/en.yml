@@ -87,7 +87,8 @@ en:
     form:
       address_placeholder: enter your address
     index:
-      delete_all: delete all
+      delete_all: delete all addresses
+      destroy_all: destroy all addreses
       new: new address
       title: addresses
     model:
@@ -157,7 +158,8 @@ en:
       submit: update device
       title: edit device
     index:
-      delete_all: delete all
+      delete_all: delete all devices
+      destroy_all: destroy all devices
       new: new device
       title: devices
     model:
@@ -191,7 +193,8 @@ en:
     form:
       email_address_placeholder: enter your email address
     index:
-      delete_all: delete all
+      delete_all: delete all email addresses
+      destroy_all: destroy all email addresses
       new: new email address
       title: email addresses
     model:
@@ -220,10 +223,9 @@ en:
   error_occurrences:
     destroy:
       notice: error occurrence deleted
-    destroy_all:
-      notice: error occurrences deleted
     index:
       delete_all: delete all error occurrences
+      destroy_all: destroy all error occurrences
       title: error occurrences
     show:
       app_backtrace: app backtrace
@@ -237,10 +239,9 @@ en:
   errors:
     destroy:
       notice: error deleted
-    destroy_all:
-      notice: errors deleted
     index:
       delete_all: delete all errors
+      destroy_all: destroy all errors
       title: errors
     internal_server_error:
       title: internal server error
@@ -263,7 +264,8 @@ en:
     destroy:
       notice: execution deleted
     index:
-      delete_all: delete all
+      delete_all: delete all executions
+      destroy_all: destroy all executions
       title: executions
     model:
       to_s: execution#%{id}
@@ -279,6 +281,8 @@ en:
       updated_at: updated at
   guests:
     index:
+      delete_all: delete all guests
+      destroy_all: destroy all guests
       title: guests
     model:
       locales:
@@ -304,7 +308,8 @@ en:
     form:
       handle_placeholder: enter your handle
     index:
-      delete_all: delete all
+      delete_all: delete all handles
+      destroy_all: destroy all handles
       new: new handle
       title: handles
     model:
@@ -461,6 +466,7 @@ en:
       subject_placeholder: enter your message's subject
     index:
       delete_all: delete all messages
+      destroy_all: destroy all messages
       new: new message
       title: messages
     model:
@@ -497,7 +503,8 @@ en:
       family_name_placeholder: enter your family name
       given_name_placeholder: enter your given name
     index:
-      delete_all: delete all
+      delete_all: delete all names
+      destroy_all: destroy all names
       new: new name
       title: names
     model:
@@ -548,7 +555,8 @@ en:
       hint_placeholder: enter your password's hint
       password_placeholder: enter your password
     index:
-      delete_all: delete all
+      delete_all: delete all passwords
+      destroy_all: destroy all passwords
       new: new password
       title: passwords
     model:
@@ -587,7 +595,8 @@ en:
     form:
       phone_number_placeholder: enter your phone number
     index:
-      delete_all: delete all
+      delete_all: delete all phone numbers
+      destroy_all: destroy all phone numbers
       new: new phone number
       title: phone numbers
     model:
@@ -658,7 +667,8 @@ en:
     destroy:
       notice: repl execution deleted
     index:
-      delete_all: delete all
+      delete_all: delete all repl executions
+      destroy_all: destroy all repl executions
       title: repl executions
     model:
       to_s: repl_execution#%{id}
@@ -685,7 +695,8 @@ en:
       fake_input: Http.get("https://google.com")
       input_placeholder: enter your repl program's input
     index:
-      delete_all: delete all
+      delete_all: delete all repl programs
+      destroy_all: destroy all repl programs
       new: new repl program
       title: repl programs
     model:
@@ -722,6 +733,7 @@ en:
       name_placeholder: enter your repl session's name
     index:
       delete_all: delete all repl sessions
+      destroy_all: destroy all repl sessions
       new: new repl session
       title: repl sessions
     model:
@@ -754,7 +766,8 @@ en:
       submit: update schedule
       title: edit schedule
     index:
-      delete_all: delete all
+      delete_all: delete all repl schedules
+      destroy_all: destroy all repl schedules
       new: new schedule
       title: schedules
     model:
@@ -859,14 +872,7 @@ en:
       cancel: cancel
       confirm: confirm
     search:
-      add: add
-      advanced: advanced
-      and: and
-      free_field: free field
-      key_value: key value
-      or: or
       placeholder: enter your search query
-      remove: remove
       submit: search
   static:
     about:
@@ -964,7 +970,8 @@ en:
       submit: update time zone
       title: edit time zone
     index:
-      delete_all: delete all
+      delete_all: delete all time zones
+      destroy_all: destroy all time zones
       new: new time zone
       title: time zones
     model:
@@ -998,7 +1005,8 @@ en:
       submit: update token
       title: edit token
     index:
-      delete_all: delete all
+      delete_all: delete all tokens
+      destroy_all: destroy all tokens
       new: new token
       title: tokens
     model:
@@ -1029,7 +1037,8 @@ en:
       submit: update user
       title: edit user
     index:
-      delete_all: delete all
+      delete_all: delete all users
+      destroy_all: destroy all users
       new: new user
       title: users
     model:
