@@ -30,6 +30,11 @@
       data-bridge--tab-bar-tabs-ios-value="<%= ios_tabs.to_json %>"
       data-bridge--tab-bar-tabs-android-value="<%= android_tabs.to_json %>"
     ></div>
+    <div
+      data-controller="bridge--menu"
+      data-bridge--menu-menu-ios-value="<%= ios_menu.to_json %>"
+      data-bridge--menu-menu-android-value="<%= android_menu.to_json %>"
+    ></div>
     <div data-controller="bridge--notification-token"></div>
 
     <%= render "application/menu" %>

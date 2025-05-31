@@ -1,20 +1,20 @@
 import { BridgeComponent } from "@hotwired/hotwire-native-bridge";
 
 export default class extends BridgeComponent {
-  static component = "tab-bar";
+  static component = "menu";
 
   static values = {
-    tabsIos: Array,
-    tabsAndroid: Array,
+    menuIos: Array,
+    menuAndroid: Array,
   };
 
   connect() {
     super.connect();
 
     if (window.platform === "ios") {
-      this.send("connect", { tabs: this.tabsIosValue });
+      this.send("connect", { menu: this.menuIosValue });
     } else {
-      this.send("connect", { tabs: this.tabsAndroidValue });
+      this.send("connect", { menu: this.menuAndroidValue });
     }
   }
 }

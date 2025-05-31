@@ -346,6 +346,24 @@ fr:
         programs: programmes
         register: s'inscrire
         repl: repl
+      menu:
+        about: à propos
+        account: compte
+        english: anglais
+        errors: erreurs
+        french: français
+        home: accueil
+        jobs: emplois
+        log_in: se connecter
+        messages: messages
+        privacy: confidentialité
+        programs: programmes
+        register: s'inscrire
+        repl: repl
+        source: source
+        terms: termes
+        up: en haut
+        users: utilisateurs
     label:
       session:
         email_address: adresse e-mail

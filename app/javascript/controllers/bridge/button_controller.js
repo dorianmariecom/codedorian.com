@@ -4,7 +4,6 @@ export default class extends BridgeComponent {
   static component = "button";
   static values = {
     title: String,
-    image: String,
   };
 
   connect() {
@@ -12,7 +11,7 @@ export default class extends BridgeComponent {
 
     this.send(
       "connect",
-      { title: this.titleValue, image: this.imageValue },
+      { title: this.titleValue },
       () => {
         this.element.click();
       },
