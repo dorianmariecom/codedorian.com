@@ -337,15 +337,6 @@ fr:
       notice: identifiant mis à jour
   helpers:
     application:
-      tabs:
-        account: compte
-        home: accueil
-        log_in: se connecter
-        messages: messages
-        more: plus
-        programs: programmes
-        register: s'inscrire
-        repl: repl
       menu:
         about: à propos
         account: compte
@@ -364,6 +355,15 @@ fr:
         terms: termes
         up: en haut
         users: utilisateurs
+      tabs:
+        account: compte
+        home: accueil
+        log_in: se connecter
+        messages: messages
+        more: plus
+        programs: programmes
+        register: s'inscrire
+        repl: repl
     label:
       session:
         email_address: adresse e-mail
