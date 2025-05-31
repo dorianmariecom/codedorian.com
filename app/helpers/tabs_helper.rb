@@ -237,7 +237,7 @@ module TabsHelper
         {
           title: t("helpers.application.tabs.repl"),
           image: :terminal,
-          path: more_path,
+          path: polymorphic_path([current_user, :repl_sessions]),
           default: false
         },
         {

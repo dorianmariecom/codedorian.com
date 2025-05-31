@@ -43,7 +43,7 @@ class ConfigurationsController < ApplicationController
         rules: [
           { patterns: %w[/new$ /edit$], properties: { context: "modal" } },
           {
-            patterns: %w[users/new$ sessions/new$],
+            patterns: %w[users/new$ session/new$],
             properties: {
               context: "default"
             }
@@ -76,7 +76,7 @@ class ConfigurationsController < ApplicationController
             }
           },
           {
-            patterns: %w[users/new$ sessions/new$],
+            patterns: %w[users/new$ session/new$],
             properties: {
               context: "default",
               uri: "hotwire://fragment/web",
