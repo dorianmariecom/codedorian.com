@@ -9,13 +9,9 @@ export default class extends BridgeComponent {
   connect() {
     super.connect();
 
-    this.send(
-      "connect",
-      { title: this.titleValue },
-      () => {
-        this.element.click();
-      },
-    );
+    this.send("connect", { title: this.titleValue }, () => {
+      this.element.click();
+    });
   }
 
   disconnect() {

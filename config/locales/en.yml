@@ -337,15 +337,6 @@ en:
       notice: handle updated
   helpers:
     application:
-      tabs:
-        account: account
-        home: home
-        log_in: log in
-        messages: messages
-        more: more
-        programs: programs
-        register: register
-        repl: repl
       menu:
         about: about
         account: account
@@ -364,6 +355,15 @@ en:
         terms: terms
         up: up
         users: users
+      tabs:
+        account: account
+        home: home
+        log_in: log in
+        messages: messages
+        more: more
+        programs: programs
+        register: register
+        repl: repl
     label:
       session:
         email_address: email address
