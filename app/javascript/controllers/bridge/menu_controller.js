@@ -11,10 +11,16 @@ export default class extends BridgeComponent {
   connect() {
     super.connect();
 
-    if (window.platform === "ios") {
-      this.send("connect", { menu: this.menuIosValue });
-    } else {
-      this.send("connect", { menu: this.menuAndroidValue });
-    }
+    const menu = window.platform === "ios" ? this.menuIosValue : this.menuAndroidValue;
+
+    this.send("connect", { menu }, (message) => {
+      window.Turbo.visit(menu[message.data.index].path);
+    });
+  }
+
+  disconnect() {
+    super.disconnect();
+
+    this.send("disconnect");
   }
 }
