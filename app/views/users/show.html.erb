@@ -42,23 +42,11 @@
 
 <div class="p">
   <% if admin? %>
-    <%= button_to t(".impersonate"),
-              [@user, :impersonate],
-              method: :post,
-              class: "button button--link",
-              form_class: "inline-block" %>
+    <%= render "shared/confirm", text: t(".impersonate"), url: [@user, :impersonate] %>
   <% end %>
-  <%= button_to t(".log_out"),
-            :session,
-            method: :delete,
-            class: "button button--link",
-            form_class: "inline-block" %>
+  <%= render "shared/confirm", text: t(".log_out"), url: :session %>
   <%= link_to t(".edit"), [:edit, @user], class: "link" %>
-  <%= button_to t(".delete"),
-            @user,
-            method: :delete,
-            class: "button button--link",
-            form_class: "inline-block" %>
+  <%= render "shared/confirm", text: t(".delete"), url: @user %>
 </div>
 
 <%= render "shared/list", user: @user, model: Name %>

@@ -60,9 +60,5 @@
 </div>
 
 <div class="p">
-  <%= button_to t(".delete"),
-            @execution,
-            method: :delete,
-            class: "button button--link",
-            form_class: "inline-block" %>
+  <%= render "shared/confirm", text: t(".delete"), url: @execution %>
 </div>

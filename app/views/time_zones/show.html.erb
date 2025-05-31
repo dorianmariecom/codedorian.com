@@ -49,9 +49,5 @@
 
 <div class="p">
   <%= link_to t(".edit"), [:edit, @time_zone], class: "link" %>
-  <%= button_to t(".delete"),
-            @time_zone,
-            method: :delete,
-            class: "button button--link",
-            form_class: "inline-block" %>
+  <%= render "shared/confirm", text: t(".delete"), url: @time_zone %>
 </div>

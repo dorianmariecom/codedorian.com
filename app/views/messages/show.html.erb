@@ -97,9 +97,5 @@
 
 <div class="p">
   <%= link_to t(".edit"), [:edit, @message], class: "link" %>
-  <%= button_to t(".delete"),
-            @message,
-            method: :delete,
-            class: "button button--link",
-            form_class: "inline-block" %>
+  <%= render "shared/confirm", text: t(".delete"), url: @message %>
 </div>

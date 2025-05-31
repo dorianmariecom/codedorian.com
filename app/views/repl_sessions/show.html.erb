@@ -39,11 +39,7 @@
 
 <div class="p">
   <%= link_to t(".edit"), [:edit, @repl_session], class: "link" %>
-  <%= button_to t(".delete"),
-            @repl_session,
-            method: :delete,
-            class: "button button--link",
-            form_class: "inline-block" %>
+  <%= render "shared/confirm", text: t(".delete"), url: @repl_session %>
 </div>
 
 <div class="p font-bold">

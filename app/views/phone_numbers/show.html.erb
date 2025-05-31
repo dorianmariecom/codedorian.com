@@ -50,9 +50,5 @@
 
 <div class="p">
   <%= link_to t(".edit"), [:edit, @phone_number], class: "link" %>
-  <%= button_to t(".delete"),
-            @phone_number,
-            method: :delete,
-            class: "button button--link",
-            form_class: "inline-block" %>
+  <%= render "shared/confirm", text: t(".delete"), url: @phone_number %>
 </div>

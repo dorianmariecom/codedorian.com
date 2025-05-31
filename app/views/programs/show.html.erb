@@ -47,20 +47,12 @@
 <% if @program.scheduled_at? %>
   <div class="p">
     <%= t(".scheduled_html", local_time: local_time(@program.scheduled_at)) %>
-    <%= button_to t(".unschedule"),
-              [@program, :unschedule],
-              method: :post,
-              class: "button button--link",
-              form_class: "inline-block" %>
+    <%= render "shared/confirm", text: t(".unschedule"), url: [@program, :unschedule], method: :post %>
   </div>
 <% elsif @program.next_at? %>
   <div class="p">
     <%= t(".not_scheduled_html", local_time: local_time(@program.next_at)) %>
-    <%= button_to t(".schedule"),
-              [@program, :schedule],
-              method: :post,
-              class: "button button--link",
-              form_class: "inline-block" %>
+    <%= render "shared/confirm", text: t(".schedule"), url: [@program, :schedule], method: :post %>
   </div>
 <% end %>
 
@@ -70,11 +62,7 @@
 
 <div class="p">
   <%= link_to t(".edit"), [:edit, @program], class: "link" %>
-  <%= button_to t(".delete"),
-            @program,
-            method: :delete,
-            class: "button button--link",
-            form_class: "inline-block" %>
+  <%= render "shared/confirm", text: t(".delete"), url: @program %>
 </div>
 
 <div class="p font-bold">

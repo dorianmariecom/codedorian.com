@@ -67,27 +67,8 @@
 </div>
 
 <div class="p">
-  <%= button_to t(".retry"),
-            [@user, @job, :retry].compact,
-            method: :post,
-            class: "button button--link",
-            form_class: "inline-block" %>
-
-  <%= button_to t(".discard"),
-            [@user, @job, :discard].compact,
-            method: :post,
-            class: "button button--link",
-            form_class: "inline-block" %>
-
-  <%= button_to t(".destroy"),
-            [@user, @job, :destroy].compact,
-            method: :delete,
-            class: "button button--link",
-            form_class: "inline-block" %>
-
-  <%= button_to t(".delete"),
-            [@user, @job, :delete].compact,
-            method: :delete,
-            class: "button button--link",
-            form_class: "inline-block" %>
+  <%= render "shared/confirm", text: t(".retry"), url: [@user, @job, :retry], method: :post %>
+  <%= render "shared/confirm", text: t(".discard"), url: [@user, @job, :discard], method: :post %>
+  <%= render "shared/confirm", text: t(".destroy"), url: [@user, @job, :destroy] %>
+  <%= render "shared/confirm", text: t(".delete"), url: [@user, @job, :delete] %>
 </div>

@@ -57,9 +57,5 @@
 </div>
 
 <div class="p">
-  <%= button_to t(".delete"),
-            error_occurrence_path(@error_occurrence),
-            method: :delete,
-            class: "button button--link",
-            form_class: "inline-block" %>
+  <%= render "shared/confirm", text: t(".delete"), url: @error_occurrence %>
 </div>
