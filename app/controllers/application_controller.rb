@@ -39,6 +39,7 @@ class ApplicationController < ActionController::Base
   helper_method :can?
   helper_method :error_message_for
   helper_method :version
+  helper_method :hotwire_native_modal?
 
   REDIRECT_ERROR =
     lambda { |error| redirect_to(root_path, alert: error_message_for(error)) }
@@ -231,5 +232,14 @@ class ApplicationController < ActionController::Base
     app_version ||= "0.0"
 
     Gem::Version.new(app_version)
+  end
+
+  def hotwire_native_modal?
+    return false if request.path == new_user_path
+    return false if request.path == new_session_path
+    return true if request.path.ends_with?("/new")
+    return true if request.path.ends_with?("/edit")
+
+    false
   end
 end

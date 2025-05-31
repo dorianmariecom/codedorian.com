@@ -23,7 +23,6 @@
       window.GOOGLE_MAPS_API_KEY = "<%= google_maps_api_key %>";
     </script>
     <div data-controller="update-time-zone"></div>
-    <div data-controller="bridge--share"></div>
     <div data-controller="bridge--csrf-token"></div>
     <div data-controller="bridge--notification-token"></div>
     <div
@@ -31,11 +30,15 @@
       data-bridge--tab-bar-tabs-ios-value="<%= ios_tabs.to_json %>"
       data-bridge--tab-bar-tabs-android-value="<%= android_tabs.to_json %>"
     ></div>
-    <div
-      data-controller="bridge--menu"
-      data-bridge--menu-menu-ios-value="<%= ios_menu.to_json %>"
-      data-bridge--menu-menu-android-value="<%= android_menu.to_json %>"
-    ></div>
+
+    <% unless hotwire_native_modal? %>
+      <div data-controller="bridge--share"></div>
+      <div
+        data-controller="bridge--menu"
+        data-bridge--menu-menu-ios-value="<%= ios_menu.to_json %>"
+        data-bridge--menu-menu-android-value="<%= android_menu.to_json %>"
+      ></div>
+    <% end %>
 
     <%= render "application/menu" %>
 
