@@ -39,12 +39,12 @@
       "shared/modal",
       data: {
         confirm_target: "modal",
-        action: [
-          "modal:hidden->confirm#cancel",
-          "modal:escaped->confirm#cancel",
-          "modal:closed->confirm#cancel",
-          "modal:canceled->confirm#cancel",
-          "modal:confirmed->confirm#confirm",
+        action: %w[
+          modal:hidden->confirm#cancel
+          modal:escaped->confirm#cancel
+          modal:closed->confirm#cancel
+          modal:canceled->confirm#cancel
+          modal:confirmed->confirm#confirm
         ].join(" ")
       },
       title: t(".modal_title"),
