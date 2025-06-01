@@ -56,31 +56,35 @@ class Code
         ::ApplicationRecord.transaction do
           code_to.user.devices.each do |device|
             if device.ios?
-              ::Rpush::Apnsp8::Notification.create!(
-                app: ios_app,
-                device_token: device.token,
-                alert: {
-                  title: code_subject.to_s,
-                  body: code_body.to_s
-                },
-                data: {
-                  path: code_path.to_s
-                },
-                sound: code_sound.to_s
-              )
+              ios_apps.each do |app|
+                ::Rpush::Apnsp8::Notification.create!(
+                  app: app,
+                  device_token: device.token,
+                  alert: {
+                    title: code_subject.to_s,
+                    body: code_body.to_s
+                  },
+                  data: {
+                    path: code_path.to_s
+                  },
+                  sound: code_sound.to_s
+                )
+              end
             elsif device.android?
-              ::Rpush::Fcm::Notification.create!(
-                app: android_app,
-                device_token: device.token,
-                notification: {
-                  title: code_subject.to_s,
-                  body: code_body.to_s
-                },
-                data: {
-                  path: code_path.to_s
-                },
-                sound: code_sound.to_s
-              )
+              android_apps.each do |app|
+                ::Rpush::Fcm::Notification.create!(
+                  app: app,
+                  device_token: device.token,
+                  notification: {
+                    title: code_subject.to_s,
+                    body: code_body.to_s
+                  },
+                  data: {
+                    path: code_path.to_s
+                  },
+                  sound: code_sound.to_s
+                )
+              end
             end
           end
         end
@@ -95,18 +99,22 @@ class Code
         raise ::Code::Error, "notification not saved"
       end
 
-      def self.ios_app
-        ::Rpush::Apnsp8::App.find_by(
-          name: ::Current.ios_app_name,
-          environment: ::Current.ios_environment
-        )
+      def self.ios_apps
+        ::Current.ios_environments.filter_map do |environment|
+          ::Rpush::Apnsp8::App.find_by(
+            name: ::Current.ios_app_name,
+            environment: environment
+          )
+        end
       end
 
       def self.android_app
-        ::Rpush::Fcm::App.find_by(
-          name: ::Current.android_app_name,
-          environment: ::Current.android_environment
-        )
+        ::Current.android_environments.filter_map do |environment|
+          ::Rpush::Fcm::App.find_by(
+            name: ::Current.android_app_name,
+            environment: environment
+          )
+        end
       end
 
       include ::Pundit::Authorization

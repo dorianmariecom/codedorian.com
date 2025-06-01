@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Current < ActiveSupport::CurrentAttributes
-  PRODUCTION = "production"
   DEFAULT_HOST = "codedorian.com"
   DEFAULT_BASE_URL = "https://codedorian.com"
   DEFAULT_HOSTS = DEFAULT_HOST
@@ -30,19 +29,19 @@ class Current < ActiveSupport::CurrentAttributes
     production: "border-production"
   }.freeze
   DEFAULT_IOS_APP_NAME = "codedorian"
-  IOS_APP_NAME = {
-    test: "test",
-    localhost: "localhost",
-    development: "development",
-    staging: "staging",
+  IOS_APP_NAMES = {
+    test: "codedorian - test",
+    localhost: "codedorian - local",
+    development: "codedorian - dev",
+    staging: "codedorian - staging",
     production: "codedorian"
   }.freeze
   DEFAULT_ANDROID_APP_NAME = "codedorian"
-  ANDROID_APP_NAME = {
-    test: "test",
-    localhost: "localhost",
-    development: "development",
-    staging: "staging",
+  ANDROID_APP_NAMES = {
+    test: "codedorian - test",
+    localhost: "codedorian - local",
+    development: "codedorian - dev",
+    staging: "codedorian - staging",
     production: "codedorian"
   }.freeze
 
@@ -52,20 +51,20 @@ class Current < ActiveSupport::CurrentAttributes
 
   attribute :user, :time_zone, :request
 
-  def ios_environment
-    PRODUCTION
+  def ios_environments
+    Config.rpush.ios.environments
   end
 
-  def android_environment
-    PRODUCTION
+  def android_environments
+    Config.rpush.android.environments
   end
 
   def ios_app_name
-    IOS_APP_NAME.fetch(env, DEFAULT_IOS_APP_NAME)
+    IOS_APP_NAMES.fetch(env.to_sym, DEFAULT_IOS_APP_NAME)
   end
 
   def android_app_name
-    ANDROID_APP_NAME.fetch(env, DEFAULT_ANDROID_APP_NAME)
+    ANDROID_APP_NAMES.fetch(env.to_sym, DEFAULT_ANDROID_APP_NAME)
   end
 
   def request?

@@ -6,7 +6,7 @@ ios_config = rpush_config.ios
 android_config = rpush_config.android
 
 rpush_config.applications.each do |application|
-  rpush_config.environments.each do |environment|
+  ios_config.environments.each do |environment|
     Rpush::Apnsp8::App.find_or_create_by!(
       name: application[:name],
       environment: environment,
@@ -15,7 +15,9 @@ rpush_config.applications.each do |application|
       apn_key: ios_config.apn_key,
       apn_key_id: ios_config.apn_key_id
     )
+  end
 
+  android_config.environments.each do |environment|
     Rpush::Fcm::App.find_or_create_by!(
       name: application[:name],
       environment: environment,
