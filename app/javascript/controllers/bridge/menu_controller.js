@@ -11,7 +11,8 @@ export default class extends BridgeComponent {
   connect() {
     super.connect();
 
-    const menu = window.platform === "ios" ? this.menuIosValue : this.menuAndroidValue;
+    const menu =
+      window.platform === "ios" ? this.menuIosValue : this.menuAndroidValue;
 
     this.send("connect", { menu }, (message) => {
       window.Turbo.visit(menu[message.data.index].path);
