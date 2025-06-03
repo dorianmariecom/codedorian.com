@@ -355,6 +355,7 @@ en:
         terms: terms
         up: up
         users: users
+        documentation: documentation
       tabs:
         account: account
         home: home
@@ -909,8 +910,6 @@ en:
       log_in: log in
       register: register
       title: account
-    documentation:
-      title: documentation
     home:
       home_html: |
         <p>welcome to code</p>
@@ -1092,3 +1091,13 @@ en:
       next: next
       previous: previous
       truncate: "…"
+  docs:
+    index:
+      title: documentation
+      instance_functions: instance functions
+      class_functions: class functions
+    show:
+      title: documentation not found
+      instance_functions: instance functions
+      class_functions: class functions
+      examples: examples

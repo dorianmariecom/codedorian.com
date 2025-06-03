@@ -259,12 +259,16 @@ Rails.application.routes.draw do
 
     resources :country_codes
     resources :password_validations
+    resources :docs, only: %i[index show] do
+      scope ":doc_type" do
+        resources :docs, only: %i[index show]
+      end
+    end
     resource :session
 
     patch :time_zone, to: "users#update_time_zone"
 
     get :up, to: "static#up"
-    get :documentation, to: "static#documentation"
     get :about, to: "static#about"
     get :terms, to: "static#terms"
     get :privacy, to: "static#privacy"

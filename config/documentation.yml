@@ -1,24 +1,81 @@
 - name: "Current"
+  examples:
+    - Current.user
+    - Current.user!
+    - Current.user.id
+    - Current.user!.id
+    - "Notification.create!(from: Current.user!, subject: :hello)"
+    - "Message.create!(from: Current.user!, subject: :hello)"
   parent: "Dictionary"
   instance_functions:
     - name: "user"
     - name: "user!"
 - name: "Message"
   parent: "Dictionary"
+  examples:
+    - "Message.create"
+    - "Message.create!"
+    - "Message.create!(subject: :hello)"
+    - "Message.create!(body: :world)"
+    - "Message.create!(subject: :hello, body: :world)"
+    - |
+      Message.create!(
+        from: User.find("dorian"),
+        to: User.find("arthur"),
+        subject: :hello,
+        body: :world
+      )
+    - |
+      Message.create!(
+        from: User.current,
+        to: User.find("dorian"),
+        subject: :hello,
+        body: :world
+      )
   class_functions:
     - name: "create"
     - name: "create!"
 - name: "Notification"
   parent: "Dictionary"
+  examples:
+    - "Notification.create"
+    - "Notification.create!"
+    - "Notification.create!(subject: :hello)"
+    - "Notification.create!(body: :world)"
+    - "Notification.create!(subject: :hello, body: :world)"
+    - |
+      Notification.create!(
+        from: User.find("dorian"),
+        to: User.find("arthur"),
+        subject: :hello,
+        body: :world
+      )
+    - |
+      Notification.create!(
+        from: User.current,
+        to: User.find("dorian"),
+        subject: :hello,
+        body: :world
+      )
   class_functions:
     - name: "create"
     - name: "create!"
 - name: "User"
   parent: "Dictionary"
+  examples:
+    - "User.find(:dorian)"
+    - 'User.find("dorianmarie")'
+    - 'User.find!("dorianmariecom")'
   class_functions:
     - name: "find"
     - name: "find!"
 - name: "Object"
+  examples:
+    - "Object.new"
+    - "Object.new == Object.new"
+    - "Object.new != Object.new"
+    - "Object.new === Object.new"
+    - "Object.new !== Object.new"
   class_functions:
     - name: "new"
     - name: "!"
@@ -102,6 +159,14 @@
     - name: "methods"
     - name: "name"
 - name: "Dictionary"
+  examples:
+    - "Dictionary.new"
+    - "{}"
+    - "Dictionary.new(a: 1, b: 2)"
+    - "{ a: 1, b: 2 }"
+    - "{}.to_list"
+    - "!{}"
+    - "{} == {}"
   parent: "Object"
   instance_functions:
     - name: "<"
@@ -162,6 +227,10 @@
     - name: "zero?"
 - name: "Base64"
   parent: "Object"
+  examples:
+    - "Base64.encode(:hello)"
+    - "Base64.strict_encode(:hello)"
+    - "Base64.urlsafe_encode(:hello)"
   class_functions:
     - name: "encode"
     - name: "decode"
@@ -171,6 +240,11 @@
     - name: "urlsafe_decode"
 - name: "Boolean"
   parent: "Object"
+  examples:
+    - "true"
+    - "false"
+    - "!true"
+    - "Boolean.new(:a)"
   instance_functions:
     - name: "&"
     - name: "bitwise_and"
@@ -180,12 +254,21 @@
     - name: "bitwise_or"
 - name: "Class"
   parent: "Object"
+  examples:
+    - "Boolean"
+    - "List"
+    - "Class.new(true)"
 - name: "Code"
   parent: "Object"
 - name: "Context"
   parent: "Dictionary"
 - name: "Date"
   parent: "Object"
+  examples:
+    - "Date.new"
+    - "Date.today"
+    - "Date.tomorrow"
+    - "Date.yesterday"
   class_functions:
     - name: "tomorrow"
     - name: "yesterday"
@@ -203,6 +286,10 @@
     - name: "change"
 - name: "Decimal"
   parent: "Object"
+  examples:
+    - "1.0"
+    - "2.3e2"
+    - "1e1.0"
   instance_functions:
    - name: "%"
    - name: "modulo"
@@ -259,15 +346,25 @@
    - name: "bitwise_or"
 - name: "Duration"
   parent: "Object"
+  examples:
+    - "2.days.ago"
+    - "3.days.from_now"
+    - "1.day.ago"
+    - "1.day.from_now"
   instance_methods:
    - name: "ago"
    - name: "from_now"
 - name: "Function"
   parent: "Object"
+  examples:
+    - "sum = (a, b) => { a + b }"
   instance_methods:
     - name: "call"
 - name: "Global"
   parent: "Object"
+  examples:
+    - "puts(:hello)"
+    - "p(nothing)"
   instance_methods:
    - name: "Boolean"
    - name: "break"
@@ -302,6 +399,8 @@
    - name: "puts"
 - name: "Html"
   parent: "Object"
+  examples:
+    - 'Html.link_to(:code, "https://codedorian.com")'
   class_functions:
     - name: "link_to"
     - name: "escape"
@@ -311,6 +410,8 @@
     - name: "map"
     - name: "to_string"
 - name: "Http"
+  examples:
+    - 'Http.get("https://codedorian.com")'
   parent: "Object"
   class_functions:
     - name: "get"
@@ -326,6 +427,10 @@
   parent: "List"
 - name: "Integer"
   parent: "Object"
+  examples:
+    - "1"
+    - "1000000000000000"
+    - "1e100"
   instance_functions:
     - name: "%"
     - name: "modulo"
@@ -394,10 +499,17 @@
     - name: "bitwise_or"
 - name: "Json"
   parent: "Object"
+  examples:
+    - "Json.parse(response.body)"
   class_functions:
     - name: "parse"
 - name: "List"
   parent: "Object"
+  examples:
+    - "List.new"
+    - "[]"
+    - "[1, 2, 3]"
+    - "[:a, :b, :c]"
   instance_functions:
     - name: "join"
     - name: "sort"
@@ -434,10 +546,16 @@
     - name: "uniq"
 - name: "Nothing"
   parent: "Object"
+  examples:
+    - "Nothing.new"
+    - "nothing"
 - name: "Parameter"
   parent: "Object"
 - name: "Range"
   parent: "Object"
+  examples:
+    - "(1..10).to_list"
+    - "(0...10).to_list"
   instance_functions:
     - name: "all?"
     - name: "any?"
@@ -455,6 +573,11 @@
     - name: "send"
 - name: "String"
   parent: "Object"
+  examples:
+    - "String.new(:hello)"
+    - "1.to_string"
+    - '"hello world"'
+    - ":hello"
   instance_functions:
     - name: "&"
     - name: "to_function"
@@ -468,6 +591,10 @@
     - name: "substitute"
 - name: "Time"
   parent: "Object"
+  examples:
+    - "Time.now"
+    - "Time.hour"
+    - "Time.minutes"
   class_functions:
     - name: "now"
     - name: "tomorrow"

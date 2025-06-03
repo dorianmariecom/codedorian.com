@@ -38,6 +38,10 @@ button {
   @apply mb-4;
 }
 
+.ul {
+  @apply list-disc ml-4;
+}
+
 .link {
   @apply underline;
 

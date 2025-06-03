@@ -61,6 +61,11 @@ module MenuHelper
         path: polymorphic_path([current_user_or_guest, :repl_sessions])
       },
       {
+        title: t("helpers.application.menu.documentation"),
+        image: ios ? :document : :code,
+        path: docs_path
+      },
+      {
         title: t("helpers.application.menu.source"),
         image: ios ? "chevron.left.forwardslash.chevron.right" : :code,
         path: source_path

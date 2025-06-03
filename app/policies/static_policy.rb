@@ -5,10 +5,6 @@ class StaticPolicy < ApplicationPolicy
     true
   end
 
-  def documentation?
-    true
-  end
-
   def up?
     true
   end
