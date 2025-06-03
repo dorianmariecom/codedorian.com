@@ -9,9 +9,9 @@ GIT
 
 GIT
   remote: https://github.com/hotwired/turbo-rails
-  revision: cb47713ab2abc0692e36215cb7e60d48461ae654
+  revision: 1782f02c919a72643d474f105293c1213f30034f
   specs:
-    turbo-rails (2.0.13)
+    turbo-rails (2.0.16)
       actionpack (>= 7.1.0)
       railties (>= 7.1.0)
 
@@ -122,12 +122,12 @@ GEM
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
     ast (2.4.3)
-    base64 (0.2.0)
+    base64 (0.3.0)
     bcrypt (3.1.20)
     bcrypt_pbkdf (1.1.1)
     bcrypt_pbkdf (1.1.1-x86_64-darwin)
-    benchmark (0.4.0)
-    bigdecimal (3.1.9)
+    benchmark (0.4.1)
+    bigdecimal (3.2.1)
     brakeman (7.0.2)
       racc
     browser (6.2.0)
@@ -441,7 +441,7 @@ GEM
       i18n (>= 0.7, < 2)
       railties (>= 8.0.0, < 9)
     rainbow (3.1.1)
-    rake (13.2.1)
+    rake (13.3.0)
     rchardet (1.9.0)
     rdoc (6.14.0)
       erb
