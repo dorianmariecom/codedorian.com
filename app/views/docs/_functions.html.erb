@@ -1,0 +1,24 @@
+<% if doc[type.to_s].present? %>
+  <div class="p"><%= t(".#{type}") %></div>
+  <ul class="ul p">
+    <% doc[type.to_s].each do |function| %>
+      <li class="li">
+        <details>
+          <summary class="p">
+            <%= link_to(
+              function["name"],
+              doc_doc_path(
+                doc_type: type,
+                doc_id: doc["name"],
+                id: function["name"]
+              ),
+              class: "link"
+            ) %>
+          </summary>
+
+          <%= render "docs/examples", examples: function["examples"] %>
+        </details>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

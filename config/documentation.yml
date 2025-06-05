@@ -1,11 +1,29 @@
 ---
 - class_functions:
   - name: decode
+    examples:
+      - "Base64.decode(:hello)"
+      - 'Base64.decode("hello world")'
   - name: encode
+    examples:
+      - "Base64.encode(:hello)"
+      - 'Base64.encode("hello world")'
   - name: strict_decode
+    examples:
+      - "Base64.strict_decode(:hello)"
+      - 'Base64.strict_decode("hello world")'
   - name: strict_encode
+    examples:
+      - "Base64.strict_encode(:hello)"
+      - 'Base64.strict_encode("hello world")'
   - name: urlsafe_decode
+    examples:
+      - "Base64.urlsafe_decode(:hello)"
+      - 'Base64.urlsafe_decode("hello world")'
   - name: urlsafe_encode
+    examples:
+      - "Base64.urlsafe_encode(:hello)"
+      - 'Base64.urlsafe_encode("hello world")'
   examples:
   - Base64.encode(:hello)
   - Base64.strict_encode(:hello)
@@ -19,11 +37,41 @@
   - 'true'
   instance_functions:
   - name: "&"
+    examples:
+      - "true & true"
+      - "true & false"
+      - "false & true"
+      - "false & false"
   - name: "^"
+    examples:
+      - "true ^ true"
+      - "true ^ false"
+      - "false ^ true"
+      - "false ^ false"
   - name: bitwise_and
+    examples:
+      - "true.bitwise_and(true)"
+      - "true.bitwise_and(false)"
+      - "false.bitwise_and(true)"
+      - "false.bitwise_and(false)"
   - name: bitwise_or
+    examples:
+      - "true.bitwise_or(true)"
+      - "true.bitwise_or(false)"
+      - "false.bitwise_or(true)"
+      - "false.bitwise_or(false)"
   - name: bitwise_xor
+    examples:
+      - "true.bitwise_xor(true)"
+      - "true.bitwise_xor(false)"
+      - "false.bitwise_xor(true)"
+      - "false.bitwise_xor(false)"
   - name: "|"
+    examples:
+      - "true | true"
+      - "true | false"
+      - "false | true"
+      - "false | false"
   name: Boolean
   parent: Object
 - examples:
@@ -34,28 +82,47 @@
   parent: Object
 - name: Code
   parent: Object
+  examples:
+    - Code.new
 - name: Context
   parent: Dictionary
+  examples:
+    - Context.new
 - examples:
   - Current.user
   - Current.user!
-  - Current.user!.id
   - Current.user.id
+  - Current.user!.id
   instance_functions:
   - examples:
     - Current.user
     - Current.user.id
     name: user
   - name: user!
+    examples:
+    - Current.user!
+    - Current.user!.id
   name: Current
   parent: Dictionary
 - class_functions:
   - name: current
+    examples:
+    - Date.current
   - name: hour
+    examples:
+    - Date.hour
   - name: now
+    examples:
+    - Date.now
   - name: today
+    examples:
+    - Date.today
   - name: tomorrow
+    examples:
+    - Date.tomorrow
   - name: yesterday
+    examples:
+    - Date.yesterday
   examples:
   - Date.new
   - Date.today
@@ -63,12 +130,29 @@
   - Date.yesterday
   instance_functions:
   - name: change
+    examples:
+    - Date.new.change
+    - "Date.today.change(day: 1)"
+    - "Date.today.change(year: 1970)"
+    - "Date.today.change(day: 1, month: 1)"
   - name: hour
+    examples:
+    - Date.today.hour
   - name: hours
+    examples:
+    - Date.today.hours
   - name: minute
+    examples:
+    - Date.today.minute
   - name: minutes
+    examples:
+    - Date.today.minutes
   - name: second
+    examples:
+    - Date.today.second
   - name: seconds
+    examples:
+    - Date.today.seconds
   name: Date
   parent: Object
 - examples:
@@ -77,125 +161,466 @@
   - 2.3e2
   instance_functions:
   - name: "%"
+    examples:
+    - "10.1 % 6"
+    - "10.1 % 6.1"
   - name: "&"
+    examples:
+    - "10.1 & 6"
+    - "10.1 & 6.1"
   - name: "*"
+    examples:
+    - "10.1 * 6"
+    - "10.1 * 6.1"
   - name: "**"
+    examples:
+    - "10.1 ** 6"
+    - "10.1 ** 6.1"
   - name: "+"
+    examples:
+    - "10.1 + 6"
+    - "10.1 + 6.1"
+    - "10.1 + :hello"
+    - "10.1 + [1, 2, 3]"
   - name: "-"
+    examples:
+    - "10.1 - 6"
+    - "10.1 - 6.1"
   - name: "/"
+    examples:
+    - "10.1 / 6"
+    - "10.1 / 6.1"
   - name: "<"
+    examples:
+    - "10.1 < 6"
+    - "10.1 < 6.1"
   - name: !!str '<<'
+    examples:
+    - "10.1 << 6"
+    - "10.1 << 6.1"
   - name: "<="
+    examples:
+    - "10.1 <= 6"
+    - "10.1 <= 6.1"
   - name: "<=>"
+    examples:
+    - "10.1 <=> 6"
+    - "10.1 <=> 6.1"
   - name: ">"
+    examples:
+    - "10.1 > 6"
+    - "10.1 > 6.1"
   - name: ">="
+    examples:
+    - "10.1 >= 6"
+    - "10.1 >= 6.1"
   - name: ">>"
+    examples:
+    - "10.1 >> 6"
+    - "10.1 >> 6.1"
   - name: "^"
+    examples:
+    - "10.1 ^ 6"
+    - "10.1 ^ 6.1"
   - name: abs
+    examples:
+    - "-10.1.abs"
+    - "6.1.abs"
   - name: bitwise_and
+    examples:
+      - "10.1.bitwise_and(6)"
+      - "10.1.bitwise_and(6.1)"
   - name: bitwise_or
+    examples:
+      - "10.1.bitwise_or(6)"
+      - "10.1.bitwise_or(6.1)"
   - name: bitwise_xor
+    examples:
+      - "10.1.bitwise_xor(6)"
+      - "10.1.bitwise_xor(6.1)"
   - name: ceil
-  - name: clone
+    examples:
+      - "213.123.ceil"
+      - "213.123.ceil(-2)"
+      - "213.123.ceil(-1)"
+      - "213.123.ceil(0)"
+      - "213.123.ceil(1)"
+      - "213.123.ceil(2)"
   - name: compare
+    examples:
+      - "10.1.compare(6.1)"
+      - "10.1.compare(6)"
   - name: division
+    examples:
+      - "10.1.division(6.1)"
+      - "10.1.division(6)"
   - name: eight?
+    examples:
+      - "11.0.eight?"
+      - "8.0.eight?"
   - name: five?
+    examples:
+      - "11.0.five?"
+      - "5.0.five?"
   - name: floor
+    examples:
+      - "2.0.floor"
+      - "1.9.floor"
+      - "1.5.floor"
+      - "1.1.floor"
+      - "1.0.floor"
+      - "1234.56789.floor"
+      - "1234.56789.floor(-2)"
+      - "1234.56789.floor(-1)"
+      - "1234.56789.floor(0)"
+      - "1234.56789.floor(1)"
+      - "1234.56789.floor(2)"
   - name: four?
+    examples:
+      - "11.0.four?"
+      - "4.0.four?"
   - name: inferior
+    examples:
+      - "10.1.inferior(6.1)"
+      - "10.1.inferior(6)"
   - name: inferior_or_equal
+    examples:
+      - "10.1.inferior_or_equal(6.1)"
+      - "10.1.inferior_or_equal(6)"
   - name: left_shift
+    examples:
+      - "10.1.left_shift(6.1)"
+      - "10.1.left_shift(6)"
   - name: minus
+    examples:
+      - "10.1.minus(6.1)"
+      - "10.1.minus(6)"
   - name: modulo
+    examples:
+      - "10.1.modulo(6.1)"
+      - "10.1.modulo(6)"
   - name: multiplication
+    examples:
+      - "10.1.multiplication(6.1)"
+      - "10.1.multiplication(6)"
   - name: nine?
+    examples:
+      - "11.0.nine?"
+      - "9.0.nine?"
   - name: one?
+    examples:
+      - "11.0.one?"
+      - "1.0.one?"
   - name: plus
+    examples:
+      - "10.1.plus(6.1)"
+      - "10.1.plus(6)"
   - name: power
+    examples:
+      - "10.1.power(6.1)"
+      - "10.1.power(6)"
   - name: right_shift
+    examples:
+      - "10.1.right_shift(6.1)"
+      - "10.1.right_shift(6)"
   - name: round
+    examples:
+      - "2.0.round"
+      - "1.9.round"
+      - "1.5.round"
+      - "1.1.round"
+      - "1.0.round"
+      - "1234.56789.round"
+      - "1234.56789.round(-2)"
+      - "1234.56789.round(-1)"
+      - "1234.56789.round(0)"
+      - "1234.56789.round(1)"
+      - "1234.56789.round(2)"
   - name: seven?
+    examples:
+      - "11.0.seven?"
+      - "7.0.seven?"
   - name: six?
+    examples:
+      - "11.0.six?"
+      - "6.0.six?"
   - name: sqrt
+    examples:
+      - "4.0.sqrt"
+      - "4.1.sqrt"
   - name: superior
+    examples:
+      - "10.1.superior(6.1)"
+      - "10.1.superior(6)"
   - name: superior_or_equal
+    examples:
+      - "10.1.superior_or_equal(6.1)"
+      - "10.1.superior_or_equal(6)"
   - name: ten?
+    examples:
+      - "11.0.ten?"
+      - "10.0.ten?"
   - name: three?
-  - name: to_decimal
-  - name: to_integer
-  - name: to_string
+    examples:
+      - "11.0.three?"
+      - "3.0.three?"
   - name: truncate
+    examples:
+      - "2.0.truncate"
+      - "1.9.truncate"
+      - "1.5.truncate"
+      - "1.1.truncate"
+      - "1.0.truncate"
+      - "1234.56789.truncate"
+      - "1234.56789.truncate(-2)"
+      - "1234.56789.truncate(-1)"
+      - "1234.56789.truncate(0)"
+      - "1234.56789.truncate(1)"
+      - "1234.56789.truncate(2)"
   - name: two?
+    examples:
+      - "11.0.two?"
+      - "2.0.two?"
   - name: zero?
+    examples:
+      - "11.0.zero?"
+      - "0.0.zero?"
   - name: "|"
+    examples:
+    - "10.1 | 6"
+    - "10.1 | 6.1"
   name: Decimal
   parent: Object
 - examples:
   - "!{}"
   - Dictionary.new
-  - 'Dictionary.new(a: 1, b: 2)'
-  - "{ a: 1, b: 2 }"
+  - 'Dictionary.new(a: 1, b: 2).a'
+  - "{ a: 1, b: 2 }.b"
   - "{}"
   - "{} == {}"
   - "{}.to_list"
   instance_functions:
   - name: "<"
+    examples:
+      - "{ a: 1 } < { a: 1, b: 2 }"
   - name: "<="
+    examples:
+      - "{ a: 1 } <= { a: 1, b: 2 }"
   - name: "<=>"
+    examples:
+      - "{ a: 1 } <=> { a: 1, b: 2 }"
   - name: ">"
+    examples:
+      - "{ a: 1 } > { a: 1, b: 2 }"
   - name: ">="
+    examples:
+      - "{ a: 1 } >= { a: 1, b: 2 }"
   - name: "[]"
+    examples:
+      - "{ a: 1 }[:a]"
   - name: any?
+    examples:
+      - "{ a: 1 }.any?"
   - name: at
+    examples:
+      - "{ a: 1 }.at(:a)"
   - name: clear
+    examples:
+      - "d = { a: 1 } d.clear d"
   - name: compact
+    examples:
+      - "{ a: nothing, b: 2 }.compact"
   - name: compact!
+    examples:
+      - "d = { a: nothing, b: 2 } d.compact! d"
   - name: compare
+    examples:
+      - "{ a: 1 }.compare({ a: 1, b: 2 })"
+      - "{ a: 1 }.compare(a: 1, b: 2)"
   - name: delete
+    examples:
+      - "d = { a: 1, b: 2 } d.delete(:a) d"
   - name: delete_if
+    examples:
+      - "d = { a: 1, b: 2 } d.delete_if { |key, value| value.one? } d"
+      - "d = { a: 1, b: 2 } d.delete_if { |key, value| key == :a } d"
+      - "d = { a: 1, b: 2 } d.delete_if(Integer) d"
+      - "d = { a: 1, b: 2 } d.delete_if { |key, value, dictionary, index| index.zero? } d"
+      - "d = { a: 1, b: 2 } d.delete_if { |key, value, dictionary| dictionary.many? } d"
   - name: delete_unless
+    examples:
+      - "d = { a: 1, b: 2 } d.delete_unless { |key, value| value.one? } d"
+      - "d = { a: 1, b: 2 } d.delete_unless { |key, value| key == :a } d"
+      - "d = { a: 1, b: 2 } d.delete_unless(Integer) d"
+      - "d = { a: 1, b: 2 } d.delete_unless { |key, value, dictionary, index| index.zero? } d"
+      - "d = { a: 1, b: 2 } d.delete_unless { |key, value, dictionary| dictionary.many? } d"
   - name: dig
+    examples:
+      - "{ a: { b: { c: 3 } } }.dig(:a, :b, :c)"
+      - "{ a: { b: [1, 2, 3, 4] } }.dig(:a, :b, 2)"
   - name: each
+    examples:
+      - "{ a: 1, b: 2 }.each { |key| puts(key) }"
+      - "{ a: 1, b: 2 }.each { |key, value| puts(value) }"
+      - "{ a: 1, b: 2 }.each { |key, value, dictionary| puts(dictionary) }"
+      - "{ a: 1, b: 2 }.each { |key, value, dictionary, index| puts(index) }"
   - name: eight?
+    examples:
+      - "{ a: 1 }.eight?"
+      - "{ a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, g: 7, f: 8 }.eight?"
   - name: empty?
+    examples:
+      - "{}.empty?"
+      - "{ a: 1 }.empty?"
   - name: except
+    examples:
+      - "{ a: 1, b: 2 }.except(:a)"
   - name: fetch
+    examples:
+      - "{ a: 1, b: 2 }.fetch(:a)"
+      - "{ a: 1, b: 2 }.fetch(:c) { 3 }"
   - name: fetch_values
+    examples:
+      - "{ a: 1, b: 2 }.fetch_values(:a, :b)"
   - name: filter
+    examples:
+      - "{ a: 1, b: 2 }.filter { |key| key == :a }"
+      - "{ a: 1, b: 2 }.filter { |key, value| value.one? }"
+      - "{ a: 1, b: 2 }.filter { |key, value, dictionary| dictionary.many? }"
+      - "{ a: 1, b: 2 }.filter { |key, value, dictionary, index| index.zero? }"
   - name: filter!
+    examples:
+      - "d = { a: 1, b: 2 } d.filter! { |key| key == :a } d"
+      - "d = { a: 1, b: 2 } d.filter! { |key, value| value.one? } d"
+      - "d = { a: 1, b: 2 } d.filter! { |key, value, dictionary| dictionary.many? } d"
+      - "d = { a: 1, b: 2 } d.filter! { |key, value, dictionary, index| index.zero? } d"
   - name: five?
+    examples:
+      - "{ a: 1 }.five?"
+      - "{ a: 1, b: 2, c: 3, d: 4, e: 5 }.five?"
   - name: flatten
+    examples:
+      - "{ a: 1 }.flatten"
+      - "{ a: { b: 2 } }.flatten"
+      - "{ a: { b: 2 } }.flatten(1)"
+      - "{ a: { b: { c: 3 } } }.flatten(2)"
   - name: four?
+    examples:
+      - "{ a: 1 }.four?"
+      - "{ a: 1, b: 2, c: 3, d: 4 }.four?"
   - name: get
+    examples:
+      - "{ a: 1 }.get(:a)"
   - name: has_key?
+    examples:
+      - "{ a: 1 }.has_key?(:a)"
+      - "{ a: 1 }.has_key?(:b)"
   - name: has_value?
+    examples:
+      - "{ a: 1 }.has_value?(1)"
+      - "{ a: 1 }.has_value?(2)"
   - name: inferior
+    examples:
+      - "{ a: 1 }.inferior({ a: 1, b: 2 })"
+      - "{ a: 1 }.inferior(a: 1, b: 2)"
   - name: inferior_or_equal
+    examples:
+      - "{ a: 1 }.inferior_or_equal({ a: 1, b: 2 })"
+      - "{ a: 1 }.inferior_or_equal(a: 1, b: 2)"
   - name: invert
+    examples:
+      - "{ a: 1 }.invert"
+      - "{ a: 1, b: 2 }.invert"
   - name: keep_if
+    examples:
+      - "d = { a: 1, b: 2 } d.keep_if { |key, value| value.one? } d"
+      - "d = { a: 1, b: 2 } d.keep_if { |key, value| key == :a } d"
+      - "d = { a: 1, b: 2 } d.keep_if(Integer) d"
+      - "d = { a: 1, b: 2 } d.keep_if { |key, value, dictionary, index| index.zero? } d"
+      - "d = { a: 1, b: 2 } d.keep_if { |key, value, dictionary| dictionary.many? } d"
   - name: keep_unless
+    examples:
+      - "d = { a: 1, b: 2 } d.keep_unless { |key, value| value.one? } d"
+      - "d = { a: 1, b: 2 } d.keep_unless { |key, value| key == :a } d"
+      - "d = { a: 1, b: 2 } d.keep_unless(Integer) d"
+      - "d = { a: 1, b: 2 } d.keep_unless { |key, value, dictionary, index| index.zero? } d"
+      - "d = { a: 1, b: 2 } d.keep_unless { |key, value, dictionary| dictionary.many? } d"
   - name: key
+    examples:
+      - "{ a: 1, b: 2 }.key(1)"
+      - "{ a: 1, b: 2 }.key(3)"
+      - "{ a: 1, b: 2 }.key(3) { |key| key + 1 }"
+      - "{ a: 1, b: 2 }.key(3) { |key, dictionary| dictionary.key(1) }"
   - name: keys
+    examples:
+      - "{ a: 1, b: 2 }.keys"
   - name: merge
+    examples:
+      - "{ a: 1, b: 2 }.merge(b: 3, c: 4)"
+      - "{ a: 1, b: 2 }.merge({ b: 3, c: 4 })"
   - name: merge!
+    examples:
+      - "d = { a: 1, b: 2 } d.merge(b: 3, c: 4) d"
+      - "d = { a: 1, b: 2 } d.merge({ b: 3, c: 4 }) d"
   - name: nine?
+    examples:
+      - "{ a: 9 }.nine?"
+      - "{ a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, g: 7, f: 8, h: 9 }.nine?"
   - name: one?
+    examples:
+      - "{ a: 2 }.one?"
+      - "{ a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, g: 7, f: 8, h: 9 }.one?"
   - name: select
+    examples:
+      - ""
   - name: select!
+    examples:
+      - ""
   - name: seven?
+    examples:
+      - "{ a: 7 }.seven?"
+      - "{ a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, g: 7 }.seven?"
   - name: six?
+    examples:
+      - "{ a: 5 }.six?"
+      - "{ a: 1, b: 2, c: 3, d: 4, e: 5, f: 6 }.six?"
   - name: size
+    examples:
+      - ""
   - name: superior
+    examples:
+      - ""
   - name: superior_or_equal
+    examples:
+      - ""
   - name: ten?
+    examples:
+      - "{ a: 10 }.ten?"
+      - "{ a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, g: 7, f: 8, h: 9, i: 10 }.ten?"
   - name: three?
-  - name: to_list
+    examples:
+      - "{ a: 3 }.three?"
+      - "{ a: 1, b: 2, c: 3 }.three?"
   - name: to_query
+    examples:
+      - "{ a: 1, b: 2 }.to_query"
   - name: transform_values
+    examples:
+      - "{ a: 1, b: 2 }.transform_values { |key| key.upcase }"
+      - "{ a: 1, b: 2 }.transform_values { |key, value| value + 1 }"
+      - "{ a: 1, b: 2 }.transform_values { |key, value, dictionary| dictionary.a }"
+      - "{ a: 1, b: 2 }.transform_values { |key, value, dictionary, index| index * 2 }"
   - name: two?
+    examples:
+      - "{ a: 2 }.two?"
+      - "{ a: 1, b: 2 }.two?"
   - name: values
+    examples:
+      - "{ a: 1, b: 2 }.values"
   - name: zero?
+    examples:
+      - "{ a: 0 }.zero?"
+      - "{}.zero?"
   name: Dictionary
   parent: Object
 - examples:

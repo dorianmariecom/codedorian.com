@@ -183,15 +183,14 @@ en:
     update:
       notice: device updated
   docs:
+    functions:
+      class_functions: class functions
+      instance_functions: instance functions
+    examples:
+      examples: examples
     index:
-      class_functions: class functions
-      instance_functions: instance functions
       title: documentation
-      examples: examples
     show:
-      class_functions: class functions
-      examples: examples
-      instance_functions: instance functions
       title: documentation not found
   email_addresses:
     create:
