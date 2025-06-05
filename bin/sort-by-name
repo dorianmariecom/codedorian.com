@@ -2,7 +2,7 @@
 
 require "yaml"
 
-def sort_by_name(yaml)
+def sort(yaml)
   if yaml.is_a?(Array)
     yaml.sort_by do |yaml|
       if yaml.is_a?(Hash)
@@ -11,14 +11,17 @@ def sort_by_name(yaml)
         yaml.to_s
       end
     end.map do |yaml|
-      sort_by_name(yaml)
+      sort(yaml)
     end
   elsif yaml.is_a?(Hash)
-    yaml.to_h { |key, value| [sort_by_name(key), sort_by_name(value)] }
+    yaml.to_h { |key, value| [sort(key), sort(value)] }
   else
     yaml
   end
 end
 
-yaml = YAML.safe_load_file("config/documentation.yml")
-puts sort_by_name(yaml).to_yaml
+filepath = ARGV.first || "config/documentation.yml"
+
+yaml = YAML.safe_load_file(filepath)
+
+File.write(filepath, sort(yaml).to_yaml)
