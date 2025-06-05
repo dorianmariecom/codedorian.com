@@ -7,11 +7,7 @@
           <summary class="p">
             <%= link_to(
               function["name"],
-              doc_doc_path(
-                doc_type: type,
-                doc_id: doc["name"],
-                id: function["name"]
-              ),
+              doc_doc_path(doc_type: type, doc_id: doc["name"], id: function["name"]),
               class: "link"
             ) %>
           </summary>

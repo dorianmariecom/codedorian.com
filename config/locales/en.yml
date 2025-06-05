@@ -183,11 +183,11 @@ en:
     update:
       notice: device updated
   docs:
+    examples:
+      examples: examples
     functions:
       class_functions: class functions
       instance_functions: instance functions
-    examples:
-      examples: examples
     index:
       title: documentation
     show:

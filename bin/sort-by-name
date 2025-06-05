@@ -4,15 +4,9 @@ require "yaml"
 
 def sort(yaml)
   if yaml.is_a?(Array)
-    yaml.sort_by do |yaml|
-      if yaml.is_a?(Hash)
-        yaml["name"].to_s
-      else
-        yaml.to_s
-      end
-    end.map do |yaml|
-      sort(yaml)
-    end
+    yaml
+      .sort_by { |yaml| yaml.is_a?(Hash) ? yaml["name"].to_s : yaml.to_s }
+      .map { |yaml| sort(yaml) }
   elsif yaml.is_a?(Hash)
     yaml.to_h { |key, value| [sort(key), sort(value)] }
   else
