@@ -182,6 +182,17 @@ en:
       verified: verified?
     update:
       notice: device updated
+  docs:
+    index:
+      class_functions: class functions
+      instance_functions: instance functions
+      title: documentation
+      examples: examples
+    show:
+      class_functions: class functions
+      examples: examples
+      instance_functions: instance functions
+      title: documentation not found
   email_addresses:
     create:
       notice: email address created
@@ -340,6 +351,7 @@ en:
       menu:
         about: about
         account: account
+        documentation: documentation
         english: english
         errors: errors
         french: french
@@ -355,7 +367,6 @@ en:
         terms: terms
         up: up
         users: users
-        documentation: documentation
       tabs:
         account: account
         home: home
@@ -1091,13 +1102,3 @@ en:
       next: next
       previous: previous
       truncate: "…"
-  docs:
-    index:
-      title: documentation
-      instance_functions: instance functions
-      class_functions: class functions
-    show:
-      title: documentation not found
-      instance_functions: instance functions
-      class_functions: class functions
-      examples: examples

@@ -1,27 +1,18 @@
 <% content_for(:title) do %>
   <%= @doc["name"] %>
-    <% if @doc["parent"] %>
-      &lt; <%= @doc["parent"] %>
-    <% end %>
-  </div>
+  <% if @doc["parent"] %>
+    &lt; <%= @doc["parent"] %>
+  <% end %>
 <% end %>
 
 <% if @class %>
   <div class="p">
-    <%=
-      link_to(
-        @class["name"],
-        doc_path(@class["name"]),
-        class: "link"
-      )
-    %>
+    <%= link_to(@class["name"], doc_path(@class["name"]), class: "link") %>
   </div>
 <% end %>
 
 <% if @doc["examples"].present? %>
-  <div class="p">
-    <%= t(".examples") %>
-  </div>
+  <div class="p"><%= t(".examples") %></div>
 
   <% @doc["examples"].each do |example| %>
     <div class="p code"><%= example %></div>
@@ -29,46 +20,38 @@
 <% end %>
 
 <% if @doc["class_functions"].present? %>
-  <div class="p">
-    <%= t(".class_functions") %>
-  </div>
+  <div class="p"><%= t(".class_functions") %></div>
   <ul class="ul p">
     <% @doc["class_functions"].each do |class_function| %>
       <li class="li">
-        <%=
-          link_to(
-            class_function["name"],
-            doc_doc_path(
-              doc_type: :class_functions,
-              doc_id: @doc["name"],
-              id: class_function["name"]
-            ),
-            class: "link"
-          )
-        %>
+        <%= link_to(
+          class_function["name"],
+          doc_doc_path(
+            doc_type: :class_functions,
+            doc_id: @doc["name"],
+            id: class_function["name"]
+          ),
+          class: "link"
+        ) %>
       </li>
     <% end %>
   </ul>
 <% end %>
 
 <% if @doc["instance_functions"].present? %>
-  <div class="p">
-    <%= t(".instance_functions") %>
-  </div>
+  <div class="p"><%= t(".instance_functions") %></div>
   <ul class="ul p">
     <% @doc["instance_functions"].each do |instance_function| %>
       <li class="li">
-        <%=
-          link_to(
-            instance_function["name"],
-            doc_doc_path(
-              doc_type: :instance_functions,
-              doc_id: @doc["name"],
-              id: instance_function["name"]
-            ),
-            class: "link"
-          )
-        %>
+        <%= link_to(
+          instance_function["name"],
+          doc_doc_path(
+            doc_type: :instance_functions,
+            doc_id: @doc["name"],
+            id: instance_function["name"]
+          ),
+          class: "link"
+        ) %>
       </li>
     <% end %>
   </ul>

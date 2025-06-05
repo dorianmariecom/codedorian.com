@@ -1,654 +1,629 @@
-- name: "Current"
+---
+- examples:
+  - puts(:hello)
+  - p(nothing)
+  instance_methods:
+  - name: Boolean
+  - name: break
+  - name: next
+  - name: Class
+  - name: Date
+  - name: Decimal
+  - name: Dictionary
+  - name: Duration
+  - name: Function
+  - name: Integer
+  - name: List
+  - name: Nothing
+  - name: context
+  - name: Object
+  - name: Range
+  - name: String
+  - name: Time
+  - name: Context
+  - name: Code
+  - name: Parameter
+  - name: IdentifierList
+  - name: Html
+  - name: Http
+  - name: Smtp
+  - name: Base64
+  - name: Json
+  - name: evaluate
+  - name: p
+  - name: print
+  - name: read
+  - name: puts
+  name: Global
+  parent: Object
+- class_functions:
+  - name: create
+  - name: create!
   examples:
+  - Message.create
+  - Message.create!
+  - 'Message.create!(subject: :hello)'
+  - 'Message.create!(body: :world)'
+  - 'Message.create!(subject: :hello, body: :world)'
+  name: Message
+  parent: Dictionary
+- class_functions:
+  - name: create
+  - name: create!
+  examples:
+  - Notification.create
+  - Notification.create!
+  - 'Notification.create!(subject: :hello)'
+  - 'Notification.create!(body: :world)'
+  - 'Notification.create!(subject: :hello, body: :world)'
+  - 'Notification.create!(subject: :hello, path: :documentation, sound: :default)'
+  name: Notification
+  parent: Dictionary
+- examples:
+  - Current.user
+  - Current.user!
+  - Current.user.id
+  - Current.user!.id
+  instance_functions:
+  - examples:
     - Current.user
-    - Current.user!
     - Current.user.id
-    - Current.user!.id
-    - "Notification.create!(from: Current.user!, subject: :hello)"
-    - "Message.create!(from: Current.user!, subject: :hello)"
-  parent: "Dictionary"
+    name: user
+  - name: user!
+  name: Current
+  parent: Dictionary
+- class_functions:
+  - name: find
+  - name: find!
+  examples:
+  - User.find(:dorian)
+  - User.find("dorianmarie")
+  - User.find!("dorianmariecom")
+  name: User
+  parent: Dictionary
+- class_functions:
+  - name: new
+  - name: "!"
+  - name: not
+  - name: "!="
+  - name: different
+  - name: "&&"
+  - name: and
+  - name: "+"
+  - name: self
+  - name: ".."
+  - name: inclusive_range
+  - name: "..."
+  - name: exclusive_range
+  - name: "=="
+  - name: equal
+  - name: "==="
+  - name: strict_equal
+  - name: falsy?
+  - name: truthy?
+  - name: "||"
+  - name: or
+  - name: to_boolean
+  - name: to_class
+  - name: to_date
+  - name: to_decimal
+  - name: to_dictionary
+  - name: to_duration
+  - name: to_integer
+  - name: to_list
+  - name: to_nothing
+  - name: to_range
+  - name: to_string
+  - name: to_time
+  - name: as_json
+  - name: duplicate
+  - name: deep_duplicate
+  - name: to_parameter
+  - name: to_json
+  - name: methods
+  - name: name
+  examples:
+  - Object.new
+  - Object.new == Object.new
+  - Object.new != Object.new
+  - Object.new === Object.new
+  - Object.new !== Object.new
   instance_functions:
-    - name: "user"
-    - name: "user!"
-- name: "Message"
-  parent: "Dictionary"
-  examples:
-    - "Message.create"
-    - "Message.create!"
-    - "Message.create!(subject: :hello)"
-    - "Message.create!(body: :world)"
-    - "Message.create!(subject: :hello, body: :world)"
-    - |
-      Message.create!(
-        from: User.find("dorian"),
-        to: User.find("arthur"),
-        subject: :hello,
-        body: :world
-      )
-    - |
-      Message.create!(
-        from: User.current,
-        to: User.find("dorian"),
-        subject: :hello,
-        body: :world
-      )
-  class_functions:
-    - name: "create"
-    - name: "create!"
-- name: "Notification"
-  parent: "Dictionary"
-  examples:
-    - "Notification.create"
-    - "Notification.create!"
-    - "Notification.create!(subject: :hello)"
-    - "Notification.create!(body: :world)"
-    - "Notification.create!(subject: :hello, body: :world)"
-    - |
-      Notification.create!(
-        from: User.find("dorian"),
-        to: User.find("arthur"),
-        subject: :hello,
-        body: :world
-      )
-    - |
-      Notification.create!(
-        from: User.current,
-        to: User.find("dorian"),
-        subject: :hello,
-        body: :world
-      )
-  class_functions:
-    - name: "create"
-    - name: "create!"
-- name: "User"
-  parent: "Dictionary"
-  examples:
-    - "User.find(:dorian)"
-    - 'User.find("dorianmarie")'
-    - 'User.find!("dorianmariecom")'
-  class_functions:
-    - name: "find"
-    - name: "find!"
-- name: "Object"
-  examples:
-    - "Object.new"
-    - "Object.new == Object.new"
-    - "Object.new != Object.new"
-    - "Object.new === Object.new"
-    - "Object.new !== Object.new"
-  class_functions:
-    - name: "new"
-    - name: "!"
-    - name: "not"
-    - name: "!="
-    - name: "different"
-    - name: "&&"
-    - name: "and"
-    - name: "+"
-    - name: "self"
-    - name: ".."
-    - name: "inclusive_range"
-    - name: "..."
-    - name: "exclusive_range"
-    - name: "=="
-    - name: "equal"
-    - name: "==="
-    - name: "strict_equal"
-    - name: "falsy?"
-    - name: "truthy?"
-    - name: "||"
-    - name: "or"
-    - name: "to_boolean"
-    - name: "to_class"
-    - name: "to_date"
-    - name: "to_decimal"
-    - name: "to_dictionary"
-    - name: "to_duration"
-    - name: "to_integer"
-    - name: "to_list"
-    - name: "to_nothing"
-    - name: "to_range"
-    - name: "to_string"
-    - name: "to_time"
-    - name: "as_json"
-    - name: "duplicate"
-    - name: "deep_duplicate"
-    - name: "to_parameter"
-    - name: "to_json"
-    - name: "methods"
-    - name: "name"
+  - name: new
+  - name: "!"
+  - name: not
+  - name: "!="
+  - name: different
+  - name: "&&"
+  - name: and
+  - name: "+"
+  - name: self
+  - name: ".."
+  - name: inclusive_range
+  - name: "..."
+  - name: exclusive_range
+  - name: "=="
+  - name: equal
+  - name: "==="
+  - name: strict_equal
+  - name: falsy?
+  - name: truthy?
+  - name: "||"
+  - name: or
+  - name: to_boolean
+  - name: to_class
+  - name: to_date
+  - name: to_decimal
+  - name: to_dictionary
+  - name: to_duration
+  - name: to_integer
+  - name: to_list
+  - name: to_nothing
+  - name: to_range
+  - name: to_string
+  - name: to_time
+  - name: as_json
+  - name: duplicate
+  - name: deep_duplicate
+  - name: to_parameter
+  - name: to_json
+  - name: methods
+  - name: name
+  name: Object
+- examples:
+  - Dictionary.new
+  - "{}"
+  - 'Dictionary.new(a: 1, b: 2)'
+  - "{ a: 1, b: 2 }"
+  - "{}.to_list"
+  - "!{}"
+  - "{} == {}"
   instance_functions:
-    - name: "new"
-    - name: "!"
-    - name: "not"
-    - name: "!="
-    - name: "different"
-    - name: "&&"
-    - name: "and"
-    - name: "+"
-    - name: "self"
-    - name: ".."
-    - name: "inclusive_range"
-    - name: "..."
-    - name: "exclusive_range"
-    - name: "=="
-    - name: "equal"
-    - name: "==="
-    - name: "strict_equal"
-    - name: "falsy?"
-    - name: "truthy?"
-    - name: "||"
-    - name: "or"
-    - name: "to_boolean"
-    - name: "to_class"
-    - name: "to_date"
-    - name: "to_decimal"
-    - name: "to_dictionary"
-    - name: "to_duration"
-    - name: "to_integer"
-    - name: "to_list"
-    - name: "to_nothing"
-    - name: "to_range"
-    - name: "to_string"
-    - name: "to_time"
-    - name: "as_json"
-    - name: "duplicate"
-    - name: "deep_duplicate"
-    - name: "to_parameter"
-    - name: "to_json"
-    - name: "methods"
-    - name: "name"
-- name: "Dictionary"
+  - name: "<"
+  - name: inferior
+  - name: "<="
+  - name: inferior_or_equal
+  - name: "<=>"
+  - name: compare
+  - name: ">"
+  - name: superior
+  - name: ">="
+  - name: superior_or_equal
+  - name: "[]"
+  - name: at
+  - name: get
+  - name: any?
+  - name: clear
+  - name: compact!
+  - name: compact
+  - name: delete
+  - name: delete_if
+  - name: delete_unless
+  - name: dig
+  - name: each
+  - name: eight?
+  - name: empty?
+  - name: except
+  - name: fetch
+  - name: fetch_values
+  - name: five?
+  - name: flatten
+  - name: four?
+  - name: has_key?
+  - name: has_value?
+  - name: invert
+  - name: keep_if
+  - name: keep_unless
+  - name: key
+  - name: keys
+  - name: merge
+  - name: merge!
+  - name: nine?
+  - name: one?
+  - name: select!
+  - name: filter!
+  - name: select
+  - name: filter
+  - name: seven?
+  - name: six?
+  - name: size
+  - name: ten?
+  - name: three?
+  - name: to_list
+  - name: transform_values
+  - name: to_query
+  - name: two?
+  - name: values
+  - name: zero?
+  name: Dictionary
+  parent: Object
+- class_functions:
+  - name: encode
+  - name: decode
+  - name: strict_encode
+  - name: strict_decode
+  - name: urlsafe_encode
+  - name: urlsafe_decode
   examples:
-    - "Dictionary.new"
-    - "{}"
-    - "Dictionary.new(a: 1, b: 2)"
-    - "{ a: 1, b: 2 }"
-    - "{}.to_list"
-    - "!{}"
-    - "{} == {}"
-  parent: "Object"
+  - Base64.encode(:hello)
+  - Base64.strict_encode(:hello)
+  - Base64.urlsafe_encode(:hello)
+  name: Base64
+  parent: Object
+- examples:
+  - 'true'
+  - 'false'
+  - "!true"
+  - Boolean.new(:a)
   instance_functions:
-    - name: "<"
-    - name: "inferior"
-    - name: "<="
-    - name: "inferior_or_equal"
-    - name: "<=>"
-    - name: "compare"
-    - name: ">"
-    - name: "superior"
-    - name: ">="
-    - name: "superior_or_equal"
-    - name: "[]"
-    - name: "at"
-    - name: "get"
-    - name: "any?"
-    - name: "clear"
-    - name: "compact!"
-    - name: "compact"
-    - name: "delete"
-    - name: "delete_if"
-    - name: "delete_unless"
-    - name: "dig"
-    - name: "each"
-    - name: "eight?"
-    - name: "empty?"
-    - name: "except"
-    - name: "fetch"
-    - name: "fetch_values"
-    - name: "five?"
-    - name: "flatten"
-    - name: "four?"
-    - name: "has_key?"
-    - name: "has_value?"
-    - name: "invert"
-    - name: "keep_if"
-    - name: "keep_unless"
-    - name: "key"
-    - name: "keys"
-    - name: "merge"
-    - name: "merge!"
-    - name: "nine?"
-    - name: "one?"
-    - name: "select!"
-    - name: "filter!"
-    - name: "select"
-    - name: "filter"
-    - name: "seven?"
-    - name: "six?"
-    - name: "size"
-    - name: "ten?"
-    - name: "three?"
-    - name: "to_list"
-    - name: "transform_values"
-    - name: "to_query"
-    - name: "two?"
-    - name: "values"
-    - name: "zero?"
-- name: "Base64"
-  parent: "Object"
+  - name: "&"
+  - name: bitwise_and
+  - name: "^"
+  - name: bitwise_xor
+  - name: "|"
+  - name: bitwise_or
+  name: Boolean
+  parent: Object
+- examples:
+  - Boolean
+  - List
+  - Class.new(true)
+  name: Class
+  parent: Object
+- name: Code
+  parent: Object
+- name: Context
+  parent: Dictionary
+- class_functions:
+  - name: tomorrow
+  - name: yesterday
+  - name: today
+  - name: current
+  - name: now
+  - name: hour
   examples:
-    - "Base64.encode(:hello)"
-    - "Base64.strict_encode(:hello)"
-    - "Base64.urlsafe_encode(:hello)"
-  class_functions:
-    - name: "encode"
-    - name: "decode"
-    - name: "strict_encode"
-    - name: "strict_decode"
-    - name: "urlsafe_encode"
-    - name: "urlsafe_decode"
-- name: "Boolean"
-  parent: "Object"
-  examples:
-    - "true"
-    - "false"
-    - "!true"
-    - "Boolean.new(:a)"
+  - Date.new
+  - Date.today
+  - Date.tomorrow
+  - Date.yesterday
   instance_functions:
-    - name: "&"
-    - name: "bitwise_and"
-    - name: "^"
-    - name: "bitwise_xor"
-    - name: "|"
-    - name: "bitwise_or"
-- name: "Class"
-  parent: "Object"
-  examples:
-    - "Boolean"
-    - "List"
-    - "Class.new(true)"
-- name: "Code"
-  parent: "Object"
-- name: "Context"
-  parent: "Dictionary"
-- name: "Date"
-  parent: "Object"
-  examples:
-    - "Date.new"
-    - "Date.today"
-    - "Date.tomorrow"
-    - "Date.yesterday"
-  class_functions:
-    - name: "tomorrow"
-    - name: "yesterday"
-    - name: "today"
-    - name: "current"
-    - name: "now"
-    - name: "hour"
+  - name: hour
+  - name: hours
+  - name: minute
+  - name: minutes
+  - name: second
+  - name: seconds
+  - name: change
+  name: Date
+  parent: Object
+- examples:
+  - '1.0'
+  - 2.3e2
+  - 1e1.0
   instance_functions:
-    - name: "hour"
-    - name: "hours"
-    - name: "minute"
-    - name: "minutes"
-    - name: "second"
-    - name: "seconds"
-    - name: "change"
-- name: "Decimal"
-  parent: "Object"
-  examples:
-    - "1.0"
-    - "2.3e2"
-    - "1e1.0"
-  instance_functions:
-   - name: "%"
-   - name: "modulo"
-   - name: "&"
-   - name: "bitwise_and"
-   - name: "*"
-   - name: "multiplication"
-   - name: "**"
-   - name: "power"
-   - name: "+"
-   - name: "plus"
-   - name: "-"
-   - name: "minus"
-   - name: "/"
-   - name: "division"
-   - name: "<"
-   - name: "inferior"
-   - name: "<<"
-   - name: "left_shift"
-   - name: "<="
-   - name: "inferior_or_equal"
-   - name: "<=>"
-   - name: "compare"
-   - name: ">"
-   - name: "superior"
-   - name: ">="
-   - name: "superior_or_equal"
-   - name: ">>"
-   - name: "right_shift"
-   - name: "^"
-   - name: "bitwise_xor"
-   - name: "abs"
-   - name: "ceil"
-   - name: "clone"
-   - name: "eight?"
-   - name: "five?"
-   - name: "floor"
-   - name: "four?"
-   - name: "nine?"
-   - name: "one?"
-   - name: "round"
-   - name: "seven?"
-   - name: "six?"
-   - name: "sqrt"
-   - name: "ten?"
-   - name: "three?"
-   - name: "to_decimal"
-   - name: "to_integer"
-   - name: "to_string"
-   - name: "truncate"
-   - name: "two?"
-   - name: "zero?"
-   - name: "|"
-   - name: "bitwise_or"
-- name: "Duration"
-  parent: "Object"
-  examples:
-    - "2.days.ago"
-    - "3.days.from_now"
-    - "1.day.ago"
-    - "1.day.from_now"
+  - name: "%"
+  - name: modulo
+  - name: "&"
+  - name: bitwise_and
+  - name: "*"
+  - name: multiplication
+  - name: "**"
+  - name: power
+  - name: "+"
+  - name: plus
+  - name: "-"
+  - name: minus
+  - name: "/"
+  - name: division
+  - name: "<"
+  - name: inferior
+  - name: !!str '<<'
+  - name: left_shift
+  - name: "<="
+  - name: inferior_or_equal
+  - name: "<=>"
+  - name: compare
+  - name: ">"
+  - name: superior
+  - name: ">="
+  - name: superior_or_equal
+  - name: ">>"
+  - name: right_shift
+  - name: "^"
+  - name: bitwise_xor
+  - name: abs
+  - name: ceil
+  - name: clone
+  - name: eight?
+  - name: five?
+  - name: floor
+  - name: four?
+  - name: nine?
+  - name: one?
+  - name: round
+  - name: seven?
+  - name: six?
+  - name: sqrt
+  - name: ten?
+  - name: three?
+  - name: to_decimal
+  - name: to_integer
+  - name: to_string
+  - name: truncate
+  - name: two?
+  - name: zero?
+  - name: "|"
+  - name: bitwise_or
+  name: Decimal
+  parent: Object
+- examples:
+  - 2.days.ago
+  - 3.days.from_now
+  - 1.day.ago
+  - 1.day.from_now
   instance_methods:
-   - name: "ago"
-   - name: "from_now"
-- name: "Function"
-  parent: "Object"
-  examples:
-    - "sum = (a, b) => { a + b }"
+  - name: ago
+  - name: from_now
+  name: Duration
+  parent: Object
+- examples:
+  - sum = (a, b) => { a + b }
   instance_methods:
-    - name: "call"
-- name: "Global"
-  parent: "Object"
+  - name: call
+  name: Function
+  parent: Object
+- class_functions:
+  - name: link_to
+  - name: escape
   examples:
-    - "puts(:hello)"
-    - "p(nothing)"
-  instance_methods:
-   - name: "Boolean"
-   - name: "break"
-   - name: "next"
-   - name: "Class"
-   - name: "Date"
-   - name: "Decimal"
-   - name: "Dictionary"
-   - name: "Duration"
-   - name: "Function"
-   - name: "Integer"
-   - name: "List"
-   - name: "Nothing"
-   - name: "context"
-   - name: "Object"
-   - name: "Range"
-   - name: "String"
-   - name: "Time"
-   - name: "Context"
-   - name: "Code"
-   - name: "Parameter"
-   - name: "IdentifierList"
-   - name: "Html"
-   - name: "Http"
-   - name: "Smtp"
-   - name: "Base64"
-   - name: "Json"
-   - name: "evaluate"
-   - name: "p"
-   - name: "print"
-   - name: "read"
-   - name: "puts"
-- name: "Html"
-  parent: "Object"
-  examples:
-    - 'Html.link_to(:code, "https://codedorian.com")'
-  class_functions:
-    - name: "link_to"
-    - name: "escape"
+  - Html.link_to(:code, "https://codedorian.com")
   instance_functions:
-    - name: "css"
-    - name: "at_css"
-    - name: "map"
-    - name: "to_string"
-- name: "Http"
+  - name: css
+  - name: at_css
+  - name: map
+  - name: to_string
+  name: Html
+  parent: Object
+- class_functions:
+  - name: get
+  - name: head
+  - name: post
+  - name: put
+  - name: delete
+  - name: options
+  - name: trace
+  - name: patch
+  - name: fetch
   examples:
-    - 'Http.get("https://codedorian.com")'
-  parent: "Object"
-  class_functions:
-    - name: "get"
-    - name: "head"
-    - name: "post"
-    - name: "put"
-    - name: "delete"
-    - name: "options"
-    - name: "trace"
-    - name: "patch"
-    - name: "fetch"
-- name: "IdentifierList"
-  parent: "List"
-- name: "Integer"
-  parent: "Object"
-  examples:
-    - "1"
-    - "1000000000000000"
-    - "1e100"
+  - Http.get("https://codedorian.com")
+  name: Http
+  parent: Object
+- name: IdentifierList
+  parent: List
+- examples:
+  - '1'
+  - '1000000000000000'
+  - 1e100
   instance_functions:
-    - name: "%"
-    - name: "modulo"
-    - name: "&"
-    - name: "bitwise_and"
-    - name: "*"
-    - name: "multiplication"
-    - name: "×"
-    - name: "**"
-    - name: "power"
-    - name: "+"
-    - name: "plus"
-    - name: "self"
-    - name: "-"
-    - name: "minus"
-    - name: "unary_minus"
-    - name: "/"
-    - name: "division"
-    - name: "÷"
-    - name: "<"
-    - name: "inferior"
-    - name: "<<"
-    - name: "left_shift"
-    - name: "<="
-    - name: "inferior_or_equal"
-    - name: "<=>"
-    - name: "compare"
-    - name: ">"
-    - name: "superior"
-    - name: ">="
-    - name: "superior_or_equal"
-    - name: ">>"
-    - name: "right_shift"
-    - name: "^"
-    - name: "bitwise_xor"
-    - name: "abs"
-    - name: "ceil"
-    - name: "clone"
-    - name: "day"
-    - name: "days"
-    - name: "decrement!"
-    - name: "decrement"
-    - name: "eight?"
-    - name: "even?"
-    - name: "five?"
-    - name: "floor"
-    - name: "four?"
-    - name: "hour"
-    - name: "hours"
-    - name: "increment!"
-    - name: "increment"
-    - name: "nine?"
-    - name: "odd?"
-    - name: "one?"
-    - name: "round"
-    - name: "seven?"
-    - name: "six?"
-    - name: "sqrt"
-    - name: "ten?"
-    - name: "three?"
-    - name: "times"
-    - name: "truncate"
-    - name: "two?"
-    - name: "zero?"
-    - name: "|"
-    - name: "bitwise_or"
-- name: "Json"
-  parent: "Object"
+  - name: "%"
+  - name: modulo
+  - name: "&"
+  - name: bitwise_and
+  - name: "*"
+  - name: multiplication
+  - name: "×"
+  - name: "**"
+  - name: power
+  - name: "+"
+  - name: plus
+  - name: self
+  - name: "-"
+  - name: minus
+  - name: unary_minus
+  - name: "/"
+  - name: division
+  - name: "÷"
+  - name: "<"
+  - name: inferior
+  - name: !!str '<<'
+  - name: left_shift
+  - name: "<="
+  - name: inferior_or_equal
+  - name: "<=>"
+  - name: compare
+  - name: ">"
+  - name: superior
+  - name: ">="
+  - name: superior_or_equal
+  - name: ">>"
+  - name: right_shift
+  - name: "^"
+  - name: bitwise_xor
+  - name: abs
+  - name: ceil
+  - name: clone
+  - name: day
+  - name: days
+  - name: decrement!
+  - name: decrement
+  - name: eight?
+  - name: even?
+  - name: five?
+  - name: floor
+  - name: four?
+  - name: hour
+  - name: hours
+  - name: increment!
+  - name: increment
+  - name: nine?
+  - name: odd?
+  - name: one?
+  - name: round
+  - name: seven?
+  - name: six?
+  - name: sqrt
+  - name: ten?
+  - name: three?
+  - name: times
+  - name: truncate
+  - name: two?
+  - name: zero?
+  - name: "|"
+  - name: bitwise_or
+  name: Integer
+  parent: Object
+- class_functions:
+  - name: parse
   examples:
-    - "Json.parse(response.body)"
-  class_functions:
-    - name: "parse"
-- name: "List"
-  parent: "Object"
-  examples:
-    - "List.new"
-    - "[]"
-    - "[1, 2, 3]"
-    - "[:a, :b, :c]"
+  - Json.parse(response.body)
+  name: Json
+  parent: Object
+- examples:
+  - List.new
+  - "[]"
+  - "[1, 2, 3]"
+  - "[:a, :b, :c]"
   instance_functions:
-    - name: "join"
-    - name: "sort"
-    - name: "<<"
-    - name: "append"
-    - name: "-"
-    - name: "minus"
-    - name: "any?"
-    - name: "detect"
-    - name: "each"
-    - name: "first"
-    - name: "sample"
-    - name: "shuffle"
-    - name: "flatten"
-    - name: "pop"
-    - name: "shift"
-    - name: "include?"
-    - name: "last"
-    - name: "map"
-    - name: "map!"
-    - name: "max"
-    - name: "max_by"
-    - name: "none?"
-    - name: "reduce"
-    - name: "reverse"
-    - name: "select"
-    - name: "select!"
-    - name: "compact"
-    - name: "compact!"
-    - name: "reject"
-    - name: "reject!"
-    - name: "size"
-    - name: "sum"
-    - name: "uniq"
-- name: "Nothing"
-  parent: "Object"
-  examples:
-    - "Nothing.new"
-    - "nothing"
-- name: "Parameter"
-  parent: "Object"
-- name: "Range"
-  parent: "Object"
-  examples:
-    - "(1..10).to_list"
-    - "(0...10).to_list"
+  - name: join
+  - name: sort
+  - name: !!str '<<'
+  - name: append
+  - name: "-"
+  - name: minus
+  - name: any?
+  - name: detect
+  - name: each
+  - name: first
+  - name: sample
+  - name: shuffle
+  - name: flatten
+  - name: pop
+  - name: shift
+  - name: include?
+  - name: last
+  - name: map
+  - name: map!
+  - name: max
+  - name: max_by
+  - name: none?
+  - name: reduce
+  - name: reverse
+  - name: select
+  - name: select!
+  - name: compact
+  - name: compact!
+  - name: reject
+  - name: reject!
+  - name: size
+  - name: sum
+  - name: uniq
+  name: List
+  parent: Object
+- examples:
+  - Nothing.new
+  - nothing
+  name: Nothing
+  parent: Object
+- name: Parameter
+  parent: Object
+- examples:
+  - "(1..10).to_list"
+  - "(0...10).to_list"
   instance_functions:
-    - name: "all?"
-    - name: "any?"
-    - name: "each"
-    - name: "first"
-    - name: "last"
-    - name: "map"
-    - name: "select"
-    - name: "step"
-    - name: "sample"
-    - name: "to_list"
-- name: "Smtp"
-  parent: "Dictionary"
+  - name: all?
+  - name: any?
+  - name: each
+  - name: first
+  - name: last
+  - name: map
+  - name: select
+  - name: step
+  - name: sample
+  - name: to_list
+  name: Range
+  parent: Object
+- instance_functions:
+  - name: send
+  name: Smtp
+  parent: Dictionary
+- examples:
+  - String.new(:hello)
+  - 1.to_string
+  - '"hello world"'
+  - ":hello"
   instance_functions:
-    - name: "send"
-- name: "String"
-  parent: "Object"
+  - name: "&"
+  - name: to_function
+  - name: "*"
+  - name: "+"
+  - name: downcase
+  - name: include?
+  - name: first
+  - name: reverse
+  - name: parameterize
+  - name: substitute
+  name: String
+  parent: Object
+- class_functions:
+  - name: now
+  - name: tomorrow
+  - name: yesterday
+  - name: year
+  - name: years
+  - name: month
+  - name: months
+  - name: week
+  - name: weeks
+  - name: week_day
+  - name: week_days
+  - name: day
+  - name: days
+  - name: hour
+  - name: hours
+  - name: minute
+  - name: minutes
+  - name: second
+  - name: seconds
+  - name: monday?
+  - name: tuesday?
+  - name: wednesday?
+  - name: thursday?
+  - name: friday?
+  - name: saturday?
+  - name: sunday?
+  - name: format
   examples:
-    - "String.new(:hello)"
-    - "1.to_string"
-    - '"hello world"'
-    - ":hello"
+  - Time.now
+  - Time.hour
+  - Time.minutes
   instance_functions:
-    - name: "&"
-    - name: "to_function"
-    - name: "*"
-    - name: "+"
-    - name: "downcase"
-    - name: "include?"
-    - name: "first"
-    - name: "reverse"
-    - name: "parameterize"
-    - name: "substitute"
-- name: "Time"
-  parent: "Object"
-  examples:
-    - "Time.now"
-    - "Time.hour"
-    - "Time.minutes"
-  class_functions:
-    - name: "now"
-    - name: "tomorrow"
-    - name: "yesterday"
-    - name: "year"
-    - name: "years"
-    - name: "month"
-    - name: "months"
-    - name: "week"
-    - name: "weeks"
-    - name: "week_day"
-    - name: "week_days"
-    - name: "day"
-    - name: "days"
-    - name: "hour"
-    - name: "hours"
-    - name: "minute"
-    - name: "minutes"
-    - name: "second"
-    - name: "seconds"
-    - name: "monday?"
-    - name: "tuesday?"
-    - name: "wednesday?"
-    - name: "thursday?"
-    - name: "friday?"
-    - name: "saturday?"
-    - name: "sunday?"
-    - name: "format"
-  instance_functions:
-    - name: "after?"
-    - name: "before?"
-    - name: "past?"
-    - name: "future?"
-    - name: "year"
-    - name: "years"
-    - name: "month"
-    - name: "months"
-    - name: "week"
-    - name: "weeks"
-    - name: "week_day"
-    - name: "week_days"
-    - name: "day"
-    - name: "days"
-    - name: "hour"
-    - name: "hours"
-    - name: "minute"
-    - name: "minutes"
-    - name: "second"
-    - name: "seconds"
-    - name: "monday?"
-    - name: "tuesday?"
-    - name: "wednesday?"
-    - name: "thursday?"
-    - name: "friday?"
-    - name: "saturday?"
-    - name: "sunday?"
-    - name: "format"
+  - name: after?
+  - name: before?
+  - name: past?
+  - name: future?
+  - name: year
+  - name: years
+  - name: month
+  - name: months
+  - name: week
+  - name: weeks
+  - name: week_day
+  - name: week_days
+  - name: day
+  - name: days
+  - name: hour
+  - name: hours
+  - name: minute
+  - name: minutes
+  - name: second
+  - name: seconds
+  - name: monday?
+  - name: tuesday?
+  - name: wednesday?
+  - name: thursday?
+  - name: friday?
+  - name: saturday?
+  - name: sunday?
+  - name: format
+  name: Time
+  parent: Object
