@@ -60,6 +60,8 @@ Naming/FileName:
   Enabled: false
 Naming/MethodParameterName:
   Enabled: false
+Naming/PredicateMethod:
+  Enabled: false
 Naming/VariableNumber:
   Enabled: false
 Performance/Sum:
@@ -131,8 +133,6 @@ Style/QuotedSymbols:
 Style/StringLiterals:
   Enabled: false
 Style/StringLiteralsInInterpolation:
-  Enabled: false
-Naming/PredicateMethod:
   Enabled: false
 plugins:
 - rubocop-factory_bot
