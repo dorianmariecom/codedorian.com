@@ -132,6 +132,8 @@ Style/StringLiterals:
   Enabled: false
 Style/StringLiteralsInInterpolation:
   Enabled: false
+Naming/PredicateMethod:
+  Enabled: false
 plugins:
 - rubocop-factory_bot
 - rubocop-performance

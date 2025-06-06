@@ -652,12 +652,24 @@
   - 2.days.ago
   - 3.days.from_now
   instance_methods:
-  - name: ago
-  - name: from_now
+  - examples:
+    - 1.day.ago
+    - 2.days.ago
+    name: ago
+  - name: from_now - "1.day.from_now" - "2.days.from_now"
   name: Duration
   parent: Object
 - examples:
-  - sum = (a, b) => { a + b }
+  - sum = (a, b) => { a + b } sum(1, 2)
+  - sum = (a, b = 2) => { a + b } sum(1)
+  - sum = (a = 1, b = 2) => { a + b } sum()
+  - 'sum = (a, b: 2) => { a + b } sum(1)'
+  - 'sum = (a: 1, b: 2) => { a + b } sum()'
+  - sum = (a, b) => { a + b } sum.call(1, 2)
+  - sum = (a, b = 2) => { a + b } sum.call(1)
+  - sum = (a = 1, b = 2) => { a + b } sum.call
+  - 'sum = (a, b: 2) => { a + b } sum.call(1)'
+  - 'sum = (a: 1, b: 2) => { a + b } sum.call'
   instance_methods:
   - name: call
   name: Function

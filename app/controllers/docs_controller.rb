@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DocsController < ApplicationController
   before_action { authorize :doc }
   skip_after_action :verify_policy_scoped
@@ -19,13 +21,10 @@ class DocsController < ApplicationController
       end
 
       @doc = functions&.detect { |function| function["name"] == params[:id] }
-
-      return render :not_found unless @doc
     else
       @doc = yaml.detect { |parent| parent["name"] == params[:id] }
-
-      return render :not_found unless @doc
     end
+    render :not_found unless @doc
   end
 
   private
