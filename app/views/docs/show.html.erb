@@ -13,5 +13,6 @@
 <% end %>
 
 <%= render "docs/examples", examples: @doc["examples"] %>
-<%= render "docs/functions", type: :class_functions, doc: @doc %>
-<%= render "docs/functions", type: :instance_functions, doc: @doc %>
+<%= render "docs/functions", type: :class_functions, doc: @doc, docs: @docs %>
+<%= render "docs/functions", type: :instance_functions, doc: @doc, docs: @docs %>
+<%= render "docs/reference", reference: @doc["reference"], docs: @docs %>

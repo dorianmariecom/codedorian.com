@@ -1,24 +1,24 @@
 ---
 - class_functions:
   - examples:
-    - Base64.decode(:hello)
-    - Base64.decode("hello world")
+    - Base64.decode("aGVsbG8=")
+    - Base64.decode("aGVsbG8gd29ybGQ=")
     name: decode
   - examples:
     - Base64.encode(:hello)
     - Base64.encode("hello world")
     name: encode
   - examples:
-    - Base64.strict_decode(:hello)
-    - Base64.strict_decode("hello world")
+    - Base64.strict_decode("aGVsbG8=")
+    - Base64.strict_decode("aGVsbG8gd29ybGQ=")
     name: strict_decode
   - examples:
     - Base64.strict_encode(:hello)
     - Base64.strict_encode("hello world")
     name: strict_encode
   - examples:
-    - Base64.urlsafe_decode(:hello)
-    - Base64.urlsafe_decode("hello world")
+    - Base64.urlsafe_decode("aGVsbG8=")
+    - Base64.urlsafe_decode("aGVsbG8gd29ybGQ=")
     name: urlsafe_decode
   - examples:
     - Base64.urlsafe_encode(:hello)
@@ -444,18 +444,18 @@
     - 'd = { a: 1, b: 2 } d.delete_if { |key, value| value.one? } d'
     - 'd = { a: 1, b: 2 } d.delete_if { |key, value| key == :a } d'
     - 'd = { a: 1, b: 2 } d.delete_if(Integer) d'
-    - 'd = { a: 1, b: 2 } d.delete_if { |key, value, dictionary, index| index.zero?
+    - 'd = { a: 1, b: 2 } d.delete_if { |key, value, index| index.zero?
       } d'
-    - 'd = { a: 1, b: 2 } d.delete_if { |key, value, dictionary| dictionary.many?
+    - 'd = { a: 1, b: 2 } d.delete_if { |key, value, index, dictionary| dictionary.many?
       } d'
     name: delete_if
   - examples:
     - 'd = { a: 1, b: 2 } d.delete_unless { |key, value| value.one? } d'
     - 'd = { a: 1, b: 2 } d.delete_unless { |key, value| key == :a } d'
     - 'd = { a: 1, b: 2 } d.delete_unless(Integer) d'
-    - 'd = { a: 1, b: 2 } d.delete_unless { |key, value, dictionary, index| index.zero?
+    - 'd = { a: 1, b: 2 } d.delete_unless { |key, value, index| index.zero?
       } d'
-    - 'd = { a: 1, b: 2 } d.delete_unless { |key, value, dictionary| dictionary.many?
+    - 'd = { a: 1, b: 2 } d.delete_unless { |key, value, index, dictionary| dictionary.many?
       } d'
     name: delete_unless
   - examples:
@@ -465,8 +465,8 @@
   - examples:
     - "{ a: 1, b: 2 }.each { |key| puts(key) }"
     - "{ a: 1, b: 2 }.each { |key, value| puts(value) }"
-    - "{ a: 1, b: 2 }.each { |key, value, dictionary| puts(dictionary) }"
-    - "{ a: 1, b: 2 }.each { |key, value, dictionary, index| puts(index) }"
+    - "{ a: 1, b: 2 }.each { |key, value, index| puts(index) }"
+    - "{ a: 1, b: 2 }.each { |key, value, index, dictionary| puts(dictionary) }"
     name: each
   - examples:
     - "{ a: 1 }.eight?"
@@ -489,15 +489,15 @@
   - examples:
     - "{ a: 1, b: 2 }.filter { |key| key == :a }"
     - "{ a: 1, b: 2 }.filter { |key, value| value.one? }"
-    - "{ a: 1, b: 2 }.filter { |key, value, dictionary| dictionary.many? }"
-    - "{ a: 1, b: 2 }.filter { |key, value, dictionary, index| index.zero? }"
+    - "{ a: 1, b: 2 }.filter { |key, value, index| index.zero? }"
+    - "{ a: 1, b: 2 }.filter { |key, value, index, dictionary| dictionary.many? }"
     name: filter
   - examples:
     - 'd = { a: 1, b: 2 } d.filter! { |key| key == :a } d'
     - 'd = { a: 1, b: 2 } d.filter! { |key, value| value.one? } d'
-    - 'd = { a: 1, b: 2 } d.filter! { |key, value, dictionary| dictionary.many? }
+    - 'd = { a: 1, b: 2 } d.filter! { |key, value, index| index.zero? }
       d'
-    - 'd = { a: 1, b: 2 } d.filter! { |key, value, dictionary, index| index.zero?
+    - 'd = { a: 1, b: 2 } d.filter! { |key, value, index, dictionary| dictionary.many?
       } d'
     name: filter!
   - examples:
@@ -538,21 +538,21 @@
     - "{ a: 1, b: 2 }.invert"
     name: invert
   - examples:
-    - 'd = { a: 1, b: 2 } d.keep_if { |key, value| value.one? } d'
-    - 'd = { a: 1, b: 2 } d.keep_if { |key, value| key == :a } d'
     - 'd = { a: 1, b: 2 } d.keep_if(Integer) d'
-    - 'd = { a: 1, b: 2 } d.keep_if { |key, value, dictionary, index| index.zero?
-      } d'
-    - 'd = { a: 1, b: 2 } d.keep_if { |key, value, dictionary| dictionary.many? }
+    - 'd = { a: 1, b: 2 } d.keep_if { |key| key == :a } d'
+    - 'd = { a: 1, b: 2 } d.keep_if { |key, value| value.one? } d'
+    - 'd = { a: 1, b: 2 } d.keep_if { |key, value, index| index.zero? }
       d'
+    - 'd = { a: 1, b: 2 } d.keep_if { |key, value, index, dictionary| dictionary.many?
+      } d'
     name: keep_if
   - examples:
-    - 'd = { a: 1, b: 2 } d.keep_unless { |key, value| value.one? } d'
-    - 'd = { a: 1, b: 2 } d.keep_unless { |key, value| key == :a } d'
     - 'd = { a: 1, b: 2 } d.keep_unless(Integer) d'
-    - 'd = { a: 1, b: 2 } d.keep_unless { |key, value, dictionary, index| index.zero?
-      } d'
+    - 'd = { a: 1, b: 2 } d.keep_unless { |key| key == :a } d'
+    - 'd = { a: 1, b: 2 } d.keep_unless { |key, value| value.one? } d'
     - 'd = { a: 1, b: 2 } d.keep_unless { |key, value, dictionary| dictionary.many?
+      } d'
+    - 'd = { a: 1, b: 2 } d.keep_unless { |key, value, index, dictionary| dictionary.many?
       } d'
     name: keep_unless
   - examples:
@@ -583,15 +583,15 @@
   - examples:
     - "{ a: 1, b: 2 }.select { |key| key == :a }"
     - "{ a: 1, b: 2 }.select { |key, value| value.one? }"
-    - "{ a: 1, b: 2 }.select { |key, value, dictionary| dictionary.many? }"
-    - "{ a: 1, b: 2 }.select { |key, value, dictionary, index| index.zero? }"
+    - "{ a: 1, b: 2 }.select { |key, value, index| index.zero? }"
+    - "{ a: 1, b: 2 }.select { |key, value, index, dictionary| dictionary.many? }"
     name: select
   - examples:
     - 'd = { a: 1, b: 2 } d.select! { |key| key == :a } d'
     - 'd = { a: 1, b: 2 } d.select! { |key, value| value.one? } d'
-    - 'd = { a: 1, b: 2 } d.select! { |key, value, dictionary| dictionary.many? }
+    - 'd = { a: 1, b: 2 } d.select! { |key, value, index| index.zero? }
       d'
-    - 'd = { a: 1, b: 2 } d.select! { |key, value, dictionary, index| index.zero?
+    - 'd = { a: 1, b: 2 } d.select! { |key, value, index, dictionary| dictionary.many?
       } d'
     name: select!
   - examples:
@@ -629,9 +629,8 @@
   - examples:
     - "{ a: 1, b: 2 }.transform_values { |key| key.upcase }"
     - "{ a: 1, b: 2 }.transform_values { |key, value| value + 1 }"
-    - "{ a: 1, b: 2 }.transform_values { |key, value, dictionary| dictionary.a }"
-    - "{ a: 1, b: 2 }.transform_values { |key, value, dictionary, index| index * 2
-      }"
+    - "{ a: 1, b: 2 }.transform_values { |key, value, index| index * 2 }"
+    - "{ a: 1, b: 2 }.transform_values { |key, value, index, dictionary| dictionary.a }"
     name: transform_values
   - examples:
     - "{ a: 2 }.two?"
@@ -651,7 +650,7 @@
   - 1.day.from_now
   - 2.days.ago
   - 3.days.from_now
-  instance_methods:
+  instance_functions:
   - examples:
     - 1.day.ago
     - 2.days.ago
@@ -665,42 +664,71 @@
   - sum = (a = 1, b = 2) => { a + b } sum()
   - 'sum = (a, b: 2) => { a + b } sum(1)'
   - 'sum = (a: 1, b: 2) => { a + b } sum()'
-  - sum = (a, b) => { a + b } sum.call(1, 2)
-  - sum = (a, b = 2) => { a + b } sum.call(1)
-  - sum = (a = 1, b = 2) => { a + b } sum.call
-  - 'sum = (a, b: 2) => { a + b } sum.call(1)'
-  - 'sum = (a: 1, b: 2) => { a + b } sum.call'
-  instance_methods:
-  - name: call
+  - "(a, b) => { a + b }.call(1, 2)"
+  - "(a, b = 2) => { a + b }.call(1)"
+  - "(a = 1, b = 2) => { a + b }.call"
+  - "(a, b: 2) => { a + b }.call(1)"
+  - "(a: 1, b: 2) => { a + b }.call"
+  instance_functions:
+  - examples:
+    - "(a, b) => { a + b }.call(1, 2)"
+    - "(a, b = 2) => { a + b }.call(1)"
+    - "(a = 1, b = 2) => { a + b }.call"
+    - "(a, b: 2) => { a + b }.call(1)"
+    - "(a: 1, b: 2) => { a + b }.call"
+    name: call
   name: Function
   parent: Object
 - examples:
   - p(nothing)
   - puts(:hello)
-  instance_methods:
+  instance_functions:
   - name: Base64
+    reference: Base64
   - name: Boolean
+    reference: Boolean
   - name: Class
+    reference: Class
   - name: Code
+    reference: Code
   - name: Context
+    reference: Context
   - name: Date
+    reference: Date
   - name: Decimal
+    reference: Decimal
   - name: Dictionary
+    reference: Dictionary
   - name: Duration
+    reference: Duration
   - name: Function
+    reference: Function
   - name: Html
+    reference: Html
   - name: Http
+    reference: Http
   - name: IdentifierList
+    reference: IdentifierList
   - name: Integer
+    reference: Integer
   - name: Json
+    reference: Json
   - name: List
+    reference: List
   - name: Nothing
+    reference: Nothing
   - name: Object
+    reference: Object
   - name: Parameter
+    reference: Parameter
   - name: Range
+    reference: Range
   - name: Smtp
+    reference: Smtp
   - name: String
+    reference: String
   - name: Time
+    reference: Time
   - name: break
   - name: context
   - name: evaluate
@@ -814,7 +842,7 @@
 - class_functions:
   - name: parse
   examples:
-  - Json.parse(response.body)
+  - 'response = { body: ''{"a": 1}'' } Json.parse(response.body)'
   name: Json
   parent: Object
 - examples:

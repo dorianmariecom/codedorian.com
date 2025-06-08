@@ -2,15 +2,15 @@
 
 class DocsController < ApplicationController
   before_action { authorize :doc }
+  before_action :load_docs
   skip_after_action :verify_policy_scoped
 
   def index
-    @docs = yaml
   end
 
   def show
     if params[:doc_id].present?
-      @class = yaml.detect { |parent| parent["name"] == params[:doc_id] }
+      @class = @docs.detect { |parent| parent["name"] == params[:doc_id] }
 
       if @class && params[:doc_type] == "instance_functions"
         functions = @class["instance_functions"] || []
@@ -22,14 +22,14 @@ class DocsController < ApplicationController
 
       @doc = functions&.detect { |function| function["name"] == params[:id] }
     else
-      @doc = yaml.detect { |parent| parent["name"] == params[:id] }
+      @doc = @docs.detect { |parent| parent["name"] == params[:id] }
     end
     render :not_found unless @doc
   end
 
   private
 
-  def yaml
-    YAML.safe_load_file(Rails.root.join("config/documentation.yml"))
+  def load_docs
+    @docs = YAML.safe_load_file(Rails.root.join("config/documentation.yml"))
   end
 end

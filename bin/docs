@@ -1,0 +1,43 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require_relative "../config/environment"
+
+DOCS_PATH = "config/documentation.yml"
+DOCS = YAML.safe_load_file(DOCS_PATH)
+
+def evaluate(doc)
+  if doc.is_a?(Hash)
+    doc["examples"]&.map! do |example|
+      begin
+        output = StringIO.new
+        error = StringIO.new
+        result = Code.evaluate(example, output: output, error: error)
+      rescue StandardError => e
+        puts example
+        puts e.message
+      end
+
+      {
+        input: example,
+        output: output.string,
+        error: error.string,
+        result: result
+      }
+    end
+
+    doc["instance_functions"]&.map! do |instance_function|
+      evaluate(instance_function)
+    end
+
+    doc["class_functions"]&.map! do |class_function|
+      evaluate(class_function)
+    end
+  elsif doc.is_a?(Array)
+    doc.map { |element| evaluate(element) }
+  else
+    doc
+  end
+end
+
+evaluate(DOCS)
