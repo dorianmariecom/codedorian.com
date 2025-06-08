@@ -30,9 +30,7 @@ def evaluate(doc)
       evaluate(instance_function)
     end
 
-    doc["class_functions"]&.map! do |class_function|
-      evaluate(class_function)
-    end
+    doc["class_functions"]&.map! { |class_function| evaluate(class_function) }
   elsif doc.is_a?(Array)
     doc.map { |element| evaluate(element) }
   else
