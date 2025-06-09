@@ -444,8 +444,7 @@
     - 'd = { a: 1, b: 2 } d.delete_if { |key, value| value.one? } d'
     - 'd = { a: 1, b: 2 } d.delete_if { |key, value| key == :a } d'
     - 'd = { a: 1, b: 2 } d.delete_if(Integer) d'
-    - 'd = { a: 1, b: 2 } d.delete_if { |key, value, index| index.zero?
-      } d'
+    - 'd = { a: 1, b: 2 } d.delete_if { |key, value, index| index.zero? } d'
     - 'd = { a: 1, b: 2 } d.delete_if { |key, value, index, dictionary| dictionary.many?
       } d'
     name: delete_if
@@ -453,8 +452,7 @@
     - 'd = { a: 1, b: 2 } d.delete_unless { |key, value| value.one? } d'
     - 'd = { a: 1, b: 2 } d.delete_unless { |key, value| key == :a } d'
     - 'd = { a: 1, b: 2 } d.delete_unless(Integer) d'
-    - 'd = { a: 1, b: 2 } d.delete_unless { |key, value, index| index.zero?
-      } d'
+    - 'd = { a: 1, b: 2 } d.delete_unless { |key, value, index| index.zero? } d'
     - 'd = { a: 1, b: 2 } d.delete_unless { |key, value, index, dictionary| dictionary.many?
       } d'
     name: delete_unless
@@ -495,8 +493,7 @@
   - examples:
     - 'd = { a: 1, b: 2 } d.filter! { |key| key == :a } d'
     - 'd = { a: 1, b: 2 } d.filter! { |key, value| value.one? } d'
-    - 'd = { a: 1, b: 2 } d.filter! { |key, value, index| index.zero? }
-      d'
+    - 'd = { a: 1, b: 2 } d.filter! { |key, value, index| index.zero? } d'
     - 'd = { a: 1, b: 2 } d.filter! { |key, value, index, dictionary| dictionary.many?
       } d'
     name: filter!
@@ -541,8 +538,7 @@
     - 'd = { a: 1, b: 2 } d.keep_if(Integer) d'
     - 'd = { a: 1, b: 2 } d.keep_if { |key| key == :a } d'
     - 'd = { a: 1, b: 2 } d.keep_if { |key, value| value.one? } d'
-    - 'd = { a: 1, b: 2 } d.keep_if { |key, value, index| index.zero? }
-      d'
+    - 'd = { a: 1, b: 2 } d.keep_if { |key, value, index| index.zero? } d'
     - 'd = { a: 1, b: 2 } d.keep_if { |key, value, index, dictionary| dictionary.many?
       } d'
     name: keep_if
@@ -589,8 +585,7 @@
   - examples:
     - 'd = { a: 1, b: 2 } d.select! { |key| key == :a } d'
     - 'd = { a: 1, b: 2 } d.select! { |key, value| value.one? } d'
-    - 'd = { a: 1, b: 2 } d.select! { |key, value, index| index.zero? }
-      d'
+    - 'd = { a: 1, b: 2 } d.select! { |key, value, index| index.zero? } d'
     - 'd = { a: 1, b: 2 } d.select! { |key, value, index, dictionary| dictionary.many?
       } d'
     name: select!
@@ -630,7 +625,8 @@
     - "{ a: 1, b: 2 }.transform_values { |key| key.upcase }"
     - "{ a: 1, b: 2 }.transform_values { |key, value| value + 1 }"
     - "{ a: 1, b: 2 }.transform_values { |key, value, index| index * 2 }"
-    - "{ a: 1, b: 2 }.transform_values { |key, value, index, dictionary| dictionary.a }"
+    - "{ a: 1, b: 2 }.transform_values { |key, value, index, dictionary| dictionary.a
+      }"
     name: transform_values
   - examples:
     - "{ a: 2 }.two?"
