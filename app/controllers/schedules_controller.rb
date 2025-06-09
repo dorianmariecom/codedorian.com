@@ -93,7 +93,7 @@ class SchedulesController < ApplicationController
 
   def scope
     scope = searched_policy_scope(Schedule)
-    scope = scope.where(progran: @program) if @program
+    scope = scope.where(program: @program) if @program
     scope = scope.joins(:program).where(program: { user: @user }) if @user
     scope
   end

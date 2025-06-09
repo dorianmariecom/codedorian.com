@@ -80,7 +80,7 @@ class ErrorOccurrence < SolidErrors::Occurrence
       .lines
       .grep(%r{^#{Rails.root}/})
       .map { |line| line.gsub(Rails.root.join.to_s, "").strip }
-      .join
+      .join("\n")
       .strip
       .presence
   end
