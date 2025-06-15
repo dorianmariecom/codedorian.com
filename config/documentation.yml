@@ -913,7 +913,7 @@
           data: { q: :code, category: :programming_language }
         ).status
       - |
-        Http.delete(
+        Http.fetch(
           :post,
           "https://httpbin.org/post",
           headers: {
