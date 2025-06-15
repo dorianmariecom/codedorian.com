@@ -157,82 +157,82 @@
   parent: Object
 - examples:
   - '1.0'
-  - 1e1.0
-  - 2.3e2
+  - "1e1.0"
+  - "2.3e2"
   instance_functions:
   - examples:
-    - 10.1 % 6
-    - 10.1 % 6.1
+    - "10.1 % 6"
+    - "10.1 % 6.1"
     name: "%"
   - examples:
-    - 10.1 & 6
-    - 10.1 & 6.1
+    - "10.1 & 6"
+    - "10.1 & 6.1"
     name: "&"
   - examples:
-    - 10.1 * 6
-    - 10.1 * 6.1
+    - "10.1 * 6"
+    - "10.1 * 6.1"
     name: "*"
   - examples:
-    - 10.1 ** 6
-    - 10.1 ** 6.1
+    - "10.1 ** 6"
+    - "10.1 ** 6.1"
     name: "**"
   - examples:
-    - 10.1 + 6
-    - 10.1 + 6.1
-    - 10.1 + :hello
-    - 10.1 + [1, 2, 3]
+    - "10.1 + 6"
+    - "10.1 + 6.1"
+    - "10.1 + :hello"
+    - "10.1 + [1, 2, 3]"
     name: "+"
   - examples:
-    - 10.1 - 6
-    - 10.1 - 6.1
+    - "10.1 - 6"
+    - "10.1 - 6.1"
     name: "-"
   - examples:
-    - 10.1 / 6
-    - 10.1 / 6.1
+    - "10.1 / 6"
+    - "10.1 / 6.1"
     name: "/"
   - examples:
-    - 10.1 < 6
-    - 10.1 < 6.1
+    - "10.1 < 6"
+    - "10.1 < 6.1"
     name: "<"
   - examples:
-    - 10.1 << 6
-    - 10.1 << 6.1
+    - "10.1 << 6"
+    - "10.1 << 6.1"
     name: !!str '<<'
   - examples:
-    - 10.1 <= 6
-    - 10.1 <= 6.1
+    - "10.1 <= 6"
+    - "10.1 <= 6.1"
     name: "<="
   - examples:
-    - 10.1 <=> 6
-    - 10.1 <=> 6.1
+    - "10.1 <=> 6"
+    - "10.1 <=> 6.1"
     name: "<=>"
   - examples:
-    - 10.1 > 6
-    - 10.1 > 6.1
+    - "10.1 > 6"
+    - "10.1 > 6.1"
     name: ">"
   - examples:
-    - 10.1 >= 6
-    - 10.1 >= 6.1
+    - "10.1 >= 6"
+    - "10.1 >= 6.1"
     name: ">="
   - examples:
-    - 10.1 >> 6
-    - 10.1 >> 6.1
+    - "10.1 >> 6"
+    - "10.1 >> 6.1"
     name: ">>"
   - examples:
-    - 10.1 ^ 6
-    - 10.1 ^ 6.1
+    - "10.1 ^ 6"
+    - "10.1 ^ 6.1"
     name: "^"
   - examples:
     - "-10.1.abs"
-    - 6.1.abs
+    - "6.1.abs"
     name: abs
   - examples:
-    - 10.1.bitwise_and(6)
-    - 10.1.bitwise_and(6.1)
+    - "10.1.bitwise_and(6)"
+    - "10.1.bitwise_and(6.1)"
     name: bitwise_and
   - examples:
-    - 10.1.bitwise_or(6)
-    - 10.1.bitwise_or(6.1)
+    - "10.1.bitwise_or(6)"
+    - "10.1.bitwise_or(6.1)"
     name: bitwise_or
   - examples:
     - 10.1.bitwise_xor(6)
@@ -386,8 +386,8 @@
     - 0.0.zero?
     name: zero?
   - examples:
-    - 10.1 | 6
-    - 10.1 | 6.1
+    - "10.1 | 6"
+    - "10.1 | 6.1"
     name: "|"
   name: Decimal
   parent: Object
@@ -871,6 +871,7 @@
           data: { q: :code, category: :programming_language }
         ).status
   - name: fetch
+    examples:
       - Http.fetch(:post, "https://httpbin.org/post").keys
       - Http.fetch(:patch, "https://httpbin.org/patch").code
       - Http.fetch(:put, "https://httpbin.org/put").status
@@ -1641,43 +1642,201 @@
   - "[]"
   instance_functions:
   - name: "-"
+    examples:
+      - "[1, 2, 3] - [1]"
   - name: !!str '<<'
+    examples:
+      - "list = [1, 2, 3] list << 4 list"
   - name: any?
+    examples:
+      - "[1, 2, 3].any?"
+      - "[1].any?"
+      - "[nothing].any?"
+      - "[].any?"
+      - "[1, 2, 3].any?(Boolean)"
+      - "[1, 2, 3].any?(Number)"
+      - "[1, 2, 3].any?(Integer)"
+      - "[1, 2, 3].any? { false }"
+      - "[1, 2, 3].any? { |element| element.positive? }"
+      - "[1, 2, 3].any? { |element| element.negative? }"
+      - "[1, 2, 3].any? { |element, index| index.zero? }"
+      - "[1, 2, 3].any? { |element, index, list| list.include?(2) }"
   - name: append
+    examples:
+      - "list = [1, 2, 3] list.append(4) list"
   - name: compact
+    examples:
+      - "[nothing, 1, 2, nothing, 3].compact"
   - name: compact!
+    examples:
+      - "list = [nothing, 1, 2, nothing, 3] list.compact! list"
   - name: detect
+    examples:
+      - "[1, 2, 3].detect { true }"
+      - "[1, 2, 3].detect { |element| element.positive? }"
+      - "[1, 2, 3].detect { |element| element.negative? }"
+      - "[1, 2, 3].detect { |element, index| index.zero? }"
+      - "[1, 2, 3].detect { |element, index, list| list.include?(2) }"
   - name: each
+    examples:
+      - "[1, 2, 3].each { puts(:a) }"
+      - "[1, 2, 3].each { |element| puts(element) }"
+      - "[1, 2, 3].each { |element, index| puts(index) }"
+      - "[1, 2, 3].each { |element, index, list| puts(list) }"
   - name: first
+    examples:
+      - "[1, 2, 3].first"
+      - "[].first"
   - name: flatten
+    examples:
+      - "[1, [2, [3, [4]]]].flatten"
+      - "[1, [2, [3, [4]]]].flatten(0)"
+      - "[1, [2, [3, [4]]]].flatten(1)"
+      - "[1, [2, [3, [4]]]].flatten(2)"
+      - "[1, [2, [3, [4]]]].flatten(3)"
+      - "[1, [2, [3, [4]]]].flatten(4)"
+      - "[1, [2, [3, [4]]]].flatten(5)"
   - name: include?
+    examples:
+      - "[1, 2, 3].include?(2)"
+      - "[1, 2, 3].include?(:string)"
+      - "[:string, :other].include?(:string)"
   - name: join
+    examples:
+      - "[:string, :other].join"
+      - "[1, 2, 3].join"
+      - "[].join"
+      - "[:string, :other].join(' ')"
+      - "[1, 2, 3].join('&')"
+      - "[].join('-')"
   - name: last
+    examples:
+      - "[1, 2, 3].last"
+      - "[].last"
   - name: map
+    examples:
+      - "[1, 2, 3].map { 1 }"
+      - "[1, 2, 3].map { |element| element * :hello }"
+      - "[1, 2, 3].map { |element, index| index * 2 }"
+      - "[1, 2, 3].map { |element, index, list| list }"
   - name: map!
+    examples:
+      - "list = [1, 2, 3] list.map! { 1 } list"
+      - "list = [1, 2, 3] list.map! { |element| element * :hello } list"
+      - "list = [1, 2, 3] list.map! { |element, index| index * 2 } list"
+      - "list = [1, 2, 3] list.map! { |element, index, list| list } list"
   - name: max
-  - name: max_by
+    examples:
+      - "[1, 2, 3].max"
+      - "[].max"
+      - "[1, 2, 3].max { 1 }"
+      - "[1, 2, 3].max { |element| -element }"
+      - "[1, 2, 3].max { |element, index| index - 1 }"
+      - "[1, 2, 3].max { |element, index, list| list.sum + index + element }"
   - name: minus
+    examples:
+      - "[1, 2, 3].minus([1])"
   - name: none?
+    examples:
+      - "[1, 2, 3].none?"
+      - "[].none?"
+      - "[1, 2, 3].none? { true }"
+      - "[1, 2, 3].none? { |element| element.zero? }"
+      - "[1, 2, 3].none? { |element, index| index.zero? }"
+      - "[1, 2, 3].none? { |element, index, list| list.include?(2) }"
   - name: pop
+    examples:
+      - "[1, 2, 3].pop"
+      - "[].pop"
+      - "[1, 2, 3].pop(0)"
+      - "[1, 2, 3].pop(1)"
+      - "[1, 2, 3].pop(2)"
+      - "[1, 2, 3].pop(3)"
   - name: reduce
+    examples:
+      - "[1, 2, 3].reduce { }"
+      - "[1, 2, 3].reduce { 10 }"
+      - "[1, 2, 3].reduce { |acc| acc }"
+      - "[1, 2, 3].reduce { |acc, element| acc + element }"
+      - "[1, 2, 3].none? { |acc, element, index| acc + index }"
+      - "[1, 2, 3].none? { |acc, element, index, list| acc + list.sum }"
   - name: reject
+    examples:
+      - "[1, 2, 3].reject { true }"
+      - "[1, 2, 3].reject { |element| element.zero? }"
+      - "[1, 2, 3].reject { |element, index| index.zero? }"
+      - "[1, 2, 3].reject { |element, index, list| list.include?(2) }"
   - name: reject!
+    examples:
+      - "list = [1, 2, 3] list.reject! { true } list"
+      - "list = [1, 2, 3] list.reject! { |element| element.zero? } list"
+      - "list = [1, 2, 3] list.reject! { |element, index| index.zero? } list"
+      - "list = [1, 2, 3] list.reject! { |element, index, list| list.include?(2) } list"
   - name: reverse
+    examples:
+      - "[1, 2, 3].reverse"
+      - "[].reverse"
   - name: sample
+    examples:
+      - "[1, 2, 3].sample"
+      - "[].sample"
   - name: select
+    examples:
+      - "[1, 2, 3].select { true }"
+      - "[1, 2, 3].select { |element| element.zero? }"
+      - "[1, 2, 3].select { |element, index| index.zero? }"
+      - "[1, 2, 3].select { |element, index, list| list.include?(2) }"
   - name: select!
+    examples:
+      - "list = [1, 2, 3] list.select! { true } list"
+      - "list = [1, 2, 3] list.select! { |element| element.zero? } list"
+      - "list = [1, 2, 3] list.select! { |element, index| index.zero? } list"
+      - "list = [1, 2, 3] list.select! { |element, index, list| list.include?(2) } list"
   - name: shift
+    examples:
+      - "[1, 2, 3].shift"
+      - "[1, 2, 3].shift(0)"
+      - "[1, 2, 3].shift(1)"
+      - "[1, 2, 3].shift(2)"
+      - "[1, 2, 3].shift(3)"
+      - "[1, 2, 3].shift(4)"
+      - "[].shift"
   - name: shuffle
+    examples:
+      - "[1, 2, 3].shuffle"
+      - "[].shuffle"
   - name: size
+    examples:
+      - "[1, 2, 3].size"
+      - "[].size"
   - name: sort
+    examples:
+      - "[2, 1, 3].sort"
+      - "[].sort"
   - name: sum
+    examples:
+      - "[1, 2, 3].sum"
+      - "[].sum"
   - name: uniq
+    examples:
+      - "[1, 1, 2, 3, 3, 3].uniq"
+      - "[1, 2, 3].uniq"
+      - "[].uniq"
   name: List
   parent: Object
 - class_functions:
   - name: create
+    examples:
+    - Message.create
+    - 'Message.create(body: :world)'
+    - 'Message.create(subject: :hello)'
+    - 'Message.create(subject: :hello, body: :world)'
   - name: create!
+    examples:
+    - Message.create!
+    - 'Message.create!(body: :world)'
+    - 'Message.create!(subject: :hello)'
+    - 'Message.create!(subject: :hello, body: :world)'
   examples:
   - Message.create
   - Message.create!
@@ -1693,7 +1852,19 @@
   parent: Object
 - class_functions:
   - name: create
+    examples:
+    - Notification.create
+    - 'Notification.create(body: :world)'
+    - 'Notification.create(subject: :hello)'
+    - 'Notification.create(subject: :hello, body: :world)'
+    - 'Notification.create(subject: :hello, path: :documentation, sound: :default)'
   - name: create!
+    examples:
+    - Notification.create!
+    - 'Notification.create!(body: :world)'
+    - 'Notification.create!(subject: :hello)'
+    - 'Notification.create!(subject: :hello, body: :world)'
+    - 'Notification.create!(subject: :hello, path: :documentation, sound: :default)'
   examples:
   - Notification.create
   - Notification.create!
@@ -1705,95 +1876,426 @@
   parent: Dictionary
 - class_functions:
   - name: "!"
+    examples:
+      - "!true"
+      - "!false"
+      - "!nothing"
+      - "!!nothing"
+      - "![]"
+      - "!{}"
+      - "!0"
   - name: "!="
+    examples:
+      - "1 != 2"
+      - "[] != []"
   - name: "&&"
+    examples:
+      - "true && puts(:hello)"
+      - "false && puts(:bye)"
   - name: "+"
+    examples:
+      - "+true"
+      - "+0"
+      - "+2"
+      - "+2.1"
+      - "+[]"
   - name: ".."
+    examples:
+      - "(1..10).to_list"
   - name: "..."
+    examples:
+      - "(1...10).to_list"
   - name: "=="
+    examples:
+      - "1 == 2"
+      - "3 == 3"
   - name: "==="
+    examples:
+     - "1 === 1"
+     - "1 === 2"
   - name: and
+    examples:
+      - "true and puts(:hello)"
+      - "false and puts(:bye)"
   - name: as_json
+    examples:
+      - "1.as_json"
+      - "1.2.as_json"
+      - "[1, 2, 3].as_json"
+      - "[1, {a: :b}, 3].as_json"
   - name: deep_duplicate
+    examples:
+      - |
+        object = {
+          given_name: "dorian"
+          programs: [
+            {
+              name: "pomodoro"
+            }
+          ]
+        }
+
+        copy = object.deep_duplicate
+
+        copy.programs[0].name = "pomodoro 2"
+
+        p(object)
+        p(copy)
   - name: different
+    examples:
+      - "1.different(2)"
+      - "1.different(1)"
   - name: duplicate
+    examples:
+      - |
+        object = {
+          given_name: "dorian"
+        }
+
+        copy = object.duplicate
+
+        copy.given_name = "grandma"
+
+        p(object)
+        p(copy)
   - name: equal
+    examples:
+      - "1.equal(1)"
+      - "1.equal(2)"
   - name: exclusive_range
+    examples:
+      - "1.exclusive_range(10).to_list"
   - name: falsy?
+    examples:
+      - "nothing.falsy?"
+      - "false.falsy?"
+      - "true.falsy?"
+      - "0.falsy?"
+      - "1.falsy?"
+      - "[].falsy?"
+      - "{}.falsy?"
+      - "[1, 2, 3].falsy?"
+      - "{ a: 1, b: 2 }.falsy?"
   - name: inclusive_range
-  - name: methods
+    examples:
+      - "1.inclusive_range(10).to_list"
   - name: name
+    examples:
+      - "Integer.name"
+      - "Boolean.new.name"
+      - "true.name"
+      - "{}.name"
   - name: new
+    examples:
+      - "true.new"
+      - "false.new(true)"
+      - "1.new(2)"
+      - "Integer.new(2)"
+      - "Boolean.new(true)"
   - name: not
+    examples:
+      - "not nothing"
+      - "not true"
+      - "not false"
   - name: or
+    examples:
+      - "true or false"
+      - "false or false"
+      - "true or true"
+      - "false or true"
   - name: self
+    examples:
+      - "1.self"
+      - "true.self"
+      - "[1, 2, 3].map(&:self)"
   - name: strict_equal
+    examples:
+      - "1.strict_equal(1)"
+      - "2.strict_equal(1)"
   - name: to_boolean
+    examples:
+      - "nothing.to_boolean"
+      - "1.to_boolean"
+      - "true.to_boolean"
   - name: to_class
+    examples:
+      - "1.to_class"
+      - "true.to_class"
+      - "nothing.to_class"
   - name: to_date
+    examples:
+      - '"2025-06-15".to_date'
   - name: to_decimal
+    examples:
+      - "1.to_decimal"
   - name: to_dictionary
+    examples:
+      - "[[:a, 1], [:b, 2]].to_dictionary"
   - name: to_duration
+    examples:
+      - "1.to_duration"
   - name: to_integer
+    examples:
+      - "1.2.to_integer"
   - name: to_json
+    examples:
+      - "[1, 2, { a: 3 }].to_json"
   - name: to_list
+    examples:
+      - "1.to_list"
+      - "true.to_list"
+      - "{}.to_list"
+      - "{ a: 1, b: 2 }.to_list"
   - name: to_nothing
+    examples:
+      - "1.to_nothing"
+      - "{}.to_nothing"
   - name: to_parameter
+    examples:
+      - "{ a: 1 }.to_parameter"
   - name: to_range
+    examples:
+      - "[1, 2].to_range"
   - name: to_string
+    examples:
+      - "1.to_string"
+      - "nothing.to_string"
+      - "[1, 2, 3].to_string"
   - name: to_time
+    examples:
+      - '"2025-06-15 16:41".to_time'
   - name: truthy?
+    examples:
+      - "nothing.truthy?"
+      - "false.truthy?"
+      - "true.truthy?"
+      - "0.truthy?"
+      - "1.truthy?"
+      - "[].truthy?"
+      - "{}.truthy?"
+      - "[1, 2, 3].truthy?"
+      - "{ a: 1, b: 2 }.truthy?"
   - name: "||"
+    examples:
+      - "false || puts(:hello)"
+      - "true || puts(:bye)"
   examples:
   - Object.new
-  - Object.new != Object.new
-  - Object.new !== Object.new
-  - Object.new == Object.new
-  - Object.new === Object.new
+  - [] != {}
+  - 1 !== true
+  - List.new == []
+  - Dictionary.new === {}
   instance_functions:
   - name: "!"
+    examples:
+      - "!true"
+      - "!false"
+      - "!nothing"
+      - "!!nothing"
+      - "![]"
+      - "!{}"
+      - "!0"
   - name: "!="
+    examples:
+      - "1 != 2"
+      - "[] != []"
   - name: "&&"
+    examples:
+      - "true && puts(:hello)"
+      - "false && puts(:bye)"
   - name: "+"
+    examples:
+      - "+true"
+      - "+0"
+      - "+2"
+      - "+2.1"
+      - "+[]"
   - name: ".."
+    examples:
+      - "(1..10).to_list"
   - name: "..."
+    examples:
+      - "(1...10).to_list"
   - name: "=="
+    examples:
+      - "1 == 2"
+      - "3 == 3"
   - name: "==="
+    examples:
+     - "1 === 1"
+     - "1 === 2"
   - name: and
+    examples:
+      - "true and puts(:hello)"
+      - "false and puts(:bye)"
   - name: as_json
+    examples:
+      - "1.as_json"
+      - "1.2.as_json"
+      - "[1, 2, 3].as_json"
+      - "[1, {a: :b}, 3].as_json"
   - name: deep_duplicate
+    examples:
+      - |
+        object = {
+          given_name: "dorian"
+          programs: [
+            {
+              name: "pomodoro"
+            }
+          ]
+        }
+
+        copy = object.deep_duplicate
+
+        copy.programs[0].name = "pomodoro 2"
+
+        p(object)
+        p(copy)
   - name: different
+    examples:
+      - "1.different(2)"
+      - "1.different(1)"
   - name: duplicate
+    examples:
+      - |
+        object = {
+          given_name: "dorian"
+        }
+
+        copy = object.duplicate
+
+        copy.given_name = "grandma"
+
+        p(object)
+        p(copy)
   - name: equal
+    examples:
+      - "1.equal(1)"
+      - "1.equal(2)"
   - name: exclusive_range
+    examples:
+      - "1.exclusive_range(10).to_list"
   - name: falsy?
+    examples:
+      - "nothing.falsy?"
+      - "false.falsy?"
+      - "true.falsy?"
+      - "0.falsy?"
+      - "1.falsy?"
+      - "[].falsy?"
+      - "{}.falsy?"
+      - "[1, 2, 3].falsy?"
+      - "{ a: 1, b: 2 }.falsy?"
   - name: inclusive_range
-  - name: methods
+    examples:
+      - "1.inclusive_range(10).to_list"
   - name: name
+    examples:
+      - "Integer.name"
+      - "Boolean.new.name"
+      - "true.name"
+      - "{}.name"
   - name: new
+    examples:
+      - "true.new"
+      - "false.new(true)"
+      - "1.new(2)"
+      - "Integer.new(2)"
+      - "Boolean.new(true)"
   - name: not
+    examples:
+      - "not nothing"
+      - "not true"
+      - "not false"
   - name: or
+    examples:
+      - "true or false"
+      - "false or false"
+      - "true or true"
+      - "false or true"
   - name: self
+    examples:
+      - "1.self"
+      - "true.self"
+      - "[1, 2, 3].map(&:self)"
   - name: strict_equal
+    examples:
+      - "1.strict_equal(1)"
+      - "2.strict_equal(1)"
   - name: to_boolean
+    examples:
+      - "nothing.to_boolean"
+      - "1.to_boolean"
+      - "true.to_boolean"
   - name: to_class
+    examples:
+      - "1.to_class"
+      - "true.to_class"
+      - "nothing.to_class"
   - name: to_date
+    examples:
+      - '"2025-06-15".to_date'
   - name: to_decimal
+    examples:
+      - "1.to_decimal"
   - name: to_dictionary
+    examples:
+      - "[[:a, 1], [:b, 2]].to_dictionary"
   - name: to_duration
+    examples:
+      - "1.to_duration"
   - name: to_integer
+    examples:
+      - "1.2.to_integer"
   - name: to_json
+    examples:
+      - "[1, 2, { a: 3 }].to_json"
   - name: to_list
+    examples:
+      - "1.to_list"
+      - "true.to_list"
+      - "{}.to_list"
+      - "{ a: 1, b: 2 }.to_list"
   - name: to_nothing
+    examples:
+      - "1.to_nothing"
+      - "{}.to_nothing"
   - name: to_parameter
+    examples:
+      - "{ a: 1 }.to_parameter"
   - name: to_range
+    examples:
+      - "[1, 2].to_range"
   - name: to_string
+    examples:
+      - "1.to_string"
+      - "nothing.to_string"
+      - "[1, 2, 3].to_string"
   - name: to_time
+    examples:
+      - '"2025-06-15 16:41".to_time'
   - name: truthy?
+    examples:
+      - "nothing.truthy?"
+      - "false.truthy?"
+      - "true.truthy?"
+      - "0.truthy?"
+      - "1.truthy?"
+      - "[].truthy?"
+      - "{}.truthy?"
+      - "[1, 2, 3].truthy?"
+      - "{ a: 1, b: 2 }.truthy?"
   - name: "||"
+    examples:
+      - "false || puts(:hello)"
+      - "true || puts(:bye)"
   name: Object
 - name: Parameter
-  parent: Object
+  parent: Dictionary
+  examples:
+    - "Parameter.new"
+    - "Parameter.new(a: 1, b: 2)"
 - examples:
   - "(0...10).to_list"
   - "(1..10).to_list"
