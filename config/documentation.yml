@@ -2080,11 +2080,11 @@
       - "false || puts(:hello)"
       - "true || puts(:bye)"
   examples:
-  - Object.new
-  - [] != {}
-  - 1 !== true
-  - List.new == []
-  - Dictionary.new === {}
+  - "Object.new"
+  - "[] != {}"
+  - "1 !== true"
+  - "List.new == []"
+  - "Dictionary.new === {}"
   instance_functions:
   - name: "!"
     examples:
