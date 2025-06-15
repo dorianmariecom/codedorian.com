@@ -6,6 +6,35 @@ require_relative "../config/environment"
 DOCS_PATH = "config/documentation.yml"
 DOCS = YAML.safe_load_file(DOCS_PATH)
 
+def count(doc)
+  if doc.is_a?(Hash)
+    instance_functions = doc.fetch("instance_functions", [])
+    instance_functions_count = instance_functions.map do |doc|
+      doc["examples"].present? || doc["reference"].present? ? 1 : 0
+    end.sum
+    class_functions = doc.fetch("class_functions", [])
+    class_functions_count = class_functions.map do |doc|
+      doc["examples"].present? || doc["reference"].present? ? 1 : 0
+    end.sum
+    docs = doc["name"].present? ? 1 : 0
+    docs_count = doc["examples"].present? || doc["reference"].present? ? 1 : 0
+
+    {
+      total: instance_functions.size + class_functions.size + docs,
+      count: instance_functions_count + class_functions_count + docs_count
+    }
+  elsif doc.is_a?(Array)
+    doc.map { |element| count(element) }.reduce do |acc, element|
+      {
+        total: acc[:total] + element[:total],
+        count: acc[:count] + element[:count]
+      }
+    end
+  else
+    doc
+  end
+end
+
 def evaluate(doc)
   if doc.is_a?(Hash)
     doc["examples"]&.map! do |example|
@@ -38,4 +67,5 @@ def evaluate(doc)
   end
 end
 
+p count(DOCS)
 evaluate(DOCS)

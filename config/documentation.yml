@@ -726,29 +726,129 @@
   - name: Time
     reference: Time
   - name: break
+    examples:
+      - |
+        a = 1
+        while a < 10
+          break if a > 5
+
+          a += 1
+        end
+        a
+      - |
+        a = 1
+        b = while a < 10
+          break(20) if a > 5
+
+          a += 1
+        end
+        b
   - name: context
+    examples:
+      - context
   - name: evaluate
+    examples:
+      - 'evaluate("1 + 1")'
   - name: next
+    examples:
+      - |
+        [1, 2, 3].map do |i|
+          next(5) if i.two?
+
+          i + 10
+        end
   - name: p
+    examples:
+      - 'p(:hello)'
+      - 'p("hello world")'
+      - p(1)
+      - p(nothing)
+      - a = 1 p(a + a)
+      - p([1, 2, 3])
+      - 'p({a: 1, b: 2, c: 3})'
   - name: print
+    examples:
+      - 'print(:hello)'
+      - 'print("hello world")'
+      - print(1)
+      - print(nothing)
+      - a = 1 print(a + a)
+      - print([1, 2, 3])
+      - 'print({a: 1, b: 2, c: 3})'
   - name: puts
+    examples:
+      - 'puts(:hello)'
+      - 'puts("hello world")'
+      - puts(1)
+      - puts(nothing)
+      - a = 1 puts(a + a)
+      - puts([1, 2, 3])
+      - 'puts({a: 1, b: 2, c: 3})'
   - name: read
+    examples:
+      - read
   name: Global
   parent: Object
 - class_functions:
   - name: escape
+    examples:
+      - Html.escape("How'dy")
   - name: link_to
+    examples:
+      - Html.link_to(:code, "https://codedorian.com")
   examples:
   - Html.link_to(:code, "https://codedorian.com")
+  - Html.new(Http.get("https://codedorian.com").body)
   instance_functions:
   - name: at_css
+    examples:
+      - Html.new("<h1>hello</h1><h1>world</h1>").at_css("h1")
   - name: css
+    examples:
+      - Html.new("<h1>hello</h1><h1>world</h1>").css("h1")
   - name: map
+    examples:
+    - Html.new("<h1>hello</h1><h1>world</h1>").css("h1").map(&:to_string).join
   - name: to_string
+    examples:
+      - Html.new("<h1>hello</h1><h1>world</h1>").at_css("h1").to_string
+      - Html.new("<h1>hello</h1><h1>world</h1>").css("h1").to_string
   name: Html
   parent: Object
 - class_functions:
   - name: delete
+    examples:
+      - Http.delete("https://httpbin.org/delete").keys
+      - Http.delete("https://httpbin.org/delete").code
+      - Http.delete("https://httpbin.org/delete").status
+      - Http.delete("https://httpbin.org/delete").body.size
+      - |
+        Http.delete(
+          "https://httpbin.org/delete",
+          headers: {
+            accept: "application/json",
+            "x-csrf-token": "abc",
+          },
+        ).keys
+      - |
+        Http.delete(
+          "https://httpbin.org/delete",
+          query: {
+            q: :code,
+            category: :programming_languages
+          },
+        ).keys
+      - |
+        Http.delete(
+          "https://httpbin.org/delete",
+          body: "hello world",
+        ).keys
+      - |
+        Http.delete(
+          "https://httpbin.org/delete",
+          username: "dorianmariecom",
+          password: "my-secret-password",
+        ).keys
   - name: fetch
   - name: get
   - name: head
@@ -758,7 +858,10 @@
   - name: put
   - name: trace
   examples:
-  - Http.get("https://codedorian.com")
+  - Http.get("https://codedorian.com").keys
+  - Http.get("https://codedorian.com").code
+  - Http.get("https://codedorian.com").status
+  - Http.get("https://codedorian.com").body.size
   name: Http
   parent: Object
 - name: IdentifierList
