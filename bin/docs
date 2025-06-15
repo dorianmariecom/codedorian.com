@@ -9,13 +9,19 @@ DOCS = YAML.safe_load_file(DOCS_PATH)
 def count(doc)
   if doc.is_a?(Hash)
     instance_functions = doc.fetch("instance_functions", [])
-    instance_functions_count = instance_functions.map do |doc|
-      doc["examples"].present? || doc["reference"].present? ? 1 : 0
-    end.sum
+    instance_functions_count =
+      instance_functions
+        .map do |doc|
+          doc["examples"].present? || doc["reference"].present? ? 1 : 0
+        end
+        .sum
     class_functions = doc.fetch("class_functions", [])
-    class_functions_count = class_functions.map do |doc|
-      doc["examples"].present? || doc["reference"].present? ? 1 : 0
-    end.sum
+    class_functions_count =
+      class_functions
+        .map do |doc|
+          doc["examples"].present? || doc["reference"].present? ? 1 : 0
+        end
+        .sum
     docs = doc["name"].present? ? 1 : 0
     docs_count = doc["examples"].present? || doc["reference"].present? ? 1 : 0
 
@@ -24,12 +30,14 @@ def count(doc)
       count: instance_functions_count + class_functions_count + docs_count
     }
   elsif doc.is_a?(Array)
-    doc.map { |element| count(element) }.reduce do |acc, element|
-      {
-        total: acc[:total] + element[:total],
-        count: acc[:count] + element[:count]
-      }
-    end
+    doc
+      .map { |element| count(element) }
+      .reduce do |acc, element|
+        {
+          total: acc[:total] + element[:total],
+          count: acc[:count] + element[:count]
+        }
+      end
   else
     doc
   end

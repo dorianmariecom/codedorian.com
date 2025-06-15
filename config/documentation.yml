@@ -829,7 +829,7 @@
             accept: "application/json",
             "x-csrf-token": "abc",
           },
-        ).keys
+        ).status
       - |
         Http.delete(
           "https://httpbin.org/delete",
@@ -837,26 +837,476 @@
             q: :code,
             category: :programming_languages
           },
-        ).keys
+        ).status
       - |
         Http.delete(
           "https://httpbin.org/delete",
           body: "hello world",
-        ).keys
+        ).status
       - |
         Http.delete(
           "https://httpbin.org/delete",
           username: "dorianmariecom",
           password: "my-secret-password",
-        ).keys
+        ).status
+      - |
+        Http.delete(
+          "https://httpbin.org/delete",
+          data: { q: :code, category: :programming_language }
+        ).status
+      - |
+        Http.delete(
+          "https://httpbin.org/delete",
+          headers: {
+            accept: "application/json",
+            "x-csrf-token": "abc",
+          },
+          query: {
+            q: :code,
+            category: :programming_languages
+          },
+          body: "hello world",
+          username: "dorianmariecom",
+          password: "my-secret-password",
+          data: { q: :code, category: :programming_language }
+        ).status
   - name: fetch
+      - Http.fetch(:post, "https://httpbin.org/post").keys
+      - Http.fetch(:patch, "https://httpbin.org/patch").code
+      - Http.fetch(:put, "https://httpbin.org/put").status
+      - Http.fetch(:delete, "https://httpbin.org/delete").body.size
+      - |
+        Http.fetch(
+          :get,
+          "https://httpbin.org/get",
+          headers: {
+            accept: "application/json",
+            "x-csrf-token": "abc",
+          },
+        ).status
+      - |
+        Http.fetch(
+          :get,
+          "https://httpbin.org/get",
+          query: {
+            q: :code,
+            category: :programming_languages
+          },
+        ).status
+      - |
+        Http.fetch(
+          :post,
+          "https://httpbin.org/post",
+          body: "hello world",
+        ).status
+      - |
+        Http.fetch(
+          :post,
+          "https://httpbin.org/post",
+          username: "dorianmariecom",
+          password: "my-secret-password",
+        ).status
+      - |
+        Http.fetch(
+          :post,
+          "https://httpbin.org/post",
+          data: { q: :code, category: :programming_language }
+        ).status
+      - |
+        Http.delete(
+          :post,
+          "https://httpbin.org/post",
+          headers: {
+            accept: "application/json",
+            "x-csrf-token": "abc",
+          },
+          query: {
+            q: :code,
+            category: :programming_languages
+          },
+          body: "hello world",
+          username: "dorianmariecom",
+          password: "my-secret-password",
+          data: { q: :code, category: :programming_language }
+        ).status
   - name: get
+    examples:
+      - Http.get("https://httpbin.org/get").keys
+      - Http.get("https://httpbin.org/get").code
+      - Http.get("https://httpbin.org/get").status
+      - Http.get("https://httpbin.org/get").body.size
+      - |
+        Http.get(
+          "https://httpbin.org/get",
+          headers: {
+            accept: "application/json",
+            "x-csrf-token": "abc",
+          },
+        ).status
+      - |
+        Http.get(
+          "https://httpbin.org/get",
+          query: {
+            q: :code,
+            category: :programming_languages
+          },
+        ).status
+      - |
+        Http.get(
+          "https://httpbin.org/get",
+          body: "hello world",
+        ).status
+      - |
+        Http.get(
+          "https://httpbin.org/get",
+          username: "dorianmariecom",
+          password: "my-secret-password",
+        ).status
+      - |
+        Http.get(
+          "https://httpbin.org/get",
+          data: { q: :code, category: :programming_language }
+        ).status
+      - |
+        Http.get(
+          "https://httpbin.org/get",
+          headers: {
+            accept: "application/json",
+            "x-csrf-token": "abc",
+          },
+          query: {
+            q: :code,
+            category: :programming_languages
+          },
+          body: "hello world",
+          username: "dorianmariecom",
+          password: "my-secret-password",
+          data: { q: :code, category: :programming_language }
+        ).status
   - name: head
+    examples:
+      - Http.head("https://httpbin.org/head").keys
+      - Http.head("https://httpbin.org/head").code
+      - Http.head("https://httpbin.org/head").status
+      - Http.head("https://httpbin.org/head").body.size
+      - |
+        Http.head(
+          "https://httpbin.org/head",
+          headers: {
+            accept: "application/json",
+            "x-csrf-token": "abc",
+          },
+        ).status
+      - |
+        Http.head(
+          "https://httpbin.org/head",
+          query: {
+            q: :code,
+            category: :programming_languages
+          },
+        ).status
+      - |
+        Http.head(
+          "https://httpbin.org/head",
+          body: "hello world",
+        ).status
+      - |
+        Http.head(
+          "https://httpbin.org/head",
+          username: "dorianmariecom",
+          password: "my-secret-password",
+        ).status
+      - |
+        Http.head(
+          "https://httpbin.org/head",
+          data: { q: :code, category: :programming_language }
+        ).status
+      - |
+        Http.head(
+          "https://httpbin.org/head",
+          headers: {
+            accept: "application/json",
+            "x-csrf-token": "abc",
+          },
+          query: {
+            q: :code,
+            category: :programming_languages
+          },
+          body: "hello world",
+          username: "dorianmariecom",
+          password: "my-secret-password",
+          data: { q: :code, category: :programming_language }
+        ).status
   - name: options
+    examples:
+      - Http.options("https://httpbin.org/options").keys
+      - Http.options("https://httpbin.org/options").code
+      - Http.options("https://httpbin.org/options").status
+      - Http.options("https://httpbin.org/options").body.size
+      - |
+        Http.options(
+          "https://httpbin.org/options",
+          headers: {
+            accept: "application/json",
+            "x-csrf-token": "abc",
+          },
+        ).status
+      - |
+        Http.options(
+          "https://httpbin.org/options",
+          query: {
+            q: :code,
+            category: :programming_languages
+          },
+        ).status
+      - |
+        Http.options(
+          "https://httpbin.org/options",
+          body: "hello world",
+        ).status
+      - |
+        Http.options(
+          "https://httpbin.org/options",
+          username: "dorianmariecom",
+          password: "my-secret-password",
+        ).status
+      - |
+        Http.options(
+          "https://httpbin.org/options",
+          data: { q: :code, category: :programming_language }
+        ).status
+      - |
+        Http.options(
+          "https://httpbin.org/options",
+          headers: {
+            accept: "application/json",
+            "x-csrf-token": "abc",
+          },
+          query: {
+            q: :code,
+            category: :programming_languages
+          },
+          body: "hello world",
+          username: "dorianmariecom",
+          password: "my-secret-password",
+          data: { q: :code, category: :programming_language }
+        ).status
   - name: patch
+    examples:
+      - Http.patch("https://httpbin.org/patch").keys
+      - Http.patch("https://httpbin.org/patch").code
+      - Http.patch("https://httpbin.org/patch").status
+      - Http.patch("https://httpbin.org/patch").body.size
+      - |
+        Http.patch(
+          "https://httpbin.org/patch",
+          headers: {
+            accept: "application/json",
+            "x-csrf-token": "abc",
+          },
+        ).status
+      - |
+        Http.patch(
+          "https://httpbin.org/patch",
+          query: {
+            q: :code,
+            category: :programming_languages
+          },
+        ).status
+      - |
+        Http.patch(
+          "https://httpbin.org/patch",
+          body: "hello world",
+        ).status
+      - |
+        Http.patch(
+          "https://httpbin.org/patch",
+          username: "dorianmariecom",
+          password: "my-secret-password",
+        ).status
+      - |
+        Http.patch(
+          "https://httpbin.org/patch",
+          data: { q: :code, category: :programming_language }
+        ).status
+      - |
+        Http.patch(
+          "https://httpbin.org/patch",
+          headers: {
+            accept: "application/json",
+            "x-csrf-token": "abc",
+          },
+          query: {
+            q: :code,
+            category: :programming_languages
+          },
+          body: "hello world",
+          username: "dorianmariecom",
+          password: "my-secret-password",
+          data: { q: :code, category: :programming_language }
+        ).status
   - name: post
+    examples:
+      - Http.post("https://httpbin.org/post").keys
+      - Http.post("https://httpbin.org/post").code
+      - Http.post("https://httpbin.org/post").status
+      - Http.post("https://httpbin.org/post").body.size
+      - |
+        Http.post(
+          "https://httpbin.org/post",
+          headers: {
+            accept: "application/json",
+            "x-csrf-token": "abc",
+          },
+        ).status
+      - |
+        Http.post(
+          "https://httpbin.org/post",
+          query: {
+            q: :code,
+            category: :programming_languages
+          },
+        ).status
+      - |
+        Http.post(
+          "https://httpbin.org/post",
+          body: "hello world",
+        ).status
+      - |
+        Http.post(
+          "https://httpbin.org/post",
+          username: "dorianmariecom",
+          password: "my-secret-password",
+        ).status
+      - |
+        Http.post(
+          "https://httpbin.org/post",
+          data: { q: :code, category: :programming_language }
+        ).status
+      - |
+        Http.post(
+          "https://httpbin.org/post",
+          headers: {
+            accept: "application/json",
+            "x-csrf-token": "abc",
+          },
+          query: {
+            q: :code,
+            category: :programming_languages
+          },
+          body: "hello world",
+          username: "dorianmariecom",
+          password: "my-secret-password",
+          data: { q: :code, category: :programming_language }
+        ).status
   - name: put
+    examples:
+      - Http.put("https://httpbin.org/put").keys
+      - Http.put("https://httpbin.org/put").code
+      - Http.put("https://httpbin.org/put").status
+      - Http.put("https://httpbin.org/put").body.size
+      - |
+        Http.put(
+          "https://httpbin.org/put",
+          headers: {
+            accept: "application/json",
+            "x-csrf-token": "abc",
+          },
+        ).status
+      - |
+        Http.put(
+          "https://httpbin.org/put",
+          query: {
+            q: :code,
+            category: :programming_languages
+          },
+        ).status
+      - |
+        Http.put(
+          "https://httpbin.org/put",
+          body: "hello world",
+        ).status
+      - |
+        Http.put(
+          "https://httpbin.org/put",
+          username: "dorianmariecom",
+          password: "my-secret-password",
+        ).status
+      - |
+        Http.put(
+          "https://httpbin.org/put",
+          data: { q: :code, category: :programming_language }
+        ).status
+      - |
+        Http.put(
+          "https://httpbin.org/put",
+          headers: {
+            accept: "application/json",
+            "x-csrf-token": "abc",
+          },
+          query: {
+            q: :code,
+            category: :programming_languages
+          },
+          body: "hello world",
+          username: "dorianmariecom",
+          password: "my-secret-password",
+          data: { q: :code, category: :programming_language }
+        ).status
   - name: trace
+    examples:
+      - Http.trace("https://httpbin.org/trace").keys
+      - Http.trace("https://httpbin.org/trace").code
+      - Http.trace("https://httpbin.org/trace").status
+      - Http.trace("https://httpbin.org/trace").body.size
+      - |
+        Http.trace(
+          "https://httpbin.org/trace",
+          headers: {
+            accept: "application/json",
+            "x-csrf-token": "abc",
+          },
+        ).status
+      - |
+        Http.trace(
+          "https://httpbin.org/trace",
+          query: {
+            q: :code,
+            category: :programming_languages
+          },
+        ).status
+      - |
+        Http.trace(
+          "https://httpbin.org/trace",
+          body: "hello world",
+        ).status
+      - |
+        Http.trace(
+          "https://httpbin.org/trace",
+          username: "dorianmariecom",
+          password: "my-secret-password",
+        ).status
+      - |
+        Http.trace(
+          "https://httpbin.org/trace",
+          data: { q: :code, category: :programming_language }
+        ).status
+      - |
+        Http.trace(
+          "https://httpbin.org/trace",
+          headers: {
+            accept: "application/json",
+            "x-csrf-token": "abc",
+          },
+          query: {
+            q: :code,
+            category: :programming_languages
+          },
+          body: "hello world",
+          username: "dorianmariecom",
+          password: "my-secret-password",
+          data: { q: :code, category: :programming_language }
+        ).status
   examples:
   - Http.get("https://codedorian.com").keys
   - Http.get("https://codedorian.com").code
@@ -866,81 +1316,321 @@
   parent: Object
 - name: IdentifierList
   parent: List
+  examples:
+    - IdentifierList.new
+    - IdentifierList.new([:a, :b, :c])
 - examples:
   - '1'
   - '1000000000000000'
   - 1e100
   instance_functions:
   - name: "%"
+    examples:
+      - "12 % 10"
+      - "-1 % 10.1"
   - name: "&"
+    examples:
+      - "1 & 0"
+      - "1 & 1"
+      - "2 & 1.1"
   - name: "*"
+    examples:
+      - "10 * 5"
+      - "2 * 3.1"
+      - "2 * :hello"
   - name: "**"
+    examples:
+      - "10 ** 2"
+      - "10 ** 2.1"
   - name: "+"
+    examples:
+      - "10 + 2"
+      - "10 + 2.1"
+      - "10 + :a"
+      - "10 + [1, 2, 3]"
   - name: "-"
+    examples:
+      - "10 - 2"
+      - "10 - 2.1"
   - name: "/"
+    examples:
+      - "10 / 2"
+      - "10 / 2.1"
   - name: "<"
+    examples:
+      - "10 < 2"
+      - "10 < 2.1"
   - name: !!str '<<'
+    examples:
+      - "10 << 2"
+      - "10 << 2.1"
   - name: "<="
+    examples:
+      - "10 <= 2"
+      - "10 <= 2.1"
   - name: "<=>"
+    examples:
+      - "10 <=> 2"
+      - "10 <=> 2.1"
   - name: ">"
+    examples:
+      - "10 > 2"
+      - "10 > 2.1"
   - name: ">="
+    examples:
+      - "10 >= 2"
+      - "10 >= 2.1"
   - name: ">>"
+    examples:
+      - "10 >> 2"
+      - "10 >> 2.1"
   - name: "^"
+    examples:
+      - "10 ^ 2"
+      - "10 ^ 2.1"
   - name: abs
+    examples:
+      - "-10.abs"
+      - "5.abs"
   - name: bitwise_and
+    examples:
+      - "10.bitwise_and(2)"
+      - "10.bitwise_and(2.1)"
   - name: bitwise_or
+    examples:
+      - "10.bitwise_or(2)"
+      - "10.bitwise_or(2.1)"
   - name: bitwise_xor
+    examples:
+      - "10.bitwise_xor(2)"
+      - "10.bitwise_xor(2.1)"
   - name: ceil
+    examples:
+      - "123.ceil"
+      - "123.ceil(-2)"
+      - "123.ceil(-1)"
+      - "123.ceil(0)"
+      - "123.ceil(1)"
+      - "123.ceil(2)"
   - name: clone
+    examples:
+      - "123.clone"
   - name: compare
+    examples:
+      - "10.compare(2)"
+      - "10.compare(2.1)"
   - name: day
+    examples:
+      - "-2.day"
+      - "-1.day"
+      - "0.day"
+      - "1.day"
+      - "2.day"
   - name: days
+    examples:
+      - "-2.days"
+      - "-1.days"
+      - "0.days"
+      - "1.days"
+      - "2.days"
   - name: decrement
+    examples:
+      - 1.decrement
+      - 10.decrement
+      - 10.decrement(2)
   - name: decrement!
+    examples:
+      - i = 1 i.decrement! i
+      - i = 10 i.decrement! i
+      - i = 10 i.decrement!(2) i
   - name: division
+    examples:
+      - "10.division(2)"
+      - "10.division(2.1)"
   - name: eight?
+    examples:
+      - "8.eight?"
+      - "11.eight?"
   - name: even?
+    examples:
+      - "8.even?"
+      - "11.even?"
   - name: five?
+    examples:
+      - "5.five?"
+      - "11.five?"
   - name: floor
+    examples:
+      - "123.floor"
+      - "123.floor(-2)"
+      - "123.floor(-1)"
+      - "123.floor(0)"
+      - "123.floor(1)"
+      - "123.floor(2)"
   - name: four?
+    examples:
+      - "4.four?"
+      - "11.four?"
   - name: hour
+    examples:
+      - "-2.hour"
+      - "-1.hour"
+      - "0.hour"
+      - "1.hour"
+      - "2.hour"
   - name: hours
+    examples:
+      - "-2.hours"
+      - "-1.hours"
+      - "0.hours"
+      - "1.hours"
+      - "2.hours"
   - name: increment
+    examples:
+      - 1.increment
+      - 10.increment
+      - 10.increment(2)
   - name: increment!
+    examples:
+      - i = 1 i.increment! i
+      - i = 10 i.increment! i
+      - i = 10 i.increment!(2) i
   - name: inferior
+    examples:
+      - "10.inferior(2)"
+      - "10.inferior(2.1)"
   - name: inferior_or_equal
+    examples:
+      - "10.inferior_or_equal(2)"
+      - "10.inferior_or_equal(2.1)"
   - name: left_shift
+    examples:
+      - "10.left_shift(2)"
+      - "10.left_shift(2.1)"
   - name: minus
+    examples:
+      - "10.minus(2)"
+      - "10.minus(2.1)"
   - name: modulo
+    examples:
+      - "10.modulo(2)"
+      - "10.modulo(2.1)"
   - name: multiplication
+    examples:
+      - "10.multiplication(5)"
+      - "2.multiplication(3.1)"
+      - "2.multiplication(:hello)"
   - name: nine?
+    examples:
+      - "9.nine?"
+      - "11.nine?"
   - name: odd?
+    examples:
+      - "11.odd?"
+      - "8.odd?"
   - name: one?
+    examples:
+      - "1.one?"
+      - "11.one?"
   - name: plus
+    examples:
+      - "10.plus(2)"
+      - "10.plus(2.1)"
+      - "10.plus(:a)"
+      - "10.plus([1, 2, 3])"
   - name: power
+    examples:
+      - "10.power(2)"
+      - "10.power(2.1)"
   - name: right_shift
+    examples:
+      - "10.right_shift(2)"
+      - "10.right_shift(2.1)"
   - name: round
-  - name: self
+    examples:
+      - "123.round"
+      - "123.round(-2)"
+      - "123.round(-1)"
+      - "123.round(0)"
+      - "123.round(1)"
+      - "123.round(2)"
   - name: seven?
+    examples:
+      - "7.seven?"
+      - "11.seven?"
   - name: six?
+    examples:
+      - "6.six?"
+      - "11.six?"
   - name: sqrt
+    examples:
+      - "2.sqrt"
+      - "4.sqrt"
+      - "16.sqrt"
+      - "100.sqrt"
   - name: superior
+    examples:
+      - "10.superior(2)"
+      - "10.superior(2.1)"
   - name: superior_or_equal
+    examples:
+      - "10.superior_or_equal(2)"
+      - "10.superior_or_equal(2.1)"
   - name: ten?
+    examples:
+      - "10.ten?"
+      - "11.ten?"
   - name: three?
+    examples:
+      - "3.three?"
+      - "11.three?"
   - name: times
+    examples:
+      - "2.times { puts(:hello) }"
+      - "2.times { |i| puts(i) }"
+      - "2.times { |i, self| puts(i, self) }"
   - name: truncate
+    examples:
+      - "123.truncate"
+      - "123.truncate(-2)"
+      - "123.truncate(-1)"
+      - "123.truncate(0)"
+      - "123.truncate(1)"
+      - "123.truncate(2)"
   - name: two?
+    examples:
+      - "2.two?"
+      - "11.two?"
   - name: unary_minus
+    examples:
+      - "10.superior_or_equal(2)"
+      - "10.superior_or_equal(2.1)"
   - name: zero?
+    examples:
+      - "0.zero?"
+      - "11.zero?"
   - name: "|"
+    examples:
+      - "10 | 5"
+      - "2 | 3.1"
   - name: "×"
+    examples:
+      - "10 × 5"
+      - "2 × 3.1"
+      - "2 × :hello"
   - name: "÷"
+    examples:
+      - "10 ÷ 5"
+      - "2 ÷ 3.1"
   name: Integer
   parent: Object
 - class_functions:
   - name: parse
+    examples:
+    - 'Json.parse(''{"a": 1}'')'
+    - 'response = { body: ''{"a": 1}'' } Json.parse(response.body)'
   examples:
+  - 'Json.parse(''{"a": 1}'')'
   - 'response = { body: ''{"a": 1}'' } Json.parse(response.body)'
   name: Json
   parent: Object
