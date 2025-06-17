@@ -157,82 +157,82 @@
   parent: Object
 - examples:
   - '1.0'
-  - "1e1.0"
-  - "2.3e2"
+  - 1e1.0
+  - 2.3e2
   instance_functions:
   - examples:
-    - "10.1 % 6"
-    - "10.1 % 6.1"
+    - 10.1 % 6
+    - 10.1 % 6.1
     name: "%"
   - examples:
-    - "10.1 & 6"
-    - "10.1 & 6.1"
+    - 10.1 & 6
+    - 10.1 & 6.1
     name: "&"
   - examples:
-    - "10.1 * 6"
-    - "10.1 * 6.1"
+    - 10.1 * 6
+    - 10.1 * 6.1
     name: "*"
   - examples:
-    - "10.1 ** 6"
-    - "10.1 ** 6.1"
+    - 10.1 ** 6
+    - 10.1 ** 6.1
     name: "**"
   - examples:
-    - "10.1 + 6"
-    - "10.1 + 6.1"
-    - "10.1 + :hello"
-    - "10.1 + [1, 2, 3]"
+    - 10.1 + 6
+    - 10.1 + 6.1
+    - 10.1 + :hello
+    - 10.1 + [1, 2, 3]
     name: "+"
   - examples:
-    - "10.1 - 6"
-    - "10.1 - 6.1"
+    - 10.1 - 6
+    - 10.1 - 6.1
     name: "-"
   - examples:
-    - "10.1 / 6"
-    - "10.1 / 6.1"
+    - 10.1 / 6
+    - 10.1 / 6.1
     name: "/"
   - examples:
-    - "10.1 < 6"
-    - "10.1 < 6.1"
+    - 10.1 < 6
+    - 10.1 < 6.1
     name: "<"
   - examples:
-    - "10.1 << 6"
-    - "10.1 << 6.1"
+    - 10.1 << 6
+    - 10.1 << 6.1
     name: !!str '<<'
   - examples:
-    - "10.1 <= 6"
-    - "10.1 <= 6.1"
+    - 10.1 <= 6
+    - 10.1 <= 6.1
     name: "<="
   - examples:
-    - "10.1 <=> 6"
-    - "10.1 <=> 6.1"
+    - 10.1 <=> 6
+    - 10.1 <=> 6.1
     name: "<=>"
   - examples:
-    - "10.1 > 6"
-    - "10.1 > 6.1"
+    - 10.1 > 6
+    - 10.1 > 6.1
     name: ">"
   - examples:
-    - "10.1 >= 6"
-    - "10.1 >= 6.1"
+    - 10.1 >= 6
+    - 10.1 >= 6.1
     name: ">="
   - examples:
-    - "10.1 >> 6"
-    - "10.1 >> 6.1"
+    - 10.1 >> 6
+    - 10.1 >> 6.1
     name: ">>"
   - examples:
-    - "10.1 ^ 6"
-    - "10.1 ^ 6.1"
+    - 10.1 ^ 6
+    - 10.1 ^ 6.1
     name: "^"
   - examples:
     - "-10.1.abs"
-    - "6.1.abs"
+    - 6.1.abs
     name: abs
   - examples:
-    - "10.1.bitwise_and(6)"
-    - "10.1.bitwise_and(6.1)"
+    - 10.1.bitwise_and(6)
+    - 10.1.bitwise_and(6.1)
     name: bitwise_and
   - examples:
-    - "10.1.bitwise_or(6)"
-    - "10.1.bitwise_or(6.1)"
+    - 10.1.bitwise_or(6)
+    - 10.1.bitwise_or(6.1)
     name: bitwise_or
   - examples:
     - 10.1.bitwise_xor(6)
@@ -386,11 +386,11 @@
     - 0.0.zero?
     name: zero?
   - examples:
-    - "10.1 | 6"
-    - "10.1 | 6.1"
+    - 10.1 | 6
+    - 10.1 | 6.1
     name: "|"
   name: Decimal
-  parent: Object
+  parent: Number
 - examples:
   - "!{}"
   - Dictionary.new
@@ -651,7 +651,10 @@
     - 1.day.ago
     - 2.days.ago
     name: ago
-  - name: from_now - "1.day.from_now" - "2.days.from_now"
+  - examples:
+    - 1.day.from_now
+    - 2.days.from_now
+    name: from_now
   name: Duration
   parent: Object
 - examples:
@@ -689,6 +692,8 @@
     reference: Code
   - name: Context
     reference: Context
+  - name: Current
+    reference: Current
   - name: Date
     reference: Date
   - name: Decimal
@@ -711,8 +716,12 @@
     reference: Json
   - name: List
     reference: List
+  - name: Message
+    reference: Message
   - name: Nothing
     reference: Nothing
+  - name: Notification
+    reference: Notification
   - name: Object
     reference: Object
   - name: Parameter
@@ -725,589 +734,591 @@
     reference: String
   - name: Time
     reference: Time
-  - name: break
-    examples:
-      - |
-        a = 1
-        while a < 10
-          break if a > 5
+  - name: User
+    reference: User
+  - examples:
+    - |
+      a = 1
+      while a < 10
+        break if a > 5
 
-          a += 1
-        end
-        a
-      - |
-        a = 1
-        b = while a < 10
-          break(20) if a > 5
+        a += 1
+      end
+      a
+    - |
+      a = 1
+      b = while a < 10
+        break(20) if a > 5
 
-          a += 1
-        end
-        b
-  - name: context
-    examples:
-      - context
-  - name: evaluate
-    examples:
-      - 'evaluate("1 + 1")'
-  - name: next
-    examples:
-      - |
-        [1, 2, 3].map do |i|
-          next(5) if i.two?
+        a += 1
+      end
+      b
+    name: break
+  - examples:
+    - context
+    name: context
+  - examples:
+    - evaluate("1 + 1")
+    name: evaluate
+  - examples:
+    - |
+      [1, 2, 3].map do |i|
+        next(5) if i.two?
 
-          i + 10
-        end
-  - name: p
-    examples:
-      - 'p(:hello)'
-      - 'p("hello world")'
-      - p(1)
-      - p(nothing)
-      - a = 1 p(a + a)
-      - p([1, 2, 3])
-      - 'p({a: 1, b: 2, c: 3})'
-  - name: print
-    examples:
-      - 'print(:hello)'
-      - 'print("hello world")'
-      - print(1)
-      - print(nothing)
-      - a = 1 print(a + a)
-      - print([1, 2, 3])
-      - 'print({a: 1, b: 2, c: 3})'
-  - name: puts
-    examples:
-      - 'puts(:hello)'
-      - 'puts("hello world")'
-      - puts(1)
-      - puts(nothing)
-      - a = 1 puts(a + a)
-      - puts([1, 2, 3])
-      - 'puts({a: 1, b: 2, c: 3})'
-  - name: read
-    examples:
-      - read
+        i + 10
+      end
+    name: next
+  - examples:
+    - p(:hello)
+    - p("hello world")
+    - p(1)
+    - p(nothing)
+    - a = 1 p(a + a)
+    - p([1, 2, 3])
+    - 'p({a: 1, b: 2, c: 3})'
+    name: p
+  - examples:
+    - print(:hello)
+    - print("hello world")
+    - print(1)
+    - print(nothing)
+    - a = 1 print(a + a)
+    - print([1, 2, 3])
+    - 'print({a: 1, b: 2, c: 3})'
+    name: print
+  - examples:
+    - puts(:hello)
+    - puts("hello world")
+    - puts(1)
+    - puts(nothing)
+    - a = 1 puts(a + a)
+    - puts([1, 2, 3])
+    - 'puts({a: 1, b: 2, c: 3})'
+    name: puts
+  - examples:
+    - read
+    name: read
   name: Global
   parent: Object
 - class_functions:
-  - name: escape
-    examples:
-      - Html.escape("How'dy")
-  - name: link_to
-    examples:
-      - Html.link_to(:code, "https://codedorian.com")
+  - examples:
+    - Html.escape("How'dy")
+    name: escape
+  - examples:
+    - Html.link_to(:code, "https://codedorian.com")
+    name: link_to
   examples:
   - Html.link_to(:code, "https://codedorian.com")
   - Html.new(Http.get("https://codedorian.com").body)
   instance_functions:
-  - name: at_css
-    examples:
-      - Html.new("<h1>hello</h1><h1>world</h1>").at_css("h1")
-  - name: css
-    examples:
-      - Html.new("<h1>hello</h1><h1>world</h1>").css("h1")
-  - name: map
-    examples:
+  - examples:
+    - Html.new("<h1>hello</h1><h1>world</h1>").at_css("h1")
+    name: at_css
+  - examples:
+    - Html.new("<h1>hello</h1><h1>world</h1>").css("h1")
+    name: css
+  - examples:
     - Html.new("<h1>hello</h1><h1>world</h1>").css("h1").map(&:to_string).join
-  - name: to_string
-    examples:
-      - Html.new("<h1>hello</h1><h1>world</h1>").at_css("h1").to_string
-      - Html.new("<h1>hello</h1><h1>world</h1>").css("h1").to_string
+    name: map
+  - examples:
+    - Html.new("<h1>hello</h1><h1>world</h1>").at_css("h1").to_string
+    - Html.new("<h1>hello</h1><h1>world</h1>").css("h1").to_string
+    name: to_string
   name: Html
   parent: Object
 - class_functions:
-  - name: delete
-    examples:
-      - Http.delete("https://httpbin.org/delete").keys
-      - Http.delete("https://httpbin.org/delete").code
-      - Http.delete("https://httpbin.org/delete").status
-      - Http.delete("https://httpbin.org/delete").body.size
-      - |
-        Http.delete(
-          "https://httpbin.org/delete",
-          headers: {
-            accept: "application/json",
-            "x-csrf-token": "abc",
-          },
-        ).status
-      - |
-        Http.delete(
-          "https://httpbin.org/delete",
-          query: {
-            q: :code,
-            category: :programming_languages
-          },
-        ).status
-      - |
-        Http.delete(
-          "https://httpbin.org/delete",
-          body: "hello world",
-        ).status
-      - |
-        Http.delete(
-          "https://httpbin.org/delete",
-          username: "dorianmariecom",
-          password: "my-secret-password",
-        ).status
-      - |
-        Http.delete(
-          "https://httpbin.org/delete",
-          data: { q: :code, category: :programming_language }
-        ).status
-      - |
-        Http.delete(
-          "https://httpbin.org/delete",
-          headers: {
-            accept: "application/json",
-            "x-csrf-token": "abc",
-          },
-          query: {
-            q: :code,
-            category: :programming_languages
-          },
-          body: "hello world",
-          username: "dorianmariecom",
-          password: "my-secret-password",
-          data: { q: :code, category: :programming_language }
-        ).status
-  - name: fetch
-    examples:
-      - Http.fetch(:post, "https://httpbin.org/post").keys
-      - Http.fetch(:patch, "https://httpbin.org/patch").code
-      - Http.fetch(:put, "https://httpbin.org/put").status
-      - Http.fetch(:delete, "https://httpbin.org/delete").body.size
-      - |
-        Http.fetch(
-          :get,
-          "https://httpbin.org/get",
-          headers: {
-            accept: "application/json",
-            "x-csrf-token": "abc",
-          },
-        ).status
-      - |
-        Http.fetch(
-          :get,
-          "https://httpbin.org/get",
-          query: {
-            q: :code,
-            category: :programming_languages
-          },
-        ).status
-      - |
-        Http.fetch(
-          :post,
-          "https://httpbin.org/post",
-          body: "hello world",
-        ).status
-      - |
-        Http.fetch(
-          :post,
-          "https://httpbin.org/post",
-          username: "dorianmariecom",
-          password: "my-secret-password",
-        ).status
-      - |
-        Http.fetch(
-          :post,
-          "https://httpbin.org/post",
-          data: { q: :code, category: :programming_language }
-        ).status
-      - |
-        Http.fetch(
-          :post,
-          "https://httpbin.org/post",
-          headers: {
-            accept: "application/json",
-            "x-csrf-token": "abc",
-          },
-          query: {
-            q: :code,
-            category: :programming_languages
-          },
-          body: "hello world",
-          username: "dorianmariecom",
-          password: "my-secret-password",
-          data: { q: :code, category: :programming_language }
-        ).status
-  - name: get
-    examples:
-      - Http.get("https://httpbin.org/get").keys
-      - Http.get("https://httpbin.org/get").code
-      - Http.get("https://httpbin.org/get").status
-      - Http.get("https://httpbin.org/get").body.size
-      - |
-        Http.get(
-          "https://httpbin.org/get",
-          headers: {
-            accept: "application/json",
-            "x-csrf-token": "abc",
-          },
-        ).status
-      - |
-        Http.get(
-          "https://httpbin.org/get",
-          query: {
-            q: :code,
-            category: :programming_languages
-          },
-        ).status
-      - |
-        Http.get(
-          "https://httpbin.org/get",
-          body: "hello world",
-        ).status
-      - |
-        Http.get(
-          "https://httpbin.org/get",
-          username: "dorianmariecom",
-          password: "my-secret-password",
-        ).status
-      - |
-        Http.get(
-          "https://httpbin.org/get",
-          data: { q: :code, category: :programming_language }
-        ).status
-      - |
-        Http.get(
-          "https://httpbin.org/get",
-          headers: {
-            accept: "application/json",
-            "x-csrf-token": "abc",
-          },
-          query: {
-            q: :code,
-            category: :programming_languages
-          },
-          body: "hello world",
-          username: "dorianmariecom",
-          password: "my-secret-password",
-          data: { q: :code, category: :programming_language }
-        ).status
-  - name: head
-    examples:
-      - Http.head("https://httpbin.org/head").keys
-      - Http.head("https://httpbin.org/head").code
-      - Http.head("https://httpbin.org/head").status
-      - Http.head("https://httpbin.org/head").body.size
-      - |
-        Http.head(
-          "https://httpbin.org/head",
-          headers: {
-            accept: "application/json",
-            "x-csrf-token": "abc",
-          },
-        ).status
-      - |
-        Http.head(
-          "https://httpbin.org/head",
-          query: {
-            q: :code,
-            category: :programming_languages
-          },
-        ).status
-      - |
-        Http.head(
-          "https://httpbin.org/head",
-          body: "hello world",
-        ).status
-      - |
-        Http.head(
-          "https://httpbin.org/head",
-          username: "dorianmariecom",
-          password: "my-secret-password",
-        ).status
-      - |
-        Http.head(
-          "https://httpbin.org/head",
-          data: { q: :code, category: :programming_language }
-        ).status
-      - |
-        Http.head(
-          "https://httpbin.org/head",
-          headers: {
-            accept: "application/json",
-            "x-csrf-token": "abc",
-          },
-          query: {
-            q: :code,
-            category: :programming_languages
-          },
-          body: "hello world",
-          username: "dorianmariecom",
-          password: "my-secret-password",
-          data: { q: :code, category: :programming_language }
-        ).status
-  - name: options
-    examples:
-      - Http.options("https://httpbin.org/options").keys
-      - Http.options("https://httpbin.org/options").code
-      - Http.options("https://httpbin.org/options").status
-      - Http.options("https://httpbin.org/options").body.size
-      - |
-        Http.options(
-          "https://httpbin.org/options",
-          headers: {
-            accept: "application/json",
-            "x-csrf-token": "abc",
-          },
-        ).status
-      - |
-        Http.options(
-          "https://httpbin.org/options",
-          query: {
-            q: :code,
-            category: :programming_languages
-          },
-        ).status
-      - |
-        Http.options(
-          "https://httpbin.org/options",
-          body: "hello world",
-        ).status
-      - |
-        Http.options(
-          "https://httpbin.org/options",
-          username: "dorianmariecom",
-          password: "my-secret-password",
-        ).status
-      - |
-        Http.options(
-          "https://httpbin.org/options",
-          data: { q: :code, category: :programming_language }
-        ).status
-      - |
-        Http.options(
-          "https://httpbin.org/options",
-          headers: {
-            accept: "application/json",
-            "x-csrf-token": "abc",
-          },
-          query: {
-            q: :code,
-            category: :programming_languages
-          },
-          body: "hello world",
-          username: "dorianmariecom",
-          password: "my-secret-password",
-          data: { q: :code, category: :programming_language }
-        ).status
-  - name: patch
-    examples:
-      - Http.patch("https://httpbin.org/patch").keys
-      - Http.patch("https://httpbin.org/patch").code
-      - Http.patch("https://httpbin.org/patch").status
-      - Http.patch("https://httpbin.org/patch").body.size
-      - |
-        Http.patch(
-          "https://httpbin.org/patch",
-          headers: {
-            accept: "application/json",
-            "x-csrf-token": "abc",
-          },
-        ).status
-      - |
-        Http.patch(
-          "https://httpbin.org/patch",
-          query: {
-            q: :code,
-            category: :programming_languages
-          },
-        ).status
-      - |
-        Http.patch(
-          "https://httpbin.org/patch",
-          body: "hello world",
-        ).status
-      - |
-        Http.patch(
-          "https://httpbin.org/patch",
-          username: "dorianmariecom",
-          password: "my-secret-password",
-        ).status
-      - |
-        Http.patch(
-          "https://httpbin.org/patch",
-          data: { q: :code, category: :programming_language }
-        ).status
-      - |
-        Http.patch(
-          "https://httpbin.org/patch",
-          headers: {
-            accept: "application/json",
-            "x-csrf-token": "abc",
-          },
-          query: {
-            q: :code,
-            category: :programming_languages
-          },
-          body: "hello world",
-          username: "dorianmariecom",
-          password: "my-secret-password",
-          data: { q: :code, category: :programming_language }
-        ).status
-  - name: post
-    examples:
-      - Http.post("https://httpbin.org/post").keys
-      - Http.post("https://httpbin.org/post").code
-      - Http.post("https://httpbin.org/post").status
-      - Http.post("https://httpbin.org/post").body.size
-      - |
-        Http.post(
-          "https://httpbin.org/post",
-          headers: {
-            accept: "application/json",
-            "x-csrf-token": "abc",
-          },
-        ).status
-      - |
-        Http.post(
-          "https://httpbin.org/post",
-          query: {
-            q: :code,
-            category: :programming_languages
-          },
-        ).status
-      - |
-        Http.post(
-          "https://httpbin.org/post",
-          body: "hello world",
-        ).status
-      - |
-        Http.post(
-          "https://httpbin.org/post",
-          username: "dorianmariecom",
-          password: "my-secret-password",
-        ).status
-      - |
-        Http.post(
-          "https://httpbin.org/post",
-          data: { q: :code, category: :programming_language }
-        ).status
-      - |
-        Http.post(
-          "https://httpbin.org/post",
-          headers: {
-            accept: "application/json",
-            "x-csrf-token": "abc",
-          },
-          query: {
-            q: :code,
-            category: :programming_languages
-          },
-          body: "hello world",
-          username: "dorianmariecom",
-          password: "my-secret-password",
-          data: { q: :code, category: :programming_language }
-        ).status
-  - name: put
-    examples:
-      - Http.put("https://httpbin.org/put").keys
-      - Http.put("https://httpbin.org/put").code
-      - Http.put("https://httpbin.org/put").status
-      - Http.put("https://httpbin.org/put").body.size
-      - |
-        Http.put(
-          "https://httpbin.org/put",
-          headers: {
-            accept: "application/json",
-            "x-csrf-token": "abc",
-          },
-        ).status
-      - |
-        Http.put(
-          "https://httpbin.org/put",
-          query: {
-            q: :code,
-            category: :programming_languages
-          },
-        ).status
-      - |
-        Http.put(
-          "https://httpbin.org/put",
-          body: "hello world",
-        ).status
-      - |
-        Http.put(
-          "https://httpbin.org/put",
-          username: "dorianmariecom",
-          password: "my-secret-password",
-        ).status
-      - |
-        Http.put(
-          "https://httpbin.org/put",
-          data: { q: :code, category: :programming_language }
-        ).status
-      - |
-        Http.put(
-          "https://httpbin.org/put",
-          headers: {
-            accept: "application/json",
-            "x-csrf-token": "abc",
-          },
-          query: {
-            q: :code,
-            category: :programming_languages
-          },
-          body: "hello world",
-          username: "dorianmariecom",
-          password: "my-secret-password",
-          data: { q: :code, category: :programming_language }
-        ).status
-  - name: trace
-    examples:
-      - Http.trace("https://httpbin.org/trace").keys
-      - Http.trace("https://httpbin.org/trace").code
-      - Http.trace("https://httpbin.org/trace").status
-      - Http.trace("https://httpbin.org/trace").body.size
-      - |
-        Http.trace(
-          "https://httpbin.org/trace",
-          headers: {
-            accept: "application/json",
-            "x-csrf-token": "abc",
-          },
-        ).status
-      - |
-        Http.trace(
-          "https://httpbin.org/trace",
-          query: {
-            q: :code,
-            category: :programming_languages
-          },
-        ).status
-      - |
-        Http.trace(
-          "https://httpbin.org/trace",
-          body: "hello world",
-        ).status
-      - |
-        Http.trace(
-          "https://httpbin.org/trace",
-          username: "dorianmariecom",
-          password: "my-secret-password",
-        ).status
-      - |
-        Http.trace(
-          "https://httpbin.org/trace",
-          data: { q: :code, category: :programming_language }
-        ).status
-      - |
-        Http.trace(
-          "https://httpbin.org/trace",
-          headers: {
-            accept: "application/json",
-            "x-csrf-token": "abc",
-          },
-          query: {
-            q: :code,
-            category: :programming_languages
-          },
-          body: "hello world",
-          username: "dorianmariecom",
-          password: "my-secret-password",
-          data: { q: :code, category: :programming_language }
-        ).status
+  - examples:
+    - Http.delete("https://httpbin.org/delete").keys
+    - Http.delete("https://httpbin.org/delete").code
+    - Http.delete("https://httpbin.org/delete").status
+    - Http.delete("https://httpbin.org/delete").body.size
+    - |
+      Http.delete(
+        "https://httpbin.org/delete",
+        headers: {
+          accept: "application/json",
+          "x-csrf-token": "abc",
+        },
+      ).status
+    - |
+      Http.delete(
+        "https://httpbin.org/delete",
+        query: {
+          q: :code,
+          category: :programming_languages
+        },
+      ).status
+    - |
+      Http.delete(
+        "https://httpbin.org/delete",
+        body: "hello world",
+      ).status
+    - |
+      Http.delete(
+        "https://httpbin.org/delete",
+        username: "dorianmariecom",
+        password: "my-secret-password",
+      ).status
+    - |
+      Http.delete(
+        "https://httpbin.org/delete",
+        data: { q: :code, category: :programming_language }
+      ).status
+    - |
+      Http.delete(
+        "https://httpbin.org/delete",
+        headers: {
+          accept: "application/json",
+          "x-csrf-token": "abc",
+        },
+        query: {
+          q: :code,
+          category: :programming_languages
+        },
+        body: "hello world",
+        username: "dorianmariecom",
+        password: "my-secret-password",
+        data: { q: :code, category: :programming_language }
+      ).status
+    name: delete
+  - examples:
+    - Http.fetch(:post, "https://httpbin.org/post").keys
+    - Http.fetch(:patch, "https://httpbin.org/patch").code
+    - Http.fetch(:put, "https://httpbin.org/put").status
+    - Http.fetch(:delete, "https://httpbin.org/delete").body.size
+    - |
+      Http.fetch(
+        :get,
+        "https://httpbin.org/get",
+        headers: {
+          accept: "application/json",
+          "x-csrf-token": "abc",
+        },
+      ).status
+    - |
+      Http.fetch(
+        :get,
+        "https://httpbin.org/get",
+        query: {
+          q: :code,
+          category: :programming_languages
+        },
+      ).status
+    - |
+      Http.fetch(
+        :post,
+        "https://httpbin.org/post",
+        body: "hello world",
+      ).status
+    - |
+      Http.fetch(
+        :post,
+        "https://httpbin.org/post",
+        username: "dorianmariecom",
+        password: "my-secret-password",
+      ).status
+    - |
+      Http.fetch(
+        :post,
+        "https://httpbin.org/post",
+        data: { q: :code, category: :programming_language }
+      ).status
+    - |
+      Http.fetch(
+        :post,
+        "https://httpbin.org/post",
+        headers: {
+          accept: "application/json",
+          "x-csrf-token": "abc",
+        },
+        query: {
+          q: :code,
+          category: :programming_languages
+        },
+        body: "hello world",
+        username: "dorianmariecom",
+        password: "my-secret-password",
+        data: { q: :code, category: :programming_language }
+      ).status
+    name: fetch
+  - examples:
+    - Http.get("https://httpbin.org/get").keys
+    - Http.get("https://httpbin.org/get").code
+    - Http.get("https://httpbin.org/get").status
+    - Http.get("https://httpbin.org/get").body.size
+    - |
+      Http.get(
+        "https://httpbin.org/get",
+        headers: {
+          accept: "application/json",
+          "x-csrf-token": "abc",
+        },
+      ).status
+    - |
+      Http.get(
+        "https://httpbin.org/get",
+        query: {
+          q: :code,
+          category: :programming_languages
+        },
+      ).status
+    - |
+      Http.get(
+        "https://httpbin.org/get",
+        body: "hello world",
+      ).status
+    - |
+      Http.get(
+        "https://httpbin.org/get",
+        username: "dorianmariecom",
+        password: "my-secret-password",
+      ).status
+    - |
+      Http.get(
+        "https://httpbin.org/get",
+        data: { q: :code, category: :programming_language }
+      ).status
+    - |
+      Http.get(
+        "https://httpbin.org/get",
+        headers: {
+          accept: "application/json",
+          "x-csrf-token": "abc",
+        },
+        query: {
+          q: :code,
+          category: :programming_languages
+        },
+        body: "hello world",
+        username: "dorianmariecom",
+        password: "my-secret-password",
+        data: { q: :code, category: :programming_language }
+      ).status
+    name: get
+  - examples:
+    - Http.head("https://httpbin.org/head").keys
+    - Http.head("https://httpbin.org/head").code
+    - Http.head("https://httpbin.org/head").status
+    - Http.head("https://httpbin.org/head").body.size
+    - |
+      Http.head(
+        "https://httpbin.org/head",
+        headers: {
+          accept: "application/json",
+          "x-csrf-token": "abc",
+        },
+      ).status
+    - |
+      Http.head(
+        "https://httpbin.org/head",
+        query: {
+          q: :code,
+          category: :programming_languages
+        },
+      ).status
+    - |
+      Http.head(
+        "https://httpbin.org/head",
+        body: "hello world",
+      ).status
+    - |
+      Http.head(
+        "https://httpbin.org/head",
+        username: "dorianmariecom",
+        password: "my-secret-password",
+      ).status
+    - |
+      Http.head(
+        "https://httpbin.org/head",
+        data: { q: :code, category: :programming_language }
+      ).status
+    - |
+      Http.head(
+        "https://httpbin.org/head",
+        headers: {
+          accept: "application/json",
+          "x-csrf-token": "abc",
+        },
+        query: {
+          q: :code,
+          category: :programming_languages
+        },
+        body: "hello world",
+        username: "dorianmariecom",
+        password: "my-secret-password",
+        data: { q: :code, category: :programming_language }
+      ).status
+    name: head
+  - examples:
+    - Http.options("https://httpbin.org/options").keys
+    - Http.options("https://httpbin.org/options").code
+    - Http.options("https://httpbin.org/options").status
+    - Http.options("https://httpbin.org/options").body.size
+    - |
+      Http.options(
+        "https://httpbin.org/options",
+        headers: {
+          accept: "application/json",
+          "x-csrf-token": "abc",
+        },
+      ).status
+    - |
+      Http.options(
+        "https://httpbin.org/options",
+        query: {
+          q: :code,
+          category: :programming_languages
+        },
+      ).status
+    - |
+      Http.options(
+        "https://httpbin.org/options",
+        body: "hello world",
+      ).status
+    - |
+      Http.options(
+        "https://httpbin.org/options",
+        username: "dorianmariecom",
+        password: "my-secret-password",
+      ).status
+    - |
+      Http.options(
+        "https://httpbin.org/options",
+        data: { q: :code, category: :programming_language }
+      ).status
+    - |
+      Http.options(
+        "https://httpbin.org/options",
+        headers: {
+          accept: "application/json",
+          "x-csrf-token": "abc",
+        },
+        query: {
+          q: :code,
+          category: :programming_languages
+        },
+        body: "hello world",
+        username: "dorianmariecom",
+        password: "my-secret-password",
+        data: { q: :code, category: :programming_language }
+      ).status
+    name: options
+  - examples:
+    - Http.patch("https://httpbin.org/patch").keys
+    - Http.patch("https://httpbin.org/patch").code
+    - Http.patch("https://httpbin.org/patch").status
+    - Http.patch("https://httpbin.org/patch").body.size
+    - |
+      Http.patch(
+        "https://httpbin.org/patch",
+        headers: {
+          accept: "application/json",
+          "x-csrf-token": "abc",
+        },
+      ).status
+    - |
+      Http.patch(
+        "https://httpbin.org/patch",
+        query: {
+          q: :code,
+          category: :programming_languages
+        },
+      ).status
+    - |
+      Http.patch(
+        "https://httpbin.org/patch",
+        body: "hello world",
+      ).status
+    - |
+      Http.patch(
+        "https://httpbin.org/patch",
+        username: "dorianmariecom",
+        password: "my-secret-password",
+      ).status
+    - |
+      Http.patch(
+        "https://httpbin.org/patch",
+        data: { q: :code, category: :programming_language }
+      ).status
+    - |
+      Http.patch(
+        "https://httpbin.org/patch",
+        headers: {
+          accept: "application/json",
+          "x-csrf-token": "abc",
+        },
+        query: {
+          q: :code,
+          category: :programming_languages
+        },
+        body: "hello world",
+        username: "dorianmariecom",
+        password: "my-secret-password",
+        data: { q: :code, category: :programming_language }
+      ).status
+    name: patch
+  - examples:
+    - Http.post("https://httpbin.org/post").keys
+    - Http.post("https://httpbin.org/post").code
+    - Http.post("https://httpbin.org/post").status
+    - Http.post("https://httpbin.org/post").body.size
+    - |
+      Http.post(
+        "https://httpbin.org/post",
+        headers: {
+          accept: "application/json",
+          "x-csrf-token": "abc",
+        },
+      ).status
+    - |
+      Http.post(
+        "https://httpbin.org/post",
+        query: {
+          q: :code,
+          category: :programming_languages
+        },
+      ).status
+    - |
+      Http.post(
+        "https://httpbin.org/post",
+        body: "hello world",
+      ).status
+    - |
+      Http.post(
+        "https://httpbin.org/post",
+        username: "dorianmariecom",
+        password: "my-secret-password",
+      ).status
+    - |
+      Http.post(
+        "https://httpbin.org/post",
+        data: { q: :code, category: :programming_language }
+      ).status
+    - |
+      Http.post(
+        "https://httpbin.org/post",
+        headers: {
+          accept: "application/json",
+          "x-csrf-token": "abc",
+        },
+        query: {
+          q: :code,
+          category: :programming_languages
+        },
+        body: "hello world",
+        username: "dorianmariecom",
+        password: "my-secret-password",
+        data: { q: :code, category: :programming_language }
+      ).status
+    name: post
+  - examples:
+    - Http.put("https://httpbin.org/put").keys
+    - Http.put("https://httpbin.org/put").code
+    - Http.put("https://httpbin.org/put").status
+    - Http.put("https://httpbin.org/put").body.size
+    - |
+      Http.put(
+        "https://httpbin.org/put",
+        headers: {
+          accept: "application/json",
+          "x-csrf-token": "abc",
+        },
+      ).status
+    - |
+      Http.put(
+        "https://httpbin.org/put",
+        query: {
+          q: :code,
+          category: :programming_languages
+        },
+      ).status
+    - |
+      Http.put(
+        "https://httpbin.org/put",
+        body: "hello world",
+      ).status
+    - |
+      Http.put(
+        "https://httpbin.org/put",
+        username: "dorianmariecom",
+        password: "my-secret-password",
+      ).status
+    - |
+      Http.put(
+        "https://httpbin.org/put",
+        data: { q: :code, category: :programming_language }
+      ).status
+    - |
+      Http.put(
+        "https://httpbin.org/put",
+        headers: {
+          accept: "application/json",
+          "x-csrf-token": "abc",
+        },
+        query: {
+          q: :code,
+          category: :programming_languages
+        },
+        body: "hello world",
+        username: "dorianmariecom",
+        password: "my-secret-password",
+        data: { q: :code, category: :programming_language }
+      ).status
+    name: put
+  - examples:
+    - Http.trace("https://httpbin.org/trace").keys
+    - Http.trace("https://httpbin.org/trace").code
+    - Http.trace("https://httpbin.org/trace").status
+    - Http.trace("https://httpbin.org/trace").body.size
+    - |
+      Http.trace(
+        "https://httpbin.org/trace",
+        headers: {
+          accept: "application/json",
+          "x-csrf-token": "abc",
+        },
+      ).status
+    - |
+      Http.trace(
+        "https://httpbin.org/trace",
+        query: {
+          q: :code,
+          category: :programming_languages
+        },
+      ).status
+    - |
+      Http.trace(
+        "https://httpbin.org/trace",
+        body: "hello world",
+      ).status
+    - |
+      Http.trace(
+        "https://httpbin.org/trace",
+        username: "dorianmariecom",
+        password: "my-secret-password",
+      ).status
+    - |
+      Http.trace(
+        "https://httpbin.org/trace",
+        data: { q: :code, category: :programming_language }
+      ).status
+    - |
+      Http.trace(
+        "https://httpbin.org/trace",
+        headers: {
+          accept: "application/json",
+          "x-csrf-token": "abc",
+        },
+        query: {
+          q: :code,
+          category: :programming_languages
+        },
+        body: "hello world",
+        username: "dorianmariecom",
+        password: "my-secret-password",
+        data: { q: :code, category: :programming_language }
+      ).status
+    name: trace
   examples:
   - Http.get("https://codedorian.com").keys
   - Http.get("https://codedorian.com").code
@@ -1315,321 +1326,321 @@
   - Http.get("https://codedorian.com").body.size
   name: Http
   parent: Object
-- name: IdentifierList
+- examples:
+  - IdentifierList.new
+  - IdentifierList.new([:a, :b, :c])
+  name: IdentifierList
   parent: List
-  examples:
-    - IdentifierList.new
-    - IdentifierList.new([:a, :b, :c])
 - examples:
   - '1'
   - '1000000000000000'
   - 1e100
   instance_functions:
-  - name: "%"
-    examples:
-      - "12 % 10"
-      - "-1 % 10.1"
-  - name: "&"
-    examples:
-      - "1 & 0"
-      - "1 & 1"
-      - "2 & 1.1"
-  - name: "*"
-    examples:
-      - "10 * 5"
-      - "2 * 3.1"
-      - "2 * :hello"
-  - name: "**"
-    examples:
-      - "10 ** 2"
-      - "10 ** 2.1"
-  - name: "+"
-    examples:
-      - "10 + 2"
-      - "10 + 2.1"
-      - "10 + :a"
-      - "10 + [1, 2, 3]"
-  - name: "-"
-    examples:
-      - "10 - 2"
-      - "10 - 2.1"
-  - name: "/"
-    examples:
-      - "10 / 2"
-      - "10 / 2.1"
-  - name: "<"
-    examples:
-      - "10 < 2"
-      - "10 < 2.1"
-  - name: !!str '<<'
-    examples:
-      - "10 << 2"
-      - "10 << 2.1"
-  - name: "<="
-    examples:
-      - "10 <= 2"
-      - "10 <= 2.1"
-  - name: "<=>"
-    examples:
-      - "10 <=> 2"
-      - "10 <=> 2.1"
-  - name: ">"
-    examples:
-      - "10 > 2"
-      - "10 > 2.1"
-  - name: ">="
-    examples:
-      - "10 >= 2"
-      - "10 >= 2.1"
-  - name: ">>"
-    examples:
-      - "10 >> 2"
-      - "10 >> 2.1"
-  - name: "^"
-    examples:
-      - "10 ^ 2"
-      - "10 ^ 2.1"
-  - name: abs
-    examples:
-      - "-10.abs"
-      - "5.abs"
-  - name: bitwise_and
-    examples:
-      - "10.bitwise_and(2)"
-      - "10.bitwise_and(2.1)"
-  - name: bitwise_or
-    examples:
-      - "10.bitwise_or(2)"
-      - "10.bitwise_or(2.1)"
-  - name: bitwise_xor
-    examples:
-      - "10.bitwise_xor(2)"
-      - "10.bitwise_xor(2.1)"
-  - name: ceil
-    examples:
-      - "123.ceil"
-      - "123.ceil(-2)"
-      - "123.ceil(-1)"
-      - "123.ceil(0)"
-      - "123.ceil(1)"
-      - "123.ceil(2)"
-  - name: clone
-    examples:
-      - "123.clone"
-  - name: compare
-    examples:
-      - "10.compare(2)"
-      - "10.compare(2.1)"
-  - name: day
-    examples:
-      - "-2.day"
-      - "-1.day"
-      - "0.day"
-      - "1.day"
-      - "2.day"
-  - name: days
-    examples:
-      - "-2.days"
-      - "-1.days"
-      - "0.days"
-      - "1.days"
-      - "2.days"
-  - name: decrement
-    examples:
-      - 1.decrement
-      - 10.decrement
-      - 10.decrement(2)
-  - name: decrement!
-    examples:
-      - i = 1 i.decrement! i
-      - i = 10 i.decrement! i
-      - i = 10 i.decrement!(2) i
-  - name: division
-    examples:
-      - "10.division(2)"
-      - "10.division(2.1)"
-  - name: eight?
-    examples:
-      - "8.eight?"
-      - "11.eight?"
-  - name: even?
-    examples:
-      - "8.even?"
-      - "11.even?"
-  - name: five?
-    examples:
-      - "5.five?"
-      - "11.five?"
-  - name: floor
-    examples:
-      - "123.floor"
-      - "123.floor(-2)"
-      - "123.floor(-1)"
-      - "123.floor(0)"
-      - "123.floor(1)"
-      - "123.floor(2)"
-  - name: four?
-    examples:
-      - "4.four?"
-      - "11.four?"
-  - name: hour
-    examples:
-      - "-2.hour"
-      - "-1.hour"
-      - "0.hour"
-      - "1.hour"
-      - "2.hour"
-  - name: hours
-    examples:
-      - "-2.hours"
-      - "-1.hours"
-      - "0.hours"
-      - "1.hours"
-      - "2.hours"
-  - name: increment
-    examples:
-      - 1.increment
-      - 10.increment
-      - 10.increment(2)
-  - name: increment!
-    examples:
-      - i = 1 i.increment! i
-      - i = 10 i.increment! i
-      - i = 10 i.increment!(2) i
-  - name: inferior
-    examples:
-      - "10.inferior(2)"
-      - "10.inferior(2.1)"
-  - name: inferior_or_equal
-    examples:
-      - "10.inferior_or_equal(2)"
-      - "10.inferior_or_equal(2.1)"
-  - name: left_shift
-    examples:
-      - "10.left_shift(2)"
-      - "10.left_shift(2.1)"
-  - name: minus
-    examples:
-      - "10.minus(2)"
-      - "10.minus(2.1)"
-  - name: modulo
-    examples:
-      - "10.modulo(2)"
-      - "10.modulo(2.1)"
-  - name: multiplication
-    examples:
-      - "10.multiplication(5)"
-      - "2.multiplication(3.1)"
-      - "2.multiplication(:hello)"
-  - name: nine?
-    examples:
-      - "9.nine?"
-      - "11.nine?"
-  - name: odd?
-    examples:
-      - "11.odd?"
-      - "8.odd?"
-  - name: one?
-    examples:
-      - "1.one?"
-      - "11.one?"
-  - name: plus
-    examples:
-      - "10.plus(2)"
-      - "10.plus(2.1)"
-      - "10.plus(:a)"
-      - "10.plus([1, 2, 3])"
-  - name: power
-    examples:
-      - "10.power(2)"
-      - "10.power(2.1)"
-  - name: right_shift
-    examples:
-      - "10.right_shift(2)"
-      - "10.right_shift(2.1)"
-  - name: round
-    examples:
-      - "123.round"
-      - "123.round(-2)"
-      - "123.round(-1)"
-      - "123.round(0)"
-      - "123.round(1)"
-      - "123.round(2)"
-  - name: seven?
-    examples:
-      - "7.seven?"
-      - "11.seven?"
-  - name: six?
-    examples:
-      - "6.six?"
-      - "11.six?"
-  - name: sqrt
-    examples:
-      - "2.sqrt"
-      - "4.sqrt"
-      - "16.sqrt"
-      - "100.sqrt"
-  - name: superior
-    examples:
-      - "10.superior(2)"
-      - "10.superior(2.1)"
-  - name: superior_or_equal
-    examples:
-      - "10.superior_or_equal(2)"
-      - "10.superior_or_equal(2.1)"
-  - name: ten?
-    examples:
-      - "10.ten?"
-      - "11.ten?"
-  - name: three?
-    examples:
-      - "3.three?"
-      - "11.three?"
-  - name: times
-    examples:
-      - "2.times { puts(:hello) }"
-      - "2.times { |i| puts(i) }"
-      - "2.times { |i, self| puts(i, self) }"
-  - name: truncate
-    examples:
-      - "123.truncate"
-      - "123.truncate(-2)"
-      - "123.truncate(-1)"
-      - "123.truncate(0)"
-      - "123.truncate(1)"
-      - "123.truncate(2)"
-  - name: two?
-    examples:
-      - "2.two?"
-      - "11.two?"
-  - name: unary_minus
-    examples:
-      - "10.superior_or_equal(2)"
-      - "10.superior_or_equal(2.1)"
-  - name: zero?
-    examples:
-      - "0.zero?"
-      - "11.zero?"
-  - name: "|"
-    examples:
-      - "10 | 5"
-      - "2 | 3.1"
-  - name: "×"
-    examples:
-      - "10 × 5"
-      - "2 × 3.1"
-      - "2 × :hello"
-  - name: "÷"
-    examples:
-      - "10 ÷ 5"
-      - "2 ÷ 3.1"
+  - examples:
+    - 12 % 10
+    - "-1 % 10.1"
+    name: "%"
+  - examples:
+    - 1 & 0
+    - 1 & 1
+    - 2 & 1.1
+    name: "&"
+  - examples:
+    - 10 * 5
+    - 2 * 3.1
+    - 2 * :hello
+    name: "*"
+  - examples:
+    - 10 ** 2
+    - 10 ** 2.1
+    name: "**"
+  - examples:
+    - 10 + 2
+    - 10 + 2.1
+    - 10 + :a
+    - 10 + [1, 2, 3]
+    name: "+"
+  - examples:
+    - 10 - 2
+    - 10 - 2.1
+    name: "-"
+  - examples:
+    - 10 / 2
+    - 10 / 2.1
+    name: "/"
+  - examples:
+    - 10 < 2
+    - 10 < 2.1
+    name: "<"
+  - examples:
+    - 10 << 2
+    - 10 << 2.1
+    name: !!str '<<'
+  - examples:
+    - 10 <= 2
+    - 10 <= 2.1
+    name: "<="
+  - examples:
+    - 10 <=> 2
+    - 10 <=> 2.1
+    name: "<=>"
+  - examples:
+    - 10 > 2
+    - 10 > 2.1
+    name: ">"
+  - examples:
+    - 10 >= 2
+    - 10 >= 2.1
+    name: ">="
+  - examples:
+    - 10 >> 2
+    - 10 >> 2.1
+    name: ">>"
+  - examples:
+    - 10 ^ 2
+    - 10 ^ 2.1
+    name: "^"
+  - examples:
+    - "-10.abs"
+    - 5.abs
+    name: abs
+  - examples:
+    - 10.bitwise_and(2)
+    - 10.bitwise_and(2.1)
+    name: bitwise_and
+  - examples:
+    - 10.bitwise_or(2)
+    - 10.bitwise_or(2.1)
+    name: bitwise_or
+  - examples:
+    - 10.bitwise_xor(2)
+    - 10.bitwise_xor(2.1)
+    name: bitwise_xor
+  - examples:
+    - 123.ceil
+    - 123.ceil(-2)
+    - 123.ceil(-1)
+    - 123.ceil(0)
+    - 123.ceil(1)
+    - 123.ceil(2)
+    name: ceil
+  - examples:
+    - 123.clone
+    name: clone
+  - examples:
+    - 10.compare(2)
+    - 10.compare(2.1)
+    name: compare
+  - examples:
+    - "-2.day"
+    - "-1.day"
+    - 0.day
+    - 1.day
+    - 2.day
+    name: day
+  - examples:
+    - "-2.days"
+    - "-1.days"
+    - 0.days
+    - 1.days
+    - 2.days
+    name: days
+  - examples:
+    - 1.decrement
+    - 10.decrement
+    - 10.decrement(2)
+    name: decrement
+  - examples:
+    - i = 1 i.decrement! i
+    - i = 10 i.decrement! i
+    - i = 10 i.decrement!(2) i
+    name: decrement!
+  - examples:
+    - 10.division(2)
+    - 10.division(2.1)
+    name: division
+  - examples:
+    - 8.eight?
+    - 11.eight?
+    name: eight?
+  - examples:
+    - 8.even?
+    - 11.even?
+    name: even?
+  - examples:
+    - 5.five?
+    - 11.five?
+    name: five?
+  - examples:
+    - 123.floor
+    - 123.floor(-2)
+    - 123.floor(-1)
+    - 123.floor(0)
+    - 123.floor(1)
+    - 123.floor(2)
+    name: floor
+  - examples:
+    - 4.four?
+    - 11.four?
+    name: four?
+  - examples:
+    - "-2.hour"
+    - "-1.hour"
+    - 0.hour
+    - 1.hour
+    - 2.hour
+    name: hour
+  - examples:
+    - "-2.hours"
+    - "-1.hours"
+    - 0.hours
+    - 1.hours
+    - 2.hours
+    name: hours
+  - examples:
+    - 1.increment
+    - 10.increment
+    - 10.increment(2)
+    name: increment
+  - examples:
+    - i = 1 i.increment! i
+    - i = 10 i.increment! i
+    - i = 10 i.increment!(2) i
+    name: increment!
+  - examples:
+    - 10.inferior(2)
+    - 10.inferior(2.1)
+    name: inferior
+  - examples:
+    - 10.inferior_or_equal(2)
+    - 10.inferior_or_equal(2.1)
+    name: inferior_or_equal
+  - examples:
+    - 10.left_shift(2)
+    - 10.left_shift(2.1)
+    name: left_shift
+  - examples:
+    - 10.minus(2)
+    - 10.minus(2.1)
+    name: minus
+  - examples:
+    - 10.modulo(2)
+    - 10.modulo(2.1)
+    name: modulo
+  - examples:
+    - 10.multiplication(5)
+    - 2.multiplication(3.1)
+    - 2.multiplication(:hello)
+    name: multiplication
+  - examples:
+    - 9.nine?
+    - 11.nine?
+    name: nine?
+  - examples:
+    - 11.odd?
+    - 8.odd?
+    name: odd?
+  - examples:
+    - 1.one?
+    - 11.one?
+    name: one?
+  - examples:
+    - 10.plus(2)
+    - 10.plus(2.1)
+    - 10.plus(:a)
+    - 10.plus([1, 2, 3])
+    name: plus
+  - examples:
+    - 10.power(2)
+    - 10.power(2.1)
+    name: power
+  - examples:
+    - 10.right_shift(2)
+    - 10.right_shift(2.1)
+    name: right_shift
+  - examples:
+    - 123.round
+    - 123.round(-2)
+    - 123.round(-1)
+    - 123.round(0)
+    - 123.round(1)
+    - 123.round(2)
+    name: round
+  - examples:
+    - 7.seven?
+    - 11.seven?
+    name: seven?
+  - examples:
+    - 6.six?
+    - 11.six?
+    name: six?
+  - examples:
+    - 2.sqrt
+    - 4.sqrt
+    - 16.sqrt
+    - 100.sqrt
+    name: sqrt
+  - examples:
+    - 10.superior(2)
+    - 10.superior(2.1)
+    name: superior
+  - examples:
+    - 10.superior_or_equal(2)
+    - 10.superior_or_equal(2.1)
+    name: superior_or_equal
+  - examples:
+    - 10.ten?
+    - 11.ten?
+    name: ten?
+  - examples:
+    - 3.three?
+    - 11.three?
+    name: three?
+  - examples:
+    - 2.times { puts(:hello) }
+    - 2.times { |i| puts(i) }
+    - 2.times { |i, self| puts(i, self) }
+    name: times
+  - examples:
+    - 123.truncate
+    - 123.truncate(-2)
+    - 123.truncate(-1)
+    - 123.truncate(0)
+    - 123.truncate(1)
+    - 123.truncate(2)
+    name: truncate
+  - examples:
+    - 2.two?
+    - 11.two?
+    name: two?
+  - examples:
+    - 10.superior_or_equal(2)
+    - 10.superior_or_equal(2.1)
+    name: unary_minus
+  - examples:
+    - 0.zero?
+    - 11.zero?
+    name: zero?
+  - examples:
+    - 10 | 5
+    - 2 | 3.1
+    name: "|"
+  - examples:
+    - 10 × 5
+    - 2 × 3.1
+    - 2 × :hello
+    name: "×"
+  - examples:
+    - 10 ÷ 5
+    - 2 ÷ 3.1
+    name: "÷"
   name: Integer
-  parent: Object
+  parent: Number
 - class_functions:
-  - name: parse
-    examples:
+  - examples:
     - 'Json.parse(''{"a": 1}'')'
     - 'response = { body: ''{"a": 1}'' } Json.parse(response.body)'
+    name: parse
   examples:
   - 'Json.parse(''{"a": 1}'')'
   - 'response = { body: ''{"a": 1}'' } Json.parse(response.body)'
@@ -1641,202 +1652,202 @@
   - "[:a, :b, :c]"
   - "[]"
   instance_functions:
-  - name: "-"
-    examples:
-      - "[1, 2, 3] - [1]"
-  - name: !!str '<<'
-    examples:
-      - "list = [1, 2, 3] list << 4 list"
-  - name: any?
-    examples:
-      - "[1, 2, 3].any?"
-      - "[1].any?"
-      - "[nothing].any?"
-      - "[].any?"
-      - "[1, 2, 3].any?(Boolean)"
-      - "[1, 2, 3].any?(Number)"
-      - "[1, 2, 3].any?(Integer)"
-      - "[1, 2, 3].any? { false }"
-      - "[1, 2, 3].any? { |element| element.positive? }"
-      - "[1, 2, 3].any? { |element| element.negative? }"
-      - "[1, 2, 3].any? { |element, index| index.zero? }"
-      - "[1, 2, 3].any? { |element, index, list| list.include?(2) }"
-  - name: append
-    examples:
-      - "list = [1, 2, 3] list.append(4) list"
-  - name: compact
-    examples:
-      - "[nothing, 1, 2, nothing, 3].compact"
-  - name: compact!
-    examples:
-      - "list = [nothing, 1, 2, nothing, 3] list.compact! list"
-  - name: detect
-    examples:
-      - "[1, 2, 3].detect { true }"
-      - "[1, 2, 3].detect { |element| element.positive? }"
-      - "[1, 2, 3].detect { |element| element.negative? }"
-      - "[1, 2, 3].detect { |element, index| index.zero? }"
-      - "[1, 2, 3].detect { |element, index, list| list.include?(2) }"
-  - name: each
-    examples:
-      - "[1, 2, 3].each { puts(:a) }"
-      - "[1, 2, 3].each { |element| puts(element) }"
-      - "[1, 2, 3].each { |element, index| puts(index) }"
-      - "[1, 2, 3].each { |element, index, list| puts(list) }"
-  - name: first
-    examples:
-      - "[1, 2, 3].first"
-      - "[].first"
-  - name: flatten
-    examples:
-      - "[1, [2, [3, [4]]]].flatten"
-      - "[1, [2, [3, [4]]]].flatten(0)"
-      - "[1, [2, [3, [4]]]].flatten(1)"
-      - "[1, [2, [3, [4]]]].flatten(2)"
-      - "[1, [2, [3, [4]]]].flatten(3)"
-      - "[1, [2, [3, [4]]]].flatten(4)"
-      - "[1, [2, [3, [4]]]].flatten(5)"
-  - name: include?
-    examples:
-      - "[1, 2, 3].include?(2)"
-      - "[1, 2, 3].include?(:string)"
-      - "[:string, :other].include?(:string)"
-  - name: join
-    examples:
-      - "[:string, :other].join"
-      - "[1, 2, 3].join"
-      - "[].join"
-      - "[:string, :other].join(' ')"
-      - "[1, 2, 3].join('&')"
-      - "[].join('-')"
-  - name: last
-    examples:
-      - "[1, 2, 3].last"
-      - "[].last"
-  - name: map
-    examples:
-      - "[1, 2, 3].map { 1 }"
-      - "[1, 2, 3].map { |element| element * :hello }"
-      - "[1, 2, 3].map { |element, index| index * 2 }"
-      - "[1, 2, 3].map { |element, index, list| list }"
-  - name: map!
-    examples:
-      - "list = [1, 2, 3] list.map! { 1 } list"
-      - "list = [1, 2, 3] list.map! { |element| element * :hello } list"
-      - "list = [1, 2, 3] list.map! { |element, index| index * 2 } list"
-      - "list = [1, 2, 3] list.map! { |element, index, list| list } list"
-  - name: max
-    examples:
-      - "[1, 2, 3].max"
-      - "[].max"
-      - "[1, 2, 3].max { 1 }"
-      - "[1, 2, 3].max { |element| -element }"
-      - "[1, 2, 3].max { |element, index| index - 1 }"
-      - "[1, 2, 3].max { |element, index, list| list.sum + index + element }"
-  - name: minus
-    examples:
-      - "[1, 2, 3].minus([1])"
-  - name: none?
-    examples:
-      - "[1, 2, 3].none?"
-      - "[].none?"
-      - "[1, 2, 3].none? { true }"
-      - "[1, 2, 3].none? { |element| element.zero? }"
-      - "[1, 2, 3].none? { |element, index| index.zero? }"
-      - "[1, 2, 3].none? { |element, index, list| list.include?(2) }"
-  - name: pop
-    examples:
-      - "[1, 2, 3].pop"
-      - "[].pop"
-      - "[1, 2, 3].pop(0)"
-      - "[1, 2, 3].pop(1)"
-      - "[1, 2, 3].pop(2)"
-      - "[1, 2, 3].pop(3)"
-  - name: reduce
-    examples:
-      - "[1, 2, 3].reduce { }"
-      - "[1, 2, 3].reduce { 10 }"
-      - "[1, 2, 3].reduce { |acc| acc }"
-      - "[1, 2, 3].reduce { |acc, element| acc + element }"
-      - "[1, 2, 3].none? { |acc, element, index| acc + index }"
-      - "[1, 2, 3].none? { |acc, element, index, list| acc + list.sum }"
-  - name: reject
-    examples:
-      - "[1, 2, 3].reject { true }"
-      - "[1, 2, 3].reject { |element| element.zero? }"
-      - "[1, 2, 3].reject { |element, index| index.zero? }"
-      - "[1, 2, 3].reject { |element, index, list| list.include?(2) }"
-  - name: reject!
-    examples:
-      - "list = [1, 2, 3] list.reject! { true } list"
-      - "list = [1, 2, 3] list.reject! { |element| element.zero? } list"
-      - "list = [1, 2, 3] list.reject! { |element, index| index.zero? } list"
-      - "list = [1, 2, 3] list.reject! { |element, index, list| list.include?(2) } list"
-  - name: reverse
-    examples:
-      - "[1, 2, 3].reverse"
-      - "[].reverse"
-  - name: sample
-    examples:
-      - "[1, 2, 3].sample"
-      - "[].sample"
-  - name: select
-    examples:
-      - "[1, 2, 3].select { true }"
-      - "[1, 2, 3].select { |element| element.zero? }"
-      - "[1, 2, 3].select { |element, index| index.zero? }"
-      - "[1, 2, 3].select { |element, index, list| list.include?(2) }"
-  - name: select!
-    examples:
-      - "list = [1, 2, 3] list.select! { true } list"
-      - "list = [1, 2, 3] list.select! { |element| element.zero? } list"
-      - "list = [1, 2, 3] list.select! { |element, index| index.zero? } list"
-      - "list = [1, 2, 3] list.select! { |element, index, list| list.include?(2) } list"
-  - name: shift
-    examples:
-      - "[1, 2, 3].shift"
-      - "[1, 2, 3].shift(0)"
-      - "[1, 2, 3].shift(1)"
-      - "[1, 2, 3].shift(2)"
-      - "[1, 2, 3].shift(3)"
-      - "[1, 2, 3].shift(4)"
-      - "[].shift"
-  - name: shuffle
-    examples:
-      - "[1, 2, 3].shuffle"
-      - "[].shuffle"
-  - name: size
-    examples:
-      - "[1, 2, 3].size"
-      - "[].size"
-  - name: sort
-    examples:
-      - "[2, 1, 3].sort"
-      - "[].sort"
-  - name: sum
-    examples:
-      - "[1, 2, 3].sum"
-      - "[].sum"
-  - name: uniq
-    examples:
-      - "[1, 1, 2, 3, 3, 3].uniq"
-      - "[1, 2, 3].uniq"
-      - "[].uniq"
+  - examples:
+    - "[1, 2, 3] - [1]"
+    name: "-"
+  - examples:
+    - list = [1, 2, 3] list << 4 list
+    name: !!str '<<'
+  - examples:
+    - "[1, 2, 3].any?"
+    - "[1].any?"
+    - "[nothing].any?"
+    - "[].any?"
+    - "[1, 2, 3].any?(Boolean)"
+    - "[1, 2, 3].any?(Number)"
+    - "[1, 2, 3].any?(Integer)"
+    - "[1, 2, 3].any? { false }"
+    - "[1, 2, 3].any? { |element| element.positive? }"
+    - "[1, 2, 3].any? { |element| element.negative? }"
+    - "[1, 2, 3].any? { |element, index| index.zero? }"
+    - "[1, 2, 3].any? { |element, index, list| list.include?(2) }"
+    name: any?
+  - examples:
+    - list = [1, 2, 3] list.append(4) list
+    name: append
+  - examples:
+    - "[nothing, 1, 2, nothing, 3].compact"
+    name: compact
+  - examples:
+    - list = [nothing, 1, 2, nothing, 3] list.compact! list
+    name: compact!
+  - examples:
+    - "[1, 2, 3].detect { true }"
+    - "[1, 2, 3].detect { |element| element.positive? }"
+    - "[1, 2, 3].detect { |element| element.negative? }"
+    - "[1, 2, 3].detect { |element, index| index.zero? }"
+    - "[1, 2, 3].detect { |element, index, list| list.include?(2) }"
+    name: detect
+  - examples:
+    - "[1, 2, 3].each { puts(:a) }"
+    - "[1, 2, 3].each { |element| puts(element) }"
+    - "[1, 2, 3].each { |element, index| puts(index) }"
+    - "[1, 2, 3].each { |element, index, list| puts(list) }"
+    name: each
+  - examples:
+    - "[1, 2, 3].first"
+    - "[].first"
+    name: first
+  - examples:
+    - "[1, [2, [3, [4]]]].flatten"
+    - "[1, [2, [3, [4]]]].flatten(0)"
+    - "[1, [2, [3, [4]]]].flatten(1)"
+    - "[1, [2, [3, [4]]]].flatten(2)"
+    - "[1, [2, [3, [4]]]].flatten(3)"
+    - "[1, [2, [3, [4]]]].flatten(4)"
+    - "[1, [2, [3, [4]]]].flatten(5)"
+    name: flatten
+  - examples:
+    - "[1, 2, 3].include?(2)"
+    - "[1, 2, 3].include?(:string)"
+    - "[:string, :other].include?(:string)"
+    name: include?
+  - examples:
+    - "[:string, :other].join"
+    - "[1, 2, 3].join"
+    - "[].join"
+    - "[:string, :other].join(' ')"
+    - "[1, 2, 3].join('&')"
+    - "[].join('-')"
+    name: join
+  - examples:
+    - "[1, 2, 3].last"
+    - "[].last"
+    name: last
+  - examples:
+    - "[1, 2, 3].map { 1 }"
+    - "[1, 2, 3].map { |element| element * :hello }"
+    - "[1, 2, 3].map { |element, index| index * 2 }"
+    - "[1, 2, 3].map { |element, index, list| list }"
+    name: map
+  - examples:
+    - list = [1, 2, 3] list.map! { 1 } list
+    - list = [1, 2, 3] list.map! { |element| element * :hello } list
+    - list = [1, 2, 3] list.map! { |element, index| index * 2 } list
+    - list = [1, 2, 3] list.map! { |element, index, list| list } list
+    name: map!
+  - examples:
+    - "[1, 2, 3].max"
+    - "[].max"
+    - "[1, 2, 3].max { 1 }"
+    - "[1, 2, 3].max { |element| -element }"
+    - "[1, 2, 3].max { |element, index| index - 1 }"
+    - "[1, 2, 3].max { |element, index, list| list.sum + index + element }"
+    name: max
+  - examples:
+    - "[1, 2, 3].minus([1])"
+    name: minus
+  - examples:
+    - "[1, 2, 3].none?"
+    - "[].none?"
+    - "[1, 2, 3].none? { true }"
+    - "[1, 2, 3].none? { |element| element.zero? }"
+    - "[1, 2, 3].none? { |element, index| index.zero? }"
+    - "[1, 2, 3].none? { |element, index, list| list.include?(2) }"
+    name: none?
+  - examples:
+    - "[1, 2, 3].pop"
+    - "[].pop"
+    - "[1, 2, 3].pop(0)"
+    - "[1, 2, 3].pop(1)"
+    - "[1, 2, 3].pop(2)"
+    - "[1, 2, 3].pop(3)"
+    name: pop
+  - examples:
+    - "[1, 2, 3].reduce { }"
+    - "[1, 2, 3].reduce { 10 }"
+    - "[1, 2, 3].reduce { |acc| acc }"
+    - "[1, 2, 3].reduce { |acc, element| acc + element }"
+    - "[1, 2, 3].reduce { |acc, element, index| acc + index }"
+    - "[1, 2, 3].reduce { |acc, element, index, list| acc + list.sum }"
+    name: reduce
+  - examples:
+    - "[1, 2, 3].reject { true }"
+    - "[1, 2, 3].reject { |element| element.zero? }"
+    - "[1, 2, 3].reject { |element, index| index.zero? }"
+    - "[1, 2, 3].reject { |element, index, list| list.include?(2) }"
+    name: reject
+  - examples:
+    - list = [1, 2, 3] list.reject! { true } list
+    - list = [1, 2, 3] list.reject! { |element| element.zero? } list
+    - list = [1, 2, 3] list.reject! { |element, index| index.zero? } list
+    - list = [1, 2, 3] list.reject! { |element, index, list| list.include?(2) } list
+    name: reject!
+  - examples:
+    - "[1, 2, 3].reverse"
+    - "[].reverse"
+    name: reverse
+  - examples:
+    - "[1, 2, 3].sample"
+    - "[].sample"
+    name: sample
+  - examples:
+    - "[1, 2, 3].select { true }"
+    - "[1, 2, 3].select { |element| element.zero? }"
+    - "[1, 2, 3].select { |element, index| index.zero? }"
+    - "[1, 2, 3].select { |element, index, list| list.include?(2) }"
+    name: select
+  - examples:
+    - list = [1, 2, 3] list.select! { true } list
+    - list = [1, 2, 3] list.select! { |element| element.zero? } list
+    - list = [1, 2, 3] list.select! { |element, index| index.zero? } list
+    - list = [1, 2, 3] list.select! { |element, index, list| list.include?(2) } list
+    name: select!
+  - examples:
+    - "[1, 2, 3].shift"
+    - "[1, 2, 3].shift(0)"
+    - "[1, 2, 3].shift(1)"
+    - "[1, 2, 3].shift(2)"
+    - "[1, 2, 3].shift(3)"
+    - "[1, 2, 3].shift(4)"
+    - "[].shift"
+    name: shift
+  - examples:
+    - "[1, 2, 3].shuffle"
+    - "[].shuffle"
+    name: shuffle
+  - examples:
+    - "[1, 2, 3].size"
+    - "[].size"
+    name: size
+  - examples:
+    - "[2, 1, 3].sort"
+    - "[].sort"
+    name: sort
+  - examples:
+    - "[1, 2, 3].sum"
+    - "[].sum"
+    name: sum
+  - examples:
+    - "[1, 1, 2, 3, 3, 3].uniq"
+    - "[1, 2, 3].uniq"
+    - "[].uniq"
+    name: uniq
   name: List
   parent: Object
 - class_functions:
-  - name: create
-    examples:
+  - examples:
     - Message.create
     - 'Message.create(body: :world)'
     - 'Message.create(subject: :hello)'
     - 'Message.create(subject: :hello, body: :world)'
-  - name: create!
-    examples:
+    name: create
+  - examples:
     - Message.create!
     - 'Message.create!(body: :world)'
     - 'Message.create!(subject: :hello)'
     - 'Message.create!(subject: :hello, body: :world)'
+    name: create!
   examples:
   - Message.create
   - Message.create!
@@ -1851,20 +1862,20 @@
   name: Nothing
   parent: Object
 - class_functions:
-  - name: create
-    examples:
+  - examples:
     - Notification.create
     - 'Notification.create(body: :world)'
     - 'Notification.create(subject: :hello)'
     - 'Notification.create(subject: :hello, body: :world)'
     - 'Notification.create(subject: :hello, path: :documentation, sound: :default)'
-  - name: create!
-    examples:
+    name: create
+  - examples:
     - Notification.create!
     - 'Notification.create!(body: :world)'
     - 'Notification.create!(subject: :hello)'
     - 'Notification.create!(subject: :hello, body: :world)'
     - 'Notification.create!(subject: :hello, path: :documentation, sound: :default)'
+    name: create!
   examples:
   - Notification.create
   - Notification.create!
@@ -1874,446 +1885,531 @@
   - 'Notification.create!(subject: :hello, path: :documentation, sound: :default)'
   name: Notification
   parent: Dictionary
+- examples:
+  - Number
+  name: Number
+  parent: Object
 - class_functions:
-  - name: "!"
-    examples:
-      - "!true"
-      - "!false"
-      - "!nothing"
-      - "!!nothing"
-      - "![]"
-      - "!{}"
-      - "!0"
-  - name: "!="
-    examples:
-      - "1 != 2"
-      - "[] != []"
-  - name: "&&"
-    examples:
-      - "true && puts(:hello)"
-      - "false && puts(:bye)"
-  - name: "+"
-    examples:
-      - "+true"
-      - "+0"
-      - "+2"
-      - "+2.1"
-      - "+[]"
-  - name: ".."
-    examples:
-      - "(1..10).to_list"
-  - name: "..."
-    examples:
-      - "(1...10).to_list"
-  - name: "=="
-    examples:
-      - "1 == 2"
-      - "3 == 3"
-  - name: "==="
-    examples:
-     - "1 === 1"
-     - "1 === 2"
-  - name: and
-    examples:
-      - "true and puts(:hello)"
-      - "false and puts(:bye)"
-  - name: as_json
-    examples:
-      - "1.as_json"
-      - "1.2.as_json"
-      - "[1, 2, 3].as_json"
-      - "[1, {a: :b}, 3].as_json"
-  - name: deep_duplicate
-    examples:
-      - |
-        object = {
-          given_name: "dorian"
-          programs: [
-            {
-              name: "pomodoro"
-            }
-          ]
-        }
+  - examples:
+    - "!true"
+    - "!false"
+    - "!nothing"
+    - "!!nothing"
+    - "![]"
+    - "!{}"
+    - "!0"
+    name: "!"
+  - examples:
+    - 1 != 2
+    - "[] != []"
+    name: "!="
+  - examples:
+    - true && puts(:hello)
+    - false && puts(:bye)
+    name: "&&"
+  - examples:
+    - "+true"
+    - "+0"
+    - "+2"
+    - "+2.1"
+    - "+[]"
+    name: "+"
+  - examples:
+    - "(1..10).to_list"
+    name: ".."
+  - examples:
+    - "(1...10).to_list"
+    name: "..."
+  - examples:
+    - 1 == 2
+    - 3 == 3
+    name: "=="
+  - examples:
+    - 1 === 1
+    - 1 === 2
+    name: "==="
+  - examples:
+    - true and puts(:hello)
+    - false and puts(:bye)
+    name: and
+  - examples:
+    - 1.as_json
+    - 1.2.as_json
+    - "[1, 2, 3].as_json"
+    - "[1, {a: :b}, 3].as_json"
+    name: as_json
+  - examples:
+    - |
+      object = {
+        given_name: "dorian",
+        programs: [
+          {
+            name: "pomodoro",
+          },
+        ],
+      }
 
-        copy = object.deep_duplicate
+      copy = object.deep_duplicate
 
-        copy.programs[0].name = "pomodoro 2"
+      copy.programs[0].name = "pomodoro 2"
 
-        p(object)
-        p(copy)
-  - name: different
-    examples:
-      - "1.different(2)"
-      - "1.different(1)"
-  - name: duplicate
-    examples:
-      - |
-        object = {
-          given_name: "dorian"
-        }
+      p(object)
+      p(copy)
+    name: deep_duplicate
+  - examples:
+    - 1.different(2)
+    - 1.different(1)
+    name: different
+  - examples:
+    - |
+      object = {
+        given_name: "dorian"
+      }
 
-        copy = object.duplicate
+      copy = object.duplicate
 
-        copy.given_name = "grandma"
+      copy.given_name = "grandma"
 
-        p(object)
-        p(copy)
-  - name: equal
-    examples:
-      - "1.equal(1)"
-      - "1.equal(2)"
-  - name: exclusive_range
-    examples:
-      - "1.exclusive_range(10).to_list"
-  - name: falsy?
-    examples:
-      - "nothing.falsy?"
-      - "false.falsy?"
-      - "true.falsy?"
-      - "0.falsy?"
-      - "1.falsy?"
-      - "[].falsy?"
-      - "{}.falsy?"
-      - "[1, 2, 3].falsy?"
-      - "{ a: 1, b: 2 }.falsy?"
-  - name: inclusive_range
-    examples:
-      - "1.inclusive_range(10).to_list"
-  - name: name
-    examples:
-      - "Integer.name"
-      - "Boolean.new.name"
-      - "true.name"
-      - "{}.name"
-  - name: new
-    examples:
-      - "true.new"
-      - "false.new(true)"
-      - "1.new(2)"
-      - "Integer.new(2)"
-      - "Boolean.new(true)"
-  - name: not
-    examples:
-      - "not nothing"
-      - "not true"
-      - "not false"
-  - name: or
-    examples:
-      - "true or false"
-      - "false or false"
-      - "true or true"
-      - "false or true"
-  - name: self
-    examples:
-      - "1.self"
-      - "true.self"
-      - "[1, 2, 3].map(&:self)"
-  - name: strict_equal
-    examples:
-      - "1.strict_equal(1)"
-      - "2.strict_equal(1)"
-  - name: to_boolean
-    examples:
-      - "nothing.to_boolean"
-      - "1.to_boolean"
-      - "true.to_boolean"
-  - name: to_class
-    examples:
-      - "1.to_class"
-      - "true.to_class"
-      - "nothing.to_class"
-  - name: to_date
-    examples:
-      - '"2025-06-15".to_date'
-  - name: to_decimal
-    examples:
-      - "1.to_decimal"
-  - name: to_dictionary
-    examples:
-      - "[[:a, 1], [:b, 2]].to_dictionary"
-  - name: to_duration
-    examples:
-      - "1.to_duration"
-  - name: to_integer
-    examples:
-      - "1.2.to_integer"
-  - name: to_json
-    examples:
-      - "[1, 2, { a: 3 }].to_json"
-  - name: to_list
-    examples:
-      - "1.to_list"
-      - "true.to_list"
-      - "{}.to_list"
-      - "{ a: 1, b: 2 }.to_list"
-  - name: to_nothing
-    examples:
-      - "1.to_nothing"
-      - "{}.to_nothing"
-  - name: to_parameter
-    examples:
-      - "{ a: 1 }.to_parameter"
-  - name: to_range
-    examples:
-      - "[1, 2].to_range"
-  - name: to_string
-    examples:
-      - "1.to_string"
-      - "nothing.to_string"
-      - "[1, 2, 3].to_string"
-  - name: to_time
-    examples:
-      - '"2025-06-15 16:41".to_time'
-  - name: truthy?
-    examples:
-      - "nothing.truthy?"
-      - "false.truthy?"
-      - "true.truthy?"
-      - "0.truthy?"
-      - "1.truthy?"
-      - "[].truthy?"
-      - "{}.truthy?"
-      - "[1, 2, 3].truthy?"
-      - "{ a: 1, b: 2 }.truthy?"
-  - name: "||"
-    examples:
-      - "false || puts(:hello)"
-      - "true || puts(:bye)"
+      p(object)
+      p(copy)
+    name: duplicate
+  - examples:
+    - 1.equal(1)
+    - 1.equal(2)
+    name: equal
+  - examples:
+    - 1.exclusive_range(10).to_list
+    name: exclusive_range
+  - examples:
+    - nothing.falsy?
+    - false.falsy?
+    - true.falsy?
+    - 0.falsy?
+    - 1.falsy?
+    - "[].falsy?"
+    - "{}.falsy?"
+    - "[1, 2, 3].falsy?"
+    - "{ a: 1, b: 2 }.falsy?"
+    name: falsy?
+  - examples:
+    - 1.inclusive_range(10).to_list
+    name: inclusive_range
+  - examples:
+    - Integer.name
+    - Boolean.new.name
+    - true.name
+    - "{}.name"
+    name: name
+  - examples:
+    - true.new
+    - false.new(true)
+    - 1.new(2)
+    - Integer.new(2)
+    - Boolean.new(true)
+    name: new
+  - examples:
+    - not nothing
+    - not true
+    - not false
+    name: not
+  - examples:
+    - true or false
+    - false or false
+    - true or true
+    - false or true
+    name: or
+  - examples:
+    - 1.self
+    - true.self
+    - "[1, 2, 3].map(&:self)"
+    name: self
+  - examples:
+    - 1.strict_equal(1)
+    - 2.strict_equal(1)
+    name: strict_equal
+  - examples:
+    - nothing.to_boolean
+    - 1.to_boolean
+    - true.to_boolean
+    name: to_boolean
+  - examples:
+    - 1.to_class
+    - true.to_class
+    - nothing.to_class
+    name: to_class
+  - examples:
+    - '"2025-06-15".to_date'
+    name: to_date
+  - examples:
+    - 1.to_decimal
+    name: to_decimal
+  - examples:
+    - "[[:a, 1], [:b, 2]].to_dictionary"
+    name: to_dictionary
+  - examples:
+    - 1.to_duration
+    name: to_duration
+  - examples:
+    - 1.2.to_integer
+    name: to_integer
+  - examples:
+    - "[1, 2, { a: 3 }].to_json"
+    name: to_json
+  - examples:
+    - 1.to_list
+    - true.to_list
+    - "{}.to_list"
+    - "{ a: 1, b: 2 }.to_list"
+    name: to_list
+  - examples:
+    - 1.to_nothing
+    - "{}.to_nothing"
+    name: to_nothing
+  - examples:
+    - "{ a: 1 }.to_parameter"
+    name: to_parameter
+  - examples:
+    - "[1, 2].to_range"
+    name: to_range
+  - examples:
+    - 1.to_string
+    - nothing.to_string
+    - "[1, 2, 3].to_string"
+    name: to_string
+  - examples:
+    - '"2025-06-15 16:41".to_time'
+    name: to_time
+  - examples:
+    - nothing.truthy?
+    - false.truthy?
+    - true.truthy?
+    - 0.truthy?
+    - 1.truthy?
+    - "[].truthy?"
+    - "{}.truthy?"
+    - "[1, 2, 3].truthy?"
+    - "{ a: 1, b: 2 }.truthy?"
+    name: truthy?
+  - examples:
+    - false || puts(:hello)
+    - true || puts(:bye)
+    name: "||"
   examples:
-  - "Object.new"
+  - Object.new
   - "[] != {}"
-  - "1 !== true"
-  - "List.new == []"
-  - "Dictionary.new === {}"
+  - 1 !== true
+  - List.new == []
+  - Dictionary.new === {}
   instance_functions:
-  - name: "!"
-    examples:
-      - "!true"
-      - "!false"
-      - "!nothing"
-      - "!!nothing"
-      - "![]"
-      - "!{}"
-      - "!0"
-  - name: "!="
-    examples:
-      - "1 != 2"
-      - "[] != []"
-  - name: "&&"
-    examples:
-      - "true && puts(:hello)"
-      - "false && puts(:bye)"
-  - name: "+"
-    examples:
-      - "+true"
-      - "+0"
-      - "+2"
-      - "+2.1"
-      - "+[]"
-  - name: ".."
-    examples:
-      - "(1..10).to_list"
-  - name: "..."
-    examples:
-      - "(1...10).to_list"
-  - name: "=="
-    examples:
-      - "1 == 2"
-      - "3 == 3"
-  - name: "==="
-    examples:
-     - "1 === 1"
-     - "1 === 2"
-  - name: and
-    examples:
-      - "true and puts(:hello)"
-      - "false and puts(:bye)"
-  - name: as_json
-    examples:
-      - "1.as_json"
-      - "1.2.as_json"
-      - "[1, 2, 3].as_json"
-      - "[1, {a: :b}, 3].as_json"
-  - name: deep_duplicate
-    examples:
-      - |
-        object = {
-          given_name: "dorian"
-          programs: [
-            {
-              name: "pomodoro"
-            }
-          ]
-        }
+  - examples:
+    - "!true"
+    - "!false"
+    - "!nothing"
+    - "!!nothing"
+    - "![]"
+    - "!{}"
+    - "!0"
+    name: "!"
+  - examples:
+    - 1 != 2
+    - "[] != []"
+    name: "!="
+  - examples:
+    - true && puts(:hello)
+    - false && puts(:bye)
+    name: "&&"
+  - examples:
+    - "+true"
+    - "+0"
+    - "+2"
+    - "+2.1"
+    - "+[]"
+    name: "+"
+  - examples:
+    - "(1..10).to_list"
+    name: ".."
+  - examples:
+    - "(1...10).to_list"
+    name: "..."
+  - examples:
+    - 1 == 2
+    - 3 == 3
+    name: "=="
+  - examples:
+    - 1 === 1
+    - 1 === 2
+    name: "==="
+  - examples:
+    - true and puts(:hello)
+    - false and puts(:bye)
+    name: and
+  - examples:
+    - 1.as_json
+    - 1.2.as_json
+    - "[1, 2, 3].as_json"
+    - "[1, {a: :b}, 3].as_json"
+    name: as_json
+  - examples:
+    - |
+      object = {
+        given_name: "dorian",
+        programs: [
+          {
+            name: "pomodoro",
+          },
+        ],
+      }
 
-        copy = object.deep_duplicate
+      copy = object.deep_duplicate
 
-        copy.programs[0].name = "pomodoro 2"
+      copy.programs[0].name = "pomodoro 2"
 
-        p(object)
-        p(copy)
-  - name: different
-    examples:
-      - "1.different(2)"
-      - "1.different(1)"
-  - name: duplicate
-    examples:
-      - |
-        object = {
-          given_name: "dorian"
-        }
+      p(object)
+      p(copy)
+    name: deep_duplicate
+  - examples:
+    - 1.different(2)
+    - 1.different(1)
+    name: different
+  - examples:
+    - |
+      object = {
+        given_name: "dorian",
+      }
 
-        copy = object.duplicate
+      copy = object.duplicate
 
-        copy.given_name = "grandma"
+      copy.given_name = "grandma"
 
-        p(object)
-        p(copy)
-  - name: equal
-    examples:
-      - "1.equal(1)"
-      - "1.equal(2)"
-  - name: exclusive_range
-    examples:
-      - "1.exclusive_range(10).to_list"
-  - name: falsy?
-    examples:
-      - "nothing.falsy?"
-      - "false.falsy?"
-      - "true.falsy?"
-      - "0.falsy?"
-      - "1.falsy?"
-      - "[].falsy?"
-      - "{}.falsy?"
-      - "[1, 2, 3].falsy?"
-      - "{ a: 1, b: 2 }.falsy?"
-  - name: inclusive_range
-    examples:
-      - "1.inclusive_range(10).to_list"
-  - name: name
-    examples:
-      - "Integer.name"
-      - "Boolean.new.name"
-      - "true.name"
-      - "{}.name"
-  - name: new
-    examples:
-      - "true.new"
-      - "false.new(true)"
-      - "1.new(2)"
-      - "Integer.new(2)"
-      - "Boolean.new(true)"
-  - name: not
-    examples:
-      - "not nothing"
-      - "not true"
-      - "not false"
-  - name: or
-    examples:
-      - "true or false"
-      - "false or false"
-      - "true or true"
-      - "false or true"
-  - name: self
-    examples:
-      - "1.self"
-      - "true.self"
-      - "[1, 2, 3].map(&:self)"
-  - name: strict_equal
-    examples:
-      - "1.strict_equal(1)"
-      - "2.strict_equal(1)"
-  - name: to_boolean
-    examples:
-      - "nothing.to_boolean"
-      - "1.to_boolean"
-      - "true.to_boolean"
-  - name: to_class
-    examples:
-      - "1.to_class"
-      - "true.to_class"
-      - "nothing.to_class"
-  - name: to_date
-    examples:
-      - '"2025-06-15".to_date'
-  - name: to_decimal
-    examples:
-      - "1.to_decimal"
-  - name: to_dictionary
-    examples:
-      - "[[:a, 1], [:b, 2]].to_dictionary"
-  - name: to_duration
-    examples:
-      - "1.to_duration"
-  - name: to_integer
-    examples:
-      - "1.2.to_integer"
-  - name: to_json
-    examples:
-      - "[1, 2, { a: 3 }].to_json"
-  - name: to_list
-    examples:
-      - "1.to_list"
-      - "true.to_list"
-      - "{}.to_list"
-      - "{ a: 1, b: 2 }.to_list"
-  - name: to_nothing
-    examples:
-      - "1.to_nothing"
-      - "{}.to_nothing"
-  - name: to_parameter
-    examples:
-      - "{ a: 1 }.to_parameter"
-  - name: to_range
-    examples:
-      - "[1, 2].to_range"
-  - name: to_string
-    examples:
-      - "1.to_string"
-      - "nothing.to_string"
-      - "[1, 2, 3].to_string"
-  - name: to_time
-    examples:
-      - '"2025-06-15 16:41".to_time'
-  - name: truthy?
-    examples:
-      - "nothing.truthy?"
-      - "false.truthy?"
-      - "true.truthy?"
-      - "0.truthy?"
-      - "1.truthy?"
-      - "[].truthy?"
-      - "{}.truthy?"
-      - "[1, 2, 3].truthy?"
-      - "{ a: 1, b: 2 }.truthy?"
-  - name: "||"
-    examples:
-      - "false || puts(:hello)"
-      - "true || puts(:bye)"
+      p(object)
+      p(copy)
+    name: duplicate
+  - examples:
+    - 1.equal(1)
+    - 1.equal(2)
+    name: equal
+  - examples:
+    - 1.exclusive_range(10).to_list
+    name: exclusive_range
+  - examples:
+    - nothing.falsy?
+    - false.falsy?
+    - true.falsy?
+    - 0.falsy?
+    - 1.falsy?
+    - "[].falsy?"
+    - "{}.falsy?"
+    - "[1, 2, 3].falsy?"
+    - "{ a: 1, b: 2 }.falsy?"
+    name: falsy?
+  - examples:
+    - 1.inclusive_range(10).to_list
+    name: inclusive_range
+  - examples:
+    - Integer.name
+    - Boolean.new.name
+    - true.name
+    - "{}.name"
+    name: name
+  - examples:
+    - true.new
+    - false.new(true)
+    - 1.new(2)
+    - Integer.new(2)
+    - Boolean.new(true)
+    name: new
+  - examples:
+    - not nothing
+    - not true
+    - not false
+    name: not
+  - examples:
+    - true or false
+    - false or false
+    - true or true
+    - false or true
+    name: or
+  - examples:
+    - 1.self
+    - true.self
+    - "[1, 2, 3].map(&:self)"
+    name: self
+  - examples:
+    - 1.strict_equal(1)
+    - 2.strict_equal(1)
+    name: strict_equal
+  - examples:
+    - nothing.to_boolean
+    - 1.to_boolean
+    - true.to_boolean
+    name: to_boolean
+  - examples:
+    - 1.to_class
+    - true.to_class
+    - nothing.to_class
+    name: to_class
+  - examples:
+    - '"2025-06-15".to_date'
+    name: to_date
+  - examples:
+    - 1.to_decimal
+    name: to_decimal
+  - examples:
+    - "[[:a, 1], [:b, 2]].to_dictionary"
+    name: to_dictionary
+  - examples:
+    - 1.to_duration
+    name: to_duration
+  - examples:
+    - 1.2.to_integer
+    name: to_integer
+  - examples:
+    - "[1, 2, { a: 3 }].to_json"
+    name: to_json
+  - examples:
+    - 1.to_list
+    - true.to_list
+    - "{}.to_list"
+    - "{ a: 1, b: 2 }.to_list"
+    name: to_list
+  - examples:
+    - 1.to_nothing
+    - "{}.to_nothing"
+    name: to_nothing
+  - examples:
+    - "{ a: 1 }.to_parameter"
+    name: to_parameter
+  - examples:
+    - "[1, 2].to_range"
+    name: to_range
+  - examples:
+    - 1.to_string
+    - nothing.to_string
+    - "[1, 2, 3].to_string"
+    name: to_string
+  - examples:
+    - '"2025-06-15 16:41".to_time'
+    name: to_time
+  - examples:
+    - nothing.truthy?
+    - false.truthy?
+    - true.truthy?
+    - 0.truthy?
+    - 1.truthy?
+    - "[].truthy?"
+    - "{}.truthy?"
+    - "[1, 2, 3].truthy?"
+    - "{ a: 1, b: 2 }.truthy?"
+    name: truthy?
+  - examples:
+    - false || puts(:hello)
+    - true || puts(:bye)
+    name: "||"
   name: Object
-- name: Parameter
+- examples:
+  - Parameter.new
+  - 'Parameter.new(a: 1, b: 2)'
+  name: Parameter
   parent: Dictionary
-  examples:
-    - "Parameter.new"
-    - "Parameter.new(a: 1, b: 2)"
 - examples:
   - "(0...10).to_list"
   - "(1..10).to_list"
   instance_functions:
-  - name: all?
-  - name: any?
-  - name: each
-  - name: first
-  - name: last
-  - name: map
-  - name: sample
-  - name: select
-  - name: step
-  - name: to_list
+  - examples:
+    - "(0..10).all? { true }"
+    - "(0..10).all? { false }"
+    - "(0..10).all?(&:even?)"
+    - "(0..10).all? { |element| element.even? }"
+    - "(0..10).all? { |element, index| index.zero? || index.positive? }"
+    - "(0..10).all? { |element, index, range| range.first.zero? }"
+    name: all?
+  - examples:
+    - "(0..10).any? { true }"
+    - "(0..10).any? { false }"
+    - "(0..10).any?(&:even?)"
+    - "(0..10).any? { |element| element.even? }"
+    - "(0..10).any? { |element, index| index.zero? || index.positive? }"
+    - "(0..10).any? { |element, index, range| range.first.zero? }"
+    name: any?
+  - examples:
+    - "(0..10).each { puts(:each) }"
+    - "(0..10).each(&:deep_duplicate)"
+    - "(0..10).each { |element| puts(element) }"
+    - "(0..10).each { |element, index| puts(index) }"
+    - "(0..10).each { |element, index, range| puts(range) }"
+    name: each
+  - examples:
+    - "(0..10).first"
+    - "(0...10).first"
+    name: first
+  - examples:
+    - "(0..10).last"
+    - "(0...10).last"
+    name: last
+  - examples:
+    - "(0..10).map { 1 }"
+    - "(0..10).map(&:zero?)"
+    - "(0..10).map { |element| element ** 2 }"
+    - "(0..10).map { |element, index| index * index }"
+    - "(0..10).select { |element, index, range| range.last }"
+    name: map
+  - examples:
+    - "(0..10).sample"
+    - "(0..100).sample"
+    name: sample
+  - examples:
+    - "(0..10).select { true }"
+    - "(0..10).select { false }"
+    - "(0..10).select(&:even?)"
+    - "(0..10).select { |element| element.even? }"
+    - "(0..10).select { |element, index| index.zero? || index.positive? }"
+    - "(0..10).select { |element, index, range| range.first.zero? }"
+    name: select
+  - examples:
+    - "(0..10).step(2)"
+    name: step
+  - examples:
+    - "(0..10).to_list"
+    - "(0...10).to_list"
+    name: to_list
   name: Range
   parent: Object
-- instance_functions:
-  - name: send
+- examples:
+  - |
+    smtp = Smtp.new(
+      address: "smtp.gmail.com",
+      port: 587,
+      user_name: "dorian@dorianmarie.com",
+      password: "my-secret-password",
+      authentication: :plain,
+      enable_starttls_auto: true,
+    )
+
+    smtp.send(
+      from: "dorian+sender@dorianmarie.com",
+      to: "dorian+receiver@dorianmarie.com",
+      subject: "date is {Date.today}",
+      body_html: "time is {Time.now}",
+    )
+  instance_functions:
+  - examples:
+    - |
+      smtp = Smtp.new(
+        address: "smtp.gmail.com",
+        port: 587,
+        user_name: "dorian@dorianmarie.com",
+        password: "my-secret-password",
+        authentication: :plain,
+        enable_starttls_auto: true,
+      )
+
+      smtp.send(
+        from: "dorian+sender@dorianmarie.com",
+        to: "dorian+receiver@dorianmarie.com",
+        subject: "date is {Date.today}",
+        body_html: "time is {Time.now}",
+      )
+    name: send
   name: Smtp
   parent: Dictionary
 - examples:
@@ -2321,88 +2417,232 @@
   - 1.to_string
   - ":hello"
   - String.new(:hello)
+  - '"hello {2.days.from_now}"'
   instance_functions:
-  - name: "&"
-  - name: "*"
-  - name: "+"
-  - name: downcase
-  - name: first
-  - name: include?
-  - name: parameterize
-  - name: reverse
-  - name: substitute
-  - name: to_function
+  - examples:
+    - "[1, 2, 3].map(&:self)"
+    name: "&"
+  - examples:
+    - ":abc * 3"
+    name: "*"
+  - examples:
+    - ":abc + :def"
+    - ":abc + 1"
+    - ":abc + [1, 2, 3]"
+    name: "+"
+  - examples:
+    - ":aBc.downcase"
+    name: downcase
+  - examples:
+    - ":abc.first"
+    name: first
+  - examples:
+    - ":abc.include?(:bc)"
+    - ":abc.include?(:e)"
+    name: include?
+  - examples:
+    - '"hello world".parameterize'
+    name: parameterize
+  - examples:
+    - ":abc.reverse"
+    name: reverse
+  - examples:
+    - ":abcbca.substitute(:bc)"
+    - ":abcbca.substitute(:bc, :de)"
+    name: substitute
+  - examples:
+    - "[1, 2, 3].map(:self.to_function)"
+    name: to_function
   name: String
   parent: Object
 - class_functions:
-  - name: day
-  - name: days
-  - name: format
-  - name: friday?
-  - name: hour
-  - name: hours
-  - name: minute
-  - name: minutes
-  - name: monday?
-  - name: month
-  - name: months
-  - name: now
-  - name: saturday?
-  - name: second
-  - name: seconds
-  - name: sunday?
-  - name: thursday?
-  - name: tomorrow
-  - name: tuesday?
-  - name: wednesday?
-  - name: week
-  - name: week_day
-  - name: week_days
-  - name: weeks
-  - name: year
-  - name: years
-  - name: yesterday
+  - examples:
+    - Time.day
+    name: day
+  - examples:
+    - Time.days
+    name: days
+  - examples:
+    - Time.format("%Y-%m-%d %H:%M:%S")
+    - Time.format("%A, %B %d, %Y")
+    - Time.format("%I:%M %p")
+    - Time.format("Week %U of %Y")
+    - Time.format("Day %j of the year")
+    name: format
+  - examples:
+    - Time.friday?
+    name: friday?
+  - examples:
+    - Time.hour
+    name: hour
+  - examples:
+    - Time.hours
+    name: hours
+  - examples:
+    - Time.minute
+    name: minute
+  - examples:
+    - Time.minutes
+    name: minutes
+  - examples:
+    - Time.monday?
+    name: monday?
+  - examples:
+    - Time.month
+    name: month
+  - examples:
+    - Time.months
+    name: months
+  - examples:
+    - Time.now
+    name: now
+  - examples:
+    - Time.saturday?
+    name: saturday?
+  - examples:
+    - Time.second
+    name: second
+  - examples:
+    - Time.seconds
+    name: seconds
+  - examples:
+    - Time.sunday?
+    name: sunday?
+  - examples:
+    - Time.thursday?
+    name: thursday?
+  - examples:
+    - Time.tomorrow
+    name: tomorrow
+  - examples:
+    - Time.tuesday?
+    name: tuesday?
+  - examples:
+    - Time.wednesday?
+    name: wednesday?
+  - examples:
+    - Time.week
+    name: week
+  - examples:
+    - Time.week_day
+    name: week_day
+  - examples:
+    - Time.week_days
+    name: week_days
+  - examples:
+    - Time.weeks
+    name: weeks
+  - examples:
+    - Time.year
+    name: year
+  - examples:
+    - Time.years
+    name: years
+  - examples:
+    - Time.yesterday
+    name: yesterday
   examples:
   - Time.hour
   - Time.minutes
   - Time.now
   instance_functions:
-  - name: after?
-  - name: before?
-  - name: day
-  - name: days
-  - name: format
-  - name: friday?
-  - name: future?
-  - name: hour
-  - name: hours
-  - name: minute
-  - name: minutes
-  - name: monday?
-  - name: month
-  - name: months
-  - name: past?
-  - name: saturday?
-  - name: second
-  - name: seconds
-  - name: sunday?
-  - name: thursday?
-  - name: tuesday?
-  - name: wednesday?
-  - name: week
-  - name: week_day
-  - name: week_days
-  - name: weeks
-  - name: year
-  - name: years
+  - examples:
+    - Time.now.after?(2.days.ago)
+    - Time.now.after?(2.days.from_now)
+    name: after?
+  - examples:
+    - Time.now.before?(2.days.ago)
+    - Time.now.before?(2.days.from_now)
+    name: before?
+  - examples:
+    - Time.now.day
+    name: day
+  - examples:
+    - Time.now.days
+    name: days
+  - examples:
+    - Time.now.format("%Y-%m-%d %H:%M:%S")
+    - Time.now.format("%A, %B %d, %Y")
+    - Time.now.format("%I:%M %p")
+    - Time.now.format("Week %U of %Y")
+    - Time.now.format("Day %j of the year")
+    name: format
+  - examples:
+    - Time.now.friday?
+    name: friday?
+  - examples:
+    - Time.now.future?
+    - 2.days.ago.future?
+    - 2.days.from_now.future?
+    name: future?
+  - examples:
+    - Time.now.hour
+    name: hour
+  - examples:
+    - Time.now.hours
+    name: hours
+  - examples:
+    - Time.now.minute
+    name: minute
+  - examples:
+    - Time.now.minutes
+    name: minutes
+  - examples:
+    - Time.now.monday?
+    name: monday?
+  - examples:
+    - Time.now.month
+    name: month
+  - examples:
+    - Time.now.months
+    name: months
+  - examples:
+    - Time.now.past?
+    - 2.days.ago.past?
+    - 2.days.from_now.past?
+    name: past?
+  - examples:
+    - Time.now.saturday?
+    name: saturday?
+  - examples:
+    - Time.now.second
+    name: second
+  - examples:
+    - Time.now.seconds
+    name: seconds
+  - examples:
+    - Time.now.sunday?
+    name: sunday?
+  - examples:
+    - Time.now.thursday?
+    name: thursday?
+  - examples:
+    - Time.now.tuesday?
+    name: tuesday?
+  - examples:
+    - Time.now.wednesday?
+    name: wednesday?
+  - examples:
+    - Time.now.week
+    name: week
+  - examples:
+    - Time.now.week_day
+    name: week_day
+  - examples:
+    - Time.now.week_days
+    name: week_days
+  - examples:
+    - Time.now.weeks
+    name: weeks
+  - examples:
+    - Time.now.year
+    name: year
+  - examples:
+    - Time.now.years
+    name: years
   name: Time
   parent: Object
-- class_functions:
-  - name: find
-  - name: find!
-  examples:
-  - User.find!("dorianmariecom")
-  - User.find("dorianmarie")
-  - User.find(:dorian)
+- examples:
+  - User.new
   name: User
   parent: Dictionary
