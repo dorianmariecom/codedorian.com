@@ -105,372 +105,372 @@
   name: Current
   parent: Dictionary
 - class_functions:
-  - name: "after?"
-    examples:
-    - "Date.after?(Date.yesterday)"
-    - "Date.after?(Date.now)"
-    - "Date.after?(Date.tomorrow)"
-  - name: "before?"
-    examples:
-    - "Date.before?(Date.yesterday)"
-    - "Date.before?(Date.now)"
-    - "Date.before?(Date.tomorrow)"
-  - name: "past?"
-    examples:
-    - "Date.past?"
-  - name: "future?"
-    examples:
-    - "Date.future?"
-  - name: "year"
-    examples:
-    - "Date.year"
-  - name: "years"
-    examples:
-    - "Date.years"
-  - name: "month"
-    examples:
-    - "Date.month"
-  - name: "months"
-    examples:
-    - "Date.months"
-  - name: "week"
-    examples:
-    - "Date.week"
-  - name: "weeks"
-    examples:
-    - "Date.weeks"
-  - name: "week_day"
-    examples:
-    - "Date.week_day"
-  - name: "week_days"
-    examples:
-    - "Date.week_days"
-  - name: "day"
-    examples:
-    - "Date.day"
-  - name: "days"
-    examples:
-    - "Date.days"
-  - name: "hour"
-    examples:
-    - "Date.hour"
-  - name: "hours"
-    examples:
-    - "Date.hours"
-  - name: "minute"
-    examples:
-    - "Date.minute"
-  - name: "minutes"
-    examples:
-    - "Date.minutes"
-  - name: "second"
-    examples:
-    - "Date.second"
-  - name: "seconds"
-    examples:
-    - "Date.seconds"
-  - name: "monday?"
-    examples:
-    - "Date.monday?"
-  - name: "tuesday?"
-    examples:
-    - "Date.tuesday?"
-  - name: "wednesday?"
-    examples:
-    - "Date.wednesday?"
-  - name: "thursday?"
-    examples:
-    - "Date.thursday?"
-  - name: "friday?"
-    examples:
-    - "Date.friday?"
-  - name: "saturday?"
-    examples:
-    - "Date.saturday?"
-  - name: "sunday?"
-    examples:
-    - "Date.sunday?"
-  - name: "format"
-    examples:
-    - 'Date.format("%Y-%m-%d")'
-    - 'Date.format("%B %d, %Y")'
-    - 'Date.format("%I:%M %p")'
+  - examples:
+    - Date.after?(Date.yesterday)
+    - Date.after?(Date.now)
+    - Date.after?(Date.tomorrow)
+    name: after?
+  - examples:
+    - Date.before?(Date.yesterday)
+    - Date.before?(Date.now)
+    - Date.before?(Date.tomorrow)
+    name: before?
+  - examples:
+    - Date.past?
+    name: past?
+  - examples:
+    - Date.future?
+    name: future?
+  - examples:
+    - Date.year
+    name: year
+  - examples:
+    - Date.years
+    name: years
+  - examples:
+    - Date.month
+    name: month
+  - examples:
+    - Date.months
+    name: months
+  - examples:
+    - Date.week
+    name: week
+  - examples:
+    - Date.weeks
+    name: weeks
+  - examples:
+    - Date.week_day
+    name: week_day
+  - examples:
+    - Date.week_days
+    name: week_days
+  - examples:
+    - Date.day
+    name: day
+  - examples:
+    - Date.days
+    name: days
+  - examples:
+    - Date.hour
+    name: hour
+  - examples:
+    - Date.hours
+    name: hours
+  - examples:
+    - Date.minute
+    name: minute
+  - examples:
+    - Date.minutes
+    name: minutes
+  - examples:
+    - Date.second
+    name: second
+  - examples:
+    - Date.seconds
+    name: seconds
+  - examples:
+    - Date.monday?
+    name: monday?
+  - examples:
+    - Date.tuesday?
+    name: tuesday?
+  - examples:
+    - Date.wednesday?
+    name: wednesday?
+  - examples:
+    - Date.thursday?
+    name: thursday?
+  - examples:
+    - Date.friday?
+    name: friday?
+  - examples:
+    - Date.saturday?
+    name: saturday?
+  - examples:
+    - Date.sunday?
+    name: sunday?
+  - examples:
+    - Date.format("%Y-%m-%d")
+    - Date.format("%B %d, %Y")
+    - Date.format("%I:%M %p")
     - 'Date.format("Weekday: %A")'
-    - 'Date.format("%F %T %Z")'
-  - name: "january?"
-    examples:
-    - "Date.january?"
-  - name: "february?"
-    examples:
-    - "Date.february?"
-  - name: "march?"
-    examples:
-    - "Date.march?"
-  - name: "april?"
-    examples:
-    - "Date.april?"
-  - name: "may?"
-    examples:
-    - "Date.may?"
-  - name: "june?"
-    examples:
-    - "Date.june?"
-  - name: "july?"
-    examples:
-    - "Date.july?"
-  - name: "august?"
-    examples:
-    - "Date.august?"
-  - name: "september?"
-    examples:
-    - "Date.september?"
-  - name: "october?"
-    examples:
-    - "Date.october?"
-  - name: "november?"
-    examples:
-    - "Date.november?"
-  - name: "december?"
-    examples:
-    - "Date.december?"
-  - name: "add"
-    examples:
-    - "Date.add(year: 1)"
-    - "Date.add(month: 1)"
-    - "Date.add(day: 1)"
-  - name: "substract"
-    examples:
-    - "Date.substract(year: 1)"
-    - "Date.substract(month: 1)"
-    - "Date.substract(day: 1)"
-  - name: "change"
-    examples:
-    - "Date.change(year: 2000)"
-    - "Date.change(month: 1)"
-    - "Date.change(day: 1)"
+    - Date.format("%F %T %Z")
+    name: format
+  - examples:
+    - Date.january?
+    name: january?
+  - examples:
+    - Date.february?
+    name: february?
+  - examples:
+    - Date.march?
+    name: march?
+  - examples:
+    - Date.april?
+    name: april?
+  - examples:
+    - Date.may?
+    name: may?
+  - examples:
+    - Date.june?
+    name: june?
+  - examples:
+    - Date.july?
+    name: july?
+  - examples:
+    - Date.august?
+    name: august?
+  - examples:
+    - Date.september?
+    name: september?
+  - examples:
+    - Date.october?
+    name: october?
+  - examples:
+    - Date.november?
+    name: november?
+  - examples:
+    - Date.december?
+    name: december?
+  - examples:
+    - 'Date.add(year: 1)'
+    - 'Date.add(month: 1)'
+    - 'Date.add(day: 1)'
+    name: add
+  - examples:
+    - 'Date.substract(year: 1)'
+    - 'Date.substract(month: 1)'
+    - 'Date.substract(day: 1)'
+    name: substract
+  - examples:
+    - 'Date.change(year: 2000)'
+    - 'Date.change(month: 1)'
+    - 'Date.change(day: 1)'
+    name: change
   examples:
   - Date.new
   - Date.today
   - Date.tomorrow
   - Date.yesterday
   instance_functions:
-  - name: "after?"
-    examples:
-    - "Date.now.after?(Date.yesterday)"
-    - "Date.yesterday.after?(Date.today)"
-    - "Date.tomorrow.after?(Date.tomorrow)"
-  - name: "before?"
-    examples:
-    - "Date.now.before?(Date.yesterday)"
-    - "Date.yesterday.before?(Date.today)"
-    - "Date.tomorrow.before?(Date.tomorrow)"
-  - name: "past?"
-    examples:
-    - "Date.now.past?"
-    - "Date.yesterday.past?"
-    - "Date.tomorrow.past?"
-  - name: "future?"
-    examples:
-    - "Date.now.future?"
-    - "Date.yesterday.future?"
-    - "Date.tomorrow.future?"
-  - name: "year"
-    examples:
-    - "Date.now.year"
-    - "Date.yesterday.year"
-    - "Date.tomorrow.year"
-  - name: "years"
-    examples:
-    - "Date.now.years"
-    - "Date.yesterday.years"
-    - "Date.tomorrow.years"
-  - name: "month"
-    examples:
-    - "Date.now.month"
-    - "Date.yesterday.month"
-    - "Date.tomorrow.month"
-  - name: "months"
-    examples:
-    - "Date.now.months"
-    - "Date.yesterday.months"
-    - "Date.tomorrow.months"
-  - name: "week"
-    examples:
-    - "Date.now.week"
-    - "Date.yesterday.week"
-    - "Date.tomorrow.week"
-  - name: "weeks"
-    examples:
-    - "Date.now.weeks"
-    - "Date.yesterday.weeks"
-    - "Date.tomorrow.weeks"
-  - name: "week_day"
-    examples:
-    - "Date.now.week_day"
-    - "Date.yesterday.week_day"
-    - "Date.tomorrow.week_day"
-  - name: "week_days"
-    examples:
-    - "Date.now.week_days"
-    - "Date.yesterday.week_days"
-    - "Date.tomorrow.week_days"
-  - name: "day"
-    examples:
-    - "Date.now.day"
-    - "Date.yesterday.day"
-    - "Date.tomorrow.day"
-  - name: "days"
-    examples:
-    - "Date.now.days"
-    - "Date.yesterday.days"
-    - "Date.tomorrow.days"
-  - name: "hour"
-    examples:
-    - "Date.now.hour"
-    - "Date.yesterday.hour"
-    - "Date.tomorrow.hour"
-  - name: "hours"
-    examples:
-    - "Date.now.hours"
-    - "Date.yesterday.hours"
-    - "Date.tomorrow.hours"
-  - name: "minute"
-    examples:
-    - "Date.now.minute"
-    - "Date.yesterday.minute"
-    - "Date.tomorrow.minute"
-  - name: "minutes"
-    examples:
-    - "Date.now.minutes"
-    - "Date.yesterday.minutes"
-    - "Date.tomorrow.minutes"
-  - name: "second"
-    examples:
-    - "Date.now.second"
-    - "Date.yesterday.second"
-    - "Date.tomorrow.second"
-  - name: "seconds"
-    examples:
-    - "Date.now.seconds"
-    - "Date.yesterday.seconds"
-    - "Date.tomorrow.seconds"
-  - name: "monday?"
-    examples:
-    - "Date.now.monday?"
-    - "Date.yesterday.monday?"
-    - "Date.tomorrow.monday?"
-  - name: "tuesday?"
-    examples:
-    - "Date.now.tuesday?"
-    - "Date.yesterday.tuesday?"
-    - "Date.tomorrow.tuesday?"
-  - name: "wednesday?"
-    examples:
-    - "Date.now.wednesday?"
-    - "Date.yesterday.wednesday?"
-    - "Date.tomorrow.wednesday?"
-  - name: "thursday?"
-    examples:
-    - "Date.now.thursday?"
-    - "Date.yesterday.thursday?"
-    - "Date.tomorrow.thursday?"
-  - name: "friday?"
-    examples:
-    - "Date.now.friday?"
-    - "Date.yesterday.friday?"
-    - "Date.tomorrow.friday?"
-  - name: "saturday?"
-    examples:
-    - "Date.now.saturday?"
-    - "Date.yesterday.saturday?"
-    - "Date.tomorrow.saturday?"
-  - name: "sunday?"
-    examples:
-    - "Date.now.sunday?"
-    - "Date.yesterday.sunday?"
-    - "Date.tomorrow.sunday?"
-  - name: "format"
-    examples:
-    - 'Date.now.format("%Y-%m-%d")'
-    - 'Date.yesterday.format("%B %d, %Y")'
-    - 'Date.tomorrow.format("%I:%M %p")'
+  - examples:
+    - Date.now.after?(Date.yesterday)
+    - Date.yesterday.after?(Date.today)
+    - Date.tomorrow.after?(Date.tomorrow)
+    name: after?
+  - examples:
+    - Date.now.before?(Date.yesterday)
+    - Date.yesterday.before?(Date.today)
+    - Date.tomorrow.before?(Date.tomorrow)
+    name: before?
+  - examples:
+    - Date.now.past?
+    - Date.yesterday.past?
+    - Date.tomorrow.past?
+    name: past?
+  - examples:
+    - Date.now.future?
+    - Date.yesterday.future?
+    - Date.tomorrow.future?
+    name: future?
+  - examples:
+    - Date.now.year
+    - Date.yesterday.year
+    - Date.tomorrow.year
+    name: year
+  - examples:
+    - Date.now.years
+    - Date.yesterday.years
+    - Date.tomorrow.years
+    name: years
+  - examples:
+    - Date.now.month
+    - Date.yesterday.month
+    - Date.tomorrow.month
+    name: month
+  - examples:
+    - Date.now.months
+    - Date.yesterday.months
+    - Date.tomorrow.months
+    name: months
+  - examples:
+    - Date.now.week
+    - Date.yesterday.week
+    - Date.tomorrow.week
+    name: week
+  - examples:
+    - Date.now.weeks
+    - Date.yesterday.weeks
+    - Date.tomorrow.weeks
+    name: weeks
+  - examples:
+    - Date.now.week_day
+    - Date.yesterday.week_day
+    - Date.tomorrow.week_day
+    name: week_day
+  - examples:
+    - Date.now.week_days
+    - Date.yesterday.week_days
+    - Date.tomorrow.week_days
+    name: week_days
+  - examples:
+    - Date.now.day
+    - Date.yesterday.day
+    - Date.tomorrow.day
+    name: day
+  - examples:
+    - Date.now.days
+    - Date.yesterday.days
+    - Date.tomorrow.days
+    name: days
+  - examples:
+    - Date.now.hour
+    - Date.yesterday.hour
+    - Date.tomorrow.hour
+    name: hour
+  - examples:
+    - Date.now.hours
+    - Date.yesterday.hours
+    - Date.tomorrow.hours
+    name: hours
+  - examples:
+    - Date.now.minute
+    - Date.yesterday.minute
+    - Date.tomorrow.minute
+    name: minute
+  - examples:
+    - Date.now.minutes
+    - Date.yesterday.minutes
+    - Date.tomorrow.minutes
+    name: minutes
+  - examples:
+    - Date.now.second
+    - Date.yesterday.second
+    - Date.tomorrow.second
+    name: second
+  - examples:
+    - Date.now.seconds
+    - Date.yesterday.seconds
+    - Date.tomorrow.seconds
+    name: seconds
+  - examples:
+    - Date.now.monday?
+    - Date.yesterday.monday?
+    - Date.tomorrow.monday?
+    name: monday?
+  - examples:
+    - Date.now.tuesday?
+    - Date.yesterday.tuesday?
+    - Date.tomorrow.tuesday?
+    name: tuesday?
+  - examples:
+    - Date.now.wednesday?
+    - Date.yesterday.wednesday?
+    - Date.tomorrow.wednesday?
+    name: wednesday?
+  - examples:
+    - Date.now.thursday?
+    - Date.yesterday.thursday?
+    - Date.tomorrow.thursday?
+    name: thursday?
+  - examples:
+    - Date.now.friday?
+    - Date.yesterday.friday?
+    - Date.tomorrow.friday?
+    name: friday?
+  - examples:
+    - Date.now.saturday?
+    - Date.yesterday.saturday?
+    - Date.tomorrow.saturday?
+    name: saturday?
+  - examples:
+    - Date.now.sunday?
+    - Date.yesterday.sunday?
+    - Date.tomorrow.sunday?
+    name: sunday?
+  - examples:
+    - Date.now.format("%Y-%m-%d")
+    - Date.yesterday.format("%B %d, %Y")
+    - Date.tomorrow.format("%I:%M %p")
     - 'Date.now.format("Weekday: %A")'
-    - 'Date.now.format("%F %T %Z")'
-  - name: "january?"
-    examples:
-    - "Date.now.january?"
-    - "Date.yesterday.january?"
-    - "Date.tomorrow.january?"
-  - name: "february?"
-    examples:
-    - "Date.now.february?"
-    - "Date.yesterday.february?"
-    - "Date.tomorrow.february?"
-  - name: "march?"
-    examples:
-    - "Date.now.march?"
-    - "Date.yesterday.march?"
-    - "Date.tomorrow.march?"
-  - name: "april?"
-    examples:
-    - "Date.now.april?"
-    - "Date.yesterday.april?"
-    - "Date.tomorrow.april?"
-  - name: "may?"
-    examples:
-    - "Date.now.may?"
-    - "Date.yesterday.may?"
-    - "Date.tomorrow.may?"
-  - name: "june?"
-    examples:
-    - "Date.now.june?"
-    - "Date.yesterday.june?"
-    - "Date.tomorrow.june?"
-  - name: "july?"
-    examples:
-    - "Date.now.july?"
-    - "Date.yesterday.july?"
-    - "Date.tomorrow.july?"
-  - name: "august?"
-    examples:
-    - "Date.now.august?"
-    - "Date.yesterday.august?"
-    - "Date.tomorrow.august?"
-  - name: "september?"
-    examples:
-    - "Date.now.september?"
-    - "Date.yesterday.september?"
-    - "Date.tomorrow.september?"
-  - name: "october?"
-    examples:
-    - "Date.now.october?"
-    - "Date.yesterday.october?"
-    - "Date.tomorrow.october?"
-  - name: "november?"
-    examples:
-    - "Date.now.november?"
-    - "Date.yesterday.november?"
-    - "Date.tomorrow.november?"
-  - name: "december?"
-    examples:
-    - "Date.now.december?"
-    - "Date.yesterday.december?"
-    - "Date.tomorrow.december?"
-  - name: "add"
-    examples:
-    - "Date.now.add(year: 1)"
-    - "Date.yesterday.add(month: 1)"
-    - "Date.tomorrow.add(day: 1)"
-  - name: "substract"
-    examples:
-    - "Date.now.substract(year: 1)"
-    - "Date.yesterday.substract(month: 1)"
-    - "Date.tomorrow.substract(day: 1)"
-  - name: "change"
-    examples:
-    - "Date.now.change(year: 2000)"
-    - "Date.yesterday.change(month: 1)"
-    - "Date.tomorrow.change(day: 1)"
+    - Date.now.format("%F %T %Z")
+    name: format
+  - examples:
+    - Date.now.january?
+    - Date.yesterday.january?
+    - Date.tomorrow.january?
+    name: january?
+  - examples:
+    - Date.now.february?
+    - Date.yesterday.february?
+    - Date.tomorrow.february?
+    name: february?
+  - examples:
+    - Date.now.march?
+    - Date.yesterday.march?
+    - Date.tomorrow.march?
+    name: march?
+  - examples:
+    - Date.now.april?
+    - Date.yesterday.april?
+    - Date.tomorrow.april?
+    name: april?
+  - examples:
+    - Date.now.may?
+    - Date.yesterday.may?
+    - Date.tomorrow.may?
+    name: may?
+  - examples:
+    - Date.now.june?
+    - Date.yesterday.june?
+    - Date.tomorrow.june?
+    name: june?
+  - examples:
+    - Date.now.july?
+    - Date.yesterday.july?
+    - Date.tomorrow.july?
+    name: july?
+  - examples:
+    - Date.now.august?
+    - Date.yesterday.august?
+    - Date.tomorrow.august?
+    name: august?
+  - examples:
+    - Date.now.september?
+    - Date.yesterday.september?
+    - Date.tomorrow.september?
+    name: september?
+  - examples:
+    - Date.now.october?
+    - Date.yesterday.october?
+    - Date.tomorrow.october?
+    name: october?
+  - examples:
+    - Date.now.november?
+    - Date.yesterday.november?
+    - Date.tomorrow.november?
+    name: november?
+  - examples:
+    - Date.now.december?
+    - Date.yesterday.december?
+    - Date.tomorrow.december?
+    name: december?
+  - examples:
+    - 'Date.now.add(year: 1)'
+    - 'Date.yesterday.add(month: 1)'
+    - 'Date.tomorrow.add(day: 1)'
+    name: add
+  - examples:
+    - 'Date.now.substract(year: 1)'
+    - 'Date.yesterday.substract(month: 1)'
+    - 'Date.tomorrow.substract(day: 1)'
+    name: substract
+  - examples:
+    - 'Date.now.change(year: 2000)'
+    - 'Date.yesterday.change(month: 1)'
+    - 'Date.tomorrow.change(day: 1)'
+    name: change
   name: Date
   parent: Object
 - examples:
@@ -2789,138 +2789,138 @@
     - Time.format("Week %U of %Y")
     - Time.format("Day %j of the year")
     name: format
-  - name: "tomorrow"
-    examples:
-    - "Time.tomorrow"
-  - name: "yesterday"
-    examples:
-    - "Time.yesterday"
-  - name: "past?"
-    examples:
-    - "Time.past?"
-  - name: "future?"
-    examples:
-    - "Time.future?"
-  - name: "year"
-    examples:
-    - "Time.year"
-  - name: "years"
-    examples:
-    - "Time.years"
-  - name: "month"
-    examples:
-    - "Time.month"
-  - name: "months"
-    examples:
-    - "Time.months"
-  - name: "week"
-    examples:
-    - "Time.week"
-  - name: "weeks"
-    examples:
-    - "Time.weeks"
-  - name: "week_day"
-    examples:
-    - "Time.week_day"
-  - name: "week_days"
-    examples:
-    - "Time.week_days"
-  - name: "day"
-    examples:
-    - "Time.day"
-  - name: "days"
-    examples:
-    - "Time.days"
-  - name: "hour"
-    examples:
-    - "Time.hour"
-  - name: "hours"
-    examples:
-    - "Time.hours"
-  - name: "minute"
-    examples:
-    - "Time.minute"
-  - name: "minutes"
-    examples:
-    - "Time.minutes"
-  - name: "second"
-    examples:
-    - "Time.second"
-  - name: "seconds"
-    examples:
-    - "Time.seconds"
-  - name: "monday?"
-    examples:
-    - "Time.monday?"
-  - name: "tuesday?"
-    examples:
-    - "Time.tuesday?"
-  - name: "wednesday?"
-    examples:
-    - "Time.wednesday?"
-  - name: "thursday?"
-    examples:
-    - "Time.thursday?"
-  - name: "friday?"
-    examples:
-    - "Time.friday?"
-  - name: "saturday?"
-    examples:
-    - "Time.saturday?"
-  - name: "sunday?"
-    examples:
-    - "Time.sunday?"
-  - name: "january?"
-    examples:
-    - "Time.january?"
-  - name: "february?"
-    examples:
-    - "Time.february?"
-  - name: "march?"
-    examples:
-    - "Time.march?"
-  - name: "april?"
-    examples:
-    - "Time.april?"
-  - name: "may?"
-    examples:
-    - "Time.may?"
-  - name: "june?"
-    examples:
-    - "Time.june?"
-  - name: "july?"
-    examples:
-    - "Time.july?"
-  - name: "august?"
-    examples:
-    - "Time.august?"
-  - name: "september?"
-    examples:
-    - "Time.september?"
-  - name: "october?"
-    examples:
-    - "Time.october?"
-  - name: "november?"
-    examples:
-    - "Time.november?"
-  - name: "december?"
-    examples:
-    - "Time.december?"
-  - name: "add"
-    examples:
-    - "Time.add(day: 1, hour: 2)"
-    - "Time.add(hour: 3)"
-    - "Time.add(minutes: 10)"
-  - name: "substract"
-    examples:
-    - "Time.substract(day: 1, hour: 2)"
-    - "Time.substract(hour: 3)"
-    - "Time.substract(minutes: 10)"
-  - name: "change"
-    examples:
-    - "Time.change(year: 2000)"
-    - "Time.change(day: 1, hour: 0, minute: 0, second: 0)"
-    - "Time.change(months: 12)"
+  - examples:
+    - Time.tomorrow
+    name: tomorrow
+  - examples:
+    - Time.yesterday
+    name: yesterday
+  - examples:
+    - Time.past?
+    name: past?
+  - examples:
+    - Time.future?
+    name: future?
+  - examples:
+    - Time.year
+    name: year
+  - examples:
+    - Time.years
+    name: years
+  - examples:
+    - Time.month
+    name: month
+  - examples:
+    - Time.months
+    name: months
+  - examples:
+    - Time.week
+    name: week
+  - examples:
+    - Time.weeks
+    name: weeks
+  - examples:
+    - Time.week_day
+    name: week_day
+  - examples:
+    - Time.week_days
+    name: week_days
+  - examples:
+    - Time.day
+    name: day
+  - examples:
+    - Time.days
+    name: days
+  - examples:
+    - Time.hour
+    name: hour
+  - examples:
+    - Time.hours
+    name: hours
+  - examples:
+    - Time.minute
+    name: minute
+  - examples:
+    - Time.minutes
+    name: minutes
+  - examples:
+    - Time.second
+    name: second
+  - examples:
+    - Time.seconds
+    name: seconds
+  - examples:
+    - Time.monday?
+    name: monday?
+  - examples:
+    - Time.tuesday?
+    name: tuesday?
+  - examples:
+    - Time.wednesday?
+    name: wednesday?
+  - examples:
+    - Time.thursday?
+    name: thursday?
+  - examples:
+    - Time.friday?
+    name: friday?
+  - examples:
+    - Time.saturday?
+    name: saturday?
+  - examples:
+    - Time.sunday?
+    name: sunday?
+  - examples:
+    - Time.january?
+    name: january?
+  - examples:
+    - Time.february?
+    name: february?
+  - examples:
+    - Time.march?
+    name: march?
+  - examples:
+    - Time.april?
+    name: april?
+  - examples:
+    - Time.may?
+    name: may?
+  - examples:
+    - Time.june?
+    name: june?
+  - examples:
+    - Time.july?
+    name: july?
+  - examples:
+    - Time.august?
+    name: august?
+  - examples:
+    - Time.september?
+    name: september?
+  - examples:
+    - Time.october?
+    name: october?
+  - examples:
+    - Time.november?
+    name: november?
+  - examples:
+    - Time.december?
+    name: december?
+  - examples:
+    - 'Time.add(day: 1, hour: 2)'
+    - 'Time.add(hour: 3)'
+    - 'Time.add(minutes: 10)'
+    name: add
+  - examples:
+    - 'Time.substract(day: 1, hour: 2)'
+    - 'Time.substract(hour: 3)'
+    - 'Time.substract(minutes: 10)'
+    name: substract
+  - examples:
+    - 'Time.change(year: 2000)'
+    - 'Time.change(day: 1, hour: 0, minute: 0, second: 0)'
+    - 'Time.change(months: 12)'
+    name: change
   examples:
   - Time.hour
   - Time.minutes
@@ -2941,217 +2941,216 @@
     - Time.now.format("Week %U of %Y")
     - Time.now.format("Day %j of the year")
     name: format
-  - name: "tomorrow"
-    examples:
-    - "Time.now.tomorrow"
-    - "Time.yesterday.tomorrow"
-    - "Time.tomorrow.tomorrow"
-  - name: "yesterday"
-    examples:
-    - "Time.now.yesterday"
-    - "Time.yesterday.yesterday"
-    - "Time.tomorrow.yesterday"
-  - name: "past?"
-    examples:
-    - "Time.now.past?"
-    - "Time.yesterday.past?"
-    - "Time.tomorrow.past?"
-  - name: "future?"
-    examples:
-    - "Time.now.future?"
-    - "Time.yesterday.future?"
-    - "Time.tomorrow.future?"
-  - name: "year"
-    examples:
-    - "Time.now.year"
-    - "Time.yesterday.year"
-    - "Time.tomorrow.year"
-  - name: "years"
-    examples:
-    - "Time.now.years"
-    - "Time.yesterday.years"
-    - "Time.tomorrow.years"
-  - name: "month"
-    examples:
-    - "Time.now.month"
-    - "Time.yesterday.month"
-    - "Time.tomorrow.month"
-  - name: "months"
-    examples:
-    - "Time.now.months"
-    - "Time.yesterday.months"
-    - "Time.tomorrow.months"
-  - name: "week"
-    examples:
-    - "Time.now.week"
-    - "Time.yesterday.week"
-    - "Time.tomorrow.week"
-  - name: "weeks"
-    examples:
-    - "Time.now.weeks"
-    - "Time.yesterday.weeks"
-    - "Time.tomorrow.weeks"
-  - name: "week_day"
-    examples:
-    - "Time.now.week_day"
-    - "Time.yesterday.week_day"
-    - "Time.tomorrow.week_day"
-  - name: "week_days"
-    examples:
-    - "Time.now.week_days"
-    - "Time.yesterday.week_days"
-    - "Time.tomorrow.week_days"
-  - name: "day"
-    examples:
-    - "Time.now.day"
-    - "Time.yesterday.day"
-    - "Time.tomorrow.day"
-  - name: "days"
-    examples:
-    - "Time.now.days"
-    - "Time.yesterday.days"
-    - "Time.tomorrow.days"
-  - name: "hour"
-    examples:
-    - "Time.now.hour"
-    - "Time.yesterday.hour"
-    - "Time.tomorrow.hour"
-  - name: "hours"
-    examples:
-    - "Time.now.hours"
-    - "Time.yesterday.hours"
-    - "Time.tomorrow.hours"
-  - name: "minute"
-    examples:
-    - "Time.now.minute"
-    - "Time.yesterday.minute"
-    - "Time.tomorrow.minute"
-  - name: "minutes"
-    examples:
-    - "Time.now.minutes"
-    - "Time.yesterday.minutes"
-    - "Time.tomorrow.minutes"
-  - name: "second"
-    examples:
-    - "Time.now.second"
-    - "Time.yesterday.second"
-    - "Time.tomorrow.second"
-  - name: "seconds"
-    examples:
-    - "Time.now.seconds"
-    - "Time.yesterday.seconds"
-    - "Time.tomorrow.seconds"
-  - name: "monday?"
-    examples:
-    - "Time.now.monday?"
-    - "Time.yesterday.monday?"
-    - "Time.tomorrow.monday?"
-  - name: "tuesday?"
-    examples:
-    - "Time.now.tuesday?"
-    - "Time.yesterday.tuesday?"
-    - "Time.tomorrow.tuesday?"
-  - name: "wednesday?"
-    examples:
-    - "Time.now.wednesday?"
-    - "Time.yesterday.wednesday?"
-    - "Time.tomorrow.wednesday?"
-  - name: "thursday?"
-    examples:
-    - "Time.now.thursday?"
-    - "Time.yesterday.thursday?"
-    - "Time.tomorrow.thursday?"
-  - name: "friday?"
-    examples:
-    - "Time.now.friday?"
-    - "Time.yesterday.friday?"
-    - "Time.tomorrow.friday?"
-  - name: "saturday?"
-    examples:
-    - "Time.now.saturday?"
-    - "Time.yesterday.saturday?"
-    - "Time.tomorrow.saturday?"
-  - name: "sunday?"
-    examples:
-    - "Time.now.sunday?"
-    - "Time.yesterday.sunday?"
-    - "Time.tomorrow.sunday?"
-  - name: "january?"
-    examples:
-    - "Time.now.january?"
-    - "Time.yesterday.january?"
-    - "Time.tomorrow.january?"
-  - name: "february?"
-    examples:
-    - "Time.now.february?"
-    - "Time.yesterday.february?"
-    - "Time.tomorrow.february?"
-  - name: "march?"
-    examples:
-    - "Time.now.march?"
-    - "Time.yesterday.march?"
-    - "Time.tomorrow.march?"
-  - name: "april?"
-    examples:
-    - "Time.now.april?"
-    - "Time.yesterday.april?"
-    - "Time.tomorrow.april?"
-  - name: "may?"
-    examples:
-    - "Time.now.may?"
-    - "Time.yesterday.may?"
-    - "Time.tomorrow.may?"
-  - name: "june?"
-    examples:
-    - "Time.now.june?"
-    - "Time.yesterday.june?"
-    - "Time.tomorrow.june?"
-  - name: "july?"
-    examples:
-    - "Time.now.july?"
-    - "Time.yesterday.july?"
-    - "Time.tomorrow.july?"
-  - name: "august?"
-    examples:
-    - "Time.now.august?"
-    - "Time.yesterday.august?"
-    - "Time.tomorrow.august?"
-  - name: "september?"
-    examples:
-    - "Time.now.september?"
-    - "Time.yesterday.september?"
-    - "Time.tomorrow.september?"
-  - name: "october?"
-    examples:
-    - "Time.now.october?"
-    - "Time.yesterday.october?"
-    - "Time.tomorrow.october?"
-  - name: "november?"
-    examples:
-    - "Time.now.november?"
-    - "Time.yesterday.november?"
-    - "Time.tomorrow.november?"
-  - name: "december?"
-    examples:
-    - "Time.now.december?"
-    - "Time.yesterday.december?"
-    - "Time.tomorrow.december?"
-  - name: "add"
-    examples:
-    - "Time.now.add(day: 1, hour: 2)"
-    - "Time.yesterday.add(hour: 3)"
-    - "Time.tomorrow.add(minutes: 10)"
-  - name: "substract"
-    examples:
-    - "Time.now.substract(day: 1, hour: 2)"
-    - "Time.yesterday.substract(hour: 3)"
-    - "Time.tomorrow.substract(minutes: 10)"
-  - name: "change"
-    examples:
-    - "Time.now.change(year: 2000)"
-    - "Time.yesterday.change(day: 1, hour: 0, minute: 0, second: 0)"
-    - "Time.tomorrow.change(months: 12)"
-
+  - examples:
+    - Time.now.tomorrow
+    - Time.yesterday.tomorrow
+    - Time.tomorrow.tomorrow
+    name: tomorrow
+  - examples:
+    - Time.now.yesterday
+    - Time.yesterday.yesterday
+    - Time.tomorrow.yesterday
+    name: yesterday
+  - examples:
+    - Time.now.past?
+    - Time.yesterday.past?
+    - Time.tomorrow.past?
+    name: past?
+  - examples:
+    - Time.now.future?
+    - Time.yesterday.future?
+    - Time.tomorrow.future?
+    name: future?
+  - examples:
+    - Time.now.year
+    - Time.yesterday.year
+    - Time.tomorrow.year
+    name: year
+  - examples:
+    - Time.now.years
+    - Time.yesterday.years
+    - Time.tomorrow.years
+    name: years
+  - examples:
+    - Time.now.month
+    - Time.yesterday.month
+    - Time.tomorrow.month
+    name: month
+  - examples:
+    - Time.now.months
+    - Time.yesterday.months
+    - Time.tomorrow.months
+    name: months
+  - examples:
+    - Time.now.week
+    - Time.yesterday.week
+    - Time.tomorrow.week
+    name: week
+  - examples:
+    - Time.now.weeks
+    - Time.yesterday.weeks
+    - Time.tomorrow.weeks
+    name: weeks
+  - examples:
+    - Time.now.week_day
+    - Time.yesterday.week_day
+    - Time.tomorrow.week_day
+    name: week_day
+  - examples:
+    - Time.now.week_days
+    - Time.yesterday.week_days
+    - Time.tomorrow.week_days
+    name: week_days
+  - examples:
+    - Time.now.day
+    - Time.yesterday.day
+    - Time.tomorrow.day
+    name: day
+  - examples:
+    - Time.now.days
+    - Time.yesterday.days
+    - Time.tomorrow.days
+    name: days
+  - examples:
+    - Time.now.hour
+    - Time.yesterday.hour
+    - Time.tomorrow.hour
+    name: hour
+  - examples:
+    - Time.now.hours
+    - Time.yesterday.hours
+    - Time.tomorrow.hours
+    name: hours
+  - examples:
+    - Time.now.minute
+    - Time.yesterday.minute
+    - Time.tomorrow.minute
+    name: minute
+  - examples:
+    - Time.now.minutes
+    - Time.yesterday.minutes
+    - Time.tomorrow.minutes
+    name: minutes
+  - examples:
+    - Time.now.second
+    - Time.yesterday.second
+    - Time.tomorrow.second
+    name: second
+  - examples:
+    - Time.now.seconds
+    - Time.yesterday.seconds
+    - Time.tomorrow.seconds
+    name: seconds
+  - examples:
+    - Time.now.monday?
+    - Time.yesterday.monday?
+    - Time.tomorrow.monday?
+    name: monday?
+  - examples:
+    - Time.now.tuesday?
+    - Time.yesterday.tuesday?
+    - Time.tomorrow.tuesday?
+    name: tuesday?
+  - examples:
+    - Time.now.wednesday?
+    - Time.yesterday.wednesday?
+    - Time.tomorrow.wednesday?
+    name: wednesday?
+  - examples:
+    - Time.now.thursday?
+    - Time.yesterday.thursday?
+    - Time.tomorrow.thursday?
+    name: thursday?
+  - examples:
+    - Time.now.friday?
+    - Time.yesterday.friday?
+    - Time.tomorrow.friday?
+    name: friday?
+  - examples:
+    - Time.now.saturday?
+    - Time.yesterday.saturday?
+    - Time.tomorrow.saturday?
+    name: saturday?
+  - examples:
+    - Time.now.sunday?
+    - Time.yesterday.sunday?
+    - Time.tomorrow.sunday?
+    name: sunday?
+  - examples:
+    - Time.now.january?
+    - Time.yesterday.january?
+    - Time.tomorrow.january?
+    name: january?
+  - examples:
+    - Time.now.february?
+    - Time.yesterday.february?
+    - Time.tomorrow.february?
+    name: february?
+  - examples:
+    - Time.now.march?
+    - Time.yesterday.march?
+    - Time.tomorrow.march?
+    name: march?
+  - examples:
+    - Time.now.april?
+    - Time.yesterday.april?
+    - Time.tomorrow.april?
+    name: april?
+  - examples:
+    - Time.now.may?
+    - Time.yesterday.may?
+    - Time.tomorrow.may?
+    name: may?
+  - examples:
+    - Time.now.june?
+    - Time.yesterday.june?
+    - Time.tomorrow.june?
+    name: june?
+  - examples:
+    - Time.now.july?
+    - Time.yesterday.july?
+    - Time.tomorrow.july?
+    name: july?
+  - examples:
+    - Time.now.august?
+    - Time.yesterday.august?
+    - Time.tomorrow.august?
+    name: august?
+  - examples:
+    - Time.now.september?
+    - Time.yesterday.september?
+    - Time.tomorrow.september?
+    name: september?
+  - examples:
+    - Time.now.october?
+    - Time.yesterday.october?
+    - Time.tomorrow.october?
+    name: october?
+  - examples:
+    - Time.now.november?
+    - Time.yesterday.november?
+    - Time.tomorrow.november?
+    name: november?
+  - examples:
+    - Time.now.december?
+    - Time.yesterday.december?
+    - Time.tomorrow.december?
+    name: december?
+  - examples:
+    - 'Time.now.add(day: 1, hour: 2)'
+    - 'Time.yesterday.add(hour: 3)'
+    - 'Time.tomorrow.add(minutes: 10)'
+    name: add
+  - examples:
+    - 'Time.now.substract(day: 1, hour: 2)'
+    - 'Time.yesterday.substract(hour: 3)'
+    - 'Time.tomorrow.substract(minutes: 10)'
+    name: substract
+  - examples:
+    - 'Time.now.change(year: 2000)'
+    - 'Time.yesterday.change(day: 1, hour: 0, minute: 0, second: 0)'
+    - 'Time.tomorrow.change(months: 12)'
+    name: change
   name: Time
   parent: Object
 - examples:
