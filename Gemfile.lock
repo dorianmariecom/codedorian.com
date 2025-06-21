@@ -9,7 +9,7 @@ GIT
 
 GIT
   remote: https://github.com/hotwired/turbo-rails
-  revision: 1782f02c919a72643d474f105293c1213f30034f
+  revision: 4bf3c0b64fd48afca60c33e90205025f743e123f
   specs:
     turbo-rails (2.0.16)
       actionpack (>= 7.1.0)
@@ -17,7 +17,7 @@ GIT
 
 GIT
   remote: https://github.com/rails/rails
-  revision: 4b7fb1d14b954d2348d2065ff955466479509656
+  revision: 53a9a3181a59f4e6dff73ba9453734edd7f7e076
   specs:
     actioncable (8.1.0.alpha)
       actionpack (= 8.1.0.alpha)
@@ -139,7 +139,7 @@ GEM
       thor (~> 1.0)
     chronic (0.10.2)
     cmdparse (3.0.7)
-    code-ruby (1.5.7)
+    code-ruby (1.6.0)
       activesupport
       base64
       bigdecimal
@@ -205,18 +205,18 @@ GEM
     erubi (1.13.1)
     et-orbi (1.2.11)
       tzinfo
-    factory_bot (6.5.3)
+    factory_bot (6.5.4)
       activesupport (>= 6.1.0)
-    factory_bot_rails (6.4.4)
+    factory_bot_rails (6.5.0)
       factory_bot (~> 6.5)
-      railties (>= 5.0.0)
+      railties (>= 6.1.0)
     faker (3.5.1)
       i18n (>= 1.8.11, < 2)
     faraday (2.13.1)
       faraday-net_http (>= 2.0, < 3.5)
       json
       logger
-    faraday-net_http (3.4.0)
+    faraday-net_http (3.4.1)
       net-http (>= 0.5.0)
     ffi (1.17.2-aarch64-linux-gnu)
     ffi (1.17.2-arm-linux-gnu)
@@ -276,7 +276,7 @@ GEM
     json (2.12.2)
     jwt (2.10.1)
       base64
-    kamal (2.6.1)
+    kamal (2.7.0)
       activesupport (>= 7.0)
       base64 (~> 0.2)
       bcrypt_pbkdf (~> 1.0)
@@ -347,7 +347,7 @@ GEM
       connection_pool (~> 2.2, >= 2.2.4)
     net-http2 (0.19.0)
       http-2 (>= 1.0)
-    net-imap (0.5.8)
+    net-imap (0.5.9)
       date
       net-protocol
     net-pop (0.1.2)
@@ -382,7 +382,7 @@ GEM
     openssl (3.3.0)
     optparse (0.6.0)
     os (1.1.4)
-    ostruct (0.6.1)
+    ostruct (0.6.2)
     paper_trail (16.0.0)
       activerecord (>= 6.1)
       request_store (~> 1.4)
@@ -443,13 +443,13 @@ GEM
     rainbow (3.1.1)
     rake (13.3.0)
     rchardet (1.9.0)
-    rdoc (6.14.0)
+    rdoc (6.14.1)
       erb
       psych (>= 4.0.0)
     recaptcha (5.19.0)
     redis (5.4.0)
       redis-client (>= 0.22.0)
-    redis-client (0.24.0)
+    redis-client (0.25.0)
       connection_pool
     regexp_parser (2.10.0)
     reline (0.6.1)
@@ -475,7 +475,7 @@ GEM
     rspec-mocks (3.13.5)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
-    rspec-rails (8.0.0)
+    rspec-rails (8.0.1)
       actionpack (>= 7.2)
       activesupport (>= 7.2)
       railties (>= 7.2)
@@ -484,7 +484,7 @@ GEM
       rspec-mocks (~> 3.13)
       rspec-support (~> 3.13)
     rspec-support (3.13.4)
-    rubocop (1.76.0)
+    rubocop (1.77.0)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
@@ -492,10 +492,10 @@ GEM
       parser (>= 3.3.0.2)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 2.9.3, < 3.0)
-      rubocop-ast (>= 1.45.0, < 2.0)
+      rubocop-ast (>= 1.45.1, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 4.0)
-    rubocop-ast (1.45.0)
+    rubocop-ast (1.45.1)
       parser (>= 3.3.7.2)
       prism (~> 1.4)
     rubocop-capybara (2.22.1)
@@ -555,8 +555,7 @@ GEM
       activejob (>= 7.2)
       activerecord (>= 7.2)
       railties (>= 7.2)
-    solid_errors (0.6.1)
-      actionmailer (>= 7.0)
+    solid_errors (0.7.0)
       actionpack (>= 7.0)
       actionview (>= 7.0)
       activerecord (>= 7.0)
@@ -592,22 +591,22 @@ GEM
     tailwindcss-rails (4.2.3)
       railties (>= 7.0.0)
       tailwindcss-ruby (~> 4.0)
-    tailwindcss-ruby (4.1.8)
-    tailwindcss-ruby (4.1.8-aarch64-linux-gnu)
-    tailwindcss-ruby (4.1.8-arm64-darwin)
-    tailwindcss-ruby (4.1.8-x86_64-darwin)
-    tailwindcss-ruby (4.1.8-x86_64-linux-gnu)
+    tailwindcss-ruby (4.1.10)
+    tailwindcss-ruby (4.1.10-aarch64-linux-gnu)
+    tailwindcss-ruby (4.1.10-arm64-darwin)
+    tailwindcss-ruby (4.1.10-x86_64-darwin)
+    tailwindcss-ruby (4.1.10-x86_64-linux-gnu)
     temple (0.10.3)
     terminal-table (4.0.0)
       unicode-display_width (>= 1.1.1, < 4)
     thor (1.3.2)
     thread (0.2.2)
     thread_safe (0.3.6)
-    thruster (0.1.13)
-    thruster (0.1.13-aarch64-linux)
-    thruster (0.1.13-arm64-darwin)
-    thruster (0.1.13-x86_64-darwin)
-    thruster (0.1.13-x86_64-linux)
+    thruster (0.1.14)
+    thruster (0.1.14-aarch64-linux)
+    thruster (0.1.14-arm64-darwin)
+    thruster (0.1.14-x86_64-darwin)
+    thruster (0.1.14-x86_64-linux)
     tilt (2.6.0)
     time (0.4.1)
       date
