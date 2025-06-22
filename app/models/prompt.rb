@@ -29,7 +29,10 @@ class Prompt
   def self.generate(name: nil)
     name = name.to_s.strip
 
-    uri = URI("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions")
+    uri =
+      URI(
+        "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
+      )
 
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
@@ -65,10 +68,7 @@ class Prompt
       messages: [
         { role: "system", content: PROMPT_1 },
         { role: "system", content: PROMPT_2 },
-        {
-          role: "system",
-          content: Rails.root.join("config/examples.md").read
-        },
+        { role: "system", content: Rails.root.join("config/examples.md").read },
         { role: "system", content: PROMPT_3 },
         {
           role: "system",
@@ -86,6 +86,9 @@ class Prompt
     response = http.request(request)
     json = JSON.parse(response.body)
 
-    { input: JSON.parse(json.dig("choices", 0, "message", "content"))["input"].to_s }
+    {
+      input:
+        JSON.parse(json.dig("choices", 0, "message", "content"))["input"].to_s
+    }
   end
 end
