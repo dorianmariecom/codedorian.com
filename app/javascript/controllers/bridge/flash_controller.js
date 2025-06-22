@@ -13,10 +13,4 @@ export default class extends BridgeComponent {
 
     this.send("connect", { message: this.messageValue, type: this.typeValue });
   }
-
-  disconnect() {
-    super.disconnect();
-
-    this.send("disconnect");
-  }
 }
