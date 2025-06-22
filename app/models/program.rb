@@ -39,7 +39,7 @@ class Program < ApplicationRecord
         Code.evaluate(input, output: output, error: error, timeout: TIMEOUT)
       executions.create!(
         input: input,
-        result: result.to_s,
+        result: result.inspect,
         output: output.string,
         error: error.string
       )

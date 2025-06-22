@@ -1,1 +1,27 @@
-<div class="p code"><%= example %></div>
+<details>
+  <summary class="p"><%= example["name"] %></summary>
+
+  <% if example["input"].present? %>
+    <div class="p font-bold"><%= t(".input") %></div>
+
+    <div class="p code"><%= example["input"] %></div>
+  <% end %>
+
+  <% if example["output"].present? %>
+    <div class="p font-bold"><%= t(".output") %></div>
+
+    <div class="p code"><%= example["output"] %></div>
+  <% end %>
+
+  <% if example["result"].present? %>
+    <div class="p font-bold"><%= t(".result") %></div>
+
+    <div class="p code"><%= example["result"] %></div>
+  <% end %>
+
+  <% if example["error"].present? %>
+    <div class="p font-bold"><%= t(".error") %></div>
+
+    <div class="p code"><%= example["error"] %></div>
+  <% end %>
+</details>

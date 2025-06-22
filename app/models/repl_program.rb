@@ -54,7 +54,7 @@ class ReplProgram < ApplicationRecord
         )
       repl_executions.create!(
         input: input,
-        result: result.to_s,
+        result: result.inspect,
         output: output.string,
         error: error.string,
         context: context

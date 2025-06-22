@@ -183,6 +183,11 @@ en:
     update:
       notice: device updated
   docs:
+    example:
+      error: error
+      input: input
+      output: output
+      result: result
     examples:
       examples: examples
     functions:
