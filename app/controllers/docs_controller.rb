@@ -3,6 +3,7 @@
 class DocsController < ApplicationController
   before_action { authorize :doc }
   before_action :load_docs
+  before_action :load_examples
   skip_after_action :verify_policy_scoped
 
   def index
@@ -31,5 +32,9 @@ class DocsController < ApplicationController
 
   def load_docs
     @docs = YAML.safe_load_file(Rails.root.join("config/documentation.yml"))
+  end
+
+  def load_examples
+    @examples = Rails.root.join("config/examples.md").read
   end
 end

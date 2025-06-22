@@ -1,3 +1,8 @@
+<details>
+  <summary class="p font-bold"><%= t(".examples") %></summary>
+  <div class="content"><%= raw Commonmarker.to_html(@examples) %></div>
+</details>
+
 <% @docs.each do |doc| %>
   <details>
     <summary class="p font-bold">

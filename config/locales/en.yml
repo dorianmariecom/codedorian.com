@@ -194,6 +194,7 @@ en:
       class_functions: class functions
       instance_functions: instance functions
     index:
+      examples: examples
       title: documentation
     show:
       title: documentation not found
@@ -669,6 +670,8 @@ en:
       title: edit program
     form:
       fake_input: Http.get("https://google.com")
+      generate: generate
+      generating: generating
       input_placeholder: enter your program's input
       name_placeholder: enter your program's name
     index:
@@ -730,6 +733,8 @@ en:
       title: edit repl program
     form:
       fake_input: Http.get("https://google.com")
+      generate: generate
+      generatin: generating
       input_placeholder: enter your repl program's input
     index:
       delete_all: delete all repl programs
@@ -784,6 +789,8 @@ en:
       edit: edit repl session
       evaluate: evaluate
       evaluate_all: evaluate all
+      generate: generate
+      generating: generating
       id: id
       name: name
       new_repl_execution: new repl execution

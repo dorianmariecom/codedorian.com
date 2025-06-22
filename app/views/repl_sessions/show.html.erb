@@ -47,11 +47,24 @@
 </div>
 
 <% (@repl_programs + [@repl_program]).each do |repl_program| %>
-  <%= form_for repl_program do |f| %>
+  <%= form_for repl_program, data: { controller: "generate" } do |f| %>
     <%= f.hidden_field :repl_session_id %>
 
     <div class="p flex gap-4 items-center">
-      <%= f.text_field :input, class: "input input--repl" %>
+      <%= f.text_field :input,
+                   class: "input input--repl",
+                   data: {
+                     generate_target: "name input"
+                   } %>
+      <button
+        class="button"
+        data-action="generate#generate:prevent"
+        data-generate-target="button"
+        data-loading-text="<%= t(".generating") %>"
+        data-initial-text="<%= t(".generate") %>"
+      >
+        <%= t(".generate") %>
+      </button>
       <%= f.submit t(".evaluate"), class: "button" %>
     </div>
 

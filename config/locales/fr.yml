@@ -194,6 +194,7 @@ fr:
       class_functions: fonctions de classe
       instance_functions: fonctions d'instance
     index:
+      examples: exemples
       title: documentation
     show:
       title: documentation non trouvée
@@ -669,6 +670,8 @@ fr:
       title: modifier le programme
     form:
       fake_input: Http.get("https://google.com")
+      generate: générer
+      generating: génération
       input_placeholder: entrez l'entrée de votre programme
       name_placeholder: entrez le nom de votre programme
     index:
@@ -730,6 +733,8 @@ fr:
       title: modifier le programme repl
     form:
       fake_input: Http.get("https://google.com")
+      generate: générer
+      generatin: génération
       input_placeholder: entrez l'entrée de votre programme repl
     index:
       delete_all: supprimer tous les programmes de remplacement
@@ -784,6 +789,8 @@ fr:
       edit: modifier la session repl
       evaluate: évaluer
       evaluate_all: évaluer tout
+      generate: générer
+      generating: génération
       id: identifiant
       name: nom
       new_repl_execution: nouvelle exécution de repl

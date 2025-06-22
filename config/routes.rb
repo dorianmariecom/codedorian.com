@@ -267,6 +267,7 @@ Rails.application.routes.draw do
     resource :session
 
     patch :time_zone, to: "users#update_time_zone"
+    post :generate, to: "prompts#generate"
 
     get :up, to: "static#up"
     get :about, to: "static#about"

@@ -1,4 +1,4 @@
-<%= form_for program do |f| %>
+<%= form_for program, data: { controller: "generate" } do |f| %>
   <% if admin? %>
     <div class="p">
       <%= f.label :user_id, class: "label" %>
@@ -8,7 +8,24 @@
 
   <div class="p">
     <%= f.label :name, class: "label" %>
-    <%= f.text_field :name, placeholder: t(".name_placeholder"), class: "input" %>
+    <div class="flex gap-4 items-center">
+      <%= f.text_field :name,
+                   placeholder: t(".name_placeholder"),
+                   class: "input",
+                   data: {
+                     generate_target: "name",
+                     action: "key.enter->generate#generate:prevent"
+                   } %>
+      <button
+        class="button"
+        data-action="generate#generate:prevent"
+        data-generate-target="button"
+        data-loading-text="<%= t(".generating") %>"
+        data-initial-text="<%= t(".generate") %>"
+      >
+        <%= t(".generate") %>
+      </button>
+    </div>
     <div class="text-gray-600"><%= Faker::Company.name %></div>
   </div>
 
@@ -16,7 +33,10 @@
     <%= f.label :input, class: "label" %>
     <%= f.text_area :input,
                 placeholder: t(".input_placeholder"),
-                class: "input input--code" %>
+                class: "input input--code",
+                data: {
+                  generate_target: "input"
+                } %>
     <div class="text-gray-600"><%= t(".fake_input") %></div>
   </div>
 
