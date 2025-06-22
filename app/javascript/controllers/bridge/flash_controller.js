@@ -1,18 +1,17 @@
 import { BridgeComponent } from "@hotwired/hotwire-native-bridge";
 
 export default class extends BridgeComponent {
-  static component = "button";
+  static component = "flash";
 
   static values = {
-    title: String,
+    message: String,
+    type: String,
   };
 
   connect() {
     super.connect();
 
-    this.send("connect", { title: this.titleValue }, () => {
-      this.element.click();
-    });
+    this.send("connect", { message: this.messageValue, type: this.typeValue })
   }
 
   disconnect() {

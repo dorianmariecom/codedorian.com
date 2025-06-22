@@ -22,36 +22,56 @@
       window.RECAPTCHA_SITE_KEY = "<%= recaptcha_site_key %>";
       window.GOOGLE_MAPS_API_KEY = "<%= google_maps_api_key %>";
     </script>
-    <div data-controller="update-time-zone"></div>
-    <div data-controller="bridge--csrf-token"></div>
-    <div data-controller="bridge--notification-token"></div>
-    <div
-      data-controller="bridge--tab-bar"
-      data-bridge--tab-bar-tabs-ios-value="<%= ios_tabs.to_json %>"
-      data-bridge--tab-bar-tabs-android-value="<%= android_tabs.to_json %>"
-    ></div>
 
-    <% unless hotwire_native_modal? %>
-      <div data-controller="bridge--refresh"></div>
-      <div data-controller="bridge--share"></div>
+    <div data-controller="update-time-zone"></div>
+
+    <% if hotwire_native_app? %>
+      <div data-controller="bridge--csrf-token"></div>
+      <div data-controller="bridge--notification-token"></div>
       <div
-        data-controller="bridge--menu"
-        data-bridge--menu-menu-ios-value="<%= ios_menu.to_json %>"
-        data-bridge--menu-menu-android-value="<%= android_menu.to_json %>"
+        data-controller="bridge--tab-bar"
+        data-bridge--tab-bar-tabs-ios-value="<%= ios_tabs.to_json %>"
+        data-bridge--tab-bar-tabs-android-value="<%= android_tabs.to_json %>"
       ></div>
+
+      <% if alert.present? %>
+        <div
+          data-controller="bridge--flash"
+          data-bridge--flash-message-value="<%= alert %>"
+          data-bridge--flash-type-value="alert"
+        ></div>
+      <% end %>
+
+      <% if notice.present? %>
+        <div
+          data-controller="bridge--flash"
+          data-bridge--flash-message-value="<%= notice %>"
+          data-bridge--flash-type-value="notice"
+        ></div>
+      <% end %>
+
+      <% unless hotwire_native_modal? %>
+        <div data-controller="bridge--refresh"></div>
+        <div data-controller="bridge--share"></div>
+        <div
+          data-controller="bridge--menu"
+          data-bridge--menu-menu-ios-value="<%= ios_menu.to_json %>"
+          data-bridge--menu-menu-android-value="<%= android_menu.to_json %>"
+        ></div>
+      <% end %>
     <% end %>
 
     <%= render "application/menu" %>
 
-    <% if alert.present? %>
-      <div class="p text-red-600"><%= alert %></div>
-    <% end %>
-
-    <% if notice.present? %>
-      <div class="p text-green-600"><%= notice %></div>
-    <% end %>
-
     <% unless hotwire_native_app? %>
+      <% if alert.present? %>
+        <div class="p text-red-600"><%= alert %></div>
+      <% end %>
+
+      <% if notice.present? %>
+        <div class="p text-green-600"><%= notice %></div>
+      <% end %>
+
       <h1 class="font-bold p"><%= title %></h1>
     <% end %>
 
