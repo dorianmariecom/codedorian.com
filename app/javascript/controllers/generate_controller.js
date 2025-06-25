@@ -1,16 +1,28 @@
 import { Controller } from "@hotwired/stimulus";
 
 const INTERVAL_DELAY_MS = 500;
+const RECAPTCHA_CHECK_INTERVAL_MS = 50;
 
 const ELLIPSIS = ["&nbsp;&nbsp;&nbsp;", ".&nbsp;&nbsp;", "..&nbsp;", "..."];
 
 export default class extends Controller {
-  static targets = ["name", "input", "button", "nested"];
+  static targets = ["name", "input", "button", "nested", "form"];
 
   static values = {
     index: Number,
     interval: Number,
+    repatchaIntervalValue: Number,
   };
+
+  connect() {
+    this.repatchaIntervalValue = setInterval(() => {
+      this.buttonTarget.disabled = this.formTarget.disabled;
+    }, RECAPTCHA_CHECK_INTERVAL_MS);
+  }
+
+  disconnect() {
+    clearInterval(repatchaInterval);
+  }
 
   async generate() {
     this.buttonTarget.disabled = false;
@@ -23,15 +35,16 @@ export default class extends Controller {
 
     try {
       const csrfToken = document.querySelector("[name='csrf-token']")?.content;
+      const formData = new FormData(this.formTarget);
+      formData.append("prompt[input]", this.nameTarget.value);
 
-      const response = await fetch("/generate", {
-        method: "POST",
+      const response = await fetch(this.formTarget.action, {
+        method: this.formTarget.method,
         headers: {
           "X-CSRF-Token": csrfToken,
-          "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify({ prompt: { name: this.nameTarget.value } }),
+        body: formData,
       });
 
       const json = await response.json();
@@ -39,7 +52,9 @@ export default class extends Controller {
       this.inputTarget.value = json.input;
 
       this.nestedTarget.dispatchEvent(
-        new CustomEvent("nested.schedules", { detail: { schedules: json.schedules } }),
+        new CustomEvent("nested.schedules", {
+          detail: { schedules: json.schedules },
+        }),
       );
     } catch {}
 

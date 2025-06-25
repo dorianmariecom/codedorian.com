@@ -1,42 +1,46 @@
 <% inline = local_assigns.fetch(:inline, false) %>
 
-<%= form_for repl_program, data: { controller: "generate" } do |f| %>
-  <div class="p">
-    <%= f.label :repl_session_id, class: "label" %>
-    <%= f.select :repl_session_id,
-             repl_session_options(repl_session_id: f.object.repl_session_id),
-             {},
-             class: "input" %>
-  </div>
+<div data-controller="generate">
+  <%= form_for(Prompt.new, url: prompts_url, data: { generate_target: "form" }) {} %>
 
-  <div class="p">
-    <%= f.label :input, class: "label" %>
-    <div class="flex gap-4 items-center">
-      <%= f.text_field :input,
-                   placeholder: t(".input_placeholder"),
-                   class: "input input--repl",
-                   data: {
-                     generate_target: "input name"
-                   } %>
-      <button
-        class="button"
-        data-action="generate#generate:prevent"
-        data-generate-target="button"
-        data-loading-text="<%= t(".generating") %>"
-        data-initial-text="<%= t(".generate") %>"
-      >
-        <%= t(".generate") %>
-      </button>
+  <%= form_for repl_program do |f| %>
+    <div class="p">
+      <%= f.label :repl_session_id, class: "label" %>
+      <%= f.select :repl_session_id,
+               repl_session_options(repl_session_id: f.object.repl_session_id),
+               {},
+               class: "input" %>
     </div>
-    <div class="text-gray-600"><%= t(".fake_input") %></div>
-  </div>
 
-  <div class="p">
-    <%= f.submit submit,
-             class: "button",
-             data: {
-               controller: "bridge--button",
-               bridge__button_title_value: submit
-             } %>
-  </div>
-<% end %>
+    <div class="p">
+      <%= f.label :input, class: "label" %>
+      <div class="flex gap-4 items-center">
+        <%= f.text_field :input,
+                     placeholder: t(".input_placeholder"),
+                     class: "input input--repl",
+                     data: {
+                       generate_target: "input name"
+                     } %>
+        <button
+          class="button"
+          data-action="generate#generate:prevent"
+          data-generate-target="button"
+          data-loading-text="<%= t(".generating") %>"
+          data-initial-text="<%= t(".generate") %>"
+        >
+          <%= t(".generate") %>
+        </button>
+      </div>
+      <div class="text-gray-600"><%= t(".fake_input") %></div>
+    </div>
+
+    <div class="p">
+      <%= f.submit submit,
+               class: "button",
+               data: {
+                 controller: "bridge--button",
+                 bridge__button_title_value: submit
+               } %>
+    </div>
+  <% end %>
+</div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_04_04_144954) do
+ActiveRecord::Schema[8.1].define(version: 2025_06_25_183828) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -171,6 +171,18 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_04_144954) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.index ["user_id"], name: "index_programs_on_user_id"
+  end
+
+  create_table "prompts", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "input"
+    t.jsonb "output"
+    t.bigint "program_id"
+    t.string "program_type"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index %w[program_type program_id], name: "index_prompts_on_program"
+    t.index ["user_id"], name: "index_prompts_on_user_id"
   end
 
   create_table "repl_executions", force: :cascade do |t|
@@ -545,6 +557,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_04_144954) do
   add_foreign_key "passwords", "users"
   add_foreign_key "phone_numbers", "users"
   add_foreign_key "programs", "users"
+  add_foreign_key "prompts", "users"
   add_foreign_key "repl_executions", "repl_programs"
   add_foreign_key "repl_programs", "repl_sessions"
   add_foreign_key "repl_sessions", "users"

@@ -46,6 +46,9 @@ export default class extends Controller {
   }
 
   _input() {
-    return this.element.closest("form").querySelector("[type=submit]");
+    return (
+      this.element.closest("form").querySelector("[type=submit]") ||
+      this.element.closest("form")
+    );
   }
 }

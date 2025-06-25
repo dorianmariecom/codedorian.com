@@ -19,6 +19,13 @@ Rails.application.routes.draw do
         post :schedule
         post :unschedule
 
+        resources(:prompts) do
+          collection do
+            delete "/destroy_all", to: "prompts#destroy_all"
+            delete "/delete_all", to: "prompts#delete_all"
+          end
+        end
+
         resources(:executions) do
           collection do
             delete "/destroy_all", to: "executions#destroy_all"
@@ -42,10 +49,24 @@ Rails.application.routes.draw do
 
         post :evaluate
 
+        resources(:prompts) do
+          collection do
+            delete "/destroy_all", to: "prompts#destroy_all"
+            delete "/delete_all", to: "prompts#delete_all"
+          end
+        end
+
         resources(:repl_programs) do
           collection do
             delete "/destroy_all", to: "repl_programs#destroy_all"
             delete "/delete_all", to: "repl_programs#delete_all"
+          end
+
+          resources(:prompts) do
+            collection do
+              delete "/destroy_all", to: "prompts#destroy_all"
+              delete "/delete_all", to: "prompts#delete_all"
+            end
           end
 
           resources(:repl_executions) do
@@ -68,6 +89,13 @@ Rails.application.routes.draw do
         collection do
           delete "/destroy_all", to: "repl_programs#destroy_all"
           delete "/delete_all", to: "repl_programs#delete_all"
+        end
+
+        resources(:prompts) do
+          collection do
+            delete "/destroy_all", to: "prompts#destroy_all"
+            delete "/delete_all", to: "prompts#delete_all"
+          end
         end
 
         resources(:repl_executions) do
@@ -224,10 +252,10 @@ Rails.application.routes.draw do
         end
       end
 
-      resources(:users) do
+      resources(:prompts) do
         collection do
-          delete "/destroy_all", to: "users#destroy_all"
-          delete "/delete_all", to: "users#delete_all"
+          delete "/destroy_all", to: "prompts#destroy_all"
+          delete "/delete_all", to: "prompts#delete_all"
         end
       end
     end

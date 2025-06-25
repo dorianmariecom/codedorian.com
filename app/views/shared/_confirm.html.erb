@@ -1,13 +1,14 @@
 <% text = local_assigns.fetch(:text) %>
 <% url = local_assigns.fetch(:url) %>
 <% method = local_assigns.fetch(:method, :delete) %>
+<% classes = local_assigns.fetch(:class, "button button--link") %>
 
 <% if hotwire_native_app? %>
   <%= button_to(
     text,
     url,
     method: method,
-    class: "button button--link",
+    class: classes,
     form: {
       class: "inline-block",
       data: {
@@ -26,7 +27,7 @@
       text,
       url,
       method: method,
-      class: "button button--link",
+      class: classes,
       form: {
         data: {
           confirm_target: "form",

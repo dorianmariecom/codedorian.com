@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
-class Prompt
+class Prompt < ApplicationRecord
+  INPUT_SAMPLE_SIZE = 140
+  OMISSION = "…"
+
   PROMPT_1 = <<~PROMPT
     i created a programming language named "code", your goal is to
     generate a json object with the input of the program corresponding
@@ -30,9 +33,29 @@ class Prompt
     and the program schedules
   PROMPT
 
-  def self.generate(name: nil)
-    name = name.to_s.strip
+  belongs_to :user, default: -> { Current.user! }, touch: true
+  belongs_to :program, polymorphic: true, optional: true
 
+  validate { can!(:update, user) }
+
+  before_validation { self.user ||= Current.user! }
+
+  def self.search_fields
+    {
+      input: {
+        node: -> { arel_table[:input] },
+        type: :string
+      },
+      output: {
+        node: -> { arel_table[:output] },
+        type: :string
+      },
+      **base_search_fields,
+      **User.associated_search_fields
+    }
+  end
+
+  def generate!
     uri =
       URI(
         "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
@@ -100,7 +123,7 @@ class Prompt
             ).to_json
         },
         { role: "system", content: PROMPT_4 },
-        { role: "user", content: name },
+        { role: "user", content: input },
         { role: "system", content: PROMPT_5 }
       ]
     }.to_json
@@ -108,6 +131,18 @@ class Prompt
     response = http.request(request)
     json = JSON.parse(response.body)
 
-    JSON.parse(json.dig("choices", 0, "message", "content"))
+    update!(output: JSON.parse(json.dig("choices", 0, "message", "content")))
+  end
+
+  def input_sample
+    input.to_s.truncate(INPUT_SAMPLE_SIZE, omission: OMISSION).presence
+  end
+
+  def as_json(...)
+    output.as_json(...)
+  end
+
+  def to_s
+    input_sample.presence || t("to_s", id: id)
   end
 end

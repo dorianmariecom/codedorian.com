@@ -6,6 +6,7 @@ class ReplSessionsController < ApplicationController
 
   helper_method :url
   helper_method :new_url
+  helper_method :prompts_url
   helper_method :delete_all_url
   helper_method :destroy_all_url
 
@@ -119,6 +120,10 @@ class ReplSessionsController < ApplicationController
 
   def new_url
     @user ? [:new, @user, :repl_session] : new_repl_session_path
+  end
+
+  def prompts_url
+    [@user, @repl_session, :prompts].compact
   end
 
   def id

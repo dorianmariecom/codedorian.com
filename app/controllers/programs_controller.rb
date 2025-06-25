@@ -7,6 +7,7 @@ class ProgramsController < ApplicationController
 
   helper_method :url
   helper_method :new_url
+  helper_method :prompts_url
   helper_method :delete_all_url
   helper_method :destroy_all_url
 
@@ -121,6 +122,10 @@ class ProgramsController < ApplicationController
 
   def new_url
     [:new, @user, :program].compact
+  end
+
+  def prompts_url
+    [@user, @program.persisted? ? @program : nil, :prompts].compact
   end
 
   def delete_all_url

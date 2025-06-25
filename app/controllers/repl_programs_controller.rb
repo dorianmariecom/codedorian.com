@@ -7,6 +7,7 @@ class ReplProgramsController < ApplicationController
 
   helper_method :url
   helper_method :new_url
+  helper_method :prompts_url
   helper_method :delete_all_url
   helper_method :destroy_all_url
 
@@ -130,6 +131,15 @@ class ReplProgramsController < ApplicationController
 
   def new_url
     [:new, @user, @repl_session, :repl_program].compact
+  end
+
+  def prompts_url
+    [
+      @user,
+      @repl_session,
+      @repl_program.persisted? ? @repl_program : nil,
+      :prompts
+    ].compact
   end
 
   def id
