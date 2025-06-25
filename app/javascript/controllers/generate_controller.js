@@ -5,7 +5,7 @@ const INTERVAL_DELAY_MS = 500;
 const ELLIPSIS = ["&nbsp;&nbsp;&nbsp;", ".&nbsp;&nbsp;", "..&nbsp;", "..."];
 
 export default class extends Controller {
-  static targets = ["name", "input", "button"];
+  static targets = ["name", "input", "button", "nested"];
 
   static values = {
     index: Number,
@@ -37,6 +37,10 @@ export default class extends Controller {
       const json = await response.json();
 
       this.inputTarget.value = json.input;
+
+      this.nestedTarget.dispatchEvent(
+        new CustomEvent("nested.schedules", { detail: { schedules: json.schedules } }),
+      );
     } catch {}
 
     clearInterval(this.intervalValue);

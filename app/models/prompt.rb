@@ -4,7 +4,8 @@ class Prompt
   PROMPT_1 = <<~PROMPT
     i created a programming language named "code", your goal is to
     generate a json object with the input of the program corresponding
-    to the name of the program provided by the user
+    to the name of the program provided by the user and the schedules
+    corresponding to when the program will be executed
   PROMPT
 
   PROMPT_2 = <<~PROMPT
@@ -20,11 +21,13 @@ class Prompt
   PROMPT
 
   PROMPT_5 = <<~PROMPT
-    reply with just the input in code
+    reply with the input in code and the schedules of the program
 
-    like the input fields in the documentation or the code samples in the examples
+    the input should be like the input fields in the documentation
+    or the code samples in the examples
 
     you output the program input related to the program name
+    and the program schedules
   PROMPT
 
   def self.generate(name: nil)
@@ -59,6 +62,24 @@ class Prompt
             properties: {
               input: {
                 type: :string
+              },
+              schedules: {
+                type: :array,
+                items: {
+                  type: :object,
+                  properties: {
+                    starts_at: {
+                      type: :string,
+                      format: "date-time"
+                    },
+                    interval: {
+                      type: :string,
+                      enum: Schedule::INTERVALS
+                    }
+                  },
+                  required: %i[starts_at interval],
+                  additionalProperties: false
+                }
               }
             },
             required: [:input],
@@ -87,9 +108,6 @@ class Prompt
     response = http.request(request)
     json = JSON.parse(response.body)
 
-    {
-      input:
-        JSON.parse(json.dig("choices", 0, "message", "content"))["input"].to_s
-    }
+    JSON.parse(json.dig("choices", 0, "message", "content"))
   end
 end

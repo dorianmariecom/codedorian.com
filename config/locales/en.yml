@@ -121,26 +121,6 @@ en:
       notice: address updated
   application:
     current_user_required: current user required
-    menu:
-      about: about
-      admin: admin
-      documentation: documentation
-      english: english
-      errors: errors
-      french: french
-      jobs: jobs
-      log_in: log in
-      log_out: log out
-      messages: messages
-      privacy: privacy
-      programs: programs
-      register: register
-      repl_sessions: repl
-      source: source
-      terms: terms
-      title: code
-      up: "/up"
-      users: users
   current:
     model:
       envs:
@@ -491,6 +471,26 @@ en:
       log_out: log out
       register: register
       title: code
+    menu:
+      about: about
+      admin: admin
+      documentation: documentation
+      english: english
+      errors: errors
+      french: french
+      jobs: jobs
+      log_in: log in
+      log_out: log out
+      messages: messages
+      privacy: privacy
+      programs: programs
+      register: register
+      repl_sessions: repl
+      source: source
+      terms: terms
+      title: code
+      up: "/up"
+      users: users
   messages:
     create:
       notice: message created

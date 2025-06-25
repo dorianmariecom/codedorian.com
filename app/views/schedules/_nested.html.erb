@@ -1,4 +1,9 @@
-<div data-controller="nested" data-nested-selector-value=".schedule">
+<div
+  data-generate-target="nested"
+  data-controller="nested"
+  data-nested-selector-value=".schedule"
+  data-action="nested.schedules->nested#schedules"
+>
   <template data-nested-target="template">
     <%= f.fields_for :schedules, Schedule.new, child_index: "NEW_RECORD" do |schedule_f| %>
       <%= render "schedules/nested_form", f: schedule_f %>
