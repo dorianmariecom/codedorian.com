@@ -4,7 +4,7 @@ class Prompt
   PROMPT_1 = <<~PROMPT
     i created a programming language named "code", your goal is to
     generate a json object with the input of the program corresponding
-    to the name of the program
+    to the name of the program provided by the user
   PROMPT
 
   PROMPT_2 = <<~PROMPT
@@ -12,7 +12,7 @@ class Prompt
   PROMPT
 
   PROMPT_3 = <<~PROMPT
-    here is the documentation
+    here is the exaustive documentation
   PROMPT
 
   PROMPT_4 = <<~PROMPT
@@ -20,8 +20,9 @@ class Prompt
   PROMPT
 
   PROMPT_5 = <<~PROMPT
-    reply with just the input in code like the input fields in the documentation
-    or the inside of the examples
+    reply with just the input in code
+
+    like the input fields in the documentation or the code samples in the examples
 
     you output the program input related to the program name
   PROMPT
