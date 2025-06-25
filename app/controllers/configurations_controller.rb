@@ -68,7 +68,7 @@ class ConfigurationsController < ApplicationController
             }
           },
           {
-            patterns: %w[(/new$ /edit$],
+            patterns: %w[/new$ /edit$],
             properties: {
               context: "modal",
               uri: "hotwire://fragment/web/modal/sheet",
