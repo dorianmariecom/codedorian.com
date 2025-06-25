@@ -21,9 +21,9 @@ class Prompt
   PROMPT
 
   PROMPT_5 = <<~PROMPT
-    reply with the input in code and the schedules of the program
+    reply with the input in code of the program and the schedules of the program
 
-    the input should be like the input fields in the documentation
+    the input in code of the program should be like the input fields in the documentation
     or the code samples in the examples
 
     you output the program input related to the program name
