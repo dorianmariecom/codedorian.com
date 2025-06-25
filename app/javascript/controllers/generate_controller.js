@@ -39,7 +39,9 @@ export default class extends Controller {
       this.inputTarget.value = json.input;
 
       this.nestedTarget.dispatchEvent(
-        new CustomEvent("nested.schedules", { detail: { schedules: json.schedules } }),
+        new CustomEvent("nested.schedules", {
+          detail: { schedules: json.schedules },
+        }),
       );
     } catch {}
 

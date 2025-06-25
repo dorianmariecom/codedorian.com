@@ -86,11 +86,12 @@ export default class extends Controller {
 
       this.targetTarget.insertAdjacentHTML("beforebegin", content);
 
-      const scheduleTarget = this.scheduleTargets[this.scheduleTargets.length - 1];
+      const scheduleTarget =
+        this.scheduleTargets[this.scheduleTargets.length - 1];
 
       scheduleTarget.dispatchEvent(
-        new CustomEvent("schedule.fill", { detail: { schedule } })
-      )
-    })
+        new CustomEvent("schedule.fill", { detail: { schedule } }),
+      );
+    });
   }
 }
