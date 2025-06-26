@@ -139,7 +139,7 @@ GEM
       thor (~> 1.0)
     chronic (0.10.2)
     cmdparse (3.0.7)
-    code-ruby (1.6.2)
+    code-ruby (1.6.3)
       activesupport
       base64
       bigdecimal
