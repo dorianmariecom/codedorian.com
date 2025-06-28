@@ -113,10 +113,10 @@ class Prompt < ApplicationRecord
       messages: [
         { role: "system", content: PROMPT_1 },
         { role: "system", content: PROMPT_2 },
-        { role: "system", content: Rails.root.join("config/examples.md").read },
+        { role: "user", content: Rails.root.join("config/examples.md").read },
         { role: "system", content: PROMPT_3 },
         {
-          role: "system",
+          role: "user",
           content:
             YAML.safe_load_file(
               Rails.root.join("config/documentation.yml")
