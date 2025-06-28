@@ -134,8 +134,29 @@ class Prompt < ApplicationRecord
     update!(output: JSON.parse(json.dig("choices", 0, "message", "content")))
   end
 
+  def output_input
+    output.is_a?(Hash) && output["input"].is_a?(String) && output["input"]
+  end
+
+  def output_input?
+    output_input.present?
+  end
+
+  def output_schedules
+    output.is_a?(Hash) && output["schedules"].is_an?(Array) &&
+      output["schedules"]
+  end
+
+  def output_schedules?
+    output_schedules.present?
+  end
+
   def input_sample
     input.to_s.truncate(INPUT_SAMPLE_SIZE, omission: OMISSION).presence
+  end
+
+  def output_sample
+    output.to_s.truncate(INPUT_SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def as_json(...)
@@ -143,6 +164,6 @@ class Prompt < ApplicationRecord
   end
 
   def to_s
-    input_sample.presence || t("to_s", id: id)
+    input_sample.presence || output_sample.presence || t("to_s", id: id)
   end
 end

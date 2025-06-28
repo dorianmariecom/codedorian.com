@@ -719,7 +719,9 @@ en:
       delete: delete prompt
       id: id
       input: input
-      output: output
+      output_input: output input
+      output_schedule: 'interval: %{interval}, starts at: %{starts_at}'
+      output_schedules: output schedules
       program: program
       updated_at: updated at
       user: user
