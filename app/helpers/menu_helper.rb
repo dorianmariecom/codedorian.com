@@ -61,6 +61,11 @@ module MenuHelper
         path: polymorphic_path([current_user_or_guest, :repl_sessions])
       },
       {
+        title: t("helpers.application.menu.prompts"),
+        image: ios ? "character.cursor.ibeam" : :text_fields_alt,
+        path: polymorphic_path([current_user_or_guest, :prompts])
+      },
+      {
         title: t("helpers.application.menu.documentation"),
         image: ios ? :document : :code,
         path: docs_path
@@ -141,6 +146,15 @@ module MenuHelper
             title: t("helpers.application.menu.repl"),
             image: ios ? "apple.terminal" : :terminal,
             path: repl_sessions_path
+          }
+        end
+      ),
+      (
+        if admin?
+          {
+            title: t("helpers.application.menu.prompts"),
+            image: ios ? "character.cursor.ibeam" : :text_fields_alt,
+            path: prompts_path
           }
         end
       ),

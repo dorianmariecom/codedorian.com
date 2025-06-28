@@ -1,0 +1,62 @@
+<% content_for(:title, @prompt) %>
+
+<%= turbo_stream_from @prompt %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".id") %></div>
+  <div class="font-bold"><%= @prompt.id %></div>
+</div>
+
+<% if @prompt.user.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".user") %></div>
+    <% if can?(:show, @prompt.user) %>
+      <div class="font-bold">
+        <%= link_to @prompt.user, @prompt.user, class: "link" %>
+      </div>
+    <% else %>
+      <div class="font-bold"><%= @prompt.user %></div>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @prompt.program.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".program") %></div>
+    <% if can?(:show, @prompt.program) %>
+      <div class="font-bold">
+        <%= link_to @prompt.program, @prompt.program, class: "link" %>
+      </div>
+    <% else %>
+      <div class="font-bold"><%= @prompt.program %></div>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @prompt.input.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".input") %></div>
+    <div class="font-bold"><%= @prompt.input %></div>
+  </div>
+<% end %>
+
+<% if @prompt.output.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".output") %></div>
+    <div class="code"><%= JSON.pretty_generate(@prompt.output) %></div>
+  </div>
+<% end %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".updated_at") %></div>
+  <div class="font-bold"><%= local_time(@prompt.updated_at) %></div>
+</div>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".created_at") %></div>
+  <div class="font-bold"><%= local_time(@prompt.created_at) %></div>
+</div>
+
+<div class="p">
+  <%= render "shared/confirm", text: t(".delete"), url: @prompt %>
+</div>

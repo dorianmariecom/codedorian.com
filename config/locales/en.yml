@@ -346,6 +346,7 @@ en:
         messages: messages
         privacy: privacy
         programs: programs
+        prompts: prompts
         register: register
         repl: repl
         source: source
@@ -720,6 +721,7 @@ en:
       input: input
       output: output
       program: program
+      updated_at: updated at
       user: user
   repl_executions:
     destroy:
