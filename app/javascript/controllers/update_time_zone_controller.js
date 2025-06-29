@@ -18,9 +18,5 @@ export default class extends Controller {
       },
       body: JSON.stringify({ time_zone: timeZone }),
     });
-
-    if (response.ok) {
-      window.location.reload();
-    }
   }
 }
