@@ -346,6 +346,7 @@ fr:
         messages: messages
         privacy: confidentialité
         programs: programmes
+        prompts: invites
         register: s'inscrire
         repl: repl
         source: source
@@ -484,6 +485,7 @@ fr:
       messages: messages
       privacy: confidentialité
       programs: programmes
+      prompts: invites
       register: s'inscrire
       repl_sessions: repl
       source: source
@@ -703,6 +705,26 @@ fr:
       user: utilisateur
     update:
       notice: programme mis à jour
+  prompts:
+    destroy:
+      notice: invite supprimée
+    index:
+      delete_all: supprimer toutes les invites
+      destroy_all: détruire toutes les invites
+      title: invites
+    model:
+      to_s: invite#%{id}
+    show:
+      created_at: créé à
+      delete: supprimer l'invite
+      id: identifiant
+      input: saisir
+      output_input: sortie entrée
+      output_schedule: 'intervalle : %{interval}, commence à : %{starts_at}'
+      output_schedules: calendriers de sortie
+      program: programme
+      updated_at: mis à jour à
+      user: utilisateur
   repl_executions:
     destroy:
       notice: exécution de repl supprimée
@@ -932,6 +954,12 @@ fr:
       log_in: se connecter
       register: s'inscrire
       title: compte
+    android:
+      android_html: '<p>l''application n''est pas encore disponible dans le Play Store
+        public</p><p> vous devrez rejoindre le groupe Google : <a href="https://groups.google.com/g/codedorian">https://groups.google.com/g/codedorian</a></p><p>
+        alors vous pouvez télécharger avec le lien Android : <a href="https://play.google.com/store/apps/details?id=com.codedorian">https://play.google.com/store/apps/details?id=com.codedorian</a></p><p>
+        ou avec le lien Web <a href="https://play.google.com/apps/testing/com.codedorian">https://play.google.com/apps/testing/com.codedorian</a></p>'
+      title: android
     home:
       home_html: |
         <p>bienvenue sur code</p>
@@ -940,6 +968,12 @@ fr:
       title: accueil
     icons:
       title: icônes
+    ios:
+      ios_html: <p>l'application n'est pas encore disponible dans l'App Store public</p><p>
+        vous devrez m'envoyer l'adresse e-mail que vous utilisez pour votre compte
+        Apple à <a href="mailto:dorian@dorianmarie.com">dorian@dorianmarie.com</a></p><p>
+        je vous enverrai une invitation et vous pourrez tester via testflight</p>
+      title: ios
     more:
       about: à propos
       admin: administrateur

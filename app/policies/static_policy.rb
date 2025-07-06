@@ -36,4 +36,12 @@ class StaticPolicy < ApplicationPolicy
   def icons?
     true
   end
+
+  def ios?
+    true
+  end
+
+  def android?
+    true
+  end
 end

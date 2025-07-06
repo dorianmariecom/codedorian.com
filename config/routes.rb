@@ -305,6 +305,8 @@ Rails.application.routes.draw do
     get :account, to: "static#account"
     get :more, to: "static#more"
     get :icons, to: "static#icons"
+    get :ios, to: "static#ios"
+    get :android, to: "static#android"
 
     resources :configurations, only: [] do
       get :ios_v1, on: :collection

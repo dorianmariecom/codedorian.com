@@ -31,4 +31,10 @@ class StaticController < ApplicationController
 
   def icons
   end
+
+  def ios
+  end
+
+  def android
+  end
 end

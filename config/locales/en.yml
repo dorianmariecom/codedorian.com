@@ -954,6 +954,27 @@ en:
       log_in: log in
       register: register
       title: account
+    android:
+      android_html: |-
+        <p>
+          the app is not yet available in the public play store
+        </p>
+
+        <p>
+          you will need to join the google group:
+          <a href="https://groups.google.com/g/codedorian">https://groups.google.com/g/codedorian</a>
+        </p>
+
+        <p>
+          then you can download with the android link:
+          <a href="https://play.google.com/store/apps/details?id=com.codedorian">https://play.google.com/store/apps/details?id=com.codedorian</a>
+        </p>
+
+        <p>
+          or with the web link
+          <a href="https://play.google.com/apps/testing/com.codedorian">https://play.google.com/apps/testing/com.codedorian</a>
+        </p>
+      title: android
     home:
       home_html: |
         <p>welcome to code</p>
@@ -962,6 +983,21 @@ en:
       title: home
     icons:
       title: icons
+    ios:
+      ios_html: |-
+        <p>
+           the app is not yet available in the public app store
+        </p>
+
+        <p>
+          you will need to send me the email address you use for your apple account
+          at <a href="mailto:dorian@dorianmarie.com">dorian@dorianmarie.com</a>
+        </p>
+
+        <p>
+          i will send you an invite and you will be able to test via testflight
+        </p>
+      title: ios
     more:
       about: about
       admin: admin

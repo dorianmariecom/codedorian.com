@@ -1,1 +1,13 @@
 <div class="content"><%= t(".home_html") %></div>
+
+<% unless hotwire_native_app? %>
+  <div class="p flex gap-4">
+    <%= link_to ios_path do %>
+      <%= image_tag("ios-#{I18n.locale}.svg", class: "h-14") %>
+    <% end %>
+
+    <%= link_to android_path do %>
+      <%= image_tag("android-#{I18n.locale}.svg", class: "h-14") %>
+    <% end %>
+  </div>
+<% end %>
