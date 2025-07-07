@@ -66,6 +66,11 @@ module MenuHelper
         path: polymorphic_path([current_user_or_guest, :prompts])
       },
       {
+        title: t("helpers.application.menu.data"),
+        image: ios ? "tray.full" : :storage,
+        path: polymorphic_path([current_user_or_guest, :data])
+      },
+      {
         title: t("helpers.application.menu.documentation"),
         image: ios ? :document : :code,
         path: docs_path

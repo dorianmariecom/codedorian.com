@@ -31,12 +31,19 @@ class Program < ApplicationRecord
     }
   end
 
-  def evaluate!
+  def evaluate!(params: {})
     Current.with(user: user) do
+      context = Code::Object::Context.new({ parameters: params })
       output = StringIO.new
       error = StringIO.new
       result =
-        Code.evaluate(input, output: output, error: error, timeout: TIMEOUT)
+        Code.evaluate(
+          input,
+          context: context,
+          output: output,
+          error: error,
+          timeout: TIMEOUT
+        )
       executions.create!(
         input: input,
         result: result.inspect,

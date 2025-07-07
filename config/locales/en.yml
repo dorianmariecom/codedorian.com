@@ -7,6 +7,9 @@ en:
         primary: primary?
         user_id: user
         verified: verified?
+      datum:
+        key: key
+        value: value
       device:
         platform: platform
         primary: primary?
@@ -129,6 +132,38 @@ en:
         production: production
         staging: staging
         test: test
+  data:
+    create:
+      notice: datum created
+    destroy:
+      notice: datum deleted
+    edit:
+      submit: update datum
+      title: edit datum
+    form:
+      key_placeholder: enter your datum's key
+      value_placeholder: enter your datum's value
+    index:
+      delete_all: delete all data
+      destroy_all: destroy all data
+      new: new datum
+      title: data
+    model:
+      to_s: datum#%{id}
+    new:
+      submit: create datum
+      title: new datum
+    show:
+      created_at: created at
+      delete: delete datum
+      edit: edit datum
+      id: id
+      key: key
+      updated_at: updated at
+      user: user
+      value: value
+    update:
+      notice: datum updated
   devices:
     create:
       notice: device created
@@ -336,6 +371,7 @@ en:
       menu:
         about: about
         account: account
+        data: data
         documentation: documentation
         english: english
         errors: errors
@@ -362,6 +398,11 @@ en:
         programs: programs
         register: register
         repl: repl
+    categories:
+      dorian_todo:
+        cancel: cancel
+        done: done
+        snooze: snooze
     label:
       session:
         email_address: email address
@@ -475,6 +516,7 @@ en:
     menu:
       about: about
       admin: admin
+      data: data
       documentation: documentation
       english: english
       errors: errors

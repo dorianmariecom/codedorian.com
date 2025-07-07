@@ -9,6 +9,13 @@ end
 Rails.application.routes.draw do
   define =
     lambda do
+      resources :data do
+        collection do
+          delete "/destroy_all", to: "data#destroy_all"
+          delete "/delete_all", to: "data#delete_all"
+        end
+      end
+
       resources :programs do
         collection do
           delete "/destroy_all", to: "programs#destroy_all"

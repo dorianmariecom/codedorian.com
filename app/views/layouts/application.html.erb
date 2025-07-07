@@ -34,6 +34,12 @@
         data-bridge--tab-bar-tabs-android-value="<%= android_tabs.to_json %>"
       ></div>
 
+      <div
+        data-controller="bridge--actions"
+        data-bridge--actions-categories-ios-value="<%= ios_categories.to_json %>"
+        data-bridge--actions-categories-android-value="<%= android_categories.to_json %>"
+      ></div>
+
       <% if alert.present? %>
         <div
           data-controller="bridge--flash"

@@ -32,7 +32,7 @@ class ProgramsController < ApplicationController
   end
 
   def evaluate
-    @program.evaluate!
+    @program.evaluate!(params: params.expect(:code))
 
     redirect_back_or_to(@program)
   end

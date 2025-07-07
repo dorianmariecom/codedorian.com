@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_many :repl_sessions, dependent: :destroy
   has_many :time_zones, dependent: :destroy
   has_many :tokens, dependent: :destroy
+  has_many :data, dependent: :destroy
   has_many :sent_messages,
            class_name: "Message",
            foreign_key: :from_user_id,

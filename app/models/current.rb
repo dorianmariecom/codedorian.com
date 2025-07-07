@@ -610,7 +610,7 @@ class Current < ActiveSupport::CurrentAttributes
   end
 
   def programs
-    (user || guest).programs.verified
+    (user || guest).programs
   end
 
   def programs?
@@ -624,7 +624,7 @@ class Current < ActiveSupport::CurrentAttributes
   end
 
   def program
-    programs.primary.first || programs.first
+    programs.first
   end
 
   def program?
@@ -637,36 +637,8 @@ class Current < ActiveSupport::CurrentAttributes
     program
   end
 
-  def unverified_programs
-    (user || guest).programs
-  end
-
-  def unverified_programs?
-    unverified_programs.any?
-  end
-
-  def unverified_programs!
-    raise(Code::Error, "no programs found") unless unverified_programs?
-
-    unverified_programs
-  end
-
-  def unverified_program
-    unverified_programs.primary.first || unverified_programs.first
-  end
-
-  def unverified_program?
-    unverified_program.present?
-  end
-
-  def unverified_program!
-    raise(Code::Error, "program not found") unless unverified_program?
-
-    unverified_program
-  end
-
   def schedules
-    (user || guest).schedules.verified
+    (user || guest).schedules
   end
 
   def schedules?
@@ -680,7 +652,7 @@ class Current < ActiveSupport::CurrentAttributes
   end
 
   def schedule
-    schedules.primary.first || schedules.first
+    schedules.first
   end
 
   def schedule?
@@ -693,36 +665,8 @@ class Current < ActiveSupport::CurrentAttributes
     schedule
   end
 
-  def unverified_schedules
-    (user || guest).schedules
-  end
-
-  def unverified_schedules?
-    unverified_schedules.any?
-  end
-
-  def unverified_schedules!
-    raise(Code::Error, "no schedules found") unless unverified_schedules?
-
-    unverified_schedules
-  end
-
-  def unverified_schedule
-    unverified_schedules.primary.first || unverified_schedules.first
-  end
-
-  def unverified_schedule?
-    unverified_schedule.present?
-  end
-
-  def unverified_schedule!
-    raise(Code::Error, "schedule not found") unless unverified_schedule?
-
-    unverified_schedule
-  end
-
   def executions
-    (user || guest).executions.verified
+    (user || guest).executions
   end
 
   def executions?
@@ -736,7 +680,7 @@ class Current < ActiveSupport::CurrentAttributes
   end
 
   def execution
-    executions.primary.first || executions.first
+    executions.first
   end
 
   def execution?
@@ -749,31 +693,31 @@ class Current < ActiveSupport::CurrentAttributes
     execution
   end
 
-  def unverified_executions
-    (user || guest).executions
+  def data
+    (user || guest).data
   end
 
-  def unverified_executions?
-    unverified_executions.any?
+  def data?
+    data.any?
   end
 
-  def unverified_executions!
-    raise(Code::Error, "no executions found") unless unverified_executions?
+  def data!
+    raise(Code::Error, "no verified data found") unless data?
 
-    unverified_executions
+    data
   end
 
-  def unverified_execution
-    unverified_executions.primary.first || unverified_executions.first
+  def datum
+    data.first
   end
 
-  def unverified_execution?
-    unverified_execution.present?
+  def datum?
+    datum.present?
   end
 
-  def unverified_execution!
-    raise(Code::Error, "execution not found") unless unverified_execution?
+  def datum!
+    raise(Code::Error, "no verified datum found") unless datum?
 
-    unverified_execution
+    datum
   end
 end

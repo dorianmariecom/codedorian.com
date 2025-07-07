@@ -17,7 +17,9 @@ class Code
               subject: String.maybe,
               body: String.maybe,
               path: String.maybe,
-              sound: String.maybe
+              sound: String.maybe,
+              category: String.maybe,
+              data: Dictionary.maybe
             }
           end
 
@@ -28,7 +30,9 @@ class Code
               subject: code_value.code_get("subject"),
               body: code_value.code_get("body"),
               path: code_value.code_get("path"),
-              sound: code_value.code_get("sound")
+              sound: code_value.code_get("sound"),
+              category: code_value.code_get("category"),
+              data: code_value.code_get("data")
             )
           else
             code_create
@@ -41,7 +45,9 @@ class Code
               subject: String.maybe,
               body: String.maybe,
               path: String.maybe,
-              sound: String.maybe
+              sound: String.maybe,
+              category: String.maybe,
+              data: Dictionary.maybe
             }
           end
 
@@ -52,7 +58,9 @@ class Code
               subject: code_value.code_get("subject"),
               body: code_value.code_get("body"),
               path: code_value.code_get("path"),
-              sound: code_value.code_get("sound")
+              sound: code_value.code_get("sound"),
+              category: code_value.code_get("category"),
+              data: code_value.code_get("data")
             )
           else
             code_create!
@@ -66,7 +74,9 @@ class Code
         subject: nil,
         body: nil,
         path: nil,
-        sound: nil
+        sound: nil,
+        category: nil,
+        data: nil
       )
         code_from = from.to_code
         code_to = to.to_code
@@ -74,6 +84,8 @@ class Code
         code_body = body.to_s.to_code
         code_path = path.to_s.to_code
         code_sound = sound.to_s.to_code
+        code_category = category.to_s.to_code
+        code_data = data.to_code
         code_from = Current.code_user if code_from.nothing?
         code_to = Current.code_user if code_to.nothing?
 
@@ -89,9 +101,11 @@ class Code
                     body: code_body.to_s
                   },
                   data: {
-                    path: code_path.to_s
+                    path: code_path.to_s,
+                    **data.as_json
                   },
-                  sound: code_sound.to_s
+                  sound: code_sound.to_s,
+                  category: code_category.to_s
                 )
               end
             elsif device.android?
@@ -104,9 +118,11 @@ class Code
                     body: code_body.to_s
                   },
                   data: {
-                    path: code_path.to_s
+                    path: code_path.to_s,
+                    **data.as_json
                   },
-                  sound: code_sound.to_s
+                  sound: code_sound.to_s,
+                  category: code_category.to_s
                 )
               end
             end
@@ -124,7 +140,9 @@ class Code
         subject: nil,
         body: nil,
         path: nil,
-        sound: nil
+        sound: nil,
+        category: nil,
+        data: nil
       )
         code_from = from.to_code
         code_to = to.to_code
@@ -132,6 +150,8 @@ class Code
         code_body = body.to_s.to_code
         code_path = path.to_s.to_code
         code_sound = sound.to_s.to_code
+        code_category = category.to_s.to_code
+        code_data = data.to_code
         code_from = Current.code_user if code_from.nothing?
         code_to = Current.code_user if code_to.nothing?
 
@@ -147,9 +167,11 @@ class Code
                     body: code_body.to_s
                   },
                   data: {
-                    path: code_path.to_s
+                    path: code_path.to_s,
+                    **data.as_json
                   },
-                  sound: code_sound.to_s
+                  sound: code_sound.to_s,
+                  category: code_category.to_s
                 )
               end
             elsif device.android?
@@ -162,9 +184,11 @@ class Code
                     body: code_body.to_s
                   },
                   data: {
-                    path: code_path.to_s
+                    path: code_path.to_s,
+                    **data.as_json
                   },
-                  sound: code_sound.to_s
+                  sound: code_sound.to_s,
+                  category: code_category.to_s
                 )
               end
             end

@@ -35,6 +35,13 @@ class Code
           else
             Class.new(Notification)
           end
+        when "Datum"
+          sig(args) { Object.repeat }
+          if code_arguments.any?
+            Datum.new(*code_arguments.raw)
+          else
+            Class.new(Datum)
+          end
         else
           original_call(**args)
         end

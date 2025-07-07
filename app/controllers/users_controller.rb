@@ -51,6 +51,8 @@ class UsersController < ApplicationController
   def create
     @user = authorize policy_scope(User).new(user_params)
 
+    Current.user = @user
+
     if @user.save
       log_in(@user)
       redirect_to @user, notice: t(".notice")

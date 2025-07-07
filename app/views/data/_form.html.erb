@@ -1,0 +1,29 @@
+<%= form_for datum do |f| %>
+  <% if admin? %>
+    <div class="p">
+      <%= f.label :user_id, class: "label" %>
+      <%= f.select :user_id, user_options(user_id: f.object.user_id), {}, class: "input" %>
+    </div>
+  <% end %>
+
+  <div class="p">
+    <%= f.label :key, class: "label" %>
+    <%= f.text_field :key, placeholder: t(".key_placeholder"), class: "input" %>
+    <div class="text-gray-600"><%= Faker::Internet.slug %></div>
+  </div>
+
+  <div class="p">
+    <%= f.label :value, class: "label" %>
+    <%= f.text_field :value, placeholder: t(".value_placeholder"), class: "input" %>
+    <div class="text-gray-600"><%= Faker::Alphanumeric.alphanumeric %></div>
+  </div>
+
+  <div class="p">
+    <%= f.submit submit,
+             class: "button",
+             data: {
+               controller: "bridge--button",
+               bridge__button_title_value: submit
+             } %>
+  </div>
+<% end %>

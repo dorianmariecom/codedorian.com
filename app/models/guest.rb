@@ -26,6 +26,7 @@ class Guest
   def tokens = Token.none
   def sent_messages = Message.none
   def received_messages = Message.none
+  def data = Datum.none
 
   def verified! = nil
   def primary! = nil

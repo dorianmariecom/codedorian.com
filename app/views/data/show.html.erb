@@ -1,0 +1,50 @@
+<% content_for(:title, @datum) %>
+
+<%= turbo_stream_from @datum %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".id") %></div>
+  <div class="font-bold"><%= @datum.id %></div>
+</div>
+
+<% if @datum.user.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".user") %></div>
+    <% if can?(:show, @datum.user) %>
+      <div class="font-bold">
+        <%= link_to @datum.user, @datum.user, class: "link" %>
+      </div>
+    <% else %>
+      <div class="font-bold"><%= @datum.user %></div>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @datum.key.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".key") %></div>
+    <div class="code"><%= JSON.pretty_generate(@datum.key) %></div>
+  </div>
+<% end %>
+
+<% if @datum.value.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".value") %></div>
+    <div class="code"><%= JSON.pretty_generate(@datum.value) %></div>
+  </div>
+<% end %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".updated_at") %></div>
+  <div class="font-bold"><%= local_time(@datum.updated_at) %></div>
+</div>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".created_at") %></div>
+  <div class="font-bold"><%= local_time(@datum.created_at) %></div>
+</div>
+
+<div class="p">
+  <%= link_to t(".edit"), [@user, :edit, @datum], class: "link" %>
+  <%= render "shared/confirm", text: t(".delete"), url: [@user, @datum] %>
+</div>

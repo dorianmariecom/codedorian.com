@@ -129,6 +129,38 @@ fr:
         production: production
         staging: staging
         test: test
+  data:
+    create:
+      notice: donnée créée
+    destroy:
+      notice: donnée supprimée
+    edit:
+      submit: mettre à jour les données
+      title: modifier la donnée
+    form:
+      key_placeholder: entrez la clé de votre donnée
+      value_placeholder: entrez la valeur de votre donnée
+    index:
+      delete_all: supprimer toutes les données
+      destroy_all: détruire toutes les données
+      new: nouvelle donnée
+      title: données
+    model:
+      to_s: donnée#%{id}
+    new:
+      submit: créer une donnée
+      title: nouvelle donnée
+    show:
+      created_at: créé à
+      delete: supprimer la donnée
+      edit: modifier la donnée
+      id: identifiant
+      key: clé
+      updated_at: mis à jour à
+      user: utilisateur
+      value: valeur
+    update:
+      notice: données mises à jour
   devices:
     create:
       notice: appareil créé
@@ -336,6 +368,7 @@ fr:
       menu:
         about: à propos
         account: compte
+        data: données
         documentation: documentation
         english: anglais
         errors: erreurs
@@ -362,6 +395,11 @@ fr:
         programs: programmes
         register: s'inscrire
         repl: repl
+    categories:
+      dorian_todo:
+        cancel: annuler
+        done: fait
+        snooze: retarder
     label:
       session:
         email_address: adresse e-mail
@@ -475,6 +513,7 @@ fr:
     menu:
       about: à propos
       admin: administrateur
+      data: données
       documentation: documentation
       english: anglais
       errors: erreurs

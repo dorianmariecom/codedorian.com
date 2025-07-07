@@ -32,6 +32,8 @@ Lint/MissingSuper:
   Enabled: false
 Lint/PercentStringArray:
   Enabled: false
+Lint/SafeNavigationChain:
+  Enabled: false
 Lint/ShadowingOuterLocalVariable:
   Enabled: false
 Lint/SuppressedException:
