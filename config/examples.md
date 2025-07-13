@@ -1,3 +1,33 @@
+pomodoro
+
+```
+if Time.hour >= 6 and Time.hour < 23
+  if
+    Time.minutes >= 0 and
+      Time.minutes < 5
+    Notification.create!(
+      subject: "pomodoro start"
+    )
+  elsif
+    Time.minutes >= 25 and
+      Time.minutes < 30
+    Notification.create!(
+      subject: "pomodoro break"
+    )
+  elsif
+    Time.minutes >= 30 and
+      Time.minutes < 35
+    Notification.create!(
+      subject: "pomodoro start"
+    )
+  elsif Time.minutes >= 55
+    Notification.create!(
+      subject: "pomodoro break"
+    )
+  end
+end
+```
+
 daily
 
 ```
