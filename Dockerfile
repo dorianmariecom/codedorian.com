@@ -1,8 +1,8 @@
-arg RUBY_VERSION="3.4.2"
+arg RUBY_VERSION="3.4.5"
 
 from registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
 
-env BUNDLER_VERSION="2.6.7" \
+env BUNDLER_VERSION="2.7.1" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
     NODE_VERSION="24.4.1" \

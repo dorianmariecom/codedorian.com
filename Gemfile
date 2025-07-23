@@ -6,7 +6,7 @@ git_source(:dorian) { |name| "https://github.com/dorianmariecom/#{name}" }
 git_source(:rails) { |name| "https://github.com/rails/#{name}" }
 git_source(:hotwired) { |name| "https://github.com/hotwired/#{name}" }
 
-ruby "3.4.2"
+ruby "3.4.5"
 
 gem "importmap-rails", dorian: "importmap-rails" # https://github.com/rails/importmap-rails/pull/257, https://github.com/rails/importmap-rails/pull/256
 gem "rails", rails: :rails
