@@ -5,8 +5,8 @@ from registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
 env BUNDLER_VERSION="2.6.7" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
-    NODE_VERSION="23.11.0" \
-    NPM_VERSION="11.2.0" \
+    NODE_VERSION="24.4.1" \
+    NPM_VERSION="11.4.2" \
     PATH="/usr/local/node/bin:${PATH}" \
     RAILS_ENV="production" \
     RUBY_INSTALL_VERSION="0.10.1"
