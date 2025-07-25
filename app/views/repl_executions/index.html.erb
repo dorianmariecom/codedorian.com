@@ -9,6 +9,10 @@
   </div>
 <% end %>
 
-<%= render_collection partial: "repl_executions/repl_execution",
-                  collection: @repl_executions,
-                  as: :repl_execution %>
+<turbo-frame id="search">
+  <%= render_collection(
+    partial: "repl_executions/repl_execution",
+    collection: @repl_executions,
+    as: :repl_execution
+  ) %>
+</turbo-frame>

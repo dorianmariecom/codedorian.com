@@ -11,4 +11,6 @@
   </div>
 <% end %>
 
-<%= render_collection partial: "handles/handle", collection: @handles, as: :handle %>
+<turbo-frame id="search">
+  <%= render_collection(partial: "handles/handle", collection: @handles, as: :handle) %>
+</turbo-frame>

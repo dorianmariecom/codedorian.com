@@ -17,4 +17,6 @@
   </div>
 <% end %>
 
-<%= render_collection partial: "jobs/job", collection: @jobs, as: :job %>
+<turbo-frame id="search">
+  <%= render_collection(partial: "jobs/job", collection: @jobs, as: :job) %>
+</turbo-frame>

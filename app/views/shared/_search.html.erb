@@ -1,9 +1,26 @@
-<form>
-  <div class="p flex gap-4">
-    <%= text_field_tag "search[q]",
-                   params.dig(:search, :q),
-                   placeholder: t(".placeholder"),
-                   class: "input" %>
-    <%= submit_tag t(".submit"), class: "button" %>
+<% q = params.dig(:search, :q).presence %>
+
+<% if hotwire_native_app? %>
+  <div data-controller="bridge--search">
+    <form data-bridge--search-target="form" data-turbo-frame="search">
+      <%= hidden_field_tag("search[q]", q, data: { bridge__search_target: "q" }) %>
+    </form>
   </div>
-</form>
+<% else %>
+  <div data-controller="search">
+    <form data-search-target="form" data-turbo-frame="search">
+      <div class="p flex gap-4">
+        <%= text_field_tag(
+          "search[q]",
+          q,
+          placeholder: t(".placeholder"),
+          class: "input",
+          data: {
+            action: "search#search"
+          }
+        ) %>
+        <%= submit_tag(t(".submit"), class: "button") %>
+      </div>
+    </form>
+  </div>
+<% end %>

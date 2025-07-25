@@ -9,6 +9,10 @@
   </div>
 <% end %>
 
-<%= render_collection partial: "error_occurrences/error_occurrence",
-                  collection: @error_occurrences,
-                  as: :error_occurrence %>
+<turbo-frame id="search">
+  <%= render_collection(
+    partial: "error_occurences/error_occurence",
+    collection: @error_occurences,
+    as: :error_occurence
+  ) %>
+</turbo-frame>

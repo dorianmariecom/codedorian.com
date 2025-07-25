@@ -11,6 +11,10 @@
   </div>
 <% end %>
 
-<%= render partial: "phone_numbers/phone_number",
-       collection: @phone_numbers,
-       as: :phone_number %>
+<turbo-frame id="search">
+  <%= render_collection(
+    partial: "phone_numbers/phone_number",
+    collection: @phone_numbers,
+    as: :phone_number
+  ) %>
+</turbo-frame>

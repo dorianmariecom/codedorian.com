@@ -11,6 +11,10 @@
   </div>
 <% end %>
 
-<%= render_collection partial: "passwords/password",
-                  collection: @passwords,
-                  as: :password %>
+<turbo-frame id="search">
+  <%= render_collection(
+    partial: "passwords/password",
+    collection: @passwords,
+    as: :password
+  ) %>
+</turbo-frame>
