@@ -7,6 +7,9 @@ fr:
         primary: primaire ?
         user_id: utilisateur
         verified: vérifiée ?
+      datum:
+        key: clé
+        value: valeur
       device:
         platform: plate-forme
         primary: primaire?
@@ -395,11 +398,6 @@ fr:
         programs: programmes
         register: s'inscrire
         repl: repl
-    categories:
-      dorian_todo:
-        cancel: annuler
-        done: fait
-        snooze: retarder
     label:
       session:
         email_address: adresse e-mail

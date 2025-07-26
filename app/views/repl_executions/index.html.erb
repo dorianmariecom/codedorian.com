@@ -9,7 +9,7 @@
   </div>
 <% end %>
 
-<turbo-frame id="search">
+<turbo-frame id="search" target="_top">
   <%= render_collection(
     partial: "repl_executions/repl_execution",
     collection: @repl_executions,

@@ -398,11 +398,6 @@ en:
         programs: programs
         register: register
         repl: repl
-    categories:
-      dorian_todo:
-        cancel: cancel
-        done: done
-        snooze: snooze
     label:
       session:
         email_address: email address

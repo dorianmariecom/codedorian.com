@@ -11,6 +11,6 @@
   </div>
 <% end %>
 
-<turbo-frame id="search">
+<turbo-frame id="search" target="_top">
   <%= render_collection(partial: "tokens/token", collection: @tokens, as: :token) %>
 </turbo-frame>
