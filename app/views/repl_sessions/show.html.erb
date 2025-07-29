@@ -52,21 +52,15 @@
     <%= form_for repl_program do |f| %>
       <%= f.hidden_field :repl_session_id %>
 
-      <div class="p flex gap-4 items-center">
-        <%= f.text_field :input,
-                     class: "input input--repl",
-                     data: {
-                       generate_target: "name input"
-                     } %>
-        <button
-          class="button"
-          data-action="generate#generate:prevent"
-          data-generate-target="button"
-          data-loading-text="<%= t(".generating") %>"
-          data-initial-text="<%= t(".generate") %>"
+      <div class="p flex items-center gap-4">
+        <div
+          class="w-full border border-black rounded overflow-hidden"
+          data-controller="editor"
         >
-          <%= t(".generate") %>
-        </button>
+          <%= f.hidden_field(:input, data: { editor_target: "input" }) %>
+          <div data-editor-target="editor"></div>
+        </div>
+
         <%= f.submit t(".evaluate"), class: "button" %>
       </div>
 

@@ -708,7 +708,6 @@ en:
       submit: update program
       title: edit program
     form:
-      fake_input: Http.get("https://google.com")
       generate: generate
       generating: generating
       input_placeholder: enter your program's input
@@ -1013,6 +1012,7 @@ en:
         </p>
       title: android
     home:
+      submit: create program
       title: home
     icons:
       title: icons

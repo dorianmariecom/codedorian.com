@@ -1,57 +1,35 @@
-<div data-controller="generate">
-  <%= form_for(Prompt.new, url: prompts_url, data: { generate_target: "form" }) {} %>
-
-  <%= form_for program do |f| %>
-    <% if admin? %>
-      <div class="p">
-        <%= f.label :user_id, class: "label" %>
-        <%= f.select :user_id, user_options(user_id: f.object.user_id), {}, class: "input" %>
-      </div>
-    <% end %>
-
+<%= form_for program, html: { class: "flex-1 flex flex-col" } do |f| %>
+  <% if admin? %>
     <div class="p">
-      <%= f.label :name, class: "label" %>
-      <div class="flex gap-4 items-center">
-        <%= f.text_field :name,
-                     placeholder: t(".name_placeholder"),
-                     class: "input",
-                     data: {
-                       generate_target: "name",
-                       action: "key.enter->generate#generate:prevent"
-                     } %>
-        <button
-          class="button"
-          data-action="generate#generate:prevent"
-          data-generate-target="button"
-          data-loading-text="<%= t(".generating") %>"
-          data-initial-text="<%= t(".generate") %>"
-        >
-          <%= t(".generate") %>
-        </button>
-      </div>
-      <div class="text-gray-600"><%= Faker::Company.name %></div>
-    </div>
-
-    <div class="p">
-      <%= f.label :input, class: "label" %>
-      <%= f.text_area :input,
-                  placeholder: t(".input_placeholder"),
-                  class: "input input--code",
-                  data: {
-                    generate_target: "input"
-                  } %>
-      <div class="text-gray-600"><%= t(".fake_input") %></div>
-    </div>
-
-    <%= render "schedules/nested", f: f %>
-
-    <div class="p">
-      <%= f.submit submit,
-               class: "button",
-               data: {
-                 controller: "bridge--button",
-                 bridge__button_title_value: submit
-               } %>
+      <%= f.label :user_id, class: "label" %>
+      <%= f.select :user_id, user_options(user_id: f.object.user_id), {}, class: "input" %>
     </div>
   <% end %>
-</div>
+
+  <div class="p">
+    <%= f.label :name, class: "label" %>
+    <%= f.text_field(:name, placeholder: t(".name_placeholder"), class: "input") %>
+  </div>
+
+  <div class="p flex-1 flex flex-col">
+    <%= f.label :input, class: "label" %>
+    <div
+      class="flex-1 flex flex-col border border-black rounded overflow-hidden"
+      data-controller="editor"
+    >
+      <%= f.hidden_field(:input, data: { editor_target: "input" }) %>
+      <div class="flex-1 flex flex-col" data-editor-target="editor"></div>
+    </div>
+  </div>
+
+  <%= render "schedules/nested", f: f %>
+
+  <div class="p">
+    <%= f.submit submit,
+             class: "button",
+             data: {
+               controller: "bridge--button",
+               bridge__button_title_value: submit
+             } %>
+  </div>
+<% end %>

@@ -5,6 +5,7 @@ class StaticController < ApplicationController
   skip_after_action :verify_policy_scoped
 
   def home
+    @program = Program.new
   end
 
   def up

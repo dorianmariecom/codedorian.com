@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "intl-tel-input": "*",
     "tailwindcss": "*"
   },
   "engines": {

@@ -54,6 +54,15 @@ export default class extends Controller {
         lineNumbers(),
         rectangularSelection(),
         codeTheme,
+        EditorView.theme({
+          "&": {
+            height: "100%",
+          },
+          ".cm-scroller": {
+            overflow: "auto",
+            height: "100%",
+          },
+        }),
       ],
     });
   }

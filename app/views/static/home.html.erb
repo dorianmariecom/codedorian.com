@@ -1,7 +1,1 @@
-<div
-  class="border border-black rounded overflow-hidden"
-  data-controller="editor"
->
-  <%= hidden_field_tag(:input, "", data: { editor_target: "input" }) %>
-  <div data-editor-target="editor"></div>
-</div>
+<%= render "programs/form", program: @program, submit: t(".submit") %>
