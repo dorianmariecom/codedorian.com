@@ -4,8 +4,12 @@
 
 <div class="p text-gray-600"><%= page_entries_info(collection) %></div>
 
-<div class="p text-gray-600"><%= paginate(collection) %></div>
+<% if collection.total_pages > 1 %>
+  <div class="p text-gray-600"><%= paginate(collection) %></div>
+<% end %>
 
 <%= render(partial:, collection:, as:) %>
 
-<div class="p text-gray-600"><%= paginate(collection) %></div>
+<% if collection.total_pages > 1 %>
+  <div class="p text-gray-600"><%= paginate(collection) %></div>
+<% end %>
