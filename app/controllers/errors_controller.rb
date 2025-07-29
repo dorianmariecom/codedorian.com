@@ -55,7 +55,7 @@ class ErrorsController < ApplicationController
     respond_to do |format|
       format.json { render(json: { message: @message }, status: :not_found) }
       format.html { render(status: :not_found) }
-      format.all { redirect_to(root_path, alert: @message) }
+      format.any { redirect_to(root_path, alert: @message) }
     end
   end
 
@@ -70,7 +70,7 @@ class ErrorsController < ApplicationController
         render(json: { message: @message }, status: :internal_server_error)
       end
       format.html { render(status: :internal_server_error) }
-      format.all { redirect_to(root_path, alert: @message) }
+      format.any { redirect_to(root_path, alert: @message) }
     end
   end
 
@@ -85,7 +85,7 @@ class ErrorsController < ApplicationController
         render(json: { message: @message }, status: :unprocessable_entity)
       end
       format.html { render(status: :unprocessable_entity) }
-      format.all { redirect_to(root_path, alert: @message) }
+      format.any { redirect_to(root_path, alert: @message) }
     end
   end
 

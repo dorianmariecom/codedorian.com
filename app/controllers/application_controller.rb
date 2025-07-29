@@ -72,7 +72,7 @@ class ApplicationController < ActionController::Base
 
     respond_to do |format|
       format.json { render(json: { message: message }, status: :unauthorized) }
-      format.all { redirect_to(root_path, alert: alert) }
+      format.any { redirect_to(root_path, alert: alert) }
     end
   end
 
