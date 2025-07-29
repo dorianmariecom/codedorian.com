@@ -1013,10 +1013,6 @@ en:
         </p>
       title: android
     home:
-      home_html: |
-        <p>welcome to code</p>
-        <p>the programming language for the internet age</p>
-        <p>here you can use, create, schedule, execute, and manage your programs</p>
       title: home
     icons:
       title: icons

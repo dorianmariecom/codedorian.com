@@ -1,9 +1,6 @@
 {
   "dependencies": {
-    "@rails/actiontext": "*",
-    "intl-tel-input": "*",
-    "tailwindcss": "*",
-    "trix": "*"
+    "tailwindcss": "*"
   },
   "engines": {
     "node": "24.4.1",

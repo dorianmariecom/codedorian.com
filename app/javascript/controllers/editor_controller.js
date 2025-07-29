@@ -1,5 +1,13 @@
 import { Controller } from "@hotwired/stimulus";
-import { EditorView } from "codemirror";
+import { createTheme } from "thememirror";
+import { indentOnInput, bracketMatching } from "@codemirror/language";
+import { tags as t } from "@lezer/highlight";
+import {
+  defaultKeymap,
+  history,
+  historyKeymap,
+  indentWithTab,
+} from "@codemirror/commands";
 import {
   EditorView,
   keymap,
@@ -8,8 +16,20 @@ import {
   crosshairCursor,
   lineNumbers,
 } from "@codemirror/view";
-import { indentOnInput } from "@codemirror/language";
-import { history, historyKeymap } from "@codemirror/commands";
+
+const codeTheme = createTheme({
+  variant: "light",
+  settings: {
+    background: "#ffffff", // white
+    foreground: "#000000", // black
+    caret: "#000000", // black
+    selection: "#e5e7eb", // gray-200
+    lineHighlight: "#f3f4f6", // gray-100
+    gutterBackground: "#ffffff", // white
+    gutterForeground: "#000000", // black
+  },
+  styles: [],
+});
 
 export default class extends Controller {
   static targets = ["input", "editor"];
@@ -23,7 +43,9 @@ export default class extends Controller {
         EditorView.updateListener.of((update) => {
           this.inputTarget.value = update.state.doc.toString();
         }),
+        keymap.of(defaultKeymap),
         keymap.of(historyKeymap),
+        keymap.of([indentWithTab]),
         bracketMatching(),
         crosshairCursor(),
         drawSelection(),
@@ -31,6 +53,7 @@ export default class extends Controller {
         indentOnInput(),
         lineNumbers(),
         rectangularSelection(),
+        codeTheme,
       ],
     });
   }
