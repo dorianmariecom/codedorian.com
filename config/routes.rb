@@ -148,13 +148,6 @@ Rails.application.routes.draw do
         end
       end
 
-      resources(:locations) do
-        collection do
-          delete "/destroy_all", to: "locations#destroy_all"
-          delete "/delete_all", to: "locations#delete_all"
-        end
-      end
-
       resources(:passwords) do
         collection do
           delete "/destroy_all", to: "passwords#destroy_all"
