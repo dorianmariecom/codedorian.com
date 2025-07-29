@@ -1,30 +1,16 @@
-// @hotwired/hotwire-native-bridge@1.0.0 downloaded from https://ga.jspm.io/npm:@hotwired/hotwire-native-bridge@1.0.0/dist/hotwire-native-bridge.js
+// @hotwired/hotwire-native-bridge@1.2.1 downloaded from https://ga.jspm.io/npm:@hotwired/hotwire-native-bridge@1.2.1/dist/hotwire-native-bridge.js
 
 import { Controller as e } from "@hotwired/stimulus";
-var t = Object.defineProperty;
-var __defNormalProp = (e, s, n) =>
-  s in e
-    ? t(e, s, {
-        enumerable: true,
-        configurable: true,
-        writable: true,
-        value: n,
-      })
-    : (e[s] = n);
-var __publicField = (e, t, s) => {
-  __defNormalProp(e, typeof t !== "symbol" ? t + "" : t, s);
-  return s;
-};
-var s = class {
+var t = class {
   #e;
   #t;
-  #s;
   #n;
+  #s;
   constructor() {
     this.#e = null;
     this.#t = 0;
-    this.#s = [];
-    this.#n = new Map();
+    this.#n = [];
+    this.#s = new Map();
   }
   start() {
     this.notifyApplicationAfterStart();
@@ -35,30 +21,30 @@ var s = class {
   supportsComponent(e) {
     return !!this.#e && this.#e.supportsComponent(e);
   }
-  send({ component: e, event: t, data: s, callback: n }) {
+  send({ component: e, event: t, data: n, callback: s }) {
     if (!this.#e) {
-      this.#a({ component: e, event: t, data: s, callback: n });
+      this.#i({ component: e, event: t, data: n, callback: s });
       return null;
     }
     if (!this.supportsComponent(e)) return null;
-    const a = this.generateMessageId();
-    const i = { id: a, component: e, event: t, data: s || {} };
-    this.#e.receive(i);
-    n && this.#n.set(a, n);
-    return a;
+    const i = this.generateMessageId();
+    const a = { id: i, component: e, event: t, data: n || {} };
+    this.#e.receive(a);
+    s && this.#s.set(i, s);
+    return i;
   }
   receive(e) {
     this.executeCallbackFor(e);
   }
   executeCallbackFor(e) {
-    const t = this.#n.get(e.id);
+    const t = this.#s.get(e.id);
     t && t(e);
   }
   removeCallbackFor(e) {
-    this.#n.has(e) && this.#n.delete(e);
+    this.#s.has(e) && this.#s.delete(e);
   }
   removePendingMessagesFor(e) {
-    this.#s = this.#s.filter((t) => t.component != e);
+    this.#n = this.#n.filter((t) => t.component != e);
   }
   generateMessageId() {
     const e = ++this.#t;
@@ -68,19 +54,19 @@ var s = class {
     this.#e = e;
     document.documentElement.dataset.bridgePlatform = this.#e.platform;
     this.adapterDidUpdateSupportedComponents();
-    this.#i();
+    this.#a();
   }
   adapterDidUpdateSupportedComponents() {
     this.#e &&
       (document.documentElement.dataset.bridgeComponents =
         this.#e.supportedComponents.join(" "));
   }
-  #a(e) {
-    this.#s.push(e);
+  #i(e) {
+    this.#n.push(e);
   }
-  #i() {
-    this.#s.forEach((e) => this.send(e));
-    this.#s = [];
+  #a() {
+    this.#n.forEach((e) => this.send(e));
+    this.#n = [];
   }
 };
 var n = class {
@@ -128,11 +114,15 @@ var n = class {
     return document.documentElement.dataset.bridgePlatform;
   }
 };
-var { userAgent: a } = window.navigator;
-var i = /bridge-components: \[.+\]/.test(a);
-var r = class extends e {
+var { userAgent: s } = window.navigator;
+function appSupportsBridgeComponent(e) {
+  const t = s.match(/bridge-components: \[(.*?)\]/);
+  return !!t && t[1].split(" ").includes(e);
+}
+var i = class extends e {
+  static component = "";
   static get shouldLoad() {
-    return i;
+    return appSupportsBridgeComponent(this.component);
   }
   pendingMessageCallbacks = [];
   initialize() {
@@ -158,11 +148,11 @@ var r = class extends e {
       !this.platformOptingOut && this.bridge.supportsComponent(this.component)
     );
   }
-  send(e, t = {}, s) {
+  send(e, t = {}, n) {
     t.metadata = { url: window.location.href };
-    const n = { component: this.component, event: e, data: t, callback: s };
-    const a = this.bridge.send(n);
-    s && this.pendingMessageCallbacks.push(a);
+    const s = { component: this.component, event: e, data: t, callback: n };
+    const i = this.bridge.send(s);
+    n && this.pendingMessageCallbacks.push(i);
   }
   removePendingCallbacks() {
     this.pendingMessageCallbacks.forEach((e) =>
@@ -176,13 +166,17 @@ var r = class extends e {
     return new n(this.element);
   }
   get bridge() {
-    return window.Strada.web;
+    return window.HotwireNative.web;
   }
 };
-__publicField(r, "component", "");
-if (!window.Strada) {
-  const e = new s();
-  window.Strada = { web: e };
+if (!window.HotwireNative) {
+  const e = new t();
+  window.HotwireNative = { web: e };
+  addLegacyClientSupport(e);
   e.start();
 }
-export { r as BridgeComponent, n as BridgeElement };
+function addLegacyClientSupport(e) {
+  window.Strada || (window.Strada = { web: e });
+  window.webBridge || (window.webBridge = e);
+}
+export { i as BridgeComponent, n as BridgeElement };

@@ -1,117 +1,127 @@
-function __awaiter(e, t, r, i) {
-  function adopt(e) {
-    return e instanceof r
+// @googlemaps/js-api-loader@1.16.10 downloaded from https://ga.jspm.io/npm:@googlemaps/js-api-loader@1.16.10/dist/index.mjs
+
+function e(e, r, t, i) {
+  function s(e) {
+    return e instanceof t
       ? e
-      : new r(function (t) {
-          t(e);
+      : new t(function (r) {
+          r(e);
         });
   }
-  return new (r || (r = Promise))(function (r, s) {
-    function fulfilled(e) {
+  return new (t || (t = Promise))(function (t, o) {
+    function n(e) {
       try {
-        step(i.next(e));
+        l(i.next(e));
       } catch (e) {
-        s(e);
+        o(e);
       }
     }
-    function rejected(e) {
+    function a(e) {
       try {
-        step(i.throw(e));
+        l(i.throw(e));
       } catch (e) {
-        s(e);
+        o(e);
       }
     }
-    function step(e) {
-      e.done ? r(e.value) : adopt(e.value).then(fulfilled, rejected);
+    function l(e) {
+      e.done ? t(e.value) : s(e.value).then(n, a);
     }
-    step((i = i.apply(e, t || [])).next());
+    l((i = i.apply(e, r || [])).next());
   });
 }
 typeof SuppressedError === "function"
   ? SuppressedError
-  : function (e, t, r) {
-      var i = new Error(r);
-      return (i.name = "SuppressedError"), (i.error = e), (i.suppressed = t), i;
+  : function (e, r, t) {
+      var i = new Error(t);
+      return (i.name = "SuppressedError"), (i.error = e), (i.suppressed = r), i;
     };
-function getDefaultExportFromCjs(e) {
+function r(e) {
   return e && e.__esModule && Object.prototype.hasOwnProperty.call(e, "default")
     ? e.default
     : e;
 }
-var e = function equal(e, t) {
-  if (e === t) return true;
-  if (e && t && typeof e == "object" && typeof t == "object") {
-    if (e.constructor !== t.constructor) return false;
-    var r, i, s;
-    if (Array.isArray(e)) {
-      r = e.length;
-      if (r != t.length) return false;
-      for (i = r; i-- !== 0; ) if (!equal(e[i], t[i])) return false;
+var t;
+var i;
+function s() {
+  if (i) return t;
+  i = 1;
+  t = function e(r, t) {
+    if (r === t) return true;
+    if (r && t && typeof r == "object" && typeof t == "object") {
+      if (r.constructor !== t.constructor) return false;
+      var i, s, o;
+      if (Array.isArray(r)) {
+        i = r.length;
+        if (i != t.length) return false;
+        for (s = i; s-- !== 0; ) if (!e(r[s], t[s])) return false;
+        return true;
+      }
+      if (r.constructor === RegExp)
+        return r.source === t.source && r.flags === t.flags;
+      if (r.valueOf !== Object.prototype.valueOf)
+        return r.valueOf() === t.valueOf();
+      if (r.toString !== Object.prototype.toString)
+        return r.toString() === t.toString();
+      o = Object.keys(r);
+      i = o.length;
+      if (i !== Object.keys(t).length) return false;
+      for (s = i; s-- !== 0; )
+        if (!Object.prototype.hasOwnProperty.call(t, o[s])) return false;
+      for (s = i; s-- !== 0; ) {
+        var n = o[s];
+        if (!e(r[n], t[n])) return false;
+      }
       return true;
     }
-    if (e.constructor === RegExp)
-      return e.source === t.source && e.flags === t.flags;
-    if (e.valueOf !== Object.prototype.valueOf)
-      return e.valueOf() === t.valueOf();
-    if (e.toString !== Object.prototype.toString)
-      return e.toString() === t.toString();
-    s = Object.keys(e);
-    r = s.length;
-    if (r !== Object.keys(t).length) return false;
-    for (i = r; i-- !== 0; )
-      if (!Object.prototype.hasOwnProperty.call(t, s[i])) return false;
-    for (i = r; i-- !== 0; ) {
-      var o = s[i];
-      if (!equal(e[o], t[o])) return false;
-    }
-    return true;
-  }
-  return e !== e && t !== t;
-};
-var t = getDefaultExportFromCjs(e);
-const r = "__googleMapsScriptId";
-var i;
+    return r !== r && t !== t;
+  };
+  return t;
+}
+var o = s();
+var n = r(o);
+const a = "__googleMapsScriptId";
+var l;
 (function (e) {
   e[(e.INITIALIZED = 0)] = "INITIALIZED";
   e[(e.LOADING = 1)] = "LOADING";
   e[(e.SUCCESS = 2)] = "SUCCESS";
   e[(e.FAILURE = 3)] = "FAILURE";
-})(i || (i = {}));
+})(l || (l = {}));
 class Loader {
   constructor({
     apiKey: e,
-    authReferrerPolicy: i,
-    channel: s,
-    client: o,
-    id: n = r,
-    language: a,
+    authReferrerPolicy: r,
+    channel: t,
+    client: i,
+    id: s = a,
+    language: o,
     libraries: l = [],
     mapIds: h,
     nonce: c,
-    region: d,
-    retries: p = 3,
-    url: g = "https://maps.googleapis.com/maps/api/js",
-    version: f,
+    region: u,
+    retries: d = 3,
+    url: p = "https://maps.googleapis.com/maps/api/js",
+    version: g,
   }) {
     this.callbacks = [];
     this.done = false;
     this.loading = false;
     this.errors = [];
     this.apiKey = e;
-    this.authReferrerPolicy = i;
-    this.channel = s;
-    this.client = o;
-    this.id = n || r;
-    this.language = a;
+    this.authReferrerPolicy = r;
+    this.channel = t;
+    this.client = i;
+    this.id = s || a;
+    this.language = o;
     this.libraries = l;
     this.mapIds = h;
     this.nonce = c;
-    this.region = d;
-    this.retries = p;
-    this.url = g;
-    this.version = f;
+    this.region = u;
+    this.retries = d;
+    this.url = p;
+    this.version = g;
     if (Loader.instance) {
-      if (!t(this.options, Loader.instance.options))
+      if (!n(this.options, Loader.instance.options))
         throw new Error(
           `Loader must not be called again with different options. ${JSON.stringify(this.options)} !== ${JSON.stringify(Loader.instance.options)}`,
         );
@@ -137,12 +147,12 @@ class Loader {
   }
   get status() {
     return this.errors.length
-      ? i.FAILURE
+      ? l.FAILURE
       : this.done
-        ? i.SUCCESS
+        ? l.SUCCESS
         : this.loading
-          ? i.LOADING
-          : i.INITIALIZED;
+          ? l.LOADING
+          : l.INITIALIZED;
   }
   get failed() {
     return this.done && !this.loading && this.errors.length >= this.retries + 1;
@@ -184,9 +194,9 @@ class Loader {
    * @ignore
    * @deprecated, use importLibrary() instead.
    */ loadPromise() {
-    return new Promise((e, t) => {
-      this.loadCallback((r) => {
-        r ? t(r.error) : e(window.google);
+    return new Promise((e, r) => {
+      this.loadCallback((t) => {
+        t ? r(t.error) : e(window.google);
       });
     });
   }
@@ -202,12 +212,12 @@ class Loader {
     this.execute();
   }
   setScript() {
-    var e, t;
+    var r, t;
     if (document.getElementById(this.id)) {
       this.callback();
       return;
     }
-    const r = {
+    const i = {
       key: this.apiKey,
       channel: this.channel,
       client: this.client,
@@ -218,66 +228,66 @@ class Loader {
       region: this.region,
       authReferrerPolicy: this.authReferrerPolicy,
     };
-    Object.keys(r).forEach((e) => !r[e] && delete r[e]);
+    Object.keys(i).forEach((e) => !i[e] && delete i[e]);
     ((t =
-      (e = window === null || window === void 0 ? void 0 : window.google) ===
-        null || e === void 0
+      (r = window === null || window === void 0 ? void 0 : window.google) ===
+        null || r === void 0
         ? void 0
-        : e.maps) === null || t === void 0
+        : r.maps) === null || t === void 0
       ? void 0
       : t.importLibrary) ||
-      ((e) => {
+      ((r) => {
         let t,
-          r,
           i,
-          s = "The Google Maps JavaScript API",
-          o = "google",
-          n = "importLibrary",
-          a = "__ib__",
-          l = document,
-          h = window;
-        h = h[o] || (h[o] = {});
-        const c = h.maps || (h.maps = {}),
+          s,
+          o = "The Google Maps JavaScript API",
+          n = "google",
+          a = "importLibrary",
+          l = "__ib__",
+          h = document,
+          c = window;
+        c = c[n] || (c[n] = {});
+        const u = c.maps || (c.maps = {}),
           d = new Set(),
           p = new URLSearchParams(),
-          u = () =>
+          g = () =>
             t ||
-            (t = new Promise((n, h) =>
-              __awaiter(this, void 0, void 0, function* () {
-                var g;
-                yield (r = l.createElement("script"));
-                r.id = this.id;
+            (t = new Promise((a, c) =>
+              e(this, void 0, void 0, function* () {
+                var e;
+                yield (i = h.createElement("script"));
+                i.id = this.id;
                 p.set("libraries", [...d] + "");
-                for (i in e)
+                for (s in r)
                   p.set(
-                    i.replace(/[A-Z]/g, (e) => "_" + e[0].toLowerCase()),
-                    e[i],
+                    s.replace(/[A-Z]/g, (e) => "_" + e[0].toLowerCase()),
+                    r[s],
                   );
-                p.set("callback", o + ".maps." + a);
-                r.src = this.url + "?" + p;
-                c[a] = n;
-                r.onerror = () => (t = h(Error(s + " could not load.")));
-                r.nonce =
+                p.set("callback", n + ".maps." + l);
+                i.src = this.url + "?" + p;
+                u[l] = a;
+                i.onerror = () => (t = c(Error(o + " could not load.")));
+                i.nonce =
                   this.nonce ||
-                  ((g = l.querySelector("script[nonce]")) === null ||
-                  g === void 0
+                  ((e = h.querySelector("script[nonce]")) === null ||
+                  e === void 0
                     ? void 0
-                    : g.nonce) ||
+                    : e.nonce) ||
                   "";
-                l.head.append(r);
+                h.head.append(i);
               }),
             ));
-        c[n]
-          ? console.warn(s + " only loads once. Ignoring:", e)
-          : (c[n] = (e, ...t) => d.add(e) && u().then(() => c[n](e, ...t)));
-      })(r);
-    const i = this.libraries.map((e) => this.importLibrary(e));
-    i.length || i.push(this.importLibrary("core"));
-    Promise.all(i).then(
+        u[a]
+          ? console.warn(o + " only loads once. Ignoring:", r)
+          : (u[a] = (e, ...r) => d.add(e) && g().then(() => u[a](e, ...r)));
+      })(i);
+    const s = this.libraries.map((e) => this.importLibrary(e));
+    s.length || s.push(this.importLibrary("core"));
+    Promise.all(s).then(
       () => this.callback(),
       (e) => {
-        const t = new ErrorEvent("error", { error: e });
-        this.loadErrorCallback(t);
+        const r = new ErrorEvent("error", { error: e });
+        this.loadErrorCallback(r);
       },
     );
   }
@@ -315,21 +325,19 @@ class Loader {
   }
   execute() {
     this.resetIfRetryingFailed();
-    if (this.done) this.callback();
-    else {
-      if (window.google && window.google.maps && window.google.maps.version) {
-        console.warn(
-          "Google Maps already loaded outside @googlemaps/js-api-loader.This may result in undesirable behavior as options and script parameters may not match.",
-        );
-        this.callback();
-        return;
-      }
-      if (this.loading);
+    if (!this.loading)
+      if (this.done) this.callback();
       else {
+        if (window.google && window.google.maps && window.google.maps.version) {
+          console.warn(
+            "Google Maps already loaded outside @googlemaps/js-api-loader. This may result in undesirable behavior as options and script parameters may not match.",
+          );
+          this.callback();
+          return;
+        }
         this.loading = true;
         this.setScript();
       }
-    }
   }
 }
-export { r as DEFAULT_ID, Loader, i as LoaderStatus };
+export { a as DEFAULT_ID, Loader, l as LoaderStatus };

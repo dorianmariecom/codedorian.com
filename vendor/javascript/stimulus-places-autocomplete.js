@@ -1,3 +1,5 @@
+// stimulus-places-autocomplete@0.5.0 downloaded from https://ga.jspm.io/npm:stimulus-places-autocomplete@0.5.0/dist/stimulus-places-autocomplete.es.js
+
 import { Controller as t } from "@hotwired/stimulus";
 class src_default extends t {
   initialize() {

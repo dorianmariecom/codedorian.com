@@ -3,6 +3,7 @@ import "@rails/actiontext";
 import "controllers";
 import "trix";
 import LocalTime from "local-time";
+import consumer from "./consumer";
 
 LocalTime.start();
 
