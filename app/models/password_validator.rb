@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "zxcvbn"
+
 class PasswordValidator
   class Result
     attr_reader :success, :message
