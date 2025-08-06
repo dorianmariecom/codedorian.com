@@ -5,7 +5,7 @@ class StaticController < ApplicationController
   skip_after_action :verify_policy_scoped
 
   def home
-    @program = Program.new
+    @program = policy_scope(Program).new(user: current_user)
   end
 
   def up
