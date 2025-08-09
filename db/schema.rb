@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_07_06_130213) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_09_091239) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -78,11 +78,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_07_06_130213) do
   end
 
   create_table "data", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.jsonb "key"
-    t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
+    t.jsonb "key"
     t.jsonb "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_data_on_user_id"
   end
 
@@ -190,6 +190,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_07_06_130213) do
     t.string "program_type"
     t.datetime "updated_at", null: false
     t.bigint "user_id"
+    t.text "name"
+    t.jsonb "schedules"
     t.index %w[program_type program_id], name: "index_prompts_on_program"
     t.index ["user_id"], name: "index_prompts_on_user_id"
   end

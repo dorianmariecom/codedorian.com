@@ -708,9 +708,9 @@ fr:
       submit: mettre à jour le programme
       title: modifier le programme
     form:
-      fake_input: Http.get("https://google.com")
       generate: générer
       generating: génération
+      input: entrée
       input_placeholder: entrez l'entrée de votre programme
       name_placeholder: entrez le nom de votre programme
     index:
@@ -998,10 +998,7 @@ fr:
         ou avec le lien Web <a href="https://play.google.com/apps/testing/com.codedorian">https://play.google.com/apps/testing/com.codedorian</a></p>'
       title: android
     home:
-      home_html: |
-        <p>bienvenue sur code</p>
-        <p>le langage de programmation de l'ère internet</p>
-        <p>ici, vous pouvez utiliser, créer, planifier, exécuter et gérer vos programmes</p>
+      submit: créer un programme
       title: accueil
     icons:
       title: icônes

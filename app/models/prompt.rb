@@ -1,36 +1,40 @@
 # frozen_string_literal: true
 
 class Prompt < ApplicationRecord
-  INPUT_SAMPLE_SIZE = 140
+  SAMPLE_SIZE = 140
   OMISSION = "…"
 
-  PROMPT_1 = <<~PROMPT
+  PROMPT_1 = <<~PROMPT.freeze
     i created a programming language named "code", your goal is to
-    generate a json object with the input of the program corresponding
-    to the name of the program provided by the user and the schedules
-    corresponding to when the program will be executed
+    generate a json object with the input of the program and its schedules
+    from the name of the program provided by the user, the previous input
+    and the previous schedules
+
+    the schedules corresponding to when the program will be executed
+
+    a schedule is a dictionary of a starts_at (datetime) and an interval (string)
+
+    intervals are #{Schedule::INTERVALS}
   PROMPT
 
   PROMPT_2 = <<~PROMPT
-    here are some examples
+    here is the name provided by the user
   PROMPT
 
   PROMPT_3 = <<~PROMPT
-    here is the exaustive documentation
+    here is the previous input provided by the user
   PROMPT
 
   PROMPT_4 = <<~PROMPT
-    here is the user provided name of the program
+    here is the previous schedules provided by the user
   PROMPT
 
   PROMPT_5 = <<~PROMPT
+    here are some examples
+  PROMPT
+
+  PROMPT_6 = <<~PROMPT
     reply with the input in code of the program and the schedules of the program
-
-    the input in code of the program should be like the input fields in the documentation
-    or the code samples in the examples
-
-    you output the program input related to the program name
-    and the program schedules
   PROMPT
 
   belongs_to :user, default: -> { Current.user! }, touch: true
@@ -55,11 +59,16 @@ class Prompt < ApplicationRecord
     }
   end
 
+  def schedules=(schedules)
+    if schedules.is_a?(String)
+      super(JSON.parse(schedules))
+    else
+      super
+    end
+  end
+
   def generate!
-    uri =
-      URI(
-        "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
-      )
+    uri = URI("https://api.openai.com/v1/chat/completions")
 
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
@@ -69,12 +78,13 @@ class Prompt < ApplicationRecord
         uri.path,
         {
           "Content-Type" => "application/json",
-          "Authorization" => "Bearer #{Config.google.gemini.api_key}"
+          "Authorization" => "Bearer #{Config.open_ai.api_key}"
         }
       )
 
     request.body = {
-      model: "gemini-2.5-pro",
+      model:
+        "ft:gpt-4.1-2025-04-14:dorianmarie-com:code-9-august-2025-4:C2ZJmWdX",
       response_format: {
         type: :json_schema,
         json_schema: {
@@ -105,7 +115,7 @@ class Prompt < ApplicationRecord
                 }
               }
             },
-            required: [:input],
+            required: %i[input schedules],
             additionalProperties: false
           }
         }
@@ -113,18 +123,14 @@ class Prompt < ApplicationRecord
       messages: [
         { role: "system", content: PROMPT_1 },
         { role: "system", content: PROMPT_2 },
-        { role: "user", content: Rails.root.join("config/examples.md").read },
+        { role: "user", content: name },
         { role: "system", content: PROMPT_3 },
-        {
-          role: "user",
-          content:
-            YAML.safe_load_file(
-              Rails.root.join("config/documentation.yml")
-            ).to_json
-        },
-        { role: "system", content: PROMPT_4 },
         { role: "user", content: input },
-        { role: "system", content: PROMPT_5 }
+        { role: "system", content: PROMPT_4 },
+        { role: "user", content: schedules.to_json },
+        { role: "system", content: PROMPT_5 },
+        { role: "user", content: Rails.root.join("config/examples.md").read },
+        { role: "system", content: PROMPT_6 }
       ]
     }.to_json
 
@@ -151,12 +157,20 @@ class Prompt < ApplicationRecord
     output_schedules.present?
   end
 
+  def name_sample
+    name.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+  end
+
   def input_sample
-    input.to_s.truncate(INPUT_SAMPLE_SIZE, omission: OMISSION).presence
+    input.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+  end
+
+  def schedules_sample
+    schedules.to_json.truncate(SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def output_sample
-    output.to_s.truncate(INPUT_SAMPLE_SIZE, omission: OMISSION).presence
+    output.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def as_json(...)
@@ -164,6 +178,7 @@ class Prompt < ApplicationRecord
   end
 
   def to_s
-    input_sample.presence || output_sample.presence || t("to_s", id: id)
+    name_sample.presence || input_sample.presence || output_sample.presence ||
+      schedules_sample.presence || t("to_s", id: id)
   end
 end

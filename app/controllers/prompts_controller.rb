@@ -19,10 +19,6 @@ class PromptsController < ApplicationController
   def show
   end
 
-  def new
-    @prompt = authorize scope.new(user: @user, program: @program)
-  end
-
   def create
     @prompt = scope.new(prompt_params)
     @prompt.user ||= @user
@@ -124,9 +120,11 @@ class PromptsController < ApplicationController
 
   def prompt_params
     if admin?
-      params.expect(prompt: %i[user_id program_type program_id input])
+      params.expect(
+        prompt: %i[user_id program_type program_id input name schedules]
+      )
     else
-      params.expect(prompt: %i[input])
+      params.expect(prompt: %i[name input schedules])
     end
   end
 end

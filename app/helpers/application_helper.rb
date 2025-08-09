@@ -160,7 +160,7 @@ module ApplicationHelper
 
     method =
       form.at_css(%(input[name="_method"]))&.attr(:value).presence ||
-        DEFAULT_METHOD
+        form.at_css(:form)&.attr(:method).presence || DEFAULT_METHOD
     action = form.at_css(:form)&.attr(:action).presence || DEFAULT_ACTION
     method = method.parameterize.gsub(%r{[^A-Z a-z/_]+}, "_")
     action = action.parameterize.gsub(%r{[^A-Z a-z/_]+}, "_")

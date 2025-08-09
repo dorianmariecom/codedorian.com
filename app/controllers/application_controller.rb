@@ -42,7 +42,19 @@ class ApplicationController < ActionController::Base
   helper_method :hotwire_native_modal?
 
   REDIRECT_ERROR =
-    lambda { |error| redirect_to(root_path, alert: error_message_for(error)) }
+    lambda do |error|
+      respond_to do |format|
+        format.json do
+          render(
+            json: {
+              message: error_message_for(error)
+            },
+            status: :bad_request
+          )
+        end
+        format.any { redirect_to(root_path, alert: error_message_for(error)) }
+      end
+    end
 
   rescue_from Pundit::NotAuthorizedError, &REDIRECT_ERROR
   rescue_from ActiveRecord::RecordNotFound, &REDIRECT_ERROR

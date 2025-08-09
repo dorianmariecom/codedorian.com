@@ -9,8 +9,8 @@ pin "@hotwired/turbo-rails", to: "https://ga.jspm.io/npm:@hotwired/turbo-rails@8
 pin "@hotwired/stimulus", to: "https://ga.jspm.io/npm:@hotwired/stimulus@3.2.2/dist/stimulus.js", integrity: true
 pin "@hotwired/stimulus-loading", to: "stimulus-loading.js", integrity: true
 pin_all_from "app/javascript/controllers", under: "controllers", integrity: true
-pin "intl-tel-input", to: "https://ga.jspm.io/npm:intl-tel-input@25.3.1/build/js/intlTelInput.js", integrity: true
-pin "intl-tel-input/build/js/utils.js", to: "https://ga.jspm.io/npm:intl-tel-input@25.3.1/build/js/utils.js", integrity: true
+pin "intl-tel-input" # @25.3.2
+pin "intl-tel-input/build/js/utils.js", to: "https://ga.jspm.io/npm:intl-tel-input@25.3.2/build/js/utils.js", integrity: true
 pin "stimulus-places-autocomplete", to: "https://ga.jspm.io/npm:stimulus-places-autocomplete@0.5.0/dist/stimulus-places-autocomplete.es.js", integrity: true
 pin "@googlemaps/js-api-loader", to: "@googlemaps--js-api-loader.js", integrity: true # @1.16.10
 pin "@hotwired/turbo", to: "https://ga.jspm.io/npm:@hotwired/turbo@8.0.13/dist/turbo.es2017-esm.js", integrity: true

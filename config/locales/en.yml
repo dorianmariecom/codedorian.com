@@ -710,6 +710,7 @@ en:
     form:
       generate: generate
       generating: generating
+      input: input
       input_placeholder: enter your program's input
       name_placeholder: enter your program's name
     index:

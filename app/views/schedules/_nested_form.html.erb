@@ -14,7 +14,7 @@
     <%= f.label :starts_at, class: "label" %>
     <%= f.datetime_field :starts_at,
                      required: true,
-                     class: "input",
+                     class: "input schedule__starts-at",
                      autocomplete: "off",
                      data: {
                        form_type: "other",
@@ -30,7 +30,7 @@
              schedule_interval_options(interval: f.object.interval),
              {},
              required: true,
-             class: "input",
+             class: "input schedule__interval",
              data: {
                form_type: "other",
                schedule_target: "interval"

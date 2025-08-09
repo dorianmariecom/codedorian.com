@@ -1,4 +1,4 @@
-// intl-tel-input@25.3.1 downloaded from https://ga.jspm.io/npm:intl-tel-input@25.3.1/build/js/intlTelInput.js
+// intl-tel-input@25.3.2 downloaded from https://ga.jspm.io/npm:intl-tel-input@25.3.2/build/js/intlTelInput.js
 
 var t = {};
 (function (e) {
@@ -9,10 +9,10 @@ var t = {};
     var e = Object.getOwnPropertyDescriptor;
     var i = Object.getOwnPropertyNames;
     var s = Object.prototype.hasOwnProperty;
-    var __export = (e, i) => {
+    var n = (e, i) => {
       for (var s in i) t(e, s, { get: i[s], enumerable: true });
     };
-    var __copyProps = (n, o, a, r) => {
+    var o = (n, o, a, r) => {
       if ((o && typeof o === "object") || typeof o === "function")
         for (let l of i(o))
           s.call(n, l) ||
@@ -23,11 +23,10 @@ var t = {};
             });
       return n;
     };
-    var __toCommonJS = (e) =>
-      __copyProps(t({}, "__esModule", { value: true }), e);
-    var n = {};
-    __export(n, { Iti: () => g, default: () => _ });
-    var o = [
+    var a = (e) => o(t({}, "__esModule", { value: true }), e);
+    var r = {};
+    n(r, { Iti: () => A, default: () => N });
+    var l = [
       ["af", "93"],
       ["ax", "358", 1],
       ["al", "355"],
@@ -334,10 +333,10 @@ var t = {};
       ["zm", "260"],
       ["zw", "263"],
     ];
-    var a = [];
-    for (let t = 0; t < o.length; t++) {
-      const e = o[t];
-      a[t] = {
+    var u = [];
+    for (let t = 0; t < l.length; t++) {
+      const e = l[t];
+      u[t] = {
         name: "",
         iso2: e[0],
         dialCode: e[1],
@@ -347,8 +346,8 @@ var t = {};
         nationalPrefix: e[4] || null,
       };
     }
-    var r = a;
-    var l = {
+    var d = u;
+    var h = {
       ad: "Andorra",
       ae: "United Arab Emirates",
       af: "Afghanistan",
@@ -592,8 +591,8 @@ var t = {};
       zm: "Zambia",
       zw: "Zimbabwe",
     };
-    var u = l;
-    var d = {
+    var c = h;
+    var p = {
       selectedCountryAriaLabel: "Selected country",
       noCountrySelected: "No country selected",
       countryListAriaLabel: "List of countries",
@@ -604,12 +603,12 @@ var t = {};
       ac: "Ascension Island",
       xk: "Kosovo",
     };
-    var h = d;
-    var c = { ...u, ...h };
-    var p = c;
-    for (let t = 0; t < r.length; t++) r[t].name = p[r[t].iso2];
-    var y = 0;
-    var m = {
+    var y = p;
+    var m = { ...c, ...y };
+    var C = m;
+    for (let t = 0; t < d.length; t++) d[t].name = C[d[t].iso2];
+    var g = 0;
+    var f = {
       allowDropdown: true,
       autoPlaceholder: "polite",
       containerClass: "",
@@ -641,7 +640,7 @@ var t = {};
           window.innerWidth <= 500),
       validationNumberTypes: ["MOBILE"],
     };
-    var C = [
+    var _ = [
       "800",
       "822",
       "833",
@@ -660,21 +659,21 @@ var t = {};
       "888",
       "889",
     ];
-    var getNumeric = (t) => t.replace(/\D/g, "");
-    var normaliseString = (t = "") =>
+    var b = (t) => t.replace(/\D/g, "");
+    var w = (t = "") =>
       t
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
         .toLowerCase();
-    var isRegionlessNanp = (t) => {
-      const e = getNumeric(t);
+    var I = (t) => {
+      const e = b(t);
       if (e.charAt(0) === "1") {
         const t = e.substr(1, 3);
-        return C.includes(t);
+        return _.includes(t);
       }
       return false;
     };
-    var translateCursorPosition = (t, e, i, s) => {
+    var v = (t, e, i, s) => {
       if (i === 0 && !s) return 0;
       let n = 0;
       for (let i = 0; i < e.length; i++) {
@@ -684,22 +683,22 @@ var t = {};
       }
       return e.length;
     };
-    var createEl = (t, e, i) => {
+    var L = (t, e, i) => {
       const s = document.createElement(t);
       e && Object.entries(e).forEach(([t, e]) => s.setAttribute(t, e));
       i && i.appendChild(s);
       return s;
     };
-    var forEachInstance = (t, ...e) => {
-      const { instances: i } = f;
+    var D = (t, ...e) => {
+      const { instances: i } = k;
       Object.values(i).forEach((i) => i[t](...e));
     };
-    var g = class {
+    var A = class {
       constructor(t, e = {}) {
-        this.id = y++;
+        this.id = g++;
         this.telInput = t;
         this.highlightedItem = null;
-        this.options = Object.assign({}, m, e);
+        this.options = Object.assign({}, f, e);
         this.hadInitialPlaceholder = Boolean(t.getAttribute("placeholder"));
       }
       _init() {
@@ -725,7 +724,7 @@ var t = {};
           (this.isRTL
             ? (this.originalPaddingRight = this.telInput.style.paddingRight)
             : (this.originalPaddingLeft = this.telInput.style.paddingLeft));
-        this.options.i18n = { ...p, ...this.options.i18n };
+        this.options.i18n = { ...C, ...this.options.i18n };
         const e = new Promise((t, e) => {
           this.resolveAutoCountryPromise = t;
           this.rejectAutoCountryPromise = e;
@@ -778,11 +777,11 @@ var t = {};
         const { onlyCountries: t, excludeCountries: e } = this.options;
         if (t.length) {
           const e = t.map((t) => t.toLowerCase());
-          this.countries = r.filter((t) => e.includes(t.iso2));
+          this.countries = d.filter((t) => e.includes(t.iso2));
         } else if (e.length) {
           const t = e.map((t) => t.toLowerCase());
-          this.countries = r.filter((e) => !t.includes(e.iso2));
-        } else this.countries = r;
+          this.countries = d.filter((e) => !t.includes(e.iso2));
+        } else this.countries = d;
       }
       _translateCountryNames() {
         for (let t = 0; t < this.countries.length; t++) {
@@ -840,10 +839,10 @@ var t = {};
         i && (d += " iti--show-flags");
         s && (d += ` ${s}`);
         r || (d += " iti--inline-dropdown");
-        const h = createEl("div", { class: d });
+        const h = L("div", { class: d });
         this.telInput.parentNode?.insertBefore(h, this.telInput);
         if (t || i || e) {
-          this.countryContainer = createEl(
+          this.countryContainer = L(
             "div",
             { class: "iti__country-container" },
             h,
@@ -852,7 +851,7 @@ var t = {};
             ? (this.countryContainer.style.left = "0px")
             : (this.countryContainer.style.right = "0px");
           if (t) {
-            this.selectedCountry = createEl(
+            this.selectedCountry = L(
               "button",
               {
                 type: "button",
@@ -868,46 +867,42 @@ var t = {};
             this.telInput.disabled &&
               this.selectedCountry.setAttribute("disabled", "true");
           } else
-            this.selectedCountry = createEl(
+            this.selectedCountry = L(
               "div",
               { class: "iti__selected-country" },
               this.countryContainer,
             );
-          const i = createEl(
+          const i = L(
             "div",
             { class: "iti__selected-country-primary" },
             this.selectedCountry,
           );
-          this.selectedCountryInner = createEl(
-            "div",
-            { class: "iti__flag" },
-            i,
-          );
-          this.selectedCountryA11yText = createEl(
+          this.selectedCountryInner = L("div", { class: "iti__flag" }, i);
+          this.selectedCountryA11yText = L(
             "span",
             { class: "iti__a11y-text" },
             this.selectedCountryInner,
           );
           t &&
-            (this.dropdownArrow = createEl(
+            (this.dropdownArrow = L(
               "div",
               { class: "iti__arrow", "aria-hidden": "true" },
               i,
             ));
           e &&
-            (this.selectedDialCode = createEl(
+            (this.selectedDialCode = L(
               "div",
               { class: "iti__selected-dial-code" },
               this.selectedCountry,
             ));
           if (t) {
             const t = a ? "" : "iti--flexible-dropdown-width";
-            this.dropdownContent = createEl("div", {
+            this.dropdownContent = L("div", {
               id: `iti-${this.id}__dropdown-content`,
               class: `iti__dropdown-content iti__hide ${t}`,
             });
             if (l) {
-              this.searchInput = createEl(
+              this.searchInput = L(
                 "input",
                 {
                   type: "text",
@@ -922,13 +917,13 @@ var t = {};
                 },
                 this.dropdownContent,
               );
-              this.searchResultsA11yText = createEl(
+              this.searchResultsA11yText = L(
                 "span",
                 { class: "iti__a11y-text" },
                 this.dropdownContent,
               );
             }
-            this.countryList = createEl(
+            this.countryList = L(
               "ul",
               {
                 class: "iti__country-list",
@@ -943,7 +938,7 @@ var t = {};
             if (o) {
               let t = "iti iti--container";
               t += r ? " iti--fullscreen-popup" : " iti--inline-dropdown";
-              this.dropdown = createEl("div", { class: t });
+              this.dropdown = L("div", { class: t });
               this.dropdown.appendChild(this.dropdownContent);
             } else this.countryContainer.appendChild(this.dropdownContent);
           }
@@ -959,10 +954,7 @@ var t = {};
             );
             if (t) this.hiddenInput = t;
             else {
-              this.hiddenInput = createEl("input", {
-                type: "hidden",
-                name: e.phone,
-              });
+              this.hiddenInput = L("input", { type: "hidden", name: e.phone });
               h.appendChild(this.hiddenInput);
             }
           }
@@ -972,7 +964,7 @@ var t = {};
             );
             if (t) this.hiddenInputCountry = t;
             else {
-              this.hiddenInputCountry = createEl("input", {
+              this.hiddenInputCountry = L("input", {
                 type: "hidden",
                 name: e.country,
               });
@@ -985,7 +977,7 @@ var t = {};
         for (let t = 0; t < this.countries.length; t++) {
           const e = this.countries[t];
           const i = t === 0 ? "iti__highlight" : "";
-          const s = createEl(
+          const s = L(
             "li",
             {
               id: `iti-${this.id}__item-${e.iso2}`,
@@ -1013,7 +1005,7 @@ var t = {};
         const s = e && e.charAt(0) === "+" && (!i || i.charAt(0) !== "+");
         const n = s ? e : i;
         const o = this._getDialCode(n);
-        const a = isRegionlessNanp(n);
+        const a = I(n);
         const { initialCountry: r, geoIpLookup: l } = this.options;
         const u = r === "auto" && l;
         if (o && !a) this._updateCountryFromNumber(n);
@@ -1081,12 +1073,12 @@ var t = {};
       }
       _initRequests() {
         let { loadUtils: t, initialCountry: e, geoIpLookup: i } = this.options;
-        if (t && !f.utils) {
+        if (t && !k.utils) {
           this._handlePageLoad = () => {
             window.removeEventListener("load", this._handlePageLoad);
-            f.attachUtils(t)?.catch(() => {});
+            k.attachUtils(t)?.catch(() => {});
           };
-          f.documentReady()
+          k.documentReady()
             ? this._handlePageLoad()
             : window.addEventListener("load", this._handlePageLoad);
         } else this.resolveUtilsScriptPromise();
@@ -1096,25 +1088,25 @@ var t = {};
           : this.resolveAutoCountryPromise();
       }
       _loadAutoCountry() {
-        if (f.autoCountry) this.handleAutoCountry();
-        else if (!f.startedLoadingAutoCountry) {
-          f.startedLoadingAutoCountry = true;
+        if (k.autoCountry) this.handleAutoCountry();
+        else if (!k.startedLoadingAutoCountry) {
+          k.startedLoadingAutoCountry = true;
           typeof this.options.geoIpLookup === "function" &&
             this.options.geoIpLookup(
               (t = "") => {
                 const e = t.toLowerCase();
                 const i = e && this._getCountryData(e, true);
                 if (i) {
-                  f.autoCountry = e;
-                  setTimeout(() => forEachInstance("handleAutoCountry"));
+                  k.autoCountry = e;
+                  setTimeout(() => D("handleAutoCountry"));
                 } else {
                   this._setInitialState(true);
-                  forEachInstance("rejectAutoCountryPromise");
+                  D("rejectAutoCountryPromise");
                 }
               },
               () => {
                 this._setInitialState(true);
-                forEachInstance("rejectAutoCountryPromise");
+                D("rejectAutoCountryPromise");
               },
             );
         }
@@ -1158,7 +1150,7 @@ var t = {};
             const i = e.replace(/[^+0-9]/g, "").length;
             const s = r?.inputType === "deleteContentForward";
             const n = this._formatNumberAsYouType();
-            const o = translateCursorPosition(i, n, t, s);
+            const o = v(i, n, t, s);
             this.telInput.value = n;
             this.telInput.setSelectionRange(o, o);
           }
@@ -1190,7 +1182,7 @@ var t = {};
                   e.key +
                   t.slice(this.telInput.selectionEnd);
                 const l = this._getFullNumber(r);
-                const u = f.utils.getCoreNumber(
+                const u = k.utils.getCoreNumber(
                   l,
                   this.selectedCountryData.iso2,
                 );
@@ -1308,16 +1300,16 @@ var t = {};
         };
         document.addEventListener("keydown", this._handleKeydownOnDropdown);
         if (this.options.countrySearch) {
-          const doFilter = () => {
+          const t = () => {
             const t = this.searchInput.value.trim();
             t ? this._filterCountries(t) : this._filterCountries("", true);
           };
-          let t = null;
+          let e = null;
           this._handleSearchChange = () => {
-            t && clearTimeout(t);
-            t = setTimeout(() => {
-              doFilter();
-              t = null;
+            e && clearTimeout(e);
+            e = setTimeout(() => {
+              t();
+              e = null;
             }, 100);
           };
           this.searchInput.addEventListener("input", this._handleSearchChange);
@@ -1341,10 +1333,10 @@ var t = {};
       _filterCountries(t, e = false) {
         let i = true;
         this.countryList.innerHTML = "";
-        const s = normaliseString(t);
+        const s = w(t);
         for (let t = 0; t < this.countries.length; t++) {
           const n = this.countries[t];
-          const o = normaliseString(n.name);
+          const o = w(n.name);
           const a = n.name
             .split(/[^a-zA-ZÀ-ÿа-яА-Я]/)
             .map((t) => t[0])
@@ -1405,15 +1397,15 @@ var t = {};
         let e = t;
         if (
           this.options.formatOnDisplay &&
-          f.utils &&
+          k.utils &&
           this.selectedCountryData
         ) {
           const t =
             this.options.nationalMode ||
             (e.charAt(0) !== "+" && !this.options.separateDialCode);
-          const { NATIONAL: i, INTERNATIONAL: s } = f.utils.numberFormat;
+          const { NATIONAL: i, INTERNATIONAL: s } = k.utils.numberFormat;
           const n = t ? i : s;
-          e = f.utils.formatNumber(e, this.selectedCountryData.iso2, n);
+          e = k.utils.formatNumber(e, this.selectedCountryData.iso2, n);
         }
         e = this._beforeSetNumber(e);
         this.telInput.value = e;
@@ -1437,9 +1429,9 @@ var t = {};
         const n = this.selectedCountryData.dialCode;
         i = this._ensureHasDialCode(i);
         const o = this._getDialCode(i, true);
-        const a = getNumeric(i);
+        const a = b(i);
         if (o) {
-          const t = getNumeric(o);
+          const t = b(o);
           const e = this.dialCodeToIso2Map[t];
           if (!s && this.defaultCountry && e.includes(this.defaultCountry))
             return this.defaultCountry;
@@ -1447,7 +1439,7 @@ var t = {};
             s &&
             e.includes(s) &&
             (a.length === t.length || !this.selectedCountryData.areaCodes);
-          const r = n === "1" && isRegionlessNanp(a);
+          const r = n === "1" && I(a);
           if (!r && !i)
             for (let t = 0; t < e.length; t++) if (e[t]) return e[t];
         } else {
@@ -1529,16 +1521,16 @@ var t = {};
           validationNumberTypes: i,
         } = this.options;
         const { iso2: s } = this.selectedCountryData;
-        if (t && f.utils)
+        if (t && k.utils)
           if (s) {
-            const t = f.utils.numberType[e];
-            let n = f.utils.getExampleNumber(s, false, t, true);
+            const t = k.utils.numberType[e];
+            let n = k.utils.getExampleNumber(s, false, t, true);
             let o = n;
-            while (f.utils.isPossibleNumber(n, s, i)) {
+            while (k.utils.isPossibleNumber(n, s, i)) {
               o = n;
               n += "0";
             }
-            const a = f.utils.getCoreNumber(o, s);
+            const a = k.utils.getCoreNumber(o, s);
             this.maxCoreNumberLength = a.length;
             s === "by" && (this.maxCoreNumberLength = a.length + 1);
           } else this.maxCoreNumberLength = null;
@@ -1578,10 +1570,10 @@ var t = {};
         } = this.options;
         const n =
           t === "aggressive" || (!this.hadInitialPlaceholder && t === "polite");
-        if (f.utils && n) {
-          const t = f.utils.numberType[e];
+        if (k.utils && n) {
+          const t = k.utils.numberType[e];
           let n = this.selectedCountryData.iso2
-            ? f.utils.getExampleNumber(this.selectedCountryData.iso2, i, t)
+            ? k.utils.getExampleNumber(this.selectedCountryData.iso2, i, t)
             : "";
           n = this._beforeSetNumber(n);
           typeof s === "function" && (n = s(n, this.selectedCountryData));
@@ -1681,7 +1673,7 @@ var t = {};
         const e = t || this.telInput.value.trim();
         const { dialCode: i } = this.selectedCountryData;
         let s;
-        const n = getNumeric(e);
+        const n = b(e);
         s =
           this.options.separateDialCode && e.charAt(0) !== "+" && i && n
             ? `+${i}`
@@ -1708,8 +1700,8 @@ var t = {};
       }
       _formatNumberAsYouType() {
         const t = this._getFullNumber();
-        const e = f.utils
-          ? f.utils.formatNumberAsYouType(t, this.selectedCountryData.iso2)
+        const e = k.utils
+          ? k.utils.formatNumberAsYouType(t, this.selectedCountryData.iso2)
           : t;
         const { dialCode: i } = this.selectedCountryData;
         if (
@@ -1723,8 +1715,8 @@ var t = {};
         return e;
       }
       handleAutoCountry() {
-        if (this.options.initialCountry === "auto" && f.autoCountry) {
-          this.defaultCountry = f.autoCountry;
+        if (this.options.initialCountry === "auto" && k.autoCountry) {
+          this.defaultCountry = k.autoCountry;
           const t =
             this.selectedCountryData.iso2 ||
             this.selectedCountryInner.classList.contains("iti__globe");
@@ -1733,7 +1725,7 @@ var t = {};
         }
       }
       handleUtils() {
-        if (f.utils) {
+        if (k.utils) {
           this.telInput.value && this._updateValFromNumber(this.telInput.value);
           if (this.selectedCountryData.iso2) {
             this._updatePlaceholder();
@@ -1775,26 +1767,26 @@ var t = {};
         const s = this.telInput.parentNode;
         s?.parentNode?.insertBefore(this.telInput, s);
         s?.parentNode?.removeChild(s);
-        delete f.instances[this.id];
+        delete k.instances[this.id];
       }
       getExtension() {
-        return f.utils
-          ? f.utils.getExtension(
+        return k.utils
+          ? k.utils.getExtension(
               this._getFullNumber(),
               this.selectedCountryData.iso2,
             )
           : "";
       }
       getNumber(t) {
-        if (f.utils) {
+        if (k.utils) {
           const { iso2: e } = this.selectedCountryData;
-          return f.utils.formatNumber(this._getFullNumber(), e, t);
+          return k.utils.formatNumber(this._getFullNumber(), e, t);
         }
         return "";
       }
       getNumberType() {
-        return f.utils
-          ? f.utils.getNumberType(
+        return k.utils
+          ? k.utils.getNumberType(
               this._getFullNumber(),
               this.selectedCountryData.iso2,
             )
@@ -1804,9 +1796,9 @@ var t = {};
         return this.selectedCountryData;
       }
       getValidationError() {
-        if (f.utils) {
+        if (k.utils) {
           const { iso2: t } = this.selectedCountryData;
-          return f.utils.getValidationError(this._getFullNumber(), t);
+          return k.utils.getValidationError(this._getFullNumber(), t);
         }
         return -99;
       }
@@ -1823,8 +1815,8 @@ var t = {};
         return this._utilsIsPossibleNumber(t);
       }
       _utilsIsPossibleNumber(t) {
-        return f.utils
-          ? f.utils.isPossibleNumber(
+        return k.utils
+          ? k.utils.isPossibleNumber(
               t,
               this.selectedCountryData.iso2,
               this.options.validationNumberTypes,
@@ -1844,8 +1836,8 @@ var t = {};
         return this._utilsIsValidNumber(t);
       }
       _utilsIsValidNumber(t) {
-        return f.utils
-          ? f.utils.isValidNumber(
+        return k.utils
+          ? k.utils.isValidNumber(
               t,
               this.selectedCountryData.iso2,
               this.options.validationNumberTypes,
@@ -1879,8 +1871,8 @@ var t = {};
           : this.selectedCountry.removeAttribute("disabled");
       }
     };
-    var attachUtils = (t) => {
-      if (!f.utils && !f.startedLoadingUtilsScript) {
+    var S = (t) => {
+      if (!k.utils && !k.startedLoadingUtilsScript) {
         let e;
         if (typeof t !== "function")
           return Promise.reject(
@@ -1894,7 +1886,7 @@ var t = {};
         } catch (t) {
           return Promise.reject(t);
         }
-        f.startedLoadingUtilsScript = true;
+        k.startedLoadingUtilsScript = true;
         return e
           .then((t) => {
             const e = t?.default;
@@ -1902,42 +1894,42 @@ var t = {};
               throw new TypeError(
                 "The loader function passed to attachUtils did not resolve to a module object with utils as its default export.",
               );
-            f.utils = e;
-            forEachInstance("handleUtils");
+            k.utils = e;
+            D("handleUtils");
             return true;
           })
           .catch((t) => {
-            forEachInstance("rejectUtilsScriptPromise", t);
+            D("rejectUtilsScriptPromise", t);
             throw t;
           });
       }
       return null;
     };
-    var f = Object.assign(
+    var k = Object.assign(
       (t, e) => {
-        const i = new g(t, e);
+        const i = new A(t, e);
         i._init();
         t.setAttribute("data-intl-tel-input-id", i.id.toString());
-        f.instances[i.id] = i;
+        k.instances[i.id] = i;
         return i;
       },
       {
-        defaults: m,
+        defaults: f,
         documentReady: () => document.readyState === "complete",
-        getCountryData: () => r,
+        getCountryData: () => d,
         getInstance: (t) => {
           const e = t.getAttribute("data-intl-tel-input-id");
-          return e ? f.instances[e] : null;
+          return e ? k.instances[e] : null;
         },
         instances: {},
-        attachUtils: attachUtils,
+        attachUtils: S,
         startedLoadingUtilsScript: false,
         startedLoadingAutoCountry: false,
-        version: "25.3.1",
+        version: "25.3.2",
       },
     );
-    var _ = f;
-    return __toCommonJS(n);
+    var N = k;
+    return a(r);
   })();
   return t.default;
 });
