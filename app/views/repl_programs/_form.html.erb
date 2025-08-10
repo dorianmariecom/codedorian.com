@@ -1,31 +1,51 @@
-<%= form_for repl_program do |f| %>
-  <div class="p">
-    <%= f.label :repl_session_id, class: "label" %>
-    <%= f.select(
-      :repl_session_id,
-      repl_session_options(repl_session_id: f.object.repl_session_id),
-      {},
-      class: "input"
-    ) %>
-  </div>
-
-  <div class="p">
-    <%= f.label :input, class: "label" %>
-    <div
-      class="border border-black rounded overflow-hidden"
-      data-controller="editor"
-    >
-      <%= f.hidden_field(:input, data: { editor_target: "input" }) %>
-      <div data-editor-target="editor"></div>
+<div
+  data-controller="editor"
+  data-editor-loading-value="<%= t(".generating") %>"
+  data-editor-initial-value="<%= t(".generate") %>"
+>
+  <%= form_for(
+    repl_program.persisted? ? [repl_program, Prompt.new] : Prompt.new,
+    data: {
+      editor_target: "promptForm"
+    }
+  ) {} %>
+  <%= form_for repl_program do |f| %>
+    <div class="p">
+      <%= f.label :repl_session_id, class: "label" %>
+      <%= f.select(
+        :repl_session_id,
+        repl_session_options(repl_session_id: f.object.repl_session_id),
+        {},
+        class: "input"
+      ) %>
     </div>
-  </div>
 
-  <div class="p">
-    <%= f.submit submit,
-             class: "button",
-             data: {
-               controller: "bridge--button",
-               bridge__button_title_value: submit
-             } %>
-  </div>
-<% end %>
+    <div class="p">
+      <%= f.label :input, class: "label" %>
+      <div class="p flex items-center gap-4">
+        <div class="w-full border border-black rounded overflow-hidden">
+          <%= f.hidden_field(:input, data: { editor_target: "input" }) %>
+          <div data-editor-target="editor"></div>
+        </div>
+
+        <button
+          class="button"
+          data-action="editor#generate:prevent"
+          data-editor-target="nameButton"
+        >
+          <%= t(".generate") %>
+        </button>
+      </div>
+      <div class="text-red-600" data-editor-target="error"></div>
+    </div>
+
+    <div class="p">
+      <%= f.submit(submit,
+               class: "button",
+               data: {
+                 controller: "bridge--button",
+                 bridge__button_title_value: submit
+               }) %>
+    </div>
+  <% end %>
+</div>

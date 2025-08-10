@@ -47,22 +47,37 @@
 </div>
 
 <% (@repl_programs + [@repl_program]).each do |repl_program| %>
-  <div data-controller="generate">
-    <%= form_for(Prompt.new, url: prompts_url, data: { generate_target: "form" }) {} %>
+  <div
+    data-controller="editor"
+    data-editor-loading-value="<%= t(".generating") %>"
+    data-editor-initial-value="<%= t(".generate") %>"
+  >
+    <%= form_for(
+      repl_program.persisted? ? [repl_program, Prompt.new] : Prompt.new,
+      data: {
+        editor_target: "promptForm"
+      }
+    ) {} %>
     <%= form_for repl_program do |f| %>
       <%= f.hidden_field :repl_session_id %>
 
       <div class="p flex items-center gap-4">
-        <div
-          class="w-full border border-black rounded overflow-hidden"
-          data-controller="editor"
-        >
+        <div class="w-full border border-black rounded overflow-hidden">
           <%= f.hidden_field(:input, data: { editor_target: "input" }) %>
           <div data-editor-target="editor"></div>
         </div>
 
+        <button
+          class="button"
+          data-action="editor#generate:prevent"
+          data-editor-target="nameButton"
+        >
+          <%= t(".generate") %>
+        </button>
+
         <%= f.submit t(".evaluate"), class: "button" %>
       </div>
+      <div class="text-red-600" data-editor-target="error"></div>
 
       <%= render partial: "repl_executions/repl_execution",
              collection: repl_program.repl_executions.sort_by(&:id),

@@ -96,7 +96,7 @@ export default class extends Controller {
     clearInterval(this.repatchaIntervalValue);
   }
 
-  async generateFromName() {
+  async generate() {
     this.nameButtonTarget.disabled = false;
     this.nameIndexValue = 0;
 
@@ -108,7 +108,7 @@ export default class extends Controller {
 
     const csrfToken = document.querySelector("[name='csrf-token']")?.content;
     const formData = new FormData(this.promptFormTarget);
-    formData.append("prompt[name]", this.nameTarget.value);
+    formData.append("prompt[name]", this.hasNameTarget ? this.nameTarget.value : "");
     formData.append("prompt[input]", this.inputTarget.value);
     formData.append("prompt[schedules]", JSON.stringify(this._schedules()));
 
@@ -134,11 +134,13 @@ export default class extends Controller {
           },
         });
 
-        this.schedulesTarget.dispatchEvent(
-          new CustomEvent("nested.schedules", {
-            detail: { schedules: json.schedules },
-          }),
-        );
+        if (this.hasSchedulesTarget) {
+          this.schedulesTarget.dispatchEvent(
+            new CustomEvent("nested.schedules", {
+              detail: { schedules: json.schedules },
+            }),
+          );
+        }
       } else {
         this.errorTarget.innerText = json.message;
       }
@@ -150,6 +152,10 @@ export default class extends Controller {
   }
 
   _schedules() {
+    if (!this.hasSchedulesTarget) {
+      return [];
+    }
+
     return [...this.schedulesTarget.querySelectorAll(".schedule")]
       .filter((schedule) => {
         return schedule.querySelector('input[name*="_destroy"]').value !== "1";

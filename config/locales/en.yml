@@ -791,9 +791,8 @@ en:
       submit: update repl program
       title: edit repl program
     form:
-      fake_input: Http.get("https://google.com")
       generate: generate
-      generatin: generating
+      generating: generating
       input_placeholder: enter your repl program's input
     index:
       delete_all: delete all repl programs
