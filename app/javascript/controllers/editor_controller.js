@@ -108,7 +108,10 @@ export default class extends Controller {
 
     const csrfToken = document.querySelector("[name='csrf-token']")?.content;
     const formData = new FormData(this.promptFormTarget);
-    formData.append("prompt[name]", this.hasNameTarget ? this.nameTarget.value : "");
+    formData.append(
+      "prompt[name]",
+      this.hasNameTarget ? this.nameTarget.value : "",
+    );
     formData.append("prompt[input]", this.inputTarget.value);
     formData.append("prompt[schedules]", JSON.stringify(this._schedules()));
 
