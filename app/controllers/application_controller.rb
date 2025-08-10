@@ -148,7 +148,11 @@ class ApplicationController < ActionController::Base
   def current_token
     return if request.headers[:Token].blank?
 
-    @current_token ||= Token.find_by(token: request.headers[:Token])
+    if instance_variable_defined?(:@current_token)
+      @current_token
+    else
+      @current_token = Token.find_by(token: request.headers[:Token])
+    end
   end
 
   def current_time_zone
