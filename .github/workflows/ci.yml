@@ -6,7 +6,7 @@ jobs:
     name: brakeman
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
@@ -23,7 +23,7 @@ jobs:
     - rubocop
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - uses: docker/setup-buildx-action@v3
     - uses: docker/login-action@v3
       with:
@@ -44,7 +44,7 @@ jobs:
     name: bundler audit
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
@@ -66,7 +66,7 @@ jobs:
     - build-image
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
@@ -95,7 +95,7 @@ jobs:
     - build-image
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
@@ -111,7 +111,7 @@ jobs:
     name: importmap audit
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
@@ -120,7 +120,7 @@ jobs:
     name: importmap outdated
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
@@ -129,7 +129,7 @@ jobs:
     name: npm audit
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - uses: actions/setup-node@v4
     - run: npm audit
   rspec:
@@ -158,7 +158,7 @@ jobs:
         ports:
         - 5432:5432
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
@@ -173,7 +173,7 @@ jobs:
     name: rubocop
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
