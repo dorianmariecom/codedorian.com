@@ -511,11 +511,13 @@ en:
     menu:
       about: about
       admin: admin
+      android: android
       data: data
       documentation: documentation
       english: english
       errors: errors
       french: french
+      ios: ios
       jobs: jobs
       log_in: log in
       log_out: log out
@@ -530,8 +532,6 @@ en:
       title: code
       up: "/up"
       users: users
-      ios: ios
-      android: android
   messages:
     create:
       notice: message created
