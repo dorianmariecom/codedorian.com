@@ -530,6 +530,8 @@ fr:
       title: code
       up: "/up"
       users: utilisateurs
+      ios: ios
+      android: android
   messages:
     create:
       notice: message créé
@@ -791,9 +793,8 @@ fr:
       submit: mettre à jour le programme repl
       title: modifier le programme repl
     form:
-      fake_input: Http.get("https://google.com")
       generate: générer
-      generatin: génération
+      generating: génération
       input_placeholder: entrez l'entrée de votre programme repl
     index:
       delete_all: supprimer tous les programmes de remplacement

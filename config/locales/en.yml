@@ -530,6 +530,8 @@ en:
       title: code
       up: "/up"
       users: users
+      ios: ios
+      android: android
   messages:
     create:
       notice: message created
