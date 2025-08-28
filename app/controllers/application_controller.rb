@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
 
   skip_forgery_protection if: :current_token?
 
+  before_action :set_error_context
   before_action :set_current_user
   before_action :set_current_request
   before_action :set_time_zone
@@ -25,8 +26,6 @@ class ApplicationController < ActionController::Base
   skip_before_action :verify_captcha, if: :mission_control_controller?
   skip_after_action :verify_authorized, if: :mission_control_controller?
   skip_after_action :verify_policy_scoped, if: :mission_control_controller?
-
-  around_action :set_error_context
 
   helper_method :current_user
   helper_method :current_guest
@@ -205,18 +204,17 @@ class ApplicationController < ActionController::Base
     )
   end
 
-  def set_error_context(&block)
-    Rails.error.record(
-      context: {
-        controller: controller_name,
-        action: action_name,
-        registered?: registered?,
-        user_id: Current.user&.id,
-        user_to_s: Current.user&.to_s,
-        user_to_unverified_s: Current.user&.to_unverified_s,
-        user_admin?: Current.admin?
-      },
-      &block
+  def set_error_context
+    Rails.error.set_context(
+      url: request.url,
+      ip: request.ip,
+      controller: controller_name,
+      action: action_name,
+      registered?: registered?,
+      user_id: Current.user&.id,
+      user_to_s: Current.user&.to_s,
+      user_to_unverified_s: Current.user&.to_unverified_s,
+      user_admin?: Current.admin?
     )
   end
 

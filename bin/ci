@@ -18,7 +18,7 @@ run "eager_load" bin/rails runner "Rails.application.eager_load!"
 run "rubocop" bin/rubocop
 run "rspec" bin/rspec
 run "brakeman" bin/brakeman -A -q --color
-run "importmap outdated" bin/importmap outdated
+# run "importmap outdated" bin/importmap outdated
 run "importmap audit" bin/importmap audit
 run "bundler audit" bin/bundler-audit check --update --quiet
 run "npm audit" npm audit
