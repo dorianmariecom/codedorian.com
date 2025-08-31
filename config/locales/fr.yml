@@ -149,6 +149,7 @@ fr:
       new: nouvelle donnée
       title: données
     model:
+      invalid_json: json invalide
       to_s: donnée#%{id}
     new:
       submit: créer une donnée

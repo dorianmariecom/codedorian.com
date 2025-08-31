@@ -7,9 +7,11 @@ class Datum < ApplicationRecord
 
   belongs_to :user, default: -> { Current.user! }, touch: true
 
-  validate { can!(:update, user) }
-
   before_validation { self.user ||= Current.user! }
+
+  validate { can!(:update, user) }
+  validate :parse_and_validate_key, on: :controller
+  validate :parse_and_validate_value, on: :controller
 
   def self.search_fields
     {
@@ -26,12 +28,24 @@ class Datum < ApplicationRecord
     }
   end
 
+  def parse_and_validate_key
+    self.key = JSON.parse(key.to_s)
+  rescue JSON::ParserError
+    errors.add(:key, t("invalid_json"))
+  end
+
+  def parse_and_validate_value
+    self.value = JSON.parse(value.to_s)
+  rescue JSON::ParserError
+    errors.add(:value, t("invalid_json"))
+  end
+
   def key_sample
-    key.to_s.truncate(KEY_SAMPLE_SIZE, omission: OMISSION).presence
+    key.to_json.truncate(KEY_SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def value_sample
-    value.to_s.truncate(VALUE_SAMPLE_SIZE, omission: OMISSION).presence
+    value.to_json.truncate(VALUE_SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def to_code

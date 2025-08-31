@@ -149,6 +149,7 @@ en:
       new: new datum
       title: data
     model:
+      invalid_json: invalid json
       to_s: datum#%{id}
     new:
       submit: create datum

@@ -55,9 +55,10 @@ class ApplicationController < ActionController::Base
       end
     end
 
-  rescue_from Pundit::NotAuthorizedError, &REDIRECT_ERROR
-  rescue_from ActiveRecord::RecordNotFound, &REDIRECT_ERROR
   rescue_from ActionController::MissingExactTemplate, &REDIRECT_ERROR
+  rescue_from ActionController::ParameterMissing, &REDIRECT_ERROR
+  rescue_from ActiveRecord::RecordNotFound, &REDIRECT_ERROR
+  rescue_from Pundit::NotAuthorizedError, &REDIRECT_ERROR
   rescue_from Recaptcha::VerifyError, &REDIRECT_ERROR
 
   def registered?

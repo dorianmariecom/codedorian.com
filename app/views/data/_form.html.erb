@@ -1,3 +1,6 @@
+<% key = datum.errors.include?(:key) ? datum.key : JSON.pretty_generate(datum.key) %>
+<% value = datum.errors.include?(:value) ? datum.value : JSON.pretty_generate(datum.value) %>
+
 <%= form_for datum do |f| %>
   <% if admin? %>
     <div class="p">
@@ -6,24 +9,36 @@
     </div>
   <% end %>
 
-  <div class="p">
+  <div class="p" data-controller="editor">
     <%= f.label :key, class: "label" %>
-    <%= f.text_field :key, placeholder: t(".key_placeholder"), class: "input" %>
-    <div class="text-gray-600"><%= Faker::Internet.slug %></div>
+    <div
+      class="flex-1 flex flex-col border border-black rounded overflow-hidden"
+    >
+      <%= f.hidden_field(:key, value: key, data: { editor_target: "input" }) %>
+      <div data-editor-target="editor"></div>
+    </div>
+    <div class="text-gray-600"><%= Faker::Internet.slug.to_json %></div>
   </div>
 
-  <div class="p">
+  <div class="p" data-controller="editor">
     <%= f.label :value, class: "label" %>
-    <%= f.text_field :value, placeholder: t(".value_placeholder"), class: "input" %>
-    <div class="text-gray-600"><%= Faker::Alphanumeric.alphanumeric %></div>
+    <div
+      class="flex-1 flex flex-col border border-black rounded overflow-hidden"
+    >
+      <%= f.hidden_field(:value, value: value, data: { editor_target: "input" }) %>
+      <div data-editor-target="editor"></div>
+    </div>
+    <div class="text-gray-600"><%= Faker::Alphanumeric.alphanumeric.to_json %></div>
   </div>
 
   <div class="p">
-    <%= f.submit submit,
-             class: "button",
-             data: {
-               controller: "bridge--button",
-               bridge__button_title_value: submit
-             } %>
+    <%= f.submit(
+      submit,
+      class: "button",
+      data: {
+        controller: "bridge--button",
+        bridge__button_title_value: submit
+      }
+    ) %>
   </div>
 <% end %>

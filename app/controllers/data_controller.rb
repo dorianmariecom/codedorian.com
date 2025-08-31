@@ -28,7 +28,7 @@ class DataController < ApplicationController
   def create
     @datum = authorize scope.new(datum_params)
 
-    if @datum.save
+    if @datum.save(context: :controller)
       log_in(@datum.user)
       redirect_to @datum, notice: t(".notice")
     else
@@ -38,7 +38,9 @@ class DataController < ApplicationController
   end
 
   def update
-    if @datum.update(datum_params)
+    @datum.assign_attributes(datum_params)
+
+    if @datum.save(context: :controller)
       log_in(@datum.user)
       redirect_to @datum, notice: t(".notice")
     else
