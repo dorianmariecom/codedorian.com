@@ -1,5 +1,12 @@
 <% key = datum.errors.include?(:key) ? datum.key : JSON.pretty_generate(datum.key) %>
-<% value = datum.errors.include?(:value) ? datum.value : JSON.pretty_generate(datum.value) %>
+<% value =
+  (
+    if datum.errors.include?(:value)
+      datum.value
+    else
+      JSON.pretty_generate(datum.value)
+    end
+  ) %>
 
 <%= form_for datum do |f| %>
   <% if admin? %>
@@ -28,7 +35,9 @@
       <%= f.hidden_field(:value, value: value, data: { editor_target: "input" }) %>
       <div data-editor-target="editor"></div>
     </div>
-    <div class="text-gray-600"><%= Faker::Alphanumeric.alphanumeric.to_json %></div>
+    <div class="text-gray-600">
+      <%= Faker::Alphanumeric.alphanumeric.to_json %>
+    </div>
   </div>
 
   <div class="p">
