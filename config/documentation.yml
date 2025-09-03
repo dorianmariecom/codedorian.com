@@ -21090,6 +21090,16 @@
       name: notification create subject hello path documentation sound default true
       output: ''
       result: 'true'
+    - error: ''
+      input: 'Notification.create(subject: :hello, thread_id: :pomodoro)'
+      name: notification create subject hello thread id pomodoro true
+      output: ''
+      result: 'true'
+    - error: ''
+      input: 'Notification.create(subject: :hello, collapse_key: :pomodoro)'
+      name: notification create subject hello collapse key pomodoro true
+      output: ''
+      result: 'true'
     name: create
   - examples:
     - error: ''
@@ -21115,6 +21125,16 @@
     - error: ''
       input: 'Notification.create!(subject: :hello, path: :documentation, sound: :default)'
       name: notification create subject hello path documentation sound default
+      output: ''
+      result: "{}"
+    - error: ''
+      input: 'Notification.create!(subject: :hello, thread_id: :pomodoro)'
+      name: notification create! subject hello thread id pomodoro
+      output: ''
+      result: "{}"
+    - error: ''
+      input: 'Notification.create!(subject: :hello, collapse_key: :pomodoro)'
+      name: notification create! subject hello collapse key pomodoro
       output: ''
       result: "{}"
     name: create!

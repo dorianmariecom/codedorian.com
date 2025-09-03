@@ -19,6 +19,8 @@ class Code
               path: String.maybe,
               sound: String.maybe,
               category: String.maybe,
+              thread_id: String.maybe,
+              collapse_key: String.maybe,
               data: Dictionary.maybe
             }
           end
@@ -32,6 +34,8 @@ class Code
               path: code_value.code_get("path"),
               sound: code_value.code_get("sound"),
               category: code_value.code_get("category"),
+              thread_id: code_value.code_get("thread_id"),
+              collapse_key: code_value.code_get("collapse_key"),
               data: code_value.code_get("data")
             )
           else
@@ -47,6 +51,8 @@ class Code
               path: String.maybe,
               sound: String.maybe,
               category: String.maybe,
+              thread_id: String.maybe,
+              collapse_key: String.maybe,
               data: Dictionary.maybe
             }
           end
@@ -60,6 +66,8 @@ class Code
               path: code_value.code_get("path"),
               sound: code_value.code_get("sound"),
               category: code_value.code_get("category"),
+              thread_id: code_value.code_get("thread_id"),
+              collapse_key: code_value.code_get("collapse_key"),
               data: code_value.code_get("data")
             )
           else
@@ -76,6 +84,8 @@ class Code
         path: nil,
         sound: nil,
         category: nil,
+        thread_id: nil,
+        collapse_key: nil,
         data: nil
       )
         code_from = from.to_code
@@ -85,6 +95,8 @@ class Code
         code_path = path.to_s.to_code
         code_sound = sound.to_s.to_code
         code_category = category.to_s.to_code
+        code_thread_id = thread_id.to_s.to_code
+        code_collapse_key = collapse_key.to_s.to_code
         code_data = data.to_code
         code_from = Current.code_user if code_from.nothing?
         code_to = Current.code_user if code_to.nothing?
@@ -104,6 +116,7 @@ class Code
                     path: code_path.to_s,
                     **data.as_json
                   },
+                  thread_id: code_thread_id.to_s,
                   sound: code_sound.to_s,
                   category: code_category.to_s
                 )
@@ -121,6 +134,7 @@ class Code
                     path: code_path.to_s,
                     **data.as_json
                   },
+                  collapse_key: code_collapse_key.to_s,
                   sound: code_sound.to_s,
                   category: code_category.to_s
                 )
@@ -142,6 +156,8 @@ class Code
         path: nil,
         sound: nil,
         category: nil,
+        thread_id: nil,
+        collapse_key: nil,
         data: nil
       )
         code_from = from.to_code
@@ -151,6 +167,8 @@ class Code
         code_path = path.to_s.to_code
         code_sound = sound.to_s.to_code
         code_category = category.to_s.to_code
+        code_thread_id = thread_id.to_s.to_code
+        code_collapse_key = collapse_key.to_s.to_code
         code_data = data.to_code
         code_from = Current.code_user if code_from.nothing?
         code_to = Current.code_user if code_to.nothing?
@@ -170,6 +188,7 @@ class Code
                     path: code_path.to_s,
                     **data.as_json
                   },
+                  thread_id: code_thread_id.to_s,
                   sound: code_sound.to_s,
                   category: code_category.to_s
                 )
@@ -187,6 +206,7 @@ class Code
                     path: code_path.to_s,
                     **data.as_json
                   },
+                  collapse_key: code_collapse_key.to_s,
                   sound: code_sound.to_s,
                   category: code_category.to_s
                 )
