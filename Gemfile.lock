@@ -121,7 +121,7 @@ GEM
     connection_pool (2.5.4)
     crass (1.0.6)
     csv (3.3.5)
-    database_cleaner (2.1.0)
+    database_cleaner (2.0.2)
       database_cleaner-active_record (>= 2, < 3)
     database_cleaner-active_record (2.2.2)
       activerecord (>= 5.a)
@@ -649,7 +649,7 @@ DEPENDENCIES
   cloudflare-rails
   code-ruby
   commonmarker
-  database_cleaner
+  database_cleaner (= 2.0.2)
   dorian
   dorian-arguments
   dorian-to_struct

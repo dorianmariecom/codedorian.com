@@ -16,7 +16,7 @@ gem "bundler-audit"
 gem "cloudflare-rails"
 gem "code-ruby"
 gem "commonmarker"
-gem "database_cleaner"
+gem "database_cleaner", "2.0.2" # fix for undefined method 'count' for nil
 gem "dorian"
 gem "dorian-arguments"
 gem "dorian-to_struct"
