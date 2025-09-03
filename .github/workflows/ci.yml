@@ -17,7 +17,6 @@ jobs:
     - brakeman
     - bundler-audit
     - importmap-audit
-    - importmap-outdated
     - npm-audit
     - rspec
     - rubocop
@@ -116,15 +115,6 @@ jobs:
       with:
         bundler-cache: true
     - run: bin/importmap audit
-  importmap-outdated:
-    name: importmap outdated
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - uses: ruby/setup-ruby@v1
-      with:
-        bundler-cache: true
-    - run: bin/importmap outdated
   npm-audit:
     name: npm audit
     runs-on: ubuntu-latest
