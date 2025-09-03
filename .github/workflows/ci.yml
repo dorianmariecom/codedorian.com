@@ -1,6 +1,7 @@
 ---
 concurrency:
   group: ci
+  cancel-in-progress: true
 jobs:
   brakeman:
     name: brakeman
