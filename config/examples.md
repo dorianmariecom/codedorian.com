@@ -601,18 +601,18 @@ countries.each do |country|
       pageSize: limit,
     },
   )
-  
+
   json = Json.parse(response.body)
   articles = json.articles
-  
+
   subject = "news {country} {Date.today}"
-  
+
   body = articles.map do |article|
     title = article.title
     url = article.url
     image = article.urlToImage
     source = article.source.name
-  
+
     '
       <p>
         <a href="{url}">{title}</a>
@@ -622,18 +622,18 @@ countries.each do |country|
       {image ? '<p><a href="{url}"><img src="{image}" /></a></p>' : ""}
     '
   end.join("<br>")
-  
+
   handles.each do |handle|
     to = User.find(handle)
     next unless to
-  
+
     message = Message.create!(
       from: from,
       to: to,
       subject: subject,
       body: body,
     )
-  
+
     Notification.create!(
       from: from,
       to: to,
@@ -876,7 +876,7 @@ body = search_json.data.map do |tweet|
   media = search_json.includes.media
 
   next unless media_keys
-  
+
   media = media_keys.map { |media_key| media.detect { |media| media.media_key == media_key } }.compact
   urls = media.map { |media| media[:url] or media[:preview_image_url] }.compact
 
@@ -1041,7 +1041,7 @@ handles.each do |handle|
     subject: questions_subject,
     body: questions_body,
   )
-  
+
   Message.create!(
     from: from,
     to: to,
@@ -1097,7 +1097,7 @@ birthdays_to_users.each do |handle, names|
         subject: subject,
         body: body,
       )
-    
+
       Notification.create!(
         from: from,
         to: to,
@@ -1194,7 +1194,7 @@ body = Json.parse(response.body).choices.first.message.content
 
 handles.each do |handle|
   to = User.find(handle)
-  
+
   next unless to
 
   message = Message.create!(
@@ -1218,4 +1218,3 @@ end
 
 subject
 ```
-
