@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Program < ApplicationRecord
-  TIMEOUT = 60
+  TIMEOUT = 600
   INPUT_SAMPLE_SIZE = 140
   OMISSION = "…"
 

@@ -1,5 +1,10 @@
 # [codedorian.com](https://codedorian.com)
 
+
+```
+SolidQueue::Job.where.not(finished_at: nil).delete_all
+```
+
 ```
 puts Rpush::Apns::Feedback.delete_all
 puts Rpush::Notification.delete_all

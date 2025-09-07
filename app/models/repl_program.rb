@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class ReplProgram < ApplicationRecord
-  INPUT_SAMPLE_SIZE = Program::INPUT_SAMPLE_SIZE
-  TIMEOUT = Program::TIMEOUT
+  TIMEOUT = 600
+  INPUT_SAMPLE_SIZE = 140
   OMISSION = "…"
 
   belongs_to :repl_session, touch: true
