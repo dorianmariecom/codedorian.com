@@ -24180,5 +24180,12 @@
       output: ''
       result: '{"id" => 1}'
     name: find!
+  - examples:
+    - error: ''
+      input: Schedule.intervals
+      name: schedule intervals
+      output: ''
+      result: '["once", "5 seconds", "10 seconds", "30 seconds", "1 minute", "5 minutes", "10 minutes", "30 minutes", "1 hour", "6 hours", "12 hours", "1 day", "2 days", "3 days", "4 days", "5 days", "6 days", "1 week", "2 weeks", "3 weeks", "4 weeks", "1 month", "2 months", "3 months", "4 months", "5 months", "6 months", "1 year", "2 years", "3 years", "4 years", "5 years", "10 years"]'
+    name: intervals
   name: Schedule
   parent: Dictionary

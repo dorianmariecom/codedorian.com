@@ -74,3 +74,13 @@ class Code
     ::Current.user
   end
 end
+
+module ActiveRecord
+  module Associations
+    class CollectionProxy
+      def to_code
+        to_a.to_code
+      end
+    end
+  end
+end
