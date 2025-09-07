@@ -42,6 +42,20 @@ class Code
           else
             Class.new(Datum)
           end
+        when "Program"
+          sig(args) { Object.repeat }
+          if code_arguments.any?
+            Program.new(*code_arguments.raw)
+          else
+            Class.new(Program)
+          end
+        when "Schedule"
+          sig(args) { Object.repeat }
+          if code_arguments.any?
+            Schedule.new(*code_arguments.raw)
+          else
+            Class.new(Schedule)
+          end
         else
           original_call(**args)
         end

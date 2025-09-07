@@ -122,6 +122,15 @@ class Program < ApplicationRecord
     input.to_s.truncate(INPUT_SAMPLE_SIZE, omission: OMISSION).presence
   end
 
+  def to_code
+    Code::Object::Program.new(
+      id: id,
+      name: name,
+      input: input,
+      schedules: schedules
+    )
+  end
+
   def to_s
     name.presence || input_sample.presence || t("to_s", id: id)
   end

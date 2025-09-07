@@ -2,7 +2,7 @@
 
 class Code
   class Object
-    class User < Dictionary
+    class Schedule < Dictionary
       def self.call(**args)
         code_operator = args.fetch(:operator, nil).to_code
         code_arguments = args.fetch(:arguments, []).to_code
@@ -22,50 +22,38 @@ class Code
 
       def self.code_find(value)
         code_value = value.to_code
-        scope_with_handles
-          .where(handles: { handle: code_value.to_s })
-          .or(scope_with_handles.where(id: code_value.to_s))
-          .first
-          .to_code
+        scope.where(id: code_value.to_s).first.to_code
       end
 
       def self.code_find!(value)
         code_value = value.to_code
-        scope_with_handles
-          .where(handles: { handle: code_value.to_s })
-          .or(scope_with_handles.where(id: code_value.to_s))
-          .first!
-          .to_code
+        scope.where(id: code_value.to_s).first!.to_code
       rescue ActiveRecord::RecordNotFound => e
         if ::Current.admin?
-          raise ::Code::Error, "user not found (#{e.class}: #{e.message})"
+          raise ::Code::Error, "program not found (#{e.class}: #{e.message})"
         end
 
-        raise ::Code::Error, "user not found"
-      end
-
-      def self.scope_with_handles
-        scope.joins(:handles).where(handles: { verified: true })
+        raise ::Code::Error, "program not found"
       end
 
       def self.scope
-        policy_scope(::User)
+        policy_scope(::Schedule)
       end
 
       def id
         code_get("id").to_s.to_i
       end
 
-      def user
+      def program
         scope.find_by(id: id)
       end
 
-      def user!
+      def program!
         scope.find(id)
       end
 
       def scope
-        policy_scope(::User)
+        policy_scope(::Schedule)
       end
 
       include ::Pundit::Authorization

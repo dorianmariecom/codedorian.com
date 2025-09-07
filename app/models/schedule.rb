@@ -132,6 +132,16 @@ class Schedule < ApplicationRecord
     "1 day"
   end
 
+  def to_code
+    Code::Object::Schedule.new(
+      id: id,
+      starts_at: starts_at,
+      interval: interval,
+      translated_interval: translated_interval,
+      next_at: next_at
+    )
+  end
+
   def to_s
     t("to_s", id: id)
   end

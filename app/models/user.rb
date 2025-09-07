@@ -274,6 +274,14 @@ class User < ApplicationRecord
   end
 
   def to_code
-    Code::Object::User.new(id: id)
+    Code::Object::User.new(
+      id: id,
+      admin?: admin?,
+      verified?: verified?,
+      locale: locale,
+      translated_locale: translated_locale,
+      description: to_s,
+      unverified_description: to_unverified_s
+    )
   end
 end
