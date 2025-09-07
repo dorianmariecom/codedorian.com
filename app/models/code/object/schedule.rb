@@ -15,6 +15,9 @@ class Code
         when "find!"
           sig(args) { String }
           code_find!(code_value)
+        when "intervals"
+          sig(args)
+          code_intervals
         else
           super
         end
@@ -34,6 +37,10 @@ class Code
         end
 
         raise ::Code::Error, "program not found"
+      end
+
+      def self.code_intervals
+        ::Schedule::INTERVALS.to_code
       end
 
       def self.scope
