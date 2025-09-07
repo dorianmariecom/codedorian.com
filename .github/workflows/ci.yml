@@ -1,7 +1,7 @@
 ---
 concurrency:
-  group: ci
   cancel-in-progress: true
+  group: ci
 jobs:
   brakeman:
     name: brakeman
@@ -121,7 +121,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v5
-    - uses: actions/setup-node@v4
+    - uses: actions/setup-node@v5
     - run: npm audit
   rspec:
     env:
@@ -153,7 +153,7 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
-    - uses: actions/setup-node@v4
+    - uses: actions/setup-node@v5
       with:
         cache: npm
     - run: npm install --frozen-lockfile --immutable --ignore-engines
