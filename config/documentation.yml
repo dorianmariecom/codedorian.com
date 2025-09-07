@@ -331,7 +331,7 @@
       input: Current.programs
       name: current programs none
       output: ''
-      result: '[]'
+      result: "[]"
     name: programs
   - examples:
     - error: ''
@@ -352,7 +352,7 @@
       input: Current.schedules
       name: current schedules none
       output: ''
-      result: '[]'
+      result: "[]"
     name: schedules
   - examples:
     - error: ''
@@ -24098,13 +24098,7 @@
     name: change
   name: Time
   parent: Object
-- examples:
-  - error: ''
-    input: User.new
-    name: user new empty result
-    output: ''
-    result: "{}"
-  class_functions:
+- class_functions:
   - examples:
     - error: ''
       input: User.find(Current.user!.id)
@@ -24124,15 +24118,15 @@
       output: ''
       result: '{"id" => 3}'
     name: find!
-  name: User
-  parent: Dictionary
-- examples:
+  examples:
   - error: ''
-    input: Program.new
-    name: program new empty result
+    input: User.new
+    name: user new empty result
     output: ''
     result: "{}"
-  class_functions:
+  name: User
+  parent: Dictionary
+- class_functions:
   - examples:
     - error: ''
       input: Program.find("unknown")
@@ -24152,15 +24146,15 @@
       output: ''
       result: '{"id" => 1}'
     name: find!
-  name: Program
-  parent: Dictionary
-- examples:
+  examples:
   - error: ''
-    input: Schedule.new
-    name: schedule new empty result
+    input: Program.new
+    name: program new empty result
     output: ''
     result: "{}"
-  class_functions:
+  name: Program
+  parent: Dictionary
+- class_functions:
   - examples:
     - error: ''
       input: Schedule.find("unknown")
@@ -24185,7 +24179,17 @@
       input: Schedule.intervals
       name: schedule intervals
       output: ''
-      result: '["once", "5 seconds", "10 seconds", "30 seconds", "1 minute", "5 minutes", "10 minutes", "30 minutes", "1 hour", "6 hours", "12 hours", "1 day", "2 days", "3 days", "4 days", "5 days", "6 days", "1 week", "2 weeks", "3 weeks", "4 weeks", "1 month", "2 months", "3 months", "4 months", "5 months", "6 months", "1 year", "2 years", "3 years", "4 years", "5 years", "10 years"]'
+      result: '["once", "5 seconds", "10 seconds", "30 seconds", "1 minute", "5 minutes",
+        "10 minutes", "30 minutes", "1 hour", "6 hours", "12 hours", "1 day", "2 days",
+        "3 days", "4 days", "5 days", "6 days", "1 week", "2 weeks", "3 weeks", "4
+        weeks", "1 month", "2 months", "3 months", "4 months", "5 months", "6 months",
+        "1 year", "2 years", "3 years", "4 years", "5 years", "10 years"]'
     name: intervals
+  examples:
+  - error: ''
+    input: Schedule.new
+    name: schedule new empty result
+    output: ''
+    result: "{}"
   name: Schedule
   parent: Dictionary
