@@ -326,6 +326,48 @@
       output: ''
       result: '3'
     name: user!
+  - examples:
+    - error: ''
+      input: Current.programs
+      name: current programs none
+      output: ''
+      result: '[]'
+    name: programs
+  - examples:
+    - error: ''
+      input: Current.program
+      name: current program nothing
+      output: ''
+      result: nothing
+    name: program
+  - examples:
+    - error: ''
+      input: Current.program!
+      name: current program present
+      output: ''
+      result: '{"id" => 1}'
+    name: program!
+  - examples:
+    - error: ''
+      input: Current.schedules
+      name: current schedules none
+      output: ''
+      result: '[]'
+    name: schedules
+  - examples:
+    - error: ''
+      input: Current.schedule
+      name: current schedule nothing
+      output: ''
+      result: nothing
+    name: schedule
+  - examples:
+    - error: ''
+      input: Current.schedule!
+      name: current schedule present
+      output: ''
+      result: '{"id" => 1}'
+    name: schedule!
   name: Current
   parent: Dictionary
 - class_functions:
@@ -12449,8 +12491,14 @@
     name: Parameter
     reference: Parameter
   - examples: []
+    name: Program
+    reference: Program
+  - examples: []
     name: Range
     reference: Range
+  - examples: []
+    name: Schedule
+    reference: Schedule
   - examples: []
     name: Smtp
     reference: Smtp
@@ -24056,5 +24104,81 @@
     name: user new empty result
     output: ''
     result: "{}"
+  class_functions:
+  - examples:
+    - error: ''
+      input: User.find(Current.user!.id)
+      name: user find by id
+      output: ''
+      result: '{"id" => 3}'
+    - error: ''
+      input: User.find("unknown")
+      name: user find unknown
+      output: ''
+      result: nothing
+    name: find
+  - examples:
+    - error: ''
+      input: User.find!(Current.user!.id)
+      name: user find bang by id
+      output: ''
+      result: '{"id" => 3}'
+    name: find!
   name: User
+  parent: Dictionary
+- examples:
+  - error: ''
+    input: Program.new
+    name: program new empty result
+    output: ''
+    result: "{}"
+  class_functions:
+  - examples:
+    - error: ''
+      input: Program.find("unknown")
+      name: program find unknown
+      output: ''
+      result: nothing
+    - error: ''
+      input: Program.find(1)
+      name: program find by id
+      output: ''
+      result: '{"id" => 1}'
+    name: find
+  - examples:
+    - error: ''
+      input: Program.find!(1)
+      name: program find bang by id
+      output: ''
+      result: '{"id" => 1}'
+    name: find!
+  name: Program
+  parent: Dictionary
+- examples:
+  - error: ''
+    input: Schedule.new
+    name: schedule new empty result
+    output: ''
+    result: "{}"
+  class_functions:
+  - examples:
+    - error: ''
+      input: Schedule.find("unknown")
+      name: schedule find unknown
+      output: ''
+      result: nothing
+    - error: ''
+      input: Schedule.find(1)
+      name: schedule find by id
+      output: ''
+      result: '{"id" => 1}'
+    name: find
+  - examples:
+    - error: ''
+      input: Schedule.find!(1)
+      name: schedule find bang by id
+      output: ''
+      result: '{"id" => 1}'
+    name: find!
+  name: Schedule
   parent: Dictionary
