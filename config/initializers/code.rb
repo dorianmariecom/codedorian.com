@@ -76,6 +76,12 @@ class Code
 end
 
 module ActiveRecord
+  class Relation
+    def to_code
+      to_a.to_code
+    end
+  end
+
   module Associations
     class CollectionProxy
       def to_code

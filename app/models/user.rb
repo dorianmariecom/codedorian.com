@@ -281,7 +281,8 @@ class User < ApplicationRecord
       locale: locale,
       translated_locale: translated_locale,
       description: to_s,
-      unverified_description: to_unverified_s
+      unverified_description: to_unverified_s,
+      programs: programs
     )
   end
 end
