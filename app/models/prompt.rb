@@ -83,8 +83,7 @@ class Prompt < ApplicationRecord
       )
 
     request.body = {
-      model:
-        "ft:gpt-4.1-2025-04-14:dorianmarie-com:code-9-august-2025-4:C2ZJmWdX",
+      model: "gpt-5",
       response_format: {
         type: :json_schema,
         json_schema: {
@@ -129,7 +128,7 @@ class Prompt < ApplicationRecord
         { role: "system", content: PROMPT_4 },
         { role: "user", content: schedules.to_json },
         { role: "system", content: PROMPT_5 },
-        { role: "user", content: Rails.root.join("config/examples.md").read },
+        { role: "system", content: Rails.root.join("config/examples.md").read },
         { role: "system", content: PROMPT_6 }
       ]
     }.to_json
