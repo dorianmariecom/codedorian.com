@@ -1,6 +1,5 @@
 # [codedorian.com](https://codedorian.com)
 
-
 ```
 SolidQueue::Job.where.not(finished_at: nil).delete_all
 ```
