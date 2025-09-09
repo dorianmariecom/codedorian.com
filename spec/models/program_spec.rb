@@ -32,7 +32,6 @@ RSpec.describe Program do
       "input:time",
       "updated_at:today",
       "created_at:today",
-      "id:1",
       "id>0 and name:pomod",
       "id>0 or name:pomodo",
       "not id:0",

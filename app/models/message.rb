@@ -39,7 +39,9 @@ class Message < ApplicationRecord
 
     define_rich_text_join = ->(attribute_name) do
       table =
-        Arel::Table.new(:action_text_rich_texts).alias("#{attribute_name}_rich_texts")
+        Arel::Table.new(:action_text_rich_texts).alias(
+          "#{attribute_name}_rich_texts"
+        )
       join =
         messages
           .join(table, Arel::Nodes::OuterJoin)
