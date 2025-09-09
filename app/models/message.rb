@@ -37,9 +37,9 @@ class Message < ApplicationRecord
   def self.search_fields
     messages = arel_table
 
-    define_rich_text_join = ->(name) do
+    define_rich_text_join = ->(attribute_name) do
       table =
-        Arel::Table.new(:action_text_rich_texts).alias("#{name}_rich_texts")
+        Arel::Table.new(:action_text_rich_texts).alias("#{attribute_name}_rich_texts")
       join =
         messages
           .join(table, Arel::Nodes::OuterJoin)
@@ -47,7 +47,7 @@ class Message < ApplicationRecord
             table[:record_type]
               .eq(name.to_s.classify)
               .and(table[:record_id].eq(messages[:id]))
-              .and(table[:name].eq(name.to_s))
+              .and(table[:name].eq(attribute_name.to_s))
           )
           .join_sources
       [table, join]
