@@ -97,7 +97,7 @@ GEM
       railties (>= 7.1.0, < 8.1.0)
       zeitwerk (>= 2.5.0)
     cmdparse (3.0.7)
-    code-ruby (1.6.8)
+    code-ruby (1.6.9)
       activesupport
       base64
       bigdecimal
@@ -445,7 +445,7 @@ GEM
     recaptcha (5.20.1)
     redis (5.4.1)
       redis-client (>= 0.22.0)
-    redis-client (0.25.2)
+    redis-client (0.25.3)
       connection_pool
     regexp_parser (2.11.2)
     reline (0.6.2)
