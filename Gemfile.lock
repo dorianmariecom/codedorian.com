@@ -97,7 +97,7 @@ GEM
       railties (>= 7.1.0, < 8.1.0)
       zeitwerk (>= 2.5.0)
     cmdparse (3.0.7)
-    code-ruby (1.6.7)
+    code-ruby (1.6.8)
       activesupport
       base64
       bigdecimal
@@ -378,7 +378,7 @@ GEM
       date
       stringio
     public_suffix (6.0.2)
-    puma (7.0.1)
+    puma (7.0.2)
       nio4r (~> 2.0)
     pundit (2.5.0)
       activesupport (>= 3.0.0)
@@ -438,7 +438,7 @@ GEM
     rake-compiler-dock (1.9.1)
     rb_sys (0.9.117)
       rake-compiler-dock (= 1.9.1)
-    rchardet (1.9.0)
+    rchardet (1.10.0)
     rdoc (6.14.2)
       erb
       psych (>= 4.0.0)
@@ -613,9 +613,9 @@ GEM
       railties (>= 7.1.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    unicode-display_width (3.1.5)
-      unicode-emoji (~> 4.0, >= 4.0.4)
-    unicode-emoji (4.0.4)
+    unicode-display_width (3.2.0)
+      unicode-emoji (~> 4.1)
+    unicode-emoji (4.1.0)
     uri (1.0.3)
     useragent (0.16.11)
     w_syntax_tree-erb (0.12.0)
