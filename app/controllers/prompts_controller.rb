@@ -119,6 +119,8 @@ class PromptsController < ApplicationController
   end
 
   def prompt_params
+    return {} if params[:prompt].blank?
+
     if admin?
       params.expect(
         prompt: %i[user_id program_type program_id input name schedules]

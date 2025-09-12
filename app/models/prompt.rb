@@ -3,6 +3,7 @@
 class Prompt < ApplicationRecord
   SAMPLE_SIZE = 140
   OMISSION = "…"
+  MODEL = "gpt-5-nano"
 
   PROMPT_1 = <<~PROMPT.freeze
     i created a programming language named "code", your goal is to
@@ -83,7 +84,7 @@ class Prompt < ApplicationRecord
       )
 
     request.body = {
-      model: "gpt-5",
+      model: MODEL,
       response_format: {
         type: :json_schema,
         json_schema: {
