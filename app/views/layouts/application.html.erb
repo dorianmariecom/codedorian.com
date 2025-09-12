@@ -9,7 +9,8 @@
     <%= javascript_importmap_tags %>
     <%= action_cable_meta_tag %>
     <%= stylesheet_link_tag("tailwind", data: { turbo_track: "reload" }) %>
-    <%= turbo_refreshes_with(method: :morph, scroll: :preserve) %>
+    <meta name="turbo-refresh-method" content="morph">
+    <meta name="turbo-refresh-scroll" content="preserve">
   </head>
   <body
     class="min-h-dvh flex flex-col p-8 border-t-4 <%= Current.border_env %>"
