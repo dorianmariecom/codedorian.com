@@ -1,6 +1,6 @@
 <% content_for(:title, @address) %>
 
-<%= turbo_stream_from @address %>
+<%= turbo_stream_from(@address) %>
 
 <div class="p">
   <div class="text-gray-600"><%= t(".id") %></div>
@@ -12,7 +12,7 @@
     <div class="text-gray-600"><%= t(".user") %></div>
     <% if can?(:show, @address.user) %>
       <div class="font-bold">
-        <%= link_to @address.user, @address.user, class: "link" %>
+        <%= link_to(@address.user, @address.user, class: "link") %>
       </div>
     <% else %>
       <div class="font-bold"><%= @address.user %></div>
@@ -37,16 +37,14 @@
 <% if @address.address_components.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".address_components") %></div>
-    <div class="code">
-      <%= JSON.pretty_generate(@address.address_components) %>
-    </div>
+    <div class="code"><%= @address.address_components_json %></div>
   </div>
 <% end %>
 
 <% if @address.geometry.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".geometry") %></div>
-    <div class="code"><%= JSON.pretty_generate(@address.geometry) %></div>
+    <div class="code"><%= @address.geometry_json %></div>
   </div>
 <% end %>
 
@@ -60,7 +58,7 @@
 <% if @address.types.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".types") %></div>
-    <div class="code"><%= JSON.pretty_generate(@address.types) %></div>
+    <div class="code"><%= @address.types_json %></div>
   </div>
 <% end %>
 
@@ -85,6 +83,6 @@
 </div>
 
 <div class="p">
-  <%= link_to t(".edit"), [:edit, @address], class: "link" %>
-  <%= render "shared/confirm", text: t(".delete"), url: @address %>
+  <%= link_to(t(".edit"), [:edit, @address], class: "link") %>
+  <%= render("shared/confirm", text: t(".delete"), url: @address) %>
 </div>

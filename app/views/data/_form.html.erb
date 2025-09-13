@@ -1,12 +1,6 @@
-<% key = datum.errors.include?(:key) ? datum.key : JSON.pretty_generate(datum.key) %>
-<% value =
-  (
-    if datum.errors.include?(:value)
-      datum.value
-    else
-      JSON.pretty_generate(datum.value)
-    end
-  ) %>
+<% key = datum.errors.include?(:key) ? datum.key : datum.key_json %>
+
+<% value = datum.errors.include?(:value) ? datum.value : datum.value_json %>
 
 <%= form_for datum do |f| %>
   <% if admin? %>

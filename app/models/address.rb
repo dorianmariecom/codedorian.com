@@ -118,6 +118,18 @@ class Address < ApplicationRecord
     update!(verified: false)
   end
 
+  def address_components_json
+    JSON.pretty_generate(@address.address_components)
+  end
+
+  def geometry_json
+    JSON.pretty_generate(@address.geometry)
+  end
+
+  def types_json
+    JSON.pretty_generate(@address.types)
+  end
+
   def to_s
     address.presence || t("to_s", id: id)
   end
