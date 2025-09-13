@@ -3,6 +3,7 @@
 class Prompt < ApplicationRecord
   SAMPLE_SIZE = 140
   OMISSION = "…"
+  MODEL = "gpt-5-nano"
 
   PROMPT_1 = <<~PROMPT.freeze
     i created a programming language named "code", your goal is to
@@ -40,12 +41,20 @@ class Prompt < ApplicationRecord
   belongs_to :user, default: -> { Current.user! }, touch: true
   belongs_to :program, polymorphic: true, optional: true
 
+  has_many :schedules, as: :schedulable, dependent: :destroy
+
+  accepts_nested_attributes_for :schedules, allow_destroy: true
+
   validate { can!(:update, user) }
 
   before_validation { self.user ||= Current.user! }
 
   def self.search_fields
     {
+      name: {
+        node: -> { arel_table[:name] },
+        type: :string
+      },
       input: {
         node: -> { arel_table[:input] },
         type: :string
@@ -57,14 +66,6 @@ class Prompt < ApplicationRecord
       **base_search_fields,
       **User.associated_search_fields
     }
-  end
-
-  def schedules=(schedules)
-    if schedules.is_a?(String)
-      super(JSON.parse(schedules))
-    else
-      super
-    end
   end
 
   def generate!
@@ -83,7 +84,7 @@ class Prompt < ApplicationRecord
       )
 
     request.body = {
-      model: "gpt-5",
+      model: MODEL,
       response_format: {
         type: :json_schema,
         json_schema: {
@@ -92,6 +93,9 @@ class Prompt < ApplicationRecord
           schema: {
             type: :object,
             properties: {
+              name: {
+                type: :string
+              },
               input: {
                 type: :string
               },
@@ -128,7 +132,7 @@ class Prompt < ApplicationRecord
         { role: "system", content: PROMPT_4 },
         { role: "user", content: schedules.to_json },
         { role: "system", content: PROMPT_5 },
-        { role: "system", content: Rails.root.join("config/examples.md").read },
+        { role: "system", content: programs_json },
         { role: "system", content: PROMPT_6 }
       ]
     }.to_json
@@ -139,8 +143,12 @@ class Prompt < ApplicationRecord
     update!(output: JSON.parse(json.dig("choices", 0, "message", "content")))
   end
 
+  def output_name
+    (output.is_a?(Hash) && output["name"].is_a?(String) && output["name"]).presence
+  end
+
   def output_input
-    output.is_a?(Hash) && output["input"].is_a?(String) && output["input"]
+    (output.is_a?(Hash) && output["input"].is_a?(String) && output["input"]).presence
   end
 
   def output_input?
@@ -148,8 +156,19 @@ class Prompt < ApplicationRecord
   end
 
   def output_schedules
-    output.is_a?(Hash) && output["schedules"].is_an?(Array) &&
-      output["schedules"]
+    (output.is_a?(Hash) && output["schedules"].is_an?(Array) &&
+     output["schedules"]).presence
+  end
+
+  def program_schedules
+    return [] if output_schedules.blank?
+
+    output_schedules.map do |output_schedule|
+      Schedule.new(
+        starts_at: output_schedule["starts_at"],
+        interval: output_schedule["interval"]
+      )
+    end
   end
 
   def output_schedules?
@@ -169,7 +188,23 @@ class Prompt < ApplicationRecord
   end
 
   def output_sample
-    output.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+    output.to_json.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+  end
+
+  def output_name_sample
+    output_name.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+  end
+
+  def output_input_sample
+    output_input.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+  end
+
+  def output_schedules_sample
+    output_schedules.to_json.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+  end
+
+  def programs_json
+    Rails.root.join("config/examples.json").read
   end
 
   def as_json(...)
@@ -177,7 +212,10 @@ class Prompt < ApplicationRecord
   end
 
   def to_s
-    name_sample.presence || input_sample.presence || output_sample.presence ||
-      schedules_sample.presence || t("to_s", id: id)
+    name_sample.presence || output_name_sample.presence ||
+      input_sample.presence || output_input_sample.presence ||
+      schedules_sample.presence || output_schedules_sample.presence ||
+      output_sample.presence ||
+       t("to_s", id: id)
   end
 end

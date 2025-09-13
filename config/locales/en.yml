@@ -765,6 +765,8 @@ en:
       program: program
       updated_at: updated at
       user: user
+      schedules: schedules
+      new_schedule: new schedule
   repl_executions:
     destroy:
       notice: repl execution deleted
@@ -923,7 +925,7 @@ en:
       edit: edit schedule
       id: id
       interval: interval
-      program: program
+      schedulable: schedulable
       schedule_html: starts %{local_time}, repeats every %{interval}
       schedule_once_html: starts %{local_time}, doesn't repeat
       starts_at: starts at

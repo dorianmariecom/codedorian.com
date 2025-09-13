@@ -33,6 +33,13 @@
   </div>
 <% end %>
 
+<% if @prompt.name.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".name") %></div>
+    <div class="font-bold"><%= @prompt.name %></div>
+  </div>
+<% end %>
+
 <% if @prompt.input.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".input") %></div>
@@ -85,3 +92,15 @@
 <div class="p">
   <%= render "shared/confirm", text: t(".delete"), url: @prompt %>
 </div>
+
+<div class="p font-bold">
+  <%= link_to t(".schedules"), [@prompt, :schedules], class: "link" %>
+</div>
+
+<div class="p">
+  <%= link_to t(".new_schedule"), [:new, @prompt, :schedule], class: "button" %>
+</div>
+
+<%= render_collection(partial: "schedules/schedule",
+                  collection: @schedules,
+                  as: :schedule) %>
