@@ -1,6 +1,6 @@
 <% content_for :title, @time_zone %>
 
-<%= turbo_stream_from @time_zone %>
+<%= turbo_stream_from(@time_zone %>
 
 <div class="p">
   <div class="text-gray-600"><%= t(".id") %></div>
@@ -12,7 +12,7 @@
     <div class="text-gray-600"><%= t(".user") %></div>
     <% if can?(:show, @time_zone.user) %>
       <div class="font-bold">
-        <%= link_to @time_zone.user, @time_zone.user, class: "link") %>
+        <%= link_to(@time_zone.user, @time_zone.user, class: "link") %>
       </div>
     <% else %>
       <div class="font-bold"><%= @time_zone.user %></div>
@@ -48,6 +48,6 @@
 </div>
 
 <div class="p">
-  <%= link_to t(".edit"), [:edit, @time_zone], class: "link") %>
-  <%= render "shared/confirm", text: t(".delete"), url: @time_zone %>
+  <%= link_to(t(".edit"), [:edit, @time_zone], class: "link") %>
+  <%= render("shared/confirm", text: t(".delete"), url: @time_zone %>
 </div>

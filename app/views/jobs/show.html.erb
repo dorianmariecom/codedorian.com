@@ -1,6 +1,6 @@
 <% content_for(:title, @job) %>
 
-<%= turbo_stream_from @job %>
+<%= turbo_stream_from(@job %>
 
 <div class="p">
   <div class="text-gray-600"><%= t(".id") %></div>
@@ -67,14 +67,14 @@
 </div>
 
 <div class="p">
-  <%= render "shared/confirm",
+  <%= render("shared/confirm",
          text: t(".retry"),
          url: [@user, @job, :retry],
          method: :post %>
-  <%= render "shared/confirm",
+  <%= render("shared/confirm",
          text: t(".discard"),
          url: [@user, @job, :discard],
          method: :post %>
-  <%= render "shared/confirm", text: t(".destroy"), url: [@user, @job, :destroy] %>
-  <%= render "shared/confirm", text: t(".delete"), url: [@user, @job, :delete] %>
+  <%= render("shared/confirm", text: t(".destroy"), url: [@user, @job, :destroy] %>
+  <%= render("shared/confirm", text: t(".delete"), url: [@user, @job, :delete] %>
 </div>

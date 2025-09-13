@@ -19,23 +19,25 @@
                      data: {
                        form_type: "other",
                        schedule_target: "startsAt"
-                     } %>
+                     }) %>
     <div class="text-red-600" hidden data-validation-target="error"></div>
     <div class="text-gray-600"><%= local_time(Time.zone.now) %></div>
   </div>
 
   <div class="p">
     <%= f.label(:interval, class: "label") %>
-    <%= f.select(:interval,
-             schedule_interval_options(interval: f.object.interval),
-             {},
-             required: true,
-             class: "input schedule__interval",
-             data: {
-               form_type: "other",
-               schedule_target: "interval"
-             },
-             autocomplete: "off") %>
+    <%= f.select(
+      :interval,
+      schedule_interval_options(interval: f.object.interval),
+      {},
+      required: true,
+      class: "input schedule__interval",
+      data: {
+        form_type: "other",
+        schedule_target: "interval"
+      },
+      autocomplete: "off"
+    ) %>
   </div>
 
   <div class="p">

@@ -1,6 +1,6 @@
 <% content_for(:title, @error) %>
 
-<%= turbo_stream_from @error %>
+<%= turbo_stream_from(@error %>
 
 <div class="p">
   <div class="text-gray-600"><%= t(".id") %></div>
@@ -46,11 +46,11 @@
 </div>
 
 <div class="p">
-  <%= render "shared/confirm", text: t(".delete"), url: @error %>
+  <%= render("shared/confirm", text: t(".delete"), url: @error %>
 </div>
 
 <div class="p font-bold">
-  <%= link_to t(".error_occurrences"), [@error, :error_occurrences], class: "link") %>
+  <%= link_to(t(".error_occurrences"), [@error, :error_occurrences], class: "link") %>
 </div>
 
 <%= render_collection partial: "error_occurrences/error_occurrence",

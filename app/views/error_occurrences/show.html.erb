@@ -2,7 +2,7 @@
   <%= local_time(@error_occurrence.created_at) %>
 <% end %>
 
-<%= turbo_stream_from @error_occurrence %>
+<%= turbo_stream_from(@error_occurrence %>
 
 <div class="p">
   <div class="text-gray-600"><%= t(".id") %></div>
@@ -15,7 +15,7 @@
 
     <% if can?(:show, @error_occurrence.error) %>
       <div class="font-bold">
-        <%= link_to @error_occurrence.error,
+        <%= link_to(@error_occurrence.error,
                 error_path(@error_occurrence.error),
                 class: "link") %>
       </div>
@@ -57,5 +57,5 @@
 </div>
 
 <div class="p">
-  <%= render "shared/confirm", text: t(".delete"), url: @error_occurrence %>
+  <%= render("shared/confirm", text: t(".delete"), url: @error_occurrence %>
 </div>

@@ -8,12 +8,12 @@
   <h2 class="font-bold p"><%= t(".phone_number") %></h2>
 
   <div class="p" data-controller="phone-number">
-    <%= f.hidden_field :phone_number, data: { phone_number_target: "hidden" } %>
+    <%= f.hidden_field :phone_number, data: { phone_number_target: "hidden" }) %>
     <%= f.label(:phone_number_input,
             class: "label",
             data: {
               phone_number_target: "label"
-            } %>
+            }) %>
     <%= f.phone_field :phone_number_input,
                   value: f.object.formatted,
                   class: "input",

@@ -7,7 +7,7 @@
   <% end %>
 
   <div class="p" data-controller="time-zone">
-    <%= f.label(:time_zone, class: "label", data: { time_zone_target: "label" } %>
+    <%= f.label(:time_zone, class: "label", data: { time_zone_target: "label" }) %>
     <%= f.select(:time_zone,
              time_zone_options(time_zone: f.object.time_zone),
              {},
@@ -36,11 +36,11 @@
   <% end %>
 
   <div class="p">
-    <%= f.submit submit,
+    <%= <%= f.submit(submit,
              class: "button",
              data: {
                controller: "bridge--button",
                bridge__button_title_value: submit
-             } %>
+             }) %>
   </div>
 <% end %>

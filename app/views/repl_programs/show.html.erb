@@ -1,6 +1,6 @@
 <% content_for(:title, @repl_program) %>
 
-<%= turbo_stream_from @repl_program %>
+<%= turbo_stream_from(@repl_program %>
 
 <div class="p">
   <div class="text-gray-600"><%= t(".id") %></div>
@@ -12,7 +12,7 @@
     <div class="text-gray-600"><%= t(".repl_session") %></div>
     <% if can?(:show, @repl_program.repl_session) %>
       <div class="font-bold">
-        <%= link_to @repl_program.repl_session, @repl_program.repl_session, class: "link") %>
+        <%= link_to(@repl_program.repl_session, @repl_program.repl_session, class: "link") %>
       </div>
     <% else %>
       <div class="font-bold"><%= @repl_program.repl_session %></div>
@@ -38,6 +38,6 @@
 </div>
 
 <div class="p">
-  <%= link_to t(".edit"), [:edit, @repl_program], class: "link") %>
-  <%= render "shared/confirm", text: t(".delete"), url: @repl_program %>
+  <%= link_to(t(".edit"), [:edit, @repl_program], class: "link") %>
+  <%= render("shared/confirm", text: t(".delete"), url: @repl_program %>
 </div>

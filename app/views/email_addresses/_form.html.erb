@@ -12,7 +12,7 @@
     data-validation-trim-value="true"
     data-validation-gender-value="feminine"
   >
-    <%= f.label(:email_address, class: "label", data: { validation_target: "label" } %>
+    <%= f.label(:email_address, class: "label", data: { validation_target: "label" }) %>
     <%= f.email_field :email_address,
                   class: "input",
                   placeholder: t(".email_address_placeholder"),
@@ -40,11 +40,11 @@
   <% end %>
 
   <div class="p">
-    <%= f.submit submit,
+    <%= <%= f.submit(submit,
              class: "button",
              data: {
                controller: "bridge--button",
                bridge__button_title_value: submit
-             } %>
+             }) %>
   </div>
 <% end %>

@@ -8,19 +8,21 @@
   <h2 class="font-bold p"><%= t(".token") %></h2>
 
   <div class="p" data-controller="time-zone">
-    <%= f.label(:token, class: "label", data: { token_target: "label" } %>
-    <%= f.select(:token,
-             token_options(token: f.object.token),
-             {},
-             required: true,
-             class: "input",
-             required: true,
-             data: {
-               token_target: "input",
-               action: "time-zone#input",
-               form_type: "other"
-             },
-             autocomplete: "off") %>
+    <%= f.label(:token, class: "label", data: { token_target: "label" }) %>
+    <%= f.select(
+      :token,
+      token_options(token: f.object.token),
+      {},
+      required: true,
+      class: "input",
+      required: true,
+      data: {
+        token_target: "input",
+        action: "time-zone#input",
+        form_type: "other"
+      },
+      autocomplete: "off"
+    ) %>
 
     <div class="text-red-600" hidden data-time-zone-target="error"></div>
 

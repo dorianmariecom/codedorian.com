@@ -1,5 +1,7 @@
-<%= render partial: "phone_numbers/form",
-       locals: {
-         phone_number: @phone_number,
-         submit: t(".submit")
-       } %>
+<%= render(
+  partial: "phone_numbers/form",
+  locals: {
+    phone_number: @phone_number,
+    submit: t(".submit")
+  }
+) %>

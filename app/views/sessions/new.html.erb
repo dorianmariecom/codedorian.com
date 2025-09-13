@@ -5,7 +5,7 @@
     data-validation-trim-value="true"
     data-validation-gender-value="feminine"
   >
-    <%= f.label(:email_address, class: "label", data: { validation_target: "label" } %>
+    <%= f.label(:email_address, class: "label", data: { validation_target: "label" }) %>
     <%= f.email_field :email_address,
                   value: email_address_param,
                   class: "input",
@@ -21,7 +21,7 @@
   </div>
 
   <div class="p" data-controller="password">
-    <%= f.label(:password, class: "label", data: { password_target: "label" } %>
+    <%= f.label(:password, class: "label", data: { password_target: "label" }) %>
     <div class="flex gap-2 items-center">
       <input type="hidden" autocomplete="username" />
       <%= f.password_field :password,
@@ -55,13 +55,13 @@
   </div>
 
   <div class="p">
-    <%= f.submit t(".submit"),
+    <%= <%= f.submit(t(".submit"),
              class: "button",
              data: {
                controller: "bridge--button",
                bridge__button_title_value: t(".submit")
-             } %>
+             }) %>
   </div>
 <% end %>
 
-<div class="p"><%= link_to t(".register"), new_user_path, class: "link") %></div>
+<div class="p"><%= link_to(t(".register"), new_user_path, class: "link") %></div>

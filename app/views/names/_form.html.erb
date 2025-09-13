@@ -12,7 +12,7 @@
     data-validation-trim-value="true"
     data-validation-gender-value="masculine"
   >
-    <%= f.label(:given_name, class: "label", data: { validation_target: "label" } %>
+    <%= f.label(:given_name, class: "label", data: { validation_target: "label" }) %>
     <%= f.text_field :given_name,
                  class: "input",
                  required: true,
@@ -33,7 +33,7 @@
     data-validation-trim-value="true"
     data-validation-gender-value="masculine"
   >
-    <%= f.label(:family_name, class: "label", data: { validation_target: "label" } %>
+    <%= f.label(:family_name, class: "label", data: { validation_target: "label" }) %>
     <%= f.text_field :family_name,
                  class: "input",
                  required: true,
@@ -61,11 +61,11 @@
   <% end %>
 
   <div class="p">
-    <%= f.submit submit,
+    <%= <%= f.submit(submit,
              class: "button",
              data: {
                controller: "bridge--button",
                bridge__button_title_value: submit
-             } %>
+             }) %>
   </div>
 <% end %>

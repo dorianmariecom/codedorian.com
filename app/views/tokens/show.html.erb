@@ -1,6 +1,6 @@
 <% content_for(:title, @token) %>
 
-<%= turbo_stream_from @token %>
+<%= turbo_stream_from(@token %>
 
 <div class="p">
   <div class="text-gray-600"><%= t(".id") %></div>
@@ -11,7 +11,7 @@
   <div class="p">
     <div class="text-gray-600"><%= t(".user") %></div>
     <% if can?(:show, @token.user) %>
-      <strong><%= link_to @token.user, @token.user, class: "link") %></strong>
+      <strong><%= link_to(@token.user, @token.user, class: "link") %></strong>
     <% else %>
       <strong><%= @token.user %></strong>
     <% end %>
@@ -46,6 +46,6 @@
 </div>
 
 <div class="p">
-  <%= link_to t(".edit"), [:edit, @token], class: "link") %>
-  <%= render "shared/confirm", text: t(".delete"), url: @token %>
+  <%= link_to(t(".edit"), [:edit, @token], class: "link") %>
+  <%= render("shared/confirm", text: t(".delete"), url: @token %>
 </div>
