@@ -17,7 +17,7 @@
       <div class="font-bold">
         <%= link_to @error_occurrence.error,
                 error_path(@error_occurrence.error),
-                class: "link" %>
+                class: "link") %>
       </div>
     <% else %>
       <div class="font-bold"><%= @error_occurrence.error %></div>

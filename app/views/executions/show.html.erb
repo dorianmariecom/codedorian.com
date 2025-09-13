@@ -13,7 +13,7 @@
 
     <% if can?(:show, @execution.program) %>
       <div class="font-bold">
-        <%= link_to @execution.program, @execution.program, class: "link" %>
+        <%= link_to @execution.program, @execution.program, class: "link") %>
       </div>
     <% else %>
       <div class="font-bold"><%= @execution.program %></div>

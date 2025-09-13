@@ -1,8 +1,8 @@
 <%= turbo_stream_from @email_addresses %>
 
-<div class="p"><%= link_to t(".new"), new_url, class: "button" %></div>
+<div class="p"><%= link_to t(".new"), new_url, class: "button") %></div>
 
-<%= render "shared/search" %>
+<%= render "shared/search") %>
 
 <% if @email_addresses.any? %>
   <div class="p">

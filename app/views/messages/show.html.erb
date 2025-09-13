@@ -13,7 +13,7 @@
 
     <% if can?(:show, @message.from_user) %>
       <div class="font-bold">
-        <%= link_to @message.from_user, @message.from_user, class: "link" %>
+        <%= link_to @message.from_user, @message.from_user, class: "link") %>
       </div>
     <% else %>
       <div class="font-bold"><%= @message.from_user %></div>
@@ -27,7 +27,7 @@
 
     <% if can?(:show, @message.to_user) %>
       <div class="font-bold">
-        <%= link_to @message.to_user, @message.to_user, class: "link" %>
+        <%= link_to @message.to_user, @message.to_user, class: "link") %>
       </div>
     <% else %>
       <div class="font-bold"><%= @message.to_user %></div>
@@ -78,7 +78,7 @@
               [@message, :unread],
               method: :post,
               class: "button button--link",
-              form_class: "inline-block" %>
+              form_class: "inline-block") %>
   </div>
 <% else %>
   <div class="p">
@@ -91,11 +91,11 @@
               [@message, :read],
               method: :post,
               class: "button button--link",
-              form_class: "inline-block" %>
+              form_class: "inline-block") %>
   </div>
 <% end %>
 
 <div class="p">
-  <%= link_to t(".edit"), [:edit, @message], class: "link" %>
+  <%= link_to t(".edit"), [:edit, @message], class: "link") %>
   <%= render "shared/confirm", text: t(".delete"), url: @message %>
 </div>

@@ -12,7 +12,7 @@
     <div class="text-gray-600"><%= t(".user") %></div>
     <% if can?(:show, @name.user) %>
       <div class="font-bold">
-        <%= link_to @name.user, @name.user, class: "link" %>
+        <%= link_to @name.user, @name.user, class: "link") %>
       </div>
     <% else %>
       <div class="font-bold"><%= @name.user %></div>
@@ -55,6 +55,6 @@
 </div>
 
 <div class="p">
-  <%= link_to t(".edit"), [:edit, @name], class: "link" %>
+  <%= link_to t(".edit"), [:edit, @name], class: "link") %>
   <%= render "shared/confirm", text: t(".delete"), url: @name %>
 </div>

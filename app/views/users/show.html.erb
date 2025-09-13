@@ -45,7 +45,7 @@
     <%= render "shared/confirm", text: t(".impersonate"), url: [@user, :impersonate] %>
   <% end %>
   <%= render "shared/confirm", text: t(".log_out"), url: :session %>
-  <%= link_to t(".edit"), [:edit, @user], class: "link" %>
+  <%= link_to t(".edit"), [:edit, @user], class: "link") %>
   <%= render "shared/confirm", text: t(".delete"), url: @user %>
 </div>
 

@@ -20,7 +20,7 @@
                action: "time-zone#input",
                form_type: "other"
              },
-             autocomplete: "off" %>
+             autocomplete: "off") %>
 
     <div class="text-red-600" hidden data-time-zone-target="error"></div>
 
@@ -28,14 +28,14 @@
   </div>
 
   <div class="p">
-    <%= f.label(:primary, class: "label" %>
-    <%= f.check_box :primary, class: "input" %>
+    <%= f.label(:primary, class: "label") %>
+    <%= f.check_box :primary, class: "input") %>
   </div>
 
   <% if admin? %>
     <div class="p">
-      <%= f.label(:verified, class: "label" %>
-      <%= f.check_box :verified, class: "input" %>
+      <%= f.label(:verified, class: "label") %>
+      <%= f.check_box :verified, class: "input") %>
     </div>
   <% end %>
 

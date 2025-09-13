@@ -15,7 +15,7 @@
                     action: "validation#input",
                     form_type: "other"
                   },
-                  autocomplete: "email" %>
+                  autocomplete: "email") %>
     <div class="text-red-600" hidden data-validation-target="error"></div>
     <div class="text-gray-600"><%= Faker::Internet.email %></div>
   </div>
@@ -33,13 +33,13 @@
                          action: "password#input",
                          form_type: "other"
                        },
-                       autocomplete: "current-password" %>
+                       autocomplete: "current-password") %>
       <a
         class="p-2 flex items-center justify-center"
         data-password-target="show"
         data-action="password#show"
       >
-        <%= heroicon "eye" %>
+        <%= heroicon "eye") %>
       </a>
       <a
         class="p-2 flex items-center justify-center"
@@ -47,7 +47,7 @@
         data-password-target="hide"
         data-action="password#hide"
       >
-        <%= heroicon "eye-slash" %>
+        <%= heroicon "eye-slash") %>
       </a>
     </div>
     <div class="text-red-600" hidden data-password-target="error"></div>
@@ -64,4 +64,4 @@
   </div>
 <% end %>
 
-<div class="p"><%= link_to t(".register"), new_user_path, class: "link" %></div>
+<div class="p"><%= link_to t(".register"), new_user_path, class: "link") %></div>

@@ -1,8 +1,8 @@
 <%= form_for device do |f| %>
   <% if admin? %>
     <div class="p">
-      <%= f.label(:user_id, class: "label" %>
-      <%= f.select :user_id, user_options(user_id: f.object.user_id), {}, class: "input" %>
+      <%= f.label(:user_id, class: "label") %>
+      <%= f.select :user_id, user_options(user_id: f.object.user_id), {}, class: "input") %>
     </div>
   <% end %>
 
@@ -23,7 +23,7 @@
                action: "validation#input",
                form_type: "other"
              },
-             autocomplete: "off" %>
+             autocomplete: "off") %>
     <div class="text-red-600" hidden data-validation-target="error"></div>
   </div>
 
@@ -42,20 +42,20 @@
                    action: "validation#input",
                    form_type: "other"
                  },
-                 autocomplete: "off" %>
+                 autocomplete: "off") %>
     <div class="text-red-600" hidden data-validation-target="error"></div>
     <div class="text-gray-600"><%= SecureRandom.hex %></div>
   </div>
 
   <div class="p">
-    <%= f.label(:primary, class: "label" %>
-    <%= f.check_box :primary, class: "input" %>
+    <%= f.label(:primary, class: "label") %>
+    <%= f.check_box :primary, class: "input") %>
   </div>
 
   <% if admin? %>
     <div class="p">
-      <%= f.label(:verified, class: "label" %>
-      <%= f.check_box :verified, class: "input" %>
+      <%= f.label(:verified, class: "label") %>
+      <%= f.check_box :verified, class: "input") %>
     </div>
   <% end %>
 
