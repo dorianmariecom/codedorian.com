@@ -123,6 +123,6 @@ class SchedulesController < ApplicationController
   end
 
   def schedule_params
-    params.expect(schedule: %i[program_id starts_at interval])
+    params.expect(schedule: %i[starts_at interval])
   end
 end

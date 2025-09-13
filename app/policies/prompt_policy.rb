@@ -19,6 +19,10 @@ class PromptPolicy < ApplicationPolicy
     owner? || admin?
   end
 
+  def update?
+    owner? || admin?
+  end
+
   def destroy?
     owner? || admin?
   end

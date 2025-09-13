@@ -28,7 +28,7 @@ class PromptsController < ApplicationController
     if @prompt.save
       log_in(@prompt.user)
 
-      @prompt.generate!
+      GenerateJob.perform_later(prompt: @prompt)
 
       respond_to do |format|
         format.html { redirect_to @prompt, notice: t(".notice") }

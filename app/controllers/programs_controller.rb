@@ -59,7 +59,19 @@ class ProgramsController < ApplicationController
   def create
     @program = authorize scope.new(program_params)
 
-    if @program.save
+    if generate?
+      @prompt = authorize prompt_scope.new(prompt_params)
+      @program.schedules = @prompt.program_schedules
+
+      if @prompt.save
+        log_in(@prompt.user)
+        GenerateJob.perform_later(prompt: @prompt)
+        render :new
+      else
+        flash.now.alert = @prompt.alert
+        render :new, status: :unprocessable_entity
+      end
+    elsif @program.save
       log_in(@program.user)
       redirect_to @program, notice: t(".notice")
     else
@@ -116,6 +128,13 @@ class ProgramsController < ApplicationController
     scope
   end
 
+  def prompt_scope
+    scope = searched_policy_scope(Prompt)
+    scope = scope.where(user: @user) if @user
+    scope = scope.where(program: @program) if @program
+    scope
+  end
+
   def url
     [@user, :programs].compact
   end
@@ -144,7 +163,36 @@ class ProgramsController < ApplicationController
     @program = authorize scope.find(id)
   end
 
+  def generate?
+    program_action == "generate"
+  end
+
+  def program_action
+    params.dig(:program, :action)
+  end
+
   def program_params
+    if admin?
+      params.expect(
+        program: [
+          :user_id,
+          :name,
+          :input,
+          { schedules_attributes: [%i[id _destroy starts_at interval]] }
+        ]
+      )
+    else
+      params.expect(
+        program: [
+          :input,
+          :name,
+          { schedules_attributes: [%i[id _destroy starts_at interval]] }
+        ]
+      )
+    end
+  end
+
+  def prompt_params
     if admin?
       params.expect(
         program: [

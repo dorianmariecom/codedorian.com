@@ -47,23 +47,33 @@
 <% if @program.scheduled_at? %>
   <div class="p">
     <%= t(".scheduled_html", local_time: local_time(@program.scheduled_at)) %>
-    <%= render "shared/confirm",
-           text: t(".unschedule"),
-           url: [@program, :unschedule],
-           method: :post %>
+    <%= render(
+      "shared/confirm",
+      text: t(".unschedule"),
+      url: [@program, :unschedule],
+      method: :post
+    ) %>
   </div>
 <% elsif @program.next_at? %>
   <div class="p">
     <%= t(".not_scheduled_html", local_time: local_time(@program.next_at)) %>
-    <%= render "shared/confirm",
-           text: t(".schedule"),
-           url: [@program, :schedule],
-           method: :post %>
+    <%= render(
+      "shared/confirm",
+      text: t(".schedule"),
+      url: [@program, :schedule],
+      method: :post
+    ) %>
   </div>
 <% end %>
 
 <div class="p">
-  <%= button_to t(".evaluate"), [@program, :evaluate], method: :post, class: "button" %>
+  <%= render(
+    "shared/confirm",
+    text: t(".evaluate"),
+    url: [@program, :evaluate],
+    method: :post,
+    class: "button"
+  ) %>
 </div>
 
 <div class="p">

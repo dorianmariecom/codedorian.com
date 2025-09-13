@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_09_091239) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_13_123238) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -191,7 +191,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_09_091239) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.text "name"
-    t.jsonb "schedules"
     t.index %w[program_type program_id], name: "index_prompts_on_program"
     t.index ["user_id"], name: "index_prompts_on_user_id"
   end
@@ -301,10 +300,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_09_091239) do
   create_table "schedules", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "interval"
-    t.bigint "program_id", null: false
     t.datetime "starts_at"
     t.datetime "updated_at", null: false
-    t.index ["program_id"], name: "index_schedules_on_program_id"
+    t.string "schedulable_type", null: false
+    t.bigint "schedulable_id", null: false
+    t.index %w[schedulable_type schedulable_id],
+            name: "index_schedules_on_schedulable"
   end
 
   create_table "solid_cable_messages", force: :cascade do |t|
@@ -573,7 +574,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_09_091239) do
   add_foreign_key "repl_executions", "repl_programs"
   add_foreign_key "repl_programs", "repl_sessions"
   add_foreign_key "repl_sessions", "users"
-  add_foreign_key "schedules", "programs"
   add_foreign_key "solid_errors_occurrences", "solid_errors", column: "error_id"
   add_foreign_key "solid_queue_blocked_executions",
                   "solid_queue_jobs",

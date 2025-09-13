@@ -1,20 +1,15 @@
 <div
+  id="<%= dom_id(program, :form) %>"
   class="flex-1 flex flex-col"
   data-controller="editor"
   data-editor-loading-value="<%= t(".generating") %>"
   data-editor-initial-value="<%= t(".generate") %>"
 >
-  <%= form_for(
-    program.persisted? ? [program, Prompt.new] : Prompt.new,
-    data: {
-      editor_target: "promptForm"
-    }
-  ) {} %>
   <%= form_for(program, html: { class: "flex-1 flex flex-col" }) do |f| %>
     <% if admin? %>
       <div class="p">
         <%= f.label :user_id, class: "label" %>
-        <%= f.select :user_id, user_options(user_id: f.object.user_id), {}, class: "input" %>
+        <%= f.select :user_id, user_options(user_id: user_id), {}, class: "input" %>
       </div>
     <% end %>
 
@@ -23,18 +18,12 @@
       <div class="flex items-center gap-4">
         <%= f.text_field(
           :name,
+          value: name,
           placeholder: t(".name_placeholder"),
-          class: "input max-w-none!",
-          data: {
-            editor_target: "name"
-          }
+          class: "input max-w-none!"
         ) %>
 
-        <button
-          class="button"
-          data-action="editor#generate:prevent"
-          data-editor-target="nameButton"
-        >
+        <button name="program[action]" value="generate" class="button">
           <%= t(".generate") %>
         </button>
       </div>
@@ -46,7 +35,7 @@
       <div
         class="flex-1 flex flex-col border border-black rounded overflow-hidden"
       >
-        <%= f.hidden_field(:input, data: { editor_target: "input" }) %>
+        <%= f.hidden_field(:input, value: input, data: { editor_target: "input" }) %>
         <div class="flex-1 flex flex-col" data-editor-target="editor"></div>
       </div>
     </div>

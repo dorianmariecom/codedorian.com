@@ -14,7 +14,7 @@ run() {
     fi
 }
 
-run "eager_load" bin/rails runner "Rails.application.eager_load!"
+run "eager_load" bin/eager
 run "rubocop" bin/rubocop
 run "rspec" bin/rspec
 run "brakeman" bin/brakeman -A -q --color
