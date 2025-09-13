@@ -765,6 +765,8 @@ en:
       program: program
       updated_at: updated at
       user: user
+      schedules: schedules
+      new_schedule: new schedule
   repl_executions:
     destroy:
       notice: repl execution deleted

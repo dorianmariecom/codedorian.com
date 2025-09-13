@@ -144,11 +144,11 @@ class Prompt < ApplicationRecord
   end
 
   def output_name
-    output.is_a?(Hash) && output["name"].is_a?(String) && output["name"]
+    (output.is_a?(Hash) && output["name"].is_a?(String) && output["name"]).presence
   end
 
   def output_input
-    output.is_a?(Hash) && output["input"].is_a?(String) && output["input"]
+    (output.is_a?(Hash) && output["input"].is_a?(String) && output["input"]).presence
   end
 
   def output_input?
@@ -156,8 +156,8 @@ class Prompt < ApplicationRecord
   end
 
   def output_schedules
-    output.is_a?(Hash) && output["schedules"].is_an?(Array) &&
-      output["schedules"]
+    (output.is_a?(Hash) && output["schedules"].is_an?(Array) &&
+     output["schedules"]).presence
   end
 
   def program_schedules
@@ -188,7 +188,19 @@ class Prompt < ApplicationRecord
   end
 
   def output_sample
-    output.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+    output.to_json.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+  end
+
+  def output_name_sample
+    output_name.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+  end
+
+  def output_input_sample
+    output_input.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+  end
+
+  def output_schedules_sample
+    output_schedules.to_json.truncate(SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def programs_json
@@ -200,7 +212,10 @@ class Prompt < ApplicationRecord
   end
 
   def to_s
-    name_sample.presence || input_sample.presence || output_sample.presence ||
-      schedules_sample.presence || t("to_s", id: id)
+    name_sample.presence || output_name_sample.presence ||
+      input_sample.presence || output_input_sample.presence ||
+      schedules_sample.presence || output_schedules_sample.presence ||
+      output_sample.presence ||
+       t("to_s", id: id)
   end
 end

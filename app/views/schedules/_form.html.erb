@@ -1,4 +1,4 @@
-<%= form_for schedule do |f| %>
+<%= form_for schedule, url: show_url do |f| %>
   <div class="p">
     <%= f.label(:starts_at, class: "label") %>
     <%= f.datetime_field(

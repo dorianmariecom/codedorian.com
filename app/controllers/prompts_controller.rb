@@ -17,6 +17,11 @@ class PromptsController < ApplicationController
   end
 
   def show
+    @schedules =
+      policy_scope(Schedule)
+        .where(schedulable: @prompt)
+        .order(created_at: :asc)
+        .page(params[:page])
   end
 
   def destroy

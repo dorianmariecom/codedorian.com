@@ -6,6 +6,7 @@ class SchedulesController < ApplicationController
   before_action :load_schedule, only: %i[show edit update destroy]
 
   helper_method :url
+  helper_method :show_url
   helper_method :new_url
   helper_method :delete_all_url
   helper_method :destroy_all_url
@@ -117,6 +118,10 @@ class SchedulesController < ApplicationController
 
   def url
     [@user, @schedulable, :schedules].compact
+  end
+
+  def show_url
+    [@user, @schedulable, @schedule].compact
   end
 
   def new_url
