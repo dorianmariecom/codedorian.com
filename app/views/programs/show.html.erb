@@ -89,9 +89,9 @@
   <%= link_to t(".new_schedule"), [:new, @program, :schedule], class: "button" %>
 </div>
 
-<%= render_collection partial: "schedules/schedule",
+<%= render_collection(partial: "schedules/schedule",
                   collection: @schedules,
-                  as: :schedule %>
+                  as: :schedule) %>
 
 <div class="p font-bold">
   <%= link_to t(".executions"), [@program, :executions], class: "link" %>

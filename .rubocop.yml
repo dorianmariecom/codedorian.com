@@ -70,30 +70,6 @@ Performance/Sum:
   Enabled: false
 Performance/UnfreezeString:
   Enabled: false
-RSpec/AnyInstance:
-  Enabled: false
-RSpec/ContextWording:
-  Enabled: false
-RSpec/DescribeClass:
-  Enabled: false
-RSpec/DescribedClass:
-  Enabled: false
-RSpec/ExampleLength:
-  Enabled: false
-RSpec/ExampleWording:
-  Enabled: false
-RSpec/LetSetup:
-  Enabled: false
-RSpec/MultipleExpectations:
-  Enabled: false
-RSpec/MultipleMemoizedHelpers:
-  Enabled: false
-RSpec/NestedGroups:
-  Enabled: false
-RSpec/NoExpectationExample:
-  Enabled: false
-RSpec/PendingWithoutReason:
-  Enabled: false
 Rails/Delegate:
   Enabled: false
 Rails/DynamicFindBy:
@@ -141,6 +117,4 @@ plugins:
 - rubocop-performance
 - rubocop-rails
 - rubocop-rake
-- rubocop-rspec
 - rubocop-capybara
-- rubocop-rspec_rails

@@ -68,14 +68,6 @@ class Prompt < ApplicationRecord
     }
   end
 
-  def schedules=(schedules)
-    if schedules.is_a?(String)
-      super(JSON.parse(schedules))
-    else
-      super
-    end
-  end
-
   def generate!
     uri = URI("https://api.openai.com/v1/chat/completions")
 
@@ -140,7 +132,7 @@ class Prompt < ApplicationRecord
         { role: "system", content: PROMPT_4 },
         { role: "user", content: schedules.to_json },
         { role: "system", content: PROMPT_5 },
-        { role: "system", content: programs.to_json },
+        { role: "system", content: programs_json },
         { role: "system", content: PROMPT_6 }
       ]
     }.to_json
@@ -199,8 +191,8 @@ class Prompt < ApplicationRecord
     output.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
   end
 
-  def programs
-    JSON.parse(Rails.root.join("config/examples.json").read)
+  def programs_json
+    Rails.root.join("config/examples.json").read
   end
 
   def as_json(...)

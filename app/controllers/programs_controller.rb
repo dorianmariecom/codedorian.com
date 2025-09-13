@@ -26,7 +26,7 @@ class ProgramsController < ApplicationController
 
     @schedules =
       policy_scope(Schedule)
-        .where(program: @program)
+        .where(schedulable: @program)
         .order(created_at: :asc)
         .page(params[:page])
   end
@@ -129,7 +129,7 @@ class ProgramsController < ApplicationController
   end
 
   def prompt_scope
-    scope = searched_policy_scope(Prompt)
+    scope = policy_scope(Prompt)
     scope = scope.where(user: @user) if @user
     scope = scope.where(program: @program) if @program
     scope

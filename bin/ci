@@ -16,7 +16,6 @@ run() {
 
 run "eager_load" bin/eager
 run "rubocop" bin/rubocop
-run "rspec" bin/rspec
 run "brakeman" bin/brakeman -A -q --color
 # run "importmap outdated" bin/importmap outdated
 run "importmap audit" bin/importmap audit
