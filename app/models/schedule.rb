@@ -56,7 +56,7 @@ class Schedule < ApplicationRecord
 
   belongs_to :schedulable, polymorphic: true, touch: true
 
-  delegate :user, to: :schedulable # TODO: make real association
+  delegate :user, to: :schedulable
 
   validates :interval, inclusion: { in: INTERVALS }
 

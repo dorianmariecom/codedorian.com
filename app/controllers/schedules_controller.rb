@@ -92,7 +92,6 @@ class SchedulesController < ApplicationController
   def scope
     scope = searched_policy_scope(Schedule)
     scope = scope.where(schedulable: @schedulable) if @schedulable
-    # TODO: scope by user
     scope
   end
 

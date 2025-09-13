@@ -753,20 +753,21 @@ en:
       destroy_all: destroy all prompts
       title: prompts
     model:
+      program_form_submit: update program
       to_s: prompt#%{id}
     show:
       created_at: created at
       delete: delete prompt
       id: id
       input: input
+      new_schedule: new schedule
       output_input: output input
       output_schedule: 'interval: %{interval}, starts at: %{starts_at}'
       output_schedules: output schedules
       program: program
+      schedules: schedules
       updated_at: updated at
       user: user
-      schedules: schedules
-      new_schedule: new schedule
   repl_executions:
     destroy:
       notice: repl execution deleted

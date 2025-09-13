@@ -101,6 +101,8 @@
   <%= link_to t(".new_schedule"), [:new, @prompt, :schedule], class: "button" %>
 </div>
 
-<%= render_collection(partial: "schedules/schedule",
-                  collection: @schedules,
-                  as: :schedule) %>
+<%= render_collection(
+  partial: "schedules/schedule",
+  collection: @schedules,
+  as: :schedule
+) %>

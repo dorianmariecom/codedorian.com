@@ -59,24 +59,26 @@ class ProgramsController < ApplicationController
   def create
     @program = authorize scope.new(program_params)
 
-    if generate?
-      @prompt = authorize prompt_scope.new(prompt_params)
-      @program.schedules = @prompt.program_schedules
-
-      if @prompt.save
-        log_in(@prompt.user)
-        GenerateJob.perform_later(prompt: @prompt)
-        render :new
-      else
-        flash.now.alert = @prompt.alert
-        render :new, status: :unprocessable_entity
-      end
-    elsif @program.save
+    if @program.save
       log_in(@program.user)
-      redirect_to @program, notice: t(".notice")
+
+      if generate?
+        @prompt = authorize prompt_scope.new(prompt_params)
+        @prompt.program = @program
+
+        if @prompt.save
+          GenerateJob.perform_later(prompt: @prompt)
+          redirect_to([:edit, @program], notice: t(".notice"))
+        else
+          flash.now.alert = @prompt.alert
+          render(:edit, status: :unprocessable_entity)
+        end
+      else
+        redirect_to(@program, notice: t(".notice"))
+      end
     else
       flash.now.alert = @program.alert
-      render :new, status: :unprocessable_entity
+      render(:new, status: :unprocessable_entity)
     end
   end
 
@@ -164,11 +166,7 @@ class ProgramsController < ApplicationController
   end
 
   def generate?
-    program_action == "generate"
-  end
-
-  def program_action
-    params.dig(:program, :action)
+    params.dig(:program, :generate).present?
   end
 
   def program_params

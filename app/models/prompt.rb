@@ -49,6 +49,19 @@ class Prompt < ApplicationRecord
 
   before_validation { self.user ||= Current.user! }
 
+  after_save_commit do
+    broadcast_replace_to(
+      self,
+      target: dom_id(program, :form),
+      partial: "programs/form",
+      locals: {
+        program: program,
+        prompt: self,
+        submit: t(".program_form_submit")
+      }
+    )
+  end
+
   def self.search_fields
     {
       name: {
@@ -144,11 +157,15 @@ class Prompt < ApplicationRecord
   end
 
   def output_name
-    (output.is_a?(Hash) && output["name"].is_a?(String) && output["name"]).presence
+    (
+      output.is_a?(Hash) && output["name"].is_a?(String) && output["name"]
+    ).presence
   end
 
   def output_input
-    (output.is_a?(Hash) && output["input"].is_a?(String) && output["input"]).presence
+    (
+      output.is_a?(Hash) && output["input"].is_a?(String) && output["input"]
+    ).presence
   end
 
   def output_input?
@@ -156,8 +173,10 @@ class Prompt < ApplicationRecord
   end
 
   def output_schedules
-    (output.is_a?(Hash) && output["schedules"].is_an?(Array) &&
-     output["schedules"]).presence
+    (
+      output.is_a?(Hash) && output["schedules"].is_an?(Array) &&
+        output["schedules"]
+    ).presence
   end
 
   def program_schedules
@@ -207,6 +226,16 @@ class Prompt < ApplicationRecord
     Rails.root.join("config/examples.json").read
   end
 
+  def status
+    if new_record?
+      :initialized
+    elsif output.present?
+      :done
+    else
+      :in_progress
+    end
+  end
+
   def as_json(...)
     output.as_json(...)
   end
@@ -215,7 +244,6 @@ class Prompt < ApplicationRecord
     name_sample.presence || output_name_sample.presence ||
       input_sample.presence || output_input_sample.presence ||
       schedules_sample.presence || output_schedules_sample.presence ||
-      output_sample.presence ||
-       t("to_s", id: id)
+      output_sample.presence || t("to_s", id: id)
   end
 end
