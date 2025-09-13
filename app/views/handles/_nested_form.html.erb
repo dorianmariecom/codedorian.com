@@ -13,7 +13,7 @@
     data-validation-trim-value="true"
     data-validation-gender-value="masculine"
   >
-    <%= f.label :handle, class: "label", data: { validation_target: "label" } %>
+    <%= f.label(:handle, class: "label", data: { validation_target: "label" } %>
     <%= f.text_field :handle,
                  class: "input",
                  required: true,
@@ -29,13 +29,13 @@
   </div>
 
   <div class="p">
-    <%= f.label :primary, class: "label" %>
+    <%= f.label(:primary, class: "label" %>
     <%= f.check_box :primary, class: "input" %>
   </div>
 
   <% if admin? %>
     <div class="p">
-      <%= f.label :verified, class: "label" %>
+      <%= f.label(:verified, class: "label" %>
       <%= f.check_box :verified, class: "input" %>
     </div>
   <% end %>

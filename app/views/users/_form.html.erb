@@ -1,18 +1,18 @@
 <%= form_for user do |f| %>
   <% if admin? %>
     <div class="p">
-      <%= f.label :admin, class: "label" %>
+      <%= f.label(:admin, class: "label" %>
       <%= f.check_box :admin %>
     </div>
 
     <div class="p">
-      <%= f.label :verified, class: "label" %>
+      <%= f.label(:verified, class: "label" %>
       <%= f.check_box :verified %>
     </div>
   <% end %>
 
   <div class="p">
-    <%= f.label :locale, class: "label" %>
+    <%= f.label(:locale, class: "label" %>
     <%= f.select :locale,
              locale_options(locale: f.object.locale.presence || I18n.locale),
              {},

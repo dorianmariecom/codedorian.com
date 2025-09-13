@@ -1,14 +1,14 @@
 <%= form_for phone_number do |f| %>
   <% if admin? %>
     <div class="p">
-      <%= f.label :user_id, class: "label" %>
+      <%= f.label(:user_id, class: "label" %>
       <%= f.select :user_id, user_options(user_id: f.object.user_id), {}, class: "input" %>
     </div>
   <% end %>
 
   <div class="p" data-controller="phone-number">
     <%= f.hidden_field :phone_number, data: { phone_number_target: "hidden" } %>
-    <%= f.label :phone_number_input,
+    <%= f.label(:phone_number_input,
             class: "label",
             data: {
               phone_number_target: "label"
@@ -30,13 +30,13 @@
   </div>
 
   <div class="p">
-    <%= f.label :primary, class: "label" %>
+    <%= f.label(:primary, class: "label" %>
     <%= f.check_box :primary, class: "input" %>
   </div>
 
   <% if admin? %>
     <div class="p">
-      <%= f.label :verified, class: "label" %>
+      <%= f.label(:verified, class: "label" %>
       <%= f.check_box :verified, class: "input" %>
     </div>
   <% end %>

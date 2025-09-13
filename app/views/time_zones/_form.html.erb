@@ -1,13 +1,13 @@
 <%= form_for time_zone do |f| %>
   <% if admin? %>
     <div class="p">
-      <%= f.label :user_id, class: "label" %>
+      <%= f.label(:user_id, class: "label" %>
       <%= f.select :user_id, user_options(user_id: f.object.user_id), {}, class: "input" %>
     </div>
   <% end %>
 
   <div class="p" data-controller="time-zone">
-    <%= f.label :time_zone, class: "label", data: { time_zone_target: "label" } %>
+    <%= f.label(:time_zone, class: "label", data: { time_zone_target: "label" } %>
     <%= f.select :time_zone,
              time_zone_options(time_zone: f.object.time_zone),
              {},
@@ -24,13 +24,13 @@
   </div>
 
   <div class="p">
-    <%= f.label :primary, class: "label" %>
+    <%= f.label(:primary, class: "label" %>
     <%= f.check_box :primary, class: "input" %>
   </div>
 
   <% if admin? %>
     <div class="p">
-      <%= f.label :verified, class: "label" %>
+      <%= f.label(:verified, class: "label" %>
       <%= f.check_box :verified, class: "input" %>
     </div>
   <% end %>

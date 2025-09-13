@@ -8,7 +8,7 @@
   <h2 class="font-bold p"><%= t(".time_zone") %></h2>
 
   <div class="p" data-controller="time-zone">
-    <%= f.label :time_zone, class: "label", data: { time_zone_target: "label" } %>
+    <%= f.label(:time_zone, class: "label", data: { time_zone_target: "label" } %>
     <%= f.select :time_zone,
              time_zone_options(time_zone: f.object.time_zone),
              {},
@@ -25,13 +25,13 @@
   </div>
 
   <div class="p">
-    <%= f.label :primary, class: "label" %>
+    <%= f.label(:primary, class: "label" %>
     <%= f.check_box :primary, class: "input" %>
   </div>
 
   <% if admin? %>
     <div class="p">
-      <%= f.label :verified, class: "label" %>
+      <%= f.label(:verified, class: "label" %>
       <%= f.check_box :verified, class: "input" %>
     </div>
   <% end %>

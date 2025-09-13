@@ -8,7 +8,7 @@
   <h2 class="font-bold p"><%= t(".token") %></h2>
 
   <div class="p" data-controller="time-zone">
-    <%= f.label :token, class: "label", data: { token_target: "label" } %>
+    <%= f.label(:token, class: "label", data: { token_target: "label" } %>
     <%= f.select :token,
              token_options(token: f.object.token),
              {},
@@ -28,13 +28,13 @@
   </div>
 
   <div class="p">
-    <%= f.label :primary, class: "label" %>
+    <%= f.label(:primary, class: "label" %>
     <%= f.check_box :primary, class: "input" %>
   </div>
 
   <% if admin? %>
     <div class="p">
-      <%= f.label :verified, class: "label" %>
+      <%= f.label(:verified, class: "label" %>
       <%= f.check_box :verified, class: "input" %>
     </div>
   <% end %>

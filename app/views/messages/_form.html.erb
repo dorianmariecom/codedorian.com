@@ -1,14 +1,14 @@
 <%= form_for message do |f| %>
   <% if admin? %>
     <div class="p">
-      <%= f.label :from_user_id, class: "label" %>
+      <%= f.label(:from_user_id, class: "label" %>
       <%= f.select :from_user_id,
                user_options(user_id: f.object.from_user_id),
                {},
                class: "input" %>
     </div>
     <div class="p">
-      <%= f.label :to_user_id, class: "label" %>
+      <%= f.label(:to_user_id, class: "label" %>
       <%= f.select :to_user_id,
                user_options(user_id: f.object.to_user_id),
                {},
@@ -17,13 +17,13 @@
   <% end %>
 
   <div class="p">
-    <%= f.label :subject, class: "label" %>
+    <%= f.label(:subject, class: "label" %>
     <%= f.rich_textarea :subject, placeholder: t(".subject_placeholder"), class: "input" %>
     <div class="text-gray-600"><%= Faker::Lorem.sentence %></div>
   </div>
 
   <div class="p">
-    <%= f.label :body, class: "label" %>
+    <%= f.label(:body, class: "label" %>
     <%= f.rich_textarea :body, placeholder: t(".body_placeholder"), class: "input" %>
     <div class="text-gray-600"><%= Faker::Lorem.paragraph %></div>
   </div>
