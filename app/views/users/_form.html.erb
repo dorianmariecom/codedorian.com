@@ -2,18 +2,18 @@
   <% if admin? %>
     <div class="p">
       <%= f.label(:admin, class: "label") %>
-      <%= f.check_box :admin %>
+      <%= f.check_box(:admin %>
     </div>
 
     <div class="p">
       <%= f.label(:verified, class: "label") %>
-      <%= f.check_box :verified %>
+      <%= f.check_box(:verified %>
     </div>
   <% end %>
 
   <div class="p">
     <%= f.label(:locale, class: "label") %>
-    <%= f.select :locale,
+    <%= f.select(:locale,
              locale_options(locale: f.object.locale.presence || I18n.locale),
              {},
              required: true,

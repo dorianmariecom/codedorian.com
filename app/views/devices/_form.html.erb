@@ -2,7 +2,7 @@
   <% if admin? %>
     <div class="p">
       <%= f.label(:user_id, class: "label") %>
-      <%= f.select :user_id, user_options(user_id: f.object.user_id), {}, class: "input") %>
+      <%= f.select(:user_id, user_options(user_id: f.object.user_id), {}, class: "input") %>
     </div>
   <% end %>
 
@@ -13,7 +13,7 @@
     data-validation-gender-value="masculine"
   >
     <%= f.label(:platform, class: "label", data: { validation_target: "label" } %>
-    <%= f.select :platform,
+    <%= f.select(:platform,
              device_platform_options(platform: f.object.platform),
              {},
              class: "input",
@@ -49,13 +49,13 @@
 
   <div class="p">
     <%= f.label(:primary, class: "label") %>
-    <%= f.check_box :primary, class: "input") %>
+    <%= f.check_box(:primary, class: "input") %>
   </div>
 
   <% if admin? %>
     <div class="p">
       <%= f.label(:verified, class: "label") %>
-      <%= f.check_box :verified, class: "input") %>
+      <%= f.check_box(:verified, class: "input") %>
     </div>
   <% end %>
 

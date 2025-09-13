@@ -2,7 +2,7 @@
   <% if admin? %>
     <div class="p">
       <%= f.label(:user_id, class: "label") %>
-      <%= f.select :user_id, user_options(user_id: f.object.user_id), {}, class: "input") %>
+      <%= f.select(:user_id, user_options(user_id: f.object.user_id), {}, class: "input") %>
     </div>
   <% end %>
 
