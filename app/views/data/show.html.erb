@@ -1,6 +1,6 @@
 <% content_for(:title, @datum) %>
 
-<%= turbo_stream_from(@datum %>
+<%= turbo_stream_from(@datum) %>
 
 <div class="p">
   <div class="text-gray-600"><%= t(".id") %></div>
@@ -23,14 +23,14 @@
 <% if @datum.key.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".key") %></div>
-    <div class="code"><%= JSON.pretty_generate(@datum.key) %></div>
+    <div class="code"><%= @datum.key_json %></div>
   </div>
 <% end %>
 
 <% if @datum.value.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".value") %></div>
-    <div class="code"><%= JSON.pretty_generate(@datum.value) %></div>
+    <div class="code"><%= @datum.value_json %></div>
   </div>
 <% end %>
 
