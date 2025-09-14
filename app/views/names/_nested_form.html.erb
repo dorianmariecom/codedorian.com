@@ -2,8 +2,8 @@
   class="name border-l border-black pl-5"
   data-new-record="<%= f.object.new_record? %>"
 >
-  <%= f.hidden_field :id %>
-  <%= f.hidden_field :_destroy %>
+  <%= f.hidden_field(:id) %>
+  <%= f.hidden_field(:_destroy) %>
 
   <h2 class="font-bold p"><%= t(".name") %></h2>
 
@@ -14,16 +14,18 @@
     data-validation-gender-value="masculine"
   >
     <%= f.label(:given_name, class: "label", data: { validation_target: "label" }) %>
-    <%= f.text_field(:given_name,
-                 class: "input",
-                 required: true,
-                 data: {
-                   validation_target: "input",
-                   action: "validation#input",
-                   form_type: "other"
-                 },
-                 autocomplete: "given-name",
-                 placeholder: t(".given_name_placeholder") %>
+    <%= f.text_field(
+      :given_name,
+      class: "input",
+      required: true,
+      data: {
+        validation_target: "input",
+        action: "validation#input",
+        form_type: "other"
+      },
+      autocomplete: "given-name",
+      placeholder: t(".given_name_placeholder")
+    ) %>
     <div class="text-red-600" hidden data-validation-target="error"></div>
     <div class="text-gray-600"><%= Faker::Name.first_name %></div>
   </div>
@@ -35,16 +37,18 @@
     data-validation-gender-value="masculine"
   >
     <%= f.label(:family_name, class: "label", data: { validation_target: "label" }) %>
-    <%= f.text_field(:family_name,
-                 class: "input",
-                 required: true,
-                 data: {
-                   validation_target: "input",
-                   action: "validation#input",
-                   form_type: "other"
-                 },
-                 autocomplete: "family-name",
-                 placeholder: t(".family_name_placeholder") %>
+    <%= f.text_field(
+      :family_name,
+      class: "input",
+      required: true,
+      data: {
+        validation_target: "input",
+        action: "validation#input",
+        form_type: "other"
+      },
+      autocomplete: "family-name",
+      placeholder: t(".family_name_placeholder")
+    ) %>
     <div class="text-red-600" hidden data-validation-target="error"></div>
     <div class="text-gray-600"><%= Faker::Name.last_name %></div>
   </div>

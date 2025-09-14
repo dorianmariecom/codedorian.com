@@ -184,8 +184,6 @@ Rails.application.routes.draw do
       end
 
       resources(:messages) do
-        post :read
-        post :unread
         get :content
         get :subject
         get :body

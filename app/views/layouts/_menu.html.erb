@@ -4,11 +4,13 @@
   <%= link_to(current_user_or_guest, current_user_or_guest, class: "link") %>
 
   <% if registered? %>
-    <%= button_to t(".log_out"),
-              :session,
-              method: :delete,
-              class: "button button--link",
-              form_class: "inline-block") %>
+    <%= button_to(
+      t(".log_out"),
+      :session,
+      method: :delete,
+      class: "button button--link",
+      form_class: "inline-block"
+    ) %>
   <% else %>
     <%= link_to(t(".register"), %i[new user], class: "link") %>
     <%= link_to(t(".log_in"), %i[new session], class: "link") %>
@@ -16,9 +18,11 @@
 
   <%= link_to(t(".programs"), [current_user_or_guest, :programs], class: "link") %>
   <%= link_to(t(".messages"), [current_user_or_guest, :messages], class: "link") %>
-  <%= link_to(t(".repl_sessions"),
-          [current_user_or_guest, :repl_sessions],
-          class: "link") %>
+  <%= link_to(
+    t(".repl_sessions"),
+    [current_user_or_guest, :repl_sessions],
+    class: "link"
+  ) %>
   <%= link_to(t(".prompts"), [current_user_or_guest, :prompts], class: "link") %>
   <%= link_to(t(".data"), [current_user_or_guest, :data], class: "link") %>
   <%= link_to(t(".documentation"), :docs, class: "link") %>

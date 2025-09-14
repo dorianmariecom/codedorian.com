@@ -1,11 +1,13 @@
 <% if registered? %>
   <div class="p"><%= link_to(current_user, current_user, class: "link") %></div>
   <div class="p">
-    <%= button_to t(".log_out"),
-              :session,
-              method: :delete,
-              class: "button button--link",
-              form_class: "inline-block") %>
+    <%= button_to(
+      t(".log_out"),
+      :session,
+      method: :delete,
+      class: "button button--link",
+      form_class: "inline-block"
+    ) %>
   </div>
 <% else %>
   <div class="p">
@@ -23,9 +25,11 @@
   <%= link_to(t(".messages"), [current_user_or_guest, :messages], class: "link") %>
 </div>
 <div class="p">
-  <%= link_to(t(".repl_sessions"),
-          [current_user_or_guest, :repl_sessions],
-          class: "link") %>
+  <%= link_to(
+    t(".repl_sessions"),
+    [current_user_or_guest, :repl_sessions],
+    class: "link"
+  ) %>
 </div>
 
 <div class="p"><%= link_to(t(".documentation"), :docs, class: "link") %></div>

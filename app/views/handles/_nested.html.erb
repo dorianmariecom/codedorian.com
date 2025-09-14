@@ -1,12 +1,12 @@
 <div data-controller="nested" data-nested-selector-value=".handle">
   <template data-nested-target="template">
     <%= f.fields_for(:handles, Handle.new, child_index: "NEW_RECORD") do |handle_f| %>
-      <%= render("handles/nested_form", f: handle_f %>
+      <%= render("handles/nested_form", f: handle_f) %>
     <% end %>
   </template>
 
   <%= f.fields_for(:handles) do |handle_f| %>
-    <%= render("handles/nested_form", f: handle_f %>
+    <%= render("handles/nested_form", f: handle_f) %>
   <% end %>
 
   <div data-nested-target="target"></div>

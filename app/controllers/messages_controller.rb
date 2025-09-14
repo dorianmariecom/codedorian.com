@@ -3,17 +3,7 @@
 class MessagesController < ApplicationController
   before_action :load_user
   before_action :load_message,
-                only: %i[
-                  show
-                  subject
-                  body
-                  content
-                  edit
-                  update
-                  destroy
-                  read
-                  unread
-                ]
+                only: %i[show subject body content edit update destroy]
 
   helper_method :url
   helper_method :new_url
@@ -36,18 +26,6 @@ class MessagesController < ApplicationController
   end
 
   def content
-  end
-
-  def read
-    @message.read!
-
-    redirect_back_or_to(@message)
-  end
-
-  def unread
-    @message.unread!
-
-    redirect_back_or_to(@message)
   end
 
   def new

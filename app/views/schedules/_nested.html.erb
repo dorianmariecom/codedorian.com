@@ -6,12 +6,12 @@
 >
   <template data-nested-target="template">
     <%= f.fields_for(:schedules, Schedule.new, child_index: "NEW_RECORD") do |schedule_f| %>
-      <%= render("schedules/nested_form", f: schedule_f %>
+      <%= render("schedules/nested_form", f: schedule_f) %>
     <% end %>
   </template>
 
   <%= f.fields_for(:schedules) do |schedule_f| %>
-    <%= render("schedules/nested_form", f: schedule_f %>
+    <%= render("schedules/nested_form", f: schedule_f) %>
   <% end %>
 
   <div data-nested-target="target"></div>
