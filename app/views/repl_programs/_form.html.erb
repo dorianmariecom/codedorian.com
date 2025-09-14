@@ -4,18 +4,12 @@
   data-editor-loading-value="<%= t(".generating") %>"
   data-editor-initial-value="<%= t(".generate") %>"
 >
-  <%= form_for(
-    repl_program.persisted? ? [repl_program, Prompt.new] : Prompt.new,
-    data: {
-      editor_target: "promptForm"
-    }
-  ) {}) %>
-  <%= form_for repl_program do |f| %>
+  <%= form_for(repl_program) do |f| %>
     <div class="p">
       <%= f.label(:repl_session_id, class: "label") %>
       <%= f.select(
         :repl_session_id,
-        repl_session_options(repl_session_id: f.object.repl_session_id),
+        repl_session_options(repl_session_id: repl_program.repl_session_id),
         {},
         class: "input"
       ) %>

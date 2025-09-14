@@ -18,7 +18,7 @@
   <% end %>
 <% end %>
 
-<%= turbo_stream_from(@schedule %>
+<%= turbo_stream_from(@schedule) %>
 
 <% if @schedule.schedulable.present? %>
   <div class="p">
@@ -60,5 +60,5 @@
 
 <div class="p">
   <%= link_to(t(".edit"), [:edit, @schedule], class: "link") %>
-  <%= render("shared/confirm", text: t(".delete"), url: @schedule %>
+  <%= render("shared/confirm", text: t(".delete"), url: @schedule) %>
 </div>

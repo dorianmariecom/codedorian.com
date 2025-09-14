@@ -19,12 +19,7 @@
   data:
     data.merge(
       controller: "modal",
-      action:
-        "
-        #{data[:action]}
-        click->modal#hide
-        keydown.esc->modal#escape
-      "
+      action: "#{data[:action]} click->modal#hide keydown.esc->modal#escape"
     )
 ) do %>
   <div
@@ -33,7 +28,7 @@
   >
     <div class="p flex justify-end">
       <a class="cursor-pointer" data-action="modal#close">
-        <%= heroicon "x-mark") %>
+        <%= heroicon("x-mark") %>
       </a>
     </div>
     <% if title.present? %>

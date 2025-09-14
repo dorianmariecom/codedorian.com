@@ -7,7 +7,7 @@
     .where(user: user)
     .page(params[:page])
     .order(created_at: :asc) %>
-<% partial = "#{plural}/#{singular}") %>
+<% partial = "#{plural}/#{singular}" %>
 <% as = singular %>
 
 <div class="p font-bold">
@@ -18,4 +18,4 @@
   <%= link_to(t(".new_#{singular}"), [:new, user, singular.to_sym], class: "button") %>
 </div>
 
-<%= render_collection(partial:, collection:, as: %>
+<%= render_collection(partial: partial, collection: collection, as: as) %>

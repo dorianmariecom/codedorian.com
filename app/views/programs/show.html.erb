@@ -1,6 +1,6 @@
 <% content_for(:title, @program) %>
 
-<%= turbo_stream_from(@program %>
+<%= turbo_stream_from(@program) %>
 
 <div class="p">
   <div class="text-gray-600"><%= t(".id") %></div>
@@ -78,7 +78,7 @@
 
 <div class="p">
   <%= link_to(t(".edit"), [@user, :edit, @program], class: "link") %>
-  <%= render("shared/confirm", text: t(".delete"), url: [@user, @program] %>
+  <%= render("shared/confirm", text: t(".delete"), url: [@user, @program]) %>
 </div>
 
 <div class="p font-bold">
@@ -99,6 +99,8 @@
   <%= link_to(t(".executions"), [@program, :executions], class: "link") %>
 </div>
 
-<%= render_collection(partial: "executions/execution",
-                  collection: @executions,
-                  as: :execution %>
+<%= render_collection(
+  partial: "executions/execution",
+  collection: @executions,
+  as: :execution
+) %>

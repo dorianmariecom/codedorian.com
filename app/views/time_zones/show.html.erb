@@ -1,6 +1,6 @@
-<% content_for(:title, @time_zone %>
+<% content_for(:title, @time_zone) %>
 
-<%= turbo_stream_from(@time_zone %>
+<%= turbo_stream_from(@time_zone) %>
 
 <div class="p">
   <div class="text-gray-600"><%= t(".id") %></div>
@@ -49,5 +49,5 @@
 
 <div class="p">
   <%= link_to(t(".edit"), [:edit, @time_zone], class: "link") %>
-  <%= render("shared/confirm", text: t(".delete"), url: @time_zone %>
+  <%= render("shared/confirm", text: t(".delete"), url: @time_zone) %>
 </div>

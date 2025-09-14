@@ -1,6 +1,6 @@
 <% content_for(:title, @repl_session) %>
 
-<%= turbo_stream_from(@repl_session %>
+<%= turbo_stream_from(@repl_session) %>
 
 <div class="p">
   <div class="text-gray-600"><%= t(".id") %></div>
@@ -39,7 +39,7 @@
 
 <div class="p">
   <%= link_to(t(".edit"), [:edit, @repl_session], class: "link") %>
-  <%= render("shared/confirm", text: t(".delete"), url: @repl_session %>
+  <%= render("shared/confirm", text: t(".delete"), url: @repl_session) %>
 </div>
 
 <div class="p font-bold">
@@ -52,14 +52,8 @@
     data-editor-loading-value="<%= t(".generating") %>"
     data-editor-initial-value="<%= t(".generate") %>"
   >
-    <%= form_for(
-      repl_program.persisted? ? [repl_program, Prompt.new] : Prompt.new,
-      data: {
-        editor_target: "promptForm"
-      }
-    ) {}) %>
-    <%= form_for repl_program do |f| %>
-      <%= f.hidden_field(:repl_session_id %>
+    <%= form_for(repl_program) do |f| %>
+      <%= f.hidden_field(:repl_session_id) %>
 
       <div class="p flex items-center gap-4">
         <div class="w-full border border-black rounded overflow-hidden">
@@ -79,9 +73,11 @@
       </div>
       <div class="text-red-600" data-editor-target="error"></div>
 
-      <%= render(partial: "repl_executions/repl_execution",
-             collection: repl_program.repl_executions.sort_by(&:id),
-             as: :repl_execution %>
+      <%= render(
+        partial: "repl_executions/repl_execution",
+        collection: repl_program.repl_executions.sort_by(&:id),
+        as: :repl_execution
+      ) %>
     <% end %>
   </div>
 <% end %>
@@ -94,6 +90,8 @@
   <%= link_to(t(".repl_executions"), [@repl_session, :repl_executions], class: "link") %>
 </div>
 
-<%= render_collection(partial: "repl_executions/repl_execution",
-                  collection: @repl_executions,
-                  as: :repl_execution %>
+<%= render_collection(
+  partial: "repl_executions/repl_execution",
+  collection: @repl_executions,
+  as: :repl_execution
+) %>

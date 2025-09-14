@@ -1,4 +1,4 @@
-<% content_for(:title, @guest %>
+<% content_for(:title, @guest) %>
 
 <%= turbo_stream_from(@guest) %>
 
@@ -32,7 +32,7 @@
 </div>
 
 <div class="p">
-  <%= render("shared/confirm", text: t(".delete"), url: @guest %>
+  <%= render("shared/confirm", text: t(".delete"), url: @guest) %>
 </div>
 
 <%= render("shared/list", user: @guest, model: Name) %>
