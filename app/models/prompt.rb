@@ -3,7 +3,7 @@
 class Prompt < ApplicationRecord
   SAMPLE_SIZE = 140
   OMISSION = "…"
-  MODEL = "gpt-5-nano"
+  MODEL = "gpt-4o" # FIXME: use gpt-5-nano when async
 
   PROMPT_1 = <<~PROMPT.freeze
     i created a programming language named "code", your goal is to
