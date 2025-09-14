@@ -1,7 +1,9 @@
 ---
 development:
-  adapter: async
+  adapter: solid_cable
+  polling_interval: 0.01.seconds
 production:
   adapter: solid_cable
+  polling_interval: 0.01.seconds
 test:
   adapter: test

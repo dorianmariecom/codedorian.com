@@ -1,63 +1,66 @@
-<% program = local_assigns[:program].presence || Program.new %>
+<% program = local_assigns.fetch(:program) %>
 <% prompt = local_assigns[:prompt].presence || Prompt.new %>
-<% user_id = prompt.user_id.presence || program.user_id %>
-<% name = prompt.name.presence || program.name %>
-<% input = prompt.input.presence || program.input %>
-<% generate = prompt.status %>
+<% user_id = prompt.done? ? prompt.user_id : program.user_id %>
+<% name = prompt.done? ? prompt.output_name : program.name %>
+<% input = prompt.done? ? prompt.output_input : program.input %>
+<% schedules = prompt.done? ? prompt.program_schedules : program.schedules %>
+<% generate = prompt.generating? ? t(".generating") : t(".generate") %>
 
-<%= turbo_stream_from([program, :form]) if program.persisted? %>
-
-<div
-  id="<%= dom_id(program, :form) %>"
-  class="flex-1 flex flex-col"
-  data-controller="editor"
-  data-editor-loading-value="<%= t(".generating") %>"
-  data-editor-initial-value="<%= t(".generate") %>"
->
-  <%= form_for(program, html: { class: "flex-1 flex flex-col" }) do |f| %>
-    <% if admin? %>
-      <div class="p">
-        <%= f.label(:user_id, class: "label") %>
-        <%= f.select(:user_id, user_options(user_id: user_id), {}, class: "input") %>
-      </div>
-    <% end %>
-
+<%= form_for(
+  program,
+  html: {
+    class: "flex-1 flex flex-col",
+    id: dom_id(program, :form),
+    data: {
+      controller: "editor"
+    }
+  }
+) do |f| %>
+  <% if admin? %>
     <div class="p">
-      <%= f.label(:name, class: "label") %>
-      <div class="flex items-center gap-4">
-        <%= f.text_field(
-          :name,
-          value: name,
-          placeholder: t(".name_placeholder"),
-          class: "input max-w-none!"
-        ) %>
-
-        <%= f.submit(generate, class: "button", name: "program[generate]") %>
-      </div>
-      <div class="text-red-600" data-editor-target="error"></div>
-    </div>
-
-    <div class="p flex-1 flex flex-col">
-      <div class="label"><%= t(".input") %></div>
-      <div
-        class="flex-1 flex flex-col border border-black rounded overflow-hidden"
-      >
-        <%= f.hidden_field(:input, value: input, data: { editor_target: "input" }) %>
-        <div class="flex-1 flex flex-col" data-editor-target="editor"></div>
-      </div>
-    </div>
-
-    <%= render("schedules/nested", f: f) %>
-
-    <div class="p">
-      <%= f.submit(
-        submit,
-        class: "button",
-        data: {
-          controller: "bridge--button",
-          bridge__button_title_value: submit
-        }
-      ) %>
+      <%= f.label(:user_id, class: "label") %>
+      <%= f.select(:user_id, user_options(user_id: user_id), {}, class: "input") %>
     </div>
   <% end %>
-</div>
+
+  <div class="p">
+    <%= f.label(:name, class: "label") %>
+    <div class="flex items-center gap-4">
+      <%= f.text_field(
+        :name,
+        value: name,
+        placeholder: t(".name_placeholder"),
+        class: "input max-w-none!"
+      ) %>
+
+      <%= f.submit(generate, class: "button", name: "program[generate]") %>
+    </div>
+    <div class="text-red-600" data-editor-target="error"></div>
+  </div>
+
+  <div class="p flex-1 flex flex-col">
+    <div class="label"><%= t(".input") %></div>
+    <div
+      class="flex-1 flex flex-col border border-black rounded overflow-hidden"
+    >
+      <%= f.hidden_field(:input, value: input, data: { editor_target: "input" }) %>
+      <div
+        class="flex-1 flex flex-col min-h-96"
+        data-editor-target="editor"
+      ></div>
+    </div>
+  </div>
+
+  <%= render("schedules/nested", f: f, schedules: schedules) %>
+
+  <div class="p">
+    <%= f.submit(
+      submit,
+      class: "button",
+      data: {
+        controller: "bridge--button",
+        bridge__button_title_value: submit
+      }
+    ) %>
+  </div>
+<% end %>

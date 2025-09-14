@@ -3,8 +3,8 @@
 class Prompt < ApplicationRecord
   SAMPLE_SIZE = 140
   OMISSION = "…"
-  MODEL = "gpt-4o" # FIXME: use gpt-5-nano when async
-  STATUSES = %w[initialized created in_progress done errored]
+  MODEL = "gpt-5-nano"
+  STATUSES = %w[initialized created in_progress done errored].freeze
 
   PROMPT_1 = <<~PROMPT.freeze
     i created a programming language named "code", your goal is to
@@ -16,7 +16,7 @@ class Prompt < ApplicationRecord
 
     a schedule is a dictionary of a starts_at (datetime) and an interval (string)
 
-    intervals are #{Schedule::INTERVALS}
+    intervals are #{Schedule::INTERVALS.to_json}
   PROMPT
 
   PROMPT_2 = <<~PROMPT
@@ -36,8 +36,19 @@ class Prompt < ApplicationRecord
   PROMPT
 
   PROMPT_6 = <<~PROMPT
-    reply with the input in code of the program and the schedules of the program
+    reply with the name of the program, the input in code of the program
+    and the schedules of the program
+
+    if nothing is provided, generate a random program
   PROMPT
+
+  scope :initialized, -> { where(status: :initialized) }
+  scope :created, -> { where(status: :created) }
+  scope :in_progress, -> { where(status: :in_progress) }
+  scope :done, -> { where(status: :done) }
+  scope :errored, -> { where(status: :errored) }
+  scope :generating, -> { where(status: %i[created in_progress]) }
+  scope :not_generating, -> { where.not(status: %i[created in_progress]) }
 
   belongs_to :user, default: -> { Current.user! }, touch: true
   belongs_to :program, polymorphic: true, optional: true
@@ -52,22 +63,27 @@ class Prompt < ApplicationRecord
 
   after_create_commit { created! unless created? }
   after_save_commit do
-    program.schedules = program_schedules
+    program.schedules = program_schedules if done?
 
     broadcast_replace_to(
-      [program, :form],
+      program,
+      :form,
       target: dom_id(program, :form),
       partial: "programs/form",
       locals: {
         program: program,
         prompt: self,
-        submit: t(".program_form_submit")
+        submit: t(".submit")
       }
     )
   end
 
   def self.search_fields
     {
+      status: {
+        node: -> { arel_table[:status] },
+        type: :string
+      },
       name: {
         node: -> { arel_table[:name] },
         type: :string
@@ -137,7 +153,7 @@ class Prompt < ApplicationRecord
                 }
               }
             },
-            required: %i[input schedules],
+            required: %i[name input schedules],
             additionalProperties: false
           }
         }
@@ -158,12 +174,16 @@ class Prompt < ApplicationRecord
 
     response = http.request(request)
     json = JSON.parse(response.body)
+    content = json.dig("choices", 0, "message", "content")
+    raise json.to_json if content.blank?
 
-    update!(output: JSON.parse(json.dig("choices", 0, "message", "content")))
+    update!(output: JSON.parse(content))
     done!
   rescue StandardError => e
     errored!
-    update!(error: Current.admin? ? "#{e.class}: #{e.message}" : e.class.to_s)
+    update!(error_class: e.class)
+    update!(error_message: e.message)
+    update!(error_backtrace: e.backtrace.join("\n"))
   end
 
   def output_name
@@ -213,7 +233,11 @@ class Prompt < ApplicationRecord
   end
 
   def schedules_sample
-    schedules.presence&.to_json&.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+    schedules
+      .presence
+      &.to_json
+      &.truncate(SAMPLE_SIZE, omission: OMISSION)
+      .presence
   end
 
   def output_sample
@@ -229,7 +253,11 @@ class Prompt < ApplicationRecord
   end
 
   def output_schedules_sample
-    output_schedules.presence&.to_json&.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+    output_schedules
+      .presence
+      &.to_json
+      &.truncate(SAMPLE_SIZE, omission: OMISSION)
+      .presence
   end
 
   def programs_json
@@ -241,7 +269,7 @@ class Prompt < ApplicationRecord
   end
 
   def initialized!
-    update!(status: "initialized")
+    update!(status: :initialized)
   end
 
   def created?
@@ -249,7 +277,7 @@ class Prompt < ApplicationRecord
   end
 
   def created!
-    update!(status: "created")
+    update!(status: :created)
   end
 
   def in_progress?
@@ -257,7 +285,7 @@ class Prompt < ApplicationRecord
   end
 
   def in_progress!
-    update!(status: "in_progress")
+    update!(status: :in_progress)
   end
 
   def done?
@@ -265,7 +293,7 @@ class Prompt < ApplicationRecord
   end
 
   def done!
-    update!(status: "done")
+    update!(status: :done)
   end
 
   def errored?
@@ -273,7 +301,15 @@ class Prompt < ApplicationRecord
   end
 
   def errored!
-    update!(status: "errored")
+    update!(status: :errored)
+  end
+
+  def generating?
+    created? || in_progress?
+  end
+
+  def not_generating?
+    !generating?
   end
 
   def as_json(...)

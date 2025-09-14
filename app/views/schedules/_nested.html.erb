@@ -1,3 +1,5 @@
+<% schedules = local_assigns.fetch(:schedules) { f.object.schedules } %>
+
 <div
   data-editor-target="schedules"
   data-controller="nested"
@@ -10,7 +12,7 @@
     <% end %>
   </template>
 
-  <%= f.fields_for(:schedules) do |schedule_f| %>
+  <%= f.fields_for(:schedules, schedules) do |schedule_f| %>
     <%= render("schedules/nested_form", f: schedule_f) %>
   <% end %>
 

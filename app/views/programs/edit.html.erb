@@ -1,4 +1,4 @@
-<% content_for(:title, t(".title")) %>
+<%= turbo_stream_from(@program, :form) %>
 
 <%= render(
   "programs/form",

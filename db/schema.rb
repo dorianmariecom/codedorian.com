@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_14_094450) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_14_135246) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -192,7 +192,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_14_094450) do
     t.bigint "user_id"
     t.text "name"
     t.string "status", default: "initialized"
-    t.text "error"
+    t.text "backtrace"
+    t.text "error_class"
+    t.text "error_message"
+    t.text "error_backtrace"
     t.index %w[program_type program_id], name: "index_prompts_on_program"
     t.index ["user_id"], name: "index_prompts_on_user_id"
   end
@@ -312,9 +315,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_14_094450) do
 
   create_table "solid_cable_messages", force: :cascade do |t|
     t.binary "channel", null: false
-    t.bigint "channel_hash", null: false
     t.datetime "created_at", null: false
     t.binary "payload", null: false
+    t.bigint "channel_hash"
     t.index ["channel"], name: "index_solid_cable_messages_on_channel"
     t.index ["channel_hash"], name: "index_solid_cable_messages_on_channel_hash"
     t.index ["created_at"], name: "index_solid_cable_messages_on_created_at"
