@@ -726,6 +726,8 @@ en:
     new:
       submit: create program
       title: new program
+    reload:
+      submit: update program
     show:
       created_at: created at
       delete: delete program
@@ -753,16 +755,19 @@ en:
       destroy_all: destroy all prompts
       title: prompts
     model:
+      submit: update program
       to_s: prompt#%{id}
     show:
       created_at: created at
       delete: delete prompt
       id: id
       input: input
+      new_schedule: new schedule
       output_input: output input
       output_schedule: 'interval: %{interval}, starts at: %{starts_at}'
       output_schedules: output schedules
       program: program
+      schedules: schedules
       updated_at: updated at
       user: user
   repl_executions:
@@ -923,7 +928,7 @@ en:
       edit: edit schedule
       id: id
       interval: interval
-      program: program
+      schedulable: schedulable
       schedule_html: starts %{local_time}, repeats every %{interval}
       schedule_once_html: starts %{local_time}, doesn't repeat
       starts_at: starts at

@@ -31,6 +31,13 @@ Rails.application.routes.draw do
             delete "/destroy_all", to: "prompts#destroy_all"
             delete "/delete_all", to: "prompts#delete_all"
           end
+
+          resources(:schedules) do
+            collection do
+              delete "/destroy_all", to: "schedules#destroy_all"
+              delete "/delete_all", to: "schedules#delete_all"
+            end
+          end
         end
 
         resources(:executions) do
@@ -103,6 +110,13 @@ Rails.application.routes.draw do
             delete "/destroy_all", to: "prompts#destroy_all"
             delete "/delete_all", to: "prompts#delete_all"
           end
+
+          resources(:schedules) do
+            collection do
+              delete "/destroy_all", to: "schedules#destroy_all"
+              delete "/delete_all", to: "schedules#delete_all"
+            end
+          end
         end
 
         resources(:repl_executions) do
@@ -170,8 +184,6 @@ Rails.application.routes.draw do
       end
 
       resources(:messages) do
-        post :read
-        post :unread
         get :content
         get :subject
         get :body
@@ -256,6 +268,13 @@ Rails.application.routes.draw do
         collection do
           delete "/destroy_all", to: "prompts#destroy_all"
           delete "/delete_all", to: "prompts#delete_all"
+        end
+
+        resources(:schedules) do
+          collection do
+            delete "/destroy_all", to: "schedules#destroy_all"
+            delete "/delete_all", to: "schedules#delete_all"
+          end
         end
       end
     end

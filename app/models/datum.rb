@@ -52,6 +52,14 @@ class Datum < ApplicationRecord
     Code::Object::Datum.new(id: id, key: key, value: value)
   end
 
+  def key_json
+    JSON.pretty_generate(key)
+  end
+
+  def value_json
+    JSON.pretty_generate(value)
+  end
+
   def to_s
     key_sample.presence || value_sample || t("to_s", id: id)
   end

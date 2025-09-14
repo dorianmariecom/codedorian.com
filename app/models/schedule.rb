@@ -54,13 +54,13 @@ class Schedule < ApplicationRecord
     "years" => 1.year
   }.freeze
 
-  belongs_to :program, touch: true
+  belongs_to :schedulable, polymorphic: true, touch: true
 
-  has_one :user, through: :program
+  delegate :user, to: :schedulable
 
   validates :interval, inclusion: { in: INTERVALS }
 
-  validate { can!(:update, program) }
+  validate { can!(:update, schedulable) }
 
   after_initialize { self.starts_at ||= default_starts_at }
   after_initialize { self.interval ||= default_interval }
@@ -130,6 +130,16 @@ class Schedule < ApplicationRecord
 
   def default_interval
     "1 day"
+  end
+
+  def as_json(...)
+    {
+      id: id,
+      starts_at: starts_at,
+      interval: interval,
+      translated_interval: translated_interval,
+      next_at: next_at
+    }.as_json(...)
   end
 
   def to_code

@@ -1,46 +1,50 @@
-<%= form_for time_zone do |f| %>
+<%= form_for(time_zone) do |f| %>
   <% if admin? %>
     <div class="p">
-      <%= f.label :user_id, class: "label" %>
-      <%= f.select :user_id, user_options(user_id: f.object.user_id), {}, class: "input" %>
+      <%= f.label(:user_id, class: "label") %>
+      <%= f.select(:user_id, user_options(user_id: time_zone.user_id), {}, class: "input") %>
     </div>
   <% end %>
 
   <div class="p" data-controller="time-zone">
-    <%= f.label :time_zone, class: "label", data: { time_zone_target: "label" } %>
-    <%= f.select :time_zone,
-             time_zone_options(time_zone: f.object.time_zone),
-             {},
-             required: true,
-             class: "input",
-             data: {
-               time_zone_target: "input",
-               action: "time-zone#input",
-               form_type: "other"
-             },
-             autocomplete: "off" %>
+    <%= f.label(:time_zone, class: "label", data: { time_zone_target: "label" }) %>
+    <%= f.select(
+      :time_zone,
+      time_zone_options(time_zone: f.object.time_zone),
+      {},
+      required: true,
+      class: "input",
+      data: {
+        time_zone_target: "input",
+        action: "time-zone#input",
+        form_type: "other"
+      },
+      autocomplete: "off"
+    ) %>
     <div class="text-red-600" hidden data-time-zone-target="error"></div>
     <div class="text-gray-600"><%= TimeZone::TIME_ZONES.sample %></div>
   </div>
 
   <div class="p">
-    <%= f.label :primary, class: "label" %>
-    <%= f.check_box :primary, class: "input" %>
+    <%= f.label(:primary, class: "label") %>
+    <%= f.check_box(:primary, class: "input") %>
   </div>
 
   <% if admin? %>
     <div class="p">
-      <%= f.label :verified, class: "label" %>
-      <%= f.check_box :verified, class: "input" %>
+      <%= f.label(:verified, class: "label") %>
+      <%= f.check_box(:verified, class: "input") %>
     </div>
   <% end %>
 
   <div class="p">
-    <%= f.submit submit,
-             class: "button",
-             data: {
-               controller: "bridge--button",
-               bridge__button_title_value: submit
-             } %>
+    <%= f.submit(
+      submit,
+      class: "button",
+      data: {
+        controller: "bridge--button",
+        bridge__button_title_value: submit
+      }
+    ) %>
   </div>
 <% end %>

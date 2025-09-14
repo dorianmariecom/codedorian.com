@@ -1,12 +1,12 @@
 <div data-controller="nested" data-nested-selector-value=".time-zone">
   <template data-nested-target="template">
-    <%= f.fields_for :tokens, TimeZone.new, child_index: "NEW_RECORD" do |token_f| %>
-      <%= render "tokens/nested_form", f: token_f %>
+    <%= f.fields_for(:tokens, TimeZone.new, child_index: "NEW_RECORD") do |token_f| %>
+      <%= render("tokens/nested_form", f: token_f) %>
     <% end %>
   </template>
 
-  <%= f.fields_for :tokens do |token_f| %>
-    <%= render "tokens/nested_form", f: token_f %>
+  <%= f.fields_for(:tokens) do |token_f| %>
+    <%= render("tokens/nested_form", f: token_f) %>
   <% end %>
 
   <div data-nested-target="target"></div>

@@ -1,8 +1,8 @@
-<%= form_for name do |f| %>
+<%= form_for(name) do |f| %>
   <% if admin? %>
     <div class="p">
-      <%= f.label :user_id, class: "label" %>
-      <%= f.select :user_id, user_options(user_id: f.object.user_id), {}, class: "input" %>
+      <%= f.label(:user_id, class: "label") %>
+      <%= f.select(:user_id, user_options(user_id: name.user_id), {}, class: "input") %>
     </div>
   <% end %>
 
@@ -12,17 +12,19 @@
     data-validation-trim-value="true"
     data-validation-gender-value="masculine"
   >
-    <%= f.label :given_name, class: "label", data: { validation_target: "label" } %>
-    <%= f.text_field :given_name,
-                 class: "input",
-                 required: true,
-                 data: {
-                   validation_target: "input",
-                   action: "validation#input",
-                   form_type: "other"
-                 },
-                 autocomplete: "given-name",
-                 placeholder: t(".given_name_placeholder") %>
+    <%= f.label(:given_name, class: "label", data: { validation_target: "label" }) %>
+    <%= f.text_field(
+      :given_name,
+      class: "input",
+      required: true,
+      data: {
+        validation_target: "input",
+        action: "validation#input",
+        form_type: "other"
+      },
+      autocomplete: "given-name",
+      placeholder: t(".given_name_placeholder")
+    ) %>
     <div class="text-red-600" hidden data-validation-target="error"></div>
     <div class="text-gray-600"><%= Faker::Name.first_name %></div>
   </div>
@@ -33,39 +35,43 @@
     data-validation-trim-value="true"
     data-validation-gender-value="masculine"
   >
-    <%= f.label :family_name, class: "label", data: { validation_target: "label" } %>
-    <%= f.text_field :family_name,
-                 class: "input",
-                 required: true,
-                 data: {
-                   validation_target: "input",
-                   action: "validation#input",
-                   form_type: "other"
-                 },
-                 autocomplete: "family-name",
-                 placeholder: t(".family_name_placeholder") %>
+    <%= f.label(:family_name, class: "label", data: { validation_target: "label" }) %>
+    <%= f.text_field(
+      :family_name,
+      class: "input",
+      required: true,
+      data: {
+        validation_target: "input",
+        action: "validation#input",
+        form_type: "other"
+      },
+      autocomplete: "family-name",
+      placeholder: t(".family_name_placeholder")
+    ) %>
     <div class="text-red-600" hidden data-validation-target="error"></div>
     <div class="text-gray-600"><%= Faker::Name.last_name %></div>
   </div>
 
   <div class="p">
-    <%= f.label :primary, class: "label" %>
-    <%= f.check_box :primary, class: "input" %>
+    <%= f.label(:primary, class: "label") %>
+    <%= f.check_box(:primary, class: "input") %>
   </div>
 
   <% if admin? %>
     <div class="p">
-      <%= f.label :verified, class: "label" %>
-      <%= f.check_box :verified, class: "input" %>
+      <%= f.label(:verified, class: "label") %>
+      <%= f.check_box(:verified, class: "input") %>
     </div>
   <% end %>
 
   <div class="p">
-    <%= f.submit submit,
-             class: "button",
-             data: {
-               controller: "bridge--button",
-               bridge__button_title_value: submit
-             } %>
+    <%= f.submit(
+      submit,
+      class: "button",
+      data: {
+        controller: "bridge--button",
+        bridge__button_title_value: submit
+      }
+    ) %>
   </div>
 <% end %>

@@ -1,23 +1,17 @@
-<% key = datum.errors.include?(:key) ? datum.key : JSON.pretty_generate(datum.key) %>
-<% value =
-  (
-    if datum.errors.include?(:value)
-      datum.value
-    else
-      JSON.pretty_generate(datum.value)
-    end
-  ) %>
+<% key = datum.errors.include?(:key) ? datum.key : datum.key_json %>
 
-<%= form_for datum do |f| %>
+<% value = datum.errors.include?(:value) ? datum.value : datum.value_json %>
+
+<%= form_for(datum) do |f| %>
   <% if admin? %>
     <div class="p">
-      <%= f.label :user_id, class: "label" %>
-      <%= f.select :user_id, user_options(user_id: f.object.user_id), {}, class: "input" %>
+      <%= f.label(:user_id, class: "label") %>
+      <%= f.select(:user_id, user_options(user_id: f.object.user_id), {}, class: "input") %>
     </div>
   <% end %>
 
   <div class="p" data-controller="editor">
-    <%= f.label :key, class: "label" %>
+    <%= f.label(:key, class: "label") %>
     <div
       class="flex-1 flex flex-col border border-black rounded overflow-hidden"
     >
@@ -28,7 +22,7 @@
   </div>
 
   <div class="p" data-controller="editor">
-    <%= f.label :value, class: "label" %>
+    <%= f.label(:value, class: "label") %>
     <div
       class="flex-1 flex flex-col border border-black rounded overflow-hidden"
     >

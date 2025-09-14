@@ -26,7 +26,7 @@ class ProgramsController < ApplicationController
 
     @schedules =
       policy_scope(Schedule)
-        .where(program: @program)
+        .where(schedulable: @program)
         .order(created_at: :asc)
         .page(params[:page])
   end
@@ -61,20 +61,48 @@ class ProgramsController < ApplicationController
 
     if @program.save
       log_in(@program.user)
-      redirect_to @program, notice: t(".notice")
+
+      if generate?
+        @prompt = authorize prompt_scope.new(prompt_params)
+        @prompt.program = @program
+
+        if @prompt.save
+          GenerateJob.perform_later(prompt: @prompt)
+        else
+          flash.now.alert = @prompt.alert
+        end
+
+        redirect_to([:edit, @program], notice: t(".notice"))
+      else
+        redirect_to(@program, notice: t(".notice"))
+      end
     else
       flash.now.alert = @program.alert
-      render :new, status: :unprocessable_entity
+      render(:new, status: :unprocessable_entity)
     end
   end
 
   def update
     if @program.update(program_params)
       log_in(@program.user)
-      redirect_to @program, notice: t(".notice")
+
+      if generate?
+        @prompt = authorize prompt_scope.new(prompt_params)
+        @prompt.program = @program
+
+        if @prompt.save
+          GenerateJob.perform_later(prompt: @prompt)
+        else
+          flash.now.alert = @prompt.alert
+        end
+
+        head :no_content
+      else
+        redirect_to(@program, notice: t(".notice"))
+      end
     else
       flash.now.alert = @program.alert
-      render :edit, status: :unprocessable_entity
+      render(:edit, status: :unprocessable_entity)
     end
   end
 
@@ -116,6 +144,13 @@ class ProgramsController < ApplicationController
     scope
   end
 
+  def prompt_scope
+    scope = policy_scope(Prompt)
+    scope = scope.where(user: @user) if @user
+    scope = scope.where(program: @program) if @program
+    scope
+  end
+
   def url
     [@user, :programs].compact
   end
@@ -144,6 +179,10 @@ class ProgramsController < ApplicationController
     @program = authorize scope.find(id)
   end
 
+  def generate?
+    params.dig(:program, :generate).present?
+  end
+
   def program_params
     if admin?
       params.expect(
@@ -160,6 +199,27 @@ class ProgramsController < ApplicationController
           :input,
           :name,
           { schedules_attributes: [%i[id _destroy starts_at interval]] }
+        ]
+      )
+    end
+  end
+
+  def prompt_params
+    if admin?
+      params.expect(
+        program: [
+          :user_id,
+          :name,
+          :input,
+          { schedules_attributes: [%i[starts_at interval]] }
+        ]
+      )
+    else
+      params.expect(
+        program: [
+          :input,
+          :name,
+          { schedules_attributes: [%i[starts_at interval]] }
         ]
       )
     end

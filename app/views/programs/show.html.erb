@@ -1,6 +1,6 @@
 <% content_for(:title, @program) %>
 
-<%= turbo_stream_from @program %>
+<%= turbo_stream_from(@program) %>
 
 <div class="p">
   <div class="text-gray-600"><%= t(".id") %></div>
@@ -12,7 +12,7 @@
     <div class="text-gray-600"><%= t(".user") %></div>
     <% if can?(:show, @program.user) %>
       <div class="font-bold">
-        <%= link_to @program.user, @program.user, class: "link" %>
+        <%= link_to(@program.user, @program.user, class: "link") %>
       </div>
     <% else %>
       <div class="font-bold"><%= @program.user %></div>
@@ -47,46 +47,60 @@
 <% if @program.scheduled_at? %>
   <div class="p">
     <%= t(".scheduled_html", local_time: local_time(@program.scheduled_at)) %>
-    <%= render "shared/confirm",
-           text: t(".unschedule"),
-           url: [@program, :unschedule],
-           method: :post %>
+    <%= render(
+      "shared/confirm",
+      text: t(".unschedule"),
+      url: [@program, :unschedule],
+      method: :post
+    ) %>
   </div>
 <% elsif @program.next_at? %>
   <div class="p">
     <%= t(".not_scheduled_html", local_time: local_time(@program.next_at)) %>
-    <%= render "shared/confirm",
-           text: t(".schedule"),
-           url: [@program, :schedule],
-           method: :post %>
+    <%= render(
+      "shared/confirm",
+      text: t(".schedule"),
+      url: [@program, :schedule],
+      method: :post
+    ) %>
   </div>
 <% end %>
 
 <div class="p">
-  <%= button_to t(".evaluate"), [@program, :evaluate], method: :post, class: "button" %>
+  <%= render(
+    "shared/confirm",
+    text: t(".evaluate"),
+    url: [@program, :evaluate],
+    method: :post,
+    class: "button"
+  ) %>
 </div>
 
 <div class="p">
-  <%= link_to t(".edit"), [@user, :edit, @program], class: "link" %>
-  <%= render "shared/confirm", text: t(".delete"), url: [@user, @program] %>
+  <%= link_to(t(".edit"), [@user, :edit, @program], class: "link") %>
+  <%= render("shared/confirm", text: t(".delete"), url: [@user, @program]) %>
 </div>
 
 <div class="p font-bold">
-  <%= link_to t(".schedules"), [@program, :schedules], class: "link" %>
+  <%= link_to(t(".schedules"), [@program, :schedules], class: "link") %>
 </div>
 
 <div class="p">
-  <%= link_to t(".new_schedule"), [:new, @program, :schedule], class: "button" %>
+  <%= link_to(t(".new_schedule"), [:new, @program, :schedule], class: "button") %>
 </div>
 
-<%= render_collection partial: "schedules/schedule",
-                  collection: @schedules,
-                  as: :schedule %>
+<%= render_collection(
+  partial: "schedules/schedule",
+  collection: @schedules,
+  as: :schedule
+) %>
 
 <div class="p font-bold">
-  <%= link_to t(".executions"), [@program, :executions], class: "link" %>
+  <%= link_to(t(".executions"), [@program, :executions], class: "link") %>
 </div>
 
-<%= render_collection partial: "executions/execution",
-                  collection: @executions,
-                  as: :execution %>
+<%= render_collection(
+  partial: "executions/execution",
+  collection: @executions,
+  as: :execution
+) %>

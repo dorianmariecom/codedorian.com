@@ -2,16 +2,18 @@
   class="repl-program border-l border-black pl-5"
   data-new-record="<%= f.object.new_record? %>"
 >
-  <%= f.hidden_field :id %>
-  <%= f.hidden_field :_destroy %>
+  <%= f.hidden_field(:id) %>
+  <%= f.hidden_field(:_destroy) %>
 
   <h2 class="font-bold p"><%= t(".repl_program") %></h2>
 
   <div class="p">
-    <%= f.label :input, class: "label" %>
-    <%= f.text_field :input,
-                 placeholder: t(".input_placeholder"),
-                 class: "input input--repl" %>
+    <%= f.label(:input, class: "label") %>
+    <%= f.text_field(
+      :input,
+      placeholder: t(".input_placeholder"),
+      class: "input input--repl"
+    ) %>
     <div class="text-gray-600"><%= t(".fake_input") %></div>
   </div>
 

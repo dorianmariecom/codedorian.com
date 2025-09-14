@@ -1,6 +1,6 @@
-<% content_for :title, @user %>
+<% content_for(:title, @user) %>
 
-<%= turbo_stream_from @user %>
+<%= turbo_stream_from(@user) %>
 
 <div class="p">
   <div class="text-gray-600"><%= t(".id") %></div>
@@ -16,14 +16,14 @@
   <div class="font-bold"><%= @user.translated_locale %></div>
 </div>
 
-<%= render "shared/attribute", user: @user, field: :name %>
-<%= render "shared/attribute", user: @user, field: :handle %>
-<%= render "shared/attribute", user: @user, field: :email_address %>
-<%= render "shared/attribute", user: @user, field: :phone_number %>
-<%= render "shared/attribute", user: @user, field: :address %>
-<%= render "shared/attribute", user: @user, field: :password %>
-<%= render "shared/attribute", user: @user, field: :time_zone %>
-<%= render "shared/attribute", user: @user, field: :device %>
+<%= render("shared/attribute", user: @user, field: :name) %>
+<%= render("shared/attribute", user: @user, field: :handle) %>
+<%= render("shared/attribute", user: @user, field: :email_address) %>
+<%= render("shared/attribute", user: @user, field: :phone_number) %>
+<%= render("shared/attribute", user: @user, field: :address) %>
+<%= render("shared/attribute", user: @user, field: :password) %>
+<%= render("shared/attribute", user: @user, field: :time_zone) %>
+<%= render("shared/attribute", user: @user, field: :device) %>
 
 <div class="p">
   <div class="text-gray-600"><%= t(".verified") %></div>
@@ -41,20 +41,20 @@
 </div>
 
 <div class="p">
-  <% if admin? %>
-    <%= render "shared/confirm", text: t(".impersonate"), url: [@user, :impersonate] %>
+  <% if can?(:impersonate, @user) %>
+    <%= render("shared/confirm", text: t(".impersonate"), url: [@user, :impersonate]) %>
   <% end %>
-  <%= render "shared/confirm", text: t(".log_out"), url: :session %>
-  <%= link_to t(".edit"), [:edit, @user], class: "link" %>
-  <%= render "shared/confirm", text: t(".delete"), url: @user %>
+  <%= render("shared/confirm", text: t(".log_out"), url: :session) %>
+  <%= link_to(t(".edit"), [:edit, @user], class: "link") %>
+  <%= render("shared/confirm", text: t(".delete"), url: @user) %>
 </div>
 
-<%= render "shared/list", user: @user, model: Name %>
-<%= render "shared/list", user: @user, model: Handle %>
-<%= render "shared/list", user: @user, model: EmailAddress %>
-<%= render "shared/list", user: @user, model: PhoneNumber %>
-<%= render "shared/list", user: @user, model: Address %>
-<%= render "shared/list", user: @user, model: Password %>
-<%= render "shared/list", user: @user, model: TimeZone %>
-<%= render "shared/list", user: @user, model: Device %>
-<%= render "shared/list", user: @user, model: Token %>
+<%= render("shared/list", user: @user, model: Name) %>
+<%= render("shared/list", user: @user, model: Handle) %>
+<%= render("shared/list", user: @user, model: EmailAddress) %>
+<%= render("shared/list", user: @user, model: PhoneNumber) %>
+<%= render("shared/list", user: @user, model: Address) %>
+<%= render("shared/list", user: @user, model: Password) %>
+<%= render("shared/list", user: @user, model: TimeZone) %>
+<%= render("shared/list", user: @user, model: Device) %>
+<%= render("shared/list", user: @user, model: Token) %>

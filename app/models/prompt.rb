@@ -3,7 +3,8 @@
 class Prompt < ApplicationRecord
   SAMPLE_SIZE = 140
   OMISSION = "…"
-  MODEL = "gpt-4o" # FIXME: use gpt-5-nano when async
+  MODEL = "gpt-5-nano"
+  STATUSES = %w[initialized created in_progress done errored].freeze
 
   PROMPT_1 = <<~PROMPT.freeze
     i created a programming language named "code", your goal is to
@@ -15,7 +16,7 @@ class Prompt < ApplicationRecord
 
     a schedule is a dictionary of a starts_at (datetime) and an interval (string)
 
-    intervals are #{Schedule::INTERVALS}
+    intervals are #{Schedule::INTERVALS.to_json}
   PROMPT
 
   PROMPT_2 = <<~PROMPT
@@ -35,18 +36,58 @@ class Prompt < ApplicationRecord
   PROMPT
 
   PROMPT_6 = <<~PROMPT
-    reply with the input in code of the program and the schedules of the program
+    reply with the name of the program, the input in code of the program
+    and the schedules of the program
+
+    if nothing is provided, generate a random program
   PROMPT
+
+  scope :initialized, -> { where(status: :initialized) }
+  scope :created, -> { where(status: :created) }
+  scope :in_progress, -> { where(status: :in_progress) }
+  scope :done, -> { where(status: :done) }
+  scope :errored, -> { where(status: :errored) }
+  scope :generating, -> { where(status: %i[created in_progress]) }
+  scope :not_generating, -> { where.not(status: %i[created in_progress]) }
 
   belongs_to :user, default: -> { Current.user! }, touch: true
   belongs_to :program, polymorphic: true, optional: true
+
+  has_many :schedules, as: :schedulable, dependent: :destroy
+
+  accepts_nested_attributes_for :schedules, allow_destroy: true
 
   validate { can!(:update, user) }
 
   before_validation { self.user ||= Current.user! }
 
+  after_create_commit { created! unless created? }
+  after_save_commit do
+    program.schedules = program_schedules if done?
+
+    broadcast_replace_to(
+      program,
+      :form,
+      target: dom_id(program, :form),
+      partial: "programs/form",
+      locals: {
+        program: program,
+        prompt: self,
+        submit: t(".submit")
+      }
+    )
+  end
+
   def self.search_fields
     {
+      status: {
+        node: -> { arel_table[:status] },
+        type: :string
+      },
+      name: {
+        node: -> { arel_table[:name] },
+        type: :string
+      },
       input: {
         node: -> { arel_table[:input] },
         type: :string
@@ -60,15 +101,9 @@ class Prompt < ApplicationRecord
     }
   end
 
-  def schedules=(schedules)
-    if schedules.is_a?(String)
-      super(JSON.parse(schedules))
-    else
-      super
-    end
-  end
-
   def generate!
+    in_progress!
+
     uri = URI("https://api.openai.com/v1/chat/completions")
 
     http = Net::HTTP.new(uri.host, uri.port)
@@ -93,6 +128,9 @@ class Prompt < ApplicationRecord
           schema: {
             type: :object,
             properties: {
+              name: {
+                type: :string
+              },
               input: {
                 type: :string
               },
@@ -115,7 +153,7 @@ class Prompt < ApplicationRecord
                 }
               }
             },
-            required: %i[input schedules],
+            required: %i[name input schedules],
             additionalProperties: false
           }
         }
@@ -129,19 +167,35 @@ class Prompt < ApplicationRecord
         { role: "system", content: PROMPT_4 },
         { role: "user", content: schedules.to_json },
         { role: "system", content: PROMPT_5 },
-        { role: "system", content: Rails.root.join("config/examples.md").read },
+        { role: "system", content: programs_json },
         { role: "system", content: PROMPT_6 }
       ]
     }.to_json
 
     response = http.request(request)
     json = JSON.parse(response.body)
+    content = json.dig("choices", 0, "message", "content")
+    raise json.to_json if content.blank?
 
-    update!(output: JSON.parse(json.dig("choices", 0, "message", "content")))
+    update!(output: JSON.parse(content))
+    done!
+  rescue StandardError => e
+    errored!
+    update!(error_class: e.class)
+    update!(error_message: e.message)
+    update!(error_backtrace: e.backtrace.join("\n"))
+  end
+
+  def output_name
+    (
+      output.is_a?(Hash) && output["name"].is_a?(String) && output["name"]
+    ).presence
   end
 
   def output_input
-    output.is_a?(Hash) && output["input"].is_a?(String) && output["input"]
+    (
+      output.is_a?(Hash) && output["input"].is_a?(String) && output["input"]
+    ).presence
   end
 
   def output_input?
@@ -149,8 +203,21 @@ class Prompt < ApplicationRecord
   end
 
   def output_schedules
-    output.is_a?(Hash) && output["schedules"].is_an?(Array) &&
-      output["schedules"]
+    (
+      output.is_a?(Hash) && output["schedules"].is_an?(Array) &&
+        output["schedules"]
+    ).presence
+  end
+
+  def program_schedules
+    return [] if output_schedules.blank?
+
+    output_schedules.map do |output_schedule|
+      Schedule.new(
+        starts_at: output_schedule["starts_at"],
+        interval: output_schedule["interval"]
+      )
+    end
   end
 
   def output_schedules?
@@ -166,11 +233,83 @@ class Prompt < ApplicationRecord
   end
 
   def schedules_sample
-    schedules.to_json.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+    schedules
+      .presence
+      &.to_json
+      &.truncate(SAMPLE_SIZE, omission: OMISSION)
+      .presence
   end
 
   def output_sample
-    output.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+    output.presence&.to_json&.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+  end
+
+  def output_name_sample
+    output_name.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+  end
+
+  def output_input_sample
+    output_input.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+  end
+
+  def output_schedules_sample
+    output_schedules
+      .presence
+      &.to_json
+      &.truncate(SAMPLE_SIZE, omission: OMISSION)
+      .presence
+  end
+
+  def programs_json
+    Rails.root.join("config/examples.json").read
+  end
+
+  def initialized?
+    status == "initialized"
+  end
+
+  def initialized!
+    update!(status: :initialized)
+  end
+
+  def created?
+    status == "created"
+  end
+
+  def created!
+    update!(status: :created)
+  end
+
+  def in_progress?
+    status == "in_progress"
+  end
+
+  def in_progress!
+    update!(status: :in_progress)
+  end
+
+  def done?
+    status == "done"
+  end
+
+  def done!
+    update!(status: :done)
+  end
+
+  def errored?
+    status == "errored"
+  end
+
+  def errored!
+    update!(status: :errored)
+  end
+
+  def generating?
+    created? || in_progress?
+  end
+
+  def not_generating?
+    !generating?
   end
 
   def as_json(...)
@@ -178,7 +317,9 @@ class Prompt < ApplicationRecord
   end
 
   def to_s
-    name_sample.presence || input_sample.presence || output_sample.presence ||
-      schedules_sample.presence || t("to_s", id: id)
+    name_sample.presence || output_name_sample.presence ||
+      input_sample.presence || output_input_sample.presence ||
+      schedules_sample.presence || output_schedules_sample.presence ||
+      output_sample.presence || t("to_s", id: id)
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_09_091239) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_14_135246) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -191,7 +191,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_09_091239) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.text "name"
-    t.jsonb "schedules"
+    t.string "status", default: "initialized"
+    t.text "backtrace"
+    t.text "error_class"
+    t.text "error_message"
+    t.text "error_backtrace"
     t.index %w[program_type program_id], name: "index_prompts_on_program"
     t.index ["user_id"], name: "index_prompts_on_user_id"
   end
@@ -301,17 +305,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_09_091239) do
   create_table "schedules", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "interval"
-    t.bigint "program_id", null: false
     t.datetime "starts_at"
     t.datetime "updated_at", null: false
-    t.index ["program_id"], name: "index_schedules_on_program_id"
+    t.string "schedulable_type", null: false
+    t.bigint "schedulable_id", null: false
+    t.index %w[schedulable_type schedulable_id],
+            name: "index_schedules_on_schedulable"
   end
 
   create_table "solid_cable_messages", force: :cascade do |t|
     t.binary "channel", null: false
-    t.bigint "channel_hash", null: false
     t.datetime "created_at", null: false
     t.binary "payload", null: false
+    t.bigint "channel_hash"
     t.index ["channel"], name: "index_solid_cable_messages_on_channel"
     t.index ["channel_hash"], name: "index_solid_cable_messages_on_channel_hash"
     t.index ["created_at"], name: "index_solid_cable_messages_on_created_at"
@@ -573,7 +579,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_09_091239) do
   add_foreign_key "repl_executions", "repl_programs"
   add_foreign_key "repl_programs", "repl_sessions"
   add_foreign_key "repl_sessions", "users"
-  add_foreign_key "schedules", "programs"
   add_foreign_key "solid_errors_occurrences", "solid_errors", column: "error_id"
   add_foreign_key "solid_queue_blocked_executions",
                   "solid_queue_jobs",

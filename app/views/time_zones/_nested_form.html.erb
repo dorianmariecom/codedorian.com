@@ -2,37 +2,39 @@
   class="time-zone border-l border-black pl-5"
   data-new-record="<%= f.object.new_record? %>"
 >
-  <%= f.hidden_field :id %>
-  <%= f.hidden_field :_destroy %>
+  <%= f.hidden_field(:id) %>
+  <%= f.hidden_field(:_destroy) %>
 
   <h2 class="font-bold p"><%= t(".time_zone") %></h2>
 
   <div class="p" data-controller="time-zone">
-    <%= f.label :time_zone, class: "label", data: { time_zone_target: "label" } %>
-    <%= f.select :time_zone,
-             time_zone_options(time_zone: f.object.time_zone),
-             {},
-             required: true,
-             class: "input",
-             data: {
-               time_zone_target: "input",
-               action: "time-zone#input",
-               form_type: "other"
-             },
-             autocomplete: "off" %>
+    <%= f.label(:time_zone, class: "label", data: { time_zone_target: "label" }) %>
+    <%= f.select(
+      :time_zone,
+      time_zone_options(time_zone: f.object.time_zone),
+      {},
+      required: true,
+      class: "input",
+      data: {
+        time_zone_target: "input",
+        action: "time-zone#input",
+        form_type: "other"
+      },
+      autocomplete: "off"
+    ) %>
     <div class="text-red-600" hidden data-time-zone-target="error"></div>
     <div class="text-gray-600"><%= TimeZone::TIME_ZONES.sample %></div>
   </div>
 
   <div class="p">
-    <%= f.label :primary, class: "label" %>
-    <%= f.check_box :primary, class: "input" %>
+    <%= f.label(:primary, class: "label") %>
+    <%= f.check_box(:primary, class: "input") %>
   </div>
 
   <% if admin? %>
     <div class="p">
-      <%= f.label :verified, class: "label" %>
-      <%= f.check_box :verified, class: "input" %>
+      <%= f.label(:verified, class: "label") %>
+      <%= f.check_box(:verified, class: "input") %>
     </div>
   <% end %>
 

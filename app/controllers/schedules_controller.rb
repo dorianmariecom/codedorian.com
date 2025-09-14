@@ -2,10 +2,11 @@
 
 class SchedulesController < ApplicationController
   before_action :load_user
-  before_action :load_program
+  before_action :load_schedulable
   before_action :load_schedule, only: %i[show edit update destroy]
 
   helper_method :url
+  helper_method :show_url
   helper_method :new_url
   helper_method :delete_all_url
   helper_method :destroy_all_url
@@ -20,7 +21,7 @@ class SchedulesController < ApplicationController
   end
 
   def new
-    @schedule = authorize scope.new(program: @program)
+    @schedule = authorize scope.new(schedulable: @schedulable)
   end
 
   def edit
@@ -80,21 +81,29 @@ class SchedulesController < ApplicationController
     end
   end
 
-  def load_program
-    return if params[:program_id].blank?
-
-    @program =
-      if @user
-        policy_scope(Program).where(user: @user).find(params[:program_id])
-      else
-        policy_scope(Program).find(params[:program_id])
-      end
+  def load_schedulable
+    if params[:program_id].present?
+      @schedulable = program_scope.find(params[:program_id])
+    elsif params[:prompt_id].present?
+      @schedulable = prompt_scope.find(params[:prompt_id])
+    end
   end
 
   def scope
     scope = searched_policy_scope(Schedule)
-    scope = scope.where(program: @program) if @program
-    scope = scope.joins(:program).where(program: { user: @user }) if @user
+    scope = scope.where(schedulable: @schedulable) if @schedulable
+    scope
+  end
+
+  def program_scope
+    scope = policy_scope(Program)
+    scope = scope.where(user: @user) if @user
+    scope
+  end
+
+  def prompt_scope
+    scope = policy_scope(Prompt)
+    scope = scope.where(user: @user) if @user
     scope
   end
 
@@ -107,11 +116,15 @@ class SchedulesController < ApplicationController
   end
 
   def url
-    [@user, @program, :schedules].compact
+    [@user, @schedulable, :schedules].compact
+  end
+
+  def show_url
+    [@user, @schedulable, @schedule].compact
   end
 
   def new_url
-    [:new, @user, @program, :schedule].compact
+    [:new, @user, @schedulable, :schedule].compact
   end
 
   def id
@@ -123,6 +136,6 @@ class SchedulesController < ApplicationController
   end
 
   def schedule_params
-    params.expect(schedule: %i[program_id starts_at interval])
+    params.expect(schedule: %i[starts_at interval])
   end
 end

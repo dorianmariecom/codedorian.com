@@ -1,0 +1,9 @@
+<%= turbo_stream.replace dom_id(@program, :form) do %>
+  <%= render partial: "programs/form",
+         formats: [:html],
+         locals: {
+           program: @program,
+           prompt: @prompt,
+           submit: t(".submit")
+         } %>
+<% end %>

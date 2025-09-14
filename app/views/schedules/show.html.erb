@@ -18,18 +18,18 @@
   <% end %>
 <% end %>
 
-<%= turbo_stream_from @schedule %>
+<%= turbo_stream_from(@schedule) %>
 
-<% if @schedule.program.present? %>
+<% if @schedule.schedulable.present? %>
   <div class="p">
-    <div class="text-gray-600"><%= t(".program") %></div>
+    <div class="text-gray-600"><%= t(".schedulable") %></div>
 
-    <% if can?(:show, @schedule.program) %>
+    <% if can?(:show, @schedule.schedulable) %>
       <div class="font-bold">
-        <%= link_to @schedule.program, @schedule.program, class: "link" %>
+        <%= link_to(@schedule.schedulable, @schedule.schedulable, class: "link") %>
       </div>
     <% else %>
-      <div class="font-bold"><%= @schedule.program %></div>
+      <div class="font-bold"><%= @schedule.schedulable %></div>
     <% end %>
   </div>
 <% end %>
@@ -59,6 +59,6 @@
 </div>
 
 <div class="p">
-  <%= link_to t(".edit"), [:edit, @schedule], class: "link" %>
-  <%= render "shared/confirm", text: t(".delete"), url: @schedule %>
+  <%= link_to(t(".edit"), [:edit, @schedule], class: "link") %>
+  <%= render("shared/confirm", text: t(".delete"), url: @schedule) %>
 </div>

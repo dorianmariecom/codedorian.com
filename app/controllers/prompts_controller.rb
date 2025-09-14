@@ -17,34 +17,11 @@ class PromptsController < ApplicationController
   end
 
   def show
-  end
-
-  def create
-    @prompt = scope.new(prompt_params)
-    @prompt.user ||= @user
-    @prompt.program ||= @program
-    authorize @prompt
-
-    if @prompt.save
-      log_in(@prompt.user)
-
-      @prompt.generate!
-
-      respond_to do |format|
-        format.html { redirect_to @prompt, notice: t(".notice") }
-        format.json { render json: @prompt }
-      end
-    else
-      respond_to do |format|
-        format.html do
-          flash.now.alert = @prompt.alert
-          render :new, status: :unprocessable_entity
-        end
-        format.json do
-          render json: { error: @prompt.alert }, status: :unprocessable_entity
-        end
-      end
-    end
+    @schedules =
+      policy_scope(Schedule)
+        .where(schedulable: @prompt)
+        .order(created_at: :asc)
+        .page(params[:page])
   end
 
   def destroy
@@ -116,17 +93,5 @@ class PromptsController < ApplicationController
 
   def load_prompt
     @prompt = authorize scope.find(id)
-  end
-
-  def prompt_params
-    return {} if params[:prompt].blank?
-
-    if admin?
-      params.expect(
-        prompt: %i[user_id program_type program_id input name schedules]
-      )
-    else
-      params.expect(prompt: %i[name input schedules])
-    end
   end
 end

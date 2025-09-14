@@ -1,6 +1,6 @@
 <% content_for(:title, @password) %>
 
-<%= turbo_stream_from @password %>
+<%= turbo_stream_from(@password) %>
 
 <div class="p">
   <div class="text-gray-600"><%= t(".id") %></div>
@@ -11,7 +11,7 @@
   <div class="p text-gray-600"><%= t(".user") %></div>
   <% if can?(:show, @password.user) %>
     <div class="p font-bold">
-      <%= link_to @password.user, @password.user, class: "link" %>
+      <%= link_to(@password.user, @password.user, class: "link") %>
     </div>
   <% else %>
     <div class="p font-bold"><%= @password.user %></div>
@@ -39,6 +39,6 @@
 <div class="p font-bold"><%= local_time(@password.created_at) %></div>
 
 <div class="p">
-  <%= link_to t(".edit"), [:edit, @password], class: "link" %>
-  <%= render "shared/confirm", text: t(".delete"), url: @password %>
+  <%= link_to(t(".edit"), [:edit, @password], class: "link") %>
+  <%= render("shared/confirm", text: t(".delete"), url: @password) %>
 </div>

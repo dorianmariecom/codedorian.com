@@ -3,28 +3,30 @@
 class SchedulePolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
-      scope.where(program: policy_scope(Program))
+      scope.where(schedulable: policy_scope(Program)).or(
+        scope.where(schedulable: policy_scope(Prompt))
+      )
     end
   end
 
   def index?
-    can?(:index, Program)
+    true
   end
 
   def create?
-    can?(:create, Program)
+    true
   end
 
   def update?
-    can?(:update, program)
+    can?(:update, schedulable)
   end
 
   def show?
-    can?(:show, program)
+    can?(:show, schedulable)
   end
 
   def destroy?
-    can?(:destroy, program)
+    can?(:destroy, schedulable)
   end
 
   def destroy_all?
@@ -37,7 +39,7 @@ class SchedulePolicy < ApplicationPolicy
 
   private
 
-  def program
-    record.program
+  def schedulable
+    record.schedulable
   end
 end

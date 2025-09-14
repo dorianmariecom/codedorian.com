@@ -1,13 +1,13 @@
-<%= turbo_stream_from @messages %>
+<%= turbo_stream_from(@messages) %>
 
-<div class="p"><%= link_to t(".new"), new_url, class: "button" %></div>
+<div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
 
-<%= render "shared/search" %>
+<%= render("shared/search") %>
 
 <% if @messages.any? %>
   <div class="p">
-    <%= render "shared/confirm", url: destroy_all_url, text: t(".destroy_all") %>
-    <%= render "shared/confirm", url: delete_all_url, text: t(".delete_all") %>
+    <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
+    <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
   </div>
 <% end %>
 

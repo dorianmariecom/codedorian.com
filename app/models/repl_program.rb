@@ -59,7 +59,7 @@ class ReplProgram < ApplicationRecord
         error: error.string,
         context: context
       )
-    rescue Code::Error, Timeout::Error => e
+    rescue Code::Error => e
       repl_executions.create!(
         input: input,
         result: nil,

@@ -1,6 +1,6 @@
 <% content_for(:title, @prompt) %>
 
-<%= turbo_stream_from @prompt %>
+<%= turbo_stream_from(@prompt) %>
 
 <div class="p">
   <div class="text-gray-600"><%= t(".id") %></div>
@@ -12,7 +12,7 @@
     <div class="text-gray-600"><%= t(".user") %></div>
     <% if can?(:show, @prompt.user) %>
       <div class="font-bold">
-        <%= link_to @prompt.user, @prompt.user, class: "link" %>
+        <%= link_to(@prompt.user, @prompt.user, class: "link") %>
       </div>
     <% else %>
       <div class="font-bold"><%= @prompt.user %></div>
@@ -25,11 +25,18 @@
     <div class="text-gray-600"><%= t(".program") %></div>
     <% if can?(:show, @prompt.program) %>
       <div class="font-bold">
-        <%= link_to @prompt.program, @prompt.program, class: "link" %>
+        <%= link_to(@prompt.program, @prompt.program, class: "link") %>
       </div>
     <% else %>
       <div class="font-bold"><%= @prompt.program %></div>
     <% end %>
+  </div>
+<% end %>
+
+<% if @prompt.name.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".name") %></div>
+    <div class="font-bold"><%= @prompt.name %></div>
   </div>
 <% end %>
 
@@ -83,5 +90,19 @@
 </div>
 
 <div class="p">
-  <%= render "shared/confirm", text: t(".delete"), url: @prompt %>
+  <%= render("shared/confirm", text: t(".delete"), url: @prompt) %>
 </div>
+
+<div class="p font-bold">
+  <%= link_to(t(".schedules"), [@prompt, :schedules], class: "link") %>
+</div>
+
+<div class="p">
+  <%= link_to(t(".new_schedule"), [:new, @prompt, :schedule], class: "button") %>
+</div>
+
+<%= render_collection(
+  partial: "schedules/schedule",
+  collection: @schedules,
+  as: :schedule
+) %>

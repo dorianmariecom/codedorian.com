@@ -8,7 +8,8 @@ class Program < ApplicationRecord
   belongs_to :user, default: -> { Current.user! }, touch: true
 
   has_many :executions, dependent: :destroy
-  has_many :schedules, dependent: :destroy
+  has_many :schedules, as: :schedulable, dependent: :destroy
+  has_many :prompts, dependent: :destroy
 
   accepts_nested_attributes_for :schedules, allow_destroy: true
 
@@ -50,7 +51,7 @@ class Program < ApplicationRecord
         output: output.string,
         error: error.string
       )
-    rescue Code::Error, Timeout::Error => e
+    rescue Code::Error => e
       executions.create!(
         input: input,
         result: nil,
@@ -120,6 +121,10 @@ class Program < ApplicationRecord
 
   def input_sample
     input.to_s.truncate(INPUT_SAMPLE_SIZE, omission: OMISSION).presence
+  end
+
+  def as_json(...)
+    { id: id, name: name, input: input, schedules: schedules }.as_json(...)
   end
 
   def to_code
