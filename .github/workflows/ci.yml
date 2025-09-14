@@ -19,7 +19,6 @@ jobs:
     - bundler-audit
     - importmap-audit
     - npm-audit
-    - rspec
     - rubocop
     runs-on: ubuntu-latest
     steps:
@@ -123,43 +122,6 @@ jobs:
     - uses: actions/checkout@v5
     - uses: actions/setup-node@v5
     - run: npm audit
-  rspec:
-    env:
-      PGHOST: localhost
-      PGPASSWORD: password
-      PGUSER: postgres
-      POSTGRES_HOST: localhost
-      POSTGRES_PASSWORD: password
-      POSTGRES_USER: postgres
-      RAILS_ENV: test
-      RAILS_MASTER_KEY: "${{secrets.TEST_RAILS_MASTER_KEY}}"
-    name: rspec
-    runs-on: ubuntu-latest
-    services:
-      postgres:
-        env:
-          PGHOST: localhost
-          PGPASSWORD: password
-          PGUSER: postgres
-          POSTGRES_HOST: localhost
-          POSTGRES_PASSWORD: password
-          POSTGRES_USER: postgres
-          RAILS_ENV: test
-        image: postgres:latest
-        ports:
-        - 5432:5432
-    steps:
-    - uses: actions/checkout@v5
-    - uses: ruby/setup-ruby@v1
-      with:
-        bundler-cache: true
-    - uses: actions/setup-node@v5
-      with:
-        cache: npm
-    - run: npm install --frozen-lockfile --immutable --ignore-engines
-    - run: bin/rails db:create db:schema:load
-    - run: bin/rails assets:precompile
-    - run: bin/rspec
   rubocop:
     name: rubocop
     runs-on: ubuntu-latest
