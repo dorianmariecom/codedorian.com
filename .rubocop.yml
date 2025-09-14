@@ -86,6 +86,8 @@ Rails/Presence:
   Enabled: false
 Rails/Present:
   Enabled: false
+Rails/SkipsModelValidations:
+  Enabled: false
 Rails/ThreeStateBooleanColumn:
   Enabled: false
 Rails/TimeZone:

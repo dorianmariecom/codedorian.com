@@ -7,15 +7,19 @@ class MoveJsonbSchedulesOfPromptsToActualSchedules < ActiveRecord::Migration[
 
   def up
     ::Current.with(user: User.new(admin: true)) do
-      Prompt.find_each do |prompt|
-        (prompt[:schedules].presence || []).each do |schedule|
-          Schedule.create!(
-            schedulable: prompt,
-            interval: schedule["interval"],
-            starts_at: schedule["starts_at"]
-          )
+      schedules =
+        Prompt.all.flat_map do |prompt|
+          (prompt[:schedules].presence || []).map do |schedule|
+            {
+              schedulable_type: "Prompt",
+              schedulable_id: prompt.id,
+              interval: schedule["interval"],
+              starts_at: schedule["starts_at"]
+            }
+          end
         end
-      end
+
+      Schedule.insert_all(schedules)
     end
   end
 
