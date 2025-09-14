@@ -119,15 +119,15 @@ class Address < ApplicationRecord
   end
 
   def address_components_json
-    JSON.pretty_generate(@address.address_components)
+    JSON.pretty_generate(address_components)
   end
 
   def geometry_json
-    JSON.pretty_generate(@address.geometry)
+    JSON.pretty_generate(geometry)
   end
 
   def types_json
-    JSON.pretty_generate(@address.types)
+    JSON.pretty_generate(types)
   end
 
   def to_s
