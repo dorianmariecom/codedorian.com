@@ -4,6 +4,7 @@ class Prompt < ApplicationRecord
   SAMPLE_SIZE = 140
   OMISSION = "…"
   MODEL = "gpt-4o" # FIXME: use gpt-5-nano when async
+  STATUSES = %w[initialized created in_progress done errored]
 
   PROMPT_1 = <<~PROMPT.freeze
     i created a programming language named "code", your goal is to
@@ -49,9 +50,12 @@ class Prompt < ApplicationRecord
 
   before_validation { self.user ||= Current.user! }
 
+  after_create_commit { created! unless created? }
   after_save_commit do
+    program.schedules = program_schedules
+
     broadcast_replace_to(
-      self,
+      [program, :form],
       target: dom_id(program, :form),
       partial: "programs/form",
       locals: {
@@ -82,6 +86,8 @@ class Prompt < ApplicationRecord
   end
 
   def generate!
+    in_progress!
+
     uri = URI("https://api.openai.com/v1/chat/completions")
 
     http = Net::HTTP.new(uri.host, uri.port)
@@ -154,6 +160,10 @@ class Prompt < ApplicationRecord
     json = JSON.parse(response.body)
 
     update!(output: JSON.parse(json.dig("choices", 0, "message", "content")))
+    done!
+  rescue StandardError => e
+    errored!
+    update!(error: Current.admin? ? "#{e.class}: #{e.message}" : e.class.to_s)
   end
 
   def output_name
@@ -203,11 +213,11 @@ class Prompt < ApplicationRecord
   end
 
   def schedules_sample
-    schedules.to_json.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+    schedules.presence&.to_json&.truncate(SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def output_sample
-    output.to_json.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+    output.presence&.to_json&.truncate(SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def output_name_sample
@@ -219,21 +229,51 @@ class Prompt < ApplicationRecord
   end
 
   def output_schedules_sample
-    output_schedules.to_json.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+    output_schedules.presence&.to_json&.truncate(SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def programs_json
     Rails.root.join("config/examples.json").read
   end
 
-  def status
-    if new_record?
-      :initialized
-    elsif output.present?
-      :done
-    else
-      :in_progress
-    end
+  def initialized?
+    status == "initialized"
+  end
+
+  def initialized!
+    update!(status: "initialized")
+  end
+
+  def created?
+    status == "created"
+  end
+
+  def created!
+    update!(status: "created")
+  end
+
+  def in_progress?
+    status == "in_progress"
+  end
+
+  def in_progress!
+    update!(status: "in_progress")
+  end
+
+  def done?
+    status == "done"
+  end
+
+  def done!
+    update!(status: "done")
+  end
+
+  def errored?
+    status == "errored"
+  end
+
+  def errored!
+    update!(status: "errored")
   end
 
   def as_json(...)

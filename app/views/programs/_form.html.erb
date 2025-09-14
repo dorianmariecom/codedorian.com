@@ -3,7 +3,9 @@
 <% user_id = prompt.user_id.presence || program.user_id %>
 <% name = prompt.name.presence || program.name %>
 <% input = prompt.input.presence || program.input %>
-<% generate = prompt.status == :in_progress ? t(".generating") : t(".generate") %>
+<% generate = prompt.status %>
+
+<%= turbo_stream_from([program, :form]) if program.persisted? %>
 
 <div
   id="<%= dom_id(program, :form) %>"
@@ -12,8 +14,6 @@
   data-editor-loading-value="<%= t(".generating") %>"
   data-editor-initial-value="<%= t(".generate") %>"
 >
-  <%= turbo_stream_from([program, :form]) if program.persisted? %>
-
   <%= form_for(program, html: { class: "flex-1 flex flex-col" }) do |f| %>
     <% if admin? %>
       <div class="p">

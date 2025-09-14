@@ -68,11 +68,11 @@ class ProgramsController < ApplicationController
 
         if @prompt.save
           GenerateJob.perform_later(prompt: @prompt)
-          redirect_to([:edit, @program], notice: t(".notice"))
         else
           flash.now.alert = @prompt.alert
-          render(:edit, status: :unprocessable_entity)
         end
+
+        render(:edit, status: :unprocessable_entity)
       else
         redirect_to(@program, notice: t(".notice"))
       end
@@ -85,10 +85,24 @@ class ProgramsController < ApplicationController
   def update
     if @program.update(program_params)
       log_in(@program.user)
-      redirect_to @program, notice: t(".notice")
+
+      if generate?
+        @prompt = authorize prompt_scope.new(prompt_params)
+        @prompt.program = @program
+
+        if @prompt.save
+          GenerateJob.perform_later(prompt: @prompt)
+        else
+          flash.now.alert = @prompt.alert
+        end
+
+        render(:edit, status: :unprocessable_entity)
+      else
+        redirect_to(@program, notice: t(".notice"))
+      end
     else
       flash.now.alert = @program.alert
-      render :edit, status: :unprocessable_entity
+      render(:edit, status: :unprocessable_entity)
     end
   end
 
