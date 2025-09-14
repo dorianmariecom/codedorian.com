@@ -210,7 +210,6 @@ en:
       class_functions: class functions
       instance_functions: instance functions
     index:
-      examples: examples
       title: documentation
     show:
       title: documentation not found
@@ -300,16 +299,26 @@ en:
       destroy_all: destroy all executions
       title: executions
     model:
+      statuses:
+        created: created
+        done: done
+        errored: errored
+        in_progress: in progress
+        initialized: initialized
       to_s: execution#%{id}
     show:
       created_at: created at
       delete: delete execution
-      error: error
+      error_app_backtrace: error app backtrace
+      error_backtrace: error backtrace
+      error_class: error class
+      error_message: error message
       id: id
       input: input
       output: output
       program: program
       result: result
+      status: status
       updated_at: updated at
   guests:
     index:
@@ -755,19 +764,33 @@ en:
       destroy_all: destroy all prompts
       title: prompts
     model:
+      statuses:
+        created: created
+        done: done
+        errored: errored
+        in_progress: in progress
+        initialized: initialized
       submit: update program
       to_s: prompt#%{id}
     show:
       created_at: created at
       delete: delete prompt
+      error: error
+      error_app_backtrace: error app backtrace
+      error_backtrace: error backtrace
+      error_class: error class
+      error_message: error message
       id: id
       input: input
+      name: name
       new_schedule: new schedule
       output_input: output input
+      output_name: output name
       output_schedule: 'interval: %{interval}, starts at: %{starts_at}'
       output_schedules: output schedules
       program: program
       schedules: schedules
+      status: status
       updated_at: updated at
       user: user
   repl_executions:
@@ -778,17 +801,28 @@ en:
       destroy_all: destroy all repl executions
       title: repl executions
     model:
+      statuses:
+        created: created
+        done: done
+        errored: errored
+        in_progress: in progress
+        initialized: initialized
       to_s: repl_execution#%{id}
     show:
       context: context
       created_at: created at
       delete: delete repl execution
       error: error
+      error_app_backtrace: error app backtrace
+      error_backtrace: error backtrace
+      error_class: error class
+      error_message: error message
       id: id
       input: input
       output: output
       repl_program: repl program
       result: result
+      status: status
       updated_at: updated at
   repl_programs:
     create:

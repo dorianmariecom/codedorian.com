@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 class ReplExecution < ApplicationRecord
-  INPUT_SAMPLE_SIZE = Program::INPUT_SAMPLE_SIZE
-  ERROR_SAMPLE_SIZE = Program::INPUT_SAMPLE_SIZE
-  OUTPUT_SAMPLE_SIZE = Program::INPUT_SAMPLE_SIZE
-  RESULT_SAMPLE_SIZE = Program::INPUT_SAMPLE_SIZE
+  INPUT_SAMPLE_SIZE = 140
+  ERROR_SAMPLE_SIZE = 140
+  OUTPUT_SAMPLE_SIZE = 140
+  RESULT_SAMPLE_SIZE = 140
   OMISSION = "…"
 
   belongs_to :repl_program, touch: true

@@ -21,6 +21,13 @@
   </div>
 <% end %>
 
+<% if @execution.status.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".status") %></div>
+    <div class="font-bold"><%= @execution.translated_status %></div>
+  </div>
+<% end %>
+
 <% if @execution.output.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".output") %></div>
@@ -38,8 +45,38 @@
 <% if @execution.error.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".error") %></div>
-    <div class="code"><%= @execution.error %></div>
+    <div class="font-bold"><%= @execution.error %></div>
   </div>
+<% end %>
+
+<% if @execution.error_class.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".error_class") %></div>
+    <div class="font-bold"><%= @execution.error_class %></div>
+  </div>
+<% end %>
+
+<% if admin? %>
+  <% if @execution.error_message.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".error_message") %></div>
+      <div class="code"><%= @execution.error_message %></div>
+    </div>
+  <% end %>
+
+  <% if @execution.error_app_backtrace.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".error_app_backtrace") %></div>
+      <div class="code"><%= @execution.error_app_backtrace %></div>
+    </div>
+  <% end %>
+
+  <% if @execution.error_backtrace.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".error_backtrace") %></div>
+      <div class="code"><%= @execution.error_backtrace %></div>
+    </div>
+  <% end %>
 <% end %>
 
 <% if @execution.input.present? %>

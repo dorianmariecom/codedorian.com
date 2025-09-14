@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_14_185456) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_14_200053) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -112,12 +112,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_14_185456) do
 
   create_table "executions", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.text "error"
     t.text "input"
     t.text "output"
     t.bigint "program_id", null: false
     t.text "result"
     t.datetime "updated_at", null: false
+    t.string "status", default: "initialized"
+    t.text "error_class"
+    t.text "error_message"
+    t.text "error_backtrace"
+    t.text "error"
     t.index ["program_id"], name: "index_executions_on_program_id"
   end
 

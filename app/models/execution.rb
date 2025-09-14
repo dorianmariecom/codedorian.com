@@ -1,17 +1,27 @@
 # frozen_string_literal: true
 
 class Execution < ApplicationRecord
-  INPUT_SAMPLE_SIZE = Program::INPUT_SAMPLE_SIZE
-  ERROR_SAMPLE_SIZE = Program::INPUT_SAMPLE_SIZE
-  OUTPUT_SAMPLE_SIZE = Program::INPUT_SAMPLE_SIZE
-  RESULT_SAMPLE_SIZE = Program::INPUT_SAMPLE_SIZE
+  INPUT_SAMPLE_SIZE = 140
+  ERROR_SAMPLE_SIZE = 140
+  OUTPUT_SAMPLE_SIZE = 140
+  RESULT_SAMPLE_SIZE = 140
   OMISSION = "…"
+  STATUSES = %w[initialized created in_progress done errored].freeze
+
+  scope :initialized, -> { where(status: :initialized) }
+  scope :created, -> { where(status: :created) }
+  scope :in_progress, -> { where(status: :in_progress) }
+  scope :done, -> { where(status: :done) }
+  scope :errored, -> { where(status: :errored) }
+  scope :generating, -> { where(status: %i[created in_progress]) }
+  scope :not_generating, -> { where.not(status: %i[created in_progress]) }
 
   belongs_to :program, touch: true
 
   has_one :user, through: :program
 
   validate { can!(:update, program) }
+  validates :status, inclusion: { in: STATUSES }
 
   def self.search_fields
     {
@@ -27,12 +37,64 @@ class Execution < ApplicationRecord
         node: -> { arel_table[:result] },
         type: :string
       },
-      error: {
-        node: -> { arel_table[:error] },
+      error_class: {
+        node: -> { arel_table[:error_class] },
+        type: :string
+      },
+      error_message: {
+        node: -> { arel_table[:error_message] },
         type: :string
       },
       **base_search_fields
     }
+  end
+
+  def initialized?
+    status == "initialized"
+  end
+
+  def initialized!
+    update!(status: :initialized)
+  end
+
+  def created?
+    status == "created"
+  end
+
+  def created!
+    update!(status: :created)
+  end
+
+  def in_progress?
+    status == "in_progress"
+  end
+
+  def in_progress!
+    update!(status: :in_progress)
+  end
+
+  def done?
+    status == "done"
+  end
+
+  def done!
+    update!(status: :done)
+  end
+
+  def errored?
+    status == "errored"
+  end
+
+  def errored!
+    update!(status: :errored)
+  end
+
+  def generating?
+    created? || in_progress?
+  end
+
+  def not_generating?
+    !generating?
   end
 
   def input_sample
@@ -51,8 +113,39 @@ class Execution < ApplicationRecord
     error.to_s.truncate(ERROR_SAMPLE_SIZE, omission: OMISSION).presence
   end
 
+  def error_class_sample
+    error_class.to_s.truncate(ERROR_SAMPLE_SIZE, omission: OMISSION).presence
+  end
+
+  def error_message_sample
+    error_message.to_s.truncate(ERROR_SAMPLE_SIZE, omission: OMISSION).presence
+  end
+
+  def error_backtrace_sample
+    error_backtrace
+      .to_s
+      .truncate(ERROR_SAMPLE_SIZE, omission: OMISSION)
+      .presence
+  end
+
+  def error_app_backtrace
+    Backtrace.app(error_backtrace)
+  end
+
+  def translated_status
+    t("statuses.#{status}")
+  end
+
+  def translated_status_sample
+    return if done?
+    return if errored?
+
+    translated_status
+  end
+
   def to_s
-    error_sample.presence || output_sample.presence || result_sample.presence ||
-      input_sample.presence || t("to_s", id: id)
+    translated_status_sample.presence || error_class_sample.presence ||
+      error_sample.presence || output_sample.presence ||
+      result_sample.presence || input_sample.presence || t("to_s", id: id)
   end
 end

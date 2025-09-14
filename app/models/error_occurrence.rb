@@ -76,13 +76,7 @@ class ErrorOccurrence < SolidErrors::Occurrence
   end
 
   def app_backtrace
-    backtrace
-      .lines
-      .grep(%r{^#{Rails.root}/})
-      .map { |line| line.gsub(Rails.root.join.to_s, "").strip }
-      .join("\n")
-      .strip
-      .presence
+    Backtrace.app(backtrace)
   end
 
   def context_json

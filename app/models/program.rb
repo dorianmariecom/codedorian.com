@@ -34,6 +34,7 @@ class Program < ApplicationRecord
 
   def evaluate!(params: {})
     Current.with(user: user) do
+      execution = executions.create!(status: :in_progress)
       context = Code::Object::Context.new({ parameters: params })
       output = StringIO.new
       error = StringIO.new
@@ -45,18 +46,20 @@ class Program < ApplicationRecord
           error: error,
           timeout: TIMEOUT
         )
-      executions.create!(
+      execution.update!(
         input: input,
         result: result.inspect,
         output: output.string,
-        error: error.string
+        error: error.string,
+        status: :done
       )
     rescue Code::Error => e
-      executions.create!(
+      execution.update!(
         input: input,
-        result: nil,
-        output: nil,
-        error: "#{e.class}: #{e.message}"
+        status: :errored,
+        error_class: e.class,
+        error_message: e.message,
+        error_backtrace: e.backtrace.join("\n")
       )
     end
   end

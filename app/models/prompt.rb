@@ -58,6 +58,7 @@ class Prompt < ApplicationRecord
   accepts_nested_attributes_for :schedules, allow_destroy: true
 
   validate { can!(:update, user) }
+  validates :status, inclusion: { in: STATUSES }
 
   before_validation { self.user ||= Current.user! }
 
@@ -94,6 +95,10 @@ class Prompt < ApplicationRecord
       },
       output: {
         node: -> { arel_table[:output] },
+        type: :string
+      },
+      error_class: {
+        node: -> { arel_table[:error_class] },
         type: :string
       },
       **base_search_fields,
@@ -192,6 +197,10 @@ class Prompt < ApplicationRecord
     ).presence
   end
 
+  def output_name?
+    output_name.present?
+  end
+
   def output_input
     (
       output.is_a?(Hash) && output["input"].is_a?(String) && output["input"]
@@ -250,6 +259,18 @@ class Prompt < ApplicationRecord
 
   def output_input_sample
     output_input.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+  end
+
+  def error_class_sample
+    error_class.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+  end
+
+  def error_message_sample
+    error_message.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+  end
+
+  def error_backtrace_sample
+    error_backtrace.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def output_schedules_sample
@@ -312,14 +333,19 @@ class Prompt < ApplicationRecord
     !generating?
   end
 
-  def as_json(...)
-    output.as_json(...)
+  def error_app_backtrace
+    Backtrace.app(error_backtrace)
+  end
+
+  def translated_status
+    t("statuses.#{status}")
   end
 
   def to_s
-    name_sample.presence || output_name_sample.presence ||
-      input_sample.presence || output_input_sample.presence ||
-      schedules_sample.presence || output_schedules_sample.presence ||
-      output_sample.presence || t("to_s", id: id)
+    error_class_sample.presence || name_sample.presence ||
+      output_name_sample.presence || input_sample.presence ||
+      output_input_sample.presence || schedules_sample.presence ||
+      output_schedules_sample.presence || output_sample.presence ||
+      t("to_s", id: id)
   end
 end
