@@ -4,9 +4,9 @@ class EvaluateAndScheduleJob < ApplicationJob
   queue_as :default
 
   def perform(program:)
-    Current.user = program.user
-
-    program.evaluate!
-    program.schedule!
+    Current.with(user: program.user) do
+      program.evaluate!
+      program.schedule!
+    end
   end
 end

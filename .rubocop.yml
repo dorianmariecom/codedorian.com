@@ -70,6 +70,8 @@ Performance/Sum:
   Enabled: false
 Performance/UnfreezeString:
   Enabled: false
+Rails/BulkChangeTable:
+  Enabled: false
 Rails/Delegate:
   Enabled: false
 Rails/DynamicFindBy:

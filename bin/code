@@ -48,29 +48,29 @@ require "ruby-prof" if profile
 
 RubyProf.start if profile
 
-Current.user = User.find_by(id: parsed.options.user_id)
-
-if parsed.options.parse
-  pp Code::Parser.parse(input).to_raw
-else
-  print(
-    Code.evaluate(
-      input,
-      output: $stdout,
-      error: $stderr,
-      timeout: parsed.options.timeout
+Current.with(user: User.find_by(id: parsed.options.user_id)) do
+  if parsed.options.parse
+    pp Code::Parser.parse(input).to_raw
+  else
+    print(
+      Code.evaluate(
+        input,
+        output: $stdout,
+        error: $stderr,
+        timeout: parsed.options.timeout
+      )
     )
-  )
-end
+  end
 
-if profile
-  result = RubyProf.stop
+  if profile
+    result = RubyProf.stop
 
-  printer =
-    if parsed.options.profiler == "html"
-      RubyProf::GraphHtmlPrinter.new(result)
-    else
-      RubyProf::FlatPrinter.new(result)
-    end
-  printer.print($stdout)
+    printer =
+      if parsed.options.profiler == "html"
+        RubyProf::GraphHtmlPrinter.new(result)
+      else
+        RubyProf::FlatPrinter.new(result)
+      end
+    printer.print($stdout)
+  end
 end

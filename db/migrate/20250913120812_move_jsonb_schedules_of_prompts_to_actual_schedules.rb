@@ -6,15 +6,15 @@ class MoveJsonbSchedulesOfPromptsToActualSchedules < ActiveRecord::Migration[
   disable_ddl_transaction!
 
   def up
-    ::Current.user = User.admin.first
-
-    Prompt.find_each do |prompt|
-      (prompt[:schedules].presence || []).each do |schedule|
-        Schedule.create!(
-          schedulable: prompt,
-          interval: schedule["interval"],
-          starts_at: schedule["starts_at"]
-        )
+    ::Current.with(user: User.new(admin: true)) do
+      Prompt.find_each do |prompt|
+        (prompt[:schedules].presence || []).each do |schedule|
+          Schedule.create!(
+            schedulable: prompt,
+            interval: schedule["interval"],
+            starts_at: schedule["starts_at"]
+          )
+        end
       end
     end
   end
