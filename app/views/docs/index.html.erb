@@ -1,17 +1,12 @@
-<details>
-  <summary class="p font-bold"><%= t(".examples") %></summary>
-  <div class="content"><%= raw Commonmarker.to_html(@examples) %></div>
-</details>
-
 <% @docs.each do |doc| %>
   <details>
     <summary class="p font-bold">
       <%= link_to(doc["name"], doc_path(doc["name"]), class: "link") %>
     </summary>
 
-    <%= render("docs/examples", examples: doc["examples"] %>
-    <%= render("docs/functions", type: :class_functions, doc: doc, docs: @docs %>
-    <%= render("docs/functions", type: :instance_functions, doc: doc, docs: @docs %>
-    <%= render("docs/reference", reference: doc["reference"], docs: @docs %>
+    <%= render("docs/examples", examples: doc["examples"]) %>
+    <%= render("docs/functions", type: :class_functions, doc: doc, docs: @docs) %>
+    <%= render("docs/functions", type: :instance_functions, doc: doc, docs: @docs) %>
+    <%= render("docs/reference", reference: doc["reference"], docs: @docs) %>
   </details>
 <% end %>

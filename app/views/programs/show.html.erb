@@ -99,6 +99,6 @@
   <%= link_to(t(".executions"), [@program, :executions], class: "link") %>
 </div>
 
-<%= render_collection partial: "executions/execution",
+<%= render_collection(partial: "executions/execution",
                   collection: @executions,
                   as: :execution %>

@@ -9,7 +9,7 @@
 
   <div class="p">
     <%= f.label(:hint, class: "label") %>
-    <%= f.text_field :hint, class: "input", placeholder: t(".hint_placeholder") %>
+    <%= f.text_field(:hint, class: "input", placeholder: t(".hint_placeholder") %>
     <div class="text-gray-600"><%= Faker::Internet.password %></div>
   </div>
 

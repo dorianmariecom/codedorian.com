@@ -1,6 +1,6 @@
 <% content_for(:title, @device) %>
 
-<%= turbo_stream_from(@device %>
+<%= turbo_stream_from(@device) %>
 
 <div class="p">
   <div class="text-gray-600"><%= t(".id") %></div>
@@ -54,5 +54,5 @@
 
 <div class="p">
   <%= link_to(t(".edit"), [:edit, @device], class: "link") %>
-  <%= render("shared/confirm", text: t(".delete"), url: @device %>
+  <%= render("shared/confirm", text: t(".delete"), url: @device) %>
 </div>

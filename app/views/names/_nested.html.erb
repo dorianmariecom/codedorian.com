@@ -1,11 +1,11 @@
 <div data-controller="nested" data-nested-selector-value=".name">
   <template data-nested-target="template">
-    <%= f.fields_for :names, Name.new, child_index: "NEW_RECORD" do |name_f| %>
+    <%= f.fields_for(:names, Name.new, child_index: "NEW_RECORD") do |name_f| %>
       <%= render("names/nested_form", f: name_f %>
     <% end %>
   </template>
 
-  <%= f.fields_for :names do |name_f| %>
+  <%= f.fields_for(:names) do |name_f| %>
     <%= render("names/nested_form", f: name_f %>
   <% end %>
 

@@ -75,7 +75,7 @@
           <%= t(".generate") %>
         </button>
 
-        <%= <%= f.submit(t(".evaluate"), class: "button") %>
+        <%= f.submit(t(".evaluate"), class: "button") %>
       </div>
       <div class="text-red-600" data-editor-target="error"></div>
 
@@ -94,6 +94,6 @@
   <%= link_to(t(".repl_executions"), [@repl_session, :repl_executions], class: "link") %>
 </div>
 
-<%= render_collection partial: "repl_executions/repl_execution",
+<%= render_collection(partial: "repl_executions/repl_execution",
                   collection: @repl_executions,
                   as: :repl_execution %>

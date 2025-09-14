@@ -85,7 +85,7 @@ class ErrorOccurrence < SolidErrors::Occurrence
       .presence
   end
 
-  def pretty_json_context
+  def context_json
     JSON.pretty_generate(context)
   end
 end

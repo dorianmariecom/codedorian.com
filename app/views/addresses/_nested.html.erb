@@ -5,7 +5,7 @@
     <% end %>
   </template>
 
-  <%= f.fields_for :addresses do |address_f| %>
+  <%= f.fields_for(:addresses) do |address_f| %>
     <%= render("addresses/nested_form", f: address_f) %>
   <% end %>
 
