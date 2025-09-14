@@ -32,21 +32,21 @@ class ProgramsController < ApplicationController
   end
 
   def evaluate
-    @program.evaluate!(params: params[:code])
+    EvaluateJob.perform_later(program: @program)
 
-    redirect_back_or_to(@program)
+    head :no_content
   end
 
   def schedule
     @program.schedule!
 
-    redirect_back_or_to(@program)
+    head :no_content
   end
 
   def unschedule
     @program.unschedule!
 
-    redirect_back_or_to(@program)
+    head :no_content
   end
 
   def new
