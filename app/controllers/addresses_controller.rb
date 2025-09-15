@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
 class AddressesController < ApplicationController
-  before_action :load_user
-  before_action :load_address, only: %i[show edit update destroy]
+  before_action(:load_user)
+  before_action(:load_address, only: %i[show edit update destroy])
 
-  helper_method :url
-  helper_method :new_url
-  helper_method :delete_all_url
-  helper_method :destroy_all_url
+  helper_method(:url)
+  helper_method(:new_url)
+  helper_method(:delete_all_url)
+  helper_method(:destroy_all_url)
 
   def index
-    authorize Address
+    authorize(Address)
 
     @addresses = scope.page(params[:page]).order(created_at: :asc)
   end
@@ -20,42 +20,42 @@ class AddressesController < ApplicationController
 
   def new
     @address =
-      authorize scope.new(user: @user, primary: user_or_guest.addresses.none?)
+      authorize(scope.new(user: @user, primary: user_or_guest.addresses.none?))
   end
 
   def edit
   end
 
   def create
-    @address = authorize scope.new(address_params)
+    @address = authorize(scope.new(address_params))
 
     if @address.save
       log_in(@address.user)
-      redirect_to @address, notice: t(".notice")
+      redirect_to(@address, notice: t(".notice"))
     else
       flash.now.alert = @address.alert
-      render :new, status: :unprocessable_entity
+      render(:new, status: :unprocessable_entity)
     end
   end
 
   def update
     if @address.update(address_params)
       log_in(@address.user)
-      redirect_to @address, notice: t(".notice")
+      redirect_to(@address, notice: t(".notice"))
     else
       flash.now.alert = @address.alert
-      render :edit, status: :unprocessable_entity
+      render(:edit, status: :unprocessable_entity)
     end
   end
 
   def destroy
     @address.destroy!
 
-    redirect_to url, notice: t(".notice")
+    redirect_to(url, notice: t(".notice"))
   end
 
   def destroy_all
-    authorize Address
+    authorize(Address)
 
     scope.destroy_all
 
@@ -63,7 +63,7 @@ class AddressesController < ApplicationController
   end
 
   def delete_all
-    authorize Address
+    authorize(Address)
 
     scope.delete_all
 
@@ -111,7 +111,7 @@ class AddressesController < ApplicationController
   end
 
   def load_address
-    @address = authorize scope.find(id)
+    @address = authorize(scope.find(id))
   end
 
   def address_params

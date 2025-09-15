@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
 class ReplExecutionsController < ApplicationController
-  before_action :load_user
-  before_action :load_repl_session
-  before_action :load_repl_program
-  before_action :load_repl_execution, only: %i[show destroy]
+  before_action(:load_user)
+  before_action(:load_repl_session)
+  before_action(:load_repl_program)
+  before_action(:load_repl_execution, only: %i[show destroy])
 
-  helper_method :url
-  helper_method :new_url
-  helper_method :delete_all_url
-  helper_method :destroy_all_url
+  helper_method(:url)
+  helper_method(:new_url)
+  helper_method(:delete_all_url)
+  helper_method(:destroy_all_url)
 
   def index
-    authorize ReplExecution
+    authorize(ReplExecution)
 
     @repl_executions = scope.page(params[:page]).order(created_at: :asc)
   end
@@ -23,11 +23,11 @@ class ReplExecutionsController < ApplicationController
   def destroy
     @repl_execution.destroy!
 
-    redirect_to url, notice: t(".notice")
+    redirect_to(url, notice: t(".notice"))
   end
 
   def destroy_all
-    authorize ReplExecution
+    authorize(ReplExecution)
 
     scope.destroy_all
 
@@ -35,7 +35,7 @@ class ReplExecutionsController < ApplicationController
   end
 
   def delete_all
-    authorize ReplExecution
+    authorize(ReplExecution)
 
     scope.delete_all
 
@@ -134,6 +134,6 @@ class ReplExecutionsController < ApplicationController
   end
 
   def load_repl_execution
-    @repl_execution = authorize scope.find(id)
+    @repl_execution = authorize(scope.find(id))
   end
 end

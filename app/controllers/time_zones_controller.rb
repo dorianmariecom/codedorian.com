@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
 class TimeZonesController < ApplicationController
-  before_action :load_user
-  before_action :load_time_zone, only: %i[show edit update destroy]
+  before_action(:load_user)
+  before_action(:load_time_zone, only: %i[show edit update destroy])
 
-  helper_method :url
-  helper_method :new_url
-  helper_method :delete_all_url
-  helper_method :destroy_all_url
+  helper_method(:url)
+  helper_method(:new_url)
+  helper_method(:delete_all_url)
+  helper_method(:destroy_all_url)
 
   def index
-    authorize TimeZone
+    authorize(TimeZone)
 
     @time_zones = scope.page(params[:page]).order(created_at: :asc)
   end
@@ -20,42 +20,42 @@ class TimeZonesController < ApplicationController
 
   def new
     @time_zone =
-      authorize scope.new(user: @user, primary: user_or_guest.time_zones.none?)
+      authorize(scope.new(user: @user, primary: user_or_guest.time_zones.none?))
   end
 
   def edit
   end
 
   def create
-    @time_zone = authorize scope.new(time_zone_params)
+    @time_zone = authorize(scope.new(time_zone_params))
 
     if @time_zone.save
       log_in(@time_zone.user)
-      redirect_to @time_zone, notice: t(".notice")
+      redirect_to(@time_zone, notice: t(".notice"))
     else
       flash.now.alert = @time_zone.alert
-      render :new, status: :unprocessable_entity
+      render(:new, status: :unprocessable_entity)
     end
   end
 
   def update
     if @time_zone.update(time_zone_params)
       log_in(@time_zone.user)
-      redirect_to @time_zone, notice: t(".notice")
+      redirect_to(@time_zone, notice: t(".notice"))
     else
       flash.now.alert = @time_zone.alert
-      render :edit, status: :unprocessable_entity
+      render(:edit, status: :unprocessable_entity)
     end
   end
 
   def destroy
     @time_zone.destroy!
 
-    redirect_to url, notice: t(".notice")
+    redirect_to(url, notice: t(".notice"))
   end
 
   def destroy_all
-    authorize TimeZone
+    authorize(TimeZone)
 
     scope.destroy_all
 
@@ -63,7 +63,7 @@ class TimeZonesController < ApplicationController
   end
 
   def delete_all
-    authorize TimeZone
+    authorize(TimeZone)
 
     scope.delete_all
 
@@ -111,7 +111,7 @@ class TimeZonesController < ApplicationController
   end
 
   def load_time_zone
-    @time_zone = authorize scope.find(id)
+    @time_zone = authorize(scope.find(id))
   end
 
   def time_zone_params

@@ -1,41 +1,37 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  include Pundit::Authorization
-  include CanConcern
+  include(Pundit::Authorization)
+  include(CanConcern)
 
-  protect_from_forgery with: :exception
+  protect_from_forgery(with: :exception)
 
-  skip_forgery_protection if: :current_token?
+  skip_forgery_protection(if: :current_token?)
 
-  before_action :set_error_context
-  before_action :set_current_user
-  before_action :set_current_request
-  before_action :set_time_zone
-  before_action :set_locale
-  before_action :set_paper_trail_whodunnit
-  before_action :verify_captcha
+  before_action(:set_error_context)
+  before_action(:set_current_user)
+  before_action(:set_current_request)
+  before_action(:set_time_zone)
+  before_action(:set_locale)
+  before_action(:set_paper_trail_whodunnit)
+  before_action(:verify_captcha)
 
-  after_action :verify_authorized
-  after_action :verify_policy_scoped
-  after_action :delete_link_header
+  after_action(:verify_authorized)
+  after_action(:verify_policy_scoped)
+  after_action(:delete_link_header)
 
-  skip_before_action :verify_captcha, if: :mission_control_controller?
-  skip_after_action :verify_authorized, if: :mission_control_controller?
-  skip_after_action :verify_policy_scoped, if: :mission_control_controller?
-
-  helper_method :current_user
-  helper_method :current_guest
-  helper_method :current_user_or_guest
-  helper_method :current_user?
-  helper_method :registered?
-  helper_method :guest?
-  helper_method :current_time_zone
-  helper_method :admin?
-  helper_method :can?
-  helper_method :error_message_for
-  helper_method :version
-  helper_method :hotwire_native_modal?
+  helper_method(:current_user)
+  helper_method(:current_guest)
+  helper_method(:current_user_or_guest)
+  helper_method(:current_user?)
+  helper_method(:registered?)
+  helper_method(:guest?)
+  helper_method(:current_time_zone)
+  helper_method(:admin?)
+  helper_method(:can?)
+  helper_method(:error_message_for)
+  helper_method(:version)
+  helper_method(:hotwire_native_modal?)
 
   REDIRECT_ERROR =
     lambda do |error|
@@ -132,10 +128,6 @@ class ApplicationController < ActionController::Base
 
   def delete_link_header
     response.headers.delete("Link")
-  end
-
-  def mission_control_controller?
-    is_a?(::MissionControl::Jobs::ApplicationController)
   end
 
   def current_user_from_session

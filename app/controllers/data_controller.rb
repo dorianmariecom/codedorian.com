@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
 class DataController < ApplicationController
-  before_action :load_user
-  before_action :load_datum, only: %i[show edit update destroy]
+  before_action(:load_user)
+  before_action(:load_datum, only: %i[show edit update destroy])
 
-  helper_method :url
-  helper_method :new_url
-  helper_method :delete_all_url
-  helper_method :destroy_all_url
+  helper_method(:url)
+  helper_method(:new_url)
+  helper_method(:delete_all_url)
+  helper_method(:destroy_all_url)
 
   def index
-    authorize Datum
+    authorize(Datum)
 
     @data = scope.page(params[:page]).order(created_at: :desc)
   end
@@ -19,21 +19,21 @@ class DataController < ApplicationController
   end
 
   def new
-    @datum = authorize scope.new(user: @user)
+    @datum = authorize(scope.new(user: @user))
   end
 
   def edit
   end
 
   def create
-    @datum = authorize scope.new(datum_params)
+    @datum = authorize(scope.new(datum_params))
 
     if @datum.save(context: :controller)
       log_in(@datum.user)
-      redirect_to @datum, notice: t(".notice")
+      redirect_to(@datum, notice: t(".notice"))
     else
       flash.now.alert = @datum.alert
-      render :new, status: :unprocessable_entity
+      render(:new, status: :unprocessable_entity)
     end
   end
 
@@ -42,21 +42,21 @@ class DataController < ApplicationController
 
     if @datum.save(context: :controller)
       log_in(@datum.user)
-      redirect_to @datum, notice: t(".notice")
+      redirect_to(@datum, notice: t(".notice"))
     else
       flash.now.alert = @datum.alert
-      render :edit, status: :unprocessable_entity
+      render(:edit, status: :unprocessable_entity)
     end
   end
 
   def destroy
     @datum.destroy!
 
-    redirect_to url, notice: t(".notice")
+    redirect_to(url, notice: t(".notice"))
   end
 
   def destroy_all
-    authorize Datum
+    authorize(Datum)
 
     scope.destroy_all
 
@@ -64,7 +64,7 @@ class DataController < ApplicationController
   end
 
   def delete_all
-    authorize Datum
+    authorize(Datum)
 
     scope.delete_all
 
@@ -108,7 +108,7 @@ class DataController < ApplicationController
   end
 
   def load_datum
-    @datum = authorize scope.find(id)
+    @datum = authorize(scope.find(id))
   end
 
   def datum_params

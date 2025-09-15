@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
 class PhoneNumbersController < ApplicationController
-  before_action :load_user
-  before_action :load_phone_number, only: %i[show edit update destroy]
+  before_action(:load_user)
+  before_action(:load_phone_number, only: %i[show edit update destroy])
 
-  helper_method :url
-  helper_method :new_url
-  helper_method :delete_all_url
-  helper_method :destroy_all_url
+  helper_method(:url)
+  helper_method(:new_url)
+  helper_method(:delete_all_url)
+  helper_method(:destroy_all_url)
 
   def index
-    authorize PhoneNumber
+    authorize(PhoneNumber)
 
     @phone_numbers = scope.page(params[:page]).order(created_at: :asc)
   end
@@ -20,45 +20,44 @@ class PhoneNumbersController < ApplicationController
 
   def new
     @phone_number =
-      authorize scope.new(
-                  user: @user,
-                  primary: user_or_guest.phone_numbers.none?
-                )
+      authorize(
+        scope.new(user: @user, primary: user_or_guest.phone_numbers.none?)
+      )
   end
 
   def edit
   end
 
   def create
-    @phone_number = authorize scope.new(phone_number_params)
+    @phone_number = authorize(scope.new(phone_number_params))
 
     if @phone_number.save
       log_in(@phone_number.user)
-      redirect_to @phone_number, notice: t(".notice")
+      redirect_to(@phone_number, notice: t(".notice"))
     else
       flash.now.alert = @phone_number.alert
-      render :new, status: :unprocessable_entity
+      render(:new, status: :unprocessable_entity)
     end
   end
 
   def update
     if @phone_number.update(phone_number_params)
       log_in(@phone_number.user)
-      redirect_to @phone_number, notice: t(".notice")
+      redirect_to(@phone_number, notice: t(".notice"))
     else
       flash.now.alert = @phone_number.alert
-      render :edit, status: :unprocessable_entity
+      render(:edit, status: :unprocessable_entity)
     end
   end
 
   def destroy
     @phone_number.destroy!
 
-    redirect_to url, notice: t(".notice")
+    redirect_to(url, notice: t(".notice"))
   end
 
   def destroy_all
-    authorize PhoneNumber
+    authorize(PhoneNumber)
 
     scope.destroy_all
 
@@ -66,7 +65,7 @@ class PhoneNumbersController < ApplicationController
   end
 
   def delete_all
-    authorize PhoneNumber
+    authorize(PhoneNumber)
 
     scope.delete_all
 
@@ -114,7 +113,7 @@ class PhoneNumbersController < ApplicationController
   end
 
   def load_phone_number
-    @phone_number = authorize scope.find(id)
+    @phone_number = authorize(scope.find(id))
   end
 
   def phone_number_params

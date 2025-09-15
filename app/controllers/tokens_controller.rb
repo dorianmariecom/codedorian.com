@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
 class TokensController < ApplicationController
-  before_action :load_user
-  before_action :load_token, only: %i[show edit update destroy]
+  before_action(:load_user)
+  before_action(:load_token, only: %i[show edit update destroy])
 
-  helper_method :url
-  helper_method :new_url
-  helper_method :delete_all_url
-  helper_method :destroy_all_url
+  helper_method(:url)
+  helper_method(:new_url)
+  helper_method(:delete_all_url)
+  helper_method(:destroy_all_url)
 
   def index
-    authorize Token
+    authorize(Token)
 
     @tokens = scope.page(params[:page]).order(created_at: :asc)
   end
@@ -20,42 +20,42 @@ class TokensController < ApplicationController
 
   def new
     @token =
-      authorize scope.new(user: @user, primary: user_or_guest.tokens.none?)
+      authorize(scope.new(user: @user, primary: user_or_guest.tokens.none?))
   end
 
   def edit
   end
 
   def create
-    @token = authorize scope.new(token_params)
+    @token = authorize(scope.new(token_params))
 
     if @token.save
       log_in(@token.user)
-      redirect_to @token, notice: t(".notice")
+      redirect_to(@token, notice: t(".notice"))
     else
       flash.now.alert = @token.alert
-      render :new, status: :unprocessable_entity
+      render(:new, status: :unprocessable_entity)
     end
   end
 
   def update
     if @token.update(token_params)
       log_in(@token.user)
-      redirect_to @token, notice: t(".notice")
+      redirect_to(@token, notice: t(".notice"))
     else
       flash.now.alert = @token.alert
-      render :edit, status: :unprocessable_entity
+      render(:edit, status: :unprocessable_entity)
     end
   end
 
   def destroy
     @token.destroy!
 
-    redirect_to url, notice: t(".notice")
+    redirect_to(url, notice: t(".notice"))
   end
 
   def destroy_all
-    authorize Token
+    authorize(Token)
 
     scope.destroy_all
 
@@ -63,7 +63,7 @@ class TokensController < ApplicationController
   end
 
   def delete_all
-    authorize Token
+    authorize(Token)
 
     scope.delete_all
 
@@ -111,7 +111,7 @@ class TokensController < ApplicationController
   end
 
   def load_token
-    @token = authorize scope.find(id)
+    @token = authorize(scope.find(id))
   end
 
   def token_params

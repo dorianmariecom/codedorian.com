@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
 class HandlesController < ApplicationController
-  before_action :load_user
-  before_action :load_handle, only: %i[show edit update destroy]
+  before_action(:load_user)
+  before_action(:load_handle, only: %i[show edit update destroy])
 
-  helper_method :url
-  helper_method :new_url
-  helper_method :delete_all_url
-  helper_method :destroy_all_url
+  helper_method(:url)
+  helper_method(:new_url)
+  helper_method(:delete_all_url)
+  helper_method(:destroy_all_url)
 
   def index
-    authorize Handle
+    authorize(Handle)
 
     @handles = scope.page(params[:page]).order(created_at: :asc)
   end
@@ -20,42 +20,42 @@ class HandlesController < ApplicationController
 
   def new
     @handle =
-      authorize scope.new(user: @user, primary: user_or_guest.handles.none?)
+      authorize(scope.new(user: @user, primary: user_or_guest.handles.none?))
   end
 
   def edit
   end
 
   def create
-    @handle = authorize scope.new(handle_params)
+    @handle = authorize(scope.new(handle_params))
 
     if @handle.save
       log_in(@handle.user)
-      redirect_to @handle, notice: t(".notice")
+      redirect_to(@handle, notice: t(".notice"))
     else
       flash.now.alert = @handle.alert
-      render :new, status: :unprocessable_entity
+      render(:new, status: :unprocessable_entity)
     end
   end
 
   def update
     if @handle.update(handle_params)
       log_in(@handle.user)
-      redirect_to @handle, notice: t(".notice")
+      redirect_to(@handle, notice: t(".notice"))
     else
       flash.now.alert = @handle.alert
-      render :edit, status: :unprocessable_entity
+      render(:edit, status: :unprocessable_entity)
     end
   end
 
   def destroy
     @handle.destroy!
 
-    redirect_to url, notice: t(".notice")
+    redirect_to(url, notice: t(".notice"))
   end
 
   def destroy_all
-    authorize Handle
+    authorize(Handle)
 
     scope.destroy_all
 
@@ -63,7 +63,7 @@ class HandlesController < ApplicationController
   end
 
   def delete_all
-    authorize Handle
+    authorize(Handle)
 
     scope.delete_all
 
@@ -111,7 +111,7 @@ class HandlesController < ApplicationController
   end
 
   def load_handle
-    @handle = authorize scope.find(id)
+    @handle = authorize(scope.find(id))
   end
 
   def handle_params

@@ -1,19 +1,15 @@
 # frozen_string_literal: true
 
 class ErrorOccurrencesController < ApplicationController
-  MESSAGE_LIMIT = 140
-
-  before_action :load_user
-  before_action :load_error
-  before_action :load_error_occurrence, only: %i[show destroy]
-  helper_method :url
-  helper_method :message_limit
-  helper_method :omission
-  helper_method :delete_all_url
-  helper_method :destroy_all_url
+  before_action(:load_user)
+  before_action(:load_error)
+  before_action(:load_error_occurrence, only: %i[show destroy])
+  helper_method(:url)
+  helper_method(:delete_all_url)
+  helper_method(:destroy_all_url)
 
   def index
-    authorize ErrorOccurrence
+    authorize(ErrorOccurrence)
 
     @error_occurrences = scope.page(params[:page]).order(created_at: :desc)
   end
@@ -28,7 +24,7 @@ class ErrorOccurrencesController < ApplicationController
   end
 
   def destroy_all
-    authorize ErrorOccurrence
+    authorize(ErrorOccurrence)
 
     scope.destroy_all
 
@@ -36,7 +32,7 @@ class ErrorOccurrencesController < ApplicationController
   end
 
   def delete_all
-    authorize ErrorOccurrence
+    authorize(ErrorOccurrence)
 
     scope.delete_all
 
@@ -61,7 +57,7 @@ class ErrorOccurrencesController < ApplicationController
 
   def load_error_occurrence
     @error_occurrence =
-      authorize scope.find(params[:error_id].presence || params[:id])
+      authorize(scope.find(params[:error_id].presence || params[:id]))
   end
 
   def scope
@@ -92,13 +88,5 @@ class ErrorOccurrencesController < ApplicationController
 
   def url
     [@user, @error, :error_occurrences].compact
-  end
-
-  def message_limit
-    MESSAGE_LIMIT
-  end
-
-  def omission
-    OMISSION
   end
 end

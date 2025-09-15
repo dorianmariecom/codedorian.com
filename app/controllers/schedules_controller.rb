@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
 class SchedulesController < ApplicationController
-  before_action :load_user
-  before_action :load_schedulable
-  before_action :load_schedule, only: %i[show edit update destroy]
+  before_action(:load_user)
+  before_action(:load_schedulable)
+  before_action(:load_schedule, only: %i[show edit update destroy])
 
-  helper_method :url
-  helper_method :show_url
-  helper_method :new_url
-  helper_method :delete_all_url
-  helper_method :destroy_all_url
+  helper_method(:url)
+  helper_method(:show_url)
+  helper_method(:new_url)
+  helper_method(:delete_all_url)
+  helper_method(:destroy_all_url)
 
   def index
-    authorize Schedule
+    authorize(Schedule)
 
     @schedules = scope.page(params[:page]).order(created_at: :asc)
   end
@@ -21,42 +21,42 @@ class SchedulesController < ApplicationController
   end
 
   def new
-    @schedule = authorize scope.new(schedulable: @schedulable)
+    @schedule = authorize(scope.new(schedulable: @schedulable))
   end
 
   def edit
   end
 
   def create
-    @schedule = authorize scope.new(schedule_params)
+    @schedule = authorize(scope.new(schedule_params))
 
     if @schedule.save
       log_in(@schedule.user)
-      redirect_to @schedule, notice: t(".notice")
+      redirect_to(@schedule, notice: t(".notice"))
     else
       flash.now.alert = @schedule.alert
-      render :new, status: :unprocessable_entity
+      render(:new, status: :unprocessable_entity)
     end
   end
 
   def update
     if @schedule.update(schedule_params)
       log_in(@schedule.user)
-      redirect_to @schedule, notice: t(".notice")
+      redirect_to(@schedule, notice: t(".notice"))
     else
       flash.now.alert = @schedule.alert
-      render :edit, status: :unprocessable_entity
+      render(:edit, status: :unprocessable_entity)
     end
   end
 
   def destroy
     @schedule.destroy!
 
-    redirect_to url, notice: t(".notice")
+    redirect_to(url, notice: t(".notice"))
   end
 
   def destroy_all
-    authorize Schedule
+    authorize(Schedule)
 
     scope.destroy_all
 
@@ -64,7 +64,7 @@ class SchedulesController < ApplicationController
   end
 
   def delete_all
-    authorize Schedule
+    authorize(Schedule)
 
     scope.delete_all
 
@@ -132,7 +132,7 @@ class SchedulesController < ApplicationController
   end
 
   def load_schedule
-    @schedule = authorize scope.find(id)
+    @schedule = authorize(scope.find(id))
   end
 
   def schedule_params

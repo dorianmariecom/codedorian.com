@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
 class DevicesController < ApplicationController
-  before_action :load_user
-  before_action :load_device, only: %i[show edit update destroy]
-  before_action :current_user!, only: :create
-  skip_before_action :verify_captcha, only: :create
+  before_action(:load_user)
+  before_action(:load_device, only: %i[show edit update destroy])
+  before_action(:current_user!, only: :create)
+  skip_before_action(:verify_captcha, only: :create)
 
-  helper_method :url
-  helper_method :new_url
-  helper_method :delete_all_url
-  helper_method :destroy_all_url
+  helper_method(:url)
+  helper_method(:new_url)
+  helper_method(:delete_all_url)
+  helper_method(:destroy_all_url)
 
   def index
-    authorize Device
+    authorize(Device)
 
     @devices = scope.page(params[:page]).order(created_at: :asc)
   end
@@ -22,29 +22,34 @@ class DevicesController < ApplicationController
 
   def new
     @device =
-      authorize scope.new(user: @user, primary: user_or_guest.devices.none?)
+      authorize(scope.new(user: @user, primary: user_or_guest.devices.none?))
   end
 
   def edit
   end
 
   def create
-    @device = authorize scope.new(device_params)
+    @device = authorize(scope.new(device_params))
 
     if @device.save
       log_in(@device.user)
       respond_to do |format|
-        format.html { redirect_to @device, notice: t(".notice") }
-        format.json { render json: { message: t(".notice") } }
+        format.html { redirect_to(@device, notice: t(".notice")) }
+        format.json { render(json: { message: t(".notice") }) }
       end
     else
       respond_to do |format|
         format.html do
           flash.now.alert = @device.alert
-          render :new, status: :unprocessable_entity
+          render(:new, status: :unprocessable_entity)
         end
         format.json do
-          render json: { message: @device.alert }, status: :unprocessable_entity
+          render(
+            json: {
+              message: @device.alert
+            },
+            status: :unprocessable_entity
+          )
         end
       end
     end
@@ -53,21 +58,21 @@ class DevicesController < ApplicationController
   def update
     if @device.update(device_params)
       log_in(@device.user)
-      redirect_to @device, notice: t(".notice")
+      redirect_to(@device, notice: t(".notice"))
     else
       flash.now.alert = @device.alert
-      render :edit, status: :unprocessable_entity
+      render(:edit, status: :unprocessable_entity)
     end
   end
 
   def destroy
     @device.destroy!
 
-    redirect_to url, notice: t(".notice")
+    redirect_to(url, notice: t(".notice"))
   end
 
   def destroy_all
-    authorize Device
+    authorize(Device)
 
     scope.destroy_all
 
@@ -75,7 +80,7 @@ class DevicesController < ApplicationController
   end
 
   def delete_all
-    authorize Device
+    authorize(Device)
 
     scope.delete_all
 
@@ -123,7 +128,7 @@ class DevicesController < ApplicationController
   end
 
   def load_device
-    @device = authorize scope.find(id)
+    @device = authorize(scope.find(id))
   end
 
   def device_params

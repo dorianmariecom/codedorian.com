@@ -1,18 +1,20 @@
 # frozen_string_literal: true
 
 class ProgramsController < ApplicationController
-  before_action :load_user
-  before_action :load_program,
-                only: %i[show edit update destroy evaluate schedule unschedule]
+  before_action(:load_user)
+  before_action(
+    :load_program,
+    only: %i[show edit update destroy evaluate schedule unschedule]
+  )
 
-  helper_method :url
-  helper_method :new_url
-  helper_method :prompts_url
-  helper_method :delete_all_url
-  helper_method :destroy_all_url
+  helper_method(:url)
+  helper_method(:new_url)
+  helper_method(:prompts_url)
+  helper_method(:delete_all_url)
+  helper_method(:destroy_all_url)
 
   def index
-    authorize Program
+    authorize(Program)
 
     @programs = scope.page(params[:page]).order(created_at: :asc)
   end
@@ -34,37 +36,36 @@ class ProgramsController < ApplicationController
   def evaluate
     EvaluateJob.perform_later(program: @program)
 
-    head :no_content
+    redirect_back_or_to(@program, notice: t(".notice"))
   end
 
   def schedule
     @program.schedule!
 
-    head :no_content
+    redirect_back_or_to(@program, notice: t(".notice"))
   end
 
   def unschedule
     @program.unschedule!
 
-    head :no_content
+    redirect_back_or_to(@program, notice: t(".notice"))
   end
 
   def new
-    @program = authorize scope.new(user: @user)
+    @program = authorize(scope.new(user: @user))
   end
 
   def edit
   end
 
   def create
-    @program = authorize scope.new(program_params)
+    @program = authorize(scope.new(program_params))
 
     if @program.save
       log_in(@program.user)
 
       if generate?
-        @prompt = authorize prompt_scope.new(prompt_params)
-        @prompt.program = @program
+        @prompt = authorize(prompt_scope.new(prompt_params))
 
         if @prompt.save
           GenerateJob.perform_later(prompt: @prompt)
@@ -87,7 +88,7 @@ class ProgramsController < ApplicationController
       log_in(@program.user)
 
       if generate?
-        @prompt = authorize prompt_scope.new(prompt_params)
+        @prompt = authorize(prompt_scope.new(prompt_params))
         @prompt.program = @program
 
         if @prompt.save
@@ -109,11 +110,11 @@ class ProgramsController < ApplicationController
   def destroy
     @program.destroy!
 
-    redirect_to url, notice: t(".notice")
+    redirect_to(url, notice: t(".notice"))
   end
 
   def destroy_all
-    authorize Program
+    authorize(Program)
 
     scope.destroy_all
 
@@ -121,7 +122,7 @@ class ProgramsController < ApplicationController
   end
 
   def delete_all
-    authorize Program
+    authorize(Program)
 
     scope.delete_all
 
@@ -176,7 +177,7 @@ class ProgramsController < ApplicationController
   end
 
   def load_program
-    @program = authorize scope.find(id)
+    @program = authorize(scope.find(id))
   end
 
   def generate?

@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
 class NamesController < ApplicationController
-  before_action :load_user
-  before_action :load_name, only: %i[show edit update destroy]
+  before_action(:load_user)
+  before_action(:load_name, only: %i[show edit update destroy])
 
-  helper_method :url
-  helper_method :new_url
-  helper_method :delete_all_url
-  helper_method :destroy_all_url
+  helper_method(:url)
+  helper_method(:new_url)
+  helper_method(:delete_all_url)
+  helper_method(:destroy_all_url)
 
   def index
-    authorize Name
+    authorize(Name)
 
     @names = scope.page(params[:page]).order(created_at: :asc)
   end
@@ -19,42 +19,43 @@ class NamesController < ApplicationController
   end
 
   def new
-    @name = authorize scope.new(user: @user, primary: user_or_guest.names.none?)
+    @name =
+      authorize(scope.new(user: @user, primary: user_or_guest.names.none?))
   end
 
   def edit
   end
 
   def create
-    @name = authorize scope.new(name_params)
+    @name = authorize(scope.new(name_params))
 
     if @name.save
       log_in(@name.user)
-      redirect_to @name, notice: t(".notice")
+      redirect_to(@name, notice: t(".notice"))
     else
       flash.now.alert = @name.alert
-      render :new, status: :unprocessable_entity
+      render(:new, status: :unprocessable_entity)
     end
   end
 
   def update
     if @name.update(name_params)
       log_in(@name.user)
-      redirect_to @name, notice: t(".notice")
+      redirect_to(@name, notice: t(".notice"))
     else
       flash.now.alert = @name.alert
-      render :edit, status: :unprocessable_entity
+      render(:edit, status: :unprocessable_entity)
     end
   end
 
   def destroy
     @name.destroy!
 
-    redirect_to url, notice: t(".notice")
+    redirect_to(url, notice: t(".notice"))
   end
 
   def destroy_all
-    authorize Name
+    authorize(Name)
 
     scope.destroy_all
 
@@ -62,7 +63,7 @@ class NamesController < ApplicationController
   end
 
   def delete_all
-    authorize Name
+    authorize(Name)
 
     scope.delete_all
 
@@ -110,7 +111,7 @@ class NamesController < ApplicationController
   end
 
   def load_name
-    @name = authorize scope.find(id)
+    @name = authorize(scope.find(id))
   end
 
   def name_params

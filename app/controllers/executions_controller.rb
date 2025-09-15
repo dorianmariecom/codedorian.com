@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
 class ExecutionsController < ApplicationController
-  before_action :load_user
-  before_action :load_program
-  before_action :load_execution, only: %i[show destroy]
+  before_action(:load_user)
+  before_action(:load_program)
+  before_action(:load_execution, only: %i[show destroy])
 
-  helper_method :url
-  helper_method :delete_all_url
-  helper_method :destroy_all_url
+  helper_method(:url)
+  helper_method(:delete_all_url)
+  helper_method(:destroy_all_url)
 
   def index
-    authorize Execution
+    authorize(Execution)
 
     @executions = scope.page(params[:page]).order(created_at: :desc)
   end
@@ -21,11 +21,11 @@ class ExecutionsController < ApplicationController
   def destroy
     @execution.destroy!
 
-    redirect_to url, notice: t(".notice")
+    redirect_to(url, notice: t(".notice"))
   end
 
   def destroy_all
-    authorize Execution
+    authorize(Execution)
 
     scope.destroy_all
 
@@ -33,7 +33,7 @@ class ExecutionsController < ApplicationController
   end
 
   def delete_all
-    authorize Execution
+    authorize(Execution)
 
     scope.delete_all
 
@@ -85,6 +85,6 @@ class ExecutionsController < ApplicationController
   end
 
   def load_execution
-    @execution = authorize scope.find(id)
+    @execution = authorize(scope.find(id))
   end
 end

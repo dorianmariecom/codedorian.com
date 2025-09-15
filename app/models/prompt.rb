@@ -334,6 +334,8 @@ class Prompt < ApplicationRecord
   end
 
   def copy_to_program!
+    return unless program
+
     if repl_program?
       program.update!(input: output_input)
     else

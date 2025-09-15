@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
 class ReplProgramsController < ApplicationController
-  before_action :load_user
-  before_action :load_repl_session
-  before_action :load_repl_program, only: %i[show edit update destroy]
+  before_action(:load_user)
+  before_action(:load_repl_session)
+  before_action(:load_repl_program, only: %i[show edit update destroy])
 
-  helper_method :url
-  helper_method :new_url
-  helper_method :prompts_url
-  helper_method :delete_all_url
-  helper_method :destroy_all_url
+  helper_method(:url)
+  helper_method(:new_url)
+  helper_method(:prompts_url)
+  helper_method(:delete_all_url)
+  helper_method(:destroy_all_url)
 
   def index
-    authorize ReplProgram
+    authorize(ReplProgram)
 
     @repl_programs = scope.page(params[:page]).order(created_at: :asc)
   end
@@ -21,21 +21,20 @@ class ReplProgramsController < ApplicationController
   end
 
   def new
-    @repl_program = authorize scope.new(repl_session: @repl_session)
+    @repl_program = authorize(scope.new(repl_session: @repl_session))
   end
 
   def edit
   end
 
   def create
-    @repl_program = authorize scope.new(repl_program_params)
+    @repl_program = authorize(scope.new(repl_program_params))
 
     if @repl_program.save
       log_in(@repl_program.user)
 
       if generate?
-        @prompt = authorize prompt_scope.new(prompt_params)
-        @prompt.program = @repl_program
+        @prompt = authorize(prompt_scope.new(prompt_params))
 
         if @prompt.save
           GenerateJob.perform_later(prompt: @prompt)
@@ -59,8 +58,7 @@ class ReplProgramsController < ApplicationController
       log_in(@repl_program.user)
 
       if generate?
-        @prompt = authorize prompt_scope.new(prompt_params)
-        @prompt.program = @repl_program
+        @prompt = authorize(prompt_scope.new(prompt_params))
 
         if @prompt.save
           GenerateJob.perform_later(prompt: @prompt)
@@ -82,11 +80,11 @@ class ReplProgramsController < ApplicationController
   def destroy
     @repl_program.destroy!
 
-    redirect_to url, notice: t(".notice")
+    redirect_to(url, notice: t(".notice"))
   end
 
   def destroy_all
-    authorize ReplProgram
+    authorize(ReplProgram)
 
     scope.destroy_all
 
@@ -94,7 +92,7 @@ class ReplProgramsController < ApplicationController
   end
 
   def delete_all
-    authorize ReplProgram
+    authorize(ReplProgram)
 
     scope.delete_all
 
@@ -179,7 +177,7 @@ class ReplProgramsController < ApplicationController
   end
 
   def load_repl_program
-    @repl_program = authorize scope.find(id)
+    @repl_program = authorize(scope.find(id))
   end
 
   def repl_program_params

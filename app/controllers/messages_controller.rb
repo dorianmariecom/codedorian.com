@@ -1,17 +1,19 @@
 # frozen_string_literal: true
 
 class MessagesController < ApplicationController
-  before_action :load_user
-  before_action :load_message,
-                only: %i[show subject body content edit update destroy]
+  before_action(:load_user)
+  before_action(
+    :load_message,
+    only: %i[show subject body content edit update destroy]
+  )
 
-  helper_method :url
-  helper_method :new_url
-  helper_method :delete_all_url
-  helper_method :destroy_all_url
+  helper_method(:url)
+  helper_method(:new_url)
+  helper_method(:delete_all_url)
+  helper_method(:destroy_all_url)
 
   def index
-    authorize Message
+    authorize(Message)
 
     @messages = scope.page(params[:page]).order(created_at: :desc)
   end
@@ -29,42 +31,42 @@ class MessagesController < ApplicationController
   end
 
   def new
-    @message = authorize scope.new(from_user: @user, to_user: @user)
+    @message = authorize(scope.new(from_user: @user, to_user: @user))
   end
 
   def edit
   end
 
   def create
-    @message = authorize scope.new(message_params)
+    @message = authorize(scope.new(message_params))
 
     if @message.save
       log_in(@message.from_user)
-      redirect_to @message, notice: t(".notice")
+      redirect_to(@message, notice: t(".notice"))
     else
       flash.now.alert = @message.alert
-      render :new, status: :unprocessable_entity
+      render(:new, status: :unprocessable_entity)
     end
   end
 
   def update
     if @message.update(message_params)
       log_in(@message.from_user)
-      redirect_to @message, notice: t(".notice")
+      redirect_to(@message, notice: t(".notice"))
     else
       flash.now.alert = @message.alert
-      render :edit, status: :unprocessable_entity
+      render(:edit, status: :unprocessable_entity)
     end
   end
 
   def destroy
     @message.destroy!
 
-    redirect_to url, notice: t(".notice")
+    redirect_to(url, notice: t(".notice"))
   end
 
   def destroy_all
-    authorize Message
+    authorize(Message)
 
     scope.destroy_all
 
@@ -72,7 +74,7 @@ class MessagesController < ApplicationController
   end
 
   def delete_all
-    authorize Message
+    authorize(Message)
 
     scope.delete_all
 
@@ -91,9 +93,11 @@ class MessagesController < ApplicationController
 
   def scope
     scope = searched_policy_scope(Message)
+
     if @user
       scope = scope.where(from_user: @user).or(scope.where(to_user: @user))
     end
+
     scope
   end
 
@@ -118,7 +122,7 @@ class MessagesController < ApplicationController
   end
 
   def load_message
-    @message = authorize scope.find(id)
+    @message = authorize(scope.find(id))
   end
 
   def message_params

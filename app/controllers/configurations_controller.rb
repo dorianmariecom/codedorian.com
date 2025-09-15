@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class ConfigurationsController < ApplicationController
-  before_action { authorize :configuration }
-  skip_after_action :verify_policy_scoped
+  before_action { authorize(:configuration) }
+  skip_after_action(:verify_policy_scoped)
 
   def ios_v1
     render(

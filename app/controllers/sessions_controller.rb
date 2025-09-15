@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 class SessionsController < ApplicationController
-  before_action { authorize :session }
-  skip_after_action :verify_policy_scoped
+  before_action { authorize(:session) }
+  skip_after_action(:verify_policy_scoped)
 
-  helper_method :email_address_param
-  helper_method :password_param
+  helper_method(:email_address_param)
+  helper_method(:password_param)
 
   def new
   end
@@ -25,20 +25,20 @@ class SessionsController < ApplicationController
 
     if @users.none?
       flash.now.alert = t(".wrong_email_address")
-      render :new, status: :unprocessable_entity
+      render(:new, status: :unprocessable_entity)
     elsif @user.nil?
       flash.now.alert = t(".wrong_password")
-      render :new, status: :unprocessable_entity
+      render(:new, status: :unprocessable_entity)
     else
       log_in(@user)
-      redirect_to @user, notice: t(".notice")
+      redirect_to(@user, notice: t(".notice"))
     end
   end
 
   def destroy
     log_out(Current.user)
 
-    redirect_to root_path, notice: t(".notice")
+    redirect_to(root_path, notice: t(".notice"))
   end
 
   def email_address_param

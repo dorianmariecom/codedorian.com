@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class StaticController < ApplicationController
-  before_action { authorize :static }
-  skip_after_action :verify_policy_scoped
+  before_action { authorize(:static) }
+  skip_after_action(:verify_policy_scoped)
 
   def home
     @program = policy_scope(Program).new(user: current_user)
@@ -24,7 +24,7 @@ class StaticController < ApplicationController
   end
 
   def account
-    redirect_to current_user if registered?
+    redirect_to(current_user) if registered?
   end
 
   def more

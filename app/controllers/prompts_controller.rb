@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
 class PromptsController < ApplicationController
-  before_action :load_user
-  before_action :load_program
-  before_action :load_prompt, only: %i[show destroy]
+  before_action(:load_user)
+  before_action(:load_program)
+  before_action(:load_prompt, only: %i[show destroy])
 
-  helper_method :url
-  helper_method :new_url
-  helper_method :delete_all_url
-  helper_method :destroy_all_url
+  helper_method(:url)
+  helper_method(:new_url)
+  helper_method(:delete_all_url)
+  helper_method(:destroy_all_url)
 
   def index
-    authorize Prompt
+    authorize(Prompt)
 
     @prompts = scope.page(params[:page]).order(created_at: :desc)
   end
@@ -27,11 +27,11 @@ class PromptsController < ApplicationController
   def destroy
     @prompt.destroy!
 
-    redirect_to url, notice: t(".notice")
+    redirect_to(url, notice: t(".notice"))
   end
 
   def destroy_all
-    authorize Prompt
+    authorize(Prompt)
 
     scope.destroy_all
 
@@ -39,7 +39,7 @@ class PromptsController < ApplicationController
   end
 
   def delete_all
-    authorize Prompt
+    authorize(Prompt)
 
     scope.delete_all
 
@@ -92,6 +92,6 @@ class PromptsController < ApplicationController
   end
 
   def load_prompt
-    @prompt = authorize scope.find(id)
+    @prompt = authorize(scope.find(id))
   end
 end

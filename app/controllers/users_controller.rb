@@ -1,24 +1,28 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :load_user, only: %i[show edit update destroy impersonate]
-  skip_after_action :verify_policy_scoped, only: %i[new create update_time_zone]
-  skip_after_action :verify_authorized, only: :update_time_zone
-  skip_before_action :verify_captcha, only: :update_time_zone
-  helper_method :url
-  helper_method :new_url
-  helper_method :delete_all_url
-  helper_method :destroy_all_url
+  before_action(:load_user, only: %i[show edit update destroy impersonate])
+  skip_after_action(
+    :verify_policy_scoped,
+    only: %i[new create update_time_zone]
+  )
+  skip_after_action(:verify_authorized, only: :update_time_zone)
+  skip_before_action(:verify_captcha, only: :update_time_zone)
+  helper_method(:url)
+  helper_method(:new_url)
+  helper_method(:delete_all_url)
+  helper_method(:destroy_all_url)
 
   def index
-    authorize User
+    authorize(User)
+
     @users = scope.page(params[:page]).order(created_at: :asc)
   end
 
   def impersonate
     session[:user_id] = @user.id
 
-    redirect_to account_path
+    redirect_to(@user)
   end
 
   def update_time_zone
@@ -42,33 +46,33 @@ class UsersController < ApplicationController
   end
 
   def new
-    @user = authorize policy_scope(User).new
+    @user = authorize(policy_scope(User).new)
   end
 
   def edit
   end
 
   def create
-    @user = authorize policy_scope(User).new(user_params)
+    @user = authorize(policy_scope(User).new(user_params))
 
-    Current.user = @user
-
-    if @user.save
-      log_in(@user)
-      redirect_to @user, notice: t(".notice")
-    else
-      flash.now.alert = @user.alert
-      render :new, status: :unprocessable_entity
+    Current.with(user: @user) do
+      if @user.save
+        log_in(@user)
+        redirect_to(@user, notice: t(".notice"))
+      else
+        flash.now.alert = @user.alert
+        render(:new, status: :unprocessable_entity)
+      end
     end
   end
 
   def update
     if @user.update(user_params)
       log_in(@user)
-      redirect_to user_path(@user), notice: t(".notice")
+      redirect_to(user_path(@user), notice: t(".notice"))
     else
       flash.now.alert = @user.alert
-      render :edit, status: :unprocessable_entity
+      render(:edit, status: :unprocessable_entity)
     end
   end
 
@@ -77,11 +81,11 @@ class UsersController < ApplicationController
 
     log_out(@user)
 
-    redirect_to root_path, notice: t(".notice")
+    redirect_to(root_path, notice: t(".notice"))
   end
 
   def destroy_all
-    authorize User
+    authorize(User)
 
     scope.destroy_all
 
@@ -89,7 +93,7 @@ class UsersController < ApplicationController
   end
 
   def delete_all
-    authorize User
+    authorize(User)
 
     scope.delete_all
 
@@ -101,9 +105,9 @@ class UsersController < ApplicationController
   def load_user
     @user =
       if params[:id] == "me" || params[:user_id] == "me"
-        authorize scope.find(current_user&.id)
+        authorize(scope.find(current_user&.id))
       else
-        authorize scope.find(params[:user_id].presence || params[:id])
+        authorize(scope.find(params[:user_id].presence || params[:id]))
       end
   end
 

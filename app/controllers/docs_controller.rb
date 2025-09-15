@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class DocsController < ApplicationController
-  before_action { authorize :doc }
-  before_action :load_docs
-  skip_after_action :verify_policy_scoped
+  before_action { authorize(:doc) }
+  before_action(:load_docs)
+  skip_after_action(:verify_policy_scoped)
 
   def index
   end
@@ -17,14 +17,15 @@ class DocsController < ApplicationController
       elsif @class && params[:doc_type] == "class_functions"
         functions = @class["class_functions"] || []
       else
-        return render :not_found
+        return render(:not_found)
       end
 
       @doc = functions&.detect { |function| function["name"] == params[:id] }
     else
       @doc = @docs.detect { |parent| parent["name"] == params[:id] }
     end
-    render :not_found unless @doc
+
+    render(:not_found) if @doc.nil?
   end
 
   private

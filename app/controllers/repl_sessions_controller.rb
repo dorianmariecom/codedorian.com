@@ -1,23 +1,23 @@
 # frozen_string_literal: true
 
 class ReplSessionsController < ApplicationController
-  before_action :load_user
-  before_action :load_repl_session, only: %i[show edit update destroy evaluate]
+  before_action(:load_user)
+  before_action(:load_repl_session, only: %i[show edit update destroy evaluate])
 
-  helper_method :url
-  helper_method :new_url
-  helper_method :prompts_url
-  helper_method :delete_all_url
-  helper_method :destroy_all_url
+  helper_method(:url)
+  helper_method(:new_url)
+  helper_method(:prompts_url)
+  helper_method(:delete_all_url)
+  helper_method(:destroy_all_url)
 
   def index
-    authorize ReplSession
+    authorize(ReplSession)
 
     @repl_sessions = scope.page(params[:page]).order(created_at: :asc)
   end
 
   def evaluate
-    @repl_session.evaluate!
+    EvaluateJob.perform_later(program: @repl_session)
 
     redirect_back_or_to(@repl_session)
   end
@@ -40,42 +40,42 @@ class ReplSessionsController < ApplicationController
   end
 
   def new
-    @repl_session = authorize scope.new(user: @user)
+    @repl_session = authorize(scope.new(user: @user))
   end
 
   def edit
   end
 
   def create
-    @repl_session = authorize scope.new(repl_session_params)
+    @repl_session = authorize(scope.new(repl_session_params))
 
     if @repl_session.save
       log_in(@repl_session.user)
-      redirect_to @repl_session, notice: t(".notice")
+      redirect_to(@repl_session, notice: t(".notice"))
     else
       flash.now.alert = @repl_session.alert
-      render :new, status: :unprocessable_entity
+      render(:new, status: :unprocessable_entity)
     end
   end
 
   def update
     if @repl_session.update(repl_session_params)
       log_in(@repl_session.user)
-      redirect_to @repl_session, notice: t(".notice")
+      redirect_to(@repl_session, notice: t(".notice"))
     else
       flash.now.alert = @repl_session.alert
-      render :edit, status: :unprocessable_entity
+      render(:edit, status: :unprocessable_entity)
     end
   end
 
   def destroy
     @repl_session.destroy!
 
-    redirect_to url, notice: t(".notice")
+    redirect_to(url, notice: t(".notice"))
   end
 
   def destroy_all
-    authorize ReplSession
+    authorize(ReplSession)
 
     scope.destroy_all
 
@@ -83,7 +83,7 @@ class ReplSessionsController < ApplicationController
   end
 
   def delete_all
-    authorize ReplSession
+    authorize(ReplSession)
 
     scope.delete_all
 
@@ -131,7 +131,7 @@ class ReplSessionsController < ApplicationController
   end
 
   def load_repl_session
-    @repl_session = authorize scope.find(id)
+    @repl_session = authorize(scope.find(id))
   end
 
   def repl_session_params

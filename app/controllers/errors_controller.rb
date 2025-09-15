@@ -3,15 +3,15 @@
 class ErrorsController < ApplicationController
   EXCEPTIONS = %i[not_found internal_server_error unprocessable_entity].freeze
 
-  before_action :load_user
-  before_action :load_error, only: %i[show destroy]
-  skip_after_action :verify_policy_scoped, only: EXCEPTIONS
-  helper_method :url
-  helper_method :delete_all_url
-  helper_method :destroy_all_url
+  before_action(:load_user)
+  before_action(:load_error, only: %i[show destroy])
+  skip_after_action(:verify_policy_scoped, only: EXCEPTIONS)
+  helper_method(:url)
+  helper_method(:delete_all_url)
+  helper_method(:destroy_all_url)
 
   def index
-    authorize Error
+    authorize(Error)
 
     @errors = scope.page(params[:page]).order(created_at: :desc)
   end
@@ -31,7 +31,7 @@ class ErrorsController < ApplicationController
   end
 
   def destroy_all
-    authorize Error
+    authorize(Error)
 
     scope.destroy_all
 
@@ -39,7 +39,7 @@ class ErrorsController < ApplicationController
   end
 
   def delete_all
-    authorize Error
+    authorize(Error)
 
     scope.delete_all
 
@@ -47,7 +47,7 @@ class ErrorsController < ApplicationController
   end
 
   def not_found
-    authorize :error
+    authorize(Error)
 
     @exception = request.env["action_dispatch.exception"]
     @message = error_message_for(@exception)
@@ -60,7 +60,7 @@ class ErrorsController < ApplicationController
   end
 
   def internal_server_error
-    authorize :error
+    authorize(Error)
 
     @exception = request.env["action_dispatch.exception"]
     @message = error_message_for(@exception)
@@ -75,7 +75,7 @@ class ErrorsController < ApplicationController
   end
 
   def unprocessable_entity
-    authorize :error
+    authorize(Error)
 
     @exception = request.env["action_dispatch.exception"]
     @message = error_message_for(@exception)
@@ -100,7 +100,7 @@ class ErrorsController < ApplicationController
   end
 
   def load_error
-    @error = authorize scope.find(params[:error_id].presence || params[:id])
+    @error = authorize(scope.find(params[:error_id].presence || params[:id]))
   end
 
   def scope

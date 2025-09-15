@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
 class EmailAddressesController < ApplicationController
-  before_action :load_user
-  before_action :load_email_address, only: %i[show edit update destroy]
+  before_action(:load_user)
+  before_action(:load_email_address, only: %i[show edit update destroy])
 
-  helper_method :url
-  helper_method :new_url
-  helper_method :delete_all_url
-  helper_method :destroy_all_url
+  helper_method(:url)
+  helper_method(:new_url)
+  helper_method(:delete_all_url)
+  helper_method(:destroy_all_url)
 
   def index
-    authorize EmailAddress
+    authorize(EmailAddress)
 
     @email_addresses = scope.page(params[:page]).order(created_at: :asc)
   end
@@ -20,45 +20,44 @@ class EmailAddressesController < ApplicationController
 
   def new
     @email_address =
-      authorize scope.new(
-                  user: @user,
-                  primary: user_or_guest.email_addresses.none?
-                )
+      authorize(
+        scope.new(user: @user, primary: user_or_guest.email_addresses.none?)
+      )
   end
 
   def edit
   end
 
   def create
-    @email_address = authorize scope.new(email_address_params)
+    @email_address = authorize(scope.new(email_address_params))
 
     if @email_address.save
       log_in(@email_address.user)
-      redirect_to @email_address, notice: t(".notice")
+      redirect_to(@email_address, notice: t(".notice"))
     else
       flash.now.alert = @email_address.alert
-      render :new, status: :unprocessable_entity
+      render(:new, status: :unprocessable_entity)
     end
   end
 
   def update
     if @email_address.update(email_address_params)
       log_in(@email_address.user)
-      redirect_to @email_address, notice: t(".notice")
+      redirect_to(@email_address, notice: t(".notice"))
     else
       flash.now.alert = @email_address.alert
-      render :edit, status: :unprocessable_entity
+      render(:edit, status: :unprocessable_entity)
     end
   end
 
   def destroy
     @email_address.destroy!
 
-    redirect_to url, notice: t(".notice")
+    redirect_to(url, notice: t(".notice"))
   end
 
   def destroy_all
-    authorize EmailAddress
+    authorize(EmailAddress)
 
     scope.destroy_all
 
@@ -66,7 +65,7 @@ class EmailAddressesController < ApplicationController
   end
 
   def delete_all
-    authorize EmailAddress
+    authorize(EmailAddress)
 
     scope.delete_all
 
@@ -114,7 +113,7 @@ class EmailAddressesController < ApplicationController
   end
 
   def load_email_address
-    @email_address = authorize scope.find(id)
+    @email_address = authorize(scope.find(id))
   end
 
   def email_address_params

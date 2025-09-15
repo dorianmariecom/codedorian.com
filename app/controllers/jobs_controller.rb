@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
 class JobsController < ApplicationController
-  before_action :load_user
-  before_action :load_job, only: %i[show destroy delete discard retry]
-  helper_method :url
-  helper_method :discard_all_url
-  helper_method :retry_all_url
-  helper_method :delete_all_url
-  helper_method :destroy_all_url
+  before_action(:load_user)
+  before_action(:load_job, only: %i[show destroy delete discard retry])
+  helper_method(:url)
+  helper_method(:discard_all_url)
+  helper_method(:retry_all_url)
+  helper_method(:delete_all_url)
+  helper_method(:destroy_all_url)
 
   def index
-    authorize Job
+    authorize(Job)
 
     @jobs = scope.page(params[:page]).order(created_at: :desc)
   end
@@ -43,7 +43,7 @@ class JobsController < ApplicationController
   end
 
   def retry_all
-    authorize Job
+    authorize(Job)
 
     scope.retry_all
 
@@ -51,7 +51,7 @@ class JobsController < ApplicationController
   end
 
   def discard_all
-    authorize Job
+    authorize(Job)
 
     scope.discard_all
 
@@ -59,7 +59,7 @@ class JobsController < ApplicationController
   end
 
   def destroy_all
-    authorize Job
+    authorize(Job)
 
     scope.destroy_all
 
@@ -67,7 +67,7 @@ class JobsController < ApplicationController
   end
 
   def delete_all
-    authorize Job
+    authorize(Job)
 
     scope.delete_all
 
@@ -85,7 +85,7 @@ class JobsController < ApplicationController
   end
 
   def load_job
-    @job = authorize scope.find(params[:job_id].presence || params[:id])
+    @job = authorize(scope.find(params[:job_id].presence || params[:id]))
   end
 
   def scope
