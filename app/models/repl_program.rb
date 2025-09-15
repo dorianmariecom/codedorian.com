@@ -2,13 +2,12 @@
 
 class ReplProgram < ApplicationRecord
   TIMEOUT = 600
-  INPUT_SAMPLE_SIZE = 140
-  OMISSION = "…"
 
   belongs_to :repl_session, touch: true
   has_many :repl_executions, dependent: :destroy
   has_many :repl_programs, through: :repl_session
   has_one :user, through: :repl_session
+  has_many :prompts, as: :program, dependent: :destroy
 
   validate { can!(:update, repl_session) }
 
@@ -41,6 +40,7 @@ class ReplProgram < ApplicationRecord
     return if previous_repl_execution!&.error.present?
 
     Current.with(user: user) do
+      repl_execution = repl_executions.create!(status: :in_progress)
       context = previous_context!
       output = StringIO.new
       error = StringIO.new
@@ -52,19 +52,20 @@ class ReplProgram < ApplicationRecord
           error: error,
           timeout: TIMEOUT
         )
-      repl_executions.create!(
+      repl_execution.update!(
         input: input,
         result: result.inspect,
         output: output.string,
         error: error.string,
-        context: context
+        status: :done
       )
     rescue Code::Error => e
-      repl_executions.create!(
+      repl_execution.update!(
         input: input,
-        result: nil,
-        output: nil,
-        error: "#{e.class}: #{e.message}"
+        status: :errored,
+        error_class: e.class,
+        error_message: e.message,
+        error_backtrace: e.backtrace.join("\n")
       )
     end
   end
@@ -86,7 +87,7 @@ class ReplProgram < ApplicationRecord
   end
 
   def input_sample
-    input.to_s.truncate(INPUT_SAMPLE_SIZE, omission: OMISSION).presence
+    input.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def to_s

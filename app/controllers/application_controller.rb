@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  ERROR_MESSAGE_LIMIT = 140
-  OMISSION = "…"
-
   include Pundit::Authorization
   include CanConcern
 
@@ -223,7 +220,7 @@ class ApplicationController < ActionController::Base
     class_name = error&.class&.name.to_s
     message = admin? ? error&.message.presence.to_s : nil
     to_s = [class_name, message].compact_blank.join(": ")
-    to_s.truncate(ERROR_MESSAGE_LIMIT, omission: OMISSION).presence
+    to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def searched_policy_scope(model)

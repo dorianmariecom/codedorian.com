@@ -2,14 +2,12 @@
 
 class Program < ApplicationRecord
   TIMEOUT = 600
-  INPUT_SAMPLE_SIZE = 140
-  OMISSION = "…"
 
   belongs_to :user, default: -> { Current.user! }, touch: true
 
   has_many :executions, dependent: :destroy
   has_many :schedules, as: :schedulable, dependent: :destroy
-  has_many :prompts, dependent: :destroy
+  has_many :prompts, as: :program, dependent: :destroy
 
   accepts_nested_attributes_for :schedules, allow_destroy: true
 
@@ -32,10 +30,10 @@ class Program < ApplicationRecord
     }
   end
 
-  def evaluate!(params: {})
+  def evaluate!
     Current.with(user: user) do
       execution = executions.create!(status: :in_progress)
-      context = Code::Object::Context.new({ parameters: params })
+      context = Code::Object::Context.new
       output = StringIO.new
       error = StringIO.new
       result =
@@ -123,7 +121,7 @@ class Program < ApplicationRecord
   end
 
   def input_sample
-    input.to_s.truncate(INPUT_SAMPLE_SIZE, omission: OMISSION).presence
+    input.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def as_json(...)

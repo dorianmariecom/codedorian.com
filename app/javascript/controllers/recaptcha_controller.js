@@ -6,26 +6,32 @@ export default class extends Controller {
   static targets = ["response", "action"];
 
   connect() {
-    this._input().disabled = true;
+    requestAnimationFrame(() => {
+      this._input().disabled = true;
 
-    const script = document.createElement("script");
-    script.async = true;
-    script.defer = true;
-    script.onload = this.load.bind(this);
-    script.src = `
-        https://www.google.com/recaptcha/enterprise.js
-        ?render=${window.RECAPTCHA_SITE_KEY}
-        &time=${Date.now()}
-        &random=${Math.random()}
-    `.replace(/\s/g, "");
+      const script = document.createElement("script");
+      script.async = true;
+      script.defer = true;
+      script.onload = this.load.bind(this);
+      script.src = `
+          https://www.google.com/recaptcha/enterprise.js
+          ?render=${window.RECAPTCHA_SITE_KEY}
+          &time=${Date.now()}
+          &random=${Math.random()}
+      `.replace(/\s/g, "");
 
-    document.head.appendChild(script);
+      document.head.appendChild(script);
 
-    this.interval = setInterval(this.execute.bind(this), INTERVAL_MILLISECONDS);
+      this.interval = setInterval(
+        this.execute.bind(this),
+        INTERVAL_MILLISECONDS,
+      );
+    });
   }
 
   disconnect() {
     clearInterval(this.interval);
+    this.interval = null;
   }
 
   load() {

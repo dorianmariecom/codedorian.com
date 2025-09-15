@@ -71,4 +71,9 @@ export default class extends Controller {
     this.editor.destroy();
     this.editor = null;
   }
+
+  reconnect() {
+    this.disconnect();
+    this.connect();
+  }
 }

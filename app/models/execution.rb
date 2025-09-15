@@ -1,11 +1,6 @@
 # frozen_string_literal: true
 
 class Execution < ApplicationRecord
-  INPUT_SAMPLE_SIZE = 140
-  ERROR_SAMPLE_SIZE = 140
-  OUTPUT_SAMPLE_SIZE = 140
-  RESULT_SAMPLE_SIZE = 140
-  OMISSION = "…"
   STATUSES = %w[initialized created in_progress done errored].freeze
 
   scope :initialized, -> { where(status: :initialized) }
@@ -22,6 +17,8 @@ class Execution < ApplicationRecord
 
   validate { can!(:update, program) }
   validates :status, inclusion: { in: STATUSES }
+
+  after_create_commit { created! unless created? }
 
   def self.search_fields
     {
@@ -98,34 +95,31 @@ class Execution < ApplicationRecord
   end
 
   def input_sample
-    input.to_s.truncate(INPUT_SAMPLE_SIZE, omission: OMISSION).presence
+    input.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def output_sample
-    output.to_s.truncate(OUTPUT_SAMPLE_SIZE, omission: OMISSION).presence
+    output.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def result_sample
-    result.to_s.truncate(RESULT_SAMPLE_SIZE, omission: OMISSION).presence
+    result.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def error_sample
-    error.to_s.truncate(ERROR_SAMPLE_SIZE, omission: OMISSION).presence
+    error.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def error_class_sample
-    error_class.to_s.truncate(ERROR_SAMPLE_SIZE, omission: OMISSION).presence
+    error_class.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def error_message_sample
-    error_message.to_s.truncate(ERROR_SAMPLE_SIZE, omission: OMISSION).presence
+    error_message.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def error_backtrace_sample
-    error_backtrace
-      .to_s
-      .truncate(ERROR_SAMPLE_SIZE, omission: OMISSION)
-      .presence
+    error_backtrace.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def error_app_backtrace

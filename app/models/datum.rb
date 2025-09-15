@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 class Datum < ApplicationRecord
-  KEY_SAMPLE_SIZE = 140
-  VALUE_SAMPLE_SIZE = 140
-  OMISSION = "…"
-
   belongs_to :user, default: -> { Current.user! }, touch: true
 
   before_validation { self.user ||= Current.user! }
@@ -41,11 +37,11 @@ class Datum < ApplicationRecord
   end
 
   def key_sample
-    key.to_json.truncate(KEY_SAMPLE_SIZE, omission: OMISSION).presence
+    key.to_json.truncate(SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def value_sample
-    value.to_json.truncate(VALUE_SAMPLE_SIZE, omission: OMISSION).presence
+    value.to_json.truncate(SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def to_code

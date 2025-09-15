@@ -32,22 +32,50 @@ class ReplProgramsController < ApplicationController
 
     if @repl_program.save
       log_in(@repl_program.user)
-      @repl_program.evaluate!
-      redirect_back_or_to @repl_program, notice: t(".notice")
+
+      if generate?
+        @prompt = authorize prompt_scope.new(prompt_params)
+        @prompt.program = @repl_program
+
+        if @prompt.save
+          GenerateJob.perform_later(prompt: @prompt)
+        else
+          flash.now.alert = @prompt.alert
+        end
+
+        redirect_back_or_to([:edit, @repl_program], notice: t(".notice"))
+      else
+        EvaluateJob.perform_later(program: @repl_program)
+        redirect_back_or_to(@repl_program, notice: t(".notice"))
+      end
     else
       flash.now.alert = @repl_program.alert
-      render :new, status: :unprocessable_entity
+      render(:new, status: :unprocessable_entity)
     end
   end
 
   def update
     if @repl_program.update(repl_program_params)
       log_in(@repl_program.user)
-      @repl_program.evaluate!
-      redirect_back_or_to @repl_program, notice: t(".notice")
+
+      if generate?
+        @prompt = authorize prompt_scope.new(prompt_params)
+        @prompt.program = @repl_program
+
+        if @prompt.save
+          GenerateJob.perform_later(prompt: @prompt)
+        else
+          flash.now.alert = @prompt.alert
+        end
+
+        head :no_content
+      else
+        EvaluateJob.perform_later(program: @repl_program)
+        redirect_back_or_to(@repl_program, notice: t(".notice"))
+      end
     else
       flash.now.alert = @repl_program.alert
-      render :edit, status: :unprocessable_entity
+      render(:edit, status: :unprocessable_entity)
     end
   end
 
@@ -144,6 +172,10 @@ class ReplProgramsController < ApplicationController
 
   def id
     params[:repl_program_id].presence || params[:id]
+  end
+
+  def generate?
+    params.dig(:program, :generate).present?
   end
 
   def load_repl_program

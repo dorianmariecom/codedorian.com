@@ -1,9 +1,5 @@
 <% program = local_assigns.fetch(:program) %>
-<% prompt = local_assigns[:prompt].presence || Prompt.new %>
-<% user_id = prompt.done? ? prompt.user_id : program.user_id %>
-<% name = prompt.done? ? prompt.output_name : program.name %>
-<% input = prompt.done? ? prompt.output_input : program.input %>
-<% schedules = prompt.done? ? prompt.program_schedules : program.schedules %>
+<% prompt = program.prompts.last || Prompt.new %>
 <% generate = prompt.generating? ? t(".generating") : t(".generate") %>
 
 <%= form_for(
@@ -12,14 +8,15 @@
     class: "flex-1 flex flex-col",
     id: dom_id(program, :form),
     data: {
-      controller: "editor"
+      controller: "editor",
+      action: "turbo:morph@window->editor#reconnect"
     }
   }
 ) do |f| %>
   <% if admin? %>
     <div class="p">
       <%= f.label(:user_id, class: "label") %>
-      <%= f.select(:user_id, user_options(user_id: user_id), {}, class: "input") %>
+      <%= f.select(:user_id, user_options(user_id: program.user_id), {}, class: "input") %>
     </div>
   <% end %>
 
@@ -28,7 +25,6 @@
     <div class="flex items-center gap-4">
       <%= f.text_field(
         :name,
-        value: name,
         placeholder: t(".name_placeholder"),
         class: "input max-w-none!"
       ) %>
@@ -43,7 +39,7 @@
     <div
       class="flex-1 flex flex-col border border-black rounded overflow-hidden"
     >
-      <%= f.hidden_field(:input, value: input, data: { editor_target: "input" }) %>
+      <%= f.hidden_field(:input, data: { editor_target: "input" }) %>
       <div
         class="flex-1 flex flex-col min-h-96"
         data-editor-target="editor"
@@ -51,7 +47,7 @@
     </div>
   </div>
 
-  <%= render("schedules/nested", f: f, schedules: schedules) %>
+  <%= render("schedules/nested", f: f) %>
 
   <div class="p">
     <%= f.submit(

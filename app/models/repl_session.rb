@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
 class ReplSession < ApplicationRecord
-  INPUT_SAMPLE_SIZE = Program::INPUT_SAMPLE_SIZE
-  OMISSION = "…"
-
   belongs_to :user, default: -> { Current.user! }, touch: true
 
   has_many :repl_programs, dependent: :destroy
@@ -39,7 +36,7 @@ class ReplSession < ApplicationRecord
   end
 
   def input_sample
-    input.truncate(INPUT_SAMPLE_SIZE, omission: OMISSION).presence
+    input.truncate(SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def to_s

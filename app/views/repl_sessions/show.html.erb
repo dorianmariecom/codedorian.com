@@ -47,39 +47,37 @@
 </div>
 
 <% (@repl_programs + [@repl_program]).each do |repl_program| %>
-  <div
-    data-controller="editor"
-    data-editor-loading-value="<%= t(".generating") %>"
-    data-editor-initial-value="<%= t(".generate") %>"
-  >
-    <%= form_for(repl_program) do |f| %>
-      <%= f.hidden_field(:repl_session_id) %>
+  <% prompt = repl_program.prompts.last || Prompt.new %>
+  <% generate = prompt.generating? ? t(".generating") : t(".generate") %>
 
-      <div class="p flex items-center gap-4">
-        <div class="w-full border border-black rounded overflow-hidden">
-          <%= f.hidden_field(:input, data: { editor_target: "input" }) %>
-          <div data-editor-target="editor"></div>
-        </div>
+  <%= form_for(
+    repl_program,
+    id: dom_id(repl_program, :form),
+    data: {
+      controller: "editor"
+    }
+  ) do |f| %>
+    <%= f.hidden_field(:repl_session_id) %>
 
-        <button
-          class="button"
-          data-action="editor#generate:prevent"
-          data-editor-target="nameButton"
-        >
-          <%= t(".generate") %>
-        </button>
-
-        <%= f.submit(t(".evaluate"), class: "button") %>
+    <div class="p flex items-center gap-4">
+      <div class="w-full border border-black rounded overflow-hidden">
+        <%= f.hidden_field(:input, data: { editor_target: "input" }) %>
+        <div data-editor-target="editor"></div>
       </div>
-      <div class="text-red-600" data-editor-target="error"></div>
 
-      <%= render(
-        partial: "repl_executions/repl_execution",
-        collection: repl_program.repl_executions.sort_by(&:id),
-        as: :repl_execution
-      ) %>
-    <% end %>
-  </div>
+      <%= f.submit(generate, name: "repl_program[generate]", class: "button") %>
+
+      <%= f.submit(t(".evaluate"), class: "button") %>
+    </div>
+
+    <div class="text-red-600" data-editor-target="error"></div>
+
+    <%= render(
+      partial: "repl_executions/repl_execution",
+      collection: repl_program.repl_executions,
+      as: :repl_execution
+    ) %>
+  <% end %>
 <% end %>
 
 <div class="p">

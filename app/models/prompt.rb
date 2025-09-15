@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class Prompt < ApplicationRecord
-  SAMPLE_SIZE = 140
-  OMISSION = "…"
   MODEL = "gpt-5-nano"
   STATUSES = %w[initialized created in_progress done errored].freeze
 
@@ -51,7 +49,7 @@ class Prompt < ApplicationRecord
   scope :not_generating, -> { where.not(status: %i[created in_progress]) }
 
   belongs_to :user, default: -> { Current.user! }, touch: true
-  belongs_to :program, polymorphic: true, optional: true
+  belongs_to :program, polymorphic: true, optional: true, touch: true
 
   has_many :schedules, as: :schedulable, dependent: :destroy
 
@@ -63,21 +61,6 @@ class Prompt < ApplicationRecord
   before_validation { self.user ||= Current.user! }
 
   after_create_commit { created! unless created? }
-  after_save_commit do
-    program.schedules = program_schedules if done?
-
-    broadcast_replace_to(
-      program,
-      :form,
-      target: dom_id(program, :form),
-      partial: "programs/form",
-      locals: {
-        program: program,
-        prompt: self,
-        submit: t(".submit")
-      }
-    )
-  end
 
   def self.search_fields
     {
@@ -104,6 +87,14 @@ class Prompt < ApplicationRecord
       **base_search_fields,
       **User.associated_search_fields
     }
+  end
+
+  def program?
+    program_type == "Program"
+  end
+
+  def repl_program?
+    program_type == "ReplProgram"
   end
 
   def generate!
@@ -183,6 +174,7 @@ class Prompt < ApplicationRecord
     raise json.to_json if content.blank?
 
     update!(output: JSON.parse(content))
+    copy_to_program!
     done!
   rescue StandardError => e
     errored!
@@ -339,6 +331,18 @@ class Prompt < ApplicationRecord
 
   def translated_status
     t("statuses.#{status}")
+  end
+
+  def copy_to_program!
+    if repl_program?
+      program.update!(input: output_input)
+    else
+      program.update!(
+        name: output_name,
+        input: output_input,
+        schedules: program_schedules
+      )
+    end
   end
 
   def to_s

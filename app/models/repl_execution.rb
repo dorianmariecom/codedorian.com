@@ -1,11 +1,15 @@
 # frozen_string_literal: true
 
 class ReplExecution < ApplicationRecord
-  INPUT_SAMPLE_SIZE = 140
-  ERROR_SAMPLE_SIZE = 140
-  OUTPUT_SAMPLE_SIZE = 140
-  RESULT_SAMPLE_SIZE = 140
-  OMISSION = "…"
+  STATUSES = %w[initialized created in_progress done errored].freeze
+
+  scope :initialized, -> { where(status: :initialized) }
+  scope :created, -> { where(status: :created) }
+  scope :in_progress, -> { where(status: :in_progress) }
+  scope :done, -> { where(status: :done) }
+  scope :errored, -> { where(status: :errored) }
+  scope :generating, -> { where(status: %i[created in_progress]) }
+  scope :not_generating, -> { where.not(status: %i[created in_progress]) }
 
   belongs_to :repl_program, touch: true
   has_one :repl_session, through: :repl_program
@@ -14,6 +18,9 @@ class ReplExecution < ApplicationRecord
   serialize :context, coder: YAML, yaml: { unsafe_load: true }
 
   validate { can!(:update, repl_program) }
+  validates :status, inclusion: { in: STATUSES }
+
+  after_create_commit { created! unless created? }
 
   def self.search_fields
     {
@@ -41,24 +48,100 @@ class ReplExecution < ApplicationRecord
     }
   end
 
+  def initialized?
+    status == "initialized"
+  end
+
+  def initialized!
+    update!(status: :initialized)
+  end
+
+  def created?
+    status == "created"
+  end
+
+  def created!
+    update!(status: :created)
+  end
+
+  def in_progress?
+    status == "in_progress"
+  end
+
+  def in_progress!
+    update!(status: :in_progress)
+  end
+
+  def done?
+    status == "done"
+  end
+
+  def done!
+    update!(status: :done)
+  end
+
+  def errored?
+    status == "errored"
+  end
+
+  def errored!
+    update!(status: :errored)
+  end
+
+  def generating?
+    created? || in_progress?
+  end
+
+  def not_generating?
+    !generating?
+  end
+
   def input_sample
-    input.to_s.truncate(INPUT_SAMPLE_SIZE, omission: OMISSION).presence
+    input.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def output_sample
-    output.to_s.truncate(OUTPUT_SAMPLE_SIZE, omission: OMISSION).presence
+    output.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def result_sample
-    result.to_s.truncate(RESULT_SAMPLE_SIZE, omission: OMISSION).presence
+    result.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def error_sample
-    error.to_s.truncate(ERROR_SAMPLE_SIZE, omission: OMISSION).presence
+    error.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+  end
+
+  def error_class_sample
+    error_class.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+  end
+
+  def error_message_sample
+    error_message.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+  end
+
+  def error_backtrace_sample
+    error_backtrace.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+  end
+
+  def error_app_backtrace
+    Backtrace.app(error_backtrace)
+  end
+
+  def translated_status
+    t("statuses.#{status}")
+  end
+
+  def translated_status_sample
+    return if done?
+    return if errored?
+
+    translated_status
   end
 
   def to_s
-    error_sample.presence || output_sample.presence || result_sample.presence ||
-      input_sample.presence || t("to_s", id: id)
+    translated_status_sample.presence || error_class_sample.presence ||
+      error_sample.presence || output_sample.presence ||
+      result_sample.presence || input_sample.presence || t("to_s", id: id)
   end
 end
