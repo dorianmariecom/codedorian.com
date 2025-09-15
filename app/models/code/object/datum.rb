@@ -60,10 +60,10 @@ class Code
         scope.create!(key: code_key.as_json, value: code_value.as_json).to_code
       rescue ::ActiveRecord::RecordInvalid, ::ActiveRecord::RecordNotSaved => e
         if ::Current.admin?
-          raise ::Code::Error, "datum not saved (#{e.class}: #{e.message})"
+          raise(::Code::Error, "datum not saved (#{e.class}: #{e.message})")
         end
 
-        raise ::Code::Error, "datum not saved"
+        raise(::Code::Error, "datum not saved")
       end
 
       def self.code_find(value)
@@ -82,10 +82,10 @@ class Code
         ).to_code
       rescue ActiveRecord::RecordNotFound => e
         if ::Current.admin?
-          raise ::Code::Error, "datum not found (#{e.class}: #{e.message})"
+          raise(::Code::Error, "datum not found (#{e.class}: #{e.message})")
         end
 
-        raise ::Code::Error, "datum not found"
+        raise(::Code::Error, "datum not found")
       end
 
       def self.code_value(value)
@@ -134,10 +134,10 @@ class Code
         datum&.destroy!.to_code
       rescue ActiveRecord::RecordNotDestroyed => e
         if ::Current.admin?
-          raise ::Code::Error, "datum not destroyed (#{e.class}: #{e.message})"
+          raise(::Code::Error, "datum not destroyed (#{e.class}: #{e.message})")
         end
 
-        raise ::Code::Error, "datum not destroyed"
+        raise(::Code::Error, "datum not destroyed")
       end
 
       def code_update(value: nil)
@@ -152,10 +152,10 @@ class Code
         datum&.update!(value: code_value.as_json).to_code
       rescue ActiveRecord::RecordInvalid => e
         if ::Current.admin?
-          raise ::Code::Error, "datum not updated (#{e.class}: #{e.message})"
+          raise(::Code::Error, "datum not updated (#{e.class}: #{e.message})")
         end
 
-        raise ::Code::Error, "datum not updated"
+        raise(::Code::Error, "datum not updated")
       end
 
       def code_id

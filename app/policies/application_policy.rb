@@ -13,7 +13,7 @@ class ApplicationPolicy
     end
 
     def resolve
-      raise NotImplementedError, "#{self.class}#resolve"
+      raise(NotImplementedError, "#{self.class}#resolve")
     end
 
     private
@@ -66,7 +66,7 @@ class ApplicationPolicy
   end
 
   def destroy?
-    raise NotImplementedError, "#{self.class}#destroy?"
+    raise(NotImplementedError, "#{self.class}#destroy?")
   end
 
   private

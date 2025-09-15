@@ -38,10 +38,10 @@ class Code
           .to_code
       rescue ActiveRecord::RecordNotFound => e
         if ::Current.admin?
-          raise ::Code::Error, "program not found (#{e.class}: #{e.message})"
+          raise(::Code::Error, "program not found (#{e.class}: #{e.message})")
         end
 
-        raise ::Code::Error, "program not found"
+        raise(::Code::Error, "program not found")
       end
 
       def self.scope

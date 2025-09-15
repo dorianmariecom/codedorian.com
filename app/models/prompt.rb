@@ -171,7 +171,7 @@ class Prompt < ApplicationRecord
     response = http.request(request)
     json = JSON.parse(response.body)
     content = json.dig("choices", 0, "message", "content")
-    raise json.to_json if content.blank?
+    raise(json.to_json) if content.blank?
 
     update!(output: JSON.parse(content))
     copy_to_program!

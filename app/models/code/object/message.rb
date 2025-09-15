@@ -92,10 +92,10 @@ class Code
           .to_code
       rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved => e
         if ::Current.admin?
-          raise ::Code::Error, "message not saved (#{e.class}: #{e.message})"
+          raise(::Code::Error, "message not saved (#{e.class}: #{e.message})")
         end
 
-        raise ::Code::Error, "message not saved"
+        raise(::Code::Error, "message not saved")
       end
 
       include(::Pundit::Authorization)
