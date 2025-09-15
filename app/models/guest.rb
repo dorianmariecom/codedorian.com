@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Guest
-  include ActiveModel::Model
+  include(ActiveModel::Model)
 
   def self.singular_route_key = :guest
   def self.route_key = :guests

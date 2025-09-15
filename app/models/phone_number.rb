@@ -3,12 +3,12 @@
 class PhoneNumber < ApplicationRecord
   DEFAULT_COUNTRY_CODE = "FR"
 
-  belongs_to :user, default: -> { Current.user! }, touch: true
+  belongs_to(:user, default: -> { Current.user! }, touch: true)
 
-  scope :primary, -> { where(primary: true) }
-  scope :not_primary, -> { where(primary: false) }
-  scope :verified, -> { where(verified: true) }
-  scope :not_verified, -> { where(verified: false) }
+  scope(:primary, -> { where(primary: true) })
+  scope(:not_primary, -> { where(primary: false) })
+  scope(:verified, -> { where(verified: true) })
+  scope(:not_verified, -> { where(verified: false) })
 
   normalizes(
     :phone_number,

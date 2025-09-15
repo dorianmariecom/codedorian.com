@@ -2,8 +2,8 @@
 
 class ApplicationPolicy
   class Scope
-    include Pundit::Authorization
-    include CanConcern
+    include(Pundit::Authorization)
+    include(CanConcern)
 
     attr_reader :current_user, :scope
 
@@ -31,8 +31,8 @@ class ApplicationPolicy
     end
   end
 
-  include Pundit::Authorization
-  include CanConcern
+  include(Pundit::Authorization)
+  include(CanConcern)
 
   attr_reader :current_user, :record
 
@@ -42,11 +42,11 @@ class ApplicationPolicy
   end
 
   def index?
-    raise NotImplementedError, "#{self.class}#index?"
+    raise(NotImplementedError, "#{self.class}#index?")
   end
 
   def show?
-    raise NotImplementedError, "#{self.class}#show?"
+    raise(NotImplementedError, "#{self.class}#show?")
   end
 
   def new?
@@ -54,7 +54,7 @@ class ApplicationPolicy
   end
 
   def create?
-    raise NotImplementedError, "#{self.class}#create?"
+    raise(NotImplementedError, "#{self.class}#create?")
   end
 
   def edit?
@@ -62,7 +62,7 @@ class ApplicationPolicy
   end
 
   def update?
-    raise NotImplementedError, "#{self.class}#update?"
+    raise(NotImplementedError, "#{self.class}#update?")
   end
 
   def destroy?

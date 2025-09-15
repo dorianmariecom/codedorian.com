@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 class ReplSession < ApplicationRecord
-  belongs_to :user, default: -> { Current.user! }, touch: true
+  belongs_to(:user, default: -> { Current.user! }, touch: true)
 
-  has_many :repl_programs, dependent: :destroy
-  has_many :repl_executions, through: :repl_programs
+  has_many(:repl_programs, dependent: :destroy)
+  has_many(:repl_executions, through: :repl_programs)
 
-  accepts_nested_attributes_for :repl_programs, allow_destroy: true
+  accepts_nested_attributes_for(:repl_programs, allow_destroy: true)
 
   validate { can!(:update, user) }
 
@@ -24,7 +24,7 @@ class ReplSession < ApplicationRecord
   end
 
   def inputs
-    repl_programs.sort_by(&:id).map(&:input)
+    repl_programs.map(&:input)
   end
 
   def evaluate!

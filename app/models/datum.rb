@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 class Datum < ApplicationRecord
-  belongs_to :user, default: -> { Current.user! }, touch: true
+  belongs_to(:user, default: -> { Current.user! }, touch: true)
 
   before_validation { self.user ||= Current.user! }
 
   validate { can!(:update, user) }
-  validate :parse_and_validate_key, on: :controller
-  validate :parse_and_validate_value, on: :controller
+  validate(:parse_and_validate_key, on: :controller)
+  validate(:parse_and_validate_value, on: :controller)
 
   def self.search_fields
     {

@@ -6,14 +6,14 @@ class TimeZone < ApplicationRecord
       time_zone.tzinfo.canonical_identifier
     end
 
-  belongs_to :user, default: -> { Current.user! }, touch: true
+  belongs_to(:user, default: -> { Current.user! }, touch: true)
 
-  scope :primary, -> { where(primary: true) }
-  scope :not_primary, -> { where(primary: false) }
-  scope :verified, -> { where(verified: true) }
-  scope :not_verified, -> { where(verified: false) }
+  scope(:primary, -> { where(primary: true) })
+  scope(:not_primary, -> { where(primary: false) })
+  scope(:verified, -> { where(verified: true) })
+  scope(:not_verified, -> { where(verified: false) })
 
-  validates :time_zone, inclusion: { in: TIME_ZONES, allow_blank: true }
+  validates(:time_zone, inclusion: { in: TIME_ZONES, allow_blank: true })
   validate { can!(:update, user) }
 
   before_validation { self.user ||= Current.user! }

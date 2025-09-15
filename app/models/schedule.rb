@@ -54,11 +54,11 @@ class Schedule < ApplicationRecord
     "years" => 1.year
   }.freeze
 
-  belongs_to :schedulable, polymorphic: true, touch: true
+  belongs_to(:schedulable, polymorphic: true, touch: true)
 
-  delegate :user, to: :schedulable
+  delegate(:user, to: :schedulable)
 
-  validates :interval, inclusion: { in: INTERVALS }
+  validates(:interval, inclusion: { in: INTERVALS })
 
   validate { can!(:update, schedulable) }
 

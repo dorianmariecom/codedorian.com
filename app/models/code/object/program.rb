@@ -64,8 +64,8 @@ class Code
         policy_scope(::Program)
       end
 
-      include ::Pundit::Authorization
-      extend ::Pundit::Authorization
+      include(::Pundit::Authorization)
+      extend(::Pundit::Authorization)
 
       def self.current_user
         ::Current.user

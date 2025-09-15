@@ -1,47 +1,53 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  has_many :addresses, dependent: :destroy
-  has_many :devices, dependent: :destroy
-  has_many :email_addresses, dependent: :destroy
-  has_many :handles, dependent: :destroy
-  has_many :names, dependent: :destroy
-  has_many :passwords, dependent: :destroy
-  has_many :phone_numbers, dependent: :destroy
-  has_many :programs, dependent: :destroy
-  has_many :repl_sessions, dependent: :destroy
-  has_many :time_zones, dependent: :destroy
-  has_many :tokens, dependent: :destroy
-  has_many :data, dependent: :destroy
-  has_many :sent_messages,
-           class_name: "Message",
-           foreign_key: :from_user_id,
-           dependent: :destroy,
-           inverse_of: :from_user
-  has_many :received_messages,
-           class_name: "Message",
-           foreign_key: :to_user_id,
-           dependent: :destroy,
-           inverse_of: :to_user
+  has_many(:addresses, dependent: :destroy)
+  has_many(:devices, dependent: :destroy)
+  has_many(:email_addresses, dependent: :destroy)
+  has_many(:handles, dependent: :destroy)
+  has_many(:names, dependent: :destroy)
+  has_many(:passwords, dependent: :destroy)
+  has_many(:phone_numbers, dependent: :destroy)
+  has_many(:programs, dependent: :destroy)
+  has_many(:repl_sessions, dependent: :destroy)
+  has_many(:time_zones, dependent: :destroy)
+  has_many(:tokens, dependent: :destroy)
+  has_many(:data, dependent: :destroy)
+  has_many(
+    :sent_messages,
+    class_name: "Message",
+    foreign_key: :from_user_id,
+    dependent: :destroy,
+    inverse_of: :from_user
+  )
+  has_many(
+    :received_messages,
+    class_name: "Message",
+    foreign_key: :to_user_id,
+    dependent: :destroy,
+    inverse_of: :to_user
+  )
 
-  scope :verified, -> { where(verified: true) }
-  scope :not_verified, -> { where(verified: false) }
-  scope :admin, -> { where(admin: true) }
-  scope :not_admin, -> { where(admin: false) }
+  scope(:verified, -> { where(verified: true) })
+  scope(:not_verified, -> { where(verified: false) })
+  scope(:admin, -> { where(admin: true) })
+  scope(:not_admin, -> { where(admin: false) })
 
-  accepts_nested_attributes_for :addresses, allow_destroy: true
-  accepts_nested_attributes_for :email_addresses, allow_destroy: true
-  accepts_nested_attributes_for :handles, allow_destroy: true
-  accepts_nested_attributes_for :names, allow_destroy: true
-  accepts_nested_attributes_for :passwords, allow_destroy: true
-  accepts_nested_attributes_for :phone_numbers, allow_destroy: true
-  accepts_nested_attributes_for :time_zones, allow_destroy: true
+  accepts_nested_attributes_for(:addresses, allow_destroy: true)
+  accepts_nested_attributes_for(:email_addresses, allow_destroy: true)
+  accepts_nested_attributes_for(:handles, allow_destroy: true)
+  accepts_nested_attributes_for(:names, allow_destroy: true)
+  accepts_nested_attributes_for(:passwords, allow_destroy: true)
+  accepts_nested_attributes_for(:phone_numbers, allow_destroy: true)
+  accepts_nested_attributes_for(:time_zones, allow_destroy: true)
 
-  validates :locale,
-            inclusion: {
-              in: I18n.available_locales.map(&:to_s)
-            },
-            allow_blank: true
+  validates(
+    :locale,
+    inclusion: {
+      in: I18n.available_locales.map(&:to_s)
+    },
+    allow_blank: true
+  )
 
   def self.associated_search_fields
     {

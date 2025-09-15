@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 class Address < ApplicationRecord
-  belongs_to :user, default: -> { Current.user! }, touch: true
+  belongs_to(:user, default: -> { Current.user! }, touch: true)
 
-  scope :primary, -> { where(primary: true) }
-  scope :not_primary, -> { where(primary: false) }
-  scope :verified, -> { where(verified: true) }
-  scope :not_verified, -> { where(verified: false) }
+  scope(:primary, -> { where(primary: true) })
+  scope(:not_primary, -> { where(primary: false) })
+  scope(:verified, -> { where(verified: true) })
+  scope(:not_verified, -> { where(verified: false) })
 
-  validates :address, presence: true
+  validates(:address, presence: true)
   validate { can!(:update, user) }
 
   before_validation { self.user ||= Current.user! }

@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class ErrorOccurrence < SolidErrors::Occurrence
-  include Search
+  include(Search)
 
-  belongs_to :error
+  belongs_to(:error)
 
   def self.search_fields
     {

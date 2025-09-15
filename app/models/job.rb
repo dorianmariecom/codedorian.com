@@ -1,10 +1,7 @@
 # frozen_string_literal: true
 
 class Job < SolidQueue::Job
-  include Search
-
-  MESSAGE_LIMIT = 140
-  OMISSION = "…"
+  include(Search)
 
   def self.search_fields
     {
@@ -78,7 +75,7 @@ class Job < SolidQueue::Job
 
   def to_s
     "#{queue_name}: #{class_name}: #{arguments["arguments"]}".truncate(
-      MESSAGE_LIMIT,
+      SAMPLE_LIMIT,
       omission: OMISSION
     )
   end

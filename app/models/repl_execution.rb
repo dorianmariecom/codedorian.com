@@ -3,22 +3,22 @@
 class ReplExecution < ApplicationRecord
   STATUSES = %w[initialized created in_progress done errored].freeze
 
-  scope :initialized, -> { where(status: :initialized) }
-  scope :created, -> { where(status: :created) }
-  scope :in_progress, -> { where(status: :in_progress) }
-  scope :done, -> { where(status: :done) }
-  scope :errored, -> { where(status: :errored) }
-  scope :generating, -> { where(status: %i[created in_progress]) }
-  scope :not_generating, -> { where.not(status: %i[created in_progress]) }
+  scope(:initialized, -> { where(status: :initialized) })
+  scope(:created, -> { where(status: :created) })
+  scope(:in_progress, -> { where(status: :in_progress) })
+  scope(:done, -> { where(status: :done) })
+  scope(:errored, -> { where(status: :errored) })
+  scope(:generating, -> { where(status: %i[created in_progress]) })
+  scope(:not_generating, -> { where.not(status: %i[created in_progress]) })
 
-  belongs_to :repl_program, touch: true
-  has_one :repl_session, through: :repl_program
-  has_one :user, through: :repl_session
+  belongs_to(:repl_program, touch: true)
+  has_one(:repl_session, through: :repl_program)
+  has_one(:user, through: :repl_session)
 
-  serialize :context, coder: YAML, yaml: { unsafe_load: true }
+  serialize(:context, coder: YAML, yaml: { unsafe_load: true })
 
   validate { can!(:update, repl_program) }
-  validates :status, inclusion: { in: STATUSES }
+  validates(:status, inclusion: { in: STATUSES })
 
   after_create_commit { created! unless created? }
 

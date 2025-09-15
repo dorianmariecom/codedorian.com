@@ -1,30 +1,36 @@
 # frozen_string_literal: true
 
 class Message < ApplicationRecord
-  belongs_to :from_user,
-             class_name: "User",
-             default: -> { Current.user! },
-             touch: true
-  belongs_to :to_user,
-             class_name: "User",
-             default: -> { Current.user! },
-             touch: true
+  belongs_to(
+    :from_user,
+    class_name: "User",
+    default: -> { Current.user! },
+    touch: true
+  )
+  belongs_to(
+    :to_user,
+    class_name: "User",
+    default: -> { Current.user! },
+    touch: true
+  )
 
-  has_rich_text :subject
-  has_rich_text :body
+  has_rich_text(:subject)
+  has_rich_text(:body)
 
-  scope :left_joins_from_users,
-        -> do
-          joins(
-            "LEFT JOIN users AS from_users ON from_users.id = messages.from_user_id"
-          )
-        end
-  scope :left_joins_to_users,
-        -> do
-          joins(
-            "LEFT JOIN users AS to_users ON to_users.id = messages.to_user_id"
-          )
-        end
+  scope(
+    :left_joins_from_users,
+    -> do
+      joins(
+        "LEFT JOIN users AS from_users ON from_users.id = messages.from_user_id"
+      )
+    end
+  )
+  scope(
+    :left_joins_to_users,
+    -> do
+      joins("LEFT JOIN users AS to_users ON to_users.id = messages.to_user_id")
+    end
+  )
 
   validate { can!(:update, from_user) }
   validate { can!(:update, to_user) }

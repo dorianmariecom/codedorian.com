@@ -3,16 +3,16 @@
 class Device < ApplicationRecord
   PLATFORMS = %w[ios android].freeze
 
-  belongs_to :user, default: -> { Current.user! }, touch: true
+  belongs_to(:user, default: -> { Current.user! }, touch: true)
 
-  scope :primary, -> { where(primary: true) }
-  scope :not_primary, -> { where(primary: false) }
-  scope :verified, -> { where(verified: true) }
-  scope :not_verified, -> { where(verified: false) }
+  scope(:primary, -> { where(primary: true) })
+  scope(:not_primary, -> { where(primary: false) })
+  scope(:verified, -> { where(verified: true) })
+  scope(:not_verified, -> { where(verified: false) })
 
   validate { can!(:update, user) }
-  validates :token, presence: true, uniqueness: { scope: :user_id }
-  validates :platform, inclusion: { in: PLATFORMS }
+  validates(:token, presence: true, uniqueness: { scope: :user_id })
+  validates(:platform, inclusion: { in: PLATFORMS })
 
   before_validation { self.user ||= Current.user! }
 

@@ -63,8 +63,8 @@ class Code
         policy_scope(::Schedule)
       end
 
-      include ::Pundit::Authorization
-      extend ::Pundit::Authorization
+      include(::Pundit::Authorization)
+      extend(::Pundit::Authorization)
 
       def self.current_user
         ::Current.user

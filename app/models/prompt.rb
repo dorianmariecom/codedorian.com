@@ -40,23 +40,23 @@ class Prompt < ApplicationRecord
     if nothing is provided, generate a random program
   PROMPT
 
-  scope :initialized, -> { where(status: :initialized) }
-  scope :created, -> { where(status: :created) }
-  scope :in_progress, -> { where(status: :in_progress) }
-  scope :done, -> { where(status: :done) }
-  scope :errored, -> { where(status: :errored) }
-  scope :generating, -> { where(status: %i[created in_progress]) }
-  scope :not_generating, -> { where.not(status: %i[created in_progress]) }
+  scope(:initialized, -> { where(status: :initialized) })
+  scope(:created, -> { where(status: :created) })
+  scope(:in_progress, -> { where(status: :in_progress) })
+  scope(:done, -> { where(status: :done) })
+  scope(:errored, -> { where(status: :errored) })
+  scope(:generating, -> { where(status: %i[created in_progress]) })
+  scope(:not_generating, -> { where.not(status: %i[created in_progress]) })
 
-  belongs_to :user, default: -> { Current.user! }, touch: true
-  belongs_to :program, polymorphic: true, optional: true, touch: true
+  belongs_to(:user, default: -> { Current.user! }, touch: true)
+  belongs_to(:program, polymorphic: true, optional: true, touch: true)
 
-  has_many :schedules, as: :schedulable, dependent: :destroy
+  has_many(:schedules, as: :schedulable, dependent: :destroy)
 
-  accepts_nested_attributes_for :schedules, allow_destroy: true
+  accepts_nested_attributes_for(:schedules, allow_destroy: true)
 
   validate { can!(:update, user) }
-  validates :status, inclusion: { in: STATUSES }
+  validates(:status, inclusion: { in: STATUSES })
 
   before_validation { self.user ||= Current.user! }
 

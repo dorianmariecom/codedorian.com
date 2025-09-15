@@ -68,8 +68,8 @@ class Code
         ::Current.schedule!.to_code
       end
 
-      include ::Pundit::Authorization
-      extend ::Pundit::Authorization
+      include(::Pundit::Authorization)
+      extend(::Pundit::Authorization)
 
       def self.current_user
         ::Current.user

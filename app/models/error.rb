@@ -1,10 +1,7 @@
 # frozen_string_literal: true
 
 class Error < SolidErrors::Error
-  include Search
-
-  MESSAGE_LIMIT = 140
-  OMISSION = "…"
+  include(Search)
 
   def self.search_fields
     {
@@ -48,6 +45,6 @@ class Error < SolidErrors::Error
   end
 
   def to_s
-    "#{exception_class}: #{message}".truncate(MESSAGE_LIMIT, omission: OMISSION)
+    "#{exception_class}: #{message}".truncate(SAMPLE_LIMIT, omission: OMISSION)
   end
 end

@@ -3,20 +3,20 @@
 class EmailAddress < ApplicationRecord
   EMAIL_ADDRESS_REGEXP = URI::MailTo::EMAIL_REGEXP
 
-  belongs_to :user, default: -> { Current.user! }, touch: true
+  belongs_to(:user, default: -> { Current.user! }, touch: true)
 
-  scope :primary, -> { where(primary: true) }
-  scope :not_primary, -> { where(primary: false) }
-  scope :verified, -> { where(verified: true) }
-  scope :not_verified, -> { where(verified: false) }
+  scope(:primary, -> { where(primary: true) })
+  scope(:not_primary, -> { where(primary: false) })
+  scope(:verified, -> { where(verified: true) })
+  scope(:not_verified, -> { where(verified: false) })
 
   normalizes(
     :email_address,
     with: ->(email_address) { email_address.to_s.downcase.strip }
   )
 
-  validates :email_address, presence: true
-  validates :email_address, format: { with: EMAIL_ADDRESS_REGEXP }
+  validates(:email_address, presence: true)
+  validates(:email_address, format: { with: EMAIL_ADDRESS_REGEXP })
   validate { can!(:update, user) }
 
   before_validation { self.user ||= Current.user! }

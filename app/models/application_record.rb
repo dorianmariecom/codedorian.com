@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 class ApplicationRecord < ActiveRecord::Base
-  include ActionView::RecordIdentifier
-  include Pundit::Authorization
-  include CanConcern
-  include Search
+  include(ActionView::RecordIdentifier)
+  include(Pundit::Authorization)
+  include(CanConcern)
+  include(Search)
 
-  extend Pundit::Authorization
-  extend CanConcern
+  extend(Pundit::Authorization)
+  extend(CanConcern)
 
   broadcasts_refreshes
   has_paper_trail

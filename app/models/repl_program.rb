@@ -3,11 +3,11 @@
 class ReplProgram < ApplicationRecord
   TIMEOUT = 600
 
-  belongs_to :repl_session, touch: true
-  has_many :repl_executions, dependent: :destroy
-  has_many :repl_programs, through: :repl_session
-  has_one :user, through: :repl_session
-  has_many :prompts, as: :program, dependent: :destroy
+  belongs_to(:repl_session, touch: true)
+  has_many(:repl_executions, dependent: :destroy)
+  has_many(:repl_programs, through: :repl_session)
+  has_one(:user, through: :repl_session)
+  has_many(:prompts, as: :program, dependent: :destroy)
 
   validate { can!(:update, repl_session) }
 
@@ -22,10 +22,7 @@ class ReplProgram < ApplicationRecord
   end
 
   def previous_repl_program
-    repl_programs
-      .sort_by(&:id)
-      .reverse
-      .detect { |repl_program| repl_program.id < id }
+    repl_programs.reverse.detect { |repl_program| repl_program.id < id }
   end
 
   def previous_context!

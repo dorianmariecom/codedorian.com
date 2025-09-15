@@ -98,8 +98,8 @@ class Code
         raise ::Code::Error, "message not saved"
       end
 
-      include ::Pundit::Authorization
-      extend ::Pundit::Authorization
+      include(::Pundit::Authorization)
+      extend(::Pundit::Authorization)
 
       def self.current_user
         ::Current.user
