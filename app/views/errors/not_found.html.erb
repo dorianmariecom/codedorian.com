@@ -1,6 +1,14 @@
 <% if admin? %>
-  <% if @class %><div class="code"><%= @class %></div><% end %>
-  <% if @message %><div class="code"><%= @message %></div><% end %>
-  <% if @app_backtrace %><div class="code"><%= @app_backtrace %></div><% end %>
-  <% if @backtrace %><div class="code"><%= @backtrace %></div><% end %>
+  <% if @class %>
+    <div class="code"><%= @class %></div>
+  <% end %>
+  <% if @message %>
+    <div class="code"><%= @message %></div>
+  <% end %>
+  <% if @app_backtrace %>
+    <div class="code"><%= @app_backtrace %></div>
+  <% end %>
+  <% if @backtrace %>
+    <div class="code"><%= @backtrace %></div>
+  <% end %>
 <% end %>
