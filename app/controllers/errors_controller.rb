@@ -50,7 +50,10 @@ class ErrorsController < ApplicationController
     authorize(Error)
 
     @exception = request.env["action_dispatch.exception"]
-    @message = error_message_for(@exception)
+    @class = @exception.class
+    @message = @exception.message
+    @backtrace = @exception.backtrace
+    @app_backtrace = Backtrace.app(@backtrace)
 
     respond_to do |format|
       format.json { render(json: { message: @message }, status: :not_found) }
@@ -63,7 +66,10 @@ class ErrorsController < ApplicationController
     authorize(Error)
 
     @exception = request.env["action_dispatch.exception"]
-    @message = error_message_for(@exception)
+    @class = @exception.class
+    @message = @exception.message
+    @backtrace = @exception.backtrace
+    @app_backtrace = Backtrace.app(@backtrace)
 
     respond_to do |format|
       format.json do
@@ -78,7 +84,10 @@ class ErrorsController < ApplicationController
     authorize(Error)
 
     @exception = request.env["action_dispatch.exception"]
-    @message = error_message_for(@exception)
+    @class = @exception.class
+    @message = @exception.message
+    @backtrace = @exception.backtrace
+    @app_backtrace = Backtrace.app(@backtrace)
 
     respond_to do |format|
       format.json do

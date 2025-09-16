@@ -65,6 +65,30 @@ class Schedule < ApplicationRecord
   after_initialize { self.starts_at ||= default_starts_at }
   after_initialize { self.interval ||= default_interval }
 
+  def program?
+    schedulable_type == "Program"
+  end
+
+  def program
+    program? && schedulable
+  end
+
+  def repl_program?
+    schedulable_type == "ReplProgram"
+  end
+
+  def repl_program
+    repl_program? && schedulable
+  end
+
+  def prompt?
+    schedulable_type == "Prompt"
+  end
+
+  def prompt
+    prompt? && schedulable
+  end
+
   def self.search_fields
     {
       starts_at: {
