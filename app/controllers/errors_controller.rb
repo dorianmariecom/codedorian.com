@@ -50,9 +50,9 @@ class ErrorsController < ApplicationController
     authorize(Error)
 
     @exception = request.env["action_dispatch.exception"]
-    @class = @exception.class
-    @message = @exception.message
-    @backtrace = @exception.backtrace
+    @class = @exception&.class
+    @message = @exception&.message
+    @backtrace = @exception&.backtrace
     @app_backtrace = Backtrace.app(@backtrace)
 
     respond_to do |format|
@@ -66,9 +66,9 @@ class ErrorsController < ApplicationController
     authorize(Error)
 
     @exception = request.env["action_dispatch.exception"]
-    @class = @exception.class
-    @message = @exception.message
-    @backtrace = @exception.backtrace
+    @class = @exception&.class
+    @message = @exception&.message
+    @backtrace = @exception&.backtrace
     @app_backtrace = Backtrace.app(@backtrace)
 
     respond_to do |format|
@@ -84,9 +84,9 @@ class ErrorsController < ApplicationController
     authorize(Error)
 
     @exception = request.env["action_dispatch.exception"]
-    @class = @exception.class
-    @message = @exception.message
-    @backtrace = @exception.backtrace
+    @class = @exception&.class
+    @message = @exception&.message
+    @backtrace = @exception&.backtrace
     @app_backtrace = Backtrace.app(@backtrace)
 
     respond_to do |format|
