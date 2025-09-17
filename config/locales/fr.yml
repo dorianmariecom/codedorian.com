@@ -760,7 +760,7 @@ fr:
       id: identifiant
       input: saisir
       output_input: sortie entrée
-      output_schedule: "intervalle : %{interval}, commence à : %{starts_at}"
+      output_schedule: 'intervalle : %{interval}, commence à : %{starts_at}'
       output_schedules: calendriers de sortie
       program: programme
       updated_at: mis à jour à
@@ -988,14 +988,13 @@ fr:
         </p>
       localhost: hôte local
       title: à propos
-      version: "version : "
+      version: 'version : '
     account:
       log_in: se connecter
       register: s'inscrire
       title: compte
     android:
-      android_html:
-        '<p>l''application n''est pas encore disponible dans le Play Store
+      android_html: '<p>l''application n''est pas encore disponible dans le Play Store
         public</p><p> vous devrez rejoindre le groupe Google : <a href="https://groups.google.com/g/codedorian">https://groups.google.com/g/codedorian</a></p><p>
         alors vous pouvez télécharger avec le lien Android : <a href="https://play.google.com/store/apps/details?id=com.codedorian">https://play.google.com/store/apps/details?id=com.codedorian</a></p><p>
         ou avec le lien Web <a href="https://play.google.com/apps/testing/com.codedorian">https://play.google.com/apps/testing/com.codedorian</a></p>'
@@ -1006,8 +1005,7 @@ fr:
     icons:
       title: icônes
     ios:
-      ios_html:
-        <p>l'application n'est pas encore disponible dans l'App Store public</p><p>
+      ios_html: <p>l'application n'est pas encore disponible dans l'App Store public</p><p>
         vous devrez m'envoyer l'adresse e-mail que vous utilisez pour votre compte
         Apple à <a href="mailto:dorian@dorianmarie.com">dorian@dorianmarie.com</a></p><p>
         je vous enverrai une invitation et vous pourrez tester via testflight</p>
