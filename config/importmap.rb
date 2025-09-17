@@ -26,7 +26,8 @@ pin "consumer", integrity: true
 pin "crelt", to: "https://ga.jspm.io/npm:crelt@1.0.6/index.js", integrity: true
 pin "debounce", integrity: true
 pin "i18n", integrity: true
-pin "intl-tel-input" # @25.5.2
+pin "intl-tel-input", integrity: true # @25.10.8
+pin "intl-tel-input/build/js/utils.js", to: "https://ga.jspm.io/npm:intl-tel-input@25.10.8/build/js/utils.js", integrity: true
 pin "local-time", to: "https://ga.jspm.io/npm:local-time@3.0.3/app/assets/javascripts/local-time.es2017-esm.js", integrity: true
 pin "stimulus-places-autocomplete", to: "https://ga.jspm.io/npm:stimulus-places-autocomplete@0.5.0/dist/stimulus-places-autocomplete.es.js", integrity: true
 pin "style-mod", to: "https://ga.jspm.io/npm:style-mod@4.1.2/src/style-mod.js", integrity: true
@@ -34,4 +35,3 @@ pin "thememirror", to: "https://ga.jspm.io/npm:thememirror@2.0.1/dist/index.js",
 pin "trix", to: "https://ga.jspm.io/npm:trix@2.1.15/dist/trix.esm.min.js", integrity: true
 pin "w3c-keyname", to: "https://ga.jspm.io/npm:w3c-keyname@2.2.8/index.js", integrity: true
 pin_all_from "app/javascript/controllers", under: "controllers", integrity: true
-pin "intl-tel-input/build/js/utils.js", to: "intl-tel-input--build--js--utils.js.js" # @25.5.2
