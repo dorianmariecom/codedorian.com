@@ -49,7 +49,7 @@ class Prompt < ApplicationRecord
   scope(:not_generating, -> { where.not(status: %i[created in_progress]) })
 
   belongs_to(:user, default: -> { Current.user! }, touch: true)
-  belongs_to(:program, polymorphic: true, optional: true, touch: true)
+  belongs_to(:program, optional: true, touch: true)
 
   has_many(:schedules, as: :schedulable, dependent: :destroy)
 

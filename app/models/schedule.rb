@@ -89,6 +89,14 @@ class Schedule < ApplicationRecord
     prompt? && schedulable
   end
 
+  def repl_prompt?
+    schedulable_type == "ReplPrompt"
+  end
+
+  def repl_prompt
+    repl_prompt? && schedulable
+  end
+
   def self.search_fields
     {
       starts_at: {

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_15_025601) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_16_173903) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -191,7 +191,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_025601) do
     t.text "input"
     t.jsonb "output"
     t.bigint "program_id"
-    t.string "program_type"
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.text "name"
@@ -200,7 +199,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_025601) do
     t.text "error_class"
     t.text "error_message"
     t.text "error_backtrace"
-    t.index %w[program_type program_id], name: "index_prompts_on_program"
     t.index ["user_id"], name: "index_prompts_on_user_id"
   end
 
@@ -227,6 +225,23 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_025601) do
     t.bigint "repl_session_id", null: false
     t.datetime "updated_at", null: false
     t.index ["repl_session_id"], name: "index_repl_programs_on_repl_session_id"
+  end
+
+  create_table "repl_prompts", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "input"
+    t.jsonb "output"
+    t.bigint "repl_program_id"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.text "name"
+    t.string "status", default: "initialized"
+    t.text "backtrace"
+    t.text "error_class"
+    t.text "error_message"
+    t.text "error_backtrace"
+    t.index ["repl_program_id"], name: "index_repl_prompts_on_repl_program_id"
+    t.index ["user_id"], name: "index_repl_prompts_on_user_id"
   end
 
   create_table "repl_sessions", force: :cascade do |t|
