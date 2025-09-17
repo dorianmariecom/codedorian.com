@@ -1,3 +1,4 @@
+- remove repl program's prompts
 - prefix/suffix urls
 - parenthesis in views
 - make real user association for schedules
