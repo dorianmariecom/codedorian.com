@@ -281,7 +281,7 @@ GEM
       net-imap
       net-pop
       net-smtp
-    marcel (1.0.4)
+    marcel (1.1.0)
     mini_magick (5.3.1)
       logger
     mini_mime (1.1.5)
@@ -670,4 +670,4 @@ RUBY VERSION
    ruby 3.4.5p51
 
 BUNDLED WITH
-   2.7.1
+   2.7.2

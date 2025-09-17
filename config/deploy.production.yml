@@ -10,36 +10,36 @@ builder:
   arch: arm64
 env:
   secret:
-  - BASE_URL
-  - CODE_ENV
-  - DATABASE_URL
-  - HOST
-  - HOSTS
-  - RAILS_ENV
-  - RAILS_MASTER_KEY
+    - BASE_URL
+    - CODE_ENV
+    - DATABASE_URL
+    - HOST
+    - HOSTS
+    - RAILS_ENV
+    - RAILS_MASTER_KEY
 image: dorianmariecom/codedorian.com
 proxy:
   hosts:
-  - code-dorian.com
-  - code.dorianmarie.com
-  - codedorian.co
-  - codedorian.com
-  - codedorian.fr
-  - codedorian.net
-  - codedorian.org
+    - code-dorian.com
+    - code.dorianmarie.com
+    - codedorian.co
+    - codedorian.com
+    - codedorian.fr
+    - codedorian.net
+    - codedorian.org
   ssl: true
 registry:
   password:
-  - KAMAL_REGISTRY_PASSWORD
+    - KAMAL_REGISTRY_PASSWORD
   username:
-  - KAMAL_REGISTRY_USERNAME
+    - KAMAL_REGISTRY_USERNAME
 servers:
   push:
     cmd: bin/push
     hosts:
-    - 138.201.175.197
+      - 138.201.175.197
   web:
-  - 138.201.175.197
+    - 138.201.175.197
 service: codedorian
 volumes:
-- code_storage:/rails/storage
+  - code_storage:/rails/storage

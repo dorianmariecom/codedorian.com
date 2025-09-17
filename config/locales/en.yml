@@ -786,7 +786,7 @@ en:
       new_schedule: new schedule
       output_input: output input
       output_name: output name
-      output_schedule: 'interval: %{interval}, starts at: %{starts_at}'
+      output_schedule: "interval: %{interval}, starts at: %{starts_at}"
       output_schedules: output schedules
       program: program
       schedules: schedules
@@ -990,8 +990,8 @@ en:
       phone_number: phone number
       time_zone: time zone
     confirm:
-      modal_cancel: 'no'
-      modal_confirm: 'yes'
+      modal_cancel: "no"
+      modal_confirm: "yes"
       modal_title: are you sure?
     list:
       addresses: addresses
@@ -1027,7 +1027,7 @@ en:
         </p>
       localhost: localhost
       title: about
-      version: 'version: '
+      version: "version: "
     account:
       log_in: log in
       register: register
