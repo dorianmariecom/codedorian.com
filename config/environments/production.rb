@@ -20,7 +20,7 @@ Rails.application.configure do
   config.require_master_key = ENV["RAILS_MASTER_KEY_DUMMY"].blank?
   config.solid_errors.email_from = "dorian@dorianmarie.com"
   config.solid_errors.email_to = "dorian@dorianmarie.com"
-  config.solid_errors.send_emails = true
+  config.solid_errors.send_emails = false
   config.action_mailer.smtp_settings =
     Rails.application.credentials.smtp_settings
   config.logger =
