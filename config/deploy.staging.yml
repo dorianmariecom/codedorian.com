@@ -1,8 +1,10 @@
 ---
 aliases:
   console: app exec --interactive --reuse "bin/rails console"
-  dbc: app exec --interactive --reuse "bin/rails dbconsole"
+  db: app exec --interactive --reuse "bin/rails dbconsole"
+  live: app live
   logs: app logs -f
+  maintenance: app maintenance
   restart: app boot
   shell: app exec --interactive --reuse "bash"
   stop: app stop
