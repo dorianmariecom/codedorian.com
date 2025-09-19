@@ -182,12 +182,13 @@ module ApplicationHelper
     insert_recaptcha_tag(super)
   end
 
-  def render_collection(partial:, collection:, as:)
+  def render_collection(partial:, collection:, as:, **extras)
     render(
       "shared/collection",
       partial: partial,
       collection: collection,
-      as: as
+      as: as,
+      extras: extras
     )
   end
 

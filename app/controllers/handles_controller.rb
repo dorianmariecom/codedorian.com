@@ -4,11 +4,6 @@ class HandlesController < ApplicationController
   before_action(:load_user)
   before_action(:load_handle, only: %i[show edit update destroy])
 
-  helper_method(:url)
-  helper_method(:new_url)
-  helper_method(:delete_all_url)
-  helper_method(:destroy_all_url)
-
   def index
     authorize(Handle)
 
@@ -31,7 +26,7 @@ class HandlesController < ApplicationController
 
     if @handle.save
       log_in(@handle.user)
-      redirect_to(@handle, notice: t(".notice"))
+      redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @handle.alert
       render(:new, status: :unprocessable_entity)
@@ -41,7 +36,7 @@ class HandlesController < ApplicationController
   def update
     if @handle.update(handle_params)
       log_in(@handle.user)
-      redirect_to(@handle, notice: t(".notice"))
+      redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @handle.alert
       render(:edit, status: :unprocessable_entity)
@@ -51,7 +46,7 @@ class HandlesController < ApplicationController
   def destroy
     @handle.destroy!
 
-    redirect_to(url, notice: t(".notice"))
+    redirect_to(index_url, notice: t(".notice"))
   end
 
   def destroy_all
@@ -59,7 +54,7 @@ class HandlesController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   def delete_all
@@ -67,7 +62,7 @@ class HandlesController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   private
@@ -90,20 +85,16 @@ class HandlesController < ApplicationController
     scope
   end
 
-  def delete_all_url
-    [:delete_all, @user, :handles, { search: { q: q } }].compact
+  def model_class
+    Handle
   end
 
-  def destroy_all_url
-    [:destroy_all, @user, :handles, { search: { q: q } }].compact
+  def model_instance
+    @handle
   end
 
-  def url
-    [@user, :handles].compact
-  end
-
-  def new_url
-    [:new, @user, :handle].compact
+  def nested
+    [@user]
   end
 
   def id

@@ -49,6 +49,6 @@
 </div>
 
 <div class="p">
-  <%= link_to(t(".edit"), [:edit, @handle], class: "link") %>
-  <%= render("shared/confirm", text: t(".delete"), url: @handle) %>
+  <%= link_to(t(".edit"), edit_url, class: "link") %>
+  <%= render("shared/confirm", text: t(".delete"), url: show_url) %>
 </div>
