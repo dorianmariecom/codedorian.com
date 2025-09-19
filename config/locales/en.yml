@@ -392,12 +392,9 @@ en:
         messages: messages
         privacy: privacy
         programs: programs
-        prompts: prompts
         register: register
         repl: repl
-        source: source
         terms: terms
-        up: up
         users: users
       tabs:
         account: account
@@ -519,28 +516,24 @@ en:
       register: register
       title: code
     menu:
+      download: download
       about: about
       admin: admin
-      android: android
       data: data
       documentation: documentation
       english: english
       errors: errors
       french: french
-      ios: ios
       jobs: jobs
       log_in: log in
       log_out: log out
       messages: messages
       privacy: privacy
       programs: programs
-      prompts: prompts
       register: register
       repl_sessions: repl
-      source: source
       terms: terms
       title: code
-      up: "/up"
       users: users
   messages:
     create:
@@ -726,6 +719,7 @@ en:
       input_placeholder: enter your program's input
       name_placeholder: enter your program's name
     index:
+      prompts: prompts
       delete_all: delete all programs
       destroy_all: destroy all programs
       new: new program
@@ -1027,93 +1021,9 @@ en:
       placeholder: enter your search query
       submit: search
   static:
+    download:
+      title: download
     about:
-      about_html: |
-        <p>
-          code is the project of
-          <a href="https://dorianmarie.com">dorian marié</a>
-        </p>
-      localhost: localhost
-      title: about
-      version: 'version: '
-    account:
-      log_in: log in
-      register: register
-      title: account
-    android:
-      android_html: |-
-        <p>
-          the app is not yet available in the public play store
-        </p>
-
-        <p>
-          you will need to join the google group:
-          <a href="https://groups.google.com/g/codedorian">https://groups.google.com/g/codedorian</a>
-        </p>
-
-        <p>
-          then you can download with the android link:
-          <a href="https://play.google.com/store/apps/details?id=com.codedorian">https://play.google.com/store/apps/details?id=com.codedorian</a>
-        </p>
-
-        <p>
-          or with the web link
-          <a href="https://play.google.com/apps/testing/com.codedorian">https://play.google.com/apps/testing/com.codedorian</a>
-        </p>
-      title: android
-    home:
-      submit: create program
-      title: home
-    icons:
-      title: icons
-    ios:
-      ios_html: |-
-        <p>
-           the app is not yet available in the public app store
-        </p>
-
-        <p>
-          you will need to send me the email address you use for your apple account
-          at <a href="mailto:dorian@dorianmarie.com">dorian@dorianmarie.com</a>
-        </p>
-
-        <p>
-          i will send you an invite and you will be able to test via testflight
-        </p>
-      title: ios
-    more:
-      about: about
-      admin: admin
-      documentation: documentation
-      english: english
-      errors: errors
-      french: french
-      jobs: jobs
-      log_in: log in
-      log_out: log out
-      messages: messages
-      privacy: privacy
-      programs: programs
-      register: register
-      repl_sessions: repl
-      source: source
-      terms: terms
-      title: more
-      up: "/up"
-      users: users
-    privacy:
-      privacy_html: |
-        <p>welcome to codedorian.com ("we," "our," "us"). your privacy is important to us. this privacy policy explains how we collect, use, and protect your information when you use our website.</p>
-        <p>we may collect personal information (such as your name, email, and contact details) and non-personal information (such as browser type and ip address) when you use our website.</p>
-        <p>we use your information to provide, improve, and personalize our services, communicate with you, and ensure the security of our website.</p>
-        <p>we may use cookies and similar tracking technologies to enhance your experience. you can control cookie settings through your browser.</p>
-        <p>we may use third-party services for analytics, payment processing, or other functionalities. these third parties have their own privacy policies governing their use of your information.</p>
-        <p>we take reasonable measures to protect your personal information from unauthorized access, disclosure, or loss.</p>
-        <p>you have the right to access, update, or request deletion of your personal information. contact us for assistance.</p>
-        <p>we may update this privacy policy at any time. your continued use of our website signifies your acceptance of any changes.</p>
-        <p>if you have any questions about this privacy policy, please contact us at <a href="mailto:dorian@dorianmarie.com">dorian@dorianmarie.com</a>.</p>
-      title: privacy policy
-    source:
       source_html: |
         <p>
           <a href="https://github.com/dorianmariecom/codedorian.com">
@@ -1130,7 +1040,39 @@ en:
             language-ruby's source
           </a>
         </p>
-      title: source
+      about_html: |
+        <p>
+          code is the project of
+          <a href="https://dorianmarie.com">dorian marié</a>
+        </p>
+      localhost: localhost
+      title: about
+      version: 'version: '
+    account:
+      log_in: log in
+      register: register
+      title: account
+    android:
+      title: android
+    home:
+      submit: create program
+      title: home
+    icons:
+      title: icons
+    ios:
+      title: ios
+    privacy:
+      privacy_html: |
+        <p>welcome to codedorian.com ("we," "our," "us"). your privacy is important to us. this privacy policy explains how we collect, use, and protect your information when you use our website.</p>
+        <p>we may collect personal information (such as your name, email, and contact details) and non-personal information (such as browser type and ip address) when you use our website.</p>
+        <p>we use your information to provide, improve, and personalize our services, communicate with you, and ensure the security of our website.</p>
+        <p>we may use cookies and similar tracking technologies to enhance your experience. you can control cookie settings through your browser.</p>
+        <p>we may use third-party services for analytics, payment processing, or other functionalities. these third parties have their own privacy policies governing their use of your information.</p>
+        <p>we take reasonable measures to protect your personal information from unauthorized access, disclosure, or loss.</p>
+        <p>you have the right to access, update, or request deletion of your personal information. contact us for assistance.</p>
+        <p>we may update this privacy policy at any time. your continued use of our website signifies your acceptance of any changes.</p>
+        <p>if you have any questions about this privacy policy, please contact us at <a href="mailto:dorian@dorianmarie.com">dorian@dorianmarie.com</a>.</p>
+      title: privacy policy
     terms:
       terms_html: |
         <p>welcome to codedorian.com ("we," "our," "us"). by accessing or using our website, you agree to be bound by these terms and conditions. if you do not agree, please do not use our website.</p>

@@ -320,12 +320,11 @@ Rails.application.routes.draw do
     get :about, to: "static#about"
     get :terms, to: "static#terms"
     get :privacy, to: "static#privacy"
-    get :source, to: "static#source"
     get :account, to: "static#account"
-    get :more, to: "static#more"
     get :icons, to: "static#icons"
     get :ios, to: "static#ios"
     get :android, to: "static#android"
+    get :download, to: "static#download"
 
     resources :configurations, only: [] do
       get :ios_v1, on: :collection

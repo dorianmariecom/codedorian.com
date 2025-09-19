@@ -23,16 +23,12 @@
     [current_user_or_guest, :repl_sessions],
     class: "link"
   ) %>
-  <%= link_to(t(".prompts"), [current_user_or_guest, :prompts], class: "link") %>
   <%= link_to(t(".data"), [current_user_or_guest, :data], class: "link") %>
   <%= link_to(t(".documentation"), :docs, class: "link") %>
-  <%= link_to(t(".ios"), :ios, class: "link") %>
-  <%= link_to(t(".android"), :android, class: "link") %>
-  <%= link_to(t(".source"), :source, class: "link") %>
+  <%= link_to(t(".download"), :download, class: "link") %>
   <%= link_to(t(".about"), :about, class: "link") %>
   <%= link_to(t(".privacy"), :privacy, class: "link") %>
   <%= link_to(t(".terms"), :terms, class: "link") %>
-  <%= link_to(t(".up"), :up, class: "link") %>
 
   <% if fr? %>
     <%= link_to(t(".english"), url_for(locale: :en), class: "link") %>
@@ -48,7 +44,6 @@
     <%= link_to(t(".programs"), :programs, class: "link") %>
     <%= link_to(t(".messages"), :messages, class: "link") %>
     <%= link_to(t(".repl_sessions"), :repl_sessions, class: "link") %>
-    <%= link_to(t(".prompts"), :prompts, class: "link") %>
     <%= link_to(t(".errors"), :errors, class: "link") %>
     <%= link_to(t(".jobs"), :jobs, class: "link") %>
   <% end %>

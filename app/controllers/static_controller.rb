@@ -20,14 +20,8 @@ class StaticController < ApplicationController
   def privacy
   end
 
-  def source
-  end
-
   def account
     redirect_to(current_user) if registered?
-  end
-
-  def more
   end
 
   def icons
@@ -37,5 +31,8 @@ class StaticController < ApplicationController
   end
 
   def android
+  end
+
+  def download
   end
 end

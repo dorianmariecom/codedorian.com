@@ -61,11 +61,6 @@ module MenuHelper
         path: polymorphic_path([current_user_or_guest, :repl_sessions])
       },
       {
-        title: t("helpers.application.menu.prompts"),
-        image: ios ? "character.cursor.ibeam" : :text_fields_alt,
-        path: polymorphic_path([current_user_or_guest, :prompts])
-      },
-      {
         title: t("helpers.application.menu.data"),
         image: ios ? "tray.full" : :storage,
         path: polymorphic_path([current_user_or_guest, :data])
@@ -74,11 +69,6 @@ module MenuHelper
         title: t("helpers.application.menu.documentation"),
         image: ios ? :document : :code,
         path: docs_path
-      },
-      {
-        title: t("helpers.application.menu.source"),
-        image: ios ? "chevron.left.forwardslash.chevron.right" : :code,
-        path: source_path
       },
       {
         title: t("helpers.application.menu.about"),
@@ -94,11 +84,6 @@ module MenuHelper
         title: t("helpers.application.menu.terms"),
         image: ios ? :newspaper : :contract,
         path: terms_path
-      },
-      {
-        title: t("helpers.application.menu.up"),
-        image: ios ? "arrow.up" : :arrow_upward,
-        path: up_path
       },
       (
         if fr?
@@ -151,15 +136,6 @@ module MenuHelper
             title: t("helpers.application.menu.repl"),
             image: ios ? "apple.terminal" : :terminal,
             path: repl_sessions_path
-          }
-        end
-      ),
-      (
-        if admin?
-          {
-            title: t("helpers.application.menu.prompts"),
-            image: ios ? "character.cursor.ibeam" : :text_fields_alt,
-            path: prompts_path
           }
         end
       ),

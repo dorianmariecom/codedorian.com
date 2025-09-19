@@ -21,14 +21,6 @@ class StaticPolicy < ApplicationPolicy
     true
   end
 
-  def source?
-    true
-  end
-
-  def more?
-    true
-  end
-
   def account?
     true
   end
@@ -42,6 +34,10 @@ class StaticPolicy < ApplicationPolicy
   end
 
   def android?
+    true
+  end
+
+  def download?
     true
   end
 end
