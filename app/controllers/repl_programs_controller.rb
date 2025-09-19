@@ -34,12 +34,13 @@ class ReplProgramsController < ApplicationController
       log_in(@repl_program.user)
 
       if generate?
-        @prompt = authorize(prompt_scope.new(prompt_params))
+        @user = @repl_program.user
+        @repl_prompt = authorize(repl_prompts_scope.new(repl_prompt_params))
 
-        if @prompt.save
-          GenerateJob.perform_later(prompt: @prompt)
+        if @repl_prompt.save
+          GenerateJob.perform_later(prompt: @repl_prompt)
         else
-          flash.now.alert = @prompt.alert
+          flash.now.alert = @repl_prompt.alert
         end
 
         redirect_back_or_to([:edit, @repl_program], notice: t(".notice"))
@@ -58,12 +59,13 @@ class ReplProgramsController < ApplicationController
       log_in(@repl_program.user)
 
       if generate?
-        @prompt = authorize(prompt_scope.new(prompt_params))
+        @user = @repl_program.user
+        @repl_prompt = authorize(repl_prompts_scope.new(repl_prompt_params))
 
-        if @prompt.save
-          GenerateJob.perform_later(prompt: @prompt)
+        if @repl_prompt.save
+          GenerateJob.perform_later(prompt: @repl_prompt)
         else
-          flash.now.alert = @prompt.alert
+          flash.now.alert = @repl_prompt.alert
         end
 
         head :no_content
@@ -131,6 +133,13 @@ class ReplProgramsController < ApplicationController
     scope
   end
 
+  def repl_prompts_scope
+    scope = policy_scope(ReplPrompt)
+    scope = scope.where(user: @user) if @user
+    scope = scope.where(repl_program: @repl_program) if @repl_program
+    scope
+  end
+
   def delete_all_url
     [
       :delete_all,
@@ -173,7 +182,7 @@ class ReplProgramsController < ApplicationController
   end
 
   def generate?
-    params.dig(:program, :generate).present?
+    params.dig(:repl_program, :generate).present?
   end
 
   def load_repl_program
@@ -181,6 +190,14 @@ class ReplProgramsController < ApplicationController
   end
 
   def repl_program_params
-    params.expect(repl_program: %i[repl_session_id input])
+    if admin?
+      params.expect(repl_program: %i[repl_session_id input])
+    else
+      params.expect(repl_program: %i[input])
+    end
+  end
+
+  def repl_prompt_params
+    params.expect(repl_program: %i[input])
   end
 end

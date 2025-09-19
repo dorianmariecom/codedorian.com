@@ -57,11 +57,9 @@ class PromptsController < ApplicationController
   end
 
   def load_program
-    if params[:program_id].present?
-      @program = policy_scope(Program).find(params[:program_id])
-    elsif params[:repl_program_id].present?
-      @program = policy_scope(ReplProgram).find(params[:repl_program_id])
-    end
+    return if params[:program_id].blank?
+
+    @program = policy_scope(Program).find(params[:program_id])
   end
 
   def scope

@@ -9,7 +9,6 @@ class ProgramsController < ApplicationController
 
   helper_method(:url)
   helper_method(:new_url)
-  helper_method(:prompts_url)
   helper_method(:delete_all_url)
   helper_method(:destroy_all_url)
 
@@ -66,7 +65,7 @@ class ProgramsController < ApplicationController
 
       if generate?
         @user = @program.user
-        @prompt = authorize(prompt_scope.new(prompt_params))
+        @prompt = authorize(prompts_scope.new(prompt_params))
 
         if @prompt.save
           GenerateJob.perform_later(prompt: @prompt)
@@ -90,7 +89,7 @@ class ProgramsController < ApplicationController
 
       if generate?
         @user = @program.user
-        @prompt = authorize(prompt_scope.new(prompt_params))
+        @prompt = authorize(prompts_scope.new(prompt_params))
 
         if @prompt.save
           GenerateJob.perform_later(prompt: @prompt)
@@ -146,7 +145,7 @@ class ProgramsController < ApplicationController
     scope
   end
 
-  def prompt_scope
+  def prompts_scope
     scope = policy_scope(Prompt)
     scope = scope.where(user: @user) if @user
     scope = scope.where(program: @program) if @program
@@ -159,10 +158,6 @@ class ProgramsController < ApplicationController
 
   def new_url
     [:new, @user, :program].compact
-  end
-
-  def prompts_url
-    [@user, @program.persisted? ? @program : nil, :prompts].compact
   end
 
   def delete_all_url

@@ -7,7 +7,7 @@ class Program < ApplicationRecord
 
   has_many(:executions, dependent: :destroy)
   has_many(:schedules, as: :schedulable, dependent: :destroy)
-  has_many(:prompts, as: :program, dependent: :destroy)
+  has_many(:prompts, dependent: :destroy)
 
   accepts_nested_attributes_for(:schedules, allow_destroy: true)
 

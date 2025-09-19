@@ -73,14 +73,6 @@ class Schedule < ApplicationRecord
     program? && schedulable
   end
 
-  def repl_program?
-    schedulable_type == "ReplProgram"
-  end
-
-  def repl_program
-    repl_program? && schedulable
-  end
-
   def prompt?
     schedulable_type == "Prompt"
   end

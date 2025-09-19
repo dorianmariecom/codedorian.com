@@ -47,14 +47,15 @@
 </div>
 
 <% (@repl_programs + [@repl_program]).each do |repl_program| %>
-  <% prompt = repl_program.prompts.last || Prompt.new %>
-  <% generate = prompt.generating? ? t(".generating") : t(".generate") %>
+  <% repl_prompt = repl_program.repl_prompts.last || ReplPrompt.new %>
+  <% generate = repl_prompt.generating? ? t(".generating") : t(".generate") %>
 
   <%= form_for(
     repl_program,
     id: dom_id(repl_program, :form),
     data: {
-      controller: "editor"
+      controller: "editor",
+      action: "turbo:morph@window->editor#reconnect"
     }
   ) do |f| %>
     <%= f.hidden_field(:repl_session_id) %>
