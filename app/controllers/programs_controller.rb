@@ -35,19 +35,19 @@ class ProgramsController < ApplicationController
   def evaluate
     EvaluateJob.perform_later(program: @program)
 
-    redirect_back_or_to(@program, notice: t(".notice"))
+    head :no_content
   end
 
   def schedule
     @program.schedule!
 
-    redirect_back_or_to(@program, notice: t(".notice"))
+    head :no_content
   end
 
   def unschedule
     @program.unschedule!
 
-    redirect_back_or_to(@program, notice: t(".notice"))
+    head :no_content
   end
 
   def new
@@ -64,6 +64,7 @@ class ProgramsController < ApplicationController
       log_in(@program.user)
 
       if generate?
+        @user = @program.user
         @prompt = authorize(prompts_scope.new(prompt_params))
 
         if @prompt.save
@@ -87,8 +88,8 @@ class ProgramsController < ApplicationController
       log_in(@program.user)
 
       if generate?
+        @user = @program.user
         @prompt = authorize(prompts_scope.new(prompt_params))
-        @prompt.program = @program
 
         if @prompt.save
           GenerateJob.perform_later(prompt: @prompt)

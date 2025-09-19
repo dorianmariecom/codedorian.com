@@ -85,13 +85,17 @@ class Program < ApplicationRecord
   def unschedule!
     SolidQueue::ScheduledExecution.discard_all_from_jobs(scheduled_jobs)
     scheduled_jobs.destroy_all
+    touch
   end
 
   def schedule!
     unschedule!
-    return unless next_at
-
-    EvaluateAndScheduleJob.set(wait_until: next_at).perform_later(program: self)
+    if next_at
+      EvaluateAndScheduleJob.set(wait_until: next_at).perform_later(
+        program: self
+      )
+    end
+    touch
   end
 
   def scheduled_jobs
