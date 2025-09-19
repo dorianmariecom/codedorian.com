@@ -14,10 +14,11 @@ class CreateReplPrompts < ActiveRecord::Migration[8.0]
       t.text "error_class"
       t.text "error_message"
       t.text "error_backtrace"
-      t.index "repl_program_id"
-      t.index "user_id"
+      t.index ["repl_program_id"]
+      t.index ["user_id"]
     end
 
     remove_column :prompts, :program_type, :string
+    add_index :prompts, :program_id
   end
 end

@@ -199,6 +199,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_16_173903) do
     t.text "error_class"
     t.text "error_message"
     t.text "error_backtrace"
+    t.index ["program_id"], name: "index_prompts_on_program_id"
     t.index ["user_id"], name: "index_prompts_on_user_id"
   end
 
