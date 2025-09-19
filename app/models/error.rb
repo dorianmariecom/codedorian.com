@@ -3,6 +3,10 @@
 class Error < SolidErrors::Error
   include(Search)
 
+  has_many :occurrences, class_name: "ErrorOccurrence", dependent: :destroy
+
+  scope :where_user, -> (user) { joins(:occurrences).where("(solid_errors_occurrences.context->>'user_id')::bigint = ?", user) }
+
   def self.search_fields
     {
       id: {

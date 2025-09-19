@@ -6,9 +6,6 @@ class ErrorsController < ApplicationController
   before_action(:load_user)
   before_action(:load_error, only: %i[show destroy])
   skip_after_action(:verify_policy_scoped, only: EXCEPTIONS)
-  helper_method(:url)
-  helper_method(:delete_all_url)
-  helper_method(:destroy_all_url)
 
   def index
     authorize(Error)
@@ -27,7 +24,7 @@ class ErrorsController < ApplicationController
   def destroy
     @error.destroy!
 
-    redirect_to(url, notice: t(".notice"))
+    redirect_to(index_url, notice: t(".notice"))
   end
 
   def destroy_all
@@ -35,7 +32,7 @@ class ErrorsController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   def delete_all
@@ -43,7 +40,7 @@ class ErrorsController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   def not_found
@@ -113,18 +110,20 @@ class ErrorsController < ApplicationController
   end
 
   def scope
-    searched_policy_scope(Error)
+    scope = searched_policy_scope(Error)
+    scope = scope.where_user(@user) if @user
+    scope
   end
 
-  def delete_all_url
-    [:delete_all, @user, :errors, { search: { q: q } }].compact
+  def model_class
+    Error
   end
 
-  def destroy_all_url
-    [:destroy_all, @user, :errors, { search: { q: q } }].compact
+  def model_instance
+    @error
   end
 
-  def url
-    [@user, :errors].compact
+  def nested
+    [@user]
   end
 end

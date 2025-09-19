@@ -5,10 +5,6 @@ class ExecutionsController < ApplicationController
   before_action(:load_program)
   before_action(:load_execution, only: %i[show destroy])
 
-  helper_method(:url)
-  helper_method(:delete_all_url)
-  helper_method(:destroy_all_url)
-
   def index
     authorize(Execution)
 
@@ -21,7 +17,7 @@ class ExecutionsController < ApplicationController
   def destroy
     @execution.destroy!
 
-    redirect_to(url, notice: t(".notice"))
+    redirect_to(index_url, notice: t(".notice"))
   end
 
   def destroy_all
@@ -29,7 +25,7 @@ class ExecutionsController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   def delete_all
@@ -37,7 +33,7 @@ class ExecutionsController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   private
@@ -68,16 +64,16 @@ class ExecutionsController < ApplicationController
     scope
   end
 
-  def delete_all_url
-    [:delete_all, @user, @program, :executions, { search: { q: q } }].compact
+  def model_class
+    Execution
   end
 
-  def destroy_all_url
-    [:destroy_all, @user, @program, :executions, { search: { q: q } }].compact
+  def model_instance
+    @execution
   end
 
-  def url
-    [@user, @program, :executions].compact
+  def nested
+    [@user, @program]
   end
 
   def id

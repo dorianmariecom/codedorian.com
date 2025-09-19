@@ -4,9 +4,6 @@ class ErrorOccurrencesController < ApplicationController
   before_action(:load_user)
   before_action(:load_error)
   before_action(:load_error_occurrence, only: %i[show destroy])
-  helper_method(:url)
-  helper_method(:delete_all_url)
-  helper_method(:destroy_all_url)
 
   def index
     authorize(ErrorOccurrence)
@@ -62,31 +59,20 @@ class ErrorOccurrencesController < ApplicationController
 
   def scope
     scope = searched_policy_scope(ErrorOccurrence)
+    scope = scope.where_user(@user) if @user
     scope = scope.where(error: @error) if @error
     scope
   end
 
-  def delete_all_url
-    [
-      :delete_all,
-      @user,
-      @error,
-      :error_occurrences,
-      { search: { q: q } }
-    ].compact
+  def model_class
+    ErrorOccurrence
   end
 
-  def destroy_all_url
-    [
-      :destroy_all,
-      @user,
-      @error,
-      :error_occurrences,
-      { search: { q: q } }
-    ].compact
+  def model_instance
+    @error_occurrence
   end
 
-  def url
-    [@user, @error, :error_occurrences].compact
+  def nested
+    [@user, @error]
   end
 end

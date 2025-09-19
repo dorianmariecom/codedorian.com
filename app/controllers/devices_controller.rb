@@ -6,11 +6,6 @@ class DevicesController < ApplicationController
   before_action(:current_user!, only: :create)
   skip_before_action(:verify_captcha, only: :create)
 
-  helper_method(:url)
-  helper_method(:new_url)
-  helper_method(:delete_all_url)
-  helper_method(:destroy_all_url)
-
   def index
     authorize(Device)
 
@@ -34,7 +29,7 @@ class DevicesController < ApplicationController
     if @device.save
       log_in(@device.user)
       respond_to do |format|
-        format.html { redirect_to(@device, notice: t(".notice")) }
+        format.html { redirect_to(show_url, notice: t(".notice")) }
         format.json { render(json: { message: t(".notice") }) }
       end
     else
@@ -58,7 +53,7 @@ class DevicesController < ApplicationController
   def update
     if @device.update(device_params)
       log_in(@device.user)
-      redirect_to(@device, notice: t(".notice"))
+      redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @device.alert
       render(:edit, status: :unprocessable_entity)
@@ -68,7 +63,7 @@ class DevicesController < ApplicationController
   def destroy
     @device.destroy!
 
-    redirect_to(url, notice: t(".notice"))
+    redirect_to(index_url, notice: t(".notice"))
   end
 
   def destroy_all
@@ -76,7 +71,7 @@ class DevicesController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   def delete_all
@@ -84,7 +79,7 @@ class DevicesController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   private
@@ -107,20 +102,16 @@ class DevicesController < ApplicationController
     scope
   end
 
-  def delete_all_url
-    [:delete_all, @user, :devices, { search: { q: q } }].compact
+  def model_class
+    Device
   end
 
-  def destroy_all_url
-    [:destroy_all, @user, :devices, { search: { q: q } }].compact
+  def model_instance
+    @device
   end
 
-  def url
-    [@user, :devices].compact
-  end
-
-  def new_url
-    [:new, @user, :device].compact
+  def nested
+    [@user]
   end
 
   def id

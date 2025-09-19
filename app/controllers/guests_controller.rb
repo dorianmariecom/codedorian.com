@@ -4,9 +4,6 @@ class GuestsController < ApplicationController
   before_action { authorize(Guest) }
   skip_after_action(:verify_policy_scoped)
 
-  helper_method(:delete_all_url)
-  helper_method(:destroy_all_url)
-
   def index
     @guests = [current_guest]
   end
@@ -16,40 +13,42 @@ class GuestsController < ApplicationController
   end
 
   def new
-    redirect_to(:guests)
+    redirect_to(index_url)
   end
 
   def edit
-    redirect_to(:guests)
+    redirect_to(index_url)
   end
 
   def create
-    redirect_to(:guests)
+    redirect_to(index_url)
   end
 
   def update
-    redirect_to(:guests)
+    redirect_to(index_url)
   end
 
   def destroy
-    redirect_to(:guests)
+    redirect_to(index_url)
   end
 
   def destroy_all
-    redirect_to(:guests)
+    redirect_to(index_url)
   end
 
   def delete_all
-    redirect_to(:guests)
+    redirect_to(index_url)
   end
 
-  private
-
-  def delete_all_url
-    [:delete_all, :guests, { search: { q: q } }].compact
+  def model_class
+    Guest
   end
 
-  def destroy_all_url
-    [:destroy_all, :guests, { search: { q: q } }].compact
+  def model_instance
+    @guest
+  end
+
+  def nested
+    []
   end
 end

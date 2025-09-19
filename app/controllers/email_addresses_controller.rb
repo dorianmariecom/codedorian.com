@@ -4,11 +4,6 @@ class EmailAddressesController < ApplicationController
   before_action(:load_user)
   before_action(:load_email_address, only: %i[show edit update destroy])
 
-  helper_method(:url)
-  helper_method(:new_url)
-  helper_method(:delete_all_url)
-  helper_method(:destroy_all_url)
-
   def index
     authorize(EmailAddress)
 
@@ -33,7 +28,7 @@ class EmailAddressesController < ApplicationController
 
     if @email_address.save
       log_in(@email_address.user)
-      redirect_to(@email_address, notice: t(".notice"))
+      redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @email_address.alert
       render(:new, status: :unprocessable_entity)
@@ -43,7 +38,7 @@ class EmailAddressesController < ApplicationController
   def update
     if @email_address.update(email_address_params)
       log_in(@email_address.user)
-      redirect_to(@email_address, notice: t(".notice"))
+      redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @email_address.alert
       render(:edit, status: :unprocessable_entity)
@@ -53,7 +48,7 @@ class EmailAddressesController < ApplicationController
   def destroy
     @email_address.destroy!
 
-    redirect_to(url, notice: t(".notice"))
+    redirect_to(index_url, notice: t(".notice"))
   end
 
   def destroy_all
@@ -61,7 +56,7 @@ class EmailAddressesController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   def delete_all
@@ -69,7 +64,7 @@ class EmailAddressesController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   private
@@ -96,20 +91,16 @@ class EmailAddressesController < ApplicationController
     params[:email_address_id].presence || params[:id]
   end
 
-  def delete_all_url
-    [:delete_all, @user, :email_addresses, { search: { q: q } }].compact
+  def model_name
+    EmailAddress
   end
 
-  def destroy_all_url
-    [:destroy_all, @user, :email_addresses, { search: { q: q } }].compact
+  def model_instance
+    @email_address
   end
 
-  def url
-    [@user, :email_addresses]
-  end
-
-  def new_url
-    [:new, @user, :email_address]
+  def nested
+    [@user]
   end
 
   def load_email_address
