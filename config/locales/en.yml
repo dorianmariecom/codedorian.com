@@ -516,11 +516,11 @@ en:
       register: register
       title: code
     menu:
-      download: download
       about: about
       admin: admin
       data: data
       documentation: documentation
+      download: download
       english: english
       errors: errors
       french: french
@@ -719,10 +719,10 @@ en:
       input_placeholder: enter your program's input
       name_placeholder: enter your program's name
     index:
-      prompts: prompts
       delete_all: delete all programs
       destroy_all: destroy all programs
       new: new program
+      prompts: prompts
       title: programs
     model:
       to_s: program#%{id}
@@ -1021,9 +1021,13 @@ en:
       placeholder: enter your search query
       submit: search
   static:
-    download:
-      title: download
     about:
+      about_html: |
+        <p>
+          code is the project of
+          <a href="https://dorianmarie.com">dorian marié</a>
+        </p>
+      localhost: localhost
       source_html: |
         <p>
           <a href="https://github.com/dorianmariecom/codedorian.com">
@@ -1040,12 +1044,6 @@ en:
             language-ruby's source
           </a>
         </p>
-      about_html: |
-        <p>
-          code is the project of
-          <a href="https://dorianmarie.com">dorian marié</a>
-        </p>
-      localhost: localhost
       title: about
       version: 'version: '
     account:
@@ -1054,6 +1052,8 @@ en:
       title: account
     android:
       title: android
+    download:
+      title: download
     home:
       submit: create program
       title: home

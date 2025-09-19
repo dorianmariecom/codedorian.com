@@ -32,6 +32,15 @@ class ApplicationController < ActionController::Base
   helper_method(:error_message_for)
   helper_method(:version)
   helper_method(:hotwire_native_modal?)
+  helper_method(:index_url)
+  helper_method(:show_url)
+  helper_method(:new_url)
+  helper_method(:edit_url)
+  helper_method(:form_url)
+  helper_method(:nested)
+  helper_method(:search_params)
+  helper_method(:resources_name)
+  helper_method(:resource_name)
 
   REDIRECT_ERROR =
     lambda do |error|
@@ -223,6 +232,10 @@ class ApplicationController < ActionController::Base
     params.dig(:search, :q).presence
   end
 
+  def search_params
+    q.present? ? { search: { q: q } } : nil
+  end
+
   def version
     app_version =
       request.headers["user-agent"]
@@ -245,5 +258,45 @@ class ApplicationController < ActionController::Base
     return true if request.path.ends_with?("/edit")
 
     false
+  end
+
+  def model_class
+    raise(NotImplementedError, "#{self.class}#model_class not implemented")
+  end
+
+  def model_instance
+    raise(NotImplementedError, "#{self.class}#model_instance not implemented")
+  end
+
+  def nested
+    raise(NotImplementedError, "#{self.class}#nested not implemented")
+  end
+
+  def resource_name
+    model_class.name.underscore.to_sym
+  end
+
+  def resources_name
+    model_class.name.underscore.pluralize.to_sym
+  end
+
+  def index_url
+    [*nested, resources_name, **search_params]
+  end
+
+  def show_url
+    [*nested, model_instance]
+  end
+
+  def new_url
+    [:new, *nested, resource_name]
+  end
+
+  def edit_url
+    [:edit, *show_url]
+  end
+
+  def form_url
+    model_instance.persisted? ? show_url : index_url
   end
 end

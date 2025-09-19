@@ -18,4 +18,11 @@
   <%= link_to(t(".new_#{singular}"), [:new, user, singular.to_sym], class: "button") %>
 </div>
 
-<%= render_collection(partial: partial, collection: collection, as: as) %>
+<%= render_collection(
+  partial: partial,
+  collection: collection,
+  as: as,
+  locals: {
+    nested: [user]
+  }
+) %>
