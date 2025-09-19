@@ -234,7 +234,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_16_173903) do
     t.bigint "repl_program_id"
     t.datetime "updated_at", null: false
     t.bigint "user_id"
-    t.text "name"
     t.string "status", default: "initialized"
     t.text "backtrace"
     t.text "error_class"

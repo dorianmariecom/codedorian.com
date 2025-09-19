@@ -1,43 +1,29 @@
 # frozen_string_literal: true
 
-class Prompt < ApplicationRecord
+class ReplPrompt < ApplicationRecord
   MODEL = "gpt-5-nano"
   STATUSES = %w[initialized created in_progress done errored].freeze
 
-  PROMPT_1 = <<~PROMPT.freeze
+  PROMPT_1 = <<~PROMPT
     i created a programming language named "code", your goal is to
-    generate a json object with the input of the program and its schedules
-    from the name of the program provided by the user, the previous input
-    and the previous schedules
-
-    the schedules corresponding to when the program will be executed
-
-    a schedule is a dictionary of a starts_at (datetime) and an interval (string)
-
-    intervals are #{Schedule::INTERVALS.to_json}
+    generate a json object with a one-liner input of the program from the
+    previous input
   PROMPT
 
   PROMPT_2 = <<~PROMPT
-    here is the name provided by the user
-  PROMPT
-
-  PROMPT_3 = <<~PROMPT
     here is the previous input provided by the user
   PROMPT
 
-  PROMPT_4 = <<~PROMPT
-    here is the previous schedules provided by the user
-  PROMPT
-
-  PROMPT_5 = <<~PROMPT
+  PROMPT_3 = <<~PROMPT
     here are some examples
   PROMPT
 
-  PROMPT_6 = <<~PROMPT
-    reply with the name of the program, the input in code of the program
-    and the schedules of the program
+  PROMPT_4 = <<~PROMPT
+    reply with the input in code of the program in a one-liner
 
-    if nothing is provided, generate a random program
+    if nothing is provided, generate a random one-liner program
+
+    do not use semicolons
   PROMPT
 
   scope(:initialized, -> { where(status: :initialized) })
@@ -49,11 +35,7 @@ class Prompt < ApplicationRecord
   scope(:not_generating, -> { where.not(status: %i[created in_progress]) })
 
   belongs_to(:user, default: -> { Current.user! }, touch: true)
-  belongs_to(:program, optional: true, touch: true)
-
-  has_many(:schedules, as: :schedulable, dependent: :destroy)
-
-  accepts_nested_attributes_for(:schedules, allow_destroy: true)
+  belongs_to(:repl_program, optional: true, touch: true)
 
   validate { can!(:update, user) }
   validates(:status, inclusion: { in: STATUSES })
@@ -66,10 +48,6 @@ class Prompt < ApplicationRecord
     {
       status: {
         node: -> { arel_table[:status] },
-        type: :string
-      },
-      name: {
-        node: -> { arel_table[:name] },
         type: :string
       },
       input: {
@@ -116,32 +94,11 @@ class Prompt < ApplicationRecord
           schema: {
             type: :object,
             properties: {
-              name: {
-                type: :string
-              },
               input: {
                 type: :string
-              },
-              schedules: {
-                type: :array,
-                items: {
-                  type: :object,
-                  properties: {
-                    starts_at: {
-                      type: :string,
-                      format: "date-time"
-                    },
-                    interval: {
-                      type: :string,
-                      enum: Schedule::INTERVALS
-                    }
-                  },
-                  required: %i[starts_at interval],
-                  additionalProperties: false
-                }
               }
             },
-            required: %i[name input schedules],
+            required: %i[input],
             additionalProperties: false
           }
         }
@@ -149,14 +106,10 @@ class Prompt < ApplicationRecord
       messages: [
         { role: "system", content: PROMPT_1 },
         { role: "system", content: PROMPT_2 },
-        { role: "user", content: name },
-        { role: "system", content: PROMPT_3 },
         { role: "user", content: input },
-        { role: "system", content: PROMPT_4 },
-        { role: "user", content: schedules.to_json },
-        { role: "system", content: PROMPT_5 },
+        { role: "system", content: PROMPT_3 },
         { role: "system", content: programs_json },
-        { role: "system", content: PROMPT_6 }
+        { role: "system", content: PROMPT_4 }
       ]
     }.to_json
 
@@ -175,16 +128,6 @@ class Prompt < ApplicationRecord
     update!(error_backtrace: e.backtrace.join("\n"))
   end
 
-  def output_name
-    (
-      output.is_a?(Hash) && output["name"].is_a?(String) && output["name"]
-    ).presence
-  end
-
-  def output_name?
-    output_name.present?
-  end
-
   def output_input
     (
       output.is_a?(Hash) && output["input"].is_a?(String) && output["input"]
@@ -195,50 +138,12 @@ class Prompt < ApplicationRecord
     output_input.present?
   end
 
-  def output_schedules
-    (
-      output.is_a?(Hash) && output["schedules"].is_an?(Array) &&
-        output["schedules"]
-    ).presence
-  end
-
-  def program_schedules
-    return [] if output_schedules.blank?
-
-    output_schedules.map do |output_schedule|
-      Schedule.new(
-        starts_at: output_schedule["starts_at"],
-        interval: output_schedule["interval"]
-      )
-    end
-  end
-
-  def output_schedules?
-    output_schedules.present?
-  end
-
-  def name_sample
-    name.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
-  end
-
   def input_sample
     input.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
   end
 
-  def schedules_sample
-    schedules
-      .presence
-      &.to_json
-      &.truncate(SAMPLE_SIZE, omission: OMISSION)
-      .presence
-  end
-
   def output_sample
     output.presence&.to_json&.truncate(SAMPLE_SIZE, omission: OMISSION).presence
-  end
-
-  def output_name_sample
-    output_name.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def output_input_sample
@@ -255,14 +160,6 @@ class Prompt < ApplicationRecord
 
   def error_backtrace_sample
     error_backtrace.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
-  end
-
-  def output_schedules_sample
-    output_schedules
-      .presence
-      &.to_json
-      &.truncate(SAMPLE_SIZE, omission: OMISSION)
-      .presence
   end
 
   def programs_json
@@ -326,20 +223,14 @@ class Prompt < ApplicationRecord
   end
 
   def copy!
-    return unless program
+    return unless repl_program
 
-    program.update!(
-      name: output_name,
-      input: output_input,
-      schedules: program_schedules
-    )
+    repl_program.update!(input: output_input)
   end
 
   def to_s
-    error_class_sample.presence || name_sample.presence ||
-      output_name_sample.presence || input_sample.presence ||
-      output_input_sample.presence || schedules_sample.presence ||
-      output_schedules_sample.presence || output_sample.presence ||
+    error_class_sample.presence || input_sample.presence ||
+      output_input_sample.presence || output_sample.presence ||
       t("to_s", id: id)
   end
 end

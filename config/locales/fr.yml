@@ -210,7 +210,6 @@ fr:
       class_functions: fonctions de classe
       instance_functions: fonctions d'instance
     index:
-      examples: exemples
       title: documentation
     show:
       title: documentation non trouvée
@@ -300,16 +299,26 @@ fr:
       destroy_all: détruire toutes les exécutions
       title: exécutions
     model:
+      statuses:
+        created: créé
+        done: fait
+        errored: erroné
+        in_progress: en cours
+        initialized: initialisé
       to_s: exécution#%{id}
     show:
       created_at: créé à
       delete: supprimer l'exécution
-      error: erreur
+      error_app_backtrace: erreur de trace d'application
+      error_backtrace: trace d'erreur
+      error_class: classe d'erreur
+      error_message: message d'erreur
       id: id
       input: entrée
       output: sortie
       program: programme
       result: résultat
+      status: statut
       updated_at: mis à jour à
   guests:
     index:
@@ -726,6 +735,8 @@ fr:
     new:
       submit: créer un programme
       title: nouveau programme
+    reload:
+      submit: programme de mise à jour
     show:
       created_at: créé à
       delete: supprimer le programme
@@ -753,16 +764,33 @@ fr:
       destroy_all: détruire toutes les invites
       title: invites
     model:
+      statuses:
+        created: créé
+        done: fait
+        errored: erroné
+        in_progress: en cours
+        initialized: initialisé
+      submit: programme de mise à jour
       to_s: invite#%{id}
     show:
       created_at: créé à
       delete: supprimer l'invite
+      error: erreur
+      error_app_backtrace: erreur de trace d'application
+      error_backtrace: trace d'erreur
+      error_class: classe d'erreur
+      error_message: message d'erreur
       id: identifiant
       input: saisir
+      name: nom
+      new_schedule: nouvel horaire
       output_input: sortie entrée
+      output_name: nom de sortie
       output_schedule: 'intervalle : %{interval}, commence à : %{starts_at}'
       output_schedules: calendriers de sortie
       program: programme
+      schedules: horaires
+      status: statut
       updated_at: mis à jour à
       user: utilisateur
   repl_executions:
@@ -773,17 +801,28 @@ fr:
       destroy_all: détruire toutes les exécutions de repl
       title: exécutions de repl
     model:
+      statuses:
+        created: créé
+        done: fait
+        errored: erroné
+        in_progress: en cours
+        initialized: initialisé
       to_s: repl_execution#%{id}
     show:
       context: contexte
       created_at: créé à
       delete: supprimer l'exécution de repl
       error: erreur
+      error_app_backtrace: erreur de trace d'application
+      error_backtrace: trace d'erreur
+      error_class: classe d'erreur
+      error_message: message d'erreur
       id: identifiant
       input: saisir
       output: sortir
       repl_program: programme repl
       result: résultat
+      status: statut
       updated_at: mis à jour à
   repl_programs:
     create:
@@ -824,6 +863,14 @@ fr:
       updated_at: mis à jour à
     update:
       notice: programme repl mis à jour
+  repl_prompts:
+    model:
+      statuses:
+        created: créé
+        done: fait
+        errored: erroné
+        in_progress: en cours
+        initialized: initialisé
   repl_sessions:
     create:
       notice: session repl créée
@@ -923,7 +970,7 @@ fr:
       edit: modifier l'horaire
       id: id
       interval: intervalle
-      program: programme
+      schedulable: programmable
       schedule_html: commence le %{local_time}, se répète tous les %{interval}
       schedule_once_html: commence le %{local_time}, ne se répète pas
       starts_at: commence à

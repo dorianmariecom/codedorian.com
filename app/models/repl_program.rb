@@ -7,7 +7,7 @@ class ReplProgram < ApplicationRecord
   has_many(:repl_executions, dependent: :destroy)
   has_many(:repl_programs, through: :repl_session)
   has_one(:user, through: :repl_session)
-  has_many(:prompts, as: :program, dependent: :destroy)
+  has_many(:repl_prompts, dependent: :destroy)
 
   validate { can!(:update, repl_session) }
 

@@ -863,6 +863,14 @@ en:
       updated_at: updated at
     update:
       notice: repl program updated
+  repl_prompts:
+    model:
+      statuses:
+        created: created
+        done: done
+        errored: errored
+        in_progress: in progress
+        initialized: initialized
   repl_sessions:
     create:
       notice: repl session created
