@@ -4,11 +4,6 @@ class PasswordsController < ApplicationController
   before_action(:load_user)
   before_action(:load_password, only: %i[show edit update destroy])
 
-  helper_method(:url)
-  helper_method(:new_url)
-  helper_method(:delete_all_url)
-  helper_method(:destroy_all_url)
-
   def index
     authorize(Password)
 
@@ -31,7 +26,7 @@ class PasswordsController < ApplicationController
 
     if @password.save
       log_in(@password.user)
-      redirect_to(@password, notice: t(".notice"))
+      redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @password.alert
       render(:new, status: :unprocessable_entity)
@@ -41,7 +36,7 @@ class PasswordsController < ApplicationController
   def update
     if @password.update(password_params)
       log_in(@password.user)
-      redirect_to(@password, notice: t(".notice"))
+      redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @password.alert
       render(:edit, status: :unprocessable_entity)
@@ -51,7 +46,7 @@ class PasswordsController < ApplicationController
   def destroy
     @password.destroy!
 
-    redirect_to(url, notice: t(".notice"))
+    redirect_to(index_url, notice: t(".notice"))
   end
 
   def destroy_all
@@ -59,7 +54,7 @@ class PasswordsController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   def delete_all
@@ -67,7 +62,7 @@ class PasswordsController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   private
@@ -90,20 +85,16 @@ class PasswordsController < ApplicationController
     scope
   end
 
-  def delete_all_url
-    [:delete_all, @user, :passwords, { search: { q: q } }].compact
+  def model_class
+    Password
   end
 
-  def destroy_all_url
-    [:destroy_all, @user, :passwords, { search: { q: q } }].compact
+  def model_instance
+    @password
   end
 
-  def url
-    [@user, :passwords].compact
-  end
-
-  def new_url
-    [:new, @user, :password].compact
+  def nested
+    [@user]
   end
 
   def id

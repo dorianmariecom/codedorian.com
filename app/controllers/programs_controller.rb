@@ -7,11 +7,6 @@ class ProgramsController < ApplicationController
     only: %i[show edit update destroy evaluate schedule unschedule]
   )
 
-  helper_method(:url)
-  helper_method(:new_url)
-  helper_method(:delete_all_url)
-  helper_method(:destroy_all_url)
-
   def index
     authorize(Program)
 
@@ -73,9 +68,9 @@ class ProgramsController < ApplicationController
           flash.now.alert = @prompt.alert
         end
 
-        redirect_to([:edit, @program], notice: t(".notice"))
+        redirect_to(edit_url, notice: t(".notice"))
       else
-        redirect_to(@program, notice: t(".notice"))
+        redirect_to(show_url, notice: t(".notice"))
       end
     else
       flash.now.alert = @program.alert
@@ -99,7 +94,7 @@ class ProgramsController < ApplicationController
 
         head :no_content
       else
-        redirect_to(@program, notice: t(".notice"))
+        redirect_to(show_url, notice: t(".notice"))
       end
     else
       flash.now.alert = @program.alert
@@ -110,7 +105,7 @@ class ProgramsController < ApplicationController
   def destroy
     @program.destroy!
 
-    redirect_to(url, notice: t(".notice"))
+    redirect_to(index_url, notice: t(".notice"))
   end
 
   def destroy_all
@@ -118,7 +113,7 @@ class ProgramsController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   def delete_all
@@ -126,7 +121,7 @@ class ProgramsController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   private
@@ -152,20 +147,16 @@ class ProgramsController < ApplicationController
     scope
   end
 
-  def url
-    [@user, :programs].compact
+  def model_class
+    Program
   end
 
-  def new_url
-    [:new, @user, :program].compact
+  def model_instance
+    @program
   end
 
-  def delete_all_url
-    [:delete_all, @user, :programs, { search: { q: q } }].compact
-  end
-
-  def destroy_all_url
-    [:destroy_all, @user, :programs, { search: { q: q } }].compact
+  def nested
+    [@user, @program]
   end
 
   def id

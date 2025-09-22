@@ -5,12 +5,6 @@ class SchedulesController < ApplicationController
   before_action(:load_schedulable)
   before_action(:load_schedule, only: %i[show edit update destroy])
 
-  helper_method(:url)
-  helper_method(:show_url)
-  helper_method(:new_url)
-  helper_method(:delete_all_url)
-  helper_method(:destroy_all_url)
-
   def index
     authorize(Schedule)
 
@@ -32,7 +26,7 @@ class SchedulesController < ApplicationController
 
     if @schedule.save
       log_in(@schedule.user)
-      redirect_to(@schedule, notice: t(".notice"))
+      redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @schedule.alert
       render(:new, status: :unprocessable_entity)
@@ -42,7 +36,7 @@ class SchedulesController < ApplicationController
   def update
     if @schedule.update(schedule_params)
       log_in(@schedule.user)
-      redirect_to(@schedule, notice: t(".notice"))
+      redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @schedule.alert
       render(:edit, status: :unprocessable_entity)
@@ -52,7 +46,7 @@ class SchedulesController < ApplicationController
   def destroy
     @schedule.destroy!
 
-    redirect_to(url, notice: t(".notice"))
+    redirect_to(index_url, notice: t(".notice"))
   end
 
   def destroy_all
@@ -60,7 +54,7 @@ class SchedulesController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   def delete_all
@@ -68,7 +62,7 @@ class SchedulesController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   private
@@ -107,24 +101,16 @@ class SchedulesController < ApplicationController
     scope
   end
 
-  def delete_all_url
-    [:delete_all, @user, :schedules, { search: { q: q } }].compact
+  def model_class
+    Schedule
   end
 
-  def destroy_all_url
-    [:destroy_all, @user, :schedules, { search: { q: q } }].compact
+  def model_instance
+    @schedule
   end
 
-  def url
-    [@user, @schedulable, :schedules].compact
-  end
-
-  def show_url
-    [@user, @schedulable, @schedule].compact
-  end
-
-  def new_url
-    [:new, @user, @schedulable, :schedule].compact
+  def nested
+    [@user, @schedulable]
   end
 
   def id

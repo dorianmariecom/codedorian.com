@@ -5,12 +5,6 @@ class ReplProgramsController < ApplicationController
   before_action(:load_repl_session)
   before_action(:load_repl_program, only: %i[show edit update destroy])
 
-  helper_method(:url)
-  helper_method(:new_url)
-  helper_method(:prompts_url)
-  helper_method(:delete_all_url)
-  helper_method(:destroy_all_url)
-
   def index
     authorize(ReplProgram)
 
@@ -43,10 +37,10 @@ class ReplProgramsController < ApplicationController
           flash.now.alert = @repl_prompt.alert
         end
 
-        redirect_back_or_to([:edit, @repl_program], notice: t(".notice"))
+        redirect_back_or_to(edit_url, notice: t(".notice"))
       else
         EvaluateJob.perform_later(program: @repl_program)
-        redirect_back_or_to(@repl_program, notice: t(".notice"))
+        redirect_back_or_to(show_url, notice: t(".notice"))
       end
     else
       flash.now.alert = @repl_program.alert
@@ -71,7 +65,7 @@ class ReplProgramsController < ApplicationController
         head :no_content
       else
         EvaluateJob.perform_later(program: @repl_program)
-        redirect_back_or_to(@repl_program, notice: t(".notice"))
+        redirect_back_or_to(show_url, notice: t(".notice"))
       end
     else
       flash.now.alert = @repl_program.alert
@@ -82,7 +76,7 @@ class ReplProgramsController < ApplicationController
   def destroy
     @repl_program.destroy!
 
-    redirect_to(url, notice: t(".notice"))
+    redirect_to(index_url, notice: t(".notice"))
   end
 
   def destroy_all
@@ -90,7 +84,7 @@ class ReplProgramsController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   def delete_all
@@ -98,7 +92,7 @@ class ReplProgramsController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   private
@@ -126,10 +120,10 @@ class ReplProgramsController < ApplicationController
 
   def scope
     scope = searched_policy_scope(ReplProgram)
-    scope = scope.where(repl_session: @repl_session) if @repl_session
     if @user
       scope = scope.joins(:repl_session).where(repl_session: { user: @user })
     end
+    scope = scope.where(repl_session: @repl_session) if @repl_session
     scope
   end
 
@@ -140,41 +134,16 @@ class ReplProgramsController < ApplicationController
     scope
   end
 
-  def delete_all_url
-    [
-      :delete_all,
-      @user,
-      @repl_session,
-      :repl_programs,
-      { search: { q: q } }
-    ].compact
+  def model_class
+    ReplProgram
   end
 
-  def destroy_all_url
-    [
-      :destroy_all,
-      @user,
-      @repl_session,
-      :repl_programs,
-      { search: { q: q } }
-    ].compact
+  def model_instance
+    @repl_program
   end
 
-  def url
-    [@user, @repl_session, :repl_programs].compact
-  end
-
-  def new_url
-    [:new, @user, @repl_session, :repl_program].compact
-  end
-
-  def prompts_url
-    [
-      @user,
-      @repl_session,
-      @repl_program.persisted? ? @repl_program : nil,
-      :prompts
-    ].compact
+  def nested
+    [@user, @repl_session]
   end
 
   def id

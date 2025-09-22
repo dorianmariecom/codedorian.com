@@ -4,12 +4,6 @@ class ReplSessionsController < ApplicationController
   before_action(:load_user)
   before_action(:load_repl_session, only: %i[show edit update destroy evaluate])
 
-  helper_method(:url)
-  helper_method(:new_url)
-  helper_method(:prompts_url)
-  helper_method(:delete_all_url)
-  helper_method(:destroy_all_url)
-
   def index
     authorize(ReplSession)
 
@@ -19,7 +13,7 @@ class ReplSessionsController < ApplicationController
   def evaluate
     EvaluateJob.perform_later(program: @repl_session)
 
-    redirect_back_or_to(@repl_session)
+    redirect_back_or_to(show_url)
   end
 
   def show
@@ -51,7 +45,7 @@ class ReplSessionsController < ApplicationController
 
     if @repl_session.save
       log_in(@repl_session.user)
-      redirect_to(@repl_session, notice: t(".notice"))
+      redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @repl_session.alert
       render(:new, status: :unprocessable_entity)
@@ -61,7 +55,7 @@ class ReplSessionsController < ApplicationController
   def update
     if @repl_session.update(repl_session_params)
       log_in(@repl_session.user)
-      redirect_to(@repl_session, notice: t(".notice"))
+      redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @repl_session.alert
       render(:edit, status: :unprocessable_entity)
@@ -71,7 +65,7 @@ class ReplSessionsController < ApplicationController
   def destroy
     @repl_session.destroy!
 
-    redirect_to(url, notice: t(".notice"))
+    redirect_to(index_url, notice: t(".notice"))
   end
 
   def destroy_all
@@ -79,7 +73,7 @@ class ReplSessionsController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   def delete_all
@@ -87,7 +81,7 @@ class ReplSessionsController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   private
@@ -106,24 +100,16 @@ class ReplSessionsController < ApplicationController
     scope
   end
 
-  def delete_all_url
-    [:delete_all, @user, :repl_sessions, { search: { q: q } }].compact
+  def model_class
+    ReplSession
   end
 
-  def destroy_all_url
-    [:destroy_all, @user, :repl_sessions, { search: { q: q } }].compact
+  def model_instance
+    @repl_session
   end
 
-  def url
-    @user ? [@user, :repl_sessions] : repl_sessions_path
-  end
-
-  def new_url
-    @user ? [:new, @user, :repl_session] : new_repl_session_path
-  end
-
-  def prompts_url
-    [@user, @repl_session, :prompts].compact
+  def nested
+    [@user]
   end
 
   def id

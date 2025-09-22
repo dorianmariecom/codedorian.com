@@ -7,11 +7,6 @@ class MessagesController < ApplicationController
     only: %i[show subject body content edit update destroy]
   )
 
-  helper_method(:url)
-  helper_method(:new_url)
-  helper_method(:delete_all_url)
-  helper_method(:destroy_all_url)
-
   def index
     authorize(Message)
 
@@ -42,7 +37,7 @@ class MessagesController < ApplicationController
 
     if @message.save
       log_in(@message.from_user)
-      redirect_to(@message, notice: t(".notice"))
+      redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @message.alert
       render(:new, status: :unprocessable_entity)
@@ -52,7 +47,7 @@ class MessagesController < ApplicationController
   def update
     if @message.update(message_params)
       log_in(@message.from_user)
-      redirect_to(@message, notice: t(".notice"))
+      redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @message.alert
       render(:edit, status: :unprocessable_entity)
@@ -62,7 +57,7 @@ class MessagesController < ApplicationController
   def destroy
     @message.destroy!
 
-    redirect_to(url, notice: t(".notice"))
+    redirect_to(index_url, notice: t(".notice"))
   end
 
   def destroy_all
@@ -70,7 +65,7 @@ class MessagesController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   def delete_all
@@ -78,7 +73,7 @@ class MessagesController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   private
@@ -101,20 +96,16 @@ class MessagesController < ApplicationController
     scope
   end
 
-  def delete_all_url
-    [:delete_all, @user, :messages, { search: { q: q } }].compact
+  def model_class
+    Message
   end
 
-  def destroy_all_url
-    [:destroy_all, @user, :messages, { search: { q: q } }].compact
+  def model_instance
+    @message
   end
 
-  def url
-    [@user, :messages].compact
-  end
-
-  def new_url
-    [:new, @user, :message].compact
+  def nested
+    [@user]
   end
 
   def id
@@ -127,7 +118,7 @@ class MessagesController < ApplicationController
 
   def message_params
     if admin?
-      params.expect(message: %i[from_user_id to_user_id subject body read])
+      params.expect(message: %i[from_user_id to_user_id subject body])
     else
       params.expect(message: %i[subject body])
     end

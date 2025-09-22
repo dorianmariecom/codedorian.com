@@ -7,6 +7,22 @@ class AdminConstraints
 end
 
 Rails.application.routes.draw do
+  define_jobs = lambda do
+    resources(:jobs) do
+      collection do
+        delete "/destroy_all", to: "jobs#destroy_all"
+        delete "/delete_all", to: "jobs#delete_all"
+        post "/discard_all", to: "jobs#discard_all"
+        post "/retry_all", to: "jobs#retry_all"
+      end
+
+      delete :delete
+      delete :destroy
+      post :discard
+      post :retry
+    end
+  end
+
   define =
     lambda do
       resources :data do
@@ -38,6 +54,8 @@ Rails.application.routes.draw do
               delete "/delete_all", to: "schedules#delete_all"
             end
           end
+
+          define_jobs.call
         end
 
         resources(:executions) do
@@ -53,6 +71,8 @@ Rails.application.routes.draw do
             delete "/delete_all", to: "schedules#delete_all"
           end
         end
+
+        define_jobs.call
       end
 
       resources :repl_sessions do
@@ -63,10 +83,10 @@ Rails.application.routes.draw do
 
         post :evaluate
 
-        resources(:prompts) do
+        resources(:repl_prompts) do
           collection do
-            delete "/destroy_all", to: "prompts#destroy_all"
-            delete "/delete_all", to: "prompts#delete_all"
+            delete "/destroy_all", to: "repl_prompts#destroy_all"
+            delete "/delete_all", to: "repl_prompts#delete_all"
           end
         end
 
@@ -76,11 +96,13 @@ Rails.application.routes.draw do
             delete "/delete_all", to: "repl_programs#delete_all"
           end
 
-          resources(:prompts) do
+          resources(:repl_prompts) do
             collection do
-              delete "/destroy_all", to: "prompts#destroy_all"
-              delete "/delete_all", to: "prompts#delete_all"
+              delete "/destroy_all", to: "repl_prompts#destroy_all"
+              delete "/delete_all", to: "repl_prompts#delete_all"
             end
+
+            define_jobs.call
           end
 
           resources(:repl_executions) do
@@ -89,6 +111,8 @@ Rails.application.routes.draw do
               delete "/delete_all", to: "repl_executions#delete_all"
             end
           end
+
+          define_jobs.call
         end
 
         resources(:repl_executions) do
@@ -105,18 +129,13 @@ Rails.application.routes.draw do
           delete "/delete_all", to: "repl_programs#delete_all"
         end
 
-        resources(:prompts) do
+        resources(:repl_prompts) do
           collection do
-            delete "/destroy_all", to: "prompts#destroy_all"
-            delete "/delete_all", to: "prompts#delete_all"
+            delete "/destroy_all", to: "repl_prompts#destroy_all"
+            delete "/delete_all", to: "repl_prompts#delete_all"
           end
 
-          resources(:schedules) do
-            collection do
-              delete "/destroy_all", to: "schedules#destroy_all"
-              delete "/delete_all", to: "schedules#delete_all"
-            end
-          end
+          define_jobs.call
         end
 
         resources(:repl_executions) do
@@ -125,6 +144,8 @@ Rails.application.routes.draw do
             delete "/delete_all", to: "repl_executions#delete_all"
           end
         end
+
+        define_jobs.call
       end
 
       resources(:repl_executions) do
@@ -229,20 +250,6 @@ Rails.application.routes.draw do
         end
       end
 
-      resources(:jobs) do
-        collection do
-          delete "/destroy_all", to: "jobs#destroy_all"
-          delete "/delete_all", to: "jobs#delete_all"
-          post "/discard_all", to: "jobs#discard_all"
-          post "/retry_all", to: "jobs#retry_all"
-        end
-
-        delete :delete
-        delete :destroy
-        post :discard
-        post :retry
-      end
-
       resources(:guests) do
         collection do
           delete "/destroy_all", to: "guests#destroy_all"
@@ -277,6 +284,15 @@ Rails.application.routes.draw do
           end
         end
       end
+
+      resources(:repl_prompts) do
+        collection do
+          delete "/destroy_all", to: "repl_prompts#destroy_all"
+          delete "/delete_all", to: "repl_prompts#delete_all"
+        end
+      end
+
+      define_jobs.call
     end
 
   default_url_options(host: ENV.fetch("BASE_URL"))
@@ -314,13 +330,11 @@ Rails.application.routes.draw do
     resource :session
 
     patch :time_zone, to: "users#update_time_zone"
-    post :generate, to: "prompts#generate"
 
     get :up, to: "static#up"
     get :about, to: "static#about"
     get :terms, to: "static#terms"
     get :privacy, to: "static#privacy"
-    get :account, to: "static#account"
     get :icons, to: "static#icons"
     get :ios, to: "static#ios"
     get :android, to: "static#android"

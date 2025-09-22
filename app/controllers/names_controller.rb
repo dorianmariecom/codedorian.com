@@ -4,11 +4,6 @@ class NamesController < ApplicationController
   before_action(:load_user)
   before_action(:load_name, only: %i[show edit update destroy])
 
-  helper_method(:url)
-  helper_method(:new_url)
-  helper_method(:delete_all_url)
-  helper_method(:destroy_all_url)
-
   def index
     authorize(Name)
 
@@ -31,7 +26,7 @@ class NamesController < ApplicationController
 
     if @name.save
       log_in(@name.user)
-      redirect_to(@name, notice: t(".notice"))
+      redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @name.alert
       render(:new, status: :unprocessable_entity)
@@ -41,7 +36,7 @@ class NamesController < ApplicationController
   def update
     if @name.update(name_params)
       log_in(@name.user)
-      redirect_to(@name, notice: t(".notice"))
+      redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @name.alert
       render(:edit, status: :unprocessable_entity)
@@ -51,7 +46,7 @@ class NamesController < ApplicationController
   def destroy
     @name.destroy!
 
-    redirect_to(url, notice: t(".notice"))
+    redirect_to(index_url, notice: t(".notice"))
   end
 
   def destroy_all
@@ -59,7 +54,7 @@ class NamesController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   def delete_all
@@ -67,7 +62,7 @@ class NamesController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   private
@@ -90,20 +85,16 @@ class NamesController < ApplicationController
     scope
   end
 
-  def delete_all_url
-    [:delete_all, @user, :names, { search: { q: q } }].compact
+  def model_class
+    Name
   end
 
-  def destroy_all_url
-    [:destroy_all, @user, :names, { search: { q: q } }].compact
+  def model_instance
+    @name
   end
 
-  def url
-    [@user, :names].compact
-  end
-
-  def new_url
-    [:new, @user, :name].compact
+  def nested
+    [@user]
   end
 
   def id

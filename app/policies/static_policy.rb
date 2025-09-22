@@ -21,10 +21,6 @@ class StaticPolicy < ApplicationPolicy
     true
   end
 
-  def account?
-    true
-  end
-
   def icons?
     true
   end

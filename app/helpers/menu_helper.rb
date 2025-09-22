@@ -23,7 +23,7 @@ module MenuHelper
         end
       ),
       (
-        unless registered?
+        if guest?
           {
             title: t("helpers.application.menu.register"),
             image: ios ? "person.badge.plus" : :person_add,
@@ -32,7 +32,7 @@ module MenuHelper
         end
       ),
       (
-        unless registered?
+        if guest?
           {
             title: t("helpers.application.menu.log_in"),
             image: ios ? "person.crop.circle.fill" : :login,

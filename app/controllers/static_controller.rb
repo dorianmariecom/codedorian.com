@@ -20,10 +20,6 @@ class StaticController < ApplicationController
   def privacy
   end
 
-  def account
-    redirect_to(current_user) if registered?
-  end
-
   def icons
   end
 

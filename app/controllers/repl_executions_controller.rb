@@ -6,11 +6,6 @@ class ReplExecutionsController < ApplicationController
   before_action(:load_repl_program)
   before_action(:load_repl_execution, only: %i[show destroy])
 
-  helper_method(:url)
-  helper_method(:new_url)
-  helper_method(:delete_all_url)
-  helper_method(:destroy_all_url)
-
   def index
     authorize(ReplExecution)
 
@@ -23,7 +18,7 @@ class ReplExecutionsController < ApplicationController
   def destroy
     @repl_execution.destroy!
 
-    redirect_to(url, notice: t(".notice"))
+    redirect_to(index_url, notice: t(".notice"))
   end
 
   def destroy_all
@@ -31,7 +26,7 @@ class ReplExecutionsController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   def delete_all
@@ -39,7 +34,7 @@ class ReplExecutionsController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   private
@@ -99,34 +94,16 @@ class ReplExecutionsController < ApplicationController
     scope
   end
 
-  def delete_all_url
-    [
-      :delete_all,
-      @user,
-      @repl_session,
-      @repl_program,
-      :repl_executions,
-      { search: { q: q } }
-    ].compact
+  def model_class
+    ReplExecution
   end
 
-  def destroy_all_url
-    [
-      :destroy_all,
-      @user,
-      @repl_session,
-      @repl_program,
-      :repl_executions,
-      { search: { q: q } }
-    ].compact
+  def model_instance
+    @repl_execution
   end
 
-  def url
-    [@user, @repl_session, @repl_program, :repl_executions].compact
-  end
-
-  def new_url
-    [:new, @user, @repl_session, @repl_program, :repl_execution].compact
+  def nested
+    [@user, @user_session, @repl_program]
   end
 
   def id

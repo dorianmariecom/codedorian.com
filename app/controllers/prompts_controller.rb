@@ -5,11 +5,6 @@ class PromptsController < ApplicationController
   before_action(:load_program)
   before_action(:load_prompt, only: %i[show destroy])
 
-  helper_method(:url)
-  helper_method(:new_url)
-  helper_method(:delete_all_url)
-  helper_method(:destroy_all_url)
-
   def index
     authorize(Prompt)
 
@@ -27,7 +22,7 @@ class PromptsController < ApplicationController
   def destroy
     @prompt.destroy!
 
-    redirect_to(url, notice: t(".notice"))
+    redirect_to(index_url, notice: t(".notice"))
   end
 
   def destroy_all
@@ -35,7 +30,7 @@ class PromptsController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   def delete_all
@@ -43,7 +38,7 @@ class PromptsController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   private
@@ -69,20 +64,16 @@ class PromptsController < ApplicationController
     scope
   end
 
-  def url
-    [@user, @program, :prompts].compact
+  def model_class
+    Prompt
   end
 
-  def new_url
-    [:new, @user, @program, :prompt].compact
+  def model_instance
+    @prompt
   end
 
-  def delete_all_url
-    [:delete_all, @user, @program, :prompts, { search: { q: q } }].compact
-  end
-
-  def destroy_all_url
-    [:destroy_all, @user, @program, :prompts, { search: { q: q } }].compact
+  def nested
+    [@user, @program]
   end
 
   def id

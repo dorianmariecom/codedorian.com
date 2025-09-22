@@ -17,7 +17,7 @@ class ErrorOccurrencesController < ApplicationController
   def destroy
     @error_occurrence.destroy!
 
-    redirect_to(url, notice: t(".notice"))
+    redirect_to(index_url, notice: t(".notice"))
   end
 
   def destroy_all
@@ -25,7 +25,7 @@ class ErrorOccurrencesController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   def delete_all
@@ -33,7 +33,7 @@ class ErrorOccurrencesController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   private

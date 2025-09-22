@@ -4,11 +4,6 @@ class TokensController < ApplicationController
   before_action(:load_user)
   before_action(:load_token, only: %i[show edit update destroy])
 
-  helper_method(:url)
-  helper_method(:new_url)
-  helper_method(:delete_all_url)
-  helper_method(:destroy_all_url)
-
   def index
     authorize(Token)
 
@@ -31,7 +26,7 @@ class TokensController < ApplicationController
 
     if @token.save
       log_in(@token.user)
-      redirect_to(@token, notice: t(".notice"))
+      redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @token.alert
       render(:new, status: :unprocessable_entity)
@@ -41,7 +36,7 @@ class TokensController < ApplicationController
   def update
     if @token.update(token_params)
       log_in(@token.user)
-      redirect_to(@token, notice: t(".notice"))
+      redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @token.alert
       render(:edit, status: :unprocessable_entity)
@@ -51,7 +46,7 @@ class TokensController < ApplicationController
   def destroy
     @token.destroy!
 
-    redirect_to(url, notice: t(".notice"))
+    redirect_to(index_url, notice: t(".notice"))
   end
 
   def destroy_all
@@ -59,7 +54,7 @@ class TokensController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   def delete_all
@@ -67,7 +62,7 @@ class TokensController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   private
@@ -90,20 +85,16 @@ class TokensController < ApplicationController
     scope
   end
 
-  def delete_all_url
-    [:delete_all, @user, :tokens, { search: { q: q } }].compact
+  def model_class
+    Token
   end
 
-  def destroy_all_url
-    [:destroy_all, @user, :tokens, { search: { q: q } }].compact
+  def model_instance
+    @token
   end
 
-  def url
-    [@user, :tokens].compact
-  end
-
-  def new_url
-    [:new, @user, :token].compact
+  def nested
+    [@user]
   end
 
   def id

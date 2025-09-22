@@ -4,11 +4,6 @@ class PhoneNumbersController < ApplicationController
   before_action(:load_user)
   before_action(:load_phone_number, only: %i[show edit update destroy])
 
-  helper_method(:url)
-  helper_method(:new_url)
-  helper_method(:delete_all_url)
-  helper_method(:destroy_all_url)
-
   def index
     authorize(PhoneNumber)
 
@@ -33,7 +28,7 @@ class PhoneNumbersController < ApplicationController
 
     if @phone_number.save
       log_in(@phone_number.user)
-      redirect_to(@phone_number, notice: t(".notice"))
+      redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @phone_number.alert
       render(:new, status: :unprocessable_entity)
@@ -43,7 +38,7 @@ class PhoneNumbersController < ApplicationController
   def update
     if @phone_number.update(phone_number_params)
       log_in(@phone_number.user)
-      redirect_to(@phone_number, notice: t(".notice"))
+      redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @phone_number.alert
       render(:edit, status: :unprocessable_entity)
@@ -53,7 +48,7 @@ class PhoneNumbersController < ApplicationController
   def destroy
     @phone_number.destroy!
 
-    redirect_to(url, notice: t(".notice"))
+    redirect_to(index_url, notice: t(".notice"))
   end
 
   def destroy_all
@@ -61,7 +56,7 @@ class PhoneNumbersController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   def delete_all
@@ -69,7 +64,7 @@ class PhoneNumbersController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   private
@@ -92,20 +87,16 @@ class PhoneNumbersController < ApplicationController
     scope
   end
 
-  def delete_all_url
-    [:delete_all, @user, :phone_numbers, { search: { q: q } }].compact
+  def model_class
+    PhoneNumber
   end
 
-  def destroy_all_url
-    [:destroy_all, @user, :phone_numbers, { search: { q: q } }].compact
+  def model_instance
+    @phone_number
   end
 
-  def url
-    [@user, :phone_numbers].compact
-  end
-
-  def new_url
-    [:new, @user, :phone_number].compact
+  def nested
+    [@user]
   end
 
   def id

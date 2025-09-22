@@ -8,10 +8,6 @@ class UsersController < ApplicationController
   )
   skip_after_action(:verify_authorized, only: :update_time_zone)
   skip_before_action(:verify_captcha, only: :update_time_zone)
-  helper_method(:url)
-  helper_method(:new_url)
-  helper_method(:delete_all_url)
-  helper_method(:destroy_all_url)
 
   def index
     authorize(User)
@@ -22,7 +18,7 @@ class UsersController < ApplicationController
   def impersonate
     session[:user_id] = @user.id
 
-    redirect_to(@user)
+    redirect_to(show_url)
   end
 
   def update_time_zone
@@ -58,7 +54,7 @@ class UsersController < ApplicationController
     Current.with(user: @user) do
       if @user.save
         log_in(@user)
-        redirect_to(@user, notice: t(".notice"))
+        redirect_to(show_url, notice: t(".notice"))
       else
         flash.now.alert = @user.alert
         render(:new, status: :unprocessable_entity)
@@ -69,7 +65,7 @@ class UsersController < ApplicationController
   def update
     if @user.update(user_params)
       log_in(@user)
-      redirect_to(user_path(@user), notice: t(".notice"))
+      redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @user.alert
       render(:edit, status: :unprocessable_entity)
@@ -89,7 +85,7 @@ class UsersController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   def delete_all
@@ -97,7 +93,7 @@ class UsersController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(url)
+    redirect_back_or_to(index_url)
   end
 
   private
@@ -113,6 +109,18 @@ class UsersController < ApplicationController
 
   def scope
     searched_policy_scope(User)
+  end
+
+  def model_class
+    User
+  end
+
+  def model_instance
+    @user
+  end
+
+  def nested
+    []
   end
 
   def user_params
@@ -185,20 +193,5 @@ class UsersController < ApplicationController
       )
     end
   end
-
-  def delete_all_url
-    [:delete_all, :users, { search: { q: q } }].compact
-  end
-
-  def destroy_all_url
-    [:destroy_all, :users, { search: { q: q } }].compact
-  end
-
-  def url
-    :users
-  end
-
-  def new_url
-    %i[new user]
-  end
 end
+

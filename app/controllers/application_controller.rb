@@ -295,8 +295,4 @@ class ApplicationController < ActionController::Base
   def edit_url
     [:edit, *show_url]
   end
-
-  def form_url
-    model_instance.persisted? ? show_url : index_url
-  end
 end
