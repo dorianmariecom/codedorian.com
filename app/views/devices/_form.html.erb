@@ -1,8 +1,8 @@
-<%= form_for(device) do |f| %>
+<%= form_for(show_url) do |f| %>
   <% if admin? %>
     <div class="p">
       <%= f.label(:user_id, class: "label") %>
-      <%= f.select(:user_id, user_options(user_id: device.user_id), {}, class: "input") %>
+      <%= f.select(:user_id, user_options(user_id: f.object.user_id), {}, class: "input") %>
     </div>
   <% end %>
 
@@ -15,7 +15,7 @@
     <%= f.label(:platform, class: "label", data: { validation_target: "label" }) %>
     <%= f.select(
       :platform,
-      device_platform_options(platform: device.platform),
+      device_platform_options(platform: f.object.platform),
       {},
       class: "input",
       required: true,

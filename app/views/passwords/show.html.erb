@@ -8,37 +8,45 @@
 </div>
 
 <% if @password.user.present? %>
-  <div class="p text-gray-600"><%= t(".user") %></div>
-  <% if can?(:show, @password.user) %>
-    <div class="p font-bold">
-      <%= link_to(@password.user, @password.user, class: "link") %>
-    </div>
-  <% else %>
-    <div class="p font-bold"><%= @password.user %></div>
-  <% end %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".user") %></div>
+    <%= render("shared/user", user: @password.user) %>
+  </div>
 <% end %>
 
 <% if @password.hint.present? %>
-  <div class="p text-gray-600"><%= t(".hint") %></div>
-  <div class="p font-bold"><%= @password.hint %></div>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".hint") %></div>
+    <div class="font-bold"><%= @password.hint %></div>
+  </div>
 <% end %>
 
-<div class="p text-gray-600"><%= t(".password") %></div>
-<div class="p font-bold">***</div>
-
-<div class="p text-gray-600"><%= t(".primary") %></div>
-<div class="p font-bold"><%= @password.primary? %></div>
-
-<div class="p text-gray-600"><%= t(".verified") %></div>
-<div class="p font-bold"><%= @password.verified? %></div>
-
-<div class="p text-gray-600"><%= t(".updated_at") %></div>
-<div class="p font-bold"><%= local_time(@password.updated_at) %></div>
-
-<div class="p text-gray-600"><%= t(".created_at") %></div>
-<div class="p font-bold"><%= local_time(@password.created_at) %></div>
+<div class="p">
+  <div class="text-gray-600"><%= t(".password") %></div>
+  <div class="font-bold">***</div>
+</div>
 
 <div class="p">
-  <%= link_to(t(".edit"), [:edit, @password], class: "link") %>
-  <%= render("shared/confirm", text: t(".delete"), url: @password) %>
+  <div class="text-gray-600"><%= t(".primary") %></div>
+  <div class="font-bold"><%= @password.primary? %></div>
+</div>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".verified") %></div>
+  <div class="font-bold"><%= @password.verified? %></div>
+</div>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".updated_at") %></div>
+  <div class="font-bold"><%= local_time(@password.updated_at) %></div>
+</div>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".created_at") %></div>
+  <div class="font-bold"><%= local_time(@password.created_at) %></div>
+</div>
+
+<div class="p">
+  <%= link_to(t(".edit"), edit_url, class: "link") %>
+  <%= render("shared/confirm", text: t(".delete"), url: show_url) %>
 </div>

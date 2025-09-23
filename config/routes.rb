@@ -7,21 +7,22 @@ class AdminConstraints
 end
 
 Rails.application.routes.draw do
-  define_jobs = lambda do
-    resources(:jobs) do
-      collection do
-        delete "/destroy_all", to: "jobs#destroy_all"
-        delete "/delete_all", to: "jobs#delete_all"
-        post "/discard_all", to: "jobs#discard_all"
-        post "/retry_all", to: "jobs#retry_all"
-      end
+  define_jobs =
+    lambda do
+      resources(:jobs) do
+        collection do
+          delete "/destroy_all", to: "jobs#destroy_all"
+          delete "/delete_all", to: "jobs#delete_all"
+          post "/discard_all", to: "jobs#discard_all"
+          post "/retry_all", to: "jobs#retry_all"
+        end
 
-      delete :delete
-      delete :destroy
-      post :discard
-      post :retry
+        delete :delete
+        delete :destroy
+        post :discard
+        post :retry
+      end
     end
-  end
 
   define =
     lambda do

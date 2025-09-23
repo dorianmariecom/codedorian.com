@@ -1,5 +1,5 @@
 <div class="p">
-  <%= link_to(schedule, class: "link") do %>
+  <%= link_to([*nested, schedule], class: "link") do %>
     <% if schedule.once? %>
       <%= t(
         ".schedule_once_html",

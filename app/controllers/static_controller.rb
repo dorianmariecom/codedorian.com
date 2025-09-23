@@ -31,4 +31,18 @@ class StaticController < ApplicationController
 
   def download
   end
+
+  private
+
+  def model_class
+    Program
+  end
+
+  def model_instance
+    @program
+  end
+
+  def nested
+    [current_user]
+  end
 end

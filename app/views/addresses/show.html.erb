@@ -10,13 +10,7 @@
 <% if @address.user.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".user") %></div>
-    <% if can?(:show, @address.user) %>
-      <div class="font-bold">
-        <%= link_to(@address.user, @address.user, class: "link") %>
-      </div>
-    <% else %>
-      <div class="font-bold"><%= @address.user %></div>
-    <% end %>
+    <%= render("shared/user", user: @address.user) %>
   </div>
 <% end %>
 
@@ -83,6 +77,6 @@
 </div>
 
 <div class="p">
-  <%= link_to(t(".edit"), [:edit, @address], class: "link") %>
-  <%= render("shared/confirm", text: t(".delete"), url: @address) %>
+  <%= link_to(t(".edit"), edit_url, class: "link") %>
+  <%= render("shared/confirm", text: t(".delete"), url: show_url) %>
 </div>

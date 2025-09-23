@@ -5,7 +5,13 @@ class Error < SolidErrors::Error
 
   has_many :occurrences, class_name: "ErrorOccurrence", dependent: :destroy
 
-  scope :where_user, -> (user) { joins(:occurrences).where("(solid_errors_occurrences.context->>'user_id')::bigint = ?", user) }
+  scope :where_user,
+        ->(user) do
+          joins(:occurrences).where(
+            "(solid_errors_occurrences.context->>'user_id')::bigint = ?",
+            user
+          )
+        end
 
   def self.search_fields
     {

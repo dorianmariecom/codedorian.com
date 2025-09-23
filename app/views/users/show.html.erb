@@ -16,14 +16,61 @@
   <div class="font-bold"><%= @user.translated_locale %></div>
 </div>
 
-<%= render("shared/attribute", user: @user, field: :name) %>
-<%= render("shared/attribute", user: @user, field: :handle) %>
-<%= render("shared/attribute", user: @user, field: :email_address) %>
-<%= render("shared/attribute", user: @user, field: :phone_number) %>
-<%= render("shared/attribute", user: @user, field: :address) %>
-<%= render("shared/attribute", user: @user, field: :password) %>
-<%= render("shared/attribute", user: @user, field: :time_zone) %>
-<%= render("shared/attribute", user: @user, field: :device) %>
+<% if @user.name.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".name") %></div>
+    <div class="font-bold"><%= @user.name %></div>
+  </div>
+<% end %>
+
+<% if @user.handle.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".handle") %></div>
+    <div class="font-bold"><%= @user.handle %></div>
+  </div>
+<% end %>
+
+<% if @user.email_address.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".email_address") %></div>
+    <div class="font-bold"><%= @user.email_address %></div>
+  </div>
+<% end %>
+
+<% if @user.phone_number.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".phone_number") %></div>
+    <div class="font-bold"><%= @user.phone_number %></div>
+  </div>
+<% end %>
+
+<% if @user.address.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".address") %></div>
+    <div class="font-bold"><%= @user.address %></div>
+  </div>
+<% end %>
+
+<% if @user.password.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".password") %></div>
+    <div class="font-bold"><%= @user.password %></div>
+  </div>
+<% end %>
+
+<% if @user.time_zone.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".time_zone") %></div>
+    <div class="font-bold"><%= @user.time_zone %></div>
+  </div>
+<% end %>
+
+<% if @user.device.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".device") %></div>
+    <div class="font-bold"><%= @user.device %></div>
+  </div>
+<% end %>
 
 <div class="p">
   <div class="text-gray-600"><%= t(".verified") %></div>
@@ -41,12 +88,16 @@
 </div>
 
 <div class="p">
-  <% if can?(:impersonate, @user) %>
-    <%= render("shared/confirm", text: t(".impersonate"), url: [@user, :impersonate]) %>
+  <% if admin? %>
+    <%= render(
+      "shared/confirm",
+      text: t(".impersonate"),
+      url: [*show_url, :impersonate]
+    ) %>
   <% end %>
   <%= render("shared/confirm", text: t(".log_out"), url: :session) %>
-  <%= link_to(t(".edit"), [:edit, @user], class: "link") %>
-  <%= render("shared/confirm", text: t(".delete"), url: @user) %>
+  <%= link_to(t(".edit"), edit_url, class: "link") %>
+  <%= render("shared/confirm", text: t(".delete"), url: show_url) %>
 </div>
 
 <%= render("shared/list", user: @user, model: Name) %>

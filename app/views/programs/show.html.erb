@@ -10,13 +10,7 @@
 <% if @program.user.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".user") %></div>
-    <% if can?(:show, @program.user) %>
-      <div class="font-bold">
-        <%= link_to(@program.user, @program.user, class: "link") %>
-      </div>
-    <% else %>
-      <div class="font-bold"><%= @program.user %></div>
-    <% end %>
+    <%= render("shared/user", user: @program.user) %>
   </div>
 <% end %>
 
@@ -50,7 +44,7 @@
     <%= render(
       "shared/confirm",
       text: t(".unschedule"),
-      url: [@program, :unschedule],
+      url: [*show_url, :unschedule],
       method: :post
     ) %>
   </div>
@@ -60,7 +54,7 @@
     <%= render(
       "shared/confirm",
       text: t(".schedule"),
-      url: [@program, :schedule],
+      url: [*show_url, :schedule],
       method: :post
     ) %>
   </div>
@@ -70,37 +64,43 @@
   <%= render(
     "shared/confirm",
     text: t(".evaluate"),
-    url: [@program, :evaluate],
+    url: [*show_url, :evaluate],
     method: :post,
     class: "button"
   ) %>
 </div>
 
 <div class="p">
-  <%= link_to(t(".edit"), [@user, :edit, @program], class: "link") %>
-  <%= render("shared/confirm", text: t(".delete"), url: [@user, @program]) %>
+  <%= link_to(t(".edit"), edit_url, class: "link") %>
+  <%= render("shared/confirm", text: t(".delete"), url: show_url) %>
 </div>
 
 <div class="p font-bold">
-  <%= link_to(t(".schedules"), [@program, :schedules], class: "link") %>
+  <%= link_to(t(".schedules"), [@user, @program, :schedules], class: "link") %>
 </div>
 
 <div class="p">
-  <%= link_to(t(".new_schedule"), [:new, @program, :schedule], class: "button") %>
+  <%= link_to(t(".new_schedule"), [:new, @user, @program, :schedule], class: "button") %>
 </div>
 
 <%= render_collection(
   partial: "schedules/schedule",
   collection: @schedules,
-  as: :schedule
+  as: :schedule,
+  locals: {
+    nested: [@user, @program]
+  }
 ) %>
 
 <div class="p font-bold">
-  <%= link_to(t(".executions"), [@program, :executions], class: "link") %>
+  <%= link_to(t(".executions"), [@user, @program, :executions], class: "link") %>
 </div>
 
 <%= render_collection(
   partial: "executions/execution",
   collection: @executions,
-  as: :execution
+  as: :execution,
+  locals: {
+    nested: [@user, @program]
+  }
 ) %>

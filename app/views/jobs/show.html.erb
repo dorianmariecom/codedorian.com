@@ -70,15 +70,15 @@
   <%= render(
     "shared/confirm",
     text: t(".retry"),
-    url: [@user, @job, :retry],
+    url: [*show_url, :retry],
     method: :post
   ) %>
   <%= render(
     "shared/confirm",
     text: t(".discard"),
-    url: [@user, @job, :discard],
+    url: [*show_url, :discard],
     method: :post
   ) %>
-  <%= render("shared/confirm", text: t(".destroy"), url: [@user, @job, :destroy]) %>
-  <%= render("shared/confirm", text: t(".delete"), url: [@user, @job, :delete]) %>
+  <%= render("shared/confirm", text: t(".destroy"), url: [*show_url, :destroy]) %>
+  <%= render("shared/confirm", text: t(".delete"), url: [*show_url, :delete]) %>
 </div>

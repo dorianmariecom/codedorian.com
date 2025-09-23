@@ -13,7 +13,7 @@
 
     <% if can?(:show, @execution.program) %>
       <div class="font-bold">
-        <%= link_to(@execution.program, @execution.program, class: "link") %>
+        <%= link_to(@execution.program, [@user, @execution.program], class: "link") %>
       </div>
     <% else %>
       <div class="font-bold"><%= @execution.program %></div>
@@ -97,5 +97,5 @@
 </div>
 
 <div class="p">
-  <%= render("shared/confirm", text: t(".delete"), url: @execution) %>
+  <%= render("shared/confirm", text: t(".delete"), url: show_url) %>
 </div>

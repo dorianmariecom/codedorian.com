@@ -1,18 +1,17 @@
-<% program = local_assigns.fetch(:program) %>
-<% prompt = program.prompts.last || Prompt.new %>
-<% generate = prompt.generating? ? t(".generating") : t(".generate") %>
-
 <%= form_for(
-  program,
+  show_url,
   html: {
     class: "flex-1 flex flex-col",
-    id: dom_id(program, :form),
+    id: dom_id(@program, :form),
     data: {
       controller: "editor",
       action: "turbo:morph@window->editor#reconnect"
     }
   }
 ) do |f| %>
+  <% prompt = f.object.prompts.last || Prompt.new %>
+  <% generate = prompt.generating? ? t(".generating") : t(".generate") %>
+
   <% if admin? %>
     <div class="p">
       <%= f.label(:user_id, class: "label") %>

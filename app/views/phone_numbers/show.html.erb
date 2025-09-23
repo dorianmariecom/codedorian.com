@@ -10,14 +10,7 @@
 <% if @phone_number.user.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".user") %></div>
-
-    <% if can?(:show, @phone_number.user) %>
-      <div class="font-bold">
-        <%= link_to(@phone_number.user, @phone_number.user, class: "link") %>
-      </div>
-    <% else %>
-      <div class="font-bold"><%= @phone_number.user %></div>
-    <% end %>
+    <%= render("shared/user", user: @phone_number.user) %>
   </div>
 <% end %>
 
@@ -49,6 +42,6 @@
 </div>
 
 <div class="p">
-  <%= link_to(t(".edit"), [:edit, @phone_number], class: "link") %>
-  <%= render("shared/confirm", text: t(".delete"), url: @phone_number) %>
+  <%= link_to(t(".edit"), edit_url, class: "link") %>
+  <%= render("shared/confirm", text: t(".delete"), url: show_url) %>
 </div>

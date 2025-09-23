@@ -10,35 +10,21 @@
 <% if @message.from_user.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".from_user") %></div>
-
-    <% if can?(:show, @message.from_user) %>
-      <div class="font-bold">
-        <%= link_to(@message.from_user, @message.from_user, class: "link") %>
-      </div>
-    <% else %>
-      <div class="font-bold"><%= @message.from_user %></div>
-    <% end %>
+    <%= render("shared/user", user: @message.from_user) %>
   </div>
 <% end %>
 
 <% if @message.to_user.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".to_user") %></div>
-
-    <% if can?(:show, @message.to_user) %>
-      <div class="font-bold">
-        <%= link_to(@message.to_user, @message.to_user, class: "link") %>
-      </div>
-    <% else %>
-      <div class="font-bold"><%= @message.to_user %></div>
-    <% end %>
+    <%= render("shared/user", user: @message.to_user) %>
   </div>
 <% end %>
 
 <% if @message.subject.present? %>
   <div class="p">
     <div class="text-gray-600">
-      <%= link_to(t(".subject"), [@message, :subject], class: :link) %>
+      <%= link_to(t(".subject"), [*show_url, :subject], class: :link) %>
     </div>
     <%= @message.subject %>
   </div>
@@ -47,14 +33,14 @@
 <% if @message.body.present? %>
   <div class="p">
     <div class="text-gray-600">
-      <%= link_to(t(".body"), [@message, :body], class: :link) %>
+      <%= link_to(t(".body"), [*show_url, :body], class: :link) %>
     </div>
     <%= @message.body %>
   </div>
 <% end %>
 
 <div class="p text-gray-600">
-  <%= link_to(t(".content"), [@message, :content], class: :link) %>
+  <%= link_to(t(".content"), [*show_url, :content], class: :link) %>
 </div>
 
 <div class="p">
@@ -68,6 +54,6 @@
 </div>
 
 <div class="p">
-  <%= link_to(t(".edit"), [:edit, @message], class: "link") %>
-  <%= render("shared/confirm", text: t(".delete"), url: @message) %>
+  <%= link_to(t(".edit"), edit_url, class: "link") %>
+  <%= render("shared/confirm", text: t(".delete"), url: show_url) %>
 </div>

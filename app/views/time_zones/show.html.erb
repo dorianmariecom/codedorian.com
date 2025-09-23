@@ -10,13 +10,7 @@
 <% if @time_zone.user.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".user") %></div>
-    <% if can?(:show, @time_zone.user) %>
-      <div class="font-bold">
-        <%= link_to(@time_zone.user, @time_zone.user, class: "link") %>
-      </div>
-    <% else %>
-      <div class="font-bold"><%= @time_zone.user %></div>
-    <% end %>
+    <%= render("shared/user", user: @time_zone.user) %>
   </div>
 <% end %>
 
@@ -48,6 +42,6 @@
 </div>
 
 <div class="p">
-  <%= link_to(t(".edit"), [:edit, @time_zone], class: "link") %>
-  <%= render("shared/confirm", text: t(".delete"), url: @time_zone) %>
+  <%= link_to(t(".edit"), edit_url, class: "link") %>
+  <%= render("shared/confirm", text: t(".delete"), url: show_url) %>
 </div>

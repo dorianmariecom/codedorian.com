@@ -1,8 +1,3 @@
 <%= turbo_stream_from(@program) %>
 
-<%= render(
-  "programs/form",
-  program: @program,
-  prompt: @prompt,
-  submit: t(".submit")
-) %>
+<%= render("programs/form", submit: t(".submit")) %>

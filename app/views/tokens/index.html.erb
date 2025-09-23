@@ -6,7 +6,11 @@
 
 <% if @tokens.any? %>
   <div class="p">
-    <%= render("shared/confirm", url: [:destroy_all, *index_url], text: t(".destroy_all")) %>
+    <%= render(
+      "shared/confirm",
+      url: [:destroy_all, *index_url],
+      text: t(".destroy_all")
+    ) %>
     <%= render("shared/confirm", url: [:delete_all, *index_url], text: t(".delete_all")) %>
   </div>
 <% end %>

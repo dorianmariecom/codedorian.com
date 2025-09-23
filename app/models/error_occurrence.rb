@@ -5,7 +5,8 @@ class ErrorOccurrence < SolidErrors::Occurrence
 
   belongs_to(:error, touch: true)
 
-  scope :where_user, -> (user) { where("(context->>'user_id')::bigint = ?", user) }
+  scope :where_user,
+        ->(user) { where("(context->>'user_id')::bigint = ?", user) }
 
   def self.search_fields
     {

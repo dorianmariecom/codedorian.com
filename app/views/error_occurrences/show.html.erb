@@ -17,7 +17,7 @@
       <div class="font-bold">
         <%= link_to(
           @error_occurrence.error,
-          error_path(@error_occurrence.error),
+          [@user, @error_occurrence.error],
           class: "link"
         ) %>
       </div>
@@ -59,5 +59,5 @@
 </div>
 
 <div class="p">
-  <%= render("shared/confirm", text: t(".delete"), url: @error_occurrence) %>
+  <%= render("shared/confirm", text: t(".delete"), url: show_url) %>
 </div>

@@ -1,1 +1,3 @@
-<div class="p"><%= link_to(execution, execution, class: "link") %></div>
+<div class="p">
+  <%= link_to(execution, [*nested, execution], class: "link") %>
+</div>

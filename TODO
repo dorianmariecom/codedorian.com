@@ -16,3 +16,6 @@
 - repl prompt crud
 - Schedule/PromptSchedule
 - nested scopes e.g. repl_programs_scope
+- list all descendants in parent pages, at least the link and count
+- remove @instance from new and edit views
+- error (occurences) scoped by program/repl program

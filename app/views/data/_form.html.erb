@@ -1,8 +1,7 @@
-<% key = datum.errors.include?(:key) ? datum.key : datum.key_json %>
+<%= form_for(show_url) do |f| %>
+  <% key = f.object.errors.include?(:key) ? f.object.key : f.object.key_json %>
+  <% value = f.object.errors.include?(:value) ? f.object.value : f.object.value_json %>
 
-<% value = datum.errors.include?(:value) ? datum.value : datum.value_json %>
-
-<%= form_for(datum) do |f| %>
   <% if admin? %>
     <div class="p">
       <%= f.label(:user_id, class: "label") %>

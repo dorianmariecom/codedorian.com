@@ -10,13 +10,7 @@
 <% if @prompt.user.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".user") %></div>
-    <% if can?(:show, @prompt.user) %>
-      <div class="font-bold">
-        <%= link_to(@prompt.user, @prompt.user, class: "link") %>
-      </div>
-    <% else %>
-      <div class="font-bold"><%= @prompt.user %></div>
-    <% end %>
+    <%= render("shared/user", user: @prompt.user) %>
   </div>
 <% end %>
 
@@ -25,7 +19,7 @@
     <div class="text-gray-600"><%= t(".program") %></div>
     <% if can?(:show, @prompt.program) %>
       <div class="font-bold">
-        <%= link_to(@prompt.program, @prompt.program, class: "link") %>
+        <%= link_to(@prompt.program, [@user, @prompt.program], class: "link") %>
       </div>
     <% else %>
       <div class="font-bold"><%= @prompt.program %></div>
@@ -133,19 +127,26 @@
 </div>
 
 <div class="p">
-  <%= render("shared/confirm", text: t(".delete"), url: @prompt) %>
+  <%= render("shared/confirm", text: t(".delete"), url: show_url) %>
 </div>
 
 <div class="p font-bold">
-  <%= link_to(t(".schedules"), [@prompt, :schedules], class: "link") %>
+  <%= link_to(t(".schedules"), [@user, @program, @prompt, :schedules], class: "link") %>
 </div>
 
 <div class="p">
-  <%= link_to(t(".new_schedule"), [:new, @prompt, :schedule], class: "button") %>
+  <%= link_to(
+    t(".new_schedule"),
+    [:new, @user, @program, @prompt, :schedule],
+    class: "button"
+  ) %>
 </div>
 
 <%= render_collection(
   partial: "schedules/schedule",
   collection: @schedules,
-  as: :schedule
+  as: :schedule,
+  locals: {
+    nested: [@user, @program, @prompt]
+  }
 ) %>

@@ -1,13 +1,8 @@
-<%= form_for(email_address) do |f| %>
+<%= form_for(show_url) do |f| %>
   <% if admin? %>
     <div class="p">
       <%= f.label(:user_id, class: "label") %>
-      <%= f.select(
-        :user_id,
-        user_options(user_id: email_address.user_id),
-        {},
-        class: "input"
-      ) %>
+      <%= f.select(:user_id, user_options(user_id: f.object.user_id), {}, class: "input") %>
     </div>
   <% end %>
 

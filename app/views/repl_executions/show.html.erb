@@ -14,7 +14,7 @@
       <div class="font-bold">
         <%= link_to(
           @repl_execution.repl_program,
-          @repl_execution.repl_program,
+          [@user, @repl_session, @repl_execution.repl_program],
           class: "link"
         ) %>
       </div>
@@ -70,5 +70,5 @@
 </div>
 
 <div class="p">
-  <%= render("shared/confirm", text: t(".delete"), url: @repl_execution) %>
+  <%= render("shared/confirm", text: t(".delete"), url: show_url) %>
 </div>

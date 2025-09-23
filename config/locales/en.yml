@@ -983,14 +983,6 @@ en:
       submit: log in
       title: log in
   shared:
-    attribute:
-      address: address
-      email_address: email address
-      handle: handle
-      name: name
-      password: password
-      phone_number: phone number
-      time_zone: time zone
     confirm:
       modal_cancel: 'no'
       modal_confirm: 'yes'
@@ -1177,14 +1169,21 @@ en:
       submit: create user
       title: new user
     show:
+      address: address
       admin: admin
       created_at: created at
       delete: delete user
       edit: edit user
+      email_address: email address
+      handle: handle
       id: id
       impersonate: impersonate
       locale: language
       log_out: log out
+      name: name
+      password: password
+      phone_number: phone number
+      time_zone: time zone
       updated_at: updated at
       verified: verified?
     update:

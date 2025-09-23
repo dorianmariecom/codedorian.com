@@ -46,15 +46,22 @@
 </div>
 
 <div class="p">
-  <%= render("shared/confirm", text: t(".delete"), url: @error) %>
+  <%= render("shared/confirm", text: t(".delete"), url: show_url) %>
 </div>
 
 <div class="p font-bold">
-  <%= link_to(t(".error_occurrences"), [@error, :error_occurrences], class: "link") %>
+  <%= link_to(
+    t(".error_occurrences"),
+    [@user, @error, :error_occurrences],
+    class: "link"
+  ) %>
 </div>
 
 <%= render_collection(
   partial: "error_occurrences/error_occurrence",
   collection: @error_occurrences,
-  as: :error_occurrence
+  as: :error_occurrence,
+  locals: {
+    nested: [@user, @error]
+  }
 ) %>
