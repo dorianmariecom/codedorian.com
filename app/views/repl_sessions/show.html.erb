@@ -85,20 +85,3 @@
 <div class="p">
   <%= button_to(t(".evaluate_all"), [*show_url, :evaluate], class: "button") %>
 </div>
-
-<div class="p font-bold">
-  <%= link_to(
-    t(".repl_executions"),
-    [@user, @repl_session, :repl_executions],
-    class: "link"
-  ) %>
-</div>
-
-<%= render_collection(
-  partial: "repl_executions/repl_execution",
-  collection: @repl_executions,
-  as: :repl_execution,
-  locals: {
-    nested: [@user, @repl_session]
-  }
-) %>

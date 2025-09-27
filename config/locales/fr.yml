@@ -895,9 +895,7 @@ fr:
       generating: génération
       id: identifiant
       name: nom
-      new_repl_execution: nouvelle exécution de repl
       new_repl_program: nouveau programme repl
-      repl_executions: exécutions de repl
       repl_programs: programmes repl
       updated_at: mis à jour à
       user: utilisateur
