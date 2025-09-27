@@ -37,7 +37,11 @@ class ReplProgramsController < ApplicationController
           flash.now.alert = @repl_prompt.alert
         end
 
-        redirect_back_or_to(edit_url, notice: t(".notice"))
+        if repl_session?
+          redirect_back_or_to(edit_url, notice: t(".notice"))
+        else
+          redirect_to(edit_url, notice: t(".notice"))
+        end
       else
         ReplProgramEvaluateJob.perform_later(repl_program: @repl_program)
         redirect_back_or_to(show_url, notice: t(".notice"))
@@ -156,6 +160,10 @@ class ReplProgramsController < ApplicationController
 
   def generate?
     params.dig(:repl_program, :generate).present?
+  end
+
+  def repl_session?
+    params.dig(:repl_program, :context) == "repl_sessions#show"
   end
 
   def load_repl_program

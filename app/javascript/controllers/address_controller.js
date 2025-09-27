@@ -22,7 +22,6 @@ export default class extends Controller {
 
   connect() {
     if (window.google?.maps?.places) {
-      this.load();
       return;
     }
 

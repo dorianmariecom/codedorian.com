@@ -7,7 +7,7 @@ export default class extends Controller {
 
   connect() {
     requestAnimationFrame(() => {
-      this._input().disabled = true;
+      this._inputs().forEach((input) => (input.disabled = true));
 
       const script = document.createElement("script");
       script.async = true;
@@ -46,15 +46,24 @@ export default class extends Controller {
         .execute(window.RECAPTCHA_SITE_KEY, { action: this.actionTarget.value })
         .then((token) => {
           this.responseTarget.value = token;
-          this._input().disabled = false;
+          this._inputs().forEach((input) => (input.disabled = false));
         });
     }
   }
 
-  _input() {
-    return (
-      this.element.closest("form").querySelector("[type=submit]") ||
-      this.element.closest("form")
-    );
+  _inputs() {
+    if (this._submitInputs().length > 0) {
+      return this._submitInputs();
+    } else {
+      return [this._form()];
+    }
+  }
+
+  _submitInputs() {
+    return [...this._form()?.querySelectorAll("[type=submit]")];
+  }
+
+  _form() {
+    return this.element.closest("form");
   }
 }

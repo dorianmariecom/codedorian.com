@@ -58,7 +58,7 @@ class Prompt < ApplicationRecord
   validate { can!(:update, user) }
   validates(:status, inclusion: { in: STATUSES })
 
-  before_validation { self.user ||= Current.user! }
+  before_validation { log_in(self.user ||= Current.user!) }
 
   after_create_commit { created! unless created? }
 

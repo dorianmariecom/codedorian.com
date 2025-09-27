@@ -1,4 +1,13 @@
-<%= form_for(show_url, data: { controller: "editor" }) do |f| %>
+<%= form_for(
+  show_url,
+  data: {
+    controller: "editor",
+    action: "turbo:morph@window->editor#reconnect"
+  }
+) do |f| %>
+  <% repl_prompt = f.object.repl_prompts.last || ReplPrompt.new %>
+  <% generate = repl_prompt.generating? ? t(".generating") : t(".generate") %>
+
   <% if admin? %>
     <div class="p">
       <%= f.label(:repl_session_id, class: "label") %>
@@ -19,15 +28,8 @@
         <div data-editor-target="editor"></div>
       </div>
 
-      <button
-        class="button"
-        data-action="editor#generate:prevent"
-        data-editor-target="nameButton"
-      >
-        <%= t(".generate") %>
-      </button>
+      <%= f.submit(generate, name: "repl_program[generate]", class: "button") %>
     </div>
-    <div class="text-red-600" data-editor-target="error"></div>
   </div>
 
   <div class="p">

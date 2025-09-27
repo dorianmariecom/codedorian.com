@@ -44,19 +44,27 @@
   ) %>
 </div>
 
+<div class="p">
+  <%= link_to(
+    t(".new_repl_program"),
+    [:new, @user, @repl_session, :repl_program],
+    class: "button"
+  ) %>
+</div>
+
 <% (@repl_programs + [@repl_program]).each do |repl_program| %>
   <% repl_prompt = repl_program.repl_prompts.last || ReplPrompt.new %>
   <% generate = repl_prompt.generating? ? t(".generating") : t(".generate") %>
 
   <%= form_for(
-    repl_program,
-    id: dom_id(repl_program, :form),
+    [@user, @repl_session, repl_program],
     data: {
       controller: "editor",
       action: "turbo:morph@window->editor#reconnect"
     }
   ) do |f| %>
     <%= f.hidden_field(:repl_session_id) %>
+    <%= f.hidden_field(:context, value: "repl_sessions#show") %>
 
     <div class="p flex items-center gap-4">
       <div class="w-full border border-black rounded overflow-hidden">
