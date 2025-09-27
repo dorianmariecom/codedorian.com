@@ -107,7 +107,7 @@ class ReplExecutionsController < ApplicationController
   end
 
   def nested
-    [@user, @user_session, @repl_program]
+    [@user, @repl_session, @repl_program]
   end
 
   def id
