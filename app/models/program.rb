@@ -88,15 +88,17 @@ class Program < ApplicationRecord
     touch
   end
 
-  def schedule!
+  def reschedule!
     unschedule!
     if next_at
-      EvaluateAndScheduleJob.set(wait_until: next_at).perform_later(
+      ProgramEvaluateAndScheduleJob.set(wait_until: next_at).perform_later(
         program: self
       )
     end
     touch
   end
+
+  alias schedule! reschedule!
 
   def scheduled_jobs
     SolidQueue::Job.where(
@@ -104,22 +106,14 @@ class Program < ApplicationRecord
           class_name = :class_name
           AND
           (
-            (
-              (
-                (
-                  (
-                    (
-                      (
-                        arguments::jsonb
-                      )->>'arguments'
-                    )::jsonb
-                  )->0
-                )::jsonb
-              )->>'program'
-            )::jsonb
+            ((
+              ((
+                ((arguments::jsonb)->>'arguments')::jsonb
+              )->0)::jsonb
+            )->>'program')::jsonb
           )->>'_aj_globalid' = :global_id
       SQL
-      class_name: "EvaluateAndScheduleJob",
+      class_name: "ProgramEvaluateAndScheduleJob",
       global_id: to_global_id.to_s
     )
   end
@@ -128,15 +122,13 @@ class Program < ApplicationRecord
     input.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
   end
 
-  def as_json(...)
-    { id: id, name: name, input: input, schedules: schedules }.as_json(...)
-  end
-
   def to_code
     Code::Object::Program.new(
       id: id,
       name: name,
       input: input,
+      updated_at: updated_at,
+      created_at: created_at,
       schedules: schedules
     )
   end

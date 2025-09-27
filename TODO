@@ -1,3 +1,7 @@
+- fix phone numbers
+- fix addresses
+- fix repl generation
+
 - make real user association for schedules
 - scope schedules by user
 - rename program to programable
@@ -17,5 +21,4 @@
 - Schedule/PromptSchedule
 - nested scopes e.g. repl_programs_scope
 - list all descendants in parent pages, at least the link and count
-- remove @instance from new and edit views
 - error (occurences) scoped by program/repl program

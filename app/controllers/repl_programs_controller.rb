@@ -32,14 +32,14 @@ class ReplProgramsController < ApplicationController
         @repl_prompt = authorize(repl_prompts_scope.new(repl_prompt_params))
 
         if @repl_prompt.save
-          GenerateJob.perform_later(prompt: @repl_prompt)
+          ReplPromptGenerateJob.perform_later(repl_prompt: @repl_prompt)
         else
           flash.now.alert = @repl_prompt.alert
         end
 
         redirect_back_or_to(edit_url, notice: t(".notice"))
       else
-        EvaluateJob.perform_later(program: @repl_program)
+        ReplProgramEvaluateJob.perform_later(repl_program: @repl_program)
         redirect_back_or_to(show_url, notice: t(".notice"))
       end
     else
@@ -57,14 +57,14 @@ class ReplProgramsController < ApplicationController
         @repl_prompt = authorize(repl_prompts_scope.new(repl_prompt_params))
 
         if @repl_prompt.save
-          GenerateJob.perform_later(prompt: @repl_prompt)
+          ReplPromptGenerateJob.perform_later(repl_prompt: @repl_prompt)
         else
           flash.now.alert = @repl_prompt.alert
         end
 
         head :no_content
       else
-        EvaluateJob.perform_later(program: @repl_program)
+        ReplProgramEvaluateJob.perform_later(repl_program: @repl_program)
         redirect_back_or_to(show_url, notice: t(".notice"))
       end
     else
@@ -100,8 +100,10 @@ class ReplProgramsController < ApplicationController
   def load_user
     if params[:user_id] == "me"
       @user = policy_scope(User).find(current_user&.id)
+      set_error_context(user: @user)
     elsif params[:user_id].present?
       @user = policy_scope(User).find(params[:user_id])
+      set_error_context(user: @user)
     end
   end
 
@@ -116,6 +118,8 @@ class ReplProgramsController < ApplicationController
       else
         policy_scope(ReplSession).find(params[:repl_session_id])
       end
+
+    set_error_context(repl_session: @repl_session)
   end
 
   def scope
@@ -156,6 +160,7 @@ class ReplProgramsController < ApplicationController
 
   def load_repl_program
     @repl_program = authorize(scope.find(id))
+    set_error_context(repl_program: @repl_program)
   end
 
   def repl_program_params

@@ -78,37 +78,51 @@ class JobsController < ApplicationController
   def load_user
     if params[:user_id] == "me"
       @user = policy_scope(User).find(current_user&.id)
+      set_error_context(user: @user)
     elsif params[:user_id].present?
       @user = policy_scope(User).find(params[:user_id])
+      set_error_context(user: @user)
     end
+  end
+
+  def load_repl_session
+    return if params[:repl_session_id].blank?
+
+    @repl_session = policy_scope(ReplSession).find(params[:repl_session_id])
+    set_error_context(repl_session: @repl_session)
   end
 
   def load_program
     return if params[:program_id].blank?
 
     @program = policy_scope(Program).find(params[:program_id])
+    set_error_context(program: @program)
   end
 
   def load_repl_program
     return if params[:repl_program_id].blank?
 
     @repl_program = policy_scope(ReplProgram).find(params[:repl_program_id])
+    set_error_context(repl_program: @repl_program)
   end
 
   def load_prompt
     return if params[:prompt_id].blank?
 
     @prompt = policy_scope(Prompt).find(params[:prompt_id])
+    set_error_context(prompt: @prompt)
   end
 
   def load_repl_prompt
     return if params[:repl_prompt_id].blank?
 
     @repl_prompt = policy_scope(ReplPrompt).find(params[:repl_prompt_id])
+    set_error_context(repl_prompt: @repl_prompt)
   end
 
   def load_job
     @job = authorize(scope.find(params[:job_id].presence || params[:id]))
+    set_error_context(job: @job)
   end
 
   def scope

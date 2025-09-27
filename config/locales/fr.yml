@@ -392,12 +392,9 @@ fr:
         messages: messages
         privacy: confidentialité
         programs: programmes
-        prompts: invites
         register: s'inscrire
         repl: repl
-        source: source
         terms: termes
-        up: en haut
         users: utilisateurs
       tabs:
         account: compte
@@ -521,26 +518,22 @@ fr:
     menu:
       about: à propos
       admin: administrateur
-      android: android
       data: données
       documentation: documentation
+      download: télécharger
       english: anglais
       errors: erreurs
       french: français
-      ios: ios
       jobs: emplois
       log_in: se connecter
       log_out: se déconnecter
       messages: messages
       privacy: confidentialité
       programs: programmes
-      prompts: invites
       register: s'inscrire
       repl_sessions: repl
-      source: source
       terms: termes
       title: code
-      up: "/up"
       users: utilisateurs
   messages:
     create:
@@ -729,6 +722,7 @@ fr:
       delete_all: supprimer tous les programmes
       destroy_all: détruire tous les programmes
       new: nouveau programme
+      prompts: invites
       title: programmes
     model:
       to_s: programme#%{id}
@@ -989,14 +983,6 @@ fr:
       submit: se connecter
       title: connexion
   shared:
-    attribute:
-      address: adresse
-      email_address: adresse email
-      handle: poignée
-      name: nom
-      password: mot de passe
-      phone_number: numéro de téléphone
-      time_zone: fuseau horaire
     confirm:
       modal_cancel: Non
       modal_confirm: Oui
@@ -1034,6 +1020,12 @@ fr:
           <a href="https://dorianmarie.com">dorian marié</a>
         </p>
       localhost: hôte local
+      source_html: '<p><a href="https://github.com/dorianmariecom/codedorian.com">Source
+        de codedorian.com</a></p><p> <a href="https://github.com/dorianmariecom/code-ruby">source
+        de code-ruby</a></p><p> <a href="https://github.com/dorianmariecom/language-ruby">source
+        de language-ruby</a></p>
+
+        '
       title: à propos
       version: 'version : '
     account:
@@ -1041,42 +1033,16 @@ fr:
       register: s'inscrire
       title: compte
     android:
-      android_html: '<p>l''application n''est pas encore disponible dans le Play Store
-        public</p><p> vous devrez rejoindre le groupe Google : <a href="https://groups.google.com/g/codedorian">https://groups.google.com/g/codedorian</a></p><p>
-        alors vous pouvez télécharger avec le lien Android : <a href="https://play.google.com/store/apps/details?id=com.codedorian">https://play.google.com/store/apps/details?id=com.codedorian</a></p><p>
-        ou avec le lien Web <a href="https://play.google.com/apps/testing/com.codedorian">https://play.google.com/apps/testing/com.codedorian</a></p>'
       title: android
+    download:
+      title: télécharger
     home:
       submit: créer un programme
       title: accueil
     icons:
       title: icônes
     ios:
-      ios_html: <p>l'application n'est pas encore disponible dans l'App Store public</p><p>
-        vous devrez m'envoyer l'adresse e-mail que vous utilisez pour votre compte
-        Apple à <a href="mailto:dorian@dorianmarie.com">dorian@dorianmarie.com</a></p><p>
-        je vous enverrai une invitation et vous pourrez tester via testflight</p>
       title: ios
-    more:
-      about: à propos
-      admin: administrateur
-      documentation: documentation
-      english: anglais
-      errors: erreurs
-      french: français
-      jobs: emplois
-      log_in: se connecter
-      log_out: se déconnecter
-      messages: messages
-      privacy: confidentialité
-      programs: programmes
-      register: s'inscrire
-      repl_sessions: séances de répétition
-      source: source
-      terms: termes
-      title: plus
-      up: "/up"
-      users: utilisateurs
     privacy:
       privacy_html: |
         <p>bienvenue sur codedorian.com ("nous", "notre", "nos"). votre vie privée est importante pour nous. cette politique de confidentialité explique comment nous collectons, utilisons et protégeons vos informations lorsque vous utilisez notre site web.</p>
@@ -1089,24 +1055,6 @@ fr:
         <p>nous pouvons mettre à jour cette politique de confidentialité à tout moment. votre utilisation continue de notre site signifie votre acceptation des éventuelles modifications.</p>
         <p>si vous avez des questions concernant cette politique de confidentialité, veuillez nous contacter à <a href="mailto:dorian@dorianmarie.com">dorian@dorianmarie.com</a>.</p>
       title: politique de confidentialité
-    source:
-      source_html: |
-        <p>
-          <a href="https://github.com/dorianmariecom/codedorian.com">
-            code source de codedorian.com
-          </a>
-        </p>
-        <p>
-          <a href="https://github.com/dorianmariecom/code-ruby">
-            code source de code-ruby
-          </a>
-        </p>
-        <p>
-          <a href="https://github.com/dorianmariecom/language-ruby">
-            code source de language-ruby
-          </a>
-        </p>
-      title: code source
     terms:
       terms_html: |
         <p>bienvenue sur codedorian.com ("nous", "notre", "nos"). en accédant à notre site web ou en l'utilisant, vous acceptez d'être lié(e) par ces conditions générales. si vous n'êtes pas d'accord, veuillez ne pas utiliser notre site web.</p>
@@ -1211,14 +1159,21 @@ fr:
       submit: créer un utilisateur
       title: nouvel utilisateur
     show:
+      address: adresse
       admin: administrateur
       created_at: créé à
       delete: supprimer l'utilisateur
       edit: modifier l'utilisateur
+      email_address: adresse email
+      handle: poignée
       id: id
       impersonate: imiter
       locale: langue
       log_out: se déconnecter
+      name: nom
+      password: mot de passe
+      phone_number: numéro de téléphone
+      time_zone: fuseau horaire
       updated_at: mis à jour à
       verified: vérifié ?
     update:

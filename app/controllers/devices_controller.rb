@@ -87,8 +87,10 @@ class DevicesController < ApplicationController
   def load_user
     if params[:user_id] == "me"
       @user = policy_scope(User).find(current_user&.id)
+      set_error_context(user: @user)
     elsif params[:user_id].present?
       @user = policy_scope(User).find(params[:user_id])
+      set_error_context(user: @user)
     end
   end
 
@@ -120,6 +122,7 @@ class DevicesController < ApplicationController
 
   def load_device
     @device = authorize(scope.find(id))
+    set_error_context(device: @device)
   end
 
   def device_params

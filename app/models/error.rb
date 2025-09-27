@@ -5,13 +5,29 @@ class Error < SolidErrors::Error
 
   has_many :occurrences, class_name: "ErrorOccurrence", dependent: :destroy
 
-  scope :where_user,
-        ->(user) do
-          joins(:occurrences).where(
-            "(solid_errors_occurrences.context->>'user_id')::bigint = ?",
-            user
-          )
-        end
+  scope :where_user, ->(user) { joins(:occurrences).where(<<~SQL.squish, user) }
+    (
+      ((solid_errors_occurrences.context::jsonb)->>'user')::jsonb
+    )->>'id'::bigint = ?
+  SQL
+
+  scope :where_program, ->(program) { joins(:occurrences).where(<<~SQL.squish, program) }
+    (
+      ((solid_errors_occurrences.context::jsonb)->>'program')::jsonb
+    )->>'id'::bigint = ?
+  SQL
+
+  scope :where_repl_program, ->(repl_program) { joins(:occurrences).where(<<~SQL.squish, repl_program) }
+    (
+      ((solid_errors_occurrences.context::jsonb)->>'repl_program')::jsonb
+    )->>'id'::bigint = ?
+  SQL
+
+  scope :where_repl_session, ->(repl_session) { joins(:occurrences).where(<<~SQL.squish, repl_session) }
+    (
+      ((solid_errors_occurrences.context::jsonb)->>'repl_session')::jsonb
+    )->>'id'::bigint = ?
+  SQL
 
   def self.search_fields
     {

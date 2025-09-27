@@ -41,8 +41,10 @@ class ErrorOccurrencesController < ApplicationController
   def load_user
     if params[:user_id] == "me"
       @user = policy_scope(User).find(current_user&.id)
+      set_error_context(user: @user)
     elsif params[:user_id].present?
       @user = policy_scope(User).find(params[:user_id])
+      set_error_context(user: @user)
     end
   end
 
@@ -50,11 +52,13 @@ class ErrorOccurrencesController < ApplicationController
     return if params[:error_id].blank?
 
     @error = policy_scope(Error).find(params[:error_id])
+    set_error_context(error: @error)
   end
 
   def load_error_occurrence
     @error_occurrence =
-      authorize(scope.find(params[:error_id].presence || params[:id]))
+      authorize(scope.find(params[:error_occurrence_id].presence || params[:id]))
+    set_error_context(error_occurrence: @error_occurrence)
   end
 
   def scope

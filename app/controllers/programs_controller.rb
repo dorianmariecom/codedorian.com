@@ -4,7 +4,7 @@ class ProgramsController < ApplicationController
   before_action(:load_user)
   before_action(
     :load_program,
-    only: %i[show edit update destroy evaluate schedule unschedule]
+    only: %i[show edit update destroy evaluate reschedule unschedule]
   )
 
   def index
@@ -28,13 +28,13 @@ class ProgramsController < ApplicationController
   end
 
   def evaluate
-    EvaluateJob.perform_later(program: @program)
+    ProgramEvaluateJob.perform_later(program: @program)
 
     head :no_content
   end
 
-  def schedule
-    @program.schedule!
+  def reschedule
+    @program.reschedule!
 
     head :no_content
   end
@@ -63,7 +63,7 @@ class ProgramsController < ApplicationController
         @prompt = authorize(prompts_scope.new(prompt_params))
 
         if @prompt.save
-          GenerateJob.perform_later(prompt: @prompt)
+          PromptGenerateJob.perform_later(prompt: @prompt)
         else
           flash.now.alert = @prompt.alert
         end
@@ -87,7 +87,7 @@ class ProgramsController < ApplicationController
         @prompt = authorize(prompts_scope.new(prompt_params))
 
         if @prompt.save
-          GenerateJob.perform_later(prompt: @prompt)
+          PromptGenerateJob.perform_later(prompt: @prompt)
         else
           flash.now.alert = @prompt.alert
         end
@@ -129,8 +129,10 @@ class ProgramsController < ApplicationController
   def load_user
     if params[:user_id] == "me"
       @user = policy_scope(User).find(current_user&.id)
+      set_error_context(user: @user)
     elsif params[:user_id].present?
       @user = policy_scope(User).find(params[:user_id])
+      set_error_context(user: @user)
     end
   end
 
@@ -156,7 +158,7 @@ class ProgramsController < ApplicationController
   end
 
   def nested
-    [@user, @program]
+    [@user]
   end
 
   def id
@@ -165,6 +167,7 @@ class ProgramsController < ApplicationController
 
   def load_program
     @program = authorize(scope.find(id))
+    set_error_context(program: @program)
   end
 
   def generate?

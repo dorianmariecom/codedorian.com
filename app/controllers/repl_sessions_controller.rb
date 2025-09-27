@@ -11,7 +11,7 @@ class ReplSessionsController < ApplicationController
   end
 
   def evaluate
-    EvaluateJob.perform_later(program: @repl_session)
+    ReplSessionEvaluateJob.perform_later(repl_session: @repl_session)
 
     redirect_back_or_to(show_url)
   end
@@ -89,8 +89,10 @@ class ReplSessionsController < ApplicationController
   def load_user
     if params[:user_id] == "me"
       @user = policy_scope(User).find(current_user&.id)
+      set_error_context(user: @user)
     elsif params[:user_id].present?
       @user = policy_scope(User).find(params[:user_id])
+      set_error_context(user: @user)
     end
   end
 
@@ -118,6 +120,7 @@ class ReplSessionsController < ApplicationController
 
   def load_repl_session
     @repl_session = authorize(scope.find(id))
+    set_error_context(repl_session: @repl_session)
   end
 
   def repl_session_params

@@ -70,8 +70,10 @@ class PasswordsController < ApplicationController
   def load_user
     if params[:user_id] == "me"
       @user = policy_scope(User).find(current_user&.id)
+      set_error_context(user: @user)
     elsif params[:user_id].present?
       @user = policy_scope(User).find(params[:user_id])
+      set_error_context(user: @user)
     end
   end
 
@@ -103,6 +105,7 @@ class PasswordsController < ApplicationController
 
   def load_password
     @password = authorize(scope.find(id))
+    set_error_context(password: @password)
   end
 
   def password_params

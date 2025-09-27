@@ -34,14 +34,14 @@ Rails.application.routes.draw do
       end
 
       resources :programs do
+        post :evaluate
+        post :reschedule
+        post :unschedule
+
         collection do
           delete "/destroy_all", to: "programs#destroy_all"
           delete "/delete_all", to: "programs#delete_all"
         end
-
-        post :evaluate
-        post :schedule
-        post :unschedule
 
         resources(:prompts) do
           collection do

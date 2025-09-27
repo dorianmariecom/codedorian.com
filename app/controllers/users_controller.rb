@@ -105,6 +105,8 @@ class UsersController < ApplicationController
       else
         authorize(scope.find(params[:user_id].presence || params[:id]))
       end
+
+    set_error_context(user: @user)
   end
 
   def scope

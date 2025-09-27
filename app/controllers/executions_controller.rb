@@ -41,8 +41,10 @@ class ExecutionsController < ApplicationController
   def load_user
     if params[:user_id] == "me"
       @user = policy_scope(User).find(current_user&.id)
+      set_error_context(user: @user)
     elsif params[:user_id].present?
       @user = policy_scope(User).find(params[:user_id])
+      set_error_context(user: @user)
     end
   end
 
@@ -55,6 +57,8 @@ class ExecutionsController < ApplicationController
       else
         policy_scope(Program).find(params[:program_id])
       end
+
+    set_error_context(program: @program)
   end
 
   def scope
@@ -82,5 +86,6 @@ class ExecutionsController < ApplicationController
 
   def load_execution
     @execution = authorize(scope.find(id))
+    set_error_context(execution: @execution)
   end
 end

@@ -70,16 +70,20 @@ class SchedulesController < ApplicationController
   def load_user
     if params[:user_id] == "me"
       @user = policy_scope(User).find(current_user&.id)
+      set_error_context(user: @user)
     elsif params[:user_id].present?
       @user = policy_scope(User).find(params[:user_id])
+      set_error_context(user: @user)
     end
   end
 
   def load_schedulable
     if params[:program_id].present?
       @schedulable = program_scope.find(params[:program_id])
+      set_error_context(program: @schedulable)
     elsif params[:prompt_id].present?
       @schedulable = prompt_scope.find(params[:prompt_id])
+      set_error_context(prompt: @schedulable)
     end
   end
 
@@ -119,6 +123,7 @@ class SchedulesController < ApplicationController
 
   def load_schedule
     @schedule = authorize(scope.find(id))
+    set_error_context(schedule: @schedule)
   end
 
   def schedule_params

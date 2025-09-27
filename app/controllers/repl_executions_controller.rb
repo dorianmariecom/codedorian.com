@@ -42,8 +42,10 @@ class ReplExecutionsController < ApplicationController
   def load_user
     if params[:user_id] == "me"
       @user = policy_scope(User).find(current_user&.id)
+      set_error_context(user: @user)
     elsif params[:user_id].present?
       @user = policy_scope(User).find(params[:user_id])
+      set_error_context(user: @user)
     end
   end
 
@@ -58,6 +60,7 @@ class ReplExecutionsController < ApplicationController
       else
         policy_scope(ReplSession).find(params[:repl_session_id])
       end
+    set_error_context(repl_session: @repl_session)
   end
 
   def load_repl_program
@@ -71,6 +74,7 @@ class ReplExecutionsController < ApplicationController
       else
         policy_scope(ReplProgram).find(params[:repl_program_id])
       end
+    set_error_context(repl_program: @repl_program)
   end
 
   def scope
@@ -112,5 +116,6 @@ class ReplExecutionsController < ApplicationController
 
   def load_repl_execution
     @repl_execution = authorize(scope.find(id))
+    set_error_context(repl_execution: @repl_execution)
   end
 end

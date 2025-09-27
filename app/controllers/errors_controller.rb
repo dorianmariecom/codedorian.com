@@ -100,13 +100,16 @@ class ErrorsController < ApplicationController
   def load_user
     if params[:user_id] == "me"
       @user = policy_scope(User).find(current_user&.id)
+      set_error_context(user: @user)
     elsif params[:user_id].present?
       @user = policy_scope(User).find(params[:user_id])
+      set_error_context(user: @user)
     end
   end
 
   def load_error
     @error = authorize(scope.find(params[:error_id].presence || params[:id]))
+    set_error_context(error: @error)
   end
 
   def scope

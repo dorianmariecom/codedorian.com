@@ -8,7 +8,6 @@ class ApplicationController < ActionController::Base
 
   skip_forgery_protection(if: :current_token?)
 
-  before_action(:set_error_context)
   before_action(:set_current_user)
   before_action(:set_current_request)
   before_action(:set_time_zone)
@@ -106,6 +105,7 @@ class ApplicationController < ActionController::Base
 
   def set_current_user
     log_in(current_user_from_session || current_token&.user)
+    set_error_context(current_user: current_user)
   end
 
   def set_current_request
@@ -203,18 +203,8 @@ class ApplicationController < ActionController::Base
     )
   end
 
-  def set_error_context
-    Rails.error.set_context(
-      url: request.url,
-      ip: request.ip,
-      controller: controller_name,
-      action: action_name,
-      registered?: registered?,
-      user_id: Current.user&.id,
-      user_to_s: Current.user&.to_s,
-      user_to_unverified_s: Current.user&.to_unverified_s,
-      user_admin?: Current.admin?
-    )
+  def set_error_context(**args)
+    Rails.error.set_context(**args.transform_values(&:as_json))
   end
 
   def error_message_for(error)

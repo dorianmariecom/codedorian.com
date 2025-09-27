@@ -92,7 +92,8 @@
     <%= render(
       "shared/confirm",
       text: t(".impersonate"),
-      url: [*show_url, :impersonate]
+      url: [*show_url, :impersonate],
+      method: :post
     ) %>
   <% end %>
   <%= render("shared/confirm", text: t(".log_out"), url: :session) %>

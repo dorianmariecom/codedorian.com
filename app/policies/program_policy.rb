@@ -27,7 +27,7 @@ class ProgramPolicy < ApplicationPolicy
     owner? || admin?
   end
 
-  def schedule?
+  def reschedule?
     owner? || admin?
   end
 

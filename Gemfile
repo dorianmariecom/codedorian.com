@@ -2,10 +2,6 @@
 
 source "https://rubygems.org"
 
-git_source(:dorian) { |name| "https://github.com/dorianmariecom/#{name}" }
-git_source(:rails) { |name| "https://github.com/rails/#{name}" }
-git_source(:hotwired) { |name| "https://github.com/hotwired/#{name}" }
-
 ruby "3.4.5"
 
 gem "bcrypt"
@@ -15,7 +11,6 @@ gem "bundle-audit"
 gem "bundler-audit"
 gem "cloudflare-rails"
 gem "code-ruby"
-gem "database_cleaner", "2.1.0" # fix for undefined method 'count' for nil
 gem "dorian"
 gem "dorian-arguments"
 gem "dorian-to_struct"

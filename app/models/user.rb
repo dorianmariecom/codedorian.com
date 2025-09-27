@@ -279,19 +279,6 @@ class User < ApplicationRecord
       unverified_token.presence || t("to_s", id: id)
   end
 
-  def as_json(...)
-    {
-      id: id,
-      admin?: admin?,
-      verified?: verified?,
-      locale: locale,
-      translated_locale: translated_locale,
-      description: to_s,
-      unverified_description: to_unverified_s,
-      programs: programs
-    }.as_json(...)
-  end
-
   def to_code
     Code::Object::User.new(
       id: id,
@@ -301,6 +288,8 @@ class User < ApplicationRecord
       translated_locale: translated_locale,
       description: to_s,
       unverified_description: to_unverified_s,
+      updated_at: updated_at,
+      created_at: created_at,
       programs: programs
     )
   end

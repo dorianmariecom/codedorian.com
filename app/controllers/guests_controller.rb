@@ -10,6 +10,7 @@ class GuestsController < ApplicationController
 
   def show
     @guest = current_guest
+    set_error_context(guest: @guest)
   end
 
   def new

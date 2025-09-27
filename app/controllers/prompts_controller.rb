@@ -46,8 +46,10 @@ class PromptsController < ApplicationController
   def load_user
     if params[:user_id] == "me"
       @user = policy_scope(User).find(current_user&.id)
+      set_error_context(user: @user)
     elsif params[:user_id].present?
       @user = policy_scope(User).find(params[:user_id])
+      set_error_context(user: @user)
     end
   end
 
@@ -82,5 +84,6 @@ class PromptsController < ApplicationController
 
   def load_prompt
     @prompt = authorize(scope.find(id))
+    set_error_context(prompt: @prompt)
   end
 end

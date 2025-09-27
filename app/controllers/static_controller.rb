@@ -6,6 +6,7 @@ class StaticController < ApplicationController
 
   def home
     @program = policy_scope(Program).new(user: current_user)
+    set_error_context(program: @program)
   end
 
   def up

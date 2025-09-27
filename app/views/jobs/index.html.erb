@@ -6,13 +6,13 @@
   <div class="p">
     <%= render(
       "shared/confirm",
-      url: retry_all_url,
+      url: [:retry_all, *index_url],
       text: t(".retry_all"),
       method: :post
     ) %>
     <%= render(
       "shared/confirm",
-      url: discard_all_url,
+      url: [:discard_all, *index_url],
       text: t(".discard_all"),
       method: :post
     ) %>
