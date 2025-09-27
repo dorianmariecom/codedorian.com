@@ -1,37 +1,37 @@
 # frozen_string_literal: true
 
-pin "@codemirror/autocomplete", to: "https://ga.jspm.io/npm:@codemirror/autocomplete@6.18.6/dist/index.js", integrity: true
-pin "@codemirror/commands", to: "https://ga.jspm.io/npm:@codemirror/commands@6.8.1/dist/index.js", integrity: true
-pin "@codemirror/language", to: "https://ga.jspm.io/npm:@codemirror/language@6.11.2/dist/index.js", integrity: true
-pin "@codemirror/lint", to: "https://ga.jspm.io/npm:@codemirror/lint@6.8.5/dist/index.js", integrity: true
-pin "@codemirror/search", to: "https://ga.jspm.io/npm:@codemirror/search@6.5.11/dist/index.js", integrity: true
-pin "@codemirror/state", to: "https://ga.jspm.io/npm:@codemirror/state@6.5.2/dist/index.js", integrity: true
-pin "@codemirror/view", to: "https://ga.jspm.io/npm:@codemirror/view@6.38.1/dist/index.js", integrity: true
-pin "@googlemaps/js-api-loader", to: "@googlemaps--js-api-loader.js", integrity: true # @1.16.10
-pin "@hotwired/hotwire-native-bridge", to: "https://ga.jspm.io/npm:@hotwired/hotwire-native-bridge@1.2.1/dist/hotwire-native-bridge.js", integrity: true
-pin "@hotwired/stimulus", to: "https://ga.jspm.io/npm:@hotwired/stimulus@3.2.2/dist/stimulus.js", integrity: true
+pin "@codemirror/autocomplete", to: "@codemirror--autocomplete.js" # @6.19.0
+pin "@codemirror/commands", to: "@codemirror--commands.js" # @6.8.1
+pin "@codemirror/language", to: "@codemirror--language.js" # @6.11.3
+pin "@codemirror/lint", to: "@codemirror--lint.js" # @6.8.5
+pin "@codemirror/search", to: "@codemirror--search.js" # @6.5.11
+pin "@codemirror/state", to: "@codemirror--state.js" # @6.5.2
+pin "@codemirror/view", to: "@codemirror--view.js" # @6.38.3
+pin "@googlemaps/js-api-loader", to: "@googlemaps--js-api-loader.js" # @1.16.10
+pin "@hotwired/hotwire-native-bridge", to: "@hotwired--hotwire-native-bridge.js" # @1.2.2
+pin "@hotwired/stimulus", to: "@hotwired--stimulus.js" # @3.2.2
 pin "@hotwired/stimulus-loading", to: "stimulus-loading.js", integrity: true
-pin "@hotwired/turbo", to: "https://ga.jspm.io/npm:@hotwired/turbo@8.0.13/dist/turbo.es2017-esm.js", integrity: true
-pin "@hotwired/turbo-rails", to: "https://ga.jspm.io/npm:@hotwired/turbo-rails@8.0.16/app/javascript/turbo/index.js", integrity: true
-pin "@lezer/common", to: "https://ga.jspm.io/npm:@lezer/common@1.2.3/dist/index.js", integrity: true
-pin "@lezer/highlight", to: "https://ga.jspm.io/npm:@lezer/highlight@1.2.1/dist/index.js", integrity: true
-pin "@marijn/find-cluster-break", to: "https://ga.jspm.io/npm:@marijn/find-cluster-break@1.0.2/src/index.js", integrity: true
-pin "@rails/actioncable", to: "https://ga.jspm.io/npm:@rails/actioncable@8.0.200/app/assets/javascripts/actioncable.esm.js", integrity: true
-pin "@rails/actioncable/src", to: "https://ga.jspm.io/npm:@rails/actioncable@8.0.200/src/index.js", integrity: true
-pin "@rails/actiontext", to: "https://ga.jspm.io/npm:@rails/actiontext@8.0.200/app/assets/javascripts/actiontext.esm.js", integrity: true
+pin "@hotwired/turbo", to: "@hotwired--turbo.js" # @8.0.18
+pin "@hotwired/turbo-rails", to: "@hotwired--turbo-rails.js" # @8.0.18
+pin "@lezer/common", to: "@lezer--common.js" # @1.2.3
+pin "@lezer/highlight", to: "@lezer--highlight.js" # @1.2.1
+pin "@marijn/find-cluster-break", to: "@marijn--find-cluster-break.js" # @1.0.2
+pin "@rails/actioncable", to: "@rails--actioncable.js" # @8.0.300
+pin "@rails/actioncable/src", to: "@rails--actioncable--src.js" # @8.0.300
+pin "@rails/actiontext", to: "@rails--actiontext.js" # @8.0.300
 pin "application", integrity: true
-pin "codemirror", to: "https://ga.jspm.io/npm:codemirror@6.0.2/dist/index.js", integrity: true
+pin "codemirror" # @6.0.2
 pin "constants", integrity: true
-pin "consumer", integrity: true
-pin "crelt", to: "https://ga.jspm.io/npm:crelt@1.0.6/index.js", integrity: true
+pin "consumer" # @1.2.2
+pin "crelt" # @1.0.6
 pin "debounce", integrity: true
 pin "i18n", integrity: true
-pin "intl-tel-input", integrity: true # @25.10.8
-pin "intl-tel-input/build/js/utils.js", to: "https://ga.jspm.io/npm:intl-tel-input@25.10.8/build/js/utils.js", integrity: true
-pin "local-time", to: "https://ga.jspm.io/npm:local-time@3.0.3/app/assets/javascripts/local-time.es2017-esm.js", integrity: true
-pin "stimulus-places-autocomplete", to: "https://ga.jspm.io/npm:stimulus-places-autocomplete@0.5.0/dist/stimulus-places-autocomplete.es.js", integrity: true
-pin "style-mod", to: "https://ga.jspm.io/npm:style-mod@4.1.2/src/style-mod.js", integrity: true
-pin "thememirror", to: "https://ga.jspm.io/npm:thememirror@2.0.1/dist/index.js", integrity: true
-pin "trix", to: "https://ga.jspm.io/npm:trix@2.1.15/dist/trix.esm.min.js", integrity: true
-pin "w3c-keyname", to: "https://ga.jspm.io/npm:w3c-keyname@2.2.8/index.js", integrity: true
+pin "intl-tel-input" # @25.11.1
+pin "intl-tel-input/build/js/utils.js", to: "utils.js" # @25.11.1
+pin "local-time" # @3.0.3
+pin "stimulus-places-autocomplete" # @0.5.0
+pin "style-mod" # @4.1.2
+pin "thememirror" # @2.0.1
+pin "trix" # @2.1.15
+pin "w3c-keyname" # @2.2.8
 pin_all_from "app/javascript/controllers", under: "controllers", integrity: true

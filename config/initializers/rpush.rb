@@ -6,12 +6,5 @@ Rpush.configure do |config|
   config.batch_size = 100
   config.pid_file = "tmp/rpush.pid"
   config.log_file = "log/rpush.log"
-  config.log_level =
-    (
-      if defined?(Rails) && Rails.logger
-        Rails.logger.level
-      else
-        Logger::Severity::INFO
-      end
-    )
+  config.log_level = Rails.logger.level
 end

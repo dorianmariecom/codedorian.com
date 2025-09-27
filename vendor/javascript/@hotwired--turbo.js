@@ -1,10 +1,10 @@
-// @hotwired/turbo@8.0.13 downloaded from https://ga.jspm.io/npm:@hotwired/turbo@8.0.13/dist/turbo.es2017-esm.js
+// @hotwired/turbo@8.0.18 downloaded from https://ga.jspm.io/npm:@hotwired/turbo@8.0.18/dist/turbo.es2017-esm.js
 
 (function (e) {
   typeof e.requestSubmit != "function" &&
     (e.requestSubmit = function (e) {
       if (e) {
-        validateSubmitter(e, this);
+        t(e, this);
         e.click();
       } else {
         e = document.createElement("input");
@@ -15,34 +15,34 @@
         this.removeChild(e);
       }
     });
-  function validateSubmitter(e, t) {
+  function t(e, t) {
     e instanceof HTMLElement ||
-      raise(TypeError, "parameter 1 is not of type 'HTMLElement'");
+      s(TypeError, "parameter 1 is not of type 'HTMLElement'");
     e.type == "submit" ||
-      raise(TypeError, "The specified element is not a submit button");
+      s(TypeError, "The specified element is not a submit button");
     e.form == t ||
-      raise(
+      s(
         DOMException,
         "The specified element is not owned by this form element",
         "NotFoundError",
       );
   }
-  function raise(e, t, r) {
+  function s(e, t, s) {
     throw new e(
       "Failed to execute 'requestSubmit' on 'HTMLFormElement': " + t + ".",
-      r,
+      s,
     );
   }
 })(HTMLFormElement.prototype);
 const e = new WeakMap();
-function findSubmitterFromClickTarget(e) {
+function t(e) {
   const t =
     e instanceof Element ? e : e instanceof Node ? e.parentElement : null;
-  const r = t ? t.closest("input, button") : null;
-  return r?.type == "submit" ? r : null;
+  const s = t ? t.closest("input, button") : null;
+  return s?.type == "submit" ? s : null;
 }
-function clickCaptured(t) {
-  const r = findSubmitterFromClickTarget(t.target);
+function s(s) {
+  const r = t(s.target);
   r && r.form && e.set(r.form, r);
 }
 (function () {
@@ -53,7 +53,7 @@ function clickCaptured(t) {
     if (!/Apple Computer/.test(navigator.vendor) || "submitter" in e) return;
     t = e;
   }
-  addEventListener("click", clickCaptured, true);
+  addEventListener("click", s, true);
   Object.defineProperty(t, "submitter", {
     get() {
       if (this.type == "submit" && this.target instanceof HTMLFormElement)
@@ -61,7 +61,7 @@ function clickCaptured(t) {
     },
   });
 })();
-const t = { eager: "eager", lazy: "lazy" };
+const r = { eager: "eager", lazy: "lazy" };
 class FrameElement extends HTMLElement {
   static delegateConstructor = void 0;
   loaded = Promise.resolve();
@@ -104,7 +104,7 @@ class FrameElement extends HTMLElement {
     return this.src && this.refresh === "morph";
   }
   get loading() {
-    return frameLoadingStyleFromString(this.getAttribute("loading") || "");
+    return i(this.getAttribute("loading") || "");
   }
   set loading(e) {
     e ? this.setAttribute("loading", e) : this.removeAttribute("loading");
@@ -135,15 +135,15 @@ class FrameElement extends HTMLElement {
     );
   }
 }
-function frameLoadingStyleFromString(e) {
+function i(e) {
   switch (e.toLowerCase()) {
     case "lazy":
-      return t.lazy;
+      return r.lazy;
     default:
-      return t.eager;
+      return r.eager;
   }
 }
-const r = {
+const n = {
   enabled: true,
   progressBarDelay: 500,
   unvisitableExtensions: new Set([
@@ -203,72 +203,70 @@ const r = {
     ".zip",
   ]),
 };
-function activateScriptElement(e) {
+function o(e) {
   if (e.getAttribute("data-turbo-eval") == "false") return e;
   {
     const t = document.createElement("script");
-    const r = getCspNonce();
-    r && (t.nonce = r);
+    const s = k();
+    s && (t.nonce = s);
     t.textContent = e.textContent;
     t.async = false;
-    copyElementAttributes(t, e);
+    a(t, e);
     return t;
   }
 }
-function copyElementAttributes(e, t) {
-  for (const { name: r, value: s } of t.attributes) e.setAttribute(r, s);
+function a(e, t) {
+  for (const { name: s, value: r } of t.attributes) e.setAttribute(s, r);
 }
-function createDocumentFragment(e) {
+function c(e) {
   const t = document.createElement("template");
   t.innerHTML = e;
   return t.content;
 }
-function dispatch(e, { target: t, cancelable: r, detail: s } = {}) {
+function l(e, { target: t, cancelable: s, detail: r } = {}) {
   const i = new CustomEvent(e, {
-    cancelable: r,
+    cancelable: s,
     bubbles: true,
     composed: true,
-    detail: s,
+    detail: r,
   });
   t && t.isConnected
     ? t.dispatchEvent(i)
     : document.documentElement.dispatchEvent(i);
   return i;
 }
-function cancelEvent(e) {
+function h(e) {
   e.preventDefault();
   e.stopImmediatePropagation();
 }
-function nextRepaint() {
-  return document.visibilityState === "hidden"
-    ? nextEventLoopTick()
-    : nextAnimationFrame();
+function d() {
+  return document.visibilityState === "hidden" ? m() : u();
 }
-function nextAnimationFrame() {
+function u() {
   return new Promise((e) => requestAnimationFrame(() => e()));
 }
-function nextEventLoopTick() {
+function m() {
   return new Promise((e) => setTimeout(() => e(), 0));
 }
-function nextMicrotask() {
+function p() {
   return Promise.resolve();
 }
-function parseHTMLDocument(e = "") {
+function f(e = "") {
   return new DOMParser().parseFromString(e, "text/html");
 }
-function unindent(e, ...t) {
-  const r = interpolate(e, t).replace(/^\n/, "").split("\n");
-  const s = r[0].match(/^\s+/);
-  const i = s ? s[0].length : 0;
-  return r.map((e) => e.slice(i)).join("\n");
+function g(e, ...t) {
+  const s = b(e, t).replace(/^\n/, "").split("\n");
+  const r = s[0].match(/^\s+/);
+  const i = r ? r[0].length : 0;
+  return s.map((e) => e.slice(i)).join("\n");
 }
-function interpolate(e, t) {
-  return e.reduce((e, r, s) => {
-    const i = t[s] == void 0 ? "" : t[s];
-    return e + r + i;
+function b(e, t) {
+  return e.reduce((e, s, r) => {
+    const i = t[r] == void 0 ? "" : t[r];
+    return e + s + i;
   }, "");
 }
-function uuid() {
+function v() {
   return Array.from({ length: 36 })
     .map((e, t) =>
       t == 8 || t == 13 || t == 18 || t == 23
@@ -281,39 +279,39 @@ function uuid() {
     )
     .join("");
 }
-function getAttribute(e, ...t) {
-  for (const r of t.map((t) => t?.getAttribute(e)))
-    if (typeof r == "string") return r;
+function S(e, ...t) {
+  for (const s of t.map((t) => t?.getAttribute(e)))
+    if (typeof s == "string") return s;
   return null;
 }
-function hasAttribute(e, ...t) {
+function w(e, ...t) {
   return t.some((t) => t && t.hasAttribute(e));
 }
-function markAsBusy(...e) {
+function E(...e) {
   for (const t of e) {
     t.localName == "turbo-frame" && t.setAttribute("busy", "");
     t.setAttribute("aria-busy", "true");
   }
 }
-function clearBusyState(...e) {
+function y(...e) {
   for (const t of e) {
     t.localName == "turbo-frame" && t.removeAttribute("busy");
     t.removeAttribute("aria-busy");
   }
 }
-function waitForLoad(e, t = 2e3) {
-  return new Promise((r) => {
-    const onComplete = () => {
-      e.removeEventListener("error", onComplete);
-      e.removeEventListener("load", onComplete);
-      r();
+function R(e, t = 2e3) {
+  return new Promise((s) => {
+    const r = () => {
+      e.removeEventListener("error", r);
+      e.removeEventListener("load", r);
+      s();
     };
-    e.addEventListener("load", onComplete, { once: true });
-    e.addEventListener("error", onComplete, { once: true });
-    setTimeout(r, t);
+    e.addEventListener("load", r, { once: true });
+    e.addEventListener("error", r, { once: true });
+    setTimeout(s, t);
   });
 }
-function getHistoryMethodForAction(e) {
+function L(e) {
   switch (e) {
     case "replace":
       return history.replaceState;
@@ -322,60 +320,57 @@ function getHistoryMethodForAction(e) {
       return history.pushState;
   }
 }
-function isAction(e) {
+function T(e) {
   return e == "advance" || e == "replace" || e == "restore";
 }
-function getVisitAction(...e) {
-  const t = getAttribute("data-turbo-action", ...e);
-  return isAction(t) ? t : null;
+function A(...e) {
+  const t = S("data-turbo-action", ...e);
+  return T(t) ? t : null;
 }
-function getMetaElement(e) {
+function P(e) {
   return document.querySelector(`meta[name="${e}"]`);
 }
-function getMetaContent(e) {
-  const t = getMetaElement(e);
+function C(e) {
+  const t = P(e);
   return t && t.content;
 }
-function getCspNonce() {
-  const e = getMetaElement("csp-nonce");
+function k() {
+  const e = P("csp-nonce");
   if (e) {
-    const { nonce: t, content: r } = e;
-    return t == "" ? r : t;
+    const { nonce: t, content: s } = e;
+    return t == "" ? s : t;
   }
 }
-function setMetaContent(e, t) {
-  let r = getMetaElement(e);
-  if (!r) {
-    r = document.createElement("meta");
-    r.setAttribute("name", e);
-    document.head.appendChild(r);
+function F(e, t) {
+  let s = P(e);
+  if (!s) {
+    s = document.createElement("meta");
+    s.setAttribute("name", e);
+    document.head.appendChild(s);
   }
-  r.setAttribute("content", t);
-  return r;
+  s.setAttribute("content", t);
+  return s;
 }
-function findClosestRecursively(e, t) {
+function M(e, t) {
   if (e instanceof Element)
-    return (
-      e.closest(t) ||
-      findClosestRecursively(e.assignedSlot || e.getRootNode()?.host, t)
-    );
+    return e.closest(t) || M(e.assignedSlot || e.getRootNode()?.host, t);
 }
-function elementIsFocusable(e) {
+function q(e) {
   const t =
     "[inert], :disabled, [hidden], details:not([open]), dialog:not([open])";
   return !!e && e.closest(t) == null && typeof e.focus == "function";
 }
-function queryAutofocusableElement(e) {
-  return Array.from(e.querySelectorAll("[autofocus]")).find(elementIsFocusable);
+function I(e) {
+  return Array.from(e.querySelectorAll("[autofocus]")).find(q);
 }
-async function around(e, t) {
-  const r = t();
-  e();
-  await nextAnimationFrame();
+async function H(e, t) {
   const s = t();
-  return [r, s];
+  e();
+  await u();
+  const r = t();
+  return [s, r];
 }
-function doesNotTargetIFrame(e) {
+function B(e) {
   if (e === "_blank") return false;
   if (e) {
     for (const t of document.getElementsByName(e))
@@ -384,29 +379,35 @@ function doesNotTargetIFrame(e) {
   }
   return true;
 }
-function findLinkFromClickTarget(e) {
-  return findClosestRecursively(e, "a[href]:not([target^=_]):not([download])");
+function O(e) {
+  const t = M(e, "a[href], a[xlink\\:href]");
+  return t
+    ? t.hasAttribute("download") ||
+      (t.hasAttribute("target") && t.target !== "_self")
+      ? null
+      : t
+    : null;
 }
-function getLocationForLink(e) {
-  return expandURL(e.getAttribute("href") || "");
+function N(e) {
+  return U(e.getAttribute("href") || "");
 }
-function debounce(e, t) {
-  let r = null;
-  return (...s) => {
-    const callback = () => e.apply(this, s);
-    clearTimeout(r);
-    r = setTimeout(callback, t);
+function V(e, t) {
+  let s = null;
+  return (...r) => {
+    const i = () => e.apply(this, r);
+    clearTimeout(s);
+    s = setTimeout(i, t);
   };
 }
-const s = {
+const x = {
   "aria-disabled": {
     beforeSubmit: (e) => {
       e.setAttribute("aria-disabled", "true");
-      e.addEventListener("click", cancelEvent);
+      e.addEventListener("click", h);
     },
     afterSubmit: (e) => {
       e.removeAttribute("aria-disabled");
-      e.removeEventListener("click", cancelEvent);
+      e.removeEventListener("click", h);
     },
   },
   disabled: {
@@ -423,15 +424,15 @@ class Config {
     return this.#e;
   }
   set submitter(e) {
-    this.#e = s[e] || e;
+    this.#e = x[e] || e;
   }
 }
-const i = new Config({ mode: "on", submitter: "disabled" });
-const n = { drive: r, forms: i };
-function expandURL(e) {
+const D = new Config({ mode: "on", submitter: "disabled" });
+const W = { drive: n, forms: D };
+function U(e) {
   return new URL(e.toString(), document.baseURI);
 }
-function getAnchor(e) {
+function z(e) {
   let t;
   return e.hash
     ? e.hash.slice(1)
@@ -439,43 +440,38 @@ function getAnchor(e) {
       ? t[1]
       : void 0;
 }
-function getAction$1(e, t) {
-  const r =
+function j(e, t) {
+  const s =
     t?.getAttribute("formaction") || e.getAttribute("action") || e.action;
-  return expandURL(r);
+  return U(s);
 }
-function getExtension(e) {
-  return (getLastPathComponent(e).match(/\.[^.]*$/) || [])[0] || "";
+function $(e) {
+  return (J(e).match(/\.[^.]*$/) || [])[0] || "";
 }
-function isPrefixedBy(e, t) {
-  const r = getPrefix(t);
-  return e.href === expandURL(r).href || e.href.startsWith(r);
+function _(e, t) {
+  const s = Z(t.origin + t.pathname);
+  return Z(e.href) === s || e.href.startsWith(s);
 }
-function locationIsVisitable(e, t) {
-  return (
-    isPrefixedBy(e, t) && !n.drive.unvisitableExtensions.has(getExtension(e))
-  );
+function X(e, t) {
+  return _(e, t) && !W.drive.unvisitableExtensions.has($(e));
 }
-function getRequestURL(e) {
-  const t = getAnchor(e);
+function K(e) {
+  const t = z(e);
   return t != null ? e.href.slice(0, -(t.length + 1)) : e.href;
 }
-function toCacheKey(e) {
-  return getRequestURL(e);
+function Q(e) {
+  return K(e);
 }
-function urlsAreEqual(e, t) {
-  return expandURL(e).href == expandURL(t).href;
+function Y(e, t) {
+  return U(e).href == U(t).href;
 }
-function getPathComponents(e) {
+function G(e) {
   return e.pathname.split("/").slice(1);
 }
-function getLastPathComponent(e) {
-  return getPathComponents(e).slice(-1)[0];
+function J(e) {
+  return G(e).slice(-1)[0];
 }
-function getPrefix(e) {
-  return addTrailingSlash(e.origin + e.pathname);
-}
-function addTrailingSlash(e) {
+function Z(e) {
   return e.endsWith("/") ? e : e + "/";
 }
 class FetchResponse {
@@ -498,7 +494,7 @@ class FetchResponse {
     return this.response.redirected;
   }
   get location() {
-    return expandURL(this.response.url);
+    return U(this.response.url);
   }
   get isHTML() {
     return (
@@ -538,47 +534,46 @@ class LimitedSet extends Set {
     super.add(e);
   }
 }
-const o = new LimitedSet(20);
-const a = window.fetch;
-function fetchWithTurboHeaders(e, t = {}) {
-  const r = new Headers(t.headers || {});
-  const s = uuid();
-  o.add(s);
-  r.append("X-Turbo-Request-Id", s);
-  return a(e, { ...t, headers: r });
+const ee = new LimitedSet(20);
+function te(e, t = {}) {
+  const s = new Headers(t.headers || {});
+  const r = v();
+  ee.add(r);
+  s.append("X-Turbo-Request-Id", r);
+  return window.fetch(e, { ...t, headers: s });
 }
-function fetchMethodFromString(e) {
+function se(e) {
   switch (e.toLowerCase()) {
     case "get":
-      return c.get;
+      return re.get;
     case "post":
-      return c.post;
+      return re.post;
     case "put":
-      return c.put;
+      return re.put;
     case "patch":
-      return c.patch;
+      return re.patch;
     case "delete":
-      return c.delete;
+      return re.delete;
   }
 }
-const c = {
+const re = {
   get: "get",
   post: "post",
   put: "put",
   patch: "patch",
   delete: "delete",
 };
-function fetchEnctypeFromString(e) {
+function ie(e) {
   switch (e.toLowerCase()) {
-    case l.multipart:
-      return l.multipart;
-    case l.plain:
-      return l.plain;
+    case ne.multipart:
+      return ne.multipart;
+    case ne.plain:
+      return ne.plain;
     default:
-      return l.urlEncoded;
+      return ne.urlEncoded;
   }
 }
-const l = {
+const ne = {
   urlEncoded: "application/x-www-form-urlencoded",
   multipart: "multipart/form-data",
   plain: "text/plain",
@@ -586,8 +581,8 @@ const l = {
 class FetchRequest {
   abortController = new AbortController();
   #t = (e) => {};
-  constructor(e, t, r, s = new URLSearchParams(), i = null, n = l.urlEncoded) {
-    const [o, a] = buildResourceAndBody(expandURL(r), t, s, n);
+  constructor(e, t, s, r = new URLSearchParams(), i = null, n = ne.urlEncoded) {
+    const [o, a] = ae(U(s), t, r, n);
     this.delegate = e;
     this.url = o;
     this.target = i;
@@ -609,12 +604,12 @@ class FetchRequest {
     const t = this.isSafe
       ? this.url.searchParams
       : this.fetchOptions.body || new FormData();
-    const r = fetchMethodFromString(e) || c.get;
+    const s = se(e) || re.get;
     this.url.search = "";
-    const [s, i] = buildResourceAndBody(this.url, r, t, this.enctype);
-    this.url = s;
+    const [r, i] = ae(this.url, s, t, this.enctype);
+    this.url = r;
     this.fetchOptions.body = i;
-    this.fetchOptions.method = r.toUpperCase();
+    this.fetchOptions.method = s.toUpperCase();
   }
   get headers() {
     return this.fetchOptions.headers;
@@ -643,17 +638,17 @@ class FetchRequest {
   async perform() {
     const { fetchOptions: e } = this;
     this.delegate.prepareRequest(this);
-    const t = await this.#r(e);
+    const t = await this.#s(e);
     try {
       this.delegate.requestStarted(this);
       t.detail.fetchRequest
         ? (this.response = t.detail.fetchRequest.response)
-        : (this.response = fetchWithTurboHeaders(this.url.href, e));
-      const r = await this.response;
-      return await this.receive(r);
+        : (this.response = te(this.url.href, e));
+      const s = await this.response;
+      return await this.receive(s);
     } catch (e) {
       if (e.name !== "AbortError") {
-        this.#s(e) && this.delegate.requestErrored(this, e);
+        this.#r(e) && this.delegate.requestErrored(this, e);
         throw e;
       }
     } finally {
@@ -662,12 +657,12 @@ class FetchRequest {
   }
   async receive(e) {
     const t = new FetchResponse(e);
-    const r = dispatch("turbo:before-fetch-response", {
+    const s = l("turbo:before-fetch-response", {
       cancelable: true,
       detail: { fetchResponse: t },
       target: this.target,
     });
-    r.defaultPrevented
+    s.defaultPrevented
       ? this.delegate.requestPreventedHandlingResponse(this, t)
       : t.succeeded
         ? this.delegate.requestSucceededWithResponse(this, t)
@@ -678,7 +673,7 @@ class FetchRequest {
     return { Accept: "text/html, application/xhtml+xml" };
   }
   get isSafe() {
-    return isSafe(this.method);
+    return oe(this.method);
   }
   get abortSignal() {
     return this.abortController.signal;
@@ -686,19 +681,19 @@ class FetchRequest {
   acceptResponseType(e) {
     this.headers.Accept = [e, this.headers.Accept].join(", ");
   }
-  async #r(e) {
+  async #s(e) {
     const t = new Promise((e) => (this.#t = e));
-    const r = dispatch("turbo:before-fetch-request", {
+    const s = l("turbo:before-fetch-request", {
       cancelable: true,
       detail: { fetchOptions: e, url: this.url, resume: this.#t },
       target: this.target,
     });
-    this.url = r.detail.url;
-    r.defaultPrevented && (await t);
-    return r;
+    this.url = s.detail.url;
+    s.defaultPrevented && (await t);
+    return s;
   }
-  #s(e) {
-    const t = dispatch("turbo:fetch-request-error", {
+  #r(e) {
+    const t = l("turbo:fetch-request-error", {
       target: this.target,
       cancelable: true,
       detail: { request: this, error: e },
@@ -706,28 +701,22 @@ class FetchRequest {
     return !t.defaultPrevented;
   }
 }
-function isSafe(e) {
-  return fetchMethodFromString(e) == c.get;
+function oe(e) {
+  return se(e) == re.get;
 }
-function buildResourceAndBody(e, t, r, s) {
+function ae(e, t, s, r) {
   const i =
-    Array.from(r).length > 0
-      ? new URLSearchParams(entriesExcludingFiles(r))
-      : e.searchParams;
-  return isSafe(t)
-    ? [mergeIntoURLSearchParams(e, i), null]
-    : s == l.urlEncoded
-      ? [e, i]
-      : [e, r];
+    Array.from(s).length > 0 ? new URLSearchParams(ce(s)) : e.searchParams;
+  return oe(t) ? [le(e, i), null] : r == ne.urlEncoded ? [e, i] : [e, s];
 }
-function entriesExcludingFiles(e) {
+function ce(e) {
   const t = [];
-  for (const [r, s] of e) s instanceof File || t.push([r, s]);
+  for (const [s, r] of e) r instanceof File || t.push([s, r]);
   return t;
 }
-function mergeIntoURLSearchParams(e, t) {
-  const r = new URLSearchParams(entriesExcludingFiles(t));
-  e.search = r.toString();
+function le(e, t) {
+  const s = new URLSearchParams(ce(t));
+  e.search = s.toString();
   return e;
 }
 class AppearanceObserver {
@@ -757,22 +746,22 @@ class AppearanceObserver {
 class StreamMessage {
   static contentType = "text/vnd.turbo-stream.html";
   static wrap(e) {
-    return typeof e == "string" ? new this(createDocumentFragment(e)) : e;
+    return typeof e == "string" ? new this(c(e)) : e;
   }
   constructor(e) {
-    this.fragment = importStreamElements(e);
+    this.fragment = he(e);
   }
 }
-function importStreamElements(e) {
+function he(e) {
   for (const t of e.querySelectorAll("turbo-stream")) {
     const e = document.importNode(t, true);
     for (const t of e.templateElement.content.querySelectorAll("script"))
-      t.replaceWith(activateScriptElement(t));
+      t.replaceWith(o(t));
     t.replaceWith(e);
   }
   return e;
 }
-const h = 100;
+const de = 100;
 class PrefetchCache {
   #i = null;
   #n = null;
@@ -780,19 +769,19 @@ class PrefetchCache {
     if (this.#n && this.#n.url === e && this.#n.expire > Date.now())
       return this.#n.request;
   }
-  setLater(e, t, r) {
+  setLater(e, t, s) {
     this.clear();
     this.#i = setTimeout(() => {
       t.perform();
-      this.set(e, t, r);
+      this.set(e, t, s);
       this.#i = null;
-    }, h);
+    }, de);
   }
-  set(e, t, r) {
+  set(e, t, s) {
     this.#n = {
       url: e,
       request: t,
-      expire: new Date(new Date().getTime() + r),
+      expire: new Date(new Date().getTime() + s),
     };
   }
   clear() {
@@ -800,9 +789,9 @@ class PrefetchCache {
     this.#n = null;
   }
 }
-const d = 1e4;
-const u = new PrefetchCache();
-const m = {
+const ue = 1e4;
+const me = new PrefetchCache();
+const pe = {
   initialized: "initialized",
   requesting: "requesting",
   waiting: "waiting",
@@ -811,20 +800,20 @@ const m = {
   stopped: "stopped",
 };
 class FormSubmission {
-  state = m.initialized;
+  state = pe.initialized;
   static confirmMethod(e) {
     return Promise.resolve(confirm(e));
   }
-  constructor(e, t, r, s = false) {
-    const i = getMethod(t, r);
-    const n = getAction(getFormAction(t, r), i);
-    const o = buildFormData(t, r);
-    const a = getEnctype(t, r);
+  constructor(e, t, s, r = false) {
+    const i = we(t, s);
+    const n = Se(ve(t, s), i);
+    const o = fe(t, s);
+    const a = Ee(t, s);
     this.delegate = e;
     this.formElement = t;
-    this.submitter = r;
+    this.submitter = s;
     this.fetchRequest = new FetchRequest(this, i, n, o, t, a);
-    this.mustRedirect = s;
+    this.mustRedirect = r;
   }
   get method() {
     return this.fetchRequest.method;
@@ -836,7 +825,7 @@ class FormSubmission {
     return this.fetchRequest.url.toString();
   }
   set action(e) {
-    this.fetchRequest.url = expandURL(e);
+    this.fetchRequest.url = U(e);
   }
   get body() {
     return this.fetchRequest.body;
@@ -851,18 +840,14 @@ class FormSubmission {
     return this.fetchRequest.url;
   }
   async start() {
-    const { initialized: e, requesting: t } = m;
-    const r = getAttribute(
-      "data-turbo-confirm",
-      this.submitter,
-      this.formElement,
-    );
-    if (typeof r === "string") {
+    const { initialized: e, requesting: t } = pe;
+    const s = S("data-turbo-confirm", this.submitter, this.formElement);
+    if (typeof s === "string") {
       const e =
-        typeof n.forms.confirm === "function"
-          ? n.forms.confirm
+        typeof W.forms.confirm === "function"
+          ? W.forms.confirm
           : FormSubmission.confirmMethod;
-      const t = await e(r, this.formElement, this.submitter);
+      const t = await e(s, this.formElement, this.submitter);
       if (!t) return;
     }
     if (this.state == e) {
@@ -871,7 +856,7 @@ class FormSubmission {
     }
   }
   stop() {
-    const { stopping: e, stopped: t } = m;
+    const { stopping: e, stopped: t } = pe;
     if (this.state != e && this.state != t) {
       this.state = e;
       this.fetchRequest.cancel();
@@ -880,39 +865,37 @@ class FormSubmission {
   }
   prepareRequest(e) {
     if (!e.isSafe) {
-      const t =
-        getCookieValue(getMetaContent("csrf-param")) ||
-        getMetaContent("csrf-token");
+      const t = ge(C("csrf-param")) || C("csrf-token");
       t && (e.headers["X-CSRF-Token"] = t);
     }
     this.requestAcceptsTurboStreamResponse(e) &&
       e.acceptResponseType(StreamMessage.contentType);
   }
   requestStarted(e) {
-    this.state = m.waiting;
-    this.submitter && n.forms.submitter.beforeSubmit(this.submitter);
+    this.state = pe.waiting;
+    this.submitter && W.forms.submitter.beforeSubmit(this.submitter);
     this.setSubmitsWith();
-    markAsBusy(this.formElement);
-    dispatch("turbo:submit-start", {
+    E(this.formElement);
+    l("turbo:submit-start", {
       target: this.formElement,
       detail: { formSubmission: this },
     });
     this.delegate.formSubmissionStarted(this);
   }
   requestPreventedHandlingResponse(e, t) {
-    u.clear();
+    me.clear();
     this.result = { success: t.succeeded, fetchResponse: t };
   }
   requestSucceededWithResponse(e, t) {
     if (t.clientError || t.serverError)
       this.delegate.formSubmissionFailedWithResponse(this, t);
     else {
-      u.clear();
-      if (this.requestMustRedirect(e) && responseSucceededWithoutRedirect(t)) {
+      me.clear();
+      if (this.requestMustRedirect(e) && be(t)) {
         const e = new Error("Form responses must redirect to another location");
         this.delegate.formSubmissionErrored(this, e);
       } else {
-        this.state = m.receiving;
+        this.state = pe.receiving;
         this.result = { success: true, fetchResponse: t };
         this.delegate.formSubmissionSucceededWithResponse(this, t);
       }
@@ -927,11 +910,11 @@ class FormSubmission {
     this.delegate.formSubmissionErrored(this, t);
   }
   requestFinished(e) {
-    this.state = m.stopped;
-    this.submitter && n.forms.submitter.afterSubmit(this.submitter);
+    this.state = pe.stopped;
+    this.submitter && W.forms.submitter.afterSubmit(this.submitter);
     this.resetSubmitterText();
-    clearBusyState(this.formElement);
-    dispatch("turbo:submit-end", {
+    y(this.formElement);
+    l("turbo:submit-end", {
       target: this.formElement,
       detail: { formSubmission: this, ...this.result },
     });
@@ -962,51 +945,50 @@ class FormSubmission {
   }
   requestAcceptsTurboStreamResponse(e) {
     return (
-      !e.isSafe ||
-      hasAttribute("data-turbo-stream", this.submitter, this.formElement)
+      !e.isSafe || w("data-turbo-stream", this.submitter, this.formElement)
     );
   }
   get submitsWith() {
     return this.submitter?.getAttribute("data-turbo-submits-with");
   }
 }
-function buildFormData(e, t) {
-  const r = new FormData(e);
-  const s = t?.getAttribute("name");
+function fe(e, t) {
+  const s = new FormData(e);
+  const r = t?.getAttribute("name");
   const i = t?.getAttribute("value");
-  s && r.append(s, i || "");
-  return r;
+  r && s.append(r, i || "");
+  return s;
 }
-function getCookieValue(e) {
+function ge(e) {
   if (e != null) {
     const t = document.cookie ? document.cookie.split("; ") : [];
-    const r = t.find((t) => t.startsWith(e));
-    if (r) {
-      const e = r.split("=").slice(1).join("=");
+    const s = t.find((t) => t.startsWith(e));
+    if (s) {
+      const e = s.split("=").slice(1).join("=");
       return e ? decodeURIComponent(e) : void 0;
     }
   }
 }
-function responseSucceededWithoutRedirect(e) {
+function be(e) {
   return e.statusCode == 200 && !e.redirected;
 }
-function getFormAction(e, t) {
-  const r = typeof e.action === "string" ? e.action : null;
+function ve(e, t) {
+  const s = typeof e.action === "string" ? e.action : null;
   return t?.hasAttribute("formaction")
     ? t.getAttribute("formaction") || ""
-    : e.getAttribute("action") || r || "";
+    : e.getAttribute("action") || s || "";
 }
-function getAction(e, t) {
-  const r = expandURL(e);
-  isSafe(t) && (r.search = "");
-  return r;
+function Se(e, t) {
+  const s = U(e);
+  oe(t) && (s.search = "");
+  return s;
 }
-function getMethod(e, t) {
-  const r = t?.getAttribute("formmethod") || e.getAttribute("method") || "";
-  return fetchMethodFromString(r.toLowerCase()) || c.get;
+function we(e, t) {
+  const s = t?.getAttribute("formmethod") || e.getAttribute("method") || "";
+  return se(s.toLowerCase()) || re.get;
 }
-function getEnctype(e, t) {
-  return fetchEnctypeFromString(t?.getAttribute("formenctype") || e.enctype);
+function Ee(e, t) {
+  return ie(t?.getAttribute("formenctype") || e.enctype);
 }
 class Snapshot {
   constructor(e) {
@@ -1028,28 +1010,28 @@ class Snapshot {
     return this.element.isConnected;
   }
   get firstAutofocusableElement() {
-    return queryAutofocusableElement(this.element);
+    return I(this.element);
   }
   get permanentElements() {
-    return queryPermanentElementsAll(this.element);
+    return Re(this.element);
   }
   getPermanentElementById(e) {
-    return getPermanentElementById(this.element, e);
+    return ye(this.element, e);
   }
   getPermanentElementMapForSnapshot(e) {
     const t = {};
-    for (const r of this.permanentElements) {
-      const { id: s } = r;
-      const i = e.getPermanentElementById(s);
-      i && (t[s] = [r, i]);
+    for (const s of this.permanentElements) {
+      const { id: r } = s;
+      const i = e.getPermanentElementById(r);
+      i && (t[r] = [s, i]);
     }
     return t;
   }
 }
-function getPermanentElementById(e, t) {
+function ye(e, t) {
   return e.querySelector(`#${t}[data-turbo-permanent]`);
 }
-function queryPermanentElementsAll(e) {
+function Re(e) {
   return e.querySelectorAll("[id][data-turbo-permanent]");
 }
 class FormSubmitObserver {
@@ -1077,27 +1059,22 @@ class FormSubmitObserver {
   submitBubbled = (e) => {
     if (!e.defaultPrevented) {
       const t = e.target instanceof HTMLFormElement ? e.target : void 0;
-      const r = e.submitter || void 0;
-      if (
-        t &&
-        submissionDoesNotDismissDialog(t, r) &&
-        submissionDoesNotTargetIFrame(t, r) &&
-        this.delegate.willSubmitForm(t, r)
-      ) {
+      const s = e.submitter || void 0;
+      if (t && Le(t, s) && Te(t, s) && this.delegate.willSubmitForm(t, s)) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        this.delegate.formSubmitted(t, r);
+        this.delegate.formSubmitted(t, s);
       }
     }
   };
 }
-function submissionDoesNotDismissDialog(e, t) {
-  const r = t?.getAttribute("formmethod") || e.getAttribute("method");
-  return r != "dialog";
+function Le(e, t) {
+  const s = t?.getAttribute("formmethod") || e.getAttribute("method");
+  return s != "dialog";
 }
-function submissionDoesNotTargetIFrame(e, t) {
-  const r = t?.getAttribute("formtarget") || e.getAttribute("target");
-  return doesNotTargetIFrame(r);
+function Te(e, t) {
+  const s = t?.getAttribute("formtarget") || e.getAttribute("target");
+  return B(s);
 }
 class View {
   #o = (e) => {};
@@ -1109,12 +1086,12 @@ class View {
   scrollToAnchor(e) {
     const t = this.snapshot.getElementForAnchor(e);
     if (t) {
-      this.scrollToElement(t);
       this.focusElement(t);
+      this.scrollToElement(t);
     } else this.scrollToPosition({ x: 0, y: 0 });
   }
   scrollToAnchorFromLocation(e) {
-    this.scrollToAnchor(getAnchor(e));
+    this.scrollToAnchor(z(e));
   }
   scrollToElement(e) {
     e.scrollIntoView();
@@ -1138,21 +1115,21 @@ class View {
     return window;
   }
   async render(e) {
-    const { isPreview: t, shouldRender: r, willRender: s, newSnapshot: i } = e;
-    const n = s;
-    if (r)
+    const { isPreview: t, shouldRender: s, willRender: r, newSnapshot: i } = e;
+    const n = r;
+    if (s)
       try {
         this.renderPromise = new Promise((e) => (this.#o = e));
         this.renderer = e;
         await this.prepareToRenderSnapshot(e);
-        const r = new Promise((e) => (this.#a = e));
-        const s = {
+        const s = new Promise((e) => (this.#a = e));
+        const r = {
           resume: this.#a,
           render: this.renderer.renderElement,
           renderMethod: this.renderer.renderMethod,
         };
-        const n = this.delegate.allowsImmediateRender(i, s);
-        n || (await r);
+        const n = this.delegate.allowsImmediateRender(i, r);
+        n || (await s);
         await this.renderSnapshot(e);
         this.delegate.viewRenderedSnapshot(i, t, this.renderer.renderMethod);
         this.delegate.preloadOnLoadLinksForView(this.element);
@@ -1243,9 +1220,9 @@ class LinkInterceptor {
   };
   clickEventIsSignificant(e) {
     const t = e.composed ? e.target?.parentElement : e.target;
-    const r = findLinkFromClickTarget(t) || t;
+    const s = O(t) || t;
     return (
-      r instanceof Element && r.closest("turbo-frame, html") == this.element
+      s instanceof Element && s.closest("turbo-frame, html") == this.element
     );
   }
 }
@@ -1274,12 +1251,12 @@ class LinkClickObserver {
   clickBubbled = (e) => {
     if (e instanceof MouseEvent && this.clickEventIsSignificant(e)) {
       const t = (e.composedPath && e.composedPath()[0]) || e.target;
-      const r = findLinkFromClickTarget(t);
-      if (r && doesNotTargetIFrame(r.target)) {
-        const t = getLocationForLink(r);
-        if (this.delegate.willFollowLinkToLocation(r, t, e)) {
+      const s = O(t);
+      if (s && B(s.target)) {
+        const t = N(s);
+        if (this.delegate.willFollowLinkToLocation(s, t, e)) {
           e.preventDefault();
-          this.delegate.followedLinkToLocation(r, t);
+          this.delegate.followedLinkToLocation(s, t);
         }
       }
     }
@@ -1311,50 +1288,50 @@ class FormLinkClickObserver {
     return false;
   }
   prefetchAndCacheRequestToLocation(e, t) {}
-  willFollowLinkToLocation(e, t, r) {
+  willFollowLinkToLocation(e, t, s) {
     return (
-      this.delegate.willSubmitFormLinkToLocation(e, t, r) &&
+      this.delegate.willSubmitFormLinkToLocation(e, t, s) &&
       (e.hasAttribute("data-turbo-method") ||
         e.hasAttribute("data-turbo-stream"))
     );
   }
   followedLinkToLocation(e, t) {
-    const r = document.createElement("form");
-    const s = "hidden";
+    const s = document.createElement("form");
+    const r = "hidden";
     for (const [e, i] of t.searchParams)
-      r.append(
+      s.append(
         Object.assign(document.createElement("input"), {
-          type: s,
+          type: r,
           name: e,
           value: i,
         }),
       );
     const i = Object.assign(t, { search: "" });
-    r.setAttribute("data-turbo", "true");
-    r.setAttribute("action", i.href);
-    r.setAttribute("hidden", "");
+    s.setAttribute("data-turbo", "true");
+    s.setAttribute("action", i.href);
+    s.setAttribute("hidden", "");
     const n = e.getAttribute("data-turbo-method");
-    n && r.setAttribute("method", n);
+    n && s.setAttribute("method", n);
     const o = e.getAttribute("data-turbo-frame");
-    o && r.setAttribute("data-turbo-frame", o);
-    const a = getVisitAction(e);
-    a && r.setAttribute("data-turbo-action", a);
+    o && s.setAttribute("data-turbo-frame", o);
+    const a = A(e);
+    a && s.setAttribute("data-turbo-action", a);
     const c = e.getAttribute("data-turbo-confirm");
-    c && r.setAttribute("data-turbo-confirm", c);
+    c && s.setAttribute("data-turbo-confirm", c);
     const l = e.hasAttribute("data-turbo-stream");
-    l && r.setAttribute("data-turbo-stream", "");
-    this.delegate.submittedFormLinkToLocation(e, t, r);
-    document.body.appendChild(r);
-    r.addEventListener("turbo:submit-end", () => r.remove(), { once: true });
-    requestAnimationFrame(() => r.requestSubmit());
+    l && s.setAttribute("data-turbo-stream", "");
+    this.delegate.submittedFormLinkToLocation(e, t, s);
+    document.body.appendChild(s);
+    s.addEventListener("turbo:submit-end", () => s.remove(), { once: true });
+    requestAnimationFrame(() => s.requestSubmit());
   }
 }
 class Bardo {
-  static async preservingPermanentElements(e, t, r) {
-    const s = new this(e, t);
-    s.enter();
-    await r();
-    s.leave();
+  static async preservingPermanentElements(e, t, s) {
+    const r = new this(e, t);
+    r.enter();
+    await s();
+    r.leave();
   }
   constructor(e, t) {
     this.delegate = e;
@@ -1362,9 +1339,9 @@ class Bardo {
   }
   enter() {
     for (const e in this.permanentElementMap) {
-      const [t, r] = this.permanentElementMap[e];
-      this.delegate.enteringBardo(t, r);
-      this.replaceNewPermanentElementWithPlaceholder(r);
+      const [t, s] = this.permanentElementMap[e];
+      this.delegate.enteringBardo(t, s);
+      this.replaceNewPermanentElementWithPlaceholder(s);
     }
   }
   leave() {
@@ -1376,7 +1353,7 @@ class Bardo {
     }
   }
   replaceNewPermanentElementWithPlaceholder(e) {
-    const t = createPlaceholderForPermanentElement(e);
+    const t = Ae(e);
     e.replaceWith(t);
   }
   replaceCurrentPermanentElementWithClone(e) {
@@ -1398,7 +1375,7 @@ class Bardo {
     ];
   }
 }
-function createPlaceholderForPermanentElement(e) {
+function Ae(e) {
   const t = document.createElement("meta");
   t.setAttribute("name", "turbo-permanent-placeholder");
   t.setAttribute("content", e.id);
@@ -1407,11 +1384,11 @@ function createPlaceholderForPermanentElement(e) {
 class Renderer {
   #c = null;
   static renderElement(e, t) {}
-  constructor(e, t, r, s = true) {
+  constructor(e, t, s, r = true) {
     this.currentSnapshot = e;
     this.newSnapshot = t;
-    this.isPreview = r;
-    this.willRender = s;
+    this.isPreview = s;
+    this.willRender = r;
     this.renderElement = this.constructor.renderElement;
     this.promise = new Promise(
       (e, t) => (this.resolvingFunctions = { resolve: e, reject: t }),
@@ -1474,32 +1451,32 @@ class Renderer {
 }
 class FrameRenderer extends Renderer {
   static renderElement(e, t) {
-    const r = document.createRange();
-    r.selectNodeContents(e);
-    r.deleteContents();
-    const s = t;
-    const i = s.ownerDocument?.createRange();
+    const s = document.createRange();
+    s.selectNodeContents(e);
+    s.deleteContents();
+    const r = t;
+    const i = r.ownerDocument?.createRange();
     if (i) {
-      i.selectNodeContents(s);
+      i.selectNodeContents(r);
       e.appendChild(i.extractContents());
     }
   }
-  constructor(e, t, r, s, i, n = true) {
-    super(t, r, s, i, n);
+  constructor(e, t, s, r, i, n = true) {
+    super(t, s, r, i, n);
     this.delegate = e;
   }
   get shouldRender() {
     return true;
   }
   async render() {
-    await nextRepaint();
+    await d();
     this.preservingPermanentElements(() => {
       this.loadFrameElement();
     });
     this.scrollFrameIntoView();
-    await nextRepaint();
+    await d();
     this.focusFirstAutofocusableElement();
-    await nextRepaint();
+    await d();
     this.activateScriptElements();
   }
   loadFrameElement() {
@@ -1509,16 +1486,16 @@ class FrameRenderer extends Renderer {
   scrollFrameIntoView() {
     if (this.currentElement.autoscroll || this.newElement.autoscroll) {
       const e = this.currentElement.firstElementChild;
-      const t = readScrollLogicalPosition(
+      const t = Pe(
         this.currentElement.getAttribute("data-autoscroll-block"),
         "end",
       );
-      const r = readScrollBehavior(
+      const s = Ce(
         this.currentElement.getAttribute("data-autoscroll-behavior"),
         "auto",
       );
       if (e) {
-        e.scrollIntoView({ block: t, behavior: r });
+        e.scrollIntoView({ block: t, behavior: s });
         return true;
       }
     }
@@ -1526,7 +1503,7 @@ class FrameRenderer extends Renderer {
   }
   activateScriptElements() {
     for (const e of this.newScriptElements) {
-      const t = activateScriptElement(e);
+      const t = o(e);
       e.replaceWith(t);
     }
   }
@@ -1534,10 +1511,10 @@ class FrameRenderer extends Renderer {
     return this.currentElement.querySelectorAll("script");
   }
 }
-function readScrollLogicalPosition(e, t) {
+function Pe(e, t) {
   return e == "end" || e == "start" || e == "center" || e == "nearest" ? e : t;
 }
-function readScrollBehavior(e, t) {
+function Ce(e, t) {
   return e == "auto" || e == "smooth" ? e : t;
 }
 /**
@@ -1625,7 +1602,7 @@ function readScrollBehavior(e, t) {
 /**
  *
  * @type {{defaults: ConfigInternal, morph: Morph}}
- */ var p = (function () {
+ */ var ke = (function () {
   /**
    * @typedef {object} MorphContext
    *
@@ -1642,27 +1619,27 @@ function readScrollBehavior(e, t) {
    * @property {ConfigInternal['head']} head
    * @property {HTMLDivElement} pantry
    */
-  const noOp = () => {};
+  const e = () => {};
   /**
    * Default configuration values, updatable by users now
    * @type {ConfigInternal}
-   */ const e = {
+   */ const t = {
     morphStyle: "outerHTML",
     callbacks: {
-      beforeNodeAdded: noOp,
-      afterNodeAdded: noOp,
-      beforeNodeMorphed: noOp,
-      afterNodeMorphed: noOp,
-      beforeNodeRemoved: noOp,
-      afterNodeRemoved: noOp,
-      beforeAttributeUpdated: noOp,
+      beforeNodeAdded: e,
+      afterNodeAdded: e,
+      beforeNodeMorphed: e,
+      afterNodeMorphed: e,
+      beforeNodeRemoved: e,
+      afterNodeRemoved: e,
+      beforeAttributeUpdated: e,
     },
     head: {
       style: "merge",
       shouldPreserve: (e) => e.getAttribute("im-preserve") === "true",
       shouldReAppend: (e) => e.getAttribute("im-re-append") === "true",
-      shouldRemove: noOp,
-      afterHeadMorphed: noOp,
+      shouldRemove: e,
+      afterHeadMorphed: e,
     },
     restoreFocus: true,
   };
@@ -1673,26 +1650,26 @@ function readScrollBehavior(e, t) {
    * @param {Element | Node | HTMLCollection | Node[] | string | null} newContent
    * @param {Config} [config]
    * @returns {Promise<Node[]> | Node[]}
-   */ function morph(e, r, o = {}) {
-    e = i(e);
-    const a = n(r);
-    const c = s(e, a, o);
-    const l = saveAndRestoreFocus(c, () =>
-      withHeadBlocking(
+   */ function s(e, t, s = {}) {
+    e = h(e);
+    const o = d(t);
+    const c = l(e, o, s);
+    const u = i(c, () =>
+      a(
         c,
         e,
-        a,
-        /** @param {MorphContext} ctx */ (r) => {
-          if (r.morphStyle === "innerHTML") {
-            t(r, e, a);
+        o,
+        /** @param {MorphContext} ctx */ (t) => {
+          if (t.morphStyle === "innerHTML") {
+            n(t, e, o);
             return Array.from(e.childNodes);
           }
-          return morphOuterHTML(r, e, a);
+          return r(t, e, o);
         },
       ),
     );
     c.pantry.remove();
-    return l;
+    return u;
   }
   /**
    * Morph just the outerHTML of the oldNode to the newContent
@@ -1701,35 +1678,35 @@ function readScrollBehavior(e, t) {
    * @param {Element} oldNode
    * @param {Element} newNode
    * @returns {Node[]}
-   */ function morphOuterHTML(e, r, s) {
-    const i = n(r);
-    let o = Array.from(i.childNodes);
-    const a = o.indexOf(r);
-    const c = o.length - (a + 1);
-    t(e, i, s, r, r.nextSibling);
-    o = Array.from(i.childNodes);
-    return o.slice(a, o.length - c);
+   */ function r(e, t, s) {
+    const r = d(t);
+    let i = Array.from(r.childNodes);
+    const o = i.indexOf(t);
+    const a = i.length - (o + 1);
+    n(e, r, s, t, t.nextSibling);
+    i = Array.from(r.childNodes);
+    return i.slice(o, i.length - a);
   }
   /**
    * @param {MorphContext} ctx
    * @param {Function} fn
    * @returns {Promise<Node[]> | Node[]}
-   */ function saveAndRestoreFocus(e, t) {
+   */ function i(e, t) {
     if (!e.config.restoreFocus) return t();
-    let r =
+    let s =
       /** @type {HTMLInputElement|HTMLTextAreaElement|null} */ document.activeElement;
-    if (!(r instanceof HTMLInputElement || r instanceof HTMLTextAreaElement))
+    if (!(s instanceof HTMLInputElement || s instanceof HTMLTextAreaElement))
       return t();
-    const { id: s, selectionStart: i, selectionEnd: n } = r;
+    const { id: r, selectionStart: i, selectionEnd: n } = s;
     const o = t();
-    if (s && s !== document.activeElement?.id) {
-      r = e.target.querySelector(`#${s}`);
-      r?.focus();
+    if (r && r !== document.activeElement?.id) {
+      s = e.target.querySelector(`#${r}`);
+      s?.focus();
     }
-    r && !r.selectionEnd && n && r.setSelectionRange(i, n);
+    s && !s.selectionEnd && n && s.setSelectionRange(i, n);
     return o;
   }
-  const t = (function () {
+  const n = (function () {
     /**
      * This is the core algorithm for matching up children.  The idea is to use id sets to try to match up
      * nodes as faithfully as possible.  We greedily match, which allows us to keep the algorithm fast, but
@@ -1756,38 +1733,38 @@ function readScrollBehavior(e, t) {
      * @param {Node|null} [insertionPoint] the point in the DOM we start morphing at (defaults to first child)
      * @param {Node|null} [endPoint] the point in the DOM we stop morphing at (defaults to after last child)
      */
-    function morphChildren(t, s, i, n = null, o = null) {
+    function e(e, a, c, l = null, h = null) {
       if (
-        s instanceof HTMLTemplateElement &&
-        i instanceof HTMLTemplateElement
+        a instanceof HTMLTemplateElement &&
+        c instanceof HTMLTemplateElement
       ) {
-        s = s.content;
-        i = i.content;
+        a = a.content;
+        c = c.content;
       }
-      n ||= s.firstChild;
-      for (const a of i.childNodes) {
-        if (n && n != o) {
-          const s = e(t, a, n, o);
-          if (s) {
-            s !== n && removeNodesBetween(t, n, s);
-            r(s, a, t);
-            n = s.nextSibling;
+      l ||= a.firstChild;
+      for (const r of c.childNodes) {
+        if (l && l != h) {
+          const t = s(e, r, l, h);
+          if (t) {
+            t !== l && i(e, l, t);
+            o(t, r, e);
+            l = t.nextSibling;
             continue;
           }
         }
-        if (a instanceof Element && t.persistentIds.has(a.id)) {
-          const e = moveBeforeById(s, a.id, n, t);
-          r(e, a, t);
-          n = e.nextSibling;
+        if (r instanceof Element && e.persistentIds.has(r.id)) {
+          const t = n(a, r.id, l, e);
+          o(t, r, e);
+          l = t.nextSibling;
           continue;
         }
-        const i = createNode(s, a, n, t);
-        i && (n = i.nextSibling);
+        const c = t(a, r, l, e);
+        c && (l = c.nextSibling);
       }
-      while (n && n != o) {
-        const e = n;
-        n = n.nextSibling;
-        removeNode(t, e);
+      while (l && l != h) {
+        const t = l;
+        l = l.nextSibling;
+        r(e, t);
       }
     }
     /**
@@ -1799,23 +1776,23 @@ function readScrollBehavior(e, t) {
      * @param {Node|null} insertionPoint
      * @param {MorphContext} ctx
      * @returns {Node|null}
-     */ function createNode(e, t, s, i) {
-      if (i.callbacks.beforeNodeAdded(t) === false) return null;
-      if (i.idMap.has(t)) {
-        const n = document.createElement(/** @type {Element} */ t.tagName);
-        e.insertBefore(n, s);
-        r(n, t, i);
-        i.callbacks.afterNodeAdded(n);
-        return n;
+     */ function t(e, t, s, r) {
+      if (r.callbacks.beforeNodeAdded(t) === false) return null;
+      if (r.idMap.has(t)) {
+        const i = document.createElement(/** @type {Element} */ t.tagName);
+        e.insertBefore(i, s);
+        o(i, t, r);
+        r.callbacks.afterNodeAdded(i);
+        return i;
       }
       {
-        const r = document.importNode(t, true);
-        e.insertBefore(r, s);
-        i.callbacks.afterNodeAdded(r);
-        return r;
+        const i = document.importNode(t, true);
+        e.insertBefore(i, s);
+        r.callbacks.afterNodeAdded(i);
+        return i;
       }
     }
-    const e = (function () {
+    const s = (function () {
       /**
        * Scans forward from the startPoint to the endPoint looking for a match
        * for the node. It looks for an id set match first, then a soft match.
@@ -1826,25 +1803,25 @@ function readScrollBehavior(e, t) {
        * @param {Node | null} endPoint
        * @returns {Node | null}
        */
-      function findBestMatch(e, t, r, s) {
-        let i = null;
-        let n = t.nextSibling;
-        let o = 0;
-        let a = r;
-        while (a && a != s) {
-          if (isSoftMatch(a, t)) {
-            if (isIdSetMatch(e, a, t)) return a;
-            i === null && (e.idMap.has(a) || (i = a));
+      function e(e, r, i, n) {
+        let o = null;
+        let a = r.nextSibling;
+        let c = 0;
+        let l = i;
+        while (l && l != n) {
+          if (s(l, r)) {
+            if (t(e, l, r)) return l;
+            o === null && (e.idMap.has(l) || (o = l));
           }
-          if (i === null && n && isSoftMatch(a, n)) {
-            o++;
-            n = n.nextSibling;
-            o >= 2 && (i = void 0);
+          if (o === null && a && s(l, a)) {
+            c++;
+            a = a.nextSibling;
+            c >= 2 && (o = void 0);
           }
-          if (a.contains(document.activeElement)) break;
-          a = a.nextSibling;
+          if (l.contains(document.activeElement)) break;
+          l = l.nextSibling;
         }
-        return i || null;
+        return o || null;
       }
       /**
        *
@@ -1852,11 +1829,11 @@ function readScrollBehavior(e, t) {
        * @param {Node} oldNode
        * @param {Node} newNode
        * @returns {boolean}
-       */ function isIdSetMatch(e, t, r) {
-        let s = e.idMap.get(t);
-        let i = e.idMap.get(r);
-        if (!i || !s) return false;
-        for (const e of s) if (i.has(e)) return true;
+       */ function t(e, t, s) {
+        let r = e.idMap.get(t);
+        let i = e.idMap.get(s);
+        if (!i || !r) return false;
+        for (const e of r) if (i.has(e)) return true;
         return false;
       }
       /**
@@ -1864,16 +1841,16 @@ function readScrollBehavior(e, t) {
        * @param {Node} oldNode
        * @param {Node} newNode
        * @returns {boolean}
-       */ function isSoftMatch(e, t) {
-        const r = /** @type {Element} */ e;
-        const s = /** @type {Element} */ t;
+       */ function s(e, t) {
+        const s = /** @type {Element} */ e;
+        const r = /** @type {Element} */ t;
         return (
-          r.nodeType === s.nodeType &&
-          r.tagName === s.tagName &&
-          (!r.id || r.id === s.id)
+          s.nodeType === r.nodeType &&
+          s.tagName === r.tagName &&
+          (!s.id || s.id === r.id)
         );
       }
-      return findBestMatch;
+      return e;
     })();
     /**
      * Gets rid of an unwanted DOM node; strategy depends on nature of its reuse:
@@ -1881,8 +1858,8 @@ function readScrollBehavior(e, t) {
      * - Other nodes will have their hooks called, and then are removed
      * @param {MorphContext} ctx
      * @param {Node} node
-     */ function removeNode(e, t) {
-      if (e.idMap.has(t)) moveBefore(e.pantry, t, null);
+     */ function r(e, t) {
+      if (e.idMap.has(t)) c(e.pantry, t, null);
       else {
         if (e.callbacks.beforeNodeRemoved(t) === false) return;
         t.parentNode?.removeChild(t);
@@ -1895,15 +1872,15 @@ function readScrollBehavior(e, t) {
      * @param {Node} startInclusive
      * @param {Node} endExclusive
      * @returns {Node|null}
-     */ function removeNodesBetween(e, t, r) {
+     */ function i(e, t, s) {
       /** @type {Node | null} */
-      let s = t;
-      while (s && s !== r) {
-        let t = /** @type {Node} */ s;
-        s = s.nextSibling;
-        removeNode(e, t);
+      let i = t;
+      while (i && i !== s) {
+        let t = /** @type {Node} */ i;
+        i = i.nextSibling;
+        r(e, t);
       }
-      return s;
+      return i;
     }
     /**
      * Search for an element by id within the document and pantry, and move it using moveBefore.
@@ -1914,12 +1891,12 @@ function readScrollBehavior(e, t) {
      *                              If `null`, the element is appended as the last child.
      * @param {MorphContext} ctx
      * @returns {Element} The found element
-     */ function moveBeforeById(e, t, r, s) {
+     */ function n(e, t, s, r) {
       const i =
         /** @type {Element} - will always be found */
-        s.target.querySelector(`#${t}`) || s.pantry.querySelector(`#${t}`);
-      removeElementFromAncestorsIdMaps(i, s);
-      moveBefore(e, i, r);
+        r.target.querySelector(`#${t}`) || r.pantry.querySelector(`#${t}`);
+      a(i, r);
+      c(e, i, s);
       return i;
     }
     /**
@@ -1929,13 +1906,13 @@ function readScrollBehavior(e, t) {
      *
      * @param {Element} element - element to remove from its ancestors' id maps
      * @param {MorphContext} ctx
-     */ function removeElementFromAncestorsIdMaps(e, t) {
-      const r = e.id;
+     */ function a(e, t) {
+      const s = e.id;
       while ((e = e.parentNode)) {
-        let s = t.idMap.get(e);
-        if (s) {
-          s.delete(r);
-          s.size || t.idMap.delete(e);
+        let r = t.idMap.get(e);
+        if (r) {
+          r.delete(s);
+          r.size || t.idMap.delete(e);
         }
       }
     }
@@ -1948,35 +1925,35 @@ function readScrollBehavior(e, t) {
      * @param {Node} element - The element to be moved.
      * @param {Node | null} after - The reference node to insert `element` before.
      *                              If `null`, `element` is appended as the last child.
-     */ function moveBefore(e, t, r) {
+     */ function c(e, t, s) {
       if (e.moveBefore)
         try {
-          e.moveBefore(t, r);
-        } catch (s) {
-          e.insertBefore(t, r);
+          e.moveBefore(t, s);
+        } catch (r) {
+          e.insertBefore(t, s);
         }
-      else e.insertBefore(t, r);
+      else e.insertBefore(t, s);
     }
-    return morphChildren;
+    return e;
   })();
-  const r = (function () {
+  const o = (function () {
     /**
      * @param {Node} oldNode root node to merge content into
      * @param {Node} newContent new content to merge
      * @param {MorphContext} ctx the merge context
      * @returns {Node | null} the element that ended up in the DOM
      */
-    function morphNode(e, r, s) {
-      if (s.ignoreActive && e === document.activeElement) return null;
-      if (s.callbacks.beforeNodeMorphed(e, r) === false) return e;
-      if (e instanceof HTMLHeadElement && s.head.ignore);
-      else if (e instanceof HTMLHeadElement && s.head.style !== "morph")
-        handleHeadElement(e, /** @type {HTMLHeadElement} */ r, s);
+    function e(e, s, r) {
+      if (r.ignoreActive && e === document.activeElement) return null;
+      if (r.callbacks.beforeNodeMorphed(e, s) === false) return e;
+      if (e instanceof HTMLHeadElement && r.head.ignore);
+      else if (e instanceof HTMLHeadElement && r.head.style !== "morph")
+        c(e, /** @type {HTMLHeadElement} */ s, r);
       else {
-        morphAttributes(e, r, s);
-        ignoreValueOfActiveElement(e, s) || t(s, e, r);
+        t(e, s, r);
+        o(e, r) || n(r, e, s);
       }
-      s.callbacks.afterNodeMorphed(e, r);
+      r.callbacks.afterNodeMorphed(e, s);
       return e;
     }
     /**
@@ -1986,27 +1963,27 @@ function readScrollBehavior(e, t) {
      * @param {Node} oldNode the node to copy attributes & state to
      * @param {Node} newNode the node to copy attributes & state from
      * @param {MorphContext} ctx the merge context
-     */ function morphAttributes(e, t, r) {
-      let s = t.nodeType;
-      if (s === 1) {
-        const s = /** @type {Element} */ e;
-        const i = /** @type {Element} */ t;
-        const n = s.attributes;
-        const o = i.attributes;
-        for (const e of o)
-          ignoreAttribute(e.name, s, "update", r) ||
-            (s.getAttribute(e.name) !== e.value &&
-              s.setAttribute(e.name, e.value));
-        for (let e = n.length - 1; 0 <= e; e--) {
-          const t = n[e];
-          if (t && !i.hasAttribute(t.name)) {
-            if (ignoreAttribute(t.name, s, "remove", r)) continue;
-            s.removeAttribute(t.name);
+     */ function t(e, t, r) {
+      let n = t.nodeType;
+      if (n === 1) {
+        const n = /** @type {Element} */ e;
+        const a = /** @type {Element} */ t;
+        const c = n.attributes;
+        const l = a.attributes;
+        for (const e of l)
+          i(e.name, n, "update", r) ||
+            (n.getAttribute(e.name) !== e.value &&
+              n.setAttribute(e.name, e.value));
+        for (let e = c.length - 1; 0 <= e; e--) {
+          const t = c[e];
+          if (t && !a.hasAttribute(t.name)) {
+            if (i(t.name, n, "remove", r)) continue;
+            n.removeAttribute(t.name);
           }
         }
-        ignoreValueOfActiveElement(s, r) || syncInputValue(s, i, r);
+        o(n, r) || s(n, a, r);
       }
-      (s !== 8 && s !== 3) ||
+      (n !== 8 && n !== 3) ||
         (e.nodeValue !== t.nodeValue && (e.nodeValue = t.nodeValue));
     }
     /**
@@ -2018,22 +1995,22 @@ function readScrollBehavior(e, t) {
      * @param {Element} oldElement the element to sync the input value to
      * @param {Element} newElement the element to sync the input value from
      * @param {MorphContext} ctx the merge context
-     */ function syncInputValue(e, t, r) {
+     */ function s(e, t, s) {
       if (
         e instanceof HTMLInputElement &&
         t instanceof HTMLInputElement &&
         t.type !== "file"
       ) {
-        let s = t.value;
-        let i = e.value;
-        syncBooleanAttribute(e, t, "checked", r);
-        syncBooleanAttribute(e, t, "disabled", r);
+        let n = t.value;
+        let o = e.value;
+        r(e, t, "checked", s);
+        r(e, t, "disabled", s);
         if (t.hasAttribute("value")) {
-          if (i !== s && !ignoreAttribute("value", e, "update", r)) {
-            e.setAttribute("value", s);
-            e.value = s;
+          if (o !== n && !i("value", e, "update", s)) {
+            e.setAttribute("value", n);
+            e.value = n;
           }
-        } else if (!ignoreAttribute("value", e, "remove", r)) {
+        } else if (!i("value", e, "remove", s)) {
           e.value = "";
           e.removeAttribute("value");
         }
@@ -2041,18 +2018,18 @@ function readScrollBehavior(e, t) {
         e instanceof HTMLOptionElement &&
         t instanceof HTMLOptionElement
       )
-        syncBooleanAttribute(e, t, "selected", r);
+        r(e, t, "selected", s);
       else if (
         e instanceof HTMLTextAreaElement &&
         t instanceof HTMLTextAreaElement
       ) {
-        let s = t.value;
-        let i = e.value;
-        if (ignoreAttribute("value", e, "update", r)) return;
-        s !== i && (e.value = s);
+        let r = t.value;
+        let n = e.value;
+        if (i("value", e, "update", s)) return;
+        r !== n && (e.value = r);
         e.firstChild &&
-          e.firstChild.nodeValue !== s &&
-          (e.firstChild.nodeValue = s);
+          e.firstChild.nodeValue !== r &&
+          (e.firstChild.nodeValue = r);
       }
     }
     /**
@@ -2060,15 +2037,15 @@ function readScrollBehavior(e, t) {
      * @param {Element} newElement element to read the value from
      * @param {string} attributeName the attribute name
      * @param {MorphContext} ctx the merge context
-     */ function syncBooleanAttribute(e, t, r, s) {
-      const i = t[r],
-        n = e[r];
-      if (i !== n) {
-        const n = ignoreAttribute(r, e, "update", s);
-        n || (e[r] = t[r]);
-        i
-          ? n || e.setAttribute(r, "")
-          : ignoreAttribute(r, e, "remove", s) || e.removeAttribute(r);
+     */ function r(e, t, s, r) {
+      const n = t[s],
+        o = e[s];
+      if (n !== o) {
+        const o = i(s, e, "update", r);
+        o || (e[s] = t[s]);
+        n
+          ? o || e.setAttribute(s, "")
+          : i(s, e, "remove", r) || e.removeAttribute(s);
       }
     }
     /**
@@ -2077,27 +2054,27 @@ function readScrollBehavior(e, t) {
      * @param {"update" | "remove"} updateType
      * @param {MorphContext} ctx the merge context
      * @returns {boolean} true if the attribute should be ignored, false otherwise
-     */ function ignoreAttribute(e, t, r, s) {
+     */ function i(e, t, s, r) {
       return (
         !(
           e !== "value" ||
-          !s.ignoreActiveValue ||
+          !r.ignoreActiveValue ||
           t !== document.activeElement
-        ) || s.callbacks.beforeAttributeUpdated(e, t, r) === false
+        ) || r.callbacks.beforeAttributeUpdated(e, t, s) === false
       );
     }
     /**
      * @param {Node} possibleActiveElement
      * @param {MorphContext} ctx
      * @returns {boolean}
-     */ function ignoreValueOfActiveElement(e, t) {
+     */ function o(e, t) {
       return (
         !!t.ignoreActiveValue &&
         e === document.activeElement &&
         e !== document.body
       );
     }
-    return morphNode;
+    return e;
   })();
   /**
    * @param {MorphContext} ctx
@@ -2105,19 +2082,19 @@ function readScrollBehavior(e, t) {
    * @param {Element} newNode
    * @param {function} callback
    * @returns {Node[] | Promise<Node[]>}
-   */ function withHeadBlocking(e, t, r, s) {
+   */ function a(e, t, s, r) {
     if (e.head.block) {
       const i = t.querySelector("head");
-      const n = r.querySelector("head");
+      const n = s.querySelector("head");
       if (i && n) {
-        const t = handleHeadElement(i, n, e);
+        const t = c(i, n, e);
         return Promise.all(t).then(() => {
           const t = Object.assign(e, { head: { block: false, ignore: true } });
-          return s(t);
+          return r(t);
         });
       }
     }
-    return s(e);
+    return r(e);
   }
   /**
    *  The HEAD tag can be handled specially, either w/ a 'merge' or 'append' style
@@ -2126,8 +2103,8 @@ function readScrollBehavior(e, t) {
    * @param {Element} newHead
    * @param {MorphContext} ctx
    * @returns {Promise<void>[]}
-   */ function handleHeadElement(e, t, r) {
-    let s = [];
+   */ function c(e, t, s) {
+    let r = [];
     let i = [];
     let n = [];
     let o = [];
@@ -2135,20 +2112,20 @@ function readScrollBehavior(e, t) {
     for (const e of t.children) a.set(e.outerHTML, e);
     for (const t of e.children) {
       let e = a.has(t.outerHTML);
-      let s = r.head.shouldReAppend(t);
-      let c = r.head.shouldPreserve(t);
+      let r = s.head.shouldReAppend(t);
+      let c = s.head.shouldPreserve(t);
       if (e || c)
-        if (s) i.push(t);
+        if (r) i.push(t);
         else {
           a.delete(t.outerHTML);
           n.push(t);
         }
-      else if (r.head.style === "append") {
-        if (s) {
+      else if (s.head.style === "append") {
+        if (r) {
           i.push(t);
           o.push(t);
         }
-      } else r.head.shouldRemove(t) !== false && i.push(t);
+      } else s.head.shouldRemove(t) !== false && i.push(t);
     }
     o.push(...a.values());
     let c = [];
@@ -2156,7 +2133,7 @@ function readScrollBehavior(e, t) {
       let i = /** @type {ChildNode} */ document
         .createRange()
         .createContextualFragment(t.outerHTML).firstChild;
-      if (r.callbacks.beforeNodeAdded(i) !== false) {
+      if (s.callbacks.beforeNodeAdded(i) !== false) {
         if (("href" in i && i.href) || ("src" in i && i.src)) {
           /** @type {(result?: any) => void} */ let e;
           let t = new Promise(function (t) {
@@ -2168,19 +2145,19 @@ function readScrollBehavior(e, t) {
           c.push(t);
         }
         e.appendChild(i);
-        r.callbacks.afterNodeAdded(i);
-        s.push(i);
+        s.callbacks.afterNodeAdded(i);
+        r.push(i);
       }
     }
     for (const t of i)
-      if (r.callbacks.beforeNodeRemoved(t) !== false) {
+      if (s.callbacks.beforeNodeRemoved(t) !== false) {
         e.removeChild(t);
-        r.callbacks.afterNodeRemoved(t);
+        s.callbacks.afterNodeRemoved(t);
       }
-    r.head.afterHeadMorphed(e, { added: s, kept: n, removed: i });
+    s.head.afterHeadMorphed(e, { added: r, kept: n, removed: i });
     return c;
   }
-  const s = (function () {
+  const l = (function () {
     /**
      *
      * @param {Element} oldNode
@@ -2188,25 +2165,25 @@ function readScrollBehavior(e, t) {
      * @param {Config} config
      * @returns {MorphContext}
      */
-    function createMorphContext(e, t, r) {
-      const { persistentIds: s, idMap: i } = createIdMaps(e, t);
-      const n = mergeDefaults(r);
-      const o = n.morphStyle || "outerHTML";
-      if (!["innerHTML", "outerHTML"].includes(o))
-        throw `Do not understand how to morph style ${o}`;
+    function e(e, t, i) {
+      const { persistentIds: n, idMap: a } = o(e, t);
+      const c = s(i);
+      const l = c.morphStyle || "outerHTML";
+      if (!["innerHTML", "outerHTML"].includes(l))
+        throw `Do not understand how to morph style ${l}`;
       return {
         target: e,
         newContent: t,
-        config: n,
-        morphStyle: o,
-        ignoreActive: n.ignoreActive,
-        ignoreActiveValue: n.ignoreActiveValue,
-        restoreFocus: n.restoreFocus,
-        idMap: i,
-        persistentIds: s,
-        pantry: createPantry(),
-        callbacks: n.callbacks,
-        head: n.head,
+        config: c,
+        morphStyle: l,
+        ignoreActive: c.ignoreActive,
+        ignoreActiveValue: c.ignoreActiveValue,
+        restoreFocus: c.restoreFocus,
+        idMap: a,
+        persistentIds: n,
+        pantry: r(),
+        callbacks: c.callbacks,
+        head: c.head,
       };
     }
     /**
@@ -2214,16 +2191,16 @@ function readScrollBehavior(e, t) {
      * produce a final configuration object
      * @param {Config} config
      * @returns {ConfigInternal}
-     */ function mergeDefaults(t) {
-      let r = Object.assign({}, e);
-      Object.assign(r, t);
-      r.callbacks = Object.assign({}, e.callbacks, t.callbacks);
-      r.head = Object.assign({}, e.head, t.head);
-      return r;
+     */ function s(e) {
+      let s = Object.assign({}, t);
+      Object.assign(s, e);
+      s.callbacks = Object.assign({}, t.callbacks, e.callbacks);
+      s.head = Object.assign({}, t.head, e.head);
+      return s;
     }
     /**
      * @returns {HTMLDivElement}
-     */ function createPantry() {
+     */ function r() {
       const e = document.createElement("div");
       e.hidden = true;
       document.body.insertAdjacentElement("afterend", e);
@@ -2234,7 +2211,7 @@ function readScrollBehavior(e, t) {
      *
      * @param {Element} root
      * @returns {Element[]}
-     */ function findIdElements(e) {
+     */ function i(e) {
       let t = Array.from(e.querySelectorAll("[id]"));
       e.id && t.push(e);
       return t;
@@ -2249,19 +2226,19 @@ function readScrollBehavior(e, t) {
      * @param {Set<string>} persistentIds
      * @param {Element} root
      * @param {Element[]} elements
-     */ function populateIdMapWithTree(e, t, r, s) {
-      for (const i of s)
+     */ function n(e, t, s, r) {
+      for (const i of r)
         if (t.has(i.id)) {
           /** @type {Element|null} */
           let t = i;
           while (t) {
-            let s = e.get(t);
-            if (s == null) {
-              s = new Set();
-              e.set(t, s);
+            let r = e.get(t);
+            if (r == null) {
+              r = new Set();
+              e.set(t, r);
             }
-            s.add(i.id);
-            if (t === r) break;
+            r.add(i.id);
+            if (t === s) break;
             t = t.parentElement;
           }
         }
@@ -2275,15 +2252,15 @@ function readScrollBehavior(e, t) {
      * @param {Element} oldContent  the old content that will be morphed
      * @param {Element} newContent  the new content to morph to
      * @returns {IdSets}
-     */ function createIdMaps(e, t) {
-      const r = findIdElements(e);
-      const s = findIdElements(t);
-      const i = createPersistentIds(r, s);
-      /** @type {Map<Node, Set<string>>} */ let n = new Map();
-      populateIdMapWithTree(n, i, e, r);
-      const o = t.__idiomorphRoot || t;
-      populateIdMapWithTree(n, i, o, s);
-      return { persistentIds: i, idMap: n };
+     */ function o(e, t) {
+      const s = i(e);
+      const r = i(t);
+      const o = a(s, r);
+      /** @type {Map<Node, Set<string>>} */ let c = new Map();
+      n(c, o, e, s);
+      const l = t.__idiomorphRoot || t;
+      n(c, o, l, r);
+      return { persistentIds: o, idMap: c };
     }
     /**
      * This function computes the set of ids that persist between the two contents excluding duplicates
@@ -2291,38 +2268,38 @@ function readScrollBehavior(e, t) {
      * @param {Element[]} oldIdElements
      * @param {Element[]} newIdElements
      * @returns {Set<string>}
-     */ function createPersistentIds(e, t) {
-      let r = new Set();
-      /** @type {Map<string, string>} */ let s = new Map();
-      for (const { id: t, tagName: i } of e) s.has(t) ? r.add(t) : s.set(t, i);
+     */ function a(e, t) {
+      let s = new Set();
+      /** @type {Map<string, string>} */ let r = new Map();
+      for (const { id: t, tagName: i } of e) r.has(t) ? s.add(t) : r.set(t, i);
       let i = new Set();
       for (const { id: e, tagName: n } of t)
-        i.has(e) ? r.add(e) : s.get(e) === n && i.add(e);
-      for (const e of r) i.delete(e);
+        i.has(e) ? s.add(e) : r.get(e) === n && i.add(e);
+      for (const e of s) i.delete(e);
       return i;
     }
-    return createMorphContext;
+    return e;
   })();
-  const { normalizeElement: i, normalizeParent: n } = (function () {
+  const { normalizeElement: h, normalizeParent: d } = (function () {
     /** @type {WeakSet<Node>} */
     const e = new WeakSet();
     /**
      *
      * @param {Element | Document} content
      * @returns {Element}
-     */ function normalizeElement(e) {
+     */ function t(e) {
       return e instanceof Document ? e.documentElement : e;
     }
     /**
      *
      * @param {null | string | Node | HTMLCollection | Node[] | Document & {generatedByIdiomorph:boolean}} newContent
      * @returns {Element}
-     */ function normalizeParent(t) {
+     */ function s(t) {
       if (t == null) return document.createElement("div");
-      if (typeof t === "string") return normalizeParent(parseContent(t));
+      if (typeof t === "string") return s(i(t));
       if (e.has(/** @type {Element} */ t)) /** @type {Element} */ return t;
       if (t instanceof Node) {
-        if (t.parentNode) return createDuckTypedParent(t);
+        if (t.parentNode) return r(t);
         {
           const e = document.createElement("div");
           e.append(t);
@@ -2331,7 +2308,7 @@ function readScrollBehavior(e, t) {
       }
       {
         const e = document.createElement("div");
-        for (const r of [...t]) e.append(r);
+        for (const s of [...t]) e.append(s);
         return e;
       }
     }
@@ -2341,17 +2318,17 @@ function readScrollBehavior(e, t) {
      *
      * @param {Node} newContent
      * @returns {Element}
-     */ function createDuckTypedParent(e) {
+     */ function r(e) {
       /** @type {Element} */
       /** @type {unknown} */
       return {
         childNodes: [e],
         querySelectorAll: (t) => {
-          const r = e.querySelectorAll(t);
-          return e.matches(t) ? [e, ...r] : r;
+          const s = e.querySelectorAll(t);
+          return e.matches(t) ? [e, ...s] : s;
         },
-        insertBefore: (t, r) => e.parentNode.insertBefore(t, r),
-        moveBefore: (t, r) => e.parentNode.moveBefore(t, r),
+        insertBefore: (t, s) => e.parentNode.insertBefore(t, s),
+        moveBefore: (t, s) => e.parentNode.moveBefore(t, s),
         get __idiomorphRoot() {
           return e;
         },
@@ -2361,12 +2338,12 @@ function readScrollBehavior(e, t) {
      *
      * @param {string} newContent
      * @returns {Node | null | DocumentFragment}
-     */ function parseContent(t) {
-      let r = new DOMParser();
-      let s = t.replace(/<svg(\s[^>]*>|>)([\s\S]*?)<\/svg>/gim, "");
-      if (s.match(/<\/html>/) || s.match(/<\/head>/) || s.match(/<\/body>/)) {
-        let i = r.parseFromString(t, "text/html");
-        if (s.match(/<\/html>/)) {
+     */ function i(t) {
+      let s = new DOMParser();
+      let r = t.replace(/<svg(\s[^>]*>|>)([\s\S]*?)<\/svg>/gim, "");
+      if (r.match(/<\/html>/) || r.match(/<\/head>/) || r.match(/<\/body>/)) {
+        let i = s.parseFromString(t, "text/html");
+        if (r.match(/<\/html>/)) {
           e.add(i);
           return i;
         }
@@ -2377,30 +2354,55 @@ function readScrollBehavior(e, t) {
         }
       }
       {
-        let s = r.parseFromString(
+        let r = s.parseFromString(
           "<body><template>" + t + "</template></body>",
           "text/html",
         );
         let i =
-          /** @type {HTMLTemplateElement} */ s.body.querySelector(
+          /** @type {HTMLTemplateElement} */ r.body.querySelector(
             "template",
           ).content;
         e.add(i);
         return i;
       }
     }
-    return {
-      normalizeElement: normalizeElement,
-      normalizeParent: normalizeParent,
-    };
+    return { normalizeElement: t, normalizeParent: s };
   })();
-  return { morph: morph, defaults: e };
+  return { morph: s, defaults: t };
 })();
-function morphElements(e, t, { callbacks: r, ...s } = {}) {
-  p.morph(e, t, { ...s, callbacks: new DefaultIdiomorphCallbacks(r) });
+/**
+ * Morph the state of the currentElement based on the attributes and contents of
+ * the newElement. Morphing may dispatch turbo:before-morph-element,
+ * turbo:before-morph-attribute, and turbo:morph-element events.
+ *
+ * @param currentElement Element destination of morphing changes
+ * @param newElement Element source of morphing changes
+ */ function Fe(e, t, { callbacks: s, ...r } = {}) {
+  ke.morph(e, t, { ...r, callbacks: new DefaultIdiomorphCallbacks(s) });
 }
-function morphChildren(e, t) {
-  morphElements(e, t.childNodes, { morphStyle: "innerHTML" });
+/**
+ * Morph the child elements of the currentElement based on the child elements of
+ * the newElement. Morphing children may dispatch turbo:before-morph-element,
+ * turbo:before-morph-attribute, and turbo:morph-element events.
+ *
+ * @param currentElement Element destination of morphing children changes
+ * @param newElement Element source of morphing children changes
+ */ function Me(e, t, s = {}) {
+  Fe(e, t.childNodes, { ...s, morphStyle: "innerHTML" });
+}
+function qe(e, t) {
+  return (
+    e instanceof FrameElement &&
+    t instanceof Element &&
+    t.nodeName === "TURBO-FRAME" &&
+    e.shouldReloadWithMorph &&
+    e.id === t.id &&
+    (!t.getAttribute("src") || Y(e.src, t.getAttribute("src"))) &&
+    !e.closest("[data-turbo-permanent]")
+  );
+}
+function Ie(e) {
+  return e.parentElement.closest("turbo-frame[src][refresh=morph]");
 }
 class DefaultIdiomorphCallbacks {
   #l;
@@ -2416,28 +2418,28 @@ class DefaultIdiomorphCallbacks {
   beforeNodeMorphed = (e, t) => {
     if (e instanceof Element) {
       if (!e.hasAttribute("data-turbo-permanent") && this.#l(e, t)) {
-        const r = dispatch("turbo:before-morph-element", {
+        const s = l("turbo:before-morph-element", {
           cancelable: true,
           target: e,
           detail: { currentElement: e, newElement: t },
         });
-        return !r.defaultPrevented;
+        return !s.defaultPrevented;
       }
       return false;
     }
   };
-  beforeAttributeUpdated = (e, t, r) => {
-    const s = dispatch("turbo:before-morph-attribute", {
+  beforeAttributeUpdated = (e, t, s) => {
+    const r = l("turbo:before-morph-attribute", {
       cancelable: true,
       target: t,
-      detail: { attributeName: e, mutationType: r },
+      detail: { attributeName: e, mutationType: s },
     });
-    return !s.defaultPrevented;
+    return !r.defaultPrevented;
   };
   beforeNodeRemoved = (e) => this.beforeNodeMorphed(e);
   afterNodeMorphed = (e, t) => {
     e instanceof Element &&
-      dispatch("turbo:morph-element", {
+      l("turbo:morph-element", {
         target: e,
         detail: { currentElement: e, newElement: t },
       });
@@ -2445,11 +2447,21 @@ class DefaultIdiomorphCallbacks {
 }
 class MorphingFrameRenderer extends FrameRenderer {
   static renderElement(e, t) {
-    dispatch("turbo:before-frame-morph", {
+    l("turbo:before-frame-morph", {
       target: e,
       detail: { currentElement: e, newElement: t },
     });
-    morphChildren(e, t);
+    Me(e, t, {
+      callbacks: {
+        beforeNodeMorphed: (t, s) => {
+          if (qe(t, s) && Ie(t) === e) {
+            t.reload();
+            return false;
+          }
+          return true;
+        },
+      },
+    });
   }
   async preservingPermanentElements(e) {
     return await e();
@@ -2458,7 +2470,7 @@ class MorphingFrameRenderer extends FrameRenderer {
 class ProgressBar {
   static animationDuration = 300;
   static get defaultCSS() {
-    return unindent`
+    return g`
       .turbo-progress-bar {
         position: fixed;
         display: block;
@@ -2548,7 +2560,7 @@ class ProgressBar {
     const e = document.createElement("style");
     e.type = "text/css";
     e.textContent = ProgressBar.defaultCSS;
-    const t = getCspNonce();
+    const t = k();
     t && (e.nonce = t);
     return e;
   }
@@ -2560,19 +2572,12 @@ class ProgressBar {
 }
 class HeadSnapshot extends Snapshot {
   detailsByOuterHTML = this.children
-    .filter((e) => !elementIsNoscript(e))
-    .map((e) => elementWithoutNonce(e))
+    .filter((e) => !Ne(e))
+    .map((e) => De(e))
     .reduce((e, t) => {
-      const { outerHTML: r } = t;
-      const s =
-        r in e
-          ? e[r]
-          : {
-              type: elementType(t),
-              tracked: elementIsTracked(t),
-              elements: [],
-            };
-      return { ...e, [r]: { ...s, elements: [...s.elements, t] } };
+      const { outerHTML: s } = t;
+      const r = s in e ? e[s] : { type: He(t), tracked: Be(t), elements: [] };
+      return { ...e, [s]: { ...r, elements: [...r.elements, t] } };
     }, {});
   get trackedElementSignature() {
     return Object.keys(this.detailsByOuterHTML)
@@ -2594,8 +2599,8 @@ class HeadSnapshot extends Snapshot {
   }
   get provisionalElements() {
     return Object.keys(this.detailsByOuterHTML).reduce((e, t) => {
-      const { type: r, tracked: s, elements: i } = this.detailsByOuterHTML[t];
-      return r != null || s
+      const { type: s, tracked: r, elements: i } = this.detailsByOuterHTML[t];
+      return s != null || r
         ? i.length > 1
           ? [...e, ...i.slice(1)]
           : e
@@ -2607,67 +2612,63 @@ class HeadSnapshot extends Snapshot {
     return t ? t.getAttribute("content") : null;
   }
   findMetaElementByName(e) {
-    return Object.keys(this.detailsByOuterHTML).reduce((t, r) => {
+    return Object.keys(this.detailsByOuterHTML).reduce((t, s) => {
       const {
-        elements: [s],
-      } = this.detailsByOuterHTML[r];
-      return elementIsMetaElementWithName(s, e) ? s : t;
+        elements: [r],
+      } = this.detailsByOuterHTML[s];
+      return xe(r, e) ? r : t;
     }, 0);
   }
 }
-function elementType(e) {
-  return elementIsScript(e)
-    ? "script"
-    : elementIsStylesheet(e)
-      ? "stylesheet"
-      : void 0;
+function He(e) {
+  return Oe(e) ? "script" : Ve(e) ? "stylesheet" : void 0;
 }
-function elementIsTracked(e) {
+function Be(e) {
   return e.getAttribute("data-turbo-track") == "reload";
 }
-function elementIsScript(e) {
+function Oe(e) {
   const t = e.localName;
   return t == "script";
 }
-function elementIsNoscript(e) {
+function Ne(e) {
   const t = e.localName;
   return t == "noscript";
 }
-function elementIsStylesheet(e) {
+function Ve(e) {
   const t = e.localName;
   return t == "style" || (t == "link" && e.getAttribute("rel") == "stylesheet");
 }
-function elementIsMetaElementWithName(e, t) {
-  const r = e.localName;
-  return r == "meta" && e.getAttribute("name") == t;
+function xe(e, t) {
+  const s = e.localName;
+  return s == "meta" && e.getAttribute("name") == t;
 }
-function elementWithoutNonce(e) {
+function De(e) {
   e.hasAttribute("nonce") && e.setAttribute("nonce", "");
   return e;
 }
 class PageSnapshot extends Snapshot {
   static fromHTMLString(e = "") {
-    return this.fromDocument(parseHTMLDocument(e));
+    return this.fromDocument(f(e));
   }
   static fromElement(e) {
     return this.fromDocument(e.ownerDocument);
   }
-  static fromDocument({ documentElement: e, body: t, head: r }) {
-    return new this(e, t, new HeadSnapshot(r));
+  static fromDocument({ documentElement: e, body: t, head: s }) {
+    return new this(e, t, new HeadSnapshot(s));
   }
-  constructor(e, t, r) {
+  constructor(e, t, s) {
     super(t);
     this.documentElement = e;
-    this.headSnapshot = r;
+    this.headSnapshot = s;
   }
   clone() {
     const e = this.element.cloneNode(true);
     const t = this.element.querySelectorAll("select");
-    const r = e.querySelectorAll("select");
-    for (const [e, s] of t.entries()) {
-      const t = r[e];
+    const s = e.querySelectorAll("select");
+    for (const [e, r] of t.entries()) {
+      const t = s[e];
       for (const e of t.selectedOptions) e.selected = false;
-      for (const e of s.selectedOptions) t.options[e.index].selected = true;
+      for (const e of r.selectedOptions) t.options[e.index].selected = true;
     }
     for (const t of e.querySelectorAll('input[type="password"]')) t.value = "";
     return new PageSnapshot(this.documentElement, e, this.headSnapshot);
@@ -2680,7 +2681,7 @@ class PageSnapshot extends Snapshot {
   }
   get rootLocation() {
     const e = this.getSetting("root") ?? "/";
-    return expandURL(e);
+    return U(e);
   }
   get cacheControlValue() {
     return this.getSetting("cache-control");
@@ -2695,7 +2696,10 @@ class PageSnapshot extends Snapshot {
     return this.getSetting("visit-control") != "reload";
   }
   get prefersViewTransitions() {
-    return this.headSnapshot.getMetaValue("view-transition") === "same-origin";
+    const e =
+      this.getSetting("view-transition") === "true" ||
+      this.headSnapshot.getMetaValue("view-transition") === "same-origin";
+    return e && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   }
   get shouldMorphPage() {
     return this.getSetting("refresh-method") === "morph";
@@ -2723,7 +2727,7 @@ class ViewTransitioner {
     return document.startViewTransition;
   }
 }
-const f = {
+const We = {
   action: "advance",
   historyChanged: false,
   visitCachedSnapshot: () => {},
@@ -2732,23 +2736,23 @@ const f = {
   shouldCacheSnapshot: true,
   acceptsStreamResponse: false,
 };
-const g = {
+const Ue = {
   visitStart: "visitStart",
   requestStart: "requestStart",
   requestEnd: "requestEnd",
   visitEnd: "visitEnd",
 };
-const b = {
+const ze = {
   initialized: "initialized",
   started: "started",
   canceled: "canceled",
   failed: "failed",
   completed: "completed",
 };
-const v = { networkFailure: 0, timeoutFailure: -1, contentTypeMismatch: -2 };
-const S = { advance: "forward", restore: "back", replace: "none" };
+const je = { networkFailure: 0, timeoutFailure: -1, contentTypeMismatch: -2 };
+const $e = { advance: "forward", restore: "back", replace: "none" };
 class Visit {
-  identifier = uuid();
+  identifier = v();
   timingMetrics = {};
   followedRedirect = false;
   historyChanged = false;
@@ -2756,12 +2760,12 @@ class Visit {
   shouldCacheSnapshot = true;
   acceptsStreamResponse = false;
   snapshotCached = false;
-  state = b.initialized;
+  state = ze.initialized;
   viewTransitioner = new ViewTransitioner();
-  constructor(e, t, r, s = {}) {
+  constructor(e, t, s, r = {}) {
     this.delegate = e;
     this.location = t;
-    this.restorationIdentifier = r || uuid();
+    this.restorationIdentifier = s || v();
     const {
       action: i,
       historyChanged: n,
@@ -2774,8 +2778,8 @@ class Visit {
       updateHistory: u,
       shouldCacheSnapshot: m,
       acceptsStreamResponse: p,
-      direction: g,
-    } = { ...f, ...s };
+      direction: f,
+    } = { ...We, ...r };
     this.action = i;
     this.historyChanged = n;
     this.referrer = o;
@@ -2793,7 +2797,7 @@ class Visit {
     this.scrolled = !d;
     this.shouldCacheSnapshot = m;
     this.acceptsStreamResponse = p;
-    this.direction = g || S[i];
+    this.direction = f || $e[i];
   }
   get adapter() {
     return this.delegate.adapter;
@@ -2813,32 +2817,32 @@ class Visit {
     return this.isSamePage;
   }
   start() {
-    if (this.state == b.initialized) {
-      this.recordTimingMetric(g.visitStart);
-      this.state = b.started;
+    if (this.state == ze.initialized) {
+      this.recordTimingMetric(Ue.visitStart);
+      this.state = ze.started;
       this.adapter.visitStarted(this);
       this.delegate.visitStarted(this);
     }
   }
   cancel() {
-    if (this.state == b.started) {
+    if (this.state == ze.started) {
       this.request && this.request.cancel();
       this.cancelRender();
-      this.state = b.canceled;
+      this.state = ze.canceled;
     }
   }
   complete() {
-    if (this.state == b.started) {
-      this.recordTimingMetric(g.visitEnd);
+    if (this.state == ze.started) {
+      this.recordTimingMetric(Ue.visitEnd);
       this.adapter.visitCompleted(this);
-      this.state = b.completed;
+      this.state = ze.completed;
       this.followRedirect();
       this.followedRedirect || this.delegate.visitCompleted(this);
     }
   }
   fail() {
-    if (this.state == b.started) {
-      this.state = b.failed;
+    if (this.state == ze.started) {
+      this.state = ze.failed;
       this.adapter.visitFailed(this);
       this.delegate.visitCompleted(this);
     }
@@ -2847,7 +2851,7 @@ class Visit {
     if (!this.historyChanged && this.updateHistory) {
       const e =
         this.location.href === this.referrer?.href ? "replace" : this.action;
-      const t = getHistoryMethodForAction(e);
+      const t = L(e);
       this.history.update(t, this.location, this.restorationIdentifier);
       this.historyChanged = true;
     }
@@ -2855,7 +2859,7 @@ class Visit {
   issueRequest() {
     if (this.hasPreloadedResponse()) this.simulateRequest();
     else if (this.shouldIssueRequest() && !this.request) {
-      this.request = new FetchRequest(this, c.get, this.location);
+      this.request = new FetchRequest(this, re.get, this.location);
       this.request.perform();
     }
   }
@@ -2867,20 +2871,20 @@ class Visit {
     }
   }
   startRequest() {
-    this.recordTimingMetric(g.requestStart);
+    this.recordTimingMetric(Ue.requestStart);
     this.adapter.visitRequestStarted(this);
   }
   recordResponse(e = this.response) {
     this.response = e;
     if (e) {
       const { statusCode: t } = e;
-      isSuccessful(t)
+      _e(t)
         ? this.adapter.visitRequestCompleted(this)
         : this.adapter.visitRequestFailedWithStatusCode(this, t);
     }
   }
   finishRequest() {
-    this.recordTimingMetric(g.requestEnd);
+    this.recordTimingMetric(Ue.requestEnd);
     this.adapter.visitRequestFinished(this);
   }
   loadResponse() {
@@ -2889,7 +2893,7 @@ class Visit {
       this.render(async () => {
         this.shouldCacheSnapshot && this.cacheSnapshot();
         this.view.renderPromise && (await this.view.renderPromise);
-        if (isSuccessful(e) && t != null) {
+        if (_e(e) && t != null) {
           const e = PageSnapshot.fromHTMLString(t);
           await this.renderPageSnapshot(e, false);
           this.adapter.visitRendered(this);
@@ -2908,7 +2912,7 @@ class Visit {
       this.getPreloadedSnapshot();
     if (
       e &&
-      (!getAnchor(this.location) || e.hasAnchor(getAnchor(this.location))) &&
+      (!z(this.location) || e.hasAnchor(z(this.location))) &&
       (this.action == "restore" || e.isPreviewable)
     )
       return e;
@@ -2970,27 +2974,30 @@ class Visit {
   }
   requestPreventedHandlingResponse(e, t) {}
   async requestSucceededWithResponse(e, t) {
-    const r = await t.responseHTML;
-    const { redirected: s, statusCode: i } = t;
-    if (r == void 0)
-      this.recordResponse({ statusCode: v.contentTypeMismatch, redirected: s });
+    const s = await t.responseHTML;
+    const { redirected: r, statusCode: i } = t;
+    if (s == void 0)
+      this.recordResponse({
+        statusCode: je.contentTypeMismatch,
+        redirected: r,
+      });
     else {
       this.redirectedToLocation = t.redirected ? t.location : void 0;
-      this.recordResponse({ statusCode: i, responseHTML: r, redirected: s });
+      this.recordResponse({ statusCode: i, responseHTML: s, redirected: r });
     }
   }
   async requestFailedWithResponse(e, t) {
-    const r = await t.responseHTML;
-    const { redirected: s, statusCode: i } = t;
-    r == void 0
+    const s = await t.responseHTML;
+    const { redirected: r, statusCode: i } = t;
+    s == void 0
       ? this.recordResponse({
-          statusCode: v.contentTypeMismatch,
-          redirected: s,
+          statusCode: je.contentTypeMismatch,
+          redirected: r,
         })
-      : this.recordResponse({ statusCode: i, responseHTML: r, redirected: s });
+      : this.recordResponse({ statusCode: i, responseHTML: s, redirected: r });
   }
   requestErrored(e, t) {
-    this.recordResponse({ statusCode: v.networkFailure, redirected: false });
+    this.recordResponse({ statusCode: je.networkFailure, redirected: false });
   }
   requestFinished() {
     this.finishRequest();
@@ -3022,7 +3029,7 @@ class Visit {
     }
   }
   scrollToAnchor() {
-    const e = getAnchor(this.location);
+    const e = z(this.location);
     if (e != null) {
       this.view.scrollToAnchor(e);
       return true;
@@ -3078,7 +3085,7 @@ class Visit {
     }
   }
 }
-function isSuccessful(e) {
+function _e(e) {
   return e >= 200 && e < 300;
 }
 class BrowserAdapter {
@@ -3087,12 +3094,13 @@ class BrowserAdapter {
     this.session = e;
   }
   visitProposedToLocation(e, t) {
-    locationIsVisitable(e, this.navigator.rootLocation)
-      ? this.navigator.startVisit(e, t?.restorationIdentifier || uuid(), t)
+    X(e, this.navigator.rootLocation)
+      ? this.navigator.startVisit(e, t?.restorationIdentifier || v(), t)
       : (window.location.href = e.toString());
   }
   visitStarted(e) {
     this.location = e.location;
+    this.redirectedToLocation = null;
     e.loadCachedSnapshot();
     e.issueRequest();
     e.goToSamePageAnchor();
@@ -3105,12 +3113,14 @@ class BrowserAdapter {
   }
   visitRequestCompleted(e) {
     e.loadResponse();
+    e.response.redirected &&
+      (this.redirectedToLocation = e.redirectedToLocation);
   }
   visitRequestFailedWithStatusCode(e, t) {
     switch (t) {
-      case v.networkFailure:
-      case v.timeoutFailure:
-      case v.contentTypeMismatch:
+      case je.networkFailure:
+      case je.timeoutFailure:
+      case je.contentTypeMismatch:
         return this.reload({
           reason: "request_failed",
           context: { statusCode: t },
@@ -3174,8 +3184,10 @@ class BrowserAdapter {
     this.progressBar.show();
   };
   reload(e) {
-    dispatch("turbo:reload", { detail: e });
-    window.location.href = this.location?.toString() || window.location.href;
+    l("turbo:reload", { detail: e });
+    window.location.href =
+      (this.redirectedToLocation || this.location)?.toString() ||
+      window.location.href;
   }
   get navigator() {
     return this.session.navigator;
@@ -3238,51 +3250,51 @@ class FrameRedirector {
     this.linkInterceptor.stop();
     this.formSubmitObserver.stop();
   }
-  shouldInterceptLinkClick(e, t, r) {
+  shouldInterceptLinkClick(e, t, s) {
     return this.#u(e);
   }
-  linkClickIntercepted(e, t, r) {
-    const s = this.#m(e);
-    s && s.delegate.linkClickIntercepted(e, t, r);
+  linkClickIntercepted(e, t, s) {
+    const r = this.#m(e);
+    r && r.delegate.linkClickIntercepted(e, t, s);
   }
   willSubmitForm(e, t) {
     return e.closest("turbo-frame") == null && this.#p(e, t) && this.#u(e, t);
   }
   formSubmitted(e, t) {
-    const r = this.#m(e, t);
-    r && r.delegate.formSubmitted(e, t);
+    const s = this.#m(e, t);
+    s && s.delegate.formSubmitted(e, t);
   }
   #p(e, t) {
-    const r = getAction$1(e, t);
-    const s = this.element.ownerDocument.querySelector(
+    const s = j(e, t);
+    const r = this.element.ownerDocument.querySelector(
       'meta[name="turbo-root"]',
     );
-    const i = expandURL(s?.content ?? "/");
-    return this.#u(e, t) && locationIsVisitable(r, i);
+    const i = U(r?.content ?? "/");
+    return this.#u(e, t) && X(s, i);
   }
   #u(e, t) {
-    const r =
+    const s =
       e instanceof HTMLFormElement
         ? this.session.submissionIsNavigatable(e, t)
         : this.session.elementIsNavigatable(e);
-    if (r) {
-      const r = this.#m(e, t);
-      return !!r && r != e.closest("turbo-frame");
+    if (s) {
+      const s = this.#m(e, t);
+      return !!s && s != e.closest("turbo-frame");
     }
     return false;
   }
   #m(e, t) {
-    const r =
+    const s =
       t?.getAttribute("data-turbo-frame") || e.getAttribute("data-turbo-frame");
-    if (r && r != "_top") {
-      const e = this.element.querySelector(`#${r}:not([disabled])`);
+    if (s && s != "_top") {
+      const e = this.element.querySelector(`#${s}:not([disabled])`);
       if (e instanceof FrameElement) return e;
     }
   }
 }
 class History {
   location;
-  restorationIdentifier = uuid();
+  restorationIdentifier = v();
   restorationData = {};
   started = false;
   pageLoaded = false;
@@ -3312,22 +3324,22 @@ class History {
   replace(e, t) {
     this.update(history.replaceState, e, t);
   }
-  update(e, t, r = uuid()) {
+  update(e, t, s = v()) {
     e === history.pushState && ++this.currentIndex;
-    const s = {
-      turbo: { restorationIdentifier: r, restorationIndex: this.currentIndex },
+    const r = {
+      turbo: { restorationIdentifier: s, restorationIndex: this.currentIndex },
     };
-    e.call(history, s, "", t.href);
+    e.call(history, r, "", t.href);
     this.location = t;
-    this.restorationIdentifier = r;
+    this.restorationIdentifier = s;
   }
   getRestorationDataForIdentifier(e) {
     return this.restorationData[e] || {};
   }
   updateRestorationData(e) {
     const { restorationIdentifier: t } = this;
-    const r = this.restorationData[t];
-    this.restorationData[t] = { ...r, ...e };
+    const s = this.restorationData[t];
+    this.restorationData[t] = { ...s, ...e };
   }
   assumeControlOfScrollRestoration() {
     if (!this.previousScrollRestoration) {
@@ -3346,20 +3358,20 @@ class History {
       const { turbo: t } = e.state || {};
       if (t) {
         this.location = new URL(window.location.href);
-        const { restorationIdentifier: e, restorationIndex: r } = t;
+        const { restorationIdentifier: e, restorationIndex: s } = t;
         this.restorationIdentifier = e;
-        const s = r > this.currentIndex ? "forward" : "back";
+        const r = s > this.currentIndex ? "forward" : "back";
         this.delegate.historyPoppedToLocationWithRestorationIdentifierAndDirection(
           this.location,
           e,
-          s,
+          r,
         );
-        this.currentIndex = r;
+        this.currentIndex = s;
       }
     }
   };
   onPageLoad = async (e) => {
-    await nextMicrotask();
+    await p();
     this.pageLoaded = true;
   };
   shouldHandlePopState() {
@@ -3419,17 +3431,18 @@ class LinkPrefetchObserver {
     this.started = true;
   };
   #b = (e) => {
-    if (getMetaContent("turbo-prefetch") === "false") return;
+    if (C("turbo-prefetch") === "false") return;
     const t = e.target;
-    const r =
+    const s =
       t.matches && t.matches("a[href]:not([target^=_]):not([download])");
-    if (r && this.#E(t)) {
+    if (s && this.#w(t)) {
       const e = t;
-      const r = getLocationForLink(e);
-      if (this.delegate.canPrefetchRequestToLocation(e, r)) {
+      const s = N(e);
+      if (this.delegate.canPrefetchRequestToLocation(e, s)) {
         this.#f = e;
-        const s = new FetchRequest(this, c.get, r, new URLSearchParams(), t);
-        u.setLater(r.toString(), s, this.#w);
+        const r = new FetchRequest(this, re.get, s, new URLSearchParams(), t);
+        r.fetchOptions.priority = "low";
+        me.setLater(s.toString(), r, this.#E);
       }
     }
   };
@@ -3437,23 +3450,23 @@ class LinkPrefetchObserver {
     e.target === this.#f && this.#y();
   };
   #y = () => {
-    u.clear();
+    me.clear();
     this.#f = null;
   };
   #S = (e) => {
     if (e.target.tagName !== "FORM" && e.detail.fetchOptions.method === "GET") {
-      const t = u.get(e.detail.url.toString());
+      const t = me.get(e.detail.url.toString());
       t && (e.detail.fetchRequest = t);
-      u.clear();
+      me.clear();
     }
   };
   prepareRequest(e) {
     const t = e.target;
     e.headers["X-Sec-Purpose"] = "prefetch";
-    const r = t.closest("turbo-frame");
-    const s =
-      t.getAttribute("data-turbo-frame") || r?.getAttribute("target") || r?.id;
-    s && s !== "_top" && (e.headers["Turbo-Frame"] = s);
+    const s = t.closest("turbo-frame");
+    const r =
+      t.getAttribute("data-turbo-frame") || s?.getAttribute("target") || s?.id;
+    r && r !== "_top" && (e.headers["Turbo-Frame"] = r);
   }
   requestSucceededWithResponse() {}
   requestStarted(e) {}
@@ -3461,51 +3474,44 @@ class LinkPrefetchObserver {
   requestFinished(e) {}
   requestPreventedHandlingResponse(e, t) {}
   requestFailedWithResponse(e, t) {}
-  get #w() {
-    return Number(getMetaContent("turbo-prefetch-cache-time")) || d;
+  get #E() {
+    return Number(C("turbo-prefetch-cache-time")) || ue;
   }
-  #E(e) {
+  #w(e) {
     const t = e.getAttribute("href");
-    return (
-      !!t &&
-      !unfetchableLink(e) &&
-      !linkToTheSamePage(e) &&
-      !linkOptsOut(e) &&
-      !nonSafeLink(e) &&
-      !eventPrevented(e)
-    );
+    return !!t && !Xe(e) && !Ke(e) && !Qe(e) && !Ye(e) && !Je(e);
   }
 }
-const unfetchableLink = (e) =>
+const Xe = (e) =>
   e.origin !== document.location.origin ||
   !["http:", "https:"].includes(e.protocol) ||
   e.hasAttribute("target");
-const linkToTheSamePage = (e) =>
+const Ke = (e) =>
   e.pathname + e.search ===
     document.location.pathname + document.location.search ||
   e.href.startsWith("#");
-const linkOptsOut = (e) => {
+const Qe = (e) => {
   if (e.getAttribute("data-turbo-prefetch") === "false") return true;
   if (e.getAttribute("data-turbo") === "false") return true;
-  const t = findClosestRecursively(e, "[data-turbo-prefetch]");
+  const t = M(e, "[data-turbo-prefetch]");
   return !(!t || t.getAttribute("data-turbo-prefetch") !== "false");
 };
-const nonSafeLink = (e) => {
+const Ye = (e) => {
   const t = e.getAttribute("data-turbo-method");
   return (
     !(!t || t.toLowerCase() === "get") ||
-    !!isUJS(e) ||
+    !!Ge(e) ||
     !!e.hasAttribute("data-turbo-confirm") ||
     !!e.hasAttribute("data-turbo-stream")
   );
 };
-const isUJS = (e) =>
+const Ge = (e) =>
   e.hasAttribute("data-remote") ||
   e.hasAttribute("data-behavior") ||
   e.hasAttribute("data-confirm") ||
   e.hasAttribute("data-method");
-const eventPrevented = (e) => {
-  const t = dispatch("turbo:before-prefetch", { target: e, cancelable: true });
+const Je = (e) => {
+  const t = l("turbo:before-prefetch", { target: e, cancelable: true });
   return t.defaultPrevented;
 };
 class Navigator {
@@ -3516,11 +3522,11 @@ class Navigator {
     this.delegate.allowsVisitingLocationWithAction(e, t.action) &&
       this.delegate.visitProposedToLocation(e, t);
   }
-  startVisit(e, t, r = {}) {
+  startVisit(e, t, s = {}) {
     this.stop();
-    this.currentVisit = new Visit(this, expandURL(e), t, {
+    this.currentVisit = new Visit(this, U(e), t, {
       referrer: this.location,
-      ...r,
+      ...s,
     });
     this.currentVisit.start();
   }
@@ -3557,25 +3563,25 @@ class Navigator {
   }
   async formSubmissionSucceededWithResponse(e, t) {
     if (e == this.formSubmission) {
-      const r = await t.responseHTML;
-      if (r) {
-        const s = e.isSafe;
-        s || this.view.clearSnapshotCache();
+      const s = await t.responseHTML;
+      if (s) {
+        const r = e.isSafe;
+        r || this.view.clearSnapshotCache();
         const { statusCode: i, redirected: n } = t;
         const o = this.#R(e, t);
         const a = {
           action: o,
-          shouldCacheSnapshot: s,
-          response: { statusCode: i, responseHTML: r, redirected: n },
+          shouldCacheSnapshot: r,
+          response: { statusCode: i, responseHTML: s, redirected: n },
         };
         this.proposeVisit(t.location, a);
       }
     }
   }
   async formSubmissionFailedWithResponse(e, t) {
-    const r = await t.responseHTML;
-    if (r) {
-      const e = PageSnapshot.fromHTMLString(r);
+    const s = await t.responseHTML;
+    if (s) {
+      const e = PageSnapshot.fromHTMLString(s);
       t.serverError
         ? await this.view.renderError(e, this.currentVisit)
         : await this.view.renderPage(e, false, true, this.currentVisit);
@@ -3604,13 +3610,13 @@ class Navigator {
     delete this.currentVisit;
   }
   locationWithActionIsSamePage(e, t) {
-    const r = getAnchor(e);
-    const s = getAnchor(this.view.lastRenderedLocation);
-    const i = t === "restore" && typeof r === "undefined";
+    const s = z(e);
+    const r = z(this.view.lastRenderedLocation);
+    const i = t === "restore" && typeof s === "undefined";
     return (
       t !== "replace" &&
-      getRequestURL(e) === getRequestURL(this.view.lastRenderedLocation) &&
-      (i || (r != null && r !== s))
+      K(e) === K(this.view.lastRenderedLocation) &&
+      (i || (s != null && s !== r))
     );
   }
   visitScrolledToSamePageLocation(e, t) {
@@ -3623,24 +3629,24 @@ class Navigator {
     return this.history.restorationIdentifier;
   }
   #R(e, t) {
-    const { submitter: r, formElement: s } = e;
-    return getVisitAction(r, s) || this.#A(t);
+    const { submitter: s, formElement: r } = e;
+    return A(s, r) || this.#L(t);
   }
-  #A(e) {
+  #L(e) {
     const t = e.redirected && e.location.href === this.location?.href;
     return t ? "replace" : "advance";
   }
 }
-const E = { initial: 0, loading: 1, interactive: 2, complete: 3 };
+const Ze = { initial: 0, loading: 1, interactive: 2, complete: 3 };
 class PageObserver {
-  stage = E.initial;
+  stage = Ze.initial;
   started = false;
   constructor(e) {
     this.delegate = e;
   }
   start() {
     if (!this.started) {
-      this.stage == E.initial && (this.stage = E.loading);
+      this.stage == Ze.initial && (this.stage = Ze.loading);
       document.addEventListener(
         "readystatechange",
         this.interpretReadyState,
@@ -3668,15 +3674,15 @@ class PageObserver {
       : e == "complete" && this.pageIsComplete();
   };
   pageIsInteractive() {
-    if (this.stage == E.loading) {
-      this.stage = E.interactive;
+    if (this.stage == Ze.loading) {
+      this.stage = Ze.interactive;
       this.delegate.pageBecameInteractive();
     }
   }
   pageIsComplete() {
     this.pageIsInteractive();
-    if (this.stage == E.interactive) {
-      this.stage = E.complete;
+    if (this.stage == Ze.interactive) {
+      this.stage = Ze.complete;
       this.delegate.pageLoaded();
     }
   }
@@ -3714,78 +3720,74 @@ class ScrollObserver {
 }
 class StreamMessageRenderer {
   render({ fragment: e }) {
-    Bardo.preservingPermanentElements(
-      this,
-      getPermanentElementMapForFragment(e),
-      () => {
-        withAutofocusFromFragment(e, () => {
-          withPreservedFocus(() => {
-            document.documentElement.appendChild(e);
-          });
+    Bardo.preservingPermanentElements(this, et(e), () => {
+      tt(e, () => {
+        st(() => {
+          document.documentElement.appendChild(e);
         });
-      },
-    );
+      });
+    });
   }
   enteringBardo(e, t) {
     t.replaceWith(e.cloneNode(true));
   }
   leavingBardo() {}
 }
-function getPermanentElementMapForFragment(e) {
-  const t = queryPermanentElementsAll(document.documentElement);
-  const r = {};
-  for (const s of t) {
-    const { id: t } = s;
+function et(e) {
+  const t = Re(document.documentElement);
+  const s = {};
+  for (const r of t) {
+    const { id: t } = r;
     for (const i of e.querySelectorAll("turbo-stream")) {
-      const e = getPermanentElementById(i.templateElement.content, t);
-      e && (r[t] = [s, e]);
+      const e = ye(i.templateElement.content, t);
+      e && (s[t] = [r, e]);
     }
   }
-  return r;
+  return s;
 }
-async function withAutofocusFromFragment(e, t) {
-  const r = `turbo-stream-autofocus-${uuid()}`;
-  const s = e.querySelectorAll("turbo-stream");
-  const i = firstAutofocusableElementInStreams(s);
+async function tt(e, t) {
+  const s = `turbo-stream-autofocus-${v()}`;
+  const r = e.querySelectorAll("turbo-stream");
+  const i = rt(r);
   let n = null;
   if (i) {
-    n = i.id ? i.id : r;
+    n = i.id ? i.id : s;
     i.id = n;
   }
   t();
-  await nextRepaint();
+  await d();
   const o =
     document.activeElement == null || document.activeElement == document.body;
   if (o && n) {
     const e = document.getElementById(n);
-    elementIsFocusable(e) && e.focus();
-    e && e.id == r && e.removeAttribute("id");
+    q(e) && e.focus();
+    e && e.id == s && e.removeAttribute("id");
   }
 }
-async function withPreservedFocus(e) {
-  const [t, r] = await around(e, () => document.activeElement);
-  const s = t && t.id;
-  if (s) {
-    const e = document.getElementById(s);
-    elementIsFocusable(e) && e != r && e.focus();
+async function st(e) {
+  const [t, s] = await H(e, () => document.activeElement);
+  const r = t && t.id;
+  if (r) {
+    const e = document.getElementById(r);
+    q(e) && e != s && e.focus();
   }
 }
-function firstAutofocusableElementInStreams(e) {
+function rt(e) {
   for (const t of e) {
-    const e = queryAutofocusableElement(t.templateElement.content);
+    const e = I(t.templateElement.content);
     if (e) return e;
   }
   return null;
 }
 class StreamObserver {
   sources = new Set();
-  #L = false;
+  #T = false;
   constructor(e) {
     this.delegate = e;
   }
   start() {
-    if (!this.#L) {
-      this.#L = true;
+    if (!this.#T) {
+      this.#T = true;
       addEventListener(
         "turbo:before-fetch-response",
         this.inspectFetchResponse,
@@ -3794,8 +3796,8 @@ class StreamObserver {
     }
   }
   stop() {
-    if (this.#L) {
-      this.#L = false;
+    if (this.#T) {
+      this.#T = false;
       removeEventListener(
         "turbo:before-fetch-response",
         this.inspectFetchResponse,
@@ -3819,14 +3821,14 @@ class StreamObserver {
     return this.sources.has(e);
   }
   inspectFetchResponse = (e) => {
-    const t = fetchResponseFromEvent(e);
-    if (t && fetchResponseIsStream(t)) {
+    const t = it(e);
+    if (t && nt(t)) {
       e.preventDefault();
       this.receiveMessageResponse(t);
     }
   };
   receiveMessageEvent = (e) => {
-    this.#L && typeof e.data == "string" && this.receiveMessageHTML(e.data);
+    this.#T && typeof e.data == "string" && this.receiveMessageHTML(e.data);
   };
   async receiveMessageResponse(e) {
     const t = await e.responseHTML;
@@ -3836,18 +3838,18 @@ class StreamObserver {
     this.delegate.receivedMessageFromStream(StreamMessage.wrap(e));
   }
 }
-function fetchResponseFromEvent(e) {
+function it(e) {
   const t = e.detail?.fetchResponse;
   if (t instanceof FetchResponse) return t;
 }
-function fetchResponseIsStream(e) {
+function nt(e) {
   const t = e.contentType ?? "";
   return t.startsWith(StreamMessage.contentType);
 }
 class ErrorRenderer extends Renderer {
   static renderElement(e, t) {
-    const { documentElement: r, body: s } = document;
-    r.replaceChild(t, s);
+    const { documentElement: s, body: r } = document;
+    s.replaceChild(t, r);
   }
   async render() {
     this.replaceHeadAndBody();
@@ -3862,8 +3864,8 @@ class ErrorRenderer extends Renderer {
     for (const e of this.scriptElements) {
       const t = e.parentNode;
       if (t) {
-        const r = activateScriptElement(e);
-        t.replaceChild(r, e);
+        const s = o(e);
+        t.replaceChild(s, e);
       }
     }
   }
@@ -3891,7 +3893,7 @@ class PageRenderer extends Renderer {
       : { reason: "turbo_visit_control_is_reload" };
   }
   async prepareToRender() {
-    this.#T();
+    this.#A();
     await this.mergeHead();
   }
   async render() {
@@ -3910,7 +3912,7 @@ class PageRenderer extends Renderer {
   get newElement() {
     return this.newSnapshot.element;
   }
-  #T() {
+  #A() {
     const { documentElement: e } = this.currentSnapshot;
     const { lang: t } = this.newSnapshot;
     t ? e.setAttribute("lang", t) : e.removeAttribute("lang");
@@ -3938,14 +3940,13 @@ class PageRenderer extends Renderer {
   async copyNewHeadStylesheetElements() {
     const e = [];
     for (const t of this.newHeadStylesheetElements) {
-      e.push(waitForLoad(t));
+      e.push(R(t));
       document.head.appendChild(t);
     }
     await Promise.all(e);
   }
   copyNewHeadScriptElements() {
-    for (const e of this.newHeadScriptElements)
-      document.head.appendChild(activateScriptElement(e));
+    for (const e of this.newHeadScriptElements) document.head.appendChild(o(e));
   }
   removeUnusedDynamicStylesheetElements() {
     for (const e of this.unusedDynamicStylesheetElements)
@@ -3958,16 +3959,16 @@ class PageRenderer extends Renderer {
     for (const t of e) document.head.appendChild(t);
   }
   isCurrentElementInElementList(e, t) {
-    for (const [r, s] of t.entries()) {
+    for (const [s, r] of t.entries()) {
       if (e.tagName == "TITLE") {
-        if (s.tagName != "TITLE") continue;
-        if (e.innerHTML == s.innerHTML) {
-          t.splice(r, 1);
+        if (r.tagName != "TITLE") continue;
+        if (e.innerHTML == r.innerHTML) {
+          t.splice(s, 1);
           return true;
         }
       }
-      if (s.isEqualNode(e)) {
-        t.splice(r, 1);
+      if (r.isEqualNode(e)) {
+        t.splice(s, 1);
         return true;
       }
     }
@@ -3987,7 +3988,7 @@ class PageRenderer extends Renderer {
   }
   activateNewBodyScriptElements() {
     for (const e of this.newBodyScriptElements) {
-      const t = activateScriptElement(e);
+      const t = o(e);
       e.replaceWith(t);
     }
   }
@@ -4026,12 +4027,18 @@ class PageRenderer extends Renderer {
 }
 class MorphingPageRenderer extends PageRenderer {
   static renderElement(e, t) {
-    morphElements(e, t, {
-      callbacks: { beforeNodeMorphed: (e) => !canRefreshFrame(e) },
+    Fe(e, t, {
+      callbacks: {
+        beforeNodeMorphed: (e, t) => {
+          if (qe(e, t) && !Ie(e)) {
+            e.reload();
+            return false;
+          }
+          return true;
+        },
+      },
     });
-    for (const t of e.querySelectorAll("turbo-frame"))
-      canRefreshFrame(t) && t.reload();
-    dispatch("turbo:morph", { detail: { currentElement: e, newElement: t } });
+    l("turbo:morph", { detail: { currentElement: e, newElement: t } });
   }
   async preservingPermanentElements(e) {
     return await e();
@@ -4043,14 +4050,6 @@ class MorphingPageRenderer extends PageRenderer {
     return false;
   }
 }
-function canRefreshFrame(e) {
-  return (
-    e instanceof FrameElement &&
-    e.src &&
-    e.refresh === "morph" &&
-    !e.closest("[data-turbo-permanent]")
-  );
-}
 class SnapshotCache {
   keys = [];
   snapshots = {};
@@ -4058,7 +4057,7 @@ class SnapshotCache {
     this.size = e;
   }
   has(e) {
-    return toCacheKey(e) in this.snapshots;
+    return Q(e) in this.snapshots;
   }
   get(e) {
     if (this.has(e)) {
@@ -4076,15 +4075,15 @@ class SnapshotCache {
     this.snapshots = {};
   }
   read(e) {
-    return this.snapshots[toCacheKey(e)];
+    return this.snapshots[Q(e)];
   }
   write(e, t) {
-    this.snapshots[toCacheKey(e)] = t;
+    this.snapshots[Q(e)] = t;
   }
   touch(e) {
-    const t = toCacheKey(e);
-    const r = this.keys.indexOf(t);
-    r > -1 && this.keys.splice(r, 1);
+    const t = Q(e);
+    const s = this.keys.indexOf(t);
+    s > -1 && this.keys.splice(s, 1);
     this.keys.unshift(t);
     this.trim();
   }
@@ -4099,17 +4098,17 @@ class PageView extends View {
   shouldTransitionTo(e) {
     return this.snapshot.prefersViewTransitions && e.prefersViewTransitions;
   }
-  renderPage(e, t = false, r = true, s) {
-    const i = this.isPageRefresh(s) && this.snapshot.shouldMorphPage;
+  renderPage(e, t = false, s = true, r) {
+    const i = this.isPageRefresh(r) && this.snapshot.shouldMorphPage;
     const n = i ? MorphingPageRenderer : PageRenderer;
-    const o = new n(this.snapshot, e, t, r);
-    o.shouldRender ? s?.changeHistory() : (this.forceReloaded = true);
+    const o = new n(this.snapshot, e, t, s);
+    o.shouldRender ? r?.changeHistory() : (this.forceReloaded = true);
     return this.render(o);
   }
   renderError(e, t) {
     t?.changeHistory();
-    const r = new ErrorRenderer(this.snapshot, e, false);
-    return this.render(r);
+    const s = new ErrorRenderer(this.snapshot, e, false);
+    return this.render(s);
   }
   clearSnapshotCache() {
     this.snapshotCache.clear();
@@ -4118,10 +4117,10 @@ class PageView extends View {
     if (e.isCacheable) {
       this.delegate.viewWillCacheSnapshot();
       const { lastRenderedLocation: t } = this;
-      await nextEventLoopTick();
-      const r = e.clone();
-      this.snapshotCache.put(t, r);
-      return r;
+      await m();
+      const s = e.clone();
+      this.snapshotCache.put(t, s);
+      return s;
     }
   }
   getCachedSnapshotForLocation(e) {
@@ -4162,17 +4161,17 @@ class Preloader {
   async preloadURL(e) {
     const t = new URL(e.href);
     if (this.snapshotCache.has(t)) return;
-    const r = new FetchRequest(this, c.get, t, new URLSearchParams(), e);
-    await r.perform();
+    const s = new FetchRequest(this, re.get, t, new URLSearchParams(), e);
+    await s.perform();
   }
   prepareRequest(e) {
     e.headers["X-Sec-Purpose"] = "prefetch";
   }
   async requestSucceededWithResponse(e, t) {
     try {
-      const r = await t.responseHTML;
-      const s = PageSnapshot.fromHTMLString(r);
-      this.snapshotCache.put(e.url, s);
+      const s = await t.responseHTML;
+      const r = PageSnapshot.fromHTMLString(s);
+      this.snapshotCache.put(e.url, r);
     } catch (e) {}
   }
   requestStarted(e) {}
@@ -4201,7 +4200,7 @@ class Cache {
     this.#C("no-preview");
   }
   #C(e) {
-    setMetaContent("turbo-cache-control", e);
+    F("turbo-cache-control", e);
   }
 }
 class Session {
@@ -4225,7 +4224,7 @@ class Session {
   cache = new Cache(this);
   enabled = true;
   started = false;
-  #F = 150;
+  #k = 150;
   constructor(e) {
     this.recentRequests = e;
     this.preloader = new Preloader(this, this.view.snapshotCache);
@@ -4272,19 +4271,19 @@ class Session {
     this.adapter = e;
   }
   visit(e, t = {}) {
-    const r = t.frame ? document.getElementById(t.frame) : null;
-    if (r instanceof FrameElement) {
-      const s = t.action || getVisitAction(r);
-      r.delegate.proposeVisitIfNavigatedWithAction(r, s);
-      r.src = e.toString();
-    } else this.navigator.proposeVisit(expandURL(e), t);
+    const s = t.frame ? document.getElementById(t.frame) : null;
+    if (s instanceof FrameElement) {
+      const r = t.action || A(s);
+      s.delegate.proposeVisitIfNavigatedWithAction(s, r);
+      s.src = e.toString();
+    } else this.navigator.proposeVisit(U(e), t);
   }
   refresh(e, t) {
-    const r = t && this.recentRequests.has(t);
-    const s = e === document.baseURI;
-    r ||
+    const s = t && this.recentRequests.has(t);
+    const r = e === document.baseURI;
+    s ||
       this.navigator.currentVisit ||
-      !s ||
+      !r ||
       this.visit(e, { action: "replace", shouldCacheSnapshot: false });
   }
   connectStreamSource(e) {
@@ -4306,22 +4305,22 @@ class Session {
     this.progressBarDelay = e;
   }
   set progressBarDelay(e) {
-    n.drive.progressBarDelay = e;
+    W.drive.progressBarDelay = e;
   }
   get progressBarDelay() {
-    return n.drive.progressBarDelay;
+    return W.drive.progressBarDelay;
   }
   set drive(e) {
-    n.drive.enabled = e;
+    W.drive.enabled = e;
   }
   get drive() {
-    return n.drive.enabled;
+    return W.drive.enabled;
   }
   set formMode(e) {
-    n.forms.mode = e;
+    W.forms.mode = e;
   }
   get formMode() {
-    return n.forms.mode;
+    return W.forms.mode;
   }
   get location() {
     return this.history.location;
@@ -4330,36 +4329,32 @@ class Session {
     return this.history.restorationIdentifier;
   }
   get pageRefreshDebouncePeriod() {
-    return this.#F;
+    return this.#k;
   }
   set pageRefreshDebouncePeriod(e) {
-    this.refresh = debounce(this.debouncedRefresh.bind(this), e);
-    this.#F = e;
+    this.refresh = V(this.debouncedRefresh.bind(this), e);
+    this.#k = e;
   }
   shouldPreloadLink(e) {
     const t = e.hasAttribute("data-turbo-method");
-    const r = e.hasAttribute("data-turbo-stream");
-    const s = e.getAttribute("data-turbo-frame");
+    const s = e.hasAttribute("data-turbo-stream");
+    const r = e.getAttribute("data-turbo-frame");
     const i =
-      s == "_top"
+      r == "_top"
         ? null
-        : document.getElementById(s) ||
-          findClosestRecursively(e, "turbo-frame:not([disabled])");
-    if (t || r || i instanceof FrameElement) return false;
+        : document.getElementById(r) || M(e, "turbo-frame:not([disabled])");
+    if (t || s || i instanceof FrameElement) return false;
     {
       const t = new URL(e.href);
-      return (
-        this.elementIsNavigatable(e) &&
-        locationIsVisitable(t, this.snapshot.rootLocation)
-      );
+      return this.elementIsNavigatable(e) && X(t, this.snapshot.rootLocation);
     }
   }
-  historyPoppedToLocationWithRestorationIdentifierAndDirection(e, t, r) {
+  historyPoppedToLocationWithRestorationIdentifierAndDirection(e, t, s) {
     this.enabled
       ? this.navigator.startVisit(e, t, {
           action: "restore",
           historyChanged: true,
-          direction: r,
+          direction: s,
         })
       : this.adapter.pageInvalidated({ reason: "turbo_disabled" });
   }
@@ -4367,30 +4362,27 @@ class Session {
     this.history.updateRestorationData({ scrollPosition: e });
   }
   willSubmitFormLinkToLocation(e, t) {
-    return (
-      this.elementIsNavigatable(e) &&
-      locationIsVisitable(t, this.snapshot.rootLocation)
-    );
+    return this.elementIsNavigatable(e) && X(t, this.snapshot.rootLocation);
   }
   submittedFormLinkToLocation() {}
   canPrefetchRequestToLocation(e, t) {
     return (
       this.elementIsNavigatable(e) &&
-      locationIsVisitable(t, this.snapshot.rootLocation) &&
+      X(t, this.snapshot.rootLocation) &&
       this.navigator.linkPrefetchingIsEnabledForLocation(t)
     );
   }
-  willFollowLinkToLocation(e, t, r) {
+  willFollowLinkToLocation(e, t, s) {
     return (
       this.elementIsNavigatable(e) &&
-      locationIsVisitable(t, this.snapshot.rootLocation) &&
-      this.applicationAllowsFollowingLinkToLocation(e, t, r)
+      X(t, this.snapshot.rootLocation) &&
+      this.applicationAllowsFollowingLinkToLocation(e, t, s)
     );
   }
   followedLinkToLocation(e, t) {
-    const r = this.getActionForLink(e);
-    const s = e.hasAttribute("data-turbo-stream");
-    this.visit(t.href, { action: r, acceptsStreamResponse: s });
+    const s = this.getActionForLink(e);
+    const r = e.hasAttribute("data-turbo-stream");
+    this.visit(t.href, { action: s, acceptsStreamResponse: r });
   }
   allowsVisitingLocationWithAction(e, t) {
     return (
@@ -4399,21 +4391,21 @@ class Session {
     );
   }
   visitProposedToLocation(e, t) {
-    extendURLWithDeprecatedProperties(e);
+    ot(e);
     this.adapter.visitProposedToLocation(e, t);
   }
   visitStarted(e) {
     if (!e.acceptsStreamResponse) {
-      markAsBusy(document.documentElement);
+      E(document.documentElement);
       this.view.markVisitDirection(e.direction);
     }
-    extendURLWithDeprecatedProperties(e.location);
+    ot(e.location);
     e.silent ||
       this.notifyApplicationAfterVisitingLocation(e.location, e.action);
   }
   visitCompleted(e) {
     this.view.unmarkVisitDirection();
-    clearBusyState(document.documentElement);
+    y(document.documentElement);
     this.notifyApplicationAfterPageLoad(e.getTimingMetrics());
   }
   locationWithActionIsSamePage(e, t) {
@@ -4423,10 +4415,9 @@ class Session {
     this.notifyApplicationAfterVisitingSamePageLocation(e, t);
   }
   willSubmitForm(e, t) {
-    const r = getAction$1(e, t);
+    const s = j(e, t);
     return (
-      this.submissionIsNavigatable(e, t) &&
-      locationIsVisitable(expandURL(r), this.snapshot.rootLocation)
+      this.submissionIsNavigatable(e, t) && X(U(s), this.snapshot.rootLocation)
     );
   }
   formSubmitted(e, t) {
@@ -4450,17 +4441,17 @@ class Session {
       this.notifyApplicationBeforeCachingSnapshot();
   }
   allowsImmediateRender({ element: e }, t) {
-    const r = this.notifyApplicationBeforeRender(e, t);
+    const s = this.notifyApplicationBeforeRender(e, t);
     const {
-      defaultPrevented: s,
+      defaultPrevented: r,
       detail: { render: i },
-    } = r;
+    } = s;
     this.view.renderer && i && (this.view.renderer.renderElement = i);
-    return !s;
+    return !r;
   }
-  viewRenderedSnapshot(e, t, r) {
+  viewRenderedSnapshot(e, t, s) {
     this.view.lastRenderedLocation = this.history.location;
-    this.notifyApplicationAfterRender(r);
+    this.notifyApplicationAfterRender(s);
   }
   preloadOnLoadLinksForView(e) {
     this.preloader.preloadOnLoadLinksForView(e);
@@ -4474,46 +4465,44 @@ class Session {
   frameRendered(e, t) {
     this.notifyApplicationAfterFrameRender(e, t);
   }
-  applicationAllowsFollowingLinkToLocation(e, t, r) {
-    const s = this.notifyApplicationAfterClickingLinkToLocation(e, t, r);
-    return !s.defaultPrevented;
+  applicationAllowsFollowingLinkToLocation(e, t, s) {
+    const r = this.notifyApplicationAfterClickingLinkToLocation(e, t, s);
+    return !r.defaultPrevented;
   }
   applicationAllowsVisitingLocation(e) {
     const t = this.notifyApplicationBeforeVisitingLocation(e);
     return !t.defaultPrevented;
   }
-  notifyApplicationAfterClickingLinkToLocation(e, t, r) {
-    return dispatch("turbo:click", {
+  notifyApplicationAfterClickingLinkToLocation(e, t, s) {
+    return l("turbo:click", {
       target: e,
-      detail: { url: t.href, originalEvent: r },
+      detail: { url: t.href, originalEvent: s },
       cancelable: true,
     });
   }
   notifyApplicationBeforeVisitingLocation(e) {
-    return dispatch("turbo:before-visit", {
+    return l("turbo:before-visit", {
       detail: { url: e.href },
       cancelable: true,
     });
   }
   notifyApplicationAfterVisitingLocation(e, t) {
-    return dispatch("turbo:visit", { detail: { url: e.href, action: t } });
+    return l("turbo:visit", { detail: { url: e.href, action: t } });
   }
   notifyApplicationBeforeCachingSnapshot() {
-    return dispatch("turbo:before-cache");
+    return l("turbo:before-cache");
   }
   notifyApplicationBeforeRender(e, t) {
-    return dispatch("turbo:before-render", {
+    return l("turbo:before-render", {
       detail: { newBody: e, ...t },
       cancelable: true,
     });
   }
   notifyApplicationAfterRender(e) {
-    return dispatch("turbo:render", { detail: { renderMethod: e } });
+    return l("turbo:render", { detail: { renderMethod: e } });
   }
   notifyApplicationAfterPageLoad(e = {}) {
-    return dispatch("turbo:load", {
-      detail: { url: this.location.href, timing: e },
-    });
+    return l("turbo:load", { detail: { url: this.location.href, timing: e } });
   }
   notifyApplicationAfterVisitingSamePageLocation(e, t) {
     dispatchEvent(
@@ -4524,59 +4513,59 @@ class Session {
     );
   }
   notifyApplicationAfterFrameLoad(e) {
-    return dispatch("turbo:frame-load", { target: e });
+    return l("turbo:frame-load", { target: e });
   }
   notifyApplicationAfterFrameRender(e, t) {
-    return dispatch("turbo:frame-render", {
+    return l("turbo:frame-render", {
       detail: { fetchResponse: e },
       target: t,
       cancelable: true,
     });
   }
   submissionIsNavigatable(e, t) {
-    if (n.forms.mode == "off") return false;
+    if (W.forms.mode == "off") return false;
     {
-      const r = !t || this.elementIsNavigatable(t);
-      return n.forms.mode == "optin"
-        ? r && e.closest('[data-turbo="true"]') != null
-        : r && this.elementIsNavigatable(e);
+      const s = !t || this.elementIsNavigatable(t);
+      return W.forms.mode == "optin"
+        ? s && e.closest('[data-turbo="true"]') != null
+        : s && this.elementIsNavigatable(e);
     }
   }
   elementIsNavigatable(e) {
-    const t = findClosestRecursively(e, "[data-turbo]");
-    const r = findClosestRecursively(e, "turbo-frame");
-    return n.drive.enabled || r
+    const t = M(e, "[data-turbo]");
+    const s = M(e, "turbo-frame");
+    return W.drive.enabled || s
       ? !t || t.getAttribute("data-turbo") != "false"
       : !!t && t.getAttribute("data-turbo") == "true";
   }
   getActionForLink(e) {
-    return getVisitAction(e) || "advance";
+    return A(e) || "advance";
   }
   get snapshot() {
     return this.view.snapshot;
   }
 }
-function extendURLWithDeprecatedProperties(e) {
-  Object.defineProperties(e, w);
+function ot(e) {
+  Object.defineProperties(e, at);
 }
-const w = {
+const at = {
   absoluteURL: {
     get() {
       return this.toString();
     },
   },
 };
-const y = new Session(o);
-const { cache: R, navigator: A } = y;
-function start() {
-  y.start();
+const ct = new Session(ee);
+const { cache: lt, navigator: ht } = ct;
+function dt() {
+  ct.start();
 }
 /**
  * Registers an adapter for the main session.
  *
  * @param adapter Adapter to register
- */ function registerAdapter(e) {
-  y.registerAdapter(e);
+ */ function ut(e) {
+  ct.registerAdapter(e);
 }
 /**
  * Performs an application visit to the given location.
@@ -4591,41 +4580,41 @@ function start() {
  * navigations to the same page will not result in a new history entry.
  * @param options.snapshotHTML Cached snapshot to render
  * @param options.response Response of the specified location
- */ function visit(e, t) {
-  y.visit(e, t);
+ */ function mt(e, t) {
+  ct.visit(e, t);
 }
 /**
  * Connects a stream source to the main session.
  *
  * @param source Stream source to connect
- */ function connectStreamSource(e) {
-  y.connectStreamSource(e);
+ */ function pt(e) {
+  ct.connectStreamSource(e);
 }
 /**
  * Disconnects a stream source from the main session.
  *
  * @param source Stream source to disconnect
- */ function disconnectStreamSource(e) {
-  y.disconnectStreamSource(e);
+ */ function ft(e) {
+  ct.disconnectStreamSource(e);
 }
 /**
  * Renders a stream message to the main session by appending it to the
  * current document.
  *
  * @param message Message to render
- */ function renderStreamMessage(e) {
-  y.renderStreamMessage(e);
+ */ function gt(e) {
+  ct.renderStreamMessage(e);
 }
 /**
  * Removes all entries from the Turbo Drive page cache.
  * Call this when state has changed on the server that may affect cached pages.
  *
  * @deprecated since version 7.2.0 in favor of `Turbo.cache.clear()`
- */ function clearCache() {
+ */ function bt() {
   console.warn(
     "Please replace `Turbo.clearCache()` with `Turbo.cache.clear()`. The top-level function is deprecated and will be removed in a future version of Turbo.`",
   );
-  y.clearCache();
+  ct.clearCache();
 }
 /**
  * Sets the delay after which the progress bar will appear during navigation.
@@ -4636,54 +4625,80 @@ function start() {
  * adapters.
  *
  * @param delay Time to delay in milliseconds
- */ function setProgressBarDelay(e) {
+ */ function vt(e) {
   console.warn(
     "Please replace `Turbo.setProgressBarDelay(delay)` with `Turbo.config.drive.progressBarDelay = delay`. The top-level function is deprecated and will be removed in a future version of Turbo.`",
   );
-  n.drive.progressBarDelay = e;
+  W.drive.progressBarDelay = e;
 }
-function setConfirmMethod(e) {
+function St(e) {
   console.warn(
     "Please replace `Turbo.setConfirmMethod(confirmMethod)` with `Turbo.config.forms.confirm = confirmMethod`. The top-level function is deprecated and will be removed in a future version of Turbo.`",
   );
-  n.forms.confirm = e;
+  W.forms.confirm = e;
 }
-function setFormMode(e) {
+function wt(e) {
   console.warn(
     "Please replace `Turbo.setFormMode(mode)` with `Turbo.config.forms.mode = mode`. The top-level function is deprecated and will be removed in a future version of Turbo.`",
   );
-  n.forms.mode = e;
+  W.forms.mode = e;
 }
-var L = Object.freeze({
+/**
+ * Morph the state of the currentBody based on the attributes and contents of
+ * the newBody. Morphing body elements may dispatch turbo:morph,
+ * turbo:before-morph-element, turbo:before-morph-attribute, and
+ * turbo:morph-element events.
+ *
+ * @param currentBody HTMLBodyElement destination of morphing changes
+ * @param newBody HTMLBodyElement source of morphing changes
+ */ function Et(e, t) {
+  MorphingPageRenderer.renderElement(e, t);
+}
+/**
+ * Morph the child elements of the currentFrame based on the child elements of
+ * the newFrame. Morphing turbo-frame elements may dispatch turbo:before-frame-morph,
+ * turbo:before-morph-element, turbo:before-morph-attribute, and
+ * turbo:morph-element events.
+ *
+ * @param currentFrame FrameElement destination of morphing children changes
+ * @param newFrame FrameElement source of morphing children changes
+ */ function yt(e, t) {
+  MorphingFrameRenderer.renderElement(e, t);
+}
+var Rt = Object.freeze({
   __proto__: null,
-  navigator: A,
-  session: y,
-  cache: R,
+  navigator: ht,
+  session: ct,
+  cache: lt,
   PageRenderer: PageRenderer,
   PageSnapshot: PageSnapshot,
   FrameRenderer: FrameRenderer,
-  fetch: fetchWithTurboHeaders,
-  config: n,
-  start: start,
-  registerAdapter: registerAdapter,
-  visit: visit,
-  connectStreamSource: connectStreamSource,
-  disconnectStreamSource: disconnectStreamSource,
-  renderStreamMessage: renderStreamMessage,
-  clearCache: clearCache,
-  setProgressBarDelay: setProgressBarDelay,
-  setConfirmMethod: setConfirmMethod,
-  setFormMode: setFormMode,
+  fetch: te,
+  config: W,
+  start: dt,
+  registerAdapter: ut,
+  visit: mt,
+  connectStreamSource: pt,
+  disconnectStreamSource: ft,
+  renderStreamMessage: gt,
+  clearCache: bt,
+  setProgressBarDelay: vt,
+  setConfirmMethod: St,
+  setFormMode: wt,
+  morphBodyElements: Et,
+  morphTurboFrameElements: yt,
+  morphChildren: Me,
+  morphElements: Fe,
 });
 class TurboFrameMissingError extends Error {}
 class FrameController {
   fetchResponseLoaded = (e) => Promise.resolve();
-  #M = null;
-  #k = () => {};
-  #I = false;
+  #F = null;
+  #M = () => {};
   #q = false;
-  #B = new Set();
-  #H = false;
+  #I = false;
+  #H = new Set();
+  #B = false;
   action = null;
   constructor(e) {
     this.element = e;
@@ -4691,21 +4706,21 @@ class FrameController {
     this.appearanceObserver = new AppearanceObserver(this, this.element);
     this.formLinkClickObserver = new FormLinkClickObserver(this, this.element);
     this.linkInterceptor = new LinkInterceptor(this, this.element);
-    this.restorationIdentifier = uuid();
+    this.restorationIdentifier = v();
     this.formSubmitObserver = new FormSubmitObserver(this, this.element);
   }
   connect() {
-    if (!this.#I) {
-      this.#I = true;
-      this.loadingStyle == t.lazy ? this.appearanceObserver.start() : this.#N();
+    if (!this.#q) {
+      this.#q = true;
+      this.loadingStyle == r.lazy ? this.appearanceObserver.start() : this.#O();
       this.formLinkClickObserver.start();
       this.linkInterceptor.start();
       this.formSubmitObserver.start();
     }
   }
   disconnect() {
-    if (this.#I) {
-      this.#I = false;
+    if (this.#q) {
+      this.#q = false;
       this.appearanceObserver.stop();
       this.formLinkClickObserver.stop();
       this.linkInterceptor.stop();
@@ -4713,35 +4728,35 @@ class FrameController {
     }
   }
   disabledChanged() {
-    this.loadingStyle == t.eager && this.#N();
+    this.loadingStyle == r.eager && this.#O();
   }
   sourceURLChanged() {
-    if (!this.#x("src")) {
+    if (!this.#N("src")) {
       this.element.isConnected && (this.complete = false);
-      (this.loadingStyle == t.eager || this.#q) && this.#N();
+      (this.loadingStyle == r.eager || this.#I) && this.#O();
     }
   }
   sourceURLReloaded() {
     const { refresh: e, src: t } = this.element;
-    this.#H = t && e === "morph";
+    this.#B = t && e === "morph";
     this.element.removeAttribute("complete");
     this.element.src = null;
     this.element.src = t;
     return this.element.loaded;
   }
   loadingStyleChanged() {
-    if (this.loadingStyle == t.lazy) this.appearanceObserver.start();
+    if (this.loadingStyle == r.lazy) this.appearanceObserver.start();
     else {
       this.appearanceObserver.stop();
-      this.#N();
+      this.#O();
     }
   }
-  async #N() {
+  async #O() {
     if (this.enabled && this.isActive && !this.complete && this.sourceURL) {
-      this.element.loaded = this.#O(expandURL(this.sourceURL));
+      this.element.loaded = this.#V(U(this.sourceURL));
       this.appearanceObserver.stop();
       await this.element.loaded;
-      this.#q = true;
+      this.#I = true;
     }
   }
   async loadResponse(e) {
@@ -4750,27 +4765,27 @@ class FrameController {
     try {
       const t = await e.responseHTML;
       if (t) {
-        const r = parseHTMLDocument(t);
-        const s = PageSnapshot.fromDocument(r);
-        s.isVisitable ? await this.#V(e, r) : await this.#D(e);
+        const s = f(t);
+        const r = PageSnapshot.fromDocument(s);
+        r.isVisitable ? await this.#x(e, s) : await this.#D(e);
       }
     } finally {
-      this.#H = false;
+      this.#B = false;
       this.fetchResponseLoaded = () => Promise.resolve();
     }
   }
   elementAppearedInViewport(e) {
-    this.proposeVisitIfNavigatedWithAction(e, getVisitAction(e));
-    this.#N();
+    this.proposeVisitIfNavigatedWithAction(e, A(e));
+    this.#O();
   }
   willSubmitFormLinkToLocation(e) {
     return this.#W(e);
   }
-  submittedFormLinkToLocation(e, t, r) {
-    const s = this.#m(e);
-    s && r.setAttribute("data-turbo-frame", s.id);
+  submittedFormLinkToLocation(e, t, s) {
+    const r = this.#m(e);
+    r && s.setAttribute("data-turbo-frame", r.id);
   }
-  shouldInterceptLinkClick(e, t, r) {
+  shouldInterceptLinkClick(e, t, s) {
     return this.#W(e);
   }
   linkClickIntercepted(e, t) {
@@ -4782,8 +4797,8 @@ class FrameController {
   formSubmitted(e, t) {
     this.formSubmission && this.formSubmission.stop();
     this.formSubmission = new FormSubmission(this, e, t);
-    const { fetchRequest: r } = this.formSubmission;
-    this.prepareRequest(r);
+    const { fetchRequest: s } = this.formSubmission;
+    this.prepareRequest(s);
     this.formSubmission.start();
   }
   prepareRequest(e) {
@@ -4792,64 +4807,64 @@ class FrameController {
       e.acceptResponseType(StreamMessage.contentType);
   }
   requestStarted(e) {
-    markAsBusy(this.element);
+    E(this.element);
   }
   requestPreventedHandlingResponse(e, t) {
-    this.#k();
+    this.#M();
   }
   async requestSucceededWithResponse(e, t) {
     await this.loadResponse(t);
-    this.#k();
+    this.#M();
   }
   async requestFailedWithResponse(e, t) {
     await this.loadResponse(t);
-    this.#k();
+    this.#M();
   }
   requestErrored(e, t) {
     console.error(t);
-    this.#k();
+    this.#M();
   }
   requestFinished(e) {
-    clearBusyState(this.element);
+    y(this.element);
   }
   formSubmissionStarted({ formElement: e }) {
-    markAsBusy(e, this.#m(e));
+    E(e, this.#m(e));
   }
   formSubmissionSucceededWithResponse(e, t) {
-    const r = this.#m(e.formElement, e.submitter);
-    r.delegate.proposeVisitIfNavigatedWithAction(
-      r,
-      getVisitAction(e.submitter, e.formElement, r),
+    const s = this.#m(e.formElement, e.submitter);
+    s.delegate.proposeVisitIfNavigatedWithAction(
+      s,
+      A(e.submitter, e.formElement, s),
     );
-    r.delegate.loadResponse(t);
-    e.isSafe || y.clearCache();
+    s.delegate.loadResponse(t);
+    e.isSafe || ct.clearCache();
   }
   formSubmissionFailedWithResponse(e, t) {
     this.element.delegate.loadResponse(t);
-    y.clearCache();
+    ct.clearCache();
   }
   formSubmissionErrored(e, t) {
     console.error(t);
   }
   formSubmissionFinished({ formElement: e }) {
-    clearBusyState(e, this.#m(e));
+    y(e, this.#m(e));
   }
   allowsImmediateRender({ element: e }, t) {
-    const r = dispatch("turbo:before-frame-render", {
+    const s = l("turbo:before-frame-render", {
       target: this.element,
       detail: { newFrame: e, ...t },
       cancelable: true,
     });
     const {
-      defaultPrevented: s,
+      defaultPrevented: r,
       detail: { render: i },
-    } = r;
+    } = s;
     this.view.renderer && i && (this.view.renderer.renderElement = i);
-    return !s;
+    return !r;
   }
-  viewRenderedSnapshot(e, t, r) {}
+  viewRenderedSnapshot(e, t, s) {}
   preloadOnLoadLinksForView(e) {
-    y.preloadOnLoadLinksForView(e);
+    ct.preloadOnLoadLinksForView(e);
   }
   viewInvalidated() {}
   willRenderFrame(e, t) {
@@ -4862,77 +4877,77 @@ class FrameController {
       t.replaceChildren(...this.previousFrameElement.children);
     delete this.previousFrameElement;
   };
-  async #V(e, t) {
-    const r = await this.extractForeignFrameElement(t.body);
-    const s = this.#H ? MorphingFrameRenderer : FrameRenderer;
-    if (r) {
-      const t = new Snapshot(r);
-      const i = new s(this, this.view.snapshot, t, false, false);
+  async #x(e, t) {
+    const s = await this.extractForeignFrameElement(t.body);
+    const r = this.#B ? MorphingFrameRenderer : FrameRenderer;
+    if (s) {
+      const t = new Snapshot(s);
+      const i = new r(this, this.view.snapshot, t, false, false);
       this.view.renderPromise && (await this.view.renderPromise);
       this.changeHistory();
       await this.view.render(i);
       this.complete = true;
-      y.frameRendered(e, this.element);
-      y.frameLoaded(this.element);
+      ct.frameRendered(e, this.element);
+      ct.frameLoaded(this.element);
       await this.fetchResponseLoaded(e);
-    } else this.#z(e) && this.#$(e);
+    } else this.#z(e) && this.#j(e);
   }
-  async #O(e) {
+  async #V(e) {
     const t = new FetchRequest(
       this,
-      c.get,
+      re.get,
       e,
       new URLSearchParams(),
       this.element,
     );
-    this.#M?.cancel();
-    this.#M = t;
+    this.#F?.cancel();
+    this.#F = t;
     return new Promise((e) => {
-      this.#k = () => {
-        this.#k = () => {};
-        this.#M = null;
+      this.#M = () => {
+        this.#M = () => {};
+        this.#F = null;
         e();
       };
       t.perform();
     });
   }
-  #U(e, t, r) {
-    const s = this.#m(e, r);
-    s.delegate.proposeVisitIfNavigatedWithAction(s, getVisitAction(r, e, s));
-    this.#j(e, () => {
-      s.src = t;
+  #U(e, t, s) {
+    const r = this.#m(e, s);
+    r.delegate.proposeVisitIfNavigatedWithAction(r, A(s, e, r));
+    this.#$(e, () => {
+      r.src = t;
     });
   }
   proposeVisitIfNavigatedWithAction(e, t = null) {
     this.action = t;
     if (this.action) {
       const t = PageSnapshot.fromElement(e).clone();
-      const { visitCachedSnapshot: r } = e.delegate;
-      e.delegate.fetchResponseLoaded = async (s) => {
+      const { visitCachedSnapshot: s } = e.delegate;
+      e.delegate.fetchResponseLoaded = async (r) => {
         if (e.src) {
-          const { statusCode: i, redirected: n } = s;
-          const o = await s.responseHTML;
+          const { statusCode: i, redirected: n } = r;
+          const o = await r.responseHTML;
           const a = { statusCode: i, redirected: n, responseHTML: o };
           const c = {
             response: a,
-            visitCachedSnapshot: r,
+            visitCachedSnapshot: s,
             willRender: false,
             updateHistory: false,
             restorationIdentifier: this.restorationIdentifier,
             snapshot: t,
           };
           this.action && (c.action = this.action);
-          y.visit(e.src, c);
+          ct.visit(e.src, c);
         }
       };
     }
   }
   changeHistory() {
     if (this.action) {
-      const e = getHistoryMethodForAction(this.action);
-      y.history.update(
+      const e = L(this.action);
+      ct.history.update(
         e,
-        expandURL(this.element.src || ""),
+        U(this.element.src || ""),
         this.restorationIdentifier,
       );
     }
@@ -4946,46 +4961,45 @@ class FrameController {
   #z(e) {
     this.element.setAttribute("complete", "");
     const t = e.response;
-    const visit = async (e, t) => {
-      e instanceof Response ? this.#_(e) : y.visit(e, t);
+    const s = async (e, t) => {
+      e instanceof Response ? this.#_(e) : ct.visit(e, t);
     };
-    const r = dispatch("turbo:frame-missing", {
+    const r = l("turbo:frame-missing", {
       target: this.element,
-      detail: { response: t, visit: visit },
+      detail: { response: t, visit: s },
       cancelable: true,
     });
     return !r.defaultPrevented;
   }
-  #$(e) {
+  #j(e) {
     this.view.missing();
-    this.#K(e);
+    this.#X(e);
   }
-  #K(e) {
+  #X(e) {
     const t = `The response (${e.statusCode}) did not contain the expected <turbo-frame id="${this.element.id}"> and will be ignored. To perform a full page visit instead, set turbo-visit-control to reload.`;
     throw new TurboFrameMissingError(t);
   }
   async #_(e) {
     const t = new FetchResponse(e);
-    const r = await t.responseHTML;
-    const { location: s, redirected: i, statusCode: n } = t;
-    return y.visit(s, {
-      response: { redirected: i, statusCode: n, responseHTML: r },
+    const s = await t.responseHTML;
+    const { location: r, redirected: i, statusCode: n } = t;
+    return ct.visit(r, {
+      response: { redirected: i, statusCode: n, responseHTML: s },
     });
   }
   #m(e, t) {
-    const r =
-      getAttribute("data-turbo-frame", t, e) ||
-      this.element.getAttribute("target");
-    return getFrameElementById(r) ?? this.element;
+    const s =
+      S("data-turbo-frame", t, e) || this.element.getAttribute("target");
+    return Lt(s) ?? this.element;
   }
   async extractForeignFrameElement(e) {
     let t;
-    const r = CSS.escape(this.id);
+    const s = CSS.escape(this.id);
     try {
-      t = activateElement(e.querySelector(`turbo-frame#${r}`), this.sourceURL);
+      t = Tt(e.querySelector(`turbo-frame#${s}`), this.sourceURL);
       if (t) return t;
-      t = activateElement(
-        e.querySelector(`turbo-frame[src][recurse~=${r}]`),
+      t = Tt(
+        e.querySelector(`turbo-frame[src][recurse~=${s}]`),
         this.sourceURL,
       );
       if (t) {
@@ -4998,21 +5012,20 @@ class FrameController {
     }
     return null;
   }
-  #X(e, t) {
-    const r = getAction$1(e, t);
-    return locationIsVisitable(expandURL(r), this.rootLocation);
+  #K(e, t) {
+    const s = j(e, t);
+    return X(U(s), this.rootLocation);
   }
   #W(e, t) {
-    const r =
-      getAttribute("data-turbo-frame", t, e) ||
-      this.element.getAttribute("target");
-    if (e instanceof HTMLFormElement && !this.#X(e, t)) return false;
-    if (!this.enabled || r == "_top") return false;
-    if (r) {
-      const e = getFrameElementById(r);
+    const s =
+      S("data-turbo-frame", t, e) || this.element.getAttribute("target");
+    if (e instanceof HTMLFormElement && !this.#K(e, t)) return false;
+    if (!this.enabled || s == "_top") return false;
+    if (s) {
+      const e = Lt(s);
       if (e) return !e.disabled;
     }
-    return !!y.elementIsNavigatable(e) && !(t && !y.elementIsNavigatable(t));
+    return !!ct.elementIsNavigatable(e) && !(t && !ct.elementIsNavigatable(t));
   }
   get id() {
     return this.element.id;
@@ -5032,7 +5045,7 @@ class FrameController {
     return this.element.loading;
   }
   get isLoading() {
-    return this.formSubmission !== void 0 || this.#k() !== void 0;
+    return this.formSubmission !== void 0 || this.#M() !== void 0;
   }
   get complete() {
     return this.element.hasAttribute("complete");
@@ -5043,39 +5056,39 @@ class FrameController {
       : this.element.removeAttribute("complete");
   }
   get isActive() {
-    return this.element.isActive && this.#I;
+    return this.element.isActive && this.#q;
   }
   get rootLocation() {
     const e = this.element.ownerDocument.querySelector(
       'meta[name="turbo-root"]',
     );
     const t = e?.content ?? "/";
-    return expandURL(t);
+    return U(t);
   }
-  #x(e) {
-    return this.#B.has(e);
+  #N(e) {
+    return this.#H.has(e);
   }
   #Q(e, t) {
-    this.#B.add(e);
+    this.#H.add(e);
     t();
-    this.#B.delete(e);
+    this.#H.delete(e);
   }
-  #j(e, t) {
+  #$(e, t) {
     this.currentNavigationElement = e;
     t();
     delete this.currentNavigationElement;
   }
 }
-function getFrameElementById(e) {
+function Lt(e) {
   if (e != null) {
     const t = document.getElementById(e);
     if (t instanceof FrameElement) return t;
   }
 }
-function activateElement(e, t) {
+function Tt(e, t) {
   if (e) {
-    const r = e.getAttribute("src");
-    if (r != null && t != null && urlsAreEqual(r, t))
+    const s = e.getAttribute("src");
+    if (s != null && t != null && Y(s, t))
       throw new Error(
         `Matching <turbo-frame id="${e.id}"> element has a source URL which references itself`,
       );
@@ -5087,7 +5100,7 @@ function activateElement(e, t) {
     }
   }
 }
-const T = {
+const At = {
   after() {
     this.targetElements.forEach((e) =>
       e.parentElement?.insertBefore(this.templateContent, e.nextSibling),
@@ -5113,14 +5126,14 @@ const T = {
     const e = this.getAttribute("method");
     this.targetElements.forEach((t) => {
       e === "morph"
-        ? morphElements(t, this.templateContent)
+        ? Fe(t, this.templateContent)
         : t.replaceWith(this.templateContent);
     });
   },
   update() {
     const e = this.getAttribute("method");
     this.targetElements.forEach((t) => {
-      if (e === "morph") morphChildren(t, this.templateContent);
+      if (e === "morph") Me(t, this.templateContent);
       else {
         t.innerHTML = "";
         t.append(this.templateContent);
@@ -5128,7 +5141,7 @@ const T = {
     });
   },
   refresh() {
-    y.refresh(this.baseURI, this.requestId);
+    ct.refresh(this.baseURI, this.requestId);
   },
 };
 class StreamElement extends HTMLElement {
@@ -5148,7 +5161,7 @@ class StreamElement extends HTMLElement {
     return (this.renderPromise ??= (async () => {
       const e = this.beforeRenderEvent;
       if (this.dispatchEvent(e)) {
-        await nextRepaint();
+        await d();
         await e.detail.render(this);
       }
     })());
@@ -5172,7 +5185,7 @@ class StreamElement extends HTMLElement {
   }
   get performAction() {
     if (this.action) {
-      const e = T[this.action];
+      const e = At[this.action];
       if (e) return e;
       this.#Y("unknown action");
     }
@@ -5236,12 +5249,12 @@ class StreamSourceElement extends HTMLElement {
     this.streamSource = this.src.match(/^ws{1,2}:/)
       ? new WebSocket(this.src)
       : new EventSource(this.src);
-    connectStreamSource(this.streamSource);
+    pt(this.streamSource);
   }
   disconnectedCallback() {
     if (this.streamSource) {
       this.streamSource.close();
-      disconnectStreamSource(this.streamSource);
+      ft(this.streamSource);
     }
   }
   get src() {
@@ -5262,7 +5275,7 @@ customElements.get("turbo-stream-source") === void 0 &&
     while (e) {
       if (e == document.body)
         return console.warn(
-          unindent`
+          g`
         You are loading Turbo from a <script> element inside the <body> element. This is probably not what you meant to do!
 
         Load your application’s JavaScript bundle inside the <head> element instead. <script> elements in <body> are evaluated with each page change.
@@ -5278,37 +5291,41 @@ customElements.get("turbo-stream-source") === void 0 &&
     }
   }
 })();
-window.Turbo = { ...L, StreamActions: T };
-start();
+window.Turbo = { ...Rt, StreamActions: At };
+dt();
 export {
-  l as FetchEnctype,
-  c as FetchMethod,
+  ne as FetchEnctype,
+  re as FetchMethod,
   FetchRequest,
   FetchResponse,
   FrameElement,
-  t as FrameLoadingStyle,
+  r as FrameLoadingStyle,
   FrameRenderer,
   PageRenderer,
   PageSnapshot,
-  T as StreamActions,
+  At as StreamActions,
   StreamElement,
   StreamSourceElement,
-  R as cache,
-  clearCache,
-  n as config,
-  connectStreamSource,
-  disconnectStreamSource,
-  fetchWithTurboHeaders as fetch,
-  fetchEnctypeFromString,
-  fetchMethodFromString,
-  isSafe,
-  A as navigator,
-  registerAdapter,
-  renderStreamMessage,
-  y as session,
-  setConfirmMethod,
-  setFormMode,
-  setProgressBarDelay,
-  start,
-  visit,
+  lt as cache,
+  bt as clearCache,
+  W as config,
+  pt as connectStreamSource,
+  ft as disconnectStreamSource,
+  te as fetch,
+  ie as fetchEnctypeFromString,
+  se as fetchMethodFromString,
+  oe as isSafe,
+  Et as morphBodyElements,
+  Me as morphChildren,
+  Fe as morphElements,
+  yt as morphTurboFrameElements,
+  ht as navigator,
+  ut as registerAdapter,
+  gt as renderStreamMessage,
+  ct as session,
+  St as setConfirmMethod,
+  wt as setFormMode,
+  vt as setProgressBarDelay,
+  dt as start,
+  mt as visit,
 };

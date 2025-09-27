@@ -1,4 +1,4 @@
-// @hotwired/turbo-rails@8.0.16 downloaded from https://ga.jspm.io/npm:@hotwired/turbo-rails@8.0.16/app/javascript/turbo/index.js
+// @hotwired/turbo-rails@8.0.18 downloaded from https://ga.jspm.io/npm:@hotwired/turbo-rails@8.0.18/app/javascript/turbo/index.js
 
 import * as t from "@hotwired/turbo";
 import {

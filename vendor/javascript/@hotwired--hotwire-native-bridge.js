@@ -1,16 +1,16 @@
-// @hotwired/hotwire-native-bridge@1.2.1 downloaded from https://ga.jspm.io/npm:@hotwired/hotwire-native-bridge@1.2.1/dist/hotwire-native-bridge.js
+// @hotwired/hotwire-native-bridge@1.2.2 downloaded from https://ga.jspm.io/npm:@hotwired/hotwire-native-bridge@1.2.2/dist/hotwire-native-bridge.js
 
 import { Controller as e } from "@hotwired/stimulus";
 var t = class {
   #e;
   #t;
-  #n;
   #s;
+  #n;
   constructor() {
     this.#e = null;
     this.#t = 0;
-    this.#n = [];
-    this.#s = new Map();
+    this.#s = [];
+    this.#n = new Map();
   }
   start() {
     this.notifyApplicationAfterStart();
@@ -21,30 +21,30 @@ var t = class {
   supportsComponent(e) {
     return !!this.#e && this.#e.supportsComponent(e);
   }
-  send({ component: e, event: t, data: n, callback: s }) {
+  send({ component: e, event: t, data: s, callback: n }) {
     if (!this.#e) {
-      this.#i({ component: e, event: t, data: n, callback: s });
+      this.#i({ component: e, event: t, data: s, callback: n });
       return null;
     }
     if (!this.supportsComponent(e)) return null;
     const i = this.generateMessageId();
-    const a = { id: i, component: e, event: t, data: n || {} };
-    this.#e.receive(a);
-    s && this.#s.set(i, s);
+    const r = { id: i, component: e, event: t, data: s || {} };
+    this.#e.receive(r);
+    n && this.#n.set(i, n);
     return i;
   }
   receive(e) {
     this.executeCallbackFor(e);
   }
   executeCallbackFor(e) {
-    const t = this.#s.get(e.id);
+    const t = this.#n.get(e.id);
     t && t(e);
   }
   removeCallbackFor(e) {
-    this.#s.has(e) && this.#s.delete(e);
+    this.#n.has(e) && this.#n.delete(e);
   }
   removePendingMessagesFor(e) {
-    this.#n = this.#n.filter((t) => t.component != e);
+    this.#s = this.#s.filter((t) => t.component != e);
   }
   generateMessageId() {
     const e = ++this.#t;
@@ -54,7 +54,7 @@ var t = class {
     this.#e = e;
     document.documentElement.dataset.bridgePlatform = this.#e.platform;
     this.adapterDidUpdateSupportedComponents();
-    this.#a();
+    this.#r();
   }
   adapterDidUpdateSupportedComponents() {
     this.#e &&
@@ -62,14 +62,14 @@ var t = class {
         this.#e.supportedComponents.join(" "));
   }
   #i(e) {
-    this.#n.push(e);
+    this.#s.push(e);
   }
-  #a() {
-    this.#n.forEach((e) => this.send(e));
-    this.#n = [];
+  #r() {
+    this.#s.forEach((e) => this.send(e));
+    this.#s = [];
   }
 };
-var n = class {
+var s = class {
   constructor(e) {
     this.element = e;
   }
@@ -114,24 +114,38 @@ var n = class {
     return document.documentElement.dataset.bridgePlatform;
   }
 };
-var { userAgent: s } = window.navigator;
-function appSupportsBridgeComponent(e) {
-  const t = s.match(/bridge-components: \[(.*?)\]/);
+var { userAgent: n } = window.navigator;
+function i(e) {
+  const t = n.match(/bridge-components: \[(.*?)\]/);
   return !!t && t[1].split(" ").includes(e);
 }
-var i = class extends e {
+var r = class extends e {
   static component = "";
   static get shouldLoad() {
-    return appSupportsBridgeComponent(this.component);
+    return i(this.component);
   }
   pendingMessageCallbacks = [];
   initialize() {
     this.pendingMessageCallbacks = [];
   }
-  connect() {}
+  connect() {
+    this.removeRestoreEventListener();
+    this.addRestoreEventListener();
+  }
   disconnect() {
     this.removePendingCallbacks();
     this.removePendingMessages();
+    this.removeRestoreEventListener();
+  }
+  addRestoreEventListener() {
+    this.restore = this.restore.bind(this);
+    document.addEventListener("native:restore", this.restore);
+  }
+  removeRestoreEventListener() {
+    document.removeEventListener("native:restore", this.restore);
+  }
+  restore() {
+    this.connect();
   }
   get component() {
     return this.constructor.component;
@@ -148,11 +162,11 @@ var i = class extends e {
       !this.platformOptingOut && this.bridge.supportsComponent(this.component)
     );
   }
-  send(e, t = {}, n) {
+  send(e, t = {}, s) {
     t.metadata = { url: window.location.href };
-    const s = { component: this.component, event: e, data: t, callback: n };
-    const i = this.bridge.send(s);
-    n && this.pendingMessageCallbacks.push(i);
+    const n = { component: this.component, event: e, data: t, callback: s };
+    const i = this.bridge.send(n);
+    s && this.pendingMessageCallbacks.push(i);
   }
   removePendingCallbacks() {
     this.pendingMessageCallbacks.forEach((e) =>
@@ -163,7 +177,7 @@ var i = class extends e {
     this.bridge.removePendingMessagesFor(this.component);
   }
   get bridgeElement() {
-    return new n(this.element);
+    return new s(this.element);
   }
   get bridge() {
     return window.HotwireNative.web;
@@ -172,11 +186,11 @@ var i = class extends e {
 if (!window.HotwireNative) {
   const e = new t();
   window.HotwireNative = { web: e };
-  addLegacyClientSupport(e);
+  a(e);
   e.start();
 }
-function addLegacyClientSupport(e) {
+function a(e) {
   window.Strada || (window.Strada = { web: e });
   window.webBridge || (window.webBridge = e);
 }
-export { i as BridgeComponent, n as BridgeElement };
+export { r as BridgeComponent, s as BridgeElement };

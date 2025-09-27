@@ -1,20 +1,20 @@
-// @codemirror/autocomplete@6.18.6 downloaded from https://ga.jspm.io/npm:@codemirror/autocomplete@6.18.6/dist/index.js
+// @codemirror/autocomplete@6.19.0 downloaded from https://ga.jspm.io/npm:@codemirror/autocomplete@6.19.0/dist/index.js
 
 import {
   Annotation as e,
   EditorSelection as t,
   StateEffect as n,
-  codePointAt as o,
-  codePointSize as i,
+  codePointAt as i,
+  codePointSize as o,
   fromCodePoint as s,
   Facet as l,
   combineConfig as r,
   StateField as a,
   Prec as c,
-  MapMode as p,
+  MapMode as f,
   Transaction as u,
   Text as h,
-  RangeValue as f,
+  RangeValue as p,
   RangeSet as d,
   CharCategory as m,
 } from "@codemirror/state";
@@ -24,18 +24,18 @@ import {
   showTooltip as b,
   EditorView as w,
   getTooltip as y,
-  ViewPlugin as C,
-  Decoration as x,
+  ViewPlugin as x,
+  Decoration as C,
   WidgetType as S,
   keymap as A,
 } from "@codemirror/view";
-import { syntaxTree as I, indentUnit as O } from "@codemirror/language";
+import { syntaxTree as I, indentUnit as k } from "@codemirror/language";
 class CompletionContext {
-  constructor(e, t, n, o) {
+  constructor(e, t, n, i) {
     this.state = e;
     this.pos = t;
     this.explicit = n;
-    this.view = o;
+    this.view = i;
     this.abortListeners = [];
     this.abortOnDocChange = false;
   }
@@ -54,9 +54,9 @@ class CompletionContext {
   matchBefore(e) {
     let t = this.state.doc.lineAt(this.pos);
     let n = Math.max(t.from, this.pos - 250);
-    let o = t.text.slice(n - t.from, this.pos - t.from);
-    let i = o.search(ensureAnchor(e, false));
-    return i < 0 ? null : { from: n + i, to: this.pos, text: o.slice(i) };
+    let i = t.text.slice(n - t.from, this.pos - t.from);
+    let o = i.search(M(e, false));
+    return o < 0 ? null : { from: n + o, to: this.pos, text: i.slice(o) };
   }
   get aborted() {
     return this.abortListeners == null;
@@ -68,44 +68,42 @@ class CompletionContext {
     }
   }
 }
-function toSet(e) {
+function D(e) {
   let t = Object.keys(e).join("");
   let n = /\w/.test(t);
   n && (t = t.replace(/\w/g, ""));
   return `[${n ? "\\w" : ""}${t.replace(/[^\w\s]/g, "\\$&")}]`;
 }
-function prefixMatch(e) {
+function O(e) {
   let t = Object.create(null),
     n = Object.create(null);
-  for (let { label: o } of e) {
-    t[o[0]] = true;
-    for (let e = 1; e < o.length; e++) n[o[e]] = true;
+  for (let { label: i } of e) {
+    t[i[0]] = true;
+    for (let e = 1; e < i.length; e++) n[i[e]] = true;
   }
-  let o = toSet(t) + toSet(n) + "*$";
-  return [new RegExp("^" + o), new RegExp(o)];
+  let i = D(t) + D(n) + "*$";
+  return [new RegExp("^" + i), new RegExp(i)];
 }
-function completeFromList(e) {
+function R(e) {
   let t = e.map((e) => (typeof e == "string" ? { label: e } : e));
-  let [n, o] = t.every((e) => /^\w+$/.test(e.label))
-    ? [/\w*$/, /\w+$/]
-    : prefixMatch(t);
+  let [n, i] = t.every((e) => /^\w+$/.test(e.label)) ? [/\w*$/, /\w+$/] : O(t);
   return (e) => {
-    let i = e.matchBefore(o);
-    return i || e.explicit
-      ? { from: i ? i.from : e.pos, options: t, validFor: n }
+    let o = e.matchBefore(i);
+    return o || e.explicit
+      ? { from: o ? o.from : e.pos, options: t, validFor: n }
       : null;
   };
 }
-function ifIn(e, t) {
+function T(e, t) {
   return (n) => {
-    for (let o = I(n.state).resolveInner(n.pos, -1); o; o = o.parent) {
-      if (e.indexOf(o.name) > -1) return t(n);
-      if (o.type.isTop) break;
+    for (let i = I(n.state).resolveInner(n.pos, -1); i; i = i.parent) {
+      if (e.indexOf(i.name) > -1) return t(n);
+      if (i.type.isTop) break;
     }
     return null;
   };
 }
-function ifNotIn(e, t) {
+function E(e, t) {
   return (n) => {
     for (let t = I(n.state).resolveInner(n.pos, -1); t; t = t.parent) {
       if (e.indexOf(t.name) > -1) return null;
@@ -115,66 +113,64 @@ function ifNotIn(e, t) {
   };
 }
 class Option {
-  constructor(e, t, n, o) {
+  constructor(e, t, n, i) {
     this.completion = e;
     this.source = t;
     this.match = n;
-    this.score = o;
+    this.score = i;
   }
 }
-function cur(e) {
+function L(e) {
   return e.selection.main.from;
 }
-function ensureAnchor(e, t) {
+function M(e, t) {
   var n;
-  let { source: o } = e;
-  let i = t && o[0] != "^",
-    s = o[o.length - 1] != "$";
-  return i || s
+  let { source: i } = e;
+  let o = t && i[0] != "^",
+    s = i[i.length - 1] != "$";
+  return o || s
     ? new RegExp(
-        `${i ? "^" : ""}(?:${o})${s ? "$" : ""}`,
+        `${o ? "^" : ""}(?:${i})${s ? "$" : ""}`,
         (n = e.flags) !== null && n !== void 0 ? n : e.ignoreCase ? "i" : "",
       )
     : e;
 }
-const k = e.define();
-function insertCompletionText(e, n, o, i) {
+const P = e.define();
+function F(e, n, i, o) {
   let { main: s } = e.selection,
-    l = o - s.from,
-    r = i - s.from;
-  return Object.assign(
-    Object.assign(
-      {},
-      e.changeByRange((a) => {
-        if (
-          a != s &&
-          o != i &&
-          e.sliceDoc(a.from + l, a.from + r) != e.sliceDoc(o, i)
-        )
-          return { range: a };
-        let c = e.toText(n);
-        return {
-          changes: {
-            from: a.from + l,
-            to: i == s.from ? a.to : a.from + r,
-            insert: c,
-          },
-          range: t.cursor(a.from + l + c.length),
-        };
-      }),
-    ),
-    { scrollIntoView: true, userEvent: "input.complete" },
-  );
+    l = i - s.from,
+    r = o - s.from;
+  return {
+    ...e.changeByRange((a) => {
+      if (
+        a != s &&
+        i != o &&
+        e.sliceDoc(a.from + l, a.from + r) != e.sliceDoc(i, o)
+      )
+        return { range: a };
+      let c = e.toText(n);
+      return {
+        changes: {
+          from: a.from + l,
+          to: o == s.from ? a.to : a.from + r,
+          insert: c,
+        },
+        range: t.cursor(a.from + l + c.length),
+      };
+    }),
+    scrollIntoView: true,
+    userEvent: "input.complete",
+  };
 }
-const R = new WeakMap();
-function asSource(e) {
+const B = new WeakMap();
+function $(e) {
   if (!Array.isArray(e)) return e;
-  let t = R.get(e);
-  t || R.set(e, (t = completeFromList(e)));
+  let t = B.get(e);
+  t || B.set(e, (t = R(e)));
   return t;
 }
-const D = n.define();
-const T = n.define();
+const N = n.define();
+const U = n.define();
 class FuzzyMatcher {
   constructor(e) {
     this.pattern = e;
@@ -186,12 +182,12 @@ class FuzzyMatcher {
     this.score = 0;
     this.matched = [];
     for (let t = 0; t < e.length; ) {
-      let n = o(e, t),
-        s = i(n);
+      let n = i(e, t),
+        s = o(n);
       this.chars.push(n);
       let l = e.slice(t, t + s),
         r = l.toUpperCase();
-      this.folded.push(o(r == l ? l.toLowerCase() : r, 0));
+      this.folded.push(i(r == l ? l.toLowerCase() : r, 0));
       t += s;
     }
     this.astral = e.length != this.chars.length;
@@ -206,8 +202,8 @@ class FuzzyMatcher {
     if (e.length < this.pattern.length) return null;
     let { chars: t, folded: n, any: l, precise: r, byWord: a } = this;
     if (t.length == 1) {
-      let s = o(e, 0),
-        l = i(s);
+      let s = i(e, 0),
+        l = o(s);
       let r = l == e.length ? 0 : -100;
       if (s == t[0]);
       else {
@@ -222,64 +218,64 @@ class FuzzyMatcher {
         0,
         this.pattern.length,
       ]);
-    let p = t.length,
+    let f = t.length,
       u = 0;
     if (c < 0) {
-      for (let s = 0, r = Math.min(e.length, 200); s < r && u < p; ) {
-        let r = o(e, s);
+      for (let s = 0, r = Math.min(e.length, 200); s < r && u < f; ) {
+        let r = i(e, s);
         (r != t[u] && r != n[u]) || (l[u++] = s);
-        s += i(r);
+        s += o(r);
       }
-      if (u < p) return null;
+      if (u < f) return null;
     }
     let h = 0;
-    let f = 0,
+    let p = 0,
       d = false;
     let m = 0,
       g = -1,
       v = -1;
     let b = /[a-z]/.test(e),
       w = true;
-    for (let l = 0, u = Math.min(e.length, 200), y = 0; l < u && f < p; ) {
-      let u = o(e, l);
+    for (let l = 0, u = Math.min(e.length, 200), y = 0; l < u && p < f; ) {
+      let u = i(e, l);
       if (c < 0) {
-        h < p && u == t[h] && (r[h++] = l);
-        if (m < p)
+        h < f && u == t[h] && (r[h++] = l);
+        if (m < f)
           if (u == t[m] || u == n[m]) {
             m == 0 && (g = l);
             v = l + 1;
             m++;
           } else m = 0;
       }
-      let C,
-        x =
+      let x,
+        C =
           u < 255
             ? (u >= 48 && u <= 57) || (u >= 97 && u <= 122)
               ? 2
               : u >= 65 && u <= 90
                 ? 1
                 : 0
-            : (C = s(u)) != C.toLowerCase()
+            : (x = s(u)) != x.toLowerCase()
               ? 1
-              : C != C.toUpperCase()
+              : x != x.toUpperCase()
                 ? 2
                 : 0;
-      (!l || (x == 1 && b) || (y == 0 && x != 0)) &&
-        (t[f] == u || (n[f] == u && (d = true))
-          ? (a[f++] = l)
+      (!l || (C == 1 && b) || (y == 0 && C != 0)) &&
+        (t[p] == u || (n[p] == u && (d = true))
+          ? (a[p++] = l)
           : a.length && (w = false));
-      y = x;
-      l += i(u);
+      y = C;
+      l += o(u);
     }
-    return f == p && a[0] == 0 && w
+    return p == f && a[0] == 0 && w
       ? this.result((d ? -200 : 0) - 100, a, e)
-      : m == p && g == 0
+      : m == f && g == 0
         ? this.ret(-200 - e.length + (v == e.length ? 0 : -100), [0, v])
         : c > -1
           ? this.ret(-700 - e.length, [c, c + this.pattern.length])
-          : m == p
+          : m == f
             ? this.ret(-900 - e.length, [g, v])
-            : f == p
+            : p == f
               ? this.result((d ? -200 : 0) - 100 - 700 + (w ? 0 : -1100), a, e)
               : t.length == 2
                 ? null
@@ -289,7 +285,7 @@ class FuzzyMatcher {
     let s = [],
       l = 0;
     for (let e of t) {
-      let t = e + (this.astral ? i(o(n, e)) : 1);
+      let t = e + (this.astral ? o(i(n, e)) : 1);
       if (l && s[l - 1] == e) s[l - 1] = t;
       else {
         s[l++] = e;
@@ -317,7 +313,7 @@ class StrictMatcher {
     return this;
   }
 }
-const E = l.define({
+const W = l.define({
   combine(e) {
     return r(
       e,
@@ -335,7 +331,7 @@ const E = l.define({
         aboveCursor: false,
         icons: true,
         addToOptions: [],
-        positionInfo: defaultPositionInfo,
+        positionInfo: j,
         filterStrict: false,
         compareCompletions: (e, t) => e.label.localeCompare(t.label),
         interactionDelay: 75,
@@ -345,38 +341,38 @@ const E = l.define({
         defaultKeymap: (e, t) => e && t,
         closeOnBlur: (e, t) => e && t,
         icons: (e, t) => e && t,
-        tooltipClass: (e, t) => (n) => joinClass(e(n), t(n)),
-        optionClass: (e, t) => (n) => joinClass(e(n), t(n)),
+        tooltipClass: (e, t) => (n) => q(e(n), t(n)),
+        optionClass: (e, t) => (n) => q(e(n), t(n)),
         addToOptions: (e, t) => e.concat(t),
         filterStrict: (e, t) => e || t,
       },
     );
   },
 });
-function joinClass(e, t) {
+function q(e, t) {
   return e ? (t ? e + " " + t : e) : t;
 }
-function defaultPositionInfo(e, t, n, o, i, s) {
+function j(e, t, n, i, o, s) {
   let l = e.textDirection == g.RTL,
     r = l,
     a = false;
   let c,
-    p,
+    f,
     u = "top";
-  let h = t.left - i.left,
-    f = i.right - t.right;
-  let d = o.right - o.left,
-    m = o.bottom - o.top;
-  r && h < Math.min(d, f)
+  let h = t.left - o.left,
+    p = o.right - t.right;
+  let d = i.right - i.left,
+    m = i.bottom - i.top;
+  r && h < Math.min(d, p)
     ? (r = false)
-    : !r && f < Math.min(d, h) && (r = true);
-  if (d <= (r ? h : f)) {
-    c = Math.max(i.top, Math.min(n.top, i.bottom - m)) - t.top;
-    p = Math.min(400, r ? h : f);
+    : !r && p < Math.min(d, h) && (r = true);
+  if (d <= (r ? h : p)) {
+    c = Math.max(o.top, Math.min(n.top, o.bottom - m)) - t.top;
+    f = Math.min(400, r ? h : p);
   } else {
     a = true;
-    p = Math.min(400, (l ? t.right : i.right - t.left) - 30);
-    let e = i.bottom - t.bottom;
+    f = Math.min(400, (l ? t.right : o.right - t.left) - 30);
+    let e = o.bottom - t.bottom;
     if (e >= m || e > t.top) c = n.bottom - t.top;
     else {
       u = "bottom";
@@ -386,13 +382,13 @@ function defaultPositionInfo(e, t, n, o, i, s) {
   let v = (t.bottom - t.top) / s.offsetHeight;
   let b = (t.right - t.left) / s.offsetWidth;
   return {
-    style: `${u}: ${c / v}px; max-width: ${p / b}px`,
+    style: `${u}: ${c / v}px; max-width: ${f / b}px`,
     class:
       "cm-completionInfo-" +
       (a ? (l ? "left-narrow" : "right-narrow") : r ? "left" : "right"),
   };
 }
-function optionContent(e) {
+function z(e) {
   let t = e.addToOptions.slice();
   e.icons &&
     t.push({
@@ -410,22 +406,22 @@ function optionContent(e) {
     });
   t.push(
     {
-      render(e, t, n, o) {
-        let i = document.createElement("span");
-        i.className = "cm-completionLabel";
+      render(e, t, n, i) {
+        let o = document.createElement("span");
+        o.className = "cm-completionLabel";
         let s = e.displayLabel || e.label,
           l = 0;
-        for (let e = 0; e < o.length; ) {
-          let t = o[e++],
-            n = o[e++];
-          t > l && i.appendChild(document.createTextNode(s.slice(l, t)));
-          let r = i.appendChild(document.createElement("span"));
+        for (let e = 0; e < i.length; ) {
+          let t = i[e++],
+            n = i[e++];
+          t > l && o.appendChild(document.createTextNode(s.slice(l, t)));
+          let r = o.appendChild(document.createElement("span"));
           r.appendChild(document.createTextNode(s.slice(t, n)));
           r.className = "cm-completionMatchedText";
           l = n;
         }
-        l < s.length && i.appendChild(document.createTextNode(s.slice(l)));
-        return i;
+        l < s.length && o.appendChild(document.createTextNode(s.slice(l)));
+        return o;
       },
       position: 50,
     },
@@ -442,15 +438,15 @@ function optionContent(e) {
   );
   return t.sort((e, t) => e.position - t.position).map((e) => e.render);
 }
-function rangeAroundSelected(e, t, n) {
+function H(e, t, n) {
   if (e <= n) return { from: 0, to: e };
   t < 0 && (t = 0);
   if (t <= e >> 1) {
     let e = Math.floor(t / n);
     return { from: e * n, to: (e + 1) * n };
   }
-  let o = Math.floor((e - t) / n);
-  return { from: e - (o + 1) * n, to: e - o * n };
+  let i = Math.floor((e - t) / n);
+  return { from: e - (i + 1) * n, to: e - i * n };
 }
 class CompletionTooltip {
   constructor(e, t, n) {
@@ -466,25 +462,25 @@ class CompletionTooltip {
     };
     this.space = null;
     this.currentClass = "";
-    let o = e.state.field(t);
-    let { options: i, selected: s } = o.open;
-    let l = e.state.facet(E);
-    this.optionContent = optionContent(l);
+    let i = e.state.field(t);
+    let { options: o, selected: s } = i.open;
+    let l = e.state.facet(W);
+    this.optionContent = z(l);
     this.optionClass = l.optionClass;
     this.tooltipClass = l.tooltipClass;
-    this.range = rangeAroundSelected(i.length, s, l.maxRenderedOptions);
+    this.range = H(o.length, s, l.maxRenderedOptions);
     this.dom = document.createElement("div");
     this.dom.className = "cm-tooltip-autocomplete";
     this.updateTooltipClass(e.state);
     this.dom.addEventListener("mousedown", (n) => {
-      let { options: o } = e.state.field(t).open;
-      for (let t, i = n.target; i && i != this.dom; i = i.parentNode)
+      let { options: i } = e.state.field(t).open;
+      for (let t, o = n.target; o && o != this.dom; o = o.parentNode)
         if (
-          i.nodeName == "LI" &&
-          (t = /-(\d+)$/.exec(i.id)) &&
-          +t[1] < o.length
+          o.nodeName == "LI" &&
+          (t = /-(\d+)$/.exec(o.id)) &&
+          +t[1] < i.length
         ) {
-          this.applyCompletion(e, o[+t[1]]);
+          this.applyCompletion(e, i[+t[1]]);
           n.preventDefault();
           return;
         }
@@ -493,11 +489,11 @@ class CompletionTooltip {
       let n = e.state.field(this.stateField, false);
       n &&
         n.tooltip &&
-        e.state.facet(E).closeOnBlur &&
+        e.state.facet(W).closeOnBlur &&
         t.relatedTarget != e.contentDOM &&
-        e.dispatch({ effects: T.of(null) });
+        e.dispatch({ effects: U.of(null) });
     });
-    this.showOptions(i, o.id);
+    this.showOptions(o, i.id);
   }
   mount() {
     this.updateSel();
@@ -512,20 +508,16 @@ class CompletionTooltip {
   update(e) {
     var t;
     let n = e.state.field(this.stateField);
-    let o = e.startState.field(this.stateField);
+    let i = e.startState.field(this.stateField);
     this.updateTooltipClass(e.state);
-    if (n != o) {
-      let { options: i, selected: s, disabled: l } = n.open;
-      if (!o.open || o.open.options != i) {
-        this.range = rangeAroundSelected(
-          i.length,
-          s,
-          e.state.facet(E).maxRenderedOptions,
-        );
-        this.showOptions(i, n.id);
+    if (n != i) {
+      let { options: o, selected: s, disabled: l } = n.open;
+      if (!i.open || i.open.options != o) {
+        this.range = H(o.length, s, e.state.facet(W).maxRenderedOptions);
+        this.showOptions(o, n.id);
       }
       this.updateSel();
-      l != ((t = o.open) === null || t === void 0 ? void 0 : t.disabled) &&
+      l != ((t = i.open) === null || t === void 0 ? void 0 : t.disabled) &&
         this.dom.classList.toggle("cm-tooltip-autocomplete-disabled", !!l);
     }
   }
@@ -549,29 +541,29 @@ class CompletionTooltip {
       (t.selected > -1 && t.selected < this.range.from) ||
       t.selected >= this.range.to
     ) {
-      this.range = rangeAroundSelected(
+      this.range = H(
         t.options.length,
         t.selected,
-        this.view.state.facet(E).maxRenderedOptions,
+        this.view.state.facet(W).maxRenderedOptions,
       );
       this.showOptions(t.options, e.id);
     }
     if (this.updateSelectedOption(t.selected)) {
       this.destroyInfo();
       let { completion: n } = t.options[t.selected];
-      let { info: o } = n;
-      if (!o) return;
-      let i = typeof o === "string" ? document.createTextNode(o) : o(n);
+      let { info: i } = n;
       if (!i) return;
-      "then" in i
-        ? i
+      let o = typeof i === "string" ? document.createTextNode(i) : i(n);
+      if (!o) return;
+      "then" in o
+        ? o
             .then((t) => {
               t &&
                 this.view.state.field(this.stateField, false) == e &&
                 this.addInfoPane(t, n);
             })
             .catch((e) => v(this.view.state, e, "completion info"))
-        : this.addInfoPane(i, n);
+        : this.addInfoPane(o, n);
     }
   }
   addInfoPane(e, t) {
@@ -582,9 +574,9 @@ class CompletionTooltip {
       n.appendChild(e);
       this.infoDestroy = null;
     } else {
-      let { dom: t, destroy: o } = e;
+      let { dom: t, destroy: i } = e;
       n.appendChild(t);
-      this.infoDestroy = o || null;
+      this.infoDestroy = i || null;
     }
     this.dom.appendChild(n);
     this.view.requestMeasure(this.placeInfoReq);
@@ -592,20 +584,20 @@ class CompletionTooltip {
   updateSelectedOption(e) {
     let t = null;
     for (
-      let n = this.list.firstChild, o = this.range.from;
+      let n = this.list.firstChild, i = this.range.from;
       n;
-      n = n.nextSibling, o++
+      n = n.nextSibling, i++
     )
       if (n.nodeName == "LI" && n.id)
-        if (o == e) {
+        if (i == e) {
           if (!n.hasAttribute("aria-selected")) {
             n.setAttribute("aria-selected", "true");
             t = n;
           }
         } else
           n.hasAttribute("aria-selected") && n.removeAttribute("aria-selected");
-      else o--;
-    t && scrollIntoView(this.list, t);
+      else i--;
+    t && K(this.list, t);
     return t;
   }
   measureInfo() {
@@ -613,16 +605,16 @@ class CompletionTooltip {
     if (!e || !this.info) return null;
     let t = this.dom.getBoundingClientRect();
     let n = this.info.getBoundingClientRect();
-    let o = e.getBoundingClientRect();
-    let i = this.space;
-    if (!i) {
+    let i = e.getBoundingClientRect();
+    let o = this.space;
+    if (!o) {
       let e = this.dom.ownerDocument.documentElement;
-      i = { left: 0, top: 0, right: e.clientWidth, bottom: e.clientHeight };
+      o = { left: 0, top: 0, right: e.clientWidth, bottom: e.clientHeight };
     }
-    return o.top > Math.min(i.bottom, t.bottom) - 10 ||
-      o.bottom < Math.max(i.top, t.top) + 10
+    return i.top > Math.min(o.bottom, t.bottom) - 10 ||
+      i.bottom < Math.max(o.top, t.top) + 10
       ? null
-      : this.view.state.facet(E).positionInfo(this.view, t, o, n, i, this.dom);
+      : this.view.state.facet(W).positionInfo(this.view, t, i, n, o, this.dom);
   }
   placeInfo(e) {
     if (this.info)
@@ -632,42 +624,42 @@ class CompletionTooltip {
       } else this.info.style.cssText = "top: -1e6px";
   }
   createListBox(e, t, n) {
-    const o = document.createElement("ul");
-    o.id = t;
-    o.setAttribute("role", "listbox");
-    o.setAttribute("aria-expanded", "true");
-    o.setAttribute("aria-label", this.view.state.phrase("Completions"));
-    o.addEventListener("mousedown", (e) => {
-      e.target == o && e.preventDefault();
+    const i = document.createElement("ul");
+    i.id = t;
+    i.setAttribute("role", "listbox");
+    i.setAttribute("aria-expanded", "true");
+    i.setAttribute("aria-label", this.view.state.phrase("Completions"));
+    i.addEventListener("mousedown", (e) => {
+      e.target == i && e.preventDefault();
     });
-    let i = null;
+    let o = null;
     for (let s = n.from; s < n.to; s++) {
       let { completion: l, match: r } = e[s],
         { section: a } = l;
       if (a) {
         let e = typeof a == "string" ? a : a.name;
-        if (e != i && (s > n.from || n.from == 0)) {
-          i = e;
-          if (typeof a != "string" && a.header) o.appendChild(a.header(a));
+        if (e != o && (s > n.from || n.from == 0)) {
+          o = e;
+          if (typeof a != "string" && a.header) i.appendChild(a.header(a));
           else {
-            let t = o.appendChild(document.createElement("completion-section"));
+            let t = i.appendChild(document.createElement("completion-section"));
             t.textContent = e;
           }
         }
       }
-      const c = o.appendChild(document.createElement("li"));
+      const c = i.appendChild(document.createElement("li"));
       c.id = t + "-" + s;
       c.setAttribute("role", "option");
-      let p = this.optionClass(l);
-      p && (c.className = p);
+      let f = this.optionClass(l);
+      f && (c.className = f);
       for (let e of this.optionContent) {
         let t = e(l, this.view.state, this.view, r);
         t && c.appendChild(t);
       }
     }
-    n.from && o.classList.add("cm-completionListIncompleteTop");
-    n.to < e.length && o.classList.add("cm-completionListIncompleteBottom");
-    return o;
+    n.from && i.classList.add("cm-completionListIncompleteTop");
+    n.to < e.length && i.classList.add("cm-completionListIncompleteBottom");
+    return i;
   }
   destroyInfo() {
     if (this.info) {
@@ -680,18 +672,18 @@ class CompletionTooltip {
     this.destroyInfo();
   }
 }
-function completionTooltip(e, t) {
+function V(e, t) {
   return (n) => new CompletionTooltip(n, e, t);
 }
-function scrollIntoView(e, t) {
+function K(e, t) {
   let n = e.getBoundingClientRect();
-  let o = t.getBoundingClientRect();
-  let i = n.height / e.offsetHeight;
-  o.top < n.top
-    ? (e.scrollTop -= (n.top - o.top) / i)
-    : o.bottom > n.bottom && (e.scrollTop += (o.bottom - n.bottom) / i);
+  let i = t.getBoundingClientRect();
+  let o = n.height / e.offsetHeight;
+  i.top < n.top
+    ? (e.scrollTop -= (n.top - i.top) / o)
+    : i.bottom > n.bottom && (e.scrollTop += (i.bottom - n.bottom) / o);
 }
-function score(e) {
+function Q(e) {
   return (
     (e.boost || 0) * 100 +
     (e.apply ? 10 : 0) +
@@ -699,49 +691,55 @@ function score(e) {
     (e.type ? 1 : 0)
   );
 }
-function sortOptions(e, t) {
+function X(e, t) {
   let n = [];
-  let o = null;
-  let addOption = (e) => {
+  let i = null,
+    o = null;
+  let s = (e) => {
     n.push(e);
     let { section: t } = e.completion;
     if (t) {
-      o || (o = []);
+      i || (i = []);
       let e = typeof t == "string" ? t : t.name;
-      o.some((t) => t.name == e) ||
-        o.push(typeof t == "string" ? { name: e } : t);
+      i.some((t) => t.name == e) ||
+        i.push(typeof t == "string" ? { name: e } : t);
     }
   };
-  let i = t.facet(E);
-  for (let o of e)
-    if (o.hasResult()) {
-      let e = o.result.getMatch;
-      if (o.result.filter === false)
-        for (let t of o.result.options)
-          addOption(new Option(t, o.source, e ? e(t) : [], 1e9 - n.length));
+  let l = t.facet(W);
+  for (let i of e)
+    if (i.hasResult()) {
+      let e = i.result.getMatch;
+      if (i.result.filter === false)
+        for (let t of i.result.options)
+          s(new Option(t, i.source, e ? e(t) : [], 1e9 - n.length));
       else {
         let n,
-          s = t.sliceDoc(o.from, o.to);
-        let l = i.filterStrict ? new StrictMatcher(s) : new FuzzyMatcher(s);
-        for (let t of o.result.options)
-          if ((n = l.match(t.label))) {
-            let i = t.displayLabel ? (e ? e(t, n.matched) : []) : n.matched;
-            addOption(new Option(t, o.source, i, n.score + (t.boost || 0)));
+          r = t.sliceDoc(i.from, i.to);
+        let a = l.filterStrict ? new StrictMatcher(r) : new FuzzyMatcher(r);
+        for (let t of i.result.options)
+          if ((n = a.match(t.label))) {
+            let l = t.displayLabel ? (e ? e(t, n.matched) : []) : n.matched;
+            let r = n.score + (t.boost || 0);
+            s(new Option(t, i.source, l, r));
+            if (typeof t.section == "object" && t.section.rank === "dynamic") {
+              let { name: e } = t.section;
+              o || (o = Object.create(null));
+              o[e] = Math.max(r, o[e] || -1e9);
+            }
           }
       }
     }
-  if (o) {
+  if (i) {
     let e = Object.create(null),
       t = 0;
-    let cmp = (e, t) => {
-      var n, o;
-      return (
-        ((n = e.rank) !== null && n !== void 0 ? n : 1e9) -
-          ((o = t.rank) !== null && o !== void 0 ? o : 1e9) ||
-        (e.name < t.name ? -1 : 1)
-      );
-    };
-    for (let n of o.sort(cmp)) {
+    let s = (e, t) =>
+      (e.rank === "dynamic" && t.rank === "dynamic"
+        ? o[t.name] - o[e.name]
+        : 0) ||
+      (typeof e.rank == "number" ? e.rank : 1e9) -
+        (typeof t.rank == "number" ? t.rank : 1e9) ||
+      (e.name < t.name ? -1 : 1);
+    for (let n of i.sort(s)) {
       t -= 1e5;
       e[n.name] = t;
     }
@@ -750,32 +748,32 @@ function sortOptions(e, t) {
       n && (t.score += e[typeof n == "string" ? n : n.name]);
     }
   }
-  let s = [],
-    l = null;
-  let r = i.compareCompletions;
+  let r = [],
+    a = null;
+  let c = l.compareCompletions;
   for (let e of n.sort(
-    (e, t) => t.score - e.score || r(e.completion, t.completion),
+    (e, t) => t.score - e.score || c(e.completion, t.completion),
   )) {
     let t = e.completion;
-    !l ||
-    l.label != t.label ||
-    l.detail != t.detail ||
-    (l.type != null && t.type != null && l.type != t.type) ||
-    l.apply != t.apply ||
-    l.boost != t.boost
-      ? s.push(e)
-      : score(e.completion) > score(l) && (s[s.length - 1] = e);
-    l = e.completion;
+    !a ||
+    a.label != t.label ||
+    a.detail != t.detail ||
+    (a.type != null && t.type != null && a.type != t.type) ||
+    a.apply != t.apply ||
+    a.boost != t.boost
+      ? r.push(e)
+      : Q(e.completion) > Q(a) && (r[r.length - 1] = e);
+    a = e.completion;
   }
-  return s;
+  return r;
 }
 class CompletionDialog {
-  constructor(e, t, n, o, i, s) {
+  constructor(e, t, n, i, o, s) {
     this.options = e;
     this.attrs = t;
     this.tooltip = n;
-    this.timestamp = o;
-    this.selected = i;
+    this.timestamp = i;
+    this.selected = o;
     this.disabled = s;
   }
   setSelected(e, t) {
@@ -783,21 +781,21 @@ class CompletionDialog {
       ? this
       : new CompletionDialog(
           this.options,
-          makeAttrs(t, e),
+          J(t, e),
           this.tooltip,
           this.timestamp,
           e,
           this.disabled,
         );
   }
-  static build(e, t, n, o, i, s) {
-    if (o && !s && e.some((e) => e.isPending)) return o.setDisabled();
-    let l = sortOptions(e, t);
+  static build(e, t, n, i, o, s) {
+    if (i && !s && e.some((e) => e.isPending)) return i.setDisabled();
+    let l = X(e, t);
     if (!l.length)
-      return o && e.some((e) => e.isPending) ? o.setDisabled() : null;
-    let r = t.facet(E).selectOnOpen ? 0 : -1;
-    if (o && o.selected != r && o.selected != -1) {
-      let e = o.options[o.selected].completion;
+      return i && e.some((e) => e.isPending) ? i.setDisabled() : null;
+    let r = t.facet(W).selectOnOpen ? 0 : -1;
+    if (i && i.selected != r && i.selected != -1) {
+      let e = i.options[i.selected].completion;
       for (let t = 0; t < l.length; t++)
         if (l[t].completion == e) {
           r = t;
@@ -806,13 +804,13 @@ class CompletionDialog {
     }
     return new CompletionDialog(
       l,
-      makeAttrs(n, r),
+      J(n, r),
       {
         pos: e.reduce((e, t) => (t.hasResult() ? Math.min(e, t.from) : e), 1e8),
-        create: N,
-        above: i.aboveCursor,
+        create: le,
+        above: o.aboveCursor,
       },
-      o ? o.timestamp : Date.now(),
+      i ? i.timestamp : Date.now(),
       r,
       false,
     );
@@ -821,9 +819,7 @@ class CompletionDialog {
     return new CompletionDialog(
       this.options,
       this.attrs,
-      Object.assign(Object.assign({}, this.tooltip), {
-        pos: e.mapPos(this.tooltip.pos),
-      }),
+      { ...this.tooltip, pos: e.mapPos(this.tooltip.pos) },
       this.timestamp,
       this.selected,
       this.disabled,
@@ -848,65 +844,64 @@ class CompletionState {
   }
   static start() {
     return new CompletionState(
-      M,
+      Z,
       "cm-ac-" + Math.floor(Math.random() * 2e6).toString(36),
       null,
     );
   }
   update(e) {
     let { state: t } = e,
-      n = t.facet(E);
-    let o =
-      n.override || t.languageDataAt("autocomplete", cur(t)).map(asSource);
-    let i = o.map((t) => {
-      let o =
+      n = t.facet(W);
+    let i = n.override || t.languageDataAt("autocomplete", L(t)).map($);
+    let o = i.map((t) => {
+      let i =
         this.active.find((e) => e.source == t) ||
         new ActiveSource(t, this.active.some((e) => e.state != 0) ? 1 : 0);
-      return o.update(e, n);
+      return i.update(e, n);
     });
-    i.length == this.active.length &&
-      i.every((e, t) => e == this.active[t]) &&
-      (i = this.active);
+    o.length == this.active.length &&
+      o.every((e, t) => e == this.active[t]) &&
+      (o = this.active);
     let s = this.open,
-      l = e.effects.some((e) => e.is(F));
+      l = e.effects.some((e) => e.is(ne));
     s && e.docChanged && (s = s.map(e.changes));
     e.selection ||
-    i.some((t) => t.hasResult() && e.changes.touchesRange(t.from, t.to)) ||
-    !sameResults(i, this.active) ||
+    o.some((t) => t.hasResult() && e.changes.touchesRange(t.from, t.to)) ||
+    !_(o, this.active) ||
     l
-      ? (s = CompletionDialog.build(i, t, this.id, s, n, l))
-      : s && s.disabled && !i.some((e) => e.isPending) && (s = null);
+      ? (s = CompletionDialog.build(o, t, this.id, s, n, l))
+      : s && s.disabled && !o.some((e) => e.isPending) && (s = null);
     !s &&
-      i.every((e) => !e.isPending) &&
-      i.some((e) => e.hasResult()) &&
-      (i = i.map((e) => (e.hasResult() ? new ActiveSource(e.source, 0) : e)));
+      o.every((e) => !e.isPending) &&
+      o.some((e) => e.hasResult()) &&
+      (o = o.map((e) => (e.hasResult() ? new ActiveSource(e.source, 0) : e)));
     for (let t of e.effects)
-      t.is(B) && (s = s && s.setSelected(t.value, this.id));
-    return i == this.active && s == this.open
+      t.is(ie) && (s = s && s.setSelected(t.value, this.id));
+    return o == this.active && s == this.open
       ? this
-      : new CompletionState(i, this.id, s);
+      : new CompletionState(o, this.id, s);
   }
   get tooltip() {
     return this.open ? this.open.tooltip : null;
   }
   get attrs() {
-    return this.open ? this.open.attrs : this.active.length ? L : P;
+    return this.open ? this.open.attrs : this.active.length ? Y : G;
   }
 }
-function sameResults(e, t) {
+function _(e, t) {
   if (e == t) return true;
-  for (let n = 0, o = 0; ; ) {
+  for (let n = 0, i = 0; ; ) {
     while (n < e.length && !e[n].hasResult()) n++;
-    while (o < t.length && !t[o].hasResult()) o++;
-    let i = n == e.length,
-      s = o == t.length;
-    if (i || s) return i == s;
-    if (e[n++].result != t[o++].result) return false;
+    while (i < t.length && !t[i].hasResult()) i++;
+    let o = n == e.length,
+      s = i == t.length;
+    if (o || s) return o == s;
+    if (e[n++].result != t[i++].result) return false;
   }
 }
-const L = { "aria-autocomplete": "list" };
-const P = {};
-function makeAttrs(e, t) {
+const Y = { "aria-autocomplete": "list" };
+const G = {};
+function J(e, t) {
   let n = {
     "aria-autocomplete": "list",
     "aria-haspopup": "listbox",
@@ -915,10 +910,10 @@ function makeAttrs(e, t) {
   t > -1 && (n["aria-activedescendant"] = e + "-" + t);
   return n;
 }
-const M = [];
-function getUpdateType(e, t) {
+const Z = [];
+function ee(e, t) {
   if (e.isUserEvent("input.complete")) {
-    let n = e.annotation(k);
+    let n = e.annotation(P);
     if (n && t.activateOnCompletion(n)) return 12;
   }
   let n = e.isUserEvent("input.type");
@@ -947,17 +942,17 @@ class ActiveSource {
     return this.state == 1;
   }
   update(e, t) {
-    let n = getUpdateType(e, t),
-      o = this;
+    let n = ee(e, t),
+      i = this;
     (n & 8 || (n & 16 && this.touches(e))) &&
-      (o = new ActiveSource(o.source, 0));
-    n & 4 && o.state == 0 && (o = new ActiveSource(this.source, 1));
-    o = o.updateFor(e, n);
+      (i = new ActiveSource(i.source, 0));
+    n & 4 && i.state == 0 && (i = new ActiveSource(this.source, 1));
+    i = i.updateFor(e, n);
     for (let t of e.effects)
-      if (t.is(D)) o = new ActiveSource(o.source, 1, t.value);
-      else if (t.is(T)) o = new ActiveSource(o.source, 0);
-      else if (t.is(F)) for (let e of t.value) e.source == o.source && (o = e);
-    return o;
+      if (t.is(N)) i = new ActiveSource(i.source, 1, t.value);
+      else if (t.is(U)) i = new ActiveSource(i.source, 0);
+      else if (t.is(ne)) for (let e of t.value) e.source == i.source && (i = e);
+    return i;
   }
   updateFor(e, t) {
     return this.map(e.changes);
@@ -966,15 +961,15 @@ class ActiveSource {
     return this;
   }
   touches(e) {
-    return e.changes.touchesRange(cur(e.state));
+    return e.changes.touchesRange(L(e.state));
   }
 }
 class ActiveResult extends ActiveSource {
-  constructor(e, t, n, o, i, s) {
+  constructor(e, t, n, i, o, s) {
     super(e, 3, t);
     this.limit = n;
-    this.result = o;
-    this.from = i;
+    this.result = i;
+    this.from = o;
     this.to = s;
   }
   hasResult() {
@@ -983,29 +978,29 @@ class ActiveResult extends ActiveSource {
   updateFor(e, t) {
     var n;
     if (!(t & 3)) return this.map(e.changes);
-    let o = this.result;
-    o.map && !e.changes.empty && (o = o.map(o, e.changes));
-    let i = e.changes.mapPos(this.from),
+    let i = this.result;
+    i.map && !e.changes.empty && (i = i.map(i, e.changes));
+    let o = e.changes.mapPos(this.from),
       s = e.changes.mapPos(this.to, 1);
-    let l = cur(e.state);
+    let l = L(e.state);
     if (
       l > s ||
-      !o ||
-      (t & 2 && (cur(e.startState) == this.from || l < this.limit))
+      !i ||
+      (t & 2 && (L(e.startState) == this.from || l < this.limit))
     )
       return new ActiveSource(this.source, t & 4 ? 1 : 0);
     let r = e.changes.mapPos(this.limit);
-    return checkValid(o.validFor, e.state, i, s)
-      ? new ActiveResult(this.source, this.explicit, r, o, i, s)
-      : o.update &&
-          (o = o.update(o, i, s, new CompletionContext(e.state, l, false)))
+    return te(i.validFor, e.state, o, s)
+      ? new ActiveResult(this.source, this.explicit, r, i, o, s)
+      : i.update &&
+          (i = i.update(i, o, s, new CompletionContext(e.state, l, false)))
         ? new ActiveResult(
             this.source,
             this.explicit,
             r,
-            o,
-            o.from,
-            (n = o.to) !== null && n !== void 0 ? n : cur(e.state),
+            i,
+            i.from,
+            (n = i.to) !== null && n !== void 0 ? n : L(e.state),
           )
         : new ActiveSource(this.source, 1, this.explicit);
   }
@@ -1027,18 +1022,18 @@ class ActiveResult extends ActiveSource {
     return e.changes.touchesRange(this.from, this.to);
   }
 }
-function checkValid(e, t, n, o) {
+function te(e, t, n, i) {
   if (!e) return false;
-  let i = t.sliceDoc(n, o);
-  return typeof e == "function" ? e(i, n, o, t) : ensureAnchor(e, true).test(i);
+  let o = t.sliceDoc(n, i);
+  return typeof e == "function" ? e(o, n, i, t) : M(e, true).test(o);
 }
-const F = n.define({
+const ne = n.define({
   map(e, t) {
     return e.map((e) => e.map(t));
   },
 });
-const B = n.define();
-const j = a.define({
+const ie = n.define();
+const oe = a.define({
   create() {
     return CompletionState.start();
   },
@@ -1050,53 +1045,51 @@ const j = a.define({
     w.contentAttributes.from(e, (e) => e.attrs),
   ],
 });
-function applyCompletion(e, t) {
+function se(e, t) {
   const n = t.completion.apply || t.completion.label;
-  let o = e.state.field(j).active.find((e) => e.source == t.source);
-  if (!(o instanceof ActiveResult)) return false;
+  let i = e.state.field(oe).active.find((e) => e.source == t.source);
+  if (!(i instanceof ActiveResult)) return false;
   typeof n == "string"
-    ? e.dispatch(
-        Object.assign(
-          Object.assign({}, insertCompletionText(e.state, n, o.from, o.to)),
-          { annotations: k.of(t.completion) },
-        ),
-      )
-    : n(e, t.completion, o.from, o.to);
+    ? e.dispatch({
+        ...F(e.state, n, i.from, i.to),
+        annotations: P.of(t.completion),
+      })
+    : n(e, t.completion, i.from, i.to);
   return true;
 }
-const N = completionTooltip(j, applyCompletion);
-function moveCompletionSelection(e, t = "option") {
+const le = V(oe, se);
+function re(e, t = "option") {
   return (n) => {
-    let o = n.state.field(j, false);
+    let i = n.state.field(oe, false);
     if (
-      !o ||
-      !o.open ||
-      o.open.disabled ||
-      Date.now() - o.open.timestamp < n.state.facet(E).interactionDelay
+      !i ||
+      !i.open ||
+      i.open.disabled ||
+      Date.now() - i.open.timestamp < n.state.facet(W).interactionDelay
     )
       return false;
-    let i,
+    let o,
       s = 1;
     t == "page" &&
-      (i = y(n, o.open.tooltip)) &&
+      (o = y(n, i.open.tooltip)) &&
       (s = Math.max(
         2,
         Math.floor(
-          i.dom.offsetHeight / i.dom.querySelector("li").offsetHeight,
+          o.dom.offsetHeight / o.dom.querySelector("li").offsetHeight,
         ) - 1,
       ));
-    let { length: l } = o.open.options;
+    let { length: l } = i.open.options;
     let r =
-      o.open.selected > -1 ? o.open.selected + s * (e ? 1 : -1) : e ? 0 : l - 1;
+      i.open.selected > -1 ? i.open.selected + s * (e ? 1 : -1) : e ? 0 : l - 1;
     r < 0
       ? (r = t == "page" ? 0 : l - 1)
       : r >= l && (r = t == "page" ? l - 1 : 0);
-    n.dispatch({ effects: B.of(r) });
+    n.dispatch({ effects: ie.of(r) });
     return true;
   };
 }
-const acceptCompletion = (e) => {
-  let t = e.state.field(j, false);
+const ae = (e) => {
+  let t = e.state.field(oe, false);
   return (
     !(
       e.state.readOnly ||
@@ -1104,20 +1097,20 @@ const acceptCompletion = (e) => {
       !t.open ||
       t.open.selected < 0 ||
       t.open.disabled ||
-      Date.now() - t.open.timestamp < e.state.facet(E).interactionDelay
-    ) && applyCompletion(e, t.open.options[t.open.selected])
+      Date.now() - t.open.timestamp < e.state.facet(W).interactionDelay
+    ) && se(e, t.open.options[t.open.selected])
   );
 };
-const startCompletion = (e) => {
-  let t = e.state.field(j, false);
+const ce = (e) => {
+  let t = e.state.field(oe, false);
   if (!t) return false;
-  e.dispatch({ effects: D.of(true) });
+  e.dispatch({ effects: N.of(true) });
   return true;
 };
-const closeCompletion = (e) => {
-  let t = e.state.field(j, false);
+const fe = (e) => {
+  let t = e.state.field(oe, false);
   if (!t || !t.active.some((e) => e.state != 0)) return false;
-  e.dispatch({ effects: T.of(null) });
+  e.dispatch({ effects: U.of(null) });
   return true;
 };
 class RunningQuery {
@@ -1129,9 +1122,9 @@ class RunningQuery {
     this.done = void 0;
   }
 }
-const W = 50,
-  $ = 1e3;
-const U = C.fromClass(
+const ue = 50,
+  he = 1e3;
+const pe = x.fromClass(
   class {
     constructor(e) {
       this.view = e;
@@ -1140,24 +1133,24 @@ const U = C.fromClass(
       this.debounceAccept = -1;
       this.pendingStart = false;
       this.composing = 0;
-      for (let t of e.state.field(j).active) t.isPending && this.startQuery(t);
+      for (let t of e.state.field(oe).active) t.isPending && this.startQuery(t);
     }
     update(e) {
-      let t = e.state.field(j);
-      let n = e.state.facet(E);
-      if (!e.selectionSet && !e.docChanged && e.startState.field(j) == t)
+      let t = e.state.field(oe);
+      let n = e.state.facet(W);
+      if (!e.selectionSet && !e.docChanged && e.startState.field(oe) == t)
         return;
-      let o = e.transactions.some((e) => {
-        let t = getUpdateType(e, n);
+      let i = e.transactions.some((e) => {
+        let t = ee(e, n);
         return t & 8 || ((e.selection || e.docChanged) && !(t & 3));
       });
       for (let t = 0; t < this.running.length; t++) {
         let n = this.running[t];
         if (
-          o ||
+          i ||
           (n.context.abortOnDocChange && e.docChanged) ||
-          (n.updates.length + e.transactions.length > W &&
-            Date.now() - n.time > $)
+          (n.updates.length + e.transactions.length > ue &&
+            Date.now() - n.time > he)
         ) {
           for (let e of n.context.abortListeners)
             try {
@@ -1170,14 +1163,14 @@ const U = C.fromClass(
         } else n.updates.push(...e.transactions);
       }
       this.debounceUpdate > -1 && clearTimeout(this.debounceUpdate);
-      e.transactions.some((e) => e.effects.some((e) => e.is(D))) &&
+      e.transactions.some((e) => e.effects.some((e) => e.is(N))) &&
         (this.pendingStart = true);
-      let i = this.pendingStart ? 50 : n.activateOnTypingDelay;
+      let o = this.pendingStart ? 50 : n.activateOnTypingDelay;
       this.debounceUpdate = t.active.some(
         (e) =>
           e.isPending && !this.running.some((t) => t.active.source == e.source),
       )
-        ? setTimeout(() => this.startUpdate(), i)
+        ? setTimeout(() => this.startUpdate(), o)
         : -1;
       if (this.composing != 0)
         for (let t of e.transactions)
@@ -1189,7 +1182,7 @@ const U = C.fromClass(
       this.debounceUpdate = -1;
       this.pendingStart = false;
       let { state: e } = this.view,
-        t = e.field(j);
+        t = e.field(oe);
       for (let e of t.active)
         e.isPending &&
           !this.running.some((t) => t.active.source == e.source) &&
@@ -1199,24 +1192,24 @@ const U = C.fromClass(
         t.open.disabled &&
         (this.debounceAccept = setTimeout(
           () => this.accept(),
-          this.view.state.facet(E).updateSyncTime,
+          this.view.state.facet(W).updateSyncTime,
         ));
     }
     startQuery(e) {
       let { state: t } = this.view,
-        n = cur(t);
-      let o = new CompletionContext(t, n, e.explicit, this.view);
-      let i = new RunningQuery(e, o);
-      this.running.push(i);
-      Promise.resolve(e.source(o)).then(
+        n = L(t);
+      let i = new CompletionContext(t, n, e.explicit, this.view);
+      let o = new RunningQuery(e, i);
+      this.running.push(o);
+      Promise.resolve(e.source(i)).then(
         (e) => {
-          if (!i.context.aborted) {
-            i.done = e || null;
+          if (!o.context.aborted) {
+            o.done = e || null;
             this.scheduleAccept();
           }
         },
         (e) => {
-          this.view.dispatch({ effects: T.of(null) });
+          this.view.dispatch({ effects: U.of(null) });
           v(this.view.state, e);
         },
       );
@@ -1227,7 +1220,7 @@ const U = C.fromClass(
         : this.debounceAccept < 0 &&
           (this.debounceAccept = setTimeout(
             () => this.accept(),
-            this.view.state.facet(E).updateSyncTime,
+            this.view.state.facet(W).updateSyncTime,
           ));
     }
     accept() {
@@ -1235,24 +1228,24 @@ const U = C.fromClass(
       this.debounceAccept > -1 && clearTimeout(this.debounceAccept);
       this.debounceAccept = -1;
       let t = [];
-      let n = this.view.state.facet(E),
-        o = this.view.state.field(j);
-      for (let i = 0; i < this.running.length; i++) {
-        let s = this.running[i];
+      let n = this.view.state.facet(W),
+        i = this.view.state.field(oe);
+      for (let o = 0; o < this.running.length; o++) {
+        let s = this.running[o];
         if (s.done === void 0) continue;
-        this.running.splice(i--, 1);
+        this.running.splice(o--, 1);
         if (s.done) {
-          let o = cur(
+          let i = L(
             s.updates.length ? s.updates[0].startState : this.view.state,
           );
-          let i = Math.min(o, s.done.from + (s.active.explicit ? 0 : 1));
+          let o = Math.min(i, s.done.from + (s.active.explicit ? 0 : 1));
           let l = new ActiveResult(
             s.active.source,
             s.active.explicit,
-            i,
+            o,
             s.done,
             s.done.from,
-            (e = s.done.to) !== null && e !== void 0 ? e : o,
+            (e = s.done.to) !== null && e !== void 0 ? e : i,
           );
           for (let e of s.updates) l = l.update(e, n);
           if (l.hasResult()) {
@@ -1260,7 +1253,7 @@ const U = C.fromClass(
             continue;
           }
         }
-        let l = o.active.find((e) => e.source == s.active.source);
+        let l = i.active.find((e) => e.source == s.active.source);
         if (l && l.isPending)
           if (s.done == null) {
             let e = new ActiveSource(s.active.source, 0);
@@ -1268,18 +1261,18 @@ const U = C.fromClass(
             e.isPending || t.push(e);
           } else this.startQuery(l);
       }
-      (t.length || (o.open && o.open.disabled)) &&
-        this.view.dispatch({ effects: F.of(t) });
+      (t.length || (i.open && i.open.disabled)) &&
+        this.view.dispatch({ effects: ne.of(t) });
     }
   },
   {
     eventHandlers: {
       blur(e) {
-        let t = this.view.state.field(j, false);
-        if (t && t.tooltip && this.view.state.facet(E).closeOnBlur) {
+        let t = this.view.state.field(oe, false);
+        if (t && t.tooltip && this.view.state.facet(W).closeOnBlur) {
           let n = t.open && y(this.view, t.open.tooltip);
           (n && n.dom.contains(e.relatedTarget)) ||
-            setTimeout(() => this.view.dispatch({ effects: T.of(null) }), 10);
+            setTimeout(() => this.view.dispatch({ effects: U.of(null) }), 10);
         }
       },
       compositionstart() {
@@ -1287,36 +1280,36 @@ const U = C.fromClass(
       },
       compositionend() {
         this.composing == 3 &&
-          setTimeout(() => this.view.dispatch({ effects: D.of(false) }), 20);
+          setTimeout(() => this.view.dispatch({ effects: N.of(false) }), 20);
         this.composing = 0;
       },
     },
   },
 );
-const q = typeof navigator == "object" && /Win/.test(navigator.platform);
-const V = c.highest(
+const de = typeof navigator == "object" && /Win/.test(navigator.platform);
+const me = c.highest(
   w.domEventHandlers({
     keydown(e, t) {
-      let n = t.state.field(j, false);
+      let n = t.state.field(oe, false);
       if (
         !n ||
         !n.open ||
         n.open.disabled ||
         n.open.selected < 0 ||
         e.key.length > 1 ||
-        (e.ctrlKey && !(q && e.altKey)) ||
+        (e.ctrlKey && !(de && e.altKey)) ||
         e.metaKey
       )
         return false;
-      let o = n.open.options[n.open.selected];
-      let i = n.active.find((e) => e.source == o.source);
-      let s = o.completion.commitCharacters || i.result.commitCharacters;
-      s && s.indexOf(e.key) > -1 && applyCompletion(t, o);
+      let i = n.open.options[n.open.selected];
+      let o = n.active.find((e) => e.source == i.source);
+      let s = i.completion.commitCharacters || o.result.commitCharacters;
+      s && s.indexOf(e.key) > -1 && se(t, i);
       return false;
     },
   }),
 );
-const z = w.baseTheme({
+const ge = w.baseTheme({
   ".cm-tooltip.cm-tooltip-autocomplete": {
     "& > ul": {
       fontFamily: "monospace",
@@ -1410,11 +1403,11 @@ const z = w.baseTheme({
   },
 });
 class FieldPos {
-  constructor(e, t, n, o) {
+  constructor(e, t, n, i) {
     this.field = e;
     this.line = t;
     this.from = n;
-    this.to = o;
+    this.to = i;
   }
 }
 class FieldRange {
@@ -1424,8 +1417,8 @@ class FieldRange {
     this.to = n;
   }
   map(e) {
-    let t = e.mapPos(this.from, -1, p.TrackDel);
-    let n = e.mapPos(this.to, 1, p.TrackDel);
+    let t = e.mapPos(this.from, -1, f.TrackDel);
+    let n = e.mapPos(this.to, 1, f.TrackDel);
     return t == null || n == null ? null : new FieldRange(this.field, t, n);
   }
 }
@@ -1436,33 +1429,33 @@ class Snippet {
   }
   instantiate(e, t) {
     let n = [],
-      o = [t];
-    let i = e.doc.lineAt(t),
-      s = /^\s*/.exec(i.text)[0];
-    for (let i of this.lines) {
+      i = [t];
+    let o = e.doc.lineAt(t),
+      s = /^\s*/.exec(o.text)[0];
+    for (let o of this.lines) {
       if (n.length) {
         let n = s,
-          l = /^\t*/.exec(i)[0].length;
-        for (let t = 0; t < l; t++) n += e.facet(O);
-        o.push(t + n.length - l);
-        i = n + i.slice(l);
+          l = /^\t*/.exec(o)[0].length;
+        for (let t = 0; t < l; t++) n += e.facet(k);
+        i.push(t + n.length - l);
+        o = n + o.slice(l);
       }
-      n.push(i);
-      t += i.length + 1;
+      n.push(o);
+      t += o.length + 1;
     }
     let l = this.fieldPositions.map(
-      (e) => new FieldRange(e.field, o[e.line] + e.from, o[e.line] + e.to),
+      (e) => new FieldRange(e.field, i[e.line] + e.from, i[e.line] + e.to),
     );
     return { text: n, ranges: l };
   }
   static parse(e) {
     let t = [];
     let n,
-      o = [],
-      i = [];
+      i = [],
+      o = [];
     for (let s of e.split(/\r\n?|\n/)) {
       while (
-        (n = /[#$]\{(?:(\d+)(?::([^}]*))?|((?:\\[{}]|[^}])*))\}/.exec(s))
+        (n = /[#$]\{(?:(\d+)(?::([^{}]*))?|((?:\\[{}]|[^{}])*))\}/.exec(s))
       ) {
         let e = n[1] ? +n[1] : null,
           l = n[2] || n[3] || "",
@@ -1479,25 +1472,31 @@ class Snippet {
             n++;
           t.splice(n, 0, { seq: e, name: a });
           r = n;
-          for (let e of i) e.field >= r && e.field++;
+          for (let e of o) e.field >= r && e.field++;
         }
-        i.push(new FieldPos(r, o.length, n.index, n.index + a.length));
+        for (let e of o)
+          if (e.line == i.length && e.from > n.index) {
+            let t = n[2] ? 3 + (n[1] || "").length : 2;
+            e.from -= t;
+            e.to -= t;
+          }
+        o.push(new FieldPos(r, i.length, n.index, n.index + a.length));
         s = s.slice(0, n.index) + l + s.slice(n.index + n[0].length);
       }
       s = s.replace(/\\([{}])/g, (e, t, n) => {
-        for (let e of i)
-          if (e.line == o.length && e.from > n) {
+        for (let e of o)
+          if (e.line == i.length && e.from > n) {
             e.from--;
             e.to--;
           }
         return t;
       });
-      o.push(s);
+      i.push(s);
     }
-    return new Snippet(o, i);
+    return new Snippet(i, o);
   }
 }
-let H = x.widget({
+let ve = C.widget({
   widget: new (class extends S {
     toDOM() {
       let e = document.createElement("span");
@@ -1509,21 +1508,22 @@ let H = x.widget({
     }
   })(),
 });
-let K = x.mark({ class: "cm-snippetField" });
+let be = C.mark({ class: "cm-snippetField" });
 class ActiveSnippet {
   constructor(e, t) {
     this.ranges = e;
     this.active = t;
-    this.deco = x.set(
-      e.map((e) => (e.from == e.to ? H : K).range(e.from, e.to)),
+    this.deco = C.set(
+      e.map((e) => (e.from == e.to ? ve : be).range(e.from, e.to)),
+      true,
     );
   }
   map(e) {
     let t = [];
     for (let n of this.ranges) {
-      let o = n.map(e);
-      if (!o) return null;
-      t.push(o);
+      let i = n.map(e);
+      if (!i) return null;
+      t.push(i);
     }
     return new ActiveSnippet(t, this.active);
   }
@@ -1535,110 +1535,110 @@ class ActiveSnippet {
     );
   }
 }
-const Q = n.define({
+const we = n.define({
   map(e, t) {
     return e && e.map(t);
   },
 });
-const X = n.define();
-const _ = a.define({
+const ye = n.define();
+const xe = a.define({
   create() {
     return null;
   },
   update(e, t) {
     for (let n of t.effects) {
-      if (n.is(Q)) return n.value;
-      if (n.is(X) && e) return new ActiveSnippet(e.ranges, n.value);
+      if (n.is(we)) return n.value;
+      if (n.is(ye) && e) return new ActiveSnippet(e.ranges, n.value);
     }
     e && t.docChanged && (e = e.map(t.changes));
     e && t.selection && !e.selectionInsideField(t.selection) && (e = null);
     return e;
   },
-  provide: (e) => w.decorations.from(e, (e) => (e ? e.deco : x.none)),
+  provide: (e) => w.decorations.from(e, (e) => (e ? e.deco : C.none)),
 });
-function fieldSelection(e, n) {
+function Ce(e, n) {
   return t.create(
     e.filter((e) => e.field == n).map((e) => t.range(e.from, e.to)),
   );
 }
-function snippet(e) {
+function Se(e) {
   let t = Snippet.parse(e);
-  return (e, o, i, s) => {
-    let { text: l, ranges: r } = t.instantiate(e.state, i);
+  return (e, i, o, s) => {
+    let { text: l, ranges: r } = t.instantiate(e.state, o);
     let { main: a } = e.state.selection;
     let c = {
-      changes: { from: i, to: s == a.from ? a.to : s, insert: h.of(l) },
+      changes: { from: o, to: s == a.from ? a.to : s, insert: h.of(l) },
       scrollIntoView: true,
-      annotations: o ? [k.of(o), u.userEvent.of("input.complete")] : void 0,
+      annotations: i ? [P.of(i), u.userEvent.of("input.complete")] : void 0,
     };
-    r.length && (c.selection = fieldSelection(r, 0));
+    r.length && (c.selection = Ce(r, 0));
     if (r.some((e) => e.field > 0)) {
       let t = new ActiveSnippet(r, 0);
-      let o = (c.effects = [Q.of(t)]);
-      e.state.field(_, false) === void 0 &&
-        o.push(n.appendConfig.of([_, ee, te, z]));
+      let i = (c.effects = [we.of(t)]);
+      e.state.field(xe, false) === void 0 &&
+        i.push(n.appendConfig.of([xe, Le, Pe, ge]));
     }
     e.dispatch(e.state.update(c));
   };
 }
-function moveField(e) {
+function Ae(e) {
   return ({ state: t, dispatch: n }) => {
-    let o = t.field(_, false);
-    if (!o || (e < 0 && o.active == 0)) return false;
-    let i = o.active + e,
-      s = e > 0 && !o.ranges.some((t) => t.field == i + e);
+    let i = t.field(xe, false);
+    if (!i || (e < 0 && i.active == 0)) return false;
+    let o = i.active + e,
+      s = e > 0 && !i.ranges.some((t) => t.field == o + e);
     n(
       t.update({
-        selection: fieldSelection(o.ranges, i),
-        effects: Q.of(s ? null : new ActiveSnippet(o.ranges, i)),
+        selection: Ce(i.ranges, o),
+        effects: we.of(s ? null : new ActiveSnippet(i.ranges, o)),
         scrollIntoView: true,
       }),
     );
     return true;
   };
 }
-const clearSnippet = ({ state: e, dispatch: t }) => {
-  let n = e.field(_, false);
+const Ie = ({ state: e, dispatch: t }) => {
+  let n = e.field(xe, false);
   if (!n) return false;
-  t(e.update({ effects: Q.of(null) }));
+  t(e.update({ effects: we.of(null) }));
   return true;
 };
-const Y = moveField(1);
-const G = moveField(-1);
-function hasNextSnippetField(e) {
-  let t = e.field(_, false);
+const ke = Ae(1);
+const De = Ae(-1);
+function Oe(e) {
+  let t = e.field(xe, false);
   return !!(t && t.ranges.some((e) => e.field == t.active + 1));
 }
-function hasPrevSnippetField(e) {
-  let t = e.field(_, false);
+function Re(e) {
+  let t = e.field(xe, false);
   return !!(t && t.active > 0);
 }
-const J = [
-  { key: "Tab", run: Y, shift: G },
-  { key: "Escape", run: clearSnippet },
+const Te = [
+  { key: "Tab", run: ke, shift: De },
+  { key: "Escape", run: Ie },
 ];
-const Z = l.define({
+const Ee = l.define({
   combine(e) {
-    return e.length ? e[0] : J;
+    return e.length ? e[0] : Te;
   },
 });
-const ee = c.highest(A.compute([Z], (e) => e.facet(Z)));
-function snippetCompletion(e, t) {
-  return Object.assign(Object.assign({}, t), { apply: snippet(e) });
+const Le = c.highest(A.compute([Ee], (e) => e.facet(Ee)));
+function Me(e, t) {
+  return { ...t, apply: Se(e) };
 }
-const te = w.domEventHandlers({
+const Pe = w.domEventHandlers({
   mousedown(e, t) {
     let n,
-      o = t.state.field(_, false);
-    if (!o || (n = t.posAtCoords({ x: e.clientX, y: e.clientY })) == null)
+      i = t.state.field(xe, false);
+    if (!i || (n = t.posAtCoords({ x: e.clientX, y: e.clientY })) == null)
       return false;
-    let i = o.ranges.find((e) => e.from <= n && e.to >= n);
-    if (!i || i.field == o.active) return false;
+    let o = i.ranges.find((e) => e.from <= n && e.to >= n);
+    if (!o || o.field == i.active) return false;
     t.dispatch({
-      selection: fieldSelection(o.ranges, i.field),
-      effects: Q.of(
-        o.ranges.some((e) => e.field > i.field)
-          ? new ActiveSnippet(o.ranges, i.field)
+      selection: Ce(i.ranges, o.field),
+      effects: we.of(
+        i.ranges.some((e) => e.field > o.field)
+          ? new ActiveSnippet(i.ranges, o.field)
           : null,
       ),
       scrollIntoView: true,
@@ -1646,7 +1646,7 @@ const te = w.domEventHandlers({
     return true;
   },
 });
-function wordRE(e) {
+function Fe(e) {
   let t = e.replace(/[\]\-\\]/g, "\\$&");
   try {
     return new RegExp(`[\\p{Alphabetic}\\p{Number}_${t}]+`, "ug");
@@ -1654,28 +1654,28 @@ function wordRE(e) {
     return new RegExp(`[w${t}]`, "g");
   }
 }
-function mapRE(e, t) {
+function Be(e, t) {
   return new RegExp(t(e.source), e.unicode ? "u" : "");
 }
-const ne = Object.create(null);
-function wordCache(e) {
-  return ne[e] || (ne[e] = new WeakMap());
+const $e = Object.create(null);
+function Ne(e) {
+  return $e[e] || ($e[e] = new WeakMap());
 }
-function storeWords(e, t, n, o, i) {
+function Ue(e, t, n, i, o) {
   for (let s = e.iterLines(), l = 0; !s.next().done; ) {
     let e,
       { value: r } = s;
     t.lastIndex = 0;
     while ((e = t.exec(r)))
-      if (!o[e[0]] && l + e.index != i) {
+      if (!i[e[0]] && l + e.index != o) {
         n.push({ type: "text", label: e[0] });
-        o[e[0]] = true;
+        i[e[0]] = true;
         if (n.length >= 2e3) return;
       }
     l += r.length + 1;
   }
 }
-function collectWords(e, t, n, o, i) {
+function We(e, t, n, i, o) {
   let s = e.length >= 1e3;
   let l = s && t.get(e);
   if (l) return l;
@@ -1685,42 +1685,42 @@ function collectWords(e, t, n, o, i) {
     let s = 0;
     for (let l of e.children) {
       if (l.length >= 1e3) {
-        for (let e of collectWords(l, t, n, o - s, i - s))
+        for (let e of We(l, t, n, i - s, o - s))
           if (!a[e.label]) {
             a[e.label] = true;
             r.push(e);
           }
-      } else storeWords(l, n, r, a, i - s);
+      } else Ue(l, n, r, a, o - s);
       s += l.length + 1;
     }
-  } else storeWords(e, n, r, a, i);
+  } else Ue(e, n, r, a, o);
   s && r.length < 2e3 && t.set(e, r);
   return r;
 }
-const completeAnyWord = (e) => {
+const qe = (e) => {
   let t = e.state.languageDataAt("wordChars", e.pos).join("");
-  let n = wordRE(t);
-  let o = e.matchBefore(mapRE(n, (e) => e + "$"));
-  if (!o && !e.explicit) return null;
-  let i = o ? o.from : e.pos;
-  let s = collectWords(e.state.doc, wordCache(t), n, 5e4, i);
-  return { from: i, options: s, validFor: mapRE(n, (e) => "^" + e) };
+  let n = Fe(t);
+  let i = e.matchBefore(Be(n, (e) => e + "$"));
+  if (!i && !e.explicit) return null;
+  let o = i ? i.from : e.pos;
+  let s = We(e.state.doc, Ne(t), n, 5e4, o);
+  return { from: o, options: s, validFor: Be(n, (e) => "^" + e) };
 };
-const oe = {
+const je = {
   brackets: ["(", "[", "{", "'", '"'],
   before: ")]}:;>",
   stringPrefixes: [],
 };
-const ie = n.define({
+const ze = n.define({
   map(e, t) {
-    let n = t.mapPos(e, -1, p.TrackAfter);
+    let n = t.mapPos(e, -1, f.TrackAfter);
     return n == null ? void 0 : n;
   },
 });
-const se = new (class extends f {})();
-se.startSide = 1;
-se.endSide = -1;
-const le = a.define({
+const He = new (class extends p {})();
+He.startSide = 1;
+He.endSide = -1;
+const Ve = a.define({
   create() {
     return d.empty;
   },
@@ -1731,50 +1731,50 @@ const le = a.define({
       e = e.update({ filter: (e) => e >= n.from && e <= n.to });
     }
     for (let n of t.effects)
-      n.is(ie) && (e = e.update({ add: [se.range(n.value, n.value + 1)] }));
+      n.is(ze) && (e = e.update({ add: [He.range(n.value, n.value + 1)] }));
     return e;
   },
 });
-function closeBrackets() {
-  return [ce, le];
+function Ke() {
+  return [Ge, Ve];
 }
-const re = "()[]{}<>«»»«［］｛｝";
-function closing(e) {
-  for (let t = 0; t < re.length; t += 2)
-    if (re.charCodeAt(t) == e) return re.charAt(t + 1);
+const Qe = "()[]{}<>«»»«［］｛｝";
+function Xe(e) {
+  for (let t = 0; t < Qe.length; t += 2)
+    if (Qe.charCodeAt(t) == e) return Qe.charAt(t + 1);
   return s(e < 128 ? e : e + 1);
 }
-function config(e, t) {
-  return e.languageDataAt("closeBrackets", t)[0] || oe;
+function _e(e, t) {
+  return e.languageDataAt("closeBrackets", t)[0] || je;
 }
-const ae =
+const Ye =
   typeof navigator == "object" && /Android\b/.test(navigator.userAgent);
-const ce = w.inputHandler.of((e, t, n, s) => {
-  if ((ae ? e.composing : e.compositionStarted) || e.state.readOnly)
+const Ge = w.inputHandler.of((e, t, n, s) => {
+  if ((Ye ? e.composing : e.compositionStarted) || e.state.readOnly)
     return false;
   let l = e.state.selection.main;
   if (
     s.length > 2 ||
-    (s.length == 2 && i(o(s, 0)) == 1) ||
+    (s.length == 2 && o(i(s, 0)) == 1) ||
     t != l.from ||
     n != l.to
   )
     return false;
-  let r = insertBracket(e.state, s);
+  let r = et(e.state, s);
   if (!r) return false;
   e.dispatch(r);
   return true;
 });
-const deleteBracketPair = ({ state: e, dispatch: n }) => {
+const Je = ({ state: e, dispatch: n }) => {
   if (e.readOnly) return false;
-  let i = config(e, e.selection.main.head);
-  let s = i.brackets || oe.brackets;
+  let o = _e(e, e.selection.main.head);
+  let s = o.brackets || je.brackets;
   let l = null,
     r = e.changeByRange((n) => {
       if (n.empty) {
-        let i = prevChar(e.doc, n.head);
+        let o = it(e.doc, n.head);
         for (let l of s)
-          if (l == i && nextChar(e.doc, n.head) == closing(o(l, 0)))
+          if (l == o && nt(e.doc, n.head) == Xe(i(l, 0)))
             return {
               changes: { from: n.head - l.length, to: n.head + l.length },
               range: t.cursor(n.head - l.length),
@@ -1785,53 +1785,52 @@ const deleteBracketPair = ({ state: e, dispatch: n }) => {
   l || n(e.update(r, { scrollIntoView: true, userEvent: "delete.backward" }));
   return !l;
 };
-const pe = [{ key: "Backspace", run: deleteBracketPair }];
-function insertBracket(e, t) {
-  let n = config(e, e.selection.main.head);
-  let i = n.brackets || oe.brackets;
-  for (let s of i) {
-    let l = closing(o(s, 0));
+const Ze = [{ key: "Backspace", run: Je }];
+function et(e, t) {
+  let n = _e(e, e.selection.main.head);
+  let o = n.brackets || je.brackets;
+  for (let s of o) {
+    let l = Xe(i(s, 0));
     if (t == s)
       return l == s
-        ? handleSame(e, s, i.indexOf(s + s + s) > -1, n)
-        : handleOpen(e, s, l, n.before || oe.before);
-    if (t == l && closedBracketAt(e, e.selection.main.from))
-      return handleClose(e, s, l);
+        ? lt(e, s, o.indexOf(s + s + s) > -1, n)
+        : ot(e, s, l, n.before || je.before);
+    if (t == l && tt(e, e.selection.main.from)) return st(e, s, l);
   }
   return null;
 }
-function closedBracketAt(e, t) {
+function tt(e, t) {
   let n = false;
-  e.field(le).between(0, e.doc.length, (e) => {
+  e.field(Ve).between(0, e.doc.length, (e) => {
     e == t && (n = true);
   });
   return n;
 }
-function nextChar(e, t) {
+function nt(e, t) {
   let n = e.sliceString(t, t + 2);
-  return n.slice(0, i(o(n, 0)));
+  return n.slice(0, o(i(n, 0)));
 }
-function prevChar(e, t) {
+function it(e, t) {
   let n = e.sliceString(t - 2, t);
-  return i(o(n, 0)) == n.length ? n : n.slice(1);
+  return o(i(n, 0)) == n.length ? n : n.slice(1);
 }
-function handleOpen(e, n, o, i) {
+function ot(e, n, i, o) {
   let s = null,
     l = e.changeByRange((l) => {
       if (!l.empty)
         return {
           changes: [
             { insert: n, from: l.from },
-            { insert: o, from: l.to },
+            { insert: i, from: l.to },
           ],
-          effects: ie.of(l.to + n.length),
+          effects: ze.of(l.to + n.length),
           range: t.range(l.anchor + n.length, l.head + n.length),
         };
-      let r = nextChar(e.doc, l.head);
-      return !r || /\s/.test(r) || i.indexOf(r) > -1
+      let r = nt(e.doc, l.head);
+      return !r || /\s/.test(r) || o.indexOf(r) > -1
         ? {
-            changes: { insert: n + o, from: l.head },
-            effects: ie.of(l.head + n.length),
+            changes: { insert: n + i, from: l.head },
+            effects: ze.of(l.head + n.length),
             range: t.cursor(l.head + n.length),
           }
         : { range: (s = l) };
@@ -1840,46 +1839,46 @@ function handleOpen(e, n, o, i) {
     ? null
     : e.update(l, { scrollIntoView: true, userEvent: "input.type" });
 }
-function handleClose(e, n, o) {
-  let i = null,
+function st(e, n, i) {
+  let o = null,
     s = e.changeByRange((n) =>
-      n.empty && nextChar(e.doc, n.head) == o
+      n.empty && nt(e.doc, n.head) == i
         ? {
-            changes: { from: n.head, to: n.head + o.length, insert: o },
-            range: t.cursor(n.head + o.length),
+            changes: { from: n.head, to: n.head + i.length, insert: i },
+            range: t.cursor(n.head + i.length),
           }
-        : (i = { range: n }),
+        : (o = { range: n }),
     );
-  return i
+  return o
     ? null
     : e.update(s, { scrollIntoView: true, userEvent: "input.type" });
 }
-function handleSame(e, n, o, i) {
-  let s = i.stringPrefixes || oe.stringPrefixes;
+function lt(e, n, i, o) {
+  let s = o.stringPrefixes || je.stringPrefixes;
   let l = null,
-    r = e.changeByRange((i) => {
-      if (!i.empty)
+    r = e.changeByRange((o) => {
+      if (!o.empty)
         return {
           changes: [
-            { insert: n, from: i.from },
-            { insert: n, from: i.to },
+            { insert: n, from: o.from },
+            { insert: n, from: o.to },
           ],
-          effects: ie.of(i.to + n.length),
-          range: t.range(i.anchor + n.length, i.head + n.length),
+          effects: ze.of(o.to + n.length),
+          range: t.range(o.anchor + n.length, o.head + n.length),
         };
       let r,
-        a = i.head,
-        c = nextChar(e.doc, a);
+        a = o.head,
+        c = nt(e.doc, a);
       if (c == n) {
-        if (nodeStart(e, a))
+        if (rt(e, a))
           return {
             changes: { insert: n + n, from: a },
-            effects: ie.of(a + n.length),
+            effects: ze.of(a + n.length),
             range: t.cursor(a + n.length),
           };
-        if (closedBracketAt(e, a)) {
-          let i = o && e.sliceDoc(a, a + n.length * 3) == n + n + n;
-          let s = i ? n + n + n : n;
+        if (tt(e, a)) {
+          let o = i && e.sliceDoc(a, a + n.length * 3) == n + n + n;
+          let s = o ? n + n + n : n;
           return {
             changes: { from: a, to: a + s.length, insert: s },
             range: t.cursor(a + s.length),
@@ -1887,143 +1886,144 @@ function handleSame(e, n, o, i) {
         }
       } else {
         if (
-          o &&
+          i &&
           e.sliceDoc(a - 2 * n.length, a) == n + n &&
-          (r = canStartStringAt(e, a - 2 * n.length, s)) > -1 &&
-          nodeStart(e, r)
+          (r = ct(e, a - 2 * n.length, s)) > -1 &&
+          rt(e, r)
         )
           return {
             changes: { insert: n + n + n + n, from: a },
-            effects: ie.of(a + n.length),
+            effects: ze.of(a + n.length),
             range: t.cursor(a + n.length),
           };
         if (
           e.charCategorizer(a)(c) != m.Word &&
-          canStartStringAt(e, a, s) > -1 &&
-          !probablyInString(e, a, n, s)
+          ct(e, a, s) > -1 &&
+          !at(e, a, n, s)
         )
           return {
             changes: { insert: n + n, from: a },
-            effects: ie.of(a + n.length),
+            effects: ze.of(a + n.length),
             range: t.cursor(a + n.length),
           };
       }
-      return { range: (l = i) };
+      return { range: (l = o) };
     });
   return l
     ? null
     : e.update(r, { scrollIntoView: true, userEvent: "input.type" });
 }
-function nodeStart(e, t) {
+function rt(e, t) {
   let n = I(e).resolveInner(t + 1);
   return n.parent && n.from == t;
 }
-function probablyInString(e, t, n, o) {
-  let i = I(e).resolveInner(t, -1);
-  let s = o.reduce((e, t) => Math.max(e, t.length), 0);
+function at(e, t, n, i) {
+  let o = I(e).resolveInner(t, -1);
+  let s = i.reduce((e, t) => Math.max(e, t.length), 0);
   for (let l = 0; l < 5; l++) {
-    let l = e.sliceDoc(i.from, Math.min(i.to, i.from + n.length + s));
+    let l = e.sliceDoc(o.from, Math.min(o.to, o.from + n.length + s));
     let r = l.indexOf(n);
-    if (!r || (r > -1 && o.indexOf(l.slice(0, r)) > -1)) {
-      let t = i.firstChild;
-      while (t && t.from == i.from && t.to - t.from > n.length + r) {
+    if (!r || (r > -1 && i.indexOf(l.slice(0, r)) > -1)) {
+      let t = o.firstChild;
+      while (t && t.from == o.from && t.to - t.from > n.length + r) {
         if (e.sliceDoc(t.to - n.length, t.to) == n) return false;
         t = t.firstChild;
       }
       return true;
     }
-    let a = i.to == t && i.parent;
+    let a = o.to == t && o.parent;
     if (!a) break;
-    i = a;
+    o = a;
   }
   return false;
 }
-function canStartStringAt(e, t, n) {
-  let o = e.charCategorizer(t);
-  if (o(e.sliceDoc(t - 1, t)) != m.Word) return t;
-  for (let i of n) {
-    let n = t - i.length;
-    if (e.sliceDoc(n, t) == i && o(e.sliceDoc(n - 1, n)) != m.Word) return n;
+function ct(e, t, n) {
+  let i = e.charCategorizer(t);
+  if (i(e.sliceDoc(t - 1, t)) != m.Word) return t;
+  for (let o of n) {
+    let n = t - o.length;
+    if (e.sliceDoc(n, t) == o && i(e.sliceDoc(n - 1, n)) != m.Word) return n;
   }
   return -1;
 }
-function autocompletion(e = {}) {
-  return [V, j, E.of(e), U, he, z];
+function ft(e = {}) {
+  return [me, oe, W.of(e), pe, ht, ge];
 }
-const ue = [
-  { key: "Ctrl-Space", run: startCompletion },
-  { mac: "Alt-`", run: startCompletion },
-  { key: "Escape", run: closeCompletion },
-  { key: "ArrowDown", run: moveCompletionSelection(true) },
-  { key: "ArrowUp", run: moveCompletionSelection(false) },
-  { key: "PageDown", run: moveCompletionSelection(true, "page") },
-  { key: "PageUp", run: moveCompletionSelection(false, "page") },
-  { key: "Enter", run: acceptCompletion },
+const ut = [
+  { key: "Ctrl-Space", run: ce },
+  { mac: "Alt-`", run: ce },
+  { mac: "Alt-i", run: ce },
+  { key: "Escape", run: fe },
+  { key: "ArrowDown", run: re(true) },
+  { key: "ArrowUp", run: re(false) },
+  { key: "PageDown", run: re(true, "page") },
+  { key: "PageUp", run: re(false, "page") },
+  { key: "Enter", run: ae },
 ];
-const he = c.highest(
-  A.computeN([E], (e) => (e.facet(E).defaultKeymap ? [ue] : [])),
+const ht = c.highest(
+  A.computeN([W], (e) => (e.facet(W).defaultKeymap ? [ut] : [])),
 );
-function completionStatus(e) {
-  let t = e.field(j, false);
+function pt(e) {
+  let t = e.field(oe, false);
   return t && t.active.some((e) => e.isPending)
     ? "pending"
     : t && t.active.some((e) => e.state != 0)
       ? "active"
       : null;
 }
-const fe = new WeakMap();
-function currentCompletions(e) {
+const dt = new WeakMap();
+function mt(e) {
   var t;
-  let n = (t = e.field(j, false)) === null || t === void 0 ? void 0 : t.open;
+  let n = (t = e.field(oe, false)) === null || t === void 0 ? void 0 : t.open;
   if (!n || n.disabled) return [];
-  let o = fe.get(n.options);
-  o || fe.set(n.options, (o = n.options.map((e) => e.completion)));
-  return o;
+  let i = dt.get(n.options);
+  i || dt.set(n.options, (i = n.options.map((e) => e.completion)));
+  return i;
 }
-function selectedCompletion(e) {
+function gt(e) {
   var t;
-  let n = (t = e.field(j, false)) === null || t === void 0 ? void 0 : t.open;
+  let n = (t = e.field(oe, false)) === null || t === void 0 ? void 0 : t.open;
   return n && !n.disabled && n.selected >= 0
     ? n.options[n.selected].completion
     : null;
 }
-function selectedCompletionIndex(e) {
+function vt(e) {
   var t;
-  let n = (t = e.field(j, false)) === null || t === void 0 ? void 0 : t.open;
+  let n = (t = e.field(oe, false)) === null || t === void 0 ? void 0 : t.open;
   return n && !n.disabled && n.selected >= 0 ? n.selected : null;
 }
-function setSelectedCompletion(e) {
-  return B.of(e);
+function bt(e) {
+  return ie.of(e);
 }
 export {
   CompletionContext,
-  acceptCompletion,
-  autocompletion,
-  clearSnippet,
-  closeBrackets,
-  pe as closeBracketsKeymap,
-  closeCompletion,
-  completeAnyWord,
-  completeFromList,
-  ue as completionKeymap,
-  completionStatus,
-  currentCompletions,
-  deleteBracketPair,
-  hasNextSnippetField,
-  hasPrevSnippetField,
-  ifIn,
-  ifNotIn,
-  insertBracket,
-  insertCompletionText,
-  moveCompletionSelection,
-  Y as nextSnippetField,
-  k as pickedCompletion,
-  G as prevSnippetField,
-  selectedCompletion,
-  selectedCompletionIndex,
-  setSelectedCompletion,
-  snippet,
-  snippetCompletion,
-  Z as snippetKeymap,
-  startCompletion,
+  ae as acceptCompletion,
+  ft as autocompletion,
+  Ie as clearSnippet,
+  Ke as closeBrackets,
+  Ze as closeBracketsKeymap,
+  fe as closeCompletion,
+  qe as completeAnyWord,
+  R as completeFromList,
+  ut as completionKeymap,
+  pt as completionStatus,
+  mt as currentCompletions,
+  Je as deleteBracketPair,
+  Oe as hasNextSnippetField,
+  Re as hasPrevSnippetField,
+  T as ifIn,
+  E as ifNotIn,
+  et as insertBracket,
+  F as insertCompletionText,
+  re as moveCompletionSelection,
+  ke as nextSnippetField,
+  P as pickedCompletion,
+  De as prevSnippetField,
+  gt as selectedCompletion,
+  vt as selectedCompletionIndex,
+  bt as setSelectedCompletion,
+  Se as snippet,
+  Me as snippetCompletion,
+  Ee as snippetKeymap,
+  ce as startCompletion,
 };

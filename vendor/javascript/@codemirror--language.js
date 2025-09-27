@@ -1,4 +1,4 @@
-// @codemirror/language@6.11.2 downloaded from https://ga.jspm.io/npm:@codemirror/language@6.11.2/dist/index.js
+// @codemirror/language@6.11.3 downloaded from https://ga.jspm.io/npm:@codemirror/language@6.11.3/dist/index.js
 
 import {
   NodeProp as t,
@@ -1816,7 +1816,7 @@ class Parse {
     let t = ParseContext.get();
     let e =
       this.stoppedAt == null ? this.to : Math.min(this.to, this.stoppedAt);
-    let n = Math.min(e, this.chunkStart + 2048);
+    let n = Math.min(e, this.chunkStart + 512);
     t && (n = Math.min(n, t.viewport.to));
     while (this.parsedPos < n) this.parseLine(t);
     this.chunkStart < this.parsedPos && this.finishChunk();
@@ -1918,7 +1918,7 @@ class Parse {
       length: this.parsedPos - this.chunkStart,
       nodeSet: ye,
       topID: 0,
-      maxBufferLength: 2048,
+      maxBufferLength: 512,
       reused: this.chunkReused,
     });
     t = new e(t.type, t.children, t.positions, t.length, [

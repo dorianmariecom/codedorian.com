@@ -29,7 +29,7 @@ export default class extends Controller {
 
   connect() {
     this.iti = intlTelInput(this.inputTarget, {
-      utilsScript: "intl-tel-input/build/js/utils.js",
+      loadUtils: () => import("intl-tel-input/build/js/utils.js"),
       initialCountry: "auto",
       geoIpLookup: async function (success) {
         try {

@@ -1,4 +1,4 @@
-// intl-tel-input@25.10.8 downloaded from https://ga.jspm.io/npm:intl-tel-input@25.10.8/build/js/intlTelInput.js
+// intl-tel-input@25.11.1 downloaded from https://ga.jspm.io/npm:intl-tel-input@25.11.1/build/js/intlTelInput.js
 
 var t = {};
 (function (e) {
@@ -12,58 +12,58 @@ var t = {};
     var n = (e, i) => {
       for (var s in i) t(e, s, { get: i[s], enumerable: true });
     };
-    var o = (n, o, a, r) => {
+    var o = (n, o, r, l) => {
       if ((o && typeof o === "object") || typeof o === "function")
-        for (let l of i(o))
-          s.call(n, l) ||
-            l === a ||
-            t(n, l, {
-              get: () => o[l],
-              enumerable: !(r = e(o, l)) || r.enumerable,
+        for (let a of i(o))
+          s.call(n, a) ||
+            a === r ||
+            t(n, a, {
+              get: () => o[a],
+              enumerable: !(l = e(o, a)) || l.enumerable,
             });
       return n;
     };
-    var a = (e) => o(t({}, "__esModule", { value: true }), e);
-    var r = {};
-    n(r, { Iti: () => z, default: () => O });
-    var l = [
-      ["af", "93"],
-      ["ax", "358", 1],
-      ["al", "355"],
-      ["dz", "213"],
-      ["as", "1", 5, ["684"]],
+    var r = (e) => o(t({}, "__esModule", { value: true }), e);
+    var l = {};
+    n(l, { Iti: () => nt, default: () => at });
+    var a = [
+      ["af", "93", 0, null, "0"],
+      ["ax", "358", 1, ["18", "4"], "0"],
+      ["al", "355", 0, null, "0"],
+      ["dz", "213", 0, null, "0"],
+      ["as", "1", 5, ["684"], "1"],
       ["ad", "376"],
       ["ao", "244"],
-      ["ai", "1", 6, ["264"]],
-      ["ag", "1", 7, ["268"]],
-      ["ar", "54"],
-      ["am", "374"],
+      ["ai", "1", 6, ["264"], "1"],
+      ["ag", "1", 7, ["268"], "1"],
+      ["ar", "54", 0, null, "0"],
+      ["am", "374", 0, null, "0"],
       ["aw", "297"],
       ["ac", "247"],
-      ["au", "61", 0, null, "0"],
-      ["at", "43"],
-      ["az", "994"],
-      ["bs", "1", 8, ["242"]],
+      ["au", "61", 0, ["4"], "0"],
+      ["at", "43", 0, null, "0"],
+      ["az", "994", 0, null, "0"],
+      ["bs", "1", 8, ["242"], "1"],
       ["bh", "973"],
-      ["bd", "880"],
-      ["bb", "1", 9, ["246"]],
-      ["by", "375"],
-      ["be", "32"],
+      ["bd", "880", 0, null, "0"],
+      ["bb", "1", 9, ["246"], "1"],
+      ["by", "375", 0, null, "8"],
+      ["be", "32", 0, null, "0"],
       ["bz", "501"],
       ["bj", "229"],
-      ["bm", "1", 10, ["441"]],
+      ["bm", "1", 10, ["441"], "1"],
       ["bt", "975"],
-      ["bo", "591"],
-      ["ba", "387"],
+      ["bo", "591", 0, null, "0"],
+      ["ba", "387", 0, null, "0"],
       ["bw", "267"],
-      ["br", "55"],
+      ["br", "55", 0, null, "0"],
       ["io", "246"],
-      ["vg", "1", 11, ["284"]],
+      ["vg", "1", 11, ["284"], "1"],
       ["bn", "673"],
-      ["bg", "359"],
+      ["bg", "359", 0, null, "0"],
       ["bf", "226"],
       ["bi", "257"],
-      ["kh", "855"],
+      ["kh", "855", 0, null, "0"],
       ["cm", "237"],
       [
         "ca",
@@ -75,6 +75,7 @@ var t = {};
           "236",
           "249",
           "250",
+          "257",
           "263",
           "289",
           "306",
@@ -84,7 +85,6 @@ var t = {};
           "367",
           "368",
           "382",
-          "387",
           "403",
           "416",
           "418",
@@ -93,7 +93,6 @@ var t = {};
           "437",
           "438",
           "450",
-          "584",
           "468",
           "474",
           "506",
@@ -125,59 +124,61 @@ var t = {};
           "879",
           "902",
           "905",
+          "942",
         ],
+        "1",
       ],
       ["cv", "238"],
       ["bq", "599", 1, ["3", "4", "7"]],
-      ["ky", "1", 12, ["345"]],
+      ["ky", "1", 12, ["345"], "1"],
       ["cf", "236"],
       ["td", "235"],
       ["cl", "56"],
-      ["cn", "86"],
-      ["cx", "61", 2, ["89164"], "0"],
-      ["cc", "61", 1, ["89162"], "0"],
-      ["co", "57"],
+      ["cn", "86", 0, null, "0"],
+      ["cx", "61", 2, ["4", "89164"], "0"],
+      ["cc", "61", 1, ["4", "89162"], "0"],
+      ["co", "57", 0, null, "0"],
       ["km", "269"],
       ["cg", "242"],
-      ["cd", "243"],
+      ["cd", "243", 0, null, "0"],
       ["ck", "682"],
       ["cr", "506"],
       ["ci", "225"],
-      ["hr", "385"],
-      ["cu", "53"],
+      ["hr", "385", 0, null, "0"],
+      ["cu", "53", 0, null, "0"],
       ["cw", "599", 0],
       ["cy", "357"],
       ["cz", "420"],
       ["dk", "45"],
       ["dj", "253"],
-      ["dm", "1", 13, ["767"]],
-      ["do", "1", 2, ["809", "829", "849"]],
-      ["ec", "593"],
-      ["eg", "20"],
+      ["dm", "1", 13, ["767"], "1"],
+      ["do", "1", 2, ["809", "829", "849"], "1"],
+      ["ec", "593", 0, null, "0"],
+      ["eg", "20", 0, null, "0"],
       ["sv", "503"],
       ["gq", "240"],
-      ["er", "291"],
+      ["er", "291", 0, null, "0"],
       ["ee", "372"],
       ["sz", "268"],
-      ["et", "251"],
+      ["et", "251", 0, null, "0"],
       ["fk", "500"],
       ["fo", "298"],
       ["fj", "679"],
-      ["fi", "358", 0],
-      ["fr", "33"],
-      ["gf", "594"],
+      ["fi", "358", 0, ["4"], "0"],
+      ["fr", "33", 0, null, "0"],
+      ["gf", "594", 0, null, "0"],
       ["pf", "689"],
       ["ga", "241"],
       ["gm", "220"],
-      ["ge", "995"],
-      ["de", "49"],
-      ["gh", "233"],
+      ["ge", "995", 0, null, "0"],
+      ["de", "49", 0, null, "0"],
+      ["gh", "233", 0, null, "0"],
       ["gi", "350"],
       ["gr", "30"],
       ["gl", "299"],
-      ["gd", "1", 14, ["473"]],
-      ["gp", "590", 0],
-      ["gu", "1", 15, ["671"]],
+      ["gd", "1", 14, ["473"], "1"],
+      ["gp", "590", 0, null, "0"],
+      ["gu", "1", 15, ["671"], "1"],
       ["gt", "502"],
       ["gg", "44", 1, ["1481", "7781", "7839", "7911"], "0"],
       ["gn", "224"],
@@ -186,155 +187,155 @@ var t = {};
       ["ht", "509"],
       ["hn", "504"],
       ["hk", "852"],
-      ["hu", "36"],
+      ["hu", "36", 0, null, "06"],
       ["is", "354"],
-      ["in", "91"],
-      ["id", "62"],
-      ["ir", "98"],
-      ["iq", "964"],
-      ["ie", "353"],
-      ["im", "44", 2, ["1624", "74576", "7524", "7924", "7624"], "0"],
-      ["il", "972"],
-      ["it", "39", 0],
-      ["jm", "1", 4, ["876", "658"]],
-      ["jp", "81"],
+      ["in", "91", 0, null, "0"],
+      ["id", "62", 0, null, "0"],
+      ["ir", "98", 0, null, "0"],
+      ["iq", "964", 0, null, "0"],
+      ["ie", "353", 0, null, "0"],
+      ["im", "44", 2, ["1624", "74576", "7524", "7624", "7924"], "0"],
+      ["il", "972", 0, null, "0"],
+      ["it", "39", 0, ["3"]],
+      ["jm", "1", 4, ["658", "876"], "1"],
+      ["jp", "81", 0, null, "0"],
       ["je", "44", 3, ["1534", "7509", "7700", "7797", "7829", "7937"], "0"],
-      ["jo", "962"],
+      ["jo", "962", 0, null, "0"],
       ["kz", "7", 1, ["33", "7"], "8"],
-      ["ke", "254"],
-      ["ki", "686"],
-      ["xk", "383"],
+      ["ke", "254", 0, null, "0"],
+      ["ki", "686", 0, null, "0"],
+      ["xk", "383", 0, null, "0"],
       ["kw", "965"],
-      ["kg", "996"],
-      ["la", "856"],
+      ["kg", "996", 0, null, "0"],
+      ["la", "856", 0, null, "0"],
       ["lv", "371"],
-      ["lb", "961"],
+      ["lb", "961", 0, null, "0"],
       ["ls", "266"],
-      ["lr", "231"],
-      ["ly", "218"],
-      ["li", "423"],
-      ["lt", "370"],
+      ["lr", "231", 0, null, "0"],
+      ["ly", "218", 0, null, "0"],
+      ["li", "423", 0, null, "0"],
+      ["lt", "370", 0, null, "0"],
       ["lu", "352"],
       ["mo", "853"],
-      ["mg", "261"],
-      ["mw", "265"],
-      ["my", "60"],
+      ["mg", "261", 0, null, "0"],
+      ["mw", "265", 0, null, "0"],
+      ["my", "60", 0, null, "0"],
       ["mv", "960"],
       ["ml", "223"],
       ["mt", "356"],
-      ["mh", "692"],
-      ["mq", "596"],
+      ["mh", "692", 0, null, "1"],
+      ["mq", "596", 0, null, "0"],
       ["mr", "222"],
       ["mu", "230"],
       ["yt", "262", 1, ["269", "639"], "0"],
       ["mx", "52"],
       ["fm", "691"],
-      ["md", "373"],
-      ["mc", "377"],
-      ["mn", "976"],
-      ["me", "382"],
-      ["ms", "1", 16, ["664"]],
-      ["ma", "212", 0, null, "0"],
+      ["md", "373", 0, null, "0"],
+      ["mc", "377", 0, null, "0"],
+      ["mn", "976", 0, null, "0"],
+      ["me", "382", 0, null, "0"],
+      ["ms", "1", 16, ["664"], "1"],
+      ["ma", "212", 0, ["6", "7"], "0"],
       ["mz", "258"],
-      ["mm", "95"],
-      ["na", "264"],
+      ["mm", "95", 0, null, "0"],
+      ["na", "264", 0, null, "0"],
       ["nr", "674"],
-      ["np", "977"],
-      ["nl", "31"],
+      ["np", "977", 0, null, "0"],
+      ["nl", "31", 0, null, "0"],
       ["nc", "687"],
-      ["nz", "64"],
+      ["nz", "64", 0, null, "0"],
       ["ni", "505"],
       ["ne", "227"],
-      ["ng", "234"],
+      ["ng", "234", 0, null, "0"],
       ["nu", "683"],
       ["nf", "672"],
-      ["kp", "850"],
-      ["mk", "389"],
-      ["mp", "1", 17, ["670"]],
-      ["no", "47", 0],
+      ["kp", "850", 0, null, "0"],
+      ["mk", "389", 0, null, "0"],
+      ["mp", "1", 17, ["670"], "1"],
+      ["no", "47", 0, ["4", "9"]],
       ["om", "968"],
-      ["pk", "92"],
+      ["pk", "92", 0, null, "0"],
       ["pw", "680"],
-      ["ps", "970"],
+      ["ps", "970", 0, null, "0"],
       ["pa", "507"],
       ["pg", "675"],
-      ["py", "595"],
-      ["pe", "51"],
-      ["ph", "63"],
+      ["py", "595", 0, null, "0"],
+      ["pe", "51", 0, null, "0"],
+      ["ph", "63", 0, null, "0"],
       ["pl", "48"],
       ["pt", "351"],
-      ["pr", "1", 3, ["787", "939"]],
+      ["pr", "1", 3, ["787", "939"], "1"],
       ["qa", "974"],
       ["re", "262", 0, null, "0"],
-      ["ro", "40"],
-      ["ru", "7", 0, null, "8"],
-      ["rw", "250"],
+      ["ro", "40", 0, null, "0"],
+      ["ru", "7", 0, ["33"], "8"],
+      ["rw", "250", 0, null, "0"],
       ["ws", "685"],
       ["sm", "378"],
       ["st", "239"],
-      ["sa", "966"],
+      ["sa", "966", 0, null, "0"],
       ["sn", "221"],
-      ["rs", "381"],
+      ["rs", "381", 0, null, "0"],
       ["sc", "248"],
-      ["sl", "232"],
+      ["sl", "232", 0, null, "0"],
       ["sg", "65"],
-      ["sx", "1", 21, ["721"]],
-      ["sk", "421"],
-      ["si", "386"],
+      ["sx", "1", 21, ["721"], "1"],
+      ["sk", "421", 0, null, "0"],
+      ["si", "386", 0, null, "0"],
       ["sb", "677"],
-      ["so", "252"],
-      ["za", "27"],
-      ["kr", "82"],
-      ["ss", "211"],
+      ["so", "252", 0, null, "0"],
+      ["za", "27", 0, null, "0"],
+      ["kr", "82", 0, null, "0"],
+      ["ss", "211", 0, null, "0"],
       ["es", "34"],
-      ["lk", "94"],
-      ["bl", "590", 1],
+      ["lk", "94", 0, null, "0"],
+      ["bl", "590", 1, null, "0"],
       ["sh", "290"],
-      ["kn", "1", 18, ["869"]],
-      ["lc", "1", 19, ["758"]],
-      ["mf", "590", 2],
-      ["pm", "508"],
-      ["vc", "1", 20, ["784"]],
-      ["sd", "249"],
+      ["kn", "1", 18, ["869"], "1"],
+      ["lc", "1", 19, ["758"], "1"],
+      ["mf", "590", 2, null, "0"],
+      ["pm", "508", 0, null, "0"],
+      ["vc", "1", 20, ["784"], "1"],
+      ["sd", "249", 0, null, "0"],
       ["sr", "597"],
-      ["sj", "47", 1, ["79"]],
-      ["se", "46"],
-      ["ch", "41"],
-      ["sy", "963"],
-      ["tw", "886"],
+      ["sj", "47", 1, ["4", "79", "9"]],
+      ["se", "46", 0, null, "0"],
+      ["ch", "41", 0, null, "0"],
+      ["sy", "963", 0, null, "0"],
+      ["tw", "886", 0, null, "0"],
       ["tj", "992"],
-      ["tz", "255"],
-      ["th", "66"],
+      ["tz", "255", 0, null, "0"],
+      ["th", "66", 0, null, "0"],
       ["tl", "670"],
       ["tg", "228"],
       ["tk", "690"],
       ["to", "676"],
-      ["tt", "1", 22, ["868"]],
+      ["tt", "1", 22, ["868"], "1"],
       ["tn", "216"],
-      ["tr", "90"],
-      ["tm", "993"],
-      ["tc", "1", 23, ["649"]],
+      ["tr", "90", 0, null, "0"],
+      ["tm", "993", 0, null, "8"],
+      ["tc", "1", 23, ["649"], "1"],
       ["tv", "688"],
-      ["vi", "1", 24, ["340"]],
-      ["ug", "256"],
-      ["ua", "380"],
-      ["ae", "971"],
+      ["vi", "1", 24, ["340"], "1"],
+      ["ug", "256", 0, null, "0"],
+      ["ua", "380", 0, null, "0"],
+      ["ae", "971", 0, null, "0"],
       ["gb", "44", 0, null, "0"],
-      ["us", "1", 0],
-      ["uy", "598"],
+      ["us", "1", 0, null, "1"],
+      ["uy", "598", 0, null, "0"],
       ["uz", "998"],
       ["vu", "678"],
-      ["va", "39", 1, ["06698"]],
-      ["ve", "58"],
-      ["vn", "84"],
+      ["va", "39", 1, ["06698", "3"]],
+      ["ve", "58", 0, null, "0"],
+      ["vn", "84", 0, null, "0"],
       ["wf", "681"],
-      ["eh", "212", 1, ["5288", "5289"], "0"],
-      ["ye", "967"],
-      ["zm", "260"],
-      ["zw", "263"],
+      ["eh", "212", 1, ["5288", "5289", "6", "7"], "0"],
+      ["ye", "967", 0, null, "0"],
+      ["zm", "260", 0, null, "0"],
+      ["zw", "263", 0, null, "0"],
     ];
     var u = [];
-    for (const t of l)
+    for (const t of a)
       u.push({
         name: "",
         iso2: t[0],
@@ -343,6 +344,9 @@ var t = {};
         areaCodes: t[3] || null,
         nodeById: {},
         nationalPrefix: t[4] || null,
+        normalisedName: "",
+        initials: "",
+        dialCodePlus: "",
       });
     var d = u;
     var h = {
@@ -603,30 +607,93 @@ var t = {};
       ac: "Ascension Island",
       xk: "Kosovo",
     };
-    var m = p;
-    var y = { ...c, ...m };
-    var g = y;
-    var C = (t) =>
+    var C = p;
+    var m = { ...c, ...C };
+    var y = m;
+    var g = {
+      OPEN_COUNTRY_DROPDOWN: "open:countrydropdown",
+      CLOSE_COUNTRY_DROPDOWN: "close:countrydropdown",
+      COUNTRY_CHANGE: "countrychange",
+      INPUT: "input",
+    };
+    var _ = {
+      HIDE: "iti__hide",
+      V_HIDE: "iti__v-hide",
+      ARROW_UP: "iti__arrow--up",
+      GLOBE: "iti__globe",
+      FLAG: "iti__flag",
+      COUNTRY_ITEM: "iti__country",
+      HIGHLIGHT: "iti__highlight",
+    };
+    var f = {
+      ARROW_UP: "ArrowUp",
+      ARROW_DOWN: "ArrowDown",
+      SPACE: " ",
+      ENTER: "Enter",
+      ESC: "Escape",
+      TAB: "Tab",
+    };
+    var b = { PASTE: "insertFromPaste", DELETE_FWD: "deleteContentForward" };
+    var I = {
+      ALPHA_UNICODE: /\p{L}/u,
+      NON_PLUS_NUMERIC: /[^+0-9]/,
+      NON_PLUS_NUMERIC_GLOBAL: /[^+0-9]/g,
+      HIDDEN_SEARCH_CHAR: /^[a-zA-ZÀ-ÿа-яА-Я ]$/,
+    };
+    var D = {
+      SEARCH_DEBOUNCE_MS: 100,
+      HIDDEN_SEARCH_RESET_MS: 1e3,
+      NEXT_TICK: 0,
+    };
+    var L = { UNKNOWN_NUMBER_TYPE: -99, UNKNOWN_VALIDATION_ERROR: -99 };
+    var w = {
+      SANE_SELECTED_WITH_DIAL_WIDTH: 78,
+      SANE_SELECTED_NO_DIAL_WIDTH: 42,
+      INPUT_PADDING_EXTRA_LEFT: 6,
+    };
+    var E = { PLUS: "+", NANP: "1" };
+    var N = {
+      ISO2: "gb",
+      DIAL_CODE: "44",
+      MOBILE_PREFIX: "7",
+      MOBILE_CORE_LENGTH: 10,
+    };
+    var v = { ISO2: "us", DIAL_CODE: "1" };
+    var A = { AGGRESSIVE: "aggressive", POLITE: "polite" };
+    var T = { AUTO: "auto" };
+    var S = { COUNTRY_CODE: "countryCode", DIAL_CODE: "dialCode" };
+    var P = {
+      EXPANDED: "aria-expanded",
+      LABEL: "aria-label",
+      SELECTED: "aria-selected",
+      ACTIVE_DESCENDANT: "aria-activedescendant",
+      HASPOPUP: "aria-haspopup",
+      CONTROLS: "aria-controls",
+      HIDDEN: "aria-hidden",
+      AUTOCOMPLETE: "aria-autocomplete",
+      MODAL: "aria-modal",
+    };
+    var O = (t) =>
       typeof window !== "undefined" &&
       typeof window.matchMedia === "function" &&
       window.matchMedia(t).matches;
-    var _ = () => {
+    var R = () => {
       if (typeof navigator !== "undefined" && typeof window !== "undefined") {
         const t =
           /Android.+Mobile|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
             navigator.userAgent,
           );
-        const e = C("(max-width: 500px)");
-        const i = C("(max-height: 600px)");
-        const s = C("(pointer: coarse)");
+        const e = O("(max-width: 500px)");
+        const i = O("(max-height: 600px)");
+        const s = O("(pointer: coarse)");
         return t || e || (s && i);
       }
       return false;
     };
-    var f = {
+    var k = {
       allowPhonewords: false,
       allowDropdown: true,
-      autoPlaceholder: "polite",
+      autoPlaceholder: A.POLITE,
       containerClass: "",
       countryOrder: null,
       countrySearch: true,
@@ -647,10 +714,10 @@ var t = {};
       showFlags: true,
       separateDialCode: false,
       strictMode: false,
-      useFullscreenPopup: _(),
+      useFullscreenPopup: R(),
       validationNumberTypes: ["MOBILE"],
     };
-    function b(t) {
+    var M = (t, e) => {
       t.useFullscreenPopup && (t.fixDropdownWidth = false);
       t.onlyCountries.length === 1 && (t.initialCountry = t.onlyCountries[0]);
       t.separateDialCode && (t.nationalMode = false);
@@ -661,236 +728,93 @@ var t = {};
       t.useFullscreenPopup &&
         !t.dropdownContainer &&
         (t.dropdownContainer = document.body);
-      t.i18n = { ...g, ...t.i18n };
-    }
-    var v = (t) => t.replace(/\D/g, "");
-    var w = (t = "") =>
+      t.i18n = { ...e, ...t.i18n };
+    };
+    var U = (t) => t.replace(/\D/g, "");
+    var x = (t = "") =>
       t
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
         .toLowerCase();
-    var I = (t, e, i) => {
+    var B = (t, e) => {
+      const i = x(e);
+      const s = [];
+      const n = [];
+      const o = [];
+      const r = [];
+      const l = [];
+      const a = [];
+      for (const e of t)
+        e.iso2 === i
+          ? s.push(e)
+          : e.normalisedName.startsWith(i)
+            ? n.push(e)
+            : e.normalisedName.includes(i)
+              ? o.push(e)
+              : i === e.dialCode || i === e.dialCodePlus
+                ? r.push(e)
+                : e.dialCodePlus.includes(i)
+                  ? l.push(e)
+                  : e.initials.includes(i) && a.push(e);
+      const u = (t, e) => t.priority - e.priority;
+      return [
+        ...s.sort(u),
+        ...n.sort(u),
+        ...o.sort(u),
+        ...r.sort(u),
+        ...l.sort(u),
+        ...a.sort(u),
+      ];
+    };
+    var H = (t, e) => {
+      const i = e.toLowerCase();
+      for (const e of t) {
+        const t = e.name.toLowerCase();
+        if (t.startsWith(i)) return e;
+      }
+      return null;
+    };
+    var W = (t) =>
+      Object.keys(t)
+        .filter((e) => Boolean(t[e]))
+        .join(" ");
+    var F = (t, e, i) => {
       const s = document.createElement(t);
       e && Object.entries(e).forEach(([t, e]) => s.setAttribute(t, e));
       i && i.appendChild(s);
       return s;
     };
-    function L(t) {
-      const { onlyCountries: e, excludeCountries: i } = t;
-      if (e.length) {
-        const t = e.map((t) => t.toLowerCase());
-        return d.filter((e) => t.includes(e.iso2));
-      }
-      if (i.length) {
-        const t = i.map((t) => t.toLowerCase());
-        return d.filter((e) => !t.includes(e.iso2));
-      }
-      return d;
-    }
-    function D(t, e) {
-      for (const i of t) {
-        const t = i.iso2.toLowerCase();
-        e.i18n[t] && (i.name = e.i18n[t]);
-      }
-    }
-    function S(t, e) {
-      const i = new Set();
-      let s = 0;
-      const n = {};
-      const o = (t, e, i) => {
-        if (!t || !e) return;
-        e.length > s && (s = e.length);
-        n.hasOwnProperty(e) || (n[e] = []);
-        const o = n[e];
-        if (o.includes(t)) return;
-        const a = i !== void 0 ? i : o.length;
-        o[a] = t;
-      };
-      for (const e of t) {
-        i.has(e.dialCode) || i.add(e.dialCode);
-        o(e.iso2, e.dialCode, e.priority);
-      }
-      (e.onlyCountries.length || e.excludeCountries.length) &&
-        i.forEach((t) => {
-          n[t] = n[t].filter(Boolean);
-        });
-      for (const e of t)
-        if (e.areaCodes) {
-          const t = n[e.dialCode][0];
-          for (const i of e.areaCodes) {
-            for (let s = 1; s < i.length; s++) {
-              const n = i.substring(0, s);
-              const a = e.dialCode + n;
-              o(t, a);
-              o(e.iso2, a);
-            }
-            o(e.iso2, e.dialCode + i);
-          }
-        }
-      return { dialCodes: i, dialCodeMaxLen: s, dialCodeToIso2Map: n };
-    }
-    function N(t, e) {
-      e.countryOrder &&
-        (e.countryOrder = e.countryOrder.map((t) => t.toLowerCase()));
-      t.sort((t, i) => {
-        const { countryOrder: s } = e;
-        if (s) {
-          const e = s.indexOf(t.iso2);
-          const n = s.indexOf(i.iso2);
-          const o = e > -1;
-          const a = n > -1;
-          if (o || a) return o && a ? e - n : o ? -1 : 1;
-        }
-        return t.name.localeCompare(i.name);
-      });
-    }
-    function k(t) {
-      for (const e of t) {
-        e.normalisedName = w(e.name);
-        e.initials = e.name
-          .split(/[^a-zA-ZÀ-ÿа-яА-Я]/)
-          .map((t) => t[0])
-          .join("")
-          .toLowerCase();
-        e.dialCodePlus = `+${e.dialCode}`;
-      }
-    }
-    function A(t, e, i, s) {
-      let n = t;
-      if (i && e) {
-        e = `+${s.dialCode}`;
-        const t =
-          n[e.length] === " " || n[e.length] === "-" ? e.length + 1 : e.length;
-        n = n.substring(t);
-      }
-      return n;
-    }
-    function P(t, e, i, s, n) {
-      const o = i ? i.formatNumberAsYouType(t, s.iso2) : t;
-      const { dialCode: a } = s;
-      if (n && e.charAt(0) !== "+" && o.includes(`+${a}`)) {
-        const t = o.split(`+${a}`)[1] || "";
-        return t.trim();
-      }
-      return o;
-    }
-    function E(t, e, i, s) {
-      if (i === 0 && !s) return 0;
-      let n = 0;
-      for (let i = 0; i < e.length; i++) {
-        /[+0-9]/.test(e[i]) && n++;
-        if (n === t && !s) return i + 1;
-        if (s && n === t + 1) return i;
-      }
-      return e.length;
-    }
-    var T = [
-      "800",
-      "822",
-      "833",
-      "844",
-      "855",
-      "866",
-      "877",
-      "880",
-      "881",
-      "882",
-      "883",
-      "884",
-      "885",
-      "886",
-      "887",
-      "888",
-      "889",
-    ];
-    var x = (t) => {
-      const e = v(t);
-      if (e.charAt(0) === "1") {
-        const t = e.substring(1, 4);
-        return T.includes(t);
-      }
-      return false;
+    var $ = () =>
+      `\n  <svg class="iti__search-icon-svg" width="14" height="14" viewBox="0 0 24 24" focusable="false" ${P.HIDDEN}="true">\n    <circle cx="11" cy="11" r="7" />\n    <line x1="21" y1="21" x2="16.65" y2="16.65" />\n  </svg>`;
+    var G = (t) => {
+      const e = `iti-${t}-clear-mask`;
+      return `\n    <svg class="iti__search-clear-svg" width="12" height="12" viewBox="0 0 16 16" ${P.HIDDEN}="true" focusable="false">\n      <mask id="${e}" maskUnits="userSpaceOnUse">\n        <rect width="16" height="16" fill="white" />\n        <path d="M5.2 5.2 L10.8 10.8 M10.8 5.2 L5.2 10.8" stroke="black" stroke-linecap="round" class="iti__search-clear-x" />\n      </mask>\n      <circle cx="8" cy="8" r="8" class="iti__search-clear-bg" mask="url(#${e})" />\n    </svg>`;
     };
-    for (const t of d) t.name = g[t.iso2];
-    var M = 0;
-    var B = new Set(d.map((t) => t.iso2));
-    var R = (t) => B.has(t);
-    var F = (t, ...e) => {
-      const { instances: i } = $;
-      Object.values(i).forEach((i) => i[t](...e));
-    };
-    var z = class _Iti {
-      static _buildClassNames(t) {
-        return Object.keys(t)
-          .filter((e) => Boolean(t[e]))
-          .join(" ");
-      }
-      constructor(t, e = {}) {
-        this.id = M++;
-        this.telInput = t;
+    var z = class {
+      constructor(t, e, i) {
         this.highlightedItem = null;
-        this.options = Object.assign({}, f, e);
+        t.dataset.intlTelInputId = i.toString();
+        this.telInput = t;
+        this.options = e;
+        this.id = i;
         this.hadInitialPlaceholder = Boolean(t.getAttribute("placeholder"));
-      }
-      _detectEnvironmentAndLayout() {
-        this.isAndroid =
-          typeof navigator !== "undefined" &&
-          /Android/i.test(navigator.userAgent);
         this.isRTL = !!this.telInput.closest("[dir=rtl]");
-        this.telInput.dir = "ltr";
-        const t = this.options.allowDropdown || this.options.separateDialCode;
-        this.showSelectedCountryOnLeft = this.isRTL ? !t : t;
         this.options.separateDialCode &&
-          (this.isRTL
-            ? (this.originalPaddingRight = this.telInput.style.paddingRight)
-            : (this.originalPaddingLeft = this.telInput.style.paddingLeft));
+          (this.originalPaddingLeft = this.telInput.style.paddingLeft);
       }
-      _createInitPromises() {
-        const t = new Promise((t, e) => {
-          this.resolveAutoCountryPromise = t;
-          this.rejectAutoCountryPromise = e;
-        });
-        const e = new Promise((t, e) => {
-          this.resolveUtilsScriptPromise = t;
-          this.rejectUtilsScriptPromise = e;
-        });
-        this.promise = Promise.all([t, e]);
-      }
-      _init() {
-        b(this.options);
-        this._detectEnvironmentAndLayout();
-        this._createInitPromises();
-        this.selectedCountryData = {};
-        this._processCountryData();
-        this._generateMarkup();
-        this._setInitialState();
-        this._initListeners();
-        this._initRequests();
-      }
-      _processCountryData() {
-        this.countries = L(this.options);
-        const t = S(this.countries, this.options);
-        this.dialCodes = t.dialCodes;
-        this.dialCodeMaxLen = t.dialCodeMaxLen;
-        this.dialCodeToIso2Map = t.dialCodeToIso2Map;
-        D(this.countries, this.options);
-        N(this.countries, this.options);
-        this.countryByIso2 = new Map(this.countries.map((t) => [t.iso2, t]));
-        k(this.countries);
-      }
-      _generateMarkup() {
+      generateMarkup(t) {
+        this.countries = t;
         this._prepareTelInput();
-        const t = this._createWrapperAndInsert();
-        this._maybeBuildCountryContainer(t);
-        t.appendChild(this.telInput);
+        const e = this._createWrapperAndInsert();
+        this._maybeBuildCountryContainer(e);
+        e.appendChild(this.telInput);
         this._maybeUpdateInputPaddingAndReveal();
-        this._maybeBuildHiddenInputs(t);
+        this._maybeBuildHiddenInputs(e);
       }
       _prepareTelInput() {
         this.telInput.classList.add("iti__tel-input");
         this.telInput.hasAttribute("autocomplete") ||
-          (this.telInput.form &&
-            this.telInput.form.hasAttribute("autocomplete")) ||
+          this.telInput.form?.hasAttribute("autocomplete") ||
           this.telInput.setAttribute("autocomplete", "off");
       }
       _createWrapperAndInsert() {
@@ -900,15 +824,16 @@ var t = {};
           containerClass: i,
           useFullscreenPopup: s,
         } = this.options;
-        const n = _Iti._buildClassNames({
+        const n = W({
           iti: true,
           "iti--allow-dropdown": t,
           "iti--show-flags": e,
           "iti--inline-dropdown": !s,
           [i]: Boolean(i),
         });
-        const o = I("div", { class: n });
-        this.telInput.parentNode?.insertBefore(o, this.telInput);
+        const o = F("div", { class: n });
+        this.isRTL && o.setAttribute("dir", "ltr");
+        this.telInput.before(o);
         return o;
       }
       _maybeBuildCountryContainer(t) {
@@ -918,51 +843,48 @@ var t = {};
           showFlags: s,
         } = this.options;
         if (e || s || i) {
-          this.countryContainer = I(
+          this.countryContainer = F(
             "div",
-            { class: "iti__country-container iti__v-hide" },
+            { class: `iti__country-container ${_.V_HIDE}` },
             t,
           );
-          this.showSelectedCountryOnLeft
-            ? (this.countryContainer.style.left = "0px")
-            : (this.countryContainer.style.right = "0px");
           if (e) {
-            this.selectedCountry = I(
+            this.selectedCountry = F(
               "button",
               {
                 type: "button",
                 class: "iti__selected-country",
-                "aria-expanded": "false",
-                "aria-label": this.options.i18n.noCountrySelected,
-                "aria-haspopup": "dialog",
-                "aria-controls": `iti-${this.id}__dropdown-content`,
+                [P.EXPANDED]: "false",
+                [P.LABEL]: this.options.i18n.noCountrySelected,
+                [P.HASPOPUP]: "dialog",
+                [P.CONTROLS]: `iti-${this.id}__dropdown-content`,
               },
               this.countryContainer,
             );
             this.telInput.disabled &&
               this.selectedCountry.setAttribute("disabled", "true");
           } else
-            this.selectedCountry = I(
+            this.selectedCountry = F(
               "div",
               { class: "iti__selected-country" },
               this.countryContainer,
             );
-          const s = I(
+          const s = F(
             "div",
             { class: "iti__selected-country-primary" },
             this.selectedCountry,
           );
-          this.selectedCountryInner = I("div", { class: "iti__flag" }, s);
+          this.selectedCountryInner = F("div", { class: _.FLAG }, s);
           e &&
-            (this.dropdownArrow = I(
+            (this.dropdownArrow = F(
               "div",
-              { class: "iti__arrow", "aria-hidden": "true" },
+              { class: "iti__arrow", [P.HIDDEN]: "true" },
               s,
             ));
           i &&
-            (this.selectedDialCode = I(
+            (this.selectedDialCode = F(
               "div",
-              { class: "iti__selected-dial-code", dir: "ltr" },
+              { class: "iti__selected-dial-code" },
               this.selectedCountry,
             ));
           e && this._buildDropdownContent();
@@ -977,53 +899,53 @@ var t = {};
           dropdownContainer: n,
           containerClass: o,
         } = this.options;
-        const a = t ? "" : "iti--flexible-dropdown-width";
-        this.dropdownContent = I("div", {
+        const r = t ? "" : "iti--flexible-dropdown-width";
+        this.dropdownContent = F("div", {
           id: `iti-${this.id}__dropdown-content`,
-          class: `iti__dropdown-content iti__hide ${a}`,
+          class: `iti__dropdown-content ${_.HIDE} ${r}`,
           role: "dialog",
-          "aria-modal": "true",
+          [P.MODAL]: "true",
         });
+        this.isRTL && this.dropdownContent.setAttribute("dir", "rtl");
         i && this._buildSearchUI();
-        this.countryList = I(
+        this.countryList = F(
           "ul",
           {
             class: "iti__country-list",
             id: `iti-${this.id}__country-listbox`,
             role: "listbox",
-            "aria-label": s.countryListAriaLabel,
+            [P.LABEL]: s.countryListAriaLabel,
           },
           this.dropdownContent,
         );
         this._appendListItems();
-        i && this._updateSearchResultsA11yText();
+        i && this.updateSearchResultsA11yText();
         if (n) {
-          const t = _Iti._buildClassNames({
+          const t = W({
             iti: true,
             "iti--container": true,
             "iti--fullscreen-popup": e,
             "iti--inline-dropdown": !e,
             [o]: Boolean(o),
           });
-          this.dropdown = I("div", { class: t });
+          this.dropdown = F("div", { class: t });
           this.dropdown.appendChild(this.dropdownContent);
         } else this.countryContainer.appendChild(this.dropdownContent);
       }
       _buildSearchUI() {
         const { i18n: t } = this.options;
-        const e = I(
+        const e = F(
           "div",
           { class: "iti__search-input-wrapper" },
           this.dropdownContent,
         );
-        this.searchIcon = I(
+        this.searchIcon = F(
           "span",
-          { class: "iti__search-icon", "aria-hidden": "true" },
+          { class: "iti__search-icon", [P.HIDDEN]: "true" },
           e,
         );
-        this.searchIcon.innerHTML =
-          '\n      <svg class="iti__search-icon-svg" width="14" height="14" viewBox="0 0 24 24" focusable="false" aria-hidden="true">\n        <circle cx="11" cy="11" r="7" />\n        <line x1="21" y1="21" x2="16.65" y2="16.65" />\n      </svg>';
-        this.searchInput = I(
+        this.searchIcon.innerHTML = $();
+        this.searchInput = F(
           "input",
           {
             id: `iti-${this.id}__search-input`,
@@ -1031,42 +953,41 @@ var t = {};
             class: "iti__search-input",
             placeholder: t.searchPlaceholder,
             role: "combobox",
-            "aria-expanded": "true",
-            "aria-label": t.searchPlaceholder,
-            "aria-controls": `iti-${this.id}__country-listbox`,
-            "aria-autocomplete": "list",
+            [P.EXPANDED]: "true",
+            [P.LABEL]: t.searchPlaceholder,
+            [P.CONTROLS]: `iti-${this.id}__country-listbox`,
+            [P.AUTOCOMPLETE]: "list",
             autocomplete: "off",
           },
           e,
         );
-        this.searchClearButton = I(
+        this.searchClearButton = F(
           "button",
           {
             type: "button",
-            class: "iti__search-clear iti__hide",
-            "aria-label": t.clearSearchAriaLabel,
+            class: `iti__search-clear ${_.HIDE}`,
+            [P.LABEL]: t.clearSearchAriaLabel,
             tabindex: "-1",
           },
           e,
         );
-        const i = `iti-${this.id}-clear-mask`;
-        this.searchClearButton.innerHTML = `\n      <svg class="iti__search-clear-svg" width="12" height="12" viewBox="0 0 16 16" aria-hidden="true" focusable="false">\n        <mask id="${i}" maskUnits="userSpaceOnUse">\n          <rect width="16" height="16" fill="white" />\n          <path d="M5.2 5.2 L10.8 10.8 M10.8 5.2 L5.2 10.8" stroke="black" stroke-linecap="round" class="iti__search-clear-x" />\n        </mask>\n        <circle cx="8" cy="8" r="8" class="iti__search-clear-bg" mask="url(#${i})" />\n      </svg>`;
-        this.searchResultsA11yText = I(
+        this.searchClearButton.innerHTML = G(this.id);
+        this.searchResultsA11yText = F(
           "span",
           { class: "iti__a11y-text" },
           this.dropdownContent,
         );
-        this.searchNoResults = I(
+        this.searchNoResults = F(
           "div",
-          { class: "iti__no-results iti__hide", "aria-hidden": "true" },
+          { class: `iti__no-results ${_.HIDE}`, [P.HIDDEN]: "true" },
           this.dropdownContent,
         );
         this.searchNoResults.textContent = t.zeroSearchResults;
       }
       _maybeUpdateInputPaddingAndReveal() {
         if (this.countryContainer) {
-          this._updateInputPadding();
-          this.countryContainer.classList.remove("iti__v-hide");
+          this.updateInputPadding();
+          this.countryContainer.classList.remove(_.V_HIDE);
         }
       }
       _maybeBuildHiddenInputs(t) {
@@ -1080,7 +1001,7 @@ var t = {};
             );
             if (e) this.hiddenInput = e;
             else {
-              this.hiddenInput = I("input", { type: "hidden", name: s.phone });
+              this.hiddenInput = F("input", { type: "hidden", name: s.phone });
               t.appendChild(this.hiddenInput);
             }
           }
@@ -1090,7 +1011,7 @@ var t = {};
             );
             if (e) this.hiddenInputCountry = e;
             else {
-              this.hiddenInputCountry = I("input", {
+              this.hiddenInputCountry = F("input", {
                 type: "hidden",
                 name: s.country,
               });
@@ -1100,653 +1021,43 @@ var t = {};
         }
       }
       _appendListItems() {
-        for (let t = 0; t < this.countries.length; t++) {
-          const e = this.countries[t];
-          const i = t === 0 ? "iti__highlight" : "";
-          const s = I(
-            "li",
-            {
-              id: `iti-${this.id}__item-${e.iso2}`,
-              class: `iti__country ${i}`,
-              tabindex: "-1",
-              role: "option",
-              "data-dial-code": e.dialCode,
-              "data-country-code": e.iso2,
-              "aria-selected": "false",
-            },
-            this.countryList,
-          );
-          e.nodeById[this.id] = s;
-          let n = "";
+        const t = document.createDocumentFragment();
+        for (let e = 0; e < this.countries.length; e++) {
+          const i = this.countries[e];
+          const s = W({ [_.COUNTRY_ITEM]: true, [_.HIGHLIGHT]: e === 0 });
+          const n = F("li", {
+            id: `iti-${this.id}__item-${i.iso2}`,
+            class: s,
+            tabindex: "-1",
+            role: "option",
+            [P.SELECTED]: "false",
+          });
+          n.dataset.dialCode = i.dialCode;
+          n.dataset.countryCode = i.iso2;
+          i.nodeById[this.id] = n;
           this.options.showFlags &&
-            (n += `<div class='iti__flag iti__${e.iso2}'></div>`);
-          n += `<span class='iti__country-name'>${e.name}</span>`;
-          n += `<span class='iti__dial-code' dir='ltr'>+${e.dialCode}</span>`;
-          s.insertAdjacentHTML("beforeend", n);
+            F("div", { class: `${_.FLAG} iti__${i.iso2}` }, n);
+          const o = F("span", { class: "iti__country-name" }, n);
+          o.textContent = i.name;
+          const r = F("span", { class: "iti__dial-code" }, n);
+          this.isRTL && r.setAttribute("dir", "ltr");
+          r.textContent = `+${i.dialCode}`;
+          t.appendChild(n);
         }
+        this.countryList.appendChild(t);
       }
-      _setInitialState(t = false) {
-        const e = this.telInput.getAttribute("value");
-        const i = this.telInput.value;
-        const s = e && e.charAt(0) === "+" && (!i || i.charAt(0) !== "+");
-        const n = s ? e : i;
-        const o = this._getDialCode(n);
-        const a = x(n);
-        const { initialCountry: r, geoIpLookup: l } = this.options;
-        const u = r === "auto" && l;
-        if (o && !a) this._updateCountryFromNumber(n);
-        else if (!u || t) {
-          const t = r ? r.toLowerCase() : "";
-          R(t)
-            ? this._setCountry(t)
-            : o && a
-              ? this._setCountry("us")
-              : this._setCountry("");
-        }
-        n && this._updateValFromNumber(n);
-      }
-      _initListeners() {
-        this._initTelInputListeners();
-        this.options.allowDropdown && this._initDropdownListeners();
-        (this.hiddenInput || this.hiddenInputCountry) &&
-          this.telInput.form &&
-          this._initHiddenInputListener();
-      }
-      _initHiddenInputListener() {
-        this._handleHiddenInputSubmit = () => {
-          this.hiddenInput && (this.hiddenInput.value = this.getNumber());
-          this.hiddenInputCountry &&
-            (this.hiddenInputCountry.value =
-              this.getSelectedCountryData().iso2 || "");
-        };
-        this.telInput.form?.addEventListener(
-          "submit",
-          this._handleHiddenInputSubmit,
-        );
-      }
-      _initDropdownListeners() {
-        this._handleLabelClick = (t) => {
-          this.dropdownContent.classList.contains("iti__hide")
-            ? this.telInput.focus()
-            : t.preventDefault();
-        };
-        const t = this.telInput.closest("label");
-        t && t.addEventListener("click", this._handleLabelClick);
-        this._handleClickSelectedCountry = () => {
-          const t = this.dropdownContent.classList.contains("iti__hide");
-          !t ||
-            this.telInput.disabled ||
-            this.telInput.readOnly ||
-            this._openDropdown();
-        };
-        this.selectedCountry.addEventListener(
-          "click",
-          this._handleClickSelectedCountry,
-        );
-        this._handleCountryContainerKeydown = (t) => {
-          const e = this.dropdownContent.classList.contains("iti__hide");
-          if (e && ["ArrowUp", "ArrowDown", " ", "Enter"].includes(t.key)) {
-            t.preventDefault();
-            t.stopPropagation();
-            this._openDropdown();
-          }
-          t.key === "Tab" && this._closeDropdown();
-        };
-        this.countryContainer.addEventListener(
-          "keydown",
-          this._handleCountryContainerKeydown,
-        );
-      }
-      _initRequests() {
-        let { loadUtils: t, initialCountry: e, geoIpLookup: i } = this.options;
-        if (t && !$.utils) {
-          this._handlePageLoad = () => {
-            window.removeEventListener("load", this._handlePageLoad);
-            $.attachUtils(t)?.catch(() => {});
-          };
-          $.documentReady()
-            ? this._handlePageLoad()
-            : window.addEventListener("load", this._handlePageLoad);
-        } else this.resolveUtilsScriptPromise();
-        const s = e === "auto" && i;
-        s && !this.selectedCountryData.iso2
-          ? this._loadAutoCountry()
-          : this.resolveAutoCountryPromise();
-      }
-      _loadAutoCountry() {
-        if ($.autoCountry) this.handleAutoCountry();
-        else if (!$.startedLoadingAutoCountry) {
-          $.startedLoadingAutoCountry = true;
-          typeof this.options.geoIpLookup === "function" &&
-            this.options.geoIpLookup(
-              (t = "") => {
-                const e = t.toLowerCase();
-                if (R(e)) {
-                  $.autoCountry = e;
-                  setTimeout(() => F("handleAutoCountry"));
-                } else {
-                  this._setInitialState(true);
-                  F("rejectAutoCountryPromise");
-                }
-              },
-              () => {
-                this._setInitialState(true);
-                F("rejectAutoCountryPromise");
-              },
-            );
-        }
-      }
-      _openDropdownWithPlus() {
-        this._openDropdown();
-        this.searchInput.value = "+";
-        this._filterCountries("");
-      }
-      _initTelInputListeners() {
-        this._bindInputListener();
-        this._maybeBindKeydownListener();
-        this._maybeBindPasteListener();
-      }
-      _bindInputListener() {
-        const {
-          strictMode: t,
-          formatAsYouType: e,
-          separateDialCode: i,
-          allowDropdown: s,
-          countrySearch: n,
-        } = this.options;
-        let o = false;
-        /\p{L}/u.test(this.telInput.value) && (o = true);
-        this._handleInputEvent = (a) => {
-          if (this.isAndroid && a?.data === "+" && i && s && n) {
-            const t = this.telInput.selectionStart || 0;
-            const e = this.telInput.value.substring(0, t - 1);
-            const i = this.telInput.value.substring(t);
-            this.telInput.value = e + i;
-            this._openDropdownWithPlus();
-            return;
-          }
-          this._updateCountryFromNumber(this.telInput.value) &&
-            this._triggerCountryChange();
-          const r = a?.data && /[^+0-9]/.test(a.data);
-          const l = a?.inputType === "insertFromPaste" && this.telInput.value;
-          r || (l && !t)
-            ? (o = true)
-            : /[^+0-9]/.test(this.telInput.value) || (o = false);
-          const u = a?.detail && a.detail.isSetNumber;
-          if (e && !o && !u) {
-            const t = this.telInput.selectionStart || 0;
-            const e = this.telInput.value.substring(0, t);
-            const i = e.replace(/[^+0-9]/g, "").length;
-            const s = a?.inputType === "deleteContentForward";
-            const n = this._getFullNumber();
-            const o = P(
-              n,
-              this.telInput.value,
-              $.utils,
-              this.selectedCountryData,
-              this.options.separateDialCode,
-            );
-            const r = E(i, o, t, s);
-            this.telInput.value = o;
-            this.telInput.setSelectionRange(r, r);
-          }
-        };
-        this.telInput.addEventListener("input", this._handleInputEvent);
-      }
-      _maybeBindKeydownListener() {
-        const {
-          strictMode: t,
-          separateDialCode: e,
-          allowDropdown: i,
-          countrySearch: s,
-        } = this.options;
-        if (t || e) {
-          this._handleKeydownEvent = (n) => {
-            if (
-              n.key &&
-              n.key.length === 1 &&
-              !n.altKey &&
-              !n.ctrlKey &&
-              !n.metaKey
-            ) {
-              if (e && i && s && n.key === "+") {
-                n.preventDefault();
-                this._openDropdownWithPlus();
-                return;
-              }
-              if (t) {
-                const t = this.telInput.value;
-                const i = t.charAt(0) === "+";
-                const s =
-                  !i && this.telInput.selectionStart === 0 && n.key === "+";
-                const o = /^[0-9]$/.test(n.key);
-                const a = e ? o : s || o;
-                const r =
-                  t.slice(0, this.telInput.selectionStart) +
-                  n.key +
-                  t.slice(this.telInput.selectionEnd);
-                const l = this._getFullNumber(r);
-                const u = $.utils.getCoreNumber(
-                  l,
-                  this.selectedCountryData.iso2,
-                );
-                const d =
-                  this.maxCoreNumberLength &&
-                  u.length > this.maxCoreNumberLength;
-                const h = this._getNewCountryFromNumber(l);
-                const c = h !== null;
-                (a && (!d || c || s)) || n.preventDefault();
-              }
-            }
-          };
-          this.telInput.addEventListener("keydown", this._handleKeydownEvent);
-        }
-      }
-      _maybeBindPasteListener() {
-        if (this.options.strictMode) {
-          this._handlePasteEvent = (t) => {
-            t.preventDefault();
-            const e = this.telInput;
-            const i = e.selectionStart;
-            const s = e.selectionEnd;
-            const n = e.value.slice(0, i);
-            const o = e.value.slice(s);
-            const a = this.selectedCountryData.iso2;
-            const r = t.clipboardData.getData("text");
-            const l = i === 0 && s > 0;
-            const u = !e.value.startsWith("+") || l;
-            const d = r.replace(/[^0-9+]/g, "");
-            const h = d.startsWith("+");
-            const c = d.replace(/\+/g, "");
-            const p = h && u ? `+${c}` : c;
-            let m = n + p + o;
-            let y = $.utils.getCoreNumber(m, a);
-            while (y.length === 0 && m.length > 0) {
-              m = m.slice(0, -1);
-              y = $.utils.getCoreNumber(m, a);
-            }
-            if (!y) return;
-            if (
-              this.maxCoreNumberLength &&
-              y.length > this.maxCoreNumberLength
-            ) {
-              if (e.selectionEnd !== e.value.length) return;
-              {
-                const t = y.length - this.maxCoreNumberLength;
-                m = m.slice(0, m.length - t);
-              }
-            }
-            e.value = m;
-            const g = i + p.length;
-            e.setSelectionRange(g, g);
-            e.dispatchEvent(new InputEvent("input", { bubbles: true }));
-          };
-          this.telInput.addEventListener("paste", this._handlePasteEvent);
-        }
-      }
-      _cap(t) {
-        const e = parseInt(this.telInput.getAttribute("maxlength") || "", 10);
-        return e && t.length > e ? t.substring(0, e) : t;
-      }
-      _trigger(t, e = {}) {
-        const i = new CustomEvent(t, {
-          bubbles: true,
-          cancelable: true,
-          detail: e,
-        });
-        this.telInput.dispatchEvent(i);
-      }
-      _openDropdown() {
-        const { fixDropdownWidth: t, countrySearch: e } = this.options;
-        t &&
-          (this.dropdownContent.style.width = `${this.telInput.offsetWidth}px`);
-        this.dropdownContent.classList.remove("iti__hide");
-        this.selectedCountry.setAttribute("aria-expanded", "true");
-        this._setDropdownPosition();
-        if (e) {
-          const t = this.countryList.firstElementChild;
-          if (t) {
-            this._highlightListItem(t, false);
-            this.countryList.scrollTop = 0;
-          }
-          this.searchInput.focus();
-        }
-        this._bindDropdownListeners();
-        this.dropdownArrow.classList.add("iti__arrow--up");
-        this._trigger("open:countrydropdown");
-      }
-      _setDropdownPosition() {
-        this.options.dropdownContainer &&
-          this.options.dropdownContainer.appendChild(this.dropdown);
-        if (!this.options.useFullscreenPopup) {
-          const t = this.telInput.getBoundingClientRect();
-          const e = this.telInput.offsetHeight;
-          if (this.options.dropdownContainer) {
-            this.dropdown.style.top = `${t.top + e}px`;
-            this.dropdown.style.left = `${t.left}px`;
-            this._handleWindowScroll = () => this._closeDropdown();
-            window.addEventListener("scroll", this._handleWindowScroll);
-          }
-        }
-      }
-      _bindDropdownListeners() {
-        this._handleMouseoverCountryList = (t) => {
-          const e = t.target?.closest(".iti__country");
-          e && this._highlightListItem(e, false);
-        };
-        this.countryList.addEventListener(
-          "mouseover",
-          this._handleMouseoverCountryList,
-        );
-        this._handleClickCountryList = (t) => {
-          const e = t.target?.closest(".iti__country");
-          e && this._selectListItem(e);
-        };
-        this.countryList.addEventListener(
-          "click",
-          this._handleClickCountryList,
-        );
-        this._handleClickOffToClose = (t) => {
-          const e = t.target;
-          const i = !!e.closest(`#iti-${this.id}__dropdown-content`);
-          i || this._closeDropdown();
-        };
-        setTimeout(() => {
-          document.documentElement.addEventListener(
-            "click",
-            this._handleClickOffToClose,
-          );
-        }, 0);
-        let t = "";
-        let e = null;
-        this._handleKeydownOnDropdown = (i) => {
-          if (["ArrowUp", "ArrowDown", "Enter", "Escape"].includes(i.key)) {
-            i.preventDefault();
-            i.stopPropagation();
-            i.key === "ArrowUp" || i.key === "ArrowDown"
-              ? this._handleUpDownKey(i.key)
-              : i.key === "Enter"
-                ? this._handleEnterKey()
-                : i.key === "Escape" && this._closeDropdown();
-          }
-          if (
-            !this.options.countrySearch &&
-            /^[a-zA-ZÀ-ÿа-яА-Я ]$/.test(i.key)
-          ) {
-            i.stopPropagation();
-            e && clearTimeout(e);
-            t += i.key.toLowerCase();
-            this._searchForCountry(t);
-            e = setTimeout(() => {
-              t = "";
-            }, 1e3);
-          }
-        };
-        document.addEventListener("keydown", this._handleKeydownOnDropdown);
-        if (this.options.countrySearch) {
-          const t = () => {
-            const t = this.searchInput.value.trim();
-            this._filterCountries(t);
-            this.searchInput.value
-              ? this.searchClearButton.classList.remove("iti__hide")
-              : this.searchClearButton.classList.add("iti__hide");
-          };
-          let e = null;
-          this._handleSearchChange = () => {
-            e && clearTimeout(e);
-            e = setTimeout(() => {
-              t();
-              e = null;
-            }, 100);
-          };
-          this.searchInput.addEventListener("input", this._handleSearchChange);
-          this._handleSearchClear = () => {
-            this.searchInput.value = "";
-            this.searchInput.focus();
-            t();
-          };
-          this.searchClearButton.addEventListener(
-            "click",
-            this._handleSearchClear,
-          );
-        }
-      }
-      _searchForCountry(t) {
-        for (const e of this.countries) {
-          const i = e.name.substring(0, t.length).toLowerCase() === t;
-          if (i) {
-            const t = e.nodeById[this.id];
-            this._highlightListItem(t, false);
-            this._scrollTo(t);
-            break;
-          }
-        }
-      }
-      _filterCountries(t) {
-        this.countryList.innerHTML = "";
-        let e;
-        e = t === "" ? this.countries : this._getMatchedCountries(t);
-        let i = true;
-        for (const t of e) {
-          const e = t.nodeById[this.id];
-          if (e) {
-            this.countryList.appendChild(e);
-            if (i) {
-              this._highlightListItem(e, false);
-              i = false;
-            }
-          }
-        }
-        if (i) {
-          this._highlightListItem(null, false);
-          this.searchNoResults &&
-            this.searchNoResults.classList.remove("iti__hide");
-        } else
-          this.searchNoResults &&
-            this.searchNoResults.classList.add("iti__hide");
-        this.countryList.scrollTop = 0;
-        this._updateSearchResultsA11yText();
-      }
-      _getMatchedCountries(t) {
-        const e = w(t);
-        const i = [];
-        const s = [];
-        const n = [];
-        const o = [];
-        const a = [];
-        const r = [];
-        for (const t of this.countries)
-          t.iso2 === e
-            ? i.push(t)
-            : t.normalisedName.startsWith(e)
-              ? s.push(t)
-              : t.normalisedName.includes(e)
-                ? n.push(t)
-                : e === t.dialCode || e === t.dialCodePlus
-                  ? o.push(t)
-                  : t.dialCodePlus.includes(e)
-                    ? a.push(t)
-                    : t.initials.includes(e) && r.push(t);
-        return [
-          ...i.sort((t, e) => t.priority - e.priority),
-          ...s.sort((t, e) => t.priority - e.priority),
-          ...n.sort((t, e) => t.priority - e.priority),
-          ...o.sort((t, e) => t.priority - e.priority),
-          ...a.sort((t, e) => t.priority - e.priority),
-          ...r.sort((t, e) => t.priority - e.priority),
-        ];
-      }
-      _updateSearchResultsA11yText() {
-        const { i18n: t } = this.options;
-        const e = this.countryList.childElementCount;
-        let i;
-        i =
-          e === 0
-            ? t.zeroSearchResults
-            : t.searchResultsText
-              ? t.searchResultsText(e)
-              : e === 1
-                ? t.oneSearchResult
-                : t.multipleSearchResults.replace("${count}", e.toString());
-        this.searchResultsA11yText.textContent = i;
-      }
-      _handleUpDownKey(t) {
-        let e =
-          t === "ArrowUp"
-            ? this.highlightedItem?.previousElementSibling
-            : this.highlightedItem?.nextElementSibling;
-        !e &&
-          this.countryList.childElementCount > 1 &&
-          (e =
-            t === "ArrowUp"
-              ? this.countryList.lastElementChild
-              : this.countryList.firstElementChild);
-        if (e) {
-          this._scrollTo(e);
-          this._highlightListItem(e, false);
-        }
-      }
-      _handleEnterKey() {
-        this.highlightedItem && this._selectListItem(this.highlightedItem);
-      }
-      _updateValFromNumber(t) {
-        let e = t;
-        if (
-          this.options.formatOnDisplay &&
-          $.utils &&
-          this.selectedCountryData
-        ) {
-          const t =
-            this.options.nationalMode ||
-            (e.charAt(0) !== "+" && !this.options.separateDialCode);
-          const { NATIONAL: i, INTERNATIONAL: s } = $.utils.numberFormat;
-          const n = t ? i : s;
-          e = $.utils.formatNumber(e, this.selectedCountryData.iso2, n);
-        }
-        e = this._beforeSetNumber(e);
-        this.telInput.value = e;
-      }
-      _updateCountryFromNumber(t) {
-        const e = this._getNewCountryFromNumber(t);
-        return e !== null && this._setCountry(e);
-      }
-      _ensureHasDialCode(t) {
-        const { dialCode: e, nationalPrefix: i } = this.selectedCountryData;
-        const s = t.charAt(0) === "+";
-        if (s || !e) return t;
-        const n = i && t.charAt(0) === i && !this.options.separateDialCode;
-        const o = n ? t.substring(1) : t;
-        return `+${e}${o}`;
-      }
-      _getNewCountryFromNumber(t) {
-        const e = t.indexOf("+");
-        let i = e ? t.substring(e) : t;
-        const s = this.selectedCountryData.iso2;
-        const n = this.selectedCountryData.dialCode;
-        i = this._ensureHasDialCode(i);
-        const o = this._getDialCode(i, true);
-        const a = v(i);
-        if (o) {
-          const t = v(o);
-          const e = this.dialCodeToIso2Map[t];
-          if (e.length === 1) return e[0] === s ? null : e[0];
-          if (!s && this.defaultCountry && e.includes(this.defaultCountry))
-            return this.defaultCountry;
-          const i = n === "1" && x(a);
-          if (i) return null;
-          const r = this.selectedCountryData.areaCodes && a.length > t.length;
-          const l = s && e.includes(s) && !r;
-          if (!l) return e[0];
-        } else {
-          if (i.charAt(0) === "+" && a.length) return "";
-          if ((!i || i === "+") && !s) return this.defaultCountry;
-        }
-        return null;
-      }
-      _highlightListItem(t, e) {
-        const i = this.highlightedItem;
-        if (i) {
-          i.classList.remove("iti__highlight");
-          i.setAttribute("aria-selected", "false");
-        }
-        this.highlightedItem = t;
-        if (this.highlightedItem) {
-          this.highlightedItem.classList.add("iti__highlight");
-          this.highlightedItem.setAttribute("aria-selected", "true");
-          if (this.options.countrySearch) {
-            const t = this.highlightedItem.getAttribute("id") || "";
-            this.searchInput.setAttribute("aria-activedescendant", t);
-          }
-        }
-        e && this.highlightedItem.focus();
-      }
-      _setCountry(t) {
-        const { separateDialCode: e, showFlags: i, i18n: s } = this.options;
-        const n = this.selectedCountryData.iso2 || "";
-        this.selectedCountryData = t ? this.countryByIso2.get(t) : {};
-        this.selectedCountryData.iso2 &&
-          (this.defaultCountry = this.selectedCountryData.iso2);
+      updateInputPadding() {
         if (this.selectedCountry) {
-          const e = t && i ? `iti__flag iti__${t}` : "iti__flag iti__globe";
-          let n, o;
-          if (t) {
-            const { name: t, dialCode: e } = this.selectedCountryData;
-            o = t;
-            n = s.selectedCountryAriaLabel
-              .replace("${countryName}", t)
-              .replace("${dialCode}", `+${e}`);
-          } else {
-            o = s.noCountrySelected;
-            n = s.noCountrySelected;
-          }
-          this.selectedCountryInner.className = e;
-          this.selectedCountry.setAttribute("title", o);
-          this.selectedCountry.setAttribute("aria-label", n);
-        }
-        if (e) {
-          const t = this.selectedCountryData.dialCode
-            ? `+${this.selectedCountryData.dialCode}`
-            : "";
-          this.selectedDialCode.innerHTML = t;
-          this._updateInputPadding();
-        }
-        this._updatePlaceholder();
-        this._updateMaxLength();
-        return n !== t;
-      }
-      _updateInputPadding() {
-        if (this.selectedCountry) {
-          const t = this.options.separateDialCode ? 78 : 42;
+          const t = this.options.separateDialCode
+            ? w.SANE_SELECTED_WITH_DIAL_WIDTH
+            : w.SANE_SELECTED_NO_DIAL_WIDTH;
           const e =
             this.selectedCountry.offsetWidth ||
             this._getHiddenSelectedCountryWidth() ||
             t;
-          const i = e + 6;
-          this.showSelectedCountryOnLeft
-            ? (this.telInput.style.paddingLeft = `${i}px`)
-            : (this.telInput.style.paddingRight = `${i}px`);
+          const i = e + w.INPUT_PADDING_EXTRA_LEFT;
+          this.telInput.style.paddingLeft = `${i}px`;
         }
-      }
-      _updateMaxLength() {
-        const {
-          strictMode: t,
-          placeholderNumberType: e,
-          validationNumberTypes: i,
-        } = this.options;
-        const { iso2: s } = this.selectedCountryData;
-        if (t && $.utils)
-          if (s) {
-            const t = $.utils.numberType[e];
-            let n = $.utils.getExampleNumber(s, false, t, true);
-            let o = n;
-            while ($.utils.isPossibleNumber(n, s, i)) {
-              o = n;
-              n += "0";
-            }
-            const a = $.utils.getCoreNumber(o, s);
-            this.maxCoreNumberLength = a.length;
-            s === "by" && (this.maxCoreNumberLength = a.length + 1);
-          } else this.maxCoreNumberLength = null;
       }
       _getHiddenSelectedCountryWidth() {
         if (this.telInput.parentNode) {
@@ -1769,6 +1080,847 @@ var t = {};
         }
         return 0;
       }
+      updateSearchResultsA11yText() {
+        const { i18n: t } = this.options;
+        const e = this.countryList.childElementCount;
+        let i;
+        i =
+          e === 0
+            ? t.zeroSearchResults
+            : t.searchResultsText
+              ? t.searchResultsText(e)
+              : e === 1
+                ? t.oneSearchResult
+                : t.multipleSearchResults.replace("${count}", e.toString());
+        this.searchResultsA11yText.textContent = i;
+      }
+      scrollTo(t) {
+        const e = this.countryList;
+        const i = document.documentElement.scrollTop;
+        const s = e.offsetHeight;
+        const n = e.getBoundingClientRect().top + i;
+        const o = n + s;
+        const r = t.offsetHeight;
+        const l = t.getBoundingClientRect().top + i;
+        const a = l + r;
+        const u = l - n + e.scrollTop;
+        if (l < n) e.scrollTop = u;
+        else if (a > o) {
+          const t = s - r;
+          e.scrollTop = u - t;
+        }
+      }
+      highlightListItem(t, e) {
+        const i = this.highlightedItem;
+        if (i) {
+          i.classList.remove(_.HIGHLIGHT);
+          i.setAttribute(P.SELECTED, "false");
+        }
+        this.highlightedItem = t;
+        if (this.highlightedItem) {
+          this.highlightedItem.classList.add(_.HIGHLIGHT);
+          this.highlightedItem.setAttribute(P.SELECTED, "true");
+          if (this.options.countrySearch) {
+            const t = this.highlightedItem.getAttribute("id") || "";
+            this.searchInput.setAttribute(P.ACTIVE_DESCENDANT, t);
+          }
+        }
+        e && this.highlightedItem.focus();
+      }
+      filterCountries(t) {
+        this.countryList.innerHTML = "";
+        let e = true;
+        for (const i of t) {
+          const t = i.nodeById[this.id];
+          if (t) {
+            this.countryList.appendChild(t);
+            if (e) {
+              this.highlightListItem(t, false);
+              e = false;
+            }
+          }
+        }
+        if (e) {
+          this.highlightListItem(null, false);
+          this.searchNoResults && this.searchNoResults.classList.remove(_.HIDE);
+        } else
+          this.searchNoResults && this.searchNoResults.classList.add(_.HIDE);
+        this.countryList.scrollTop = 0;
+        this.updateSearchResultsA11yText();
+      }
+      destroy() {
+        this.telInput.iti = void 0;
+        delete this.telInput.dataset.intlTelInputId;
+        this.options.separateDialCode &&
+          (this.telInput.style.paddingLeft = this.originalPaddingLeft);
+        const t = this.telInput.parentNode;
+        t.before(this.telInput);
+        t.remove();
+        this.telInput = null;
+        this.countryContainer = null;
+        this.selectedCountry = null;
+        this.selectedCountryInner = null;
+        this.selectedDialCode = null;
+        this.dropdownArrow = null;
+        this.dropdownContent = null;
+        this.searchInput = null;
+        this.searchIcon = null;
+        this.searchClearButton = null;
+        this.searchNoResults = null;
+        this.searchResultsA11yText = null;
+        this.countryList = null;
+        this.dropdown = null;
+        this.hiddenInput = null;
+        this.hiddenInputCountry = null;
+        this.highlightedItem = null;
+        for (const t of this.countries) delete t.nodeById[this.id];
+        this.countries = null;
+      }
+    };
+    var j = (t) => {
+      const { onlyCountries: e, excludeCountries: i } = t;
+      if (e.length) {
+        const t = e.map((t) => t.toLowerCase());
+        return d.filter((e) => t.includes(e.iso2));
+      }
+      if (i.length) {
+        const t = i.map((t) => t.toLowerCase());
+        return d.filter((e) => !t.includes(e.iso2));
+      }
+      return d;
+    };
+    var V = (t, e) => {
+      for (const i of t) {
+        const t = i.iso2.toLowerCase();
+        e.i18n[t] && (i.name = e.i18n[t]);
+      }
+    };
+    var K = (t, e) => {
+      const i = new Set();
+      let s = 0;
+      const n = {};
+      const o = (t, e, i) => {
+        if (!t || !e) return;
+        e.length > s && (s = e.length);
+        n.hasOwnProperty(e) || (n[e] = []);
+        const o = n[e];
+        if (o.includes(t)) return;
+        const r = i !== void 0 ? i : o.length;
+        o[r] = t;
+      };
+      for (const e of t) {
+        i.has(e.dialCode) || i.add(e.dialCode);
+        for (let t = 1; t < e.dialCode.length; t++) {
+          const i = e.dialCode.substring(0, t);
+          o(e.iso2, i);
+        }
+        o(e.iso2, e.dialCode, e.priority);
+      }
+      (e.onlyCountries.length || e.excludeCountries.length) &&
+        i.forEach((t) => {
+          n[t] = n[t].filter(Boolean);
+        });
+      for (const e of t)
+        if (e.areaCodes) {
+          const t = n[e.dialCode][0];
+          for (const i of e.areaCodes) {
+            for (let s = 1; s < i.length; s++) {
+              const n = i.substring(0, s);
+              const r = e.dialCode + n;
+              o(t, r);
+              o(e.iso2, r);
+            }
+            o(e.iso2, e.dialCode + i);
+          }
+        }
+      return { dialCodes: i, dialCodeMaxLen: s, dialCodeToIso2Map: n };
+    };
+    var q = (t, e) => {
+      e.countryOrder &&
+        (e.countryOrder = e.countryOrder.map((t) => t.toLowerCase()));
+      t.sort((t, i) => {
+        const { countryOrder: s } = e;
+        if (s) {
+          const e = s.indexOf(t.iso2);
+          const n = s.indexOf(i.iso2);
+          const o = e > -1;
+          const r = n > -1;
+          if (o || r) return o && r ? e - n : o ? -1 : 1;
+        }
+        return t.name.localeCompare(i.name);
+      });
+    };
+    var Y = (t) => {
+      for (const e of t) {
+        e.normalisedName = x(e.name);
+        e.initials = e.normalisedName
+          .split(/[^a-z]/)
+          .map((t) => t[0])
+          .join("");
+        e.dialCodePlus = `+${e.dialCode}`;
+      }
+    };
+    var X = (t, e, i, s) => {
+      let n = t;
+      if (i && e) {
+        e = `+${s.dialCode}`;
+        const t =
+          n[e.length] === " " || n[e.length] === "-" ? e.length + 1 : e.length;
+        n = n.substring(t);
+      }
+      return n;
+    };
+    var J = (t, e, i, s, n) => {
+      const o = i ? i.formatNumberAsYouType(t, s.iso2) : t;
+      const { dialCode: r } = s;
+      if (n && e.charAt(0) !== "+" && o.includes(`+${r}`)) {
+        const t = o.split(`+${r}`)[1] || "";
+        return t.trim();
+      }
+      return o;
+    };
+    var Q = (t, e, i, s) => {
+      if (i === 0 && !s) return 0;
+      let n = 0;
+      for (let i = 0; i < e.length; i++) {
+        /[+0-9]/.test(e[i]) && n++;
+        if (n === t && !s) return i + 1;
+        if (s && n === t + 1) return i;
+      }
+      return e.length;
+    };
+    var Z = [
+      "800",
+      "822",
+      "833",
+      "844",
+      "855",
+      "866",
+      "877",
+      "880",
+      "881",
+      "882",
+      "883",
+      "884",
+      "885",
+      "886",
+      "887",
+      "888",
+      "889",
+    ];
+    var tt = (t) => {
+      const e = U(t);
+      if (e.startsWith(E.NANP) && e.length >= 4) {
+        const t = e.substring(1, 4);
+        return Z.includes(t);
+      }
+      return false;
+    };
+    for (const t of d) t.name = y[t.iso2];
+    var et = 0;
+    var it = new Set(d.map((t) => t.iso2));
+    var st = (t) => it.has(t);
+    var nt = class _Iti {
+      constructor(t, e = {}) {
+        this.id = et++;
+        this.options = { ...k, ...e };
+        M(this.options, y);
+        this.ui = new z(t, this.options, this.id);
+        this.isAndroid = _Iti._getIsAndroid();
+        this.promise = this._createInitPromises();
+        this.countries = j(this.options);
+        const {
+          dialCodes: i,
+          dialCodeMaxLen: s,
+          dialCodeToIso2Map: n,
+        } = K(this.countries, this.options);
+        this.dialCodes = i;
+        this.dialCodeMaxLen = s;
+        this.dialCodeToIso2Map = n;
+        this.countryByIso2 = new Map(this.countries.map((t) => [t.iso2, t]));
+        this._init();
+      }
+      static _getIsAndroid() {
+        return (
+          typeof navigator !== "undefined" &&
+          /Android/i.test(navigator.userAgent)
+        );
+      }
+      _createInitPromises() {
+        const t = new Promise((t, e) => {
+          this.resolveAutoCountryPromise = t;
+          this.rejectAutoCountryPromise = e;
+        });
+        const e = new Promise((t, e) => {
+          this.resolveUtilsScriptPromise = t;
+          this.rejectUtilsScriptPromise = e;
+        });
+        return Promise.all([t, e]);
+      }
+      _init() {
+        this.selectedCountryData = {};
+        this.abortController = new AbortController();
+        this._processCountryData();
+        this.ui.generateMarkup(this.countries);
+        this._setInitialState();
+        this._initListeners();
+        this._initRequests();
+      }
+      _processCountryData() {
+        V(this.countries, this.options);
+        q(this.countries, this.options);
+        Y(this.countries);
+      }
+      _setInitialState(t = false) {
+        const e = this.ui.telInput.getAttribute("value");
+        const i = this.ui.telInput.value;
+        const s = e && e.startsWith("+") && (!i || !i.startsWith("+"));
+        const n = s ? e : i;
+        const o = this._getDialCode(n);
+        const r = tt(n);
+        const { initialCountry: l, geoIpLookup: a } = this.options;
+        const u = l === T.AUTO && a;
+        if (o && !r) this._updateCountryFromNumber(n);
+        else if (!u || t) {
+          const t = l ? l.toLowerCase() : "";
+          st(t)
+            ? this._setCountry(t)
+            : o && r
+              ? this._setCountry(v.ISO2)
+              : this._setCountry("");
+        }
+        n && this._updateValFromNumber(n);
+      }
+      _initListeners() {
+        this._initTelInputListeners();
+        this.options.allowDropdown && this._initDropdownListeners();
+        (this.ui.hiddenInput || this.ui.hiddenInputCountry) &&
+          this.ui.telInput.form &&
+          this._initHiddenInputListener();
+      }
+      _initHiddenInputListener() {
+        const t = () => {
+          this.ui.hiddenInput && (this.ui.hiddenInput.value = this.getNumber());
+          this.ui.hiddenInputCountry &&
+            (this.ui.hiddenInputCountry.value =
+              this.selectedCountryData.iso2 || "");
+        };
+        this.ui.telInput.form?.addEventListener("submit", t, {
+          signal: this.abortController.signal,
+        });
+      }
+      _initDropdownListeners() {
+        const t = this.abortController.signal;
+        const e = (t) => {
+          this.ui.dropdownContent.classList.contains(_.HIDE)
+            ? this.ui.telInput.focus()
+            : t.preventDefault();
+        };
+        const i = this.ui.telInput.closest("label");
+        i && i.addEventListener("click", e, { signal: t });
+        const s = () => {
+          const t = this.ui.dropdownContent.classList.contains(_.HIDE);
+          !t ||
+            this.ui.telInput.disabled ||
+            this.ui.telInput.readOnly ||
+            this._openDropdown();
+        };
+        this.ui.selectedCountry.addEventListener("click", s, { signal: t });
+        const n = (t) => {
+          const e = this.ui.dropdownContent.classList.contains(_.HIDE);
+          if (
+            e &&
+            [f.ARROW_UP, f.ARROW_DOWN, f.SPACE, f.ENTER].includes(t.key)
+          ) {
+            t.preventDefault();
+            t.stopPropagation();
+            this._openDropdown();
+          }
+          t.key === f.TAB && this._closeDropdown();
+        };
+        this.ui.countryContainer.addEventListener("keydown", n, { signal: t });
+      }
+      _initRequests() {
+        const {
+          loadUtils: t,
+          initialCountry: e,
+          geoIpLookup: i,
+        } = this.options;
+        if (t && !lt.utils) {
+          const e = () => {
+            lt.attachUtils(t)?.catch(() => {});
+          };
+          if (lt.documentReady()) e();
+          else {
+            const t = () => {
+              e();
+            };
+            window.addEventListener("load", t, {
+              signal: this.abortController.signal,
+            });
+          }
+        } else this.resolveUtilsScriptPromise();
+        const s = e === T.AUTO && i;
+        s && !this.selectedCountryData.iso2
+          ? this._loadAutoCountry()
+          : this.resolveAutoCountryPromise();
+      }
+      _loadAutoCountry() {
+        if (lt.autoCountry) this.handleAutoCountry();
+        else if (!lt.startedLoadingAutoCountry) {
+          lt.startedLoadingAutoCountry = true;
+          typeof this.options.geoIpLookup === "function" &&
+            this.options.geoIpLookup(
+              (t = "") => {
+                const e = t.toLowerCase();
+                if (st(e)) {
+                  lt.autoCountry = e;
+                  setTimeout(() => rt("handleAutoCountry"));
+                } else {
+                  this._setInitialState(true);
+                  rt("rejectAutoCountryPromise");
+                }
+              },
+              () => {
+                this._setInitialState(true);
+                rt("rejectAutoCountryPromise");
+              },
+            );
+        }
+      }
+      _openDropdownWithPlus() {
+        this._openDropdown();
+        this.ui.searchInput.value = "+";
+        this._filterCountriesByQuery("");
+      }
+      _initTelInputListeners() {
+        this._bindInputListener();
+        this._maybeBindKeydownListener();
+        this._maybeBindPasteListener();
+      }
+      _bindInputListener() {
+        const {
+          strictMode: t,
+          formatAsYouType: e,
+          separateDialCode: i,
+          allowDropdown: s,
+          countrySearch: n,
+        } = this.options;
+        let o = false;
+        I.ALPHA_UNICODE.test(this.ui.telInput.value) && (o = true);
+        const r = (r) => {
+          if (this.isAndroid && r?.data === "+" && i && s && n) {
+            const t = this.ui.telInput.selectionStart || 0;
+            const e = this.ui.telInput.value.substring(0, t - 1);
+            const i = this.ui.telInput.value.substring(t);
+            this.ui.telInput.value = e + i;
+            this._openDropdownWithPlus();
+            return;
+          }
+          this._updateCountryFromNumber(this.ui.telInput.value) &&
+            this._triggerCountryChange();
+          const l = r?.data && I.NON_PLUS_NUMERIC.test(r.data);
+          const a = r?.inputType === b.PASTE && this.ui.telInput.value;
+          l || (a && !t)
+            ? (o = true)
+            : I.NON_PLUS_NUMERIC.test(this.ui.telInput.value) || (o = false);
+          const u = r?.detail && r.detail.isSetNumber;
+          if (e && !o && !u) {
+            const t = this.ui.telInput.selectionStart || 0;
+            const e = this.ui.telInput.value.substring(0, t);
+            const i = e.replace(I.NON_PLUS_NUMERIC_GLOBAL, "").length;
+            const s = r?.inputType === b.DELETE_FWD;
+            const n = this._getFullNumber();
+            const o = J(
+              n,
+              this.ui.telInput.value,
+              lt.utils,
+              this.selectedCountryData,
+              this.options.separateDialCode,
+            );
+            const l = Q(i, o, t, s);
+            this.ui.telInput.value = o;
+            this.ui.telInput.setSelectionRange(l, l);
+          }
+        };
+        this.ui.telInput.addEventListener("input", r, {
+          signal: this.abortController.signal,
+        });
+      }
+      _maybeBindKeydownListener() {
+        const {
+          strictMode: t,
+          separateDialCode: e,
+          allowDropdown: i,
+          countrySearch: s,
+        } = this.options;
+        if (t || e) {
+          const n = (n) => {
+            if (
+              n.key &&
+              n.key.length === 1 &&
+              !n.altKey &&
+              !n.ctrlKey &&
+              !n.metaKey
+            ) {
+              if (e && i && s && n.key === "+") {
+                n.preventDefault();
+                this._openDropdownWithPlus();
+                return;
+              }
+              if (t) {
+                const t = this.ui.telInput.value;
+                const i = t.startsWith("+");
+                const s =
+                  !i && this.ui.telInput.selectionStart === 0 && n.key === "+";
+                const o = /^[0-9]$/.test(n.key);
+                const r = e ? o : s || o;
+                const l =
+                  t.slice(0, this.ui.telInput.selectionStart) +
+                  n.key +
+                  t.slice(this.ui.telInput.selectionEnd);
+                const a = this._getFullNumber(l);
+                const u = lt.utils.getCoreNumber(
+                  a,
+                  this.selectedCountryData.iso2,
+                );
+                const d =
+                  this.maxCoreNumberLength &&
+                  u.length > this.maxCoreNumberLength;
+                const h = this._getNewCountryFromNumber(a);
+                const c = h !== null;
+                (r && (!d || c || s)) || n.preventDefault();
+              }
+            }
+          };
+          this.ui.telInput.addEventListener("keydown", n, {
+            signal: this.abortController.signal,
+          });
+        }
+      }
+      _maybeBindPasteListener() {
+        if (this.options.strictMode) {
+          const t = (t) => {
+            t.preventDefault();
+            const e = this.ui.telInput;
+            const i = e.selectionStart;
+            const s = e.selectionEnd;
+            const n = e.value.slice(0, i);
+            const o = e.value.slice(s);
+            const r = this.selectedCountryData.iso2;
+            const l = t.clipboardData.getData("text");
+            const a = i === 0 && s > 0;
+            const u = !e.value.startsWith("+") || a;
+            const d = l.replace(I.NON_PLUS_NUMERIC_GLOBAL, "");
+            const h = d.startsWith("+");
+            const c = d.replace(/\+/g, "");
+            const p = h && u ? `+${c}` : c;
+            let C = n + p + o;
+            let m = lt.utils.getCoreNumber(C, r);
+            while (m.length === 0 && C.length > 0) {
+              C = C.slice(0, -1);
+              m = lt.utils.getCoreNumber(C, r);
+            }
+            if (!m) return;
+            if (
+              this.maxCoreNumberLength &&
+              m.length > this.maxCoreNumberLength
+            ) {
+              if (e.selectionEnd !== e.value.length) return;
+              {
+                const t = m.length - this.maxCoreNumberLength;
+                C = C.slice(0, C.length - t);
+              }
+            }
+            e.value = C;
+            const y = i + p.length;
+            e.setSelectionRange(y, y);
+            e.dispatchEvent(new InputEvent("input", { bubbles: true }));
+          };
+          this.ui.telInput.addEventListener("paste", t, {
+            signal: this.abortController.signal,
+          });
+        }
+      }
+      _cap(t) {
+        const e = Number(this.ui.telInput.getAttribute("maxlength"));
+        return e && t.length > e ? t.substring(0, e) : t;
+      }
+      _trigger(t, e = {}) {
+        const i = new CustomEvent(t, {
+          bubbles: true,
+          cancelable: true,
+          detail: e,
+        });
+        this.ui.telInput.dispatchEvent(i);
+      }
+      _openDropdown() {
+        const { fixDropdownWidth: t, countrySearch: e } = this.options;
+        this.dropdownAbortController = new AbortController();
+        t &&
+          (this.ui.dropdownContent.style.width = `${this.ui.telInput.offsetWidth}px`);
+        this.ui.dropdownContent.classList.remove(_.HIDE);
+        this.ui.selectedCountry.setAttribute(P.EXPANDED, "true");
+        this._setDropdownPosition();
+        if (e) {
+          const t = this.ui.countryList.firstElementChild;
+          if (t) {
+            this.ui.highlightListItem(t, false);
+            this.ui.countryList.scrollTop = 0;
+          }
+          this.ui.searchInput.focus();
+        }
+        this._bindDropdownListeners();
+        this.ui.dropdownArrow.classList.add(_.ARROW_UP);
+        this._trigger(g.OPEN_COUNTRY_DROPDOWN);
+      }
+      _setDropdownPosition() {
+        this.options.dropdownContainer &&
+          this.options.dropdownContainer.appendChild(this.ui.dropdown);
+        if (!this.options.useFullscreenPopup) {
+          const t = this.ui.telInput.getBoundingClientRect();
+          const e = this.ui.telInput.offsetHeight;
+          if (this.options.dropdownContainer) {
+            this.ui.dropdown.style.top = `${t.top + e}px`;
+            this.ui.dropdown.style.left = `${t.left}px`;
+            const i = () => this._closeDropdown();
+            window.addEventListener("scroll", i, {
+              signal: this.dropdownAbortController.signal,
+            });
+          }
+        }
+      }
+      _bindDropdownListeners() {
+        const t = this.dropdownAbortController.signal;
+        this._bindDropdownMouseoverListener(t);
+        this._bindDropdownCountryClickListener(t);
+        this._bindDropdownClickOffListener(t);
+        this._bindDropdownKeydownListener(t);
+        this.options.countrySearch && this._bindDropdownSearchListeners(t);
+      }
+      _bindDropdownMouseoverListener(t) {
+        const e = (t) => {
+          const e = t.target?.closest(`.${_.COUNTRY_ITEM}`);
+          e && this.ui.highlightListItem(e, false);
+        };
+        this.ui.countryList.addEventListener("mouseover", e, { signal: t });
+      }
+      _bindDropdownCountryClickListener(t) {
+        const e = (t) => {
+          const e = t.target?.closest(`.${_.COUNTRY_ITEM}`);
+          e && this._selectListItem(e);
+        };
+        this.ui.countryList.addEventListener("click", e, { signal: t });
+      }
+      _bindDropdownClickOffListener(t) {
+        const e = (t) => {
+          const e = t.target;
+          const i = !!e.closest(`#iti-${this.id}__dropdown-content`);
+          i || this._closeDropdown();
+        };
+        setTimeout(() => {
+          document.documentElement.addEventListener("click", e, { signal: t });
+        }, 0);
+      }
+      _bindDropdownKeydownListener(t) {
+        let e = "";
+        let i = null;
+        const s = (t) => {
+          const s = [f.ARROW_UP, f.ARROW_DOWN, f.ENTER, f.ESC];
+          if (s.includes(t.key)) {
+            t.preventDefault();
+            t.stopPropagation();
+            t.key === f.ARROW_UP || t.key === f.ARROW_DOWN
+              ? this._handleUpDownKey(t.key)
+              : t.key === f.ENTER
+                ? this._handleEnterKey()
+                : t.key === f.ESC && this._closeDropdown();
+          }
+          if (!this.options.countrySearch && I.HIDDEN_SEARCH_CHAR.test(t.key)) {
+            t.stopPropagation();
+            i && clearTimeout(i);
+            e += t.key.toLowerCase();
+            this._searchForCountry(e);
+            i = setTimeout(() => {
+              e = "";
+            }, D.HIDDEN_SEARCH_RESET_MS);
+          }
+        };
+        document.addEventListener("keydown", s, { signal: t });
+      }
+      _bindDropdownSearchListeners(t) {
+        const e = () => {
+          const t = this.ui.searchInput.value.trim();
+          this._filterCountriesByQuery(t);
+          this.ui.searchInput.value
+            ? this.ui.searchClearButton.classList.remove(_.HIDE)
+            : this.ui.searchClearButton.classList.add(_.HIDE);
+        };
+        let i = null;
+        const s = () => {
+          i && clearTimeout(i);
+          i = setTimeout(() => {
+            e();
+            i = null;
+          }, 100);
+        };
+        this.ui.searchInput.addEventListener("input", s, { signal: t });
+        const n = () => {
+          this.ui.searchInput.value = "";
+          this.ui.searchInput.focus();
+          e();
+        };
+        this.ui.searchClearButton.addEventListener("click", n, { signal: t });
+      }
+      _searchForCountry(t) {
+        const e = H(this.countries, t);
+        if (e) {
+          const t = e.nodeById[this.id];
+          this.ui.highlightListItem(t, false);
+          this.ui.scrollTo(t);
+        }
+      }
+      _filterCountriesByQuery(t) {
+        let e;
+        e = t === "" ? this.countries : B(this.countries, t);
+        this.ui.filterCountries(e);
+      }
+      _handleUpDownKey(t) {
+        let e =
+          t === f.ARROW_UP
+            ? this.ui.highlightedItem?.previousElementSibling
+            : this.ui.highlightedItem?.nextElementSibling;
+        !e &&
+          this.ui.countryList.childElementCount > 1 &&
+          (e =
+            t === f.ARROW_UP
+              ? this.ui.countryList.lastElementChild
+              : this.ui.countryList.firstElementChild);
+        if (e) {
+          this.ui.scrollTo(e);
+          this.ui.highlightListItem(e, false);
+        }
+      }
+      _handleEnterKey() {
+        this.ui.highlightedItem &&
+          this._selectListItem(this.ui.highlightedItem);
+      }
+      _updateValFromNumber(t) {
+        let e = t;
+        if (
+          this.options.formatOnDisplay &&
+          lt.utils &&
+          this.selectedCountryData
+        ) {
+          const t =
+            this.options.nationalMode ||
+            (!e.startsWith("+") && !this.options.separateDialCode);
+          const { NATIONAL: i, INTERNATIONAL: s } = lt.utils.numberFormat;
+          const n = t ? i : s;
+          e = lt.utils.formatNumber(e, this.selectedCountryData.iso2, n);
+        }
+        e = this._beforeSetNumber(e);
+        this.ui.telInput.value = e;
+      }
+      _updateCountryFromNumber(t) {
+        const e = this._getNewCountryFromNumber(t);
+        return e !== null && this._setCountry(e);
+      }
+      _ensureHasDialCode(t) {
+        const { dialCode: e, nationalPrefix: i } = this.selectedCountryData;
+        const s = t.startsWith("+");
+        if (s || !e) return t;
+        const n = i && t.startsWith(i) && !this.options.separateDialCode;
+        const o = n ? t.substring(1) : t;
+        return `+${e}${o}`;
+      }
+      _getNewCountryFromNumber(t) {
+        const e = t.indexOf("+");
+        let i = e ? t.substring(e) : t;
+        const s = this.selectedCountryData.iso2;
+        const n = this.selectedCountryData.dialCode;
+        i = this._ensureHasDialCode(i);
+        const o = this._getDialCode(i, true);
+        const r = U(i);
+        if (o) {
+          const t = U(o);
+          const e = this.dialCodeToIso2Map[t];
+          if (e.length === 1) return e[0] === s ? null : e[0];
+          if (!s && this.defaultCountry && e.includes(this.defaultCountry))
+            return this.defaultCountry;
+          const i = n === E.NANP && tt(r);
+          if (i) return null;
+          const { areaCodes: l, priority: a } = this.selectedCountryData;
+          if (l) {
+            const t = l.map((t) => `${n}${t}`);
+            for (const e of t) if (r.startsWith(e)) return null;
+          }
+          const u = a === 0;
+          const d = l && !u && r.length > t.length;
+          const h = s && e.includes(s) && !d;
+          const c = s === e[0];
+          if (!h && !c) return e[0];
+        } else {
+          if (i.startsWith("+") && r.length) return "";
+          if ((!i || i === "+") && !s) return this.defaultCountry;
+        }
+        return null;
+      }
+      _setCountry(t) {
+        const { separateDialCode: e, showFlags: i, i18n: s } = this.options;
+        const n = this.selectedCountryData.iso2 || "";
+        this.selectedCountryData = t ? this.countryByIso2.get(t) : {};
+        this.selectedCountryData.iso2 &&
+          (this.defaultCountry = this.selectedCountryData.iso2);
+        if (this.ui.selectedCountry) {
+          const e = t && i ? `${_.FLAG} iti__${t}` : `${_.FLAG} ${_.GLOBE}`;
+          let n, o;
+          if (t) {
+            const { name: t, dialCode: e } = this.selectedCountryData;
+            o = t;
+            n = s.selectedCountryAriaLabel
+              .replace("${countryName}", t)
+              .replace("${dialCode}", `+${e}`);
+          } else {
+            o = s.noCountrySelected;
+            n = s.noCountrySelected;
+          }
+          this.ui.selectedCountryInner.className = e;
+          this.ui.selectedCountry.setAttribute("title", o);
+          this.ui.selectedCountry.setAttribute(P.LABEL, n);
+        }
+        if (e) {
+          const t = this.selectedCountryData.dialCode
+            ? `+${this.selectedCountryData.dialCode}`
+            : "";
+          this.ui.selectedDialCode.textContent = t;
+          this.ui.updateInputPadding();
+        }
+        this._updatePlaceholder();
+        this._updateMaxLength();
+        return n !== t;
+      }
+      _updateMaxLength() {
+        const {
+          strictMode: t,
+          placeholderNumberType: e,
+          validationNumberTypes: i,
+        } = this.options;
+        const { iso2: s } = this.selectedCountryData;
+        if (t && lt.utils)
+          if (s) {
+            const t = lt.utils.numberType[e];
+            let n = lt.utils.getExampleNumber(s, false, t, true);
+            let o = n;
+            while (lt.utils.isPossibleNumber(n, s, i)) {
+              o = n;
+              n += "0";
+            }
+            const r = lt.utils.getCoreNumber(o, s);
+            this.maxCoreNumberLength = r.length;
+            s === "by" && (this.maxCoreNumberLength = r.length + 1);
+          } else this.maxCoreNumberLength = null;
+      }
       _updatePlaceholder() {
         const {
           autoPlaceholder: t,
@@ -1777,103 +1929,65 @@ var t = {};
           customPlaceholder: s,
         } = this.options;
         const n =
-          t === "aggressive" || (!this.hadInitialPlaceholder && t === "polite");
-        if ($.utils && n) {
-          const t = $.utils.numberType[e];
+          t === "aggressive" ||
+          (!this.ui.hadInitialPlaceholder && t === "polite");
+        if (lt.utils && n) {
+          const t = lt.utils.numberType[e];
           let n = this.selectedCountryData.iso2
-            ? $.utils.getExampleNumber(this.selectedCountryData.iso2, i, t)
+            ? lt.utils.getExampleNumber(this.selectedCountryData.iso2, i, t)
             : "";
           n = this._beforeSetNumber(n);
           typeof s === "function" && (n = s(n, this.selectedCountryData));
-          this.telInput.setAttribute("placeholder", n);
+          this.ui.telInput.setAttribute("placeholder", n);
         }
       }
       _selectListItem(t) {
-        const e = t.getAttribute("data-country-code");
+        const e = t.dataset[S.COUNTRY_CODE];
         const i = this._setCountry(e);
         this._closeDropdown();
-        const s = t.getAttribute("data-dial-code");
+        const s = t.dataset[S.DIAL_CODE];
         this._updateDialCode(s);
         this.options.formatOnDisplay &&
-          this._updateValFromNumber(this.telInput.value);
-        this.telInput.focus();
+          this._updateValFromNumber(this.ui.telInput.value);
+        this.ui.telInput.focus();
         i && this._triggerCountryChange();
       }
       _closeDropdown() {
-        this.dropdownContent.classList.add("iti__hide");
-        this.selectedCountry.setAttribute("aria-expanded", "false");
-        this.highlightedItem &&
-          this.highlightedItem.setAttribute("aria-selected", "false");
-        this.options.countrySearch &&
-          this.searchInput.removeAttribute("aria-activedescendant");
-        this.dropdownArrow.classList.remove("iti__arrow--up");
-        if (this.options.countrySearch) {
-          this.searchInput.removeEventListener(
-            "input",
-            this._handleSearchChange,
-          );
-          this.searchClearButton.removeEventListener(
-            "click",
-            this._handleSearchClear,
-          );
-        }
-        document.documentElement.removeEventListener(
-          "click",
-          this._handleClickOffToClose,
-        );
-        this.countryList.removeEventListener(
-          "mouseover",
-          this._handleMouseoverCountryList,
-        );
-        this.countryList.removeEventListener(
-          "click",
-          this._handleClickCountryList,
-        );
-        if (this.options.dropdownContainer) {
-          this.options.useFullscreenPopup ||
-            window.removeEventListener("scroll", this._handleWindowScroll);
-          this.dropdown.parentNode &&
-            this.dropdown.parentNode.removeChild(this.dropdown);
-        }
-        this._handlePageLoad &&
-          window.removeEventListener("load", this._handlePageLoad);
-        this._trigger("close:countrydropdown");
-      }
-      _scrollTo(t) {
-        const e = this.countryList;
-        const i = document.documentElement.scrollTop;
-        const s = e.offsetHeight;
-        const n = e.getBoundingClientRect().top + i;
-        const o = n + s;
-        const a = t.offsetHeight;
-        const r = t.getBoundingClientRect().top + i;
-        const l = r + a;
-        const u = r - n + e.scrollTop;
-        if (r < n) e.scrollTop = u;
-        else if (l > o) {
-          const t = s - a;
-          e.scrollTop = u - t;
+        if (!this.ui.dropdownContent.classList.contains(_.HIDE)) {
+          this.ui.dropdownContent.classList.add(_.HIDE);
+          this.ui.selectedCountry.setAttribute(P.EXPANDED, "false");
+          this.ui.highlightedItem &&
+            this.ui.highlightedItem.setAttribute(P.SELECTED, "false");
+          this.options.countrySearch &&
+            this.ui.searchInput.removeAttribute(P.ACTIVE_DESCENDANT);
+          this.ui.dropdownArrow.classList.remove(_.ARROW_UP);
+          this.dropdownAbortController.abort();
+          this.dropdownAbortController = null;
+          this.options.dropdownContainer && this.ui.dropdown.remove();
+          this._trigger(g.CLOSE_COUNTRY_DROPDOWN);
         }
       }
       _updateDialCode(t) {
-        const e = this.telInput.value;
+        const e = this.ui.telInput.value;
         const i = `+${t}`;
         let s;
-        if (e.charAt(0) === "+") {
+        if (e.startsWith("+")) {
           const t = this._getDialCode(e);
           s = t ? e.replace(t, i) : i;
-          this.telInput.value = s;
+          this.ui.telInput.value = s;
         }
       }
       _getDialCode(t, e) {
         let i = "";
-        if (t.charAt(0) === "+") {
+        if (t.startsWith("+")) {
           let s = "";
           for (let n = 0; n < t.length; n++) {
             const o = t.charAt(n);
-            if (!isNaN(parseInt(o, 10))) {
+            if (/[0-9]/.test(o)) {
               s += o;
-              if (e) this.dialCodeToIso2Map[s] && (i = t.substring(0, n + 1));
+              const r = Boolean(this.dialCodeToIso2Map[s]);
+              if (!r) break;
+              if (e) i = t.substring(0, n + 1);
               else if (this.dialCodes.has(s)) {
                 i = t.substring(0, n + 1);
                 break;
@@ -1885,19 +1999,19 @@ var t = {};
         return i;
       }
       _getFullNumber(t) {
-        const e = t || this.telInput.value.trim();
+        const e = t || this.ui.telInput.value.trim();
         const { dialCode: i } = this.selectedCountryData;
         let s;
-        const n = v(e);
+        const n = U(e);
         s =
-          this.options.separateDialCode && e.charAt(0) !== "+" && i && n
+          this.options.separateDialCode && !e.startsWith("+") && i && n
             ? `+${i}`
             : "";
         return s + e;
       }
       _beforeSetNumber(t) {
         const e = this._getDialCode(t);
-        const i = A(
+        const i = X(
           t,
           e,
           this.options.separateDialCode,
@@ -1906,21 +2020,22 @@ var t = {};
         return this._cap(i);
       }
       _triggerCountryChange() {
-        this._trigger("countrychange");
+        this._trigger(g.COUNTRY_CHANGE);
       }
       handleAutoCountry() {
-        if (this.options.initialCountry === "auto" && $.autoCountry) {
-          this.defaultCountry = $.autoCountry;
+        if (this.options.initialCountry === T.AUTO && lt.autoCountry) {
+          this.defaultCountry = lt.autoCountry;
           const t =
             this.selectedCountryData.iso2 ||
-            this.selectedCountryInner.classList.contains("iti__globe");
+            this.ui.selectedCountryInner.classList.contains(_.GLOBE);
           t || this.setCountry(this.defaultCountry);
           this.resolveAutoCountryPromise();
         }
       }
       handleUtils() {
-        if ($.utils) {
-          this.telInput.value && this._updateValFromNumber(this.telInput.value);
+        if (lt.utils) {
+          this.ui.telInput.value &&
+            this._updateValFromNumber(this.ui.telInput.value);
           if (this.selectedCountryData.iso2) {
             this._updatePlaceholder();
             this._updateMaxLength();
@@ -1929,85 +2044,65 @@ var t = {};
         this.resolveUtilsScriptPromise();
       }
       destroy() {
-        this.telInput.iti = void 0;
-        const { allowDropdown: t, separateDialCode: e } = this.options;
-        if (t) {
-          this._closeDropdown();
-          this.selectedCountry.removeEventListener(
-            "click",
-            this._handleClickSelectedCountry,
-          );
-          this.countryContainer.removeEventListener(
-            "keydown",
-            this._handleCountryContainerKeydown,
-          );
-          const t = this.telInput.closest("label");
-          t && t.removeEventListener("click", this._handleLabelClick);
+        if (this.ui.telInput) {
+          this.options.allowDropdown && this._closeDropdown();
+          this.abortController.abort();
+          this.abortController = null;
+          this.ui.destroy();
+          lt.instances instanceof Map
+            ? lt.instances.delete(this.id)
+            : delete lt.instances[this.id];
         }
-        const { form: i } = this.telInput;
-        this._handleHiddenInputSubmit &&
-          i &&
-          i.removeEventListener("submit", this._handleHiddenInputSubmit);
-        this.telInput.removeEventListener("input", this._handleInputEvent);
-        this._handleKeydownEvent &&
-          this.telInput.removeEventListener(
-            "keydown",
-            this._handleKeydownEvent,
-          );
-        this._handlePasteEvent &&
-          this.telInput.removeEventListener("paste", this._handlePasteEvent);
-        this.telInput.removeAttribute("data-intl-tel-input-id");
-        e &&
-          (this.isRTL
-            ? (this.telInput.style.paddingRight = this.originalPaddingRight)
-            : (this.telInput.style.paddingLeft = this.originalPaddingLeft));
-        const s = this.telInput.parentNode;
-        s?.parentNode?.insertBefore(this.telInput, s);
-        s?.parentNode?.removeChild(s);
-        delete $.instances[this.id];
       }
       getExtension() {
-        return $.utils
-          ? $.utils.getExtension(
+        return lt.utils
+          ? lt.utils.getExtension(
               this._getFullNumber(),
               this.selectedCountryData.iso2,
             )
           : "";
       }
       getNumber(t) {
-        if ($.utils) {
+        if (lt.utils) {
           const { iso2: e } = this.selectedCountryData;
-          return $.utils.formatNumber(this._getFullNumber(), e, t);
+          return lt.utils.formatNumber(this._getFullNumber(), e, t);
         }
         return "";
       }
       getNumberType() {
-        return $.utils
-          ? $.utils.getNumberType(
+        return lt.utils
+          ? lt.utils.getNumberType(
               this._getFullNumber(),
               this.selectedCountryData.iso2,
             )
-          : -99;
+          : L.UNKNOWN_NUMBER_TYPE;
       }
       getSelectedCountryData() {
         return this.selectedCountryData;
       }
       getValidationError() {
-        if ($.utils) {
+        if (lt.utils) {
           const { iso2: t } = this.selectedCountryData;
-          return $.utils.getValidationError(this._getFullNumber(), t);
+          return lt.utils.getValidationError(this._getFullNumber(), t);
         }
-        return -99;
+        return L.UNKNOWN_VALIDATION_ERROR;
       }
       isValidNumber() {
+        const { dialCode: t, iso2: e } = this.selectedCountryData;
+        if (t === N.DIAL_CODE && lt.utils) {
+          const t = this._getFullNumber();
+          const i = lt.utils.getCoreNumber(t, e);
+          if (i[0] === N.MOBILE_PREFIX && i.length !== N.MOBILE_CORE_LENGTH)
+            return false;
+        }
         return this._validateNumber(false);
       }
       isValidNumberPrecise() {
         return this._validateNumber(true);
       }
       _utilsIsPossibleNumber(t) {
-        return $.utils
-          ? $.utils.isPossibleNumber(
+        return lt.utils
+          ? lt.utils.isPossibleNumber(
               t,
               this.selectedCountryData.iso2,
               this.options.validationNumberTypes,
@@ -2015,11 +2110,12 @@ var t = {};
           : null;
       }
       _validateNumber(t) {
+        if (!lt.utils) return null;
         if (!this.selectedCountryData.iso2) return false;
         const e = (e) =>
           t ? this._utilsIsValidNumber(e) : this._utilsIsPossibleNumber(e);
         const i = this._getFullNumber();
-        const s = i.search(/\p{L}/u);
+        const s = i.search(I.ALPHA_UNICODE);
         const n = s > -1;
         if (n && !this.options.allowPhonewords) {
           const t = i.substring(0, s);
@@ -2030,8 +2126,8 @@ var t = {};
         return e(i);
       }
       _utilsIsValidNumber(t) {
-        return $.utils
-          ? $.utils.isValidNumber(
+        return lt.utils
+          ? lt.utils.isValidNumber(
               t,
               this.selectedCountryData.iso2,
               this.options.validationNumberTypes,
@@ -2040,14 +2136,14 @@ var t = {};
       }
       setCountry(t) {
         const e = t?.toLowerCase();
-        if (!R(e)) throw new Error(`Invalid country code: '${e}'`);
+        if (!st(e)) throw new Error(`Invalid country code: '${e}'`);
         const i = this.selectedCountryData.iso2;
         const s = (t && e !== i) || (!t && i);
         if (s) {
           this._setCountry(e);
           this._updateDialCode(this.selectedCountryData.dialCode);
           this.options.formatOnDisplay &&
-            this._updateValFromNumber(this.telInput.value);
+            this._updateValFromNumber(this.ui.telInput.value);
           this._triggerCountryChange();
         }
       }
@@ -2055,21 +2151,21 @@ var t = {};
         const e = this._updateCountryFromNumber(t);
         this._updateValFromNumber(t);
         e && this._triggerCountryChange();
-        this._trigger("input", { isSetNumber: true });
+        this._trigger(g.INPUT, { isSetNumber: true });
       }
       setPlaceholderNumberType(t) {
         this.options.placeholderNumberType = t;
         this._updatePlaceholder();
       }
       setDisabled(t) {
-        this.telInput.disabled = t;
+        this.ui.telInput.disabled = t;
         t
-          ? this.selectedCountry.setAttribute("disabled", "true")
-          : this.selectedCountry.removeAttribute("disabled");
+          ? this.ui.selectedCountry.setAttribute("disabled", "true")
+          : this.ui.selectedCountry.removeAttribute("disabled");
       }
     };
-    var j = (t) => {
-      if (!$.utils && !$.startedLoadingUtilsScript) {
+    var ot = (t) => {
+      if (!lt.utils && !lt.startedLoadingUtilsScript) {
         let e;
         if (typeof t !== "function")
           return Promise.reject(
@@ -2083,7 +2179,7 @@ var t = {};
         } catch (t) {
           return Promise.reject(t);
         }
-        $.startedLoadingUtilsScript = true;
+        lt.startedLoadingUtilsScript = true;
         return e
           .then((t) => {
             const e = t?.default;
@@ -2091,43 +2187,47 @@ var t = {};
               throw new TypeError(
                 "The loader function passed to attachUtils did not resolve to a module object with utils as its default export.",
               );
-            $.utils = e;
-            F("handleUtils");
+            lt.utils = e;
+            rt("handleUtils");
             return true;
           })
           .catch((t) => {
-            F("rejectUtilsScriptPromise", t);
+            rt("rejectUtilsScriptPromise", t);
             throw t;
           });
       }
       return null;
     };
-    var $ = Object.assign(
+    var rt = (t, ...e) => {
+      Object.values(lt.instances).forEach((i) => {
+        const s = i[t];
+        typeof s === "function" && s.apply(i, e);
+      });
+    };
+    var lt = Object.assign(
       (t, e) => {
-        const i = new z(t, e);
-        i._init();
-        t.setAttribute("data-intl-tel-input-id", i.id.toString());
-        $.instances[i.id] = i;
+        const i = new nt(t, e);
+        lt.instances[i.id] = i;
         t.iti = i;
         return i;
       },
       {
-        defaults: f,
+        defaults: k,
         documentReady: () => document.readyState === "complete",
         getCountryData: () => d,
         getInstance: (t) => {
-          const e = t.getAttribute("data-intl-tel-input-id");
-          return e ? $.instances[e] : null;
+          const e = t.dataset.intlTelInputId;
+          return e ? lt.instances[e] : null;
         },
         instances: {},
-        attachUtils: j,
+        attachUtils: ot,
         startedLoadingUtilsScript: false,
         startedLoadingAutoCountry: false,
-        version: "25.10.8",
+        version: "25.11.1",
       },
     );
-    var O = $;
-    return a(r);
+    var at = lt;
+    return r(l);
   })();
   return t.default;
 });

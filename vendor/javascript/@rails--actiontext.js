@@ -1,4 +1,4 @@
-// @rails/actiontext@8.0.200 downloaded from https://ga.jspm.io/npm:@rails/actiontext@8.0.200/app/assets/javascripts/actiontext.esm.js
+// @rails/actiontext@8.0.300 downloaded from https://ga.jspm.io/npm:@rails/actiontext@8.0.300/app/assets/javascripts/actiontext.esm.js
 
 var t =
   typeof globalThis !== "undefined"
@@ -29,7 +29,7 @@ var e = { exports: {} };
       "e",
       "f",
     ];
-    function md5cycle(t, e) {
+    function i(t, e) {
       var r = t[0],
         i = t[1],
         s = t[2],
@@ -167,7 +167,7 @@ var e = { exports: {} };
       t[2] = (s + t[2]) | 0;
       t[3] = (n + t[3]) | 0;
     }
-    function md5blk(t) {
+    function s(t) {
       var e,
         r = [];
       for (e = 0; e < 64; e += 4)
@@ -178,7 +178,7 @@ var e = { exports: {} };
           (t.charCodeAt(e + 3) << 24);
       return r;
     }
-    function md5blk_array(t) {
+    function n(t) {
       var e,
         r = [];
       for (e = 0; e < 64; e += 4)
@@ -186,106 +186,105 @@ var e = { exports: {} };
           t[e] + (t[e + 1] << 8) + (t[e + 2] << 16) + (t[e + 3] << 24);
       return r;
     }
-    function md51(t) {
+    function a(t) {
       var e,
         r,
-        i,
-        s,
         n,
         a,
-        o = t.length,
-        h = [1732584193, -271733879, -1732584194, 271733878];
-      for (e = 64; e <= o; e += 64) md5cycle(h, md5blk(t.substring(e - 64, e)));
+        o,
+        h,
+        l = t.length,
+        u = [1732584193, -271733879, -1732584194, 271733878];
+      for (e = 64; e <= l; e += 64) i(u, s(t.substring(e - 64, e)));
       t = t.substring(e - 64);
       r = t.length;
-      i = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-      for (e = 0; e < r; e += 1) i[e >> 2] |= t.charCodeAt(e) << (e % 4 << 3);
-      i[e >> 2] |= 128 << (e % 4 << 3);
+      n = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+      for (e = 0; e < r; e += 1) n[e >> 2] |= t.charCodeAt(e) << (e % 4 << 3);
+      n[e >> 2] |= 128 << (e % 4 << 3);
       if (e > 55) {
-        md5cycle(h, i);
-        for (e = 0; e < 16; e += 1) i[e] = 0;
+        i(u, n);
+        for (e = 0; e < 16; e += 1) n[e] = 0;
       }
-      s = o * 8;
-      s = s.toString(16).match(/(.*?)(.{0,8})$/);
-      n = parseInt(s[2], 16);
-      a = parseInt(s[1], 16) || 0;
-      i[14] = n;
-      i[15] = a;
-      md5cycle(h, i);
-      return h;
+      a = l * 8;
+      a = a.toString(16).match(/(.*?)(.{0,8})$/);
+      o = parseInt(a[2], 16);
+      h = parseInt(a[1], 16) || 0;
+      n[14] = o;
+      n[15] = h;
+      i(u, n);
+      return u;
     }
-    function md51_array(t) {
+    function o(t) {
       var e,
         r,
-        i,
         s,
-        n,
         a,
-        o = t.length,
-        h = [1732584193, -271733879, -1732584194, 271733878];
-      for (e = 64; e <= o; e += 64)
-        md5cycle(h, md5blk_array(t.subarray(e - 64, e)));
-      t = e - 64 < o ? t.subarray(e - 64) : new Uint8Array(0);
+        o,
+        h,
+        l = t.length,
+        u = [1732584193, -271733879, -1732584194, 271733878];
+      for (e = 64; e <= l; e += 64) i(u, n(t.subarray(e - 64, e)));
+      t = e - 64 < l ? t.subarray(e - 64) : new Uint8Array(0);
       r = t.length;
-      i = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-      for (e = 0; e < r; e += 1) i[e >> 2] |= t[e] << (e % 4 << 3);
-      i[e >> 2] |= 128 << (e % 4 << 3);
+      s = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+      for (e = 0; e < r; e += 1) s[e >> 2] |= t[e] << (e % 4 << 3);
+      s[e >> 2] |= 128 << (e % 4 << 3);
       if (e > 55) {
-        md5cycle(h, i);
-        for (e = 0; e < 16; e += 1) i[e] = 0;
+        i(u, s);
+        for (e = 0; e < 16; e += 1) s[e] = 0;
       }
-      s = o * 8;
-      s = s.toString(16).match(/(.*?)(.{0,8})$/);
-      n = parseInt(s[2], 16);
-      a = parseInt(s[1], 16) || 0;
-      i[14] = n;
-      i[15] = a;
-      md5cycle(h, i);
-      return h;
+      a = l * 8;
+      a = a.toString(16).match(/(.*?)(.{0,8})$/);
+      o = parseInt(a[2], 16);
+      h = parseInt(a[1], 16) || 0;
+      s[14] = o;
+      s[15] = h;
+      i(u, s);
+      return u;
     }
-    function rhex(t) {
+    function h(t) {
       var e,
         i = "";
       for (e = 0; e < 4; e += 1)
         i += r[(t >> (e * 8 + 4)) & 15] + r[(t >> (e * 8)) & 15];
       return i;
     }
-    function hex(t) {
+    function l(t) {
       var e;
-      for (e = 0; e < t.length; e += 1) t[e] = rhex(t[e]);
+      for (e = 0; e < t.length; e += 1) t[e] = h(t[e]);
       return t.join("");
     }
-    hex(md51("hello")) !== "5d41402abc4b2a76b9719d911017c592";
+    l(a("hello")) !== "5d41402abc4b2a76b9719d911017c592";
     typeof ArrayBuffer === "undefined" ||
       ArrayBuffer.prototype.slice ||
       (function () {
-        function clamp(t, e) {
+        function r(t, e) {
           t = t | 0 || 0;
           return t < 0 ? Math.max(t + e, 0) : Math.min(t, e);
         }
-        ArrayBuffer.prototype.slice = function (r, i) {
-          var s,
-            n,
+        ArrayBuffer.prototype.slice = function (i, s) {
+          var n,
             a,
             o,
-            h = (this || t).byteLength,
-            l = clamp(r, h),
-            c = h;
-          i !== e && (c = clamp(i, h));
-          if (l > c) return new ArrayBuffer(0);
-          s = c - l;
-          n = new ArrayBuffer(s);
-          a = new Uint8Array(n);
-          o = new Uint8Array(this || t, l, s);
-          a.set(o);
-          return n;
+            h,
+            l = (this || t).byteLength,
+            u = r(i, l),
+            c = l;
+          s !== e && (c = r(s, l));
+          if (u > c) return new ArrayBuffer(0);
+          n = c - u;
+          a = new ArrayBuffer(n);
+          o = new Uint8Array(a);
+          h = new Uint8Array(this || t, u, n);
+          o.set(h);
+          return a;
         };
       })();
-    function toUtf8(t) {
+    function u(t) {
       /[\u0080-\uFFFF]/.test(t) && (t = unescape(encodeURIComponent(t)));
       return t;
     }
-    function utf8Str2ArrayBuffer(t, e) {
+    function c(t, e) {
       var r,
         i = t.length,
         s = new ArrayBuffer(i),
@@ -293,43 +292,40 @@ var e = { exports: {} };
       for (r = 0; r < i; r += 1) n[r] = t.charCodeAt(r);
       return e ? n : s;
     }
-    function arrayBuffer2Utf8Str(t) {
+    function d(t) {
       return String.fromCharCode.apply(null, new Uint8Array(t));
     }
-    function concatenateArrayBuffers(t, e, r) {
+    function f(t, e, r) {
       var i = new Uint8Array(t.byteLength + e.byteLength);
       i.set(new Uint8Array(t));
       i.set(new Uint8Array(e), t.byteLength);
       return r ? i : i.buffer;
     }
-    function hexToBinaryString(t) {
+    function p(t) {
       var e,
         r = [],
         i = t.length;
       for (e = 0; e < i - 1; e += 2) r.push(parseInt(t.substr(e, 2), 16));
       return String.fromCharCode.apply(String, r);
     }
-    function SparkMD5() {
+    function b() {
       this.reset();
     }
-    SparkMD5.prototype.append = function (e) {
-      this.appendBinary(toUtf8(e));
+    b.prototype.append = function (e) {
+      this.appendBinary(u(e));
       return this || t;
     };
-    SparkMD5.prototype.appendBinary = function (e) {
+    b.prototype.appendBinary = function (e) {
       (this || t)._buff += e;
       (this || t)._length += e.length;
       var r,
-        i = (this || t)._buff.length;
-      for (r = 64; r <= i; r += 64)
-        md5cycle(
-          (this || t)._hash,
-          md5blk((this || t)._buff.substring(r - 64, r)),
-        );
+        n = (this || t)._buff.length;
+      for (r = 64; r <= n; r += 64)
+        i((this || t)._hash, s((this || t)._buff.substring(r - 64, r)));
       (this || t)._buff = (this || t)._buff.substring(r - 64);
       return this || t;
     };
-    SparkMD5.prototype.end = function (e) {
+    b.prototype.end = function (e) {
       var r,
         i,
         s = (this || t)._buff,
@@ -337,76 +333,76 @@ var e = { exports: {} };
         a = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
       for (r = 0; r < n; r += 1) a[r >> 2] |= s.charCodeAt(r) << (r % 4 << 3);
       this._finish(a, n);
-      i = hex((this || t)._hash);
-      e && (i = hexToBinaryString(i));
+      i = l((this || t)._hash);
+      e && (i = p(i));
       this.reset();
       return i;
     };
-    SparkMD5.prototype.reset = function () {
+    b.prototype.reset = function () {
       (this || t)._buff = "";
       (this || t)._length = 0;
       (this || t)._hash = [1732584193, -271733879, -1732584194, 271733878];
       return this || t;
     };
-    SparkMD5.prototype.getState = function () {
+    b.prototype.getState = function () {
       return {
         buff: (this || t)._buff,
         length: (this || t)._length,
         hash: (this || t)._hash.slice(),
       };
     };
-    SparkMD5.prototype.setState = function (e) {
+    b.prototype.setState = function (e) {
       (this || t)._buff = e.buff;
       (this || t)._length = e.length;
       (this || t)._hash = e.hash;
       return this || t;
     };
-    SparkMD5.prototype.destroy = function () {
+    b.prototype.destroy = function () {
       delete (this || t)._hash;
       delete (this || t)._buff;
       delete (this || t)._length;
     };
-    SparkMD5.prototype._finish = function (e, r) {
-      var i,
-        s,
+    b.prototype._finish = function (e, r) {
+      var s,
         n,
-        a = r;
-      e[a >> 2] |= 128 << (a % 4 << 3);
-      if (a > 55) {
-        md5cycle((this || t)._hash, e);
-        for (a = 0; a < 16; a += 1) e[a] = 0;
+        a,
+        o = r;
+      e[o >> 2] |= 128 << (o % 4 << 3);
+      if (o > 55) {
+        i((this || t)._hash, e);
+        for (o = 0; o < 16; o += 1) e[o] = 0;
       }
-      i = (this || t)._length * 8;
-      i = i.toString(16).match(/(.*?)(.{0,8})$/);
-      s = parseInt(i[2], 16);
-      n = parseInt(i[1], 16) || 0;
-      e[14] = s;
-      e[15] = n;
-      md5cycle((this || t)._hash, e);
+      s = (this || t)._length * 8;
+      s = s.toString(16).match(/(.*?)(.{0,8})$/);
+      n = parseInt(s[2], 16);
+      a = parseInt(s[1], 16) || 0;
+      e[14] = n;
+      e[15] = a;
+      i((this || t)._hash, e);
     };
-    SparkMD5.hash = function (t, e) {
-      return SparkMD5.hashBinary(toUtf8(t), e);
+    b.hash = function (t, e) {
+      return b.hashBinary(u(t), e);
     };
-    SparkMD5.hashBinary = function (t, e) {
-      var r = md51(t),
-        i = hex(r);
-      return e ? hexToBinaryString(i) : i;
+    b.hashBinary = function (t, e) {
+      var r = a(t),
+        i = l(r);
+      return e ? p(i) : i;
     };
-    SparkMD5.ArrayBuffer = function () {
+    b.ArrayBuffer = function () {
       this.reset();
     };
-    SparkMD5.ArrayBuffer.prototype.append = function (e) {
+    b.ArrayBuffer.prototype.append = function (e) {
       var r,
-        i = concatenateArrayBuffers((this || t)._buff.buffer, e, true),
-        s = i.length;
+        s = f((this || t)._buff.buffer, e, true),
+        a = s.length;
       (this || t)._length += e.byteLength;
-      for (r = 64; r <= s; r += 64)
-        md5cycle((this || t)._hash, md5blk_array(i.subarray(r - 64, r)));
+      for (r = 64; r <= a; r += 64)
+        i((this || t)._hash, n(s.subarray(r - 64, r)));
       (this || t)._buff =
-        r - 64 < s ? new Uint8Array(i.buffer.slice(r - 64)) : new Uint8Array(0);
+        r - 64 < a ? new Uint8Array(s.buffer.slice(r - 64)) : new Uint8Array(0);
       return this || t;
     };
-    SparkMD5.ArrayBuffer.prototype.end = function (e) {
+    b.ArrayBuffer.prototype.end = function (e) {
       var r,
         i,
         s = (this || t)._buff,
@@ -414,34 +410,34 @@ var e = { exports: {} };
         a = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
       for (r = 0; r < n; r += 1) a[r >> 2] |= s[r] << (r % 4 << 3);
       this._finish(a, n);
-      i = hex((this || t)._hash);
-      e && (i = hexToBinaryString(i));
+      i = l((this || t)._hash);
+      e && (i = p(i));
       this.reset();
       return i;
     };
-    SparkMD5.ArrayBuffer.prototype.reset = function () {
+    b.ArrayBuffer.prototype.reset = function () {
       (this || t)._buff = new Uint8Array(0);
       (this || t)._length = 0;
       (this || t)._hash = [1732584193, -271733879, -1732584194, 271733878];
       return this || t;
     };
-    SparkMD5.ArrayBuffer.prototype.getState = function () {
-      var e = SparkMD5.prototype.getState.call(this || t);
-      e.buff = arrayBuffer2Utf8Str(e.buff);
+    b.ArrayBuffer.prototype.getState = function () {
+      var e = b.prototype.getState.call(this || t);
+      e.buff = d(e.buff);
       return e;
     };
-    SparkMD5.ArrayBuffer.prototype.setState = function (e) {
-      e.buff = utf8Str2ArrayBuffer(e.buff, true);
-      return SparkMD5.prototype.setState.call(this || t, e);
+    b.ArrayBuffer.prototype.setState = function (e) {
+      e.buff = c(e.buff, true);
+      return b.prototype.setState.call(this || t, e);
     };
-    SparkMD5.ArrayBuffer.prototype.destroy = SparkMD5.prototype.destroy;
-    SparkMD5.ArrayBuffer.prototype._finish = SparkMD5.prototype._finish;
-    SparkMD5.ArrayBuffer.hash = function (t, e) {
-      var r = md51_array(new Uint8Array(t)),
-        i = hex(r);
-      return e ? hexToBinaryString(i) : i;
+    b.ArrayBuffer.prototype.destroy = b.prototype.destroy;
+    b.ArrayBuffer.prototype._finish = b.prototype._finish;
+    b.ArrayBuffer.hash = function (t, e) {
+      var r = o(new Uint8Array(t)),
+        i = l(r);
+      return e ? p(i) : i;
     };
-    return SparkMD5;
+    return b;
   });
 })(e);
 var r = e.exports;
@@ -494,26 +490,26 @@ class FileChecksum {
     return false;
   }
 }
-function getMetaValue(t) {
-  const e = findElement(document.head, `meta[name="${t}"]`);
+function s(t) {
+  const e = a(document.head, `meta[name="${t}"]`);
   if (e) return e.getAttribute("content");
 }
-function findElements(t, e) {
+function n(t, e) {
   if (typeof t == "string") {
     e = t;
     t = document;
   }
   const r = t.querySelectorAll(e);
-  return toArray(r);
+  return h(r);
 }
-function findElement(t, e) {
+function a(t, e) {
   if (typeof t == "string") {
     e = t;
     t = document;
   }
   return t.querySelector(e);
 }
-function dispatchEvent(t, e, r = {}) {
+function o(t, e, r = {}) {
   const { disabled: i } = t;
   const { bubbles: s, cancelable: n, detail: a } = r;
   const o = document.createEvent("Event");
@@ -527,7 +523,7 @@ function dispatchEvent(t, e, r = {}) {
   }
   return o;
 }
-function toArray(t) {
+function h(t) {
   return Array.isArray(t) ? t : Array.from ? Array.from(t) : [].slice.call(t);
 }
 class BlobRecord {
@@ -548,8 +544,8 @@ class BlobRecord {
     Object.keys(i).forEach((t) => {
       this.xhr.setRequestHeader(t, i[t]);
     });
-    const s = getMetaValue("csrf-token");
-    s != void 0 && this.xhr.setRequestHeader("X-CSRF-Token", s);
+    const n = s("csrf-token");
+    n != void 0 && this.xhr.setRequestHeader("X-CSRF-Token", n);
     this.xhr.addEventListener("load", (t) => this.requestDidLoad(t));
     this.xhr.addEventListener("error", (t) => this.requestDidError(t));
   }
@@ -611,10 +607,10 @@ class BlobUpload {
     );
   }
 }
-let s = 0;
+let l = 0;
 class DirectUpload {
   constructor(t, e, r, i = {}) {
-    this.id = ++s;
+    this.id = ++l;
     this.file = t;
     this.url = e;
     this.delegate = r;
@@ -627,12 +623,12 @@ class DirectUpload {
         return;
       }
       const i = new BlobRecord(this.file, r, this.url, this.customHeaders);
-      notify(this.delegate, "directUploadWillCreateBlobWithXHR", i.xhr);
+      u(this.delegate, "directUploadWillCreateBlobWithXHR", i.xhr);
       i.create((e) => {
         if (e) t(e);
         else {
           const e = new BlobUpload(i);
-          notify(this.delegate, "directUploadWillStoreFileWithXHR", e.xhr);
+          u(this.delegate, "directUploadWillStoreFileWithXHR", e.xhr);
           e.create((e) => {
             e ? t(e) : t(null, i.toJSON());
           });
@@ -641,7 +637,7 @@ class DirectUpload {
     });
   }
 }
-function notify(t, e, ...r) {
+function u(t, e, ...r) {
   if (t && typeof t[e] == "function") return t[e](...r);
 }
 class DirectUploadController {
@@ -676,7 +672,7 @@ class DirectUploadController {
   dispatch(t, e = {}) {
     e.file = this.file;
     e.id = this.directUpload.id;
-    return dispatchEvent(this.input, `direct-upload:${t}`, { detail: e });
+    return o(this.input, `direct-upload:${t}`, { detail: e });
   }
   dispatchError(t) {
     const e = this.dispatch("error", { error: t });
@@ -692,22 +688,22 @@ class DirectUploadController {
     );
   }
 }
-const n = "input[type=file][data-direct-upload-url]:not([disabled])";
+const c = "input[type=file][data-direct-upload-url]:not([disabled])";
 class DirectUploadsController {
   constructor(t) {
     this.form = t;
-    this.inputs = findElements(t, n).filter((t) => t.files.length);
+    this.inputs = n(t, c).filter((t) => t.files.length);
   }
   start(t) {
     const e = this.createDirectUploadControllers();
-    const startNextController = () => {
-      const r = e.shift();
-      if (r)
-        r.start((e) => {
+    const r = () => {
+      const i = e.shift();
+      if (i)
+        i.start((e) => {
           if (e) {
             t(e);
             this.dispatch("end");
-          } else startNextController();
+          } else r();
         });
       else {
         t();
@@ -715,12 +711,12 @@ class DirectUploadsController {
       }
     };
     this.dispatch("start");
-    startNextController();
+    r();
   }
   createDirectUploadControllers() {
     const t = [];
     this.inputs.forEach((e) => {
-      toArray(e.files).forEach((r) => {
+      h(e.files).forEach((r) => {
         const i = new DirectUploadController(e, r);
         t.push(i);
       });
@@ -728,33 +724,33 @@ class DirectUploadsController {
     return t;
   }
   dispatch(t, e = {}) {
-    return dispatchEvent(this.form, `direct-uploads:${t}`, { detail: e });
+    return o(this.form, `direct-uploads:${t}`, { detail: e });
   }
 }
-const a = "data-direct-uploads-processing";
-const o = new WeakMap();
-let h = false;
-function start() {
-  if (!h) {
-    h = true;
-    document.addEventListener("click", didClick, true);
-    document.addEventListener("submit", didSubmitForm, true);
-    document.addEventListener("ajax:before", didSubmitRemoteElement);
+const d = "data-direct-uploads-processing";
+const f = new WeakMap();
+let p = false;
+function b() {
+  if (!p) {
+    p = true;
+    document.addEventListener("click", y, true);
+    document.addEventListener("submit", g, true);
+    document.addEventListener("ajax:before", m);
   }
 }
-function didClick(t) {
+function y(t) {
   const e = t.target.closest("button, input");
-  e && e.type === "submit" && e.form && o.set(e.form, e);
+  e && e.type === "submit" && e.form && f.set(e.form, e);
 }
-function didSubmitForm(t) {
-  handleFormSubmissionEvent(t);
+function g(t) {
+  U(t);
 }
-function didSubmitRemoteElement(t) {
-  t.target.tagName == "FORM" && handleFormSubmissionEvent(t);
+function m(t) {
+  t.target.tagName == "FORM" && U(t);
 }
-function handleFormSubmissionEvent(t) {
+function U(t) {
   const e = t.target;
-  if (e.hasAttribute(a)) {
+  if (e.hasAttribute(d)) {
     t.preventDefault();
     return;
   }
@@ -762,16 +758,16 @@ function handleFormSubmissionEvent(t) {
   const { inputs: i } = r;
   if (i.length) {
     t.preventDefault();
-    e.setAttribute(a, "");
-    i.forEach(disable);
+    e.setAttribute(d, "");
+    i.forEach(v);
     r.start((t) => {
-      e.removeAttribute(a);
-      t ? i.forEach(enable) : submitForm(e);
+      e.removeAttribute(d);
+      t ? i.forEach(_) : A(e);
     });
   }
 }
-function submitForm(t) {
-  let e = o.get(t) || findElement(t, "input[type=submit], button[type=submit]");
+function A(t) {
+  let e = f.get(t) || a(t, "input[type=submit], button[type=submit]");
   if (e) {
     const { disabled: t } = e;
     e.disabled = false;
@@ -786,18 +782,18 @@ function submitForm(t) {
     e.click();
     t.removeChild(e);
   }
-  o.delete(t);
+  f.delete(t);
 }
-function disable(t) {
+function v(t) {
   t.disabled = true;
 }
-function enable(t) {
+function _(t) {
   t.disabled = false;
 }
-function autostart() {
-  window.ActiveStorage && start();
+function x() {
+  window.ActiveStorage && b();
 }
-setTimeout(autostart, 1);
+setTimeout(x, 1);
 class AttachmentUpload {
   constructor(t, e) {
     this.attachment = t;
@@ -832,7 +828,7 @@ class AttachmentUpload {
   }
   dispatch(t, e = {}) {
     e.attachment = this.attachment;
-    return dispatchEvent(this.element, `direct-upload:${t}`, { detail: e });
+    return o(this.element, `direct-upload:${t}`, { detail: e });
   }
   dispatchError(t) {
     const e = this.dispatch("error", { error: t });
@@ -852,5 +848,5 @@ addEventListener("trix-attachment-add", (t) => {
     t.start();
   }
 });
-var l = {};
-export { l as default };
+var E = {};
+export { E as default };
