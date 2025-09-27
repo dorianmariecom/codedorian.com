@@ -10,6 +10,7 @@ class Address < ApplicationRecord
 
   validates(:address, presence: true)
   validate { can!(:update, user) }
+  validate(:parse_autocomplete, on: :controller)
 
   before_validation { self.user ||= Current.user! }
 
@@ -23,67 +24,13 @@ class Address < ApplicationRecord
         node: -> { arel_table[:address] },
         type: :string
       },
-      address_components: {
-        node: -> { arel_table[:address_components] },
+      autocomplete: {
+        node: -> { arel_table[:autocomplete] },
         type: :string
-      },
-      formatted_address: {
-        node: -> { arel_table[:formatted_address] },
-        type: :string
-      },
-      geometry: {
-        node: -> { arel_table[:geometry] },
-        type: :string
-      },
-      place_id: {
-        node: -> { arel_table[:place_id] },
-        type: :string
-      },
-      types: {
-        node: -> { arel_table[:types] },
-        type: :string
-      },
-      primary: {
-        node: -> { arel_table[:primary] },
-        type: :boolean
-      },
-      verified: {
-        node: -> { arel_table[:verified] },
-        type: :boolean
       },
       **base_search_fields,
       **User.associated_search_fields
     }
-  end
-
-  def address_components=(address_components)
-    if address_components.is_a?(String) && address_components.present?
-      super(JSON.parse(address_components))
-    else
-      super
-    end
-  rescue JSON::ParserError
-    super
-  end
-
-  def geometry=(geometry)
-    if geometry.is_a?(String) && geometry.present?
-      super(JSON.parse(geometry))
-    else
-      super
-    end
-  rescue JSON::ParserError
-    super
-  end
-
-  def types=(types)
-    if types.is_a?(String) && types.present?
-      super(JSON.parse(types))
-    else
-      super
-    end
-  rescue JSON::ParserError
-    super
   end
 
   def primary?
@@ -118,19 +65,24 @@ class Address < ApplicationRecord
     update!(verified: false)
   end
 
-  def address_components_json
-    JSON.pretty_generate(address_components)
+  def autocomplete_json
+    JSON.pretty_generate(autocomplete)
   end
 
-  def geometry_json
-    JSON.pretty_generate(geometry)
+  def formatted_address
+    return if autocomplete.blank?
+    return unless autocomplete.is_a?(Hash)
+
+    autocomplete["formattedAddress"].presence
   end
 
-  def types_json
-    JSON.pretty_generate(types)
+  def parse_autocomplete
+    self.autocomplete = JSON.parse(autocomplete.to_s)
+  rescue JSON::ParserError
+    self.autocomplete = nil
   end
 
   def to_s
-    address.presence || t("to_s", id: id)
+    formatted_address.presence || address.presence || t("to_s", id: id)
   end
 end

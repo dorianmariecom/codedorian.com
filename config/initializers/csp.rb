@@ -5,7 +5,12 @@ Rails.application.config.content_security_policy do |policy|
     :self,
     "'unsafe-inline'",
     "https://www.google.com",
-    "https://www.gstatic.com"
+    "https://www.gstatic.com",
+    "https://maps.googleapis.com",
+    "https://fonts.googleapis.com",
+    "https://maps.gstatic.com",
+    "https://fonts.gstatic.com",
+    "https://places.googleapis.com"
   )
 end
 

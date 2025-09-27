@@ -13,22 +13,19 @@ window.googleMapsCallback = () =>
 const t = I18n("address");
 
 export default class extends Controller {
-  static targets = [
-    "input",
-    "error",
-    "label",
-    "addressComponents",
-    "formattedAddress",
-    "geometry",
-    "placeId",
-    "types",
-  ];
+  static targets = ["autocomplete", "address", "input", "error", "label"];
 
   static values = {
     trim: { type: Boolean, default: false },
+    required: { type: Boolean, default: false },
   };
 
   connect() {
+    if (window.google?.maps?.places) {
+      this.load();
+      return;
+    }
+
     const script = document.createElement("script");
     script.async = true;
     script.defer = true;
@@ -45,41 +42,43 @@ export default class extends Controller {
     document.head.appendChild(script);
   }
 
-  load() {
-    this.autocomplete = new google.maps.places.Autocomplete(this.inputTarget);
-    this.autocomplete.addListener("place_changed", this.input.bind(this));
+  async load() {
+    await google.maps.importLibrary("places");
   }
 
-  disconnect() {
-    this.autocomplete = null;
+  input(event) {
+    this.addressTarget.value = event.data;
+    this._validate();
   }
 
-  keydown(event) {
-    if (event.code === "Enter") {
-      event.preventDefault();
-    }
+  async select({ placePrediction }) {
+    const place = placePrediction.toPlace();
+    await place.fetchFields({
+      fields: [
+        "id",
+        "displayName",
+        "formattedAddress",
+        "adrFormatAddress",
+        "addressComponents",
+        "postalAddress",
+        "plusCode",
+        "types",
+        "primaryType",
+        "primaryTypeDisplayName",
+        "location",
+        "viewport",
+      ],
+    });
+
+    this.autocompleteTarget.value = JSON.stringify(place.toJSON());
   }
 
-  input() {
-    const place = this.autocomplete.getPlace();
-
-    if (place) {
-      this.addressComponentsTarget.value = JSON.stringify(
-        place.address_components,
-      );
-      this.formattedAddressTarget.value = place.formatted_address;
-      this.geometryTarget.value = JSON.stringify(place.geometry);
-      this.placeIdTarget.value = place.place_id;
-      this.typesTarget.value = JSON.stringify(place.types);
-    }
-
-    this.inputTarget.classList.add("input--touched");
-
+  _validate() {
     if (this.trimValue) {
-      this.inputTarget.value = this.inputTarget.value.trim();
+      this.addressTarget.value = this.addressTarget.value.trim();
     }
 
-    if (this.inputTarget.checkValidity()) {
+    if (this.requiredValue && this.addressTarget.value !== "") {
       this.errorTarget.hidden = true;
       this.errorTarget.innerText = "";
       this.inputTarget.classList.add(...VALID_CLASSES);
@@ -87,12 +86,7 @@ export default class extends Controller {
       this.labelTarget.classList.add(...LABEL_VALID_CLASSES);
       this.labelTarget.classList.remove(...LABEL_INVALID_CLASSES);
     } else {
-      if (this.inputTarget.required && !this.inputTarget.value) {
-        this.errorTarget.innerText = t("not_present");
-      } else {
-        this.errorTarget.innerText = t("not_valid");
-      }
-
+      this.errorTarget.innerText = t("not_present");
       this.errorTarget.hidden = false;
       this.inputTarget.classList.add(...INVALID_CLASSES);
       this.inputTarget.classList.remove(...VALID_CLASSES);

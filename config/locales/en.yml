@@ -87,8 +87,6 @@ en:
     edit:
       submit: update address
       title: edit address
-    form:
-      address_placeholder: enter your address
     index:
       delete_all: delete all addresses
       destroy_all: destroy all addreses
@@ -100,23 +98,18 @@ en:
       add: add address
     nested_form:
       address: address
-      address_placeholder: enter your address
       remove: remove address
     new:
       submit: create address
       title: new address
     show:
       address: address
-      address_components: address components
+      autocomplete: autocomplete
       created_at: created at
       delete: delete address
       edit: edit address
-      formatted_address: formatted address
-      geometry: geometry
       id: id
-      place_id: place id
       primary: primary?
-      types: types
       updated_at: updated at
       user: user
       verified: verified?

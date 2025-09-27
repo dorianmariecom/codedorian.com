@@ -52,7 +52,7 @@ class UsersController < ApplicationController
     @user = authorize(policy_scope(User).new(user_params))
 
     Current.with(user: @user) do
-      if @user.save
+      if @user.save(context: :controller)
         log_in(@user)
         redirect_to(show_url, notice: t(".notice"))
       else
@@ -63,7 +63,9 @@ class UsersController < ApplicationController
   end
 
   def update
-    if @user.update(user_params)
+    @user.assign_attributes(user_params)
+
+    if @user.save(context: :controller)
       log_in(@user)
       redirect_to(show_url, notice: t(".notice"))
     else
@@ -146,18 +148,7 @@ class UsersController < ApplicationController
               %i[id _destroy phone_number primary verified]
             ],
             addresses_attributes: [
-              %i[
-                id
-                _destroy
-                address
-                address_components
-                formatted_address
-                geometry
-                place_id
-                types
-                primary
-                verified
-              ]
+              %i[id _destroy verified primary address autocomplete]
             ],
             passwords_attributes: [
               %i[id _destroy hint password primary verified]
@@ -176,17 +167,7 @@ class UsersController < ApplicationController
             email_addresses_attributes: [%i[id _destroy email_address primary]],
             phone_numbers_attributes: [%i[id _destroy phone_number primary]],
             addresses_attributes: [
-              %i[
-                id
-                _destroy
-                address
-                address_components
-                formatted_address
-                geometry
-                place_id
-                types
-                primary
-              ]
+              %i[id _destroy primary address autocomplete]
             ],
             passwords_attributes: [%i[id _destroy hint password primary]],
             time_zones_attributes: [%i[id _destroy time_zone primary]]

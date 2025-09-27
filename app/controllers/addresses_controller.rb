@@ -24,7 +24,7 @@ class AddressesController < ApplicationController
   def create
     @address = authorize(scope.new(address_params))
 
-    if @address.save
+    if @address.save(context: :controller)
       log_in(@address.user)
       redirect_to(show_url, notice: t(".notice"))
     else
@@ -34,7 +34,9 @@ class AddressesController < ApplicationController
   end
 
   def update
-    if @address.update(address_params)
+    @address.assign_attributes(address_params)
+
+    if @address.save(context: :controller)
       log_in(@address.user)
       redirect_to(show_url, notice: t(".notice"))
     else
@@ -110,31 +112,9 @@ class AddressesController < ApplicationController
 
   def address_params
     if admin?
-      params.expect(
-        address: %i[
-          user_id
-          primary
-          verified
-          address
-          formatted_address
-          address_components
-          place_id
-          types
-          geometry
-        ]
-      )
+      params.expect(address: %i[user_id primary verified address autocomplete])
     else
-      params.expect(
-        address: %i[
-          primary
-          address
-          formatted_address
-          address_components
-          place_id
-          types
-          geometry
-        ]
-      )
+      params.expect(address: %i[primary address autocomplete])
     end
   end
 end

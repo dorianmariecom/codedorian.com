@@ -10,29 +10,21 @@
     class="p"
     data-controller="address"
     data-action="google-maps-callback@window->address#load"
+    data-address-trim-value="true"
+    data-address-required-value="true"
   >
-    <%= f.hidden_field(
-      :address_components,
-      data: {
-        address_target: "addressComponents"
-      }
-    ) %>
-    <%= f.hidden_field(:formatted_address, data: { address_target: "formattedAddress" }) %>
-    <%= f.hidden_field(:geometry, data: { address_target: "geometry" }) %>
-    <%= f.hidden_field(:place_id, data: { address_target: "placeId" }) %>
-    <%= f.hidden_field(:types, data: { address_target: "types" }) %>
+    <%= f.hidden_field(:autocomplete, data: { address_target: "autocomplete" }) %>
+    <%= f.hidden_field(:address, data: { address_target: "address" }) %>
     <%= f.label(:address, class: "label", data: { address_target: "label" }) %>
-    <%= f.text_field(
-      :address,
-      class: "input",
-      required: true,
+    <%= content_tag(
+      "gmp-place-autocomplete",
+      "",
+      class: "input bg-white !p-0 scheme-light",
+      value: f.object.address,
       data: {
         address_target: "input",
-        action: "address#input keydown->address#keydown",
-        form_type: "other"
-      },
-      autocomplete: "street-address",
-      placeholder: t(".address_placeholder")
+        action: "input->address#input gmp-select->address#select"
+      }
     ) %>
     <div class="text-red-600" hidden data-address-target="error"></div>
     <div class="text-gray-600"><%= Faker::Address.full_address %></div>

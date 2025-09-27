@@ -85,6 +85,11 @@ button {
 .label {
   @apply block;
 
+  &.label--valid {
+    @apply text-green-600;
+  }
+
+  &.label--invalid,
   .field_with_errors & {
     @apply text-red-600;
   }
@@ -101,8 +106,13 @@ button {
     @apply w-auto;
   }
 
+  .input--valid {
+    @apply border-green-600 focus:ring-green-600 focus:border-green-600;
+  }
+
+  .input--invalid,
   .field_with_errors & {
-    @apply border-red-600;
+    @apply border-red-600 focus:ring-red-600 focus:border-red-600;
   }
 
   &.input--touched:invalid {

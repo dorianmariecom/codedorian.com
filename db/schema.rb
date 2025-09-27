@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_16_173903) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_27_190542) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -64,16 +64,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_16_173903) do
 
   create_table "addresses", force: :cascade do |t|
     t.string "address"
-    t.jsonb "address_components"
-    t.datetime "created_at", null: false
-    t.string "formatted_address"
-    t.jsonb "geometry"
-    t.string "place_id"
+    t.jsonb "autocomplete"
     t.boolean "primary", default: false, null: false
-    t.jsonb "types"
-    t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
     t.boolean "verified", default: false, null: false
+    t.bigint "user_id", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "created_at", null: false
     t.index ["user_id"], name: "index_addresses_on_user_id"
   end
 
@@ -586,7 +582,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_16_173903) do
   add_foreign_key "active_storage_variant_records",
                   "active_storage_blobs",
                   column: "blob_id"
-  add_foreign_key "addresses", "users"
   add_foreign_key "data", "users"
   add_foreign_key "devices", "users"
   add_foreign_key "email_addresses", "users"
