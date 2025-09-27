@@ -57,7 +57,9 @@ class ErrorOccurrencesController < ApplicationController
 
   def load_error_occurrence
     @error_occurrence =
-      authorize(scope.find(params[:error_occurrence_id].presence || params[:id]))
+      authorize(
+        scope.find(params[:error_occurrence_id].presence || params[:id])
+      )
     set_error_context(error_occurrence: @error_occurrence)
   end
 
