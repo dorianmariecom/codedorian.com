@@ -735,6 +735,7 @@ en:
       name: name
       new_schedule: new schedule
       not_scheduled_html: would you like to schedule for %{local_time}?
+      reschedule: reschedule
       schedule: schedule
       scheduled_html: it's scheduled for %{local_time}
       schedules: schedules

@@ -87,8 +87,6 @@ fr:
     edit:
       submit: mettre à jour l'adresse
       title: modifier l'adresse
-    form:
-      address_placeholder: entrez votre adresse
     index:
       delete_all: supprimer toutes les adresses
       destroy_all: détruire toutes les adresses
@@ -100,23 +98,18 @@ fr:
       add: ajouter une adresse
     nested_form:
       address: adresse
-      address_placeholder: entrez votre adresse
       remove: supprimer l'adresse
     new:
       submit: créer une adresse
       title: nouvelle adresse
     show:
       address: adresse
-      address_components: composants de l'adresse
+      autocomplete: saisie semi-automatique
       created_at: créé à
       delete: supprimer l'adresse
       edit: modifier l'adresse
-      formatted_address: adresse formatée
-      geometry: géométrie
       id: id
-      place_id: id lieu
       primary: primaire ?
-      types: types
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifiée ?
@@ -742,6 +735,7 @@ fr:
       name: nom
       new_schedule: nouvel horaire
       not_scheduled_html: souhaitez-vous planifier pour %{local_time} ?
+      reschedule: reprogrammer
       schedule: planifier
       scheduled_html: planifié pour %{local_time}
       schedules: plannings
@@ -962,7 +956,7 @@ fr:
       edit: modifier l'horaire
       id: id
       interval: intervalle
-      schedulable: programmable
+      program: programme
       schedule_html: commence le %{local_time}, se répète tous les %{interval}
       schedule_once_html: commence le %{local_time}, ne se répète pas
       starts_at: commence à
