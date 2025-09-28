@@ -955,7 +955,7 @@ en:
       edit: edit schedule
       id: id
       interval: interval
-      schedulable: schedulable
+      program: program
       schedule_html: starts %{local_time}, repeats every %{interval}
       schedule_once_html: starts %{local_time}, doesn't repeat
       starts_at: starts at

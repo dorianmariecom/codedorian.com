@@ -2,7 +2,7 @@
 
 class SchedulesController < ApplicationController
   before_action(:load_user)
-  before_action(:load_schedulable)
+  before_action(:load_program)
   before_action(:load_schedule, only: %i[show edit update destroy])
 
   def index
@@ -15,7 +15,7 @@ class SchedulesController < ApplicationController
   end
 
   def new
-    @schedule = authorize(scope.new(schedulable: @schedulable))
+    @schedule = authorize(scope.new(program: @program))
   end
 
   def edit
@@ -77,30 +77,22 @@ class SchedulesController < ApplicationController
     end
   end
 
-  def load_schedulable
-    if params[:program_id].present?
-      @schedulable = program_scope.find(params[:program_id])
-      set_error_context(program: @schedulable)
-    elsif params[:prompt_id].present?
-      @schedulable = prompt_scope.find(params[:prompt_id])
-      set_error_context(prompt: @schedulable)
-    end
+  def load_program
+    return if params[:program_id].blank?
+
+    @program = program_scope.find(params[:program_id])
+    set_error_context(program: @program)
   end
 
   def scope
     scope = searched_policy_scope(Schedule)
-    scope = scope.where(schedulable: @schedulable) if @schedulable
+    scope = scope.where(program: @program) if @program
+    scope = scope.joins(:user).where(user: { id: @user }) if @user
     scope
   end
 
   def program_scope
     scope = policy_scope(Program)
-    scope = scope.where(user: @user) if @user
-    scope
-  end
-
-  def prompt_scope
-    scope = policy_scope(Prompt)
     scope = scope.where(user: @user) if @user
     scope
   end
@@ -114,7 +106,7 @@ class SchedulesController < ApplicationController
   end
 
   def nested
-    [@user, @schedulable]
+    [@user, @program]
   end
 
   def id

@@ -13,8 +13,8 @@ class PromptsController < ApplicationController
 
   def show
     @schedules =
-      policy_scope(Schedule)
-        .where(schedulable: @prompt)
+      policy_scope(PromptSchedule)
+        .where(prompt: @prompt)
         .order(created_at: :asc)
         .page(params[:page])
   end

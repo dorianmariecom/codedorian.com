@@ -51,9 +51,9 @@ class Prompt < ApplicationRecord
   belongs_to(:user, default: -> { Current.user! }, touch: true)
   belongs_to(:program, optional: true, touch: true)
 
-  has_many(:schedules, as: :schedulable, dependent: :destroy)
+  has_many(:prompt_schedules, dependent: :destroy)
 
-  accepts_nested_attributes_for(:schedules, allow_destroy: true)
+  accepts_nested_attributes_for(:prompt_schedules, allow_destroy: true)
 
   validate { can!(:update, user) }
   validates(:status, inclusion: { in: STATUSES })
@@ -153,7 +153,7 @@ class Prompt < ApplicationRecord
         { role: "system", content: PROMPT_3 },
         { role: "user", content: input },
         { role: "system", content: PROMPT_4 },
-        { role: "user", content: schedules.to_json },
+        { role: "user", content: prompt_schedules.to_json },
         { role: "system", content: PROMPT_5 },
         { role: "system", content: programs_json },
         { role: "system", content: PROMPT_6 }
@@ -225,8 +225,8 @@ class Prompt < ApplicationRecord
     input.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
   end
 
-  def schedules_sample
-    schedules
+  def prompt_schedules_sample
+    prompt_schedules
       .presence
       &.to_json
       &.truncate(SAMPLE_SIZE, omission: OMISSION)
@@ -338,7 +338,7 @@ class Prompt < ApplicationRecord
   def to_s
     error_class_sample.presence || name_sample.presence ||
       output_name_sample.presence || input_sample.presence ||
-      output_input_sample.presence || schedules_sample.presence ||
+      output_input_sample.presence || prompt_schedules_sample.presence ||
       output_schedules_sample.presence || output_sample.presence ||
       t("to_s", id: id)
   end

@@ -20,16 +20,16 @@
 
 <%= turbo_stream_from(@schedule) %>
 
-<% if @schedule.schedulable.present? %>
+<% if @schedule.program.present? %>
   <div class="p">
-    <div class="text-gray-600"><%= t(".schedulable") %></div>
+    <div class="text-gray-600"><%= t(".program") %></div>
 
-    <% if can?(:show, @schedule.schedulable) %>
+    <% if can?(:show, @schedule.program) %>
       <div class="font-bold">
-        <%= link_to(@schedule.schedulable, [@user, @schedule.schedulable], class: "link") %>
+        <%= link_to(@schedule.program, [@user, @schedule.program], class: "link") %>
       </div>
     <% else %>
-      <div class="font-bold"><%= @schedule.schedulable %></div>
+      <div class="font-bold"><%= @schedule.program %></div>
     <% end %>
   </div>
 <% end %>

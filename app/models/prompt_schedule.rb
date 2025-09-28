@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Schedule < ApplicationRecord
+class PromptSchedule < ApplicationRecord
   INTERVALS = [
     "once",
     "5 seconds",
@@ -54,13 +54,13 @@ class Schedule < ApplicationRecord
     "years" => 1.year
   }.freeze
 
-  belongs_to(:program, touch: true)
+  belongs_to(:prompt, touch: true)
 
-  has_one(:user, through: :program)
+  has_one(:user, through: :prompt)
 
   validates(:interval, inclusion: { in: INTERVALS })
 
-  validate { can!(:update, program) }
+  validate { can!(:update, prompt) }
 
   after_initialize { self.starts_at ||= default_starts_at }
   after_initialize { self.interval ||= default_interval }
@@ -130,16 +130,6 @@ class Schedule < ApplicationRecord
 
   def default_interval
     "1 day"
-  end
-
-  def to_code
-    Code::Object::Schedule.new(
-      id: id,
-      starts_at: starts_at,
-      interval: interval,
-      translated_interval: translated_interval,
-      next_at: next_at
-    )
   end
 
   def to_s

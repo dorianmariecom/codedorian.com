@@ -6,7 +6,7 @@ class Program < ApplicationRecord
   belongs_to(:user, default: -> { Current.user! }, touch: true)
 
   has_many(:executions, dependent: :destroy)
-  has_many(:schedules, as: :schedulable, dependent: :destroy)
+  has_many(:schedules, dependent: :destroy)
   has_many(:prompts, dependent: :destroy)
 
   accepts_nested_attributes_for(:schedules, allow_destroy: true)

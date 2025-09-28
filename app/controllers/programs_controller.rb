@@ -22,7 +22,7 @@ class ProgramsController < ApplicationController
 
     @schedules =
       policy_scope(Schedule)
-        .where(schedulable: @program)
+        .where(program: @program)
         .order(created_at: :asc)
         .page(params[:page])
   end
@@ -195,7 +195,7 @@ class ProgramsController < ApplicationController
     end
   end
 
-  def prompt_params
+  def prompt_params_with_schedules
     if admin?
       params.expect(
         program: [
@@ -213,6 +213,12 @@ class ProgramsController < ApplicationController
           { schedules_attributes: [%i[starts_at interval]] }
         ]
       )
+    end
+  end
+
+  def prompt_params
+    prompt_params_with_schedules.transform_keys do |key|
+      key == "schedules_attributes" ? "prompt_schedules_attributes" : key
     end
   end
 end

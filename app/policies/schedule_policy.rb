@@ -3,9 +3,7 @@
 class SchedulePolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
-      scope.where(schedulable: policy_scope(Program)).or(
-        scope.where(schedulable: policy_scope(Prompt))
-      )
+      scope.where(program: policy_scope(Program))
     end
   end
 
@@ -18,15 +16,15 @@ class SchedulePolicy < ApplicationPolicy
   end
 
   def update?
-    can?(:update, schedulable)
+    owner? || admin?
   end
 
   def show?
-    can?(:show, schedulable)
+    owner? || admin?
   end
 
   def destroy?
-    can?(:destroy, schedulable)
+    owner? || admin?
   end
 
   def destroy_all?
@@ -39,7 +37,15 @@ class SchedulePolicy < ApplicationPolicy
 
   private
 
-  def schedulable
-    record.schedulable
+  def user
+    record.user
+  end
+
+  def user?
+    !!user
+  end
+
+  def owner?
+    current_user? && user? && user == current_user
   end
 end
