@@ -93,7 +93,7 @@ class EmailAddressesController < ApplicationController
     params[:email_address_id].presence || params[:id]
   end
 
-  def model_name
+  def model_class
     EmailAddress
   end
 
