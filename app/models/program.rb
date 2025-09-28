@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Program < ApplicationRecord
-  TIMEOUT = 600
+  TIMEOUT = 1.hour
 
   belongs_to(:user, default: -> { Current.user! }, touch: true)
 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ReplProgram < ApplicationRecord
-  TIMEOUT = 600
+  TIMEOUT = 1.hour
 
   belongs_to(:repl_session, touch: true)
   has_many(:repl_executions, dependent: :destroy)
