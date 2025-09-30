@@ -1,11 +1,6 @@
-<div
-  data-editor-target="program_schedules"
-  data-controller="nested"
-  data-nested-selector-value=".program_schedule"
-  data-action="nested.program_schedules->nested#program_schedules"
->
+<div data-controller="nested" data-nested-selector-value=".program-schedule">
   <template data-nested-target="template">
-    <%= f.fields_for(:program_schedules, Schedule.new, child_index: "NEW_RECORD") do |program_schedule_f| %>
+    <%= f.fields_for(:program_schedules, ProgramSchedule.new, child_index: "NEW_RECORD") do |program_schedule_f| %>
       <%= render("program_schedules/nested_form", f: program_schedule_f) %>
     <% end %>
   </template>

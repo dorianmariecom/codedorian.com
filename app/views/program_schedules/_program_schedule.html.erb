@@ -2,13 +2,13 @@
   <%= link_to([*nested, program_schedule], class: "link") do %>
     <% if program_schedule.once? %>
       <%= t(
-        ".program_schedule_once_html",
+        ".schedule_once_html",
         local_time: local_time(program_schedule.starts_at),
         interval: program_schedule.translated_interval
       ) %>
     <% else %>
       <%= t(
-        ".program_schedule_html",
+        ".schedule_html",
         local_time: local_time(program_schedule.starts_at),
         interval: program_schedule.translated_interval
       ) %>

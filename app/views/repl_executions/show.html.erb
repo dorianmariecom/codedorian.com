@@ -7,6 +7,30 @@
   <div class="font-bold"><%= @repl_execution.id %></div>
 </div>
 
+<% if @repl_execution.user.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".user") %></div>
+    <%= render("shared/user", user: @repl_execution.user) %>
+  </div>
+<% end %>
+
+<% if @repl_execution.repl_session.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".repl_session") %></div>
+    <% if can?(:show, @repl_execution.repl_session) %>
+      <div class="font-bold">
+        <%= link_to(
+          @repl_execution.repl_session,
+          [@user, @repl_session, @repl_execution.repl_session],
+          class: "link"
+        ) %>
+      </div>
+    <% else %>
+      <div class="font-bold"><%= @repl_execution.repl_session %></div>
+    <% end %>
+  </div>
+<% end %>
+
 <% if @repl_execution.repl_program.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".repl_program") %></div>

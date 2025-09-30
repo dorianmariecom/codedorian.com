@@ -1,8 +1,4 @@
 <% content_for(:title) do %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @program_schedule.id %></div>
-  </div>
   <% if @program_schedule.once? %>
     <%= t(
       ".program_schedule_once_html",
@@ -19,6 +15,18 @@
 <% end %>
 
 <%= turbo_stream_from(@program_schedule) %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".id") %></div>
+  <div class="font-bold"><%= @program_schedule.id %></div>
+</div>
+
+<% if @program_schedule.user.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".user") %></div>
+    <%= render("shared/user", user: @program_schedule.user) %>
+  </div>
+<% end %>
 
 <% if @program_schedule.program.present? %>
   <div class="p">

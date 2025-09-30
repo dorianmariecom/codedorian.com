@@ -1,11 +1,13 @@
 <div
-  data-editor-target="program_prompt_schedules"
   data-controller="nested"
-  data-nested-selector-value=".program_prompt_schedule"
-  data-action="nested.program_prompt_schedules->nested#program_prompt_schedules"
+  data-nested-selector-value=".program-prompt-schedule"
 >
   <template data-nested-target="template">
-    <%= f.fields_for(:program_prompt_schedules, Schedule.new, child_index: "NEW_RECORD") do |program_prompt_schedule_f| %>
+    <%= f.fields_for(
+      :program_prompt_schedules,
+      ProgramPromptSchedule.new,
+      child_index: "NEW_RECORD"
+    ) do |program_prompt_schedule_f| %>
       <%= render("program_prompt_schedules/nested_form", f: program_prompt_schedule_f) %>
     <% end %>
   </template>

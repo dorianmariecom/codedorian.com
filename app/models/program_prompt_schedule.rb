@@ -55,7 +55,8 @@ class ProgramPromptSchedule < ApplicationRecord
   }.freeze
 
   belongs_to(:program_prompt, touch: true)
-  has_one(:user, through: :prompt)
+  has_one(:program, through: :program_prompt)
+  has_one(:user, through: :program_prompt)
 
   validates(:interval, inclusion: { in: INTERVALS })
 

@@ -79,8 +79,7 @@
 <% end %>
 
 <% if @repl_prompt.output.present? %>
-  <% if @repl_prompt.output_name? || @repl_prompt.output_input? ||
-    @repl_prompt.output_schedules? %>
+  <% if @repl_prompt.output_name? || @repl_prompt.output_input? %>
     <% if @repl_prompt.output_name? %>
       <div class="p">
         <div class="text-gray-600"><%= t(".output_name") %></div>
@@ -91,22 +90,6 @@
       <div class="p">
         <div class="text-gray-600"><%= t(".output_input") %></div>
         <div class="code"><%= @repl_prompt.output_input %></div>
-      </div>
-    <% end %>
-    <% if @repl_prompt.output_schedules? %>
-      <div class="p">
-        <div class="text-gray-600"><%= t(".output_schedules") %></div>
-        <% @repl_prompt.output_schedules.each do |schedule| %>
-          <% if schedule.is_a?(Hash) %>
-            <div class="font-bold">
-              <%= t(
-                ".output_schedule",
-                interval: schedule["interval"],
-                starts_at: schedule["starts_at"]
-              ) %>
-            </div>
-          <% end %>
-        <% end %>
       </div>
     <% end %>
   <% else %>
@@ -130,28 +113,3 @@
 <div class="p">
   <%= render("shared/confirm", text: t(".delete"), url: show_url) %>
 </div>
-
-<div class="p font-bold">
-  <%= link_to(
-    t(".schedules"),
-    [@user, @program, @repl_prompt, :schedules],
-    class: "link"
-  ) %>
-</div>
-
-<div class="p">
-  <%= link_to(
-    t(".new_schedule"),
-    [:new, @user, @program, @repl_prompt, :schedule],
-    class: "button"
-  ) %>
-</div>
-
-<%= render_collection(
-  partial: "schedules/schedule",
-  collection: @schedules,
-  as: :schedule,
-  locals: {
-    nested: [@user, @program, @repl_prompt]
-  }
-) %>

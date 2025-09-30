@@ -82,30 +82,42 @@
 </div>
 
 <div class="p font-bold">
-  <%= link_to(t(".schedules"), [@user, @program, :schedules], class: "link") %>
+  <%= link_to(
+    t(".program_schedules"),
+    [@user, @program, :program_schedules],
+    class: "link"
+  ) %>
 </div>
 
 <div class="p">
-  <%= link_to(t(".new_schedule"), [:new, @user, @program, :schedule], class: "button") %>
+  <%= link_to(
+    t(".new_program_schedule"),
+    [:new, @user, @program, :program_schedule],
+    class: "button"
+  ) %>
 </div>
 
 <%= render_collection(
-  partial: "schedules/schedule",
-  collection: @schedules,
-  as: :schedule,
+  partial: "program_schedules/program_schedule",
+  collection: @program_schedules,
+  as: :program_schedule,
   locals: {
     nested: [@user, @program]
   }
 ) %>
 
 <div class="p font-bold">
-  <%= link_to(t(".executions"), [@user, @program, :executions], class: "link") %>
+  <%= link_to(
+    t(".program_executions"),
+    [@user, @program, :program_executions],
+    class: "link"
+  ) %>
 </div>
 
 <%= render_collection(
-  partial: "executions/execution",
-  collection: @executions,
-  as: :execution,
+  partial: "program_executions/program_execution",
+  collection: @program_executions,
+  as: :program_execution,
   locals: {
     nested: [@user, @program]
   }

@@ -21,3 +21,4 @@
 - erd diagram :)
 - scopes for children, e.g. repl_program = repl_programs_scope.find(...)
 - rails todos
+- more links in index pages

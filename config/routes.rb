@@ -43,33 +43,33 @@ Rails.application.routes.draw do
           delete "/delete_all", to: "programs#delete_all"
         end
 
-        resources(:prompts) do
+        resources(:program_prompts) do
           collection do
-            delete "/destroy_all", to: "prompts#destroy_all"
-            delete "/delete_all", to: "prompts#delete_all"
+            delete "/destroy_all", to: "program_prompts#destroy_all"
+            delete "/delete_all", to: "program_prompts#delete_all"
           end
 
-          resources(:schedules) do
+          resources(:program_prompt_schedules) do
             collection do
-              delete "/destroy_all", to: "schedules#destroy_all"
-              delete "/delete_all", to: "schedules#delete_all"
+              delete "/destroy_all", to: "program_prompt_schedules#destroy_all"
+              delete "/delete_all", to: "program_prompt_schedules#delete_all"
             end
           end
 
           define_jobs.call
         end
 
-        resources(:executions) do
+        resources(:program_executions) do
           collection do
-            delete "/destroy_all", to: "executions#destroy_all"
-            delete "/delete_all", to: "executions#delete_all"
+            delete "/destroy_all", to: "program_executions#destroy_all"
+            delete "/delete_all", to: "program_executions#delete_all"
           end
         end
 
-        resources(:schedules) do
+        resources(:program_schedules) do
           collection do
-            delete "/destroy_all", to: "schedules#destroy_all"
-            delete "/delete_all", to: "schedules#delete_all"
+            delete "/destroy_all", to: "program_schedules#destroy_all"
+            delete "/delete_all", to: "program_schedules#delete_all"
           end
         end
 
@@ -170,10 +170,10 @@ Rails.application.routes.draw do
         end
       end
 
-      resources(:executions) do
+      resources(:program_executions) do
         collection do
-          delete "/destroy_all", to: "executions#destroy_all"
-          delete "/delete_all", to: "executions#delete_all"
+          delete "/destroy_all", to: "program_executions#destroy_all"
+          delete "/delete_all", to: "program_executions#delete_all"
         end
       end
 
@@ -191,10 +191,10 @@ Rails.application.routes.draw do
         end
       end
 
-      resources(:schedules) do
+      resources(:program_schedules) do
         collection do
-          delete "/destroy_all", to: "schedules#destroy_all"
-          delete "/delete_all", to: "schedules#delete_all"
+          delete "/destroy_all", to: "program_schedules#destroy_all"
+          delete "/delete_all", to: "program_schedules#delete_all"
         end
       end
 
@@ -272,16 +272,23 @@ Rails.application.routes.draw do
         end
       end
 
-      resources(:prompts) do
+      resources(:program_prompt_schedules) do
         collection do
-          delete "/destroy_all", to: "prompts#destroy_all"
-          delete "/delete_all", to: "prompts#delete_all"
+          delete "/destroy_all", to: "program_prompt_schedules#destroy_all"
+          delete "/delete_all", to: "program_prompt_schedules#delete_all"
+        end
+      end
+
+      resources(:program_prompts) do
+        collection do
+          delete "/destroy_all", to: "program_prompts#destroy_all"
+          delete "/delete_all", to: "program_prompts#delete_all"
         end
 
-        resources(:schedules) do
+        resources(:program_prompt_schedules) do
           collection do
-            delete "/destroy_all", to: "schedules#destroy_all"
-            delete "/delete_all", to: "schedules#delete_all"
+            delete "/destroy_all", to: "program_prompt_schedules#destroy_all"
+            delete "/delete_all", to: "program_prompt_schedules#delete_all"
           end
         end
       end

@@ -32,6 +32,12 @@ module ApplicationHelper
     end
   end
 
+  def program_prompt_schedule_interval_options(interval: nil)
+    ProgramPromptSchedule.interval_options.map do |label, value|
+      [label, value, { selected: value == interval }]
+    end
+  end
+
   def device_platform_options(platform: nil)
     Device::PLATFORMS.map do |device_platform|
       [

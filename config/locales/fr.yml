@@ -697,6 +697,74 @@ fr:
       result: résultat
       status: statut
       updated_at: mis à jour à
+  program_prompt_schedules:
+    create:
+      notice: horaire créé
+    destroy:
+      notice: horaire supprimé
+    edit:
+      submit: mettre à jour l'horaire
+      title: modifier l'horaire
+    index:
+      delete_all: supprimer tous les plannings de remplacement
+      destroy_all: détruire tous les plannings de remplacement
+      new: nouvel horaire
+      title: horaires
+    model:
+      days:
+        one: 1 jour
+        other: "%{count} jours"
+        zero: 0 jour
+      hours:
+        one: 1 heure
+        other: "%{count} heures"
+        zero: 0 heure
+      minutes:
+        one: 1 minute
+        other: "%{count} minutes"
+        zero: 0 minute
+      months:
+        one: 1 mois
+        other: "%{count} mois"
+        zero: 0 mois
+      once: une fois
+      seconds:
+        one: 1 seconde
+        other: "%{count} secondes"
+        zero: 0 seconde
+      to_s: horaire#%{id}
+      weeks:
+        one: 1 semaine
+        other: "%{count} semaines"
+        zero: 0 semaine
+      years:
+        one: 1 an
+        other: "%{count} ans"
+        zero: 0 an
+    nested:
+      add: ajouter un horaire
+    nested_form:
+      program_prompt_schedule: horaire
+      remove: supprimer l'horaire
+    new:
+      submit: créer un horaire
+      title: nouvel horaire
+    program_prompt_schedule:
+      schedule_html: commence le %{local_time}, se répète tous les %{interval}
+      schedule_once_html: commence le %{local_time}, ne se répète pas
+    show:
+      created_at: créé le
+      delete: supprimer l'horaire
+      edit: modifier l'horaire
+      id: id
+      interval: intervalle
+      program: programme
+      schedule_html: commence le %{local_time}, se répète tous les %{interval}
+      schedule_once_html: commence le %{local_time}, ne se répète pas
+      starts_at: commence à
+      updated_at: mis à jour le
+    update:
+      notice: horaire mis à jour
   program_prompts:
     destroy:
       notice: invite supprimée
