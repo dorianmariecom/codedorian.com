@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ExecutionPolicy < ApplicationPolicy
+class ProgramExecutionPolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
       scope.where(program: policy_scope(Program))
@@ -8,7 +8,7 @@ class ExecutionPolicy < ApplicationPolicy
   end
 
   def index?
-    can?(:index, Program)
+    true
   end
 
   def create?
@@ -20,11 +20,11 @@ class ExecutionPolicy < ApplicationPolicy
   end
 
   def show?
-    can?(:show, program)
+    owner? || admin?
   end
 
   def destroy?
-    can?(:destroy, program)
+    owner? || admin?
   end
 
   def destroy_all?
@@ -37,7 +37,16 @@ class ExecutionPolicy < ApplicationPolicy
 
   private
 
-  def program
-    record.program
+  # TODO: refactor into applicationpolicy
+  def user
+    record.user
+  end
+
+  def user?
+    !!user
+  end
+
+  def owner?
+    user? && current_user? && user == current_user
   end
 end

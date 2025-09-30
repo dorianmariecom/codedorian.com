@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class PromptPolicy < ApplicationPolicy
+class ProgramPromptPolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
       scope.where(user: policy_scope(User))

@@ -8,7 +8,7 @@ class ReplExecutionPolicy < ApplicationPolicy
   end
 
   def index?
-    can?(:index, ReplProgram)
+    true
   end
 
   def create?
@@ -20,11 +20,11 @@ class ReplExecutionPolicy < ApplicationPolicy
   end
 
   def show?
-    can?(:show, repl_program)
+    owner? || admin?
   end
 
   def destroy?
-    can?(:destroy, repl_program)
+    owner? || admin?
   end
 
   def destroy_all?
@@ -37,7 +37,15 @@ class ReplExecutionPolicy < ApplicationPolicy
 
   private
 
-  def repl_program
-    record.repl_program
+  def user
+    record.user
+  end
+
+  def user?
+    !!user
+  end
+
+  def owner?
+    current_user? && user? && current_user == user
   end
 end

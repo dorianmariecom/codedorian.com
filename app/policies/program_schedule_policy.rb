@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SchedulePolicy < ApplicationPolicy
+class ProgramSchedulePolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
       scope.where(program: policy_scope(Program))
