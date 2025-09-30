@@ -5,9 +5,10 @@ class Program < ApplicationRecord
 
   belongs_to(:user, default: -> { Current.user! }, touch: true)
 
-  has_many(:executions, dependent: :destroy)
-  has_many(:schedules, dependent: :destroy)
-  has_many(:prompts, dependent: :destroy)
+  has_many(:program_executions, dependent: :destroy)
+  has_many(:program_schedules, dependent: :destroy)
+  has_many(:program_prompts, dependent: :destroy)
+  has_many(:program_schedule_prompts, through: :program_prompts)
 
   accepts_nested_attributes_for(:schedules, allow_destroy: true)
 
@@ -32,7 +33,7 @@ class Program < ApplicationRecord
 
   def evaluate!
     Current.with(user: user) do
-      execution = executions.create!(status: :in_progress)
+      program_execution = program_executions.create!(status: :in_progress)
       context = Code::Object::Context.new
       output = StringIO.new
       error = StringIO.new
@@ -44,15 +45,15 @@ class Program < ApplicationRecord
           error: error,
           timeout: TIMEOUT
         )
-      execution.update!(
+      program_execution.update!(
         input: input,
         result: result.inspect,
         output: output.string,
         error: error.string,
         status: :done
       )
-    rescue Code::Error => e
-      execution.update!(
+    rescue Code::Error => e # TODO: code-ruby should tranform timeouts into code::error
+      program_execution.update!(
         input: input,
         status: :errored,
         error_class: e.class,
@@ -63,7 +64,7 @@ class Program < ApplicationRecord
   end
 
   def next_at
-    schedules.map(&:next_at).select(&:future?).min
+    program_schedules.map(&:next_at).select(&:future?).min
   end
 
   def next_at?
@@ -119,7 +120,7 @@ class Program < ApplicationRecord
   end
 
   def input_sample
-    input.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+    input.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence # TODO make Truncate class
   end
 
   def to_code
@@ -129,7 +130,7 @@ class Program < ApplicationRecord
       input: input,
       updated_at: updated_at,
       created_at: created_at,
-      schedules: schedules
+      schedules: program_schedules
     )
   end
 

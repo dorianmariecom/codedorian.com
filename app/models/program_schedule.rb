@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Schedule < ApplicationRecord
+class ProgramSchedule < ApplicationRecord
   INTERVALS = [
     "once",
     "5 seconds",

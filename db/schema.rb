@@ -106,21 +106,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_29_180103) do
     t.index ["user_id"], name: "index_email_addresses_on_user_id"
   end
 
-  create_table "executions", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.text "input"
-    t.text "output"
-    t.bigint "program_id", null: false
-    t.text "result"
-    t.datetime "updated_at", null: false
-    t.string "status", default: "initialized"
-    t.text "error_class"
-    t.text "error_message"
-    t.text "error_backtrace"
-    t.text "error"
-    t.index ["program_id"], name: "index_executions_on_program_id"
-  end
-
   create_table "handles", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "handle"
@@ -171,6 +156,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_29_180103) do
     t.bigint "user_id", null: false
     t.boolean "verified", default: false, null: false
     t.index ["user_id"], name: "index_phone_numbers_on_user_id"
+  end
+
+  create_table "program_executions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "input"
+    t.text "output"
+    t.bigint "program_id", null: false
+    t.text "result"
+    t.datetime "updated_at", null: false
+    t.string "status", default: "initialized"
+    t.text "error_class"
+    t.text "error_message"
+    t.text "error_backtrace"
+    t.text "error"
+    t.index ["program_id"], name: "index_program_executions_on_program_id"
   end
 
   create_table "program_prompt_schedules", force: :cascade do |t|
@@ -592,13 +592,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_29_180103) do
   add_foreign_key "data", "users"
   add_foreign_key "devices", "users"
   add_foreign_key "email_addresses", "users"
-  add_foreign_key "executions", "programs"
   add_foreign_key "handles", "users"
   add_foreign_key "messages", "users", column: "from_user_id"
   add_foreign_key "messages", "users", column: "to_user_id"
   add_foreign_key "names", "users"
   add_foreign_key "passwords", "users"
   add_foreign_key "phone_numbers", "users"
+  add_foreign_key "program_executions", "programs"
   add_foreign_key "program_prompt_schedules", "program_prompts"
   add_foreign_key "program_prompts", "users"
   add_foreign_key "programs", "users"

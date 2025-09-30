@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# TODO: keep in sync with User
 class Guest
   include(ActiveModel::Model)
 

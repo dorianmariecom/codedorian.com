@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Prompt < ApplicationRecord
+class ProgramPrompt < ApplicationRecord
   MODEL = "gpt-5-nano"
   STATUSES = %w[initialized created in_progress done errored].freeze
 
@@ -50,10 +50,9 @@ class Prompt < ApplicationRecord
 
   belongs_to(:user, default: -> { Current.user! }, touch: true)
   belongs_to(:program, optional: true, touch: true)
+  has_many(:program_prompt_schedules, dependent: :destroy)
 
-  has_many(:prompt_schedules, dependent: :destroy)
-
-  accepts_nested_attributes_for(:prompt_schedules, allow_destroy: true)
+  accepts_nested_attributes_for(:program_prompt_schedules, allow_destroy: true)
 
   validate { can!(:update, user) }
   validates(:status, inclusion: { in: STATUSES })
@@ -202,7 +201,7 @@ class Prompt < ApplicationRecord
     ).presence
   end
 
-  def program_schedules
+  def output_program_schedules
     return [] if output_schedules.blank?
 
     output_schedules.map do |output_schedule|
@@ -223,14 +222,6 @@ class Prompt < ApplicationRecord
 
   def input_sample
     input.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
-  end
-
-  def prompt_schedules_sample
-    prompt_schedules
-      .presence
-      &.to_json
-      &.truncate(SAMPLE_SIZE, omission: OMISSION)
-      .presence
   end
 
   def output_sample
@@ -331,15 +322,14 @@ class Prompt < ApplicationRecord
     program.update!(
       name: output_name,
       input: output_input,
-      schedules: program_schedules
+      program_schedules: output_program_schedules
     )
   end
 
   def to_s
     error_class_sample.presence || name_sample.presence ||
       output_name_sample.presence || input_sample.presence ||
-      output_input_sample.presence || prompt_schedules_sample.presence ||
-      output_schedules_sample.presence || output_sample.presence ||
-      t("to_s", id: id)
+      output_input_sample.presence || output_schedules_sample.presence ||
+      output_sample.presence || t("to_s", id: id)
   end
 end

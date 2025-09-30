@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class PromptSchedule < ApplicationRecord
+class ProgramPromptSchedule < ApplicationRecord
   INTERVALS = [
     "once",
     "5 seconds",
@@ -54,8 +54,7 @@ class PromptSchedule < ApplicationRecord
     "years" => 1.year
   }.freeze
 
-  belongs_to(:prompt, touch: true)
-
+  belongs_to(:program_prompt, touch: true)
   has_one(:user, through: :prompt)
 
   validates(:interval, inclusion: { in: INTERVALS })
