@@ -1,7 +1,7 @@
 rename:
 - [x] models
 - [ ] jobs
-- [ ] policies
+- [x] policies
 - [x] controllers
 - [ ] views
 - [ ] helpers
