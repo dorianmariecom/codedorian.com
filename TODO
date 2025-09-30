@@ -1,12 +1,3 @@
-rename:
-- [x] models
-- [x] jobs
-- [x] policies
-- [x] controllers
-- [x] helpers
-- [ ] views
-- [x] locales
-
 - make real user association for schedules
 - scope schedules by user
 - rename program to programable
@@ -27,6 +18,6 @@ rename:
 - nested scopes e.g. repl_programs_scope
 - list all descendants in parent pages, at least the link and count
 - error (occurences) scoped by program/repl program
-
 - erd diagram :)
 - scopes for children, e.g. repl_program = repl_programs_scope.find(...)
+- rails todos
