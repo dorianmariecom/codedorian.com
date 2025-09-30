@@ -1,56 +1,56 @@
 # frozen_string_literal: true
 
-class SchedulesController < ApplicationController
+class ProgramSchedulesController < ApplicationController
   before_action(:load_user)
   before_action(:load_program)
-  before_action(:load_schedule, only: %i[show edit update destroy])
+  before_action(:load_program_schedule, only: %i[show edit update destroy])
 
   def index
-    authorize(Schedule)
+    authorize(ProgramSchedule)
 
-    @schedules = scope.page(params[:page]).order(created_at: :asc)
+    @program_schedules = scope.page(params[:page]).order(created_at: :asc)
   end
 
   def show
   end
 
   def new
-    @schedule = authorize(scope.new(program: @program))
+    @program_schedule = authorize(scope.new(program: @program))
   end
 
   def edit
   end
 
   def create
-    @schedule = authorize(scope.new(schedule_params))
+    @program_schedule = authorize(scope.new(program_schedule_params))
 
-    if @schedule.save
-      log_in(@schedule.user)
+    if @program_schedule.save
+      log_in(@program_schedule.user)
       redirect_to(show_url, notice: t(".notice"))
     else
-      flash.now.alert = @schedule.alert
+      flash.now.alert = @program_schedule.alert
       render(:new, status: :unprocessable_entity)
     end
   end
 
   def update
-    if @schedule.update(schedule_params)
-      log_in(@schedule.user)
+    if @program_schedule.update(program_schedule_params)
+      log_in(@program_schedule.user)
       redirect_to(show_url, notice: t(".notice"))
     else
-      flash.now.alert = @schedule.alert
+      flash.now.alert = @program_schedule.alert
       render(:edit, status: :unprocessable_entity)
     end
   end
 
   def destroy
-    @schedule.destroy!
+    @program_schedule.destroy!
 
     redirect_to(index_url, notice: t(".notice"))
   end
 
   def destroy_all
-    authorize(Schedule)
+    authorize(ProgramSchedule)
 
     scope.destroy_all
 
@@ -58,7 +58,7 @@ class SchedulesController < ApplicationController
   end
 
   def delete_all
-    authorize(Schedule)
+    authorize(ProgramSchedule)
 
     scope.delete_all
 
@@ -85,7 +85,7 @@ class SchedulesController < ApplicationController
   end
 
   def scope
-    scope = searched_policy_scope(Schedule)
+    scope = searched_policy_scope(ProgramSchedule)
     scope = scope.where(program: @program) if @program
     scope = scope.joins(:user).where(user: { id: @user }) if @user
     scope
@@ -98,11 +98,11 @@ class SchedulesController < ApplicationController
   end
 
   def model_class
-    Schedule
+    ProgramSchedule
   end
 
   def model_instance
-    @schedule
+    @program_schedule
   end
 
   def nested
@@ -110,15 +110,15 @@ class SchedulesController < ApplicationController
   end
 
   def id
-    params[:schedule_id].presence || params[:id]
+    params[:program_schedule_id].presence || params[:id]
   end
 
-  def load_schedule
-    @schedule = authorize(scope.find(id))
-    set_error_context(schedule: @schedule)
+  def load_program_schedule
+    @program_schedule = authorize(scope.find(id))
+    set_error_context(program_schedule: @program_schedule)
   end
 
-  def schedule_params
-    params.expect(schedule: %i[starts_at interval])
+  def program_schedule_params
+    params.expect(program_schedule: %i[starts_at interval])
   end
 end

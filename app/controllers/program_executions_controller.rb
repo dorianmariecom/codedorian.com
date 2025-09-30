@@ -1,27 +1,27 @@
 # frozen_string_literal: true
 
-class ExecutionsController < ApplicationController
+class ProgramExecutionsController < ApplicationController
   before_action(:load_user)
   before_action(:load_program)
-  before_action(:load_execution, only: %i[show destroy])
+  before_action(:load_program_execution, only: %i[show destroy])
 
   def index
-    authorize(Execution)
+    authorize(ProgramExecution)
 
-    @executions = scope.page(params[:page]).order(created_at: :desc)
+    @program_executions = scope.page(params[:page]).order(created_at: :desc)
   end
 
   def show
   end
 
   def destroy
-    @execution.destroy!
+    @program_execution.destroy!
 
     redirect_to(index_url, notice: t(".notice"))
   end
 
   def destroy_all
-    authorize(Execution)
+    authorize(ProgramExecution)
 
     scope.destroy_all
 
@@ -29,7 +29,7 @@ class ExecutionsController < ApplicationController
   end
 
   def delete_all
-    authorize(Execution)
+    authorize(ProgramExecution)
 
     scope.delete_all
 
@@ -62,18 +62,18 @@ class ExecutionsController < ApplicationController
   end
 
   def scope
-    scope = searched_policy_scope(Execution)
+    scope = searched_policy_scope(ProgramExecution)
     scope = scope.where(program: @program) if @program
     scope = scope.joins(:user).where(user: { id: @user }) if @user
     scope
   end
 
   def model_class
-    Execution
+    ProgramExecution
   end
 
   def model_instance
-    @execution
+    @program_execution
   end
 
   def nested
@@ -81,11 +81,11 @@ class ExecutionsController < ApplicationController
   end
 
   def id
-    params[:execution_id].presence || params[:id]
+    params[:program_execution_id].presence || params[:id]
   end
 
-  def load_execution
-    @execution = authorize(scope.find(id))
-    set_error_context(execution: @execution)
+  def load_program_execution
+    @program_execution = authorize(scope.find(id))
+    set_error_context(program_execution: @program_execution)
   end
 end

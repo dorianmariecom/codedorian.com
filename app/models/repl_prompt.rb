@@ -36,6 +36,7 @@ class ReplPrompt < ApplicationRecord
 
   belongs_to(:user, default: -> { Current.user! }, touch: true)
   belongs_to(:repl_program, optional: true, touch: true)
+  # TODO: belongs to repl session
 
   validate { can!(:update, user) }
   validates(:status, inclusion: { in: STATUSES })

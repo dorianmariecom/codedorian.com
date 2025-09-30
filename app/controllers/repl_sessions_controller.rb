@@ -129,14 +129,12 @@ class ReplSessionsController < ApplicationController
         repl_session: [
           :user_id,
           :name,
-          { repl_programs_attributes: [%i[id _destroy input]] }
         ]
       )
     else
       params.expect(
         repl_session: [
           :name,
-          { repl_programs_attributes: [%i[id _destroy input]] }
         ]
       )
     end

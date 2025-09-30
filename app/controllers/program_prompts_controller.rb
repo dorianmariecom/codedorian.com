@@ -1,32 +1,32 @@
 # frozen_string_literal: true
 
-class PromptsController < ApplicationController
+class ProgramPromptsController < ApplicationController
   before_action(:load_user)
   before_action(:load_program)
-  before_action(:load_prompt, only: %i[show destroy])
+  before_action(:load_program_prompt, only: %i[show destroy])
 
   def index
-    authorize(Prompt)
+    authorize(ProgramPrompt)
 
-    @prompts = scope.page(params[:page]).order(created_at: :desc)
+    @program_prompts = scope.page(params[:page]).order(created_at: :desc)
   end
 
   def show
-    @schedules =
-      policy_scope(PromptSchedule)
-        .where(prompt: @prompt)
+    @program_prompt_schedules =
+      policy_scope(ProgramPromptSchedule)
+        .where(program_prompt: @program_prompt)
         .order(created_at: :asc)
         .page(params[:page])
   end
 
   def destroy
-    @prompt.destroy!
+    @program_prompt.destroy!
 
     redirect_to(index_url, notice: t(".notice"))
   end
 
   def destroy_all
-    authorize(Prompt)
+    authorize(ProgramPrompt)
 
     scope.destroy_all
 
@@ -34,7 +34,7 @@ class PromptsController < ApplicationController
   end
 
   def delete_all
-    authorize(Prompt)
+    authorize(ProgramPrompt)
 
     scope.delete_all
 
@@ -60,18 +60,18 @@ class PromptsController < ApplicationController
   end
 
   def scope
-    scope = searched_policy_scope(Prompt)
+    scope = searched_policy_scope(ProgramPrompt)
     scope = scope.where(user: @user) if @user
     scope = scope.where(program: @program) if @program
     scope
   end
 
   def model_class
-    Prompt
+    ProgramPrompt
   end
 
   def model_instance
-    @prompt
+    @program_prompt
   end
 
   def nested
@@ -79,11 +79,11 @@ class PromptsController < ApplicationController
   end
 
   def id
-    params[:prompt_id].presence || params[:id]
+    params[:program_prompt_id].presence || params[:id]
   end
 
-  def load_prompt
-    @prompt = authorize(scope.find(id))
-    set_error_context(prompt: @prompt)
+  def load_program_prompt
+    @program_prompt = authorize(scope.find(id))
+    set_error_context(program_prompt: @program_prompt)
   end
 end

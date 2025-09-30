@@ -14,7 +14,7 @@ class ProgramPrompt < ApplicationRecord
 
     a schedule is a dictionary of a starts_at (datetime) and an interval (string)
 
-    intervals are #{Schedule::INTERVALS.to_json}
+    intervals are #{ProgramSchedule::INTERVALS.to_json}
   PROMPT
 
   PROMPT_2 = <<~PROMPT
@@ -132,7 +132,7 @@ class ProgramPrompt < ApplicationRecord
                     },
                     interval: {
                       type: :string,
-                      enum: Schedule::INTERVALS
+                      enum: ProgramSchedule::INTERVALS
                     }
                   },
                   required: %i[starts_at interval],
@@ -205,7 +205,7 @@ class ProgramPrompt < ApplicationRecord
     return [] if output_schedules.blank?
 
     output_schedules.map do |output_schedule|
-      Schedule.new(
+      ProgramSchedule.new(
         starts_at: output_schedule["starts_at"],
         interval: output_schedule["interval"]
       )

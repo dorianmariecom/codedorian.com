@@ -14,14 +14,14 @@ class ProgramsController < ApplicationController
   end
 
   def show
-    @executions =
-      policy_scope(Execution)
+    @program_executions =
+      policy_scope(ProgramExecution)
         .where(program: @program)
         .order(created_at: :desc)
         .page(params[:page])
 
-    @schedules =
-      policy_scope(Schedule)
+    @program_schedules =
+      policy_scope(ProgramSchedule)
         .where(program: @program)
         .order(created_at: :asc)
         .page(params[:page])
@@ -181,7 +181,7 @@ class ProgramsController < ApplicationController
           :user_id,
           :name,
           :input,
-          { schedules_attributes: [%i[id _destroy starts_at interval]] }
+          { program_schedules_attributes: [%i[id _destroy starts_at interval]] }
         ]
       )
     else
@@ -189,7 +189,7 @@ class ProgramsController < ApplicationController
         program: [
           :input,
           :name,
-          { schedules_attributes: [%i[id _destroy starts_at interval]] }
+          { program_schedules_attributes: [%i[id _destroy starts_at interval]] }
         ]
       )
     end
@@ -202,7 +202,7 @@ class ProgramsController < ApplicationController
           :user_id,
           :name,
           :input,
-          { schedules_attributes: [%i[starts_at interval]] }
+          { program_schedules_attributes: [%i[starts_at interval]] }
         ]
       )
     else
@@ -210,7 +210,7 @@ class ProgramsController < ApplicationController
         program: [
           :input,
           :name,
-          { schedules_attributes: [%i[starts_at interval]] }
+          { program_schedules_attributes: [%i[starts_at interval]] }
         ]
       )
     end
@@ -218,7 +218,7 @@ class ProgramsController < ApplicationController
 
   def prompt_params
     prompt_params_with_schedules.transform_keys do |key|
-      key == "schedules_attributes" ? "prompt_schedules_attributes" : key
+      key == "program_schedules_attributes" ? "program_prompt_schedules_attributes" : key
     end
   end
 end
