@@ -1,8 +1,10 @@
-<%= turbo_stream_from(@executions) %>
+<%= turbo_stream_from(@program_schedules) %>
+
+<div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
 
 <%= render("shared/search") %>
 
-<% if @executions.any? %>
+<% if @program_schedules.any? %>
   <div class="p">
     <%= render(
       "shared/confirm",
@@ -15,8 +17,8 @@
 
 <turbo-frame id="search" target="_top">
   <%= render_collection(
-    partial: "executions/execution",
-    collection: @executions,
-    as: :execution
+    partial: "program_schedules/program_schedule",
+    collection: @program_schedules,
+    as: :program_schedule
   ) %>
 </turbo-frame>

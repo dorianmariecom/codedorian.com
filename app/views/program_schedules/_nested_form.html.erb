@@ -1,25 +1,25 @@
 <div
-  class="schedule border-l border-black pl-5"
+  class="program_schedule border-l border-black pl-5"
   data-new-record="<%= f.object.new_record? %>"
-  data-controller="schedule"
-  data-nested-target="schedule"
-  data-action="schedule.fill->schedule#fill"
+  data-controller="program_schedule"
+  data-nested-target="program_schedule"
+  data-action="program_schedule.fill->program_schedule#fill"
 >
   <%= f.hidden_field(:id) %>
   <%= f.hidden_field(:_destroy) %>
 
-  <h2 class="font-bold p"><%= t(".schedule") %></h2>
+  <h2 class="font-bold p"><%= t(".program_schedule") %></h2>
 
   <div class="p">
     <%= f.label(:starts_at, class: "label") %>
     <%= f.datetime_field(
       :starts_at,
       required: true,
-      class: "input schedule__starts-at",
+      class: "input program_schedule__starts-at",
       autocomplete: "off",
       data: {
         form_type: "other",
-        schedule_target: "startsAt"
+        program_schedule_target: "startsAt"
       }
     ) %>
     <div class="text-red-600" hidden data-validation-target="error"></div>
@@ -30,13 +30,13 @@
     <%= f.label(:interval, class: "label") %>
     <%= f.select(
       :interval,
-      schedule_interval_options(interval: f.object.interval),
+      program_schedule_interval_options(interval: f.object.interval),
       {},
       required: true,
-      class: "input schedule__interval",
+      class: "input program_schedule__interval",
       data: {
         form_type: "other",
-        schedule_target: "interval"
+        program_schedule_target: "interval"
       },
       autocomplete: "off"
     ) %>

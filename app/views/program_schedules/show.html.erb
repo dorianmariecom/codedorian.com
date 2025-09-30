@@ -1,0 +1,68 @@
+<% content_for(:title) do %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".id") %></div>
+    <div class="font-bold"><%= @program_schedule.id %></div>
+  </div>
+  <% if @program_schedule.once? %>
+    <%= t(
+      ".program_schedule_once_html",
+      local_time: local_time(@program_schedule.starts_at),
+      interval: @program_schedule.translated_interval
+    ) %>
+  <% else %>
+    <%= t(
+      ".program_schedule_html",
+      local_time: local_time(@program_schedule.starts_at),
+      interval: @program_schedule.translated_interval
+    ) %>
+  <% end %>
+<% end %>
+
+<%= turbo_stream_from(@program_schedule) %>
+
+<% if @program_schedule.program.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".program") %></div>
+
+    <% if can?(:show, @program_schedule.program) %>
+      <div class="font-bold">
+        <%= link_to(
+          @program_schedule.program,
+          [@user, @program_schedule.program],
+          class: "link"
+        ) %>
+      </div>
+    <% else %>
+      <div class="font-bold"><%= @program_schedule.program %></div>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @program_schedule.starts_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".starts_at") %></div>
+    <div class="font-bold"><%= local_time(@program_schedule.starts_at) %></div>
+  </div>
+<% end %>
+
+<% if @program_schedule.interval.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".interval") %></div>
+    <div class="font-bold"><%= @program_schedule.translated_interval %></div>
+  </div>
+<% end %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".updated_at") %></div>
+  <div class="font-bold"><%= local_time(@program_schedule.updated_at) %></div>
+</div>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".created_at") %></div>
+  <div class="font-bold"><%= local_time(@program_schedule.created_at) %></div>
+</div>
+
+<div class="p">
+  <%= link_to(t(".edit"), edit_url, class: "link") %>
+  <%= render("shared/confirm", text: t(".delete"), url: show_url) %>
+</div>

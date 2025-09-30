@@ -120,7 +120,7 @@ class Program < ApplicationRecord
   end
 
   def input_sample
-    input.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence # TODO make Truncate class
+    input.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence # TODO: make Truncate class
   end
 
   def to_code

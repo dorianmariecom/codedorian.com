@@ -1,0 +1,105 @@
+<% content_for(:title, @program_execution) %>
+
+<%= turbo_stream_from(@program_execution) %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".id") %></div>
+  <div class="font-bold"><%= @program_execution.id %></div>
+</div>
+
+<% if @program_execution.program.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".program") %></div>
+
+    <% if can?(:show, @program_execution.program) %>
+      <div class="font-bold">
+        <%= link_to(
+          @program_execution.program,
+          [@user, @program_execution.program],
+          class: "link"
+        ) %>
+      </div>
+    <% else %>
+      <div class="font-bold"><%= @program_execution.program %></div>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @program_execution.status.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".status") %></div>
+    <div class="font-bold"><%= @program_execution.translated_status %></div>
+  </div>
+<% end %>
+
+<% if @program_execution.output.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".output") %></div>
+    <div class="code"><%= @program_execution.output %></div>
+  </div>
+<% end %>
+
+<% if @program_execution.result.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".result") %></div>
+    <div class="code"><%= @program_execution.result %></div>
+  </div>
+<% end %>
+
+<% if @program_execution.error.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".error") %></div>
+    <div class="font-bold"><%= @program_execution.error %></div>
+  </div>
+<% end %>
+
+<% if @program_execution.error_class.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".error_class") %></div>
+    <div class="font-bold"><%= @program_execution.error_class %></div>
+  </div>
+<% end %>
+
+<% if admin? %>
+  <% if @program_execution.error_message.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".error_message") %></div>
+      <div class="code"><%= @program_execution.error_message %></div>
+    </div>
+  <% end %>
+
+  <% if @program_execution.error_app_backtrace.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".error_app_backtrace") %></div>
+      <div class="code"><%= @program_execution.error_app_backtrace %></div>
+    </div>
+  <% end %>
+
+  <% if @program_execution.error_backtrace.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".error_backtrace") %></div>
+      <div class="code"><%= @program_execution.error_backtrace %></div>
+    </div>
+  <% end %>
+<% end %>
+
+<% if @program_execution.input.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".input") %></div>
+    <div class="code"><%= @program_execution.input %></div>
+  </div>
+<% end %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".updated_at") %></div>
+  <div class="font-bold"><%= local_time(@program_execution.updated_at) %></div>
+</div>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".created_at") %></div>
+  <div class="font-bold"><%= local_time(@program_execution.created_at) %></div>
+</div>
+
+<div class="p">
+  <%= render("shared/confirm", text: t(".delete"), url: show_url) %>
+</div>

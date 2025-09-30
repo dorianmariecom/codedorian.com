@@ -1,8 +1,8 @@
-<%= turbo_stream_from(@prompts) %>
+<%= turbo_stream_from(@program_prompts) %>
 
 <%= render("shared/search") %>
 
-<% if @prompts.any? %>
+<% if @program_prompts.any? %>
   <div class="p">
     <%= render(
       "shared/confirm",
@@ -14,5 +14,9 @@
 <% end %>
 
 <turbo-frame id="search" target="_top">
-  <%= render_collection(partial: "prompts/prompt", collection: @prompts, as: :prompt) %>
+  <%= render_collection(
+    partial: "program_prompts/program_prompt",
+    collection: @program_prompts,
+    as: :program_prompt
+  ) %>
 </turbo-frame>

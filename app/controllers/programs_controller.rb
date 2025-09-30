@@ -60,10 +60,13 @@ class ProgramsController < ApplicationController
 
       if generate?
         @user = @program.user
-        @program_prompt = authorize(program_prompts_scope.new(program_prompt_params))
+        @program_prompt =
+          authorize(program_prompts_scope.new(program_prompt_params))
 
         if @program_prompt.save
-          ProgramPromptGenerateJob.perform_later(program_prompt: @program_prompt)
+          ProgramPromptGenerateJob.perform_later(
+            program_prompt: @program_prompt
+          )
         else
           flash.now.alert = @program_prompt.alert
         end
@@ -84,10 +87,13 @@ class ProgramsController < ApplicationController
 
       if generate?
         @user = @program.user
-        @program_prompt = authorize(program_prompts_scope.new(program_prompt_params))
+        @program_prompt =
+          authorize(program_prompts_scope.new(program_prompt_params))
 
         if @program_prompt.save
-          ProgramPromptGenerateJob.perform_later(program_prompt: @program_prompt)
+          ProgramPromptGenerateJob.perform_later(
+            program_prompt: @program_prompt
+          )
         else
           flash.now.alert = @program_prompt.alert
         end
@@ -218,7 +224,11 @@ class ProgramsController < ApplicationController
 
   def program_prompt_params
     prompt_params_with_schedules.transform_keys do |key|
-      key == "program_schedules_attributes" ? "program_prompt_schedules_attributes" : key
+      if key == "program_schedules_attributes"
+        "program_prompt_schedules_attributes"
+      else
+        key
+      end
     end
   end
 end

@@ -18,7 +18,7 @@
     <%= f.label(:interval, class: "label") %>
     <%= f.select(
       :interval,
-      schedule_interval_options(interval: f.object.interval),
+      program_schedule_interval_options(interval: f.object.interval),
       {},
       required: true,
       class: "input",

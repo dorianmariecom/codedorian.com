@@ -53,13 +53,13 @@ fr:
         input: entrée
         name: nom
         user_id: utilisateur
-      repl_session:
-        name: nom
-        user_id: utilisateur
       program_schedule:
         interval: intervalle
         program_id: programme
         starts_at: commence à
+      repl_session:
+        name: nom
+        user_id: utilisateur
       time_zone:
         primary: primaire ?
         time_zone: fuseau horaire
@@ -284,35 +284,6 @@ fr:
       verified: vérifié ?
     unprocessable_entity:
       title: entité non traitable
-  program_executions:
-    destroy:
-      notice: exécution supprimée
-    index:
-      delete_all: supprimer toutes les exécutions
-      destroy_all: détruire toutes les exécutions
-      title: exécutions
-    model:
-      statuses:
-        created: créé
-        done: fait
-        errored: erroné
-        in_progress: en cours
-        initialized: initialisé
-      to_s: exécution#%{id}
-    show:
-      created_at: créé à
-      delete: supprimer l'exécution
-      error_app_backtrace: erreur de trace d'application
-      error_backtrace: trace d'erreur
-      error_class: classe d'erreur
-      error_message: message d'erreur
-      id: id
-      input: entrée
-      output: sortie
-      program: programme
-      result: résultat
-      status: statut
-      updated_at: mis à jour à
   guests:
     index:
       delete_all: supprimer tous les invités
@@ -697,53 +668,35 @@ fr:
       verified: vérifié ?
     update:
       notice: numéro de téléphone mis à jour
-  programs:
-    create:
-      notice: programme créé
+  program_executions:
     destroy:
-      notice: programme supprimé
-    edit:
-      submit: mettre à jour le programme
-      title: modifier le programme
-    form:
-      generate: générer
-      generating: génération
-      input: entrée
-      input_placeholder: entrez l'entrée de votre programme
-      name_placeholder: entrez le nom de votre programme
+      notice: exécution supprimée
     index:
-      delete_all: supprimer tous les programmes
-      destroy_all: détruire tous les programmes
-      new: nouveau programme
-      program_prompts: invites
-      title: programmes
+      delete_all: supprimer toutes les exécutions
+      destroy_all: détruire toutes les exécutions
+      title: exécutions
     model:
-      to_s: programme#%{id}
-    new:
-      submit: créer un programme
-      title: nouveau programme
-    reload:
-      submit: programme de mise à jour
+      statuses:
+        created: créé
+        done: fait
+        errored: erroné
+        in_progress: en cours
+        initialized: initialisé
+      to_s: exécution#%{id}
     show:
       created_at: créé à
-      delete: supprimer le programme
-      edit: modifier le programme
-      evaluate: évaluer
-      program_executions: exécutions
+      delete: supprimer l'exécution
+      error_app_backtrace: erreur de trace d'application
+      error_backtrace: trace d'erreur
+      error_class: classe d'erreur
+      error_message: message d'erreur
       id: id
       input: entrée
-      name: nom
-      new_program_schedule: nouvel horaire
-      not_scheduled_html: souhaitez-vous planifier pour %{local_time} ?
-      reschedule: reprogrammer
-      schedule: planifier
-      scheduled_html: planifié pour %{local_time}
-      program_schedules: plannings
-      unprogram_schedule: déplanifier
+      output: sortie
+      program: programme
+      result: résultat
+      status: statut
       updated_at: mis à jour à
-      user: utilisateur
-    update:
-      notice: programme mis à jour
   program_prompts:
     destroy:
       notice: invite supprimée
@@ -781,6 +734,121 @@ fr:
       status: statut
       updated_at: mis à jour à
       user: utilisateur
+  program_schedules:
+    create:
+      notice: horaire créé
+    destroy:
+      notice: horaire supprimé
+    edit:
+      submit: mettre à jour l'horaire
+      title: modifier l'horaire
+    index:
+      delete_all: supprimer tous les plannings de remplacement
+      destroy_all: détruire tous les plannings de remplacement
+      new: nouvel horaire
+      title: horaires
+    model:
+      days:
+        one: 1 jour
+        other: "%{count} jours"
+        zero: 0 jour
+      hours:
+        one: 1 heure
+        other: "%{count} heures"
+        zero: 0 heure
+      minutes:
+        one: 1 minute
+        other: "%{count} minutes"
+        zero: 0 minute
+      months:
+        one: 1 mois
+        other: "%{count} mois"
+        zero: 0 mois
+      once: une fois
+      seconds:
+        one: 1 seconde
+        other: "%{count} secondes"
+        zero: 0 seconde
+      to_s: horaire#%{id}
+      weeks:
+        one: 1 semaine
+        other: "%{count} semaines"
+        zero: 0 semaine
+      years:
+        one: 1 an
+        other: "%{count} ans"
+        zero: 0 an
+    nested:
+      add: ajouter un horaire
+    nested_form:
+      program_schedule: horaire
+      remove: supprimer l'horaire
+    new:
+      submit: créer un horaire
+      title: nouvel horaire
+    program_schedule:
+      schedule_html: commence le %{local_time}, se répète tous les %{interval}
+      schedule_once_html: commence le %{local_time}, ne se répète pas
+    show:
+      created_at: créé le
+      delete: supprimer l'horaire
+      edit: modifier l'horaire
+      id: id
+      interval: intervalle
+      program: programme
+      schedule_html: commence le %{local_time}, se répète tous les %{interval}
+      schedule_once_html: commence le %{local_time}, ne se répète pas
+      starts_at: commence à
+      updated_at: mis à jour le
+    update:
+      notice: horaire mis à jour
+  programs:
+    create:
+      notice: programme créé
+    destroy:
+      notice: programme supprimé
+    edit:
+      submit: mettre à jour le programme
+      title: modifier le programme
+    form:
+      generate: générer
+      generating: génération
+      input: entrée
+      input_placeholder: entrez l'entrée de votre programme
+      name_placeholder: entrez le nom de votre programme
+    index:
+      delete_all: supprimer tous les programmes
+      destroy_all: détruire tous les programmes
+      new: nouveau programme
+      program_prompts: invites
+      title: programmes
+    model:
+      to_s: programme#%{id}
+    new:
+      submit: créer un programme
+      title: nouveau programme
+    reload:
+      submit: programme de mise à jour
+    show:
+      created_at: créé à
+      delete: supprimer le programme
+      edit: modifier le programme
+      evaluate: évaluer
+      id: id
+      input: entrée
+      name: nom
+      new_program_schedule: nouvel horaire
+      not_scheduled_html: souhaitez-vous planifier pour %{local_time} ?
+      program_executions: exécutions
+      program_schedules: plannings
+      reschedule: reprogrammer
+      schedule: planifier
+      scheduled_html: planifié pour %{local_time}
+      unprogram_schedule: déplanifier
+      updated_at: mis à jour à
+      user: utilisateur
+    update:
+      notice: programme mis à jour
   repl_executions:
     destroy:
       notice: exécution de repl supprimée
@@ -895,74 +963,6 @@ fr:
       user: utilisateur
     update:
       notice: session repl mise à jour
-  program_schedules:
-    create:
-      notice: horaire créé
-    destroy:
-      notice: horaire supprimé
-    edit:
-      submit: mettre à jour l'horaire
-      title: modifier l'horaire
-    index:
-      delete_all: supprimer tous les plannings de remplacement
-      destroy_all: détruire tous les plannings de remplacement
-      new: nouvel horaire
-      title: horaires
-    model:
-      days:
-        one: 1 jour
-        other: "%{count} jours"
-        zero: 0 jour
-      hours:
-        one: 1 heure
-        other: "%{count} heures"
-        zero: 0 heure
-      minutes:
-        one: 1 minute
-        other: "%{count} minutes"
-        zero: 0 minute
-      months:
-        one: 1 mois
-        other: "%{count} mois"
-        zero: 0 mois
-      once: une fois
-      seconds:
-        one: 1 seconde
-        other: "%{count} secondes"
-        zero: 0 seconde
-      to_s: horaire#%{id}
-      weeks:
-        one: 1 semaine
-        other: "%{count} semaines"
-        zero: 0 semaine
-      years:
-        one: 1 an
-        other: "%{count} ans"
-        zero: 0 an
-    nested:
-      add: ajouter un horaire
-    nested_form:
-      remove: supprimer l'horaire
-      program_schedule: horaire
-    new:
-      submit: créer un horaire
-      title: nouvel horaire
-    program_schedule:
-      schedule_html: commence le %{local_time}, se répète tous les %{interval}
-      schedule_once_html: commence le %{local_time}, ne se répète pas
-    show:
-      created_at: créé le
-      delete: supprimer l'horaire
-      edit: modifier l'horaire
-      id: id
-      interval: intervalle
-      program: programme
-      schedule_html: commence le %{local_time}, se répète tous les %{interval}
-      schedule_once_html: commence le %{local_time}, ne se répète pas
-      starts_at: commence à
-      updated_at: mis à jour le
-    update:
-      notice: horaire mis à jour
   sessions:
     create:
       notice: connecté

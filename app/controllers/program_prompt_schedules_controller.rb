@@ -3,12 +3,16 @@
 class ProgramPromptSchedulesController < ApplicationController
   before_action(:load_user)
   before_action(:load_program)
-  before_action(:load_program_prompt_schedule, only: %i[show edit update destroy])
+  before_action(
+    :load_program_prompt_schedule,
+    only: %i[show edit update destroy]
+  )
 
   def index
     authorize(ProgramPromptSchedule)
 
-    @program_prompt_schedules = scope.page(params[:page]).order(created_at: :asc)
+    @program_prompt_schedules =
+      scope.page(params[:page]).order(created_at: :asc)
   end
 
   def show
@@ -22,7 +26,8 @@ class ProgramPromptSchedulesController < ApplicationController
   end
 
   def create
-    @program_prompt_schedule = authorize(scope.new(program_prompt_schedule_params))
+    @program_prompt_schedule =
+      authorize(scope.new(program_prompt_schedule_params))
 
     if @program_prompt_schedule.save
       log_in(@program_prompt_schedule.user)

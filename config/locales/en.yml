@@ -53,13 +53,13 @@ en:
         input: input
         name: name
         user_id: user
-      repl_session:
-        name: name
-        user_id: user
       program_schedule:
         interval: interval
         program_id: program
         starts_at: starts at
+      repl_session:
+        name: name
+        user_id: user
       time_zone:
         primary: primary?
         time_zone: time zone
@@ -284,35 +284,6 @@ en:
       verified: verified?
     unprocessable_entity:
       title: unprocessable entity
-  program_executions:
-    destroy:
-      notice: execution deleted
-    index:
-      delete_all: delete all executions
-      destroy_all: destroy all executions
-      title: executions
-    model:
-      statuses:
-        created: created
-        done: done
-        errored: errored
-        in_progress: in progress
-        initialized: initialized
-      to_s: execution#%{id}
-    show:
-      created_at: created at
-      delete: delete execution
-      error_app_backtrace: error app backtrace
-      error_backtrace: error backtrace
-      error_class: error class
-      error_message: error message
-      id: id
-      input: input
-      output: output
-      program: program
-      result: result
-      status: status
-      updated_at: updated at
   guests:
     index:
       delete_all: delete all guests
@@ -697,53 +668,35 @@ en:
       verified: verified?
     update:
       notice: phone number updated
-  programs:
-    create:
-      notice: program created
+  program_executions:
     destroy:
-      notice: program deleted
-    edit:
-      submit: update program
-      title: edit program
-    form:
-      generate: generate
-      generating: generating
-      input: input
-      input_placeholder: enter your program's input
-      name_placeholder: enter your program's name
+      notice: execution deleted
     index:
-      delete_all: delete all programs
-      destroy_all: destroy all programs
-      new: new program
-      program_prompts: prompts
-      title: programs
+      delete_all: delete all executions
+      destroy_all: destroy all executions
+      title: executions
     model:
-      to_s: program#%{id}
-    new:
-      submit: create program
-      title: new program
-    reload:
-      submit: update program
+      statuses:
+        created: created
+        done: done
+        errored: errored
+        in_progress: in progress
+        initialized: initialized
+      to_s: execution#%{id}
     show:
       created_at: created at
-      delete: delete program
-      edit: edit program
-      evaluate: evaluate
-      program_executions: executions
+      delete: delete execution
+      error_app_backtrace: error app backtrace
+      error_backtrace: error backtrace
+      error_class: error class
+      error_message: error message
       id: id
       input: input
-      name: name
-      new_program_schedule: new schedule
-      not_scheduled_html: would you like to schedule for %{local_time}?
-      reschedule: reschedule
-      schedule: schedule
-      scheduled_html: it's scheduled for %{local_time}
-      program_schedules: schedules
-      unprogram_schedule: unschedule
+      output: output
+      program: program
+      result: result
+      status: status
       updated_at: updated at
-      user: user
-    update:
-      notice: program updated
   program_prompts:
     destroy:
       notice: prompt deleted
@@ -781,6 +734,121 @@ en:
       status: status
       updated_at: updated at
       user: user
+  program_schedules:
+    create:
+      notice: schedule created
+    destroy:
+      notice: schedule deleted
+    edit:
+      submit: update schedule
+      title: edit schedule
+    index:
+      delete_all: delete all repl schedules
+      destroy_all: destroy all repl schedules
+      new: new schedule
+      title: schedules
+    model:
+      days:
+        one: 1 day
+        other: "%{count} days"
+        zero: 0 days
+      hours:
+        one: 1 hour
+        other: "%{count} hours"
+        zero: 0 hours
+      minutes:
+        one: 1 minute
+        other: "%{count} minutes"
+        zero: 0 minutes
+      months:
+        one: 1 month
+        other: "%{count} months"
+        zero: 0 months
+      once: once
+      seconds:
+        one: 1 second
+        other: "%{count} seconds"
+        zero: 0 seconds
+      to_s: schedule#%{id}
+      weeks:
+        one: 1 week
+        other: "%{count} weeks"
+        zero: 0 weeks
+      years:
+        one: 1 year
+        other: "%{count} years"
+        zero: 0 years
+    nested:
+      add: add schedule
+    nested_form:
+      program_schedule: schedule
+      remove: remove schedule
+    new:
+      submit: create schedule
+      title: new schedule
+    program_schedule:
+      schedule_html: starts %{local_time}, repeats every %{interval}
+      schedule_once_html: starts %{local_time}, doesn't repeat
+    show:
+      created_at: created at
+      delete: delete schedule
+      edit: edit schedule
+      id: id
+      interval: interval
+      program: program
+      schedule_html: starts %{local_time}, repeats every %{interval}
+      schedule_once_html: starts %{local_time}, doesn't repeat
+      starts_at: starts at
+      updated_at: updated at
+    update:
+      notice: schedule updated
+  programs:
+    create:
+      notice: program created
+    destroy:
+      notice: program deleted
+    edit:
+      submit: update program
+      title: edit program
+    form:
+      generate: generate
+      generating: generating
+      input: input
+      input_placeholder: enter your program's input
+      name_placeholder: enter your program's name
+    index:
+      delete_all: delete all programs
+      destroy_all: destroy all programs
+      new: new program
+      program_prompts: prompts
+      title: programs
+    model:
+      to_s: program#%{id}
+    new:
+      submit: create program
+      title: new program
+    reload:
+      submit: update program
+    show:
+      created_at: created at
+      delete: delete program
+      edit: edit program
+      evaluate: evaluate
+      id: id
+      input: input
+      name: name
+      new_program_schedule: new schedule
+      not_scheduled_html: would you like to schedule for %{local_time}?
+      program_executions: executions
+      program_schedules: schedules
+      reschedule: reschedule
+      schedule: schedule
+      scheduled_html: it's scheduled for %{local_time}
+      unprogram_schedule: unschedule
+      updated_at: updated at
+      user: user
+    update:
+      notice: program updated
   repl_executions:
     destroy:
       notice: repl execution deleted
@@ -895,74 +963,6 @@ en:
       user: user
     update:
       notice: repl session updated
-  program_schedules:
-    create:
-      notice: schedule created
-    destroy:
-      notice: schedule deleted
-    edit:
-      submit: update schedule
-      title: edit schedule
-    index:
-      delete_all: delete all repl schedules
-      destroy_all: destroy all repl schedules
-      new: new schedule
-      title: schedules
-    model:
-      days:
-        one: 1 day
-        other: "%{count} days"
-        zero: 0 days
-      hours:
-        one: 1 hour
-        other: "%{count} hours"
-        zero: 0 hours
-      minutes:
-        one: 1 minute
-        other: "%{count} minutes"
-        zero: 0 minutes
-      months:
-        one: 1 month
-        other: "%{count} months"
-        zero: 0 months
-      once: once
-      seconds:
-        one: 1 second
-        other: "%{count} seconds"
-        zero: 0 seconds
-      to_s: schedule#%{id}
-      weeks:
-        one: 1 week
-        other: "%{count} weeks"
-        zero: 0 weeks
-      years:
-        one: 1 year
-        other: "%{count} years"
-        zero: 0 years
-    nested:
-      add: add schedule
-    nested_form:
-      remove: remove schedule
-      program_schedule: schedule
-    new:
-      submit: create schedule
-      title: new schedule
-    program_schedule:
-      schedule_html: starts %{local_time}, repeats every %{interval}
-      schedule_once_html: starts %{local_time}, doesn't repeat
-    show:
-      created_at: created at
-      delete: delete schedule
-      edit: edit schedule
-      id: id
-      interval: interval
-      program: program
-      schedule_html: starts %{local_time}, repeats every %{interval}
-      schedule_once_html: starts %{local_time}, doesn't repeat
-      starts_at: starts at
-      updated_at: updated at
-    update:
-      notice: schedule updated
   sessions:
     create:
       notice: logged in

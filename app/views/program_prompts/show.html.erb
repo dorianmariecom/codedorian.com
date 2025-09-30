@@ -1,0 +1,163 @@
+<% content_for(:title, @program_prompt) %>
+
+<%= turbo_stream_from(@program_prompt) %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".id") %></div>
+  <div class="font-bold"><%= @program_prompt.id %></div>
+</div>
+
+<% if @program_prompt.user.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".user") %></div>
+    <%= render("shared/user", user: @program_prompt.user) %>
+  </div>
+<% end %>
+
+<% if @program_prompt.program.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".program") %></div>
+    <% if can?(:show, @program_prompt.program) %>
+      <div class="font-bold">
+        <%= link_to(
+          @program_prompt.program,
+          [@user, @program_prompt.program],
+          class: "link"
+        ) %>
+      </div>
+    <% else %>
+      <div class="font-bold"><%= @program_prompt.program %></div>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @program_prompt.status.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".status") %></div>
+    <div class="font-bold"><%= @program_prompt.translated_status %></div>
+  </div>
+<% end %>
+
+<% if @program_prompt.error_class.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".error_class") %></div>
+    <div class="font-bold"><%= @program_prompt.error_class %></div>
+  </div>
+<% end %>
+
+<% if admin? %>
+  <% if @program_prompt.error_message.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".error_message") %></div>
+      <div class="code"><%= @program_prompt.error_message %></div>
+    </div>
+  <% end %>
+
+  <% if @program_prompt.error_app_backtrace.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".error_app_backtrace") %></div>
+      <div class="code"><%= @program_prompt.error_app_backtrace %></div>
+    </div>
+  <% end %>
+
+  <% if @program_prompt.error_backtrace.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".error_backtrace") %></div>
+      <div class="code"><%= @program_prompt.error_backtrace %></div>
+    </div>
+  <% end %>
+<% end %>
+
+<% if @program_prompt.name.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".name") %></div>
+    <div class="font-bold"><%= @program_prompt.name %></div>
+  </div>
+<% end %>
+
+<% if @program_prompt.input.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".input") %></div>
+    <div class="font-bold"><%= @program_prompt.input %></div>
+  </div>
+<% end %>
+
+<% if @program_prompt.output.present? %>
+  <% if @program_prompt.output_name? || @program_prompt.output_input? ||
+    @program_prompt.output_schedules? %>
+    <% if @program_prompt.output_name? %>
+      <div class="p">
+        <div class="text-gray-600"><%= t(".output_name") %></div>
+        <div class="font-bold"><%= @program_prompt.output_name %></div>
+      </div>
+    <% end %>
+    <% if @program_prompt.output_input? %>
+      <div class="p">
+        <div class="text-gray-600"><%= t(".output_input") %></div>
+        <div class="code"><%= @program_prompt.output_input %></div>
+      </div>
+    <% end %>
+    <% if @program_prompt.output_schedules? %>
+      <div class="p">
+        <div class="text-gray-600"><%= t(".output_schedules") %></div>
+        <% @program_prompt.output_schedules.each do |schedule| %>
+          <% if schedule.is_a?(Hash) %>
+            <div class="font-bold">
+              <%= t(
+                ".output_schedule",
+                interval: schedule["interval"],
+                starts_at: schedule["starts_at"]
+              ) %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".output") %></div>
+      <div class="code">
+        <%= JSON.pretty_generate(@program_prompt.output) %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".updated_at") %></div>
+  <div class="font-bold"><%= local_time(@program_prompt.updated_at) %></div>
+</div>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".created_at") %></div>
+  <div class="font-bold"><%= local_time(@program_prompt.created_at) %></div>
+</div>
+
+<div class="p">
+  <%= render("shared/confirm", text: t(".delete"), url: show_url) %>
+</div>
+
+<div class="p font-bold">
+  <%= link_to(
+    t(".schedules"),
+    [@user, @program, @program_prompt, :schedules],
+    class: "link"
+  ) %>
+</div>
+
+<div class="p">
+  <%= link_to(
+    t(".new_schedule"),
+    [:new, @user, @program, @program_prompt, :schedule],
+    class: "button"
+  ) %>
+</div>
+
+<%= render_collection(
+  partial: "schedules/schedule",
+  collection: @schedules,
+  as: :schedule,
+  locals: {
+    nested: [@user, @program, @program_prompt]
+  }
+) %>
