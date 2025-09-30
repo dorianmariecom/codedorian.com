@@ -1,10 +1,10 @@
 rename:
 - [x] models
-- [ ] jobs
+- [x] jobs
 - [x] policies
 - [x] controllers
+- [x] helpers
 - [ ] views
-- [ ] helpers
 - [ ] locales
 
 - make real user association for schedules
