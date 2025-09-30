@@ -5,7 +5,7 @@ rename:
 - [x] controllers
 - [x] helpers
 - [ ] views
-- [ ] locales
+- [x] locales
 
 - make real user association for schedules
 - scope schedules by user

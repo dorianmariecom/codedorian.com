@@ -56,7 +56,7 @@ en:
       repl_session:
         name: name
         user_id: user
-      schedule:
+      program_schedule:
         interval: interval
         program_id: program
         starts_at: starts at
@@ -284,7 +284,7 @@ en:
       verified: verified?
     unprocessable_entity:
       title: unprocessable entity
-  executions:
+  program_executions:
     destroy:
       notice: execution deleted
     index:
@@ -715,7 +715,7 @@ en:
       delete_all: delete all programs
       destroy_all: destroy all programs
       new: new program
-      prompts: prompts
+      program_prompts: prompts
       title: programs
     model:
       to_s: program#%{id}
@@ -729,22 +729,22 @@ en:
       delete: delete program
       edit: edit program
       evaluate: evaluate
-      executions: executions
+      program_executions: executions
       id: id
       input: input
       name: name
-      new_schedule: new schedule
+      new_program_schedule: new schedule
       not_scheduled_html: would you like to schedule for %{local_time}?
       reschedule: reschedule
       schedule: schedule
       scheduled_html: it's scheduled for %{local_time}
-      schedules: schedules
-      unschedule: unschedule
+      program_schedules: schedules
+      unprogram_schedule: unschedule
       updated_at: updated at
       user: user
     update:
       notice: program updated
-  prompts:
+  program_prompts:
     destroy:
       notice: prompt deleted
     index:
@@ -771,13 +771,13 @@ en:
       id: id
       input: input
       name: name
-      new_schedule: new schedule
+      new_program_schedule: new schedule
       output_input: output input
       output_name: output name
-      output_schedule: 'interval: %{interval}, starts at: %{starts_at}'
-      output_schedules: output schedules
+      output_program_schedule: 'interval: %{interval}, starts at: %{starts_at}'
+      output_program_schedules: output schedules
       program: program
-      schedules: schedules
+      program_schedules: schedules
       status: status
       updated_at: updated at
       user: user
@@ -895,7 +895,7 @@ en:
       user: user
     update:
       notice: repl session updated
-  schedules:
+  program_schedules:
     create:
       notice: schedule created
     destroy:
@@ -943,11 +943,11 @@ en:
       add: add schedule
     nested_form:
       remove: remove schedule
-      schedule: schedule
+      program_schedule: schedule
     new:
       submit: create schedule
       title: new schedule
-    schedule:
+    program_schedule:
       schedule_html: starts %{local_time}, repeats every %{interval}
       schedule_once_html: starts %{local_time}, doesn't repeat
     show:

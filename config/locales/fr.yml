@@ -56,7 +56,7 @@ fr:
       repl_session:
         name: nom
         user_id: utilisateur
-      schedule:
+      program_schedule:
         interval: intervalle
         program_id: programme
         starts_at: commence à
@@ -284,7 +284,7 @@ fr:
       verified: vérifié ?
     unprocessable_entity:
       title: entité non traitable
-  executions:
+  program_executions:
     destroy:
       notice: exécution supprimée
     index:
@@ -715,7 +715,7 @@ fr:
       delete_all: supprimer tous les programmes
       destroy_all: détruire tous les programmes
       new: nouveau programme
-      prompts: invites
+      program_prompts: invites
       title: programmes
     model:
       to_s: programme#%{id}
@@ -729,22 +729,22 @@ fr:
       delete: supprimer le programme
       edit: modifier le programme
       evaluate: évaluer
-      executions: exécutions
+      program_executions: exécutions
       id: id
       input: entrée
       name: nom
-      new_schedule: nouvel horaire
+      new_program_schedule: nouvel horaire
       not_scheduled_html: souhaitez-vous planifier pour %{local_time} ?
       reschedule: reprogrammer
       schedule: planifier
       scheduled_html: planifié pour %{local_time}
-      schedules: plannings
-      unschedule: déplanifier
+      program_schedules: plannings
+      unprogram_schedule: déplanifier
       updated_at: mis à jour à
       user: utilisateur
     update:
       notice: programme mis à jour
-  prompts:
+  program_prompts:
     destroy:
       notice: invite supprimée
     index:
@@ -771,13 +771,13 @@ fr:
       id: identifiant
       input: saisir
       name: nom
-      new_schedule: nouvel horaire
+      new_program_schedule: nouvel horaire
       output_input: sortie entrée
       output_name: nom de sortie
-      output_schedule: 'intervalle : %{interval}, commence à : %{starts_at}'
-      output_schedules: calendriers de sortie
+      output_program_schedule: 'intervalle : %{interval}, commence à : %{starts_at}'
+      output_program_schedules: calendriers de sortie
       program: programme
-      schedules: horaires
+      program_schedules: horaires
       status: statut
       updated_at: mis à jour à
       user: utilisateur
@@ -895,7 +895,7 @@ fr:
       user: utilisateur
     update:
       notice: session repl mise à jour
-  schedules:
+  program_schedules:
     create:
       notice: horaire créé
     destroy:
@@ -943,11 +943,11 @@ fr:
       add: ajouter un horaire
     nested_form:
       remove: supprimer l'horaire
-      schedule: horaire
+      program_schedule: horaire
     new:
       submit: créer un horaire
       title: nouvel horaire
-    schedule:
+    program_schedule:
       schedule_html: commence le %{local_time}, se répète tous les %{interval}
       schedule_once_html: commence le %{local_time}, ne se répète pas
     show:
