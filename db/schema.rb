@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_28_080706) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_29_180103) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -106,21 +106,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_28_080706) do
     t.index ["user_id"], name: "index_email_addresses_on_user_id"
   end
 
-  create_table "executions", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.text "input"
-    t.text "output"
-    t.bigint "program_id", null: false
-    t.text "result"
-    t.datetime "updated_at", null: false
-    t.string "status", default: "initialized"
-    t.text "error_class"
-    t.text "error_message"
-    t.text "error_backtrace"
-    t.text "error"
-    t.index ["program_id"], name: "index_executions_on_program_id"
-  end
-
   create_table "handles", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "handle"
@@ -173,25 +158,32 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_28_080706) do
     t.index ["user_id"], name: "index_phone_numbers_on_user_id"
   end
 
-  create_table "programs", force: :cascade do |t|
+  create_table "program_executions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "input"
-    t.string "name"
+    t.text "output"
+    t.bigint "program_id", null: false
+    t.text "result"
     t.datetime "updated_at", null: false
-    t.bigint "user_id"
-    t.index ["user_id"], name: "index_programs_on_user_id"
+    t.string "status", default: "initialized"
+    t.text "error_class"
+    t.text "error_message"
+    t.text "error_backtrace"
+    t.text "error"
+    t.index ["program_id"], name: "index_program_executions_on_program_id"
   end
 
-  create_table "prompt_schedules", force: :cascade do |t|
-    t.bigint "prompt_id", null: false
+  create_table "program_prompt_schedules", force: :cascade do |t|
+    t.bigint "program_prompt_id", null: false
     t.datetime "starts_at"
     t.string "interval"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["prompt_id"], name: "index_prompt_schedules_on_prompt_id"
+    t.index ["program_prompt_id"],
+            name: "index_program_prompt_schedules_on_program_prompt_id"
   end
 
-  create_table "prompts", force: :cascade do |t|
+  create_table "program_prompts", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "input"
     t.jsonb "output"
@@ -204,8 +196,25 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_28_080706) do
     t.text "error_class"
     t.text "error_message"
     t.text "error_backtrace"
-    t.index ["program_id"], name: "index_prompts_on_program_id"
-    t.index ["user_id"], name: "index_prompts_on_user_id"
+    t.index ["program_id"], name: "index_program_prompts_on_program_id"
+    t.index ["user_id"], name: "index_program_prompts_on_user_id"
+  end
+
+  create_table "program_schedules", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "interval"
+    t.datetime "starts_at"
+    t.datetime "updated_at", null: false
+    t.bigint "program_id", null: false
+  end
+
+  create_table "programs", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "input"
+    t.string "name"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_programs_on_user_id"
   end
 
   create_table "repl_executions", force: :cascade do |t|
@@ -328,14 +337,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_28_080706) do
     t.index %w[delivered failed processing deliver_after created_at],
             name: "index_rpush_notifications_multi",
             where: "((NOT delivered) AND (NOT failed))"
-  end
-
-  create_table "schedules", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.string "interval"
-    t.datetime "starts_at"
-    t.datetime "updated_at", null: false
-    t.bigint "program_id", null: false
   end
 
   create_table "solid_cable_messages", force: :cascade do |t|
@@ -591,16 +592,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_28_080706) do
   add_foreign_key "data", "users"
   add_foreign_key "devices", "users"
   add_foreign_key "email_addresses", "users"
-  add_foreign_key "executions", "programs"
   add_foreign_key "handles", "users"
   add_foreign_key "messages", "users", column: "from_user_id"
   add_foreign_key "messages", "users", column: "to_user_id"
   add_foreign_key "names", "users"
   add_foreign_key "passwords", "users"
   add_foreign_key "phone_numbers", "users"
+  add_foreign_key "program_executions", "programs"
+  add_foreign_key "program_prompt_schedules", "program_prompts"
+  add_foreign_key "program_prompts", "users"
   add_foreign_key "programs", "users"
-  add_foreign_key "prompt_schedules", "prompts"
-  add_foreign_key "prompts", "users"
   add_foreign_key "repl_executions", "repl_programs"
   add_foreign_key "repl_programs", "repl_sessions"
   add_foreign_key "repl_sessions", "users"

@@ -1,0 +1,47 @@
+<div
+  class="program-prompt-schedule border-l border-black pl-5"
+  data-new-record="<%= f.object.new_record? %>"
+>
+  <%= f.hidden_field(:id) %>
+  <%= f.hidden_field(:_destroy) %>
+
+  <h2 class="font-bold p"><%= t(".program_prompt_schedule") %></h2>
+
+  <div class="p">
+    <%= f.label(:starts_at, class: "label") %>
+    <%= f.datetime_field(
+      :starts_at,
+      required: true,
+      class: "input program_prompt_schedule__starts-at",
+      autocomplete: "off",
+      data: {
+        form_type: "other",
+        program_prompt_schedule_target: "startsAt"
+      }
+    ) %>
+    <div class="text-red-600" hidden data-validation-target="error"></div>
+    <div class="text-gray-600"><%= local_time(Time.zone.now) %></div>
+  </div>
+
+  <div class="p">
+    <%= f.label(:interval, class: "label") %>
+    <%= f.select(
+      :interval,
+      program_prompt_schedule_interval_options(interval: f.object.interval),
+      {},
+      required: true,
+      class: "input program_prompt_schedule__interval",
+      data: {
+        form_type: "other",
+        program_prompt_schedule_target: "interval"
+      },
+      autocomplete: "off"
+    ) %>
+  </div>
+
+  <div class="p">
+    <button class="button button--link" data-action="nested#remove">
+      <%= t(".remove") %>
+    </button>
+  </div>
+</div>

@@ -26,8 +26,14 @@ module ApplicationHelper
     end
   end
 
-  def schedule_interval_options(interval: nil)
-    Schedule.interval_options.map do |label, value|
+  def program_schedule_interval_options(interval: nil)
+    ProgramSchedule.interval_options.map do |label, value|
+      [label, value, { selected: value == interval }]
+    end
+  end
+
+  def program_prompt_schedule_interval_options(interval: nil)
+    ProgramPromptSchedule.interval_options.map do |label, value|
       [label, value, { selected: value == interval }]
     end
   end
@@ -154,6 +160,7 @@ module ApplicationHelper
     end
   end
 
+  # TODO: how to do this safely?
   # rubocop:disable Rails/OutputSafety
   def insert_recaptcha_tag(form_html)
     form = Nokogiri.HTML(form_html)

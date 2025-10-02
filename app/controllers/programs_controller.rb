@@ -14,14 +14,14 @@ class ProgramsController < ApplicationController
   end
 
   def show
-    @executions =
-      policy_scope(Execution)
+    @program_executions =
+      policy_scope(ProgramExecution)
         .where(program: @program)
         .order(created_at: :desc)
         .page(params[:page])
 
-    @schedules =
-      policy_scope(Schedule)
+    @program_schedules =
+      policy_scope(ProgramSchedule)
         .where(program: @program)
         .order(created_at: :asc)
         .page(params[:page])
@@ -60,12 +60,15 @@ class ProgramsController < ApplicationController
 
       if generate?
         @user = @program.user
-        @prompt = authorize(prompts_scope.new(prompt_params))
+        @program_prompt =
+          authorize(program_prompts_scope.new(program_prompt_params))
 
-        if @prompt.save
-          PromptGenerateJob.perform_later(prompt: @prompt)
+        if @program_prompt.save
+          ProgramPromptGenerateJob.perform_later(
+            program_prompt: @program_prompt
+          )
         else
-          flash.now.alert = @prompt.alert
+          flash.now.alert = @program_prompt.alert
         end
 
         redirect_to(edit_url, notice: t(".notice"))
@@ -84,12 +87,15 @@ class ProgramsController < ApplicationController
 
       if generate?
         @user = @program.user
-        @prompt = authorize(prompts_scope.new(prompt_params))
+        @program_prompt =
+          authorize(program_prompts_scope.new(program_prompt_params))
 
-        if @prompt.save
-          PromptGenerateJob.perform_later(prompt: @prompt)
+        if @program_prompt.save
+          ProgramPromptGenerateJob.perform_later(
+            program_prompt: @program_prompt
+          )
         else
-          flash.now.alert = @prompt.alert
+          flash.now.alert = @program_prompt.alert
         end
 
         head :no_content
@@ -142,8 +148,8 @@ class ProgramsController < ApplicationController
     scope
   end
 
-  def prompts_scope
-    scope = policy_scope(Prompt)
+  def program_prompts_scope
+    scope = policy_scope(ProgramPrompt)
     scope = scope.where(user: @user) if @user
     scope = scope.where(program: @program) if @program
     scope
@@ -181,7 +187,7 @@ class ProgramsController < ApplicationController
           :user_id,
           :name,
           :input,
-          { schedules_attributes: [%i[id _destroy starts_at interval]] }
+          { program_schedules_attributes: [%i[id _destroy starts_at interval]] }
         ]
       )
     else
@@ -189,20 +195,20 @@ class ProgramsController < ApplicationController
         program: [
           :input,
           :name,
-          { schedules_attributes: [%i[id _destroy starts_at interval]] }
+          { program_schedules_attributes: [%i[id _destroy starts_at interval]] }
         ]
       )
     end
   end
 
-  def prompt_params_with_schedules
+  def program_prompt_params_with_schedules
     if admin?
       params.expect(
         program: [
           :user_id,
           :name,
           :input,
-          { schedules_attributes: [%i[starts_at interval]] }
+          { program_schedules_attributes: [%i[starts_at interval]] }
         ]
       )
     else
@@ -210,15 +216,19 @@ class ProgramsController < ApplicationController
         program: [
           :input,
           :name,
-          { schedules_attributes: [%i[starts_at interval]] }
+          { program_schedules_attributes: [%i[starts_at interval]] }
         ]
       )
     end
   end
 
-  def prompt_params
-    prompt_params_with_schedules.transform_keys do |key|
-      key == "schedules_attributes" ? "prompt_schedules_attributes" : key
+  def program_prompt_params
+    program_prompt_params_with_schedules.transform_keys do |key|
+      if key == "program_schedules_attributes"
+        "program_prompt_schedules_attributes"
+      else
+        key
+      end
     end
   end
 end

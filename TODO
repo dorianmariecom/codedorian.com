@@ -18,3 +18,7 @@
 - nested scopes e.g. repl_programs_scope
 - list all descendants in parent pages, at least the link and count
 - error (occurences) scoped by program/repl program
+- erd diagram :)
+- scopes for children, e.g. repl_program = repl_programs_scope.find(...)
+- rails todos
+- more links in index pages

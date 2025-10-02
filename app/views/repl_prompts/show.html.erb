@@ -1,0 +1,115 @@
+<% content_for(:title, @repl_prompt) %>
+
+<%= turbo_stream_from(@repl_prompt) %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".id") %></div>
+  <div class="font-bold"><%= @repl_prompt.id %></div>
+</div>
+
+<% if @repl_prompt.user.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".user") %></div>
+    <%= render("shared/user", user: @repl_prompt.user) %>
+  </div>
+<% end %>
+
+<% if @repl_prompt.program.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".program") %></div>
+    <% if can?(:show, @repl_prompt.program) %>
+      <div class="font-bold">
+        <%= link_to(@repl_prompt.program, [@user, @repl_prompt.program], class: "link") %>
+      </div>
+    <% else %>
+      <div class="font-bold"><%= @repl_prompt.program %></div>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @repl_prompt.status.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".status") %></div>
+    <div class="font-bold"><%= @repl_prompt.translated_status %></div>
+  </div>
+<% end %>
+
+<% if @repl_prompt.error_class.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".error_class") %></div>
+    <div class="font-bold"><%= @repl_prompt.error_class %></div>
+  </div>
+<% end %>
+
+<% if admin? %>
+  <% if @repl_prompt.error_message.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".error_message") %></div>
+      <div class="code"><%= @repl_prompt.error_message %></div>
+    </div>
+  <% end %>
+
+  <% if @repl_prompt.error_app_backtrace.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".error_app_backtrace") %></div>
+      <div class="code"><%= @repl_prompt.error_app_backtrace %></div>
+    </div>
+  <% end %>
+
+  <% if @repl_prompt.error_backtrace.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".error_backtrace") %></div>
+      <div class="code"><%= @repl_prompt.error_backtrace %></div>
+    </div>
+  <% end %>
+<% end %>
+
+<% if @repl_prompt.name.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".name") %></div>
+    <div class="font-bold"><%= @repl_prompt.name %></div>
+  </div>
+<% end %>
+
+<% if @repl_prompt.input.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".input") %></div>
+    <div class="font-bold"><%= @repl_prompt.input %></div>
+  </div>
+<% end %>
+
+<% if @repl_prompt.output.present? %>
+  <% if @repl_prompt.output_name? || @repl_prompt.output_input? %>
+    <% if @repl_prompt.output_name? %>
+      <div class="p">
+        <div class="text-gray-600"><%= t(".output_name") %></div>
+        <div class="font-bold"><%= @repl_prompt.output_name %></div>
+      </div>
+    <% end %>
+    <% if @repl_prompt.output_input? %>
+      <div class="p">
+        <div class="text-gray-600"><%= t(".output_input") %></div>
+        <div class="code"><%= @repl_prompt.output_input %></div>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".output") %></div>
+      <div class="code"><%= JSON.pretty_generate(@repl_prompt.output) %></div>
+    </div>
+  <% end %>
+<% end %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".updated_at") %></div>
+  <div class="font-bold"><%= local_time(@repl_prompt.updated_at) %></div>
+</div>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".created_at") %></div>
+  <div class="font-bold"><%= local_time(@repl_prompt.created_at) %></div>
+</div>
+
+<div class="p">
+  <%= render("shared/confirm", text: t(".delete"), url: show_url) %>
+</div>

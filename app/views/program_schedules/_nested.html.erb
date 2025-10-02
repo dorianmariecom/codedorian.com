@@ -1,0 +1,19 @@
+<div data-controller="nested" data-nested-selector-value=".program-schedule">
+  <template data-nested-target="template">
+    <%= f.fields_for(:program_schedules, ProgramSchedule.new, child_index: "NEW_RECORD") do |program_schedule_f| %>
+      <%= render("program_schedules/nested_form", f: program_schedule_f) %>
+    <% end %>
+  </template>
+
+  <%= f.fields_for(:program_schedules) do |program_schedule_f| %>
+    <%= render("program_schedules/nested_form", f: program_schedule_f) %>
+  <% end %>
+
+  <div data-nested-target="target"></div>
+
+  <div class="p">
+    <button class="button button--link" data-action="nested#add">
+      <%= t(".add") %>
+    </button>
+  </div>
+</div>

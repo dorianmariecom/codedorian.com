@@ -1,29 +1,43 @@
 # frozen_string_literal: true
 
-class ReplPrompt < ApplicationRecord
+class ProgramPrompt < ApplicationRecord
   MODEL = "gpt-5-nano"
   STATUSES = %w[initialized created in_progress done errored].freeze
 
-  PROMPT_1 = <<~PROMPT
+  PROMPT_1 = <<~PROMPT.freeze
     i created a programming language named "code", your goal is to
-    generate a json object with a one-liner input of the program from the
-    previous input
+    generate a json object with the input of the program and its schedules
+    from the name of the program provided by the user, the previous input
+    and the previous schedules
+
+    the schedules corresponding to when the program will be executed
+
+    a schedule is a dictionary of a starts_at (datetime) and an interval (string)
+
+    intervals are #{ProgramSchedule::INTERVALS.to_json}
   PROMPT
 
   PROMPT_2 = <<~PROMPT
-    here is the previous input provided by the user
+    here is the name provided by the user
   PROMPT
 
   PROMPT_3 = <<~PROMPT
-    here are some examples
+    here is the previous input provided by the user
   PROMPT
 
   PROMPT_4 = <<~PROMPT
-    reply with the input in code of the program in a one-liner
+    here is the previous schedules provided by the user
+  PROMPT
 
-    if nothing is provided, generate a random one-liner program
+  PROMPT_5 = <<~PROMPT
+    here are some examples
+  PROMPT
 
-    do not use semicolons
+  PROMPT_6 = <<~PROMPT
+    reply with the name of the program, the input in code of the program
+    and the schedules of the program
+
+    if nothing is provided, generate a random program
   PROMPT
 
   scope(:initialized, -> { where(status: :initialized) })
@@ -35,8 +49,10 @@ class ReplPrompt < ApplicationRecord
   scope(:not_generating, -> { where.not(status: %i[created in_progress]) })
 
   belongs_to(:user, default: -> { Current.user! }, touch: true)
-  belongs_to(:repl_program, optional: true, touch: true)
-  # TODO: belongs to repl session
+  belongs_to(:program, optional: true, touch: true)
+  has_many(:program_prompt_schedules, dependent: :destroy)
+
+  accepts_nested_attributes_for(:program_prompt_schedules, allow_destroy: true)
 
   validate { can!(:update, user) }
   validates(:status, inclusion: { in: STATUSES })
@@ -49,6 +65,10 @@ class ReplPrompt < ApplicationRecord
     {
       status: {
         node: -> { arel_table[:status] },
+        type: :string
+      },
+      name: {
+        node: -> { arel_table[:name] },
         type: :string
       },
       input: {
@@ -95,11 +115,32 @@ class ReplPrompt < ApplicationRecord
           schema: {
             type: :object,
             properties: {
+              name: {
+                type: :string
+              },
               input: {
                 type: :string
+              },
+              schedules: {
+                type: :array,
+                items: {
+                  type: :object,
+                  properties: {
+                    starts_at: {
+                      type: :string,
+                      format: "date-time"
+                    },
+                    interval: {
+                      type: :string,
+                      enum: ProgramSchedule::INTERVALS
+                    }
+                  },
+                  required: %i[starts_at interval],
+                  additionalProperties: false
+                }
               }
             },
-            required: %i[input],
+            required: %i[name input schedules],
             additionalProperties: false
           }
         }
@@ -107,10 +148,14 @@ class ReplPrompt < ApplicationRecord
       messages: [
         { role: "system", content: PROMPT_1 },
         { role: "system", content: PROMPT_2 },
-        { role: "user", content: input },
+        { role: "user", content: name },
         { role: "system", content: PROMPT_3 },
+        { role: "user", content: input },
+        { role: "system", content: PROMPT_4 },
+        { role: "user", content: program_prompt_schedules.to_json },
+        { role: "system", content: PROMPT_5 },
         { role: "system", content: programs_json },
-        { role: "system", content: PROMPT_4 }
+        { role: "system", content: PROMPT_6 }
       ]
     }.to_json
 
@@ -129,6 +174,16 @@ class ReplPrompt < ApplicationRecord
     update!(error_backtrace: e.backtrace.join("\n"))
   end
 
+  def output_name
+    (
+      output.is_a?(Hash) && output["name"].is_a?(String) && output["name"]
+    ).presence
+  end
+
+  def output_name?
+    output_name.present?
+  end
+
   def output_input
     (
       output.is_a?(Hash) && output["input"].is_a?(String) && output["input"]
@@ -139,12 +194,42 @@ class ReplPrompt < ApplicationRecord
     output_input.present?
   end
 
+  def output_schedules
+    (
+      output.is_a?(Hash) && output["schedules"].is_an?(Array) &&
+        output["schedules"]
+    ).presence
+  end
+
+  def output_program_schedules
+    return [] if output_schedules.blank?
+
+    output_schedules.map do |output_schedule|
+      ProgramSchedule.new(
+        starts_at: output_schedule["starts_at"],
+        interval: output_schedule["interval"]
+      )
+    end
+  end
+
+  def output_schedules?
+    output_schedules.present?
+  end
+
+  def name_sample
+    name.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+  end
+
   def input_sample
     input.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def output_sample
     output.presence&.to_json&.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+  end
+
+  def output_name_sample
+    output_name.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
   end
 
   def output_input_sample
@@ -161,6 +246,14 @@ class ReplPrompt < ApplicationRecord
 
   def error_backtrace_sample
     error_backtrace.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+  end
+
+  def output_schedules_sample
+    output_schedules
+      .presence
+      &.to_json
+      &.truncate(SAMPLE_SIZE, omission: OMISSION)
+      .presence
   end
 
   def programs_json
@@ -224,14 +317,19 @@ class ReplPrompt < ApplicationRecord
   end
 
   def copy!
-    return unless repl_program
+    return unless program
 
-    repl_program.update!(input: output_input)
+    program.update!(
+      name: output_name,
+      input: output_input,
+      program_schedules: output_program_schedules
+    )
   end
 
   def to_s
-    error_class_sample.presence || input_sample.presence ||
-      output_input_sample.presence || output_sample.presence ||
-      t("to_s", id: id)
+    error_class_sample.presence || name_sample.presence ||
+      output_name_sample.presence || input_sample.presence ||
+      output_input_sample.presence || output_schedules_sample.presence ||
+      output_sample.presence || t("to_s", id: id)
   end
 end

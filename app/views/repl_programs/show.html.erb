@@ -7,6 +7,13 @@
   <div class="font-bold"><%= @repl_program.id %></div>
 </div>
 
+<% if @repl_program.user.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".user") %></div>
+    <%= render("shared/user", user: @repl_program.user) %>
+  </div>
+<% end %>
+
 <% if @repl_program.repl_session.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".repl_session") %></div>

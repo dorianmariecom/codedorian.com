@@ -125,20 +125,9 @@ class ReplSessionsController < ApplicationController
 
   def repl_session_params
     if admin?
-      params.expect(
-        repl_session: [
-          :user_id,
-          :name,
-          { repl_programs_attributes: [%i[id _destroy input]] }
-        ]
-      )
+      params.expect(repl_session: %i[user_id name])
     else
-      params.expect(
-        repl_session: [
-          :name,
-          { repl_programs_attributes: [%i[id _destroy input]] }
-        ]
-      )
+      params.expect(repl_session: [:name])
     end
   end
 end

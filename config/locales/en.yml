@@ -53,13 +53,13 @@ en:
         input: input
         name: name
         user_id: user
-      repl_session:
-        name: name
-        user_id: user
-      schedule:
+      program_schedule:
         interval: interval
         program_id: program
         starts_at: starts at
+      repl_session:
+        name: name
+        user_id: user
       time_zone:
         primary: primary?
         time_zone: time zone
@@ -284,35 +284,6 @@ en:
       verified: verified?
     unprocessable_entity:
       title: unprocessable entity
-  executions:
-    destroy:
-      notice: execution deleted
-    index:
-      delete_all: delete all executions
-      destroy_all: destroy all executions
-      title: executions
-    model:
-      statuses:
-        created: created
-        done: done
-        errored: errored
-        in_progress: in progress
-        initialized: initialized
-      to_s: execution#%{id}
-    show:
-      created_at: created at
-      delete: delete execution
-      error_app_backtrace: error app backtrace
-      error_backtrace: error backtrace
-      error_class: error class
-      error_message: error message
-      id: id
-      input: input
-      output: output
-      program: program
-      result: result
-      status: status
-      updated_at: updated at
   guests:
     index:
       delete_all: delete all guests
@@ -697,60 +668,13 @@ en:
       verified: verified?
     update:
       notice: phone number updated
-  programs:
-    create:
-      notice: program created
+  program_executions:
     destroy:
-      notice: program deleted
-    edit:
-      submit: update program
-      title: edit program
-    form:
-      generate: generate
-      generating: generating
-      input: input
-      input_placeholder: enter your program's input
-      name_placeholder: enter your program's name
+      notice: execution deleted
     index:
-      delete_all: delete all programs
-      destroy_all: destroy all programs
-      new: new program
-      prompts: prompts
-      title: programs
-    model:
-      to_s: program#%{id}
-    new:
-      submit: create program
-      title: new program
-    reload:
-      submit: update program
-    show:
-      created_at: created at
-      delete: delete program
-      edit: edit program
-      evaluate: evaluate
-      executions: executions
-      id: id
-      input: input
-      name: name
-      new_schedule: new schedule
-      not_scheduled_html: would you like to schedule for %{local_time}?
-      reschedule: reschedule
-      schedule: schedule
-      scheduled_html: it's scheduled for %{local_time}
-      schedules: schedules
-      unschedule: unschedule
-      updated_at: updated at
-      user: user
-    update:
-      notice: program updated
-  prompts:
-    destroy:
-      notice: prompt deleted
-    index:
-      delete_all: delete all prompts
-      destroy_all: destroy all prompts
-      title: prompts
+      delete_all: delete all executions
+      destroy_all: destroy all executions
+      title: executions
     model:
       statuses:
         created: created
@@ -758,49 +682,10 @@ en:
         errored: errored
         in_progress: in progress
         initialized: initialized
-      submit: update program
-      to_s: prompt#%{id}
+      to_s: execution#%{id}
     show:
       created_at: created at
-      delete: delete prompt
-      error: error
-      error_app_backtrace: error app backtrace
-      error_backtrace: error backtrace
-      error_class: error class
-      error_message: error message
-      id: id
-      input: input
-      name: name
-      new_schedule: new schedule
-      output_input: output input
-      output_name: output name
-      output_schedule: 'interval: %{interval}, starts at: %{starts_at}'
-      output_schedules: output schedules
-      program: program
-      schedules: schedules
-      status: status
-      updated_at: updated at
-      user: user
-  repl_executions:
-    destroy:
-      notice: repl execution deleted
-    index:
-      delete_all: delete all repl executions
-      destroy_all: destroy all repl executions
-      title: repl executions
-    model:
-      statuses:
-        created: created
-        done: done
-        errored: errored
-        in_progress: in progress
-        initialized: initialized
-      to_s: repl_execution#%{id}
-    show:
-      context: context
-      created_at: created at
-      delete: delete repl execution
-      error: error
+      delete: delete execution
       error_app_backtrace: error app backtrace
       error_backtrace: error backtrace
       error_class: error class
@@ -808,94 +693,11 @@ en:
       id: id
       input: input
       output: output
-      repl_program: repl program
+      program: program
       result: result
       status: status
       updated_at: updated at
-  repl_programs:
-    create:
-      notice: repl program created
-    destroy:
-      notice: repl program deleted
-    edit:
-      submit: update repl program
-      title: edit repl program
-    form:
-      generate: generate
-      generating: generating
-      input_placeholder: enter your repl program's input
-    index:
-      delete_all: delete all repl programs
-      destroy_all: destroy all repl programs
-      new: new repl program
-      title: repl programs
-    model:
-      to_s: repl_program#%{id}
-    nested:
-      add: add repl program
-    nested_form:
-      fake_input: Http.get("https://google.com")
-      input_placeholder: enter your repl program's input
-      remove: remove repl program
-      repl_program: repl program
-    new:
-      submit: create repl program
-      title: new repl program
-    show:
-      created_at: created at
-      delete: delete repl program
-      edit: edit repl program
-      id: id
-      input: input
-      repl_session: repl session
-      updated_at: updated at
-    update:
-      notice: repl program updated
-  repl_prompts:
-    model:
-      statuses:
-        created: created
-        done: done
-        errored: errored
-        in_progress: in progress
-        initialized: initialized
-  repl_sessions:
-    create:
-      notice: repl session created
-    destroy:
-      notice: repl session deleted
-    edit:
-      submit: update repl session
-      title: edit repl session
-    form:
-      name_placeholder: enter your repl session's name
-    index:
-      delete_all: delete all repl sessions
-      destroy_all: destroy all repl sessions
-      new: new repl session
-      title: repl sessions
-    model:
-      to_s: repl_session#%{id}
-    new:
-      submit: create repl session
-      title: new repl session
-    show:
-      created_at: created at
-      delete: delete repl session
-      edit: edit repl session
-      evaluate: evaluate
-      evaluate_all: evaluate all
-      generate: generate
-      generating: generating
-      id: id
-      name: name
-      new_repl_program: new repl program
-      repl_programs: repl programs
-      updated_at: updated at
-      user: user
-    update:
-      notice: repl session updated
-  schedules:
+  program_prompt_schedules:
     create:
       notice: schedule created
     destroy:
@@ -942,12 +744,119 @@ en:
     nested:
       add: add schedule
     nested_form:
+      program_prompt_schedule: schedule
       remove: remove schedule
-      schedule: schedule
     new:
       submit: create schedule
       title: new schedule
-    schedule:
+    program_prompt_schedule:
+      schedule_html: starts %{local_time}, repeats every %{interval}
+      schedule_once_html: starts %{local_time}, doesn't repeat
+    show:
+      created_at: created at
+      delete: delete schedule
+      edit: edit schedule
+      id: id
+      interval: interval
+      program: program
+      program_prompt: prompt
+      schedule_html: starts %{local_time}, repeats every %{interval}
+      schedule_once_html: starts %{local_time}, doesn't repeat
+      starts_at: starts at
+      updated_at: updated at
+      user: user
+    update:
+      notice: schedule updated
+  program_prompts:
+    destroy:
+      notice: prompt deleted
+    index:
+      delete_all: delete all prompts
+      destroy_all: destroy all prompts
+      title: prompts
+    model:
+      statuses:
+        created: created
+        done: done
+        errored: errored
+        in_progress: in progress
+        initialized: initialized
+      submit: update program
+      to_s: prompt#%{id}
+    show:
+      created_at: created at
+      delete: delete prompt
+      error: error
+      error_app_backtrace: error app backtrace
+      error_backtrace: error backtrace
+      error_class: error class
+      error_message: error message
+      id: id
+      input: input
+      name: name
+      new_program_prompt_schedule: new schedule
+      output_input: output input
+      output_name: output name
+      output_program_schedule: 'interval: %{interval}, starts at: %{starts_at}'
+      output_program_schedules: output schedules
+      program: program
+      program_prompt_schedules: schedules
+      status: status
+      updated_at: updated at
+      user: user
+  program_schedules:
+    create:
+      notice: schedule created
+    destroy:
+      notice: schedule deleted
+    edit:
+      submit: update schedule
+      title: edit schedule
+    index:
+      delete_all: delete all repl schedules
+      destroy_all: destroy all repl schedules
+      new: new schedule
+      title: schedules
+    model:
+      days:
+        one: 1 day
+        other: "%{count} days"
+        zero: 0 days
+      hours:
+        one: 1 hour
+        other: "%{count} hours"
+        zero: 0 hours
+      minutes:
+        one: 1 minute
+        other: "%{count} minutes"
+        zero: 0 minutes
+      months:
+        one: 1 month
+        other: "%{count} months"
+        zero: 0 months
+      once: once
+      seconds:
+        one: 1 second
+        other: "%{count} seconds"
+        zero: 0 seconds
+      to_s: schedule#%{id}
+      weeks:
+        one: 1 week
+        other: "%{count} weeks"
+        zero: 0 weeks
+      years:
+        one: 1 year
+        other: "%{count} years"
+        zero: 0 years
+    nested:
+      add: add schedule
+    nested_form:
+      program_schedule: schedule
+      remove: remove schedule
+    new:
+      submit: create schedule
+      title: new schedule
+    program_schedule:
       schedule_html: starts %{local_time}, repeats every %{interval}
       schedule_once_html: starts %{local_time}, doesn't repeat
     show:
@@ -961,8 +870,174 @@ en:
       schedule_once_html: starts %{local_time}, doesn't repeat
       starts_at: starts at
       updated_at: updated at
+      user: user
     update:
       notice: schedule updated
+  programs:
+    create:
+      notice: program created
+    destroy:
+      notice: program deleted
+    edit:
+      submit: update program
+      title: edit program
+    form:
+      generate: generate
+      generating: generating
+      input: input
+      input_placeholder: enter your program's input
+      name_placeholder: enter your program's name
+    index:
+      delete_all: delete all programs
+      destroy_all: destroy all programs
+      new: new program
+      program_prompts: prompts
+      program_schedules: schedules
+      title: programs
+    model:
+      to_s: program#%{id}
+    new:
+      submit: create program
+      title: new program
+    reload:
+      submit: update program
+    show:
+      created_at: created at
+      delete: delete program
+      edit: edit program
+      evaluate: evaluate
+      id: id
+      input: input
+      name: name
+      new_program_schedule: new schedule
+      not_scheduled_html: would you like to schedule for %{local_time}?
+      program_executions: executions
+      program_schedules: schedules
+      reschedule: reschedule
+      schedule: schedule
+      scheduled_html: it's scheduled for %{local_time}
+      unschedule: unschedule
+      updated_at: updated at
+      user: user
+    update:
+      notice: program updated
+  repl_executions:
+    destroy:
+      notice: repl execution deleted
+    index:
+      delete_all: delete all repl executions
+      destroy_all: destroy all repl executions
+      title: repl executions
+    model:
+      statuses:
+        created: created
+        done: done
+        errored: errored
+        in_progress: in progress
+        initialized: initialized
+      to_s: repl_execution#%{id}
+    show:
+      context: context
+      created_at: created at
+      delete: delete repl execution
+      error: error
+      error_app_backtrace: error app backtrace
+      error_backtrace: error backtrace
+      error_class: error class
+      error_message: error message
+      id: id
+      input: input
+      output: output
+      repl_program: repl program
+      repl_session: repl session
+      result: result
+      status: status
+      updated_at: updated at
+      user: user
+  repl_programs:
+    create:
+      notice: repl program created
+    destroy:
+      notice: repl program deleted
+    edit:
+      submit: update repl program
+      title: edit repl program
+    form:
+      generate: generate
+      generating: generating
+      input_placeholder: enter your repl program's input
+    index:
+      delete_all: delete all repl programs
+      destroy_all: destroy all repl programs
+      new: new repl program
+      title: repl programs
+    model:
+      to_s: repl_program#%{id}
+    nested:
+      add: add repl program
+    nested_form:
+      fake_input: Http.get("https://google.com")
+      input_placeholder: enter your repl program's input
+      remove: remove repl program
+      repl_program: repl program
+    new:
+      submit: create repl program
+      title: new repl program
+    show:
+      created_at: created at
+      delete: delete repl program
+      edit: edit repl program
+      id: id
+      input: input
+      repl_session: repl session
+      updated_at: updated at
+      user: user
+    update:
+      notice: repl program updated
+  repl_prompts:
+    model:
+      statuses:
+        created: created
+        done: done
+        errored: errored
+        in_progress: in progress
+        initialized: initialized
+  repl_sessions:
+    create:
+      notice: repl session created
+    destroy:
+      notice: repl session deleted
+    edit:
+      submit: update repl session
+      title: edit repl session
+    form:
+      name_placeholder: enter your repl session's name
+    index:
+      delete_all: delete all repl sessions
+      destroy_all: destroy all repl sessions
+      new: new repl session
+      title: repl sessions
+    model:
+      to_s: repl_session#%{id}
+    new:
+      submit: create repl session
+      title: new repl session
+    show:
+      created_at: created at
+      delete: delete repl session
+      edit: edit repl session
+      evaluate: evaluate
+      evaluate_all: evaluate all
+      generate: generate
+      generating: generating
+      id: id
+      name: name
+      new_repl_program: new repl program
+      repl_programs: repl programs
+      updated_at: updated at
+      user: user
+    update:
+      notice: repl session updated
   sessions:
     create:
       notice: logged in

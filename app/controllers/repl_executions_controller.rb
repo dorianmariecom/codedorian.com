@@ -66,14 +66,7 @@ class ReplExecutionsController < ApplicationController
   def load_repl_program
     return if params[:repl_program_id].blank?
 
-    @repl_program =
-      if @user
-        policy_scope(ReplProgram).where(user: @user).find(
-          params[:repl_program_id]
-        )
-      else
-        policy_scope(ReplProgram).find(params[:repl_program_id])
-      end
+    @repl_program = policy_scope(ReplProgram).find(params[:repl_program_id])
     set_error_context(repl_program: @repl_program)
   end
 

@@ -1,18 +1,10 @@
-<%= turbo_stream_from(@programs) %>
-
-<div class="p">
-  <%= link_to(t(".program_prompts"), [@user, :program_prompts], class: "link") %>
-</div>
-
-<div class="p">
-  <%= link_to(t(".program_schedules"), [@user, :program_schedules], class: "link") %>
-</div>
+<%= turbo_stream_from(@program_prompt_schedules) %>
 
 <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
 
 <%= render("shared/search") %>
 
-<% if @programs.any? %>
+<% if @program_prompt_schedules.any? %>
   <div class="p">
     <%= render(
       "shared/confirm",
@@ -25,8 +17,8 @@
 
 <turbo-frame id="search" target="_top">
   <%= render_collection(
-    partial: "programs/program",
-    collection: @programs,
-    as: :program
+    partial: "program_prompt_schedules/program_prompt_schedule",
+    collection: @program_prompt_schedules,
+    as: :program_prompt_schedule
   ) %>
 </turbo-frame>

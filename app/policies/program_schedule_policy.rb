@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-class ReplExecutionPolicy < ApplicationPolicy
+class ProgramSchedulePolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
-      scope.where(repl_program: policy_scope(ReplProgram))
+      scope.where(program: policy_scope(Program))
     end
   end
 
@@ -12,11 +12,11 @@ class ReplExecutionPolicy < ApplicationPolicy
   end
 
   def create?
-    false
+    true
   end
 
   def update?
-    false
+    owner? || admin?
   end
 
   def show?
@@ -46,6 +46,6 @@ class ReplExecutionPolicy < ApplicationPolicy
   end
 
   def owner?
-    current_user? && user? && current_user == user
+    current_user? && user? && user == current_user
   end
 end

@@ -1,0 +1,42 @@
+<%= form_for(show_url) do |f| %>
+  <div class="p">
+    <%= f.label(:starts_at, class: "label") %>
+    <%= f.datetime_field(
+      :starts_at,
+      required: true,
+      class: "input",
+      autocomplete: "off",
+      data: {
+        form_type: "other"
+      }
+    ) %>
+    <div class="text-red-600" hidden data-validation-target="error"></div>
+    <div class="text-gray-600"><%= local_time(Time.zone.now) %></div>
+  </div>
+
+  <div class="p">
+    <%= f.label(:interval, class: "label") %>
+    <%= f.select(
+      :interval,
+      program_schedule_interval_options(interval: f.object.interval),
+      {},
+      required: true,
+      class: "input",
+      data: {
+        form_type: "other"
+      },
+      autocomplete: "off"
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.submit(
+      submit,
+      class: "button",
+      data: {
+        controller: "bridge--button",
+        bridge__button_title_value: submit
+      }
+    ) %>
+  </div>
+<% end %>
