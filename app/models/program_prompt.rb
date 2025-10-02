@@ -152,7 +152,7 @@ class ProgramPrompt < ApplicationRecord
         { role: "system", content: PROMPT_3 },
         { role: "user", content: input },
         { role: "system", content: PROMPT_4 },
-        { role: "user", content: prompt_schedules.to_json },
+        { role: "user", content: program_prompt_schedules.to_json },
         { role: "system", content: PROMPT_5 },
         { role: "system", content: programs_json },
         { role: "system", content: PROMPT_6 }

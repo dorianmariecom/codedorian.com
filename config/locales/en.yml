@@ -794,13 +794,13 @@ en:
       id: id
       input: input
       name: name
-      new_program_schedule: new schedule
+      new_program_prompt_schedule: new schedule
       output_input: output input
       output_name: output name
       output_program_schedule: 'interval: %{interval}, starts at: %{starts_at}'
       output_program_schedules: output schedules
       program: program
-      program_schedules: schedules
+      program_prompt_schedules: schedules
       status: status
       updated_at: updated at
       user: user
@@ -890,9 +890,9 @@ en:
     index:
       delete_all: delete all programs
       destroy_all: destroy all programs
-      erogram_schedules: schedules
       new: new program
       program_prompts: prompts
+      program_schedules: schedules
       title: programs
     model:
       to_s: program#%{id}
@@ -916,7 +916,7 @@ en:
       reschedule: reschedule
       schedule: schedule
       scheduled_html: it's scheduled for %{local_time}
-      unprogram_schedule: unschedule
+      unschedule: unschedule
       updated_at: updated at
       user: user
     update:

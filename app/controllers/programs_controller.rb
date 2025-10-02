@@ -223,7 +223,7 @@ class ProgramsController < ApplicationController
   end
 
   def program_prompt_params
-    prompt_params_with_schedules.transform_keys do |key|
+    program_prompt_params_with_schedules.transform_keys do |key|
       if key == "program_schedules_attributes"
         "program_prompt_schedules_attributes"
       else

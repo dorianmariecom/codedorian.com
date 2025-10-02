@@ -8,8 +8,8 @@
     }
   }
 ) do |f| %>
-  <% prompt = f.object.prompts.last || Prompt.new %>
-  <% generate = prompt.generating? ? t(".generating") : t(".generate") %>
+  <% program_prompt = f.object.program_prompts.last || ProgramPrompt.new %>
+  <% generate = program_prompt.generating? ? t(".generating") : t(".generate") %>
 
   <% if admin? %>
     <div class="p">
