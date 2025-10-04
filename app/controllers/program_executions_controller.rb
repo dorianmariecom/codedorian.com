@@ -51,12 +51,7 @@ class ProgramExecutionsController < ApplicationController
   def load_program
     return if params[:program_id].blank?
 
-    @program =
-      if @user
-        policy_scope(Program).where(user: @user).find(params[:program_id])
-      else
-        policy_scope(Program).find(params[:program_id])
-      end
+    @program = programs_scope.find(params[:program_id])
 
     set_error_context(program: @program)
   end
@@ -65,6 +60,12 @@ class ProgramExecutionsController < ApplicationController
     scope = searched_policy_scope(ProgramExecution)
     scope = scope.where(program: @program) if @program
     scope = scope.joins(:user).where(user: { id: @user }) if @user
+    scope
+  end
+
+  def programs_scope
+    scope = policy_scope(Program)
+    scope = scope.where(user: @user) if @user
     scope
   end
 

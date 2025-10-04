@@ -11,31 +11,6 @@ class Error < SolidErrors::Error
     )->>'id'::bigint = ?
   SQL
 
-  scope :where_program,
-        ->(program) { joins(:occurrences).where(<<~SQL.squish, program) }
-    (
-      ((solid_errors_occurrences.context::jsonb)->>'program')::jsonb
-    )->>'id'::bigint = ?
-  SQL
-
-  scope :where_repl_program,
-        ->(repl_program) do
-          joins(:occurrences).where(<<~SQL.squish, repl_program)
-    (
-      ((solid_errors_occurrences.context::jsonb)->>'repl_program')::jsonb
-    )->>'id'::bigint = ?
-  SQL
-        end
-
-  scope :where_repl_session,
-        ->(repl_session) do
-          joins(:occurrences).where(<<~SQL.squish, repl_session)
-    (
-      ((solid_errors_occurrences.context::jsonb)->>'repl_session')::jsonb
-    )->>'id'::bigint = ?
-  SQL
-        end
-
   def self.search_fields
     {
       id: {

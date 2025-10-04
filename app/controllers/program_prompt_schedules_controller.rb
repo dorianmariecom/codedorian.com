@@ -87,6 +87,7 @@ class ProgramPromptSchedulesController < ApplicationController
     return if params[:program_id].blank?
 
     @program = program_scope.find(params[:program_id])
+
     set_error_context(program: @program)
   end
 
@@ -94,6 +95,7 @@ class ProgramPromptSchedulesController < ApplicationController
     return if params[:program_prompt_id].blank?
 
     @program_prompt = program_prompt_scope.find(params[:program_prompt_id])
+
     set_error_context(program_prompt: @program_prompt)
   end
 

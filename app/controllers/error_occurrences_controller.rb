@@ -51,22 +51,34 @@ class ErrorOccurrencesController < ApplicationController
   def load_error
     return if params[:error_id].blank?
 
-    @error = policy_scope(Error).find(params[:error_id])
+    @error = errors_scope.find(params[:error_id])
+
     set_error_context(error: @error)
   end
 
   def load_error_occurrence
     @error_occurrence =
       authorize(
-        scope.find(params[:error_occurrence_id].presence || params[:id])
+        scope.find(id)
       )
+
     set_error_context(error_occurrence: @error_occurrence)
+  end
+
+  def id
+    params[:error_occurrence_id].presence || params[:id]
   end
 
   def scope
     scope = searched_policy_scope(ErrorOccurrence)
     scope = scope.where_user(@user) if @user
     scope = scope.where(error: @error) if @error
+    scope
+  end
+
+  def errors_scope
+    scope = policy_scope(Error)
+    scope = scope.where_user(@user) if @user
     scope
   end
 

@@ -81,6 +81,7 @@ class ProgramSchedulesController < ApplicationController
     return if params[:program_id].blank?
 
     @program = program_scope.find(params[:program_id])
+
     set_error_context(program: @program)
   end
 

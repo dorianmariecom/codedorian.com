@@ -56,13 +56,21 @@ class ProgramPromptsController < ApplicationController
   def load_program
     return if params[:program_id].blank?
 
-    @program = policy_scope(Program).find(params[:program_id])
+    @program = programs_scope.find(params[:program_id])
+
+    set_error_context(program: @program)
   end
 
   def scope
     scope = searched_policy_scope(ProgramPrompt)
     scope = scope.where(user: @user) if @user
     scope = scope.where(program: @program) if @program
+    scope
+  end
+
+  def programs_scope
+    scope = policy_scope(Program)
+    scope = scope.where(user: @user) if @user
     scope
   end
 

@@ -108,8 +108,13 @@ class ErrorsController < ApplicationController
   end
 
   def load_error
-    @error = authorize(scope.find(params[:error_id].presence || params[:id]))
+    @error = authorize(scope.find(id))
+
     set_error_context(error: @error)
+  end
+
+  def id
+    params[:error_id].presence || params[:id]
   end
 
   def scope

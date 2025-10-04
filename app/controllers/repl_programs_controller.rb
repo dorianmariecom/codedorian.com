@@ -114,24 +114,21 @@ class ReplProgramsController < ApplicationController
   def load_repl_session
     return if params[:repl_session_id].blank?
 
-    @repl_session =
-      if @user
-        policy_scope(ReplSession).where(user: @user).find(
-          params[:repl_session_id]
-        )
-      else
-        policy_scope(ReplSession).find(params[:repl_session_id])
-      end
+    @repl_session = repl_sessions_scope.find(params[:repl_session_id])
 
     set_error_context(repl_session: @repl_session)
   end
 
   def scope
     scope = searched_policy_scope(ReplProgram)
-    if @user
-      scope = scope.joins(:repl_session).where(repl_session: { user: @user })
-    end
+    scope = scope.joins(:user).where(user: { id: @user }) if @user
     scope = scope.where(repl_session: @repl_session) if @repl_session
+    scope
+  end
+
+  def repl_sessions_scope
+    scope = policy_scope(ReplSession)
+    scope = scope.where(user: @user) if @user
     scope
   end
 
