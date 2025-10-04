@@ -12,6 +12,8 @@ Rails.application.config.content_security_policy do |policy|
     "https://fonts.gstatic.com",
     "https://places.googleapis.com"
   )
+
+  policy.img_src(:self, "https:")
 end
 
 Rails.application.config.content_security_policy_report_only = false
