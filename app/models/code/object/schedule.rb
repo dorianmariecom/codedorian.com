@@ -33,10 +33,10 @@ class Code
         scope.where(id: code_value.to_s).first!.to_code
       rescue ActiveRecord::RecordNotFound => e
         if ::Current.admin?
-          raise(::Code::Error, "program not found (#{e.class}: #{e.message})")
+          raise(::Code::Error, "schedule not found (#{e.class}: #{e.message})")
         end
 
-        raise(::Code::Error, "program not found")
+        raise(::Code::Error, "schedule not found")
       end
 
       def self.code_intervals

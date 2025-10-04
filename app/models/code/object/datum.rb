@@ -43,6 +43,8 @@ class Code
           else
             code_create!
           end
+        else
+          super
         end
       end
 
@@ -68,18 +70,14 @@ class Code
 
       def self.code_find(value)
         code_value = value.to_code
-        (
-          scope.where(id: code_value.to_s).first ||
-            scope.where(key: code_value.as_json).first
-        ).to_code
+
+        scope.where(key: code_value.as_json).first.to_code
       end
 
       def self.code_find!(value)
         code_value = value.to_code
-        (
-          scope.where(id: code_value.to_s).first ||
-            scope.where(key: code_value.as_json).first!
-        ).to_code
+
+        scope.where(key: code_value.as_json).first!.to_code
       rescue ActiveRecord::RecordNotFound => e
         if ::Current.admin?
           raise(::Code::Error, "datum not found (#{e.class}: #{e.message})")
@@ -100,7 +98,7 @@ class Code
       end
 
       def self.scope
-        ::Current.user!.data
+        policy_scope(::Datum)
       end
 
       def call(**args)
@@ -190,7 +188,18 @@ class Code
       end
 
       def scope
-        ::Current.user!.data
+        policy_scope(::Datum)
+      end
+
+      include(::Pundit::Authorization)
+      extend(::Pundit::Authorization)
+
+      def self.current_user
+        ::Current.user
+      end
+
+      def current_user
+        ::Current.user
       end
     end
   end

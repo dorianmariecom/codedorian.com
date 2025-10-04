@@ -73,6 +73,8 @@ class Code
           else
             code_create!
           end
+        else
+          super
         end
       end
 
