@@ -73,4 +73,8 @@ class ApplicationRecord < ActiveRecord::Base
   def t(key, ...)
     I18n.t("#{model_plural}.model.#{key}", ...)
   end
+
+  def url_helpers
+    Rails.application.routes.url_helpers
+  end
 end

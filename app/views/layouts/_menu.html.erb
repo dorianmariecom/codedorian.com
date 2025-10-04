@@ -24,6 +24,7 @@
     class: "link"
   ) %>
   <%= link_to(t(".data"), [current_user_or_guest, :data], class: "link") %>
+  <%= link_to(t(".attachments"), [current_user_or_guest, :attachments], class: "link") %>
   <%= link_to(t(".documentation"), :docs, class: "link") %>
   <%= link_to(t(".download"), :download, class: "link") %>
   <%= link_to(t(".about"), :about, class: "link") %>
@@ -44,6 +45,8 @@
     <%= link_to(t(".programs"), :programs, class: "link") %>
     <%= link_to(t(".messages"), :messages, class: "link") %>
     <%= link_to(t(".repl_sessions"), :repl_sessions, class: "link") %>
+    <%= link_to(t(".data"), :data, class: "link") %>
+    <%= link_to(t(".attachments"), :attachments, class: "link") %>
     <%= link_to(t(".errors"), :errors, class: "link") %>
     <%= link_to(t(".jobs"), :jobs, class: "link") %>
   <% end %>

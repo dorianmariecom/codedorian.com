@@ -117,6 +117,35 @@ en:
       notice: address updated
   application:
     current_user_required: current user required
+  attachments:
+    create:
+      notice: file created
+    destroy:
+      notice: file deleted
+    edit:
+      submit: update file
+      title: edit file
+    index:
+      delete_all: delete all files
+      destroy_all: destroy all files
+      new: new file
+      title: files
+    model:
+      to_s: file#%{id}
+    new:
+      submit: create file
+      title: new file
+    show:
+      created_at: created at
+      delete: delete file
+      download: download
+      edit: edit file
+      id: id
+      preview: preview
+      updated_at: updated at
+      user: user
+    update:
+      notice: file updated
   current:
     model:
       envs:
@@ -345,6 +374,7 @@ en:
       menu:
         about: about
         account: account
+        attachments: files
         data: data
         documentation: documentation
         english: english
@@ -482,6 +512,7 @@ en:
     menu:
       about: about
       admin: admin
+      attachments: files
       data: data
       documentation: documentation
       download: download

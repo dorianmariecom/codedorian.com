@@ -33,6 +33,16 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :attachments, path: "/files" do
+        get :preview
+        get :download
+
+        collection do
+          delete "/destroy_all", to: "attachments#destroy_all"
+          delete "/delete_all", to: "attachments#delete_all"
+        end
+      end
+
       resources :programs do
         post :evaluate
         post :reschedule

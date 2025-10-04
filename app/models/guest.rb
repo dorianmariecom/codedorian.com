@@ -16,6 +16,8 @@ class Guest
   def persisted? = true
 
   def addresses = Address.none
+  def attachments = Attachment.none
+  def data = Datum.none
   def devices = Device.none
   def email_addresses = EmailAddress.none
   def handles = Handle.none
@@ -23,11 +25,10 @@ class Guest
   def passwords = Password.none
   def phone_numbers = PhoneNumber.none
   def programs = Program.none
+  def received_messages = Message.none
+  def sent_messages = Message.none
   def time_zones = TimeZone.none
   def tokens = Token.none
-  def sent_messages = Message.none
-  def received_messages = Message.none
-  def data = Datum.none
 
   def verified! = nil
   def primary! = nil

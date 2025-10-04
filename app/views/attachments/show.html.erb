@@ -1,0 +1,44 @@
+<% content_for(:title, @attachment) %>
+
+<%= turbo_stream_from(@attachment) %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".id") %></div>
+  <div class="font-bold"><%= @attachment.id %></div>
+</div>
+
+<% if @attachment.user.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".user") %></div>
+    <%= render("shared/user", user: @attachment.user) %>
+  </div>
+<% end %>
+
+<% if @attachment.file.attached? %>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= link_to(t(".preview"), [*show_url, :preview], class: "link") %>
+    </div>
+  </div>
+
+  <div class="p">
+    <div class="text-gray-600">
+      <%= link_to(t(".download"), [*show_url, :download], class: "link") %>
+    </div>
+  </div>
+<% end %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".updated_at") %></div>
+  <div class="font-bold"><%= local_time(@attachment.updated_at) %></div>
+</div>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".created_at") %></div>
+  <div class="font-bold"><%= local_time(@attachment.created_at) %></div>
+</div>
+
+<div class="p">
+  <%= link_to(t(".edit"), edit_url, class: "link") %>
+  <%= render("shared/confirm", text: t(".delete"), url: show_url) %>
+</div>

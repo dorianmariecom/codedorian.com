@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class DatumPolicy < ApplicationPolicy
+class AttachmentPolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
       scope.where(user: policy_scope(User))
@@ -9,6 +9,14 @@ class DatumPolicy < ApplicationPolicy
 
   def index?
     true
+  end
+
+  def preview?
+    owner? || admin?
+  end
+
+  def download?
+    owner? || admin?
   end
 
   def show?
