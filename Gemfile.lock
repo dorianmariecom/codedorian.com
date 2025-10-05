@@ -153,6 +153,8 @@ GEM
     dotenv-rails (3.1.8)
       dotenv (= 3.1.8)
       railties (>= 6.1)
+    down (5.4.2)
+      addressable (~> 2.8)
     drb (2.2.3)
     easy_translate (0.5.1)
       thread
@@ -613,6 +615,7 @@ DEPENDENCIES
   dorian-arguments
   dorian-to_struct
   dotenv-rails
+  down
   easy_translate
   faker
   heroicon

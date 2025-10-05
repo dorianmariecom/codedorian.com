@@ -357,6 +357,7 @@ Rails.application.routes.draw do
     get :ios, to: "static#ios"
     get :android, to: "static#android"
     get :download, to: "static#download"
+    get :proxy, to: "proxies#show"
 
     resources :configurations, only: [] do
       get :ios_v1, on: :collection
