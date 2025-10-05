@@ -20,3 +20,4 @@
 - more links in index pages
 - jobs metadata current_user/user/program/...
 - load_user simpler
+- Html.tag e.g. Html.tag(:a, "google", href: "https://google.com")
