@@ -146,8 +146,7 @@ class User < ApplicationRecord
   end
 
   def unverified_time_zone
-    time_zones.primary.first&.time_zone ||
-      time_zones.first&.time_zone
+    time_zones.primary.first&.time_zone || time_zones.first&.time_zone
   end
 
   def device
