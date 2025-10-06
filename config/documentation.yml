@@ -333,41 +333,6 @@
       output: ''
       result: "[]"
     name: programs
-  - examples:
-    - error: ''
-      input: Current.program
-      name: current program nothing
-      output: ''
-      result: nothing
-    name: program
-  - examples:
-    - error: ''
-      input: Current.program!
-      name: current program present
-      output: ''
-      result: '{"id" => 1}'
-    name: program!
-  - examples:
-    - error: ''
-      input: Current.schedules
-      name: current schedules none
-      output: ''
-      result: "[]"
-    name: schedules
-  - examples:
-    - error: ''
-      input: Current.schedule
-      name: current schedule nothing
-      output: ''
-      result: nothing
-    name: schedule
-  - examples:
-    - error: ''
-      input: Current.schedule!
-      name: current schedule present
-      output: ''
-      result: '{"id" => 1}'
-    name: schedule!
   name: Current
   parent: Dictionary
 - class_functions:

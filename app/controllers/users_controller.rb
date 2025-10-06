@@ -26,12 +26,14 @@ class UsersController < ApplicationController
     unless params[:time_zone].in?(TimeZone::TIME_ZONES)
       return head(:bad_request)
     end
-    return head(:bad_request) if Current.time_zone
-    return head(:bad_request) if Current.unverified_time_zone
 
-    if Current.user
-      Current.unverified_time_zones.create!(time_zone: params[:time_zone])
+    if current_user?
+      return head(:bad_request) if current_user.unverified_time_zone.present?
+
+      current_user.time_zones.create!(time_zone: params[:time_zone])
     else
+      return head(:bad_request) if session[:time_zone].present?
+
       session[:time_zone] = params[:time_zone]
     end
 

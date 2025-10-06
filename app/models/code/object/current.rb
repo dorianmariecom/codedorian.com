@@ -16,21 +16,6 @@ class Code
         when "programs"
           sig(args)
           code_programs
-        when "program"
-          sig(args)
-          code_program!
-        when "program!"
-          sig(args)
-          code_program
-        when "schedules"
-          sig(args)
-          code_schedules
-        when "schedule"
-          sig(args)
-          code_schedule
-        when "schedule!"
-          sig(args)
-          code_schedule!
         else
           super
         end
@@ -45,27 +30,7 @@ class Code
       end
 
       def self.code_programs
-        ::Current.programs.to_code
-      end
-
-      def self.code_program
-        ::Current.program.to_code
-      end
-
-      def self.code_program!
-        ::Current.program!.to_code
-      end
-
-      def self.code_schedules
-        ::Current.schedules.to_code
-      end
-
-      def self.code_schedule
-        ::Current.schedule.to_code
-      end
-
-      def self.code_schedule!
-        ::Current.schedule!.to_code
+        policy_scope(Program).where(user: ::Current.user).to_code
       end
 
       include(::Pundit::Authorization)
