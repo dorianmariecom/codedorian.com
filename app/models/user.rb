@@ -249,7 +249,6 @@ class User < ApplicationRecord
       locale: locale,
       translated_locale: translated_locale,
       description: to_s,
-      unverified_description: to_unverified_s,
       updated_at: updated_at,
       created_at: created_at,
       programs: programs
