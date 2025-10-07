@@ -10,7 +10,8 @@ Rails.application.config.content_security_policy do |policy|
     "https://fonts.googleapis.com",
     "https://maps.gstatic.com",
     "https://fonts.gstatic.com",
-    "https://places.googleapis.com"
+    "https://places.googleapis.com",
+    "https://proxy.dorianmarie.com"
   )
 end
 
