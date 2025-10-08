@@ -232,8 +232,8 @@ en:
       class_functions: class functions
       instance_functions: instance functions
     index:
-      title: documentation
       examples: examples
+      title: documentation
     show:
       title: documentation not found
   email_addresses:
@@ -314,6 +314,11 @@ en:
       verified: verified?
     unprocessable_entity:
       title: unprocessable entity
+  examples:
+    index:
+      title: examples
+    show:
+      title: not found
   guests:
     index:
       delete_all: delete all guests
@@ -1290,8 +1295,3 @@ en:
       next: next
       previous: previous
       truncate: "…"
-  examples:
-    index:
-      title: examples
-    show:
-      title: not found
