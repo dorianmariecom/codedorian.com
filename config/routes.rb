@@ -358,9 +358,7 @@ Rails.application.routes.draw do
     get :android, to: "static#android"
     get :download, to: "static#download"
 
-    resources :configurations, only: [] do
-      get :ios_v1, on: :collection
-      get :android_v1, on: :collection
+    resources :configurations do
       get :ios_v2, on: :collection
       get :android_v2, on: :collection
     end

@@ -26,6 +26,7 @@ class ApplicationController < ActionController::Base
   helper_method(:registered?)
   helper_method(:guest?)
   helper_method(:current_time_zone)
+  helper_method(:current_persisted_time_zone)
   helper_method(:admin?)
   helper_method(:can?)
   helper_method(:error_message_for)
@@ -155,6 +156,14 @@ class ApplicationController < ActionController::Base
 
   def current_time_zone
     current_user&.unverified_time_zone.presence || session[:time_zone].presence
+  end
+
+  def current_persisted_time_zone
+    if current_user?
+      current_user.unverified_time_zone.presence
+    else
+      session[:time_zone].presence
+    end
   end
 
   def current_token?

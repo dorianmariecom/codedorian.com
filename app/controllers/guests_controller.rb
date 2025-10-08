@@ -34,11 +34,11 @@ class GuestsController < ApplicationController
   end
 
   def destroy_all
-    redirect_to(index_url)
+    redirect_back_or_to(index_url)
   end
 
   def delete_all
-    redirect_to(index_url)
+    redirect_back_or_to(index_url)
   end
 
   def model_class

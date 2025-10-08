@@ -18,7 +18,7 @@
   >
     <script>
       window.DEFAULT_COUNTRY_CODE = "<%= default_country_code %>";
-      window.time_zone = "<%= current_user? ? current_user.unverified_time_zone : session[:time_zone] %>";
+      window.time_zone = "<%= current_persisted_time_zone %>";
       window.translations = <%= t(".js").to_json.html_safe %>;
       window.platform = "<%= browser.platform %>";
       window.RECAPTCHA_SITE_KEY = "<%= recaptcha_site_key %>";
