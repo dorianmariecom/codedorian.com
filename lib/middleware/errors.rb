@@ -12,11 +12,9 @@ module Middleware
     def call(env)
       @app.call(env)
     rescue ActionDispatch::RemoteIp::IpSpoofAttackError => e
-      message = e&.class&.name.to_s
-      message_truncated =
-        message.truncate(ERROR_MESSAGE_LIMIT, omission: OMISSION)
+      message = Truncate.strip(e&.class&.name.to_s)
 
-      [400, {}, [message_truncated]]
+      [400, {}, [message]]
     end
   end
 end

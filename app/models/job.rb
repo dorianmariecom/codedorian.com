@@ -74,9 +74,6 @@ class Job < SolidQueue::Job
   end
 
   def to_s
-    "#{queue_name}: #{class_name}: #{arguments["arguments"]}".truncate(
-      SAMPLE_SIZE,
-      omission: OMISSION
-    )
+    Truncate.strip("#{queue_name}: #{class_name}: #{arguments["arguments"]}")
   end
 end

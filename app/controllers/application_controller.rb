@@ -230,8 +230,7 @@ class ApplicationController < ActionController::Base
   def error_message_for(error)
     class_name = error&.class&.name.to_s
     message = admin? ? error&.message.presence.to_s : nil
-    to_s = [class_name, message].compact_blank.join(": ")
-    to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+    Truncate.strip([class_name, message].compact_blank.join(": "))
   end
 
   def searched_policy_scope(model)

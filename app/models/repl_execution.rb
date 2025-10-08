@@ -97,31 +97,31 @@ class ReplExecution < ApplicationRecord
   end
 
   def input_sample
-    input.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+    Truncate.strip(input)
   end
 
   def output_sample
-    output.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+    Truncate.strip(output)
   end
 
   def result_sample
-    result.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+    Truncate.strip(result)
   end
 
   def error_sample
-    error.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+    Truncate.strip(error)
   end
 
   def error_class_sample
-    error_class.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+    Truncate.strip(error_class)
   end
 
   def error_message_sample
-    error_message.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+    Truncate.strip(error_message)
   end
 
   def error_backtrace_sample
-    error_backtrace.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+    Truncate.strip(error_backtrace)
   end
 
   def error_app_backtrace

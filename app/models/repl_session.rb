@@ -36,7 +36,7 @@ class ReplSession < ApplicationRecord
   end
 
   def input_sample
-    input.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+    Truncate.strip(input)
   end
 
   def to_s

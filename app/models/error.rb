@@ -53,6 +53,6 @@ class Error < SolidErrors::Error
   end
 
   def to_s
-    "#{exception_class}: #{message}".truncate(SAMPLE_SIZE, omission: OMISSION)
+    Truncate.strip("#{exception_class}: #{message}")
   end
 end

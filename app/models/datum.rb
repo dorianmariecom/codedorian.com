@@ -37,11 +37,11 @@ class Datum < ApplicationRecord
   end
 
   def key_sample
-    key.to_json.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+    Truncate.strip(key.to_json)
   end
 
   def value_sample
-    value.to_json.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+    Truncate.strip(value.to_json)
   end
 
   def to_code

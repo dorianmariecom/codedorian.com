@@ -217,43 +217,39 @@ class ProgramPrompt < ApplicationRecord
   end
 
   def name_sample
-    name.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+    Truncate.strip(name)
   end
 
   def input_sample
-    input.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+    Truncate.strip(input)
   end
 
   def output_sample
-    output.presence&.to_json&.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+    Truncate.strip(output.presence&.to_json)
   end
 
   def output_name_sample
-    output_name.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+    Truncate.strip(output_name)
   end
 
   def output_input_sample
-    output_input.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+    Truncate.strip(output_input)
   end
 
   def error_class_sample
-    error_class.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+    Truncate.strip(error_class)
   end
 
   def error_message_sample
-    error_message.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+    Truncate.strip(error_message)
   end
 
   def error_backtrace_sample
-    error_backtrace.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence
+    Truncate.strip(error_backtrace)
   end
 
   def output_schedules_sample
-    output_schedules
-      .presence
-      &.to_json
-      &.truncate(SAMPLE_SIZE, omission: OMISSION)
-      .presence
+    Truncate.strip(output_schedules.presence&.to_json)
   end
 
   def programs_json

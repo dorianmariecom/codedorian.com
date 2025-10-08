@@ -120,7 +120,11 @@ class Program < ApplicationRecord
   end
 
   def input_sample
-    input.to_s.truncate(SAMPLE_SIZE, omission: OMISSION).presence # TODO: make Truncate class
+    Truncate.strip(input)
+  end
+
+  def name_sample
+    Truncate.strip(name)
   end
 
   def to_code
@@ -135,6 +139,6 @@ class Program < ApplicationRecord
   end
 
   def to_s
-    name.presence || input_sample.presence || t("to_s", id: id)
+    name_sample.presence || input_sample.presence || t("to_s", id: id)
   end
 end
