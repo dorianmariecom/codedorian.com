@@ -52,6 +52,9 @@ class User < ApplicationRecord
     allow_blank: true
   )
 
+  after_save :update_description
+  after_touch :update_description
+
   def self.associated_search_fields
     {
       "user:id": {
@@ -236,9 +239,21 @@ class User < ApplicationRecord
   end
 
   def to_s
+    description.presence || t("to_s", id: id)
+  end
+
+  def calculated_description
     handle.presence || name.presence || email_address.presence ||
       phone_number.presence || address.presence || device.presence ||
-      token.presence || t("to_s", id: id)
+      token.presence
+  end
+
+  def description_changed?
+    description != calculated_description
+  end
+
+  def update_description
+    update!(description: calculated_description) if description_changed?
   end
 
   def to_code
@@ -248,7 +263,7 @@ class User < ApplicationRecord
       verified?: verified?,
       locale: locale,
       translated_locale: translated_locale,
-      description: to_s,
+      description: description,
       updated_at: updated_at,
       created_at: created_at,
       programs: programs

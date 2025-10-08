@@ -1,5 +1,3 @@
-- truncate model
-- user description (cached)
 - scope jobs by users and program
 - messages from programs
 - messages to programs
