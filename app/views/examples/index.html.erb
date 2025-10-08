@@ -1,0 +1,5 @@
+<% @examples.each do |example| %>
+  <div class="p font-bold">
+    <%= link_to(example["name"], example_path(id: example["name"].parameterize), class: "link") %>
+  </div>
+<% end %>

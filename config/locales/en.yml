@@ -233,6 +233,7 @@ en:
       instance_functions: instance functions
     index:
       title: documentation
+      examples: examples
     show:
       title: documentation not found
   email_addresses:
@@ -1289,3 +1290,8 @@ en:
       next: next
       previous: previous
       truncate: "…"
+  examples:
+    index:
+      title: examples
+    show:
+      title: not found

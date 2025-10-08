@@ -340,11 +340,12 @@ Rails.application.routes.draw do
 
     resources :country_codes
     resources :password_validations
-    resources :docs, only: %i[index show] do
+    resources :docs do
       scope ":doc_type" do
-        resources :docs, only: %i[index show]
+        resources :docs
       end
     end
+    resources :examples
     resource :session
 
     patch :time_zone, to: "users#update_time_zone"
