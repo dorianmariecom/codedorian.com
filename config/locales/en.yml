@@ -1136,10 +1136,6 @@ en:
         </p>
       title: about
       version: 'version: '
-    account:
-      log_in: log in
-      register: register
-      title: account
     android:
       title: android
     download:
