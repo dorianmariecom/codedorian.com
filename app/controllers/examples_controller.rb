@@ -9,7 +9,8 @@ class ExamplesController < ApplicationController
   end
 
   def show
-    @example = @examples.detect { |example| example["name"].parameterize == params[:id] }
+    @example =
+      @examples.detect { |example| example["name"].parameterize == params[:id] }
 
     render(:not_found) if @example.nil?
   end
