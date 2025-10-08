@@ -133,7 +133,18 @@ class ApplicationController < ActionController::Base
     return unless user == Current.user
 
     Current.user = nil
-    reset_session
+    session[:user_id] = nil
+    session[:time_zone] = nil
+
+    while session[:previous_user_ids].present?
+      previous_user_id = session[:previous_user_ids].shift
+      previous_user = User.find_by(id: previous_user_id)
+
+      if previous_user
+        log_in(previous_user)
+        break
+      end
+    end
   end
 
   def delete_link_header

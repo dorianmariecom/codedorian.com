@@ -1,5 +1,3 @@
-- add examples page
-- impersonate go back to admin_user
 - truncate model
 - user description (cached)
 - scope jobs by users and program

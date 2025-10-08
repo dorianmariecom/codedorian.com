@@ -16,6 +16,8 @@ class UsersController < ApplicationController
   end
 
   def impersonate
+    session[:previous_user_ids] ||= []
+    session[:previous_user_ids] << current_user.id
     session[:user_id] = @user.id
 
     redirect_to(show_url)
