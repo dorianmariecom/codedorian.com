@@ -3,6 +3,84 @@
 class Job < SolidQueue::Job
   include(Search)
 
+  has_many(
+    :job_contexts,
+    primary_key: :active_job_id,
+    foreign_key: :active_job_id,
+    dependent: :destroy,
+    inverse_of: :job
+  )
+
+  scope(
+    :with_current_user,
+    ->(current_user) do
+      joins(:job_contexts).where(
+        "job_contexts.context->'current_user'->>'id' = ?",
+        current_user
+      )
+    end
+  )
+
+  scope(
+    :with_user,
+    ->(user) do
+      joins(:job_contexts).where(
+        "job_contexts.context->'user'->>'id' = ?",
+        user
+      )
+    end
+  )
+
+  scope(
+    :with_program,
+    ->(program) do
+      joins(:job_contexts).where(
+        "job_contexts.context->'program'->>'id' = ?",
+        program
+      )
+    end
+  )
+
+  scope(
+    :with_program_prompt,
+    ->(program_prompt) do
+      joins(:job_contexts).where(
+        "job_contexts.context->'program_prompt'->>'id' = ?",
+        program_prompt
+      )
+    end
+  )
+
+  scope(
+    :with_repl_session,
+    ->(repl_session) do
+      joins(:job_contexts).where(
+        "job_contexts.context->'repl_session'->>'id' = ?",
+        repl_session
+      )
+    end
+  )
+
+  scope(
+    :with_repl_program,
+    ->(repl_program) do
+      joins(:job_contexts).where(
+        "job_contexts.context->'repl_program'->>'id' = ?",
+        repl_program
+      )
+    end
+  )
+
+  scope(
+    :with_repl_prompt,
+    ->(repl_prompt) do
+      joins(:job_contexts).where(
+        "job_contexts.context->'repl_prompt'->>'id' = ?",
+        repl_prompt
+      )
+    end
+  )
+
   def self.search_fields
     {
       id: {
