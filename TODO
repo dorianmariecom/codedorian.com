@@ -1,7 +1,5 @@
 - breadcrumbs
 - everything crud
-- Schedule/PromptSchedule
-- nested scopes e.g. repl_programs_scope
 - list all descendants in parent pages, at least the link and count
 - error (occurences) scoped by program/repl program
 - erd diagram :)
