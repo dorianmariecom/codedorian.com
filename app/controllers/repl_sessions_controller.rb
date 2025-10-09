@@ -11,7 +11,17 @@ class ReplSessionsController < ApplicationController
   end
 
   def evaluate
-    ReplSessionEvaluateJob.perform_later(repl_session: @repl_session)
+    perform_later(
+      ReplSessionEvaluateJob,
+      arguments: {
+        repl_session: @repl_session
+      },
+      context: {
+        current_user: current_user,
+        user: @user,
+        repl_session: @repl_session
+      }
+    )
 
     redirect_back_or_to(show_url)
   end

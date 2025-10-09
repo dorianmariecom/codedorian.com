@@ -3,6 +3,7 @@
 class ApplicationController < ActionController::Base
   include(Pundit::Authorization)
   include(CanConcern)
+  include(PerformLaterConcern)
 
   protect_from_forgery(with: :exception)
 

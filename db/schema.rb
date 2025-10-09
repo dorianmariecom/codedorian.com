@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_08_191926) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_09_191314) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -121,6 +121,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_08_191926) do
     t.bigint "user_id", null: false
     t.boolean "verified", default: false, null: false
     t.index ["user_id"], name: "index_handles_on_user_id"
+  end
+
+  create_table "job_contexts", force: :cascade do |t|
+    t.string "active_job_id", null: false
+    t.jsonb "context"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["active_job_id"], name: "index_job_contexts_on_active_job_id"
   end
 
   create_table "messages", force: :cascade do |t|

@@ -32,7 +32,19 @@ class ReplProgramsController < ApplicationController
         @repl_prompt = authorize(repl_prompts_scope.new(repl_prompt_params))
 
         if @repl_prompt.save
-          ReplPromptGenerateJob.perform_later(repl_prompt: @repl_prompt)
+          perform_later(
+            ReplPromptGenerateJob,
+            arguments: {
+              repl_prompt: @repl_prompt
+            },
+            context: {
+              current_user: current_user,
+              user: @user,
+              repl_session: @repl_session,
+              repl_program: @repl_program,
+              repl_prompt: @repl_prompt
+            }
+          )
         else
           flash.now.alert = @repl_prompt.alert
         end
@@ -43,7 +55,18 @@ class ReplProgramsController < ApplicationController
           redirect_to(edit_url, notice: t(".notice"))
         end
       else
-        ReplProgramEvaluateJob.perform_later(repl_program: @repl_program)
+        perform_later(
+          ReplProgramEvaluateJob,
+          arguments: {
+            repl_program: @repl_program
+          },
+          context: {
+            current_user: current_user,
+            user: @user,
+            repl_session: @repl_session,
+            repl_program: @repl_program
+          }
+        )
         redirect_back_or_to(show_url, notice: t(".notice"))
       end
     else
@@ -61,14 +84,37 @@ class ReplProgramsController < ApplicationController
         @repl_prompt = authorize(repl_prompts_scope.new(repl_prompt_params))
 
         if @repl_prompt.save
-          ReplPromptGenerateJob.perform_later(repl_prompt: @repl_prompt)
+          perform_later(
+            ReplPromptGenerateJob,
+            arguments: {
+              repl_prompt: @repl_prompt
+            },
+            context: {
+              current_user: current_user,
+              user: @user,
+              repl_session: @repl_session,
+              repl_program: @repl_program,
+              repl_prompt: @repl_prompt
+            }
+          )
         else
           flash.now.alert = @repl_prompt.alert
         end
 
         head :no_content
       else
-        ReplProgramEvaluateJob.perform_later(repl_program: @repl_program)
+        perform_later(
+          ReplProgramEvaluateJob,
+          arguments: {
+            repl_program: @repl_program
+          },
+          context: {
+            current_user: current_user,
+            user: @user,
+            repl_session: @repl_session,
+            repl_program: @repl_program
+          }
+        )
         redirect_back_or_to(show_url, notice: t(".notice"))
       end
     else

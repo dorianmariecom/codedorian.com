@@ -28,7 +28,17 @@ class ProgramsController < ApplicationController
   end
 
   def evaluate
-    ProgramEvaluateJob.perform_later(program: @program)
+    perform_later(
+      ProgramEvaluateJob,
+      arguments: {
+        program: @program
+      },
+      context: {
+        current_user: current_user,
+        user: @user,
+        program: @program
+      }
+    )
 
     head :no_content
   end
@@ -64,8 +74,17 @@ class ProgramsController < ApplicationController
           authorize(program_prompts_scope.new(program_prompt_params))
 
         if @program_prompt.save
-          ProgramPromptGenerateJob.perform_later(
-            program_prompt: @program_prompt
+          perform_later(
+            ProgramPromptGenerateJob,
+            arguments: {
+              program_prompt: @program_prompt
+            },
+            context: {
+              current_user: current_user,
+              user: @user,
+              program: @program,
+              program_prompt: @program_prompt
+            }
           )
         else
           flash.now.alert = @program_prompt.alert
@@ -91,8 +110,17 @@ class ProgramsController < ApplicationController
           authorize(program_prompts_scope.new(program_prompt_params))
 
         if @program_prompt.save
-          ProgramPromptGenerateJob.perform_later(
-            program_prompt: @program_prompt
+          perform_later(
+            ProgramPromptGenerateJob,
+            arguments: {
+              program_prompt: @program_prompt
+            },
+            context: {
+              current_user: current_user,
+              user: @user,
+              program: @program,
+              program_prompt: @program_prompt
+            }
           )
         else
           flash.now.alert = @program_prompt.alert

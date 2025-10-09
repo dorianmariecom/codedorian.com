@@ -4,6 +4,7 @@ class ApplicationRecord < ActiveRecord::Base
   include(ActionView::RecordIdentifier)
   include(Pundit::Authorization)
   include(CanConcern)
+  include(PerformLaterConcern)
   include(Search)
 
   extend(Pundit::Authorization)

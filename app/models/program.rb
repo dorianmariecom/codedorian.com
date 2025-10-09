@@ -92,8 +92,17 @@ class Program < ApplicationRecord
   def reschedule!
     unschedule!
     if next_at
-      ProgramEvaluateAndScheduleJob.set(wait_until: next_at).perform_later(
-        program: self
+      perform_later(
+        ProgramEvaluateAndScheduleJob,
+        wait_until: next_at,
+        arguments: {
+          program: self
+        },
+        context: {
+          current_user: Current.user,
+          user: user,
+          program: self
+        }
       )
     end
     touch

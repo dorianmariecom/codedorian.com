@@ -13,6 +13,7 @@ end
 puts_and_execute("Rpush::Apns::Feedback.delete_all")
 puts_and_execute("Rpush::Notification.delete_all")
 puts_and_execute("Rpush::App.delete_all")
+puts_and_execute("JobContext.delete_all")
 puts_and_execute("SolidErrors::Occurrence.delete_all")
 puts_and_execute("SolidErrors::Error.destroy_all.size")
 puts_and_execute("SolidQueue::BlockedExecution.delete_all")
