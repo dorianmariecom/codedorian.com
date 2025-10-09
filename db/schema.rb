@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_09_191314) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_09_195937) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -137,7 +137,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_09_191314) do
     t.boolean "read", default: false, null: false
     t.bigint "to_user_id", null: false
     t.datetime "updated_at", null: false
+    t.bigint "program_id"
+    t.bigint "repl_program_id"
     t.index ["from_user_id"], name: "index_messages_on_from_user_id"
+    t.index ["program_id"], name: "index_messages_on_program_id"
+    t.index ["repl_program_id"], name: "index_messages_on_repl_program_id"
     t.index ["to_user_id"], name: "index_messages_on_to_user_id"
   end
 

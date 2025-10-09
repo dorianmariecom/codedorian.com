@@ -13,6 +13,12 @@ class Message < ApplicationRecord
     default: -> { Current.user! },
     touch: true
   )
+  belongs_to(:program, default: -> { Current.program }, optional: true)
+  belongs_to(
+    :repl_program,
+    default: -> { Current.repl_program },
+    optional: true
+  )
 
   has_rich_text(:subject)
   has_rich_text(:body)

@@ -1,9 +1,5 @@
-- scope jobs by users and program
-- messages from programs
-- messages to programs
 - breadcrumbs
 - everything crud
-- repl prompt crud
 - Schedule/PromptSchedule
 - nested scopes e.g. repl_programs_scope
 - list all descendants in parent pages, at least the link and count

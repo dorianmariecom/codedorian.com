@@ -8,6 +8,7 @@ class ReplProgram < ApplicationRecord
   has_many(:repl_programs, through: :repl_session)
   has_many(:repl_prompts, dependent: :destroy)
   has_one(:user, through: :repl_session)
+  has_many(:messages, dependent: :nullify)
 
   validate { can!(:update, repl_session) }
 
@@ -36,7 +37,7 @@ class ReplProgram < ApplicationRecord
   def evaluate!
     return if previous_repl_execution!&.error.present?
 
-    Current.with(user: user) do
+    Current.with(user: user, repl_program: self) do
       repl_execution = repl_executions.create!(status: :in_progress)
       context = previous_context!
       output = StringIO.new

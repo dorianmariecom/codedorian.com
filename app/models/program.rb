@@ -9,6 +9,7 @@ class Program < ApplicationRecord
   has_many(:program_schedules, dependent: :destroy)
   has_many(:program_prompts, dependent: :destroy)
   has_many(:program_schedule_prompts, through: :program_prompts)
+  has_many(:messages, dependent: :nullify)
 
   accepts_nested_attributes_for(:program_schedules, allow_destroy: true)
 
@@ -32,7 +33,7 @@ class Program < ApplicationRecord
   end
 
   def evaluate!
-    Current.with(user: user) do
+    Current.with(user: user, program: self) do
       program_execution = program_executions.create!(status: :in_progress)
       context = Code::Object::Context.new
       output = StringIO.new
