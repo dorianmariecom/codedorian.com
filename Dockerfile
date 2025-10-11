@@ -1,57 +1,54 @@
-arg RUBY_VERSION="3.4.5"
+ARG RUBY_VERSION="3.4.5"
 
-from registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
+FROM registry.docker.com/library/ruby:${RUBY_VERSION}-slim AS base
 
-env BUNDLER_VERSION="2.7.1" \
+ENV BUNDLER_VERSION="2.7.1" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
+    BUNDLE_WITHOUT="development:test" \
     NODE_VERSION="24.4.1" \
     NPM_VERSION="11.4.2" \
     PATH="/usr/local/node/bin:${PATH}" \
     RAILS_ENV="production" \
+    NODE_ENV="production" \
     RUBY_INSTALL_VERSION="0.10.1"
 
-run apt-get update
-run apt-get install -y \
-    autoconf \
-    build-essential \
-    curl \
-    fish \
-    git \
-    libpq-dev \
-    libvips \
-    pkg-config \
-    postgresql \
-    postgresql-contrib \
-    libpq-dev \
-    libyaml-dev \
-    vim \
-    wget
+RUN apt-get update &&
+    apt-get install -y --no-install-recommends \
+        autoconf build-essential curl fish git libpq-dev libvips pkg-config \
+        postgresql postgresql-contrib libyaml-dev vim wget ca-certificates &&
+    rm -rf /var/lib/apt/lists/*
 
-workdir /rails
+WORKDIR /rails
 
-run curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/
-run /tmp/node-build-master/bin/node-build $NODE_VERSION /usr/local/node
+RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz |
+    tar xz -C /tmp/ &&
+    /tmp/node-build-master/bin/node-build "$NODE_VERSION" /usr/local/node &&
+    node -v && npm -v
 
-copy Gemfile Gemfile.lock ./
+COPY Gemfile Gemfile.lock ./
+RUN gem install bundler -v "$BUNDLER_VERSION"
 
-run gem install bundler -v "$BUNDLER_VERSION"
-run bundle install
+RUN --mount=type=cache,target=/usr/local/bundle/cache \
+    bundle install --jobs=4 --retry=3 &&
+    bundle clean --force &&
+    rm -rf "$BUNDLE_PATH/cache"
 
-copy package.json package-lock.json ./
+COPY package.json package-lock.json ./
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci --omit=dev &&
+    npm cache clean --force
 
-run npm ci
+COPY . .
 
-copy . .
-
-run HOST=example.com \
+RUN HOST=example.com \
     HOSTS=example.com \
     BASE_URL=https://example.com \
     RAILS_MASTER_KEY_DUMMY=1 \
     SECRET_KEY_BASE_DUMMY=1 \
-    ./bin/rails assets:precompile
+    ./bin/rails assets:precompile &&
+    rm -rf node_modules/.cache tmp/cache
 
-entrypoint ["/rails/bin/docker-entrypoint"]
-
-expose 3000
-cmd ["./bin/thrust", "./bin/web"]
+ENTRYPOINT ["/rails/bin/docker-entrypoint"]
+EXPOSE 3000
+CMD ["./bin/thrust", "./bin/web"]
