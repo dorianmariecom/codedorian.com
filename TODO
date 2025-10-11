@@ -1,3 +1,21 @@
+- restore keys
+- change docker hub token
+- fix jobs
+- users.dorianmarie.com
+- list all descendants in parent pages, at least the link and count
+- error (occurrences) scoped by program/repl program
+- erd diagram :)
+- scopes for children, e.g. repl_program = repl_programs_scope.find(...)
+- rails todos
+- more links in index pages
+- jobs metadata current_user/user/program/...
+- load_user simpler
+- Html.tag e.g. Html.tag(:a, "google", href: "https://google.com")
+- #schedule action
+- notice message for destroy_all/delete_all/etc.
+- notice for all actions
+- move static#home into programs controller
+- settle on path/url
 - everything crud
   - program executions
   - repl executions
@@ -13,17 +31,3 @@
   - program prompts
   - repl prompts
   - sessions
-- list all descendants in parent pages, at least the link and count
-- error (occurrences) scoped by program/repl program
-- erd diagram :)
-- scopes for children, e.g. repl_program = repl_programs_scope.find(...)
-- rails todos
-- more links in index pages
-- jobs metadata current_user/user/program/...
-- load_user simpler
-- Html.tag e.g. Html.tag(:a, "google", href: "https://google.com")
-- #schedule action
-- notice message for destroy_all/delete_all/etc.
-- notice for all actions
-- move static#home into programs controller
-- settle on path/url
