@@ -21,14 +21,14 @@ class DocsController < ApplicationController
         return render(:not_found)
       end
 
-      add_breacrumb(text: @class["name"], path: doc_path(@class["name"]))
+      add_breadcrumb(text: @class["name"], path: doc_path(@class["name"]))
 
       @doc = functions&.detect { |function| function["name"] == params[:id] }
     else
       @doc = @docs.detect { |parent| parent["name"] == params[:id] }
     end
 
-    @doc ? add_breacrumb(text: @doc["name"]) : render(:not_found)
+    @doc ? add_breadcrumb(text: @doc["name"]) : render(:not_found)
   end
 
   private

@@ -13,7 +13,7 @@ class ExamplesController < ApplicationController
     @example =
       @examples.detect { |example| example["name"].parameterize == params[:id] }
 
-    @exmaple ? add_breadcrumb(text: @example["name"]) : render(:not_found)
+    @example ? add_breadcrumb(text: @example["name"]) : render(:not_found)
   end
 
   private
