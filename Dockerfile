@@ -29,10 +29,10 @@ RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | \
 COPY Gemfile Gemfile.lock ./
 RUN gem install bundler -v "$BUNDLER_VERSION"
 
-RUN --mount=type=cache,target=/usr/local/bundle/cache \
+RUN --mount=type=cache,id=bundle-cache,target=/usr/local/bundle/cache \
+    bundle config set path "/usr/local/bundle" && \
     bundle install --jobs=4 --retry=3 && \
-    bundle clean --force && \
-    rm -rf "$BUNDLE_PATH/cache"
+    bundle clean --force
 
 COPY package.json package-lock.json ./
 RUN --mount=type=cache,target=/root/.npm \
