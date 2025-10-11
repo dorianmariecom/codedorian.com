@@ -1,6 +1,3 @@
-- restore keys
-- change docker hub token
-- fix jobs
 - users.dorianmarie.com
 - list all descendants in parent pages, at least the link and count
 - error (occurrences) scoped by program/repl program
