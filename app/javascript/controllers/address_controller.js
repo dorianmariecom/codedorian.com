@@ -18,10 +18,12 @@ export default class extends Controller {
   static values = {
     trim: { type: Boolean, default: false },
     required: { type: Boolean, default: false },
+    value: String,
   };
 
   connect() {
     if (window.google?.maps?.places) {
+      this.inputTarget.value = this.valueValue;
       return;
     }
 
@@ -43,6 +45,7 @@ export default class extends Controller {
 
   async load() {
     await google.maps.importLibrary("places");
+    this.inputTarget.value = this.valueValue;
   }
 
   input(event) {

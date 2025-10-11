@@ -1295,3 +1295,13 @@ en:
       next: next
       previous: previous
       truncate: "…"
+  breadcrumbs:
+    addresses:
+      new: new
+      edit: edit
+      index: addresses
+    users:
+      index: users
+    static:
+      home: home
+      about: about

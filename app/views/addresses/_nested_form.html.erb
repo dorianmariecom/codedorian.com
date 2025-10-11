@@ -7,6 +7,10 @@
 
   <h2 class="font-bold p"><%= t(".address") %></h2>
 
+  <div class="p">
+    <%= f.object.formatted_address.presence || f.object.address %>
+  </div>
+
   <div
     class="p"
     data-controller="address"
@@ -21,7 +25,6 @@
       "gmp-place-autocomplete",
       "",
       class: "input bg-white !p-0 scheme-light",
-      value: f.object.address,
       data: {
         address_target: "input",
         action: "input->address#input gmp-select->address#select"

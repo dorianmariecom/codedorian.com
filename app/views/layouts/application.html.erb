@@ -79,7 +79,11 @@
       <% if notice.present? %>
         <div class="p text-green-600"><%= notice %></div>
       <% end %>
+    <% end %>
 
+    <%= render_breadcrumbs %>
+
+    <% unless hotwire_native_app? %>
       <h1 class="font-bold p"><%= title %></h1>
     <% end %>
 

@@ -3,6 +3,7 @@
 class StaticController < ApplicationController
   before_action { authorize(:static) }
   skip_after_action(:verify_policy_scoped)
+  before_action :add_breadcrumb, except: :home
 
   def home
     @program = policy_scope(Program).new(user: current_user)

@@ -117,6 +117,35 @@ fr:
       notice: adresse mise à jour
   application:
     current_user_required: utilisateur actuel requis
+  attachments:
+    create:
+      notice: fichier créé
+    destroy:
+      notice: fichier supprimé
+    edit:
+      submit: mettre à jour le fichier
+      title: modifier le fichier
+    index:
+      delete_all: supprimer tous les fichiers
+      destroy_all: détruire tous les fichiers
+      new: nouveau fichier
+      title: fichiers
+    model:
+      to_s: fichier#%{id}
+    new:
+      submit: créer un fichier
+      title: nouveau fichier
+    show:
+      created_at: créé à
+      delete: supprimer le fichier
+      download: télécharger
+      edit: modifier le fichier
+      id: identifiant
+      preview: aperçu
+      updated_at: mis à jour à
+      user: utilisateur
+    update:
+      notice: fichier mis à jour
   current:
     model:
       envs:
@@ -203,6 +232,7 @@ fr:
       class_functions: fonctions de classe
       instance_functions: fonctions d'instance
     index:
+      examples: exemples
       title: documentation
     show:
       title: documentation non trouvée
@@ -284,6 +314,11 @@ fr:
       verified: vérifié ?
     unprocessable_entity:
       title: entité non traitable
+  examples:
+    index:
+      title: exemples
+    show:
+      title: non trouvé
   guests:
     index:
       delete_all: supprimer tous les invités
@@ -345,6 +380,7 @@ fr:
       menu:
         about: à propos
         account: compte
+        attachments: fichiers
         data: données
         documentation: documentation
         english: anglais
@@ -482,6 +518,7 @@ fr:
     menu:
       about: à propos
       admin: administrateur
+      attachments: fichiers
       data: données
       documentation: documentation
       download: télécharger
@@ -759,10 +796,12 @@ fr:
       id: id
       interval: intervalle
       program: programme
+      program_prompt: rapide
       schedule_html: commence le %{local_time}, se répète tous les %{interval}
       schedule_once_html: commence le %{local_time}, ne se répète pas
       starts_at: commence à
       updated_at: mis à jour le
+      user: utilisateur
     update:
       notice: horaire mis à jour
   program_prompts:
@@ -792,13 +831,13 @@ fr:
       id: identifiant
       input: saisir
       name: nom
-      new_program_schedule: nouvel horaire
+      new_program_prompt_schedule: nouvel horaire
       output_input: sortie entrée
       output_name: nom de sortie
       output_program_schedule: 'intervalle : %{interval}, commence à : %{starts_at}'
       output_program_schedules: calendriers de sortie
       program: programme
-      program_schedules: horaires
+      program_prompt_schedules: horaires
       status: statut
       updated_at: mis à jour à
       user: utilisateur
@@ -868,6 +907,7 @@ fr:
       schedule_once_html: commence le %{local_time}, ne se répète pas
       starts_at: commence à
       updated_at: mis à jour le
+      user: utilisateur
     update:
       notice: horaire mis à jour
   programs:
@@ -889,6 +929,7 @@ fr:
       destroy_all: détruire tous les programmes
       new: nouveau programme
       program_prompts: invites
+      program_schedules: horaires
       title: programmes
     model:
       to_s: programme#%{id}
@@ -912,7 +953,7 @@ fr:
       reschedule: reprogrammer
       schedule: planifier
       scheduled_html: planifié pour %{local_time}
-      unprogram_schedule: déplanifier
+      unschedule: déprogrammer
       updated_at: mis à jour à
       user: utilisateur
     update:
@@ -945,9 +986,11 @@ fr:
       input: saisir
       output: sortir
       repl_program: programme repl
+      repl_session: séance de répétition
       result: résultat
       status: statut
       updated_at: mis à jour à
+      user: utilisateur
   repl_programs:
     create:
       notice: programme repl créé
@@ -985,6 +1028,7 @@ fr:
       input: saisir
       repl_session: séance repl
       updated_at: mis à jour à
+      user: utilisateur
     update:
       notice: programme repl mis à jour
   repl_prompts:
@@ -1088,10 +1132,6 @@ fr:
         '
       title: à propos
       version: 'version : '
-    account:
-      log_in: se connecter
-      register: s'inscrire
-      title: compte
     android:
       title: android
     download:
@@ -1245,3 +1285,7 @@ fr:
       next: suivant
       previous: précédent
       truncate: "…"
+  breadcrumbs:
+    static:
+      home: maison
+      about: à propos

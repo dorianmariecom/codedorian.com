@@ -15,6 +15,7 @@ class ApplicationController < ActionController::Base
   before_action(:set_locale)
   before_action(:set_paper_trail_whodunnit)
   before_action(:verify_captcha)
+  before_action(:load_breadcrumbs)
 
   after_action(:verify_authorized)
   after_action(:verify_policy_scoped)
@@ -304,5 +305,19 @@ class ApplicationController < ActionController::Base
 
   def edit_url
     [:edit, *show_url]
+  end
+
+  def load_breadcrumbs
+    @breadcrumbs = [{
+      text: t("breadcrumbs.static.home"),
+      path: root_path
+    }]
+  end
+
+  def add_breadcrumb(text: nil, key: "#{controller_name}.#{action_name}", path: url_for)
+    @breadcrumbs << {
+      text: text || t("breadcrumbs.#{key}"),
+      path: path
+    }
   end
 end

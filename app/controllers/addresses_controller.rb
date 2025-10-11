@@ -2,6 +2,7 @@
 
 class AddressesController < ApplicationController
   before_action(:load_user)
+  before_action { add_breadcrumb(key: "addresses.index", path: index_url) }
   before_action(:load_address, only: %i[show edit update destroy])
 
   def index
@@ -16,9 +17,12 @@ class AddressesController < ApplicationController
   def new
     @address =
       authorize(scope.new(user: @user, primary: user_or_guest.addresses.none?))
+
+    add_breadcrumb
   end
 
   def edit
+    add_breadcrumb
   end
 
   def create
@@ -70,13 +74,17 @@ class AddressesController < ApplicationController
   private
 
   def load_user
+    return if params[:user_id].blank?
+
     if params[:user_id] == "me"
       @user = policy_scope(User).find(current_user&.id)
-      set_error_context(user: @user)
-    elsif params[:user_id].present?
+    else
       @user = policy_scope(User).find(params[:user_id])
-      set_error_context(user: @user)
     end
+
+    set_error_context(user: @user)
+    add_breadcrumb(key: "users.index", path: users_path)
+    add_breadcrumb(key: @user, path: @user)
   end
 
   def user_or_guest
@@ -108,6 +116,7 @@ class AddressesController < ApplicationController
   def load_address
     @address = authorize(scope.find(id))
     set_error_context(address: @address)
+    add_breadcrumb(text: @address, path: @address)
   end
 
   def address_params
