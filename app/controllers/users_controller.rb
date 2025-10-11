@@ -1,12 +1,9 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
+  before_action { add_breadcrumb(key: "users.index", path: index_url) }
   before_action(:load_user, only: %i[show edit update destroy impersonate])
-  skip_after_action(
-    :verify_policy_scoped,
-    only: %i[new create update_time_zone]
-  )
-  skip_after_action(:verify_authorized, only: :update_time_zone)
+  skip_after_action(:verify_policy_scoped, only: :update_time_zone)
   skip_before_action(:verify_captcha, only: :update_time_zone)
 
   def index
@@ -24,6 +21,8 @@ class UsersController < ApplicationController
   end
 
   def update_time_zone
+    authorize(User)
+
     return head(:bad_request) if params[:time_zone].blank?
     unless params[:time_zone].in?(TimeZone::TIME_ZONES)
       return head(:bad_request)
@@ -46,14 +45,17 @@ class UsersController < ApplicationController
   end
 
   def new
-    @user = authorize(policy_scope(User).new)
+    @user = authorize(scope.new)
+
+    add_breadcrumb
   end
 
   def edit
+    add_breadcrumb
   end
 
   def create
-    @user = authorize(policy_scope(User).new(user_params))
+    @user = authorize(scope.new(user_params))
 
     Current.with(user: @user) do
       if @user.save(context: :controller)
@@ -113,6 +115,7 @@ class UsersController < ApplicationController
       end
 
     set_error_context(user: @user)
+    add_breadcrumb(text: @user, path: show_url)
   end
 
   def scope

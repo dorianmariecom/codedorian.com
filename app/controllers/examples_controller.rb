@@ -3,6 +3,7 @@
 class ExamplesController < ApplicationController
   before_action { authorize(:example) }
   before_action(:load_examples)
+  before_action { add_breadcrumb(key: "examples.index", path: :examples) }
   skip_after_action(:verify_policy_scoped)
 
   def index
@@ -12,7 +13,7 @@ class ExamplesController < ApplicationController
     @example =
       @examples.detect { |example| example["name"].parameterize == params[:id] }
 
-    render(:not_found) if @example.nil?
+    @exmaple ? add_breadcrumb(text: @example["name"]) : render(:not_found)
   end
 
   private

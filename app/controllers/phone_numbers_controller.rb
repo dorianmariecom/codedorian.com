@@ -2,6 +2,7 @@
 
 class PhoneNumbersController < ApplicationController
   before_action(:load_user)
+  before_action { add_breadcrumb(key: "phone_numbers.index", path: index_url) }
   before_action(:load_phone_number, only: %i[show edit update destroy])
 
   def index
@@ -18,9 +19,12 @@ class PhoneNumbersController < ApplicationController
       authorize(
         scope.new(user: @user, primary: user_or_guest.phone_numbers.none?)
       )
+
+    add_breadcrumb
   end
 
   def edit
+    add_breadcrumb
   end
 
   def create
@@ -70,13 +74,18 @@ class PhoneNumbersController < ApplicationController
   private
 
   def load_user
-    if params[:user_id] == "me"
-      @user = policy_scope(User).find(current_user&.id)
-      set_error_context(user: @user)
-    elsif params[:user_id].present?
-      @user = policy_scope(User).find(params[:user_id])
-      set_error_context(user: @user)
-    end
+    return if params[:user_id].blank?
+
+    @user =
+      if params[:user_id] == "me"
+        policy_scope(User).find(current_user&.id)
+      else
+        policy_scope(User).find(params[:user_id])
+      end
+
+    set_error_context(user: @user)
+    add_breadcrumb(key: "users.index", path: :users)
+    add_breadcrumb(text: @user, path: @user)
   end
 
   def user_or_guest
@@ -108,6 +117,7 @@ class PhoneNumbersController < ApplicationController
   def load_phone_number
     @phone_number = authorize(scope.find(id))
     set_error_context(phone_number: @phone_number)
+    add_breadcrumb(text: @phone_number, path: show_url)
   end
 
   def phone_number_params

@@ -138,6 +138,8 @@ class ApplicationController < ActionController::Base
     session[:user_id] = nil
     session[:time_zone] = nil
 
+    reset_session if session[:previous_user_ids].blank?
+
     while session[:previous_user_ids].present?
       previous_user_id = session[:previous_user_ids].shift
       previous_user = User.find_by(id: previous_user_id)
@@ -308,16 +310,14 @@ class ApplicationController < ActionController::Base
   end
 
   def load_breadcrumbs
-    @breadcrumbs = [{
-      text: t("breadcrumbs.static.home"),
-      path: root_path
-    }]
+    @breadcrumbs = [{ text: t("breadcrumbs.static.home"), path: root_path }]
   end
 
-  def add_breadcrumb(text: nil, key: "#{controller_name}.#{action_name}", path: url_for)
-    @breadcrumbs << {
-      text: text || t("breadcrumbs.#{key}"),
-      path: path
-    }
+  def add_breadcrumb(
+    text: nil,
+    key: "#{controller_name}.#{action_name}",
+    path: url_for
+  )
+    @breadcrumbs << { text: text || t("breadcrumbs.#{key}"), path: path }
   end
 end

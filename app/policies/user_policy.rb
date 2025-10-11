@@ -17,6 +17,10 @@ class UserPolicy < ApplicationPolicy
     true
   end
 
+  def update_time_zone?
+    true
+  end
+
   def show?
     self? || admin?
   end

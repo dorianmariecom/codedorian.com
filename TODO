@@ -1,5 +1,18 @@
-- breadcrumbs
 - everything crud
+  - program executions
+  - repl executions
+  - configurations
+  - country codes
+  - doc classes
+  - doc functions
+  - doc examples
+  - errors
+  - error occurrences
+  - password validator inside passwords controller
+  - guests
+  - program prompts
+  - repl prompts
+  - sessions
 - list all descendants in parent pages, at least the link and count
 - error (occurences) scoped by program/repl program
 - erd diagram :)
@@ -9,3 +22,8 @@
 - jobs metadata current_user/user/program/...
 - load_user simpler
 - Html.tag e.g. Html.tag(:a, "google", href: "https://google.com")
+- #schedule action
+- notice message for destroy_all/delete_all/etc.
+- notice for all actions
+- move static#home into programs controller
+- settle on path/url

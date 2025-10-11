@@ -2,6 +2,7 @@
 
 class AttachmentsController < ApplicationController
   before_action(:load_user)
+  before_action { add_breadcrumb(key: "attachments.index", path: index_url) }
   before_action(
     :load_attachment,
     only: %i[show edit update destroy preview download]
@@ -36,9 +37,12 @@ class AttachmentsController < ApplicationController
 
   def new
     @attachment = authorize(scope.new(user: @user))
+
+    add_breadcrumb
   end
 
   def edit
+    add_breadcrumb
   end
 
   def create
@@ -90,13 +94,18 @@ class AttachmentsController < ApplicationController
   private
 
   def load_user
-    if params[:user_id] == "me"
-      @user = policy_scope(User).find(current_user&.id)
-      set_error_context(user: @user)
-    elsif params[:user_id].present?
-      @user = policy_scope(User).find(params[:user_id])
-      set_error_context(user: @user)
-    end
+    return if params[:user_id].blank?
+
+    @user =
+      if params[:user_id] == "me"
+        policy_scope(User).find(current_user&.id)
+      else
+        policy_scope(User).find(params[:user_id])
+      end
+
+    set_error_context(user: @user)
+    add_breadcrumb(key: "users.index", path: :users)
+    add_breadcrumb(text: @user, path: @user)
   end
 
   def scope
@@ -124,6 +133,7 @@ class AttachmentsController < ApplicationController
   def load_attachment
     @attachment = authorize(scope.find(id))
     set_error_context(attachment: @attachment)
+    add_breadcrumb(text: @attachment, path: show_url)
   end
 
   def attachment_params

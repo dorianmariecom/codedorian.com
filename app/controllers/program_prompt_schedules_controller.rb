@@ -4,6 +4,9 @@ class ProgramPromptSchedulesController < ApplicationController
   before_action(:load_user)
   before_action(:load_program)
   before_action(:load_program_prompt)
+  before_action do
+    add_breadcrumb(key: "program_prompt_schedules.index", path: index_url)
+  end
   before_action(
     :load_program_prompt_schedule,
     only: %i[show edit update destroy]
@@ -21,9 +24,12 @@ class ProgramPromptSchedulesController < ApplicationController
 
   def new
     @program_prompt_schedule = authorize(scope.new(program: @program))
+
+    add_breadcrumb
   end
 
   def edit
+    add_breadcrumb
   end
 
   def create
@@ -74,13 +80,18 @@ class ProgramPromptSchedulesController < ApplicationController
   private
 
   def load_user
-    if params[:user_id] == "me"
-      @user = policy_scope(User).find(current_user&.id)
-      set_error_context(user: @user)
-    elsif params[:user_id].present?
-      @user = policy_scope(User).find(params[:user_id])
-      set_error_context(user: @user)
-    end
+    return if params[:user_id].blank?
+
+    @user =
+      if params[:user_id] == "me"
+        policy_scope(User).find(current_user&.id)
+      else
+        policy_scope(User).find(params[:user_id])
+      end
+
+    set_error_context(user: @user)
+    add_breadcrumb(key: "users.index", path: :users)
+    add_breadcrumb(text: @user, path: @user)
   end
 
   def load_program
@@ -89,6 +100,8 @@ class ProgramPromptSchedulesController < ApplicationController
     @program = program_scope.find(params[:program_id])
 
     set_error_context(program: @program)
+    add_breadcrumb(key: "programs.index", path: [@user, :programs])
+    add_breadcrumb(text: @program, path: [@user, @program])
   end
 
   def load_program_prompt
@@ -97,6 +110,14 @@ class ProgramPromptSchedulesController < ApplicationController
     @program_prompt = program_prompt_scope.find(params[:program_prompt_id])
 
     set_error_context(program_prompt: @program_prompt)
+    add_breadcrumb(
+      key: "program_prompts.index",
+      path: [@user, @program, :program_prompts]
+    )
+    add_breadcrumb(
+      text: @program_prompt,
+      path: [@user, @program, @program_prompt]
+    )
   end
 
   def scope
@@ -139,6 +160,7 @@ class ProgramPromptSchedulesController < ApplicationController
   def load_program_prompt_schedule
     @program_prompt_schedule = authorize(scope.find(id))
     set_error_context(program_prompt_schedule: @program_prompt_schedule)
+    add_breadcrumb(text: @program_prompt_schedule, path: show_url)
   end
 
   def program_prompt_schedule_params

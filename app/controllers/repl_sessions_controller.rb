@@ -2,6 +2,7 @@
 
 class ReplSessionsController < ApplicationController
   before_action(:load_user)
+  before_action { add_breadcrumb(key: "repl_sessions.index", path: index_url) }
   before_action(:load_repl_session, only: %i[show edit update destroy evaluate])
 
   def index
@@ -45,9 +46,12 @@ class ReplSessionsController < ApplicationController
 
   def new
     @repl_session = authorize(scope.new(user: @user))
+
+    add_breadcrumb
   end
 
   def edit
+    add_breadcrumb
   end
 
   def create
@@ -97,13 +101,18 @@ class ReplSessionsController < ApplicationController
   private
 
   def load_user
-    if params[:user_id] == "me"
-      @user = policy_scope(User).find(current_user&.id)
-      set_error_context(user: @user)
-    elsif params[:user_id].present?
-      @user = policy_scope(User).find(params[:user_id])
-      set_error_context(user: @user)
-    end
+    return if params[:user_id].blank?
+
+    @user =
+      if params[:user_id] == "me"
+        policy_scope(User).find(current_user&.id)
+      else
+        policy_scope(User).find(params[:user_id])
+      end
+
+    set_error_context(user: @user)
+    add_breadcrumb(key: "users.index", path: :users)
+    add_breadcrumb(text: @user, path: @user)
   end
 
   def scope
@@ -131,6 +140,7 @@ class ReplSessionsController < ApplicationController
   def load_repl_session
     @repl_session = authorize(scope.find(id))
     set_error_context(repl_session: @repl_session)
+    add_breadcrumb(text: @repl_session, path: show_url)
   end
 
   def repl_session_params

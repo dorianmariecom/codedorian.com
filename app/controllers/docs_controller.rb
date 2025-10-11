@@ -2,6 +2,7 @@
 
 class DocsController < ApplicationController
   before_action { authorize(:doc) }
+  before_action { add_breadcrumb(key: "docs.index", path: :docs) }
   before_action(:load_docs)
   skip_after_action(:verify_policy_scoped)
 
@@ -20,12 +21,14 @@ class DocsController < ApplicationController
         return render(:not_found)
       end
 
+      add_breacrumb(text: @class["name"], path: doc_path(@class["name"]))
+
       @doc = functions&.detect { |function| function["name"] == params[:id] }
     else
       @doc = @docs.detect { |parent| parent["name"] == params[:id] }
     end
 
-    render(:not_found) if @doc.nil?
+    @doc ? add_breacrumb(text: @doc["name"]) : render(:not_found)
   end
 
   private

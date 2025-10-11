@@ -71,7 +71,7 @@ module MenuHelper
         path: polymorphic_path([current_user_or_guest, :attachments])
       },
       {
-        title: t("helpers.application.menu.documentation"),
+        title: t("helpers.application.menu.docs"),
         image: ios ? :document : :code,
         path: docs_path
       },

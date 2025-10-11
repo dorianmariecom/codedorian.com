@@ -2,6 +2,9 @@
 
 class EmailAddressesController < ApplicationController
   before_action(:load_user)
+  before_action do
+    add_breadcrumb(key: "email_addresses.index", path: index_url)
+  end
   before_action(:load_email_address, only: %i[show edit update destroy])
 
   def index
@@ -18,9 +21,12 @@ class EmailAddressesController < ApplicationController
       authorize(
         scope.new(user: @user, primary: user_or_guest.email_addresses.none?)
       )
+
+    add_breadcrumb
   end
 
   def edit
+    add_breadcrumb
   end
 
   def create
@@ -70,13 +76,18 @@ class EmailAddressesController < ApplicationController
   private
 
   def load_user
-    if params[:user_id] == "me"
-      @user = policy_scope(User).find(current_user&.id)
-      set_error_context(user: @user)
-    elsif params[:user_id].present?
-      @user = policy_scope(User).find(params[:user_id])
-      set_error_context(user: @user)
-    end
+    return if params[:user_id].blank?
+
+    @user =
+      if params[:user_id] == "me"
+        policy_scope(User).find(current_user&.id)
+      else
+        policy_scope(User).find(params[:user_id])
+      end
+
+    set_error_context(user: @user)
+    add_breadcrumb(key: "users.index", path: :users)
+    add_breadcrumb(text: @user, path: @user)
   end
 
   def user_or_guest
@@ -108,6 +119,7 @@ class EmailAddressesController < ApplicationController
   def load_email_address
     @email_address = authorize(scope.find(id))
     set_error_context(email_address: @email_address)
+    add_breadcrumb(text: @email_address, path: show_url)
   end
 
   def email_address_params

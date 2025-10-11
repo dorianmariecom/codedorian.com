@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class JobsController < ApplicationController
+  before_action { add_breadcrumb(key: "jobs.index", path: index_url) }
   before_action(:load_job, only: %i[show destroy delete discard retry])
 
   def index
@@ -74,6 +75,7 @@ class JobsController < ApplicationController
     @job = authorize(scope.find(id))
 
     set_error_context(job: @job)
+    add_breadcrumb(text: @job, path: show_url)
   end
 
   def id
@@ -93,6 +95,6 @@ class JobsController < ApplicationController
   end
 
   def nested
-    [@user, @program || @repl_program, @prompt || @repl_prompt]
+    []
   end
 end

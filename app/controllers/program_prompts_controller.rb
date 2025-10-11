@@ -3,6 +3,9 @@
 class ProgramPromptsController < ApplicationController
   before_action(:load_user)
   before_action(:load_program)
+  before_action do
+    add_breadcrumb(key: "program_prompts.index", path: index_url)
+  end
   before_action(:load_program_prompt, only: %i[show destroy])
 
   def index
@@ -44,13 +47,18 @@ class ProgramPromptsController < ApplicationController
   private
 
   def load_user
-    if params[:user_id] == "me"
-      @user = policy_scope(User).find(current_user&.id)
-      set_error_context(user: @user)
-    elsif params[:user_id].present?
-      @user = policy_scope(User).find(params[:user_id])
-      set_error_context(user: @user)
-    end
+    return if params[:user_id].blank?
+
+    @user =
+      if params[:user_id] == "me"
+        policy_scope(User).find(current_user&.id)
+      else
+        policy_scope(User).find(params[:user_id])
+      end
+
+    set_error_context(user: @user)
+    add_breadcrumb(key: "users.index", path: :users)
+    add_breadcrumb(text: @user, path: @user)
   end
 
   def load_program
@@ -59,6 +67,8 @@ class ProgramPromptsController < ApplicationController
     @program = programs_scope.find(params[:program_id])
 
     set_error_context(program: @program)
+    add_breadcrumb(key: "programs.index", path: [@user, :programs])
+    add_breadcrumb(text: @program, path: [@user, @program])
   end
 
   def scope
@@ -93,5 +103,6 @@ class ProgramPromptsController < ApplicationController
   def load_program_prompt
     @program_prompt = authorize(scope.find(id))
     set_error_context(program_prompt: @program_prompt)
+    add_breadcrumb(text: @program_prompt, path: show_url)
   end
 end

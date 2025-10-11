@@ -146,6 +146,139 @@ fr:
       user: utilisateur
     update:
       notice: fichier mis à jour
+  breadcrumbs:
+    addresses:
+      edit: modifier
+      index: adresses
+      new: nouveau
+    attachments:
+      edit: modifier
+      index: fichiers
+      new: nouveau
+    data:
+      edit: modifier
+      index: données
+      new: nouveau
+    devices:
+      edit: modifier
+      index: appareils
+      new: nouveau
+    docs:
+      edit: modifier
+      index: documents
+      new: nouveau
+    email_addresses:
+      edit: modifier
+      index: adresses e-mail
+      new: nouveau
+    error_occurrences:
+      edit: modifier
+      index: occurrences d'erreur
+      new: nouveau
+    errors:
+      edit: modifier
+      index: erreurs
+      internal_server_error: Erreur interne du serveur
+      new: nouveau
+      not_found: non trouvé
+      unprocessable_entity: entité non traitable
+    examples:
+      edit: modifier
+      index: exemples
+      new: nouveau
+    guests:
+      edit: modifier
+      index: invités
+      new: nouveau
+    handles:
+      edit: modifier
+      index: poignées
+      new: nouveau
+    jobs:
+      edit: modifier
+      index: emplois
+      new: nouveau
+    messages:
+      body: corps
+      content: contenu
+      edit: modifier
+      index: messages
+      new: nouveau
+      subject: sujet
+    names:
+      edit: modifier
+      index: noms
+      new: nouveau
+    passwords:
+      edit: modifier
+      index: mots de passe
+      new: nouveau
+    phone_numbers:
+      edit: modifier
+      index: numéros de téléphone
+      new: nouveau
+    program_executions:
+      edit: modifier
+      index: exécutions
+      new: nouveau
+    program_prompt_schedules:
+      edit: modifier
+      index: horaires
+      new: nouveau
+    program_prompts:
+      edit: modifier
+      index: invites
+      new: nouveau
+    program_schedules:
+      edit: modifier
+      index: horaires
+      new: nouveau
+    programs:
+      edit: modifier
+      index: programmes
+      new: nouveau
+    repl_executions:
+      edit: modifier
+      index: exécutions de repl
+      new: nouveau
+    repl_programs:
+      edit: modifier
+      index: programmes de remplacement
+      new: nouveau
+    repl_prompts:
+      edit: modifier
+      index: invites de réponse
+      new: nouveau
+    repl_sessions:
+      edit: modifier
+      index: séances de répétition
+      new: nouveau
+    sessions:
+      edit: modifier
+      index: séances
+      new: nouveau
+    static:
+      about: à propos
+      android: androïde
+      download: télécharger
+      home: maison
+      icons: icônes
+      ios: iOS
+      privacy: confidentialité
+      terms: termes
+      up: en haut
+    time_zones:
+      edit: modifier
+      index: fuseaux horaires
+      new: nouveau
+    tokens:
+      edit: modifier
+      index: jetons
+      new: nouveau
+    users:
+      edit: modifier
+      index: utilisateurs
+      new: nouveau
   current:
     model:
       envs:
@@ -333,6 +466,7 @@ fr:
     show:
       admin: administrateur
       created_at: créé à
+      delete: supprimer
       id: id
       locale: langue
       updated_at: mis à jour à
@@ -382,7 +516,7 @@ fr:
         account: compte
         attachments: fichiers
         data: données
-        documentation: documentation
+        docs: documents
         english: anglais
         errors: erreurs
         french: français
@@ -520,7 +654,7 @@ fr:
       admin: administrateur
       attachments: fichiers
       data: données
-      documentation: documentation
+      docs: documents
       download: télécharger
       english: anglais
       errors: erreurs
@@ -918,6 +1052,8 @@ fr:
     edit:
       submit: mettre à jour le programme
       title: modifier le programme
+    evaluate:
+      notice: programme évalué
     form:
       generate: générer
       generating: génération
@@ -938,6 +1074,8 @@ fr:
       title: nouveau programme
     reload:
       submit: programme de mise à jour
+    reschedule:
+      notice: programme prévu
     show:
       created_at: créé à
       delete: supprimer le programme
@@ -956,6 +1094,8 @@ fr:
       unschedule: déprogrammer
       updated_at: mis à jour à
       user: utilisateur
+    unschedule:
+      notice: programme non programmé
     update:
       notice: programme mis à jour
   repl_executions:
@@ -1285,7 +1425,3 @@ fr:
       next: suivant
       previous: précédent
       truncate: "…"
-  breadcrumbs:
-    static:
-      home: maison
-      about: à propos

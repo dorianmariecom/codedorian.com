@@ -4,6 +4,7 @@ class ErrorsController < ApplicationController
   EXCEPTIONS = %i[not_found internal_server_error unprocessable_entity].freeze
 
   before_action(:load_user)
+  before_action { add_breadcrumb(key: "errors.index", path: index_url) }
   before_action(:load_error, only: %i[show destroy])
   skip_after_action(:verify_policy_scoped, only: EXCEPTIONS)
 
@@ -52,6 +53,8 @@ class ErrorsController < ApplicationController
     @backtrace = @exception&.backtrace
     @app_backtrace = Backtrace.app(@backtrace)
 
+    add_breadcrumb
+
     respond_to do |format|
       format.json { render(json: { message: @message }, status: :not_found) }
       format.html { render(status: :not_found) }
@@ -67,6 +70,8 @@ class ErrorsController < ApplicationController
     @message = @exception&.message
     @backtrace = @exception&.backtrace
     @app_backtrace = Backtrace.app(@backtrace)
+
+    add_breadcrumb
 
     respond_to do |format|
       format.json do
@@ -86,6 +91,8 @@ class ErrorsController < ApplicationController
     @backtrace = @exception&.backtrace
     @app_backtrace = Backtrace.app(@backtrace)
 
+    add_breadcrumb
+
     respond_to do |format|
       format.json do
         render(json: { message: @message }, status: :unprocessable_entity)
@@ -98,19 +105,25 @@ class ErrorsController < ApplicationController
   private
 
   def load_user
-    if params[:user_id] == "me"
-      @user = policy_scope(User).find(current_user&.id)
-      set_error_context(user: @user)
-    elsif params[:user_id].present?
-      @user = policy_scope(User).find(params[:user_id])
-      set_error_context(user: @user)
-    end
+    return if params[:user_id].blank?
+
+    @user =
+      if params[:user_id] == "me"
+        policy_scope(User).find(current_user&.id)
+      else
+        policy_scope(User).find(params[:user_id])
+      end
+
+    set_error_context(user: @user)
+    add_breadcrumb(key: "users.index", path: :users)
+    add_breadcrumb(text: @user, path: @user)
   end
 
   def load_error
     @error = authorize(scope.find(id))
 
     set_error_context(error: @error)
+    add_breadcrumb(text: @error, path: show_url)
   end
 
   def id

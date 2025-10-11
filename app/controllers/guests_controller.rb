@@ -2,6 +2,7 @@
 
 class GuestsController < ApplicationController
   before_action { authorize(Guest) }
+  before_action { add_breadcrumb(key: "guests.index", path: index_url) }
   skip_after_action(:verify_policy_scoped)
 
   def index
@@ -11,34 +12,35 @@ class GuestsController < ApplicationController
   def show
     @guest = current_guest
     set_error_context(guest: @guest)
+    add_breadcrumb(text: @guest, path: show_url)
   end
 
   def new
-    redirect_to(index_url)
+    redirect_to(root_path)
   end
 
   def edit
-    redirect_to(index_url)
+    redirect_to(root_path)
   end
 
   def create
-    redirect_to(index_url)
+    redirect_to(root_path)
   end
 
   def update
-    redirect_to(index_url)
+    redirect_to(root_path)
   end
 
   def destroy
-    redirect_to(index_url)
+    redirect_to(root_path)
   end
 
   def destroy_all
-    redirect_back_or_to(index_url)
+    redirect_to(root_path)
   end
 
   def delete_all
-    redirect_back_or_to(index_url)
+    redirect_to(root_path)
   end
 
   def model_class

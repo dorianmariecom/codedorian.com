@@ -8,6 +8,7 @@ class SessionsController < ApplicationController
   helper_method(:password_param)
 
   def new
+    add_breadcrumb
   end
 
   def create

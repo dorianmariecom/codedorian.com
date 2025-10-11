@@ -76,15 +76,16 @@ class AddressesController < ApplicationController
   def load_user
     return if params[:user_id].blank?
 
-    if params[:user_id] == "me"
-      @user = policy_scope(User).find(current_user&.id)
-    else
-      @user = policy_scope(User).find(params[:user_id])
-    end
+    @user =
+      if params[:user_id] == "me"
+        policy_scope(User).find(current_user&.id)
+      else
+        policy_scope(User).find(params[:user_id])
+      end
 
     set_error_context(user: @user)
-    add_breadcrumb(key: "users.index", path: users_path)
-    add_breadcrumb(key: @user, path: @user)
+    add_breadcrumb(key: "users.index", path: :users)
+    add_breadcrumb(text: @user, path: @user)
   end
 
   def user_or_guest
@@ -116,7 +117,7 @@ class AddressesController < ApplicationController
   def load_address
     @address = authorize(scope.find(id))
     set_error_context(address: @address)
-    add_breadcrumb(text: @address, path: @address)
+    add_breadcrumb(text: @address, path: show_url)
   end
 
   def address_params

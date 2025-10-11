@@ -3,6 +3,9 @@
 class ErrorOccurrencesController < ApplicationController
   before_action(:load_user)
   before_action(:load_error)
+  before_action do
+    add_breadcrumb(key: "error_occurrences.index", path: index_url)
+  end
   before_action(:load_error_occurrence, only: %i[show destroy])
 
   def index
@@ -39,13 +42,18 @@ class ErrorOccurrencesController < ApplicationController
   private
 
   def load_user
-    if params[:user_id] == "me"
-      @user = policy_scope(User).find(current_user&.id)
-      set_error_context(user: @user)
-    elsif params[:user_id].present?
-      @user = policy_scope(User).find(params[:user_id])
-      set_error_context(user: @user)
-    end
+    return if params[:user_id].blank?
+
+    @user =
+      if params[:user_id] == "me"
+        policy_scope(User).find(current_user&.id)
+      else
+        policy_scope(User).find(params[:user_id])
+      end
+
+    set_error_context(user: @user)
+    add_breadcrumb(key: "users.index", path: :users)
+    add_breadcrumb(text: @user, path: @user)
   end
 
   def load_error
@@ -54,12 +62,15 @@ class ErrorOccurrencesController < ApplicationController
     @error = errors_scope.find(params[:error_id])
 
     set_error_context(error: @error)
+    add_breadcrumb(key: "errors.index", path: [@user, :errors])
+    add_breadcrumb(text: @error, path: [@user, @error])
   end
 
   def load_error_occurrence
     @error_occurrence = authorize(scope.find(id))
 
     set_error_context(error_occurrence: @error_occurrence)
+    add_breadcrumb(text: @error_occurrence, path: show_url)
   end
 
   def id

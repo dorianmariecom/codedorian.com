@@ -4,6 +4,7 @@ class ReplPromptsController < ApplicationController
   before_action(:load_user)
   before_action(:load_repl_session)
   before_action(:load_repl_program)
+  before_action { add_breadcrumb(key: "repl_prompts.index", path: index_url) }
   before_action(:load_repl_prompt, only: %i[show destroy])
 
   def index
@@ -40,25 +41,44 @@ class ReplPromptsController < ApplicationController
   private
 
   def load_user
-    if params[:user_id] == "me"
-      @user = policy_scope(User).find(current_user&.id)
-      set_error_context(user: @user)
-    elsif params[:user_id].present?
-      @user = policy_scope(User).find(params[:user_id])
-      set_error_context(user: @user)
-    end
-  end
+    return if params[:user_id].blank?
 
-  def load_repl_program
-    return if params[:repl_program_id].blank?
+    @user =
+      if params[:user_id] == "me"
+        policy_scope(User).find(current_user&.id)
+      else
+        policy_scope(User).find(params[:user_id])
+      end
 
-    @repl_program = repl_programs_scope.find(params[:repl_program_id])
+    set_error_context(user: @user)
+    add_breadcrumb(key: "users.index", path: :users)
+    add_breadcrumb(text: @user, path: @user)
   end
 
   def load_repl_session
     return if params[:repl_session_id].blank?
 
     @repl_session = repl_sessions_scope.find(params[:repl_session_id])
+
+    set_error_context(repl_session: @repl_session)
+    add_breadcrumb(key: "repl_sessions.index", path: [@user, :repl_sessions])
+    add_breadcrumb(text: @repl_session, path: [@user, @repl_session])
+  end
+
+  def load_repl_program
+    return if params[:repl_program_id].blank?
+
+    @repl_program = repl_programs_scope.find(params[:repl_program_id])
+
+    set_error_context(repl_program: @repl_program)
+    add_breadcrumb(
+      key: "repl_programs.index",
+      path: [@user, @repl_session, :repl_programs]
+    )
+    add_breadcrumb(
+      text: @repl_program,
+      path: [@user, @repl_session, @repl_program]
+    )
   end
 
   def scope
@@ -106,5 +126,6 @@ class ReplPromptsController < ApplicationController
   def load_repl_prompt
     @repl_prompt = authorize(scope.find(id))
     set_error_context(repl_prompt: @repl_prompt)
+    add_breadcrumb(text: @repl_prompt, path: show_url)
   end
 end

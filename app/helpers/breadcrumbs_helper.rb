@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module BreadcrumbsHelper
   def render_breadcrumbs
     return if current_page?(root_path)

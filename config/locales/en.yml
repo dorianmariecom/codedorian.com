@@ -146,6 +146,139 @@ en:
       user: user
     update:
       notice: file updated
+  breadcrumbs:
+    addresses:
+      edit: edit
+      index: addresses
+      new: new
+    attachments:
+      edit: edit
+      index: files
+      new: new
+    data:
+      edit: edit
+      index: data
+      new: new
+    devices:
+      edit: edit
+      index: devices
+      new: new
+    docs:
+      edit: edit
+      index: docs
+      new: new
+    email_addresses:
+      edit: edit
+      index: email addresses
+      new: new
+    error_occurrences:
+      edit: edit
+      index: error occurences
+      new: new
+    errors:
+      edit: edit
+      index: errors
+      internal_server_error: internal server error
+      new: new
+      not_found: not found
+      unprocessable_entity: unprocessable entity
+    examples:
+      edit: edit
+      index: examples
+      new: new
+    guests:
+      edit: edit
+      index: guests
+      new: new
+    handles:
+      edit: edit
+      index: handles
+      new: new
+    jobs:
+      edit: edit
+      index: jobs
+      new: new
+    messages:
+      body: body
+      content: content
+      edit: edit
+      index: messages
+      new: new
+      subject: subject
+    names:
+      edit: edit
+      index: names
+      new: new
+    passwords:
+      edit: edit
+      index: passwords
+      new: new
+    phone_numbers:
+      edit: edit
+      index: phone numbers
+      new: new
+    program_executions:
+      edit: edit
+      index: executions
+      new: new
+    program_prompt_schedules:
+      edit: edit
+      index: schedules
+      new: new
+    program_prompts:
+      edit: edit
+      index: prompts
+      new: new
+    program_schedules:
+      edit: edit
+      index: schedules
+      new: new
+    programs:
+      edit: edit
+      index: programs
+      new: new
+    repl_executions:
+      edit: edit
+      index: repl executions
+      new: new
+    repl_programs:
+      edit: edit
+      index: repl programs
+      new: new
+    repl_prompts:
+      edit: edit
+      index: repl prompts
+      new: new
+    repl_sessions:
+      edit: edit
+      index: repl sessions
+      new: new
+    sessions:
+      edit: edit
+      index: sessions
+      new: new
+    static:
+      about: about
+      android: android
+      download: download
+      home: home
+      icons: icons
+      ios: ios
+      privacy: privacy
+      terms: terms
+      up: up
+    time_zones:
+      edit: edit
+      index: time zones
+      new: new
+    tokens:
+      edit: edit
+      index: tokens
+      new: new
+    users:
+      edit: edit
+      index: users
+      new: new
   current:
     model:
       envs:
@@ -233,9 +366,9 @@ en:
       instance_functions: instance functions
     index:
       examples: examples
-      title: documentation
+      title: docs
     show:
-      title: documentation not found
+      title: doc not found
   email_addresses:
     create:
       notice: email address created
@@ -333,6 +466,7 @@ en:
     show:
       admin: admin
       created_at: created at
+      delete: delete
       id: id
       locale: language
       updated_at: updated at
@@ -382,7 +516,7 @@ en:
         account: account
         attachments: files
         data: data
-        documentation: documentation
+        docs: docs
         english: english
         errors: errors
         french: french
@@ -520,7 +654,7 @@ en:
       admin: admin
       attachments: files
       data: data
-      documentation: documentation
+      docs: docs
       download: download
       english: english
       errors: errors
@@ -918,6 +1052,8 @@ en:
     edit:
       submit: update program
       title: edit program
+    evaluate:
+      notice: program evaluated
     form:
       generate: generate
       generating: generating
@@ -938,6 +1074,8 @@ en:
       title: new program
     reload:
       submit: update program
+    reschedule:
+      notice: program scheduled
     show:
       created_at: created at
       delete: delete program
@@ -956,6 +1094,8 @@ en:
       unschedule: unschedule
       updated_at: updated at
       user: user
+    unschedule:
+      notice: program unscheduled
     update:
       notice: program updated
   repl_executions:
@@ -1295,13 +1435,3 @@ en:
       next: next
       previous: previous
       truncate: "…"
-  breadcrumbs:
-    addresses:
-      new: new
-      edit: edit
-      index: addresses
-    users:
-      index: users
-    static:
-      home: home
-      about: about

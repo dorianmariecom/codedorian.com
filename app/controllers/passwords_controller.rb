@@ -2,6 +2,7 @@
 
 class PasswordsController < ApplicationController
   before_action(:load_user)
+  before_action { add_breadcrumb(key: "passwords.index", path: index_url) }
   before_action(:load_password, only: %i[show edit update destroy])
 
   def index
@@ -16,9 +17,12 @@ class PasswordsController < ApplicationController
   def new
     @password =
       authorize(scope.new(user: @user, primary: user_or_guest.passwords.none?))
+
+    add_breadcrumb
   end
 
   def edit
+    add_breadcrumb
   end
 
   def create
@@ -68,13 +72,18 @@ class PasswordsController < ApplicationController
   private
 
   def load_user
-    if params[:user_id] == "me"
-      @user = policy_scope(User).find(current_user&.id)
-      set_error_context(user: @user)
-    elsif params[:user_id].present?
-      @user = policy_scope(User).find(params[:user_id])
-      set_error_context(user: @user)
-    end
+    return if params[:user_id].blank?
+
+    @user =
+      if params[:user_id] == "me"
+        policy_scope(User).find(current_user&.id)
+      else
+        policy_scope(User).find(params[:user_id])
+      end
+
+    set_error_context(user: @user)
+    add_breadcrumb(key: "users.index", path: :users)
+    add_breadcrumb(text: @user, path: @user)
   end
 
   def user_or_guest
@@ -106,6 +115,7 @@ class PasswordsController < ApplicationController
   def load_password
     @password = authorize(scope.find(id))
     set_error_context(password: @password)
+    add_breadcrumb(text: @password, path: show_url)
   end
 
   def password_params

@@ -2,6 +2,7 @@
 
 class MessagesController < ApplicationController
   before_action(:load_user)
+  before_action { add_breadcrumb(key: "messages.index", path: index_url) }
   before_action(
     :load_message,
     only: %i[show subject body content edit update destroy]
@@ -17,19 +18,24 @@ class MessagesController < ApplicationController
   end
 
   def subject
+    add_breadcrumb
   end
 
   def body
+    add_breadcrumb
   end
 
   def content
+    add_breadcrumb
   end
 
   def new
     @message = authorize(scope.new(from_user: @user, to_user: @user))
+    add_breadcrumb
   end
 
   def edit
+    add_breadcrumb
   end
 
   def create
@@ -79,13 +85,18 @@ class MessagesController < ApplicationController
   private
 
   def load_user
-    if params[:user_id] == "me"
-      @user = policy_scope(User).find(current_user&.id)
-      set_error_context(user: @user)
-    elsif params[:user_id].present?
-      @user = policy_scope(User).find(params[:user_id])
-      set_error_context(user: @user)
-    end
+    return if params[:user_id].blank?
+
+    @user =
+      if params[:user_id] == "me"
+        policy_scope(User).find(current_user&.id)
+      else
+        policy_scope(User).find(params[:user_id])
+      end
+
+    set_error_context(user: @user)
+    add_breadcrumb(key: "users.index", path: :users)
+    add_breadcrumb(text: @user, path: @user)
   end
 
   def scope
@@ -117,6 +128,7 @@ class MessagesController < ApplicationController
   def load_message
     @message = authorize(scope.find(id))
     set_error_context(message: @message)
+    add_breadcrumb(text: @message, path: show_url)
   end
 
   def message_params

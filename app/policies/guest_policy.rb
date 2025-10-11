@@ -10,19 +10,19 @@ class GuestPolicy < ApplicationPolicy
   end
 
   def create?
-    false
+    true
   end
 
   def update?
-    false
+    true
   end
 
   def destroy?
-    false
+    true
   end
 
   def destroy_all?
-    false
+    true
   end
 
   def delete_all?
