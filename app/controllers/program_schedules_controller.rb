@@ -105,7 +105,7 @@ class ProgramSchedulesController < ApplicationController
     scope
   end
 
-  def program_scope
+  def programs_scope
     scope = policy_scope(Program)
     scope = scope.where(user: @user) if @user
     scope
