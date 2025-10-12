@@ -28,6 +28,7 @@ module CodeApp
     config.i18n.default_locale = :en
     config.i18n.available_locales = %i[en fr]
     config.middleware.insert_before ActionDispatch::RemoteIp, Middleware::Errors
+    config.solid_queue.preserve_finished_jobs = false
   end
 end
 
