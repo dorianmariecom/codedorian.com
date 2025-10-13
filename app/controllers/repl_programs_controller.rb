@@ -193,6 +193,7 @@ class ReplProgramsController < ApplicationController
     scope = policy_scope(ReplPrompt)
     scope = scope.where(user: @user) if @user
     scope = scope.where(repl_program: @repl_program) if @repl_program
+    scope = scope.where(repl_session: @repl_session) if @repl_session
     scope
   end
 

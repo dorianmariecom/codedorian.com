@@ -85,12 +85,7 @@ class ReplPromptsController < ApplicationController
     scope = searched_policy_scope(ReplPrompt)
     scope = scope.where(user: @user) if @user
     scope = scope.where(repl_program: @repl_program) if @repl_program
-
-    if @repl_session
-      scope =
-        scope.joins(:repl_session).where(repl_session: { id: @repl_session.id })
-    end
-
+    scope = scope.where(repl_session: @repl_session) if @repl_session
     scope
   end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_09_195937) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_13_105548) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -273,7 +273,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_09_195937) do
     t.text "error_class"
     t.text "error_message"
     t.text "error_backtrace"
+    t.bigint "repl_session_id"
     t.index ["repl_program_id"], name: "index_repl_prompts_on_repl_program_id"
+    t.index ["repl_session_id"], name: "index_repl_prompts_on_repl_session_id"
     t.index ["user_id"], name: "index_repl_prompts_on_user_id"
   end
 
@@ -626,6 +628,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_09_195937) do
   add_foreign_key "programs", "users"
   add_foreign_key "repl_executions", "repl_programs"
   add_foreign_key "repl_programs", "repl_sessions"
+  add_foreign_key "repl_prompts", "repl_sessions"
   add_foreign_key "repl_sessions", "users"
   add_foreign_key "solid_errors_occurrences", "solid_errors", column: "error_id"
   add_foreign_key "solid_queue_blocked_executions",

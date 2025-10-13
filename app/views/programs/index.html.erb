@@ -1,11 +1,19 @@
 <%= turbo_stream_from(@programs) %>
 
 <div class="p">
-  <%= link_to(t(".program_prompts"), [@user, :program_prompts], class: "link") %>
+  <%= link_to(
+    t(".program_prompts", count: @program_prompts.size),
+    [@user, :program_prompts],
+    class: "link"
+  ) %>
 </div>
 
 <div class="p">
-  <%= link_to(t(".program_schedules"), [@user, :program_schedules], class: "link") %>
+  <%= link_to(
+    t(".program_schedules", count: @program_schedules.size),
+    [@user, :program_schedules],
+    class: "link"
+  ) %>
 </div>
 
 <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>

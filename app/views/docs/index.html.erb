@@ -1,4 +1,6 @@
-<div class="p"><%= link_to(t(".examples"), :examples, class: "link") %></div>
+<div class="p">
+  <%= link_to(t(".examples", count: @examples.size), :examples, class: "link") %>
+</div>
 
 <% @docs.each do |doc| %>
   <details>

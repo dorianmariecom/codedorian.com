@@ -12,6 +12,7 @@ class ProgramPromptsController < ApplicationController
     authorize(ProgramPrompt)
 
     @program_prompts = scope.page(params[:page]).order(created_at: :desc)
+    @program_prompt_schedules = program_prompt_schedules_scope
   end
 
   def show
@@ -81,6 +82,13 @@ class ProgramPromptsController < ApplicationController
   def programs_scope
     scope = policy_scope(Program)
     scope = scope.where(user: @user) if @user
+    scope
+  end
+
+  def program_prompt_schedules
+    scope = policy_scope(ProgramPromptSchedule)
+    scope = scope.joins(:user).where(user: { id: @user }) if @user
+    scope = scope.joins(:program).where(program: { id: @program }) if @program
     scope
   end
 

@@ -365,7 +365,10 @@ en:
       class_functions: class functions
       instance_functions: instance functions
     index:
-      examples: examples
+      examples:
+        one: 1 example
+        other: "%{count} examples"
+        zero: 0 examples
       title: docs
     show:
       title: doc not found
@@ -944,6 +947,10 @@ en:
     index:
       delete_all: delete all prompts
       destroy_all: destroy all prompts
+      program_prompt_schedules:
+        one: 1 schedule
+        other: "%{count} schedules"
+        zero: 0 schedules
       title: prompts
     model:
       statuses:
@@ -1064,8 +1071,14 @@ en:
       delete_all: delete all programs
       destroy_all: destroy all programs
       new: new program
-      program_prompts: prompts
-      program_schedules: schedules
+      program_prompts:
+        one: 1 prompt
+        other: "%{count} prompts"
+        zero: 0 prompts
+      program_schedules:
+        one: 1 schedule
+        other: "%{count} schedules"
+        zero: 0 schedules
       title: programs
     model:
       to_s: program#%{id}
@@ -1147,6 +1160,14 @@ en:
       delete_all: delete all repl programs
       destroy_all: destroy all repl programs
       new: new repl program
+      repl_executions:
+        one: 1 repl execution
+        other: "%{count} repl executions"
+        zero: 0 repl executions
+      repl_prompts:
+        one: 1 repl prompt
+        other: "%{count} repl prompts"
+        zero: 0 repl prompts
       title: repl programs
     model:
       to_s: repl_program#%{id}
@@ -1193,6 +1214,18 @@ en:
       delete_all: delete all repl sessions
       destroy_all: destroy all repl sessions
       new: new repl session
+      repl_executions:
+        one: 1 repl execution
+        other: "%{count} repl executions"
+        zero: 0 repl executions
+      repl_programs:
+        one: 1 repl program
+        other: "%{count} repl programs"
+        zero: 0 repl programs
+      repl_prompts:
+        one: 1 repl prompt
+        other: "%{count} repl prompts"
+        zero: 0 repl prompts
       title: repl sessions
     model:
       to_s: repl_session#%{id}

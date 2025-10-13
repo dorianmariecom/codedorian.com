@@ -1,5 +1,21 @@
 <%= turbo_stream_from(@repl_programs) %>
 
+<div class="p">
+  <%= link_to(
+    t(".repl_executions", count: @repl_executions.size),
+    [@user, @repl_session, :repl_executions],
+    class: "link"
+  ) %>
+</div>
+
+<div class="p">
+  <%= link_to(
+    t(".repl_prompts", count: @repl_prompts.size),
+    [@user, @repl_session, :repl_prompts],
+    class: "link"
+  ) %>
+</div>
+
 <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
 
 <%= render("shared/search") %>

@@ -1,5 +1,29 @@
 <% content_for(:title, @repl_session) %>
 
+<div class="p">
+  <%= link_to(
+    t(".repl_programs", count: @repl_programs.size),
+    [@user, :repl_programs],
+    class: "link"
+  ) %>
+</div>
+
+<div class="p">
+  <%= link_to(
+    t(".repl_executions", count: @repl_executions.size),
+    [@user, :repl_executions],
+    class: "link"
+  ) %>
+</div>
+
+<div class="p">
+  <%= link_to(
+    t(".repl_prompts", count: @repl_prompts.size),
+    [@user, :repl_prompts],
+    class: "link"
+  ) %>
+</div>
+
 <%= turbo_stream_from(@repl_session) %>
 
 <div class="p">
