@@ -28,6 +28,12 @@ class ProgramsController < ApplicationController
         .where(program: @program)
         .order(created_at: :asc)
         .page(params[:page])
+
+    @program_prompts =
+      policy_scope(ProgramPrompt)
+        .where(program: @program)
+        .order(created_at: :asc)
+        .page(params[:page])
   end
 
   def evaluate

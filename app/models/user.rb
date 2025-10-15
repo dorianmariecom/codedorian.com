@@ -11,9 +11,12 @@ class User < ApplicationRecord
   has_many(:passwords, dependent: :destroy)
   has_many(:phone_numbers, dependent: :destroy)
   has_many(:program_prompts, dependent: :destroy)
+  has_many(:program_prompts_schedules, through: :program_prompts)
   has_many(:programs, dependent: :destroy)
+  has_many(:programs_executions, through: :programs)
   has_many(:repl_prompts, dependent: :destroy)
   has_many(:repl_sessions, dependent: :destroy)
+  has_many(:repl_programs, through: :repl_sessions)
   has_many(:time_zones, dependent: :destroy)
   has_many(:tokens, dependent: :destroy)
   has_many(

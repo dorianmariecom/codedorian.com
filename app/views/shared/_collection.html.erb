@@ -1,16 +1,19 @@
 <% partial = local_assigns.fetch(:partial) %>
 <% collection = local_assigns.fetch(:collection) %>
 <% as = local_assigns.fetch(:as) %>
+<% content = local_assigns.fetch(:content, true) %>
 <% extras = local_assigns.fetch(:extras, {}) %>
 
 <div class="p text-gray-600"><%= page_entries_info(collection) %></div>
 
-<% if collection.total_pages > 1 %>
-  <div class="p text-gray-600"><%= paginate(collection) %></div>
-<% end %>
+<% if content %>
+  <% if collection.total_pages > 1 %>
+    <div class="p text-gray-600"><%= paginate(collection) %></div>
+  <% end %>
 
-<%= render(partial:, collection:, as:, **extras) %>
+  <%= render(partial:, collection:, as:, **extras) %>
 
-<% if collection.total_pages > 1 %>
-  <div class="p text-gray-600"><%= paginate(collection) %></div>
+  <% if collection.total_pages > 1 %>
+    <div class="p text-gray-600"><%= paginate(collection) %></div>
+  <% end %>
 <% end %>

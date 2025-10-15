@@ -110,3 +110,15 @@
 <%= render("shared/list", user: @user, model: TimeZone) %>
 <%= render("shared/list", user: @user, model: Device) %>
 <%= render("shared/list", user: @user, model: Token) %>
+<%= render("shared/list", user: @user, model: Program, content: false) %>
+<%= render("shared/list", user: @user, model: ProgramPrompt, content: false) %>
+<%= render("shared/list", user: @user, model: ProgramExecution, content: false) %>
+<%= render("shared/list", user: @user, model: Execution, content: false) %>
+<%= render("shared/list", user: @user, model: Attachment, content: false) %>
+<%= render("shared/list", user: @user, model: Datum, content: false) %>
+<%= render("shared/list", user: @user, model: ReplPrompt, content: false) %>
+<%= render("shared/list", user: @user, model: ReplSession, content: false) %>
+<%= render("shared/list", user: @user, model: ReplProgram, content: false) %>
+<%= render("shared/list", user: @user, model: Message, content: false, foreign_key: :from_user_id) %>
+<%= render("shared/list", user: @user, model: Message, content: false, foreign_key: :to_user_id) %>
+<%# TODO: jobs and errors for admins %>

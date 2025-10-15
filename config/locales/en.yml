@@ -1071,6 +1071,10 @@ en:
       delete_all: delete all programs
       destroy_all: destroy all programs
       new: new program
+      program_executions:
+        one: 1 execution
+        other: "%{count} executions"
+        zero: 0 executions
       program_prompts:
         one: 1 prompt
         other: "%{count} prompts"
@@ -1079,6 +1083,10 @@ en:
         one: 1 schedule
         other: "%{count} schedules"
         zero: 0 schedules
+      program_prompt_schedules:
+        one: 1 prompt schedule
+        other: "%{count} prompt schedules"
+        zero: 0 prompt schedules
       title: programs
     model:
       to_s: program#%{id}
