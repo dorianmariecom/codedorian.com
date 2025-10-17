@@ -58,6 +58,8 @@ class ProgramPromptSchedule < ApplicationRecord
   has_one(:program, through: :program_prompt)
   has_one(:user, through: :program_prompt)
 
+  scope(:where_user, -> (user) { joins(:user).where(users: { id: user }) })
+
   validates(:interval, inclusion: { in: INTERVALS })
 
   validate { can!(:update, prompt) }

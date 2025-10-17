@@ -12,6 +12,7 @@ class TimeZone < ApplicationRecord
   scope(:not_primary, -> { where(primary: false) })
   scope(:verified, -> { where(verified: true) })
   scope(:not_verified, -> { where(verified: false) })
+  scope(:where_user, -> (user) { where(user: user) })
 
   validates(:time_zone, inclusion: { in: TIME_ZONES, allow_blank: true })
   validate { can!(:update, user) }

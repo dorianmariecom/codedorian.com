@@ -18,15 +18,15 @@ class MessagePolicy < ApplicationPolicy
   end
 
   def subject?
-    show?
+    from_current_user? || to_current_user? || admin?
   end
 
   def body?
-    show?
+    from_current_user? || to_current_user? || admin?
   end
 
   def content?
-    show?
+    from_current_user? || to_current_user? || admin?
   end
 
   def create?

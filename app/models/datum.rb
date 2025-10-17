@@ -3,6 +3,8 @@
 class Datum < ApplicationRecord
   belongs_to(:user, default: -> { Current.user! }, touch: true)
 
+  scope(:where_user, -> (user) { where(user: user) })
+
   before_validation { self.user ||= Current.user! }
 
   validate { can!(:update, user) }

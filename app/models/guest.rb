@@ -24,7 +24,13 @@ class Guest
   def names = Name.none
   def passwords = Password.none
   def phone_numbers = PhoneNumber.none
+  def program_prompts = ProgramPrompt.none
+  def program_prompt_schedules = ProgramPromptSchedule.none
+  def program_executions = ProgramExecution.none
   def programs = Program.none
+  def repl_prompts = ReplPrompt.none
+  def repl_sessions = ReplSessions.none
+  def repl_programs = ReplPrograms.none
   def received_messages = Message.none
   def sent_messages = Message.none
   def time_zones = TimeZone.none

@@ -27,3 +27,6 @@
   - program prompts
   - repl prompts
   - sessions
+  - jobs
+  - job contexts
+- logs

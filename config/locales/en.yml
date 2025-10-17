@@ -1291,6 +1291,32 @@ en:
       phone_numbers: phone numbers
       time_zones: time zones
       tokens: tokens
+      attachments: files
+      new_attachment: new file
+      data: data
+      new_datum: new datum
+      messages: messages
+      new_message: new message
+      programs: programs
+      new_program: new program
+      program_executions: program executions
+      new_program_execution: new program execution
+      program_prompts: program prompts
+      new_program_prompt: new program prompt
+      repl_executions: repl executions
+      new_repl_execution: new repl execution
+      repl_programs: repl programs
+      new_repl_program: new repl program
+      repl_prompts: repl prompts
+      new_repl_prompt: new repl prompt
+      repl_sessions: repl sessions
+      new_repl_session: new repl session
+      errors: errors
+      new_error: new error
+      jobs: jobs
+      new_job: new job
+      error_occurrences: error occurrences
+      new_error_occurrence: new error occurrence
     modal:
       cancel: cancel
       confirm: confirm

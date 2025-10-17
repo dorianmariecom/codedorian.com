@@ -12,7 +12,7 @@ class Job < SolidQueue::Job
   )
 
   scope(
-    :with_current_user,
+    :where_current_user,
     ->(current_user) do
       joins(:job_contexts).where(
         "job_contexts.context->'current_user'->>'id' = ?",
@@ -22,7 +22,7 @@ class Job < SolidQueue::Job
   )
 
   scope(
-    :with_user,
+    :where_user,
     ->(user) do
       joins(:job_contexts).where(
         "job_contexts.context->'user'->>'id' = ?",
@@ -32,7 +32,7 @@ class Job < SolidQueue::Job
   )
 
   scope(
-    :with_program,
+    :where_program,
     ->(program) do
       joins(:job_contexts).where(
         "job_contexts.context->'program'->>'id' = ?",
@@ -42,7 +42,7 @@ class Job < SolidQueue::Job
   )
 
   scope(
-    :with_program_prompt,
+    :where_program_prompt,
     ->(program_prompt) do
       joins(:job_contexts).where(
         "job_contexts.context->'program_prompt'->>'id' = ?",
@@ -52,7 +52,7 @@ class Job < SolidQueue::Job
   )
 
   scope(
-    :with_repl_session,
+    :where_repl_session,
     ->(repl_session) do
       joins(:job_contexts).where(
         "job_contexts.context->'repl_session'->>'id' = ?",
@@ -62,7 +62,7 @@ class Job < SolidQueue::Job
   )
 
   scope(
-    :with_repl_program,
+    :where_repl_program,
     ->(repl_program) do
       joins(:job_contexts).where(
         "job_contexts.context->'repl_program'->>'id' = ?",
@@ -72,7 +72,7 @@ class Job < SolidQueue::Job
   )
 
   scope(
-    :with_repl_prompt,
+    :where_repl_prompt,
     ->(repl_prompt) do
       joins(:job_contexts).where(
         "job_contexts.context->'repl_prompt'->>'id' = ?",

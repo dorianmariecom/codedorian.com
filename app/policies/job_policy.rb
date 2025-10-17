@@ -15,6 +15,14 @@ class JobPolicy < ApplicationPolicy
     admin?
   end
 
+  def create?
+    false
+  end
+
+  def update?
+    false
+  end
+
   def retry?
     admin?
   end

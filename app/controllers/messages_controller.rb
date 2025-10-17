@@ -103,7 +103,7 @@ class MessagesController < ApplicationController
     scope = searched_policy_scope(Message)
 
     if @user
-      scope = scope.where(from_user: @user).or(scope.where(to_user: @user))
+      scope = scope.where_user(@user)
     end
 
     scope
