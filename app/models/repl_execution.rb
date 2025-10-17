@@ -10,7 +10,7 @@ class ReplExecution < ApplicationRecord
   scope(:errored, -> { where(status: :errored) })
   scope(:generating, -> { where(status: %i[created in_progress]) })
   scope(:not_generating, -> { where.not(status: %i[created in_progress]) })
-  scope(:where_user, -> (user) { joins(:user).where(users: { id: user }) })
+  scope(:where_user, ->(user) { joins(:user).where(users: { id: user }) })
 
   belongs_to(:repl_program, touch: true)
   has_one(:repl_session, through: :repl_program)

@@ -3,7 +3,7 @@
 class ReplSession < ApplicationRecord
   belongs_to(:user, default: -> { Current.user! }, touch: true)
 
-  scope(:where_user, -> (user) { where(user: user) })
+  scope(:where_user, ->(user) { where(user: user) })
 
   has_many(:repl_programs, dependent: :destroy)
   has_many(:repl_executions, through: :repl_programs)

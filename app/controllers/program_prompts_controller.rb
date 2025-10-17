@@ -17,10 +17,7 @@ class ProgramPromptsController < ApplicationController
 
   def show
     @program_prompt_schedules =
-      policy_scope(ProgramPromptSchedule)
-        .where(program_prompt: @program_prompt)
-        .order(created_at: :asc)
-        .page(params[:page])
+      program_prompt_schedules_scope.order(created_at: :asc).page(params[:page])
   end
 
   def destroy

@@ -47,8 +47,20 @@
 <%= render("shared/list", user: @guest, model: Attachment, content: false) %>
 <%= render("shared/list", user: @guest, model: Datum, content: false) %>
 <%= render("shared/list", user: @guest, model: Execution, content: false) %>
-<%= render("shared/list", user: @guest, model: Message, content: false, foreign_key: :from_user_id) %>
-<%= render("shared/list", user: @guest, model: Message, content: false, foreign_key: :to_user_id) %>
+<%= render(
+  "shared/list",
+  user: @guest,
+  model: Message,
+  content: false,
+  foreign_key: :from_user_id
+) %>
+<%= render(
+  "shared/list",
+  user: @guest,
+  model: Message,
+  content: false,
+  foreign_key: :to_user_id
+) %>
 <%= render("shared/list", user: @guest, model: Program, content: false) %>
 <%= render("shared/list", user: @guest, model: ProgramExecution, content: false) %>
 <%= render("shared/list", user: @guest, model: ProgramPrompt, content: false) %>

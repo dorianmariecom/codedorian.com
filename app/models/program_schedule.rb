@@ -57,7 +57,7 @@ class ProgramSchedule < ApplicationRecord
   belongs_to(:program, touch: true)
   has_one(:user, through: :program)
 
-  scope(:where_user, -> (user) { joins(:user).where(users: { id: user }) })
+  scope(:where_user, ->(user) { joins(:user).where(users: { id: user }) })
 
   validates(:interval, inclusion: { in: INTERVALS })
 

@@ -10,9 +10,15 @@ class ReplProgramsController < ApplicationController
     authorize(ReplProgram)
 
     @repl_programs = scope.page(params[:page]).order(created_at: :asc)
+    @repl_executions = repl_executions_scope
+    @repl_prompts = repl_prompts_scope
   end
 
   def show
+    @repl_executions =
+      repl_executions_scope.order(created_at: :desc).page(params[:page])
+    @repl_prompts =
+      repl_prompts_scope.order(created_at: :desc).page(params[:page])
   end
 
   def new
@@ -233,6 +239,27 @@ class ReplProgramsController < ApplicationController
     else
       params.expect(repl_program: %i[input])
     end
+  end
+
+  def repl_prompts_scope
+    scope = searched_policy_scope(ReplPrompt)
+    scope = scope.joins(:user).where(user: { id: @user }) if @user
+    scope = scope.where(repl_session: @repl_session) if @repl_session
+    scope = scope.where(repl_program: @repl_program) if @repl_program
+    scope
+  end
+
+  def repl_executions_scope
+    scope = searched_policy_scope(ReplExecution)
+    scope = scope.joins(:user).where(user: { id: @user }) if @user
+    scope =
+      scope.joins(:repl_session).where(
+        repl_session: {
+          id: @repl_session
+        }
+      ) if @repl_session
+    scope = scope.where(repl_program: @repl_program) if @repl_program
+    scope
   end
 
   def repl_prompt_params

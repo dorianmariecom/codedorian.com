@@ -30,3 +30,4 @@
   - jobs
   - job contexts
 - logs
+- error context for jobs

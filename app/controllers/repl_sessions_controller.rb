@@ -32,19 +32,15 @@ class ReplSessionsController < ApplicationController
 
   def show
     @repl_programs =
-      policy_scope(ReplProgram)
-        .where(repl_session: @repl_session)
-        .order(created_at: :asc)
-        .page(params[:page])
+      repl_programs_scope.order(created_at: :asc).page(params[:page])
 
     @repl_program = @repl_programs.new
 
     @repl_executions =
-      policy_scope(ReplExecution)
-        .joins(:repl_session)
-        .where(repl_session: { id: @repl_session })
-        .order(created_at: :desc)
-        .page(params[:page])
+      repl_executions_scope.order(created_at: :desc).page(params[:page])
+
+    @repl_prompts =
+      repl_prompts_scope.order(created_at: :desc).page(params[:page])
   end
 
   def new

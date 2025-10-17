@@ -37,7 +37,10 @@ class Message < ApplicationRecord
       joins("LEFT JOIN users AS to_users ON to_users.id = messages.to_user_id")
     end
   )
-  scope(:where_user, -> (user) { where(from_user: user).or(where(to_user: user)) })
+  scope(
+    :where_user,
+    ->(user) { where(from_user: user).or(where(to_user: user)) }
+  )
 
   validate { can!(:update, from_user) }
   validate { can!(:update, to_user) }

@@ -9,7 +9,7 @@ class Device < ApplicationRecord
   scope(:not_primary, -> { where(primary: false) })
   scope(:verified, -> { where(verified: true) })
   scope(:not_verified, -> { where(verified: false) })
-  scope(:where_user, -> (user) { where(user: user) })
+  scope(:where_user, ->(user) { where(user: user) })
 
   validate { can!(:update, user) }
   validates(:token, presence: true, uniqueness: { scope: :user_id })

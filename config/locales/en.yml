@@ -1075,6 +1075,10 @@ en:
         one: 1 execution
         other: "%{count} executions"
         zero: 0 executions
+      program_prompt_schedules:
+        one: 1 prompt schedule
+        other: "%{count} prompt schedules"
+        zero: 0 prompt schedules
       program_prompts:
         one: 1 prompt
         other: "%{count} prompts"
@@ -1083,10 +1087,6 @@ en:
         one: 1 schedule
         other: "%{count} schedules"
         zero: 0 schedules
-      program_prompt_schedules:
-        one: 1 prompt schedule
-        other: "%{count} prompt schedules"
-        zero: 0 prompt schedules
       title: programs
     model:
       to_s: program#%{id}
@@ -1105,9 +1105,13 @@ en:
       id: id
       input: input
       name: name
+      new_program_prompt: new prompt
+      new_program_prompt_schedule: new prompt schedule
       new_program_schedule: new schedule
       not_scheduled_html: would you like to schedule for %{local_time}?
       program_executions: executions
+      program_prompt_schedules: prompt schedules
+      program_prompts: prompts
       program_schedules: schedules
       reschedule: reschedule
       schedule: schedule
@@ -1195,6 +1199,10 @@ en:
       edit: edit repl program
       id: id
       input: input
+      new_repl_execution: new repl execution
+      new_repl_prompt: new repl prompt
+      repl_executions: repl executions
+      repl_prompts: repl prompts
       repl_session: repl session
       updated_at: updated at
       user: user
@@ -1250,8 +1258,12 @@ en:
       generating: generating
       id: id
       name: name
+      new_repl_execution: new repl execution
       new_repl_program: new repl program
+      new_repl_prompt: new repl prompt
+      repl_executions: repl executions
       repl_programs: repl programs
+      repl_prompts: repl prompts
       updated_at: updated at
       user: user
     update:
@@ -1274,49 +1286,49 @@ en:
       modal_title: are you sure?
     list:
       addresses: addresses
+      attachments: files
+      data: data
       devices: devices
       email_addresses: email addresses
+      error_occurrences: error occurrences
+      errors: errors
       handles: handles
+      jobs: jobs
+      messages: messages
       names: names
       new_address: new address
+      new_attachment: new file
+      new_datum: new datum
       new_device: new device
       new_email_address: new email address
+      new_error: new error
+      new_error_occurrence: new error occurrence
       new_handle: new handle
+      new_job: new job
+      new_message: new message
       new_name: new name
       new_password: new password
       new_phone_number: new phone number
+      new_program: new program
+      new_program_execution: new program execution
+      new_program_prompt: new program prompt
+      new_repl_execution: new repl execution
+      new_repl_program: new repl program
+      new_repl_prompt: new repl prompt
+      new_repl_session: new repl session
       new_time_zone: new time zone
       new_token: new token
       passwords: passwords
       phone_numbers: phone numbers
+      program_executions: program executions
+      program_prompts: program prompts
+      programs: programs
+      repl_executions: repl executions
+      repl_programs: repl programs
+      repl_prompts: repl prompts
+      repl_sessions: repl sessions
       time_zones: time zones
       tokens: tokens
-      attachments: files
-      new_attachment: new file
-      data: data
-      new_datum: new datum
-      messages: messages
-      new_message: new message
-      programs: programs
-      new_program: new program
-      program_executions: program executions
-      new_program_execution: new program execution
-      program_prompts: program prompts
-      new_program_prompt: new program prompt
-      repl_executions: repl executions
-      new_repl_execution: new repl execution
-      repl_programs: repl programs
-      new_repl_program: new repl program
-      repl_prompts: repl prompts
-      new_repl_prompt: new repl prompt
-      repl_sessions: repl sessions
-      new_repl_session: new repl session
-      errors: errors
-      new_error: new error
-      jobs: jobs
-      new_job: new job
-      error_occurrences: error occurrences
-      new_error_occurrence: new error occurrence
     modal:
       cancel: cancel
       confirm: confirm

@@ -52,3 +52,45 @@
   <%= link_to(t(".edit"), edit_url, class: "link") %>
   <%= render("shared/confirm", text: t(".delete"), url: show_url) %>
 </div>
+
+<div class="p font-bold">
+  <%= link_to(
+    t(".repl_executions"),
+    [@user, @repl_session, @repl_program, :repl_executions],
+    class: "link"
+  ) %>
+</div>
+
+<%= render_collection(
+  partial: "repl_executions/repl_execution",
+  collection: @repl_executions,
+  as: :repl_execution,
+  locals: {
+    nested: [@user, @repl_session, @repl_program]
+  }
+) %>
+
+<div class="p font-bold">
+  <%= link_to(
+    t(".repl_prompts"),
+    [@user, @repl_session, @repl_program, :repl_prompts],
+    class: "link"
+  ) %>
+</div>
+
+<div class="p">
+  <%= link_to(
+    t(".new_repl_prompt"),
+    [:new, @user, @repl_session, @repl_program, :repl_prompt],
+    class: "button"
+  ) %>
+</div>
+
+<%= render_collection(
+  partial: "repl_prompts/repl_prompt",
+  collection: @repl_prompts,
+  as: :repl_prompt,
+  locals: {
+    nested: [@user, @repl_session, @repl_program]
+  }
+) %>

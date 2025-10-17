@@ -5,7 +5,7 @@ class Program < ApplicationRecord
 
   belongs_to(:user, default: -> { Current.user! }, touch: true)
 
-  scope(:where_user, -> (user) { where(user: user) })
+  scope(:where_user, ->(user) { where(user: user) })
 
   has_many(:program_executions, dependent: :destroy)
   has_many(:program_schedules, dependent: :destroy)

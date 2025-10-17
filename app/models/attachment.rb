@@ -5,7 +5,7 @@ class Attachment < ApplicationRecord
 
   has_one_attached(:file)
 
-  scope(:where_user, -> (user) { where(user: user) })
+  scope(:where_user, ->(user) { where(user: user) })
 
   validates(:file, attached: true)
 

@@ -47,7 +47,7 @@ class ProgramPrompt < ApplicationRecord
   scope(:errored, -> { where(status: :errored) })
   scope(:generating, -> { where(status: %i[created in_progress]) })
   scope(:not_generating, -> { where.not(status: %i[created in_progress]) })
-  scope(:where_user, -> (user) { joins(:user).where(users: { id: user }) })
+  scope(:where_user, ->(user) { joins(:user).where(users: { id: user }) })
 
   belongs_to(:user, default: -> { Current.user! }, touch: true)
   belongs_to(:program, optional: true, touch: true)
