@@ -1211,38 +1211,36 @@ en:
   repl_prompts:
     destroy:
       notice: repl prompt deleted
-    show:
-      created_at: created at
-      delete: delete repl prompt
-      edit: edit repl prompt
-      id: id
-      input: input
-      user: user
-      repl_program: repl program
-      repl_session: repl session
-      updated_at: updated at
-      error: error
-      error_app_backtrace: error app backtrace
-      error_backtrace: error backtrace
-      error_class: error class
-      error_message: error message
-      input: input
-      output_input: output input
-      output_name: output name
-      status: status
-      updated_at: updated at
     index:
       delete_all: delete all repl prompts
       destroy_all: destroy all repl prompts
       title: repl prompts
     model:
-      to_s: "repl_prompt#%{id}"
       statuses:
         created: created
         done: done
         errored: errored
         in_progress: in progress
         initialized: initialized
+      to_s: repl_prompt#%{id}
+    show:
+      created_at: created at
+      delete: delete repl prompt
+      edit: edit repl prompt
+      error: error
+      error_app_backtrace: error app backtrace
+      error_backtrace: error backtrace
+      error_class: error class
+      error_message: error message
+      id: id
+      input: input
+      output_input: output input
+      output_name: output name
+      repl_program: repl program
+      repl_session: repl session
+      status: status
+      updated_at: updated at
+      user: user
   repl_sessions:
     create:
       notice: repl session created

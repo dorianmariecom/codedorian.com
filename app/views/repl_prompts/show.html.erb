@@ -19,7 +19,11 @@
     <div class="text-gray-600"><%= t(".repl_session") %></div>
     <% if can?(:show, @repl_prompt.repl_session) %>
       <div class="font-bold">
-        <%= link_to(@repl_prompt.repl_session, [@user, @repl_prompt.repl_session], class: "link") %>
+        <%= link_to(
+          @repl_prompt.repl_session,
+          [@user, @repl_prompt.repl_session],
+          class: "link"
+        ) %>
       </div>
     <% else %>
       <div class="font-bold"><%= @repl_prompt.repl_session %></div>
@@ -32,7 +36,11 @@
     <div class="text-gray-600"><%= t(".repl_program") %></div>
     <% if can?(:show, @repl_prompt.repl_program) %>
       <div class="font-bold">
-        <%= link_to(@repl_prompt.repl_program, [@user, @repl_session, @repl_prompt.repl_program], class: "link") %>
+        <%= link_to(
+          @repl_prompt.repl_program,
+          [@user, @repl_session, @repl_prompt.repl_program],
+          class: "link"
+        ) %>
       </div>
     <% else %>
       <div class="font-bold"><%= @repl_prompt.repl_program %></div>
