@@ -59,10 +59,11 @@ class ProgramPromptSchedule < ApplicationRecord
   has_one(:user, through: :program_prompt)
 
   scope(:where_user, ->(user) { joins(:user).where(users: { id: user }) })
+  scope(:where_program, ->(program) { joins(:program).where(programs: { id: program }) })
 
   validates(:interval, inclusion: { in: INTERVALS })
 
-  validate { can!(:update, prompt) }
+  validate { can!(:update, program_prompt) }
 
   after_initialize { self.starts_at ||= default_starts_at }
   after_initialize { self.interval ||= default_interval }

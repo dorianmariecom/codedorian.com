@@ -137,12 +137,14 @@ class ReplSessionsController < ApplicationController
   def repl_executions_scope
     scope = searched_policy_scope(ReplExecution)
     scope = scope.joins(:user).where(user: { id: @user }) if @user
-    scope =
-      scope.joins(:repl_session).where(
-        repl_session: {
-          id: @repl_session
-        }
-      ) if @repl_session
+    if @repl_session
+      scope =
+        scope.joins(:repl_session).where(
+          repl_session: {
+            id: @repl_session
+          }
+        )
+    end
     scope
   end
 

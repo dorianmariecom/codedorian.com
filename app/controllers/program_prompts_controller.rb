@@ -82,7 +82,7 @@ class ProgramPromptsController < ApplicationController
     scope
   end
 
-  def program_prompt_schedules
+  def program_prompt_schedules_scope
     scope = policy_scope(ProgramPromptSchedule)
     scope = scope.joins(:user).where(user: { id: @user }) if @user
     scope = scope.joins(:program).where(program: { id: @program }) if @program

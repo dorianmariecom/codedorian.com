@@ -31,3 +31,5 @@
   - job contexts
 - logs
 - error context for jobs
+- where_* e.g. where_user where_program
+- conistent naming, e.g. program prompts, program prompt schedules, etc.

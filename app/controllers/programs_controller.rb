@@ -14,24 +14,28 @@ class ProgramsController < ApplicationController
     @programs = scope.page(params[:page]).order(created_at: :asc)
     @program_prompts = program_prompts_scope
     @program_schedules = program_schedules_scope
+    @program_executions = program_executions_scope
+    @program_prompt_schedules = program_prompt_schedules_scope
   end
 
   def show
     @program_executions =
-      policy_scope(ProgramExecution)
-        .where(program: @program)
+      program_executions_scope
         .order(created_at: :desc)
         .page(params[:page])
 
     @program_schedules =
-      policy_scope(ProgramSchedule)
-        .where(program: @program)
+      program_schedules_scope
         .order(created_at: :asc)
         .page(params[:page])
 
     @program_prompts =
-      policy_scope(ProgramPrompt)
-        .where(program: @program)
+      program_prompts_scope
+        .order(created_at: :asc)
+        .page(params[:page])
+
+    @program_prompt_schedules =
+      program_prompt_schedules_scope
         .order(created_at: :asc)
         .page(params[:page])
   end
@@ -102,7 +106,7 @@ class ProgramsController < ApplicationController
           flash.now.alert = @program_prompt.alert
         end
 
-        redirect_to(edit_url, notice: t(".notice"))
+        redirect_to(edit_url)
       else
         redirect_to(show_url, notice: t(".notice"))
       end
@@ -202,8 +206,22 @@ class ProgramsController < ApplicationController
 
   def program_schedules_scope
     scope = policy_scope(ProgramSchedule)
-    scope = scope.where(user: @user) if @user
+    scope = scope.where_user(@user) if @user
     scope = scope.where(program: @program) if @program
+    scope
+  end
+
+  def program_executions_scope
+    scope = policy_scope(ProgramExecution)
+    scope = scope.where_user(@user) if @user
+    scope = scope.where(program: @program) if @program
+    scope
+  end
+
+  def program_prompt_schedules_scope
+    scope = policy_scope(ProgramPromptSchedule)
+    scope = scope.where_user(@user) if @user
+    scope = scope.where_program(@program) if @program
     scope
   end
 

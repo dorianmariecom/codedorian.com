@@ -111,7 +111,7 @@ class ReplProgramsController < ApplicationController
           flash.now.alert = @repl_prompt.alert
         end
 
-        head :no_content
+        redirect_back_or_to(edit_url)
       else
         perform_later(
           ReplProgramEvaluateJob,
@@ -203,6 +203,21 @@ class ReplProgramsController < ApplicationController
     scope
   end
 
+  def repl_executions_scope
+    scope = policy_scope(ReplExecution)
+    scope = scope.joins(:user).where(user: { id: @user }) if @user
+    if @repl_session
+      scope =
+        scope.joins(:repl_session).where(
+          repl_session: {
+            id: @repl_session
+          }
+        )
+    end
+    scope = scope.where(repl_program: @repl_program) if @repl_program
+    scope
+  end
+
   def model_class
     ReplProgram
   end
@@ -239,27 +254,6 @@ class ReplProgramsController < ApplicationController
     else
       params.expect(repl_program: %i[input])
     end
-  end
-
-  def repl_prompts_scope
-    scope = searched_policy_scope(ReplPrompt)
-    scope = scope.joins(:user).where(user: { id: @user }) if @user
-    scope = scope.where(repl_session: @repl_session) if @repl_session
-    scope = scope.where(repl_program: @repl_program) if @repl_program
-    scope
-  end
-
-  def repl_executions_scope
-    scope = searched_policy_scope(ReplExecution)
-    scope = scope.joins(:user).where(user: { id: @user }) if @user
-    scope =
-      scope.joins(:repl_session).where(
-        repl_session: {
-          id: @repl_session
-        }
-      ) if @repl_session
-    scope = scope.where(repl_program: @repl_program) if @repl_program
-    scope
   end
 
   def repl_prompt_params

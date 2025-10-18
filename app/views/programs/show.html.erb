@@ -131,14 +131,6 @@
   ) %>
 </div>
 
-<div class="p">
-  <%= link_to(
-    t(".new_program_prompt"),
-    [:new, @user, @program, :program_prompt],
-    class: "button"
-  ) %>
-</div>
-
 <%= render_collection(
   partial: "program_prompts/program_prompt",
   collection: @program_prompts,

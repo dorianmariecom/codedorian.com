@@ -975,8 +975,8 @@ en:
       new_program_prompt_schedule: new schedule
       output_input: output input
       output_name: output name
-      output_program_schedule: 'interval: %{interval}, starts at: %{starts_at}'
-      output_program_schedules: output schedules
+      output_schedule: 'interval: %{interval}, starts at: %{starts_at}'
+      output_schedules: output schedules
       program: program
       program_prompt_schedules: schedules
       status: status
@@ -1209,7 +1209,34 @@ en:
     update:
       notice: repl program updated
   repl_prompts:
+    destroy:
+      notice: repl prompt deleted
+    show:
+      created_at: created at
+      delete: delete repl prompt
+      edit: edit repl prompt
+      id: id
+      input: input
+      user: user
+      repl_program: repl program
+      repl_session: repl session
+      updated_at: updated at
+      error: error
+      error_app_backtrace: error app backtrace
+      error_backtrace: error backtrace
+      error_class: error class
+      error_message: error message
+      input: input
+      output_input: output input
+      output_name: output name
+      status: status
+      updated_at: updated at
+    index:
+      delete_all: delete all repl prompts
+      destroy_all: destroy all repl prompts
+      title: repl prompts
     model:
+      to_s: "repl_prompt#%{id}"
       statuses:
         created: created
         done: done

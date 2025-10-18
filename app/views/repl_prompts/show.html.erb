@@ -14,15 +14,28 @@
   </div>
 <% end %>
 
-<% if @repl_prompt.program.present? %>
+<% if @repl_prompt.repl_session.present? %>
   <div class="p">
-    <div class="text-gray-600"><%= t(".program") %></div>
-    <% if can?(:show, @repl_prompt.program) %>
+    <div class="text-gray-600"><%= t(".repl_session") %></div>
+    <% if can?(:show, @repl_prompt.repl_session) %>
       <div class="font-bold">
-        <%= link_to(@repl_prompt.program, [@user, @repl_prompt.program], class: "link") %>
+        <%= link_to(@repl_prompt.repl_session, [@user, @repl_prompt.repl_session], class: "link") %>
       </div>
     <% else %>
-      <div class="font-bold"><%= @repl_prompt.program %></div>
+      <div class="font-bold"><%= @repl_prompt.repl_session %></div>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @repl_prompt.repl_program.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".repl_program") %></div>
+    <% if can?(:show, @repl_prompt.repl_program) %>
+      <div class="font-bold">
+        <%= link_to(@repl_prompt.repl_program, [@user, @repl_session, @repl_prompt.repl_program], class: "link") %>
+      </div>
+    <% else %>
+      <div class="font-bold"><%= @repl_prompt.repl_program %></div>
     <% end %>
   </div>
 <% end %>
@@ -64,13 +77,6 @@
   <% end %>
 <% end %>
 
-<% if @repl_prompt.name.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".name") %></div>
-    <div class="font-bold"><%= @repl_prompt.name %></div>
-  </div>
-<% end %>
-
 <% if @repl_prompt.input.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".input") %></div>
@@ -79,19 +85,11 @@
 <% end %>
 
 <% if @repl_prompt.output.present? %>
-  <% if @repl_prompt.output_name? || @repl_prompt.output_input? %>
-    <% if @repl_prompt.output_name? %>
-      <div class="p">
-        <div class="text-gray-600"><%= t(".output_name") %></div>
-        <div class="font-bold"><%= @repl_prompt.output_name %></div>
-      </div>
-    <% end %>
-    <% if @repl_prompt.output_input? %>
-      <div class="p">
-        <div class="text-gray-600"><%= t(".output_input") %></div>
-        <div class="code"><%= @repl_prompt.output_input %></div>
-      </div>
-    <% end %>
+  <% if @repl_prompt.output_input? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".output_input") %></div>
+      <div class="code"><%= @repl_prompt.output_input %></div>
+    </div>
   <% else %>
     <div class="p">
       <div class="text-gray-600"><%= t(".output") %></div>

@@ -83,6 +83,13 @@ Rails.application.routes.draw do
           end
         end
 
+        resources(:program_prompt_schedules) do
+          collection do
+            delete "/destroy_all", to: "program_prompt_schedules#destroy_all"
+            delete "/delete_all", to: "program_prompt_schedules#delete_all"
+          end
+        end
+
         define_jobs.call
       end
 
