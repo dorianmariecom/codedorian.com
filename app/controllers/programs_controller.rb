@@ -20,24 +20,16 @@ class ProgramsController < ApplicationController
 
   def show
     @program_executions =
-      program_executions_scope
-        .order(created_at: :desc)
-        .page(params[:page])
+      program_executions_scope.order(created_at: :desc).page(params[:page])
 
     @program_schedules =
-      program_schedules_scope
-        .order(created_at: :asc)
-        .page(params[:page])
+      program_schedules_scope.order(created_at: :asc).page(params[:page])
 
     @program_prompts =
-      program_prompts_scope
-        .order(created_at: :asc)
-        .page(params[:page])
+      program_prompts_scope.order(created_at: :asc).page(params[:page])
 
     @program_prompt_schedules =
-      program_prompt_schedules_scope
-        .order(created_at: :asc)
-        .page(params[:page])
+      program_prompt_schedules_scope.order(created_at: :asc).page(params[:page])
   end
 
   def evaluate

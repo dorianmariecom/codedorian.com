@@ -208,11 +208,7 @@ class ReplProgramsController < ApplicationController
     scope = scope.joins(:user).where(user: { id: @user }) if @user
     if @repl_session
       scope =
-        scope.joins(:repl_session).where(
-          repl_session: {
-            id: @repl_session
-          }
-        )
+        scope.joins(:repl_session).where(repl_session: { id: @repl_session })
     end
     scope = scope.where(repl_program: @repl_program) if @repl_program
     scope
