@@ -34,19 +34,4 @@ class ProgramExecutionPolicy < ApplicationPolicy
   def delete_all?
     true
   end
-
-  private
-
-  # TODO: refactor into applicationpolicy
-  def user
-    record.user
-  end
-
-  def user?
-    !!user
-  end
-
-  def owner?
-    user? && current_user? && user == current_user
-  end
 end

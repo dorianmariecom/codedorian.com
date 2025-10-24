@@ -1,35 +1,31 @@
-- list all descendants in parent pages, at least the link and count
-- error (occurrences) scoped by program/repl program
-- erd diagram :)
-- scopes for children, e.g. repl_program = repl_programs_scope.find(...)
-- rails todos
-- more links in index pages
-- jobs metadata current_user/user/program/...
-- load_user simpler
-- Html.tag e.g. Html.tag(:a, "google", href: "https://google.com")
-- #schedule action
-- notice message for destroy_all/delete_all/etc.
-- notice for all actions
-- move static#home into programs controller
-- settle on path/url
-- everything crud
-  - program executions
-  - repl executions
-  - configurations
-  - country codes
-  - doc classes
-  - doc functions
-  - doc examples
-  - errors
-  - error occurrences
-  - password validator inside passwords controller
-  - guests
-  - program prompts
-  - repl prompts
-  - sessions
-  - jobs
-  - job contexts
-- logs
-- error context for jobs
 - where_* e.g. where_user where_program
 - conistent naming, e.g. program prompts, program prompt schedules, etc.
+- Html.tag e.g. Html.tag(:a, "google", href: "https://google.com")
+
+- move static#home into programs controller
+- error context for jobs
+- scheduled jobs from job context
+- safe insert_recaptcha_tag
+- code-ruby should tranform timeouts into code::error
+
+- filters
+
+- categories/actions
+
+- program executions crud
+- repl executions crud
+- configurations crud
+- country codes crud
+- doc classes crud
+- doc functions crud
+- doc examples crud
+- errors crud
+- error occurrences crud
+- password validator inside passwords controller crud
+- guests crud
+- program prompts crud
+- repl prompts crud
+- sessions crud
+- jobs crud
+- job contexts crud
+- logs crud

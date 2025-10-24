@@ -34,18 +34,4 @@ class ProgramSchedulePolicy < ApplicationPolicy
   def delete_all?
     true
   end
-
-  private
-
-  def user
-    record.user
-  end
-
-  def user?
-    !!user
-  end
-
-  def owner?
-    current_user? && user? && user == current_user
-  end
 end

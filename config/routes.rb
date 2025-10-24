@@ -45,6 +45,7 @@ Rails.application.routes.draw do
 
       resources :programs do
         post :evaluate
+        post :schedule
         post :reschedule
         post :unschedule
 

@@ -76,7 +76,11 @@ class Current < ActiveSupport::CurrentAttributes
   end
 
   def hosts
-    request? ? [host] : ENV.fetch("HOSTS", DEFAULT_HOSTS).split(",") # TODO: strip/compact_blank?
+    request? ? [host] : default_hosts
+  end
+
+  def default_hosts
+    ENV.fetch("HOSTS", DEFAULT_HOSTS).split(",").map(&:strip).compact_blank
   end
 
   def base_url
@@ -86,7 +90,7 @@ class Current < ActiveSupport::CurrentAttributes
   def public_suffix
     PublicSuffix.parse(host)
   rescue PublicSuffix::DomainNotAllowed
-    LOCALHOST_PUBLIC_SUFFIX # TODO: do we really need localhost here?
+    LOCALHOST_PUBLIC_SUFFIX
   end
 
   def sld
@@ -184,7 +188,6 @@ class Current < ActiveSupport::CurrentAttributes
     super
   end
 
-  # TODO: explain why
   def time_zone=(time_zone)
     Time.zone = user&.time_zone || time_zone
     super(user&.time_zone || time_zone)

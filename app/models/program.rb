@@ -55,7 +55,7 @@ class Program < ApplicationRecord
         error: error.string,
         status: :done
       )
-    rescue Code::Error => e # TODO: code-ruby should tranform timeouts into code::error
+    rescue Code::Error => e
       program_execution.update!(
         input: input,
         status: :errored,

@@ -1097,9 +1097,9 @@ en:
     new:
       submit: create program
       title: new program
-    reload:
-      submit: update program
     reschedule:
+      notice: program rescheduled
+    schedule:
       notice: program scheduled
     show:
       created_at: created at

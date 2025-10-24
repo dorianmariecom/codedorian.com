@@ -160,7 +160,6 @@ module ApplicationHelper
     end
   end
 
-  # TODO: how to do this safely?
   # rubocop:disable Rails/OutputSafety
   def insert_recaptcha_tag(form_html)
     form = Nokogiri.HTML(form_html)

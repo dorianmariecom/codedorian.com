@@ -34,18 +34,4 @@ class ReplExecutionPolicy < ApplicationPolicy
   def delete_all?
     true
   end
-
-  private
-
-  def user
-    record.user
-  end
-
-  def user?
-    !!user
-  end
-
-  def owner?
-    current_user? && user? && current_user == user
-  end
 end

@@ -48,6 +48,12 @@ class ProgramsController < ApplicationController
     redirect_back_or_to(show_url, notice: t(".notice"))
   end
 
+  def schedule
+    @program.schedule!
+
+    redirect_back_or_to(show_url, notice: t(".notice"))
+  end
+
   def reschedule
     @program.reschedule!
 

@@ -27,6 +27,10 @@ class ProgramPolicy < ApplicationPolicy
     owner? || admin?
   end
 
+  def schedule?
+    owner? || admin?
+  end
+
   def reschedule?
     owner? || admin?
   end
@@ -45,19 +49,5 @@ class ProgramPolicy < ApplicationPolicy
 
   def delete_all?
     true
-  end
-
-  private
-
-  def user?
-    !!user
-  end
-
-  def user
-    record? && record.user
-  end
-
-  def owner?
-    current_user? && user? && current_user == user
   end
 end

@@ -82,4 +82,16 @@ class ApplicationPolicy
   def record?
     !!record
   end
+
+  def user
+    record? && record.respond_to?(:user) && record.user
+  end
+
+  def user?
+    !!user
+  end
+
+  def owner?
+    user? && current_user? && user == current_user
+  end
 end

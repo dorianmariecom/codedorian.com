@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# TODO: keep in sync with User
 class Guest
   include(ActiveModel::Model)
 
@@ -43,6 +42,7 @@ class Guest
   def not_primary! = nil
 
   def locale = I18n.locale.to_s
+  def description = nil
   def updated_at = Time.zone.now
   def created_at = Time.zone.now
   def device = nil
@@ -54,6 +54,7 @@ class Guest
   def email_address = nil
   def phone_number = nil
   def time_zone = nil
+  def unverified_time_zone = nil
   def verified? = false
   def not_verified? = true
   def admin? = false
