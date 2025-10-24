@@ -5,8 +5,40 @@ class ErrorOccurrence < SolidErrors::Occurrence
 
   belongs_to(:error, touch: true)
 
-  scope :where_user,
-        ->(user) { where("(context->>'user_id')::bigint = ?", user) }
+  %i[
+    address
+    attachment
+    current_user
+    datum
+    device
+    email_address
+    guest
+    handle
+    job
+    job_context
+    message
+    name
+    password
+    phone_number
+    program
+    program_execution
+    program_prompt
+    program_prompt_schedule
+    program_schedule
+    repl_execution
+    repl_program
+    repl_prompt
+    repl_session
+    time_zone
+    token
+    user
+  ].each do |model|
+    scope(:"where_#{model}", ->(instance) { where(<<~SQL.squish, instance) })
+      (((error_occurrences.context->>'#{model}')::jsonb)->>'id')::bigint = ?
+    SQL
+  end
+
+  scope(:where_error, ->(error) { where(error: error) })
 
   def self.search_fields
     {

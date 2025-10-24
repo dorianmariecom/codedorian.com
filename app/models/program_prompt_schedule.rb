@@ -63,6 +63,7 @@ class ProgramPromptSchedule < ApplicationRecord
     :where_program,
     ->(program) { joins(:program).where(programs: { id: program }) }
   )
+  scope(:where_program_prompt, ->(program_prompt) { where(program_prompt: program_prompt) })
 
   validates(:interval, inclusion: { in: INTERVALS })
 

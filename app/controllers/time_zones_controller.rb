@@ -92,7 +92,7 @@ class TimeZonesController < ApplicationController
 
   def scope
     scope = searched_policy_scope(TimeZone)
-    scope = scope.where(user: @user) if @user
+    scope = scope.where_user(@user) if @user
     scope
   end
 

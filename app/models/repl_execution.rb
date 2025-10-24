@@ -11,6 +11,8 @@ class ReplExecution < ApplicationRecord
   scope(:generating, -> { where(status: %i[created in_progress]) })
   scope(:not_generating, -> { where.not(status: %i[created in_progress]) })
   scope(:where_user, ->(user) { joins(:user).where(users: { id: user }) })
+  scope(:where_repl_session, ->(repl_session) { joins(:repl_session).where(repl_sessions: { id: repl_session }) })
+  scope(:where_repl_program, ->(repl_program) { where(repl_program: repl_program) })
 
   belongs_to(:repl_program, touch: true)
   has_one(:repl_session, through: :repl_program)

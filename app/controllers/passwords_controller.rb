@@ -92,7 +92,7 @@ class PasswordsController < ApplicationController
 
   def scope
     scope = searched_policy_scope(Password)
-    scope = scope.where(user: @user) if @user
+    scope = scope.where_user(@user) if @user
     scope
   end
 

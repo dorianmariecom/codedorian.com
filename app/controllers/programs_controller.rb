@@ -191,28 +191,28 @@ class ProgramsController < ApplicationController
 
   def scope
     scope = searched_policy_scope(Program)
-    scope = scope.where(user: @user) if @user
+    scope = scope.where_user(@user) if @user
     scope
   end
 
   def program_prompts_scope
     scope = policy_scope(ProgramPrompt)
-    scope = scope.where(user: @user) if @user
-    scope = scope.where(program: @program) if @program
+    scope = scope.where_user(@user) if @user
+    scope = scope.where_program(@program) if @program
     scope
   end
 
   def program_schedules_scope
     scope = policy_scope(ProgramSchedule)
     scope = scope.where_user(@user) if @user
-    scope = scope.where(program: @program) if @program
+    scope = scope.where_program(@program) if @program
     scope
   end
 
   def program_executions_scope
     scope = policy_scope(ProgramExecution)
     scope = scope.where_user(@user) if @user
-    scope = scope.where(program: @program) if @program
+    scope = scope.where_program(@program) if @program
     scope
   end
 

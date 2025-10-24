@@ -38,7 +38,6 @@ class User < ApplicationRecord
   scope(:not_verified, -> { where(verified: false) })
   scope(:admin, -> { where(admin: true) })
   scope(:not_admin, -> { where(admin: false) })
-  scope(:where_user, ->(user) { where(id: user) })
 
   accepts_nested_attributes_for(:addresses, allow_destroy: true)
   accepts_nested_attributes_for(:email_addresses, allow_destroy: true)

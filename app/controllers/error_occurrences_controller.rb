@@ -80,7 +80,7 @@ class ErrorOccurrencesController < ApplicationController
   def scope
     scope = searched_policy_scope(ErrorOccurrence)
     scope = scope.where_user(@user) if @user
-    scope = scope.where(error: @error) if @error
+    scope = scope.where_error(@error) if @error
     scope
   end
 

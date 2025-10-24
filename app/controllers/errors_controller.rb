@@ -17,9 +17,7 @@ class ErrorsController < ApplicationController
 
   def show
     @error_occurrences =
-      error_occurrences_scope
-        .page(params[:page])
-        .order(created_at: :desc)
+      error_occurrences_scope.page(params[:page]).order(created_at: :desc)
   end
 
   def destroy
@@ -139,7 +137,7 @@ class ErrorsController < ApplicationController
   def error_occurrences_scope
     scope = searched_policy_scope(ErrorOccurrence)
     scope = scope.where_user(@user) if @user
-    scope = scope.where(error: @error) if @error
+    scope = scope.where_error(@error) if @error
     scope
   end
 

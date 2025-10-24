@@ -11,75 +11,43 @@ class Job < SolidQueue::Job
     inverse_of: :job
   )
 
-  scope(
-    :where_current_user,
-    ->(current_user) do
-      joins(:job_contexts).where(
-        "job_contexts.context->'current_user'->>'id' = ?",
-        current_user
-      )
-    end
-  )
-
-  scope(
-    :where_user,
-    ->(user) do
-      joins(:job_contexts).where(
-        "job_contexts.context->'user'->>'id' = ?",
-        user
-      )
-    end
-  )
-
-  scope(
-    :where_program,
-    ->(program) do
-      joins(:job_contexts).where(
-        "job_contexts.context->'program'->>'id' = ?",
-        program
-      )
-    end
-  )
-
-  scope(
-    :where_program_prompt,
-    ->(program_prompt) do
-      joins(:job_contexts).where(
-        "job_contexts.context->'program_prompt'->>'id' = ?",
-        program_prompt
-      )
-    end
-  )
-
-  scope(
-    :where_repl_session,
-    ->(repl_session) do
-      joins(:job_contexts).where(
-        "job_contexts.context->'repl_session'->>'id' = ?",
-        repl_session
-      )
-    end
-  )
-
-  scope(
-    :where_repl_program,
-    ->(repl_program) do
-      joins(:job_contexts).where(
-        "job_contexts.context->'repl_program'->>'id' = ?",
-        repl_program
-      )
-    end
-  )
-
-  scope(
-    :where_repl_prompt,
-    ->(repl_prompt) do
-      joins(:job_contexts).where(
-        "job_contexts.context->'repl_prompt'->>'id' = ?",
-        repl_prompt
-      )
-    end
-  )
+  %i[
+    address
+    attachment
+    current_user
+    datum
+    device
+    email_address
+    error
+    error_occurrence
+    guest
+    handle
+    job
+    job_context
+    message
+    name
+    password
+    phone_number
+    program
+    program_execution
+    program_prompt
+    program_prompt_schedule
+    program_schedule
+    repl_execution
+    repl_program
+    repl_prompt
+    repl_session
+    time_zone
+    token
+    user
+  ].each do |model|
+    scope :"where_#{model}",
+          ->(instance) { joins(:job_contexts).where(<<~SQL.squish, instance) }
+      (
+        (job_contexts.context->>'#{model}')::jsonb
+      )->>'id'::bigint = ?
+    SQL
+  end
 
   def self.search_fields
     {

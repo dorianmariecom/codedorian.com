@@ -68,14 +68,14 @@ class ProgramExecutionsController < ApplicationController
 
   def scope
     scope = searched_policy_scope(ProgramExecution)
-    scope = scope.where(program: @program) if @program
-    scope = scope.joins(:user).where(user: { id: @user }) if @user
+    scope = scope.where_program(@program) if @program
+    scope = scope.where_user(@user) if @user
     scope
   end
 
   def programs_scope
     scope = policy_scope(Program)
-    scope = scope.where(user: @user) if @user
+    scope = scope.where_user(@user) if @user
     scope
   end
 

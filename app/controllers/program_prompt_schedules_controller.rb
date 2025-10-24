@@ -122,22 +122,22 @@ class ProgramPromptSchedulesController < ApplicationController
 
   def scope
     scope = searched_policy_scope(ProgramPromptSchedule)
-    scope = scope.where(program_prompt: @program_prompt) if @program_prompt
-    scope = scope.joins(:program).where(program: { id: @program }) if @program
-    scope = scope.joins(:user).where(user: { id: @user }) if @user
+    scope = scope.where_program_prompt(@program_prompt) if @program_prompt
+    scope = scope.where_program(@program) if @program
+    scope = scope.where_user(@user) if @user
     scope
   end
 
   def program_prompt_scope
     scope = policy_scope(ProgramPrompt)
-    scope = scope.where(user: @user) if @user
-    scope = scope.where(program: @program) if @program
+    scope = scope.where_user(@user) if @user
+    scope = scope.where_program(@program) if @program
     scope
   end
 
   def program_scope
     scope = policy_scope(Program)
-    scope = scope.where(user: @user) if @user
+    scope = scope.where_user(@user) if @user
     scope
   end
 

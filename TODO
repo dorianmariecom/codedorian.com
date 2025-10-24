@@ -2,11 +2,12 @@
 - conistent naming, e.g. program prompts, program prompt schedules, etc.
 - Html.tag e.g. Html.tag(:a, "google", href: "https://google.com")
 
-- move static#home into programs controller
 - error context for jobs
 - scheduled jobs from job context
 - safe insert_recaptcha_tag
 - code-ruby should tranform timeouts into code::error
+
+- new home page
 
 - filters
 
