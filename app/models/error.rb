@@ -52,6 +52,22 @@ class Error < SolidErrors::Error
     }
   end
 
+  def self.model_singular
+    name.underscore.singularize.to_sym
+  end
+
+  def self.model_plural
+    name.underscore.pluralize.to_sym
+  end
+
+  def model_singular
+    self.class.name.underscore.singularize.to_sym
+  end
+
+  def model_plural
+    self.class.name.underscore.pluralize.to_sym
+  end
+
   def to_s
     Truncate.strip("#{exception_class}: #{message}")
   end

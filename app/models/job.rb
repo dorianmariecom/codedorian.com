@@ -134,6 +134,22 @@ class Job < SolidQueue::Job
     find_each(&:retry!)
   end
 
+  def self.model_singular
+    name.underscore.singularize.to_sym
+  end
+
+  def self.model_plural
+    name.underscore.pluralize.to_sym
+  end
+
+  def model_singular
+    self.class.name.underscore.singularize.to_sym
+  end
+
+  def model_plural
+    self.class.name.underscore.pluralize.to_sym
+  end
+
   def retry!
     send(:retry)
   end

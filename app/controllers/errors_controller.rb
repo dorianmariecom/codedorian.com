@@ -12,12 +12,12 @@ class ErrorsController < ApplicationController
     authorize(Error)
 
     @errors = scope.page(params[:page]).order(created_at: :desc)
+    @error_occurrences = error_occurrences_scope
   end
 
   def show
     @error_occurrences =
-      policy_scope(ErrorOccurrence)
-        .where(error: @error)
+      error_occurrences_scope
         .page(params[:page])
         .order(created_at: :desc)
   end
@@ -133,6 +133,13 @@ class ErrorsController < ApplicationController
   def scope
     scope = searched_policy_scope(Error)
     scope = scope.where_user(@user) if @user
+    scope
+  end
+
+  def error_occurrences_scope
+    scope = searched_policy_scope(ErrorOccurrence)
+    scope = scope.where_user(@user) if @user
+    scope = scope.where(error: @error) if @error
     scope
   end
 

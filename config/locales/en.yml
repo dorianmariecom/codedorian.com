@@ -433,6 +433,10 @@ en:
       delete_all: delete all errors
       destroy_all: destroy all errors
       title: errors
+      error_occurrences:
+        zero: 0 error occurrences
+        one: 1 error occurrence
+        other: "%{count} error occurrences"
     internal_server_error:
       title: internal server error
     not_found:

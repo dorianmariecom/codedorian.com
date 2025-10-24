@@ -78,6 +78,22 @@ class ErrorOccurrence < SolidErrors::Occurrence
     }
   end
 
+  def self.model_singular
+    name.underscore.singularize.to_sym
+  end
+
+  def self.model_plural
+    name.underscore.pluralize.to_sym
+  end
+
+  def model_singular
+    self.class.name.underscore.singularize.to_sym
+  end
+
+  def model_plural
+    self.class.name.underscore.pluralize.to_sym
+  end
+
   def app_backtrace
     Backtrace.app(backtrace)
   end
