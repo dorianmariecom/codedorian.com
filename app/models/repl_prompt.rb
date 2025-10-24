@@ -34,8 +34,14 @@ class ReplPrompt < ApplicationRecord
   scope(:generating, -> { where(status: %i[created in_progress]) })
   scope(:not_generating, -> { where.not(status: %i[created in_progress]) })
   scope(:where_user, ->(user) { joins(:user).where(users: { id: user }) })
-  scope(:where_repl_session, ->(repl_session) { where(repl_session: repl_session) })
-  scope(:where_repl_program, ->(repl_program) { where(repl_program: repl_program) })
+  scope(
+    :where_repl_session,
+    ->(repl_session) { where(repl_session: repl_session) }
+  )
+  scope(
+    :where_repl_program,
+    ->(repl_program) { where(repl_program: repl_program) }
+  )
 
   belongs_to(:user, default: -> { Current.user! }, touch: true)
   belongs_to(:repl_session, optional: true, touch: true)

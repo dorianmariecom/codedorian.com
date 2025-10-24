@@ -206,10 +206,7 @@ class ReplProgramsController < ApplicationController
   def repl_executions_scope
     scope = policy_scope(ReplExecution)
     scope = scope.where_user(@user) if @user
-    if @repl_session
-      scope =
-        scope.where_repl_session(@repl_session)
-    end
+    scope = scope.where_repl_session(@repl_session) if @repl_session
     scope = scope.where_repl_program(@repl_program) if @repl_program
     scope
   end

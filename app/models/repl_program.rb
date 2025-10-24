@@ -11,7 +11,10 @@ class ReplProgram < ApplicationRecord
   has_many(:messages, dependent: :nullify)
 
   scope(:where_user, ->(user) { joins(:user).where(users: { id: user }) })
-  scope(:where_repl_session, ->(repl_session) { where(repl_session: repl_session) })
+  scope(
+    :where_repl_session,
+    ->(repl_session) { where(repl_session: repl_session) }
+  )
 
   validate { can!(:update, repl_session) }
 

@@ -137,10 +137,7 @@ class ReplSessionsController < ApplicationController
   def repl_executions_scope
     scope = searched_policy_scope(ReplExecution)
     scope = scope.where_user(@user) if @user
-    if @repl_session
-      scope =
-        scope.where_repl_session(@repl_session)
-    end
+    scope = scope.where_repl_session(@repl_session) if @repl_session
     scope
   end
 
