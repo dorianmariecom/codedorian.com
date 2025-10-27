@@ -582,6 +582,7 @@ en:
     show:
       arguments: arguments
       class_name: class name
+      concurrency_key: concurrency key
       created_at: created at
       delete: delete job
       destroy: destroy job
@@ -593,7 +594,6 @@ en:
       retry: retry job
       scheduled_at: scheduled at
       updated_at: updated at
-      concurrency_key: concurrency key
   layouts:
     application:
       js:
@@ -863,6 +863,7 @@ en:
     show:
       created_at: created at
       delete: delete program execution
+      error: error
       error_app_backtrace: error app backtrace
       error_backtrace: error backtrace
       error_class: error class
@@ -873,7 +874,6 @@ en:
       program: program
       result: result
       status: status
-      error: error
       updated_at: updated at
   program_prompt_schedules:
     create:
@@ -1524,6 +1524,7 @@ en:
       admin: admin
       created_at: created at
       delete: delete user
+      device: device
       edit: edit user
       email_address: email address
       handle: handle
@@ -1537,7 +1538,6 @@ en:
       time_zone: time zone
       updated_at: updated at
       verified: verified?
-      device: device
     update:
       notice: user updated
   views:
