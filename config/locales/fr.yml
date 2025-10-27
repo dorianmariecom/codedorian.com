@@ -1,0 +1,1549 @@
+---
+fr:
+  activerecord:
+    attributes:
+      address:
+        address: adresse
+        primary: primaire?
+        user_id: utilisateur
+        verified: vérifié ?
+      datum:
+        key: clé
+        value: valeur
+      device:
+        platform: plate-forme
+        primary: primaire?
+        token: jeton
+        user_id: utilisateur
+        verified: vérifié ?
+      email_address:
+        email_address: adresse email
+        primary: primaire?
+        user_id: utilisateur
+        verified: vérifié ?
+      handle:
+        handle: poignée
+        primary: primaire?
+        user_id: utilisateur
+        verified: vérifié ?
+      message:
+        body: corps
+        from_user_id: de l'utilisateur
+        subject: sujet
+        to_user_id: à l'utilisateur
+      name:
+        family_name: nom de famille
+        given_name: prénom
+        primary: primaire?
+        user_id: utilisateur
+        verified: vérifié ?
+      password:
+        hint: indice
+        password: mot de passe
+        primary: primaire?
+        user_id: utilisateur
+        verified: vérifié ?
+      phone_number:
+        phone_number: numéro de téléphone
+        phone_number_input: numéro de téléphone
+        primary: primaire?
+        user_id: utilisateur
+        verified: vérifié ?
+      program:
+        input: saisir
+        name: nom
+        user_id: utilisateur
+      program_schedule:
+        interval: intervalle
+        program_id: programme
+        starts_at: commence à
+      repl_session:
+        name: nom
+        user_id: utilisateur
+      time_zone:
+        primary: primaire?
+        time_zone: fuseau horaire
+        user_id: utilisateur
+        verified: vérifié ?
+      token:
+        primary: primaire?
+        token: jeton
+        user_id: utilisateur
+        verified: vérifié ?
+      user:
+        admin: administrateur?
+        locale: langue
+        verified: vérifié ?
+    errors:
+      models:
+        phone_number:
+          impossible: impossible
+          invalid: invalide
+  addresses:
+    create:
+      notice: adresse créée
+    destroy:
+      notice: adresse supprimée
+    edit:
+      submit: mettre à jour l'adresse
+      title: modifier l'adresse
+    index:
+      delete_all: supprimer toutes les adresses
+      destroy_all: détruire toutes les adresses
+      new: nouvelle adresse
+      title: adresses
+    model:
+      to_s: adresse#%{id}
+    nested:
+      add: ajouter une adresse
+    nested_form:
+      address: adresse
+      remove: supprimer l'adresse
+    new:
+      submit: créer une adresse
+      title: nouvelle adresse
+    show:
+      address: adresse
+      autocomplete: saisie semi-automatique
+      created_at: créé à
+      delete: supprimer l'adresse
+      edit: modifier l'adresse
+      id: identifiant
+      primary: primaire?
+      updated_at: mis à jour à
+      user: utilisateur
+      verified: vérifié ?
+    update:
+      notice: adresse mise à jour
+  application:
+    current_user_required: utilisateur actuel requis
+  attachments:
+    create:
+      notice: fichier créé
+    destroy:
+      notice: fichier supprimé
+    edit:
+      submit: mettre à jour le fichier
+      title: modifier le fichier
+    index:
+      delete_all: supprimer tous les fichiers
+      destroy_all: détruire tous les fichiers
+      new: nouveau fichier
+      title: fichiers
+    model:
+      to_s: fichier#%{id}
+    new:
+      submit: créer un fichier
+      title: nouveau fichier
+    show:
+      created_at: créé à
+      delete: supprimer le fichier
+      download: télécharger
+      edit: modifier le fichier
+      id: identifiant
+      preview: aperçu
+      updated_at: mis à jour à
+      user: utilisateur
+    update:
+      notice: fichier mis à jour
+  breadcrumbs:
+    addresses:
+      edit: modifier
+      index: adresses
+      new: nouveau
+    attachments:
+      edit: modifier
+      index: fichiers
+      new: nouveau
+    data:
+      edit: modifier
+      index: données
+      new: nouveau
+    devices:
+      edit: modifier
+      index: appareils
+      new: nouveau
+    docs:
+      edit: modifier
+      index: documents
+      new: nouveau
+    email_addresses:
+      edit: modifier
+      index: adresses e-mail
+      new: nouveau
+    error_occurrences:
+      edit: modifier
+      index: occurrences d'erreur
+      new: nouveau
+    errors:
+      edit: modifier
+      index: erreurs
+      internal_server_error: Erreur interne du serveur
+      new: nouveau
+      not_found: non trouvé
+      unprocessable_entity: entité non traitable
+    examples:
+      edit: modifier
+      index: exemples
+      new: nouveau
+    guests:
+      edit: modifier
+      index: invités
+      new: nouveau
+    handles:
+      edit: modifier
+      index: poignées
+      new: nouveau
+    jobs:
+      edit: modifier
+      index: emplois
+      new: nouveau
+    messages:
+      body: corps
+      content: contenu
+      edit: modifier
+      index: messages
+      new: nouveau
+      subject: sujet
+    names:
+      edit: modifier
+      index: noms
+      new: nouveau
+    passwords:
+      edit: modifier
+      index: mots de passe
+      new: nouveau
+    phone_numbers:
+      edit: modifier
+      index: numéros de téléphone
+      new: nouveau
+    program_executions:
+      edit: modifier
+      index: exécutions de programmes
+      new: nouveau
+    program_prompt_schedules:
+      edit: modifier
+      index: horaires des invites du programme
+      new: nouveau
+    program_prompts:
+      edit: modifier
+      index: invites du programme
+      new: nouveau
+    program_schedules:
+      edit: modifier
+      index: grilles de programmes
+      new: nouveau
+    programs:
+      edit: modifier
+      index: programmes
+      new: nouveau
+    repl_executions:
+      edit: modifier
+      index: exécutions de repl
+      new: nouveau
+    repl_programs:
+      edit: modifier
+      index: programmes de remplacement
+      new: nouveau
+    repl_prompts:
+      edit: modifier
+      index: invites de réponse
+      new: nouveau
+    repl_sessions:
+      edit: modifier
+      index: séances de répétition
+      new: nouveau
+    sessions:
+      edit: modifier
+      index: séances
+      new: nouveau
+    static:
+      about: à propos
+      android: androïde
+      download: télécharger
+      home: maison
+      icons: icônes
+      ios: iOS
+      privacy: confidentialité
+      terms: termes
+      up: en haut
+    time_zones:
+      edit: modifier
+      index: fuseaux horaires
+      new: nouveau
+    tokens:
+      edit: modifier
+      index: jetons
+      new: nouveau
+    users:
+      edit: modifier
+      index: utilisateurs
+      new: nouveau
+  current:
+    model:
+      envs:
+        development: développement
+        localhost: hôte local
+        production: production
+        staging: mise en scène
+        test: test
+  data:
+    create:
+      notice: donnée créée
+    destroy:
+      notice: donnée supprimée
+    edit:
+      submit: mettre à jour les données
+      title: modifier la donnée
+    form:
+      key_placeholder: entrez la clé de votre donnée
+      value_placeholder: entrez la valeur de votre donnée
+    index:
+      delete_all: supprimer toutes les données
+      destroy_all: détruire toutes les données
+      new: nouvelle donnée
+      title: données
+    model:
+      invalid_json: json invalide
+      to_s: donnée#%{id}
+    new:
+      submit: créer une donnée
+      title: nouvelle donnée
+    show:
+      created_at: créé à
+      delete: supprimer la donnée
+      edit: modifier la donnée
+      id: identifiant
+      key: clé
+      updated_at: mis à jour à
+      user: utilisateur
+      value: valeur
+    update:
+      notice: données mises à jour
+  devices:
+    create:
+      notice: appareil créé
+    destroy:
+      notice: appareil supprimé
+    edit:
+      submit: mettre à jour l'appareil
+      title: modifier l'appareil
+    index:
+      delete_all: supprimer tous les appareils
+      destroy_all: détruire tous les appareils
+      new: nouvel appareil
+      title: appareils
+    model:
+      to_s: appareil#%{id}
+    new:
+      submit: créer un appareil
+      title: nouvel appareil
+    show:
+      created_at: créé à
+      delete: supprimer l'appareil
+      edit: modifier l'appareil
+      id: identifiant
+      platform: plate-forme
+      primary: primaire?
+      token: jeton
+      updated_at: mis à jour à
+      user: utilisateur
+      verified: vérifié ?
+    update:
+      notice: appareil mis à jour
+  docs:
+    example:
+      error: erreur
+      input: saisir
+      output: sortir
+      result: résultat
+    examples:
+      examples: exemples
+    functions:
+      class_functions: fonctions de classe
+      instance_functions: fonctions d'instance
+    index:
+      examples:
+        one: 1 exemple
+        other: "%{count} exemples"
+        zero: 0 exemples
+      title: documents
+    show:
+      title: doc non trouvé
+  email_addresses:
+    create:
+      notice: adresse e-mail créée
+    destroy:
+      notice: adresse e-mail supprimée
+    edit:
+      submit: mettre à jour l'adresse e-mail
+      title: modifier l'adresse e-mail
+    form:
+      email_address_placeholder: entrez votre adresse e-mail
+    index:
+      delete_all: supprimer toutes les adresses e-mail
+      destroy_all: détruire toutes les adresses e-mail
+      new: nouvelle adresse e-mail
+      title: adresses e-mail
+    model:
+      to_s: adresse_email#%{id}
+    nested:
+      add: ajouter une adresse e-mail
+    nested_form:
+      email_address: adresse email
+      email_address_placeholder: entrez votre adresse e-mail
+      remove: supprimer l'adresse e-mail
+    new:
+      submit: créer une adresse e-mail
+      title: nouvelle adresse e-mail
+    show:
+      created_at: créé à
+      delete: supprimer l'adresse e-mail
+      edit: modifier l'adresse e-mail
+      email_address: adresse email
+      id: identifiant
+      primary: primaire?
+      updated_at: mis à jour à
+      user: utilisateur
+      verified: vérifié ?
+    update:
+      notice: adresse e-mail mise à jour
+  error_occurrences:
+    destroy:
+      notice: occurrence d'erreur supprimée
+    index:
+      delete_all: supprimer toutes les occurrences d'erreur
+      destroy_all: détruire toutes les occurrences d'erreur
+      title: occurrences d'erreur
+    show:
+      app_backtrace: trace d'application
+      context: contexte
+      created_at: créé à
+      delete: supprimer l'occurrence d'erreur
+      error: erreur
+      full_backtrace: trace complète
+      id: identifiant
+      updated_at: mis à jour à
+  errors:
+    destroy:
+      notice: erreur supprimée
+    index:
+      delete_all: supprimer toutes les erreurs
+      destroy_all: détruire toutes les erreurs
+      error_occurrences:
+        one: 1 occurrence d'erreur
+        other: "%{count} occurrences d'erreur"
+        zero: 0 occurrence d'erreur
+      title: erreurs
+    internal_server_error:
+      title: Erreur interne du serveur
+    not_found:
+      title: non trouvé
+    show:
+      created_at: créé à
+      delete: erreur de suppression
+      error_occurrences: occurrences d'erreur
+      exception_class: classe d'exception
+      id: identifiant
+      message: message
+      severity: gravité
+      source: source
+      updated_at: mis à jour à
+      verified: vérifié ?
+    unprocessable_entity:
+      title: entité non traitable
+  examples:
+    index:
+      title: exemples
+    show:
+      title: non trouvé
+  guests:
+    index:
+      delete_all: supprimer tous les invités
+      destroy_all: détruire tous les invités
+      title: invités
+    model:
+      locales:
+        en: anglais
+        fr: français
+        none: aucun
+      to_s: invité
+    show:
+      admin: administrateur
+      created_at: créé à
+      delete: supprimer
+      id: identifiant
+      locale: langue
+      updated_at: mis à jour à
+      verified: vérifié ?
+  handles:
+    create:
+      notice: poignée créée
+    destroy:
+      notice: poignée supprimée
+    edit:
+      submit: poignée de mise à jour
+      title: modifier la poignée
+    form:
+      handle_placeholder: entrez votre identifiant
+    index:
+      delete_all: supprimer toutes les poignées
+      destroy_all: détruire toutes les poignées
+      new: nouvelle poignée
+      title: poignées
+    model:
+      to_s: poignée#%{id}
+    nested:
+      add: ajouter une poignée
+    nested_form:
+      handle: poignée
+      handle_placeholder: entrez votre identifiant
+      remove: retirer la poignée
+    new:
+      submit: créer une poignée
+      title: nouvelle poignée
+    show:
+      created_at: créé à
+      delete: supprimer la poignée
+      edit: modifier la poignée
+      handle: poignée
+      id: identifiant
+      primary: primaire?
+      updated_at: mis à jour à
+      user: utilisateur
+      verified: vérifié ?
+    update:
+      notice: poignée mise à jour
+  helpers:
+    application:
+      menu:
+        about: à propos
+        account: compte
+        attachments: fichiers
+        data: données
+        docs: documents
+        english: anglais
+        errors: erreurs
+        french: français
+        home: maison
+        jobs: emplois
+        log_in: se connecter
+        messages: messages
+        privacy: confidentialité
+        programs: programmes
+        register: registre
+        repl: séances de répétition
+        terms: termes
+        users: utilisateurs
+      tabs:
+        account: compte
+        home: maison
+        log_in: se connecter
+        messages: messages
+        more: plus
+        programs: programmes
+        register: registre
+        repl: séances de répétition
+    label:
+      session:
+        email_address: adresse email
+        password: mot de passe
+    page_entries_info:
+      more_pages:
+        display_entries: "%{total} trouvé"
+      one_page:
+        display_entries:
+          one: 1 trouvé
+          other: "%{count} trouvé"
+          zero: 0 trouvé
+  jobs:
+    delete:
+      notice: travail supprimé
+    delete_all:
+      notice: emplois supprimés
+    destroy:
+      notice: emploi détruit
+    destroy_all:
+      notice: emplois détruits
+    discard:
+      notice: travail abandonné
+    discard_all:
+      notice: emplois supprimés
+    index:
+      delete_all: supprimer tous les emplois
+      destroy_all: détruire tous les emplois
+      discard_all: abandonner tous les travaux
+      retry_all: réessayer tous les travaux
+      title: emplois
+    retry:
+      notice: travail retenté
+    retry_all:
+      notice: emplois réessayés
+    show:
+      arguments: arguments
+      class_name: nom de la classe
+      concurrency_key: clé de concurrence
+      created_at: créé à
+      delete: supprimer le travail
+      destroy: détruire un emploi
+      discard: abandonner le travail
+      finished_at: terminé à
+      id: identifiant
+      priority: priorité
+      queue_name: nom de la file d'attente
+      retry: réessayer le travail
+      scheduled_at: prévu à
+      updated_at: mis à jour à
+  layouts:
+    application:
+      js:
+        address:
+          not_present: doit être présent
+          not_valid: doit être valide
+        password:
+          not_present: doit être présent
+        phone_number:
+          invalid_country_code: a un code de pays invalide
+          invalid_length: a une longueur invalide
+          invalid_phone_number: est un numéro de téléphone invalide
+          is_possible: c'est possible
+          is_possible_local_only: est possible uniquement localement
+          not_present: doit être présent
+          not_valid: doit être valide
+          too_long: est trop long
+          too_short: est trop court
+        time_zone:
+          not_present: doit être présent
+        trix:
+          GB: gb
+          KB: Ko
+          MB: mb
+          PB: pb
+          TB: tuberculose
+          attachFiles: joindre des fichiers
+          bold: audacieux
+          bullets: balles
+          byte: octet
+          bytes: octets
+          captionPlaceholder: ajouter une légende…
+          code: code
+          heading1: titre
+          indent: augmenter le niveau
+          italic: italique
+          link: lien
+          numbers: Nombres
+          outdent: diminuer le niveau
+          quote: citation
+          redo: refaire
+          remove: retirer
+          strike: barré
+          undo: défaire
+          unlink: dissocier
+          url: URL
+          urlPlaceholder: entrez une URL…
+        validation:
+          not_email:
+            feminine: doit être une adresse e-mail
+            masculine: doit être une adresse e-mail
+          not_present:
+            feminine: doit être présent
+            masculine: doit être présent
+          not_valid:
+            feminine: doit être valide
+            masculine: doit être valide
+      log_in: se connecter
+      log_out: se déconnecter
+      register: registre
+      title: code
+    menu:
+      about: à propos
+      admin: administrateur
+      attachments: fichiers
+      data: données
+      docs: documents
+      download: télécharger
+      english: anglais
+      errors: erreurs
+      french: français
+      jobs: emplois
+      log_in: se connecter
+      log_out: se déconnecter
+      messages: messages
+      privacy: confidentialité
+      programs: programmes
+      register: registre
+      repl_sessions: séances de répétition
+      terms: termes
+      title: code
+      users: utilisateurs
+  messages:
+    create:
+      notice: message créé
+    destroy:
+      notice: message supprimé
+    edit:
+      submit: message de mise à jour
+      title: modifier le message
+    form:
+      body_placeholder: entrez le corps de votre message
+      subject_placeholder: entrez l'objet de votre message
+    index:
+      delete_all: supprimer tous les messages
+      destroy_all: détruire tous les messages
+      new: nouveau message
+      title: messages
+    model:
+      to_s: message#%{id}
+    new:
+      submit: créer un message
+      title: nouveau message
+    show:
+      body: corps
+      content: contenu
+      created_at: créé à
+      delete: supprimer le message
+      edit: modifier le message
+      from_user: de l'utilisateur
+      id: identifiant
+      read: lire
+      read_at_html: lire à %{local_time}
+      subject: sujet
+      to_user: à l'utilisateur
+      unread: non lu
+      unread_at_html: non lu à %{local_time}
+      updated_at: mis à jour à
+    update:
+      notice: message mis à jour
+  names:
+    create:
+      notice: nom créé
+    destroy:
+      notice: nom supprimé
+    edit:
+      submit: mettre à jour le nom
+      title: modifier le nom
+    form:
+      family_name_placeholder: entrez votre nom de famille
+      given_name_placeholder: entrez votre prénom
+    index:
+      delete_all: supprimer tous les noms
+      destroy_all: détruire tous les noms
+      new: nouveau nom
+      title: noms
+    model:
+      to_s: nom#%{id}
+    nested:
+      add: ajouter un nom
+    nested_form:
+      family_name_placeholder: entrez votre nom de famille
+      given_name_placeholder: entrez votre prénom
+      name: nom
+      remove: supprimer le nom
+    new:
+      submit: créer un nom
+      title: nouveau nom
+    show:
+      created_at: créé à
+      delete: supprimer le nom
+      edit: modifier le nom
+      family_name: nom de famille
+      given_name: prénom
+      id: identifiant
+      primary: primaire?
+      updated_at: mis à jour à
+      user: utilisateur
+      verified: vérifié ?
+    update:
+      notice: nom mis à jour
+  password_validator:
+    model:
+      sequence:
+        bruteforce: ajouter un ou deux autres mots, de préférence peu courants
+        date: évitez les dates et les années qui vous sont associées
+        dictionary: ajouter un ou deux autres mots, de préférence peu courants
+        digits: éviter les chiffres
+        repeat: éviter les mots ou les caractères répétés
+        sequence: éviter les séquences
+        spatial: utiliser des modèles de clavier plus longs avec plus de tours
+        year: évitez les années récentes, surtout si elles sont associées à vous
+  passwords:
+    create:
+      notice: mot de passe créé
+    destroy:
+      notice: mot de passe supprimé
+    edit:
+      submit: mettre à jour le mot de passe
+      title: modifier le mot de passe
+    form:
+      hint_placeholder: entrez l'indice de votre mot de passe
+      password_placeholder: entrez votre mot de passe
+    index:
+      delete_all: supprimer tous les mots de passe
+      destroy_all: détruire tous les mots de passe
+      new: nouveau mot de passe
+      title: mots de passe
+    model:
+      to_s: mot de passe#%{id}
+    nested:
+      add: ajouter un mot de passe
+    nested_form:
+      hint_placeholder: entrez l'indice de votre mot de passe
+      password: mot de passe
+      password_placeholder: entrez votre mot de passe
+      remove: supprimer le mot de passe
+    new:
+      submit: créer un mot de passe
+      title: nouveau mot de passe
+    show:
+      created_at: créé à
+      delete: supprimer le mot de passe
+      edit: modifier le mot de passe
+      hint: indice
+      id: identifiant
+      password: mot de passe
+      primary: primaire?
+      updated_at: mis à jour à
+      user: utilisateur
+      verified: vérifié ?
+    update:
+      notice: mot de passe mis à jour
+  phone_numbers:
+    create:
+      notice: numéro de téléphone créé
+    destroy:
+      notice: numéro de téléphone supprimé
+    edit:
+      submit: mettre à jour le numéro de téléphone
+      title: modifier le numéro de téléphone
+    form:
+      phone_number_placeholder: entrez votre numéro de téléphone
+    index:
+      delete_all: supprimer tous les numéros de téléphone
+      destroy_all: détruire tous les numéros de téléphone
+      new: nouveau numéro de téléphone
+      title: numéros de téléphone
+    model:
+      to_s: numéro_de_téléphone#%{id}
+    nested:
+      add: ajouter un numéro de téléphone
+    nested_form:
+      phone_number: numéro de téléphone
+      phone_number_placeholder: entrez votre numéro de téléphone
+      remove: supprimer le numéro de téléphone
+    new:
+      submit: créer un numéro de téléphone
+      title: nouveau numéro de téléphone
+    show:
+      created_at: créé à
+      delete: supprimer le numéro de téléphone
+      edit: modifier le numéro de téléphone
+      id: identifiant
+      phone_number: numéro de téléphone
+      primary: primaire?
+      updated_at: mis à jour à
+      user: utilisateur
+      verified: vérifié ?
+    update:
+      notice: numéro de téléphone mis à jour
+  program_executions:
+    destroy:
+      notice: exécution du programme supprimée
+    index:
+      delete_all: supprimer toutes les exécutions du programme
+      destroy_all: détruire toutes les exécutions du programme
+      title: exécutions de programmes
+    model:
+      statuses:
+        created: créé
+        done: fait
+        errored: erroné
+        in_progress: en cours
+        initialized: initialisé
+      to_s: exécution_du_programme#%{id}
+    show:
+      created_at: créé à
+      delete: supprimer l'exécution du programme
+      error: erreur
+      error_app_backtrace: erreur de trace d'application
+      error_backtrace: trace d'erreur
+      error_class: classe d'erreur
+      error_message: message d'erreur
+      id: identifiant
+      input: saisir
+      output: sortir
+      program: programme
+      result: résultat
+      status: statut
+      updated_at: mis à jour à
+  program_prompt_schedules:
+    create:
+      notice: calendrier d'invite de programme créé
+    destroy:
+      notice: programme d'invite de programme supprimé
+    edit:
+      submit: programme de mise à jour du programme
+      title: modifier le programme d'invite de programmation
+    index:
+      delete_all: supprimer tous les programmes d'invite
+      destroy_all: détruire tous les programmes d'invite
+      new: nouveau calendrier des invites du programme
+      title: horaires des invites du programme
+    model:
+      days:
+        one: 1 jour
+        other: "%{count} jours"
+        zero: 0 jours
+      hours:
+        one: 1 heure
+        other: "%{count} heures"
+        zero: 0 heures
+      minutes:
+        one: 1 minute
+        other: "%{count} minutes"
+        zero: 0 minutes
+      months:
+        one: 1 mois
+        other: "%{count} mois"
+        zero: 0 mois
+      once: une fois
+      seconds:
+        one: 1 seconde
+        other: "%{count} secondes"
+        zero: 0 seconde
+      to_s: programme_invite_calendrier#%{id}
+      weeks:
+        one: 1 semaine
+        other: "%{count} semaines"
+        zero: 0 semaines
+      years:
+        one: 1 an
+        other: "%{count} ans"
+        zero: 0 ans
+    nested:
+      add: ajouter un programme d'invite de planification
+    nested_form:
+      program_prompt_schedule: programme d'invite de programme
+      remove: supprimer l'invite du programme
+    new:
+      submit: créer un calendrier d'invite de programme
+      title: nouveau calendrier des invites du programme
+    program_prompt_schedule:
+      schedule_html: commence %{local_time}, se répète tous les %{interval}
+      schedule_once_html: commence %{local_time}, ne se répète pas
+    show:
+      created_at: créé à
+      delete: supprimer l'invite du programme
+      edit: modifier le programme d'invite de programmation
+      id: identifiant
+      interval: intervalle
+      program: programme
+      program_prompt: rapide
+      schedule_html: commence %{local_time}, se répète tous les %{interval}
+      schedule_once_html: commence %{local_time}, ne se répète pas
+      starts_at: commence à
+      updated_at: mis à jour à
+      user: utilisateur
+    update:
+      notice: calendrier mis à jour
+  program_prompts:
+    destroy:
+      notice: invite du programme supprimée
+    index:
+      delete_all: supprimer toutes les invites du programme
+      destroy_all: détruire toutes les invites du programme
+      program_prompt_schedules:
+        one: 1 programme d'invite de programme
+        other: Horaires d'invite du programme %{count}
+        zero: 0 horaires d'invite de programme
+      title: invites du programme
+    model:
+      statuses:
+        created: créé
+        done: fait
+        errored: erroné
+        in_progress: en cours
+        initialized: initialisé
+      submit: programme de mise à jour
+      to_s: invite_de_programme#%{id}
+    show:
+      created_at: créé à
+      delete: invite de suppression du programme
+      error: erreur
+      error_app_backtrace: erreur de trace d'application
+      error_backtrace: trace d'erreur
+      error_class: classe d'erreur
+      error_message: message d'erreur
+      id: identifiant
+      input: saisir
+      name: nom
+      new_program_prompt_schedule: nouvel horaire
+      output: sortir
+      output_input: sortie entrée
+      output_name: nom de sortie
+      output_schedule: 'intervalle : %{interval}, commence à : %{starts_at}'
+      output_schedules: calendriers de sortie
+      program: programme
+      program_prompt_schedules: horaires des invites du programme
+      status: statut
+      updated_at: mis à jour à
+      user: utilisateur
+  program_schedules:
+    create:
+      notice: grille de programmes créée
+    destroy:
+      notice: grille des programmes supprimée
+    edit:
+      submit: mettre à jour le calendrier des programmes
+      title: modifier la grille des programmes
+    index:
+      delete_all: supprimer tous les programmes
+      destroy_all: détruire tous les programmes
+      new: nouvelle grille de programmes
+      title: grilles de programmes
+    model:
+      days:
+        one: 1 jour
+        other: "%{count} jours"
+        zero: 0 jours
+      hours:
+        one: 1 heure
+        other: "%{count} heures"
+        zero: 0 heures
+      minutes:
+        one: 1 minute
+        other: "%{count} minutes"
+        zero: 0 minutes
+      months:
+        one: 1 mois
+        other: "%{count} mois"
+        zero: 0 mois
+      once: une fois
+      seconds:
+        one: 1 seconde
+        other: "%{count} secondes"
+        zero: 0 seconde
+      to_s: programme_horaire#%{id}
+      weeks:
+        one: 1 semaine
+        other: "%{count} semaines"
+        zero: 0 semaines
+      years:
+        one: 1 an
+        other: "%{count} ans"
+        zero: 0 ans
+    nested:
+      add: ajouter un programme
+    nested_form:
+      program_schedule: programme
+      remove: supprimer la grille des programmes
+    new:
+      submit: créer un programme
+      title: nouvelle grille de programmes
+    program_schedule:
+      schedule_html: commence %{local_time}, se répète tous les %{interval}
+      schedule_once_html: commence %{local_time}, ne se répète pas
+    show:
+      created_at: créé à
+      delete: supprimer la grille des programmes
+      edit: modifier la grille des programmes
+      id: identifiant
+      interval: intervalle
+      program: programme
+      schedule_html: commence %{local_time}, se répète tous les %{interval}
+      schedule_once_html: commence %{local_time}, ne se répète pas
+      starts_at: commence à
+      updated_at: mis à jour à
+      user: utilisateur
+    update:
+      notice: calendrier mis à jour
+  programs:
+    create:
+      notice: programme créé
+    destroy:
+      notice: programme supprimé
+    edit:
+      submit: programme de mise à jour
+      title: modifier le programme
+    evaluate:
+      notice: programme évalué
+    form:
+      generate: générer
+      generating: générateur
+      input: saisir
+      input_placeholder: entrez l'entrée de votre programme
+      name_placeholder: entrez le nom de votre programme
+    index:
+      delete_all: supprimer tous les programmes
+      destroy_all: détruire tous les programmes
+      new: nouveau programme
+      program_executions:
+        one: 1 exécution de programme
+        other: "%{count} exécutions de programme"
+        zero: 0 exécutions de programme
+      program_prompt_schedules:
+        one: 1 programme d'invite de programme
+        other: Horaires d'invite du programme %{count}
+        zero: 0 horaires d'invite de programme
+      program_prompts:
+        one: 1 invite de programme
+        other: Invites du programme %{count}
+        zero: 0 invites de programme
+      program_schedules:
+        one: 1 grille de programmes
+        other: "%{count} programmes"
+        zero: 0 programmes
+      reschedule_all: reprogrammer tous les programmes
+      schedule_all: programmer tous les programmes
+      title: programmes
+      unschedule_all: déprogrammer tous les programmes
+    model:
+      to_s: programme#%{id}
+    new:
+      submit: créer un programme
+      title: nouveau programme
+    reschedule:
+      notice: programme reprogrammé
+    schedule:
+      notice: programme prévu
+    show:
+      created_at: créé à
+      delete: supprimer le programme
+      edit: modifier le programme
+      evaluate: évaluer
+      id: identifiant
+      input: saisir
+      name: nom
+      new_program_prompt: invite de nouveau programme
+      new_program_prompt_schedule: nouveau calendrier des invites du programme
+      new_program_schedule: nouvelle grille de programmes
+      not_scheduled_html: Souhaitez-vous planifier pour %{local_time} ?
+      program_executions: exécutions de programmes
+      program_prompt_schedules: horaires des invites du programme
+      program_prompts: invites du programme
+      program_schedules: grilles de programmes
+      reschedule: reprogrammer
+      schedule: calendrier
+      scheduled_html: c'est prévu pour %{local_time}
+      unschedule: déprogrammer
+      updated_at: mis à jour à
+      user: utilisateur
+    unschedule:
+      notice: programme non programmé
+    update:
+      notice: programme mis à jour
+  repl_executions:
+    destroy:
+      notice: exécution de repl supprimée
+    index:
+      delete_all: supprimer toutes les exécutions de repl
+      destroy_all: détruire toutes les exécutions de repl
+      title: exécutions de repl
+    model:
+      statuses:
+        created: créé
+        done: fait
+        errored: erroné
+        in_progress: en cours
+        initialized: initialisé
+      to_s: repl_execution#%{id}
+    show:
+      context: contexte
+      created_at: créé à
+      delete: supprimer l'exécution de repl
+      error: erreur
+      error_app_backtrace: erreur de trace d'application
+      error_backtrace: trace d'erreur
+      error_class: classe d'erreur
+      error_message: message d'erreur
+      id: identifiant
+      input: saisir
+      output: sortir
+      repl_program: programme repl
+      repl_session: séance de répétition
+      result: résultat
+      status: statut
+      updated_at: mis à jour à
+      user: utilisateur
+  repl_programs:
+    create:
+      notice: programme repl créé
+    destroy:
+      notice: programme repl supprimé
+    edit:
+      submit: mettre à jour le programme repl
+      title: modifier le programme de remplacement
+    form:
+      generate: générer
+      generating: générateur
+      input_placeholder: entrez l'entrée de votre programme repl
+    index:
+      delete_all: supprimer tous les programmes de remplacement
+      destroy_all: détruire tous les programmes repl
+      new: nouveau programme de remplacement
+      repl_executions:
+        one: 1 exécution de répétition
+        other: "%{count} exécutions de repl"
+        zero: 0 exécutions de repl
+      repl_prompts:
+        one: 1 réponse rapide
+        other: "%{count} invites de réponse"
+        zero: 0 invite de réponse
+      title: programmes de remplacement
+    model:
+      to_s: repl_program#%{id}
+    nested:
+      add: ajouter un programme repl
+    nested_form:
+      fake_input: Http.get("https://google.com")
+      input_placeholder: entrez l'entrée de votre programme repl
+      remove: supprimer le programme repl
+      repl_program: programme repl
+    new:
+      submit: créer un programme repl
+      title: nouveau programme de remplacement
+    show:
+      created_at: créé à
+      delete: supprimer le programme repl
+      edit: modifier le programme de remplacement
+      id: identifiant
+      input: saisir
+      new_repl_execution: nouvelle exécution de repl
+      new_repl_prompt: nouvelle invite de remplacement
+      repl_executions: exécutions de repl
+      repl_prompts: invites de réponse
+      repl_session: séance de répétition
+      updated_at: mis à jour à
+      user: utilisateur
+    update:
+      notice: programme repl mis à jour
+  repl_prompts:
+    destroy:
+      notice: invite de réponse supprimée
+    index:
+      delete_all: supprimer toutes les invites de réponse
+      destroy_all: détruire toutes les invites de repl
+      title: invites de réponse
+    model:
+      statuses:
+        created: créé
+        done: fait
+        errored: erroné
+        in_progress: en cours
+        initialized: initialisé
+      to_s: réplique_invite#%{id}
+    show:
+      created_at: créé à
+      delete: supprimer l'invite de réponse
+      edit: modifier l'invite de réponse
+      error: erreur
+      error_app_backtrace: erreur de trace d'application
+      error_backtrace: trace d'erreur
+      error_class: classe d'erreur
+      error_message: message d'erreur
+      id: identifiant
+      input: saisir
+      output: sortir
+      output_input: sortie entrée
+      output_name: nom de sortie
+      repl_program: programme repl
+      repl_session: séance de répétition
+      status: statut
+      updated_at: mis à jour à
+      user: utilisateur
+  repl_sessions:
+    create:
+      notice: session de remplacement créée
+    destroy:
+      notice: session de remplacement supprimée
+    edit:
+      submit: mettre à jour la session de remplacement
+      title: modifier la session de repl
+    form:
+      name_placeholder: entrez le nom de votre session de repl
+    index:
+      delete_all: supprimer toutes les sessions de répétition
+      destroy_all: détruire toutes les sessions de repl
+      new: nouvelle session de repl
+      repl_executions:
+        one: 1 exécution de répétition
+        other: "%{count} exécutions de repl"
+        zero: 0 exécutions de repl
+      repl_programs:
+        one: 1 programme de répétition
+        other: "%{count} programmes de remplacement"
+        zero: 0 programmes de remplacement
+      repl_prompts:
+        one: 1 réponse rapide
+        other: "%{count} invites de réponse"
+        zero: 0 invite de réponse
+      title: séances de répétition
+    model:
+      to_s: repl_session#%{id}
+    new:
+      submit: créer une session de repl
+      title: nouvelle session de repl
+    show:
+      created_at: créé à
+      delete: supprimer la session de repl
+      edit: modifier la session de repl
+      evaluate: évaluer
+      evaluate_all: évaluer tout
+      generate: générer
+      generating: générateur
+      id: identifiant
+      name: nom
+      new_repl_execution: nouvelle exécution de repl
+      new_repl_program: nouveau programme de remplacement
+      new_repl_prompt: nouvelle invite de remplacement
+      repl_executions: exécutions de repl
+      repl_programs: programmes de remplacement
+      repl_prompts: invites de réponse
+      updated_at: mis à jour à
+      user: utilisateur
+    update:
+      notice: session de remplacement mise à jour
+  sessions:
+    create:
+      notice: connecté
+      wrong_email_address: mauvaise adresse e-mail
+      wrong_password: mot de passe incorrect
+    destroy:
+      notice: déconnecté
+    new:
+      register: registre
+      submit: se connecter
+      title: se connecter
+  shared:
+    confirm:
+      modal_cancel: Non
+      modal_confirm: Oui
+      modal_title: es-tu sûr?
+    list:
+      addresses: adresses
+      attachments: fichiers
+      data: données
+      devices: appareils
+      email_addresses: adresses e-mail
+      error_occurrences: occurrences d'erreur
+      errors: erreurs
+      handles: poignées
+      jobs: emplois
+      messages: messages
+      names: noms
+      new_address: nouvelle adresse
+      new_attachment: nouveau fichier
+      new_datum: nouvelle donnée
+      new_device: nouvel appareil
+      new_email_address: nouvelle adresse e-mail
+      new_error: nouvelle erreur
+      new_error_occurrence: nouvelle occurrence d'erreur
+      new_handle: nouvelle poignée
+      new_job: nouvel emploi
+      new_message: nouveau message
+      new_name: nouveau nom
+      new_password: nouveau mot de passe
+      new_phone_number: nouveau numéro de téléphone
+      new_program: nouveau programme
+      new_program_execution: exécution d'un nouveau programme
+      new_program_prompt: invite de nouveau programme
+      new_repl_execution: nouvelle exécution de repl
+      new_repl_program: nouveau programme de remplacement
+      new_repl_prompt: nouvelle invite de remplacement
+      new_repl_session: nouvelle session de repl
+      new_time_zone: nouveau fuseau horaire
+      new_token: nouveau jeton
+      passwords: mots de passe
+      phone_numbers: numéros de téléphone
+      program_executions: exécutions de programmes
+      program_prompts: invites du programme
+      programs: programmes
+      repl_executions: exécutions de repl
+      repl_programs: programmes de remplacement
+      repl_prompts: invites de réponse
+      repl_sessions: séances de répétition
+      time_zones: fuseaux horaires
+      tokens: jetons
+    modal:
+      cancel: Annuler
+      confirm: confirmer
+    search:
+      placeholder: saisissez votre requête de recherche
+      submit: recherche
+  static:
+    about:
+      about_html: |
+        <p>
+          le code est le projet de
+           <a href="https://dorianmarie.com">Dorian Marié</a>
+        </p>
+      localhost: hôte local
+      source_html: |
+        <p>
+          <a href="https://github.com/dorianmariecom/codedorian.com">
+            Source de codedorian.com
+          </a>
+        </p>
+        <p>
+           <a href="https://github.com/dorianmariecom/code-ruby">
+            source de code-ruby
+          </a>
+        </p>
+        <p>
+           <a href="https://github.com/dorianmariecom/language-ruby">
+            source de language-ruby
+          </a>
+        </p>
+      title: à propos
+      version: 'version: '
+    android:
+      title: androïde
+    download:
+      title: télécharger
+    home:
+      submit: créer un programme
+      title: maison
+    icons:
+      title: icônes
+    ios:
+      title: iOS
+    privacy:
+      privacy_html: |
+        <p>Bienvenue sur codedorian.com (« nous », « notre », « nos »). Votre vie privée est importante pour nous. Cette politique de confidentialité explique comment nous collectons, utilisons et protégeons vos informations lorsque vous utilisez notre site Web.</p>
+        <p> nous pouvons collecter des informations personnelles (telles que votre nom, votre adresse e-mail et vos coordonnées) et des informations non personnelles (telles que le type de navigateur et l'adresse IP) lorsque vous utilisez notre site Web.</p>
+        <p> nous utilisons vos informations pour fournir, améliorer et personnaliser nos services, communiquer avec vous et assurer la sécurité de notre site Web.</p>
+        <p> nous pouvons utiliser des cookies et des technologies de suivi similaires pour améliorer votre expérience. vous pouvez contrôler les paramètres des cookies via votre navigateur.</p>
+        <p> nous pouvons utiliser des services tiers pour l'analyse, le traitement des paiements ou d'autres fonctionnalités. ces tiers ont leurs propres politiques de confidentialité régissant leur utilisation de vos informations.</p>
+        <p> nous prenons des mesures raisonnables pour protéger vos informations personnelles contre tout accès, divulgation ou perte non autorisés.</p>
+        <p> vous avez le droit d'accéder, de mettre à jour ou de demander la suppression de vos informations personnelles. contactez-nous pour obtenir de l'aide.</p>
+        <p> nous pouvons mettre à jour cette politique de confidentialité à tout moment. Votre utilisation continue de notre site Web signifie votre acceptation de tout changement.</p>
+        <p> si vous avez des questions sur cette politique de confidentialité, veuillez nous contacter à <a href="mailto:dorian@dorianmarie.com">dorian@dorianmarie.com</a> .</p>
+      title: politique de confidentialité
+    terms:
+      terms_html: |
+        <p>Bienvenue sur codedorian.com (« nous », « notre », « nos »). En accédant ou en utilisant notre site Web, vous acceptez d'être lié par ces termes et conditions. Si vous n'êtes pas d'accord, veuillez ne pas utiliser notre site Web.</p>
+        <p> vous acceptez d'utiliser ce site Web uniquement à des fins légales et d'une manière qui ne porte pas atteinte aux droits d'autrui ni ne restreint leur utilisation du site.</p>
+        <p> tout le contenu de ce site Web, y compris les textes, les graphiques et les logos, appartient à [nom du site Web] ou nous est concédé sous licence. vous ne pouvez pas copier, reproduire ou distribuer aucun contenu sans notre autorisation.</p>
+        <p> nous fournissons ce site Web « tel quel » sans garantie d'aucune sorte. nous ne sommes pas responsables de toute perte ou dommage résultant de votre utilisation du site Web.</p>
+        <p> notre site Web peut contenir des liens vers des sites tiers. nous ne sommes pas responsables du contenu ou des politiques de confidentialité de ces sites externes.</p>
+        <p> nous pouvons mettre à jour ces termes et conditions à tout moment. Votre utilisation continue du site Web signifie votre acceptation des conditions mises à jour.</p>
+        <p> pour toute question concernant ces conditions, veuillez nous contacter à <a href="mailto:dorian@dorianmarie.com">dorian@dorianmarie.com</a> .</p>
+      title: termes et conditions
+    up:
+      title: "/en haut"
+      up_html: "<p>fonctionnement</p>\n"
+  time_zones:
+    create:
+      notice: fuseau horaire créé
+    destroy:
+      notice: fuseau horaire supprimé
+    edit:
+      submit: mettre à jour le fuseau horaire
+      title: modifier le fuseau horaire
+    index:
+      delete_all: supprimer tous les fuseaux horaires
+      destroy_all: détruire tous les fuseaux horaires
+      new: nouveau fuseau horaire
+      title: fuseaux horaires
+    model:
+      to_s: fuseau horaire#%{id}
+    nested:
+      add: ajouter un fuseau horaire
+    nested_form:
+      remove: supprimer le fuseau horaire
+      time_zone: fuseau horaire
+    new:
+      submit: créer un fuseau horaire
+      title: nouveau fuseau horaire
+    show:
+      created_at: créé à
+      delete: supprimer le fuseau horaire
+      edit: modifier le fuseau horaire
+      id: identifiant
+      primary: primaire?
+      time_zone: fuseau horaire
+      updated_at: mis à jour à
+      user: utilisateur
+      verified: vérifié ?
+    update:
+      notice: fuseau horaire mis à jour
+  tokens:
+    create:
+      notice: jeton créé
+    destroy:
+      notice: jeton supprimé
+    edit:
+      submit: jeton de mise à jour
+      title: modifier le jeton
+    index:
+      delete_all: supprimer tous les jetons
+      destroy_all: détruire tous les jetons
+      new: nouveau jeton
+      title: jetons
+    model:
+      to_s: jeton#%{id}
+    new:
+      submit: créer un jeton
+      title: nouveau jeton
+    show:
+      created_at: créé à
+      delete: supprimer le jeton
+      edit: modifier le jeton
+      id: identifiant
+      primary: primaire?
+      token: jeton
+      updated_at: mis à jour à
+      user: utilisateur
+      verified: vérifié ?
+    update:
+      notice: jeton mis à jour
+  users:
+    create:
+      notice: utilisateur créé
+    destroy:
+      notice: utilisateur supprimé
+    edit:
+      submit: mettre à jour l'utilisateur
+      title: modifier l'utilisateur
+    index:
+      delete_all: supprimer tous les utilisateurs
+      destroy_all: détruire tous les utilisateurs
+      new: nouvel utilisateur
+      title: utilisateurs
+    model:
+      locales:
+        en: anglais
+        fr: français
+        none: aucun
+      to_s: utilisateur#%{id}
+    new:
+      log_in: se connecter
+      submit: créer un utilisateur
+      title: nouvel utilisateur
+    show:
+      address: adresse
+      admin: administrateur
+      created_at: créé à
+      delete: supprimer l'utilisateur
+      device: appareil
+      edit: modifier l'utilisateur
+      email_address: adresse email
+      handle: poignée
+      id: identifiant
+      impersonate: imiter
+      locale: langue
+      log_out: se déconnecter
+      name: nom
+      password: mot de passe
+      phone_number: numéro de téléphone
+      time_zone: fuseau horaire
+      updated_at: mis à jour à
+      verified: vérifié ?
+    update:
+      notice: utilisateur mis à jour
+  views:
+    pagination:
+      first: d'abord
+      last: dernier
+      next: suivant
+      previous: précédent
+      truncate: "…"

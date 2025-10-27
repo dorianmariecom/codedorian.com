@@ -335,8 +335,6 @@ en:
       title: devices
     model:
       to_s: device#%{id}
-    nested:
-      add: add device
     new:
       submit: create device
       title: new device
@@ -595,6 +593,7 @@ en:
       retry: retry job
       scheduled_at: scheduled at
       updated_at: updated at
+      concurrency_key: concurrency key
   layouts:
     application:
       js:
@@ -874,6 +873,7 @@ en:
       program: program
       result: result
       status: status
+      error: error
       updated_at: updated at
   program_prompt_schedules:
     create:
@@ -977,6 +977,7 @@ en:
       input: input
       name: name
       new_program_prompt_schedule: new schedule
+      output: output
       output_input: output input
       output_name: output name
       output_schedule: 'interval: %{interval}, starts at: %{starts_at}'
@@ -1241,6 +1242,7 @@ en:
       error_message: error message
       id: id
       input: input
+      output: output
       output_input: output input
       output_name: output name
       repl_program: repl program
@@ -1479,8 +1481,6 @@ en:
       title: tokens
     model:
       to_s: token#%{id}
-    nested:
-      add: add token
     new:
       submit: create token
       title: new token
@@ -1537,6 +1537,7 @@ en:
       time_zone: time zone
       updated_at: updated at
       verified: verified?
+      device: device
     update:
       notice: user updated
   views:

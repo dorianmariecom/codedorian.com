@@ -5,7 +5,7 @@ class ProgramsController < ApplicationController
   before_action { add_breadcrumb(key: "programs.index", path: index_url) }
   before_action(
     :load_program,
-    only: %i[show edit update destroy evaluate reschedule unschedule]
+    only: %i[show edit update destroy evaluate schedule reschedule unschedule]
   )
 
   def index

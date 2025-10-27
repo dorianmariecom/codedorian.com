@@ -61,3 +61,5 @@ gem "tailwindcss-rails"
 gem "thruster"
 gem "turbo-rails"
 gem "zxcvbn-ruby"
+
+gem "i18n-tasks", "~> 1.0"
