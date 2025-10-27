@@ -95,11 +95,11 @@ class Job < SolidQueue::Job
   end
 
   def self.discard_all
-    find_each(&:discard!)
+    ApplicationRecord.transaction { find_each(&:discard!) }
   end
 
   def self.retry_all
-    find_each(&:retry!)
+    ApplicationRecord.transaction { find_each(&:retry!) }
   end
 
   def self.model_singular

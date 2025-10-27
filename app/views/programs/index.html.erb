@@ -40,6 +40,24 @@
   <div class="p">
     <%= render(
       "shared/confirm",
+      url: [:schedule_all, *index_url],
+      text: t(".schedule_all"),
+      method: :patch
+    ) %>
+    <%= render(
+      "shared/confirm",
+      url: [:reschedule_all, *index_url],
+      text: t(".reschedule_all"),
+      method: :patch
+    ) %>
+    <%= render(
+      "shared/confirm",
+      url: [:unschedule_all, *index_url],
+      text: t(".unschedule_all"),
+      method: :patch
+    ) %>
+    <%= render(
+      "shared/confirm",
       url: [:destroy_all, *index_url],
       text: t(".destroy_all")
     ) %>

@@ -156,6 +156,30 @@ class ProgramsController < ApplicationController
     redirect_to(index_url, notice: t(".notice"))
   end
 
+  def schedule_all
+    authorize(Program)
+
+    scope.schedule_all
+
+    redirect_back_or_to(index_url)
+  end
+
+  def reschedule_all
+    authorize(Program)
+
+    scope.reschedule_all
+
+    redirect_back_or_to(index_url)
+  end
+
+  def unschedule_all
+    authorize(Program)
+
+    scope.unschedule_all
+
+    redirect_back_or_to(index_url)
+  end
+
   def destroy_all
     authorize(Program)
 

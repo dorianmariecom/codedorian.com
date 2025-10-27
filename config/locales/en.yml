@@ -1074,6 +1074,9 @@ en:
     index:
       delete_all: delete all programs
       destroy_all: destroy all programs
+      schedule_all: schedule all programs
+      reschedule_all: reschedule all programs
+      unschedule_all: unschedule all programs
       new: new program
       program_executions:
         one: 1 execution

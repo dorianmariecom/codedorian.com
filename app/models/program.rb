@@ -34,6 +34,18 @@ class Program < ApplicationRecord
     }
   end
 
+  def self.schedule_all
+    ApplicationRecord.transaction { find_each(&:schedule!) }
+  end
+
+  def self.reschedule_all
+    ApplicationRecord.transaction { find_each(&:reschedule!) }
+  end
+
+  def self.unschedule_all
+    ApplicationRecord.transaction { find_each(&:unschedule!) }
+  end
+
   def evaluate!
     Current.with(user: user, program: self) do
       program_execution = program_executions.create!(status: :in_progress)
