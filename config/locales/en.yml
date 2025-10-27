@@ -1074,9 +1074,6 @@ en:
     index:
       delete_all: delete all programs
       destroy_all: destroy all programs
-      schedule_all: schedule all programs
-      reschedule_all: reschedule all programs
-      unschedule_all: unschedule all programs
       new: new program
       program_executions:
         one: 1 execution
@@ -1094,7 +1091,10 @@ en:
         one: 1 schedule
         other: "%{count} schedules"
         zero: 0 schedules
+      reschedule_all: reschedule all programs
+      schedule_all: schedule all programs
       title: programs
+      unschedule_all: unschedule all programs
     model:
       to_s: program#%{id}
     new:
