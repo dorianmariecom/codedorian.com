@@ -219,19 +219,19 @@ en:
       new: new
     program_executions:
       edit: edit
-      index: executions
+      index: program executions
       new: new
     program_prompt_schedules:
       edit: edit
-      index: schedules
+      index: program prompt schedules
       new: new
     program_prompts:
       edit: edit
-      index: prompts
+      index: program prompts
       new: new
     program_schedules:
       edit: edit
-      index: schedules
+      index: program schedules
       new: new
     programs:
       edit: edit
@@ -534,7 +534,7 @@ en:
         privacy: privacy
         programs: programs
         register: register
-        repl: repl
+        repl: repl sessions
         terms: terms
         users: users
       tabs:
@@ -545,7 +545,7 @@ en:
         more: more
         programs: programs
         register: register
-        repl: repl
+        repl: repl sessions
     label:
       session:
         email_address: email address
@@ -673,7 +673,7 @@ en:
       privacy: privacy
       programs: programs
       register: register
-      repl_sessions: repl
+      repl_sessions: repl sessions
       terms: terms
       title: code
       users: users
@@ -848,11 +848,11 @@ en:
       notice: phone number updated
   program_executions:
     destroy:
-      notice: execution deleted
+      notice: program execution deleted
     index:
-      delete_all: delete all executions
-      destroy_all: destroy all executions
-      title: executions
+      delete_all: delete all program executions
+      destroy_all: destroy all program executions
+      title: program executions
     model:
       statuses:
         created: created
@@ -860,10 +860,10 @@ en:
         errored: errored
         in_progress: in progress
         initialized: initialized
-      to_s: execution#%{id}
+      to_s: program_execution#%{id}
     show:
       created_at: created at
-      delete: delete execution
+      delete: delete program execution
       error_app_backtrace: error app backtrace
       error_backtrace: error backtrace
       error_class: error class
@@ -877,17 +877,17 @@ en:
       updated_at: updated at
   program_prompt_schedules:
     create:
-      notice: schedule created
+      notice: program prompt schedule created
     destroy:
-      notice: schedule deleted
+      notice: program prompt schedule deleted
     edit:
-      submit: update schedule
-      title: edit schedule
+      submit: update program prompt schedule
+      title: edit program prompt schedule
     index:
-      delete_all: delete all repl schedules
-      destroy_all: destroy all repl schedules
-      new: new schedule
-      title: schedules
+      delete_all: delete all program prompt schedules
+      destroy_all: destroy all program prompt schedules
+      new: new program prompt schedule
+      title: program prompt schedules
     model:
       days:
         one: 1 day
@@ -910,7 +910,7 @@ en:
         one: 1 second
         other: "%{count} seconds"
         zero: 0 seconds
-      to_s: schedule#%{id}
+      to_s: program_prompt_schedule#%{id}
       weeks:
         one: 1 week
         other: "%{count} weeks"
@@ -920,20 +920,20 @@ en:
         other: "%{count} years"
         zero: 0 years
     nested:
-      add: add schedule
+      add: add program prompt schedule
     nested_form:
-      program_prompt_schedule: schedule
-      remove: remove schedule
+      program_prompt_schedule: program prompt schedule
+      remove: remove program prompt schedule
     new:
-      submit: create schedule
-      title: new schedule
+      submit: create program prompt schedule
+      title: new program prompt schedule
     program_prompt_schedule:
       schedule_html: starts %{local_time}, repeats every %{interval}
       schedule_once_html: starts %{local_time}, doesn't repeat
     show:
       created_at: created at
-      delete: delete schedule
-      edit: edit schedule
+      delete: delete program prompt schedule
+      edit: edit program prompt schedule
       id: id
       interval: interval
       program: program
@@ -947,15 +947,15 @@ en:
       notice: schedule updated
   program_prompts:
     destroy:
-      notice: prompt deleted
+      notice: program prompt deleted
     index:
-      delete_all: delete all prompts
-      destroy_all: destroy all prompts
+      delete_all: delete all program prompts
+      destroy_all: destroy all program prompts
       program_prompt_schedules:
-        one: 1 schedule
-        other: "%{count} schedules"
-        zero: 0 schedules
-      title: prompts
+        one: 1 program prompt schedule
+        other: "%{count} program prompt schedules"
+        zero: 0 program prompt schedules
+      title: program prompts
     model:
       statuses:
         created: created
@@ -964,10 +964,10 @@ en:
         in_progress: in progress
         initialized: initialized
       submit: update program
-      to_s: prompt#%{id}
+      to_s: program_prompt#%{id}
     show:
       created_at: created at
-      delete: delete prompt
+      delete: delete program prompt
       error: error
       error_app_backtrace: error app backtrace
       error_backtrace: error backtrace
@@ -982,23 +982,23 @@ en:
       output_schedule: 'interval: %{interval}, starts at: %{starts_at}'
       output_schedules: output schedules
       program: program
-      program_prompt_schedules: schedules
+      program_prompt_schedules: program prompt schedules
       status: status
       updated_at: updated at
       user: user
   program_schedules:
     create:
-      notice: schedule created
+      notice: program schedule created
     destroy:
-      notice: schedule deleted
+      notice: program schedule deleted
     edit:
-      submit: update schedule
-      title: edit schedule
+      submit: update program schedule
+      title: edit program schedule
     index:
-      delete_all: delete all repl schedules
-      destroy_all: destroy all repl schedules
-      new: new schedule
-      title: schedules
+      delete_all: delete all program schedules
+      destroy_all: destroy all program schedules
+      new: new program schedule
+      title: program schedules
     model:
       days:
         one: 1 day
@@ -1021,7 +1021,7 @@ en:
         one: 1 second
         other: "%{count} seconds"
         zero: 0 seconds
-      to_s: schedule#%{id}
+      to_s: program_schedule#%{id}
       weeks:
         one: 1 week
         other: "%{count} weeks"
@@ -1031,20 +1031,20 @@ en:
         other: "%{count} years"
         zero: 0 years
     nested:
-      add: add schedule
+      add: add program schedule
     nested_form:
-      program_schedule: schedule
-      remove: remove schedule
+      program_schedule: program schedule
+      remove: remove program schedule
     new:
-      submit: create schedule
-      title: new schedule
+      submit: create program schedule
+      title: new program schedule
     program_schedule:
       schedule_html: starts %{local_time}, repeats every %{interval}
       schedule_once_html: starts %{local_time}, doesn't repeat
     show:
       created_at: created at
-      delete: delete schedule
-      edit: edit schedule
+      delete: delete program schedule
+      edit: edit program schedule
       id: id
       interval: interval
       program: program
@@ -1076,21 +1076,21 @@ en:
       destroy_all: destroy all programs
       new: new program
       program_executions:
-        one: 1 execution
-        other: "%{count} executions"
-        zero: 0 executions
+        one: 1 program execution
+        other: "%{count} program executions"
+        zero: 0 program executions
       program_prompt_schedules:
-        one: 1 prompt schedule
-        other: "%{count} prompt schedules"
-        zero: 0 prompt schedules
+        one: 1 program prompt schedule
+        other: "%{count} program prompt schedules"
+        zero: 0 program prompt schedules
       program_prompts:
-        one: 1 prompt
-        other: "%{count} prompts"
-        zero: 0 prompts
+        one: 1 program prompt
+        other: "%{count} program prompts"
+        zero: 0 program prompts
       program_schedules:
-        one: 1 schedule
-        other: "%{count} schedules"
-        zero: 0 schedules
+        one: 1 program schedule
+        other: "%{count} program schedules"
+        zero: 0 program schedules
       reschedule_all: reschedule all programs
       schedule_all: schedule all programs
       title: programs
@@ -1112,14 +1112,14 @@ en:
       id: id
       input: input
       name: name
-      new_program_prompt: new prompt
-      new_program_prompt_schedule: new prompt schedule
-      new_program_schedule: new schedule
+      new_program_prompt: new program prompt
+      new_program_prompt_schedule: new program prompt schedule
+      new_program_schedule: new program schedule
       not_scheduled_html: would you like to schedule for %{local_time}?
-      program_executions: executions
-      program_prompt_schedules: prompt schedules
-      program_prompts: prompts
-      program_schedules: schedules
+      program_executions: program executions
+      program_prompt_schedules: program prompt schedules
+      program_prompts: program prompts
+      program_schedules: program schedules
       reschedule: reschedule
       schedule: schedule
       scheduled_html: it's scheduled for %{local_time}

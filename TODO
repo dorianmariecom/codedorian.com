@@ -1,6 +1,6 @@
-- where_* e.g. where_user where_program
-- conistent naming, e.g. program prompts, program prompt schedules, etc.
 - Html.tag e.g. Html.tag(:a, "google", href: "https://google.com")
+
+- better french translations
 
 - error context for jobs
 - scheduled jobs from job context
