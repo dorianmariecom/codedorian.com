@@ -35,9 +35,7 @@ class Error < SolidErrors::Error
   ].each do |model|
     scope :"where_#{model}",
           ->(instance) { joins(:occurrences).where(<<~SQL.squish, instance) }
-      (
-        (solid_errors_occurrences.context->>'#{model}')::jsonb
-      )->>'id'::bigint = ?
+      (solid_errors_occurrences.context->'#{model}'->>'id')::bigint = ?
     SQL
   end
 

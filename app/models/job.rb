@@ -43,9 +43,7 @@ class Job < SolidQueue::Job
   ].each do |model|
     scope :"where_#{model}",
           ->(instance) { joins(:job_contexts).where(<<~SQL.squish, instance) }
-      (
-        (job_contexts.context->>'#{model}')::jsonb
-      )->>'id'::bigint = ?
+      (job_contexts.context->'#{model}'->>'id')::bigint = ?
     SQL
   end
 
