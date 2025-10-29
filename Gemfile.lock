@@ -302,16 +302,6 @@ GEM
     mini_racer (0.19.1)
       libv8-node (~> 24.1.0.0)
     minitest (5.26.0)
-    mission_control-jobs (1.1.0)
-      actioncable (>= 7.1)
-      actionpack (>= 7.1)
-      activejob (>= 7.1)
-      activerecord (>= 7.1)
-      importmap-rails (>= 1.2.1)
-      irb (~> 1.13)
-      railties (>= 7.1)
-      stimulus-rails
-      turbo-rails
     msgpack (1.8.0)
     multi_json (1.17.0)
     net-http (0.6.0)
@@ -645,7 +635,6 @@ DEPENDENCIES
   kamal
   kaminari
   local_time
-  mission_control-jobs
   msgpack
   net-http
   open-uri
