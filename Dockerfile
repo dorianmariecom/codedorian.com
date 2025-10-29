@@ -10,8 +10,7 @@ ENV BUNDLER_VERSION=2.7.1 \
     RAILS_ENV=production \
     NODE_ENV=production \
     GEM_HOME="/usr/local/bundle" \
-    PATH="/usr/local/bundle/bin:${PATH}" \
-    PORT=3000
+    PATH="/usr/local/bundle/bin:${PATH}"
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -66,5 +65,4 @@ RUN rm -rf /rails/node_modules \
            /rails/vendor/cache
 
 ENTRYPOINT ["/usr/bin/tini", "--", "/rails/bin/docker-entrypoint"]
-EXPOSE 3000
 CMD ["./bin/thrust", "./bin/web"]

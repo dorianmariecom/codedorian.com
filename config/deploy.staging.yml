@@ -20,10 +20,11 @@ env:
   - RAILS_ENV
   - RAILS_MASTER_KEY
 image: dorianmariecom/codedorian.com
-healthcheck:
-  max_attempts: 100000
 proxy:
-  app_port: 3000
+  healthcheck:
+    path: /up
+    interval: 20
+    timeout: 2000000
   hosts:
   - staging.code-dorian.com
   - staging.code.dorianmarie.com
