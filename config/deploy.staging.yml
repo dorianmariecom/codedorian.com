@@ -21,6 +21,7 @@ env:
   - RAILS_MASTER_KEY
 image: dorianmariecom/codedorian.com
 proxy:
+  app_port: 3000
   hosts:
   - staging.code-dorian.com
   - staging.code.dorianmarie.com
@@ -30,7 +31,6 @@ proxy:
   - staging.codedorian.net
   - staging.codedorian.org
   ssl: true
-  app_port: 3000
 registry:
   password:
   - KAMAL_REGISTRY_PASSWORD
