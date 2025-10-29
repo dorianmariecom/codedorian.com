@@ -4,15 +4,7 @@ set -e
 
 git push
 
-docker buildx build \
-    --cache-from=type=registry,ref=dorianmariecom/codedorian.com:latest \
-    --cache-to=type=registry,ref=dorianmariecom/codedorian.com:latest,mode=max \
-    --platform=linux/arm64 \
-    --label service=codedorian \
-    --tag dorianmariecom/codedorian.com:$(git rev-parse HEAD) \
-    --tag dorianmariecom/codedorian.com:latest \
-    --push \
-    .
+bin/build
 
 kamal lock release -d staging
 kamal deploy -d staging --skip-push
