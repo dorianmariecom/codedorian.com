@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_13_105548) do
+ActiveRecord::Schema[8.1].define(version: 2025_10_29_193847) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -65,27 +65,27 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_13_105548) do
   create_table "addresses", force: :cascade do |t|
     t.string "address"
     t.jsonb "autocomplete"
-    t.boolean "primary", default: false, null: false
-    t.boolean "verified", default: false, null: false
-    t.bigint "user_id", null: false
-    t.datetime "updated_at", null: false
     t.datetime "created_at", null: false
+    t.boolean "primary", default: false, null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.boolean "verified", default: false, null: false
     t.index ["user_id"], name: "index_addresses_on_user_id"
   end
 
   create_table "attachments", force: :cascade do |t|
-    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_attachments_on_user_id"
   end
 
   create_table "data", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.jsonb "key"
-    t.jsonb "value"
     t.datetime "created_at", null: false
+    t.jsonb "key"
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.jsonb "value"
     t.index ["user_id"], name: "index_data_on_user_id"
   end
 
@@ -134,11 +134,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_13_105548) do
   create_table "messages", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.bigint "from_user_id", null: false
+    t.bigint "program_id"
     t.boolean "read", default: false, null: false
+    t.bigint "repl_program_id"
     t.bigint "to_user_id", null: false
     t.datetime "updated_at", null: false
-    t.bigint "program_id"
-    t.bigint "repl_program_id"
     t.index ["from_user_id"], name: "index_messages_on_from_user_id"
     t.index ["program_id"], name: "index_messages_on_program_id"
     t.index ["repl_program_id"], name: "index_messages_on_repl_program_id"
@@ -179,42 +179,42 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_13_105548) do
 
   create_table "program_executions", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.text "error"
+    t.text "error_backtrace"
+    t.text "error_class"
+    t.text "error_message"
     t.text "input"
     t.text "output"
     t.bigint "program_id", null: false
     t.text "result"
-    t.datetime "updated_at", null: false
     t.string "status", default: "initialized"
-    t.text "error_class"
-    t.text "error_message"
-    t.text "error_backtrace"
-    t.text "error"
+    t.datetime "updated_at", null: false
     t.index ["program_id"], name: "index_program_executions_on_program_id"
   end
 
   create_table "program_prompt_schedules", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "interval"
     t.bigint "program_prompt_id", null: false
     t.datetime "starts_at"
-    t.string "interval"
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["program_prompt_id"],
             name: "index_program_prompt_schedules_on_program_prompt_id"
   end
 
   create_table "program_prompts", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.text "input"
-    t.jsonb "output"
-    t.bigint "program_id"
-    t.datetime "updated_at", null: false
-    t.bigint "user_id"
-    t.text "name"
-    t.string "status", default: "initialized"
     t.text "backtrace"
+    t.datetime "created_at", null: false
+    t.text "error_backtrace"
     t.text "error_class"
     t.text "error_message"
-    t.text "error_backtrace"
+    t.text "input"
+    t.text "name"
+    t.jsonb "output"
+    t.bigint "program_id"
+    t.string "status", default: "initialized"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
     t.index ["program_id"], name: "index_program_prompts_on_program_id"
     t.index ["user_id"], name: "index_program_prompts_on_user_id"
   end
@@ -222,9 +222,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_13_105548) do
   create_table "program_schedules", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "interval"
+    t.bigint "program_id", null: false
     t.datetime "starts_at"
     t.datetime "updated_at", null: false
-    t.bigint "program_id", null: false
   end
 
   create_table "programs", force: :cascade do |t|
@@ -240,15 +240,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_13_105548) do
     t.text "context"
     t.datetime "created_at", null: false
     t.text "error"
+    t.text "error_backtrace"
+    t.text "error_class"
+    t.text "error_message"
     t.text "input"
     t.text "output"
     t.bigint "repl_program_id", null: false
     t.text "result"
-    t.datetime "updated_at", null: false
     t.string "status", default: "initialized"
-    t.text "error_class"
-    t.text "error_message"
-    t.text "error_backtrace"
+    t.datetime "updated_at", null: false
     t.index ["repl_program_id"],
             name: "index_repl_executions_on_repl_program_id"
   end
@@ -262,18 +262,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_13_105548) do
   end
 
   create_table "repl_prompts", force: :cascade do |t|
+    t.text "backtrace"
     t.datetime "created_at", null: false
+    t.text "error_backtrace"
+    t.text "error_class"
+    t.text "error_message"
     t.text "input"
     t.jsonb "output"
     t.bigint "repl_program_id"
+    t.bigint "repl_session_id"
+    t.string "status", default: "initialized"
     t.datetime "updated_at", null: false
     t.bigint "user_id"
-    t.string "status", default: "initialized"
-    t.text "backtrace"
-    t.text "error_class"
-    t.text "error_message"
-    t.text "error_backtrace"
-    t.bigint "repl_session_id"
     t.index ["repl_program_id"], name: "index_repl_prompts_on_repl_program_id"
     t.index ["repl_session_id"], name: "index_repl_prompts_on_repl_session_id"
     t.index ["user_id"], name: "index_repl_prompts_on_user_id"
@@ -362,9 +362,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_13_105548) do
 
   create_table "solid_cable_messages", force: :cascade do |t|
     t.binary "channel", null: false
+    t.bigint "channel_hash"
     t.datetime "created_at", null: false
     t.binary "payload", null: false
-    t.bigint "channel_hash"
     t.index ["channel"], name: "index_solid_cable_messages_on_channel"
     t.index ["channel_hash"], name: "index_solid_cable_messages_on_channel_hash"
     t.index ["created_at"], name: "index_solid_cable_messages_on_created_at"
@@ -583,10 +583,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_13_105548) do
   create_table "users", force: :cascade do |t|
     t.boolean "admin", default: false, null: false
     t.datetime "created_at", null: false
+    t.text "description"
     t.string "locale"
     t.datetime "updated_at", null: false
     t.boolean "verified", default: false, null: false
-    t.text "description"
     t.index ["description"], name: "index_users_on_description"
   end
 
