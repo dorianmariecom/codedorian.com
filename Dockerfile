@@ -65,5 +65,5 @@ RUN rm -rf /rails/node_modules \
            /rails/vendor/cache
 
 ENTRYPOINT ["/usr/bin/tini", "--", "/rails/bin/docker-entrypoint"]
-EXPOSE 80
+EXPOSE 3000
 CMD ["./bin/thrust", "./bin/web"]
