@@ -20,6 +20,8 @@ env:
   - RAILS_ENV
   - RAILS_MASTER_KEY
 image: dorianmariecom/codedorian.com
+healthcheck:
+  max_attempts: 100000
 proxy:
   app_port: 3000
   hosts:
