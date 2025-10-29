@@ -20,6 +20,8 @@ env:
   - RAILS_ENV
   - RAILS_MASTER_KEY
 image: dorianmariecom/codedorian.com
+healthcheck:
+  max_attempts: 100000
 proxy:
   app_port: 3000
   hosts:
@@ -37,6 +39,10 @@ registry:
   username:
   - KAMAL_REGISTRY_USERNAME
 servers:
+  jobs:
+    cmd: bin/jobs
+    hosts:
+    - 138.201.175.197
   push:
     cmd: bin/push
     hosts:
