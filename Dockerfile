@@ -10,7 +10,8 @@ ENV BUNDLER_VERSION=2.7.1 \
     RAILS_ENV=production \
     NODE_ENV=production \
     GEM_HOME="/usr/local/bundle" \
-    PATH="/usr/local/bundle/bin:${PATH}"
+    PATH="/usr/local/bundle/bin:${PATH}" \
+    PORT=3000
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
