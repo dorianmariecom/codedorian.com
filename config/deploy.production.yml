@@ -8,6 +8,8 @@ aliases:
   restart: app boot
   shell: app exec --interactive --reuse "bash"
   stop: app stop
+app:
+  port: 80
 builder:
   arch: arm64
 env:
