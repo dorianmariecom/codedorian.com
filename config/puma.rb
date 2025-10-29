@@ -20,6 +20,3 @@ pidfile ENV.fetch("PIDFILE", "tmp/pids/server.pid")
 
 plugin :tmp_restart
 plugin :solid_queue
-
-bind "tcp://0.0.0.0:#{ENV.fetch("PORT", 3000)}"
-bind "tcp://[::]:#{ENV.fetch("PORT", 3000)}"

@@ -30,6 +30,7 @@ proxy:
   - staging.codedorian.net
   - staging.codedorian.org
   ssl: true
+  app_port: 3000
 registry:
   password:
   - KAMAL_REGISTRY_PASSWORD
