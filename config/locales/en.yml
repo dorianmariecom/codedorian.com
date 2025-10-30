@@ -88,8 +88,8 @@ en:
       submit: update address
       title: edit address
     index:
-      delete_all: delete all addresses
-      destroy_all: destroy all addreses
+      delete_all: delete all
+      destroy_all: destroy all
       new: new address
       title: addresses
     model:
@@ -126,8 +126,8 @@ en:
       submit: update file
       title: edit file
     index:
-      delete_all: delete all files
-      destroy_all: destroy all files
+      delete_all: delete all
+      destroy_all: destroy all
       new: new file
       title: files
     model:
@@ -299,8 +299,8 @@ en:
       key_placeholder: enter your datum's key
       value_placeholder: enter your datum's value
     index:
-      delete_all: delete all data
-      destroy_all: destroy all data
+      delete_all: delete all
+      destroy_all: destroy all
       new: new datum
       title: data
     model:
@@ -329,8 +329,8 @@ en:
       submit: update device
       title: edit device
     index:
-      delete_all: delete all devices
-      destroy_all: destroy all devices
+      delete_all: delete all
+      destroy_all: destroy all
       new: new device
       title: devices
     model:
@@ -381,8 +381,8 @@ en:
     form:
       email_address_placeholder: enter your email address
     index:
-      delete_all: delete all email addresses
-      destroy_all: destroy all email addresses
+      delete_all: delete all
+      destroy_all: destroy all
       new: new email address
       title: email addresses
     model:
@@ -412,8 +412,8 @@ en:
     destroy:
       notice: error occurrence deleted
     index:
-      delete_all: delete all error occurrences
-      destroy_all: destroy all error occurrences
+      delete_all: delete all
+      destroy_all: destroy all
       title: error occurrences
     show:
       app_backtrace: app backtrace
@@ -428,8 +428,8 @@ en:
     destroy:
       notice: error deleted
     index:
-      delete_all: delete all errors
-      destroy_all: destroy all errors
+      delete_all: delete all
+      destroy_all: destroy all
       error_occurrences:
         one: 1 error occurrence
         other: "%{count} error occurrences"
@@ -459,8 +459,8 @@ en:
       title: not found
   guests:
     index:
-      delete_all: delete all guests
-      destroy_all: destroy all guests
+      delete_all: delete all
+      destroy_all: destroy all
       title: guests
     model:
       locales:
@@ -487,8 +487,8 @@ en:
     form:
       handle_placeholder: enter your handle
     index:
-      delete_all: delete all handles
-      destroy_all: destroy all handles
+      delete_all: delete all
+      destroy_all: destroy all
       new: new handle
       title: handles
     model:
@@ -570,10 +570,10 @@ en:
     discard_all:
       notice: jobs discarded
     index:
-      delete_all: delete all jobs
-      destroy_all: destroy all jobs
-      discard_all: discard all jobs
-      retry_all: retry all jobs
+      delete_all: delete all
+      destroy_all: destroy all
+      discard_all: discard all
+      retry_all: retry all
       title: jobs
     retry:
       notice: job retried
@@ -688,8 +688,8 @@ en:
       body_placeholder: enter your message's body
       subject_placeholder: enter your message's subject
     index:
-      delete_all: delete all messages
-      destroy_all: destroy all messages
+      delete_all: delete all
+      destroy_all: destroy all
       new: new message
       title: messages
     model:
@@ -726,8 +726,8 @@ en:
       family_name_placeholder: enter your family name
       given_name_placeholder: enter your given name
     index:
-      delete_all: delete all names
-      destroy_all: destroy all names
+      delete_all: delete all
+      destroy_all: destroy all
       new: new name
       title: names
     model:
@@ -778,8 +778,8 @@ en:
       hint_placeholder: enter your password's hint
       password_placeholder: enter your password
     index:
-      delete_all: delete all passwords
-      destroy_all: destroy all passwords
+      delete_all: delete all
+      destroy_all: destroy all
       new: new password
       title: passwords
     model:
@@ -818,8 +818,8 @@ en:
     form:
       phone_number_placeholder: enter your phone number
     index:
-      delete_all: delete all phone numbers
-      destroy_all: destroy all phone numbers
+      delete_all: delete all
+      destroy_all: destroy all
       new: new phone number
       title: phone numbers
     model:
@@ -849,8 +849,8 @@ en:
     destroy:
       notice: program execution deleted
     index:
-      delete_all: delete all program executions
-      destroy_all: destroy all program executions
+      delete_all: delete all
+      destroy_all: destroy all
       title: program executions
     model:
       statuses:
@@ -884,8 +884,8 @@ en:
       submit: update program prompt schedule
       title: edit program prompt schedule
     index:
-      delete_all: delete all program prompt schedules
-      destroy_all: destroy all program prompt schedules
+      delete_all: delete all
+      destroy_all: destroy all
       new: new program prompt schedule
       title: program prompt schedules
     model:
@@ -949,8 +949,8 @@ en:
     destroy:
       notice: program prompt deleted
     index:
-      delete_all: delete all program prompts
-      destroy_all: destroy all program prompts
+      delete_all: delete all
+      destroy_all: destroy all
       program_prompt_schedules:
         one: 1 program prompt schedule
         other: "%{count} program prompt schedules"
@@ -996,8 +996,8 @@ en:
       submit: update program schedule
       title: edit program schedule
     index:
-      delete_all: delete all program schedules
-      destroy_all: destroy all program schedules
+      delete_all: delete all
+      destroy_all: destroy all
       new: new program schedule
       title: program schedules
     model:
@@ -1073,8 +1073,8 @@ en:
       input_placeholder: enter your program's input
       name_placeholder: enter your program's name
     index:
-      delete_all: delete all programs
-      destroy_all: destroy all programs
+      delete_all: delete all
+      destroy_all: destroy all
       new: new program
       program_executions:
         one: 1 program execution
@@ -1092,10 +1092,10 @@ en:
         one: 1 program schedule
         other: "%{count} program schedules"
         zero: 0 program schedules
-      reschedule_all: reschedule all programs
-      schedule_all: schedule all programs
+      reschedule_all: reschedule all
+      schedule_all: schedule all
       title: programs
-      unschedule_all: unschedule all programs
+      unschedule_all: unschedule all
     model:
       to_s: program#%{id}
     new:
@@ -1135,8 +1135,8 @@ en:
     destroy:
       notice: repl execution deleted
     index:
-      delete_all: delete all repl executions
-      destroy_all: destroy all repl executions
+      delete_all: delete all
+      destroy_all: destroy all
       title: repl executions
     model:
       statuses:
@@ -1177,8 +1177,8 @@ en:
       generating: generating
       input_placeholder: enter your repl program's input
     index:
-      delete_all: delete all repl programs
-      destroy_all: destroy all repl programs
+      delete_all: delete all
+      destroy_all: destroy all
       new: new repl program
       repl_executions:
         one: 1 repl execution
@@ -1220,8 +1220,8 @@ en:
     destroy:
       notice: repl prompt deleted
     index:
-      delete_all: delete all repl prompts
-      destroy_all: destroy all repl prompts
+      delete_all: delete all
+      destroy_all: destroy all
       title: repl prompts
     model:
       statuses:
@@ -1261,8 +1261,8 @@ en:
     form:
       name_placeholder: enter your repl session's name
     index:
-      delete_all: delete all repl sessions
-      destroy_all: destroy all repl sessions
+      delete_all: delete all
+      destroy_all: destroy all
       new: new repl session
       repl_executions:
         one: 1 repl execution
@@ -1440,8 +1440,8 @@ en:
       submit: update time zone
       title: edit time zone
     index:
-      delete_all: delete all time zones
-      destroy_all: destroy all time zones
+      delete_all: delete all
+      destroy_all: destroy all
       new: new time zone
       title: time zones
     model:
@@ -1475,8 +1475,8 @@ en:
       submit: update token
       title: edit token
     index:
-      delete_all: delete all tokens
-      destroy_all: destroy all tokens
+      delete_all: delete all
+      destroy_all: destroy all
       new: new token
       title: tokens
     model:
@@ -1505,8 +1505,8 @@ en:
       submit: update user
       title: edit user
     index:
-      delete_all: delete all users
-      destroy_all: destroy all users
+      delete_all: delete all
+      destroy_all: destroy all
       new: new user
       title: users
     model:

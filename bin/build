@@ -2,6 +2,8 @@
 
 set -e
 
+docker system prune -af --volumes
+
 docker buildx build \
     --cache-from=type=registry,ref=dorianmariecom/codedorian.com:latest \
     --cache-to=type=registry,ref=dorianmariecom/codedorian.com:latest,mode=max \

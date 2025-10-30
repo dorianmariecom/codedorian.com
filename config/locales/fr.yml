@@ -88,8 +88,8 @@ fr:
       submit: mettre à jour l'adresse
       title: modifier l'adresse
     index:
-      delete_all: supprimer toutes les adresses
-      destroy_all: détruire toutes les adresses
+      delete_all: supprimer tout
+      destroy_all: détruire tout
       new: nouvelle adresse
       title: adresses
     model:
@@ -126,8 +126,8 @@ fr:
       submit: mettre à jour le fichier
       title: modifier le fichier
     index:
-      delete_all: supprimer tous les fichiers
-      destroy_all: détruire tous les fichiers
+      delete_all: supprimer tout
+      destroy_all: détruire tout
       new: nouveau fichier
       title: fichiers
     model:
@@ -299,8 +299,8 @@ fr:
       key_placeholder: entrez la clé de votre donnée
       value_placeholder: entrez la valeur de votre donnée
     index:
-      delete_all: supprimer toutes les données
-      destroy_all: détruire toutes les données
+      delete_all: supprimer tout
+      destroy_all: détruire tout
       new: nouvelle donnée
       title: données
     model:
@@ -329,8 +329,8 @@ fr:
       submit: mettre à jour l'appareil
       title: modifier l'appareil
     index:
-      delete_all: supprimer tous les appareils
-      destroy_all: détruire tous les appareils
+      delete_all: supprimer tout
+      destroy_all: détruire tout
       new: nouvel appareil
       title: appareils
     model:
@@ -381,8 +381,8 @@ fr:
     form:
       email_address_placeholder: entrez votre adresse e-mail
     index:
-      delete_all: supprimer toutes les adresses e-mail
-      destroy_all: détruire toutes les adresses e-mail
+      delete_all: supprimer tout
+      destroy_all: détruire tout
       new: nouvelle adresse e-mail
       title: adresses e-mail
     model:
@@ -412,8 +412,8 @@ fr:
     destroy:
       notice: occurrence d'erreur supprimée
     index:
-      delete_all: supprimer toutes les occurrences d'erreur
-      destroy_all: détruire toutes les occurrences d'erreur
+      delete_all: supprimer tout
+      destroy_all: détruire tout
       title: occurrences d'erreur
     show:
       app_backtrace: trace d'application
@@ -428,8 +428,8 @@ fr:
     destroy:
       notice: erreur supprimée
     index:
-      delete_all: supprimer toutes les erreurs
-      destroy_all: détruire toutes les erreurs
+      delete_all: supprimer tout
+      destroy_all: détruire tout
       error_occurrences:
         one: 1 occurrence d'erreur
         other: "%{count} occurrences d'erreur"
@@ -459,8 +459,8 @@ fr:
       title: non trouvé
   guests:
     index:
-      delete_all: supprimer tous les invités
-      destroy_all: détruire tous les invités
+      delete_all: supprimer tout
+      destroy_all: détruire tout
       title: invités
     model:
       locales:
@@ -487,8 +487,8 @@ fr:
     form:
       handle_placeholder: entrez votre identifiant
     index:
-      delete_all: supprimer toutes les poignées
-      destroy_all: détruire toutes les poignées
+      delete_all: supprimer tout
+      destroy_all: détruire tout
       new: nouvelle poignée
       title: poignées
     model:
@@ -570,10 +570,10 @@ fr:
     discard_all:
       notice: emplois supprimés
     index:
-      delete_all: supprimer tous les emplois
-      destroy_all: détruire tous les emplois
-      discard_all: abandonner tous les travaux
-      retry_all: réessayer tous les travaux
+      delete_all: supprimer tout
+      destroy_all: détruire tout
+      discard_all: abandonner tout
+      retry_all: réessayer tout
       title: emplois
     retry:
       notice: travail retenté
@@ -688,8 +688,8 @@ fr:
       body_placeholder: entrez le corps de votre message
       subject_placeholder: entrez l'objet de votre message
     index:
-      delete_all: supprimer tous les messages
-      destroy_all: détruire tous les messages
+      delete_all: supprimer tout
+      destroy_all: détruire tout
       new: nouveau message
       title: messages
     model:
@@ -726,8 +726,8 @@ fr:
       family_name_placeholder: entrez votre nom de famille
       given_name_placeholder: entrez votre prénom
     index:
-      delete_all: supprimer tous les noms
-      destroy_all: détruire tous les noms
+      delete_all: supprimer tout
+      destroy_all: détruire tout
       new: nouveau nom
       title: noms
     model:
@@ -778,8 +778,8 @@ fr:
       hint_placeholder: entrez l'indice de votre mot de passe
       password_placeholder: entrez votre mot de passe
     index:
-      delete_all: supprimer tous les mots de passe
-      destroy_all: détruire tous les mots de passe
+      delete_all: supprimer tout
+      destroy_all: détruire tout
       new: nouveau mot de passe
       title: mots de passe
     model:
@@ -818,8 +818,8 @@ fr:
     form:
       phone_number_placeholder: entrez votre numéro de téléphone
     index:
-      delete_all: supprimer tous les numéros de téléphone
-      destroy_all: détruire tous les numéros de téléphone
+      delete_all: supprimer tout
+      destroy_all: détruire tout
       new: nouveau numéro de téléphone
       title: numéros de téléphone
     model:
@@ -849,8 +849,8 @@ fr:
     destroy:
       notice: exécution du programme supprimée
     index:
-      delete_all: supprimer toutes les exécutions du programme
-      destroy_all: détruire toutes les exécutions du programme
+      delete_all: supprimer tout
+      destroy_all: détruire tout
       title: exécutions de programmes
     model:
       statuses:
@@ -884,8 +884,8 @@ fr:
       submit: programme de mise à jour du programme
       title: modifier le programme d'invite de programmation
     index:
-      delete_all: supprimer tous les programmes d'invite
-      destroy_all: détruire tous les programmes d'invite
+      delete_all: supprimer tout
+      destroy_all: détruire tout
       new: nouveau calendrier des invites du programme
       title: horaires des invites du programme
     model:
@@ -949,8 +949,8 @@ fr:
     destroy:
       notice: invite du programme supprimée
     index:
-      delete_all: supprimer toutes les invites du programme
-      destroy_all: détruire toutes les invites du programme
+      delete_all: supprimer tout
+      destroy_all: détruire tout
       program_prompt_schedules:
         one: 1 programme d'invite de programme
         other: Horaires d'invite du programme %{count}
@@ -996,8 +996,8 @@ fr:
       submit: mettre à jour le calendrier des programmes
       title: modifier la grille des programmes
     index:
-      delete_all: supprimer tous les programmes
-      destroy_all: détruire tous les programmes
+      delete_all: supprimer tout
+      destroy_all: détruire tout
       new: nouvelle grille de programmes
       title: grilles de programmes
     model:
@@ -1073,8 +1073,8 @@ fr:
       input_placeholder: entrez l'entrée de votre programme
       name_placeholder: entrez le nom de votre programme
     index:
-      delete_all: supprimer tous les programmes
-      destroy_all: détruire tous les programmes
+      delete_all: supprimer tout
+      destroy_all: détruire tout
       new: nouveau programme
       program_executions:
         one: 1 exécution de programme
@@ -1092,10 +1092,10 @@ fr:
         one: 1 grille de programmes
         other: "%{count} programmes"
         zero: 0 programmes
-      reschedule_all: reprogrammer tous les programmes
-      schedule_all: programmer tous les programmes
+      reschedule_all: reprogrammer tout
+      schedule_all: programmer tout
       title: programmes
-      unschedule_all: déprogrammer tous les programmes
+      unschedule_all: déprogrammer tout
     model:
       to_s: programme#%{id}
     new:
@@ -1135,8 +1135,8 @@ fr:
     destroy:
       notice: exécution de repl supprimée
     index:
-      delete_all: supprimer toutes les exécutions de repl
-      destroy_all: détruire toutes les exécutions de repl
+      delete_all: supprimer tout
+      destroy_all: détruire tout
       title: exécutions de repl
     model:
       statuses:
@@ -1177,8 +1177,8 @@ fr:
       generating: générateur
       input_placeholder: entrez l'entrée de votre programme repl
     index:
-      delete_all: supprimer tous les programmes de remplacement
-      destroy_all: détruire tous les programmes repl
+      delete_all: supprimer tout
+      destroy_all: détruire tout
       new: nouveau programme de remplacement
       repl_executions:
         one: 1 exécution de répétition
@@ -1220,8 +1220,8 @@ fr:
     destroy:
       notice: invite de réponse supprimée
     index:
-      delete_all: supprimer toutes les invites de réponse
-      destroy_all: détruire toutes les invites de repl
+      delete_all: supprimer tout
+      destroy_all: détruire tout
       title: invites de réponse
     model:
       statuses:
@@ -1261,8 +1261,8 @@ fr:
     form:
       name_placeholder: entrez le nom de votre session de repl
     index:
-      delete_all: supprimer toutes les sessions de répétition
-      destroy_all: détruire toutes les sessions de repl
+      delete_all: supprimer tout
+      destroy_all: détruire tout
       new: nouvelle session de repl
       repl_executions:
         one: 1 exécution de répétition
@@ -1440,8 +1440,8 @@ fr:
       submit: mettre à jour le fuseau horaire
       title: modifier le fuseau horaire
     index:
-      delete_all: supprimer tous les fuseaux horaires
-      destroy_all: détruire tous les fuseaux horaires
+      delete_all: supprimer tout
+      destroy_all: détruire tout
       new: nouveau fuseau horaire
       title: fuseaux horaires
     model:
@@ -1475,8 +1475,8 @@ fr:
       submit: jeton de mise à jour
       title: modifier le jeton
     index:
-      delete_all: supprimer tous les jetons
-      destroy_all: détruire tous les jetons
+      delete_all: supprimer tout
+      destroy_all: détruire tout
       new: nouveau jeton
       title: jetons
     model:
@@ -1505,8 +1505,8 @@ fr:
       submit: mettre à jour l'utilisateur
       title: modifier l'utilisateur
     index:
-      delete_all: supprimer tous les utilisateurs
-      destroy_all: détruire tous les utilisateurs
+      delete_all: supprimer tout
+      destroy_all: détruire tout
       new: nouvel utilisateur
       title: utilisateurs
     model:
