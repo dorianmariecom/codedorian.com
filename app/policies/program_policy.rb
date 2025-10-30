@@ -43,6 +43,18 @@ class ProgramPolicy < ApplicationPolicy
     owner? || admin?
   end
 
+  def schedule_all?
+    true
+  end
+
+  def reschedule_all?
+    true
+  end
+
+  def unschedule_all?
+    true
+  end
+
   def destroy_all?
     true
   end
