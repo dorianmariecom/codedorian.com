@@ -343,7 +343,7 @@ GEM
       time
       uri
     openssl (3.3.2)
-    optparse (0.6.0)
+    optparse (0.8.0)
     os (1.1.4)
     ostruct (0.6.3)
     paper_trail (17.0.0)
