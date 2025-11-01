@@ -1400,20 +1400,20 @@ fr:
     download:
       title: télécharger
     home:
+      benefits:
+        messages: messages
+        notifications: notifications
+        programs: programmes
+      features:
+        edit: modifier
+        message: message
+        program: programme
       log_in: se connecter
       messages: messages
       programs: programmes
       register: s'inscrire
       subtitle: code est le langage de programmation d'internet
       title: code
-      benefits:
-        programs: programmes
-        messages: messages
-        notifications: notifications
-      features:
-        edit: modifier
-        program: programme
-        message: message
     icons:
       title: icônes
     ios:
