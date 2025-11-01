@@ -30,3 +30,8 @@
 - jobs crud
 - job contexts crud
 - logs crud
+
+- better stack logs
+- better stack traces
+- better stack events
+- better stack metrics
