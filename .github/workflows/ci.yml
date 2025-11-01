@@ -51,6 +51,8 @@ jobs:
   deploy-production:
     env:
       BASE_URL: "${{secrets.PRODUCTION_BASE_URL}}"
+      BETTER_STACK_INGESTING_HOST: "${{secrets.PRODUCTION_BETTER_STACK_INGESTING_HOST}}"
+      BETTER_STACK_SOURCE_TOKEN: "${{secrets.PRODUCTION_BETTER_STACK_SOURCE_TOKEN}}"
       CODE_ENV: "${{secrets.PRODUCTION_CODE_ENV}}"
       DATABASE_URL: "${{secrets.PRODUCTION_DATABASE_URL}}"
       HOST: "${{secrets.PRODUCTION_HOST}}"
@@ -80,6 +82,8 @@ jobs:
   deploy-staging:
     env:
       BASE_URL: "${{secrets.STAGING_BASE_URL}}"
+      BETTER_STACK_INGESTING_HOST: "${{secrets.STAGING_BETTER_STACK_INGESTING_HOST}}"
+      BETTER_STACK_SOURCE_TOKEN: "${{secrets.STAGING_BETTER_STACK_SOURCE_TOKEN}}"
       CODE_ENV: "${{secrets.STAGING_CODE_ENV}}"
       DATABASE_URL: "${{secrets.STAGING_DATABASE_URL}}"
       HOST: "${{secrets.STAGING_HOST}}"
