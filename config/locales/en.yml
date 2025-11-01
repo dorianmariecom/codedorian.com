@@ -1406,6 +1406,14 @@ en:
       register: register
       subtitle: code is the programming language for the internet
       title: code
+      benefits:
+        programs: programs
+        messages: messages
+        notifications: notifications
+      features:
+        edit: edit
+        program: program
+        message: message
     icons:
       title: icons
     ios:
