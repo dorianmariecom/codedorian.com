@@ -13,6 +13,8 @@ builder:
 env:
   secret:
   - BASE_URL
+  - BETTER_STACK_INGESTING_HOST
+  - BETTER_STACK_SOURCE_TOKEN
   - CODE_ENV
   - DATABASE_URL
   - HOST
