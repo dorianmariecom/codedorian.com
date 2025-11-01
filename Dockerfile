@@ -47,11 +47,7 @@ RUN --mount=type=cache,target=/root/.npm \
 
 COPY . .
 
-ENV HOST=example.com \
-    HOSTS=example.com \
-    BASE_URL=https://example.com \
-    RAILS_MASTER_KEY_DUMMY=1 \
-    SECRET_KEY_BASE_DUMMY=1
+ENV DUMMY=1
 RUN ./bin/rails assets:precompile && \
     rm -rf node_modules/.cache tmp/cache
 

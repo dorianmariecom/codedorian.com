@@ -324,7 +324,7 @@ Rails.application.routes.draw do
       define_jobs.call
     end
 
-  default_url_options(host: ENV.fetch("BASE_URL"))
+  default_url_options(host: ENV.fetch("BASE_URL", ""))
 
   scope "(:locale)", locale: /en|fr|/ do
     resources(:guests) do

@@ -18,7 +18,7 @@ module CodeApp
     config.autoload_lib(ignore: %w[assets tasks])
     config.exceptions_app = routes
     config.session_store :cookie_store, expire_after: 1.year
-    config.hosts += ENV.fetch("HOSTS").split(",")
+    config.hosts += ENV.fetch("HOSTS", "").split(",")
     config.hosts += %w[::1 127.0.0.1 localhost]
     config.host_authorization = {
       exclude: ->(request) { request.path == "/up" }
