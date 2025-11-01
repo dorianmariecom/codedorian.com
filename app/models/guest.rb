@@ -55,6 +55,7 @@ class Guest
   def phone_number = nil
   def time_zone = nil
   def unverified_time_zone = nil
+  def unverified_device = nil
   def verified? = false
   def not_verified? = true
   def admin? = false

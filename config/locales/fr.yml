@@ -1400,29 +1400,11 @@ fr:
     download:
       title: télécharger
     home:
-      description: code est le language de programmation d'internet
-      examples:
-      - un ordre de parole aléatoire
-      - le programme tv d’une chaîne
-      - la “journée de”
-      - une phrase positive
-      - des images humoristiques
-      - les anniversaires
-      - la météo
-      - l’actualité
-      - une citation
-      - une blague
-      - des questions / réponses
-      - un mot du dictionnaire avec définition
-      - un fait historique
-      - un fait aléatoire
-      - les vacances qui arrivent
-      - un fait scientifique
-      - des posts hacker news
-      - des posts reddit
-      - des notifications de vos tests sur github
-      - autre
-      intro: 'par exemple, vous pouvez reçevoir tous les jours :'
+      log_in: se connecter
+      messages: messages
+      programs: programmes
+      register: s'inscrire
+      subtitle: code est le langage de programmation d'internet
       title: code
     icons:
       title: icônes

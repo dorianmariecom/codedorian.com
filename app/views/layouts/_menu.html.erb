@@ -1,4 +1,10 @@
 <div class="p">
+  <%= link_to(root_path) do %>
+    <div class="p size-3 inline-flex items-center justify-center">
+      <div class="size-2 <%= Current.bg_env %> rounded-full"></div>
+    </div>
+  <% end %>
+
   <%= link_to(t(".title"), root_path, class: "link") %>
 
   <%= link_to(current_user_or_guest, current_user_or_guest, class: "link") %>

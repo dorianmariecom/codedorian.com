@@ -1,11 +1,25 @@
-<div class="content">
-  <p><%= t(".description") %></p>
+<h1 class="font-bold mb-4"><%= t(".subtitle") %></h1>
 
-  <p><%= t(".intro") %></p>
-
-  <ul>
-    <% t(".examples").each do |example| %>
-      <li><%= example %></li>
+<% if guest? %>
+  <div class="p">
+    <%= link_to t(".register"), %i[new user], class: "button" %>
+    <%= link_to t(".log_in"), %i[new session], class: "button" %>
+  </div>
+<% elsif !hotwire_native_app? && !current_user_or_guest.unverified_device %>
+  <div class="p">
+    <%= link_to(Config.ios.url) do %>
+      <%= image_tag("ios-#{I18n.locale}.svg", class: "h-14") %>
     <% end %>
-  </ul>
-</div>
+  </div>
+
+  <div class="p">
+    <%= link_to(Config.android.url) do %>
+      <%= image_tag("android-#{I18n.locale}.svg", class: "h-14") %>
+    <% end %>
+  </div>
+<% else %>
+  <div class="p">
+    <%= link_to t(".messages"), [current_user_or_guest, :messages], class: "button" %>
+    <%= link_to t(".programs"), [current_user_or_guest, :programs], class: "button" %>
+  </div>
+<% end %>

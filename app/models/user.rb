@@ -159,6 +159,10 @@ class User < ApplicationRecord
     devices.verified.primary.first&.device || devices.verified.first&.device
   end
 
+  def unverified_device
+    devices.primary.first&.device || devices.first&.device
+  end
+
   def token
     tokens.verified.primary.first&.token || tokens.verified.first&.token
   end
