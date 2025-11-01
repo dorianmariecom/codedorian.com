@@ -162,11 +162,11 @@ trix-editor,
   h4,
   h5,
   h6 {
-    @apply font-bold;
+    @apply font-bold mb-4;
   }
 
   blockquote {
-    @apply border-l border-black pl-2;
+    @apply border-l border-black pl-2 mb-4;
   }
 
   pre {
@@ -177,6 +177,10 @@ trix-editor,
     span {
       @apply text-black!;
     }
+  }
+
+  ul {
+    @apply list-disc ml-4;
   }
 }
 

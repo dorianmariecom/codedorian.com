@@ -1400,8 +1400,30 @@ en:
     download:
       title: download
     home:
-      submit: create program
-      title: home
+      description: code is the programming language for the internet
+      examples:
+      - a random speaking order
+      - the schedule of a tv channel
+      - the “day of”
+      - a positive phrase
+      - humorous images
+      - birthdays
+      - the weather
+      - current events
+      - a quote
+      - a joke
+      - questions and answers
+      - a dictionary word with definition
+      - a historical fact
+      - a random fact
+      - upcoming holidays
+      - a scientific fact
+      - hacker news posts
+      - reddit posts
+      - notifications for your tests on github
+      - other
+      intro: 'for instance, you can receive every day:'
+      title: code
     icons:
       title: icons
     ios:

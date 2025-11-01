@@ -1,1 +1,11 @@
-<%= render("programs/form", submit: t(".submit")) %>
+<div class="content">
+  <p><%= t(".description") %></p>
+
+  <p><%= t(".intro") %></p>
+
+  <ul>
+    <% t(".examples").each do |example| %>
+      <li><%= example %></li>
+    <% end %>
+  </ul>
+</div>

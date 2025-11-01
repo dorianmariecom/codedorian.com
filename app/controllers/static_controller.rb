@@ -6,8 +6,6 @@ class StaticController < ApplicationController
   before_action :add_breadcrumb, except: :home
 
   def home
-    @program = policy_scope(Program).new(user: current_user)
-    set_error_context(program: @program)
   end
 
   def up
@@ -32,19 +30,5 @@ class StaticController < ApplicationController
   end
 
   def download
-  end
-
-  private
-
-  def model_class
-    Program
-  end
-
-  def model_instance
-    @program
-  end
-
-  def nested
-    [current_user]
   end
 end
