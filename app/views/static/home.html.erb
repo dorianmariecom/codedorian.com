@@ -24,6 +24,17 @@
   </div>
 <% end %>
 
+<div class="grid grid-cols-2 gap-4 mb-4">
+  <% t(".quotes").each.with_index do |quote, index| %>
+    <div class="<%= "text-right" if index.even? %>">
+      <div class="pl-2 border-l border-black inline-block">
+        <%= quote[:content] %>
+      </div>
+      <div class="text-gray-600"><%= quote[:author] %></div>
+    </div>
+  <% end %>
+</div>
+
 <div class="sm:flex gap-4">
   <div class="grow text-center mb-4 font-bold">
     <%= t(".benefits.programs") %>

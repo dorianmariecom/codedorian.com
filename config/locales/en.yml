@@ -1411,6 +1411,11 @@ en:
       log_in: log in
       messages: messages
       programs: programs
+      quotes:
+      - author: dorian
+        content: very useful for automating
+      - author: grandma
+        content: it suits me very well and informs me well about the program
       register: register
       subtitle: code is the programming language for the internet
       title: code

@@ -261,7 +261,7 @@ fr:
       about: à propos
       android: androïde
       download: télécharger
-      home: maison
+      home: accueil
       icons: icônes
       ios: iOS
       privacy: confidentialité
@@ -525,7 +525,7 @@ fr:
         english: anglais
         errors: erreurs
         french: français
-        home: maison
+        home: accueil
         jobs: emplois
         log_in: se connecter
         messages: messages
@@ -537,7 +537,7 @@ fr:
         users: utilisateurs
       tabs:
         account: compte
-        home: maison
+        home: accueil
         log_in: se connecter
         messages: messages
         more: plus
@@ -1411,6 +1411,11 @@ fr:
       log_in: se connecter
       messages: messages
       programs: programmes
+      quotes:
+      - author: dorian
+        content: très utile pour automatiser
+      - author: mamie
+        content: ça me va très bien et ça me renseigne bien sur le programme
       register: s'inscrire
       subtitle: code est le langage de programmation d'internet
       title: code
