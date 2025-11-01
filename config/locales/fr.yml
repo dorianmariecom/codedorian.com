@@ -1406,6 +1406,14 @@ fr:
       register: s'inscrire
       subtitle: code est le langage de programmation d'internet
       title: code
+      benefits:
+        programs: programmes
+        messages: messages
+        notifications: notifications
+      features:
+        edit: modifier
+        program: programme
+        message: message
     icons:
       title: icônes
     ios:
