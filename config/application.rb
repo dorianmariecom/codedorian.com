@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+ENV["SECRET_KEY_BASE_DUMMY"] = "1" if ENV["DUMMY"]
+
 require_relative "boot"
 
 require "rails/all"
