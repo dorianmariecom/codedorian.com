@@ -1420,6 +1420,13 @@ en:
             great ease of use
             a very good presentation
             use is simplified for the user
+        - author: anthony
+          content: |
+            you want to schedule messages
+            receive notifications on topics that interest you
+            this app is perfect for that
+            easy to use
+            all programs are saved and easily accessible
       register: register
       title: code
     icons:

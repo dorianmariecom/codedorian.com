@@ -1420,6 +1420,13 @@ fr:
           grande facilité d’utilisation
           une très bonne présentation
           l’utilisation est simplifiée pour l’utilisateur
+      - author: anthony
+        content: |
+          vous voulez programmer des messages
+          reçevoir des notifications sur des thèmees qui vous intéressent
+          cette app est nickel pour ça
+          facile à utiliser
+          tous les programmes sont enregistrés et facilement accessibles
       register: s'inscrire
       title: code
     icons:
