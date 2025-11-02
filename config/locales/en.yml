@@ -1400,14 +1400,6 @@ en:
     download:
       title: download
     home:
-      benefits:
-        messages: messages
-        notifications: notifications
-        programs: programs
-      features:
-        edit: edit
-        message: message
-        program: program
       log_in: log in
       messages: messages
       programs: programs
@@ -1416,8 +1408,10 @@ en:
         content: very useful for automating
       - author: grandma
         content: it suits me very well and informs me well about the program
+      - author: marie-odile
+        content: it pleases me a lot, even enormously. the sentences are pretty, soothing,
+          and positive
       register: register
-      subtitle: code is the programming language for the internet
       title: code
     icons:
       title: icons

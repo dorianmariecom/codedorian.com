@@ -1400,14 +1400,6 @@ fr:
     download:
       title: télécharger
     home:
-      benefits:
-        messages: messages
-        notifications: notifications
-        programs: programmes
-      features:
-        edit: modifier
-        message: message
-        program: programme
       log_in: se connecter
       messages: messages
       programs: programmes
@@ -1416,8 +1408,10 @@ fr:
         content: très utile pour automatiser
       - author: mamie
         content: ça me va très bien et ça me renseigne bien sur le programme
+      - author: marie-odile
+        content: ça me plaît beaucoup même énormément. les phrases sont jolies, apaisantes
+          et positives
       register: s'inscrire
-      subtitle: code est le langage de programmation d'internet
       title: code
     icons:
       title: icônes
