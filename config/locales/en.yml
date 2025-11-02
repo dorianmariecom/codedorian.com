@@ -1404,22 +1404,22 @@ en:
       messages: messages
       programs: programs
       quotes:
-        - author: dorian
-          content: very useful for automation
-        - author: grandma
-          content: |
-            it suits me very well
-            it informs me well about the program
-        - author: marie-odile
-          content: |
-            I like it a lot, even enormously
-            the sentences are pretty, soothing, and positive
-        - author: vincent
-          content: |
-            the code works very well for reddit and google jokes
-            great ease of use
-            a very good presentation
-            use is simplified for the user
+      - author: dorian
+        content: very useful for automation
+      - author: grandma
+        content: |
+          it suits me very well
+          it informs me well about the program
+      - author: marie-odile
+        content: |
+          I like it a lot, even enormously
+          the sentences are pretty, soothing, and positive
+      - author: vincent
+        content: |
+          the code works very well for reddit and google jokes
+          great ease of use
+          a very good presentation
+          use is simplified for the user
       register: register
       title: code
     icons:
