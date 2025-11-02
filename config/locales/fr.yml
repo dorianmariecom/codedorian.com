@@ -1407,10 +1407,19 @@ fr:
       - author: dorian
         content: très utile pour automatiser
       - author: mamie
-        content: ça me va très bien et ça me renseigne bien sur le programme
+        content: |
+          ça me va très bien
+          ça me renseigne bien sur le programme
       - author: marie-odile
-        content: ça me plaît beaucoup même énormément. les phrases sont jolies, apaisantes
-          et positives
+        content: |
+          ça me plaît beaucoup même énormément
+          les phrases sont jolies, apaisantes et positives
+      - author: vincent
+        content: |
+          code fonctionne très bien au niveau des blagues reddit et google
+          grande facilité d’utilisation
+          une très bonne présentation
+          l’utilisation est simplifiée pour l’utilisateur
       register: s'inscrire
       title: code
     icons:

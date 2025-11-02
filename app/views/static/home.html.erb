@@ -24,8 +24,8 @@
 
 <% t(".quotes").each.with_index do |quote, index| %>
   <div class="p">
-    "<%= quote[:content] %>"
-    -
-    <span class="text-gray-600"><%= quote[:author] %></span>
+    "<%= simple_format(quote[:content].strip, {}, wrapper_tag: :span) %>"
+    <br>
+    - <span class="text-gray-600"><%= quote[:author] %></span>
   </div>
 <% end %>
