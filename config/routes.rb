@@ -358,6 +358,7 @@ Rails.application.routes.draw do
     end
     resources :examples
     resource :session
+    resource :form
 
     patch :time_zone, to: "users#update_time_zone"
 

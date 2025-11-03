@@ -1,0 +1,9 @@
+class AdminMailer < ApplicationMailer
+  def form_email
+    @options = params[:options]
+    @interval = params[:interval]
+    @email_address = params[:email_address]
+
+    mail(to: "dorian@dorianmarie.com", subject: "new form submission")
+  end
+end

@@ -1,0 +1,44 @@
+<%= form_for(:form, url: :form) do |f| %>
+  <div class="p">
+    <%= t(".intro") %>
+  </div>
+
+  <div class="mb-4">
+    <% t(".options").each do |option| %>
+      <div class="flex gap-2">
+        <%= f.check_box(:option, { multiple: true }, option, class: "input") %>
+        <%= f.label(:option, option, value: option, class: "label") %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="p">
+    <%= f.select(:interval, form_interval_options, {}, class: "input") %>
+  </div>
+
+  </div>
+    <div
+    class="p"
+    data-controller="validation"
+    data-validation-trim-value="true"
+    data-validation-gender-value="feminine"
+  >
+    <%= f.label(:email_address, t(".email_address"), class: "label", data: { validation_target: "label" }) %>
+    <%= f.email_field(
+      :email_address,
+      class: "input",
+      placeholder: t(".email_address_placeholder"),
+      required: true,
+      data: {
+        validation_target: "input",
+        action: "validation#input",
+        form_type: "other"
+      },
+      autocomplete: "email"
+    ) %>
+    <div class="text-red-600" hidden data-validation-target="error"></div>
+    <div class="text-gray-600"><%= Faker::Internet.email %></div>
+  </div>
+
+  <%= f.submit t(".submit"), class: "button" %>
+<% end %>

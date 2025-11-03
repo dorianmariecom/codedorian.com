@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ProgramSchedule < ApplicationRecord
+  DEFAULT_INTERVAL = "1 day"
+
   INTERVALS = [
     "once",
     "5 seconds",
@@ -81,6 +83,15 @@ class ProgramSchedule < ApplicationRecord
     }
   end
 
+  def self.form_interval_options
+    INTERVALS.map do |interval|
+      count = interval == "once" ? 0 : interval.split.first.to_i
+      per = interval == "once" ? "once" : interval.split.last.pluralize
+
+      [t("form.#{per}", count: count), interval]
+    end
+  end
+
   def self.interval_options
     INTERVALS.map do |interval|
       count = interval == "once" ? 0 : interval.split.first.to_i
@@ -131,7 +142,7 @@ class ProgramSchedule < ApplicationRecord
   end
 
   def default_interval
-    "1 day"
+    DEFAULT_INTERVAL
   end
 
   def to_code

@@ -186,6 +186,8 @@ en:
       edit: edit
       index: examples
       new: new
+    forms:
+      show: form
     guests:
       edit: edit
       index: guests
@@ -457,6 +459,32 @@ en:
       title: examples
     show:
       title: not found
+  forms:
+    show:
+      email_address: email address
+      email_address_placeholder: enter your email address
+      intro: i want a program that sends me
+      options:
+      - the "day of" (international day, mondial day, etc.)
+      - birthdays
+      - github notifications (for programmers)
+      - holidays
+      - humoristic images (google, reddit, twitter, etc.)
+      - mirror hours (9:09am, 11:11pm, etc.)
+      - news (world, country, state, region, city, etc.)
+      - random fact (historic, scientific, general, etc.)
+      - random joke
+      - random positive sentence
+      - random questions with their answers
+      - random quote
+      - random speaking order (to speak each at their turn)
+      - random word from the dictionnary with definition and examples
+      - school holidays
+      - tv program of a channel (tf1, france 2, kto, etc.)
+      - video game discounts (steam -70% minimum for instance)
+      - weather
+      submit: ask
+      title: form
   guests:
     index:
       delete_all: delete all
@@ -1005,6 +1033,36 @@ en:
         one: 1 day
         other: "%{count} days"
         zero: 0 days
+      form:
+        days:
+          one: every day
+          other: every %{count} days
+          zero: no days
+        hours:
+          one: every hour
+          other: every %{count} hours
+          zero: no hours
+        minutes:
+          one: every minute
+          other: every %{count} minutes
+          zero: no minutes
+        months:
+          one: every month
+          other: every %{count} months
+          zero: no months
+        once: once
+        seconds:
+          one: every second
+          other: every %{count} seconds
+          zero: no seconds
+        weeks:
+          one: every week
+          other: every %{count} weeks
+          zero: no weeks
+        years:
+          one: every year
+          other: every %{count} years
+          zero: no years
       hours:
         one: 1 hour
         other: "%{count} hours"
