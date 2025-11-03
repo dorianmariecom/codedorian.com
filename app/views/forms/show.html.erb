@@ -1,7 +1,5 @@
 <%= form_for(:form, url: :form) do |f| %>
-  <div class="p">
-    <%= t(".intro") %>
-  </div>
+  <div class="p"><%= t(".intro") %></div>
 
   <div class="mb-4">
     <% t(".options").each do |option| %>
@@ -16,14 +14,20 @@
     <%= f.select(:interval, form_interval_options, {}, class: "input") %>
   </div>
 
-  </div>
-    <div
+  <div
     class="p"
     data-controller="validation"
     data-validation-trim-value="true"
     data-validation-gender-value="feminine"
   >
-    <%= f.label(:email_address, t(".email_address"), class: "label", data: { validation_target: "label" }) %>
+    <%= f.label(
+      :email_address,
+      t(".email_address"),
+      class: "label",
+      data: {
+        validation_target: "label"
+      }
+    ) %>
     <%= f.email_field(
       :email_address,
       class: "input",
@@ -40,5 +44,5 @@
     <div class="text-gray-600"><%= Faker::Internet.email %></div>
   </div>
 
-  <%= f.submit t(".submit"), class: "button" %>
+  <%= f.submit(t(".submit"), class: "button") %>
 <% end %>

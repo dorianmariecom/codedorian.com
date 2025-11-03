@@ -14,7 +14,11 @@ class FormsController < ApplicationController
     @email_address = params.dig(:form, :email_address)
 
     AdminMailer
-      .with(options: @options, interval: @interval, email_address: @email_address)
+      .with(
+        options: @options,
+        interval: @interval,
+        email_address: @email_address
+      )
       .form_email
       .deliver_later
 

@@ -165,7 +165,7 @@ en:
       new: new
     docs:
       edit: edit
-      index: docs
+      index: documentation
       new: new
     email_addresses:
       edit: edit
@@ -369,7 +369,7 @@ en:
         one: 1 example
         other: "%{count} examples"
         zero: 0 examples
-      title: docs
+      title: documentation
     show:
       title: doc not found
   email_addresses:
@@ -549,7 +549,7 @@ en:
         account: account
         attachments: files
         data: data
-        docs: docs
+        docs: documentation
         english: english
         errors: errors
         french: french
@@ -688,7 +688,7 @@ en:
       admin: admin
       attachments: files
       data: data
-      docs: docs
+      docs: documentation
       download: download
       english: english
       errors: errors

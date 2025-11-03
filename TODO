@@ -1,3 +1,8 @@
+- language in french, "langage"?
+- handle, "identifiant?
+- reduce menus to the minimum
+- repl
+
 - Html.tag e.g. Html.tag(:a, "google", href: "https://google.com")
 
 - better french translations

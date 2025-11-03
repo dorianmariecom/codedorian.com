@@ -4,26 +4,26 @@ fr:
     attributes:
       address:
         address: adresse
-        primary: primaire?
+        primary: principale ?
         user_id: utilisateur
-        verified: vérifié ?
+        verified: vérifiée ?
       datum:
         key: clé
         value: valeur
       device:
-        platform: plate-forme
-        primary: primaire?
+        platform: appareil
+        primary: principal ?
         token: jeton
         user_id: utilisateur
         verified: vérifié ?
       email_address:
         email_address: adresse e-mail
-        primary: primaire?
+        primary: principale ?
         user_id: utilisateur
-        verified: vérifié ?
+        verified: vérifiée ?
       handle:
-        handle: poignée
-        primary: primaire?
+        handle: identifiant
+        primary: principal ?
         user_id: utilisateur
         verified: vérifié ?
       message:
@@ -34,23 +34,23 @@ fr:
       name:
         family_name: nom de famille
         given_name: prénom
-        primary: primaire?
+        primary: principal ?
         user_id: utilisateur
         verified: vérifié ?
       password:
         hint: indice
         password: mot de passe
-        primary: primaire?
+        primary: principal ?
         user_id: utilisateur
         verified: vérifié ?
       phone_number:
         phone_number: numéro de téléphone
         phone_number_input: numéro de téléphone
-        primary: primaire?
+        primary: principal ?
         user_id: utilisateur
         verified: vérifié ?
       program:
-        input: saisir
+        input: entrée
         name: nom
         user_id: utilisateur
       program_schedule:
@@ -61,18 +61,18 @@ fr:
         name: nom
         user_id: utilisateur
       time_zone:
-        primary: primaire?
+        primary: principal ?
         time_zone: fuseau horaire
         user_id: utilisateur
         verified: vérifié ?
       token:
-        primary: primaire?
+        primary: principal ?
         token: jeton
         user_id: utilisateur
         verified: vérifié ?
       user:
-        admin: administrateur?
-        locale: langue
+        admin: administrateur ?
+        locale: langage
         verified: vérifié ?
     errors:
       models:
@@ -109,7 +109,7 @@ fr:
       delete: supprimer l'adresse
       edit: modifier l'adresse
       id: identifiant
-      primary: primaire?
+      primary: principal ?
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifié ?
@@ -150,7 +150,7 @@ fr:
     addresses:
       edit: modifier
       index: adresses
-      new: nouveau
+      new: nouvelle
     attachments:
       edit: modifier
       index: fichiers
@@ -158,28 +158,28 @@ fr:
     data:
       edit: modifier
       index: données
-      new: nouveau
+      new: nouvelle
     devices:
       edit: modifier
       index: appareils
       new: nouveau
     docs:
       edit: modifier
-      index: documents
-      new: nouveau
+      index: documentation
+      new: nouvelle
     email_addresses:
       edit: modifier
       index: adresses e-mail
-      new: nouveau
+      new: nouvelle
     error_occurrences:
       edit: modifier
       index: occurrences d'erreur
-      new: nouveau
+      new: nouvelle
     errors:
       edit: modifier
       index: erreurs
-      internal_server_error: Erreur interne du serveur
-      new: nouveau
+      internal_server_error: erreur interne du serveur
+      new: nouvelle
       not_found: non trouvé
       unprocessable_entity: entité non traitable
     examples:
@@ -194,11 +194,11 @@ fr:
       new: nouveau
     handles:
       edit: modifier
-      index: poignées
+      index: identifiants
       new: nouveau
     jobs:
       edit: modifier
-      index: emplois
+      index: tâches
       new: nouveau
     messages:
       body: corps
@@ -222,42 +222,42 @@ fr:
     program_executions:
       edit: modifier
       index: exécutions de programmes
-      new: nouveau
+      new: nouvelle
     program_prompt_schedules:
       edit: modifier
-      index: horaires des invites du programme
-      new: nouveau
+      index: horaires des invites de programmes
+      new: nouvelle
     program_prompts:
       edit: modifier
-      index: invites du programme
+      index: invites de programmes
       new: nouveau
     program_schedules:
       edit: modifier
-      index: grilles de programmes
-      new: nouveau
+      index: horaires de programmes
+      new: nouvelle
     programs:
       edit: modifier
       index: programmes
       new: nouveau
     repl_executions:
       edit: modifier
-      index: exécutions de repl
-      new: nouveau
+      index: exécutions de terminaux
+      new: nouvelle
     repl_programs:
       edit: modifier
-      index: programmes de remplacement
+      index: programmes de terminaux
       new: nouveau
     repl_prompts:
       edit: modifier
-      index: invites de réponse
+      index: invites de terminaux
       new: nouveau
     repl_sessions:
       edit: modifier
-      index: séances de répétition
+      index: terminaux
       new: nouveau
     sessions:
       edit: modifier
-      index: séances
+      index: sessions
       new: nouveau
     static:
       about: à propos
@@ -345,8 +345,8 @@ fr:
       delete: supprimer l'appareil
       edit: modifier l'appareil
       id: identifiant
-      platform: plate-forme
-      primary: primaire?
+      platform: appareil
+      primary: principal ?
       token: jeton
       updated_at: mis à jour à
       user: utilisateur
@@ -356,8 +356,8 @@ fr:
   docs:
     example:
       error: erreur
-      input: saisir
-      output: sortir
+      input: entrée
+      output: sortie
       result: résultat
     examples:
       examples: exemples
@@ -369,9 +369,9 @@ fr:
         one: 1 exemple
         other: "%{count} exemples"
         zero: 0 exemples
-      title: documents
+      title: documentation
     show:
-      title: doc non trouvé
+      title: documentation non trouvé
   email_addresses:
     create:
       notice: adresse e-mail créée
@@ -404,7 +404,7 @@ fr:
       edit: modifier l'adresse e-mail
       email_address: adresse email
       id: identifiant
-      primary: primaire?
+      primary: principal ?
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifié ?
@@ -508,42 +508,42 @@ fr:
       verified: vérifié ?
   handles:
     create:
-      notice: poignée créée
+      notice: identifiant créée
     destroy:
-      notice: poignée supprimée
+      notice: identifiant supprimée
     edit:
-      submit: poignée de mise à jour
-      title: modifier la poignée
+      submit: identifiant de mise à jour
+      title: modifier la identifiant
     form:
       handle_placeholder: entrez votre identifiant
     index:
       delete_all: supprimer tout
       destroy_all: détruire tout
-      new: nouvelle poignée
-      title: poignées
+      new: nouvelle identifiant
+      title: identifiants
     model:
-      to_s: poignée#%{id}
+      to_s: identifiant#%{id}
     nested:
-      add: ajouter une poignée
+      add: ajouter une identifiant
     nested_form:
-      handle: poignée
+      handle: identifiant
       handle_placeholder: entrez votre identifiant
-      remove: retirer la poignée
+      remove: retirer la identifiant
     new:
-      submit: créer une poignée
-      title: nouvelle poignée
+      submit: créer une identifiant
+      title: nouvelle identifiant
     show:
       created_at: créé à
-      delete: supprimer la poignée
-      edit: modifier la poignée
-      handle: poignée
+      delete: supprimer la identifiant
+      edit: modifier la identifiant
+      handle: identifiant
       id: identifiant
-      primary: primaire?
+      primary: principal ?
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifié ?
     update:
-      notice: poignée mise à jour
+      notice: identifiant mise à jour
   helpers:
     application:
       menu:
@@ -551,18 +551,18 @@ fr:
         account: compte
         attachments: fichiers
         data: données
-        docs: documents
+        docs: documentation
         english: anglais
         errors: erreurs
         french: français
         home: accueil
-        jobs: emplois
+        jobs: tâches
         log_in: se connecter
         messages: messages
         privacy: confidentialité
         programs: programmes
         register: registre
-        repl: séances de répétition
+        repl: terminaux
         terms: termes
         users: utilisateurs
       tabs:
@@ -573,7 +573,7 @@ fr:
         more: plus
         programs: programmes
         register: registre
-        repl: séances de répétition
+        repl: terminaux
     label:
       session:
         email_address: adresse email
@@ -588,42 +588,42 @@ fr:
           zero: 0 trouvé
   jobs:
     delete:
-      notice: travail supprimé
+      notice: tâche supprimée
     delete_all:
-      notice: emplois supprimés
+      notice: tâches supprimées
     destroy:
-      notice: emploi détruit
+      notice: tâche détruite
     destroy_all:
-      notice: emplois détruits
+      notice: tâches détruites
     discard:
-      notice: travail abandonné
+      notice: tâche abandonnée
     discard_all:
-      notice: emplois supprimés
+      notice: tâches supprimées
     index:
       delete_all: supprimer tout
       destroy_all: détruire tout
       discard_all: abandonner tout
       retry_all: réessayer tout
-      title: emplois
+      title: tâches
     retry:
-      notice: travail retenté
+      notice: tâche retentée
     retry_all:
-      notice: emplois réessayés
+      notice: tâches réessayées
     show:
       arguments: arguments
       class_name: nom de la classe
       concurrency_key: clé de concurrence
-      created_at: créé à
-      delete: supprimer le travail
-      destroy: détruire un emploi
-      discard: abandonner le travail
-      finished_at: terminé à
+      created_at: créée à
+      delete: supprimer la tâche
+      destroy: détruire la tâche
+      discard: abandonner la tâche
+      finished_at: terminée à
       id: identifiant
       priority: priorité
       queue_name: nom de la file d'attente
-      retry: réessayer le travail
-      scheduled_at: prévu à
-      updated_at: mis à jour à
+      retry: réessayer la tâche
+      scheduled_at: prévue à
+      updated_at: mise à jour à
   layouts:
     application:
       js:
@@ -690,19 +690,19 @@ fr:
       admin: administrateur
       attachments: fichiers
       data: données
-      docs: documents
+      docs: documentation
       download: télécharger
       english: anglais
       errors: erreurs
       french: français
-      jobs: emplois
+      jobs: tâches
       log_in: se connecter
       log_out: se déconnecter
       messages: messages
       privacy: confidentialité
       programs: programmes
       register: registre
-      repl_sessions: séances de répétition
+      repl_sessions: terminaux
       terms: termes
       title: code
       users: utilisateurs
@@ -779,7 +779,7 @@ fr:
       family_name: nom de famille
       given_name: prénom
       id: identifiant
-      primary: primaire?
+      primary: principal ?
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifié ?
@@ -831,7 +831,7 @@ fr:
       hint: indice
       id: identifiant
       password: mot de passe
-      primary: primaire?
+      primary: principal ?
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifié ?
@@ -869,7 +869,7 @@ fr:
       edit: modifier le numéro de téléphone
       id: identifiant
       phone_number: numéro de téléphone
-      primary: primaire?
+      primary: principal ?
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifié ?
@@ -1019,17 +1019,17 @@ fr:
       user: utilisateur
   program_schedules:
     create:
-      notice: grille de programmes créée
+      notice: horaire de programmes créée
     destroy:
-      notice: grille des programmes supprimée
+      notice: horaire des programmes supprimée
     edit:
       submit: mettre à jour le calendrier des programmes
-      title: modifier la grille des programmes
+      title: modifier la horaire des programmes
     index:
       delete_all: supprimer tout
       destroy_all: détruire tout
-      new: nouvelle grille de programmes
-      title: grilles de programmes
+      new: nouvelle horaire de programmes
+      title: horaires de programmes
     model:
       days:
         one: 1 jour
@@ -1095,17 +1095,17 @@ fr:
       add: ajouter un programme
     nested_form:
       program_schedule: programme
-      remove: supprimer la grille des programmes
+      remove: supprimer la horaire des programmes
     new:
       submit: créer un programme
-      title: nouvelle grille de programmes
+      title: nouvelle horaire de programmes
     program_schedule:
       schedule_html: commence %{local_time}, se répète tous les %{interval}
       schedule_once_html: commence %{local_time}, ne se répète pas
     show:
       created_at: créé à
-      delete: supprimer la grille des programmes
-      edit: modifier la grille des programmes
+      delete: supprimer la horaire des programmes
+      edit: modifier la horaire des programmes
       id: identifiant
       interval: intervalle
       program: programme
@@ -1149,7 +1149,7 @@ fr:
         other: Invites du programme %{count}
         zero: 0 invites de programme
       program_schedules:
-        one: 1 grille de programmes
+        one: 1 horaire de programmes
         other: "%{count} programmes"
         zero: 0 programmes
       reschedule_all: reprogrammer tout
@@ -1175,12 +1175,12 @@ fr:
       name: nom
       new_program_prompt: invite de nouveau programme
       new_program_prompt_schedule: nouveau calendrier des invites du programme
-      new_program_schedule: nouvelle grille de programmes
+      new_program_schedule: nouvelle horaire de programmes
       not_scheduled_html: Souhaitez-vous planifier pour %{local_time} ?
       program_executions: exécutions de programmes
       program_prompt_schedules: horaires des invites du programme
       program_prompts: invites du programme
-      program_schedules: grilles de programmes
+      program_schedules: horaires de programmes
       reschedule: reprogrammer
       schedule: calendrier
       scheduled_html: c'est prévu pour %{local_time}
@@ -1193,11 +1193,11 @@ fr:
       notice: programme mis à jour
   repl_executions:
     destroy:
-      notice: exécution de repl supprimée
+      notice: exécution du terminal supprimée
     index:
       delete_all: supprimer tout
       destroy_all: détruire tout
-      title: exécutions de repl
+      title: exécutions de terminaux
     model:
       statuses:
         created: créé
@@ -1205,37 +1205,37 @@ fr:
         errored: erroné
         in_progress: en cours
         initialized: initialisé
-      to_s: repl_execution#%{id}
+      to_s: execution_de_terminal#%{id}
     show:
       context: contexte
       created_at: créé à
-      delete: supprimer l'exécution de repl
+      delete: supprimer l'exécution du terminal
       error: erreur
       error_app_backtrace: erreur de trace d'application
       error_backtrace: trace d'erreur
       error_class: classe d'erreur
       error_message: message d'erreur
       id: identifiant
-      input: saisir
-      output: sortir
-      repl_program: programme repl
-      repl_session: séance de répétition
+      input: entrée
+      output: sortie
+      repl_program: programme du terminal
+      repl_session: terminal
       result: résultat
       status: statut
       updated_at: mis à jour à
       user: utilisateur
   repl_programs:
     create:
-      notice: programme repl créé
+      notice: programme de terminaux créé
     destroy:
-      notice: programme repl supprimé
+      notice: programme de terminaux supprimé
     edit:
-      submit: mettre à jour le programme repl
+      submit: mettre à jour le programme de terminaux
       title: modifier le programme de remplacement
     form:
       generate: générer
       generating: générateur
-      input_placeholder: entrez l'entrée de votre programme repl
+      input_placeholder: entrez l'entrée de votre programme de terminaux
     index:
       delete_all: supprimer tout
       destroy_all: détruire tout
@@ -1252,18 +1252,18 @@ fr:
     model:
       to_s: repl_program#%{id}
     nested:
-      add: ajouter un programme repl
+      add: ajouter un programme de terminaux
     nested_form:
       fake_input: Http.get("https://google.com")
-      input_placeholder: entrez l'entrée de votre programme repl
-      remove: supprimer le programme repl
-      repl_program: programme repl
+      input_placeholder: entrez l'entrée de votre programme de terminaux
+      remove: supprimer le programme de terminaux
+      repl_program: programme de terminaux
     new:
-      submit: créer un programme repl
+      submit: créer un programme de terminaux
       title: nouveau programme de remplacement
     show:
       created_at: créé à
-      delete: supprimer le programme repl
+      delete: supprimer le programme de terminaux
       edit: modifier le programme de remplacement
       id: identifiant
       input: saisir
@@ -1271,11 +1271,11 @@ fr:
       new_repl_prompt: nouvelle invite de remplacement
       repl_executions: exécutions de repl
       repl_prompts: invites de réponse
-      repl_session: séance de répétition
+      repl_session: terminal
       updated_at: mis à jour à
       user: utilisateur
     update:
-      notice: programme repl mis à jour
+      notice: programme de terminaux mis à jour
   repl_prompts:
     destroy:
       notice: invite de réponse supprimée
@@ -1305,8 +1305,8 @@ fr:
       output: sortir
       output_input: sortie entrée
       output_name: nom de sortie
-      repl_program: programme repl
-      repl_session: séance de répétition
+      repl_program: programme de terminaux
+      repl_session: terminal
       status: statut
       updated_at: mis à jour à
       user: utilisateur
@@ -1317,13 +1317,13 @@ fr:
       notice: session de remplacement supprimée
     edit:
       submit: mettre à jour la session de remplacement
-      title: modifier la session de repl
+      title: modifier la terminal
     form:
-      name_placeholder: entrez le nom de votre session de repl
+      name_placeholder: entrez le nom de votre terminal
     index:
       delete_all: supprimer tout
       destroy_all: détruire tout
-      new: nouvelle session de repl
+      new: nouvelle terminal
       repl_executions:
         one: 1 exécution de répétition
         other: "%{count} exécutions de repl"
@@ -1336,16 +1336,16 @@ fr:
         one: 1 réponse rapide
         other: "%{count} invites de réponse"
         zero: 0 invite de réponse
-      title: séances de répétition
+      title: terminaux
     model:
       to_s: repl_session#%{id}
     new:
-      submit: créer une session de repl
-      title: nouvelle session de repl
+      submit: créer une terminal
+      title: nouvelle terminal
     show:
       created_at: créé à
-      delete: supprimer la session de repl
-      edit: modifier la session de repl
+      delete: supprimer la terminal
+      edit: modifier la terminal
       evaluate: évaluer
       evaluate_all: évaluer tout
       generate: générer
@@ -1386,8 +1386,8 @@ fr:
       email_addresses: adresses e-mail
       error_occurrences: occurrences d'erreur
       errors: erreurs
-      handles: poignées
-      jobs: emplois
+      handles: identifiants
+      jobs: tâches
       messages: messages
       names: noms
       new_address: nouvelle adresse
@@ -1397,7 +1397,7 @@ fr:
       new_email_address: nouvelle adresse e-mail
       new_error: nouvelle erreur
       new_error_occurrence: nouvelle occurrence d'erreur
-      new_handle: nouvelle poignée
+      new_handle: nouvelle identifiant
       new_job: nouvel emploi
       new_message: nouveau message
       new_name: nouveau nom
@@ -1409,7 +1409,7 @@ fr:
       new_repl_execution: nouvelle exécution de repl
       new_repl_program: nouveau programme de remplacement
       new_repl_prompt: nouvelle invite de remplacement
-      new_repl_session: nouvelle session de repl
+      new_repl_session: nouveau terminal
       new_time_zone: nouveau fuseau horaire
       new_token: nouveau jeton
       passwords: mots de passe
@@ -1417,10 +1417,10 @@ fr:
       program_executions: exécutions de programmes
       program_prompts: invites du programme
       programs: programmes
-      repl_executions: exécutions de repl
-      repl_programs: programmes de remplacement
-      repl_prompts: invites de réponse
-      repl_sessions: séances de répétition
+      repl_executions: exécutions de terminaux
+      repl_programs: programmes de terminaux
+      repl_prompts: invites de terminaux
+      repl_sessions: terminaux
       time_zones: fuseaux horaires
       tokens: jetons
     modal:
@@ -1546,7 +1546,7 @@ fr:
       delete: supprimer le fuseau horaire
       edit: modifier le fuseau horaire
       id: identifiant
-      primary: primaire?
+      primary: principal ?
       time_zone: fuseau horaire
       updated_at: mis à jour à
       user: utilisateur
@@ -1576,7 +1576,7 @@ fr:
       delete: supprimer le jeton
       edit: modifier le jeton
       id: identifiant
-      primary: primaire?
+      primary: principal ?
       token: jeton
       updated_at: mis à jour à
       user: utilisateur
@@ -1614,7 +1614,7 @@ fr:
       device: appareil
       edit: modifier l'utilisateur
       email_address: adresse email
-      handle: poignée
+      handle: identifiant
       id: identifiant
       impersonate: imiter
       locale: langue
