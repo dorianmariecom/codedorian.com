@@ -1,18 +1,13 @@
-- language in french, "langage"?
-- handle, "identifiant?
-- reduce menus to the minimum
-- repl
+- better french translations
+
+- scheduling
 
 - Html.tag e.g. Html.tag(:a, "google", href: "https://google.com")
-
-- better french translations
 
 - error context for jobs
 - scheduled jobs from job context
 - safe insert_recaptcha_tag
 - code-ruby should tranform timeouts into code::error
-
-- new home page
 
 - filters
 

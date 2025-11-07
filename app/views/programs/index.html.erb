@@ -1,6 +1,54 @@
 <%= turbo_stream_from(@programs) %>
 
 <div class="p">
+  <%= link_to(t(".documentation"), docs_path, class: "link") %>
+</div>
+
+<div class="p">
+  <%= link_to(t(".data", count: @data.size), [@user, :data], class: "link") %>
+</div>
+
+<div class="p">
+  <%= link_to(
+    t(".attachments", count: @attachments.size),
+    [@user, :attachments],
+    class: "link"
+  ) %>
+</div>
+
+<div class="p">
+  <%= link_to(
+    t(".repl_sessions", count: @repl_sessions.size),
+    [@user, :repl_sessions],
+    class: "link"
+  ) %>
+</div>
+
+<div class="p">
+  <%= link_to(
+    t(".repl_programs", count: @repl_programs.size),
+    [@user, :repl_programs],
+    class: "link"
+  ) %>
+</div>
+
+<div class="p">
+  <%= link_to(
+    t(".repl_prompts", count: @repl_prompts.size),
+    [@user, :repl_prompts],
+    class: "link"
+  ) %>
+</div>
+
+<div class="p">
+  <%= link_to(
+    t(".repl_executions", count: @repl_executions.size),
+    [@user, :repl_executions],
+    class: "link"
+  ) %>
+</div>
+
+<div class="p">
   <%= link_to(
     t(".program_executions", count: @program_executions.size),
     [@user, :program_executions],

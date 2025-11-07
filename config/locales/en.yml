@@ -1131,8 +1131,17 @@ en:
       input_placeholder: enter your program's input
       name_placeholder: enter your program's name
     index:
+      attachments:
+        one: 1 file
+        other: "%{count} files"
+        zero: 0 files
+      data:
+        one: 1 datum
+        other: "%{count} data"
+        zero: 0 data
       delete_all: delete all
       destroy_all: destroy all
+      documentation: documentation
       new: new program
       program_executions:
         one: 1 program execution
@@ -1150,6 +1159,22 @@ en:
         one: 1 program schedule
         other: "%{count} program schedules"
         zero: 0 program schedules
+      repl_executions:
+        one: 1 repl execution
+        other: "%{count} repl executions"
+        zero: 0 repl executions
+      repl_programs:
+        one: 1 repl program
+        other: "%{count} repl programs"
+        zero: 0 repl programs
+      repl_prompts:
+        one: 1 repl prompt
+        other: "%{count} repl prompts"
+        zero: 0 repl prompts
+      repl_sessions:
+        one: 1 repl session
+        other: "%{count} repl sessions"
+        zero: 0 repl sessions
       reschedule_all: reschedule all
       schedule_all: schedule all
       title: programs

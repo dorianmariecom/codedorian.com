@@ -56,26 +56,6 @@ module MenuHelper
         path: polymorphic_path([current_user_or_guest, :messages])
       },
       {
-        title: t("helpers.application.menu.repl"),
-        image: ios ? "apple.terminal" : :terminal,
-        path: polymorphic_path([current_user_or_guest, :repl_sessions])
-      },
-      {
-        title: t("helpers.application.menu.data"),
-        image: ios ? "tray.full" : :storage,
-        path: polymorphic_path([current_user_or_guest, :data])
-      },
-      {
-        title: t("helpers.application.menu.attachments"),
-        image: ios ? :document : :insert_drive_file,
-        path: polymorphic_path([current_user_or_guest, :attachments])
-      },
-      {
-        title: t("helpers.application.menu.docs"),
-        image: ios ? :document : :code,
-        path: docs_path
-      },
-      {
         title: t("helpers.application.menu.about"),
         image: :info,
         path: about_path
@@ -132,33 +112,6 @@ module MenuHelper
             title: t("helpers.application.menu.messages"),
             image: ios ? "message.fill" : :chat,
             path: messages_path
-          }
-        end
-      ),
-      (
-        if admin?
-          {
-            title: t("helpers.application.menu.repl"),
-            image: ios ? "apple.terminal" : :terminal,
-            path: repl_sessions_path
-          }
-        end
-      ),
-      (
-        if admin?
-          {
-            title: t("helpers.application.menu.data"),
-            image: ios ? "tray.full" : :storage,
-            path: polymorphic_path([current_user_or_guest, :data])
-          }
-        end
-      ),
-      (
-        if admin?
-          {
-            title: t("helpers.application.menu.attachments"),
-            image: ios ? :document : :insert_drive_file,
-            path: attachments_path
           }
         end
       ),

@@ -121,21 +121,21 @@ class ReplSessionsController < ApplicationController
   end
 
   def repl_programs_scope
-    scope = searched_policy_scope(ReplProgram)
+    scope = policy_scope(ReplProgram)
     scope = scope.where_user(@user) if @user
     scope = scope.where_repl_session(@repl_session) if @repl_session
     scope
   end
 
   def repl_prompts_scope
-    scope = searched_policy_scope(ReplPrompt)
+    scope = policy_scope(ReplPrompt)
     scope = scope.where_user(@user) if @user
     scope = scope.where_repl_session(@repl_session) if @repl_session
     scope
   end
 
   def repl_executions_scope
-    scope = searched_policy_scope(ReplExecution)
+    scope = policy_scope(ReplExecution)
     scope = scope.where_user(@user) if @user
     scope = scope.where_repl_session(@repl_session) if @repl_session
     scope

@@ -7,9 +7,9 @@
 
   <%= link_to(t(".title"), root_path, class: "link") %>
 
-  <%= link_to(current_user_or_guest, current_user_or_guest, class: "link") %>
-
   <% if registered? %>
+    <%= link_to(current_user, current_user, class: "link") %>
+
     <%= button_to(
       t(".log_out"),
       :session,
@@ -24,14 +24,6 @@
 
   <%= link_to(t(".programs"), [current_user_or_guest, :programs], class: "link") %>
   <%= link_to(t(".messages"), [current_user_or_guest, :messages], class: "link") %>
-  <%= link_to(
-    t(".repl_sessions"),
-    [current_user_or_guest, :repl_sessions],
-    class: "link"
-  ) %>
-  <%= link_to(t(".data"), [current_user_or_guest, :data], class: "link") %>
-  <%= link_to(t(".attachments"), [current_user_or_guest, :attachments], class: "link") %>
-  <%= link_to(t(".docs"), :docs, class: "link") %>
   <%= link_to(t(".download"), :download, class: "link") %>
   <%= link_to(t(".about"), :about, class: "link") %>
   <%= link_to(t(".privacy"), :privacy, class: "link") %>
@@ -50,9 +42,6 @@
     <%= link_to(t(".users"), :users, class: "link") %>
     <%= link_to(t(".programs"), :programs, class: "link") %>
     <%= link_to(t(".messages"), :messages, class: "link") %>
-    <%= link_to(t(".repl_sessions"), :repl_sessions, class: "link") %>
-    <%= link_to(t(".data"), :data, class: "link") %>
-    <%= link_to(t(".attachments"), :attachments, class: "link") %>
     <%= link_to(t(".errors"), :errors, class: "link") %>
     <%= link_to(t(".jobs"), :jobs, class: "link") %>
   <% end %>

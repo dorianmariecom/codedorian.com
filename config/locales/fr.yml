@@ -460,8 +460,6 @@ fr:
     show:
       title: non trouvé
   forms:
-    create:
-      notice: demande envoyée
     show:
       email_address: adresse e-mail
       email_address_placeholder: entrez votre adresse e-mail
@@ -1133,8 +1131,17 @@ fr:
       input_placeholder: entrez l'entrée de votre programme
       name_placeholder: entrez le nom de votre programme
     index:
+      attachments:
+        one: 1 fichier
+        other: "%{count} fichiers"
+        zero: 0 fichiers
+      data:
+        one: 1 donnée
+        other: "%{count} données"
+        zero: 0 données
       delete_all: supprimer tout
       destroy_all: détruire tout
+      documentation: documentation
       new: nouveau programme
       program_executions:
         one: 1 exécution de programme
@@ -1152,6 +1159,22 @@ fr:
         one: 1 horaire de programmes
         other: "%{count} programmes"
         zero: 0 programmes
+      repl_executions:
+        one: 1 exécution de terminaux
+        other: "%{count} exécutions de terminaux"
+        zero: 0 exécutions de terminaux
+      repl_programs:
+        one: 1 programme de terminal
+        other: "%{count} programmes de terminaux"
+        zero: 0 programmes de terminaux
+      repl_prompts:
+        one: 1 invite de terminal
+        other: "%{count} invites de terminaux"
+        zero: 0 invites de terminaux
+      repl_sessions:
+        one: 1 terminal
+        other: "%{count} terminaux"
+        zero: 0 terminaux
       reschedule_all: reprogrammer tout
       schedule_all: programmer tout
       title: programmes

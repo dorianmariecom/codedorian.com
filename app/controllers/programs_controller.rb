@@ -16,6 +16,12 @@ class ProgramsController < ApplicationController
     @program_schedules = program_schedules_scope
     @program_executions = program_executions_scope
     @program_prompt_schedules = program_prompt_schedules_scope
+    @repl_sessions = repl_sessions_scope
+    @repl_programs = repl_programs_scope
+    @repl_prompts = repl_prompts_scope
+    @repl_executions = repl_executions_scope
+    @data = data_scope
+    @attachments = attachments_scope
   end
 
   def show
@@ -244,6 +250,42 @@ class ProgramsController < ApplicationController
     scope = policy_scope(ProgramPromptSchedule)
     scope = scope.where_user(@user) if @user
     scope = scope.where_program(@program) if @program
+    scope
+  end
+
+  def repl_sessions_scope
+    scope = policy_scope(ReplSession)
+    scope = scope.where_user(@user) if @user
+    scope
+  end
+
+  def repl_programs_scope
+    scope = policy_scope(ReplProgram)
+    scope = scope.where_user(@user) if @user
+    scope
+  end
+
+  def repl_prompts_scope
+    scope = policy_scope(ReplPrompt)
+    scope = scope.where_user(@user) if @user
+    scope
+  end
+
+  def repl_executions_scope
+    scope = policy_scope(ReplExecution)
+    scope = scope.where_user(@user) if @user
+    scope
+  end
+
+  def data_scope
+    scope = policy_scope(Datum)
+    scope = scope.where_user(@user) if @user
+    scope
+  end
+
+  def attachments_scope
+    scope = policy_scope(Attachment)
+    scope = scope.where_user(@user) if @user
     scope
   end
 
