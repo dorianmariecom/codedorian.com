@@ -1274,13 +1274,6 @@ en:
       title: repl programs
     model:
       to_s: repl_program#%{id}
-    nested:
-      add: add repl program
-    nested_form:
-      fake_input: Http.get("https://google.com")
-      input_placeholder: enter your repl program's input
-      remove: remove repl program
-      repl_program: repl program
     new:
       submit: create repl program
       title: new repl program
