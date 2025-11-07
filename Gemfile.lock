@@ -246,7 +246,7 @@ GEM
     jbuilder (2.14.1)
       actionview (>= 7.0.0)
       activesupport (>= 7.0.0)
-    json (2.15.2)
+    json (2.16.0)
     jwt (3.1.2)
       base64
     kamal (2.8.2)
@@ -398,7 +398,7 @@ GEM
       zeitwerk
     raabro (1.4.0)
     racc (1.8.1)
-    rack (3.2.3)
+    rack (3.2.4)
     rack-attack (6.8.0)
       rack (>= 1.0, < 4)
     rack-session (2.1.1)
@@ -444,7 +444,7 @@ GEM
     rainbow (3.1.1)
     rake (13.3.1)
     rchardet (1.10.0)
-    rdoc (6.15.0)
+    rdoc (6.15.1)
       erb
       psych (>= 4.0.0)
       tsort
@@ -526,7 +526,7 @@ GEM
       activejob (>= 7.2)
       activerecord (>= 7.2)
       railties (>= 7.2)
-    solid_cache (1.0.8)
+    solid_cache (1.0.9)
       activejob (>= 7.2)
       activerecord (>= 7.2)
       railties (>= 7.2)
@@ -596,7 +596,7 @@ GEM
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
     unicode-emoji (4.1.0)
-    uri (1.0.4)
+    uri (1.1.1)
     useragent (0.16.11)
     w_syntax_tree-erb (0.12.0)
       prettier_print (~> 1.2, >= 1.2.0)
