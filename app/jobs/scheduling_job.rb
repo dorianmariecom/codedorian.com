@@ -3,7 +3,7 @@
 class SchedulingJob < ApplicationJob
   queue_as(:default)
 
-  limits_concurrency(on_conflict: :discard)
+  limits_concurrency(key: "SchedulingJob", on_conflict: :discard)
 
   def perform
     Program.find_each do |program|
