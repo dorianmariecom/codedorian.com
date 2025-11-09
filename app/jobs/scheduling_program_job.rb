@@ -3,7 +3,7 @@
 class SchedulingProgramJob < ApplicationJob
   queue_as(:default)
 
-  limits_concurrency(to: 1, key: ->(program:) { program }, duration: 5.minutes)
+  limits_concurrency(key: ->(program:) { program }, on_conflict: :discard)
 
   def perform(program:)
     Current.with(user: program.user, program: program) do
