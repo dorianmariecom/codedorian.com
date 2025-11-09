@@ -8,6 +8,11 @@ class Program < ApplicationRecord
   scope(:where_user, ->(user) { where(user: user) })
 
   has_many(:program_executions, dependent: :destroy)
+  has_one(
+    :program_execution,
+    -> { order(created_at: :desc) },
+    dependent: :destroy
+  )
   has_many(:program_schedules, dependent: :destroy)
   has_many(:program_prompts, dependent: :destroy)
   has_many(:program_schedule_prompts, through: :program_prompts)
@@ -78,69 +83,58 @@ class Program < ApplicationRecord
     end
   end
 
+  def scheduled_now?
+    return false if unscheduled?
+    return false if program_schedules.none?
+    return false if scheduled_job?
+    return false if program_execution&.generating?
+    return false if starts_at > now
+
+    !program_execution || program_execution.created_at < previous_at
+  end
+
+  def unscheduled?
+    !scheduled?
+  end
+
+  def now
+    Time.zone.now
+  end
+
+  def starts_at
+    program_schedules.map(&:starts_at).min
+  end
+
+  def previous_at
+    program_schedules.map(&:previous_at).select(&:past?).max
+  end
+
   def next_at
     program_schedules.map(&:next_at).select(&:future?).min
+  end
+
+  def previous_at?
+    previous_at.present?
   end
 
   def next_at?
     next_at.present?
   end
 
-  def scheduled?
-    scheduled_jobs.any?
-  end
-
-  def scheduled_at
-    scheduled_jobs.first&.scheduled_at
-  end
-
-  def scheduled_at?
-    scheduled_at.present?
-  end
-
   def unschedule!
-    SolidQueue::ScheduledExecution.discard_all_from_jobs(scheduled_jobs)
-    scheduled_jobs.destroy_all
-    touch
+    update!(scheduled: false)
   end
 
-  def reschedule!
-    unschedule!
-    if next_at
-      perform_later(
-        ProgramEvaluateAndScheduleJob,
-        wait_until: next_at,
-        arguments: {
-          program: self
-        },
-        context: {
-          current_user: Current.user,
-          user: user,
-          program: self
-        }
-      )
-    end
-    touch
+  def schedule!
+    update!(scheduled: true)
   end
 
-  alias schedule! reschedule!
+  def scheduled_job
+    Job.where_program(self).where(class_name: "ProgramEvaluateJob").first
+  end
 
-  def scheduled_jobs
-    SolidQueue::Job.where(
-      <<~SQL.squish,
-          class_name = :class_name
-          AND
-          (
-            ((
-              ((
-                ((arguments::jsonb)->>'arguments')::jsonb
-              )->0)::jsonb
-            )->>'program')::jsonb
-          )->>'_aj_globalid' = :global_id
-      SQL
-      class_name: "ProgramEvaluateAndScheduleJob",
-      global_id: to_global_id.to_s
-    )
+  def scheduled_job?
+    !!scheduled_job
   end
 
   def input_sample

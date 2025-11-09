@@ -8,8 +8,11 @@ class ProgramExecution < ApplicationRecord
   scope(:in_progress, -> { where(status: :in_progress) })
   scope(:done, -> { where(status: :done) })
   scope(:errored, -> { where(status: :errored) })
-  scope(:generating, -> { where(status: %i[created in_progress]) })
-  scope(:not_generating, -> { where.not(status: %i[created in_progress]) })
+  scope(:generating, -> { where(status: %i[initialized created in_progress]) })
+  scope(
+    :not_generating,
+    -> { where.not(status: %i[initialized created in_progress]) }
+  )
   scope(:where_user, ->(user) { joins(:user).where(users: { id: user }) })
   scope(:where_program, ->(program) { where(program: program) })
 
@@ -20,7 +23,7 @@ class ProgramExecution < ApplicationRecord
   validate { can!(:update, program) }
   validates(:status, inclusion: { in: STATUSES })
 
-  after_create_commit { created! unless created? }
+  after_create_commit { created! if initialized? }
 
   def self.search_fields
     {
@@ -89,7 +92,7 @@ class ProgramExecution < ApplicationRecord
   end
 
   def generating?
-    created? || in_progress?
+    initialized? || created? || in_progress?
   end
 
   def not_generating?

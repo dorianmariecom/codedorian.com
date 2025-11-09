@@ -126,6 +126,7 @@ GEM
     date (3.5.0)
     did-you-mean (0.1.1)
       levenshtein (>= 0.2.0)
+    diff-lcs (1.6.2)
     dorian (2.6.8)
       csv
       dorian-arguments
@@ -469,6 +470,23 @@ GEM
       rainbow
       thor (>= 0.18.1, < 2.0)
       web-push
+    rspec-core (3.13.5)
+      rspec-support (~> 3.13.0)
+    rspec-expectations (3.13.5)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-mocks (3.13.5)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-rails (8.0.2)
+      actionpack (>= 7.2)
+      activesupport (>= 7.2)
+      railties (>= 7.2)
+      rspec-core (~> 3.13)
+      rspec-expectations (~> 3.13)
+      rspec-mocks (~> 3.13)
+      rspec-support (~> 3.13)
+    rspec-support (3.13.6)
     rubocop (1.81.6)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
@@ -664,6 +682,7 @@ DEPENDENCIES
   recaptcha
   redis
   rpush
+  rspec-rails
   rubocop-capybara
   rubocop-performance
   rubocop-rails

@@ -1,0 +1,4 @@
+---
+scheduling:
+  clsas: SchedulingJob
+  schedule: every second

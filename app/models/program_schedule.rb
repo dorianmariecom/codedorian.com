@@ -137,6 +137,12 @@ class ProgramSchedule < ApplicationRecord
     at
   end
 
+  def previous_at
+    return starts_at if once?
+
+    next_at - duration
+  end
+
   def default_starts_at
     Time.zone.now.beginning_of_hour + 1.hour
   end
