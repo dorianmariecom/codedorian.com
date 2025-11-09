@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class SchedulingProgramJob < ApplicationJob
-  queue_as :default
+  queue_as(:default)
 
-  limits_concurrency key: ->(program:) { program }
+  limits_concurrency(key: ->(program:) { program }, to: 1, duration: 10.minutes)
 
   def perform(program:)
     Current.with(user: program.user, program: program) do
