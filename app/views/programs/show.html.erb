@@ -29,6 +29,32 @@
 <% end %>
 
 <div class="p">
+  <div class="text-gray-600"><%= t(".scheduled") %></div>
+  <div class="font-bold"><%= @program.scheduled %></div>
+</div>
+
+<% if @program.starts_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".starts_at") %></div>
+    <div class="font-bold"><%= local_time(@program.starts_at) %></div>
+  </div>
+<% end %>
+
+<% if @program.previous_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".previous_at") %></div>
+    <div class="font-bold"><%= local_time(@program.previous_at) %></div>
+  </div>
+<% end %>
+
+<% if @program.next_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".next_at") %></div>
+    <div class="font-bold"><%= local_time(@program.next_at) %></div>
+  </div>
+<% end %>
+
+<div class="p">
   <div class="text-gray-600"><%= t(".updated_at") %></div>
   <div class="font-bold"><%= local_time(@program.updated_at) %></div>
 </div>
@@ -36,26 +62,6 @@
 <div class="p">
   <div class="text-gray-600"><%= t(".created_at") %></div>
   <div class="font-bold"><%= local_time(@program.created_at) %></div>
-</div>
-
-<div class="p">
-  <div class="text-gray-600"><%= t(".scheduled") %></div>
-  <div class="font-bold"><%= @program.scheduled %></div>
-</div>
-
-<div class="p">
-  <div class="text-gray-600"><%= t(".starts_at") %></div>
-  <div class="font-bold"><%= local_time(@program.starts_at) %></div>
-</div>
-
-<div class="p">
-  <div class="text-gray-600"><%= t(".previous_at") %></div>
-  <div class="font-bold"><%= local_time(@program.previous_at) %></div>
-</div>
-
-<div class="p">
-  <div class="text-gray-600"><%= t(".next_at") %></div>
-  <div class="font-bold"><%= local_time(@program.next_at) %></div>
 </div>
 
 <% if @program.scheduled? %>
