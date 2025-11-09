@@ -642,6 +642,9 @@ GEM
       base64
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    with_advisory_lock (7.0.2)
+      activerecord (>= 7.2)
+      zeitwerk (>= 2.7)
     yaml (0.4.0)
     zeitwerk (2.7.3)
     zxcvbn-ruby (1.2.0)
@@ -716,6 +719,7 @@ DEPENDENCIES
   tailwindcss-rails
   thruster (= 0.1.15)
   turbo-rails
+  with_advisory_lock
   zxcvbn-ruby
 
 RUBY VERSION
