@@ -11,6 +11,7 @@ class ProgramPromptSchedule < ApplicationRecord
     "10 minutes",
     "30 minutes",
     "1 hour",
+    "2 hours",
     "6 hours",
     "12 hours",
     "1 day",

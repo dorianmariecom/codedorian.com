@@ -115,6 +115,9 @@ en:
       verified: verified?
     update:
       notice: address updated
+  admin_mailer:
+    form_email:
+      subject: new form submission
   application:
     current_user_required: current user required
   attachments:

@@ -11,7 +11,8 @@ class Program < ApplicationRecord
   has_one(
     :program_execution,
     -> { order(created_at: :desc) },
-    dependent: :destroy
+    dependent: :destroy,
+    inverse_of: :program
   )
   has_many(:program_schedules, dependent: :destroy)
   has_many(:program_prompts, dependent: :destroy)
@@ -90,7 +91,7 @@ class Program < ApplicationRecord
     return false if program_execution&.generating?
     return false if starts_at > now
 
-    !program_execution || program_execution.created_at < previous_at
+    !program_execution || program_execution.created_at <= previous_at
   end
 
   def unscheduled?
