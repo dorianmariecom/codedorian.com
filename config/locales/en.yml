@@ -736,12 +736,8 @@ en:
       edit: edit message
       from_user: from user
       id: id
-      read: read
-      read_at_html: read at %{local_time}
       subject: subject
       to_user: to user
-      unread: unread
-      unread_at_html: unread at %{local_time}
       updated_at: updated at
     update:
       notice: message updated
@@ -1178,7 +1174,6 @@ en:
         one: 1 repl session
         other: "%{count} repl sessions"
         zero: 0 repl sessions
-      reschedule_all: reschedule all
       schedule_all: schedule all
       title: programs
       unschedule_all: unschedule all
@@ -1187,8 +1182,6 @@ en:
     new:
       submit: create program
       title: new program
-    reschedule:
-      notice: program rescheduled
     schedule:
       notice: program scheduled
     show:
@@ -1202,14 +1195,15 @@ en:
       new_program_prompt: new program prompt
       new_program_prompt_schedule: new program prompt schedule
       new_program_schedule: new program schedule
-      not_scheduled_html: would you like to schedule for %{local_time}?
+      next_at: next at
+      previous_at: previous at
       program_executions: program executions
       program_prompt_schedules: program prompt schedules
       program_prompts: program prompts
       program_schedules: program schedules
-      reschedule: reschedule
       schedule: schedule
-      scheduled_html: it's scheduled for %{local_time}
+      scheduled: scheduled
+      starts_at: starts at
       unschedule: unschedule
       updated_at: updated at
       user: user

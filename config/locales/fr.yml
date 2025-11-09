@@ -736,12 +736,8 @@ fr:
       edit: modifier le message
       from_user: de l'utilisateur
       id: identifiant
-      read: lire
-      read_at_html: lire à %{local_time}
       subject: sujet
       to_user: à l'utilisateur
-      unread: non lu
-      unread_at_html: non lu à %{local_time}
       updated_at: mis à jour à
     update:
       notice: message mis à jour
@@ -908,16 +904,16 @@ fr:
       updated_at: mis à jour à
   program_prompt_schedules:
     create:
-      notice: calendrier d'invite de programme créé
+      notice: horaire d'invite de programme créé
     destroy:
-      notice: programme d'invite de programme supprimé
+      notice: horaire d'invite de programme supprimé
     edit:
-      submit: programme de mise à jour du programme
-      title: modifier le programme d'invite de programmation
+      submit: horaire de mise à jour du programme
+      title: modifier l'horaire d'invite de programme
     index:
       delete_all: supprimer tout
       destroy_all: détruire tout
-      new: nouveau calendrier des invites du programme
+      new: nouvel horaire  d'invite de programmes
       title: horaires des invites du programme
     model:
       days:
@@ -941,7 +937,7 @@ fr:
         one: 1 seconde
         other: "%{count} secondes"
         zero: 0 seconde
-      to_s: programme_invite_calendrier#%{id}
+      to_s: programme_invite_horaire#%{id}
       weeks:
         one: 1 semaine
         other: "%{count} semaines"
@@ -951,13 +947,13 @@ fr:
         other: "%{count} ans"
         zero: 0 ans
     nested:
-      add: ajouter un programme d'invite de planification
+      add: ajouter un horaire d'invite de planification
     nested_form:
-      program_prompt_schedule: programme d'invite de programme
-      remove: supprimer l'invite du programme
+      program_prompt_schedule: horaire d'invite de programme
+      remove: supprimer l'horaire de l'invite du programme
     new:
-      submit: créer un calendrier d'invite de programme
-      title: nouveau calendrier des invites du programme
+      submit: créer un horaire d'invite de programme
+      title: nouvel horaire des invites du programme
     program_prompt_schedule:
       schedule_html: commence %{local_time}, se répète tous les %{interval}
       schedule_once_html: commence %{local_time}, ne se répète pas
@@ -975,7 +971,7 @@ fr:
       updated_at: mis à jour à
       user: utilisateur
     update:
-      notice: calendrier mis à jour
+      notice: horaire mis à jour
   program_prompts:
     destroy:
       notice: invite du programme supprimée
@@ -1010,9 +1006,9 @@ fr:
       new_program_prompt_schedule: nouvel horaire
       output: sortir
       output_input: sortie entrée
-      output_name: nom de sortie
+      output_name: sortie nom
       output_schedule: 'intervalle : %{interval}, commence à : %{starts_at}'
-      output_schedules: calendriers de sortie
+      output_schedules: sortie horaires
       program: programme
       program_prompt_schedules: horaires des invites du programme
       status: statut
@@ -1024,7 +1020,7 @@ fr:
     destroy:
       notice: horaire des programmes supprimée
     edit:
-      submit: mettre à jour le calendrier des programmes
+      submit: mettre à jour l'horaire des programmes
       title: modifier la horaire des programmes
     index:
       delete_all: supprimer tout
@@ -1116,7 +1112,7 @@ fr:
       updated_at: mis à jour à
       user: utilisateur
     update:
-      notice: calendrier mis à jour
+      notice: horaire mis à jour
   programs:
     create:
       notice: programme créé
@@ -1178,7 +1174,6 @@ fr:
         one: 1 terminal
         other: "%{count} terminaux"
         zero: 0 terminaux
-      reschedule_all: reprogrammer tout
       schedule_all: programmer tout
       title: programmes
       unschedule_all: déprogrammer tout
@@ -1187,8 +1182,6 @@ fr:
     new:
       submit: créer un programme
       title: nouveau programme
-    reschedule:
-      notice: programme reprogrammé
     schedule:
       notice: programme prévu
     show:
@@ -1200,16 +1193,17 @@ fr:
       input: saisir
       name: nom
       new_program_prompt: invite de nouveau programme
-      new_program_prompt_schedule: nouveau calendrier des invites du programme
+      new_program_prompt_schedule: nouveau horaire des invites du programme
       new_program_schedule: nouvelle horaire de programmes
-      not_scheduled_html: Souhaitez-vous planifier pour %{local_time} ?
+      next_at: prochain à
+      previous_at: précédent à
       program_executions: exécutions de programmes
       program_prompt_schedules: horaires des invites du programme
       program_prompts: invites du programme
       program_schedules: horaires de programmes
-      reschedule: reprogrammer
-      schedule: calendrier
-      scheduled_html: c'est prévu pour %{local_time}
+      schedule: programmer
+      scheduled: programmé
+      starts_at: commence à
       unschedule: déprogrammer
       updated_at: mis à jour à
       user: utilisateur

@@ -4,8 +4,8 @@ class SchedulingJob < ApplicationJob
   queue_as :default
 
   def perform
-    Program.for_each do |program|
-      SchedulingProgram.perform_later(program: program)
+    Program.find_each do |program|
+      SchedulingProgramJob.perform_later(program: program)
     end
   end
 end

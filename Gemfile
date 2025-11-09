@@ -5,6 +5,10 @@ source "https://rubygems.org"
 ruby "3.4.5"
 
 gem "thruster", "0.1.15" # port 80 vs 3000
+# invalid token https://github.com/seejohnrun/easy_translate/pull/60
+gem "easy_translate",
+    github: "will-gant/easy_translate",
+    branch: "breaking-api-change"
 
 gem "active_storage_validations"
 gem "bcrypt"
@@ -19,7 +23,6 @@ gem "dorian-arguments"
 gem "dorian-to_struct"
 gem "dotenv-rails"
 gem "down"
-gem "easy_translate"
 gem "faker"
 gem "heroicon"
 gem "http_accept_language"

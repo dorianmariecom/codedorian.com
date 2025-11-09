@@ -46,12 +46,10 @@ Rails.application.routes.draw do
       resources :programs do
         post :evaluate
         post :schedule
-        post :reschedule
         post :unschedule
 
         collection do
           patch "/schedule_all", to: "programs#schedule_all"
-          patch "/reschedule_all", to: "programs#reschedule_all"
           patch "/unschedule_all", to: "programs#unschedule_all"
           delete "/destroy_all", to: "programs#destroy_all"
           delete "/delete_all", to: "programs#delete_all"

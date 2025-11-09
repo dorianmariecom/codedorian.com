@@ -44,10 +44,6 @@ class Program < ApplicationRecord
     ApplicationRecord.transaction { find_each(&:schedule!) }
   end
 
-  def self.reschedule_all
-    ApplicationRecord.transaction { find_each(&:reschedule!) }
-  end
-
   def self.unschedule_all
     ApplicationRecord.transaction { find_each(&:unschedule!) }
   end

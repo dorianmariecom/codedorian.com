@@ -6,9 +6,6 @@ class AdminMailer < ApplicationMailer
     @interval = params[:interval]
     @email_address = params[:email_address]
 
-    mail(
-      to: "dorian@dorianmarie.com",
-      subject: t(".admin_mailer.form_email.subject")
-    )
+    mail(to: "dorian@dorianmarie.com", subject: t(".subject"))
   end
 end

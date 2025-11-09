@@ -38,25 +38,37 @@
   <div class="font-bold"><%= local_time(@program.created_at) %></div>
 </div>
 
-<% if @program.scheduled_at? %>
+<div class="p">
+  <div class="text-gray-600"><%= t(".scheduled") %></div>
+  <div class="font-bold"><%= @program.scheduled %></div>
+</div>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".starts_at") %></div>
+  <div class="font-bold"><%= local_time(@program.starts_at) %></div>
+</div>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".previous_at") %></div>
+  <div class="font-bold"><%= local_time(@program.previous_at) %></div>
+</div>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".next_at") %></div>
+  <div class="font-bold"><%= local_time(@program.next_at) %></div>
+</div>
+
+<% if @program.scheduled? %>
   <div class="p">
-    <%= t(".scheduled_html", local_time: local_time(@program.scheduled_at)) %>
     <%= render(
       "shared/confirm",
       text: t(".unschedule"),
       url: [*show_url, :unschedule],
       method: :post
     ) %>
-    <%= render(
-      "shared/confirm",
-      text: t(".reschedule"),
-      url: [*show_url, :reschedule],
-      method: :post
-    ) %>
   </div>
-<% elsif @program.next_at? %>
+<% else %>
   <div class="p">
-    <%= t(".not_scheduled_html", local_time: local_time(@program.next_at)) %>
     <%= render(
       "shared/confirm",
       text: t(".schedule"),

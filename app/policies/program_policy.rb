@@ -31,10 +31,6 @@ class ProgramPolicy < ApplicationPolicy
     owner? || admin?
   end
 
-  def reschedule?
-    owner? || admin?
-  end
-
   def unschedule?
     owner? || admin?
   end
@@ -44,10 +40,6 @@ class ProgramPolicy < ApplicationPolicy
   end
 
   def schedule_all?
-    true
-  end
-
-  def reschedule_all?
     true
   end
 

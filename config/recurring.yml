@@ -1,4 +1,4 @@
 ---
 scheduling:
-  clsas: SchedulingJob
+  class: SchedulingJob
   schedule: every second
