@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 class SchedulingJob < ApplicationJob
-  queue_as :default
+  queue_as(:default)
+
+  limits_concurrency(on_conflict: :discard)
 
   def perform
     Program.find_each do |program|
