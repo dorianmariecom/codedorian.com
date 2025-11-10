@@ -115,9 +115,6 @@ en:
       verified: verified?
     update:
       notice: address updated
-  admin_mailer:
-    form_email:
-      subject: new form submission
   application:
     current_user_required: current user required
   attachments:
@@ -189,8 +186,6 @@ en:
       edit: edit
       index: examples
       new: new
-    forms:
-      show: form
     guests:
       edit: edit
       index: guests
@@ -462,32 +457,6 @@ en:
       title: examples
     show:
       title: not found
-  forms:
-    show:
-      email_address: email address
-      email_address_placeholder: enter your email address
-      intro: i want a program that sends me
-      options:
-      - the "day of" (international day, mondial day, etc.)
-      - birthdays
-      - github notifications (for programmers)
-      - holidays
-      - humoristic images (google, reddit, twitter, etc.)
-      - mirror hours (9:09am, 11:11pm, etc.)
-      - news (world, country, state, region, city, etc.)
-      - random fact (historic, scientific, general, etc.)
-      - random joke
-      - random positive sentence
-      - random questions with their answers
-      - random quote
-      - random speaking order (to speak each at their turn)
-      - random word from the dictionnary with definition and examples
-      - school holidays
-      - tv program of a channel (tf1, france 2, kto, etc.)
-      - video game discounts (steam -70% minimum for instance)
-      - weather
-      submit: ask
-      title: form
   guests:
     index:
       delete_all: delete all
@@ -1489,10 +1458,13 @@ en:
           the sentences are pretty, soothing, and positive
       - author: vincent
         content: |
-          the code works very well for reddit and google jokes
-          great ease of use
-          a very good presentation
-          use is simplified for the user
+          code works very well for reddit and google jokes
+          very easy to use
+          excellent presentation
+          simplified for the user
+          intuitive to use
+          immediate handling and suitable for all audiences
+          optimal ease of use
       - author: anthony
         content: |
           you want to schedule messages

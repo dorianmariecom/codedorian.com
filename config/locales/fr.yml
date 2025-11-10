@@ -115,9 +115,6 @@ fr:
       verified: vérifié ?
     update:
       notice: adresse mise à jour
-  admin_mailer:
-    form_email:
-      subject: nouvelle submission de formulaire
   application:
     current_user_required: utilisateur actuel requis
   attachments:
@@ -189,8 +186,6 @@ fr:
       edit: modifier
       index: exemples
       new: nouveau
-    forms:
-      show: formulaire
     guests:
       edit: modifier
       index: invités
@@ -462,32 +457,6 @@ fr:
       title: exemples
     show:
       title: non trouvé
-  forms:
-    show:
-      email_address: adresse e-mail
-      email_address_placeholder: entrez votre adresse e-mail
-      intro: je veux un programme qui m'envoie
-      options:
-      - la "journée de" (journée internationale, journée mondiale, etc.)
-      - des images humoristiques (google, reddit, twitter, etc.)
-      - des questions alétoires avec leurs réponses
-      - l'actualité (mondiale, pays, région, département, ville, etc.)
-      - la météo
-      - le programme tv d'une chaîne (tf1, france 2, kto, etc.)
-      - les anniversaires
-      - les heures mirroirs (9h09, 16h16, etc.)
-      - les jours fériés
-      - les notifications de tests sur github (pour les programmeurs)
-      - les réductions de jeux vidéos (steam -70% minimum par exemple)
-      - les vacances scolaires
-      - un fait aléatoire (historique, scienfitique, général, etc.)
-      - un mot aléatoire du dictionnaire avec définition et exemples
-      - un ordre de parole aléatoire (pour parler à tour de rôle)
-      - une blague aléatoire
-      - une citation aléatoire
-      - une phrase positive aléatoire
-      submit: demander
-      title: formulaire
   guests:
     index:
       delete_all: supprimer tout
@@ -1493,6 +1462,9 @@ fr:
           grande facilité d’utilisation
           une très bonne présentation
           l’utilisation est simplifiée pour l’utilisateur
+          utilisation intuitive
+          prise en main immédiate et adaptée pour tout type de public
+          facilité d'utilisation optimale.
       - author: anthony
         content: |
           vous voulez programmer des messages
