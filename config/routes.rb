@@ -367,6 +367,7 @@ Rails.application.routes.draw do
     get :ios, to: "static#ios"
     get :android, to: "static#android"
     get :download, to: "static#download"
+    get :form, to: "static#form"
 
     resources :configurations do
       get :ios_v2, on: :collection

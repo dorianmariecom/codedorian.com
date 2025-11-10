@@ -258,6 +258,7 @@ en:
       index: sessions
       new: new
     static:
+      form: form
       about: about
       android: android
       download: download

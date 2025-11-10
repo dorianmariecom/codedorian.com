@@ -36,4 +36,8 @@ class StaticPolicy < ApplicationPolicy
   def download?
     true
   end
+
+  def form?
+    true
+  end
 end
