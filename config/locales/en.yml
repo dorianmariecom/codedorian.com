@@ -258,10 +258,10 @@ en:
       index: sessions
       new: new
     static:
-      form: form
       about: about
       android: android
       download: download
+      form: form
       home: home
       icons: icons
       ios: ios

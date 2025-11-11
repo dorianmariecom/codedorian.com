@@ -1,0 +1,7 @@
+---
+dispatchers:
+- batch_size: 500
+  polling_interval: 0.1
+workers:
+- queues: "*"
+  threads: <%= Integer(ENV.fetch("SOLID_QUEUE_THREADS", 3)) %>

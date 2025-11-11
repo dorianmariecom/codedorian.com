@@ -3,6 +3,7 @@ development:
   adapter: postgresql
   database: code_development
 production:
+  pool: <%= Integer(ENV.fetch("DATABASE_POOL", 10)) %>
   url: <%= ENV.fetch("DATABASE_URL", "postgres:///code_production") %>
 test:
   adapter: postgresql
