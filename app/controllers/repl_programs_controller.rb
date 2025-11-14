@@ -53,6 +53,10 @@ class ReplProgramsController < ApplicationController
               repl_session: @repl_session,
               repl_program: @repl_program,
               repl_prompt: @repl_prompt
+            },
+            current: {
+              user: current_user,
+              repl_program: @repl_program
             }
           )
         else
@@ -74,6 +78,10 @@ class ReplProgramsController < ApplicationController
             current_user: current_user,
             user: @user,
             repl_session: @repl_session,
+            repl_program: @repl_program
+          },
+          current: {
+            user: current_user,
             repl_program: @repl_program
           }
         )
@@ -105,6 +113,10 @@ class ReplProgramsController < ApplicationController
               repl_session: @repl_session,
               repl_program: @repl_program,
               repl_prompt: @repl_prompt
+            },
+            current: {
+              user: current_user,
+              repl_program: @repl_program
             }
           )
         else
@@ -122,6 +134,10 @@ class ReplProgramsController < ApplicationController
             current_user: current_user,
             user: @user,
             repl_session: @repl_session,
+            repl_program: @repl_program
+          },
+          current: {
+            user: current_user,
             repl_program: @repl_program
           }
         )

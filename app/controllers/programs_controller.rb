@@ -48,6 +48,10 @@ class ProgramsController < ApplicationController
         current_user: current_user,
         user: @user,
         program: @program
+      },
+      current: {
+        user: current_user,
+        program: @program
       }
     )
 
@@ -98,6 +102,10 @@ class ProgramsController < ApplicationController
               user: @user,
               program: @program,
               program_prompt: @program_prompt
+            },
+            current: {
+              user: current_user,
+              program: @program
             }
           )
         else
@@ -134,6 +142,10 @@ class ProgramsController < ApplicationController
               user: @user,
               program: @program,
               program_prompt: @program_prompt
+            },
+            current: {
+              user: current_user,
+              program: @program
             }
           )
         else

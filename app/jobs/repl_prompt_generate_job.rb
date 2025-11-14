@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-class ReplPromptGenerateJob < ApplicationJob
+class ReplPromptGenerateJob < ContextJob
   queue_as :default
 
-  def perform(repl_prompt:)
-    Current.with(user: repl_prompt.user) { repl_prompt.generate! }
+  def perform_with_context(repl_prompt:)
+    repl_prompt.generate!
   end
 end

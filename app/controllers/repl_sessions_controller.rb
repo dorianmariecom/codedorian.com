@@ -24,6 +24,9 @@ class ReplSessionsController < ApplicationController
         current_user: current_user,
         user: @user,
         repl_session: @repl_session
+      },
+      current: {
+        user: current_user
       }
     )
 

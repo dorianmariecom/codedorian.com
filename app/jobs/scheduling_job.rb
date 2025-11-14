@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-class SchedulingJob < ApplicationJob
+class SchedulingJob < ContextJob
   queue_as(:default)
 
   limits_concurrency(key: "SchedulingJob", on_conflict: :discard)
 
-  def perform
+  def perform_with_context
     Program.find_each do |program|
       perform_later(
         SchedulingProgramJob,
@@ -13,6 +13,10 @@ class SchedulingJob < ApplicationJob
           program: program
         },
         context: {
+          user: program.user,
+          program: program
+        },
+        current: {
           user: program.user,
           program: program
         }

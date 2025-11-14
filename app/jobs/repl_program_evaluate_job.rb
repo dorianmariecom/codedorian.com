@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-class ReplProgramEvaluateJob < ApplicationJob
+class ReplProgramEvaluateJob < ContextJob
   queue_as :default
 
-  def perform(repl_program:)
-    Current.with(user: repl_program.user) { repl_program.evaluate! }
+  def perform_with_context(repl_program:)
+    repl_program.evaluate!
   end
 end
