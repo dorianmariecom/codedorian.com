@@ -7,7 +7,16 @@ class SchedulingJob < ApplicationJob
 
   def perform
     Program.find_each do |program|
-      SchedulingProgramJob.perform_later(program: program)
+      perform_later(
+        SchedulingProgramJob,
+        arguments: {
+          program: program
+        },
+        context: {
+          user: program.user,
+          program: program
+        }
+      )
     end
   end
 end
