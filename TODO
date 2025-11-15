@@ -1,11 +1,3 @@
-- better french translations
-
-- scheduling
-
-- Html.tag e.g. Html.tag(:a, "google", href: "https://google.com")
-
-- error context for jobs
-- scheduled jobs from job context
 - safe insert_recaptcha_tag
 - code-ruby should tranform timeouts into code::error
 
@@ -31,9 +23,11 @@
 - job contexts crud
 - logs crud
 
-- better stack logs
-- better stack traces
-- better stack events
-- better stack metrics
+- logs
+- traces
+- events
+- metrics
 
 - versions
+
+- html

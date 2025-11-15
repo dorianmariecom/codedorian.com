@@ -6,21 +6,21 @@ class SchedulingProgramJob < ContextJob
   limits_concurrency(key: ->(program:) { program }, on_conflict: :discard)
 
   def perform_with_context(program:)
-    if program.scheduled_now?
-      perform_later(
-        ProgramEvaluateJob,
-        arguments: {
-          program: program
-        },
-        context: {
-          user: program.user,
-          program: program
-        },
-        current: {
-          user: program.user,
-          program: program
-        }
-      )
-    end
+    return unless program.scheduled_now?
+
+    perform_later(
+      ProgramEvaluateJob,
+      arguments: {
+        program: program
+      },
+      context: {
+        user: program.user,
+        program: program
+      },
+      current: {
+        user: program.user,
+        program: program
+      }
+    )
   end
 end
