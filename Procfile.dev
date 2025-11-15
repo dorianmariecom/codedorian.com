@@ -2,3 +2,4 @@ web: bin/web
 css: bin/css
 cloud: bin/cloud
 push: bin/push
+jobs: bin/jobs
