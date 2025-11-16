@@ -32,7 +32,7 @@ class DataController < ApplicationController
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @datum.alert
-      render(:new, status: :unprocessable_entity)
+      render(:new, status: :unprocessable_content)
     end
   end
 
@@ -44,7 +44,7 @@ class DataController < ApplicationController
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @datum.alert
-      render(:edit, status: :unprocessable_entity)
+      render(:edit, status: :unprocessable_content)
     end
   end
 

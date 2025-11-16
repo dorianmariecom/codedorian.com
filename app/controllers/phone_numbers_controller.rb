@@ -35,7 +35,7 @@ class PhoneNumbersController < ApplicationController
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @phone_number.alert
-      render(:new, status: :unprocessable_entity)
+      render(:new, status: :unprocessable_content)
     end
   end
 
@@ -45,7 +45,7 @@ class PhoneNumbersController < ApplicationController
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @phone_number.alert
-      render(:edit, status: :unprocessable_entity)
+      render(:edit, status: :unprocessable_content)
     end
   end
 

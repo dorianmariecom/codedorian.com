@@ -40,14 +40,14 @@ class DevicesController < ApplicationController
       respond_to do |format|
         format.html do
           flash.now.alert = @device.alert
-          render(:new, status: :unprocessable_entity)
+          render(:new, status: :unprocessable_content)
         end
         format.json do
           render(
             json: {
               message: @device.alert
             },
-            status: :unprocessable_entity
+            status: :unprocessable_content
           )
         end
       end
@@ -60,7 +60,7 @@ class DevicesController < ApplicationController
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @device.alert
-      render(:edit, status: :unprocessable_entity)
+      render(:edit, status: :unprocessable_content)
     end
   end
 

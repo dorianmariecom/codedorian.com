@@ -89,7 +89,7 @@ class ReplProgramsController < ApplicationController
       end
     else
       flash.now.alert = @repl_program.alert
-      render(:new, status: :unprocessable_entity)
+      render(:new, status: :unprocessable_content)
     end
   end
 
@@ -145,7 +145,7 @@ class ReplProgramsController < ApplicationController
       end
     else
       flash.now.alert = @repl_program.alert
-      render(:edit, status: :unprocessable_entity)
+      render(:edit, status: :unprocessable_content)
     end
   end
 

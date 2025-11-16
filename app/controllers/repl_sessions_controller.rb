@@ -64,7 +64,7 @@ class ReplSessionsController < ApplicationController
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @repl_session.alert
-      render(:new, status: :unprocessable_entity)
+      render(:new, status: :unprocessable_content)
     end
   end
 
@@ -74,7 +74,7 @@ class ReplSessionsController < ApplicationController
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @repl_session.alert
-      render(:edit, status: :unprocessable_entity)
+      render(:edit, status: :unprocessable_content)
     end
   end
 
