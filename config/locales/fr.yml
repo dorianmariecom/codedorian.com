@@ -1473,6 +1473,11 @@ fr:
           cette app est nickel pour ça
           facile à utiliser
           tous les programmes sont enregistrés et facilement accessibles
+      - author: maman
+        content: |
+          J’aime beaucoup mes programmes
+          questions / réponses et les journées mondiales qui me renseignent
+          et me donnent l’opportunité de partager ce savoir
       register: s'inscrire
       title: code
     icons:

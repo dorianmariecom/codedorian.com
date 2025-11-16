@@ -1473,6 +1473,11 @@ en:
           this app is perfect for that
           easy to use
           all programs are saved and easily accessible
+      - author: mom
+        content: |
+          I really like my programs,
+          questions/answers, and world days that inform me
+          and give me the opportunity to share this knowledge
       register: register
       title: code
     icons:
