@@ -37,7 +37,7 @@ class EmailAddressesController < ApplicationController
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @email_address.alert
-      render(:new, status: :unprocessable_entity)
+      render(:new, status: :unprocessable_content)
     end
   end
 
@@ -47,7 +47,7 @@ class EmailAddressesController < ApplicationController
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @email_address.alert
-      render(:edit, status: :unprocessable_entity)
+      render(:edit, status: :unprocessable_content)
     end
   end
 

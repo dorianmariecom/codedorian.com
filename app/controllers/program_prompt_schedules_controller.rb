@@ -41,7 +41,7 @@ class ProgramPromptSchedulesController < ApplicationController
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @program_prompt_schedule.alert
-      render(:new, status: :unprocessable_entity)
+      render(:new, status: :unprocessable_content)
     end
   end
 
@@ -51,7 +51,7 @@ class ProgramPromptSchedulesController < ApplicationController
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @program_prompt_schedule.alert
-      render(:edit, status: :unprocessable_entity)
+      render(:edit, status: :unprocessable_content)
     end
   end
 

@@ -93,9 +93,9 @@ class ErrorsController < ApplicationController
 
     respond_to do |format|
       format.json do
-        render(json: { message: @message }, status: :unprocessable_entity)
+        render(json: { message: @message }, status: :unprocessable_content)
       end
-      format.html { render(status: :unprocessable_entity) }
+      format.html { render(status: :unprocessable_content) }
       format.any { redirect_to(root_path, alert: @message) }
     end
   end

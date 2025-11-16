@@ -118,7 +118,7 @@ class ProgramsController < ApplicationController
       end
     else
       flash.now.alert = @program.alert
-      render(:new, status: :unprocessable_entity)
+      render(:new, status: :unprocessable_content)
     end
   end
 
@@ -158,7 +158,7 @@ class ProgramsController < ApplicationController
       end
     else
       flash.now.alert = @program.alert
-      render(:edit, status: :unprocessable_entity)
+      render(:edit, status: :unprocessable_content)
     end
   end
 
