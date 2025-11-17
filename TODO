@@ -1,4 +1,3 @@
-- safe insert_recaptcha_tag
 - code-ruby should tranform timeouts into code::error
 
 - filters

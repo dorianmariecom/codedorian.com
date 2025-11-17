@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class SchedulingProgramJob < ContextJob
-  queue_as(:default)
+  queue_as(:scheduling)
 
   limits_concurrency(key: ->(program:, **) { program }, on_conflict: :discard)
 

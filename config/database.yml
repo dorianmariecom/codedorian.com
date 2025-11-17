@@ -2,9 +2,11 @@
 development:
   adapter: postgresql
   database: code_development
+  pool: <%= Integer(ENV.fetch("DATABASE_POOL", 200)) %>
 production:
-  pool: <%= Integer(ENV.fetch("DATABASE_POOL", 10)) %>
+  pool: <%= Integer(ENV.fetch("DATABASE_POOL", 200)) %>
   url: <%= ENV.fetch("DATABASE_URL", "postgres:///code_production") %>
 test:
   adapter: postgresql
   database: code_test
+  pool: <%= Integer(ENV.fetch("DATABASE_POOL", 200)) %>
