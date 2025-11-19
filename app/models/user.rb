@@ -65,6 +65,11 @@ class User < ApplicationRecord
         relation: ->(scope) { scope.left_joins(:user) },
         type: :integer
       },
+      "user:description": {
+        node: -> { User.arel_table[:description] },
+        relation: ->(scope) { scope.left_joins(:user) },
+        type: :string
+      },
       "user:admin": {
         node: -> { User.arel_table[:admin] },
         relation: ->(scope) { scope.left_joins(:user) },

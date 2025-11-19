@@ -1412,6 +1412,8 @@ fr:
     search:
       placeholder: saisissez votre requête de recherche
       submit: recherche
+      user: utilisateur
+      all: tous
   static:
     about:
       about_html: |

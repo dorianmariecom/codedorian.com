@@ -96,6 +96,11 @@ class Message < ApplicationRecord
         relation: ->(scope) { scope.left_joins_from_users },
         type: :integer
       },
+      "from_user:description": {
+        node: -> { from_user_table[:description] },
+        relation: ->(scope) { scope.left_joins_from_users },
+        type: :integer
+      },
       "from_user:admin": {
         node: -> { from_user_table[:admin] },
         relation: ->(scope) { scope.left_joins_from_users },
@@ -118,6 +123,11 @@ class Message < ApplicationRecord
       },
       "to_user:id": {
         node: -> { to_user_table[:id] },
+        relation: ->(scope) { scope.left_joins_to_users },
+        type: :integer
+      },
+      "to_user:description": {
+        node: -> { to_user_table[:description] },
         relation: ->(scope) { scope.left_joins_to_users },
         type: :integer
       },

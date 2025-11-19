@@ -1412,6 +1412,8 @@ en:
     search:
       placeholder: enter your search query
       submit: search
+      user: user
+      all: all
   static:
     about:
       about_html: |

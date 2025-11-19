@@ -43,6 +43,8 @@ class ApplicationController < ActionController::Base
   helper_method(:search_params)
   helper_method(:resources_name)
   helper_method(:resource_name)
+  helper_method(:model_class)
+  helper_method(:model_instance)
 
   REDIRECT_ERROR =
     lambda do |error|
