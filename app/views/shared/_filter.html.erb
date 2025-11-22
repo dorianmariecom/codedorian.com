@@ -18,7 +18,7 @@ elsif filter == :error
   scope = policy_scope(::Error)
   scope = scope.where_user(@user) if @user
 else
-  raise(NotImplementedError, 'filter "#{filter}" not implemented')
+  raise(NotImplementedError, "filter #{filter.inspect} not implemented")
 end %>
 
 <div data-controller="filter">
