@@ -156,15 +156,11 @@ class ErrorsController < ApplicationController
     scope = scope.where_program(@program) if @program
     scope = scope.where_program_schedule(@program_schedule) if @program_schedule
     if @program_execution
-      scope =
-        scope.where_program_execution(@program_execution)
+      scope = scope.where_program_execution(@program_execution)
     end
     scope = scope.where_program_prompt(@program_prompt) if @program_prompt
     if @program_prompt_schedule
-      scope =
-        scope.where_program_prompt_schedule(
-          @program_prompt_schedule
-        )
+      scope = scope.where_program_prompt_schedule(@program_prompt_schedule)
     end
     scope = scope.where_repl_session(@repl_session) if @repl_session
     scope = scope.where_repl_program(@repl_program) if @repl_program
@@ -192,15 +188,11 @@ class ErrorsController < ApplicationController
     scope = scope.where_program(@program) if @program
     scope = scope.where_program_schedule(@program_schedule) if @program_schedule
     if @program_execution
-      scope =
-        scope.where_program_execution(@program_execution)
+      scope = scope.where_program_execution(@program_execution)
     end
     scope = scope.where_program_prompt(@program_prompt) if @program_prompt
     if @program_prompt_schedule
-      scope =
-        scope.where_program_prompt_schedule(
-          @program_prompt_schedule
-        )
+      scope = scope.where_program_prompt_schedule(@program_prompt_schedule)
     end
     scope = scope.where_repl_session(@repl_session) if @repl_session
     scope = scope.where_repl_program(@repl_program) if @repl_program
