@@ -1363,13 +1363,32 @@ fr:
       modal_confirm: Oui
       modal_title: êtes-vous sûr?
     filter:
+      address: adresse
       all: tous
+      attachment: fichier
+      datum: donnée
+      device: appareil
+      email_address: adresse e-mail
       error: erreur
+      error_occurrence: occurrence d'erreur
+      guest: invité
+      handle: identifiant
+      job: tâche
+      message: message
+      name: nom
+      password: mot de passe
+      phone_number: numéro de téléphone
       program: programme
+      program_execution: éxécution de programme
       program_prompt: invite de programme
+      program_prompt_schedule: horaire d'invite de programme
+      program_schedule: horaire de programme
+      repl_execution: éxécution de terminal
       repl_program: programme de terminal
       repl_prompt: invite de terminal
       repl_session: terminal
+      time_zone: fuseau horaire
+      token: jeton
       user: utilisateur
     list:
       addresses: adresses

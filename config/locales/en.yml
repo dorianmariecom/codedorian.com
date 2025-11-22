@@ -1363,13 +1363,32 @@ en:
       modal_confirm: 'yes'
       modal_title: are you sure?
     filter:
+      address: address
       all: all
+      attachment: file
+      datum: datum
+      device: device
+      email_address: email address
       error: error
+      error_occurrence: error occurrence
+      guest: guest
+      handle: handle
+      job: job
+      message: message
+      name: name
+      password: password
+      phone_number: phone_number
       program: program
+      program_execution: program execution
       program_prompt: program prompt
+      program_prompt_schedule: program prompt schedule
+      program_schedule: program schedule
+      repl_execution: repl execution
       repl_program: repl program
       repl_prompt: repl prompt
       repl_session: repl session
+      time_zone: time zone
+      token: token
       user: user
     list:
       addresses: addresses

@@ -7,6 +7,30 @@ class AdminConstraints
 end
 
 Rails.application.routes.draw do
+  define_errors =
+    lambda do
+      resources(:errors) do
+        collection do
+          delete "/destroy_all", to: "errors#destroy_all"
+          delete "/delete_all", to: "errors#delete_all"
+        end
+
+        resources(:error_occurrences) do
+          collection do
+            delete "/destroy_all", to: "error_occurrences#destroy_all"
+            delete "/delete_all", to: "error_occurrences#delete_all"
+          end
+        end
+      end
+
+      resources(:error_occurrences) do
+        collection do
+          delete "/destroy_all", to: "error_occurrences#destroy_all"
+          delete "/delete_all", to: "error_occurrences#delete_all"
+        end
+      end
+    end
+
   define_jobs =
     lambda do
       resources(:jobs) do
@@ -21,6 +45,8 @@ Rails.application.routes.draw do
         delete :destroy
         post :discard
         post :retry
+
+        define_errors.call
       end
     end
 
@@ -31,6 +57,8 @@ Rails.application.routes.draw do
           delete "/destroy_all", to: "data#destroy_all"
           delete "/delete_all", to: "data#delete_all"
         end
+
+        define_errors.call
       end
 
       resources :attachments, path: "/files" do
@@ -41,6 +69,8 @@ Rails.application.routes.draw do
           delete "/destroy_all", to: "attachments#destroy_all"
           delete "/delete_all", to: "attachments#delete_all"
         end
+
+        define_errors.call
       end
 
       resources :programs do
@@ -66,8 +96,11 @@ Rails.application.routes.draw do
               delete "/destroy_all", to: "program_prompt_schedules#destroy_all"
               delete "/delete_all", to: "program_prompt_schedules#delete_all"
             end
+
+            define_errors.call
           end
 
+          define_errors.call
           define_jobs.call
         end
 
@@ -76,6 +109,8 @@ Rails.application.routes.draw do
             delete "/destroy_all", to: "program_executions#destroy_all"
             delete "/delete_all", to: "program_executions#delete_all"
           end
+
+          define_errors.call
         end
 
         resources(:program_schedules) do
@@ -83,6 +118,8 @@ Rails.application.routes.draw do
             delete "/destroy_all", to: "program_schedules#destroy_all"
             delete "/delete_all", to: "program_schedules#delete_all"
           end
+
+          define_errors.call
         end
 
         resources(:program_prompt_schedules) do
@@ -90,8 +127,11 @@ Rails.application.routes.draw do
             delete "/destroy_all", to: "program_prompt_schedules#destroy_all"
             delete "/delete_all", to: "program_prompt_schedules#delete_all"
           end
+
+          define_errors.call
         end
 
+        define_errors.call
         define_jobs.call
       end
 
@@ -109,6 +149,7 @@ Rails.application.routes.draw do
             delete "/delete_all", to: "repl_prompts#delete_all"
           end
 
+          define_errors.call
           define_jobs.call
         end
 
@@ -125,6 +166,7 @@ Rails.application.routes.draw do
             end
 
             define_jobs.call
+            define_errors.call
           end
 
           resources(:repl_executions) do
@@ -132,8 +174,11 @@ Rails.application.routes.draw do
               delete "/destroy_all", to: "repl_executions#destroy_all"
               delete "/delete_all", to: "repl_executions#delete_all"
             end
+
+            define_errors.call
           end
 
+          define_errors.call
           define_jobs.call
         end
 
@@ -142,8 +187,11 @@ Rails.application.routes.draw do
             delete "/destroy_all", to: "repl_executions#destroy_all"
             delete "/delete_all", to: "repl_executions#delete_all"
           end
+
+          define_errors.call
         end
 
+        define_errors.call
         define_jobs.call
       end
 
@@ -159,6 +207,7 @@ Rails.application.routes.draw do
             delete "/delete_all", to: "repl_prompts#delete_all"
           end
 
+          define_errors.call
           define_jobs.call
         end
 
@@ -167,8 +216,11 @@ Rails.application.routes.draw do
             delete "/destroy_all", to: "repl_executions#destroy_all"
             delete "/delete_all", to: "repl_executions#delete_all"
           end
+
+          define_errors.call
         end
 
+        define_errors.call
         define_jobs.call
       end
 
@@ -177,6 +229,8 @@ Rails.application.routes.draw do
           delete "/destroy_all", to: "repl_executions#destroy_all"
           delete "/delete_all", to: "repl_executions#delete_all"
         end
+
+        define_errors.call
       end
 
       resources :email_addresses do
@@ -184,6 +238,8 @@ Rails.application.routes.draw do
           delete "/destroy_all", to: "email_addresses#destroy_all"
           delete "/delete_all", to: "email_addresses#delete_all"
         end
+
+        define_errors.call
       end
 
       resources :phone_numbers do
@@ -191,6 +247,8 @@ Rails.application.routes.draw do
           delete "/destroy_all", to: "phone_numbers#destroy_all"
           delete "/delete_all", to: "phone_numbers#delete_all"
         end
+
+        define_errors.call
       end
 
       resources(:program_executions) do
@@ -198,6 +256,8 @@ Rails.application.routes.draw do
           delete "/destroy_all", to: "program_executions#destroy_all"
           delete "/delete_all", to: "program_executions#delete_all"
         end
+
+        define_errors.call
       end
 
       resources(:time_zones) do
@@ -205,6 +265,8 @@ Rails.application.routes.draw do
           delete "/destroy_all", to: "time_zones#destroy_all"
           delete "/delete_all", to: "time_zones#delete_all"
         end
+
+        define_errors.call
       end
 
       resources(:passwords) do
@@ -212,6 +274,8 @@ Rails.application.routes.draw do
           delete "/destroy_all", to: "passwords#destroy_all"
           delete "/delete_all", to: "passwords#delete_all"
         end
+
+        define_errors.call
       end
 
       resources(:program_schedules) do
@@ -219,6 +283,8 @@ Rails.application.routes.draw do
           delete "/destroy_all", to: "program_schedules#destroy_all"
           delete "/delete_all", to: "program_schedules#delete_all"
         end
+
+        define_errors.call
       end
 
       resources(:devices) do
@@ -226,6 +292,8 @@ Rails.application.routes.draw do
           delete "/destroy_all", to: "devices#destroy_all"
           delete "/delete_all", to: "devices#delete_all"
         end
+
+        define_errors.call
       end
 
       resources(:messages) do
@@ -237,6 +305,8 @@ Rails.application.routes.draw do
           delete "/destroy_all", to: "messages#destroy_all"
           delete "/delete_all", to: "messages#delete_all"
         end
+
+        define_errors.call
       end
 
       resources(:handles) do
@@ -244,6 +314,8 @@ Rails.application.routes.draw do
           delete "/destroy_all", to: "handles#destroy_all"
           delete "/delete_all", to: "handles#delete_all"
         end
+
+        define_errors.call
       end
 
       resources(:addresses) do
@@ -251,27 +323,8 @@ Rails.application.routes.draw do
           delete "/destroy_all", to: "addresses#destroy_all"
           delete "/delete_all", to: "addresses#delete_all"
         end
-      end
 
-      resources(:errors) do
-        collection do
-          delete "/destroy_all", to: "errors#destroy_all"
-          delete "/delete_all", to: "errors#delete_all"
-        end
-
-        resources(:error_occurrences) do
-          collection do
-            delete "/destroy_all", to: "error_occurrences#destroy_all"
-            delete "/delete_all", to: "error_occurrences#delete_all"
-          end
-        end
-      end
-
-      resources(:error_occurrences) do
-        collection do
-          delete "/destroy_all", to: "error_occurrences#destroy_all"
-          delete "/delete_all", to: "error_occurrences#delete_all"
-        end
+        define_errors.call
       end
 
       resources(:guests) do
@@ -279,6 +332,8 @@ Rails.application.routes.draw do
           delete "/destroy_all", to: "guests#destroy_all"
           delete "/delete_all", to: "guests#delete_all"
         end
+
+        define_errors.call
       end
 
       resources(:names) do
@@ -286,6 +341,8 @@ Rails.application.routes.draw do
           delete "/destroy_all", to: "names#destroy_all"
           delete "/delete_all", to: "names#delete_all"
         end
+
+        define_errors.call
       end
 
       resources(:tokens) do
@@ -293,6 +350,8 @@ Rails.application.routes.draw do
           delete "/destroy_all", to: "tokens#destroy_all"
           delete "/delete_all", to: "tokens#delete_all"
         end
+
+        define_errors.call
       end
 
       resources(:program_prompt_schedules) do
@@ -300,6 +359,8 @@ Rails.application.routes.draw do
           delete "/destroy_all", to: "program_prompt_schedules#destroy_all"
           delete "/delete_all", to: "program_prompt_schedules#delete_all"
         end
+
+        define_errors.call
       end
 
       resources(:program_prompts) do
@@ -313,8 +374,11 @@ Rails.application.routes.draw do
             delete "/destroy_all", to: "program_prompt_schedules#destroy_all"
             delete "/delete_all", to: "program_prompt_schedules#delete_all"
           end
+
+          define_errors.call
         end
 
+        define_errors.call
         define_jobs.call
       end
 
@@ -324,9 +388,11 @@ Rails.application.routes.draw do
           delete "/delete_all", to: "repl_prompts#delete_all"
         end
 
+        define_errors.call
         define_jobs.call
       end
 
+      define_errors.call
       define_jobs.call
     end
 
