@@ -149,7 +149,11 @@ class ErrorsController < ApplicationController
     @error
   end
 
-  def nested
-    [@user]
+  def nested(user: @user)
+    [user]
+  end
+
+  def filters
+    [:user]
   end
 end

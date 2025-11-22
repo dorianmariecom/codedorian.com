@@ -1144,6 +1144,7 @@ fr:
         one: 1 terminal
         other: "%{count} terminaux"
         zero: 0 terminaux
+      repl_sessions_link: terminaux
       schedule_all: programmer tout
       title: programmes
       unschedule_all: déprogrammer tout
@@ -1361,6 +1362,14 @@ fr:
       modal_cancel: Non
       modal_confirm: Oui
       modal_title: êtes-vous sûr?
+    filter:
+      all: tous
+      error: erreur
+      program: programme
+      program_prompt: invite de programme
+      repl_program: programme de terminal
+      repl_session: terminal
+      user: utilisateur
     list:
       addresses: adresses
       attachments: fichiers
@@ -1412,8 +1421,6 @@ fr:
     search:
       placeholder: saisissez votre requête de recherche
       submit: recherche
-      user: utilisateur
-      all: tous
   static:
     about:
       about_html: |

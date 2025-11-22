@@ -1,5 +1,4 @@
 <% q = params.dig(:search, :q).presence %>
-<% search_fields = model_class.search_fields %>
 
 <% if hotwire_native_app? %>
   <div data-controller="bridge--search">
@@ -26,30 +25,6 @@
   </div>
 <% end %>
 
-<% if model_class != User && policy_scope(User).many? %>
-  <div data-controller="filter">
-    <form data-filter-target="form" data-action="filter#select:prevent">
-      <div class="p">
-        <%= label_tag("search[filter][user_id]", t(".user"), class: "label") %>
-        <%=
-          select_tag(
-            "search[filter][user_id]",
-            options_for_select(
-              [
-                [t(".all"), polymorphic_url(index_url - [@user])]
-              ] + policy_scope(User).map do |user|
-                [user, polymorphic_url([user] + (index_url - [@user]))]
-              end,
-              polymorphic_url(index_url),
-            ),
-            class: "input",
-            data: {
-              filter_target: "input",
-              action: "filter#select"
-            }
-          )
-        %>
-      </div>
-    </form>
-  </div>
+<% filters.each do |filter| %>
+  <%= render("shared/filter", filter: filter) %>
 <% end %>

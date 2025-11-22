@@ -97,8 +97,12 @@ class ProgramPromptsController < ApplicationController
     @program_prompt
   end
 
-  def nested
-    [@user, @program]
+  def nested(user: @user, program: @program)
+    [user, program]
+  end
+
+  def filters
+    %i[user program]
   end
 
   def id

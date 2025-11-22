@@ -116,8 +116,16 @@ class ReplExecutionsController < ApplicationController
     @repl_execution
   end
 
-  def nested
-    [@user, @repl_session, @repl_program]
+  def nested(
+    user: @user,
+    repl_session: @repl_session,
+    repl_program: @repl_program
+  )
+    [user, repl_session, repl_program]
+  end
+
+  def filters
+    %i[user repl_session repl_program]
   end
 
   def id

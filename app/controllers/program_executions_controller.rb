@@ -87,8 +87,12 @@ class ProgramExecutionsController < ApplicationController
     @program_execution
   end
 
-  def nested
-    [@user, @program]
+  def nested(user: @user, program: @program)
+    [user, program]
+  end
+
+  def filters
+    %i[user program]
   end
 
   def id

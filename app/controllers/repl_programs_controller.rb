@@ -235,8 +235,12 @@ class ReplProgramsController < ApplicationController
     @repl_program
   end
 
-  def nested
-    [@user, @repl_session]
+  def nested(user: @user, repl_session: @repl_session)
+    [user, repl_session]
+  end
+
+  def filters
+    %i[user repl_session]
   end
 
   def id

@@ -112,8 +112,12 @@ class EmailAddressesController < ApplicationController
     @email_address
   end
 
-  def nested
-    [@user]
+  def nested(user: @user)
+    [user]
+  end
+
+  def filters
+    [:user]
   end
 
   def load_email_address

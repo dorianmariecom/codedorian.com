@@ -1144,6 +1144,7 @@ en:
         one: 1 repl session
         other: "%{count} repl sessions"
         zero: 0 repl sessions
+      repl_sessions_link: repl sessions
       schedule_all: schedule all
       title: programs
       unschedule_all: unschedule all
@@ -1361,6 +1362,14 @@ en:
       modal_cancel: 'no'
       modal_confirm: 'yes'
       modal_title: are you sure?
+    filter:
+      all: all
+      error: error
+      program: program
+      program_prompt: program prompt
+      repl_program: repl program
+      repl_session: repl session
+      user: user
     list:
       addresses: addresses
       attachments: files
@@ -1412,8 +1421,6 @@ en:
     search:
       placeholder: enter your search query
       submit: search
-      user: user
-      all: all
   static:
     about:
       about_html: |

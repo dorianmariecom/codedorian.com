@@ -98,7 +98,11 @@ class ErrorOccurrencesController < ApplicationController
     @error_occurrence
   end
 
-  def nested
-    [@user, @error]
+  def nested(user: @user, error: @error)
+    [user, error]
+  end
+
+  def filters
+    %i[user error]
   end
 end

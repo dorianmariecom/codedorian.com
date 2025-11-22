@@ -1,0 +1,45 @@
+<% if filter == :user
+  scope = policy_scope(User)
+elsif filter == :program
+  scope = policy_scope(Program)
+  scope = scope.where_user(@user) if @user
+elsif filter == :program_prompt
+  scope = policy_scope(ProgramPrompt)
+  scope = scope.where_user(@user) if @user
+  scope = scope.where_program(@program) if @program
+elsif filter == :repl_session
+  scope = policy_scope(ReplSession)
+  scope = scope.where_user(@user) if @user
+elsif filter == :repl_program
+  scope = policy_scope(ReplProgram)
+  scope = scope.where_user(@user) if @user
+  scope = scope.where_repl_session(@repl_session) if @repl_session
+elsif filter == :error
+  scope = policy_scope(::Error)
+  scope = scope.where_user(@user) if @user
+else
+  raise(NotImplementedError, 'filter "#{filter}" not implemented')
+end %>
+
+<div data-controller="filter">
+  <form data-filter-target="form" data-action="filter#select:prevent">
+    <div class="p">
+      <%= label_tag("search[filter][#{filter}]", t(".#{filter}"), class: "label") %>
+      <%= select_tag(
+        "search[filter][#{filter}]",
+        options_for_select(
+          [[t(".all"), polymorphic_url(index_url(filter => nil))]] +
+            scope.map do |instance|
+              [instance, polymorphic_url(index_url(filter => instance))]
+            end,
+          polymorphic_url(index_url)
+        ),
+        class: "input",
+        data: {
+          filter_target: "input",
+          action: "filter#select"
+        }
+      ) %>
+    </div>
+  </form>
+</div>

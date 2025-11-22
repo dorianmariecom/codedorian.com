@@ -54,4 +54,8 @@ class GuestsController < ApplicationController
   def nested
     []
   end
+
+  def filters
+    []
+  end
 end

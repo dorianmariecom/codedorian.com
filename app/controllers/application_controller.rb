@@ -34,6 +34,7 @@ class ApplicationController < ActionController::Base
   helper_method(:error_message_for)
   helper_method(:version)
   helper_method(:hotwire_native_modal?)
+  helper_method(:filters)
   helper_method(:index_url)
   helper_method(:show_url)
   helper_method(:new_url)
@@ -284,8 +285,12 @@ class ApplicationController < ActionController::Base
     raise(NotImplementedError, "#{self.class}#model_instance not implemented")
   end
 
-  def nested
+  def nested(...)
     raise(NotImplementedError, "#{self.class}#nested not implemented")
+  end
+
+  def filters
+    raise(NotImplementedError, "#{self.class}#filters not implemented")
   end
 
   def resource_name
@@ -296,20 +301,20 @@ class ApplicationController < ActionController::Base
     model_class.name.underscore.pluralize.to_sym
   end
 
-  def index_url
-    [*nested, resources_name, **search_params]
+  def index_url(...)
+    [*nested(...), resources_name, **search_params]
   end
 
-  def show_url
-    [*nested, model_instance]
+  def show_url(...)
+    [*nested(...), model_instance]
   end
 
-  def new_url
-    [:new, *nested, resource_name]
+  def new_url(...)
+    [:new, *nested(...), resource_name]
   end
 
-  def edit_url
-    [:edit, *show_url]
+  def edit_url(...)
+    [:edit, *show_url(...)]
   end
 
   def load_breadcrumbs

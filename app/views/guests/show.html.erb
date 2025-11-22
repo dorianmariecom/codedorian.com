@@ -44,16 +44,16 @@
 <%= render("shared/list", user: @guest, model: TimeZone) %>
 <%= render("shared/list", user: @guest, model: Device) %>
 <%= render("shared/list", user: @guest, model: Token) %>
-<%= render("shared/list", user: @guest, model: Attachment, content: false) %>
-<%= render("shared/list", user: @guest, model: Datum, content: false) %>
-<%= render("shared/list", user: @guest, model: Message, content: false) %>
-<%= render("shared/list", user: @guest, model: Program, content: false) %>
-<%= render("shared/list", user: @guest, model: ProgramExecution, content: false) %>
-<%= render("shared/list", user: @guest, model: ProgramPrompt, content: false) %>
-<%= render("shared/list", user: @guest, model: ReplExecution, content: false) %>
-<%= render("shared/list", user: @guest, model: ReplProgram, content: false) %>
-<%= render("shared/list", user: @guest, model: ReplPrompt, content: false) %>
-<%= render("shared/list", user: @guest, model: ReplSession, content: false) %>
+<%= render("shared/list", user: @guest, model: Attachment) %>
+<%= render("shared/list", user: @guest, model: Datum) %>
+<%= render("shared/list", user: @guest, model: Message) %>
+<%= render("shared/list", user: @guest, model: Program) %>
+<%= render("shared/list", user: @guest, model: ProgramExecution) %>
+<%= render("shared/list", user: @guest, model: ProgramPrompt) %>
+<%= render("shared/list", user: @guest, model: ReplExecution) %>
+<%= render("shared/list", user: @guest, model: ReplProgram) %>
+<%= render("shared/list", user: @guest, model: ReplPrompt) %>
+<%= render("shared/list", user: @guest, model: ReplSession) %>
 
 <% if admin? %>
   <%= render("shared/list", user: @guest, model: ::Error) %>

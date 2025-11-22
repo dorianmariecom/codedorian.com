@@ -149,8 +149,12 @@ class ProgramPromptSchedulesController < ApplicationController
     @program_prompt_schedule
   end
 
-  def nested
-    [@user, @program]
+  def nested(user: @user, program: @program, program_prompt: @program_prompt)
+    [user, program, program_prompt]
+  end
+
+  def filters
+    %i[user program program_prompt]
   end
 
   def id

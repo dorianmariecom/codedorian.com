@@ -134,6 +134,10 @@ class UsersController < ApplicationController
     []
   end
 
+  def filters
+    []
+  end
+
   def user_params
     return {} if params[:user].blank?
 

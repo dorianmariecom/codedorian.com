@@ -110,8 +110,12 @@ class ReplPromptsController < ApplicationController
     @repl_prompt
   end
 
-  def nested
-    [@user, @program]
+  def nested(user: @user, repl_program: @repl_program)
+    [user, repl_program]
+  end
+
+  def filters
+    %i[user repl_program]
   end
 
   def id

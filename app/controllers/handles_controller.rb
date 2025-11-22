@@ -104,8 +104,12 @@ class HandlesController < ApplicationController
     @handle
   end
 
-  def nested
-    [@user]
+  def nested(user: @user)
+    [user]
+  end
+
+  def filters
+    [:user]
   end
 
   def id

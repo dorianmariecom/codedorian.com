@@ -104,8 +104,12 @@ class TimeZonesController < ApplicationController
     @time_zone
   end
 
-  def nested
-    [@user]
+  def nested(user: @user)
+    [user]
+  end
+
+  def filters
+    [:user]
   end
 
   def id

@@ -1,6 +1,4 @@
-- code-ruby should tranform timeouts into code::error
-
-- filters
+- filters for jobs
 
 - categories/actions
 

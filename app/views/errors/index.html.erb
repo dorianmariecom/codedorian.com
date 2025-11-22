@@ -1,12 +1,14 @@
 <%= turbo_stream_from(@errors) %>
 
-<div class="p">
-  <%= link_to(
-    t(".error_occurrences", count: @error_occurrences.size),
-    :error_occurrences,
-    class: "link"
-  ) %>
-</div>
+<% if @error_occurrences.any? %>
+  <div class="p">
+    <%= link_to(
+      t(".error_occurrences", count: @error_occurrences.size),
+      :error_occurrences,
+      class: "link"
+    ) %>
+  </div>
+<% end %>
 
 <%= render("shared/search") %>
 

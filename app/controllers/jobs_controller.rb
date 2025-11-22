@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class JobsController < ApplicationController
+  before_action(:load_user)
   before_action { add_breadcrumb(key: "jobs.index", path: index_url) }
   before_action(:load_job, only: %i[show destroy delete discard retry])
 
@@ -71,6 +72,21 @@ class JobsController < ApplicationController
 
   private
 
+  def load_user
+    return if params[:user_id].blank?
+
+    @user =
+      if params[:user_id] == "me"
+        policy_scope(User).find(current_user&.id)
+      else
+        policy_scope(User).find(params[:user_id])
+      end
+
+    set_error_context(user: @user)
+    add_breadcrumb(key: "users.index", path: :users)
+    add_breadcrumb(text: @user, path: @user)
+  end
+
   def load_job
     @job = authorize(scope.find(id))
 
@@ -83,7 +99,9 @@ class JobsController < ApplicationController
   end
 
   def scope
-    searched_policy_scope(Job)
+    scope = searched_policy_scope(Job)
+    scope = scope.where_user(@user) if @user
+    scope
   end
 
   def model_class
@@ -94,7 +112,11 @@ class JobsController < ApplicationController
     @job
   end
 
-  def nested
-    []
+  def nested(user: @user)
+    [user]
+  end
+
+  def filters
+    [:user]
   end
 end

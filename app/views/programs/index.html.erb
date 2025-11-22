@@ -5,80 +5,104 @@
 </div>
 
 <div class="p">
-  <%= link_to(t(".data", count: @data.size), [@user, :data], class: "link") %>
+  <%= link_to(t(".repl_sessions_link"), [@user, :repl_sessions], class: "link") %>
 </div>
 
-<div class="p">
-  <%= link_to(
-    t(".attachments", count: @attachments.size),
-    [@user, :attachments],
-    class: "link"
-  ) %>
-</div>
+<% if @data.any? %>
+  <div class="p">
+    <%= link_to(t(".data", count: @data.size), [@user, :data], class: "link") %>
+  </div>
+<% end %>
 
-<div class="p">
-  <%= link_to(
-    t(".repl_sessions", count: @repl_sessions.size),
-    [@user, :repl_sessions],
-    class: "link"
-  ) %>
-</div>
+<% if @attachments.any? %>
+  <div class="p">
+    <%= link_to(
+      t(".attachments", count: @attachments.size),
+      [@user, :attachments],
+      class: "link"
+    ) %>
+  </div>
+<% end %>
 
-<div class="p">
-  <%= link_to(
-    t(".repl_programs", count: @repl_programs.size),
-    [@user, :repl_programs],
-    class: "link"
-  ) %>
-</div>
+<% if @repl_sessions.any? %>
+  <div class="p">
+    <%= link_to(
+      t(".repl_sessions", count: @repl_sessions.size),
+      [@user, :repl_sessions],
+      class: "link"
+    ) %>
+  </div>
+<% end %>
 
-<div class="p">
-  <%= link_to(
-    t(".repl_prompts", count: @repl_prompts.size),
-    [@user, :repl_prompts],
-    class: "link"
-  ) %>
-</div>
+<% if @repl_programs.any? %>
+  <div class="p">
+    <%= link_to(
+      t(".repl_programs", count: @repl_programs.size),
+      [@user, :repl_programs],
+      class: "link"
+    ) %>
+  </div>
+<% end %>
 
-<div class="p">
-  <%= link_to(
-    t(".repl_executions", count: @repl_executions.size),
-    [@user, :repl_executions],
-    class: "link"
-  ) %>
-</div>
+<% if @repl_prompts.any? %>
+  <div class="p">
+    <%= link_to(
+      t(".repl_prompts", count: @repl_prompts.size),
+      [@user, :repl_prompts],
+      class: "link"
+    ) %>
+  </div>
+<% end %>
 
-<div class="p">
-  <%= link_to(
-    t(".program_executions", count: @program_executions.size),
-    [@user, :program_executions],
-    class: "link"
-  ) %>
-</div>
+<% if @repl_executions.any? %>
+  <div class="p">
+    <%= link_to(
+      t(".repl_executions", count: @repl_executions.size),
+      [@user, :repl_executions],
+      class: "link"
+    ) %>
+  </div>
+<% end %>
 
-<div class="p">
-  <%= link_to(
-    t(".program_prompts", count: @program_prompts.size),
-    [@user, :program_prompts],
-    class: "link"
-  ) %>
-</div>
+<% if @program_executions.any? %>
+  <div class="p">
+    <%= link_to(
+      t(".program_executions", count: @program_executions.size),
+      [@user, :program_executions],
+      class: "link"
+    ) %>
+  </div>
+<% end %>
 
-<div class="p">
-  <%= link_to(
-    t(".program_schedules", count: @program_schedules.size),
-    [@user, :program_schedules],
-    class: "link"
-  ) %>
-</div>
+<% if @program_prompts.any? %>
+  <div class="p">
+    <%= link_to(
+      t(".program_prompts", count: @program_prompts.size),
+      [@user, :program_prompts],
+      class: "link"
+    ) %>
+  </div>
+<% end %>
 
-<div class="p">
-  <%= link_to(
-    t(".program_prompt_schedules", count: @program_prompt_schedules.size),
-    [@user, :program_prompt_schedules],
-    class: "link"
-  ) %>
-</div>
+<% if @program_schedules.any? %>
+  <div class="p">
+    <%= link_to(
+      t(".program_schedules", count: @program_schedules.size),
+      [@user, :program_schedules],
+      class: "link"
+    ) %>
+  </div>
+<% end %>
+
+<% if @program_prompt_schedules.any? %>
+  <div class="p">
+    <%= link_to(
+      t(".program_prompt_schedules", count: @program_prompt_schedules.size),
+      [@user, :program_prompt_schedules],
+      class: "link"
+    ) %>
+  </div>
+<% end %>
 
 <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
 
