@@ -1368,6 +1368,7 @@ en:
       program: program
       program_prompt: program prompt
       repl_program: repl program
+      repl_prompt: repl prompt
       repl_session: repl session
       user: user
     list:

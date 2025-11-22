@@ -108,6 +108,8 @@ Rails.application.routes.draw do
             delete "/destroy_all", to: "repl_prompts#destroy_all"
             delete "/delete_all", to: "repl_prompts#delete_all"
           end
+
+          define_jobs.call
         end
 
         resources(:repl_programs) do
@@ -141,6 +143,8 @@ Rails.application.routes.draw do
             delete "/delete_all", to: "repl_executions#delete_all"
           end
         end
+
+        define_jobs.call
       end
 
       resources(:repl_programs) do
@@ -310,6 +314,8 @@ Rails.application.routes.draw do
             delete "/delete_all", to: "program_prompt_schedules#delete_all"
           end
         end
+
+        define_jobs.call
       end
 
       resources(:repl_prompts) do
@@ -317,6 +323,8 @@ Rails.application.routes.draw do
           delete "/destroy_all", to: "repl_prompts#destroy_all"
           delete "/delete_all", to: "repl_prompts#delete_all"
         end
+
+        define_jobs.call
       end
 
       define_jobs.call

@@ -1368,6 +1368,7 @@ fr:
       program: programme
       program_prompt: invite de programme
       repl_program: programme de terminal
+      repl_prompt: invite de terminal
       repl_session: terminal
       user: utilisateur
     list:
