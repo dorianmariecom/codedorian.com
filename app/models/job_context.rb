@@ -5,7 +5,8 @@ class JobContext < ApplicationRecord
     :job,
     primary_key: :active_job_id,
     foreign_key: :active_job_id,
-    inverse_of: :job_contexts
+    inverse_of: :job_contexts,
+    optional: true
   )
 
   %i[
