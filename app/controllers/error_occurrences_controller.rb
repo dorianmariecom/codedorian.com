@@ -4,13 +4,11 @@ class ErrorOccurrencesController < ApplicationController
   before_action(:load_user)
   before_action(:load_program)
   before_action(:load_program_schedule)
-  before_action(:load_program_execution)
   before_action(:load_program_prompt)
   before_action(:load_program_prompt_schedule)
   before_action(:load_repl_session)
   before_action(:load_repl_program)
   before_action(:load_repl_prompt)
-  before_action(:load_repl_execution)
   before_action(:load_address)
   before_action(:load_attachment)
   before_action(:load_datum)
@@ -113,21 +111,13 @@ class ErrorOccurrencesController < ApplicationController
     scope = scope.where_error(@error) if @error
     scope = scope.where_program(@program) if @program
     scope = scope.where_program_schedule(@program_schedule) if @program_schedule
-    if @program_execution
-      scope =
-        scope.where_program_execution(@program_execution)
-    end
     scope = scope.where_program_prompt(@program_prompt) if @program_prompt
     if @program_prompt_schedule
-      scope =
-        scope.where_program_prompt_schedule(
-          @program_prompt_schedule
-        )
+      scope = scope.where_program_prompt_schedule(@program_prompt_schedule)
     end
     scope = scope.where_repl_session(@repl_session) if @repl_session
     scope = scope.where_repl_program(@repl_program) if @repl_program
     scope = scope.where_repl_prompt(@repl_prompt) if @repl_prompt
-    scope = scope.where_repl_execution(@repl_execution) if @repl_execution
     scope = scope.where_address(@address) if @address
     scope = scope.where_attachment(@attachment) if @attachment
     scope = scope.where_datum(@datum) if @datum
@@ -148,21 +138,13 @@ class ErrorOccurrencesController < ApplicationController
     scope = scope.where_user(@user) if @user
     scope = scope.where_program(@program) if @program
     scope = scope.where_program_schedule(@program_schedule) if @program_schedule
-    if @program_execution
-      scope =
-        scope.where_program_execution(@program_execution)
-    end
     scope = scope.where_program_prompt(@program_prompt) if @program_prompt
     if @program_prompt_schedule
-      scope =
-        scope.where_program_prompt_schedule(
-          @program_prompt_schedule
-        )
+      scope = scope.where_program_prompt_schedule(@program_prompt_schedule)
     end
     scope = scope.where_repl_session(@repl_session) if @repl_session
     scope = scope.where_repl_program(@repl_program) if @repl_program
     scope = scope.where_repl_prompt(@repl_prompt) if @repl_prompt
-    scope = scope.where_repl_execution(@repl_execution) if @repl_execution
     scope = scope.where_address(@address) if @address
     scope = scope.where_attachment(@attachment) if @attachment
     scope = scope.where_datum(@datum) if @datum
@@ -182,13 +164,11 @@ class ErrorOccurrencesController < ApplicationController
     user: @user,
     program: @program,
     program_schedule: @program_schedule,
-    program_execution: @program_execution,
     program_prompt: @program_prompt,
     program_prompt_schedule: @program_prompt_schedule,
     repl_session: @repl_session,
     repl_program: @repl_program,
     repl_prompt: @repl_prompt,
-    repl_execution: @repl_execution,
     address: @address,
     attachment: @attachment,
     datum: @datum,
@@ -207,8 +187,7 @@ class ErrorOccurrencesController < ApplicationController
     chain << user if user
     chain << error if error
 
-    if program || program_prompt || program_prompt_schedule ||
-         program_execution || program_schedule
+    if program || program_prompt || program_prompt_schedule || program_schedule
       chain << program if program
 
       if program_prompt_schedule
@@ -216,8 +195,6 @@ class ErrorOccurrencesController < ApplicationController
         chain << program_prompt_schedule
       elsif program_prompt
         chain << program_prompt
-      elsif program_execution
-        chain << program_execution
       elsif program_schedule
         chain << program_schedule
       end
@@ -225,11 +202,10 @@ class ErrorOccurrencesController < ApplicationController
       return chain
     end
 
-    if repl_session || repl_program || repl_prompt || repl_execution
+    if repl_session || repl_program || repl_prompt
       chain << repl_session if repl_session
       chain << repl_program if repl_program
       chain << repl_prompt if repl_prompt
-      chain << repl_execution if repl_execution
       return chain
     end
 
@@ -256,12 +232,10 @@ class ErrorOccurrencesController < ApplicationController
       program
       program_prompt
       program_prompt_schedule
-      program_execution
       program_schedule
       repl_session
       repl_program
       repl_prompt
-      repl_execution
       address
       attachment
       datum
@@ -285,13 +259,6 @@ class ErrorOccurrencesController < ApplicationController
 
   def program_schedules_scope
     scope = policy_scope(ProgramSchedule)
-    scope = scope.where_user(@user) if @user
-    scope = scope.where_program(@program) if @program
-    scope
-  end
-
-  def program_executions_scope
-    scope = policy_scope(ProgramExecution)
     scope = scope.where_user(@user) if @user
     scope = scope.where_program(@program) if @program
     scope
@@ -327,14 +294,6 @@ class ErrorOccurrencesController < ApplicationController
 
   def repl_prompts_scope
     scope = policy_scope(ReplPrompt)
-    scope = scope.where_user(@user) if @user
-    scope = scope.where_repl_session(@repl_session) if @repl_session
-    scope = scope.where_repl_program(@repl_program) if @repl_program
-    scope
-  end
-
-  def repl_executions_scope
-    scope = policy_scope(ReplExecution)
     scope = scope.where_user(@user) if @user
     scope = scope.where_repl_session(@repl_session) if @repl_session
     scope = scope.where_repl_program(@repl_program) if @repl_program
@@ -445,23 +404,6 @@ class ErrorOccurrencesController < ApplicationController
     )
   end
 
-  def load_program_execution
-    return if params[:program_execution_id].blank?
-
-    @program_execution =
-      program_executions_scope.find(params[:program_execution_id])
-
-    set_error_context(program_execution: @program_execution)
-    add_breadcrumb(
-      key: "program_executions.index",
-      path: [@user, @program, :program_executions]
-    )
-    add_breadcrumb(
-      text: @program_execution,
-      path: [@user, @program, @program_execution]
-    )
-  end
-
   def load_program_prompt
     return if params[:program_prompt_id].blank?
 
@@ -531,22 +473,6 @@ class ErrorOccurrencesController < ApplicationController
     add_breadcrumb(
       text: @repl_prompt,
       path: [@user, @repl_session, @repl_program, @repl_prompt]
-    )
-  end
-
-  def load_repl_execution
-    return if params[:repl_execution_id].blank?
-
-    @repl_execution = repl_executions_scope.find(params[:repl_execution_id])
-
-    set_error_context(repl_execution: @repl_execution)
-    add_breadcrumb(
-      key: "repl_executions.index",
-      path: [@user, @repl_session, @repl_program, :repl_executions]
-    )
-    add_breadcrumb(
-      text: @repl_execution,
-      path: [@user, @repl_session, @repl_program, @repl_execution]
     )
   end
 
