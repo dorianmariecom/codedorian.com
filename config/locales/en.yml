@@ -1536,8 +1536,8 @@ en:
         <p>for any questions regarding these terms, please contact us at <a href="mailto:dorian@dorianmarie.com">dorian@dorianmarie.com</a>.</p>
       title: terms and conditions
     up:
-      title: "/up"
       body: working
+      title: "/up"
   time_zones:
     create:
       notice: time zone created
