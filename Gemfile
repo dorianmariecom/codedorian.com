@@ -5,10 +5,6 @@ source "https://rubygems.org"
 ruby "3.4.5"
 
 gem "thruster", "0.1.15" # port 80 vs 3000
-# invalid token https://github.com/seejohnrun/easy_translate/pull/60
-gem "easy_translate",
-    github: "will-gant/easy_translate",
-    branch: "breaking-api-change"
 
 gem "active_storage_validations"
 gem "bcrypt"
@@ -34,6 +30,7 @@ gem "jbuilder"
 gem "kamal"
 gem "kaminari"
 gem "local_time"
+gem 'memory_profiler'
 gem "msgpack"
 gem "net-http"
 gem "open-uri"
@@ -46,6 +43,7 @@ gem "public_suffix"
 gem "puma"
 gem "pundit"
 gem "rack-attack"
+gem "rack-mini-profiler"
 gem "rails"
 gem "rails-i18n"
 gem "recaptcha"
@@ -65,6 +63,7 @@ gem "solid_cable"
 gem "solid_cache"
 gem "solid_errors"
 gem "solid_queue"
+gem 'stackprof'
 gem "stimulus-rails"
 gem "tailwindcss-rails"
 gem "turbo-rails"

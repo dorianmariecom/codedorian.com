@@ -267,7 +267,7 @@ fr:
       ios: iOS
       privacy: confidentialité
       terms: termes
-      up: en haut
+      up: fonctionne
     time_zones:
       edit: modifier
       index: fuseaux horaires
@@ -1537,7 +1537,7 @@ fr:
       title: termes et conditions
     up:
       title: "/up"
-      up_html: "<p>fonctionne</p>"
+      body: fonctionne
   time_zones:
     create:
       notice: fuseau horaire créé

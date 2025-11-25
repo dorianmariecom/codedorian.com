@@ -1537,7 +1537,7 @@ en:
       title: terms and conditions
     up:
       title: "/up"
-      up_html: "<p>working</p>\n"
+      body: working
   time_zones:
     create:
       notice: time zone created

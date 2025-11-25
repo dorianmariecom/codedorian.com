@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
   skip_forgery_protection(if: :current_token?)
 
   before_action(:set_current_user)
+  before_action(:authorize_profiler)
   before_action(:set_current_request)
   before_action(:set_time_zone)
   before_action(:set_locale)
@@ -327,5 +328,9 @@ class ApplicationController < ActionController::Base
     path: url_for
   )
     @breadcrumbs << { text: text || t("breadcrumbs.#{key}"), path: path }
+  end
+
+  def authorize_profiler
+    Rack::MiniProfiler.authorize_request if admin?
   end
 end
