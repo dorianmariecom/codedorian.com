@@ -111,11 +111,11 @@ end %>
         <%= select_tag(
           "search[filter][#{filter}]",
           options_for_select(
-            [[t(".all"), polymorphic_url(index_url(filter => nil))]] +
+            [[t(".all"), url_for(index_url(filter => nil))]] +
               scope.map do |instance|
-                [instance, polymorphic_url(index_url(filter => instance))]
+                [instance, url_for(index_url(filter => instance))]
               end,
-            polymorphic_url(index_url)
+            url_for(index_url)
           ),
           class: "input",
           data: {
