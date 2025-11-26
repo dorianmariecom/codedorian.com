@@ -105,7 +105,7 @@ GEM
       railties (>= 7.2.0, < 8.2.0)
       zeitwerk (>= 2.5.0)
     cmdparse (3.0.7)
-    code-ruby (1.7.6)
+    code-ruby (1.7.7)
       activesupport
       base64
       bigdecimal
@@ -248,7 +248,7 @@ GEM
     json (2.16.0)
     jwt (3.1.2)
       base64
-    kamal (2.8.2)
+    kamal (2.9.0)
       activesupport (>= 7.0)
       base64 (~> 0.2)
       bcrypt_pbkdf (~> 1.0)
@@ -435,7 +435,7 @@ GEM
     rainbow (3.1.1)
     rake (13.3.1)
     rchardet (1.10.0)
-    rdoc (6.15.1)
+    rdoc (6.16.0)
       erb
       psych (>= 4.0.0)
       tsort

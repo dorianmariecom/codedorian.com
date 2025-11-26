@@ -9,6 +9,12 @@ class ReplProgram < ApplicationRecord
   has_many(:repl_prompts, dependent: :destroy)
   has_one(:user, through: :repl_session)
   has_many(:messages, dependent: :nullify)
+  has_one(
+    :repl_execution,
+    -> { order(created_at: :desc) },
+    dependent: :destroy,
+    inverse_of: :repl_program
+  )
 
   scope(:where_user, ->(user) { joins(:user).where(users: { id: user }) })
   scope(

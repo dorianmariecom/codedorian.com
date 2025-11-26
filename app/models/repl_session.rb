@@ -6,7 +6,7 @@ class ReplSession < ApplicationRecord
   scope(:where_user, ->(user) { where(user: user) })
 
   has_many(:repl_programs, dependent: :destroy)
-  has_many(:repl_executions, through: :repl_programs)
+  has_many(:repl_executions, through: :repl_programs, source: :repl_executions)
 
   accepts_nested_attributes_for(:repl_programs, allow_destroy: true)
 
@@ -23,6 +23,10 @@ class ReplSession < ApplicationRecord
       **base_search_fields,
       **User.associated_search_fields
     }
+  end
+
+  def repl_execution
+    repl_executions.order(created_at: :desc).first
   end
 
   def inputs
