@@ -33,8 +33,9 @@ class ErrorOccurrence < SolidErrors::Occurrence
     token
     user
   ].each do |model|
-    scope :"where_#{model}", ->(instance) { where(<<~SQL.squish, instance) }
-      (solid_errors_occurrences.context->'#{model}'->>'id')::bigint = ?
+    scope :"where_#{model}",
+          ->(instance) { where(<<~SQL.squish, instance.try(:id)) }
+      (solid_errors_occurrences.context->'#{model}'->>'id') = ?
     SQL
   end
 

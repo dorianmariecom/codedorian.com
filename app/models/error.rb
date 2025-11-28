@@ -34,9 +34,11 @@ class Error < SolidErrors::Error
     user
   ].each do |model|
     scope :"where_#{model}",
-          ->(instance) { joins(:occurrences).where(<<~SQL.squish, instance) }
-      (solid_errors_occurrences.context->'#{model}'->>'id')::bigint = ?
+          ->(instance) do
+            joins(:occurrences).where(<<~SQL.squish, instance.try(:id))
+      (solid_errors_occurrences.context->'#{model}'->>'id') = ?
     SQL
+          end
   end
 
   def self.search_fields

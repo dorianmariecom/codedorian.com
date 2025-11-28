@@ -113,7 +113,7 @@ class ApplicationController < ActionController::Base
 
   def set_current_user
     log_in(current_user_from_session || current_token&.user)
-    set_error_context(current_user: current_user)
+    set_error_context(current_user: current_user_or_guest)
   end
 
   def set_current_request

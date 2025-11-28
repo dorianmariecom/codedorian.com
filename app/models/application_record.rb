@@ -14,6 +14,8 @@ class ApplicationRecord < ActiveRecord::Base
   has_paper_trail
   primary_abstract_class
 
+  scope :where_guest, ->(_guest) { none }
+
   def self.base_search_fields
     {
       id: {

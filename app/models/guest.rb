@@ -67,6 +67,7 @@ class Guest
     I18n.t("guests.model.locales.#{locale.presence || "none"}")
   end
 
+  def as_json(...) = { id: "me" }.as_json(...)
   def to_signed_global_id(_purpose: nil, _expires_in: nil) = ""
   def signed_id(_purpose: nil, _expires_in: nil) = ""
   def to_s = I18n.t("guests.model.to_s")

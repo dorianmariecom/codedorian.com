@@ -4,6 +4,7 @@ class ErrorsController < ApplicationController
   EXCEPTIONS = %i[not_found internal_server_error unprocessable_entity].freeze
 
   before_action(:load_user)
+  before_action(:load_guest)
   before_action(:load_program)
   before_action(:load_program_schedule)
   before_action(:load_program_prompt)
@@ -137,6 +138,16 @@ class ErrorsController < ApplicationController
     add_breadcrumb(text: @user, path: @user)
   end
 
+  def load_guest
+    return if params[:guest_id].blank?
+
+    @guest = Guest.new
+
+    set_error_context(guest: @guest)
+    add_breadcrumb(key: "guests.index", path: :guests)
+    add_breadcrumb(text: @guest, path: @guest)
+  end
+
   def load_error
     @error = authorize(scope.find(id))
 
@@ -151,6 +162,7 @@ class ErrorsController < ApplicationController
   def scope
     scope = searched_policy_scope(Error)
     scope = scope.where_user(@user) if @user
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_program(@program) if @program
     scope = scope.where_program_schedule(@program_schedule) if @program_schedule
     scope = scope.where_program_prompt(@program_prompt) if @program_prompt
@@ -178,6 +190,7 @@ class ErrorsController < ApplicationController
   def error_occurrences_scope
     scope = searched_policy_scope(ErrorOccurrence)
     scope = scope.where_user(@user) if @user
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_error(@error) if @error
     scope = scope.where_program(@program) if @program
     scope = scope.where_program_schedule(@program_schedule) if @program_schedule
@@ -231,10 +244,12 @@ class ErrorsController < ApplicationController
     name: @name,
     phone_number: @phone_number,
     time_zone: @time_zone,
-    token: @token
+    token: @token,
+    guest: @guest
   )
     chain = []
     chain << user if user
+    chain << guest if guest && !user
 
     if program || program_prompt || program_prompt_schedule || program_schedule
       chain << program if program
@@ -277,6 +292,7 @@ class ErrorsController < ApplicationController
   def filters
     %i[
       user
+      guest
       program
       program_prompt
       program_prompt_schedule

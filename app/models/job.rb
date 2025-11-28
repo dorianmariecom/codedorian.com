@@ -42,9 +42,11 @@ class Job < SolidQueue::Job
     user
   ].each do |model|
     scope :"where_#{model}",
-          ->(instance) { joins(:job_contexts).where(<<~SQL.squish, instance) }
-      (job_contexts.context->'#{model}'->>'id')::bigint = ?
+          ->(instance) do
+            joins(:job_contexts).where(<<~SQL.squish, instance.try(:id))
+      job_contexts.context->'#{model}'->>'id' = ?
     SQL
+          end
   end
 
   def self.search_fields

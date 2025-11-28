@@ -532,7 +532,7 @@ fr:
         messages: messages
         privacy: confidentialité
         programs: programmes
-        register: registre
+        register: s'inscrire
         repl: terminaux
         terms: termes
         users: utilisateurs
@@ -543,7 +543,7 @@ fr:
         messages: messages
         more: plus
         programs: programmes
-        register: registre
+        register: s'inscrire
         repl: terminaux
     label:
       session:
@@ -654,7 +654,7 @@ fr:
             masculine: doit être valide
       log_in: se connecter
       log_out: se déconnecter
-      register: registre
+      register: s'inscrire
       title: code
     menu:
       about: à propos
@@ -672,7 +672,7 @@ fr:
       messages: messages
       privacy: confidentialité
       programs: programmes
-      register: registre
+      register: s'inscrire
       repl_sessions: terminaux
       terms: termes
       title: code
