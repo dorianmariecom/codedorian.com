@@ -533,7 +533,6 @@ fr:
         privacy: confidentialité
         programs: programmes
         register: s'inscrire
-        repl: terminaux
         terms: termes
         users: utilisateurs
       tabs:
@@ -544,7 +543,6 @@ fr:
         more: plus
         programs: programmes
         register: s'inscrire
-        repl: terminaux
     label:
       session:
         email_address: adresse email
@@ -673,7 +671,6 @@ fr:
       privacy: confidentialité
       programs: programmes
       register: s'inscrire
-      repl_sessions: terminaux
       terms: termes
       title: code
       users: utilisateurs

@@ -533,7 +533,6 @@ en:
         privacy: privacy
         programs: programs
         register: register
-        repl: repl sessions
         terms: terms
         users: users
       tabs:
@@ -544,7 +543,6 @@ en:
         more: more
         programs: programs
         register: register
-        repl: repl sessions
     label:
       session:
         email_address: email address
@@ -673,7 +671,6 @@ en:
       privacy: privacy
       programs: programs
       register: register
-      repl_sessions: repl sessions
       terms: terms
       title: code
       users: users

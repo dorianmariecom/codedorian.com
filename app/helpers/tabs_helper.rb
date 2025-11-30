@@ -38,16 +38,6 @@ module TabsHelper
       (
         if registered?
           {
-            title: t("helpers.application.tabs.repl"),
-            image: ios ? "apple.terminal" : :terminal,
-            path: polymorphic_path([current_user, :repl_sessions]),
-            default: false
-          }
-        end
-      ),
-      (
-        if registered?
-          {
             title: t("helpers.application.tabs.account"),
             image: ios ? "person.crop.circle.fill" : :account_circle,
             path: polymorphic_path(current_user),
