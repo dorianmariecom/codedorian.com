@@ -19,7 +19,6 @@ class ErrorsController < ApplicationController
   before_action(:load_email_address)
   before_action(:load_device)
   before_action(:load_handle)
-  before_action(:load_job)
   before_action(:load_message)
   before_action(:load_name)
   before_action(:load_phone_number)
@@ -178,7 +177,6 @@ class ErrorsController < ApplicationController
     scope = scope.where_device(@device) if @device
     scope = scope.where_email_address(@email_address) if @email_address
     scope = scope.where_handle(@handle) if @handle
-    scope = scope.where_job(@job) if @job
     scope = scope.where_message(@message) if @message
     scope = scope.where_name(@name) if @name
     scope = scope.where_phone_number(@phone_number) if @phone_number
@@ -207,7 +205,6 @@ class ErrorsController < ApplicationController
     scope = scope.where_device(@device) if @device
     scope = scope.where_email_address(@email_address) if @email_address
     scope = scope.where_handle(@handle) if @handle
-    scope = scope.where_job(@job) if @job
     scope = scope.where_message(@message) if @message
     scope = scope.where_name(@name) if @name
     scope = scope.where_phone_number(@phone_number) if @phone_number
@@ -239,7 +236,6 @@ class ErrorsController < ApplicationController
     device: @device,
     email_address: @email_address,
     handle: @handle,
-    job: @job,
     message: @message,
     name: @name,
     phone_number: @phone_number,
@@ -279,7 +275,6 @@ class ErrorsController < ApplicationController
     return chain << device if device
     return chain << email_address if email_address
     return chain << handle if handle
-    return chain << job if job
     return chain << message if message
     return chain << name if name
     return chain << phone_number if phone_number
@@ -306,7 +301,6 @@ class ErrorsController < ApplicationController
       device
       email_address
       handle
-      job
       message
       name
       phone_number
@@ -397,17 +391,6 @@ class ErrorsController < ApplicationController
   def handles_scope
     scope = policy_scope(Handle)
     scope = scope.where_user(@user) if @user
-    scope
-  end
-
-  def jobs_scope
-    scope = policy_scope(Job)
-    scope = scope.where_user(@user) if @user
-    scope = scope.where_program(@program) if @program
-    scope = scope.where_program_prompt(@program_prompt) if @program_prompt
-    scope = scope.where_repl_session(@repl_session) if @repl_session
-    scope = scope.where_repl_program(@repl_program) if @repl_program
-    scope = scope.where_repl_prompt(@repl_prompt) if @repl_prompt
     scope
   end
 
@@ -601,16 +584,6 @@ class ErrorsController < ApplicationController
     set_error_context(handle: @handle)
     add_breadcrumb(key: "handles.index", path: [@user, :handles])
     add_breadcrumb(text: @handle, path: [@user, @handle])
-  end
-
-  def load_job
-    return if params[:job_id].blank?
-
-    @job = jobs_scope.find(params[:job_id])
-
-    set_error_context(job: @job)
-    add_breadcrumb(key: "jobs.index", path: [@user, :jobs])
-    add_breadcrumb(text: @job, path: [@user, @job])
   end
 
   def load_message
