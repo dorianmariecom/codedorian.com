@@ -1,4 +1,5 @@
 ---
 scheduling:
   class: SchedulingJob
+  queue: scheduling
   schedule: every second
