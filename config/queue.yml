@@ -3,14 +3,14 @@ dispatchers:
 - batch_size: 500
   polling_interval: 0.1
 workers:
-- queues: scheduling
-  threads: <%= Integer(ENV.fetch("SOLID_QUEUE_SCHEDULING_THREADS") { ENV.fetch("SOLID_QUEUE_THREADS",
+- queues: generate
+  threads: <%= Integer(ENV.fetch("SOLID_QUEUE_GENERATE_THREADS") { ENV.fetch("SOLID_QUEUE_THREADS",
     50) }) %>
 - queues: evaluate
   threads: <%= Integer(ENV.fetch("SOLID_QUEUE_EVALUATE_THREADS") { ENV.fetch("SOLID_QUEUE_THREADS",
     50) }) %>
-- queues: generate
-  threads: <%= Integer(ENV.fetch("SOLID_QUEUE_GENERATE_THREADS") { ENV.fetch("SOLID_QUEUE_THREADS",
+- queues: scheduling
+  threads: <%= Integer(ENV.fetch("SOLID_QUEUE_SCHEDULING_THREADS") { ENV.fetch("SOLID_QUEUE_THREADS",
     50) }) %>
 - queues: "*"
   threads: <%= Integer(ENV.fetch("SOLID_QUEUE_DEFAULT_THREADS") { ENV.fetch("SOLID_QUEUE_THREADS",
