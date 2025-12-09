@@ -8,8 +8,10 @@ module PerformLaterConcern
     context: nil,
     current: nil
   )
-    job = clazz.set(wait_until: wait_until)
-    job = job.perform_later(**arguments, current: current, context: context)
-    JobContext.create!(active_job_id: job.job_id, context: context)
+    PaperTrail.request(enabled: false) do
+      job = clazz.set(wait_until: wait_until)
+      job = job.perform_later(**arguments, current: current, context: context)
+      JobContext.create!(active_job_id: job.job_id, context: context)
+    end
   end
 end
