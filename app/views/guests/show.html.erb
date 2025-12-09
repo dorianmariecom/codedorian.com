@@ -58,5 +58,5 @@
 <% if admin? %>
   <%= render("shared/list", user: @guest, model: ::Error) %>
   <%= render("shared/list", user: @guest, model: ErrorOccurrence) %>
-  <%= render("shared/list", user: @guest, model: Job) %>
+  <%= render("shared/list", user: @guest, model: Job, content: false) %>
 <% end %>
