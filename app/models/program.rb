@@ -98,6 +98,14 @@ class Program < ApplicationRecord
     Time.zone.now
   end
 
+  def duration
+    program_schedules.filter_map(&:duration).min || 0.seconds
+  end
+
+  def duration_in_seconds
+    duration.to_i
+  end
+
   def starts_at
     program_schedules.map(&:starts_at).min
   end

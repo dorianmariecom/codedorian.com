@@ -13,6 +13,7 @@ class SchedulingProgramJob < ContextJob
       arguments: {
         program: program
       },
+      priority: program.duration_in_seconds,
       context: {
         user: program.user,
         program: program
