@@ -1,29 +1,31 @@
 # [codedorian.com](https://codedorian.com)
 
 ```ruby
-def puts_and_execute(command)
-  puts command
-  puts eval(command)
+def reset!(clazz)
+  p clazz
+  p ActiveRecord::Base.connection.execute(
+    "truncate #{clazz.table_name} restart identity cascade"
+  )
 end
 
-puts_and_execute("Rpush::Apns::Feedback.delete_all")
-puts_and_execute("Rpush::Notification.delete_all")
-puts_and_execute("Rpush::App.delete_all")
-puts_and_execute("PaperTrail::Version.delete_all")
-puts_and_execute("JobContext.delete_all")
-puts_and_execute("SolidErrors::Occurrence.delete_all")
-puts_and_execute("SolidErrors::Error.destroy_all.size")
-puts_and_execute("SolidQueue::BlockedExecution.delete_all")
-puts_and_execute("SolidQueue::ClaimedExecution.delete_all")
-puts_and_execute("SolidQueue::FailedExecution.delete_all")
-puts_and_execute("SolidQueue::ReadyExecution.delete_all")
-puts_and_execute("SolidQueue::Job.delete_all")
-puts_and_execute("SolidQueue::Pause.delete_all")
-puts_and_execute("SolidQueue::Process.delete_all")
-puts_and_execute("SolidQueue::RecurringExecution.delete_all")
-puts_and_execute("SolidQueue::RecurringTask.delete_all")
-puts_and_execute("SolidQueue::ScheduledExecution.delete_all")
-puts_and_execute("SolidQueue::Semaphore.delete_all")
+reset!(Rpush::Apns::Feedback)
+reset!(Rpush::Notification)
+reset!(Rpush::App)
+reset!(PaperTrail::Version)
+reset!(JobContext)
+reset!(SolidErrors::Occurrence)
+reset!(SolidErrors::Error)
+reset!(SolidQueue::BlockedExecution)
+reset!(SolidQueue::ClaimedExecution)
+reset!(SolidQueue::FailedExecution)
+reset!(SolidQueue::ReadyExecution)
+reset!(SolidQueue::Job)
+reset!(SolidQueue::Pause)
+reset!(SolidQueue::Process)
+reset!(SolidQueue::RecurringExecution)
+reset!(SolidQueue::RecurringTask)
+reset!(SolidQueue::ScheduledExecution)
+reset!(SolidQueue::Semaphore)
 
 load "db/seeds.rb"
 ```
