@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ReplPrompt < ApplicationRecord
-  MODEL = "gpt-5"
+  MODEL = "gpt-4o"
   STATUSES = %w[initialized created in_progress done errored].freeze
 
   PROMPT_1 = <<~PROMPT

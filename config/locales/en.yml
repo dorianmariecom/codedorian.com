@@ -1142,6 +1142,8 @@ en:
         other: "%{count} repl sessions"
         zero: 0 repl sessions
       repl_sessions_link: repl sessions
+      data_link: data
+      attachments_link: files
       schedule_all: schedule all
       title: programs
       unschedule_all: unschedule all

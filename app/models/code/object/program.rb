@@ -45,7 +45,7 @@ class Code
       end
 
       def self.scope
-        policy_scope(::Program)
+        policy_scope(::Program).where(user: ::Current.user)
       end
 
       def id
@@ -61,7 +61,7 @@ class Code
       end
 
       def scope
-        policy_scope(::Program)
+        policy_scope(::Program).where(user: ::Current.user)
       end
 
       include(::Pundit::Authorization)

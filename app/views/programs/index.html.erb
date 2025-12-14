@@ -5,6 +5,14 @@
 </div>
 
 <div class="p">
+  <%= link_to(t(".data_link"), [@user, :data], class: "link") %>
+</div>
+
+<div class="p">
+  <%= link_to(t(".attachments_link"), [@user, :attachments], class: "link") %>
+</div>
+
+<div class="p">
   <%= link_to(t(".repl_sessions_link"), [@user, :repl_sessions], class: "link") %>
 </div>
 

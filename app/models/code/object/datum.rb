@@ -98,7 +98,7 @@ class Code
       end
 
       def self.scope
-        policy_scope(::Datum)
+        policy_scope(::Datum).where(user: ::Current.user)
       end
 
       def call(**args)
@@ -188,7 +188,7 @@ class Code
       end
 
       def scope
-        policy_scope(::Datum)
+        policy_scope(::Datum).where(user: ::Current.user)
       end
 
       include(::Pundit::Authorization)

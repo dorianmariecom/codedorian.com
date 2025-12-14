@@ -1092,7 +1092,7 @@ fr:
       notice: programme évalué
     form:
       generate: générer
-      generating: générateur
+      generating: génération
       input: saisir
       input_placeholder: entrez l'entrée de votre programme
       name_placeholder: entrez le nom de votre programme
@@ -1142,6 +1142,8 @@ fr:
         other: "%{count} terminaux"
         zero: 0 terminaux
       repl_sessions_link: terminaux
+      data_link: données
+      attachments_link: fichiers
       schedule_all: programmer tout
       title: programmes
       unschedule_all: déprogrammer tout

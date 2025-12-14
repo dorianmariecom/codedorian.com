@@ -52,14 +52,18 @@ Current.with(user: User.find_by(id: parsed.options.user_id)) do
   if parsed.options.parse
     pp Code::Parser.parse(input).to_raw
   else
-    print(
-      Code.evaluate(
-        input,
-        output: $stdout,
-        error: $stderr,
-        timeout: parsed.options.timeout
+    begin
+      print(
+        Code.evaluate(
+          input,
+          output: $stdout,
+          error: $stderr,
+          timeout: parsed.options.timeout
+        )
       )
-    )
+    rescue Code::Error => e
+      warn "#{e.class}: #{e.message}"
+    end
   end
 
   if profile

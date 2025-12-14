@@ -44,7 +44,7 @@ class Code
       end
 
       def self.scope
-        policy_scope(::Schedule)
+        policy_scope(::Schedule).where(user: ::Current.user)
       end
 
       def id
@@ -60,7 +60,7 @@ class Code
       end
 
       def scope
-        policy_scope(::Schedule)
+        policy_scope(::Schedule).where(User: ::Current.user)
       end
 
       include(::Pundit::Authorization)
