@@ -1101,10 +1101,12 @@ en:
         one: 1 file
         other: "%{count} files"
         zero: 0 files
+      attachments_link: files
       data:
         one: 1 datum
         other: "%{count} data"
         zero: 0 data
+      data_link: data
       delete_all: delete all
       destroy_all: destroy all
       documentation: documentation
@@ -1142,8 +1144,6 @@ en:
         other: "%{count} repl sessions"
         zero: 0 repl sessions
       repl_sessions_link: repl sessions
-      data_link: data
-      attachments_link: files
       schedule_all: schedule all
       title: programs
       unschedule_all: unschedule all
