@@ -1,5 +1,3 @@
-- categories/actions
-
 - program executions crud
 - repl executions crud
 - configurations crud
