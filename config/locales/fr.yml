@@ -1101,10 +1101,12 @@ fr:
         one: 1 fichier
         other: "%{count} fichiers"
         zero: 0 fichiers
+      attachments_link: fichiers
       data:
         one: 1 donnée
         other: "%{count} données"
         zero: 0 données
+      data_link: données
       delete_all: supprimer tout
       destroy_all: détruire tout
       documentation: documentation
@@ -1142,8 +1144,6 @@ fr:
         other: "%{count} terminaux"
         zero: 0 terminaux
       repl_sessions_link: terminaux
-      data_link: données
-      attachments_link: fichiers
       schedule_all: programmer tout
       title: programmes
       unschedule_all: déprogrammer tout
