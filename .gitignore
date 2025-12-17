@@ -2,7 +2,6 @@
 *.sqlite3*
 .DS_Store
 /.bundle
-/.env
 /.env.*.local
 /.expo/*
 /.kamal/*
@@ -18,7 +17,6 @@
 /tmp/pids/*
 /tmp/storage/*
 /vendor/bundle/*
-!/.env*.erb
 !/.kamal/.keep
 !/app/assets/builds/.keep
 !/db/.keep
