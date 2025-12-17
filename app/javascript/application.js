@@ -6,24 +6,27 @@ import LocalTime from "local-time";
 import consumer from "consumer";
 import * as Sentry from "@sentry/browser";
 
-Sentry.init({
-  dsn: window.SENTRY_DSN,
-  environment: window.SENTRY_ENVIRONMENT,
-  release: window.SENTRY_RELEASE,
-  replaysOnErrorSampleRate: 1.0,
-  replaysSessionSampleRate: 0.1,
-  sendDefaultPii: true,
-  integrations: [
-    Sentry.replayIntegration({
-      maskAllText: false,
-      blockAllMedia: false,
-    }),
-    Sentry.feedbackIntegration({
-      colorScheme: "light",
-    }),
-  ],
-});
+const initSentry = () => {
+  Sentry.init({
+    dsn: window.SENTRY_DSN,
+    environment: window.SENTRY_ENVIRONMENT,
+    release: window.SENTRY_RELEASE,
+    replaysOnErrorSampleRate: 1.0,
+    replaysSessionSampleRate: 0.1,
+    sendDefaultPii: true,
+    integrations: [
+      Sentry.replayIntegration({
+        maskAllText: false,
+        blockAllMedia: false,
+      }),
+      Sentry.feedbackIntegration({
+        colorScheme: "light",
+      }),
+    ],
+  });
+};
 
+initSentry();
 LocalTime.start();
 
 Object.entries(window.translations.trix).forEach(([key, value]) => {
@@ -32,4 +35,5 @@ Object.entries(window.translations.trix).forEach(([key, value]) => {
 
 document.addEventListener("turbo:morph", () => {
   LocalTime.run();
+  initSentry();
 });
