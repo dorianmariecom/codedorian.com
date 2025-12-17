@@ -9,6 +9,8 @@ class ApplicationJob < ActiveJob::Base
   after_perform :cleanup_job_contexts
 
   def set_context(**args)
+    return if args.blank?
+
     Rails.error.set_context(**args.transform_values(&:as_json))
     Sentry.set_tags(**args.transform_values(&:as_json))
   end
