@@ -21,9 +21,4 @@ Rails.application.configure do
   config.solid_errors.email_from = "dorian@dorianmarie.com"
   config.solid_errors.email_to = "dorian@dorianmarie.com"
   config.solid_errors.send_emails = false
-  config.logger =
-    ActiveSupport::Logger
-      .new($stdout)
-      .tap { |logger| logger.formatter = Logger::Formatter.new }
-      .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
 end

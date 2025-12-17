@@ -1,3 +1,10 @@
+- logs
+- traces
+- events
+- metrics
+- versions
+- html
+- absent
 - program executions crud
 - repl executions crud
 - configurations crud
@@ -15,14 +22,3 @@
 - jobs crud
 - job contexts crud
 - logs crud
-
-- logs
-- traces
-- events
-- metrics
-
-- versions
-
-- html
-
-- absent
