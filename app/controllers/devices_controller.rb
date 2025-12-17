@@ -98,7 +98,7 @@ class DevicesController < ApplicationController
         policy_scope(User).find(params[:user_id])
       end
 
-    set_error_context(user: @user)
+    set_context(user: @user)
     add_breadcrumb(key: "users.index", path: :users)
     add_breadcrumb(text: @user, path: @user)
   end
@@ -135,7 +135,7 @@ class DevicesController < ApplicationController
 
   def load_device
     @device = authorize(scope.find(id))
-    set_error_context(device: @device)
+    set_context(device: @device)
     add_breadcrumb(text: @device, path: show_url)
   end
 

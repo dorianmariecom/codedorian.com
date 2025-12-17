@@ -132,7 +132,7 @@ class ErrorsController < ApplicationController
         policy_scope(User).find(params[:user_id])
       end
 
-    set_error_context(user: @user)
+    set_context(user: @user)
     add_breadcrumb(key: "users.index", path: :users)
     add_breadcrumb(text: @user, path: @user)
   end
@@ -142,7 +142,7 @@ class ErrorsController < ApplicationController
 
     @guest = Guest.new
 
-    set_error_context(guest: @guest)
+    set_context(guest: @guest)
     add_breadcrumb(key: "guests.index", path: :guests)
     add_breadcrumb(text: @guest, path: @guest)
   end
@@ -150,7 +150,7 @@ class ErrorsController < ApplicationController
   def load_error
     @error = authorize(scope.find(id))
 
-    set_error_context(error: @error)
+    set_context(error: @error)
     add_breadcrumb(text: @error, path: show_url)
   end
 
@@ -429,7 +429,7 @@ class ErrorsController < ApplicationController
 
     @program = programs_scope.find(params[:program_id])
 
-    set_error_context(program: @program)
+    set_context(program: @program)
     add_breadcrumb(key: "programs.index", path: [@user, :programs])
     add_breadcrumb(text: @program, path: [@user, @program])
   end
@@ -440,7 +440,7 @@ class ErrorsController < ApplicationController
     @program_schedule =
       program_schedules_scope.find(params[:program_schedule_id])
 
-    set_error_context(program_schedule: @program_schedule)
+    set_context(program_schedule: @program_schedule)
     add_breadcrumb(
       key: "program_schedules.index",
       path: [@user, @program, :program_schedules]
@@ -456,7 +456,7 @@ class ErrorsController < ApplicationController
 
     @program_prompt = program_prompts_scope.find(params[:program_prompt_id])
 
-    set_error_context(program_prompt: @program_prompt)
+    set_context(program_prompt: @program_prompt)
     add_breadcrumb(
       key: "program_prompts.index",
       path: [@user, @program, :program_prompts]
@@ -488,7 +488,7 @@ class ErrorsController < ApplicationController
 
     @repl_session = repl_sessions_scope.find(params[:repl_session_id])
 
-    set_error_context(repl_session: @repl_session)
+    set_context(repl_session: @repl_session)
     add_breadcrumb(key: "repl_sessions.index", path: [@user, :repl_sessions])
     add_breadcrumb(text: @repl_session, path: [@user, @repl_session])
   end
@@ -528,7 +528,7 @@ class ErrorsController < ApplicationController
 
     @address = addresses_scope.find(params[:address_id])
 
-    set_error_context(address: @address)
+    set_context(address: @address)
     add_breadcrumb(key: "addresses.index", path: [@user, :addresses])
     add_breadcrumb(text: @address, path: [@user, @address])
   end
@@ -538,7 +538,7 @@ class ErrorsController < ApplicationController
 
     @attachment = attachments_scope.find(params[:attachment_id])
 
-    set_error_context(attachment: @attachment)
+    set_context(attachment: @attachment)
     add_breadcrumb(key: "attachments.index", path: [@user, :attachments])
     add_breadcrumb(text: @attachment, path: [@user, @attachment])
   end
@@ -548,7 +548,7 @@ class ErrorsController < ApplicationController
 
     @datum = data_scope.find(params[:datum_id])
 
-    set_error_context(datum: @datum)
+    set_context(datum: @datum)
     add_breadcrumb(key: "data.index", path: [@user, :data])
     add_breadcrumb(text: @datum, path: [@user, @datum])
   end
@@ -558,7 +558,7 @@ class ErrorsController < ApplicationController
 
     @device = devices_scope.find(params[:device_id])
 
-    set_error_context(device: @device)
+    set_context(device: @device)
     add_breadcrumb(key: "devices.index", path: [@user, :devices])
     add_breadcrumb(text: @device, path: [@user, @device])
   end
@@ -568,7 +568,7 @@ class ErrorsController < ApplicationController
 
     @email_address = email_addresses_scope.find(params[:email_address_id])
 
-    set_error_context(email_address: @email_address)
+    set_context(email_address: @email_address)
     add_breadcrumb(
       key: "email_addresses.index",
       path: [@user, :email_addresses]
@@ -581,7 +581,7 @@ class ErrorsController < ApplicationController
 
     @handle = handles_scope.find(params[:handle_id])
 
-    set_error_context(handle: @handle)
+    set_context(handle: @handle)
     add_breadcrumb(key: "handles.index", path: [@user, :handles])
     add_breadcrumb(text: @handle, path: [@user, @handle])
   end
@@ -591,7 +591,7 @@ class ErrorsController < ApplicationController
 
     @message = messages_scope.find(params[:message_id])
 
-    set_error_context(message: @message)
+    set_context(message: @message)
     add_breadcrumb(key: "messages.index", path: [@user, :messages])
     add_breadcrumb(text: @message, path: [@user, @message])
   end
@@ -601,7 +601,7 @@ class ErrorsController < ApplicationController
 
     @name = names_scope.find(params[:name_id])
 
-    set_error_context(name: @name)
+    set_context(name: @name)
     add_breadcrumb(key: "names.index", path: [@user, :names])
     add_breadcrumb(text: @name, path: [@user, @name])
   end
@@ -611,7 +611,7 @@ class ErrorsController < ApplicationController
 
     @phone_number = phone_numbers_scope.find(params[:phone_number_id])
 
-    set_error_context(phone_number: @phone_number)
+    set_context(phone_number: @phone_number)
     add_breadcrumb(key: "phone_numbers.index", path: [@user, :phone_numbers])
     add_breadcrumb(text: @phone_number, path: [@user, @phone_number])
   end
@@ -621,7 +621,7 @@ class ErrorsController < ApplicationController
 
     @time_zone = time_zones_scope.find(params[:time_zone_id])
 
-    set_error_context(time_zone: @time_zone)
+    set_context(time_zone: @time_zone)
     add_breadcrumb(key: "time_zones.index", path: [@user, :time_zones])
     add_breadcrumb(text: @time_zone, path: [@user, @time_zone])
   end
@@ -631,7 +631,7 @@ class ErrorsController < ApplicationController
 
     @token = tokens_scope.find(params[:token_id])
 
-    set_error_context(token: @token)
+    set_context(token: @token)
     add_breadcrumb(key: "tokens.index", path: [@user, :tokens])
     add_breadcrumb(text: @token, path: [@user, @token])
   end

@@ -114,7 +114,7 @@ class UsersController < ApplicationController
         authorize(scope.find(params[:user_id].presence || params[:id]))
       end
 
-    set_error_context(user: @user)
+    set_context(user: @user)
     add_breadcrumb(text: @user, path: show_url)
   end
 

@@ -103,7 +103,7 @@ class AttachmentsController < ApplicationController
         policy_scope(User).find(params[:user_id])
       end
 
-    set_error_context(user: @user)
+    set_context(user: @user)
     add_breadcrumb(key: "users.index", path: :users)
     add_breadcrumb(text: @user, path: @user)
   end
@@ -136,7 +136,7 @@ class AttachmentsController < ApplicationController
 
   def load_attachment
     @attachment = authorize(scope.find(id))
-    set_error_context(attachment: @attachment)
+    set_context(attachment: @attachment)
     add_breadcrumb(text: @attachment, path: show_url)
   end
 

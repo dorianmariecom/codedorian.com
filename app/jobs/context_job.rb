@@ -3,7 +3,7 @@
 class ContextJob < ApplicationJob
   def perform(current: nil, context: nil, **args)
     Current.with(**current) do
-      set_error_context(**context)
+      set_context(**context)
       perform_with_context(**args)
     end
   end

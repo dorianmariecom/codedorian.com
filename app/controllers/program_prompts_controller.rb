@@ -54,7 +54,7 @@ class ProgramPromptsController < ApplicationController
         policy_scope(User).find(params[:user_id])
       end
 
-    set_error_context(user: @user)
+    set_context(user: @user)
     add_breadcrumb(key: "users.index", path: :users)
     add_breadcrumb(text: @user, path: @user)
   end
@@ -64,7 +64,7 @@ class ProgramPromptsController < ApplicationController
 
     @program = programs_scope.find(params[:program_id])
 
-    set_error_context(program: @program)
+    set_context(program: @program)
     add_breadcrumb(key: "programs.index", path: [@user, :programs])
     add_breadcrumb(text: @program, path: [@user, @program])
   end
@@ -111,7 +111,7 @@ class ProgramPromptsController < ApplicationController
 
   def load_program_prompt
     @program_prompt = authorize(scope.find(id))
-    set_error_context(program_prompt: @program_prompt)
+    set_context(program_prompt: @program_prompt)
     add_breadcrumb(text: @program_prompt, path: show_url)
   end
 end

@@ -112,7 +112,7 @@ class ReplSessionsController < ApplicationController
         policy_scope(User).find(params[:user_id])
       end
 
-    set_error_context(user: @user)
+    set_context(user: @user)
     add_breadcrumb(key: "users.index", path: :users)
     add_breadcrumb(text: @user, path: @user)
   end
@@ -166,7 +166,7 @@ class ReplSessionsController < ApplicationController
 
   def load_repl_session
     @repl_session = authorize(scope.find(id))
-    set_error_context(repl_session: @repl_session)
+    set_context(repl_session: @repl_session)
     add_breadcrumb(text: @repl_session, path: show_url)
   end
 

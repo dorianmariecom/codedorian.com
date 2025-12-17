@@ -12,6 +12,18 @@ module ApplicationHelper
     content_for(:title).presence || t("#{controller}.#{action}.title")
   end
 
+  def sentry_release
+    ENV.fetch("KAMAL_VERSION") { `git rev-parse HEAD`.strip }
+  end
+
+  def sentry_environment
+    Current.env
+  end
+
+  def sentry_dsn
+    Config.sentry.dsn.js
+  end
+
   def google_maps_api_key
     Config.google.maps.api_key
   end

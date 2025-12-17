@@ -81,7 +81,7 @@ class NamesController < ApplicationController
         policy_scope(User).find(params[:user_id])
       end
 
-    set_error_context(user: @user)
+    set_context(user: @user)
     add_breadcrumb(key: "users.index", path: :users)
     add_breadcrumb(text: @user, path: @user)
   end
@@ -118,7 +118,7 @@ class NamesController < ApplicationController
 
   def load_name
     @name = authorize(scope.find(id))
-    set_error_context(name: @name)
+    set_context(name: @name)
     add_breadcrumb(text: @name, path: show_url)
   end
 

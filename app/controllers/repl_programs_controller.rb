@@ -183,7 +183,7 @@ class ReplProgramsController < ApplicationController
         policy_scope(User).find(params[:user_id])
       end
 
-    set_error_context(user: @user)
+    set_context(user: @user)
     add_breadcrumb(key: "users.index", path: :users)
     add_breadcrumb(text: @user, path: @user)
   end
@@ -193,7 +193,7 @@ class ReplProgramsController < ApplicationController
 
     @repl_session = repl_sessions_scope.find(params[:repl_session_id])
 
-    set_error_context(repl_session: @repl_session)
+    set_context(repl_session: @repl_session)
     add_breadcrumb(key: "repl_sessions.index", path: [@user, :repl_sessions])
     add_breadcrumb(text: @repl_session, path: [@user, @repl_session])
   end
@@ -257,7 +257,7 @@ class ReplProgramsController < ApplicationController
 
   def load_repl_program
     @repl_program = authorize(scope.find(id))
-    set_error_context(repl_program: @repl_program)
+    set_context(repl_program: @repl_program)
     add_breadcrumb(text: @repl_program, path: show_url)
   end
 

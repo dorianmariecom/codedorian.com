@@ -81,7 +81,7 @@ class HandlesController < ApplicationController
         policy_scope(User).find(params[:user_id])
       end
 
-    set_error_context(user: @user)
+    set_context(user: @user)
     add_breadcrumb(key: "users.index", path: :users)
     add_breadcrumb(text: @user, path: @user)
   end
@@ -118,7 +118,7 @@ class HandlesController < ApplicationController
 
   def load_handle
     @handle = authorize(scope.find(id))
-    set_error_context(handle: @handle)
+    set_context(handle: @handle)
     add_breadcrumb(text: @handle, path: show_url)
   end
 

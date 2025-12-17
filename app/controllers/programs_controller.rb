@@ -212,7 +212,7 @@ class ProgramsController < ApplicationController
         policy_scope(User).find(params[:user_id])
       end
 
-    set_error_context(user: @user)
+    set_context(user: @user)
     add_breadcrumb(key: "users.index", path: :users)
     add_breadcrumb(text: @user, path: @user)
   end
@@ -309,7 +309,7 @@ class ProgramsController < ApplicationController
 
   def load_program
     @program = authorize(scope.find(id))
-    set_error_context(program: @program)
+    set_context(program: @program)
     add_breadcrumb(text: @program, path: show_url)
   end
 

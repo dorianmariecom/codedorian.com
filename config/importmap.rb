@@ -35,3 +35,9 @@ pin "thememirror" # @2.0.1
 pin "trix" # @2.1.15
 pin "w3c-keyname" # @2.2.8
 pin_all_from "app/javascript/controllers", under: "controllers", integrity: true
+pin "@sentry/browser", to: "@sentry--browser.js" # @10.30.0
+pin "@sentry-internal/browser-utils", to: "@sentry-internal--browser-utils.js" # @10.30.0
+pin "@sentry-internal/feedback", to: "@sentry-internal--feedback.js" # @10.30.0
+pin "@sentry-internal/replay", to: "@sentry-internal--replay.js" # @10.30.0
+pin "@sentry-internal/replay-canvas", to: "@sentry-internal--replay-canvas.js" # @10.30.0
+pin "@sentry/core", to: "@sentry--core.js" # @10.30.0

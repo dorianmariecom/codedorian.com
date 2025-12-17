@@ -81,7 +81,7 @@ class PasswordsController < ApplicationController
         policy_scope(User).find(params[:user_id])
       end
 
-    set_error_context(user: @user)
+    set_context(user: @user)
     add_breadcrumb(key: "users.index", path: :users)
     add_breadcrumb(text: @user, path: @user)
   end
@@ -118,7 +118,7 @@ class PasswordsController < ApplicationController
 
   def load_password
     @password = authorize(scope.find(id))
-    set_error_context(password: @password)
+    set_context(password: @password)
     add_breadcrumb(text: @password, path: show_url)
   end
 

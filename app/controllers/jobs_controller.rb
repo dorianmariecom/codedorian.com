@@ -87,7 +87,7 @@ class JobsController < ApplicationController
         policy_scope(User).find(params[:user_id])
       end
 
-    set_error_context(user: @user)
+    set_context(user: @user)
     add_breadcrumb(key: "users.index", path: :users)
     add_breadcrumb(text: @user, path: @user)
   end
@@ -97,7 +97,7 @@ class JobsController < ApplicationController
 
     @program = programs_scope.find(params[:program_id])
 
-    set_error_context(program: @program)
+    set_context(program: @program)
     add_breadcrumb(key: "programs.index", path: [@user, :programs])
     add_breadcrumb(text: @program, path: [@user, @program])
   end
@@ -107,7 +107,7 @@ class JobsController < ApplicationController
 
     @program_prompt = program_prompts_scope.find(params[:program_prompt_id])
 
-    set_error_context(program_prompt: @program_prompt)
+    set_context(program_prompt: @program_prompt)
     add_breadcrumb(
       key: "program_prompts.index",
       path: [@user, :program_prompts]
@@ -123,7 +123,7 @@ class JobsController < ApplicationController
 
     @repl_session = repl_sessions_scope.find(params[:repl_session_id])
 
-    set_error_context(repl_session: @repl_session)
+    set_context(repl_session: @repl_session)
     add_breadcrumb(key: "repl_sessions.index", path: [@user, :repl_sessions])
     add_breadcrumb(text: @repl_session, path: [@user, @repl_session])
   end
@@ -133,7 +133,7 @@ class JobsController < ApplicationController
 
     @repl_program = repl_programs_scope.find(params[:repl_program_id])
 
-    set_error_context(repl_program: @repl_program)
+    set_context(repl_program: @repl_program)
     add_breadcrumb(key: "repl_programs.index", path: [@user, :repl_programs])
     add_breadcrumb(
       text: @repl_program,
@@ -146,7 +146,7 @@ class JobsController < ApplicationController
 
     @repl_prompt = repl_prompts_scope.find(params[:repl_prompt_id])
 
-    set_error_context(repl_prompt: @repl_prompt)
+    set_context(repl_prompt: @repl_prompt)
     add_breadcrumb(key: "repl_prompts.index", path: [@user, :repl_prompts])
     add_breadcrumb(
       text: @repl_prompt,
@@ -157,7 +157,7 @@ class JobsController < ApplicationController
   def load_job
     @job = authorize(scope.find(id))
 
-    set_error_context(job: @job)
+    set_context(job: @job)
     add_breadcrumb(text: @job, path: show_url)
   end
 

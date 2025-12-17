@@ -11,6 +11,7 @@
     <%= stylesheet_link_tag("tailwind", data: { turbo_track: "reload" }) %>
     <meta name="turbo-refresh-method" content="morph" />
     <meta name="turbo-refresh-scroll" content="preserve" />
+    <%= Sentry.get_trace_propagation_meta.html_safe %>
   </head>
   <body
     class="min-h-dvh flex flex-col p-8 border-t-4 <%= Current.border_env %>"
@@ -23,6 +24,9 @@
       window.platform = "<%= browser.platform %>";
       window.RECAPTCHA_SITE_KEY = "<%= recaptcha_site_key %>";
       window.GOOGLE_MAPS_API_KEY = "<%= google_maps_api_key %>";
+      window.SENTRY_DSN = "<%= sentry_dsn %>";
+      window.SENTRY_RELEASE = "<%= sentry_release %>";
+      window.SENTRY_ENVIRONMENT = "<%= sentry_environment %>";
     </script>
 
     <div data-controller="update-time-zone"></div>

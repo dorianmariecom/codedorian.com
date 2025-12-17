@@ -11,7 +11,7 @@ class GuestsController < ApplicationController
 
   def show
     @guest = current_guest
-    set_error_context(guest: @guest)
+    set_context(guest: @guest)
     add_breadcrumb(text: @guest, path: show_url)
   end
 

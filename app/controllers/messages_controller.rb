@@ -94,7 +94,7 @@ class MessagesController < ApplicationController
         policy_scope(User).find(params[:user_id])
       end
 
-    set_error_context(user: @user)
+    set_context(user: @user)
     add_breadcrumb(key: "users.index", path: :users)
     add_breadcrumb(text: @user, path: @user)
   end
@@ -127,7 +127,7 @@ class MessagesController < ApplicationController
 
   def load_message
     @message = authorize(scope.find(id))
-    set_error_context(message: @message)
+    set_context(message: @message)
     add_breadcrumb(text: @message, path: show_url)
   end
 

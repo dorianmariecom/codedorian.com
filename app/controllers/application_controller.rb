@@ -113,7 +113,7 @@ class ApplicationController < ActionController::Base
 
   def set_current_user
     log_in(current_user_from_session || current_token&.user)
-    set_error_context(current_user: current_user_or_guest)
+    set_context(current_user: current_user_or_guest)
   end
 
   def set_current_request
@@ -232,8 +232,9 @@ class ApplicationController < ActionController::Base
     )
   end
 
-  def set_error_context(**args)
+  def set_context(**args)
     Rails.error.set_context(**args.transform_values(&:as_json))
+    Sentry.set_tags(**args.transform_values(&:as_json))
   end
 
   def error_message_for(error)

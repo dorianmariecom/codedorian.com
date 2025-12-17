@@ -81,7 +81,7 @@ class TokensController < ApplicationController
         policy_scope(User).find(params[:user_id])
       end
 
-    set_error_context(user: @user)
+    set_context(user: @user)
     add_breadcrumb(key: "users.index", path: :users)
     add_breadcrumb(text: @user, path: @user)
   end
@@ -118,7 +118,7 @@ class TokensController < ApplicationController
 
   def load_token
     @token = authorize(scope.find(id))
-    set_error_context(token: @token)
+    set_context(token: @token)
     add_breadcrumb(text: @token, path: show_url)
   end
 

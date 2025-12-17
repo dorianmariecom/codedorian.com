@@ -85,7 +85,7 @@ class EmailAddressesController < ApplicationController
         policy_scope(User).find(params[:user_id])
       end
 
-    set_error_context(user: @user)
+    set_context(user: @user)
     add_breadcrumb(key: "users.index", path: :users)
     add_breadcrumb(text: @user, path: @user)
   end
@@ -122,7 +122,7 @@ class EmailAddressesController < ApplicationController
 
   def load_email_address
     @email_address = authorize(scope.find(id))
-    set_error_context(email_address: @email_address)
+    set_context(email_address: @email_address)
     add_breadcrumb(text: @email_address, path: show_url)
   end
 

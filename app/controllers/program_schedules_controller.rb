@@ -83,7 +83,7 @@ class ProgramSchedulesController < ApplicationController
         policy_scope(User).find(params[:user_id])
       end
 
-    set_error_context(user: @user)
+    set_context(user: @user)
     add_breadcrumb(key: "users.index", path: :users)
     add_breadcrumb(text: @user, path: @user)
   end
@@ -93,7 +93,7 @@ class ProgramSchedulesController < ApplicationController
 
     @program = programs_scope.find(params[:program_id])
 
-    set_error_context(program: @program)
+    set_context(program: @program)
     add_breadcrumb(key: "programs.index", path: [@user, :programs])
     add_breadcrumb(text: @program, path: [@user, @program])
   end
@@ -133,7 +133,7 @@ class ProgramSchedulesController < ApplicationController
 
   def load_program_schedule
     @program_schedule = authorize(scope.find(id))
-    set_error_context(program_schedule: @program_schedule)
+    set_context(program_schedule: @program_schedule)
     add_breadcrumb(text: @program_schedule, path: show_url)
   end
 
