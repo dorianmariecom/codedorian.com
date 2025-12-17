@@ -604,11 +604,11 @@ GEM
     terminal-table (4.0.0)
       unicode-display_width (>= 1.1.1, < 4)
     thor (1.4.0)
-    thruster (0.1.15)
-    thruster (0.1.15-aarch64-linux)
-    thruster (0.1.15-arm64-darwin)
-    thruster (0.1.15-x86_64-darwin)
-    thruster (0.1.15-x86_64-linux)
+    thruster (0.1.17)
+    thruster (0.1.17-aarch64-linux)
+    thruster (0.1.17-arm64-darwin)
+    thruster (0.1.17-x86_64-darwin)
+    thruster (0.1.17-x86_64-linux)
     tilt (2.6.1)
     time (0.4.2)
       date
@@ -714,7 +714,7 @@ DEPENDENCIES
   stackprof
   stimulus-rails
   tailwindcss-rails
-  thruster (= 0.1.15)
+  thruster (= 0.1.17)
   turbo-rails
   with_advisory_lock
   zxcvbn-ruby

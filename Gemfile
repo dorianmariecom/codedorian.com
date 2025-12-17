@@ -4,7 +4,7 @@ source "https://rubygems.org"
 
 ruby "3.4.5"
 
-gem "thruster", "0.1.15" # port 80 vs 3000
+gem "thruster", "0.1.17" # port 80 vs 3000
 
 gem "active_storage_validations"
 gem "bcrypt"
