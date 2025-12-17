@@ -233,6 +233,8 @@ class ApplicationController < ActionController::Base
   end
 
   def set_context(**args)
+    return if args.blank?
+
     Rails.error.set_context(**args.transform_values(&:as_json))
     Sentry.set_tags(**args.transform_values(&:as_json))
   end
