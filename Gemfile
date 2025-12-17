@@ -14,7 +14,7 @@ gem "bundle-audit"
 gem "bundler-audit"
 gem "cloudflare-rails"
 gem "code-ruby"
-gem 'datadog'
+gem "datadog"
 gem "dorian"
 gem "dorian-arguments"
 gem "dorian-to_struct"
