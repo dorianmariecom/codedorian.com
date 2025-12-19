@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SentryHelper
   def sentry_feedback
     %w[
@@ -18,6 +20,6 @@ module SentryHelper
       highlightToolText
       hideToolText
       removeHighlightText
-    ].to_h { |variable| [variable, t("helpers.sentry.#{variable}")] }
+    ].index_with { |variable| t("helpers.sentry.#{variable}") }
   end
 end
