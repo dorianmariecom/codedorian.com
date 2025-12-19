@@ -555,6 +555,24 @@ fr:
           one: 1 trouvé
           other: "%{count} trouvé"
           zero: 0 trouvé
+    sentry:
+      addScreenshotButtonLabel: ajouter une capture d'écran
+      cancelButtonLabel: annuler
+      confirmButtonLabel: confirmer
+      emailLabel: adresse e-mail
+      emailPlaceholder: e.g. dorian@dorianmarie.com
+      formTitle: rapporter un bug
+      hideToolText: cacher
+      highlightToolText: surligner
+      isRequiredLabel: "(requis)"
+      messageLabel: message
+      messagePlaceholder: qu'est qu'il s'est passé ?
+      nameLabel: nom
+      namePlaceholder: e.g. dorian marié
+      removeHighlightText: enlever
+      removeScreenshotButtonLabel: enlever la capture d'écran
+      submitButtonLabel: rapporter
+      successMessageText: bug rapporté
   jobs:
     delete:
       notice: tâche supprimée
@@ -595,6 +613,7 @@ fr:
       updated_at: mise à jour à
   layouts:
     application:
+      feedback: bug ?
       js:
         address:
           not_present: doit être présent
@@ -650,9 +669,6 @@ fr:
           not_valid:
             feminine: doit être valide
             masculine: doit être valide
-      log_in: se connecter
-      log_out: se déconnecter
-      register: s'inscrire
       title: code
     menu:
       about: à propos

@@ -6,27 +6,37 @@ import LocalTime from "local-time";
 import consumer from "consumer";
 import * as Sentry from "@sentry/browser";
 
-const initSentry = () => {
-  Sentry.init({
-    dsn: window.SENTRY_DSN,
-    environment: window.SENTRY_ENVIRONMENT,
-    release: window.SENTRY_RELEASE,
-    replaysOnErrorSampleRate: 1.0,
-    replaysSessionSampleRate: 0.1,
-    sendDefaultPii: true,
-    integrations: [
-      Sentry.replayIntegration({
-        maskAllText: false,
-        blockAllMedia: false,
-      }),
-      Sentry.feedbackIntegration({
-        colorScheme: "light",
-      }),
-    ],
-  });
-};
+window.Sentry = Sentry;
 
-initSentry();
+Sentry.init({
+  dsn: window.SENTRY_DSN,
+  environment: window.SENTRY_ENVIRONMENT,
+  release: window.SENTRY_RELEASE,
+  replaysOnErrorSampleRate: 1.0,
+  replaysSessionSampleRate: 0.1,
+  sendDefaultPii: true,
+  integrations: [
+    Sentry.replayIntegration({
+      maskAllText: false,
+      blockAllMedia: false,
+    }),
+    Sentry.feedbackIntegration({
+      autoInject: false,
+      colorScheme: "light",
+      ...window.SENTRY_FEEDBACK,
+      themeLight: {
+        foreground: "black",
+        background: "white",
+        accentForeground: "white",
+        accentBackground: "black",
+        successColor: "#00a63e",
+        errorColor: "#e7000b",
+        boxShadow: "none",
+      },
+    }),
+  ],
+});
+
 LocalTime.start();
 
 Object.entries(window.translations.trix).forEach(([key, value]) => {
@@ -35,5 +45,4 @@ Object.entries(window.translations.trix).forEach(([key, value]) => {
 
 document.addEventListener("turbo:morph", () => {
   LocalTime.run();
-  initSentry();
 });
