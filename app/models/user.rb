@@ -152,7 +152,9 @@ class User < ApplicationRecord
   end
 
   def time_zone
-    time_zones.verified.primary.first&.time_zone ||
+    return @time_zone if defined?(@time_zone)
+
+    @time_zone = time_zones.verified.primary.first&.time_zone ||
       time_zones.verified.first&.time_zone
   end
 
