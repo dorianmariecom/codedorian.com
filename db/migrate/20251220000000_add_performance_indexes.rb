@@ -31,5 +31,10 @@ class AddPerformanceIndexes < ActiveRecord::Migration[8.1]
     
     add_index :program_schedules, :program_id,
               name: "index_program_schedules_on_program_id"
+    
+    # Add GIN index for JSONB context column to speed up JSONB queries
+    add_index :job_contexts, :context,
+              using: :gin,
+              name: "index_job_contexts_on_context"
   end
 end
