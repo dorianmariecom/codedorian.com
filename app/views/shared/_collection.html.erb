@@ -3,17 +3,18 @@
 <% as = local_assigns.fetch(:as) %>
 <% content = local_assigns.fetch(:content, true) %>
 <% extras = local_assigns.fetch(:extras, {}) %>
+<% total_pages = collection.total_pages %>
 
 <div class="p text-gray-600"><%= page_entries_info(collection) %></div>
 
 <% if content %>
-  <% if collection.total_pages > 1 %>
+  <% if total_pages > 1 %>
     <div class="p text-gray-600"><%= paginate(collection) %></div>
   <% end %>
 
   <%= render(partial:, collection:, as:, **extras) %>
 
-  <% if collection.total_pages > 1 %>
+  <% if total_pages > 1 %>
     <div class="p text-gray-600"><%= paginate(collection) %></div>
   <% end %>
 <% end %>
