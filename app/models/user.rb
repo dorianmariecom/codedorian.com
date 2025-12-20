@@ -278,7 +278,7 @@ class User < ApplicationRecord
       description: description,
       updated_at: updated_at,
       created_at: created_at,
-      programs: programs
+      programs: programs.includes(:program_schedules)
     )
   end
 end
