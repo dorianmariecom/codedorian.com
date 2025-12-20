@@ -1,24 +1,20 @@
-- logs
-- traces
-- events
-- metrics
-- versions
 - html
-- absent
-- program executions crud
-- repl executions crud
+- presence
 - configurations crud
 - country codes crud
 - doc classes crud
-- doc functions crud
 - doc examples crud
-- errors crud
+- doc functions crud
 - error occurrences crud
-- password validator inside passwords controller crud
+- errors crud
 - guests crud
+- job contexts crud
+- jobs crud
+- logs crud
+- password validator inside passwords controller crud
+- program executions crud
 - program prompts crud
+- repl executions crud
 - repl prompts crud
 - sessions crud
-- jobs crud
-- job contexts crud
-- logs crud
+- versions crud
