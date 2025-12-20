@@ -19,7 +19,7 @@ class ApplicationJob < ActiveJob::Base
     hash.each do |k, v|
       key = [prefix, k].compact.join("_")
 
-      v.is_a?(Hash) ? flatten_hash(v, key, acc) : acc[key.to_sym] = v
+      v.is_a?(Hash) ? sentry_hash(v, key, acc) : acc[key.to_sym] = v
     end
 
     acc
