@@ -27,7 +27,7 @@ class ApplicationJob < ActiveJob::Base
 
   def cleanup_job_contexts
     PaperTrail.request(enabled: false) do
-      JobContext.where(active_job_id: job_id).destroy_all
+      JobContext.where(active_job_id: job_id).delete_all
     end
   end
 end
