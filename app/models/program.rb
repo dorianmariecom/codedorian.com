@@ -135,10 +135,11 @@ class Program < ApplicationRecord
   end
 
   def scheduled_job
-    Job
-      .where_program(self)
-      .where(finished_at: nil, class_name: "ProgramEvaluateJob")
-      .first
+    @scheduled_job ||=
+      Job
+        .where_program(self)
+        .where(finished_at: nil, class_name: "ProgramEvaluateJob")
+        .first
   end
 
   def scheduled_job?
