@@ -19,6 +19,12 @@ pin "@marijn/find-cluster-break", to: "@marijn--find-cluster-break.js" # @1.0.2
 pin "@rails/actioncable", to: "@rails--actioncable.js" # @8.0.300
 pin "@rails/actioncable/src", to: "@rails--actioncable--src.js" # @8.0.300
 pin "@rails/actiontext", to: "@rails--actiontext.js" # @8.0.300
+pin "@sentry-internal/browser-utils", to: "@sentry-internal--browser-utils.js" # @10.30.0
+pin "@sentry-internal/feedback", to: "@sentry-internal--feedback.js" # @10.30.0
+pin "@sentry-internal/replay", to: "@sentry-internal--replay.js" # @10.30.0
+pin "@sentry-internal/replay-canvas", to: "@sentry-internal--replay-canvas.js" # @10.30.0
+pin "@sentry/browser", to: "@sentry--browser.js" # @10.30.0
+pin "@sentry/core", to: "@sentry--core.js" # @10.30.0
 pin "application", integrity: true
 pin "codemirror" # @6.0.2
 pin "constants", integrity: true
@@ -35,9 +41,3 @@ pin "thememirror" # @2.0.1
 pin "trix" # @2.1.15
 pin "w3c-keyname" # @2.2.8
 pin_all_from "app/javascript/controllers", under: "controllers", integrity: true
-pin "@sentry/browser", to: "@sentry--browser.js" # @10.30.0
-pin "@sentry-internal/browser-utils", to: "@sentry-internal--browser-utils.js" # @10.30.0
-pin "@sentry-internal/feedback", to: "@sentry-internal--feedback.js" # @10.30.0
-pin "@sentry-internal/replay", to: "@sentry-internal--replay.js" # @10.30.0
-pin "@sentry-internal/replay-canvas", to: "@sentry-internal--replay-canvas.js" # @10.30.0
-pin "@sentry/core", to: "@sentry--core.js" # @10.30.0
