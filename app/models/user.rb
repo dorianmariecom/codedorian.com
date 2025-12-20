@@ -148,7 +148,9 @@ class User < ApplicationRecord
   end
 
   def time_zone
-    time_zones.verified.order(primary: :desc).first&.time_zone
+    return @time_zone if defined?(@time_zone)
+
+    @time_zone = time_zones.verified.order(primary: :desc).first&.time_zone
   end
 
   def unverified_time_zone

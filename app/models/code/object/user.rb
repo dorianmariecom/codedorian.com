@@ -23,8 +23,9 @@ class Code
       def self.code_find(value)
         code_value = value.to_code
         scope_with_handles
+          .includes(programs: :program_schedules)
           .where(handles: { handle: code_value.to_s })
-          .or(scope_with_handles.where(id: code_value.to_s))
+          .or(scope_with_handles.includes(programs: :program_schedules).where(id: code_value.to_s))
           .first
           .to_code
       end
@@ -32,8 +33,9 @@ class Code
       def self.code_find!(value)
         code_value = value.to_code
         scope_with_handles
+          .includes(programs: :program_schedules)
           .where(handles: { handle: code_value.to_s })
-          .or(scope_with_handles.where(id: code_value.to_s))
+          .or(scope_with_handles.includes(programs: :program_schedules).where(id: code_value.to_s))
           .first!
           .to_code
       rescue ActiveRecord::RecordNotFound => e
