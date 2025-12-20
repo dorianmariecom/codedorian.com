@@ -26,7 +26,7 @@ class ProgramExecutionsController < ApplicationController
   def destroy_all
     authorize(ProgramExecution)
 
-    scope.destroy_all
+    unsearched_scope.destroy_all
 
     redirect_back_or_to(index_url)
   end
@@ -34,7 +34,7 @@ class ProgramExecutionsController < ApplicationController
   def delete_all
     authorize(ProgramExecution)
 
-    scope.delete_all
+    unsearched_scope.delete_all
 
     redirect_back_or_to(index_url)
   end
@@ -68,6 +68,13 @@ class ProgramExecutionsController < ApplicationController
 
   def scope
     scope = searched_policy_scope(ProgramExecution)
+    scope = scope.where_program(@program) if @program
+    scope = scope.where_user(@user) if @user
+    scope
+  end
+
+  def unsearched_scope
+    scope = policy_scope(ProgramExecution)
     scope = scope.where_program(@program) if @program
     scope = scope.where_user(@user) if @user
     scope
