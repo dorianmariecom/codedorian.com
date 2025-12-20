@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_09_120952) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_21_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -70,6 +70,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_09_120952) do
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.boolean "verified", default: false, null: false
+    t.index %w[user_id verified primary],
+            name: "index_addresses_on_user_id_and_verified_and_primary"
     t.index ["user_id"], name: "index_addresses_on_user_id"
   end
 
@@ -100,6 +102,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_09_120952) do
     t.index %w[token user_id],
             name: "index_devices_on_token_and_user_id",
             unique: true
+    t.index %w[user_id verified primary],
+            name: "index_devices_on_user_id_and_verified_and_primary"
     t.index ["user_id"], name: "index_devices_on_user_id"
   end
 
@@ -110,6 +114,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_09_120952) do
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.boolean "verified", default: false, null: false
+    t.index %w[user_id verified primary],
+            name: "index_email_addresses_on_user_id_and_verified_and_primary"
     t.index ["user_id"], name: "index_email_addresses_on_user_id"
   end
 
@@ -120,6 +126,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_09_120952) do
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.boolean "verified", default: false, null: false
+    t.index %w[user_id verified primary],
+            name: "index_handles_on_user_id_and_verified_and_primary"
     t.index ["user_id"], name: "index_handles_on_user_id"
   end
 
@@ -129,6 +137,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_09_120952) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["active_job_id"], name: "index_job_contexts_on_active_job_id"
+    t.index ["context"], name: "index_job_contexts_on_context", using: :gin
   end
 
   create_table "messages", force: :cascade do |t|
@@ -153,6 +162,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_09_120952) do
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.boolean "verified", default: false, null: false
+    t.index %w[user_id verified primary],
+            name: "index_names_on_user_id_and_verified_and_primary"
     t.index ["user_id"], name: "index_names_on_user_id"
   end
 
@@ -164,6 +175,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_09_120952) do
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.boolean "verified", default: false, null: false
+    t.index %w[user_id verified primary],
+            name: "index_passwords_on_user_id_and_verified_and_primary"
     t.index ["user_id"], name: "index_passwords_on_user_id"
   end
 
@@ -174,6 +187,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_09_120952) do
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.boolean "verified", default: false, null: false
+    t.index %w[user_id verified primary],
+            name: "index_phone_numbers_on_user_id_and_verified_and_primary"
     t.index ["user_id"], name: "index_phone_numbers_on_user_id"
   end
 
@@ -225,6 +240,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_09_120952) do
     t.bigint "program_id", null: false
     t.datetime "starts_at"
     t.datetime "updated_at", null: false
+    t.index ["program_id"], name: "index_program_schedules_on_program_id"
   end
 
   create_table "programs", force: :cascade do |t|
@@ -368,6 +384,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_09_120952) do
     t.binary "payload", null: false
     t.index ["channel"], name: "index_solid_cable_messages_on_channel"
     t.index ["channel_hash"], name: "index_solid_cable_messages_on_channel_hash"
+    t.index %w[created_at id],
+            name: "index_solid_cable_messages_on_created_at_and_id"
     t.index ["created_at"], name: "index_solid_cable_messages_on_created_at"
   end
 
@@ -568,6 +586,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_09_120952) do
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.boolean "verified", default: false, null: false
+    t.index %w[user_id verified primary],
+            name: "index_time_zones_on_user_id_and_verified_and_primary"
     t.index ["user_id"], name: "index_time_zones_on_user_id"
   end
 
@@ -578,6 +598,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_09_120952) do
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.boolean "verified", default: false, null: false
+    t.index %w[user_id verified primary],
+            name: "index_tokens_on_user_id_and_verified_and_primary"
     t.index ["user_id"], name: "index_tokens_on_user_id"
   end
 
