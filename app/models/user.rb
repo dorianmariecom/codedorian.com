@@ -124,52 +124,47 @@ class User < ApplicationRecord
   end
 
   def name
-    names.verified.primary.first&.name || names.verified.first&.name
+    names.verified.order(primary: :desc).first&.name
   end
 
   def address
-    addresses.verified.primary.first&.address ||
-      addresses.verified.first&.address
+    addresses.verified.order(primary: :desc).first&.address
   end
 
   def handle
-    handles.verified.primary.first&.handle || handles.verified.first&.handle
+    handles.verified.order(primary: :desc).first&.handle
   end
 
   def password
-    passwords.verified.primary.first&.password ||
-      passwords.verified.first&.password
+    passwords.verified.order(primary: :desc).first&.password
   end
 
   def email_address
-    email_addresses.verified.primary.first&.email_address ||
-      email_addresses.verified.first&.email_address
+    email_addresses.verified.order(primary: :desc).first&.email_address
   end
 
   def phone_number
-    phone_numbers.verified.primary.first&.phone_number ||
-      phone_numbers.verified.first&.phone_number
+    phone_numbers.verified.order(primary: :desc).first&.phone_number
   end
 
   def time_zone
-    time_zones.verified.primary.first&.time_zone ||
-      time_zones.verified.first&.time_zone
+    time_zones.verified.order(primary: :desc).first&.time_zone
   end
 
   def unverified_time_zone
-    time_zones.primary.first&.time_zone || time_zones.first&.time_zone
+    time_zones.order(primary: :desc).first&.time_zone
   end
 
   def device
-    devices.verified.primary.first&.device || devices.verified.first&.device
+    devices.verified.order(primary: :desc).first&.device
   end
 
   def unverified_device
-    devices.primary.first&.device || devices.first&.device
+    devices.order(primary: :desc).first&.device
   end
 
   def token
-    tokens.verified.primary.first&.token || tokens.verified.first&.token
+    tokens.verified.order(primary: :desc).first&.token
   end
 
   def verified!
