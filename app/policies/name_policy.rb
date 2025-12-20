@@ -3,7 +3,7 @@
 class NamePolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
-      scope.where(user: policy_scope(User))
+      scope.where(user: current_user)
     end
   end
 
