@@ -6,21 +6,23 @@ class SchedulingJob < ContextJob
   limits_concurrency(key: "SchedulingJob", on_conflict: :discard)
 
   def perform_with_context
-    Program.includes(:user).find_each do |program|
-      perform_later(
-        SchedulingProgramJob,
-        arguments: {
-          program: program
-        },
-        context: {
-          user: program.user,
-          program: program
-        },
-        current: {
-          user: program.user,
-          program: program
-        }
-      )
-    end
+    Program
+      .includes(:user, :program_schedules, :program_execution)
+      .find_each do |program|
+        perform_later(
+          SchedulingProgramJob,
+          arguments: {
+            program: program
+          },
+          context: {
+            user: program.user,
+            program: program
+          },
+          current: {
+            user: program.user,
+            program: program
+          }
+        )
+      end
   end
 end
