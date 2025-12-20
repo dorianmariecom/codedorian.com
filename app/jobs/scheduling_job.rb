@@ -7,7 +7,7 @@ class SchedulingJob < ContextJob
 
   def perform_with_context
     Program
-      .includes(:user, :program_schedules, :program_execution)
+      .includes(:program_schedules, :program_execution, user: :time_zones)
       .find_each do |program|
         perform_later(
           SchedulingProgramJob,
