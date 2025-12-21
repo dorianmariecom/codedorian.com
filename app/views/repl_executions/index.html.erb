@@ -2,18 +2,18 @@
 
 <%= render("shared/search") %>
 
-<% if @repl_executions.any? %>
-  <div class="p">
-    <%= render(
-      "shared/confirm",
-      url: [:destroy_all, *index_url],
-      text: t(".destroy_all")
-    ) %>
-    <%= render("shared/confirm", url: [:delete_all, *index_url], text: t(".delete_all")) %>
-  </div>
-<% end %>
-
 <turbo-frame id="search" target="_top">
+  <% if @repl_executions.any? %>
+    <div class="p">
+      <%= render(
+        "shared/confirm",
+        url: [:destroy_all, *index_url],
+        text: t(".destroy_all")
+      ) %>
+      <%= render("shared/confirm", url: [:delete_all, *index_url], text: t(".delete_all")) %>
+    </div>
+  <% end %>
+
   <%= render_collection(
     partial: "repl_executions/repl_execution",
     collection: @repl_executions,

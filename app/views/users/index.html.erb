@@ -4,17 +4,17 @@
 
 <%= render("shared/search") %>
 
-<% if @users.any? %>
-  <div class="p">
-    <%= render(
-      "shared/confirm",
-      url: [:destroy_all, *index_url],
-      text: t(".destroy_all")
-    ) %>
-    <%= render("shared/confirm", url: [:delete_all, *index_url], text: t(".delete_all")) %>
-  </div>
-<% end %>
-
 <turbo-frame id="search" target="_top">
+  <% if @users.any? %>
+    <div class="p">
+      <%= render(
+        "shared/confirm",
+        url: [:destroy_all, *index_url],
+        text: t(".destroy_all")
+      ) %>
+      <%= render("shared/confirm", url: [:delete_all, *index_url], text: t(".delete_all")) %>
+    </div>
+  <% end %>
+
   <%= render_collection(partial: "users/user", collection: @users, as: :user) %>
 </turbo-frame>
