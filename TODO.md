@@ -1,5 +1,3 @@
-- html
-- presence
 - configurations crud
 - country codes crud
 - doc classes crud
