@@ -11,6 +11,10 @@ class PasswordPolicy < ApplicationPolicy
     true
   end
 
+  def check?
+    true
+  end
+
   def show?
     owner? || admin?
   end

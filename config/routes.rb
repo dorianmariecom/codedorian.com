@@ -271,6 +271,7 @@ Rails.application.routes.draw do
 
       resources(:passwords) do
         collection do
+          post :check
           delete "/destroy_all", to: "passwords#destroy_all"
           delete "/delete_all", to: "passwords#delete_all"
         end
@@ -422,7 +423,6 @@ Rails.application.routes.draw do
     define.call
 
     resources :country_codes
-    resources :password_validations
     resources :docs do
       scope ":doc_type" do
         resources :docs

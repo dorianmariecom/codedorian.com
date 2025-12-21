@@ -4,11 +4,20 @@ class PasswordsController < ApplicationController
   before_action(:load_user)
   before_action { add_breadcrumb(key: "passwords.index", path: index_url) }
   before_action(:load_password, only: %i[show edit update destroy])
+  skip_before_action(:verify_captcha, only: :check)
+  skip_after_action(:verify_policy_scoped, only: :check)
 
   def index
     authorize(Password)
 
     @passwords = scope.page(params[:page]).order(created_at: :asc)
+  end
+
+  def check
+    authorize(Password)
+
+    result = PasswordValidator.check(params[:password])
+    render(json: { success: result.success?, message: result.message })
   end
 
   def show

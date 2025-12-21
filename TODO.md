@@ -1,3 +1,5 @@
+- laurie's quote
+
 - configurations crud
 - country codes crud
 - doc classes crud
@@ -9,7 +11,6 @@
 - job contexts crud
 - jobs crud
 - logs crud
-- password validator inside passwords controller crud
 - program executions crud
 - program prompts crud
 - repl executions crud

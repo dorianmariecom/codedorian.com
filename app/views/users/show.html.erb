@@ -124,5 +124,5 @@
 <% if admin? %>
   <%= render("shared/list", user: @user, model: ::Error) %>
   <%= render("shared/list", user: @user, model: ErrorOccurrence) %>
-  <%= render("shared/list", user: @user, model: Job, content: false) %>
+  <%= render("shared/list", user: @user, model: Job) %>
 <% end %>
