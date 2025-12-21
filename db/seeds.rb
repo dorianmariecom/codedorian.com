@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-rpush_config = Config.rpush
+rpush_config = Rails.application.credentials.rpush
 ios_config = rpush_config.ios
 android_config = rpush_config.android
 
