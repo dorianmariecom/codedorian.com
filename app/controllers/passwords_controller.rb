@@ -4,6 +4,7 @@ class PasswordsController < ApplicationController
   before_action(:load_user)
   before_action { add_breadcrumb(key: "passwords.index", path: index_url) }
   before_action(:load_password, only: %i[show edit update destroy])
+  skip_after_action(:verify_policy_scoped, only: :check)
 
   def index
     authorize(Password)
@@ -67,6 +68,13 @@ class PasswordsController < ApplicationController
     scope.delete_all
 
     redirect_back_or_to(index_url)
+  end
+
+  def check
+    authorize(:password_validation)
+
+    result = PasswordValidator.check(params[:password])
+    render(json: { success: result.success?, message: result.message })
   end
 
   private
