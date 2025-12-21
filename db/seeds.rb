@@ -7,9 +7,11 @@ android_config = rpush_config.android
 
 rpush_config.applications.each do |application|
   ios_config.environments.each do |environment|
-    Rpush::Apnsp8::App.find_or_create_by!(
+    app = Rpush::Apnsp8::App.find_or_create_by!(
       name: application[:name],
-      environment: environment,
+      environment: environment
+    )
+    app.update!(
       bundle_id: application[:bundle_id],
       team_id: ios_config.team_id,
       apn_key: ios_config.apn_key,
@@ -18,9 +20,11 @@ rpush_config.applications.each do |application|
   end
 
   android_config.environments.each do |environment|
-    Rpush::Fcm::App.find_or_create_by!(
+    app = Rpush::Fcm::App.find_or_create_by!(
       name: application[:name],
-      environment: environment,
+      environment: environment
+    )
+    app.update!(
       bundle_id: application[:bundle_id],
       firebase_project_id: android_config.firebase_project_id,
       json_key: android_config.json_key.to_json
