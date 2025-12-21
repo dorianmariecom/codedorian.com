@@ -235,8 +235,12 @@ class ApplicationController < ActionController::Base
   def set_context(**args)
     return if args.blank?
 
-    Rails.error.set_context(**args.transform_values(&:as_json))
-    Sentry.set_tags(**sentry_hash(args.transform_values(&:as_json)))
+    # Convert values to JSON and back to ensure plain Ruby objects (Hash/Array/primitives)
+    # This handles OpenStruct and other complex objects that can't be cast to PostgreSQL JSON
+    json_safe_args = args.transform_values { |v| JSON.parse(v.as_json.to_json) }
+    
+    Rails.error.set_context(**json_safe_args)
+    Sentry.set_tags(**sentry_hash(json_safe_args))
   end
 
   def sentry_hash(hash, prefix = nil, acc = {})
