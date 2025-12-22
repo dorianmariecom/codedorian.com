@@ -1443,6 +1443,7 @@ fr:
       phone_numbers: numéros de téléphone
       program_executions: exécutions de programmes
       program_prompts: invites du programme
+      program_schedules: horaires de programmes
       programs: programmes
       repl_executions: exécutions de terminaux
       repl_programs: programmes de terminaux
