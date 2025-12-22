@@ -1,13 +1,12 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-rpush_config = Config.rpush
-ios_config = rpush_config.ios
-android_config = rpush_config.android
+ios_config = Config.rpush.ios
+android_config = Config.rpush.android
 
-rpush_config.applications.each do |application|
+Config.rpush.applications.each do |application|
   ios_config.environments.each do |environment|
-    Rpush::Apnsp8::App.find_or_create_by!(
+    p Rpush::Apnsp8::App.find_or_create_by!(
       name: application[:name],
       environment: environment,
       bundle_id: application[:bundle_id],
@@ -18,7 +17,7 @@ rpush_config.applications.each do |application|
   end
 
   android_config.environments.each do |environment|
-    Rpush::Fcm::App.find_or_create_by!(
+    p Rpush::Fcm::App.find_or_create_by!(
       name: application[:name],
       environment: environment,
       bundle_id: application[:bundle_id],
@@ -26,4 +25,8 @@ rpush_config.applications.each do |application|
       json_key: android_config.json_key.to_json
     )
   end
+end
+
+Config.configurations.to_h.each do |name, content|
+  p Configuration.find_or_create_by!(name: name, content: content)
 end

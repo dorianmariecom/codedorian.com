@@ -59,6 +59,6 @@ class Datum < ApplicationRecord
   end
 
   def to_s
-    key_sample.presence || value_sample || t("to_s", id: id)
+    key_sample.presence || value_sample.presence || t("to_s", id: id)
   end
 end

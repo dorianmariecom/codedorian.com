@@ -1523,8 +1523,9 @@ en:
           questions/answers, and world days that inform me
           and give me the opportunity to share this knowledge
       - author: laurie
-        content: |
-          the notification system is great
+        content: 'the notification system is great
+
+          '
       register: register
       title: code
     icons:

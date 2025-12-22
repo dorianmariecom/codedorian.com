@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_21_000000) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_21_183602) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -80,6 +80,14 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_21_000000) do
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_attachments_on_user_id"
+  end
+
+  create_table "configurations", force: :cascade do |t|
+    t.jsonb "content", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_configurations_on_name", unique: true
   end
 
   create_table "data", force: :cascade do |t|

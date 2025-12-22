@@ -7,6 +7,8 @@ class AdminConstraints
 end
 
 Rails.application.routes.draw do
+  mount ActionCable.server => "/cable"
+
   define_errors =
     lambda do
       resources(:errors) do
@@ -442,13 +444,6 @@ Rails.application.routes.draw do
     get :android, to: "static#android"
     get :download, to: "static#download"
     get :form, to: "static#form"
-
-    resources :configurations do
-      get :ios_v2, on: :collection
-      get :android_v2, on: :collection
-    end
-
-    mount ActionCable.server => "/cable"
 
     match "/404", to: "errors#not_found", via: :all
     match "/422", to: "errors#unprocessable_entity", via: :all
