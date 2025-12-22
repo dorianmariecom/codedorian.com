@@ -38,7 +38,6 @@
   <%= Current.translated_env %>
 
   <% if admin? %>
-    <b><%= t(".admin") %></b>
     <%= link_to(t(".users"), :users, class: "link") %>
     <%= link_to(t(".programs"), :programs, class: "link") %>
     <%= link_to(t(".messages"), :messages, class: "link") %>
