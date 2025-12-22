@@ -259,6 +259,7 @@ en:
       new: new
     static:
       about: about
+      admin: admin
       android: android
       download: download
       form: form
@@ -1482,6 +1483,35 @@ en:
         </p>
       title: about
       version: 'version: '
+    admin:
+      addresses: addresses
+      attachments: files
+      configurations: configurations
+      data: data
+      devices: devices
+      email_addresses: email addresses
+      error_occurrences: error occurrences
+      errors: errors
+      guests: guests
+      handles: handles
+      jobs: jobs
+      messages: messages
+      names: names
+      passwords: passwords
+      phone_numbers: phone numbers
+      program_executions: program executions
+      program_prompts: program prompts
+      program_prompt_schedules: program prompt schedules
+      program_schedules: program schedules
+      programs: programs
+      repl_executions: repl executions
+      repl_programs: repl programs
+      repl_prompts: repl prompts
+      repl_sessions: repl sessions
+      time_zones: time zones
+      tokens: tokens
+      users: users
+      title: admin
     android:
       title: android
     download:
