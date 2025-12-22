@@ -441,6 +441,7 @@ Rails.application.routes.draw do
     get :ios, to: "static#ios"
     get :android, to: "static#android"
     get :download, to: "static#download"
+    get :admin, to: "static#admin"
     get :form, to: "static#form"
 
     resources :configurations do

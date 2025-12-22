@@ -259,6 +259,7 @@ fr:
       new: nouveau
     static:
       about: à propos
+      admin: admin
       android: androïde
       download: télécharger
       form: formulaire
@@ -1482,6 +1483,10 @@ fr:
         </p>
       title: à propos
       version: 'version: '
+    admin:
+      time_zones: fuseaux horaires
+      tokens: jetons
+      users: utilisateurs
     android:
       title: androïde
     download:

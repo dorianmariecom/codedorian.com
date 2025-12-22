@@ -32,6 +32,9 @@ class StaticController < ApplicationController
   def download
   end
 
+  def admin
+  end
+
   def form
     redirect_to(Config.form.url, allow_other_host: true)
   end
