@@ -259,6 +259,7 @@ en:
       new: new
     static:
       about: about
+      admin: admin
       android: android
       download: download
       form: form
