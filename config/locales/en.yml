@@ -259,6 +259,7 @@ en:
       new: new
     static:
       about: about
+      admin: admin
       android: android
       download: download
       form: form
@@ -1482,6 +1483,10 @@ en:
         </p>
       title: about
       version: 'version: '
+    admin:
+      time_zones: time zones
+      tokens: tokens
+      users: users
     android:
       title: android
     download:
