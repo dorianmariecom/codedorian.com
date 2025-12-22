@@ -1482,6 +1482,14 @@ fr:
         </p>
       title: à propos
       version: 'version: '
+    admin:
+      phone_numbers: numéros de téléphone
+      program_executions: exécutions de programmes
+      program_prompt_schedules: horaires des invites du programme
+      program_prompts: invites du programme
+      program_schedules: horaires de programmes
+      programs: programmes
+      repl_executions: exécutions de terminaux
     android:
       title: androïde
     download:

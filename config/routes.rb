@@ -442,6 +442,7 @@ Rails.application.routes.draw do
     get :android, to: "static#android"
     get :download, to: "static#download"
     get :form, to: "static#form"
+    get :admin, to: redirect("/")
 
     resources :configurations do
       get :ios_v2, on: :collection
