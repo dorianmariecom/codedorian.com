@@ -443,7 +443,7 @@ Rails.application.routes.draw do
     get :download, to: "static#download"
     get :form, to: "static#form"
 
-    resources :configurations do
+    resources :configurations, only: [] do
       get :ios_v2, on: :collection
       get :android_v2, on: :collection
     end
