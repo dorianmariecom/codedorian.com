@@ -672,7 +672,6 @@ en:
       title: code
     menu:
       about: about
-      admin: admin
       attachments: files
       data: data
       docs: documentation
