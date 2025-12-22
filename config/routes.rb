@@ -456,6 +456,9 @@ Rails.application.routes.draw do
 
     root to: "static#home"
 
+    # Explicitly block /admin route (incomplete feature)
+    match "/admin", to: "errors#not_found", via: :all
+
     match "*path", to: "errors#not_found", via: :all
   end
 end
