@@ -259,6 +259,7 @@ en:
       new: new
     static:
       about: about
+      admin: admin
       android: android
       download: download
       form: form
@@ -1482,6 +1483,15 @@ en:
         </p>
       title: about
       version: 'version: '
+    admin:
+      addresses: addresses
+      attachments: files
+      configurations: configurations
+      data: data
+      devices: devices
+      email_addresses: email addresses
+      error_occurrences: error occurrences
+      title: admin
     android:
       title: android
     download:

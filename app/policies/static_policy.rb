@@ -40,4 +40,8 @@ class StaticPolicy < ApplicationPolicy
   def form?
     true
   end
+
+  def admin?
+    admin?
+  end
 end
