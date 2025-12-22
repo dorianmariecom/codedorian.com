@@ -1482,6 +1482,14 @@ en:
         </p>
       title: about
       version: 'version: '
+    admin:
+      phone_numbers: phone numbers
+      program_executions: program executions
+      program_prompt_schedules: program prompt schedules
+      program_prompts: program prompts
+      program_schedules: program schedules
+      programs: programs
+      repl_executions: repl executions
     android:
       title: android
     download:
