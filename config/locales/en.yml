@@ -1443,6 +1443,7 @@ en:
       phone_numbers: phone numbers
       program_executions: program executions
       program_prompts: program prompts
+      program_schedules: program schedules
       programs: programs
       repl_executions: repl executions
       repl_programs: repl programs
