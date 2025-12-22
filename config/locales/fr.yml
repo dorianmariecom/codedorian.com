@@ -1433,6 +1433,7 @@ fr:
       new_program: nouveau programme
       new_program_execution: nouvelle exécution de programme
       new_program_prompt: nouvel invite de programme
+      new_program_prompt_schedule: nouvel horaire d'invite de programme
       new_repl_execution: nouvelle exécution de terminal
       new_repl_program: nouveau programme de terminal
       new_repl_prompt: nouvelle invite de terminal
