@@ -28,5 +28,8 @@ Config.rpush.applications.each do |application|
 end
 
 Config.configurations.to_h.each do |name, content|
-  p Configuration.find_or_create_by!(name: name, content: content)
+  configuration = Configuration.find_or_initialize_by(name: name)
+  configuration.content = content
+  configuration.save!
+  p configuration
 end
