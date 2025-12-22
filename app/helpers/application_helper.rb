@@ -9,7 +9,7 @@ module ApplicationHelper
     action = action_name
     action = "new" if action == "create"
     action = "edit" if action == "update"
-    content_for(:title).presence || t("#{controller}.#{action}.title")
+    content_for(:title).presence || t("#{controller}.#{action}.title", default: "#{controller}##{action}")
   end
 
   def sentry_release
