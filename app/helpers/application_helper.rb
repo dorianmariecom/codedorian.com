@@ -13,7 +13,7 @@ module ApplicationHelper
   end
 
   def sentry_release
-    ENV.fetch("KAMAL_VERSION") { `git rev-parse HEAD`.strip }
+    ENV.fetch("KAMAL_VERSION", "unknown")
   end
 
   def sentry_environment
