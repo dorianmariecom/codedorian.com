@@ -1433,6 +1433,7 @@ en:
       new_program: new program
       new_program_execution: new program execution
       new_program_prompt: new program prompt
+      new_program_prompt_schedule: new program prompt schedule
       new_repl_execution: new repl execution
       new_repl_program: new repl program
       new_repl_prompt: new repl prompt
