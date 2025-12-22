@@ -259,6 +259,7 @@ en:
       new: new
     static:
       about: about
+      admin: admin
       android: android
       download: download
       form: form
@@ -1482,6 +1483,26 @@ en:
         </p>
       title: about
       version: 'version: '
+    admin:
+      attachments: files
+      data: data
+      description: admin panel for managing all resources
+      errors: errors
+      guests: guests
+      jobs: jobs
+      messages: messages
+      program_executions: program executions
+      program_prompt_schedules: program prompt schedules
+      program_prompts: program prompts
+      program_schedules: program schedules
+      programs: programs
+      repl_executions: repl executions
+      repl_programs: repl programs
+      repl_prompts: repl prompts
+      repl_sessions: repl sessions
+      resources: resources
+      title: admin
+      users: users
     android:
       title: android
     download:
