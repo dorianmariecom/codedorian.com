@@ -259,6 +259,7 @@ fr:
       new: nouveau
     static:
       about: à propos
+      admin: administrateur
       android: androïde
       download: télécharger
       form: formulaire
@@ -1482,6 +1483,26 @@ fr:
         </p>
       title: à propos
       version: 'version: '
+    admin:
+      attachments: fichiers
+      data: données
+      description: panneau d'administration pour gérer toutes les ressources
+      errors: erreurs
+      guests: invités
+      jobs: tâches
+      messages: messages
+      program_executions: exécutions de programme
+      program_prompt_schedules: horaires des invites du programme
+      program_prompts: invites du programme
+      program_schedules: horaires du programme
+      programs: programmes
+      repl_executions: exécutions de terminal
+      repl_programs: programmes de terminal
+      repl_prompts: invites de terminal
+      repl_sessions: sessions de terminal
+      resources: ressources
+      title: administrateur
+      users: utilisateurs
     android:
       title: androïde
     download:
