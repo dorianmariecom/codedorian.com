@@ -11,6 +11,10 @@ class ConfigurationsController < ApplicationController
   end
 
   def show
+    respond_to do |format|
+      format.json { render json: @configuration.content }
+      format.html { authorize(@configuration, :edit?) }
+    end
   end
 
   def new
@@ -70,7 +74,7 @@ class ConfigurationsController < ApplicationController
   private
 
   def load_configuration
-    @configuration = authorize(scope.find(id))
+    @configuration = authorize(scope.find_by!(name: id))
 
     set_context(configuration: @configuration)
     add_breadcrumb(text: @configuration, path: show_url)

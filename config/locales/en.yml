@@ -7,6 +7,9 @@ en:
         primary: primary?
         user_id: user
         verified: verified?
+      configuration:
+        content: content
+        name: name
       datum:
         key: key
         value: value
@@ -155,6 +158,10 @@ en:
       edit: edit
       index: files
       new: new
+    configurations:
+      edit: edit
+      index: configurations
+      new: new
     data:
       edit: edit
       index: data
@@ -258,6 +265,7 @@ en:
       index: sessions
       new: new
     static:
+      admin: admin
       about: about
       android: android
       download: download
@@ -280,6 +288,35 @@ en:
       edit: edit
       index: users
       new: new
+  configurations:
+    create:
+      notice: configuration created
+    destroy:
+      notice: configuration deleted
+    edit:
+      submit: update configuration
+      title: edit configuration
+    index:
+      delete_all: delete all
+      destroy_all: destroy all
+      new: new configuration
+      title: configurations
+    model:
+      invalid_json: invalid json
+      to_s: configuration#%{id}
+    new:
+      submit: create configuration
+      title: new configuration
+    show:
+      content: content
+      created_at: created at
+      delete: delete configuration
+      edit: edit configuration
+      id: id
+      name: name
+      updated_at: updated at
+    update:
+      notice: configuration updated
   current:
     model:
       envs:
@@ -518,31 +555,24 @@ en:
   helpers:
     application:
       menu:
+        admin: admin
         about: about
         account: account
-        attachments: files
-        data: data
-        docs: documentation
         english: english
-        errors: errors
         french: french
         home: home
-        jobs: jobs
         log_in: log in
         messages: messages
-        privacy: privacy
         programs: programs
         register: register
-        terms: terms
-        users: users
       tabs:
         account: account
         home: home
         log_in: log in
         messages: messages
-        more: more
         programs: programs
         register: register
+        admin: admin
     label:
       session:
         email_address: email address
@@ -612,6 +642,17 @@ en:
       scheduled_at: scheduled at
       updated_at: updated at
   layouts:
+    menu:
+      admin: admin
+      about: about
+      english: english
+      french: french
+      log_in: log in
+      log_out: log out
+      messages: messages
+      programs: programs
+      register: register
+      title: code
     application:
       feedback: bug?
       js:
@@ -670,26 +711,6 @@ en:
             feminine: must be valid
             masculine: must be valid
       title: code
-    menu:
-      about: about
-      admin: admin
-      attachments: files
-      data: data
-      docs: documentation
-      download: download
-      english: english
-      errors: errors
-      french: french
-      jobs: jobs
-      log_in: log in
-      log_out: log out
-      messages: messages
-      privacy: privacy
-      programs: programs
-      register: register
-      terms: terms
-      title: code
-      users: users
   messages:
     create:
       notice: message created
@@ -1442,7 +1463,11 @@ en:
       passwords: passwords
       phone_numbers: phone numbers
       program_executions: program executions
+      program_schedules: program schedules
+      new_program_schedule: new program schedule
       program_prompts: program prompts
+      program_prompt_schedules: program prompt schedules
+      new_program_prompt_schedule: new program prompt schedule
       programs: programs
       repl_executions: repl executions
       repl_programs: repl programs
@@ -1457,6 +1482,35 @@ en:
       placeholder: enter your search query
       submit: search
   static:
+    admin:
+      users: users
+      configurations: configurations
+      guests: guests
+      title: admin
+      addresses: addresses
+      attachments: files
+      data: data
+      devices: devices
+      email_addresses: email addresses
+      error_occurrences: error occurrences
+      errors: errors
+      handles: handles
+      jobs: jobs
+      messages: messages
+      names: names
+      passwords: passwords
+      phone_numbers: phone numbers
+      program_executions: program executions
+      program_schedules: program schedules
+      program_prompts: program prompts
+      program_prompt_schedules: program prompt schedules
+      programs: programs
+      repl_executions: repl executions
+      repl_programs: repl programs
+      repl_prompts: repl prompts
+      repl_sessions: repl sessions
+      time_zones: time zones
+      tokens: tokens
     about:
       about_html: |
         <p>

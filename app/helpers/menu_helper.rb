@@ -60,16 +60,15 @@ module MenuHelper
         image: :info,
         path: about_path
       },
-      {
-        title: t("helpers.application.menu.privacy"),
-        image: :lock,
-        path: privacy_path
-      },
-      {
-        title: t("helpers.application.menu.terms"),
-        image: ios ? :newspaper : :contract,
-        path: terms_path
-      },
+      (
+        if admin?
+          {
+            title: t("helpers.application.menu.admin"),
+            image: ios ? :suitcase : :work,
+            path: admin_path
+          }
+        end
+      ),
       (
         if fr?
           {
@@ -85,51 +84,6 @@ module MenuHelper
             title: t("helpers.application.menu.french"),
             image: ios ? :flag : :language_french,
             path: url_for(locale: :fr)
-          }
-        end
-      ),
-      (
-        if admin?
-          {
-            title: t("helpers.application.menu.users"),
-            image: ios ? "person.3" : :groups,
-            path: users_path
-          }
-        end
-      ),
-      (
-        if admin?
-          {
-            title: t("helpers.application.menu.programs"),
-            image: ios ? "laptopcomputer" : :computer,
-            path: programs_path
-          }
-        end
-      ),
-      (
-        if admin?
-          {
-            title: t("helpers.application.menu.messages"),
-            image: ios ? "message.fill" : :chat,
-            path: messages_path
-          }
-        end
-      ),
-      (
-        if admin?
-          {
-            title: t("helpers.application.menu.errors"),
-            image: ios ? "exclamationmark.warninglight" : :priority_high,
-            path: errors_path
-          }
-        end
-      ),
-      (
-        if admin?
-          {
-            title: t("helpers.application.menu.jobs"),
-            image: ios ? :suitcase : :work,
-            path: jobs_path
           }
         end
       )

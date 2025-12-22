@@ -424,6 +424,13 @@ Rails.application.routes.draw do
 
     define.call
 
+    resources :configurations do
+      collection do
+        delete "/destroy_all", to: "users#destroy_all"
+        delete "/delete_all", to: "users#delete_all"
+      end
+    end
+
     resources :country_codes
     resources :docs do
       scope ":doc_type" do
@@ -444,6 +451,7 @@ Rails.application.routes.draw do
     get :android, to: "static#android"
     get :download, to: "static#download"
     get :form, to: "static#form"
+    get :admin, to: "static#admin"
 
     match "/404", to: "errors#not_found", via: :all
     match "/422", to: "errors#unprocessable_entity", via: :all

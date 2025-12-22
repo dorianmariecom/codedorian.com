@@ -7,6 +7,9 @@ fr:
         primary: principale ?
         user_id: utilisateur
         verified: vérifiée ?
+      configuration:
+        content: contenu
+        name: nom
       datum:
         key: clé
         value: valeur
@@ -71,7 +74,7 @@ fr:
         user_id: utilisateur
         verified: vérifié ?
       user:
-        admin: administrateur ?
+        admin: admin ?
         locale: langage
         verified: vérifié ?
     errors:
@@ -155,6 +158,10 @@ fr:
       edit: modifier
       index: fichiers
       new: nouveau
+    configurations:
+      edit: modifier
+      index: configurations
+      new: nouvelle
     data:
       edit: modifier
       index: données
@@ -258,6 +265,7 @@ fr:
       index: sessions
       new: nouveau
     static:
+      admin: admin
       about: à propos
       android: androïde
       download: télécharger
@@ -294,11 +302,8 @@ fr:
     destroy:
       notice: donnée supprimée
     edit:
-      submit: mettre à jour les données
+      submit: mettre à jour la donnée
       title: modifier la donnée
-    form:
-      key_placeholder: entrez la clé de votre donnée
-      value_placeholder: entrez la valeur de votre donnée
     index:
       delete_all: supprimer tout
       destroy_all: détruire tout
@@ -315,10 +320,10 @@ fr:
       delete: supprimer la donnée
       edit: modifier la donnée
       id: identifiant
-      key: clé
-      updated_at: mis à jour à
-      user: utilisateur
+      key: clef
       value: valeur
+      user: utilisateur
+      updated_at: mis à jour à
     update:
       notice: données mises à jour
   devices:
@@ -470,7 +475,7 @@ fr:
         none: aucun
       to_s: invité
     show:
-      admin: administrateur
+      admin: admin
       created_at: créé à
       delete: supprimer
       id: identifiant
@@ -518,31 +523,24 @@ fr:
   helpers:
     application:
       menu:
+        admin: admin
         about: à propos
         account: compte
-        attachments: fichiers
-        data: données
-        docs: documentation
         english: anglais
-        errors: erreurs
         french: français
         home: accueil
-        jobs: tâches
         log_in: se connecter
         messages: messages
-        privacy: confidentialité
         programs: programmes
         register: s'inscrire
-        terms: termes
-        users: utilisateurs
       tabs:
         account: compte
         home: accueil
         log_in: se connecter
         messages: messages
-        more: plus
         programs: programmes
         register: s'inscrire
+        admin: admin
     label:
       session:
         email_address: adresse email
@@ -612,6 +610,17 @@ fr:
       scheduled_at: prévue à
       updated_at: mise à jour à
   layouts:
+    menu:
+      admin: admin
+      about: à propos
+      english: anglais
+      french: français
+      log_in: se connecter
+      log_out: se déconnecter
+      messages: messages
+      programs: programmes
+      register: s'inscrire
+      title: code
     application:
       feedback: bug ?
       js:
@@ -670,26 +679,6 @@ fr:
             feminine: doit être valide
             masculine: doit être valide
       title: code
-    menu:
-      about: à propos
-      admin: administrateur
-      attachments: fichiers
-      data: données
-      docs: documentation
-      download: télécharger
-      english: anglais
-      errors: erreurs
-      french: français
-      jobs: tâches
-      log_in: se connecter
-      log_out: se déconnecter
-      messages: messages
-      privacy: confidentialité
-      programs: programmes
-      register: s'inscrire
-      terms: termes
-      title: code
-      users: utilisateurs
   messages:
     create:
       notice: message créé
@@ -1442,7 +1431,11 @@ fr:
       passwords: mots de passe
       phone_numbers: numéros de téléphone
       program_executions: exécutions de programmes
+      program_schedules: horaires de programmes
+      new_program_schedule: nouvel horaire de programme
       program_prompts: invites du programme
+      program_prompt_schedules: horaires des invites de programmes
+      new_program_prompt_schedule: nouvel horaire d'invite de programme
       programs: programmes
       repl_executions: exécutions de terminaux
       repl_programs: programmes de terminaux
@@ -1457,7 +1450,38 @@ fr:
       placeholder: saisissez votre requête de recherche
       submit: recherche
   static:
+    admin:
+      title: admin
+      addresses: adresses
+      attachments: fichiers
+      configurations: configurations
+      data: données
+      devices: appareils
+      email_addresses: adresses e-mail
+      error_occurrences: occurrences d'erreur
+      errors: erreurs
+      guests: invités
+      handles: identifiants
+      jobs: tâches
+      messages: messages
+      names: noms
+      passwords: mots de passe
+      phone_numbers: numéros de téléphone
+      program_executions: exécutions de programmes
+      program_prompt_schedules: horaires des invites de programmes
+      program_prompts: invites de programmes
+      program_schedules: horaires de programmes
+      programs: programmes
+      repl_executions: exécutions de terminaux
+      repl_programs: programmes de terminaux
+      repl_prompts: invites de terminaux
+      repl_sessions: terminaux
+      time_zones: fuseaux horaires
+      tokens: jetons
+      users: utilisateurs
     about:
+      terms: termes et conditions
+      privacy: politique de confidentialité
       about_html: |
         <p>
           code est le projet de
@@ -1647,7 +1671,7 @@ fr:
       title: nouvel utilisateur
     show:
       address: adresse
-      admin: administrateur
+      admin: admin
       created_at: créé à
       delete: supprimer l'utilisateur
       device: appareil
@@ -1673,3 +1697,32 @@ fr:
       next: suivant
       previous: précédent
       truncate: "…"
+  configurations:
+    create:
+      notice: configuration créée
+    destroy:
+      notice: configuration supprimée
+    edit:
+      submit: mettre à jour la configuration
+      title: modifier la configuration
+    index:
+      delete_all: supprimer tout
+      destroy_all: détruire tout
+      new: nouvelle configuration
+      title: configurations
+    model:
+      invalid_json: json invalide
+      to_s: configuration#%{id}
+    new:
+      submit: créer une configuration
+      title: nouvelle configuration
+    show:
+      content: contenu
+      created_at: créé à
+      delete: supprimer la configuration
+      edit: modifier la configuration
+      id: identifiant
+      name: nom
+      updated_at: mis à jour à
+    update:
+      notice: configurations mises à jour

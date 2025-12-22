@@ -35,4 +35,7 @@ class StaticController < ApplicationController
   def form
     redirect_to(Config.form.url, allow_other_host: true)
   end
+
+  def admin
+  end
 end

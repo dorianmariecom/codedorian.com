@@ -64,6 +64,16 @@ module TabsHelper
             default: false
           }
         end
+      ),
+      (
+        if admin?
+          {
+            title: t("helpers.application.tabs.admin"),
+            image: ios ? :suitcase : :work,
+            path: admin_path,
+            default: false
+          }
+        end
       )
     ].compact
   end

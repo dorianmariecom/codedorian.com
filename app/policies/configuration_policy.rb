@@ -3,7 +3,7 @@
 class ConfigurationPolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
-      admin? ? scope.all : scope.none
+      scope.all
     end
   end
 
@@ -12,7 +12,7 @@ class ConfigurationPolicy < ApplicationPolicy
   end
 
   def show?
-    admin?
+    true
   end
 
   def create?
