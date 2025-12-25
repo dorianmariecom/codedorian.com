@@ -1363,8 +1363,8 @@ fr:
       title: connexion
   shared:
     confirm:
-      modal_cancel: Non
-      modal_confirm: Oui
+      modal_cancel: non
+      modal_confirm: oui
       modal_title: êtes-vous sûr?
     filter:
       address: adresse
