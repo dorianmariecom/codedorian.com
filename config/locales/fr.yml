@@ -962,7 +962,6 @@ fr:
         errored: erroné
         in_progress: en cours
         initialized: initialisé
-      submit: programme de mise à jour
       to_s: invite_de_programme#%{id}
     show:
       created_at: créé à
@@ -1091,7 +1090,7 @@ fr:
     destroy:
       notice: programme supprimé
     edit:
-      submit: programme de mise à jour
+      submit: mettre à jour le programme
       title: modifier le programme
     evaluate:
       notice: programme évalué
