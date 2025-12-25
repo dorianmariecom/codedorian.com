@@ -88,7 +88,7 @@ GEM
     bcrypt (3.1.20)
     bcrypt_pbkdf (1.1.2)
     bigdecimal (4.0.1)
-    brakeman (7.1.1)
+    brakeman (7.1.2)
       racc
     browser (6.2.0)
     builder (3.3.0)
@@ -104,7 +104,7 @@ GEM
       railties (>= 7.2.0, < 8.2.0)
       zeitwerk (>= 2.5.0)
     cmdparse (3.0.7)
-    code-ruby (1.8.2)
+    code-ruby (1.8.3)
       activesupport
       base64
       bigdecimal
@@ -215,7 +215,7 @@ GEM
       reline
     http-2 (1.1.1)
     http_accept_language (2.1.1)
-    i18n (1.14.7)
+    i18n (1.14.8)
       concurrent-ruby (~> 1.0)
     i18n-tasks (1.1.2)
       activesupport (>= 4.0.2)
@@ -358,7 +358,7 @@ GEM
     pg (1.6.2-arm64-darwin)
     pg (1.6.2-x86_64-darwin)
     pg (1.6.2-x86_64-linux)
-    phonelib (0.10.14)
+    phonelib (0.10.15)
     pp (0.6.3)
       prettyprint
     prettier_print (1.2.1)
@@ -435,7 +435,7 @@ GEM
     rainbow (3.1.1)
     rake (13.3.1)
     rchardet (1.10.0)
-    rdoc (7.0.1)
+    rdoc (7.0.3)
       erb
       psych (>= 4.0.0)
       tsort
@@ -477,7 +477,7 @@ GEM
       rspec-mocks (~> 3.13)
       rspec-support (~> 3.13)
     rspec-support (3.13.6)
-    rubocop (1.82.0)
+    rubocop (1.82.1)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
