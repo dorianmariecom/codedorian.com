@@ -438,6 +438,12 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :country_code_ip_addresses do
+      collection do
+        get :me
+      end
+    end
+
     resources :docs do
       scope ":doc_type" do
         resources :docs
