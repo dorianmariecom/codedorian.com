@@ -1,5 +1,6 @@
 <%= form_for(show_url) do |f| %>
-  <% content = f.object.errors.include?(:content) ? f.object.content : f.object.content_json %>
+  <% content =
+    f.object.errors.include?(:content) ? f.object.content : f.object.content_json %>
 
   <div
     class="p"
@@ -17,7 +18,7 @@
         action: "validation#input",
         form_type: :other
       },
-      autocomplete: :off,
+      autocomplete: :off
     ) %>
     <div class="text-red-600" hidden data-validation-target="error"></div>
   </div>

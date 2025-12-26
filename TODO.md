@@ -1,6 +1,3 @@
-- laurie's quote
-
-- configurations crud
 - country codes crud
 - doc classes crud
 - doc examples crud

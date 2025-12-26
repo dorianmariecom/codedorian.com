@@ -265,8 +265,8 @@ en:
       index: sessions
       new: new
     static:
-      admin: admin
       about: about
+      admin: admin
       android: android
       download: download
       form: form
@@ -555,9 +555,9 @@ en:
   helpers:
     application:
       menu:
-        admin: admin
         about: about
         account: account
+        admin: admin
         english: english
         french: french
         home: home
@@ -567,12 +567,12 @@ en:
         register: register
       tabs:
         account: account
+        admin: admin
         home: home
         log_in: log in
         messages: messages
         programs: programs
         register: register
-        admin: admin
     label:
       session:
         email_address: email address
@@ -642,17 +642,6 @@ en:
       scheduled_at: scheduled at
       updated_at: updated at
   layouts:
-    menu:
-      admin: admin
-      about: about
-      english: english
-      french: french
-      log_in: log in
-      log_out: log out
-      messages: messages
-      programs: programs
-      register: register
-      title: code
     application:
       feedback: bug?
       js:
@@ -710,6 +699,17 @@ en:
           not_valid:
             feminine: must be valid
             masculine: must be valid
+      title: code
+    menu:
+      about: about
+      admin: admin
+      english: english
+      french: french
+      log_in: log in
+      log_out: log out
+      messages: messages
+      programs: programs
+      register: register
       title: code
   messages:
     create:
@@ -1454,6 +1454,8 @@ en:
       new_program: new program
       new_program_execution: new program execution
       new_program_prompt: new program prompt
+      new_program_prompt_schedule: new program prompt schedule
+      new_program_schedule: new program schedule
       new_repl_execution: new repl execution
       new_repl_program: new repl program
       new_repl_prompt: new repl prompt
@@ -1463,11 +1465,9 @@ en:
       passwords: passwords
       phone_numbers: phone numbers
       program_executions: program executions
-      program_schedules: program schedules
-      new_program_schedule: new program schedule
-      program_prompts: program prompts
       program_prompt_schedules: program prompt schedules
-      new_program_prompt_schedule: new program prompt schedule
+      program_prompts: program prompts
+      program_schedules: program schedules
       programs: programs
       repl_executions: repl executions
       repl_programs: repl programs
@@ -1482,35 +1482,6 @@ en:
       placeholder: enter your search query
       submit: search
   static:
-    admin:
-      users: users
-      configurations: configurations
-      guests: guests
-      title: admin
-      addresses: addresses
-      attachments: files
-      data: data
-      devices: devices
-      email_addresses: email addresses
-      error_occurrences: error occurrences
-      errors: errors
-      handles: handles
-      jobs: jobs
-      messages: messages
-      names: names
-      passwords: passwords
-      phone_numbers: phone numbers
-      program_executions: program executions
-      program_schedules: program schedules
-      program_prompts: program prompts
-      program_prompt_schedules: program prompt schedules
-      programs: programs
-      repl_executions: repl executions
-      repl_programs: repl programs
-      repl_prompts: repl prompts
-      repl_sessions: repl sessions
-      time_zones: time zones
-      tokens: tokens
     about:
       about_html: |
         <p>
@@ -1536,6 +1507,35 @@ en:
         </p>
       title: about
       version: 'version: '
+    admin:
+      addresses: addresses
+      attachments: files
+      configurations: configurations
+      data: data
+      devices: devices
+      email_addresses: email addresses
+      error_occurrences: error occurrences
+      errors: errors
+      guests: guests
+      handles: handles
+      jobs: jobs
+      messages: messages
+      names: names
+      passwords: passwords
+      phone_numbers: phone numbers
+      program_executions: program executions
+      program_prompt_schedules: program prompt schedules
+      program_prompts: program prompts
+      program_schedules: program schedules
+      programs: programs
+      repl_executions: repl executions
+      repl_programs: repl programs
+      repl_prompts: repl prompts
+      repl_sessions: repl sessions
+      time_zones: time zones
+      title: admin
+      tokens: tokens
+      users: users
     android:
       title: android
     download:

@@ -265,8 +265,8 @@ fr:
       index: sessions
       new: nouveau
     static:
-      admin: admin
       about: à propos
+      admin: admin
       android: androïde
       download: télécharger
       form: formulaire
@@ -288,6 +288,35 @@ fr:
       edit: modifier
       index: utilisateurs
       new: nouveau
+  configurations:
+    create:
+      notice: configuration créée
+    destroy:
+      notice: configuration supprimée
+    edit:
+      submit: mettre à jour la configuration
+      title: modifier la configuration
+    index:
+      delete_all: supprimer tout
+      destroy_all: détruire tout
+      new: nouvelle configuration
+      title: configurations
+    model:
+      invalid_json: json invalide
+      to_s: configuration#%{id}
+    new:
+      submit: créer une configuration
+      title: nouvelle configuration
+    show:
+      content: contenu
+      created_at: créé à
+      delete: supprimer la configuration
+      edit: modifier la configuration
+      id: identifiant
+      name: nom
+      updated_at: mis à jour à
+    update:
+      notice: configurations mises à jour
   current:
     model:
       envs:
@@ -321,9 +350,9 @@ fr:
       edit: modifier la donnée
       id: identifiant
       key: clef
-      value: valeur
-      user: utilisateur
       updated_at: mis à jour à
+      user: utilisateur
+      value: valeur
     update:
       notice: données mises à jour
   devices:
@@ -523,9 +552,9 @@ fr:
   helpers:
     application:
       menu:
-        admin: admin
         about: à propos
         account: compte
+        admin: admin
         english: anglais
         french: français
         home: accueil
@@ -535,12 +564,12 @@ fr:
         register: s'inscrire
       tabs:
         account: compte
+        admin: admin
         home: accueil
         log_in: se connecter
         messages: messages
         programs: programmes
         register: s'inscrire
-        admin: admin
     label:
       session:
         email_address: adresse email
@@ -610,17 +639,6 @@ fr:
       scheduled_at: prévue à
       updated_at: mise à jour à
   layouts:
-    menu:
-      admin: admin
-      about: à propos
-      english: anglais
-      french: français
-      log_in: se connecter
-      log_out: se déconnecter
-      messages: messages
-      programs: programmes
-      register: s'inscrire
-      title: code
     application:
       feedback: bug ?
       js:
@@ -678,6 +696,17 @@ fr:
           not_valid:
             feminine: doit être valide
             masculine: doit être valide
+      title: code
+    menu:
+      about: à propos
+      admin: admin
+      english: anglais
+      french: français
+      log_in: se connecter
+      log_out: se déconnecter
+      messages: messages
+      programs: programmes
+      register: s'inscrire
       title: code
   messages:
     create:
@@ -1421,6 +1450,8 @@ fr:
       new_program: nouveau programme
       new_program_execution: nouvelle exécution de programme
       new_program_prompt: nouvel invite de programme
+      new_program_prompt_schedule: nouvel horaire d'invite de programme
+      new_program_schedule: nouvel horaire de programme
       new_repl_execution: nouvelle exécution de terminal
       new_repl_program: nouveau programme de terminal
       new_repl_prompt: nouvelle invite de terminal
@@ -1430,11 +1461,9 @@ fr:
       passwords: mots de passe
       phone_numbers: numéros de téléphone
       program_executions: exécutions de programmes
-      program_schedules: horaires de programmes
-      new_program_schedule: nouvel horaire de programme
-      program_prompts: invites du programme
       program_prompt_schedules: horaires des invites de programmes
-      new_program_prompt_schedule: nouvel horaire d'invite de programme
+      program_prompts: invites du programme
+      program_schedules: horaires de programmes
       programs: programmes
       repl_executions: exécutions de terminaux
       repl_programs: programmes de terminaux
@@ -1449,8 +1478,34 @@ fr:
       placeholder: saisissez votre requête de recherche
       submit: recherche
   static:
+    about:
+      about_html: |
+        <p>
+          code est le projet de
+           <a href="https://dorianmarie.com">Dorian Marié</a>
+        </p>
+      localhost: localhost
+      privacy: politique de confidentialité
+      source_html: |
+        <p>
+          <a href="https://github.com/dorianmariecom/codedorian.com">
+            source de codedorian.com
+          </a>
+        </p>
+        <p>
+          <a href="https://github.com/dorianmariecom/code-ruby">
+            source de code-ruby
+          </a>
+        </p>
+        <p>
+          <a href="https://github.com/dorianmariecom/language-ruby">
+            source de language-ruby
+          </a>
+        </p>
+      terms: termes et conditions
+      title: à propos
+      version: 'version: '
     admin:
-      title: admin
       addresses: adresses
       attachments: fichiers
       configurations: configurations
@@ -1476,35 +1531,9 @@ fr:
       repl_prompts: invites de terminaux
       repl_sessions: terminaux
       time_zones: fuseaux horaires
+      title: admin
       tokens: jetons
       users: utilisateurs
-    about:
-      terms: termes et conditions
-      privacy: politique de confidentialité
-      about_html: |
-        <p>
-          code est le projet de
-           <a href="https://dorianmarie.com">Dorian Marié</a>
-        </p>
-      localhost: localhost
-      source_html: |
-        <p>
-          <a href="https://github.com/dorianmariecom/codedorian.com">
-            source de codedorian.com
-          </a>
-        </p>
-        <p>
-          <a href="https://github.com/dorianmariecom/code-ruby">
-            source de code-ruby
-          </a>
-        </p>
-        <p>
-          <a href="https://github.com/dorianmariecom/language-ruby">
-            source de language-ruby
-          </a>
-        </p>
-      title: à propos
-      version: 'version: '
     android:
       title: androïde
     download:
@@ -1696,32 +1725,3 @@ fr:
       next: suivant
       previous: précédent
       truncate: "…"
-  configurations:
-    create:
-      notice: configuration créée
-    destroy:
-      notice: configuration supprimée
-    edit:
-      submit: mettre à jour la configuration
-      title: modifier la configuration
-    index:
-      delete_all: supprimer tout
-      destroy_all: détruire tout
-      new: nouvelle configuration
-      title: configurations
-    model:
-      invalid_json: json invalide
-      to_s: configuration#%{id}
-    new:
-      submit: créer une configuration
-      title: nouvelle configuration
-    show:
-      content: contenu
-      created_at: créé à
-      delete: supprimer la configuration
-      edit: modifier la configuration
-      id: identifiant
-      name: nom
-      updated_at: mis à jour à
-    update:
-      notice: configurations mises à jour

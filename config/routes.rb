@@ -426,17 +426,24 @@ Rails.application.routes.draw do
 
     resources :configurations do
       collection do
-        delete "/destroy_all", to: "users#destroy_all"
-        delete "/delete_all", to: "users#delete_all"
+        delete "/destroy_all", to: "configurations#destroy_all"
+        delete "/delete_all", to: "configurations#delete_all"
       end
     end
 
-    resources :country_codes
+    resources :country_codes do
+      collection do
+        delete "/destroy_all", to: "country_codes#destroy_all"
+        delete "/delete_all", to: "country_codes#delete_all"
+      end
+    end
+
     resources :docs do
       scope ":doc_type" do
         resources :docs
       end
     end
+
     resources :examples
     resource :session
 

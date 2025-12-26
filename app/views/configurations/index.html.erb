@@ -16,5 +16,9 @@
     </div>
   <% end %>
 
-  <%= render_collection(partial: "configurations/configuration", collection: @configurations, as: :configuration) %>
+  <%= render_collection(
+    partial: "configurations/configuration",
+    collection: @configurations,
+    as: :configuration
+  ) %>
 </turbo-frame>
