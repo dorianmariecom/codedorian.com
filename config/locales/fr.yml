@@ -162,6 +162,10 @@ fr:
       edit: modifier
       index: configurations
       new: nouvelle
+    country_code_ip_addresses:
+      edit: modifier
+      index: adresses ip de code pays
+      new: nouvelle
     data:
       edit: modifier
       index: données
@@ -317,6 +321,34 @@ fr:
       updated_at: mis à jour à
     update:
       notice: configurations mises à jour
+  country_code_ip_addresses:
+    create:
+      notice: adresse ip de code pays créée
+    destroy:
+      notice: adresse ip de code pays supprimée
+    edit:
+      submit: mettre à jour l'adresse ip de code pays
+      title: modifier l'adresse ip de code pays
+    index:
+      delete_all: supprimer tout
+      destroy_all: détruire tout
+      new: nouvelle adresse ip de code pays
+      title: adresses ip de code pays
+    model:
+      to_s: country_code_ip_address#%{id}
+    new:
+      submit: créer une adresse ip de code pays
+      title: nouvelle adresse ip de code pays
+    show:
+      country_code: code pays
+      created_at: créé à
+      delete: supprimer l'adresse ip de code pays
+      edit: modifier l'adresse ip de code pays
+      id: identifiant
+      ip_address: adresse ip
+      updated_at: mis à jour à
+    update:
+      notice: adresse ip de code pays mise à jour
   current:
     model:
       envs:
