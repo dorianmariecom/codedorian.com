@@ -27,7 +27,6 @@
       window.SENTRY_DSN = "<%= sentry_dsn %>";
       window.SENTRY_RELEASE = "<%= sentry_release %>";
       window.SENTRY_ENVIRONMENT = "<%= sentry_environment %>";
-      window.SENTRY_FEEDBACK = <%= sentry_feedback.to_json.html_safe %>;
     </script>
 
     <div data-controller="update-time-zone"></div>
@@ -83,12 +82,5 @@
     <%= render_breadcrumbs %>
 
     <%= yield %>
-
-    <button
-      class="button button--secondary fixed bottom-0 right-0 m-4"
-      data-controller="feedback"
-    >
-      <%= t(".feedback") %>
-    </button>
   </body>
 </html>
