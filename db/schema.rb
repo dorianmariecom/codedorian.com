@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_26_211505) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_27_093641) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -123,6 +123,65 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_26_211505) do
     t.index %w[user_id verified primary],
             name: "index_devices_on_user_id_and_verified_and_primary"
     t.index ["user_id"], name: "index_devices_on_user_id"
+  end
+
+  create_table "documentation_class_examples", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.bigint "documentation_class_id", null: false
+    t.text "error"
+    t.text "input", null: false
+    t.string "name", null: false
+    t.text "output"
+    t.text "result"
+    t.datetime "updated_at", null: false
+    t.index ["documentation_class_id"],
+            name: "index_documentation_class_examples_on_documentation_class_id"
+  end
+
+  create_table "documentation_classes", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "name", null: false
+    t.bigint "parent_id"
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_documentation_classes_on_name"
+    t.index ["parent_id"], name: "index_documentation_classes_on_parent_id"
+  end
+
+  create_table "documentation_examples", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.text "error"
+    t.text "input", null: false
+    t.string "name", null: false
+    t.text "output"
+    t.text "result"
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "documentation_function_examples", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.bigint "documentation_function_id", null: false
+    t.text "error"
+    t.text "input", null: false
+    t.string "name", null: false
+    t.text "output"
+    t.text "result"
+    t.datetime "updated_at", null: false
+    t.index ["documentation_function_id"],
+            name: "idx_on_documentation_function_id_575f5600f0"
+  end
+
+  create_table "documentation_functions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.bigint "documentation_class_id", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+    t.index ["documentation_class_id"],
+            name: "index_documentation_functions_on_documentation_class_id"
   end
 
   create_table "email_addresses", force: :cascade do |t|
@@ -656,6 +715,12 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_26_211505) do
   add_foreign_key "attachments", "users"
   add_foreign_key "data", "users"
   add_foreign_key "devices", "users"
+  add_foreign_key "documentation_class_examples", "documentation_classes"
+  add_foreign_key "documentation_classes",
+                  "documentation_classes",
+                  column: "parent_id"
+  add_foreign_key "documentation_function_examples", "documentation_functions"
+  add_foreign_key "documentation_functions", "documentation_classes"
   add_foreign_key "email_addresses", "users"
   add_foreign_key "handles", "users"
   add_foreign_key "messages", "users", column: "from_user_id"
