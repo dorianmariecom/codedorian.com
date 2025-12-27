@@ -177,10 +177,6 @@ en:
       edit: edit
       index: devices
       new: new
-    docs:
-      edit: edit
-      index: documentation
-      new: new
     email_addresses:
       edit: edit
       index: email addresses
@@ -196,10 +192,6 @@ en:
       new: new
       not_found: not found
       unprocessable_entity: unprocessable entity
-    examples:
-      edit: edit
-      index: examples
-      new: new
     guests:
       edit: edit
       index: guests
@@ -427,25 +419,6 @@ en:
       verified: verified?
     update:
       notice: device updated
-  docs:
-    example:
-      error: error
-      input: input
-      output: output
-      result: result
-    examples:
-      examples: examples
-    functions:
-      class_functions: class functions
-      instance_functions: instance functions
-    index:
-      examples:
-        one: 1 example
-        other: "%{count} examples"
-        zero: 0 examples
-      title: documentation
-    show:
-      title: doc not found
   email_addresses:
     create:
       notice: email address created
@@ -528,11 +501,6 @@ en:
       verified: verified?
     unprocessable_entity:
       title: unprocessable entity
-  examples:
-    index:
-      title: examples
-    show:
-      title: not found
   guests:
     index:
       delete_all: delete all
@@ -1184,7 +1152,6 @@ en:
       data_link: data
       delete_all: delete all
       destroy_all: destroy all
-      documentation: documentation
       new: new program
       program_executions:
         one: 1 program execution

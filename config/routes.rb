@@ -440,13 +440,6 @@ Rails.application.routes.draw do
       post :lookup
     end
 
-    resources :docs do
-      scope ":doc_type" do
-        resources :docs
-      end
-    end
-
-    resources :examples
     resource :session
 
     patch :time_zone, to: "users#update_time_zone"

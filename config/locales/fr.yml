@@ -177,10 +177,6 @@ fr:
       edit: modifier
       index: appareils
       new: nouveau
-    docs:
-      edit: modifier
-      index: documentation
-      new: nouvelle
     email_addresses:
       edit: modifier
       index: adresses e-mail
@@ -196,10 +192,6 @@ fr:
       new: nouvelle
       not_found: non trouvé
       unprocessable_entity: entité non traitable
-    examples:
-      edit: modifier
-      index: exemples
-      new: nouveau
     guests:
       edit: modifier
       index: invités
@@ -424,25 +416,6 @@ fr:
       verified: vérifié ?
     update:
       notice: appareil mis à jour
-  docs:
-    example:
-      error: erreur
-      input: entrée
-      output: sortie
-      result: résultat
-    examples:
-      examples: exemples
-    functions:
-      class_functions: fonctions de classe
-      instance_functions: fonctions d'instance
-    index:
-      examples:
-        one: 1 exemple
-        other: "%{count} exemples"
-        zero: 0 exemples
-      title: documentation
-    show:
-      title: documentation non trouvé
   email_addresses:
     create:
       notice: adresse e-mail créée
@@ -525,11 +498,6 @@ fr:
       verified: vérifié ?
     unprocessable_entity:
       title: entité non traitable
-  examples:
-    index:
-      title: exemples
-    show:
-      title: non trouvé
   guests:
     index:
       delete_all: supprimer tout
@@ -1180,7 +1148,6 @@ fr:
       data_link: données
       delete_all: supprimer tout
       destroy_all: détruire tout
-      documentation: documentation
       new: nouveau programme
       program_executions:
         one: 1 exécution de programme

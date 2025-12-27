@@ -1,7 +1,0 @@
-<% if examples.present? %>
-  <div class="p"><%= t(".examples") %></div>
-
-  <% examples.each do |example| %>
-    <%= render("docs/example", example: example) %>
-  <% end %>
-<% end %>
