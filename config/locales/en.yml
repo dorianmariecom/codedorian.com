@@ -591,6 +591,24 @@ en:
           one: 1 found
           other: "%{count} found"
           zero: 0 found
+    sentry:
+      addScreenshotButtonLabel: add screenshot
+      cancelButtonLabel: cancel
+      confirmButtonLabel: confirm
+      emailLabel: email
+      emailPlaceholder: e.g. dorian@dorianmarie.com
+      formTitle: report a bug
+      hideToolText: hide
+      highlightToolText: highlight
+      isRequiredLabel: "(required)"
+      messageLabel: message
+      messagePlaceholder: what happened?
+      nameLabel: name
+      namePlaceholder: e.g. dorian marié
+      removeHighlightText: remove
+      removeScreenshotButtonLabel: remove screenshot
+      submitButtonLabel: report
+      successMessageText: bug reported
   jobs:
     delete:
       notice: job deleted
