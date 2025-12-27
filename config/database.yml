@@ -4,7 +4,12 @@ development:
   database: code_development
   pool: <%= Integer(ENV.fetch("DATABASE_POOL", 200)) %>
 production:
+  checkout_timeout: <%= Integer(ENV.fetch("DATABASE_CHECKOUT_TIMEOUT", 5)) %>
+  connect_timeout: <%= Integer(ENV.fetch("DATABASE_CONNECT_TIMEOUT", 2)) %>
+  connection_retries: <%= Integer(ENV.fetch("DATABASE_CONNECTION_RETRIES", 3)) %>
   pool: <%= Integer(ENV.fetch("DATABASE_POOL", 200)) %>
+  reaping_frequency: <%= Integer(ENV.fetch("DATABASE_REAPING_FREQUENCY", 10)) %>
+  retry_deadline: <%= Integer(ENV.fetch("DATABASE_RETRY_DEADLINE", 5)) %>
   url: <%= ENV.fetch("DATABASE_URL", "postgres:///code_production") %>
 test:
   adapter: postgresql

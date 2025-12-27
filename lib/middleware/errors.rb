@@ -15,6 +15,10 @@ module Middleware
       message = Truncate.strip(e&.class&.name.to_s)
 
       [400, {}, [message]]
+    rescue ActiveRecord::DatabaseConnectionError => e
+      message = Truncate.strip("Database connection error")
+
+      [503, { "Content-Type" => "text/plain" }, [message]]
     end
   end
 end
