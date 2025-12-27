@@ -7,7 +7,7 @@ class ConfigurationsController < ApplicationController
   def index
     authorize(Configuration)
 
-    @configurations = scope.page(params[:page]).order(name: :asc)
+    @configurations = scope.page(params[:page]).order(name: :asc).to_a
   end
 
   def show

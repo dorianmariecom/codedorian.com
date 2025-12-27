@@ -8,7 +8,7 @@ class TokensController < ApplicationController
   def index
     authorize(Token)
 
-    @tokens = scope.page(params[:page]).order(created_at: :asc)
+    @tokens = scope.page(params[:page]).order(created_at: :asc).to_a
   end
 
   def show

@@ -10,7 +10,7 @@ class EmailAddressesController < ApplicationController
   def index
     authorize(EmailAddress)
 
-    @email_addresses = scope.page(params[:page]).order(created_at: :asc)
+    @email_addresses = scope.page(params[:page]).order(created_at: :asc).to_a
   end
 
   def show

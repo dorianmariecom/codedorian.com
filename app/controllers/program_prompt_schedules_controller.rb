@@ -16,7 +16,7 @@ class ProgramPromptSchedulesController < ApplicationController
     authorize(ProgramPromptSchedule)
 
     @program_prompt_schedules =
-      scope.page(params[:page]).order(created_at: :asc)
+      scope.page(params[:page]).order(created_at: :asc).to_a
   end
 
   def show

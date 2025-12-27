@@ -8,7 +8,7 @@ class AddressesController < ApplicationController
   def index
     authorize(Address)
 
-    @addresses = scope.page(params[:page]).order(created_at: :asc)
+    @addresses = scope.page(params[:page]).order(created_at: :asc).to_a
   end
 
   def show

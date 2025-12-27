@@ -31,7 +31,7 @@ class ErrorsController < ApplicationController
   def index
     authorize(Error)
 
-    @errors = scope.page(params[:page]).order(created_at: :desc)
+    @errors = scope.page(params[:page]).order(created_at: :desc).to_a
     @error_occurrences = error_occurrences_scope
   end
 
