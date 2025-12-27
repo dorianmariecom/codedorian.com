@@ -3,20 +3,21 @@
 class SchedulingProgramJob < ContextJob
   queue_as(:scheduling)
 
-  limits_concurrency(key: ->(program:, **) { program }, on_conflict: :discard)
+  limits_concurrency(key: ->(program_id:, **) { program_id }, on_conflict: :discard)
 
-  def perform_with_context(program:)
+  def perform_with_context(program_id:)
+    program = Program.find(program_id)
     return unless program.scheduled_now?
 
     perform_later(
       ProgramEvaluateJob,
       arguments: {
-        program: program
+        program_id: program.id
       },
       priority: program.duration_in_seconds,
       context: {
-        user: program.user,
-        program: program
+        user_id: program.user_id,
+        program_id: program.id
       },
       current: {
         user: program.user,
