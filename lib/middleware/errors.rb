@@ -15,6 +15,10 @@ module Middleware
       message = Truncate.strip(e&.class&.name.to_s)
 
       [400, {}, [message]]
+    rescue ActiveRecord::DatabaseConnectionError => e
+      message = Truncate.strip(e&.class&.name.to_s)
+
+      [503, { "Retry-After" => "60" }, [message]]
     end
   end
 end
