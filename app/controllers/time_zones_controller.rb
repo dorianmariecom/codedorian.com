@@ -16,7 +16,7 @@ class TimeZonesController < ApplicationController
 
   def new
     @time_zone =
-      authorize(scope.new(user: @user, primary: user_or_guest.time_zones.none?))
+      authorize(TimeZone.new(user: @user, primary: user_or_guest.time_zones.none?))
 
     add_breadcrumb
   end
