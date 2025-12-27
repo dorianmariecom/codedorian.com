@@ -25,7 +25,7 @@ class PasswordsController < ApplicationController
 
   def new
     @password =
-      authorize(scope.new(user: @user, primary: user_or_guest.passwords.none?))
+      authorize(scope.new(user: @user, primary: true))
 
     add_breadcrumb
   end
