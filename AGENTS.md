@@ -58,3 +58,18 @@
 - Target a single env: `kamal deploy -d staging` or `kamal deploy -d production`.
 - Locks: `kamal lock release -d <env>` is handled in `bin/deploy` for safe concurrent releases.
 - Prereqs: Docker available on the host; app builds from `Dockerfile`. Ensure `bin/ci` passes before deploying.
+
+### Required Secrets Configuration
+
+Before deploying, you **must** configure the `.kamal/secrets-common` file with actual database credentials:
+
+1. Edit `.kamal/secrets-common` and set the `DATABASE_URL` to your actual PostgreSQL connection string:
+   ```
+   DATABASE_URL=postgres://username:password@hostname:5432/code_production
+   ```
+2. You can also integrate with password managers (1Password, AWS Secrets Manager, etc.):
+   ```
+   DATABASE_URL=$(op read "op://vault/database/url")
+   ```
+3. Never commit `.kamal/secrets*` files to version control (already excluded in `.gitignore`).
+4. Ensure all other required secrets are configured (see `config/deploy.production.yml` for the full list).
