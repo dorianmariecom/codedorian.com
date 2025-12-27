@@ -15,8 +15,15 @@ class TokensController < ApplicationController
   end
 
   def new
-    @token =
-      authorize(scope.new(user: @user, primary: user_or_guest.tokens.none?))
+    # Use policy_scope directly to avoid triggering search queries
+    # when just building a new object. The scope method calls
+    # searched_policy_scope which triggers database queries.
+    base_scope = policy_scope(Token)
+    base_scope = base_scope.where_user(@user) if @user
+    
+    # Default primary to true to avoid database query
+    # The actual value will be set during create if needed
+    @token = authorize(base_scope.new(user: @user, primary: true))
 
     add_breadcrumb
   end
