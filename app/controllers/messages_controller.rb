@@ -30,7 +30,7 @@ class MessagesController < ApplicationController
   end
 
   def new
-    @message = authorize(scope.new(from_user: @user, to_user: @user))
+    @message = authorize(Message.new(from_user: @user, to_user: @user))
     add_breadcrumb
   end
 
@@ -39,7 +39,7 @@ class MessagesController < ApplicationController
   end
 
   def create
-    @message = authorize(scope.new(message_params))
+    @message = authorize(policy_scope(Message).new(message_params))
 
     if @message.save
       log_in(@message.from_user)

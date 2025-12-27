@@ -22,7 +22,7 @@ class ReplProgramsController < ApplicationController
   end
 
   def new
-    @repl_program = authorize(scope.new(repl_session: @repl_session))
+    @repl_program = authorize(ReplProgram.new(repl_session: @repl_session))
 
     add_breadcrumb
   end
@@ -32,7 +32,7 @@ class ReplProgramsController < ApplicationController
   end
 
   def create
-    @repl_program = authorize(scope.new(repl_program_params))
+    @repl_program = authorize(policy_scope(ReplProgram).new(repl_program_params))
 
     if @repl_program.save
       log_in(@repl_program.user)

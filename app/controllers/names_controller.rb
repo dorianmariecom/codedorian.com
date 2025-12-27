@@ -16,7 +16,7 @@ class NamesController < ApplicationController
 
   def new
     @name =
-      authorize(scope.new(user: @user, primary: user_or_guest.names.none?))
+      authorize(Name.new(user: @user, primary: user_or_guest.names.none?))
 
     add_breadcrumb
   end
@@ -26,7 +26,7 @@ class NamesController < ApplicationController
   end
 
   def create
-    @name = authorize(scope.new(name_params))
+    @name = authorize(policy_scope(Name).new(name_params))
 
     if @name.save
       log_in(@name.user)

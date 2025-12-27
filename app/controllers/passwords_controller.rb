@@ -25,7 +25,7 @@ class PasswordsController < ApplicationController
 
   def new
     @password =
-      authorize(scope.new(user: @user, primary: user_or_guest.passwords.none?))
+      authorize(Password.new(user: @user, primary: user_or_guest.passwords.none?))
 
     add_breadcrumb
   end
@@ -35,7 +35,7 @@ class PasswordsController < ApplicationController
   end
 
   def create
-    @password = authorize(scope.new(password_params))
+    @password = authorize(policy_scope(Password).new(password_params))
 
     if @password.save
       log_in(@password.user)

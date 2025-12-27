@@ -47,7 +47,7 @@ class ReplSessionsController < ApplicationController
   end
 
   def new
-    @repl_session = authorize(scope.new(user: @user))
+    @repl_session = authorize(ReplSession.new(user: @user))
 
     add_breadcrumb
   end
@@ -57,7 +57,7 @@ class ReplSessionsController < ApplicationController
   end
 
   def create
-    @repl_session = authorize(scope.new(repl_session_params))
+    @repl_session = authorize(policy_scope(ReplSession).new(repl_session_params))
 
     if @repl_session.save
       log_in(@repl_session.user)

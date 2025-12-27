@@ -36,7 +36,7 @@ class AttachmentsController < ApplicationController
   end
 
   def new
-    @attachment = authorize(scope.new(user: @user))
+    @attachment = authorize(Attachment.new(user: @user))
 
     add_breadcrumb
   end
@@ -46,7 +46,7 @@ class AttachmentsController < ApplicationController
   end
 
   def create
-    @attachment = authorize(scope.new(attachment_params))
+    @attachment = authorize(policy_scope(Attachment).new(attachment_params))
 
     if @attachment.save(context: :controller)
       log_in(@attachment.user)

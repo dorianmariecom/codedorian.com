@@ -16,7 +16,7 @@ class TokensController < ApplicationController
 
   def new
     @token =
-      authorize(scope.new(user: @user, primary: user_or_guest.tokens.none?))
+      authorize(Token.new(user: @user, primary: user_or_guest.tokens.none?))
 
     add_breadcrumb
   end
@@ -26,7 +26,7 @@ class TokensController < ApplicationController
   end
 
   def create
-    @token = authorize(scope.new(token_params))
+    @token = authorize(policy_scope(Token).new(token_params))
 
     if @token.save
       log_in(@token.user)

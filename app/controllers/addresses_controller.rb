@@ -16,7 +16,7 @@ class AddressesController < ApplicationController
 
   def new
     @address =
-      authorize(scope.new(user: @user, primary: user_or_guest.addresses.none?))
+      authorize(Address.new(user: @user, primary: user_or_guest.addresses.none?))
 
     add_breadcrumb
   end
@@ -26,7 +26,7 @@ class AddressesController < ApplicationController
   end
 
   def create
-    @address = authorize(scope.new(address_params))
+    @address = authorize(policy_scope(Address).new(address_params))
 
     if @address.save(context: :controller)
       log_in(@address.user)

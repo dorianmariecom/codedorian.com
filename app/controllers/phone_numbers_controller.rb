@@ -17,7 +17,7 @@ class PhoneNumbersController < ApplicationController
   def new
     @phone_number =
       authorize(
-        scope.new(user: @user, primary: user_or_guest.phone_numbers.none?)
+        PhoneNumber.new(user: @user, primary: user_or_guest.phone_numbers.none?)
       )
 
     add_breadcrumb
@@ -28,7 +28,7 @@ class PhoneNumbersController < ApplicationController
   end
 
   def create
-    @phone_number = authorize(scope.new(phone_number_params))
+    @phone_number = authorize(policy_scope(PhoneNumber).new(phone_number_params))
 
     if @phone_number.save
       log_in(@phone_number.user)

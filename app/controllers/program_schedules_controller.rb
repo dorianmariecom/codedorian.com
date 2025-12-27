@@ -18,7 +18,7 @@ class ProgramSchedulesController < ApplicationController
   end
 
   def new
-    @program_schedule = authorize(scope.new(program: @program))
+    @program_schedule = authorize(ProgramSchedule.new(program: @program))
 
     add_breadcrumb
   end
@@ -28,7 +28,7 @@ class ProgramSchedulesController < ApplicationController
   end
 
   def create
-    @program_schedule = authorize(scope.new(program_schedule_params))
+    @program_schedule = authorize(policy_scope(ProgramSchedule).new(program_schedule_params))
 
     if @program_schedule.save
       log_in(@program_schedule.user)

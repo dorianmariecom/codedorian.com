@@ -16,7 +16,7 @@ class TimeZonesController < ApplicationController
 
   def new
     @time_zone =
-      authorize(scope.new(user: @user, primary: user_or_guest.time_zones.none?))
+      authorize(TimeZone.new(user: @user, primary: user_or_guest.time_zones.none?))
 
     add_breadcrumb
   end
@@ -26,7 +26,7 @@ class TimeZonesController < ApplicationController
   end
 
   def create
-    @time_zone = authorize(scope.new(time_zone_params))
+    @time_zone = authorize(policy_scope(TimeZone).new(time_zone_params))
 
     if @time_zone.save
       log_in(@time_zone.user)
