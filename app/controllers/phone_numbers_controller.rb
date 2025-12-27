@@ -8,7 +8,7 @@ class PhoneNumbersController < ApplicationController
   def index
     authorize(PhoneNumber)
 
-    @phone_numbers = scope.page(params[:page]).order(created_at: :asc)
+    @phone_numbers = scope.page(params[:page]).order(created_at: :asc).to_a
   end
 
   def show

@@ -9,7 +9,7 @@ class ReplProgramsController < ApplicationController
   def index
     authorize(ReplProgram)
 
-    @repl_programs = scope.page(params[:page]).order(created_at: :asc)
+    @repl_programs = scope.page(params[:page]).order(created_at: :asc).to_a
     @repl_executions = repl_executions_scope
     @repl_prompts = repl_prompts_scope
   end

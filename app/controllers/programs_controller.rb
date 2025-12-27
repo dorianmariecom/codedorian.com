@@ -11,7 +11,7 @@ class ProgramsController < ApplicationController
   def index
     authorize(Program)
 
-    @programs = scope.page(params[:page]).order(created_at: :asc)
+    @programs = scope.page(params[:page]).order(created_at: :asc).to_a
     @program_prompts = program_prompts_scope
     @program_schedules = program_schedules_scope
     @program_executions = program_executions_scope

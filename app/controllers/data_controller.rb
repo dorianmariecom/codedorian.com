@@ -8,7 +8,7 @@ class DataController < ApplicationController
   def index
     authorize(Datum)
 
-    @data = scope.page(params[:page]).order(created_at: :desc)
+    @data = scope.page(params[:page]).order(created_at: :desc).to_a
   end
 
   def show

@@ -8,7 +8,7 @@ class ReplSessionsController < ApplicationController
   def index
     authorize(ReplSession)
 
-    @repl_sessions = scope.page(params[:page]).order(created_at: :asc)
+    @repl_sessions = scope.page(params[:page]).order(created_at: :asc).to_a
     @repl_programs = repl_programs_scope
     @repl_executions = repl_executions_scope
     @repl_prompts = repl_prompts_scope

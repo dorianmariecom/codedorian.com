@@ -13,7 +13,7 @@ class JobsController < ApplicationController
   def index
     authorize(Job)
 
-    @jobs = scope.page(params[:page]).order(created_at: :desc)
+    @jobs = scope.page(params[:page]).order(created_at: :desc).to_a
   end
 
   def show
