@@ -6,6 +6,12 @@ development:
 production:
   pool: <%= Integer(ENV.fetch("DATABASE_POOL", 200)) %>
   url: <%= ENV.fetch("DATABASE_URL", "postgres:///code_production") %>
+  connect_timeout: 5
+  checkout_timeout: 5
+  reaping_frequency: 10
+  reconnect: true
+  retry_attempts: 3
+  retry_delay: 1
 test:
   adapter: postgresql
   database: code_test
