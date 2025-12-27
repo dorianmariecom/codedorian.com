@@ -236,7 +236,13 @@ class ApplicationController < ActionController::Base
     return if args.blank?
 
     Rails.error.set_context(**args.transform_values(&:as_json))
-    Sentry.set_tags(**sentry_hash(args.transform_values(&:as_json)))
+    
+    begin
+      Sentry.set_tags(**sentry_hash(args.transform_values(&:as_json)))
+    rescue ActiveRecord::DatabaseConnectionError, PG::ConnectionBad
+      # Silently ignore database connection errors when setting Sentry tags
+      # to prevent the request from failing if the database is unreachable
+    end
   end
 
   def sentry_hash(hash, prefix = nil, acc = {})
