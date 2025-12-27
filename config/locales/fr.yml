@@ -1609,6 +1609,37 @@ fr:
     up:
       body: fonctionne
       title: "/up"
+  country_code_ip_addresses:
+    create:
+      notice: adresse ip de code pays créée
+    destroy:
+      notice: adresse ip de code pays supprimée
+    edit:
+      submit: mettre à jour l'adresse ip de code pays
+      title: modifier l'adresse ip de code pays
+    index:
+      delete_all: supprimer tout
+      destroy_all: détruire tout
+      new: nouvelle adresse ip de code pays
+      title: adresses ip de codes pays
+    lookup:
+      notice: code pays recherché
+    model:
+      to_s: adresse_ip_code_pays#%{id}
+    new:
+      submit: créer une adresse ip de code pays
+      title: nouvelle adresse ip de code pays
+    show:
+      country_code: code pays
+      created_at: créé à
+      delete: supprimer l'adresse ip de code pays
+      edit: modifier l'adresse ip de code pays
+      id: identifiant
+      ip_address: adresse ip
+      lookup: rechercher le code pays
+      updated_at: mis à jour à
+    update:
+      notice: adresse ip de code pays mise à jour
   time_zones:
     create:
       notice: fuseau horaire créé

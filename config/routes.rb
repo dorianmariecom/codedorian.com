@@ -438,6 +438,15 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :country_code_ip_addresses do
+      post :lookup, on: :member
+
+      collection do
+        delete "/destroy_all", to: "country_code_ip_addresses#destroy_all"
+        delete "/delete_all", to: "country_code_ip_addresses#delete_all"
+      end
+    end
+
     resources :docs do
       scope ":doc_type" do
         resources :docs

@@ -1611,6 +1611,37 @@ en:
     up:
       body: working
       title: "/up"
+  country_code_ip_addresses:
+    create:
+      notice: country code ip address created
+    destroy:
+      notice: country code ip address deleted
+    edit:
+      submit: update country code ip address
+      title: edit country code ip address
+    index:
+      delete_all: delete all
+      destroy_all: destroy all
+      new: new country code ip address
+      title: country code ip addresses
+    lookup:
+      notice: country code looked up
+    model:
+      to_s: country_code_ip_address#%{id}
+    new:
+      submit: create country code ip address
+      title: new country code ip address
+    show:
+      country_code: country code
+      created_at: created at
+      delete: delete country code ip address
+      edit: edit country code ip address
+      id: id
+      ip_address: ip address
+      lookup: lookup country code
+      updated_at: updated at
+    update:
+      notice: country code ip address updated
   time_zones:
     create:
       notice: time zone created
