@@ -3,10 +3,20 @@ development:
   adapter: postgresql
   database: code_development
   pool: <%= Integer(ENV.fetch("DATABASE_POOL", 200)) %>
+  connect_timeout: 5
+  checkout_timeout: 5
+  connection_retries: 3
+  retry_deadline: 30
 production:
   pool: <%= Integer(ENV.fetch("DATABASE_POOL", 200)) %>
   url: <%= ENV.fetch("DATABASE_URL", "postgres:///code_production") %>
+  connect_timeout: 5
+  checkout_timeout: 5
+  connection_retries: 3
+  retry_deadline: 30
 test:
   adapter: postgresql
   database: code_test
   pool: <%= Integer(ENV.fetch("DATABASE_POOL", 200)) %>
+  connect_timeout: 5
+  checkout_timeout: 5
