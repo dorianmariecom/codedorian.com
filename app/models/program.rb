@@ -3,7 +3,7 @@
 class Program < ApplicationRecord
   TIMEOUT = 1.hour
 
-  belongs_to(:user, default: -> { Current.user! }, touch: true)
+  belongs_to(:user, default: -> { Current.user! })
 
   scope(:where_user, ->(user) { where(user: user) })
 
