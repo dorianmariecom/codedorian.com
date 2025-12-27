@@ -1,0 +1,20 @@
+<%= turbo_stream_from(@country_code_ip_addresses) %>
+
+<div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
+
+<%= render("shared/search") %>
+
+<turbo-frame id="search" target="_top">
+  <% if @country_code_ip_addresses.any? %>
+    <div class="p">
+      <%= render(
+        "shared/confirm",
+        url: [:destroy_all, *index_url],
+        text: t(".destroy_all")
+      ) %>
+      <%= render("shared/confirm", url: [:delete_all, *index_url], text: t(".delete_all")) %>
+    </div>
+  <% end %>
+
+  <%= render_collection(partial: "country_code_ip_addresses/country_code_ip_address", collection: @country_code_ip_addresses, as: :country_code_ip_address) %>
+</turbo-frame>
