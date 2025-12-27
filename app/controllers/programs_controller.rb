@@ -71,7 +71,7 @@ class ProgramsController < ApplicationController
   end
 
   def new
-    @program = authorize(scope.new(user: @user))
+    @program = authorize(Program.new(user: @user))
 
     add_breadcrumb
   end
@@ -81,7 +81,7 @@ class ProgramsController < ApplicationController
   end
 
   def create
-    @program = authorize(scope.new(program_params))
+    @program = authorize(policy_scope(Program).new(program_params))
 
     if @program.save
       log_in(@program.user)

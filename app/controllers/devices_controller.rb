@@ -18,7 +18,7 @@ class DevicesController < ApplicationController
 
   def new
     @device =
-      authorize(scope.new(user: @user, primary: user_or_guest.devices.none?))
+      authorize(Device.new(user: @user, primary: user_or_guest.devices.none?))
 
     add_breadcrumb
   end
@@ -28,7 +28,7 @@ class DevicesController < ApplicationController
   end
 
   def create
-    @device = authorize(scope.new(device_params))
+    @device = authorize(policy_scope(Device).new(device_params))
 
     if @device.save
       log_in(@device.user)

@@ -18,7 +18,7 @@ class ConfigurationsController < ApplicationController
   end
 
   def new
-    @configuration = authorize(scope.new)
+    @configuration = authorize(Configuration.new)
 
     add_breadcrumb
   end
@@ -28,7 +28,7 @@ class ConfigurationsController < ApplicationController
   end
 
   def create
-    @configuration = authorize(scope.new(configuration_params))
+    @configuration = authorize(policy_scope(Configuration).new(configuration_params))
 
     if @configuration.save(context: :controller)
       redirect_to(show_url, notice: t(".notice"))

@@ -45,7 +45,7 @@ class UsersController < ApplicationController
   end
 
   def new
-    @user = authorize(scope.new)
+    @user = authorize(User.new)
 
     add_breadcrumb
   end
@@ -55,7 +55,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = authorize(scope.new(user_params))
+    @user = authorize(policy_scope(User).new(user_params))
 
     Current.with(user: @user) do
       if @user.save(context: :controller)

@@ -19,7 +19,7 @@ class EmailAddressesController < ApplicationController
   def new
     @email_address =
       authorize(
-        scope.new(user: @user, primary: user_or_guest.email_addresses.none?)
+        EmailAddress.new(user: @user, primary: user_or_guest.email_addresses.none?)
       )
 
     add_breadcrumb
@@ -30,7 +30,7 @@ class EmailAddressesController < ApplicationController
   end
 
   def create
-    @email_address = authorize(scope.new(email_address_params))
+    @email_address = authorize(policy_scope(EmailAddress).new(email_address_params))
 
     if @email_address.save
       log_in(@email_address.user)

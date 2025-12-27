@@ -15,7 +15,7 @@ class DataController < ApplicationController
   end
 
   def new
-    @datum = authorize(scope.new(user: @user))
+    @datum = authorize(Datum.new(user: @user))
 
     add_breadcrumb
   end
@@ -25,7 +25,7 @@ class DataController < ApplicationController
   end
 
   def create
-    @datum = authorize(scope.new(datum_params))
+    @datum = authorize(policy_scope(Datum).new(datum_params))
 
     if @datum.save(context: :controller)
       log_in(@datum.user)

@@ -23,7 +23,7 @@ class ProgramPromptSchedulesController < ApplicationController
   end
 
   def new
-    @program_prompt_schedule = authorize(scope.new(program: @program))
+    @program_prompt_schedule = authorize(ProgramPromptSchedule.new(program: @program))
 
     add_breadcrumb
   end
@@ -34,7 +34,7 @@ class ProgramPromptSchedulesController < ApplicationController
 
   def create
     @program_prompt_schedule =
-      authorize(scope.new(program_prompt_schedule_params))
+      authorize(policy_scope(ProgramPromptSchedule).new(program_prompt_schedule_params))
 
     if @program_prompt_schedule.save
       log_in(@program_prompt_schedule.user)

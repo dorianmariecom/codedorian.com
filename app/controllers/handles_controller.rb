@@ -16,7 +16,7 @@ class HandlesController < ApplicationController
 
   def new
     @handle =
-      authorize(scope.new(user: @user, primary: user_or_guest.handles.none?))
+      authorize(Handle.new(user: @user, primary: user_or_guest.handles.none?))
 
     add_breadcrumb
   end
@@ -26,7 +26,7 @@ class HandlesController < ApplicationController
   end
 
   def create
-    @handle = authorize(scope.new(handle_params))
+    @handle = authorize(policy_scope(Handle).new(handle_params))
 
     if @handle.save
       log_in(@handle.user)
