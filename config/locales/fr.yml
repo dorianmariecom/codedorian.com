@@ -10,6 +10,9 @@ fr:
       configuration:
         content: contenu
         name: nom
+      country_code_ip_address:
+        country_code: code pays
+        ip_address: adresse ip
       datum:
         key: clé
         value: valeur
@@ -162,6 +165,10 @@ fr:
       edit: modifier
       index: configurations
       new: nouvelle
+    country_code_ip_addresses:
+      edit: modifier
+      index: code pay adresse ip
+      new: nouveau
     data:
       edit: modifier
       index: données
@@ -309,14 +316,45 @@ fr:
       title: nouvelle configuration
     show:
       content: contenu
-      created_at: créé à
+      created_at: créée à
       delete: supprimer la configuration
       edit: modifier la configuration
       id: identifiant
       name: nom
+      updated_at: mise à jour à
+    update:
+      notice: configuration mise à jour
+  country_code_ip_addresses:
+    create:
+      notice: code pays adresse ip créée
+    destroy:
+      notice: code pays adresse ip supprimée
+    edit:
+      submit: mettre à jour du code pays adresse ip
+      title: modifier le code pays adresse ip
+    index:
+      delete_all: supprimer tout
+      destroy_all: détruire tout
+      new: nouveau code pays adresse ip
+      title: codes pays adresses ip
+    lookup:
+      notice: code pays adresse ip recherché
+    model:
+      to_s: code_pays_adresse_ip#%{id}
+    new:
+      submit: créer un code pays adresse ip
+      title: nouveau code pays adresse ip
+    show:
+      country_code: code pays
+      created_at: créé à
+      delete: supprimer le code pays adresse ip
+      edit: modifier le code pays adresse ip
+      id: identifiant
+      ip_address: adresse ip
+      lookup: rechercher
       updated_at: mis à jour à
     update:
-      notice: configurations mises à jour
+      notice: code pays adresse ip mis à jour
   current:
     model:
       envs:
@@ -354,7 +392,7 @@ fr:
       user: utilisateur
       value: valeur
     update:
-      notice: données mises à jour
+      notice: donnée mise à jour
   devices:
     create:
       notice: appareil créé
@@ -1509,6 +1547,7 @@ fr:
       addresses: adresses
       attachments: fichiers
       configurations: configurations
+      country_code_ip_addresses: code pays adresse ip
       data: données
       devices: appareils
       email_addresses: adresses e-mail

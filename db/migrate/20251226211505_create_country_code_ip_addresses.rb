@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateCountryCodeIpAddresses < ActiveRecord::Migration[8.1]
   def change
     create_table :country_code_ip_addresses do |t|

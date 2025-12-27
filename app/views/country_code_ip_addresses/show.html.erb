@@ -1,0 +1,51 @@
+<% content_for(:title, @country_code_ip_address) %>
+
+<%= turbo_stream_from(@country_code_ip_address) %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".id") %></div>
+  <div class="font-bold"><%= @country_code_ip_address.id %></div>
+</div>
+
+<% if @country_code_ip_address.ip_address.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".ip_address") %></div>
+    <div class="font-bold"><%= @country_code_ip_address.ip_address %></div>
+  </div>
+<% end %>
+
+<% if @country_code_ip_address.country_code.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".country_code") %></div>
+    <div class="font-bold"><%= @country_code_ip_address.country_code %></div>
+  </div>
+<% end %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".updated_at") %></div>
+  <div class="font-bold">
+    <%= local_time(@country_code_ip_address.updated_at) %>
+  </div>
+</div>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".created_at") %></div>
+  <div class="font-bold">
+    <%= local_time(@country_code_ip_address.created_at) %>
+  </div>
+</div>
+
+<div class="p">
+  <%= render(
+    "shared/confirm",
+    text: t(".lookup"),
+    url: [*show_url, :lookup],
+    method: :post,
+    class: "button"
+  ) %>
+</div>
+
+<div class="p">
+  <%= link_to(t(".edit"), edit_url, class: "link") %>
+  <%= render("shared/confirm", text: t(".delete"), url: show_url) %>
+</div>

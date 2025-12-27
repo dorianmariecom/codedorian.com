@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PhoneNumber < ApplicationRecord
-  DEFAULT_COUNTRY_CODE = "FR"
+  DEFAULT_COUNTRY_CODE = "US"
 
   belongs_to(:user, default: -> { Current.user! }, touch: true)
 

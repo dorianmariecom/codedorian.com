@@ -33,8 +33,7 @@ export default class extends Controller {
       initialCountry: "auto",
       geoIpLookup: async function (success) {
         try {
-          const response = await fetch("/country_codes", {
-            method: "POST",
+          const response = await fetch("/country_code_ip_addresses/me", {
             headers: { Accept: "application/json" },
           });
           const json = await response.json();

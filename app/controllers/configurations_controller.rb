@@ -105,6 +105,6 @@ class ConfigurationsController < ApplicationController
   end
 
   def configuration_params
-    params.expect(configuration: %i[name content])
+    admin? ? params.expect(configuration: %i[name content]) : {}
   end
 end
