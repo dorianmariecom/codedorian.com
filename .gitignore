@@ -18,6 +18,7 @@
 /tmp/storage/*
 /vendor/bundle/*
 !/.kamal/.keep
+!/.kamal/*.example
 !/app/assets/builds/.keep
 !/db/.keep
 !/log/.keep

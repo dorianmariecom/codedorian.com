@@ -4,6 +4,10 @@ development:
   database: code_development
   pool: <%= Integer(ENV.fetch("DATABASE_POOL", 200)) %>
 production:
+  # IMPORTANT: DATABASE_URL must be set as a secret environment variable in production
+  # Configure it in .kamal/secrets-production (copy from .kamal/secrets-production.example)
+  # Format: postgres://username:password@hostname:port/database_name
+  # Example: postgres://myuser:mypassword@db.example.com:5432/code_production
   pool: <%= Integer(ENV.fetch("DATABASE_POOL", 200)) %>
   url: <%= ENV.fetch("DATABASE_URL", "postgres:///code_production") %>
 test:
