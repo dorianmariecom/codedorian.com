@@ -3,10 +3,24 @@ development:
   adapter: postgresql
   database: code_development
   pool: <%= Integer(ENV.fetch("DATABASE_POOL", 200)) %>
+  # Set idle_timeout to 2 hours to prevent connections from being terminated during long-running jobs
+  # The Program model has a TIMEOUT of 1 hour, so connections should remain alive for at least that long
+  idle_timeout: <%= Integer(ENV.fetch("DATABASE_IDLE_TIMEOUT", 7200)) %>
+  # Configure connection reaping to clean up idle connections periodically
+  reaping_frequency: <%= Integer(ENV.fetch("DATABASE_REAPING_FREQUENCY", 600)) %>
 production:
   pool: <%= Integer(ENV.fetch("DATABASE_POOL", 200)) %>
   url: <%= ENV.fetch("DATABASE_URL", "postgres:///code_production") %>
+  # Set idle_timeout to 2 hours to prevent connections from being terminated during long-running jobs
+  # The Program model has a TIMEOUT of 1 hour, so connections should remain alive for at least that long
+  idle_timeout: <%= Integer(ENV.fetch("DATABASE_IDLE_TIMEOUT", 7200)) %>
+  # Configure connection reaping to clean up idle connections periodically
+  reaping_frequency: <%= Integer(ENV.fetch("DATABASE_REAPING_FREQUENCY", 600)) %>
 test:
   adapter: postgresql
   database: code_test
   pool: <%= Integer(ENV.fetch("DATABASE_POOL", 200)) %>
+  # Set idle_timeout to 2 hours to prevent connections from being terminated during long-running jobs
+  idle_timeout: <%= Integer(ENV.fetch("DATABASE_IDLE_TIMEOUT", 7200)) %>
+  # Configure connection reaping to clean up idle connections periodically
+  reaping_frequency: <%= Integer(ENV.fetch("DATABASE_REAPING_FREQUENCY", 600)) %>
