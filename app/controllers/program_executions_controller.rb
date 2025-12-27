@@ -11,7 +11,7 @@ class ProgramExecutionsController < ApplicationController
   def index
     authorize(ProgramExecution)
 
-    @program_executions = scope.page(params[:page]).order(created_at: :desc)
+    @program_executions = scope.page(params[:page]).order(created_at: :desc).to_a
   end
 
   def show

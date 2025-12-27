@@ -10,7 +10,7 @@ class DevicesController < ApplicationController
   def index
     authorize(Device)
 
-    @devices = scope.page(params[:page]).order(created_at: :asc)
+    @devices = scope.page(params[:page]).order(created_at: :asc).to_a
   end
 
   def show

@@ -11,7 +11,7 @@ class ProgramPromptsController < ApplicationController
   def index
     authorize(ProgramPrompt)
 
-    @program_prompts = scope.page(params[:page]).order(created_at: :desc)
+    @program_prompts = scope.page(params[:page]).order(created_at: :desc).to_a
     @program_prompt_schedules = program_prompt_schedules_scope
   end
 

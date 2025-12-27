@@ -8,7 +8,7 @@ class HandlesController < ApplicationController
   def index
     authorize(Handle)
 
-    @handles = scope.page(params[:page]).order(created_at: :asc)
+    @handles = scope.page(params[:page]).order(created_at: :asc).to_a
   end
 
   def show
