@@ -6,6 +6,11 @@ class ApplicationJob < ActiveJob::Base
   discard_on ActiveRecord::RecordNotFound
   discard_on ActiveJob::DeserializationError
 
+  # Retry connection failures with exponential backoff
+  retry_on ActiveRecord::ConnectionFailed,
+           wait: :exponentially_longer,
+           attempts: 5
+
   after_perform :cleanup_job_contexts
 
   def set_context(**args)

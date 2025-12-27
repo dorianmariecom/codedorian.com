@@ -10,9 +10,12 @@ module PerformLaterConcern
     current: nil
   )
     PaperTrail.request(enabled: false) do
-      job = clazz.set(wait_until: wait_until, priority: priority)
-      job = job.perform_later(**arguments, current: current, context: context)
-      JobContext.create!(active_job_id: job.job_id, context: context)
+      # Use a single transaction to reduce database round-trips
+      ApplicationRecord.transaction do
+        job = clazz.set(wait_until: wait_until, priority: priority)
+        job = job.perform_later(**arguments, current: current, context: context)
+        JobContext.create!(active_job_id: job.job_id, context: context)
+      end
     end
   end
 end
