@@ -86,6 +86,7 @@ class MessagesController < ApplicationController
 
   def load_user
     return if params[:user_id].blank?
+    return if params[:user_id] == "me" && current_user.nil?
 
     @user =
       if params[:user_id] == "me"

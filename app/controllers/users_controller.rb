@@ -107,6 +107,11 @@ class UsersController < ApplicationController
   private
 
   def load_user
+    if (params[:id] == "me" || params[:user_id] == "me") && current_user.nil?
+      redirect_to(root_path)
+      return
+    end
+
     @user =
       if params[:id] == "me" || params[:user_id] == "me"
         authorize(scope.find(current_user&.id))
