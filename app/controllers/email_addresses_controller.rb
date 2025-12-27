@@ -2,6 +2,7 @@
 
 class EmailAddressesController < ApplicationController
   before_action(:load_user)
+  before_action(:load_guest)
   before_action do
     add_breadcrumb(key: "email_addresses.index", path: index_url)
   end
@@ -90,11 +91,23 @@ class EmailAddressesController < ApplicationController
     add_breadcrumb(text: @user, path: @user)
   end
 
+  def load_guest
+    return if params[:guest_id].blank?
+
+    @guest = Guest.new
+
+    set_context(guest: @guest)
+    add_breadcrumb(key: "guests.index", path: :guests)
+    add_breadcrumb(text: @guest, path: @guest)
+  end
+
   def user_or_guest
-    @user || Guest.new
+    @user || @guest || Guest.new
   end
 
   def scope
+    return EmailAddress.none if @guest
+
     scope = searched_policy_scope(EmailAddress)
     scope = scope.where_user(@user) if @user
     scope
