@@ -10,7 +10,7 @@ class ReplPromptsController < ApplicationController
   def index
     authorize(ReplPrompt)
 
-    @repl_prompts = scope.page(params[:page]).order(created_at: :desc)
+    @repl_prompts = scope.page(params[:page]).order(created_at: :desc).to_a
   end
 
   def show

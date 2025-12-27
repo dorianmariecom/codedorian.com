@@ -12,7 +12,7 @@ class ReplExecutionsController < ApplicationController
   def index
     authorize(ReplExecution)
 
-    @repl_executions = scope.page(params[:page]).order(created_at: :asc)
+    @repl_executions = scope.page(params[:page]).order(created_at: :asc).to_a
   end
 
   def show

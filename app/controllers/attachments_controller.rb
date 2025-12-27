@@ -11,7 +11,7 @@ class AttachmentsController < ApplicationController
   def index
     authorize(Attachment)
 
-    @attachments = scope.page(params[:page]).order(created_at: :desc)
+    @attachments = scope.page(params[:page]).order(created_at: :desc).to_a
   end
 
   def preview
