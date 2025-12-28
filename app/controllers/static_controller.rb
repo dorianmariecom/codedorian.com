@@ -20,15 +20,6 @@ class StaticController < ApplicationController
   def privacy
   end
 
-  def icons
-  end
-
-  def ios
-  end
-
-  def android
-  end
-
   def download
   end
 

@@ -21,18 +21,6 @@ class StaticPolicy < ApplicationPolicy
     true
   end
 
-  def icons?
-    true
-  end
-
-  def ios?
-    true
-  end
-
-  def android?
-    true
-  end
-
   def download?
     true
   end
