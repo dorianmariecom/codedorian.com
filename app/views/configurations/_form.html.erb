@@ -25,9 +25,7 @@
 
   <div class="p" data-controller="editor">
     <%= f.label(:content, class: "label") %>
-    <div
-      class="flex-1 flex flex-col border border-black rounded overflow-hidden"
-    >
+    <div class="border border-black rounded overflow-hidden">
       <%= f.hidden_field(:content, value: content, data: { editor_target: "input" }) %>
       <div data-editor-target="editor"></div>
     </div>

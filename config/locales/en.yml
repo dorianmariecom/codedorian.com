@@ -266,12 +266,9 @@ en:
     static:
       about: about
       admin: admin
-      android: android
       download: download
       form: form
       home: home
-      icons: icons
-      ios: ios
       privacy: privacy
       terms: terms
       up: up
@@ -1493,7 +1490,9 @@ en:
           code is the project of
           <a href="https://dorianmarie.com">dorian marié</a>
         </p>
+      download: download
       localhost: localhost
+      privacy: privacy policy
       source_html: |
         <p>
           <a href="https://github.com/dorianmariecom/codedorian.com">
@@ -1510,6 +1509,7 @@ en:
             language-ruby's source
           </a>
         </p>
+      terms: terms and conditions
       title: about
       version: 'version: '
     admin:
@@ -1541,8 +1541,6 @@ en:
       title: admin
       tokens: tokens
       users: users
-    android:
-      title: android
     download:
       title: download
     home:
@@ -1587,10 +1585,6 @@ en:
           '
       register: register
       title: code
-    icons:
-      title: icons
-    ios:
-      title: ios
     privacy:
       privacy_html: |
         <p>welcome to codedorian.com ("we," "our," "us"). your privacy is important to us. this privacy policy explains how we collect, use, and protect your information when you use our website.</p>

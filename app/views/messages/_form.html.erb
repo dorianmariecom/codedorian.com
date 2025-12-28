@@ -20,7 +20,7 @@
     </div>
   <% end %>
 
-  <div class="p">
+  <div class="p" data-turbo-permanent>
     <%= f.label(:subject, class: "label") %>
     <%= f.rich_textarea(
       :subject,
@@ -30,7 +30,7 @@
     <div class="text-gray-600"><%= Faker::Lorem.sentence %></div>
   </div>
 
-  <div class="p">
+  <div class="p" data-turbo-permanent>
     <%= f.label(:body, class: "label") %>
     <%= f.rich_textarea(:body, placeholder: t(".body_placeholder"), class: "input") %>
     <div class="text-gray-600"><%= Faker::Lorem.paragraph %></div>

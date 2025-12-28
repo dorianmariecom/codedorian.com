@@ -17,6 +17,8 @@ class CountryCodeIpAddressesController < ApplicationController
   end
 
   def show
+    authorize(@country_code_ip_address, :edit?) unless id == "me"
+
     respond_to do |format|
       format.json { render json: @country_code_ip_address }
       format.html { authorize(@country_code_ip_address, :edit?) }

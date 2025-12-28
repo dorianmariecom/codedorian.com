@@ -35,6 +35,8 @@ export default class extends Controller {
   static targets = ["input", "editor"];
 
   connect() {
+    window.addEventListener("turbo:morph", this.reconnect.bind(this));
+
     this.editor = new EditorView({
       doc: this.inputTarget.value,
       parent: this.editorTarget,
@@ -68,6 +70,8 @@ export default class extends Controller {
   }
 
   disconnect() {
+    window.removeEventListener("turbo:morph", this.reconnect.bind(this));
+
     this.editor.destroy();
     this.editor = null;
   }

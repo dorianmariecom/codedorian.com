@@ -266,12 +266,9 @@ fr:
     static:
       about: à propos
       admin: admin
-      android: androïde
       download: télécharger
       form: formulaire
       home: accueil
-      icons: icônes
-      ios: iOS
       privacy: confidentialité
       terms: termes
       up: fonctionne
@@ -1489,6 +1486,7 @@ fr:
           code est le projet de
            <a href="https://dorianmarie.com">Dorian Marié</a>
         </p>
+      download: télécharger
       localhost: localhost
       privacy: politique de confidentialité
       source_html: |
@@ -1540,8 +1538,6 @@ fr:
       title: admin
       tokens: jetons
       users: utilisateurs
-    android:
-      title: androïde
     download:
       title: télécharger
     home:
@@ -1586,10 +1582,6 @@ fr:
           '
       register: s'inscrire
       title: code
-    icons:
-      title: icônes
-    ios:
-      title: iOS
     privacy:
       privacy_html: |
         <p>bienvenue sur codedorian.com (« nous », « notre », « nos »). votre vie privée est importante pour nous. cette politique de confidentialité explique comment nous collectons, utilisons et protégeons vos informations lorsque vous utilisez notre site web.</p>

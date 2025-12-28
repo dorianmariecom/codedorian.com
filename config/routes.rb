@@ -9,44 +9,59 @@ end
 Rails.application.routes.draw do
   mount ActionCable.server => "/cable"
 
+  define_all_delete =
+    lambda do |action, controller|
+      delete(
+        "/#{action}_all",
+        to: "#{controller}##{action}_all",
+        on: :collection
+      )
+    end
+
+  define_all_post =
+    lambda do |action, controller|
+      post("/#{action}_all", to: "#{controller}##{action}_all", on: :collection)
+    end
+
+  define_all_patch =
+    lambda do |action, controller|
+      patch(
+        "/#{action}_all",
+        to: "#{controller}##{action}_all",
+        on: :collection
+      )
+    end
+
   define_errors =
     lambda do
       resources(:errors) do
-        collection do
-          delete "/destroy_all", to: "errors#destroy_all"
-          delete "/delete_all", to: "errors#delete_all"
-        end
+        define_all_delete.call(:destroy, :errors)
+        define_all_delete.call(:delete, :errors)
 
         resources(:error_occurrences) do
-          collection do
-            delete "/destroy_all", to: "error_occurrences#destroy_all"
-            delete "/delete_all", to: "error_occurrences#delete_all"
-          end
+          define_all_delete.call(:destroy, :error_occurrences)
+          define_all_delete.call(:delete, :error_occurrences)
         end
       end
 
       resources(:error_occurrences) do
-        collection do
-          delete "/destroy_all", to: "error_occurrences#destroy_all"
-          delete "/delete_all", to: "error_occurrences#delete_all"
-        end
+        define_all_delete.call(:destroy, :error_occurrences)
+        define_all_delete.call(:delete, :error_occurrences)
       end
     end
 
   define_jobs =
     lambda do
       resources(:jobs) do
-        collection do
-          delete "/destroy_all", to: "jobs#destroy_all"
-          delete "/delete_all", to: "jobs#delete_all"
-          post "/discard_all", to: "jobs#discard_all"
-          post "/retry_all", to: "jobs#retry_all"
-        end
-
         delete :delete
         delete :destroy
         post :discard
         post :retry
+
+        define_all_delete.call(:destroy, :jobs)
+        define_all_delete.call(:delete, :jobs)
+        define_all_post.call(:discard, :jobs)
+        define_all_post.call(:retry, :jobs)
 
         define_errors.call
       end
@@ -55,10 +70,8 @@ Rails.application.routes.draw do
   define =
     lambda do
       resources :data do
-        collection do
-          delete "/destroy_all", to: "data#destroy_all"
-          delete "/delete_all", to: "data#delete_all"
-        end
+        define_all_delete.call(:destroy, :data)
+        define_all_delete.call(:delete, :data)
 
         define_errors.call
       end
@@ -67,10 +80,8 @@ Rails.application.routes.draw do
         get :preview
         get :download
 
-        collection do
-          delete "/destroy_all", to: "attachments#destroy_all"
-          delete "/delete_all", to: "attachments#delete_all"
-        end
+        define_all_delete.call(:destroy, :attachments)
+        define_all_delete.call(:delete, :attachments)
 
         define_errors.call
       end
@@ -80,24 +91,18 @@ Rails.application.routes.draw do
         post :schedule
         post :unschedule
 
-        collection do
-          patch "/schedule_all", to: "programs#schedule_all"
-          patch "/unschedule_all", to: "programs#unschedule_all"
-          delete "/destroy_all", to: "programs#destroy_all"
-          delete "/delete_all", to: "programs#delete_all"
-        end
+        define_all_patch.call(:schedule, :programs)
+        define_all_patch.call(:unschedule, :programs)
+        define_all_delete.call(:destroy, :programs)
+        define_all_delete.call(:delete, :programs)
 
         resources(:program_prompts) do
-          collection do
-            delete "/destroy_all", to: "program_prompts#destroy_all"
-            delete "/delete_all", to: "program_prompts#delete_all"
-          end
+          define_all_delete.call(:destroy, :program_prompts)
+          define_all_delete.call(:delete, :program_prompts)
 
           resources(:program_prompt_schedules) do
-            collection do
-              delete "/destroy_all", to: "program_prompt_schedules#destroy_all"
-              delete "/delete_all", to: "program_prompt_schedules#delete_all"
-            end
+            define_all_delete.call(:destroy, :program_prompt_schedules)
+            define_all_delete.call(:delete, :program_prompt_schedules)
 
             define_errors.call
           end
@@ -107,28 +112,22 @@ Rails.application.routes.draw do
         end
 
         resources(:program_executions) do
-          collection do
-            delete "/destroy_all", to: "program_executions#destroy_all"
-            delete "/delete_all", to: "program_executions#delete_all"
-          end
+          define_all_delete.call(:destroy, :program_executions)
+          define_all_delete.call(:delete, :program_executions)
 
           define_errors.call
         end
 
         resources(:program_schedules) do
-          collection do
-            delete "/destroy_all", to: "program_schedules#destroy_all"
-            delete "/delete_all", to: "program_schedules#delete_all"
-          end
+          define_all_delete.call(:destroy, :program_schedules)
+          define_all_delete.call(:delete, :program_schedules)
 
           define_errors.call
         end
 
         resources(:program_prompt_schedules) do
-          collection do
-            delete "/destroy_all", to: "program_prompt_schedules#destroy_all"
-            delete "/delete_all", to: "program_prompt_schedules#delete_all"
-          end
+          define_all_delete.call(:destroy, :program_prompt_schedules)
+          define_all_delete.call(:delete, :program_prompt_schedules)
 
           define_errors.call
         end
@@ -138,44 +137,34 @@ Rails.application.routes.draw do
       end
 
       resources :repl_sessions do
-        collection do
-          delete "/destroy_all", to: "repl_sessions#destroy_all"
-          delete "/delete_all", to: "repl_sessions#delete_all"
-        end
-
         post :evaluate
 
+        define_all_delete.call(:destroy, :repl_sessions)
+        define_all_delete.call(:delete, :repl_sessions)
+
         resources(:repl_prompts) do
-          collection do
-            delete "/destroy_all", to: "repl_prompts#destroy_all"
-            delete "/delete_all", to: "repl_prompts#delete_all"
-          end
+          define_all_delete.call(:destroy, :repl_prompts)
+          define_all_delete.call(:delete, :repl_prompts)
 
           define_errors.call
           define_jobs.call
         end
 
         resources(:repl_programs) do
-          collection do
-            delete "/destroy_all", to: "repl_programs#destroy_all"
-            delete "/delete_all", to: "repl_programs#delete_all"
-          end
+          define_all_delete.call(:destroy, :repl_programs)
+          define_all_delete.call(:delete, :repl_programs)
 
           resources(:repl_prompts) do
-            collection do
-              delete "/destroy_all", to: "repl_prompts#destroy_all"
-              delete "/delete_all", to: "repl_prompts#delete_all"
-            end
+            define_all_delete.call(:destroy, :repl_prompts)
+            define_all_delete.call(:delete, :repl_prompts)
 
             define_jobs.call
             define_errors.call
           end
 
           resources(:repl_executions) do
-            collection do
-              delete "/destroy_all", to: "repl_executions#destroy_all"
-              delete "/delete_all", to: "repl_executions#delete_all"
-            end
+            define_all_delete.call(:destroy, :repl_executions)
+            define_all_delete.call(:delete, :repl_executions)
 
             define_errors.call
           end
@@ -185,10 +174,8 @@ Rails.application.routes.draw do
         end
 
         resources(:repl_executions) do
-          collection do
-            delete "/destroy_all", to: "repl_executions#destroy_all"
-            delete "/delete_all", to: "repl_executions#delete_all"
-          end
+          define_all_delete.call(:destroy, :repl_executions)
+          define_all_delete.call(:delete, :repl_executions)
 
           define_errors.call
         end
@@ -198,26 +185,20 @@ Rails.application.routes.draw do
       end
 
       resources(:repl_programs) do
-        collection do
-          delete "/destroy_all", to: "repl_programs#destroy_all"
-          delete "/delete_all", to: "repl_programs#delete_all"
-        end
+        define_all_delete.call(:destroy, :repl_programs)
+        define_all_delete.call(:delete, :repl_programs)
 
         resources(:repl_prompts) do
-          collection do
-            delete "/destroy_all", to: "repl_prompts#destroy_all"
-            delete "/delete_all", to: "repl_prompts#delete_all"
-          end
+          define_all_delete.call(:destroy, :repl_prompts)
+          define_all_delete.call(:delete, :repl_prompts)
 
           define_errors.call
           define_jobs.call
         end
 
         resources(:repl_executions) do
-          collection do
-            delete "/destroy_all", to: "repl_executions#destroy_all"
-            delete "/delete_all", to: "repl_executions#delete_all"
-          end
+          define_all_delete.call(:destroy, :repl_executions)
+          define_all_delete.call(:delete, :repl_executions)
 
           define_errors.call
         end
@@ -227,74 +208,59 @@ Rails.application.routes.draw do
       end
 
       resources(:repl_executions) do
-        collection do
-          delete "/destroy_all", to: "repl_executions#destroy_all"
-          delete "/delete_all", to: "repl_executions#delete_all"
-        end
+        define_all_delete.call(:destroy, :repl_executions)
+        define_all_delete.call(:delete, :repl_executions)
 
         define_errors.call
       end
 
       resources :email_addresses do
-        collection do
-          delete "/destroy_all", to: "email_addresses#destroy_all"
-          delete "/delete_all", to: "email_addresses#delete_all"
-        end
+        define_all_delete.call(:destroy, :email_addresses)
+        define_all_delete.call(:delete, :email_addresses)
 
         define_errors.call
       end
 
       resources :phone_numbers do
-        collection do
-          delete "/destroy_all", to: "phone_numbers#destroy_all"
-          delete "/delete_all", to: "phone_numbers#delete_all"
-        end
+        define_all_delete.call(:destroy, :phone_numbers)
+        define_all_delete.call(:delete, :phone_numbers)
 
         define_errors.call
       end
 
       resources(:program_executions) do
-        collection do
-          delete "/destroy_all", to: "program_executions#destroy_all"
-          delete "/delete_all", to: "program_executions#delete_all"
-        end
+        define_all_delete.call(:destroy, :program_executions)
+        define_all_delete.call(:delete, :program_executions)
 
         define_errors.call
       end
 
       resources(:time_zones) do
-        collection do
-          delete "/destroy_all", to: "time_zones#destroy_all"
-          delete "/delete_all", to: "time_zones#delete_all"
-        end
+        define_all_delete.call(:destroy, :time_zones)
+        define_all_delete.call(:delete, :time_zones)
 
         define_errors.call
       end
 
       resources(:passwords) do
-        collection do
-          post :check
-          delete "/destroy_all", to: "passwords#destroy_all"
-          delete "/delete_all", to: "passwords#delete_all"
-        end
+        post :check, on: :collection
+
+        define_all_delete.call(:destroy, :passwords)
+        define_all_delete.call(:delete, :passwords)
 
         define_errors.call
       end
 
       resources(:program_schedules) do
-        collection do
-          delete "/destroy_all", to: "program_schedules#destroy_all"
-          delete "/delete_all", to: "program_schedules#delete_all"
-        end
+        define_all_delete.call(:destroy, :program_schedules)
+        define_all_delete.call(:delete, :program_schedules)
 
         define_errors.call
       end
 
       resources(:devices) do
-        collection do
-          delete "/destroy_all", to: "devices#destroy_all"
-          delete "/delete_all", to: "devices#delete_all"
-        end
+        define_all_delete.call(:destroy, :devices)
+        define_all_delete.call(:delete, :devices)
 
         define_errors.call
       end
@@ -304,79 +270,61 @@ Rails.application.routes.draw do
         get :subject
         get :body
 
-        collection do
-          delete "/destroy_all", to: "messages#destroy_all"
-          delete "/delete_all", to: "messages#delete_all"
-        end
+        define_all_delete.call(:destroy, :messages)
+        define_all_delete.call(:delete, :messages)
 
         define_errors.call
       end
 
       resources(:handles) do
-        collection do
-          delete "/destroy_all", to: "handles#destroy_all"
-          delete "/delete_all", to: "handles#delete_all"
-        end
+        define_all_delete.call(:destroy, :handles)
+        define_all_delete.call(:delete, :handles)
 
         define_errors.call
       end
 
       resources(:addresses) do
-        collection do
-          delete "/destroy_all", to: "addresses#destroy_all"
-          delete "/delete_all", to: "addresses#delete_all"
-        end
+        define_all_delete.call(:destroy, :addresses)
+        define_all_delete.call(:delete, :addresses)
 
         define_errors.call
       end
 
       resources(:guests) do
-        collection do
-          delete "/destroy_all", to: "guests#destroy_all"
-          delete "/delete_all", to: "guests#delete_all"
-        end
+        define_all_delete.call(:destroy, :guests)
+        define_all_delete.call(:delete, :guests)
 
         define_errors.call
       end
 
       resources(:names) do
-        collection do
-          delete "/destroy_all", to: "names#destroy_all"
-          delete "/delete_all", to: "names#delete_all"
-        end
+        define_all_delete.call(:destroy, :names)
+        define_all_delete.call(:delete, :names)
 
         define_errors.call
       end
 
       resources(:tokens) do
-        collection do
-          delete "/destroy_all", to: "tokens#destroy_all"
-          delete "/delete_all", to: "tokens#delete_all"
-        end
+        define_all_delete.call(:destroy, :tokens)
+        define_all_delete.call(:delete, :tokens)
 
         define_errors.call
       end
 
       resources(:program_prompt_schedules) do
-        collection do
-          delete "/destroy_all", to: "program_prompt_schedules#destroy_all"
-          delete "/delete_all", to: "program_prompt_schedules#delete_all"
-        end
+        define_all_delete.call(:destroy, :program_prompt_schedules)
+        define_all_delete.call(:delete, :program_prompt_schedules)
 
         define_errors.call
       end
 
       resources(:program_prompts) do
-        collection do
-          delete "/destroy_all", to: "program_prompts#destroy_all"
-          delete "/delete_all", to: "program_prompts#delete_all"
-        end
+        define_all_delete.call(:destroy, :program_prompts)
+        define_all_delete.call(:delete, :program_prompts)
 
         resources(:program_prompt_schedules) do
-          collection do
-            delete "/destroy_all", to: "program_prompt_schedules#destroy_all"
-            delete "/delete_all", to: "program_prompt_schedules#delete_all"
-          end
+          define_all_delete.call(:destroy, :program_prompt_schedules)
+          define_all_delete.call(:delete, :program_prompt_schedules)
 
           define_errors.call
         end
@@ -386,10 +334,8 @@ Rails.application.routes.draw do
       end
 
       resources(:repl_prompts) do
-        collection do
-          delete "/destroy_all", to: "repl_prompts#destroy_all"
-          delete "/delete_all", to: "repl_prompts#delete_all"
-        end
+        define_all_delete.call(:destroy, :repl_prompts)
+        define_all_delete.call(:delete, :repl_prompts)
 
         define_errors.call
         define_jobs.call
@@ -399,45 +345,37 @@ Rails.application.routes.draw do
       define_jobs.call
     end
 
-  default_url_options(host: ENV.fetch("BASE_URL", ""))
+  default_url_options(host: ENV.fetch("BASE_URL", nil))
 
   scope "(:locale)", locale: /en|fr|/ do
     resources(:guests) do
-      define.call
+      define_all_delete.call(:destroy, :users)
+      define_all_delete.call(:delete, :users)
 
-      collection do
-        delete "/destroy_all", to: "users#destroy_all"
-        delete "/delete_all", to: "users#delete_all"
-      end
+      define.call
     end
 
     resources(:users) do
-      define.call
-
       post :impersonate
 
-      collection do
-        delete "/destroy_all", to: "users#destroy_all"
-        delete "/delete_all", to: "users#delete_all"
-      end
+      define_all_delete.call(:destroy, :users)
+      define_all_delete.call(:delete, :users)
+
+      define.call
     end
 
     define.call
 
     resources :configurations do
-      collection do
-        delete "/destroy_all", to: "configurations#destroy_all"
-        delete "/delete_all", to: "configurations#delete_all"
-      end
+      define_all_delete.call(:destroy, :configurations)
+      define_all_delete.call(:delete, :configurations)
     end
 
     resources :country_code_ip_addresses do
-      collection do
-        delete "/destroy_all", to: "country_code_ip_addresses#destroy_all"
-        delete "/delete_all", to: "country_code_ip_addresses#delete_all"
-      end
-
       post :lookup
+
+      define_all_delete.call(:destroy, :country_code_ip_addresses)
+      define_all_delete.call(:delete, :country_code_ip_addresses)
     end
 
     resource :session

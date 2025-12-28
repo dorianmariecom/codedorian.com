@@ -1,10 +1,4 @@
-<%= form_for(
-  show_url,
-  data: {
-    controller: "editor",
-    action: "turbo:morph@window->editor#reconnect"
-  }
-) do |f| %>
+<%= form_for(show_url, data: { controller: "editor" }) do |f| %>
   <% repl_prompt = f.object.repl_prompts.last || ReplPrompt.new %>
   <% generate = repl_prompt.generating? ? t(".generating") : t(".generate") %>
 
