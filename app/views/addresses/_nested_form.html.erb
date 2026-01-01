@@ -20,13 +20,13 @@
   >
     <%= f.hidden_field(:autocomplete, data: { address_target: "autocomplete" }) %>
     <%= f.hidden_field(:address, data: { address_target: "address" }) %>
-    <%= f.label(:address, class: "label", data: { address_target: "label" }) %>
+    <%= f.label(:address, class: :label, data: { address_target: :label }) %>
     <%= content_tag(
       "gmp-place-autocomplete",
       "",
       class: "input bg-white !p-0 scheme-light",
       data: {
-        address_target: "input",
+        address_target: :input,
         action: "input->address#input gmp-select->address#select"
       }
     ) %>
@@ -35,14 +35,14 @@
   </div>
 
   <div class="p">
-    <%= f.label(:primary, class: "label") %>
-    <%= f.check_box(:primary, class: "input") %>
+    <%= f.label(:primary, class: :label) %>
+    <%= f.check_box(:primary, class: :input) %>
   </div>
 
   <% if admin? %>
     <div class="p">
-      <%= f.label(:verified, class: "label") %>
-      <%= f.check_box(:verified, class: "input") %>
+      <%= f.label(:verified, class: :label) %>
+      <%= f.check_box(:verified, class: :input) %>
     </div>
   <% end %>
 

@@ -1,8 +1,8 @@
 <%= form_for(show_url) do |f| %>
   <% if admin? %>
     <div class="p">
-      <%= f.label(:user_id, class: "label") %>
-      <%= f.select(:user_id, user_options(user_id: f.object.user_id), {}, class: "input") %>
+      <%= f.label(:user_id, class: :label) %>
+      <%= f.select(:user_id, user_options(user_id: f.object.user_id), {}, class: :input) %>
     </div>
   <% end %>
 
@@ -19,13 +19,13 @@
   >
     <%= f.hidden_field(:autocomplete, data: { address_target: "autocomplete" }) %>
     <%= f.hidden_field(:address, data: { address_target: "address" }) %>
-    <%= f.label(:address, class: "label", data: { address_target: "label" }) %>
+    <%= f.label(:address, class: :label, data: { address_target: :label }) %>
     <%= content_tag(
       "gmp-place-autocomplete",
       "",
       class: "input bg-white !p-0 scheme-light",
       data: {
-        address_target: "input",
+        address_target: :input,
         action: "input->address#input gmp-select->address#select"
       }
     ) %>
@@ -34,14 +34,14 @@
   </div>
 
   <div class="p">
-    <%= f.label(:primary, class: "label") %>
-    <%= f.check_box(:primary, class: "input") %>
+    <%= f.label(:primary, class: :label) %>
+    <%= f.check_box(:primary, class: :input) %>
   </div>
 
   <% if admin? %>
     <div class="p">
-      <%= f.label(:verified, class: "label") %>
-      <%= f.check_box(:verified, class: "input") %>
+      <%= f.label(:verified, class: :label) %>
+      <%= f.check_box(:verified, class: :input) %>
     </div>
   <% end %>
 

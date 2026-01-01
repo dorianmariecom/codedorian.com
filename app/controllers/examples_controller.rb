@@ -115,6 +115,7 @@ class ExamplesController < ApplicationController
           :name,
           :position,
           :title,
+          :locale,
           { example_schedules_attributes: [%i[id _destroy starts_at interval]] }
         ]
       )

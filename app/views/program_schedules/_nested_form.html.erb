@@ -8,14 +8,14 @@
   <h2 class="font-bold p"><%= t(".program_schedule") %></h2>
 
   <div class="p">
-    <%= f.label(:starts_at, class: "label") %>
+    <%= f.label(:starts_at, class: :label) %>
     <%= f.datetime_field(
       :starts_at,
       required: true,
       class: "input program_schedule__starts-at",
-      autocomplete: "off",
+      autocomplete: :off,
       data: {
-        form_type: "other",
+        form_type: :other,
         program_schedule_target: "startsAt"
       }
     ) %>
@@ -23,7 +23,7 @@
   </div>
 
   <div class="p">
-    <%= f.label(:interval, class: "label") %>
+    <%= f.label(:interval, class: :label) %>
     <%= f.select(
       :interval,
       program_schedule_interval_options(interval: f.object.interval),
@@ -31,10 +31,10 @@
       required: true,
       class: "input program_schedule__interval",
       data: {
-        form_type: "other",
+        form_type: :other,
         program_schedule_target: "interval"
       },
-      autocomplete: "off"
+      autocomplete: :off
     ) %>
   </div>
 

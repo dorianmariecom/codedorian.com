@@ -51,11 +51,6 @@ module MenuHelper
         path: polymorphic_path([current_user_or_guest, :programs])
       },
       {
-        title: t("helpers.application.menu.examples"),
-        image: ios ? :document : :code,
-        path: examples_path
-      },
-      {
         title: t("helpers.application.menu.messages"),
         image: ios ? "message.fill" : :chat,
         path: polymorphic_path([current_user_or_guest, :messages])

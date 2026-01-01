@@ -1,29 +1,29 @@
 <%= form_for(show_url) do |f| %>
   <% if admin? %>
     <div class="p">
-      <%= f.label(:user_id, class: "label") %>
-      <%= f.select(:user_id, user_options(user_id: f.object.user_id), {}, class: "input") %>
+      <%= f.label(:user_id, class: :label) %>
+      <%= f.select(:user_id, user_options(user_id: f.object.user_id), {}, class: :input) %>
     </div>
   <% end %>
 
   <div class="p">
-    <%= f.label(:hint, class: "label") %>
-    <%= f.text_field(:hint, class: "input", placeholder: t(".hint_placeholder")) %>
+    <%= f.label(:hint, class: :label) %>
+    <%= f.text_field(:hint, class: :input, placeholder: t(".hint_placeholder")) %>
     <div class="text-gray-600"><%= Faker::Internet.password %></div>
   </div>
 
   <div class="p" data-controller="password">
-    <%= f.label(:password, class: "label", data: { password_target: "label" }) %>
+    <%= f.label(:password, class: :label, data: { password_target: :label }) %>
     <div class="flex gap-2 items-center">
       <input type="hidden" autocomplete="username" />
       <%= f.password_field(
         :password,
-        class: "input",
+        class: :input,
         required: true,
         data: {
-          password_target: "input",
+          password_target: :input,
           action: "password#input",
-          form_type: "other"
+          form_type: :other
         },
         autocomplete: "new-password",
         placeholder: t(".password_placeholder")
@@ -49,14 +49,14 @@
   </div>
 
   <div class="p">
-    <%= f.label(:primary, class: "label") %>
-    <%= f.check_box(:primary, class: "input") %>
+    <%= f.label(:primary, class: :label) %>
+    <%= f.check_box(:primary, class: :input) %>
   </div>
 
   <% if admin? %>
     <div class="p">
-      <%= f.label(:verified, class: "label") %>
-      <%= f.check_box(:verified, class: "input") %>
+      <%= f.label(:verified, class: :label) %>
+      <%= f.check_box(:verified, class: :input) %>
     </div>
   <% end %>
 

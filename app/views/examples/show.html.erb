@@ -14,6 +14,13 @@
   </div>
 <% end %>
 
+<% if @example.locale.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".locale") %></div>
+    <div class="font-bold"><%= @example.locale %></div>
+  </div>
+<% end %>
+
 <% if @example.description.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".description") %></div>

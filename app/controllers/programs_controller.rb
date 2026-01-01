@@ -22,6 +22,7 @@ class ProgramsController < ApplicationController
     @repl_executions = repl_executions_scope
     @data = data_scope
     @attachments = attachments_scope
+    @examples = examples_scope
   end
 
   def show
@@ -285,6 +286,10 @@ class ProgramsController < ApplicationController
     scope = policy_scope(Attachment)
     scope = scope.where_user(@user) if @user
     scope
+  end
+
+  def examples_scope
+    policy_scope(Example)
   end
 
   def model_class

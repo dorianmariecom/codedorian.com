@@ -4,24 +4,24 @@
 
   <% if admin? %>
     <div class="p">
-      <%= f.label(:user_id, class: "label") %>
-      <%= f.select(:user_id, user_options(user_id: f.object.user_id), {}, class: "input") %>
+      <%= f.label(:user_id, class: :label) %>
+      <%= f.select(:user_id, user_options(user_id: f.object.user_id), {}, class: :input) %>
     </div>
   <% end %>
 
   <div class="p" data-controller="editor">
-    <%= f.label(:key, class: "label") %>
+    <%= f.label(:key, class: :label) %>
     <div class="border border-black rounded overflow-hidden">
-      <%= f.hidden_field(:key, value: key, data: { editor_target: "input" }) %>
+      <%= f.hidden_field(:key, value: key, data: { editor_target: :input }) %>
       <div data-editor-target="editor"></div>
     </div>
     <div class="text-gray-600"><%= Faker::Internet.slug.to_json %></div>
   </div>
 
   <div class="p" data-controller="editor">
-    <%= f.label(:value, class: "label") %>
+    <%= f.label(:value, class: :label) %>
     <div class="border border-black rounded overflow-hidden">
-      <%= f.hidden_field(:value, value: value, data: { editor_target: "input" }) %>
+      <%= f.hidden_field(:value, value: value, data: { editor_target: :input }) %>
       <div data-editor-target="editor"></div>
     </div>
     <div class="text-gray-600">

@@ -197,11 +197,11 @@ class ApplicationController < ActionController::Base
   end
 
   def browser_locale
-    http_accept_language.compatible_language_from(I18n.available_locales)
+    http_accept_language.compatible_language_from(LOCALES)
   end
 
   def locale_param
-    params[:locale].presence_in(I18n.available_locales.map(&:to_s))
+    params[:locale].presence_in(LOCALES)
   end
 
   def default_url_options

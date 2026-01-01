@@ -11,19 +11,19 @@
     <%= f.hidden_field(:phone_number, data: { phone_number_target: "hidden" }) %>
     <%= f.label(
       :phone_number_input,
-      class: "label",
+      class: :label,
       data: {
-        phone_number_target: "label"
+        phone_number_target: :label
       }
     ) %>
     <%= f.phone_field(
       :phone_number_input,
       value: f.object.formatted,
-      class: "input",
+      class: :input,
       data: {
-        phone_number_target: "input",
+        phone_number_target: :input,
         action: "phone-number#input",
-        form_type: "other"
+        form_type: :other
       },
       autocomplete: "tel",
       placeholder: t(".phone_number_placeholder")
@@ -35,14 +35,14 @@
   </div>
 
   <div class="p">
-    <%= f.label(:primary, class: "label") %>
-    <%= f.check_box(:primary, class: "input") %>
+    <%= f.label(:primary, class: :label) %>
+    <%= f.check_box(:primary, class: :input) %>
   </div>
 
   <% if admin? %>
     <div class="p">
-      <%= f.label(:verified, class: "label") %>
-      <%= f.check_box(:verified, class: "input") %>
+      <%= f.label(:verified, class: :label) %>
+      <%= f.check_box(:verified, class: :input) %>
     </div>
   <% end %>
 

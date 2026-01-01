@@ -26,15 +26,6 @@ module TabsHelper
         default: false
       },
       (
-        unless admin?
-          {
-            title: t("helpers.application.tabs.examples"),
-            image: ios ? :document : :code,
-            path: examples_path
-          }
-        end
-      ),
-      (
         if registered?
           {
             title: t("helpers.application.tabs.messages"),

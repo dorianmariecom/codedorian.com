@@ -30,6 +30,7 @@ en:
       example:
         description: description
         input: input
+        locale: locale
         name: name
         position: position
         title: title
@@ -614,6 +615,7 @@ en:
       example_schedules: example schedules
       id: id
       input: input
+      locale: locale
       name: name
       new_example_schedule: new example schedule
       title: title
@@ -849,9 +851,6 @@ en:
     edit:
       submit: update message
       title: edit message
-    form:
-      body_placeholder: enter your message's body
-      subject_placeholder: enter your message's subject
     index:
       delete_all: delete all
       destroy_all: destroy all
@@ -1230,9 +1229,6 @@ en:
     form:
       generate: generate
       generating: generating
-      input: input
-      input_placeholder: enter your program's input
-      name_placeholder: enter your program's name
     index:
       attachments:
         one: 1 file
@@ -1246,6 +1242,11 @@ en:
       data_link: data
       delete_all: delete all
       destroy_all: destroy all
+      examples:
+        one: 1 example
+        other: "%{count} examples"
+        zero: 0 examples
+      examples_link: examples
       new: new program
       program_executions:
         one: 1 program execution
@@ -1506,6 +1507,7 @@ en:
       email_address: email address
       error: error
       error_occurrence: error occurrence
+      example: example
       guest: guest
       handle: handle
       job: job

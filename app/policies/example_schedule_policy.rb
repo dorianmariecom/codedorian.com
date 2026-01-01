@@ -3,7 +3,7 @@
 class ExampleSchedulePolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
-      scope.all
+      scope.where(example: policy_scope(Example))
     end
   end
 

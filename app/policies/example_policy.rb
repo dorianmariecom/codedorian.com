@@ -3,7 +3,7 @@
 class ExamplePolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
-      scope.all
+      admin? ? scope.all : scope.where(locale: I18n.locale)
     end
   end
 

@@ -24,9 +24,9 @@
   </div>
 
   <div class="p" data-controller="editor">
-    <%= f.label(:content, class: "label") %>
+    <%= f.label(:content, class: :label) %>
     <div class="border border-black rounded overflow-hidden">
-      <%= f.hidden_field(:content, value: content, data: { editor_target: "input" }) %>
+      <%= f.hidden_field(:content, value: content, data: { editor_target: :input }) %>
       <div data-editor-target="editor"></div>
     </div>
     <div class="text-gray-600"><%= Faker::Internet.slug.to_json %></div>

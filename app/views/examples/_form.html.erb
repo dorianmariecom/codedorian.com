@@ -1,12 +1,27 @@
 <%= form_for(show_url, html: { data: { controller: :editor } }) do |f| %>
   <div class="p" data-turbo-permanent>
     <%= f.label(:title, class: :label) %>
-    <%= f.rich_textarea(:title, class: "input") %>
+    <%= f.rich_textarea(:title, class: :input) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:locale, class: :label) %>
+    <%= f.select(
+      :locale,
+      locale_options(locale: f.object.locale.presence || I18n.locale),
+      {},
+      required: true,
+      class: :input,
+      data: {
+        form_type: :other
+      },
+      autocomplete: :off
+    ) %>
   </div>
 
   <div class="p" data-turbo-permanent>
     <%= f.label(:description, class: :label) %>
-    <%= f.rich_textarea(:description, class: "input") %>
+    <%= f.rich_textarea(:description, class: :input) %>
   </div>
 
   <div class="p">

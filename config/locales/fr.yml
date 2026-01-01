@@ -30,6 +30,7 @@ fr:
       example:
         description: description
         input: entrée
+        locale: langage
         name: nom
         position: position
         title: titre
@@ -611,6 +612,7 @@ fr:
       example_schedules: horaires d'exemple
       id: identifiant
       input: entrée
+      locale: langage
       name: nom
       new_example_schedule: nouvelle horaire d'exemple
       title: titre
@@ -681,7 +683,6 @@ fr:
         account: compte
         admin: admin
         english: anglais
-        examples: exemples
         french: français
         home: accueil
         log_in: se connecter
@@ -691,7 +692,6 @@ fr:
       tabs:
         account: compte
         admin: admin
-        examples: exemples
         home: accueil
         log_in: se connecter
         messages: messages
@@ -828,7 +828,6 @@ fr:
       about: à propos
       admin: admin
       english: anglais
-      examples: exemples
       french: français
       log_in: se connecter
       log_out: se déconnecter
@@ -844,9 +843,6 @@ fr:
     edit:
       submit: message de mise à jour
       title: modifier le message
-    form:
-      body_placeholder: entrez le corps de votre message
-      subject_placeholder: entrez l'objet de votre message
     index:
       delete_all: supprimer tout
       destroy_all: détruire tout
@@ -1224,9 +1220,6 @@ fr:
     form:
       generate: générer
       generating: génération
-      input: entrée
-      input_placeholder: entrez l'entrée de votre programme
-      name_placeholder: entrez le nom de votre programme
     index:
       attachments:
         one: 1 fichier
@@ -1240,6 +1233,11 @@ fr:
       data_link: données
       delete_all: supprimer tout
       destroy_all: détruire tout
+      examples:
+        one: 1 exemple
+        other: "%{count} exemples"
+        zero: 0 exemples
+      examples_link: exemples
       new: nouveau programme
       program_executions:
         one: 1 exécution de programme
@@ -1500,6 +1498,7 @@ fr:
       email_address: adresse e-mail
       error: erreur
       error_occurrence: occurrence d'erreur
+      example: exemple
       guest: invité
       handle: identifiant
       job: tâche

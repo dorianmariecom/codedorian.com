@@ -6,6 +6,7 @@ class Example < ApplicationRecord
   accepts_nested_attributes_for(:example_schedules, allow_destroy: true)
 
   validate { can!(:update, :example) }
+  validates(:locale, inclusion: { in: LOCALES })
 
   has_rich_text(:title)
   has_rich_text(:description)
@@ -44,6 +45,10 @@ class Example < ApplicationRecord
       description: {
         node: -> { description_rich_texts[:body] },
         relation: ->(scope) { scope.joins(description_join) },
+        type: :string
+      },
+      locale: {
+        node: -> { arel_table[:locale] },
         type: :string
       },
       name: {

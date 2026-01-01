@@ -5,16 +5,16 @@
     data-validation-trim-value="true"
     data-validation-gender-value="feminine"
   >
-    <%= f.label(:email_address, class: "label", data: { validation_target: "label" }) %>
+    <%= f.label(:email_address, class: :label, data: { validation_target: :label }) %>
     <%= f.email_field(
       :email_address,
       value: email_address_param,
-      class: "input",
+      class: :input,
       required: true,
       data: {
-        validation_target: "input",
+        validation_target: :input,
         action: "validation#input",
-        form_type: "other"
+        form_type: :other
       },
       autocomplete: "email"
     ) %>
@@ -23,18 +23,18 @@
   </div>
 
   <div class="p" data-controller="password">
-    <%= f.label(:password, class: "label", data: { password_target: "label" }) %>
+    <%= f.label(:password, class: :label, data: { password_target: :label }) %>
     <div class="flex gap-2 items-center">
       <input type="hidden" autocomplete="username" />
       <%= f.password_field(
         :password,
-        class: "input",
+        class: :input,
         value: password_param,
         required: true,
         data: {
-          password_target: "input",
+          password_target: :input,
           action: "password#input",
-          form_type: "other"
+          form_type: :other
         },
         autocomplete: "current-password"
       ) %>

@@ -1,30 +1,30 @@
 <%= form_for(show_url) do |f| %>
   <div class="p">
-    <%= f.label(:starts_at, class: "label") %>
+    <%= f.label(:starts_at, class: :label) %>
     <%= f.datetime_field(
       :starts_at,
       required: true,
-      class: "input",
-      autocomplete: "off",
+      class: :input,
+      autocomplete: :off,
       data: {
-        form_type: "other"
+        form_type: :other
       }
     ) %>
     <div class="text-gray-600"><%= local_time(Time.zone.now) %></div>
   </div>
 
   <div class="p">
-    <%= f.label(:interval, class: "label") %>
+    <%= f.label(:interval, class: :label) %>
     <%= f.select(
       :interval,
       example_schedule_interval_options(interval: f.object.interval),
       {},
       required: true,
-      class: "input",
+      class: :input,
       data: {
-        form_type: "other"
+        form_type: :other
       },
-      autocomplete: "off"
+      autocomplete: :off
     ) %>
   </div>
 
