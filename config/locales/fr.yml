@@ -27,6 +27,16 @@ fr:
         primary: principale ?
         user_id: utilisateur
         verified: vérifiée ?
+      example:
+        description: description
+        input: entrée
+        name: nom
+        position: position
+        title: titre
+      example_schedule:
+        interval: intervalle
+        program_id: exemple
+        starts_at: commence à
       handle:
         handle: identifiant
         primary: principal ?
@@ -192,6 +202,14 @@ fr:
       new: nouvelle
       not_found: non trouvé
       unprocessable_entity: entité non traitable
+    example_schedules:
+      edit: modifier
+      index: horaires de exemples
+      new: nouvelle
+    examples:
+      edit: modifier
+      index: exemples
+      new: nouveau
     guests:
       edit: modifier
       index: invités
@@ -495,6 +513,110 @@ fr:
       verified: vérifié ?
     unprocessable_entity:
       title: entité non traitable
+  example_schedules:
+    create:
+      notice: horaire de l'exemple créée
+    destroy:
+      notice: horaire de l'exemple supprimée
+    edit:
+      submit: mettre à jour l'horaire de l'exemple
+      title: modifier l'horaire de l'exemple
+    example_schedule:
+      schedule_html: commence %{local_time}, se répète tous les %{interval}
+      schedule_once_html: commence %{local_time}, ne se répète pas
+    index:
+      delete_all: supprimer tout
+      destroy_all: détruire tout
+      new: nouvelle horaire d'exemple
+      title: horaires d'exemples
+    model:
+      days:
+        one: 1 jour
+        other: "%{count} jours"
+        zero: 0 jours
+      hours:
+        one: 1 heure
+        other: "%{count} heures"
+        zero: 0 heures
+      minutes:
+        one: 1 minute
+        other: "%{count} minutes"
+        zero: 0 minutes
+      months:
+        one: 1 mois
+        other: "%{count} mois"
+        zero: 0 mois
+      once: une fois
+      seconds:
+        one: 1 seconde
+        other: "%{count} secondes"
+        zero: 0 seconde
+      to_s: exemple_horaire#%{id}
+      weeks:
+        one: 1 semaine
+        other: "%{count} semaines"
+        zero: 0 semaines
+      years:
+        one: 1 an
+        other: "%{count} ans"
+        zero: 0 ans
+    nested:
+      add: ajouter un horaire d'exemple
+    nested_form:
+      example_schedule: exemple
+      remove: supprimer la horaire des exemples
+    new:
+      submit: créer un exemple
+      title: nouvelle horaire de exemples
+    show:
+      created_at: créé à
+      delete: supprimer la horaire des exemples
+      edit: modifier la horaire des exemples
+      example: exemple
+      id: identifiant
+      interval: intervalle
+      schedule_html: commence %{local_time}, se répète tous les %{interval}
+      schedule_once_html: commence %{local_time}, ne se répète pas
+      starts_at: commence à
+      updated_at: mis à jour à
+    update:
+      notice: horaire d'exemple mis à jour
+  examples:
+    create:
+      notice: exemple créé
+    destroy:
+      notice: exemple supprimé
+    edit:
+      submit: mettre à jour l'exemple
+      title: modifier l'exemple
+    index:
+      delete_all: supprimer tout
+      destroy_all: détruire tout
+      example_schedules:
+        one: 1 horaire d'exemples
+        other: "%{count} horaires d'exemples"
+        zero: 0 horaires d'exemples
+      new: nouvel exemple
+      title: exemples
+    model:
+      to_s: exemple#%{id}
+    new:
+      submit: créer un exemple
+      title: nouveau exemple
+    show:
+      created_at: créé à
+      delete: supprimer le exemple
+      description: description
+      edit: modifier le exemple
+      example_schedules: horaires d'exemple
+      id: identifiant
+      input: entrée
+      name: nom
+      new_example_schedule: nouvelle horaire d'exemple
+      title: titre
+      updated_at: mis à jour à
+    update:
+      notice: exemple mis à jour
   guests:
     index:
       delete_all: supprimer tout
@@ -559,6 +681,7 @@ fr:
         account: compte
         admin: admin
         english: anglais
+        examples: exemples
         french: français
         home: accueil
         log_in: se connecter
@@ -568,6 +691,7 @@ fr:
       tabs:
         account: compte
         admin: admin
+        examples: exemples
         home: accueil
         log_in: se connecter
         messages: messages
@@ -704,6 +828,7 @@ fr:
       about: à propos
       admin: admin
       english: anglais
+      examples: exemples
       french: français
       log_in: se connecter
       log_out: se déconnecter
@@ -900,8 +1025,8 @@ fr:
       error_class: classe d'erreur
       error_message: message d'erreur
       id: identifiant
-      input: saisir
-      output: sortir
+      input: entrée
+      output: sortie
       program: programme
       result: résultat
       status: statut
@@ -975,7 +1100,7 @@ fr:
       updated_at: mis à jour à
       user: utilisateur
     update:
-      notice: horaire mis à jour
+      notice: horaire d'invite de programme mis à jour
   program_prompts:
     destroy:
       notice: invite du programme supprimée
@@ -1004,10 +1129,10 @@ fr:
       error_class: classe d'erreur
       error_message: message d'erreur
       id: identifiant
-      input: saisir
+      input: entrée
       name: nom
       new_program_prompt_schedule: nouvel horaire
-      output: sortir
+      output: sortie
       output_input: sortie entrée
       output_name: sortie nom
       output_schedule: 'intervalle : %{interval}, commence à : %{starts_at}'
@@ -1035,36 +1160,6 @@ fr:
         one: 1 jour
         other: "%{count} jours"
         zero: 0 jours
-      form:
-        days:
-          one: tous les jours
-          other: tous les %{count} jours
-          zero: aucuns jours
-        hours:
-          one: toutes les heures
-          other: toutes les %{count} heures
-          zero: aucunes heures
-        minutes:
-          one: toutes les minutes
-          other: toutes les %{count} minutes
-          zero: aucune minutes
-        months:
-          one: tous les mois
-          other: tous les %{count} mois
-          zero: aucuns mois
-        once: une fois
-        seconds:
-          one: toutes les seconds
-          other: toutes les %{count} secondes
-          zero: aucunes secondes
-        weeks:
-          one: toutes les semaines
-          other: toutes les %{count} semaines
-          zero: aucunes semaines
-        years:
-          one: toutes les années
-          other: toutes les %{count} années
-          zero: aucunes années
       hours:
         one: 1 heure
         other: "%{count} heures"
@@ -1092,9 +1187,9 @@ fr:
         other: "%{count} ans"
         zero: 0 ans
     nested:
-      add: ajouter un programme
+      add: ajouter un horaire de programme
     nested_form:
-      program_schedule: programme
+      program_schedule: horaire de programme
       remove: supprimer la horaire des programmes
     new:
       submit: créer un programme
@@ -1115,7 +1210,7 @@ fr:
       updated_at: mis à jour à
       user: utilisateur
     update:
-      notice: horaire mis à jour
+      notice: horaire de programme mis à jour
   programs:
     create:
       notice: programme créé
@@ -1129,7 +1224,7 @@ fr:
     form:
       generate: générer
       generating: génération
-      input: saisir
+      input: entrée
       input_placeholder: entrez l'entrée de votre programme
       name_placeholder: entrez le nom de votre programme
     index:
@@ -1151,17 +1246,17 @@ fr:
         other: "%{count} exécutions de programme"
         zero: 0 exécutions de programme
       program_prompt_schedules:
-        one: 1 programme d'invite de programme
-        other: Horaires d'invite du programme %{count}
+        one: 1 horaire d'invite de programme
+        other: "%{count} horaires d'invite de programme"
         zero: 0 horaires d'invite de programme
       program_prompts:
         one: 1 invite de programme
-        other: Invites du programme %{count}
+        other: "%{count} invites de programme"
         zero: 0 invites de programme
       program_schedules:
         one: 1 horaire de programmes
-        other: "%{count} programmes"
-        zero: 0 programmes
+        other: "%{count} horaires de programmes"
+        zero: 0 horaires de programmes
       repl_executions:
         one: 1 exécution de terminaux
         other: "%{count} exécutions de terminaux"
@@ -1195,7 +1290,7 @@ fr:
       edit: modifier le programme
       evaluate: évaluer
       id: identifiant
-      input: saisir
+      input: entrée
       name: nom
       new_program_prompt: invite de nouveau programme
       new_program_prompt_schedule: nouveau horaire des invites du programme
@@ -1284,7 +1379,7 @@ fr:
       delete: supprimer le programme de terminal
       edit: modifier le programme de terminal
       id: identifiant
-      input: saisir
+      input: entrée
       new_repl_execution: nouvelle exécution de terminal
       new_repl_prompt: nouvelle invite de terminal
       repl_executions: exécutions de terminal
@@ -1518,6 +1613,8 @@ fr:
       email_addresses: adresses e-mail
       error_occurrences: occurrences d'erreur
       errors: erreurs
+      example_schedules: horaires d'exemples
+      examples: exemples
       guests: invités
       handles: identifiants
       jobs: tâches

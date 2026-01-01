@@ -38,6 +38,6 @@ pin "local-time" # @3.0.3
 pin "stimulus-places-autocomplete" # @0.5.0
 pin "style-mod" # @4.1.2
 pin "thememirror" # @2.0.1
-pin "trix" # @2.1.15
+pin "trix" # @2.1.16
 pin "w3c-keyname" # @2.2.8
 pin_all_from "app/javascript/controllers", under: "controllers", integrity: true

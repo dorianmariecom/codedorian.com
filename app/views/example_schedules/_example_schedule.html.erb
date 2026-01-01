@@ -1,0 +1,17 @@
+<div class="p">
+  <%= link_to([*nested, example_schedule], class: "link") do %>
+    <% if example_schedule.once? %>
+      <%= t(
+        ".schedule_once_html",
+        local_time: local_time(example_schedule.starts_at),
+        interval: example_schedule.translated_interval
+      ) %>
+    <% else %>
+      <%= t(
+        ".schedule_html",
+        local_time: local_time(example_schedule.starts_at),
+        interval: example_schedule.translated_interval
+      ) %>
+    <% end %>
+  <% end %>
+</div>

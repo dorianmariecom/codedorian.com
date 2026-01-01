@@ -1,0 +1,67 @@
+<% content_for(:title) do %>
+  <% if @example_schedule.once? %>
+    <%= t(
+      ".schedule_once_html",
+      local_time: local_time(@example_schedule.starts_at),
+      interval: @example_schedule.translated_interval
+    ) %>
+  <% else %>
+    <%= t(
+      ".schedule_html",
+      local_time: local_time(@example_schedule.starts_at),
+      interval: @example_schedule.translated_interval
+    ) %>
+  <% end %>
+<% end %>
+
+<%= turbo_stream_from(@example_schedule) %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".id") %></div>
+  <div class="font-bold"><%= @example_schedule.id %></div>
+</div>
+
+<% if @example_schedule.example.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".example") %></div>
+
+    <% if can?(:show, @example_schedule.example) %>
+      <div class="font-bold">
+        <%= link_to(@example_schedule.example, @example_schedule.example, class: "link") %>
+      </div>
+    <% else %>
+      <div class="font-bold"><%= @example_schedule.example %></div>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @example_schedule.starts_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".starts_at") %></div>
+    <div class="font-bold"><%= local_time(@example_schedule.starts_at) %></div>
+  </div>
+<% end %>
+
+<% if @example_schedule.interval.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".interval") %></div>
+    <div class="font-bold"><%= @example_schedule.translated_interval %></div>
+  </div>
+<% end %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".updated_at") %></div>
+  <div class="font-bold"><%= local_time(@example_schedule.updated_at) %></div>
+</div>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".created_at") %></div>
+  <div class="font-bold"><%= local_time(@example_schedule.created_at) %></div>
+</div>
+
+<% if can?(:update, @example_schedule) %>
+  <div class="p">
+    <%= link_to(t(".edit"), edit_url, class: "link") %>
+    <%= render("shared/confirm", text: t(".delete"), url: show_url) %>
+  </div>
+<% end %>

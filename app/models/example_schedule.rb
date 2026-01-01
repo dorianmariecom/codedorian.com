@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ProgramSchedule < ApplicationRecord
+class ExampleSchedule < ApplicationRecord
   DEFAULT_INTERVAL = "1 day"
 
   INTERVALS = [
@@ -57,15 +57,13 @@ class ProgramSchedule < ApplicationRecord
     "years" => 1.year
   }.freeze
 
-  belongs_to(:program, touch: true)
-  has_one(:user, through: :program)
+  belongs_to(:example, touch: true)
 
-  scope(:where_user, ->(user) { joins(:user).where(users: { id: user }) })
-  scope(:where_program, ->(program) { where(program: program) })
+  scope(:where_example, ->(example) { where(example: example) })
 
   validates(:interval, inclusion: { in: INTERVALS })
 
-  validate { can!(:update, program) }
+  validate { can!(:update, example) }
 
   after_initialize { self.starts_at ||= default_starts_at }
   after_initialize { self.interval ||= default_interval }
@@ -141,16 +139,6 @@ class ProgramSchedule < ApplicationRecord
 
   def default_interval
     DEFAULT_INTERVAL
-  end
-
-  def to_code
-    Code::Object::Schedule.new(
-      id: id,
-      starts_at: starts_at,
-      interval: interval,
-      translated_interval: translated_interval,
-      next_at: next_at
-    )
   end
 
   def to_s

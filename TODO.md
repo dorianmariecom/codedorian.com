@@ -10,3 +10,5 @@
 - repl prompts crud
 - sessions crud
 - versions crud
+
+- notice/alert everywhere

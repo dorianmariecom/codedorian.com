@@ -38,8 +38,8 @@ module ApplicationHelper
     end
   end
 
-  def form_interval_options(interval: ProgramSchedule::DEFAULT_INTERVAL)
-    ProgramSchedule.form_interval_options.map do |label, value|
+  def example_schedule_interval_options(interval: nil)
+    ExampleSchedule.interval_options.map do |label, value|
       [label, value, { selected: value == interval }]
     end
   end

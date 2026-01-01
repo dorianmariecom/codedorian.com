@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_26_211505) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_28_204420) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -135,6 +135,23 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_26_211505) do
     t.index %w[user_id verified primary],
             name: "index_email_addresses_on_user_id_and_verified_and_primary"
     t.index ["user_id"], name: "index_email_addresses_on_user_id"
+  end
+
+  create_table "example_schedules", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "example_id", null: false
+    t.string "interval"
+    t.datetime "starts_at"
+    t.datetime "updated_at", null: false
+    t.index ["example_id"], name: "index_example_schedules_on_example_id"
+  end
+
+  create_table "examples", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "input"
+    t.string "name"
+    t.bigint "position", default: 0, null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "handles", force: :cascade do |t|
@@ -657,6 +674,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_26_211505) do
   add_foreign_key "data", "users"
   add_foreign_key "devices", "users"
   add_foreign_key "email_addresses", "users"
+  add_foreign_key "example_schedules", "examples"
   add_foreign_key "handles", "users"
   add_foreign_key "messages", "users", column: "from_user_id"
   add_foreign_key "messages", "users", column: "to_user_id"

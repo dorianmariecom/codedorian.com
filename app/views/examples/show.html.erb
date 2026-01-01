@@ -1,0 +1,76 @@
+<% content_for(:title, @example) %>
+
+<%= turbo_stream_from(@example) %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".id") %></div>
+  <div class="font-bold"><%= @example.id %></div>
+</div>
+
+<% if @example.title.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".title") %></div>
+    <%= @example.title %>
+  </div>
+<% end %>
+
+<% if @example.description.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".description") %></div>
+    <%= @example.description %>
+  </div>
+<% end %>
+
+<% if @example.name.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".name") %></div>
+    <div class="font-bold"><%= @example.name %></div>
+  </div>
+<% end %>
+
+<% if @example.input.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".input") %></div>
+    <div class="code"><%= @example.input %></div>
+  </div>
+<% end %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".updated_at") %></div>
+  <div class="font-bold"><%= local_time(@example.updated_at) %></div>
+</div>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".created_at") %></div>
+  <div class="font-bold"><%= local_time(@example.created_at) %></div>
+</div>
+
+<% if can?(:update, @example) %>
+  <div class="p">
+    <%= link_to(t(".edit"), edit_url, class: "link") %>
+    <%= render("shared/confirm", text: t(".delete"), url: show_url) %>
+  </div>
+<% end %>
+
+<div class="p font-bold">
+  <%= link_to(t(".example_schedules"), [@example, :example_schedules], class: "link") %>
+</div>
+
+<% if can?(:create, ExampleSchedule) %>
+  <div class="p">
+    <%= link_to(
+      t(".new_example_schedule"),
+      [:new, @example, :example_schedule],
+      class: "button"
+    ) %>
+  </div>
+<% end %>
+
+<%= render_collection(
+  partial: "example_schedules/example_schedule",
+  collection: @example_schedules,
+  as: :example_schedule,
+  locals: {
+    nested: [@example]
+  }
+) %>

@@ -371,6 +371,21 @@ Rails.application.routes.draw do
       define_all_delete.call(:delete, :configurations)
     end
 
+    resources :examples do
+      define_all_delete.call(:destroy, :examples)
+      define_all_delete.call(:delete, :examples)
+
+      resources :example_schedules do
+        define_all_delete.call(:destroy, :example_schedules)
+        define_all_delete.call(:delete, :example_schedules)
+      end
+    end
+
+    resources :example_schedules do
+      define_all_delete.call(:destroy, :example_schedules)
+      define_all_delete.call(:delete, :example_schedules)
+    end
+
     resources :country_code_ip_addresses do
       post :lookup
 

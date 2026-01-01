@@ -155,9 +155,16 @@ class Message < ApplicationRecord
     }
   end
 
+  def subject_sample
+    Truncate.strip(subject&.to_plain_text)
+  end
+
+  def body_sample
+    Truncate.strip(body&.to_plain_text)
+  end
+
   def to_s
-    subject&.to_plain_text.presence || body&.to_plain_text.presence ||
-      t("to_s", id: id)
+    subject_sample.presence || body_sample.presence || t("to_s", id: id)
   end
 
   def to_code

@@ -27,6 +27,16 @@ en:
         primary: primary?
         user_id: user
         verified: verified?
+      example:
+        description: description
+        input: input
+        name: name
+        position: position
+        title: title
+      example_schedule:
+        example_id: example
+        interval: interval
+        starts_at: starts at
       handle:
         handle: handle
         primary: primary?
@@ -192,6 +202,14 @@ en:
       new: new
       not_found: not found
       unprocessable_entity: unprocessable entity
+    example_schedules:
+      edit: edit
+      index: example schedules
+      new: new
+    examples:
+      edit: edit
+      index: examples
+      new: new
     guests:
       edit: edit
       index: guests
@@ -498,6 +516,112 @@ en:
       verified: verified?
     unprocessable_entity:
       title: unprocessable entity
+  example_schedules:
+    create:
+      notice: example schedule created
+    destroy:
+      notice: example schedule deleted
+    edit:
+      submit: update example schedule
+      title: edit example schedule
+    example_schedule:
+      schedule_html: starts %{local_time}, repeats every %{interval}
+      schedule_once_html: starts %{local_time}, doesn't repeat
+    index:
+      delete_all: delete all
+      destroy_all: destroy all
+      new: new example schedule
+      title: example schedules
+    model:
+      days:
+        one: 1 day
+        other: "%{count} days"
+        zero: 0 days
+      hours:
+        one: 1 hour
+        other: "%{count} hours"
+        zero: 0 hours
+      minutes:
+        one: 1 minute
+        other: "%{count} minutes"
+        zero: 0 minutes
+      months:
+        one: 1 month
+        other: "%{count} months"
+        zero: 0 months
+      once: once
+      seconds:
+        one: 1 second
+        other: "%{count} seconds"
+        zero: 0 seconds
+      to_s: example_schedule#%{id}
+      weeks:
+        one: 1 week
+        other: "%{count} weeks"
+        zero: 0 weeks
+      years:
+        one: 1 year
+        other: "%{count} years"
+        zero: 0 years
+    nested:
+      add: add example schedule
+    nested_form:
+      example_schedule: example schedule
+      remove: remove example schedule
+    new:
+      submit: create example schedule
+      title: new example schedule
+    show:
+      created_at: created at
+      delete: delete example schedule
+      edit: edit example schedule
+      example: example
+      id: id
+      interval: interval
+      schedule_html: starts %{local_time}, repeats every %{interval}
+      schedule_once_html: starts %{local_time}, doesn't repeat
+      starts_at: starts at
+      updated_at: updated at
+    update:
+      notice: schedule updated
+  examples:
+    create:
+      notice: example created
+    destroy:
+      notice: example deleted
+    edit:
+      submit: update example
+      title: edit example
+    index:
+      delete_all: delete all
+      destroy_all: destroy all
+      example_schedules:
+        one: 1 example schedule
+        other: "%{count} example schedules"
+        zero: 0 example schedules
+      new: new example
+      title: examples
+    model:
+      to_s: example#%{id}
+    new:
+      submit: create example
+      title: new example
+    show:
+      created_at: created at
+      delete: delete example
+      description: description
+      edit: edit example
+      example_schedules: example schedules
+      id: id
+      input: input
+      name: name
+      new_example_schedule: new example schedule
+      title: title
+      updated_at: updated at
+    unschedule:
+      notice: example unscheduled
+    update:
+      notice: example updated
   guests:
     index:
       delete_all: delete all
@@ -562,6 +686,7 @@ en:
         account: account
         admin: admin
         english: english
+        examples: examples
         french: french
         home: home
         log_in: log in
@@ -571,6 +696,7 @@ en:
       tabs:
         account: account
         admin: admin
+        examples: examples
         home: home
         log_in: log in
         messages: messages
@@ -707,6 +833,7 @@ en:
       about: about
       admin: admin
       english: english
+      examples: examples
       french: french
       log_in: log in
       log_out: log out
@@ -1039,36 +1166,6 @@ en:
         one: 1 day
         other: "%{count} days"
         zero: 0 days
-      form:
-        days:
-          one: every day
-          other: every %{count} days
-          zero: no days
-        hours:
-          one: every hour
-          other: every %{count} hours
-          zero: no hours
-        minutes:
-          one: every minute
-          other: every %{count} minutes
-          zero: no minutes
-        months:
-          one: every month
-          other: every %{count} months
-          zero: no months
-        once: once
-        seconds:
-          one: every second
-          other: every %{count} seconds
-          zero: no seconds
-        weeks:
-          one: every week
-          other: every %{count} weeks
-          zero: no weeks
-        years:
-          one: every year
-          other: every %{count} years
-          zero: no years
       hours:
         one: 1 hour
         other: "%{count} hours"
@@ -1521,6 +1618,8 @@ en:
       email_addresses: email addresses
       error_occurrences: error occurrences
       errors: errors
+      example_schedules: example schedules
+      examples: examples
       guests: guests
       handles: handles
       jobs: jobs
