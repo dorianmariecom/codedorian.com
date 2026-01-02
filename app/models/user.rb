@@ -47,7 +47,7 @@ class User < ApplicationRecord
   accepts_nested_attributes_for(:phone_numbers, allow_destroy: true)
   accepts_nested_attributes_for(:time_zones, allow_destroy: true)
 
-  validates(:locale, inclusion: { in: LOCALES }, allow_blank: true)
+  validates(:locale, inclusion: { in: LOCALES_STRINGS }, allow_blank: true)
 
   after_save :update_description
   after_touch :update_description

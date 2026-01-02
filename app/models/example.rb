@@ -6,7 +6,7 @@ class Example < ApplicationRecord
   accepts_nested_attributes_for(:example_schedules, allow_destroy: true)
 
   validate { can!(:update, :example) }
-  validates(:locale, inclusion: { in: LOCALES })
+  validates(:locale, inclusion: { in: LOCALES_STRINGS })
 
   has_rich_text(:title)
   has_rich_text(:description)

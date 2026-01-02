@@ -95,7 +95,7 @@ module ApplicationHelper
   def locale_options(locale: nil)
     locale = (locale.presence || I18n.locale).to_s
 
-    LOCALES.map do |available_locale|
+    LOCALES_STRINGS.map do |available_locale|
       [
         I18n.t("users.model.locales.#{available_locale}"),
         available_locale,
