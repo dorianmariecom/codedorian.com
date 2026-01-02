@@ -41,6 +41,8 @@ class ErrorOccurrence < SolidErrors::Occurrence
 
   scope(:where_error, ->(error) { where(error: error) })
 
+  validate(:parse_and_validate_context, on: :controller)
+
   def self.search_fields
     {
       id: {
@@ -127,11 +129,38 @@ class ErrorOccurrence < SolidErrors::Occurrence
     self.class.name.underscore.pluralize.to_sym
   end
 
+  def parse_and_validate_context
+    self.context = JSON.parse(context.to_s)
+  rescue JSON::ParserError
+    errors.add(:context, t("invalid_json"))
+  end
+
   def app_backtrace
     Backtrace.app(backtrace)
   end
 
   def context_json
     JSON.pretty_generate(context)
+  end
+
+  def app_backtrace_sample
+    Truncate.strip(app_backtrace)
+  end
+
+  def backtrace_sample
+    Truncate.strip(backtrace)
+  end
+
+  def context_sample
+    Truncate.strip(context.to_json)
+  end
+
+  def alert
+    errors.full_messages.to_sentence
+  end
+
+  def to_s
+    app_backtrace_sample.presence || backtrace_sample.presence ||
+      context_sample.presence || I18n.t("error_occurrences.model.to_s", id: id)
   end
 end

@@ -27,6 +27,18 @@ fr:
         primary: principale ?
         user_id: utilisateur
         verified: vérifiée ?
+      error:
+        exception_class: classe d'exception
+        fingerprint: empreinte
+        message: message
+        resolved_at: résolue à
+        severity: sévérité
+        source: source
+      error_occurrence:
+        backtrace: trace
+        context: contexte
+        error: erreur
+        error_id: erreur
       example:
         description: description
         input: entrée
@@ -35,8 +47,8 @@ fr:
         position: position
         title: titre
       example_schedule:
+        example_id: exemple
         interval: intervalle
-        program_id: exemple
         starts_at: commence à
       handle:
         handle: identifiant
@@ -194,7 +206,7 @@ fr:
       new: nouvelle
     error_occurrences:
       edit: modifier
-      index: occurrences d'erreur
+      index: occurences d'erreur
       new: nouvelle
     errors:
       edit: modifier
@@ -471,49 +483,80 @@ fr:
     update:
       notice: adresse e-mail mise à jour
   error_occurrences:
+    create:
+      notice: occurence d'erreur créée
     destroy:
-      notice: occurrence d'erreur supprimée
+      notice: occurence d'erreur supprimée
+    edit:
+      submit: mettre à jour l'occurence d'erreur
+      title: modifier l'occurence d'erreur
     index:
       delete_all: supprimer tout
       destroy_all: détruire tout
-      title: occurrences d'erreur
+      new: nouvelle occurence d'erreur
+      title: occurences d'erreur
+    model:
+      invalid_json: json invalide
+      to_s: occurence_d_erreur#%{id}
+    new:
+      submit: créer une occurence d'erreur
+      title: nouvelle occurence d'erreur
     show:
       app_backtrace: trace d'application
       context: contexte
       created_at: créé à
-      delete: supprimer l'occurrence d'erreur
+      delete: supprimer l'occurence d'erreur
+      edit: modifier
       error: erreur
       full_backtrace: trace complète
       id: identifiant
       updated_at: mis à jour à
+    update:
+      notice: occurence d'erreur mise à jour
   errors:
+    create:
+      notice: erreur créée
     destroy:
       notice: erreur supprimée
+    edit:
+      submit: mettre à jour l'erreur
+      title: modifier l'erreur
     index:
       delete_all: supprimer tout
       destroy_all: détruire tout
       error_occurrences:
-        one: 1 occurrence d'erreur
-        other: "%{count} occurrences d'erreur"
-        zero: 0 occurrence d'erreur
+        one: 1 occurence d'erreur
+        other: "%{count} occurences d'erreur"
+        zero: 0 occurence d'erreur
+      new: nouvelle erreur
       title: erreurs
     internal_server_error:
       title: Erreur interne du serveur
+    model:
+      to_s: erreur#%{id}
+    new:
+      submit: créer une erreur
+      title: nouvelle erreur
     not_found:
       title: non trouvé
     show:
       created_at: créé à
       delete: erreur de suppression
-      error_occurrences: occurrences d'erreur
+      edit: modifier
+      error_occurrences: occurences d'erreur
       exception_class: classe d'exception
+      fingerprint: empreinte
       id: identifiant
       message: message
+      resolved_at: résolue à
       severity: gravité
       source: source
       updated_at: mis à jour à
       verified: vérifié ?
     unprocessable_entity:
       title: entité non traitable
+    update:
+      notice: erreur mise à jour
   example_schedules:
     create:
       notice: horaire de l'exemple créée
@@ -615,6 +658,7 @@ fr:
       locale: langage
       name: nom
       new_example_schedule: nouvelle horaire d'exemple
+      position: position
       title: titre
       updated_at: mis à jour à
     update:
@@ -1497,7 +1541,7 @@ fr:
       device: appareil
       email_address: adresse e-mail
       error: erreur
-      error_occurrence: occurrence d'erreur
+      error_occurrence: occurence d'erreur
       example: exemple
       guest: invité
       handle: identifiant
@@ -1524,7 +1568,7 @@ fr:
       data: données
       devices: appareils
       email_addresses: adresses e-mail
-      error_occurrences: occurrences d'erreur
+      error_occurrences: occurences d'erreur
       errors: erreurs
       handles: identifiants
       jobs: tâches
@@ -1536,7 +1580,7 @@ fr:
       new_device: nouvel appareil
       new_email_address: nouvelle adresse e-mail
       new_error: nouvelle erreur
-      new_error_occurrence: nouvelle occurrence d'erreur
+      new_error_occurrence: nouvelle occurence d'erreur
       new_handle: nouvelle identifiant
       new_job: nouvel emploi
       new_message: nouveau message
@@ -1610,7 +1654,7 @@ fr:
       data: données
       devices: appareils
       email_addresses: adresses e-mail
-      error_occurrences: occurrences d'erreur
+      error_occurrences: occurences d'erreur
       errors: erreurs
       example_schedules: horaires d'exemples
       examples: exemples

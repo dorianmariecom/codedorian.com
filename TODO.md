@@ -1,5 +1,3 @@
-- error occurrences crud
-- errors crud
 - guests crud
 - job contexts crud
 - jobs crud
@@ -12,3 +10,4 @@
 - versions crud
 
 - notice/alert everywhere
+- deep links

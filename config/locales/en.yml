@@ -10,7 +10,7 @@ en:
       configuration:
         content: content
         name: name
-      country_code_ip_addresses:
+      country_code_ip_address:
         country_code: country_code
         ip_address: ip address
       datum:
@@ -27,6 +27,18 @@ en:
         primary: primary?
         user_id: user
         verified: verified?
+      error:
+        exception_class: exception class
+        fingerprint: fingerprint
+        message: message
+        resolved_at: resolved at
+        severity: severity
+        source: source
+      error_occurrence:
+        backtrace: backtrace
+        context: context
+        error: error
+        error_id: error
       example:
         description: description
         input: input
@@ -379,9 +391,6 @@ en:
     edit:
       submit: update datum
       title: edit datum
-    form:
-      key_placeholder: enter your datum's key
-      value_placeholder: enter your datum's value
     index:
       delete_all: delete all
       destroy_all: destroy all
@@ -474,24 +483,44 @@ en:
     update:
       notice: email address updated
   error_occurrences:
+    create:
+      notice: error occurrence created
     destroy:
       notice: error occurrence deleted
+    edit:
+      submit: update error occurrence
+      title: edit error occurrence
     index:
       delete_all: delete all
       destroy_all: destroy all
+      new: new error occurrence
       title: error occurrences
+    model:
+      invalid_json: invalid json
+      to_s: error_occurrence#%{id}
+    new:
+      submit: create error occurrence
+      title: new error occurrence
     show:
       app_backtrace: app backtrace
       context: context
       created_at: created at
       delete: delete error occurrence
+      edit: edit
       error: error
       full_backtrace: full backtrace
       id: id
       updated_at: updated at
+    update:
+      notice: error occurrence updated
   errors:
+    create:
+      notice: error created
     destroy:
       notice: error deleted
+    edit:
+      submit: update error
+      title: edit error
     index:
       delete_all: delete all
       destroy_all: destroy all
@@ -499,24 +528,35 @@ en:
         one: 1 error occurrence
         other: "%{count} error occurrences"
         zero: 0 error occurrences
+      new: new error
       title: errors
     internal_server_error:
       title: internal server error
+    model:
+      to_s: error#%{id}
+    new:
+      submit: create error
+      title: new error
     not_found:
       title: not found
     show:
       created_at: created at
       delete: delete error
+      edit: edit
       error_occurrences: error occurrences
       exception_class: exception class
+      fingerprint: fingerprint
       id: id
       message: message
+      resolved_at: resolved at
       severity: severity
       source: source
       updated_at: updated at
       verified: verified?
     unprocessable_entity:
       title: unprocessable entity
+    update:
+      notice: error updated
   example_schedules:
     create:
       notice: example schedule created
@@ -618,10 +658,9 @@ en:
       locale: locale
       name: name
       new_example_schedule: new example schedule
+      position: position
       title: title
       updated_at: updated at
-    unschedule:
-      notice: example unscheduled
     update:
       notice: example updated
   guests:
@@ -688,7 +727,6 @@ en:
         account: account
         admin: admin
         english: english
-        examples: examples
         french: french
         home: home
         log_in: log in
@@ -698,7 +736,6 @@ en:
       tabs:
         account: account
         admin: admin
-        examples: examples
         home: home
         log_in: log in
         messages: messages
@@ -835,7 +872,6 @@ en:
       about: about
       admin: admin
       english: english
-      examples: examples
       french: french
       log_in: log in
       log_out: log out
@@ -1123,7 +1159,6 @@ en:
         errored: errored
         in_progress: in progress
         initialized: initialized
-      submit: update program
       to_s: program_prompt#%{id}
     show:
       created_at: created at
@@ -1615,6 +1650,7 @@ en:
       addresses: addresses
       attachments: files
       configurations: configurations
+      country_code_ip_addresses: country code ip addresses
       data: data
       devices: devices
       email_addresses: email addresses

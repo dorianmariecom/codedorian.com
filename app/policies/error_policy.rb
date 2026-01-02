@@ -16,11 +16,11 @@ class ErrorPolicy < ApplicationPolicy
   end
 
   def create?
-    false
+    admin?
   end
 
   def update?
-    false
+    admin?
   end
 
   def destroy?

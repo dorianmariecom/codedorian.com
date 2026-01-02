@@ -14,6 +14,13 @@
   </div>
 <% end %>
 
+<% if @error.fingerprint.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".fingerprint") %></div>
+    <div class="font-bold"><%= @error.fingerprint %></div>
+  </div>
+<% end %>
+
 <% if @error.message.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".message") %></div>
@@ -35,6 +42,13 @@
   </div>
 <% end %>
 
+<% if @error.resolved_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".resolved_at") %></div>
+    <div class="font-bold"><%= local_time(@error.resolved_at) %></div>
+  </div>
+<% end %>
+
 <div class="p">
   <div class="text-gray-600"><%= t(".updated_at") %></div>
   <div class="font-bold"><%= local_time(@error.updated_at) %></div>
@@ -46,6 +60,7 @@
 </div>
 
 <div class="p">
+  <%= link_to(t(".edit"), edit_url, class: "link") %>
   <%= render("shared/confirm", text: t(".delete"), url: show_url) %>
 </div>
 

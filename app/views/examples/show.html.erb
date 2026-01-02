@@ -2,10 +2,19 @@
 
 <%= turbo_stream_from(@example) %>
 
-<div class="p">
-  <div class="text-gray-600"><%= t(".id") %></div>
-  <div class="font-bold"><%= @example.id %></div>
-</div>
+<% if can?(:update, @example) %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".id") %></div>
+    <div class="font-bold"><%= @example.id %></div>
+  </div>
+<% end %>
+
+<% if @example.position.present? && can?(:update, @example) %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".position") %></div>
+    <div class="font-bold"><%= @example.position %></div>
+  </div>
+<% end %>
 
 <% if @example.title.present? %>
   <div class="p">
@@ -14,7 +23,7 @@
   </div>
 <% end %>
 
-<% if @example.locale.present? %>
+<% if @example.locale.present? && can?(:update, @example) %>
   <div class="p">
     <div class="text-gray-600"><%= t(".locale") %></div>
     <div class="font-bold"><%= @example.locale %></div>
@@ -42,17 +51,17 @@
   </div>
 <% end %>
 
-<div class="p">
-  <div class="text-gray-600"><%= t(".updated_at") %></div>
-  <div class="font-bold"><%= local_time(@example.updated_at) %></div>
-</div>
-
-<div class="p">
-  <div class="text-gray-600"><%= t(".created_at") %></div>
-  <div class="font-bold"><%= local_time(@example.created_at) %></div>
-</div>
-
 <% if can?(:update, @example) %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".updated_at") %></div>
+    <div class="font-bold"><%= local_time(@example.updated_at) %></div>
+  </div>
+
+  <div class="p">
+    <div class="text-gray-600"><%= t(".created_at") %></div>
+    <div class="font-bold"><%= local_time(@example.created_at) %></div>
+  </div>
+
   <div class="p">
     <%= link_to(t(".edit"), edit_url, class: "link") %>
     <%= render("shared/confirm", text: t(".delete"), url: show_url) %>

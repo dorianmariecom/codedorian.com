@@ -25,7 +25,7 @@ class ErrorsController < ApplicationController
   before_action(:load_time_zone)
   before_action(:load_token)
   before_action { add_breadcrumb(key: "errors.index", path: index_url) }
-  before_action(:load_error, only: %i[show destroy])
+  before_action(:load_error, only: %i[show update edit destroy])
   skip_after_action(:verify_policy_scoped, only: EXCEPTIONS)
 
   def index
@@ -38,6 +38,38 @@ class ErrorsController < ApplicationController
   def show
     @error_occurrences =
       error_occurrences_scope.page(params[:page]).order(created_at: :desc)
+  end
+
+  def new
+    @error = authorize(scope.new)
+
+    add_breadcrumb
+  end
+
+  def edit
+    add_breadcrumb
+  end
+
+  def create
+    @error = authorize(scope.new(error_params))
+
+    if @error.save(context: :controller)
+      redirect_to(show_url, notice: t(".notice"))
+    else
+      flash.now.alert = @error.alert
+      render(:new, status: :unprocessable_content)
+    end
+  end
+
+  def update
+    @error.assign_attributes(error_params)
+
+    if @error.save(context: :controller)
+      redirect_to(show_url, notice: t(".notice"))
+    else
+      flash.now.alert = @error.alert
+      render(:edit, status: :unprocessable_content)
+    end
   end
 
   def destroy
@@ -634,5 +666,22 @@ class ErrorsController < ApplicationController
     set_context(token: @token)
     add_breadcrumb(key: "tokens.index", path: [@user, :tokens])
     add_breadcrumb(text: @token, path: [@user, @token])
+  end
+
+  def error_params
+    if admin?
+      params.expect(
+        error: %i[
+          exception_class
+          fingerprint
+          message
+          resolved_at
+          severity
+          source
+        ]
+      )
+    else
+      {}
+    end
   end
 end

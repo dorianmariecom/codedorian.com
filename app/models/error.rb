@@ -98,7 +98,20 @@ class Error < SolidErrors::Error
     self.class.name.underscore.pluralize.to_sym
   end
 
+  def alert
+    errors.full_messages.to_sentence
+  end
+
+  def exception_class_sample
+    Truncate.strip(exception_class)
+  end
+
+  def message_sample
+    Truncate.strip(message)
+  end
+
   def to_s
-    Truncate.strip("#{exception_class}: #{message}")
+    message_sample || exception_class_sample ||
+      I18n.t("errors.model.to_s", id: id)
   end
 end

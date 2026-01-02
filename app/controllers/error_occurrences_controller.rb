@@ -37,6 +37,38 @@ class ErrorOccurrencesController < ApplicationController
   def show
   end
 
+  def new
+    @error_occurrence = authorize(scope.new)
+
+    add_breadcrumb
+  end
+
+  def edit
+    add_breadcrumb
+  end
+
+  def create
+    @error_occurrence = authorize(scope.new(error_occurrence_params))
+
+    if @error_occurrence.save(context: :controller)
+      redirect_to(show_url, notice: t(".notice"))
+    else
+      flash.now.alert = @error_occurrence.alert
+      render(:new, status: :unprocessable_content)
+    end
+  end
+
+  def update
+    @error_occurrence.assign_attributes(error_occurrence_params)
+
+    if @error_occurrence.save(context: :controller)
+      redirect_to(show_url, notice: t(".notice"))
+    else
+      flash.now.alert = @error_occurrence.alert
+      render(:edit, status: :unprocessable_content)
+    end
+  end
+
   def destroy
     @error_occurrence.destroy!
 
@@ -185,7 +217,6 @@ class ErrorOccurrencesController < ApplicationController
   )
     chain = []
     chain << user if user
-    chain << error if error
 
     if program || program_prompt || program_prompt_schedule || program_schedule
       chain << program if program
@@ -199,6 +230,7 @@ class ErrorOccurrencesController < ApplicationController
         chain << program_schedule
       end
 
+      chain << error if error
       return chain
     end
 
@@ -206,22 +238,37 @@ class ErrorOccurrencesController < ApplicationController
       chain << repl_session if repl_session
       chain << repl_program if repl_program
       chain << repl_prompt if repl_prompt
+      chain << error if error
       return chain
     end
 
-    return chain << address if address
-    return chain << attachment if attachment
-    return chain << datum if datum
-    return chain << device if device
-    return chain << email_address if email_address
-    return chain << handle if handle
-    return chain << job if job
-    return chain << message if message
-    return chain << name if name
-    return chain << phone_number if phone_number
-    return chain << time_zone if time_zone
-    return chain << token if token
+    if address
+      chain << address
+    elsif attachment
+      chain << attachment
+    elsif datum
+      chain << datum
+    elsif device
+      chain << device
+    elsif email_address
+      chain << email_address
+    elsif handle
+      chain << handle
+    elsif job
+      chain << job
+    elsif message
+      chain << message
+    elsif name
+      chain << name
+    elsif phone_number
+      chain << phone_number
+    elsif time_zone
+      chain << time_zone
+    elsif token
+      chain << token
+    end
 
+    chain << error if error
     chain
   end
 
@@ -597,5 +644,13 @@ class ErrorOccurrencesController < ApplicationController
     set_context(token: @token)
     add_breadcrumb(key: "tokens.index", path: [@user, :tokens])
     add_breadcrumb(text: @token, path: [@user, @token])
+  end
+
+  def error_occurrence_params
+    if admin?
+      params.expect(error_occurrence: %i[backtrace context error_id])
+    else
+      {}
+    end
   end
 end

@@ -1,5 +1,7 @@
 <%= turbo_stream_from(@error_occurrences) %>
 
+<div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
+
 <%= render("shared/search") %>
 
 <turbo-frame id="search" target="_top">
