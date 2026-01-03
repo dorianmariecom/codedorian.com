@@ -11,3 +11,5 @@
 
 - notice/alert everywhere
 - deep links
+- translate Time#format
+- translate Date#format

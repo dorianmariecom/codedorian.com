@@ -13,7 +13,7 @@ class User < ApplicationRecord
   has_many(:program_prompts, dependent: :destroy)
   has_many(:program_prompts_schedules, through: :program_prompts)
   has_many(:programs, dependent: :destroy)
-  has_many(:programs_executions, through: :programs)
+  has_many(:program_executions, through: :programs)
   has_many(:repl_prompts, dependent: :destroy)
   has_many(:repl_sessions, dependent: :destroy)
   has_many(:repl_programs, through: :repl_sessions)
