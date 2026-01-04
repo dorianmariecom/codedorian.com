@@ -13,3 +13,7 @@
 - deep links
 - translate Time#format
 - translate Date#format
+- `return`
+- pre-formatted for Time#format
+- pre-formatted for Date#format
+- formatter

@@ -1350,7 +1350,7 @@ fr:
       updated_at: mis à jour à
       user: utilisateur
     unschedule:
-      notice: programme non programmé
+      notice: programme deprogrammé
     update:
       notice: programme mis à jour
   repl_executions:
