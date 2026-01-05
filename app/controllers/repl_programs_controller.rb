@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ReplProgramsController < ApplicationController
+  before_action(:load_guest)
   before_action(:load_user)
   before_action(:load_repl_session)
   before_action { add_breadcrumb(key: "repl_programs.index", path: index_url) }
@@ -173,6 +174,21 @@ class ReplProgramsController < ApplicationController
 
   private
 
+  def load_guest
+    return if params[:guest_id].blank?
+
+    @guest =
+      if params[:guest_id] == "me"
+        policy_scope(Guest).find(current_guest&.id)
+      else
+        policy_scope(Guest).find(params[:guest_id])
+      end
+
+    set_context(guest: @guest)
+    add_breadcrumb(key: "guests.index", path: :guests)
+    add_breadcrumb(text: @guest, path: @guest)
+  end
+
   def load_user
     return if params[:user_id].blank?
 
@@ -200,6 +216,7 @@ class ReplProgramsController < ApplicationController
 
   def scope
     scope = searched_policy_scope(ReplProgram)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope = scope.where_repl_session(@repl_session) if @repl_session
     scope
@@ -207,20 +224,23 @@ class ReplProgramsController < ApplicationController
 
   def repl_sessions_scope
     scope = policy_scope(ReplSession)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope
   end
 
   def repl_prompts_scope
     scope = policy_scope(ReplPrompt)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
-    scope = scope.where_repl_program(@repl_program) if @repl_program
     scope = scope.where_repl_session(@repl_session) if @repl_session
+    scope = scope.where_repl_program(@repl_program) if @repl_program
     scope
   end
 
   def repl_executions_scope
     scope = policy_scope(ReplExecution)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope = scope.where_repl_session(@repl_session) if @repl_session
     scope = scope.where_repl_program(@repl_program) if @repl_program
@@ -235,8 +255,8 @@ class ReplProgramsController < ApplicationController
     @repl_program
   end
 
-  def nested(user: @user, repl_session: @repl_session)
-    [user, repl_session]
+  def nested(user: @user, guest: @guest, repl_session: @repl_session)
+    [user || guest, repl_session]
   end
 
   def filters

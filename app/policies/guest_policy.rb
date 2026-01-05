@@ -1,12 +1,24 @@
 # frozen_string_literal: true
 
 class GuestPolicy < ApplicationPolicy
+  class Scope < ApplicationPolicy::Scope
+    def resolve
+      if admin?
+        scope.all
+      elsif current_guest?
+        scope.where(id: current_guest)
+      else
+        scope.none
+      end
+    end
+  end
+
   def index?
     true
   end
 
   def show?
-    true
+    self? || admin?
   end
 
   def create?
@@ -14,11 +26,11 @@ class GuestPolicy < ApplicationPolicy
   end
 
   def update?
-    true
+    self? || admin?
   end
 
   def destroy?
-    true
+    self? || admin?
   end
 
   def destroy_all?
@@ -27,5 +39,11 @@ class GuestPolicy < ApplicationPolicy
 
   def delete_all?
     true
+  end
+
+  private
+
+  def self?
+    current_guest? && record? && current_guest == record
   end
 end

@@ -4,7 +4,7 @@
   <div class="p">
     <%= link_to(
       t(".repl_programs", count: @repl_programs.size),
-      [@user, :repl_programs],
+      [@user || @guest, :repl_programs],
       class: "link"
     ) %>
   </div>
@@ -14,7 +14,7 @@
   <div class="p">
     <%= link_to(
       t(".repl_prompts", count: @repl_prompts.size),
-      [@user, :repl_prompts],
+      [@user || @guest, :repl_prompts],
       class: "link"
     ) %>
   </div>
@@ -24,7 +24,7 @@
   <div class="p">
     <%= link_to(
       t(".repl_executions", count: @repl_executions.size),
-      [@user, :repl_executions],
+      [@user || @guest, :repl_executions],
       class: "link"
     ) %>
   </div>

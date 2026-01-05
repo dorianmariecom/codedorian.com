@@ -664,24 +664,31 @@ en:
     update:
       notice: example updated
   guests:
+    create:
+      notice: guest created
+    destroy:
+      notice: guest deleted
+    edit:
+      submit: update guest
+      title: edit guest
     index:
       delete_all: delete all
       destroy_all: destroy all
+      new: new guest
       title: guests
     model:
-      locales:
-        en: english
-        fr: french
-        none: none
-      to_s: guest
+      to_s: guest#%{id}
+    new:
+      submit: create guest
+      title: new guest
     show:
-      admin: admin
       created_at: created at
-      delete: delete
+      delete: delete guest
+      edit: edit guest
       id: id
-      locale: language
       updated_at: updated at
-      verified: verified?
+    update:
+      notice: guest updated
   handles:
     create:
       notice: handle created

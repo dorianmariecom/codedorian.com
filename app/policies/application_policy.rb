@@ -5,10 +5,11 @@ class ApplicationPolicy
     include(Pundit::Authorization)
     include(CanConcern)
 
-    attr_reader :current_user, :scope
+    attr_reader :current_user, :current_guest, :scope
 
     def initialize(current_user, scope)
       @current_user = current_user
+      @current_guest = Current.guest
       @scope = scope
     end
 
@@ -26,6 +27,10 @@ class ApplicationPolicy
       !!current_user
     end
 
+    def current_guest?
+      !!current_guest
+    end
+
     def scope?
       !!scope
     end
@@ -34,10 +39,11 @@ class ApplicationPolicy
   include(Pundit::Authorization)
   include(CanConcern)
 
-  attr_reader :current_user, :record
+  attr_reader :current_user, :current_guest, :record
 
   def initialize(current_user, record)
     @current_user = current_user
+    @current_guest = Current.guest
     @record = record
   end
 
@@ -77,6 +83,10 @@ class ApplicationPolicy
 
   def current_user?
     !!current_user
+  end
+
+  def current_guest?
+    !!current_guest
   end
 
   def record?

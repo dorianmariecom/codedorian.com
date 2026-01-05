@@ -1,105 +1,105 @@
 <% if filter == :user
   scope = policy_scope(User)
 elsif filter == :guest
-  scope = [Guest.new]
+  scope = policy_scope(Guest).where(id: current_guest)
 elsif filter == :program
   scope = policy_scope(Program)
-  scope = scope.where_user(@user) if @user
   scope = scope.where_guest(@guest) if @guest
+  scope = scope.where_user(@user) if @user
 elsif filter == :program_prompt
   scope = policy_scope(ProgramPrompt)
-  scope = scope.where_user(@user) if @user
   scope = scope.where_guest(@guest) if @guest
+  scope = scope.where_user(@user) if @user
   scope = scope.where_program(@program) if @program
 elsif filter == :program_execution
   scope = policy_scope(ProgramExecution)
-  scope = scope.where_user(@user) if @user
   scope = scope.where_guest(@guest) if @guest
+  scope = scope.where_user(@user) if @user
   scope = scope.where_program(@program) if @program
 elsif filter == :program_schedule
   scope = policy_scope(ProgramSchedule)
-  scope = scope.where_user(@user) if @user
   scope = scope.where_guest(@guest) if @guest
+  scope = scope.where_user(@user) if @user
   scope = scope.where_program(@program) if @program
 elsif filter == :program_prompt_schedule
   scope = policy_scope(ProgramPromptSchedule)
-  scope = scope.where_user(@user) if @user
   scope = scope.where_guest(@guest) if @guest
+  scope = scope.where_user(@user) if @user
   scope = scope.where_program(@program) if @program
   scope = scope.where_program_prompt(@program_prompt) if @program_prompt
 elsif filter == :repl_session
   scope = policy_scope(ReplSession)
-  scope = scope.where_user(@user) if @user
   scope = scope.where_guest(@guest) if @guest
+  scope = scope.where_user(@user) if @user
 elsif filter == :repl_program
   scope = policy_scope(ReplProgram)
-  scope = scope.where_user(@user) if @user
   scope = scope.where_guest(@guest) if @guest
+  scope = scope.where_user(@user) if @user
   scope = scope.where_repl_session(@repl_session) if @repl_session
 elsif filter == :repl_prompt
   scope = policy_scope(ReplPrompt)
-  scope = scope.where_user(@user) if @user
   scope = scope.where_guest(@guest) if @guest
+  scope = scope.where_user(@user) if @user
   scope = scope.where_repl_session(@repl_session) if @repl_session
   scope = scope.where_repl_program(@repl_program) if @repl_program
 elsif filter == :repl_execution
   scope = policy_scope(ReplExecution)
-  scope = scope.where_user(@user) if @user
   scope = scope.where_guest(@guest) if @guest
+  scope = scope.where_user(@user) if @user
   scope = scope.where_repl_session(@repl_session) if @repl_session
   scope = scope.where_repl_program(@repl_program) if @repl_program
 elsif filter == :error
   scope = policy_scope(::Error)
-  scope = scope.where_user(@user) if @user
   scope = scope.where_guest(@guest) if @guest
+  scope = scope.where_user(@user) if @user
 elsif filter == :address
   scope = policy_scope(Address)
-  scope = scope.where_user(@user) if @user
   scope = scope.where_guest(@guest) if @guest
+  scope = scope.where_user(@user) if @user
 elsif filter == :attachment
   scope = policy_scope(Attachment)
-  scope = scope.where_user(@user) if @user
   scope = scope.where_guest(@guest) if @guest
+  scope = scope.where_user(@user) if @user
 elsif filter == :datum
   scope = policy_scope(Datum)
-  scope = scope.where_user(@user) if @user
   scope = scope.where_guest(@guest) if @guest
+  scope = scope.where_user(@user) if @user
 elsif filter == :device
   scope = policy_scope(Device)
-  scope = scope.where_user(@user) if @user
   scope = scope.where_guest(@guest) if @guest
+  scope = scope.where_user(@user) if @user
 elsif filter == :email_address
   scope = policy_scope(EmailAddress)
-  scope = scope.where_user(@user) if @user
   scope = scope.where_guest(@guest) if @guest
+  scope = scope.where_user(@user) if @user
 elsif filter == :handle
   scope = policy_scope(Handle)
-  scope = scope.where_user(@user) if @user
   scope = scope.where_guest(@guest) if @guest
+  scope = scope.where_user(@user) if @user
 elsif filter == :job
   scope = policy_scope(Job)
-  scope = scope.where_user(@user) if @user
   scope = scope.where_guest(@guest) if @guest
+  scope = scope.where_user(@user) if @user
 elsif filter == :message
   scope = policy_scope(Message)
-  scope = scope.where_user(@user) if @user
   scope = scope.where_guest(@guest) if @guest
+  scope = scope.where_user(@user) if @user
 elsif filter == :name
   scope = policy_scope(Name)
-  scope = scope.where_user(@user) if @user
   scope = scope.where_guest(@guest) if @guest
+  scope = scope.where_user(@user) if @user
 elsif filter == :phone_number
   scope = policy_scope(PhoneNumber)
-  scope = scope.where_user(@user) if @user
   scope = scope.where_guest(@guest) if @guest
+  scope = scope.where_user(@user) if @user
 elsif filter == :time_zone
   scope = policy_scope(TimeZone)
-  scope = scope.where_user(@user) if @user
   scope = scope.where_guest(@guest) if @guest
+  scope = scope.where_user(@user) if @user
 elsif filter == :token
   scope = policy_scope(Token)
-  scope = scope.where_user(@user) if @user
   scope = scope.where_guest(@guest) if @guest
+  scope = scope.where_user(@user) if @user
 elsif filter == :example
   scope = policy_scope(Example)
 else

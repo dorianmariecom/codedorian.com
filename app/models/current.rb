@@ -49,7 +49,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   resets { Time.zone = nil }
 
-  attribute(:user, :time_zone, :request, :program, :repl_program)
+  attribute(:user, :guest, :time_zone, :request, :program, :repl_program)
 
   def ios_environments
     Config.rpush.ios.environments
@@ -197,16 +197,16 @@ class Current < ActiveSupport::CurrentAttributes
     user || (self.user = User.create!)
   end
 
+  def guest!
+    guest || (self.guest = Guest.create!)
+  end
+
   def user?
     !!user
   end
 
   def guest?
-    user.blank?
-  end
-
-  def guest
-    Guest.new
+    !!guest
   end
 
   def registered?

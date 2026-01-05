@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ReplSessionsController < ApplicationController
+  before_action(:load_guest)
   before_action(:load_user)
   before_action { add_breadcrumb(key: "repl_sessions.index", path: index_url) }
   before_action(:load_repl_session, only: %i[show edit update destroy evaluate])
@@ -102,6 +103,21 @@ class ReplSessionsController < ApplicationController
 
   private
 
+  def load_guest
+    return if params[:guest_id].blank?
+
+    @guest =
+      if params[:guest_id] == "me"
+        policy_scope(Guest).find(current_guest&.id)
+      else
+        policy_scope(Guest).find(params[:guest_id])
+      end
+
+    set_context(guest: @guest)
+    add_breadcrumb(key: "guests.index", path: :guests)
+    add_breadcrumb(text: @guest, path: @guest)
+  end
+
   def load_user
     return if params[:user_id].blank?
 
@@ -119,12 +135,14 @@ class ReplSessionsController < ApplicationController
 
   def scope
     scope = searched_policy_scope(ReplSession)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope
   end
 
   def repl_programs_scope
     scope = policy_scope(ReplProgram)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope = scope.where_repl_session(@repl_session) if @repl_session
     scope
@@ -132,6 +150,7 @@ class ReplSessionsController < ApplicationController
 
   def repl_prompts_scope
     scope = policy_scope(ReplPrompt)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope = scope.where_repl_session(@repl_session) if @repl_session
     scope
@@ -139,6 +158,7 @@ class ReplSessionsController < ApplicationController
 
   def repl_executions_scope
     scope = policy_scope(ReplExecution)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope = scope.where_repl_session(@repl_session) if @repl_session
     scope
@@ -152,8 +172,8 @@ class ReplSessionsController < ApplicationController
     @repl_session
   end
 
-  def nested(user: @user)
-    [user]
+  def nested(user: @user, guest: @guest)
+    [user || guest]
   end
 
   def filters

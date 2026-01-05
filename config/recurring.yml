@@ -1,4 +1,8 @@
 ---
+cleaning:
+  class: CleaningJob
+  queue: default
+  schedule: every second
 scheduling:
   class: SchedulingJob
   queue: scheduling

@@ -7,20 +7,6 @@
   <div class="font-bold"><%= @guest.id %></div>
 </div>
 
-<% if @guest.admin? %>
-  <div class="p font-bold"><%= t(".admin") %></div>
-<% end %>
-
-<div class="p">
-  <div class="text-gray-600"><%= t(".locale") %></div>
-  <div class="font-bold"><%= @guest.translated_locale %></div>
-</div>
-
-<div class="p">
-  <div class="text-gray-600"><%= t(".verified") %></div>
-  <div class="font-bold"><%= @guest.verified %></div>
-</div>
-
 <div class="p">
   <div class="text-gray-600"><%= t(".updated_at") %></div>
   <div class="font-bold"><%= local_time(@guest.updated_at) %></div>
@@ -32,7 +18,8 @@
 </div>
 
 <div class="p">
-  <%= render("shared/confirm", text: t(".delete"), url: @guest) %>
+  <%= link_to(t(".edit"), edit_url, class: "link") %>
+  <%= render("shared/confirm", text: t(".delete"), url: show_url) %>
 </div>
 
 <%= render("shared/list", user: @guest, model: Name) %>
@@ -49,7 +36,9 @@
 <%= render("shared/list", user: @guest, model: Message) %>
 <%= render("shared/list", user: @guest, model: Program) %>
 <%= render("shared/list", user: @guest, model: ProgramExecution) %>
+<%= render("shared/list", user: @guest, model: ProgramSchedule) %>
 <%= render("shared/list", user: @guest, model: ProgramPrompt) %>
+<%= render("shared/list", user: @guest, model: ProgramPromptSchedule) %>
 <%= render("shared/list", user: @guest, model: ReplExecution) %>
 <%= render("shared/list", user: @guest, model: ReplProgram) %>
 <%= render("shared/list", user: @guest, model: ReplPrompt) %>

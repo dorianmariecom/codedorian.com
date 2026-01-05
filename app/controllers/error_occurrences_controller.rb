@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ErrorOccurrencesController < ApplicationController
+  before_action(:load_guest)
   before_action(:load_user)
   before_action(:load_program)
   before_action(:load_program_schedule)
@@ -93,6 +94,21 @@ class ErrorOccurrencesController < ApplicationController
 
   private
 
+  def load_guest
+    return if params[:guest_id].blank?
+
+    @guest =
+      if params[:guest_id] == "me"
+        policy_scope(Guest).find(current_guest&.id)
+      else
+        policy_scope(Guest).find(params[:guest_id])
+      end
+
+    set_context(guest: @guest)
+    add_breadcrumb(key: "guests.index", path: :guests)
+    add_breadcrumb(text: @guest, path: @guest)
+  end
+
   def load_user
     return if params[:user_id].blank?
 
@@ -139,6 +155,7 @@ class ErrorOccurrencesController < ApplicationController
 
   def scope
     scope = searched_policy_scope(ErrorOccurrence)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope = scope.where_error(@error) if @error
     scope = scope.where_program(@program) if @program
@@ -167,6 +184,7 @@ class ErrorOccurrencesController < ApplicationController
 
   def errors_scope
     scope = searched_policy_scope(Error)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope = scope.where_program(@program) if @program
     scope = scope.where_program_schedule(@program_schedule) if @program_schedule
@@ -194,6 +212,7 @@ class ErrorOccurrencesController < ApplicationController
 
   def nested(
     user: @user,
+    guest: @guest,
     program: @program,
     program_schedule: @program_schedule,
     program_prompt: @program_prompt,
@@ -217,6 +236,7 @@ class ErrorOccurrencesController < ApplicationController
   )
     chain = []
     chain << user if user
+    chain << guest if guest && !user
 
     if program || program_prompt || program_prompt_schedule || program_schedule
       chain << program if program
@@ -300,12 +320,14 @@ class ErrorOccurrencesController < ApplicationController
 
   def programs_scope
     scope = policy_scope(Program)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope
   end
 
   def program_schedules_scope
     scope = policy_scope(ProgramSchedule)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope = scope.where_program(@program) if @program
     scope
@@ -313,6 +335,7 @@ class ErrorOccurrencesController < ApplicationController
 
   def program_prompts_scope
     scope = policy_scope(ProgramPrompt)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope = scope.where_program(@program) if @program
     scope
@@ -320,6 +343,7 @@ class ErrorOccurrencesController < ApplicationController
 
   def program_prompt_schedules_scope
     scope = policy_scope(ProgramPromptSchedule)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope = scope.where_program(@program) if @program
     scope = scope.where_program_prompt(@program_prompt) if @program_prompt
@@ -328,12 +352,14 @@ class ErrorOccurrencesController < ApplicationController
 
   def repl_sessions_scope
     scope = policy_scope(ReplSession)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope
   end
 
   def repl_programs_scope
     scope = policy_scope(ReplProgram)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope = scope.where_repl_session(@repl_session) if @repl_session
     scope
@@ -341,6 +367,7 @@ class ErrorOccurrencesController < ApplicationController
 
   def repl_prompts_scope
     scope = policy_scope(ReplPrompt)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope = scope.where_repl_session(@repl_session) if @repl_session
     scope = scope.where_repl_program(@repl_program) if @repl_program
@@ -349,42 +376,49 @@ class ErrorOccurrencesController < ApplicationController
 
   def addresses_scope
     scope = policy_scope(Address)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope
   end
 
   def attachments_scope
     scope = policy_scope(Attachment)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope
   end
 
   def data_scope
     scope = policy_scope(Datum)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope
   end
 
   def devices_scope
     scope = policy_scope(Device)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope
   end
 
   def email_addresses_scope
     scope = policy_scope(EmailAddress)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope
   end
 
   def handles_scope
     scope = policy_scope(Handle)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope
   end
 
   def jobs_scope
     scope = policy_scope(Job)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope = scope.where_program(@program) if @program
     scope = scope.where_program_prompt(@program_prompt) if @program_prompt
@@ -396,30 +430,35 @@ class ErrorOccurrencesController < ApplicationController
 
   def messages_scope
     scope = policy_scope(Message)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope
   end
 
   def names_scope
     scope = policy_scope(Name)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope
   end
 
   def phone_numbers_scope
     scope = policy_scope(PhoneNumber)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope
   end
 
   def time_zones_scope
     scope = policy_scope(TimeZone)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope
   end
 
   def tokens_scope
     scope = policy_scope(Token)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope
   end

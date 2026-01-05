@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
   skip_forgery_protection(if: :current_token?)
 
   before_action(:set_current_user)
+  before_action(:set_current_guest)
   before_action(:authorize_profiler)
   before_action(:set_current_request)
   before_action(:set_time_zone)
@@ -26,6 +27,7 @@ class ApplicationController < ActionController::Base
   helper_method(:current_guest)
   helper_method(:current_user_or_guest)
   helper_method(:current_user?)
+  helper_method(:current_guest?)
   helper_method(:registered?)
   helper_method(:guest?)
   helper_method(:current_time_zone)
@@ -70,6 +72,8 @@ class ApplicationController < ActionController::Base
   rescue_from Pundit::NotAuthorizedError, &REDIRECT_ERROR
   rescue_from Recaptcha::VerifyError, &REDIRECT_ERROR
 
+  private
+
   def registered?
     current_user?
   end
@@ -106,14 +110,17 @@ class ApplicationController < ActionController::Base
   end
 
   def admin?
-    current_user? && current_user.admin?
+    current_user_or_guest.admin?
   end
-
-  private
 
   def set_current_user
     log_in(current_user_from_session || current_token&.user)
-    set_context(current_user: current_user_or_guest)
+    set_context(current_user: current_user) if registered?
+  end
+
+  def set_current_guest
+    log_in_guest(current_guest_from_session || current_guest!) if guest?
+    set_context(current_guest: current_guest) if guest?
   end
 
   def set_current_request
@@ -136,10 +143,16 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def log_in_guest(guest)
+    Current.guest = guest
+    session[:guest_id] = guest.id
+  end
+
   def log_out(user)
     return unless user == Current.user
 
     Current.user = nil
+    Current.guest = nil
     session[:user_id] = nil
     session[:time_zone] = nil
 
@@ -162,6 +175,14 @@ class ApplicationController < ActionController::Base
 
   def current_user_from_session
     session[:user_id].present? ? User.find_by(id: session[:user_id]) : nil
+  end
+
+  def current_guest_from_session
+    session[:guest_id].present? ? Guest.find_by(id: session[:guest_id]) : nil
+  end
+
+  def current_guest!
+    Current.guest!
   end
 
   def current_token

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class PhoneNumbersController < ApplicationController
+  before_action(:load_guest)
   before_action(:load_user)
   before_action { add_breadcrumb(key: "phone_numbers.index", path: index_url) }
   before_action(:load_phone_number, only: %i[show edit update destroy])
@@ -73,6 +74,21 @@ class PhoneNumbersController < ApplicationController
 
   private
 
+  def load_guest
+    return if params[:guest_id].blank?
+
+    @guest =
+      if params[:guest_id] == "me"
+        policy_scope(Guest).find(current_guest&.id)
+      else
+        policy_scope(Guest).find(params[:guest_id])
+      end
+
+    set_context(guest: @guest)
+    add_breadcrumb(key: "guests.index", path: :guests)
+    add_breadcrumb(text: @guest, path: @guest)
+  end
+
   def load_user
     return if params[:user_id].blank?
 
@@ -94,6 +110,7 @@ class PhoneNumbersController < ApplicationController
 
   def scope
     scope = searched_policy_scope(PhoneNumber)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope
   end
@@ -106,8 +123,8 @@ class PhoneNumbersController < ApplicationController
     @phone_number
   end
 
-  def nested(user: @user)
-    [user]
+  def nested(user: @user, guest: @guest)
+    [user || guest]
   end
 
   def filters

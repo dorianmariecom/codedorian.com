@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ProgramsController < ApplicationController
+  before_action(:load_guest)
   before_action(:load_user)
   before_action { add_breadcrumb(key: "programs.index", path: index_url) }
   before_action(
@@ -203,6 +204,21 @@ class ProgramsController < ApplicationController
 
   private
 
+  def load_guest
+    return if params[:guest_id].blank?
+
+    @guest =
+      if params[:guest_id] == "me"
+        policy_scope(Guest).find(current_guest&.id)
+      else
+        policy_scope(Guest).find(params[:guest_id])
+      end
+
+    set_context(guest: @guest)
+    add_breadcrumb(key: "guests.index", path: :guests)
+    add_breadcrumb(text: @guest, path: @guest)
+  end
+
   def load_user
     return if params[:user_id].blank?
 
@@ -220,12 +236,14 @@ class ProgramsController < ApplicationController
 
   def scope
     scope = searched_policy_scope(Program)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope
   end
 
   def program_prompts_scope
     scope = policy_scope(ProgramPrompt)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope = scope.where_program(@program) if @program
     scope
@@ -233,6 +251,7 @@ class ProgramsController < ApplicationController
 
   def program_schedules_scope
     scope = policy_scope(ProgramSchedule)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope = scope.where_program(@program) if @program
     scope
@@ -240,6 +259,7 @@ class ProgramsController < ApplicationController
 
   def program_executions_scope
     scope = policy_scope(ProgramExecution)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope = scope.where_program(@program) if @program
     scope
@@ -247,6 +267,7 @@ class ProgramsController < ApplicationController
 
   def program_prompt_schedules_scope
     scope = policy_scope(ProgramPromptSchedule)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope = scope.where_program(@program) if @program
     scope
@@ -254,36 +275,42 @@ class ProgramsController < ApplicationController
 
   def repl_sessions_scope
     scope = policy_scope(ReplSession)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope
   end
 
   def repl_programs_scope
     scope = policy_scope(ReplProgram)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope
   end
 
   def repl_prompts_scope
     scope = policy_scope(ReplPrompt)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope
   end
 
   def repl_executions_scope
     scope = policy_scope(ReplExecution)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope
   end
 
   def data_scope
     scope = policy_scope(Datum)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope
   end
 
   def attachments_scope
     scope = policy_scope(Attachment)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope
   end
@@ -300,8 +327,8 @@ class ProgramsController < ApplicationController
     @program
   end
 
-  def nested(user: @user)
-    [user]
+  def nested(user: @user, guest: @guest)
+    [user || guest]
   end
 
   def filters

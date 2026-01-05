@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ReplExecutionsController < ApplicationController
+  before_action(:load_guest)
   before_action(:load_user)
   before_action(:load_repl_session)
   before_action(:load_repl_program)
@@ -41,6 +42,21 @@ class ReplExecutionsController < ApplicationController
   end
 
   private
+
+  def load_guest
+    return if params[:guest_id].blank?
+
+    @guest =
+      if params[:guest_id] == "me"
+        policy_scope(Guest).find(current_guest&.id)
+      else
+        policy_scope(Guest).find(params[:guest_id])
+      end
+
+    set_context(guest: @guest)
+    add_breadcrumb(key: "guests.index", path: :guests)
+    add_breadcrumb(text: @guest, path: @guest)
+  end
 
   def load_user
     return if params[:user_id].blank?
@@ -85,25 +101,24 @@ class ReplExecutionsController < ApplicationController
 
   def scope
     scope = searched_policy_scope(ReplExecution)
-
-    scope = scope.where_repl_program(@repl_program) if @repl_program
-
-    scope = scope.where_repl_session(@repl_session) if @repl_session
-
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
-
+    scope = scope.where_repl_session(@repl_session) if @repl_session
+    scope = scope.where_repl_program(@repl_program) if @repl_program
     scope
   end
 
   def repl_programs_scope
     scope = policy_scope(ReplProgram)
-    scope = scope.where_repl_session(@repl_session) if @repl_session
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
+    scope = scope.where_repl_session(@repl_session) if @repl_session
     scope
   end
 
   def repl_sessions_scope
     scope = policy_scope(ReplSession)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope
   end
@@ -118,10 +133,11 @@ class ReplExecutionsController < ApplicationController
 
   def nested(
     user: @user,
+    guest: @guest,
     repl_session: @repl_session,
     repl_program: @repl_program
   )
-    [user, repl_session, repl_program]
+    [user || guest, repl_session, repl_program]
   end
 
   def filters

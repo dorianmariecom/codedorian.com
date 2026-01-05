@@ -4,7 +4,7 @@
   <div class="p">
     <%= link_to(
       t(".program_prompt_schedules", count: @program_prompt_schedules.size),
-      [@user, @program, :program_prompt_schedules],
+      [@user || @guest, @program, :program_prompt_schedules],
       class: "link"
     ) %>
   </div>

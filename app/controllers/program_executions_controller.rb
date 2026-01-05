@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ProgramExecutionsController < ApplicationController
+  before_action(:load_guest)
   before_action(:load_user)
   before_action(:load_program)
   before_action do
@@ -41,6 +42,21 @@ class ProgramExecutionsController < ApplicationController
 
   private
 
+  def load_guest
+    return if params[:guest_id].blank?
+
+    @guest =
+      if params[:guest_id] == "me"
+        policy_scope(Guest).find(current_guest&.id)
+      else
+        policy_scope(Guest).find(params[:guest_id])
+      end
+
+    set_context(guest: @guest)
+    add_breadcrumb(key: "guests.index", path: :guests)
+    add_breadcrumb(text: @guest, path: @guest)
+  end
+
   def load_user
     return if params[:user_id].blank?
 
@@ -68,13 +84,15 @@ class ProgramExecutionsController < ApplicationController
 
   def scope
     scope = searched_policy_scope(ProgramExecution)
-    scope = scope.where_program(@program) if @program
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
+    scope = scope.where_program(@program) if @program
     scope
   end
 
   def programs_scope
     scope = policy_scope(Program)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope
   end
@@ -87,8 +105,8 @@ class ProgramExecutionsController < ApplicationController
     @program_execution
   end
 
-  def nested(user: @user, program: @program)
-    [user, program]
+  def nested(user: @user, guest: @guest, program: @program)
+    [user || guest, program]
   end
 
   def filters

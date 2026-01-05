@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class JobsController < ApplicationController
+  before_action(:load_guest)
   before_action(:load_user)
   before_action(:load_program)
   before_action(:load_program_prompt)
@@ -76,6 +77,21 @@ class JobsController < ApplicationController
   end
 
   private
+
+  def load_guest
+    return if params[:guest_id].blank?
+
+    @guest =
+      if params[:guest_id] == "me"
+        policy_scope(Guest).find(current_guest&.id)
+      else
+        policy_scope(Guest).find(params[:guest_id])
+      end
+
+    set_context(guest: @guest)
+    add_breadcrumb(key: "guests.index", path: :guests)
+    add_breadcrumb(text: @guest, path: @guest)
+  end
 
   def load_user
     return if params[:user_id].blank?
@@ -167,6 +183,7 @@ class JobsController < ApplicationController
 
   def scope
     scope = searched_policy_scope(Job)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope = scope.where_program(@program) if @program
     scope = scope.where_program_prompt(@program_prompt) if @program_prompt
@@ -178,12 +195,14 @@ class JobsController < ApplicationController
 
   def programs_scope
     scope = policy_scope(Program)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope
   end
 
   def program_prompts_scope
     scope = policy_scope(ProgramPrompt)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope = scope.where_program(@program) if @program
     scope
@@ -191,12 +210,14 @@ class JobsController < ApplicationController
 
   def repl_sessions_scope
     scope = policy_scope(ReplSession)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope
   end
 
   def repl_programs_scope
     scope = policy_scope(ReplProgram)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope = scope.where_repl_session(@repl_session) if @repl_session
     scope
@@ -204,6 +225,7 @@ class JobsController < ApplicationController
 
   def repl_prompts_scope
     scope = policy_scope(ReplPrompt)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope = scope.where_repl_session(@repl_session) if @repl_session
     scope = scope.where_repl_program(@repl_program) if @repl_program
@@ -220,6 +242,7 @@ class JobsController < ApplicationController
 
   def nested(
     user: @user,
+    guest: @guest,
     program: @program,
     program_prompt: @program_prompt,
     repl_session: @repl_session,
@@ -227,9 +250,9 @@ class JobsController < ApplicationController
     repl_prompt: @repl_prompt
   )
     if program || program_prompt
-      [user, program, program_prompt]
+      [user || guest, program, program_prompt]
     else
-      [user, repl_session, repl_program, repl_prompt]
+      [user || guest, repl_session, repl_program, repl_prompt]
     end
   end
 

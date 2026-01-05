@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class AttachmentsController < ApplicationController
+  before_action(:load_guest)
   before_action(:load_user)
   before_action { add_breadcrumb(key: "attachments.index", path: index_url) }
   before_action(
@@ -93,6 +94,21 @@ class AttachmentsController < ApplicationController
 
   private
 
+  def load_guest
+    return if params[:guest_id].blank?
+
+    @guest =
+      if params[:guest_id] == "me"
+        policy_scope(Guest).find(current_guest&.id)
+      else
+        policy_scope(Guest).find(params[:guest_id])
+      end
+
+    set_context(guest: @guest)
+    add_breadcrumb(key: "guests.index", path: :guests)
+    add_breadcrumb(text: @guest, path: @guest)
+  end
+
   def load_user
     return if params[:user_id].blank?
 
@@ -110,6 +126,7 @@ class AttachmentsController < ApplicationController
 
   def scope
     scope = searched_policy_scope(Attachment)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope
   end
@@ -122,8 +139,8 @@ class AttachmentsController < ApplicationController
     @attachment
   end
 
-  def nested(user: @user)
-    [user]
+  def nested(user: @user, guest: @guest)
+    [user || guest]
   end
 
   def filters

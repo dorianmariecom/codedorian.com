@@ -349,8 +349,8 @@ Rails.application.routes.draw do
 
   scope "(:locale)", locale: /en|fr|/ do
     resources(:guests) do
-      define_all_delete.call(:destroy, :users)
-      define_all_delete.call(:delete, :users)
+      define_all_delete.call(:destroy, :guests)
+      define_all_delete.call(:delete, :guests)
 
       define.call
     end

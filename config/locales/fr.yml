@@ -226,7 +226,7 @@ fr:
     guests:
       edit: modifier
       index: invités
-      new: nouveau
+      new: nouvel
     handles:
       edit: modifier
       index: identifiants
@@ -664,24 +664,31 @@ fr:
     update:
       notice: exemple mis à jour
   guests:
+    create:
+      notice: invité créé
+    destroy:
+      notice: invité supprimé
+    edit:
+      submit: mettre à jour l'invité
+      title: modifier l'invité
     index:
       delete_all: supprimer tout
       destroy_all: détruire tout
+      new: nouvel invité
       title: invités
     model:
-      locales:
-        en: anglais
-        fr: français
-        none: aucun
-      to_s: invité
+      to_s: invité#%{id}
+    new:
+      submit: créer un invité
+      title: nouvel invité
     show:
-      admin: admin
       created_at: créé à
-      delete: supprimer
+      delete: supprimer l'invité
+      edit: modifier l'invité
       id: identifiant
-      locale: langue
       updated_at: mis à jour à
-      verified: vérifié ?
+    update:
+      notice: invité mis à jour
   handles:
     create:
       notice: identifiant créée

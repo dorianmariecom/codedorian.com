@@ -1,11 +1,14 @@
 # frozen_string_literal: true
 
 class DevicesController < ApplicationController
+  before_action(:load_guest)
   before_action(:load_user)
   before_action { add_breadcrumb(key: "devices.index", path: index_url) }
   before_action(:load_device, only: %i[show edit update destroy])
   before_action(:current_user!, only: :create)
   skip_before_action(:verify_captcha, only: :create)
+
+  rate_limit to: 100, within: 5.minutes, only: :create
 
   def index
     authorize(Device)
@@ -88,6 +91,21 @@ class DevicesController < ApplicationController
 
   private
 
+  def load_guest
+    return if params[:guest_id].blank?
+
+    @guest =
+      if params[:guest_id] == "me"
+        policy_scope(Guest).find(current_guest&.id)
+      else
+        policy_scope(Guest).find(params[:guest_id])
+      end
+
+    set_context(guest: @guest)
+    add_breadcrumb(key: "guests.index", path: :guests)
+    add_breadcrumb(text: @guest, path: @guest)
+  end
+
   def load_user
     return if params[:user_id].blank?
 
@@ -109,6 +127,7 @@ class DevicesController < ApplicationController
 
   def scope
     scope = searched_policy_scope(Device)
+    scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope
   end
@@ -121,8 +140,8 @@ class DevicesController < ApplicationController
     @device
   end
 
-  def nested(user: @user)
-    [user]
+  def nested(user: @user, guest: @guest)
+    [user || guest]
   end
 
   def filters
