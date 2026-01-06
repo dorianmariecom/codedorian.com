@@ -1,6 +1,3 @@
-- guests crud
-- job contexts crud
-- jobs crud
 - logs crud
 - program executions crud
 - program prompts crud
