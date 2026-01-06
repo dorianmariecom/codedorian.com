@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ErrorOccurrence < SolidErrors::Occurrence
-  include(Search)
+  include(RecordConcern)
 
   belongs_to(:error, touch: true)
 
@@ -45,10 +45,6 @@ class ErrorOccurrence < SolidErrors::Occurrence
 
   def self.search_fields
     {
-      id: {
-        node: -> { arel_table[:id] },
-        type: :integer
-      },
       backtrace: {
         node: -> { arel_table[:backtrace] },
         type: :string
@@ -56,14 +52,6 @@ class ErrorOccurrence < SolidErrors::Occurrence
       context: {
         node: -> { arel_table[:context] },
         type: :string
-      },
-      updated_at: {
-        node: -> { arel_table[:updated_at] },
-        type: :datetime
-      },
-      created_at: {
-        node: -> { arel_table[:created_at] },
-        type: :datetime
       },
       "error:id": {
         node: -> { Error.arel_table[:id] },
@@ -109,24 +97,9 @@ class ErrorOccurrence < SolidErrors::Occurrence
         node: -> { Error.arel_table[:created_at] },
         relation: ->(scope) { scope.left_joins(:error) },
         type: :datetime
-      }
+      },
+      **base_search_fields
     }
-  end
-
-  def self.model_singular
-    name.underscore.singularize.to_sym
-  end
-
-  def self.model_plural
-    name.underscore.pluralize.to_sym
-  end
-
-  def model_singular
-    self.class.name.underscore.singularize.to_sym
-  end
-
-  def model_plural
-    self.class.name.underscore.pluralize.to_sym
   end
 
   def parse_and_validate_context
@@ -155,12 +128,8 @@ class ErrorOccurrence < SolidErrors::Occurrence
     Truncate.strip(context.to_json)
   end
 
-  def alert
-    errors.full_messages.to_sentence
-  end
-
   def to_s
     app_backtrace_sample.presence || backtrace_sample.presence ||
-      context_sample.presence || I18n.t("error_occurrences.model.to_s", id: id)
+      context_sample.presence || I18n.t("to_s", id: id)
   end
 end

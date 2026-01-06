@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_04_215135) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_06_161353) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -475,6 +475,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_04_215135) do
     t.bigint "job_id", null: false
     t.integer "priority", default: 0, null: false
     t.string "queue_name", null: false
+    t.datetime "updated_at"
     t.index %w[concurrency_key priority job_id],
             name: "index_solid_queue_blocked_executions_for_release"
     t.index %w[expires_at concurrency_key],
@@ -488,6 +489,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_04_215135) do
     t.datetime "created_at", null: false
     t.bigint "job_id", null: false
     t.bigint "process_id"
+    t.datetime "updated_at"
     t.index ["job_id"],
             name: "index_solid_queue_claimed_executions_on_job_id",
             unique: true
@@ -500,6 +502,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_04_215135) do
     t.datetime "created_at", null: false
     t.text "error"
     t.bigint "job_id", null: false
+    t.datetime "updated_at"
     t.index ["job_id"],
             name: "index_solid_queue_failed_executions_on_job_id",
             unique: true
@@ -528,6 +531,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_04_215135) do
   create_table "solid_queue_pauses", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "queue_name", null: false
+    t.datetime "updated_at"
     t.index ["queue_name"],
             name: "index_solid_queue_pauses_on_queue_name",
             unique: true
@@ -542,6 +546,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_04_215135) do
     t.string "name", null: false
     t.integer "pid", null: false
     t.bigint "supervisor_id"
+    t.datetime "updated_at"
     t.index ["last_heartbeat_at"],
             name: "index_solid_queue_processes_on_last_heartbeat_at"
     t.index %w[name supervisor_id],
@@ -556,6 +561,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_04_215135) do
     t.bigint "job_id", null: false
     t.integer "priority", default: 0, null: false
     t.string "queue_name", null: false
+    t.datetime "updated_at"
     t.index ["job_id"],
             name: "index_solid_queue_ready_executions_on_job_id",
             unique: true
@@ -569,6 +575,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_04_215135) do
     t.bigint "job_id", null: false
     t.datetime "run_at", null: false
     t.string "task_key", null: false
+    t.datetime "updated_at"
     t.index ["job_id"],
             name: "index_solid_queue_recurring_executions_on_job_id",
             unique: true
@@ -602,6 +609,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_04_215135) do
     t.integer "priority", default: 0, null: false
     t.string "queue_name", null: false
     t.datetime "scheduled_at", null: false
+    t.datetime "updated_at"
     t.index ["job_id"],
             name: "index_solid_queue_scheduled_executions_on_job_id",
             unique: true

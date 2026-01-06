@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class Error < SolidErrors::Error
-  include(Search)
+  include(RecordConcern)
 
-  has_many :occurrences, class_name: "ErrorOccurrence", dependent: :destroy
+  has_many :error_occurrences, dependent: :destroy
 
   %i[
     address
@@ -35,7 +35,7 @@ class Error < SolidErrors::Error
   ].each do |model|
     scope :"where_#{model}",
           ->(instance) do
-            joins(:occurrences).where(<<~SQL.squish, instance.try(:id))
+            joins(:error_occurrences).where(<<~SQL.squish, instance.try(:id))
       (solid_errors_occurrences.context->'#{model}'->>'id') = ?
     SQL
           end
@@ -43,10 +43,6 @@ class Error < SolidErrors::Error
 
   def self.search_fields
     {
-      id: {
-        node: -> { arel_table[:id] },
-        type: :integer
-      },
       exception_class: {
         node: -> { arel_table[:exception_class] },
         type: :string
@@ -71,35 +67,8 @@ class Error < SolidErrors::Error
         node: -> { arel_table[:resolved_at] },
         type: :datetime
       },
-      updated_at: {
-        node: -> { arel_table[:updated_at] },
-        type: :datetime
-      },
-      created_at: {
-        node: -> { arel_table[:created_at] },
-        type: :datetime
-      }
+      **base_search_fields
     }
-  end
-
-  def self.model_singular
-    name.underscore.singularize.to_sym
-  end
-
-  def self.model_plural
-    name.underscore.pluralize.to_sym
-  end
-
-  def model_singular
-    self.class.name.underscore.singularize.to_sym
-  end
-
-  def model_plural
-    self.class.name.underscore.pluralize.to_sym
-  end
-
-  def alert
-    errors.full_messages.to_sentence
   end
 
   def exception_class_sample
@@ -111,7 +80,7 @@ class Error < SolidErrors::Error
   end
 
   def to_s
-    message_sample || exception_class_sample ||
-      I18n.t("errors.model.to_s", id: id)
+    message_sample.presence || exception_class_sample.presence ||
+      I18n.t("to_s", id: id)
   end
 end

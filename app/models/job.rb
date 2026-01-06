@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Job < SolidQueue::Job
-  include(Search)
+  include(RecordConcern)
 
   has_many(
     :job_contexts,
@@ -51,10 +51,6 @@ class Job < SolidQueue::Job
 
   def self.search_fields
     {
-      id: {
-        node: -> { arel_table[:id] },
-        type: :integer
-      },
       active_job_id: {
         node: -> { arel_table[:active_job_id] },
         type: :string
@@ -83,14 +79,7 @@ class Job < SolidQueue::Job
         node: -> { arel_table[:scheduled_at] },
         type: :datetime
       },
-      updated_at: {
-        node: -> { arel_table[:updated_at] },
-        type: :datetime
-      },
-      created_at: {
-        node: -> { arel_table[:created_at] },
-        type: :datetime
-      }
+      **base_search_fields
     }
   end
 
@@ -100,22 +89,6 @@ class Job < SolidQueue::Job
 
   def self.retry_all
     ApplicationRecord.transaction { find_each(&:retry!) }
-  end
-
-  def self.model_singular
-    name.underscore.singularize.to_sym
-  end
-
-  def self.model_plural
-    name.underscore.pluralize.to_sym
-  end
-
-  def model_singular
-    self.class.name.underscore.singularize.to_sym
-  end
-
-  def model_plural
-    self.class.name.underscore.pluralize.to_sym
   end
 
   def retry!
@@ -135,7 +108,20 @@ class Job < SolidQueue::Job
     JSON.pretty_generate(arguments)
   end
 
+  def class_name_sample
+    Truncate.strip(class_name)
+  end
+
+  def queue_name_sample
+    Truncate.strip(queue_name)
+  end
+
+  def arguments_sample
+    Truncate.strip(arguments.to_json)
+  end
+
   def to_s
-    Truncate.strip("#{queue_name}: #{class_name}: #{arguments["arguments"]}")
+    class_name_sample.presence || queue_name_sample.presence ||
+      arguments_sample.presence || t("to_s", id: id)
   end
 end
