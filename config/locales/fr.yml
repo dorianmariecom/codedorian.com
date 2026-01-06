@@ -1276,19 +1276,16 @@ fr:
         one: 1 fichier
         other: "%{count} fichiers"
         zero: 0 fichiers
-      attachments_link: fichiers
       data:
         one: 1 donnée
         other: "%{count} données"
         zero: 0 données
-      data_link: données
       delete_all: supprimer tout
       destroy_all: détruire tout
       examples:
         one: 1 exemple
         other: "%{count} exemples"
         zero: 0 exemples
-      examples_link: exemples
       new: nouveau programme
       program_executions:
         one: 1 exécution de programme
@@ -1322,7 +1319,6 @@ fr:
         one: 1 terminal
         other: "%{count} terminaux"
         zero: 0 terminaux
-      repl_sessions_link: terminaux
       schedule_all: programmer tout
       title: programmes
       unschedule_all: déprogrammer tout

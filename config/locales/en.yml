@@ -1276,19 +1276,16 @@ en:
         one: 1 file
         other: "%{count} files"
         zero: 0 files
-      attachments_link: files
       data:
         one: 1 datum
         other: "%{count} data"
         zero: 0 data
-      data_link: data
       delete_all: delete all
       destroy_all: destroy all
       examples:
         one: 1 example
         other: "%{count} examples"
         zero: 0 examples
-      examples_link: examples
       new: new program
       program_executions:
         one: 1 program execution
@@ -1322,7 +1319,6 @@ en:
         one: 1 repl session
         other: "%{count} repl sessions"
         zero: 0 repl sessions
-      repl_sessions_link: repl sessions
       schedule_all: schedule all
       title: programs
       unschedule_all: unschedule all
