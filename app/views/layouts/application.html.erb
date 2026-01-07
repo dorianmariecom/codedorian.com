@@ -18,6 +18,8 @@
     data-hotwire-native="<%= hotwire_native_app? %>"
   >
     <script>
+      window.CODE_ENV = "<%= Current.env %>";
+      window.RAILS_ENV = "<%= Rails.env %>";
       window.DEFAULT_COUNTRY_CODE = "<%= default_country_code %>";
       window.time_zone = "<%= current_persisted_time_zone %>";
       window.translations = <%= t(".js").to_json.html_safe %>;

@@ -4,8 +4,6 @@ source "https://rubygems.org"
 
 ruby "3.4.5"
 
-gem "thruster", "0.1.15" # port 80 vs 3000
-
 gem "active_storage_validations"
 gem "bcrypt"
 gem "brakeman"
@@ -68,6 +66,7 @@ gem "solid_queue"
 gem "stackprof"
 gem "stimulus-rails"
 gem "tailwindcss-rails"
+gem "thruster"
 gem "turbo-rails"
 gem "with_advisory_lock"
 gem "zxcvbn-ruby"
