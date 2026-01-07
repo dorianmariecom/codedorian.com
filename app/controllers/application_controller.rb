@@ -36,6 +36,7 @@ class ApplicationController < ActionController::Base
   helper_method(:can?)
   helper_method(:error_message_for)
   helper_method(:version)
+  helper_method(:hotwire_native_app?)
   helper_method(:hotwire_native_modal?)
   helper_method(:filters)
   helper_method(:index_url)
@@ -305,6 +306,10 @@ class ApplicationController < ActionController::Base
     app_version ||= "0.0"
 
     Gem::Version.new(app_version)
+  end
+
+  def hotwire_native_app?
+    request.user_agent.to_s.match?(/Hotwire Native|Turbo Native/)
   end
 
   def hotwire_native_modal?
