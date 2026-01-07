@@ -4,7 +4,10 @@ class ReplSessionsController < ApplicationController
   before_action(:load_guest)
   before_action(:load_user)
   before_action { add_breadcrumb(key: "repl_sessions.index", path: index_url) }
-  before_action(:load_repl_session, only: %i[show edit update destroy evaluate])
+  before_action(
+    :load_repl_session,
+    only: %i[show edit update destroy delete evaluate]
+  )
 
   def index
     authorize(ReplSession)
@@ -60,7 +63,7 @@ class ReplSessionsController < ApplicationController
   def create
     @repl_session = authorize(scope.new(repl_session_params))
 
-    if @repl_session.save
+    if @repl_session.save(context: :controller)
       log_in(@repl_session.user)
       redirect_to(show_url, notice: t(".notice"))
     else
@@ -70,7 +73,9 @@ class ReplSessionsController < ApplicationController
   end
 
   def update
-    if @repl_session.update(repl_session_params)
+    @repl_session.assign_attributes(repl_session_params)
+
+    if @repl_session.save(context: :controller)
       log_in(@repl_session.user)
       redirect_to(show_url, notice: t(".notice"))
     else
@@ -83,6 +88,15 @@ class ReplSessionsController < ApplicationController
     @repl_session.destroy!
 
     redirect_to(index_url, notice: t(".notice"))
+  end
+
+  def delete
+    @repl_session.delete
+
+    redirect_to(
+      index_url,
+      notice: t(".notice", default: t("#{controller_name}.destroy.notice"))
+    )
   end
 
   def destroy_all

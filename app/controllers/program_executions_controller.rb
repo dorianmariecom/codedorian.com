@@ -7,7 +7,7 @@ class ProgramExecutionsController < ApplicationController
   before_action do
     add_breadcrumb(key: "program_executions.index", path: index_url)
   end
-  before_action(:load_program_execution, only: %i[show destroy])
+  before_action(:load_program_execution, only: %i[show destroy delete])
 
   def index
     authorize(ProgramExecution)
@@ -22,6 +22,15 @@ class ProgramExecutionsController < ApplicationController
     @program_execution.destroy!
 
     redirect_to(index_url, notice: t(".notice"))
+  end
+
+  def delete
+    @program_execution.delete
+
+    redirect_to(
+      index_url,
+      notice: t(".notice", default: t("#{controller_name}.destroy.notice"))
+    )
   end
 
   def destroy_all

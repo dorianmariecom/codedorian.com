@@ -1,0 +1,58 @@
+<% content_for(:title, @job_context) %>
+
+<%= turbo_stream_from(@job_context) %>
+
+<% if @job_context.id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".id") %></div>
+    <div class="font-bold"><%= @job_context.id %></div>
+  </div>
+<% end %>
+
+<% if @job_context.active_job_id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".active_job_id") %></div>
+    <div class="font-bold"><%= @job_context.active_job_id %></div>
+  </div>
+<% end %>
+
+<% if @job_context.job.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".job") %></div>
+
+    <% if can?(:show, @job_context.job) %>
+      <div class="font-bold">
+        <%= link_to(@job_context.job, [*nested(job: nil), @job_context.job], class: "link") %>
+      </div>
+    <% else %>
+      <div class="font-bold"><%= @job_context.job %></div>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @job_context.context.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".context") %></div>
+    <div class="code"><%= @job_context.context_json %></div>
+  </div>
+<% end %>
+
+<% if @job_context.updated_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".updated_at") %></div>
+    <div class="font-bold"><%= local_time(@job_context.updated_at) %></div>
+  </div>
+<% end %>
+
+<% if @job_context.created_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".created_at") %></div>
+    <div class="font-bold"><%= local_time(@job_context.created_at) %></div>
+  </div>
+<% end %>
+
+<div class="p">
+  <%= link_to(t(".edit"), edit_url, class: "link") %>
+  <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+  <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
+</div>

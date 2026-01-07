@@ -4,7 +4,7 @@ class DataController < ApplicationController
   before_action(:load_guest)
   before_action(:load_user)
   before_action { add_breadcrumb(key: "data.index", path: index_url) }
-  before_action(:load_datum, only: %i[show edit update destroy])
+  before_action(:load_datum, only: %i[show edit update destroy delete])
 
   def index
     authorize(Datum)
@@ -53,6 +53,15 @@ class DataController < ApplicationController
     @datum.destroy!
 
     redirect_to(index_url, notice: t(".notice"))
+  end
+
+  def delete
+    @datum.delete
+
+    redirect_to(
+      index_url,
+      notice: t(".notice", default: t("#{controller_name}.destroy.notice"))
+    )
   end
 
   def destroy_all

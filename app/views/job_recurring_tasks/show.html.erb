@@ -1,0 +1,95 @@
+<% content_for(:title, @job_recurring_task) %>
+
+<%= turbo_stream_from(@job_recurring_task) %>
+
+<% if @job_recurring_task.id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".id") %></div>
+    <div class="font-bold"><%= @job_recurring_task.id %></div>
+  </div>
+<% end %>
+
+<% if @job_recurring_task.key.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".key") %></div>
+    <div class="font-bold"><%= @job_recurring_task.key %></div>
+  </div>
+<% end %>
+
+<% if @job_recurring_task.class_name.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".class_name") %></div>
+    <div class="font-bold"><%= @job_recurring_task.class_name %></div>
+  </div>
+<% end %>
+
+<% if @job_recurring_task.command.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".command") %></div>
+    <div class="code"><%= @job_recurring_task.command %></div>
+  </div>
+<% end %>
+
+<% if @job_recurring_task.schedule.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".schedule") %></div>
+    <div class="font-bold"><%= @job_recurring_task.schedule %></div>
+  </div>
+<% end %>
+
+<% if @job_recurring_task.queue_name.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".queue_name") %></div>
+    <div class="font-bold"><%= @job_recurring_task.queue_name %></div>
+  </div>
+<% end %>
+
+<% if @job_recurring_task.priority.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".priority") %></div>
+    <div class="font-bold"><%= @job_recurring_task.priority %></div>
+  </div>
+<% end %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".static") %></div>
+  <div class="font-bold"><%= @job_recurring_task.static? %></div>
+</div>
+
+<% if @job_recurring_task.arguments.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".arguments") %></div>
+    <div class="code"><%= @job_recurring_task.arguments_json %></div>
+  </div>
+<% end %>
+
+<% if @job_recurring_task.description.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".description") %></div>
+    <div class="code"><%= @job_recurring_task.description %></div>
+  </div>
+<% end %>
+
+<% if @job_recurring_task.updated_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".updated_at") %></div>
+    <div class="font-bold">
+      <%= local_time(@job_recurring_task.updated_at) %>
+    </div>
+  </div>
+<% end %>
+
+<% if @job_recurring_task.created_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".created_at") %></div>
+    <div class="font-bold">
+      <%= local_time(@job_recurring_task.created_at) %>
+    </div>
+  </div>
+<% end %>
+
+<div class="p">
+  <%= link_to(t(".edit"), edit_url, class: "link") %>
+  <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+  <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
+</div>

@@ -1,0 +1,64 @@
+<% content_for(:title, @job_failed_execution) %>
+
+<%= turbo_stream_from(@job_failed_execution) %>
+
+<% if @job_failed_execution.id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".id") %></div>
+    <div class="font-bold"><%= @job_failed_execution.id %></div>
+  </div>
+<% end %>
+
+<% if @job_failed_execution.job.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".job") %></div>
+
+    <% if can?(:show, @job_failed_execution.job) %>
+      <div class="font-bold">
+        <%= link_to(
+          @job_failed_execution.job,
+          [*nested(job: nil), @job_failed_execution.job],
+          class: "link"
+        ) %>
+      </div>
+    <% else %>
+      <div class="font-bold"><%= @job_failed_execution.job %></div>
+    <% end %>
+  </div>
+<% else %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".job_id") %></div>
+    <div class="font-bold"><%= @job_failed_execution.job_id %></div>
+  </div>
+<% end %>
+
+<% if @job_failed_execution.error.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".error") %></div>
+    <div class="code"><%= @job_failed_execution.error_json %></div>
+  </div>
+<% end %>
+
+<% if @job_failed_execution.updated_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".updated_at") %></div>
+    <div class="font-bold">
+      <%= local_time(@job_failed_execution.updated_at) %>
+    </div>
+  </div>
+<% end %>
+
+<% if @job_failed_execution.created_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".created_at") %></div>
+    <div class="font-bold">
+      <%= local_time(@job_failed_execution.created_at) %>
+    </div>
+  </div>
+<% end %>
+
+<div class="p">
+  <%= link_to(t(".edit"), edit_url, class: "link") %>
+  <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+  <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
+</div>

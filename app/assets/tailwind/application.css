@@ -42,26 +42,13 @@ button {
   @apply list-disc ml-4;
 }
 
-.link {
-  @apply underline;
-
-  &:disabled {
-    @apply text-gray-600 pointer-events-none;
-  }
-}
-
+.link,
 .button {
   @apply bg-black hover:bg-gray-800 focus:bg-gray-800;
   @apply focus:border-white focus:outline focus:outline-black focus:outline-1;
   @apply border border-transparent;
   @apply px-4 py-2 rounded text-white;
-
-  &.button--secondary {
-    @apply bg-white hover:bg-gray-100 focus:bg-gray-200;
-    @apply border border-black;
-    @apply focus:border-black focus:outline-black;
-    @apply text-black;
-  }
+  @apply inline-block;
 
   &.button--red {
     @apply bg-red-600 hover:bg-red-700 focus:bg-red-700;
@@ -69,23 +56,27 @@ button {
   }
 
   &:disabled {
-    @apply bg-gray-600 pointer-events-none;
+    @apply pointer-events-none;
+    @apply text-gray-800;
+  }
+}
+
+.link,
+.button.button--link,
+.button.button--secondary {
+  @apply underline;
+  @apply bg-white hover:bg-gray-100 focus:bg-gray-200;
+  @apply border border-black;
+  @apply focus:border-black focus:outline-black;
+  @apply text-black;
+
+  &.button--red {
+    @apply text-red-600;
   }
 
-  &.button--link {
-    @apply underline;
-    @apply rounded-none p-0;
-    @apply bg-transparent hover:bg-transparent focus:bg-transparent;
-    @apply text-black;
-    @apply border-none outline-none;
-
-    &.button--red {
-      @apply text-red-600;
-    }
-
-    &:disabled {
-      @apply text-gray-600 bg-transparent pointer-events-none;
-    }
+  &:disabled {
+    @apply pointer-events-none;
+    @apply text-gray-600;
   }
 }
 

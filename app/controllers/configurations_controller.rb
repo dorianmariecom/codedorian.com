@@ -2,7 +2,7 @@
 
 class ConfigurationsController < ApplicationController
   before_action { add_breadcrumb(key: "configurations.index", path: index_url) }
-  before_action(:load_configuration, only: %i[show update edit destroy])
+  before_action(:load_configuration, only: %i[show update edit destroy delete])
 
   def index
     authorize(Configuration)
@@ -53,6 +53,15 @@ class ConfigurationsController < ApplicationController
     @configuration.destroy!
 
     redirect_to(index_url, notice: t(".notice"))
+  end
+
+  def delete
+    @configuration.delete
+
+    redirect_to(
+      index_url,
+      notice: t(".notice", default: t("#{controller_name}.destroy.notice"))
+    )
   end
 
   def destroy_all

@@ -85,7 +85,7 @@ class ProgramsController < ApplicationController
   def create
     @program = authorize(scope.new(program_params))
 
-    if @program.save
+    if @program.save(context: :controller)
       log_in(@program.user)
 
       if generate?
@@ -93,7 +93,7 @@ class ProgramsController < ApplicationController
         @program_prompt =
           authorize(program_prompts_scope.new(program_prompt_params))
 
-        if @program_prompt.save
+        if @program_prompt.save(context: :controller)
           perform_later(
             ProgramPromptGenerateJob,
             arguments: {
@@ -125,7 +125,9 @@ class ProgramsController < ApplicationController
   end
 
   def update
-    if @program.update(program_params)
+    @program.assign_attributes(program_params)
+
+    if @program.save(context: :controller)
       log_in(@program.user)
 
       if generate?
@@ -133,7 +135,7 @@ class ProgramsController < ApplicationController
         @program_prompt =
           authorize(program_prompts_scope.new(program_prompt_params))
 
-        if @program_prompt.save
+        if @program_prompt.save(context: :controller)
           perform_later(
             ProgramPromptGenerateJob,
             arguments: {
@@ -168,6 +170,15 @@ class ProgramsController < ApplicationController
     @program.destroy!
 
     redirect_to(index_url, notice: t(".notice"))
+  end
+
+  def delete
+    @program.delete
+
+    redirect_to(
+      index_url,
+      notice: t(".notice", default: t("#{controller_name}.destroy.notice"))
+    )
   end
 
   def schedule_all

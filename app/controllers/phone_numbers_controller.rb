@@ -4,7 +4,7 @@ class PhoneNumbersController < ApplicationController
   before_action(:load_guest)
   before_action(:load_user)
   before_action { add_breadcrumb(key: "phone_numbers.index", path: index_url) }
-  before_action(:load_phone_number, only: %i[show edit update destroy])
+  before_action(:load_phone_number, only: %i[show edit update destroy delete])
 
   def index
     authorize(PhoneNumber)
@@ -31,7 +31,7 @@ class PhoneNumbersController < ApplicationController
   def create
     @phone_number = authorize(scope.new(phone_number_params))
 
-    if @phone_number.save
+    if @phone_number.save(context: :controller)
       log_in(@phone_number.user)
       redirect_to(show_url, notice: t(".notice"))
     else
@@ -41,7 +41,9 @@ class PhoneNumbersController < ApplicationController
   end
 
   def update
-    if @phone_number.update(phone_number_params)
+    @phone_number.assign_attributes(phone_number_params)
+
+    if @phone_number.save(context: :controller)
       log_in(@phone_number.user)
       redirect_to(show_url, notice: t(".notice"))
     else
@@ -54,6 +56,15 @@ class PhoneNumbersController < ApplicationController
     @phone_number.destroy!
 
     redirect_to(index_url, notice: t(".notice"))
+  end
+
+  def delete
+    @phone_number.delete
+
+    redirect_to(
+      index_url,
+      notice: t(".notice", default: t("#{controller_name}.destroy.notice"))
+    )
   end
 
   def destroy_all

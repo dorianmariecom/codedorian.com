@@ -5,7 +5,10 @@ class ExampleSchedulesController < ApplicationController
   before_action do
     add_breadcrumb(key: "example_schedules.index", path: index_url)
   end
-  before_action(:load_example_schedule, only: %i[show edit update destroy])
+  before_action(
+    :load_example_schedule,
+    only: %i[show edit update destroy delete]
+  )
 
   def index
     authorize(ExampleSchedule)
@@ -29,7 +32,7 @@ class ExampleSchedulesController < ApplicationController
   def create
     @example_schedule = authorize(scope.new(example_schedule_params))
 
-    if @example_schedule.save
+    if @example_schedule.save(context: :controller)
       log_in(@example_schedule.user)
       redirect_to(show_url, notice: t(".notice"))
     else
@@ -39,7 +42,9 @@ class ExampleSchedulesController < ApplicationController
   end
 
   def update
-    if @example_schedule.update(example_schedule_params)
+    @example_schedule.assign_attributes(example_schedule_params)
+
+    if @example_schedule.save(context: :controller)
       log_in(@example_schedule.user)
       redirect_to(show_url, notice: t(".notice"))
     else
@@ -52,6 +57,15 @@ class ExampleSchedulesController < ApplicationController
     @example_schedule.destroy!
 
     redirect_to(index_url, notice: t(".notice"))
+  end
+
+  def delete
+    @example_schedule.delete
+
+    redirect_to(
+      index_url,
+      notice: t(".notice", default: t("#{controller_name}.destroy.notice"))
+    )
   end
 
   def destroy_all

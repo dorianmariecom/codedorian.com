@@ -42,6 +42,15 @@ class SessionsController < ApplicationController
     redirect_to(root_path, notice: t(".notice"))
   end
 
+  def delete
+    log_out(Current.user)
+
+    redirect_to(
+      root_path,
+      notice: t(".notice", default: t("#{controller_name}.destroy.notice"))
+    )
+  end
+
   def email_address_param
     params.dig(:session, :email_address)
   end

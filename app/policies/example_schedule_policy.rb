@@ -27,11 +27,11 @@ class ExampleSchedulePolicy < ApplicationPolicy
     admin?
   end
 
-  def destroy_all?
-    admin?
+  def delete?
+    destroy?
   end
 
-  def delete_all?
+  def destroy_all?
     admin?
   end
 end

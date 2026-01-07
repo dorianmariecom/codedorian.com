@@ -27,11 +27,11 @@ class NamePolicy < ApplicationPolicy
     owner? || admin?
   end
 
-  def destroy_all?
-    true
+  def delete?
+    destroy?
   end
 
-  def delete_all?
+  def destroy_all?
     true
   end
 end

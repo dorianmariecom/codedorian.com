@@ -2,7 +2,7 @@
 
 class ExamplesController < ApplicationController
   before_action { add_breadcrumb(key: "examples.index", path: index_url) }
-  before_action(:load_example, only: %i[show edit update destroy])
+  before_action(:load_example, only: %i[show edit update destroy delete])
 
   def index
     authorize(Example)
@@ -29,7 +29,7 @@ class ExamplesController < ApplicationController
   def create
     @example = authorize(scope.new(example_params))
 
-    if @example.save
+    if @example.save(context: :controller)
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @example.alert
@@ -38,7 +38,9 @@ class ExamplesController < ApplicationController
   end
 
   def update
-    if @example.update(example_params)
+    @example.assign_attributes(example_params)
+
+    if @example.save(context: :controller)
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @example.alert
@@ -50,6 +52,15 @@ class ExamplesController < ApplicationController
     @example.destroy!
 
     redirect_to(index_url, notice: t(".notice"))
+  end
+
+  def delete
+    @example.delete
+
+    redirect_to(
+      index_url,
+      notice: t(".notice", default: t("#{controller_name}.destroy.notice"))
+    )
   end
 
   def destroy_all

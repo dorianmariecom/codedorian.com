@@ -71,8 +71,20 @@ class ApplicationPolicy
     raise(NotImplementedError, "#{self.class}#update?")
   end
 
+  def delete?
+    destroy?
+  end
+
   def destroy?
     raise(NotImplementedError, "#{self.class}#destroy?")
+  end
+
+  def delete_all?
+    destroy_all?
+  end
+
+  def destroy_all?
+    raise(NotImplementedError, "#{self.class}#destroy_all?")
   end
 
   private

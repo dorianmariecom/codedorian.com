@@ -2,7 +2,10 @@
 
 class UsersController < ApplicationController
   before_action { add_breadcrumb(key: "users.index", path: index_url) }
-  before_action(:load_user, only: %i[show edit update destroy impersonate])
+  before_action(
+    :load_user,
+    only: %i[show edit update destroy delete impersonate]
+  )
   skip_after_action(:verify_policy_scoped, only: :update_time_zone)
   skip_before_action(:verify_captcha, only: :update_time_zone)
 
@@ -55,7 +58,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = authorize(scope.new(user_params))
+    @user = authorize(scope.new(user_params.merge(id: nil)))
 
     Current.with(user: @user) do
       if @user.save(context: :controller)
@@ -86,6 +89,17 @@ class UsersController < ApplicationController
     log_out(@user)
 
     redirect_to(root_path, notice: t(".notice"))
+  end
+
+  def delete
+    @user.delete
+
+    log_out(@user)
+
+    redirect_to(
+      root_path,
+      notice: t(".notice", default: t("#{controller_name}.destroy.notice"))
+    )
   end
 
   def destroy_all

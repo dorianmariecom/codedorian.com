@@ -4,7 +4,7 @@ class TimeZonesController < ApplicationController
   before_action(:load_guest)
   before_action(:load_user)
   before_action { add_breadcrumb(key: "time_zones.index", path: index_url) }
-  before_action(:load_time_zone, only: %i[show edit update destroy])
+  before_action(:load_time_zone, only: %i[show edit update destroy delete])
 
   def index
     authorize(TimeZone)
@@ -29,7 +29,7 @@ class TimeZonesController < ApplicationController
   def create
     @time_zone = authorize(scope.new(time_zone_params))
 
-    if @time_zone.save
+    if @time_zone.save(context: :controller)
       log_in(@time_zone.user)
       redirect_to(show_url, notice: t(".notice"))
     else
@@ -39,7 +39,9 @@ class TimeZonesController < ApplicationController
   end
 
   def update
-    if @time_zone.update(time_zone_params)
+    @time_zone.assign_attributes(time_zone_params)
+
+    if @time_zone.save(context: :controller)
       log_in(@time_zone.user)
       redirect_to(show_url, notice: t(".notice"))
     else
@@ -52,6 +54,15 @@ class TimeZonesController < ApplicationController
     @time_zone.destroy!
 
     redirect_to(index_url, notice: t(".notice"))
+  end
+
+  def delete
+    @time_zone.delete
+
+    redirect_to(
+      index_url,
+      notice: t(".notice", default: t("#{controller_name}.destroy.notice"))
+    )
   end
 
   def destroy_all

@@ -25,7 +25,7 @@ class ErrorsController < ApplicationController
   before_action(:load_time_zone)
   before_action(:load_token)
   before_action { add_breadcrumb(key: "errors.index", path: index_url) }
-  before_action(:load_error, only: %i[show update edit destroy])
+  before_action(:load_error, only: %i[show update edit destroy delete])
   skip_after_action(:verify_policy_scoped, only: EXCEPTIONS)
 
   def index
@@ -76,6 +76,15 @@ class ErrorsController < ApplicationController
     @error.destroy!
 
     redirect_to(index_url, notice: t(".notice"))
+  end
+
+  def delete
+    @error.delete
+
+    redirect_to(
+      index_url,
+      notice: t(".notice", default: t("#{controller_name}.destroy.notice"))
+    )
   end
 
   def destroy_all

@@ -1,5 +1,113 @@
 <%= turbo_stream_from(@jobs) %>
 
+<div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
+
+<% if @job_contexts.any? %>
+  <div class="p">
+    <%= link_to(
+      t(".job_contexts", count: @job_contexts.size),
+      [*nested, :job_contexts],
+      class: "link"
+    ) %>
+  </div>
+<% end %>
+
+<% if @job_processes.any? %>
+  <div class="p">
+    <%= link_to(
+      t(".job_processes", count: @job_processes.size),
+      :job_processes,
+      class: "link"
+    ) %>
+  </div>
+<% end %>
+
+<% if @job_pauses.any? %>
+  <div class="p">
+    <%= link_to(t(".job_pauses", count: @job_pauses.size), :job_pauses, class: "link") %>
+  </div>
+<% end %>
+
+<% if @job_semaphores.any? %>
+  <div class="p">
+    <%= link_to(
+      t(".job_semaphores", count: @job_semaphores.size),
+      :job_semaphores,
+      class: "link"
+    ) %>
+  </div>
+<% end %>
+
+<% if @job_ready_executions.any? %>
+  <div class="p">
+    <%= link_to(
+      t(".job_ready_executions", count: @job_ready_executions.size),
+      [*nested, :job_ready_executions],
+      class: "link"
+    ) %>
+  </div>
+<% end %>
+
+<% if @job_failed_executions.any? %>
+  <div class="p">
+    <%= link_to(
+      t(".job_failed_executions", count: @job_failed_executions.size),
+      [*nested, :job_failed_executions],
+      class: "link"
+    ) %>
+  </div>
+<% end %>
+
+<% if @job_scheduled_executions.any? %>
+  <div class="p">
+    <%= link_to(
+      t(".job_scheduled_executions", count: @job_scheduled_executions.size),
+      [*nested, :job_scheduled_executions],
+      class: "link"
+    ) %>
+  </div>
+<% end %>
+
+<% if @job_blocked_executions.any? %>
+  <div class="p">
+    <%= link_to(
+      t(".job_blocked_executions", count: @job_blocked_executions.size),
+      [*nested, :job_blocked_executions],
+      class: "link"
+    ) %>
+  </div>
+<% end %>
+
+<% if @job_claimed_executions.any? %>
+  <div class="p">
+    <%= link_to(
+      t(".job_claimed_executions", count: @job_claimed_executions.size),
+      [*nested, :job_claimed_executions],
+      class: "link"
+    ) %>
+  </div>
+<% end %>
+
+<% if @job_recurring_executions.any? %>
+  <div class="p">
+    <%= link_to(
+      t(".job_recurring_executions", count: @job_recurring_executions.size),
+      [*nested, :job_recurring_executions],
+      class: "link"
+    ) %>
+  </div>
+<% end %>
+
+<% if @job_recurring_tasks.any? %>
+  <div class="p">
+    <%= link_to(
+      t(".job_recurring_tasks", count: @job_recurring_tasks.size),
+      :job_recurring_tasks,
+      class: "link"
+    ) %>
+  </div>
+<% end %>
+
 <%= render("shared/search") %>
 
 <turbo-frame id="search" target="_top">
@@ -17,12 +125,8 @@
         text: t(".discard_all"),
         method: :post
       ) %>
-      <%= render(
-        "shared/confirm",
-        url: [:destroy_all, *index_url],
-        text: t(".destroy_all")
-      ) %>
-      <%= render("shared/confirm", url: [:delete_all, *index_url], text: t(".delete_all")) %>
+      <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
+      <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
     </div>
   <% end %>
 

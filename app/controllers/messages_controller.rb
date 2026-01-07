@@ -42,7 +42,7 @@ class MessagesController < ApplicationController
   def create
     @message = authorize(scope.new(message_params))
 
-    if @message.save
+    if @message.save(context: :controller)
       log_in(@message.from_user)
       redirect_to(show_url, notice: t(".notice"))
     else
@@ -52,7 +52,9 @@ class MessagesController < ApplicationController
   end
 
   def update
-    if @message.update(message_params)
+    @message.assign_attributes(message_params)
+
+    if @message.save(context: :controller)
       log_in(@message.from_user)
       redirect_to(show_url, notice: t(".notice"))
     else
@@ -65,6 +67,15 @@ class MessagesController < ApplicationController
     @message.destroy!
 
     redirect_to(index_url, notice: t(".notice"))
+  end
+
+  def delete
+    @message.delete
+
+    redirect_to(
+      index_url,
+      notice: t(".notice", default: t("#{controller_name}.destroy.notice"))
+    )
   end
 
   def destroy_all

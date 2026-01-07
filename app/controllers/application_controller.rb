@@ -43,6 +43,10 @@ class ApplicationController < ActionController::Base
   helper_method(:new_url)
   helper_method(:edit_url)
   helper_method(:form_url)
+  helper_method(:destroy_all_url)
+  helper_method(:delete_all_url)
+  helper_method(:delete_url)
+  helper_method(:destroy_url)
   helper_method(:nested)
   helper_method(:search_params)
   helper_method(:resources_name)
@@ -340,6 +344,14 @@ class ApplicationController < ActionController::Base
     [*nested(...), resources_name, **search_params]
   end
 
+  def destroy_all_url(...)
+    [:destroy_all, *index_url(...)]
+  end
+
+  def delete_all_url(...)
+    [:delete_all, *index_url(...)]
+  end
+
   def show_url(...)
     [*nested(...), model_instance]
   end
@@ -350,6 +362,14 @@ class ApplicationController < ActionController::Base
 
   def edit_url(...)
     [:edit, *show_url(...)]
+  end
+
+  def delete_url(...)
+    [*show_url(...), :delete]
+  end
+
+  def destroy_url(...)
+    [*show_url(...), :destroy]
   end
 
   def load_breadcrumbs

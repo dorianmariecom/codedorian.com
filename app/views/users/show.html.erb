@@ -2,10 +2,12 @@
 
 <%= turbo_stream_from(@user) %>
 
-<div class="p">
-  <div class="text-gray-600"><%= t(".id") %></div>
-  <div class="font-bold"><%= @user.id %></div>
-</div>
+<% if @user.id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".id") %></div>
+    <div class="font-bold"><%= @user.id %></div>
+  </div>
+<% end %>
 
 <% if @user.admin? %>
   <div class="p font-bold"><%= t(".admin") %></div>
@@ -77,15 +79,19 @@
   <div class="font-bold"><%= @user.verified %></div>
 </div>
 
-<div class="p">
-  <div class="text-gray-600"><%= t(".updated_at") %></div>
-  <div class="font-bold"><%= local_time(@user.updated_at) %></div>
-</div>
+<% if @user.updated_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".updated_at") %></div>
+    <div class="font-bold"><%= local_time(@user.updated_at) %></div>
+  </div>
+<% end %>
 
-<div class="p">
-  <div class="text-gray-600"><%= t(".created_at") %></div>
-  <div class="font-bold"><%= local_time(@user.created_at) %></div>
-</div>
+<% if @user.created_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".created_at") %></div>
+    <div class="font-bold"><%= local_time(@user.created_at) %></div>
+  </div>
+<% end %>
 
 <div class="p">
   <% if admin? %>
@@ -96,9 +102,10 @@
       method: :post
     ) %>
   <% end %>
-  <%= render("shared/confirm", text: t(".log_out"), url: :session) %>
+  <%= render("shared/confirm", text: t(".log_out"), url: %i[delete session]) %>
   <%= link_to(t(".edit"), edit_url, class: "link") %>
-  <%= render("shared/confirm", text: t(".delete"), url: show_url) %>
+  <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+  <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
 </div>
 
 <%= render("shared/list", user: @user, model: Name) %>

@@ -8,4 +8,8 @@ class SessionPolicy < ApplicationPolicy
   def destroy?
     true
   end
+
+  def delete?
+    destroy?
+  end
 end

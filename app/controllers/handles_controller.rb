@@ -4,7 +4,7 @@ class HandlesController < ApplicationController
   before_action(:load_guest)
   before_action(:load_user)
   before_action { add_breadcrumb(key: "handles.index", path: index_url) }
-  before_action(:load_handle, only: %i[show edit update destroy])
+  before_action(:load_handle, only: %i[show edit update destroy delete])
 
   def index
     authorize(Handle)
@@ -29,7 +29,7 @@ class HandlesController < ApplicationController
   def create
     @handle = authorize(scope.new(handle_params))
 
-    if @handle.save
+    if @handle.save(context: :controller)
       log_in(@handle.user)
       redirect_to(show_url, notice: t(".notice"))
     else
@@ -39,7 +39,9 @@ class HandlesController < ApplicationController
   end
 
   def update
-    if @handle.update(handle_params)
+    @handle.assign_attributes(handle_params)
+
+    if @handle.save(context: :controller)
       log_in(@handle.user)
       redirect_to(show_url, notice: t(".notice"))
     else
@@ -52,6 +54,15 @@ class HandlesController < ApplicationController
     @handle.destroy!
 
     redirect_to(index_url, notice: t(".notice"))
+  end
+
+  def delete
+    @handle.delete
+
+    redirect_to(
+      index_url,
+      notice: t(".notice", default: t("#{controller_name}.destroy.notice"))
+    )
   end
 
   def destroy_all

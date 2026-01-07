@@ -4,7 +4,7 @@ class DevicesController < ApplicationController
   before_action(:load_guest)
   before_action(:load_user)
   before_action { add_breadcrumb(key: "devices.index", path: index_url) }
-  before_action(:load_device, only: %i[show edit update destroy])
+  before_action(:load_device, only: %i[show edit update destroy delete])
   before_action(:current_user!, only: :create)
   skip_before_action(:verify_captcha, only: :create)
 
@@ -33,7 +33,7 @@ class DevicesController < ApplicationController
   def create
     @device = authorize(scope.new(device_params))
 
-    if @device.save
+    if @device.save(context: :controller)
       log_in(@device.user)
       respond_to do |format|
         format.html { redirect_to(show_url, notice: t(".notice")) }
@@ -58,7 +58,9 @@ class DevicesController < ApplicationController
   end
 
   def update
-    if @device.update(device_params)
+    @device.assign_attributes(device_params)
+
+    if @device.save(context: :controller)
       log_in(@device.user)
       redirect_to(show_url, notice: t(".notice"))
     else
@@ -71,6 +73,15 @@ class DevicesController < ApplicationController
     @device.destroy!
 
     redirect_to(index_url, notice: t(".notice"))
+  end
+
+  def delete
+    @device.delete
+
+    redirect_to(
+      index_url,
+      notice: t(".notice", default: t("#{controller_name}.destroy.notice"))
+    )
   end
 
   def destroy_all

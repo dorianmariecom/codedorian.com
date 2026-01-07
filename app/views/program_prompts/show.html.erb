@@ -2,10 +2,12 @@
 
 <%= turbo_stream_from(@program_prompt) %>
 
-<div class="p">
-  <div class="text-gray-600"><%= t(".id") %></div>
-  <div class="font-bold"><%= @program_prompt.id %></div>
-</div>
+<% if @program_prompt.id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".id") %></div>
+    <div class="font-bold"><%= @program_prompt.id %></div>
+  </div>
+<% end %>
 
 <% if @program_prompt.user.present? %>
   <div class="p">
@@ -123,18 +125,23 @@
   <% end %>
 <% end %>
 
-<div class="p">
-  <div class="text-gray-600"><%= t(".updated_at") %></div>
-  <div class="font-bold"><%= local_time(@program_prompt.updated_at) %></div>
-</div>
+<% if @program_prompt.updated_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".updated_at") %></div>
+    <div class="font-bold"><%= local_time(@program_prompt.updated_at) %></div>
+  </div>
+<% end %>
+
+<% if @program_prompt.created_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".created_at") %></div>
+    <div class="font-bold"><%= local_time(@program_prompt.created_at) %></div>
+  </div>
+<% end %>
 
 <div class="p">
-  <div class="text-gray-600"><%= t(".created_at") %></div>
-  <div class="font-bold"><%= local_time(@program_prompt.created_at) %></div>
-</div>
-
-<div class="p">
-  <%= render("shared/confirm", text: t(".delete"), url: show_url) %>
+  <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+  <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
 </div>
 
 <div class="p font-bold">

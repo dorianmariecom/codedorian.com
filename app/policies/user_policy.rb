@@ -41,17 +41,17 @@ class UserPolicy < ApplicationPolicy
     self? || admin?
   end
 
-  def destroy_all?
-    true
+  def delete?
+    destroy?
   end
 
-  def delete_all?
+  def destroy_all?
     true
   end
 
   private
 
   def self?
-    current_user? && record? && current_user == record
+    record? && current_user? && record == current_user
   end
 end

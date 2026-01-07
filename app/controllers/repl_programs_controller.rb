@@ -5,7 +5,7 @@ class ReplProgramsController < ApplicationController
   before_action(:load_user)
   before_action(:load_repl_session)
   before_action { add_breadcrumb(key: "repl_programs.index", path: index_url) }
-  before_action(:load_repl_program, only: %i[show edit update destroy])
+  before_action(:load_repl_program, only: %i[show edit update destroy delete])
 
   def index
     authorize(ReplProgram)
@@ -35,14 +35,14 @@ class ReplProgramsController < ApplicationController
   def create
     @repl_program = authorize(scope.new(repl_program_params))
 
-    if @repl_program.save
+    if @repl_program.save(context: :controller)
       log_in(@repl_program.user)
 
       if generate?
         @user = @repl_program.user
         @repl_prompt = authorize(repl_prompts_scope.new(repl_prompt_params))
 
-        if @repl_prompt.save
+        if @repl_prompt.save(context: :controller)
           perform_later(
             ReplPromptGenerateJob,
             arguments: {
@@ -95,14 +95,16 @@ class ReplProgramsController < ApplicationController
   end
 
   def update
-    if @repl_program.update(repl_program_params)
+    @repl_program.assign_attributes(repl_program_params)
+
+    if @repl_program.save(context: :controller)
       log_in(@repl_program.user)
 
       if generate?
         @user = @repl_program.user
         @repl_prompt = authorize(repl_prompts_scope.new(repl_prompt_params))
 
-        if @repl_prompt.save
+        if @repl_prompt.save(context: :controller)
           perform_later(
             ReplPromptGenerateJob,
             arguments: {
@@ -154,6 +156,15 @@ class ReplProgramsController < ApplicationController
     @repl_program.destroy!
 
     redirect_to(index_url, notice: t(".notice"))
+  end
+
+  def delete
+    @repl_program.delete
+
+    redirect_to(
+      index_url,
+      notice: t(".notice", default: t("#{controller_name}.destroy.notice"))
+    )
   end
 
   def destroy_all

@@ -16,10 +16,12 @@
 
 <%= turbo_stream_from(@example_schedule) %>
 
-<div class="p">
-  <div class="text-gray-600"><%= t(".id") %></div>
-  <div class="font-bold"><%= @example_schedule.id %></div>
-</div>
+<% if @example_schedule.id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".id") %></div>
+    <div class="font-bold"><%= @example_schedule.id %></div>
+  </div>
+<% end %>
 
 <% if @example_schedule.example.present? %>
   <div class="p">
@@ -49,19 +51,24 @@
   </div>
 <% end %>
 
-<div class="p">
-  <div class="text-gray-600"><%= t(".updated_at") %></div>
-  <div class="font-bold"><%= local_time(@example_schedule.updated_at) %></div>
-</div>
+<% if @example_schedule.updated_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".updated_at") %></div>
+    <div class="font-bold"><%= local_time(@example_schedule.updated_at) %></div>
+  </div>
+<% end %>
 
-<div class="p">
-  <div class="text-gray-600"><%= t(".created_at") %></div>
-  <div class="font-bold"><%= local_time(@example_schedule.created_at) %></div>
-</div>
+<% if @example_schedule.created_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".created_at") %></div>
+    <div class="font-bold"><%= local_time(@example_schedule.created_at) %></div>
+  </div>
+<% end %>
 
 <% if can?(:update, @example_schedule) %>
   <div class="p">
     <%= link_to(t(".edit"), edit_url, class: "link") %>
-    <%= render("shared/confirm", text: t(".delete"), url: show_url) %>
+    <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+    <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
   </div>
 <% end %>

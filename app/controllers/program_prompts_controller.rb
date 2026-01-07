@@ -7,7 +7,7 @@ class ProgramPromptsController < ApplicationController
   before_action do
     add_breadcrumb(key: "program_prompts.index", path: index_url)
   end
-  before_action(:load_program_prompt, only: %i[show destroy])
+  before_action(:load_program_prompt, only: %i[show destroy delete])
 
   def index
     authorize(ProgramPrompt)
@@ -25,6 +25,15 @@ class ProgramPromptsController < ApplicationController
     @program_prompt.destroy!
 
     redirect_to(index_url, notice: t(".notice"))
+  end
+
+  def delete
+    @program_prompt.delete
+
+    redirect_to(
+      index_url,
+      notice: t(".notice", default: t("#{controller_name}.destroy.notice"))
+    )
   end
 
   def destroy_all

@@ -9,15 +9,79 @@ class JobsController < ApplicationController
   before_action(:load_repl_program)
   before_action(:load_repl_prompt)
   before_action { add_breadcrumb(key: "jobs.index", path: index_url) }
-  before_action(:load_job, only: %i[show destroy delete discard retry])
+  before_action(
+    :load_job,
+    only: %i[show edit update destroy delete discard retry]
+  )
 
   def index
     authorize(Job)
 
     @jobs = scope.page(params[:page]).order(created_at: :desc)
+    @job_contexts = job_contexts_scope
+    @job_processes = job_processes_scope
+    @job_pauses = job_pauses_scope
+    @job_semaphores = job_semaphores_scope
+    @job_ready_executions = job_ready_executions_scope
+    @job_failed_executions = job_failed_executions_scope
+    @job_scheduled_executions = job_scheduled_executions_scope
+    @job_blocked_executions = job_blocked_executions_scope
+    @job_claimed_executions = job_claimed_executions_scope
+    @job_recurring_executions = job_recurring_executions_scope
+    @job_recurring_tasks = job_recurring_tasks_scope
   end
 
   def show
+    @job_contexts =
+      job_contexts_scope.order(created_at: :desc).page(params[:page])
+    @job_ready_executions =
+      job_ready_executions_scope.order(created_at: :desc).page(params[:page])
+    @job_failed_executions =
+      job_failed_executions_scope.order(created_at: :desc).page(params[:page])
+    @job_scheduled_executions =
+      job_scheduled_executions_scope.order(created_at: :desc).page(
+        params[:page]
+      )
+    @job_blocked_executions =
+      job_blocked_executions_scope.order(created_at: :desc).page(params[:page])
+    @job_claimed_executions =
+      job_claimed_executions_scope.order(created_at: :desc).page(params[:page])
+    @job_recurring_executions =
+      job_recurring_executions_scope.order(created_at: :desc).page(
+        params[:page]
+      )
+  end
+
+  def new
+    @job = authorize(scope.new)
+
+    add_breadcrumb
+  end
+
+  def edit
+    add_breadcrumb
+  end
+
+  def create
+    @job = authorize(scope.new(job_params))
+
+    if @job.save(context: :controller)
+      redirect_to(show_url, notice: t(".notice"))
+    else
+      flash.now.alert = @job.alert
+      render(:new, status: :unprocessable_content)
+    end
+  end
+
+  def update
+    @job.assign_attributes(job_params)
+
+    if @job.save(context: :controller)
+      redirect_to(show_url, notice: t(".notice"))
+    else
+      flash.now.alert = @job.alert
+      render(:edit, status: :unprocessable_content)
+    end
   end
 
   def retry
@@ -33,9 +97,12 @@ class JobsController < ApplicationController
   end
 
   def delete
-    @job.delete!
+    @job.delete
 
-    redirect_to(index_url, notice: t(".notice"))
+    redirect_to(
+      index_url,
+      notice: t(".notice", default: t("#{controller_name}.destroy.notice"))
+    )
   end
 
   def destroy
@@ -232,6 +299,113 @@ class JobsController < ApplicationController
     scope
   end
 
+  def job_contexts_scope
+    scope = policy_scope(JobContext)
+    scope = scope.where_guest(@guest) if @guest
+    scope = scope.where_user(@user) if @user
+    scope = scope.where_program(@program) if @program
+    scope = scope.where_program_prompt(@program_prompt) if @program_prompt
+    scope = scope.where_repl_session(@repl_session) if @repl_session
+    scope = scope.where_repl_program(@repl_program) if @repl_program
+    scope = scope.where_repl_prompt(@repl_prompt) if @repl_prompt
+    scope = scope.where_job(@job) if @job
+    scope
+  end
+
+  def job_processes_scope
+    policy_scope(JobProcess)
+  end
+
+  def job_pauses_scope
+    policy_scope(JobPause)
+  end
+
+  def job_semaphores_scope
+    policy_scope(JobSemaphore)
+  end
+
+  def job_ready_executions_scope
+    scope = policy_scope(JobReadyExecution)
+    scope = scope.where_guest(@guest) if @guest
+    scope = scope.where_user(@user) if @user
+    scope = scope.where_program(@program) if @program
+    scope = scope.where_program_prompt(@program_prompt) if @program_prompt
+    scope = scope.where_repl_session(@repl_session) if @repl_session
+    scope = scope.where_repl_program(@repl_program) if @repl_program
+    scope = scope.where_repl_prompt(@repl_prompt) if @repl_prompt
+    scope = scope.where_job(@job) if @job
+    scope
+  end
+
+  def job_failed_executions_scope
+    scope = policy_scope(JobFailedExecution)
+    scope = scope.where_guest(@guest) if @guest
+    scope = scope.where_user(@user) if @user
+    scope = scope.where_program(@program) if @program
+    scope = scope.where_program_prompt(@program_prompt) if @program_prompt
+    scope = scope.where_repl_session(@repl_session) if @repl_session
+    scope = scope.where_repl_program(@repl_program) if @repl_program
+    scope = scope.where_repl_prompt(@repl_prompt) if @repl_prompt
+    scope = scope.where_job(@job) if @job
+    scope
+  end
+
+  def job_scheduled_executions_scope
+    scope = policy_scope(JobScheduledExecution)
+    scope = scope.where_guest(@guest) if @guest
+    scope = scope.where_user(@user) if @user
+    scope = scope.where_program(@program) if @program
+    scope = scope.where_program_prompt(@program_prompt) if @program_prompt
+    scope = scope.where_repl_session(@repl_session) if @repl_session
+    scope = scope.where_repl_program(@repl_program) if @repl_program
+    scope = scope.where_repl_prompt(@repl_prompt) if @repl_prompt
+    scope = scope.where_job(@job) if @job
+    scope
+  end
+
+  def job_blocked_executions_scope
+    scope = policy_scope(JobBlockedExecution)
+    scope = scope.where_guest(@guest) if @guest
+    scope = scope.where_user(@user) if @user
+    scope = scope.where_program(@program) if @program
+    scope = scope.where_program_prompt(@program_prompt) if @program_prompt
+    scope = scope.where_repl_session(@repl_session) if @repl_session
+    scope = scope.where_repl_program(@repl_program) if @repl_program
+    scope = scope.where_repl_prompt(@repl_prompt) if @repl_prompt
+    scope = scope.where_job(@job) if @job
+    scope
+  end
+
+  def job_claimed_executions_scope
+    scope = policy_scope(JobClaimedExecution)
+    scope = scope.where_guest(@guest) if @guest
+    scope = scope.where_user(@user) if @user
+    scope = scope.where_program(@program) if @program
+    scope = scope.where_program_prompt(@program_prompt) if @program_prompt
+    scope = scope.where_repl_session(@repl_session) if @repl_session
+    scope = scope.where_repl_program(@repl_program) if @repl_program
+    scope = scope.where_repl_prompt(@repl_prompt) if @repl_prompt
+    scope = scope.where_job(@job) if @job
+    scope
+  end
+
+  def job_recurring_executions_scope
+    scope = policy_scope(JobRecurringExecution)
+    scope = scope.where_guest(@guest) if @guest
+    scope = scope.where_user(@user) if @user
+    scope = scope.where_program(@program) if @program
+    scope = scope.where_program_prompt(@program_prompt) if @program_prompt
+    scope = scope.where_repl_session(@repl_session) if @repl_session
+    scope = scope.where_repl_program(@repl_program) if @repl_program
+    scope = scope.where_repl_prompt(@repl_prompt) if @repl_prompt
+    scope = scope.where_job(@job) if @job
+    scope
+  end
+
+  def job_recurring_tasks_scope
+    policy_scope(JobRecurringTask)
+  end
+
   def model_class
     Job
   end
@@ -258,5 +432,24 @@ class JobsController < ApplicationController
 
   def filters
     %i[user program program_prompt repl_session repl_program repl_prompt]
+  end
+
+  def job_params
+    if admin?
+      params.expect(
+        job: %i[
+          active_job_id
+          arguments
+          class_name
+          concurrency_key
+          finished_at
+          priority
+          queue_name
+          scheduled_at
+        ]
+      )
+    else
+      {}
+    end
   end
 end

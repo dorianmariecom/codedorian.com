@@ -21,11 +21,11 @@ class NilClassPolicy < ApplicationPolicy
     false
   end
 
-  def destroy_all?
-    false
+  def delete?
+    destroy?
   end
 
-  def delete_all?
+  def destroy_all?
     false
   end
 end

@@ -1,0 +1,28 @@
+<%= form_for(show_url) do |f| %>
+  <% error = f.object.errors.include?(:error) ? f.object.error : f.object.error_json %>
+
+  <div class="p">
+    <%= f.label(:job_id, class: :label) %>
+    <%= f.number_field(:job_id, class: :input) %>
+  </div>
+
+  <div class="p" data-controller="editor">
+    <%= f.label(:error, class: :label) %>
+    <div class="border border-black rounded overflow-hidden">
+      <%= f.hidden_field(:error, value: error, data: { editor_target: :input }) %>
+      <div data-editor-target="editor"></div>
+    </div>
+    <div class="text-gray-600"><%= Faker::Internet.slug.to_json %></div>
+  </div>
+
+  <div class="p">
+    <%= f.submit(
+      submit,
+      class: "button",
+      data: {
+        controller: "bridge--button",
+        bridge__button_title_value: submit
+      }
+    ) %>
+  </div>
+<% end %>

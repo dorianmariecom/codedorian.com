@@ -16,11 +16,11 @@ class JobPolicy < ApplicationPolicy
   end
 
   def create?
-    false
+    admin?
   end
 
   def update?
-    false
+    admin?
   end
 
   def retry?
@@ -31,12 +31,12 @@ class JobPolicy < ApplicationPolicy
     admin?
   end
 
-  def delete?
+  def destroy?
     admin?
   end
 
-  def destroy?
-    admin?
+  def delete?
+    destroy?
   end
 
   def retry_all?
@@ -44,10 +44,6 @@ class JobPolicy < ApplicationPolicy
   end
 
   def discard_all?
-    admin?
-  end
-
-  def delete_all?
     admin?
   end
 

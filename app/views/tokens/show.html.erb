@@ -2,10 +2,12 @@
 
 <%= turbo_stream_from(@token) %>
 
-<div class="p">
-  <div class="text-gray-600"><%= t(".id") %></div>
-  <div class="font-bold"><%= @token.id %></div>
-</div>
+<% if @token.id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".id") %></div>
+    <div class="font-bold"><%= @token.id %></div>
+  </div>
+<% end %>
 
 <% if @token.user.present? %>
   <div class="p">
@@ -31,17 +33,22 @@
   <strong><%= @token.verified? %></strong>
 </div>
 
-<div class="p">
-  <div class="text-gray-600"><%= t(".updated_at") %></div>
-  <strong><%= local_time(@token.updated_at) %></strong>
-</div>
+<% if @token.updated_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".updated_at") %></div>
+    <strong><%= local_time(@token.updated_at) %></strong>
+  </div>
+<% end %>
 
-<div class="p">
-  <div class="text-gray-600"><%= t(".created_at") %></div>
-  <strong><%= local_time(@token.created_at) %></strong>
-</div>
+<% if @token.created_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".created_at") %></div>
+    <strong><%= local_time(@token.created_at) %></strong>
+  </div>
+<% end %>
 
 <div class="p">
   <%= link_to(t(".edit"), edit_url, class: "link") %>
-  <%= render("shared/confirm", text: t(".delete"), url: show_url) %>
+  <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+  <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
 </div>

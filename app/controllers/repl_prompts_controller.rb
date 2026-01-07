@@ -6,7 +6,7 @@ class ReplPromptsController < ApplicationController
   before_action(:load_repl_session)
   before_action(:load_repl_program)
   before_action { add_breadcrumb(key: "repl_prompts.index", path: index_url) }
-  before_action(:load_repl_prompt, only: %i[show destroy])
+  before_action(:load_repl_prompt, only: %i[show destroy delete])
 
   def index
     authorize(ReplPrompt)
@@ -21,6 +21,15 @@ class ReplPromptsController < ApplicationController
     @repl_prompt.destroy!
 
     redirect_to(index_url, notice: t(".notice"))
+  end
+
+  def delete
+    @repl_prompt.delete
+
+    redirect_to(
+      index_url,
+      notice: t(".notice", default: t("#{controller_name}.destroy.notice"))
+    )
   end
 
   def destroy_all

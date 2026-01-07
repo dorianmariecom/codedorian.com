@@ -2,10 +2,12 @@
 
 <%= turbo_stream_from(@country_code_ip_address) %>
 
-<div class="p">
-  <div class="text-gray-600"><%= t(".id") %></div>
-  <div class="font-bold"><%= @country_code_ip_address.id %></div>
-</div>
+<% if @country_code_ip_address.id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".id") %></div>
+    <div class="font-bold"><%= @country_code_ip_address.id %></div>
+  </div>
+<% end %>
 
 <% if @country_code_ip_address.ip_address.present? %>
   <div class="p">
@@ -21,19 +23,23 @@
   </div>
 <% end %>
 
-<div class="p">
-  <div class="text-gray-600"><%= t(".updated_at") %></div>
-  <div class="font-bold">
-    <%= local_time(@country_code_ip_address.updated_at) %>
+<% if @country_code_ip_address.updated_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".updated_at") %></div>
+    <div class="font-bold">
+      <%= local_time(@country_code_ip_address.updated_at) %>
+    </div>
   </div>
-</div>
+<% end %>
 
-<div class="p">
-  <div class="text-gray-600"><%= t(".created_at") %></div>
-  <div class="font-bold">
-    <%= local_time(@country_code_ip_address.created_at) %>
+<% if @country_code_ip_address.created_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".created_at") %></div>
+    <div class="font-bold">
+      <%= local_time(@country_code_ip_address.created_at) %>
+    </div>
   </div>
-</div>
+<% end %>
 
 <div class="p">
   <%= render(
@@ -47,5 +53,6 @@
 
 <div class="p">
   <%= link_to(t(".edit"), edit_url, class: "link") %>
-  <%= render("shared/confirm", text: t(".delete"), url: show_url) %>
+  <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+  <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
 </div>

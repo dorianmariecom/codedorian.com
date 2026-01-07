@@ -4,10 +4,12 @@
 
 <%= turbo_stream_from(@error_occurrence) %>
 
-<div class="p">
-  <div class="text-gray-600"><%= t(".id") %></div>
-  <div class="font-bold"><%= @error_occurrence.id %></div>
-</div>
+<% if @error_occurrence.id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".id") %></div>
+    <div class="font-bold"><%= @error_occurrence.id %></div>
+  </div>
+<% end %>
 
 <% if @error_occurrence.error.present? %>
   <div class="p">
@@ -48,17 +50,22 @@
   </div>
 <% end %>
 
-<div class="p">
-  <div class="text-gray-600"><%= t(".updated_at") %></div>
-  <div class="font-bold"><%= local_time(@error_occurrence.updated_at) %></div>
-</div>
+<% if @error_occurrence.updated_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".updated_at") %></div>
+    <div class="font-bold"><%= local_time(@error_occurrence.updated_at) %></div>
+  </div>
+<% end %>
 
-<div class="p">
-  <div class="text-gray-600"><%= t(".created_at") %></div>
-  <div class="font-bold"><%= local_time(@error_occurrence.created_at) %></div>
-</div>
+<% if @error_occurrence.created_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".created_at") %></div>
+    <div class="font-bold"><%= local_time(@error_occurrence.created_at) %></div>
+  </div>
+<% end %>
 
 <div class="p">
   <%= link_to(t(".edit"), edit_url, class: "link") %>
-  <%= render("shared/confirm", text: t(".delete"), url: show_url) %>
+  <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+  <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
 </div>

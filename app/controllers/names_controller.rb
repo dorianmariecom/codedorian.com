@@ -4,7 +4,7 @@ class NamesController < ApplicationController
   before_action(:load_guest)
   before_action(:load_user)
   before_action { add_breadcrumb(key: "names.index", path: index_url) }
-  before_action(:load_name, only: %i[show edit update destroy])
+  before_action(:load_name, only: %i[show edit update destroy delete])
 
   def index
     authorize(Name)
@@ -29,7 +29,7 @@ class NamesController < ApplicationController
   def create
     @name = authorize(scope.new(name_params))
 
-    if @name.save
+    if @name.save(context: :controller)
       log_in(@name.user)
       redirect_to(show_url, notice: t(".notice"))
     else
@@ -39,7 +39,9 @@ class NamesController < ApplicationController
   end
 
   def update
-    if @name.update(name_params)
+    @name.assign_attributes(name_params)
+
+    if @name.save(context: :controller)
       log_in(@name.user)
       redirect_to(show_url, notice: t(".notice"))
     else
@@ -52,6 +54,15 @@ class NamesController < ApplicationController
     @name.destroy!
 
     redirect_to(index_url, notice: t(".notice"))
+  end
+
+  def delete
+    @name.delete
+
+    redirect_to(
+      index_url,
+      notice: t(".notice", default: t("#{controller_name}.destroy.notice"))
+    )
   end
 
   def destroy_all

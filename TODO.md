@@ -14,3 +14,6 @@
 - pre-formatted for Time#format
 - pre-formatted for Date#format
 - formatter
+- delete + destroy
+- local_time with seconds
+- translate local_time

@@ -55,6 +55,68 @@ fr:
         primary: principal ?
         user_id: utilisateur
         verified: vérifié ?
+      job:
+        active_job_id: identifiant de tâche active
+        arguments: arguments
+        class_name: nom de la classe
+        concurrency_key: clé de concurrence
+        finished_at: terminée à
+        priority: priorité
+        queue_name: nom de la file d'attente
+        scheduled_at: prévue à
+      job_blocked_execution:
+        concurrency_key: clé de concurrence
+        expires_at: expire à
+        job_id: tâche
+        priority: priorité
+        queue_name: nom de la file d'attente
+      job_claimed_execution:
+        job_id: tâche
+        process_id: identifiant du processus
+      job_context:
+        active_job_id: identifiant de tâche active
+        context: contexte
+        job: tâche
+      job_failed_execution:
+        error: erreur
+        job_id: tâche
+      job_pause:
+        queue_name: nom de la file d'attente
+      job_process:
+        hostname: nom d'hôte
+        kind: type
+        last_heartbeat_at: dernier signal de vie
+        metadata: métadonnées
+        name: nom
+        pid: pid
+        supervisor_id: superviseur
+      job_ready_execution:
+        job_id: tâche
+        priority: priorité
+        queue_name: nom de la file d'attente
+      job_recurring_execution:
+        job_id: tâche
+        run_at: exécuter à
+        task_key: clé de tâche
+      job_recurring_task:
+        arguments: arguments
+        class_name: nom de la classe
+        command: commande
+        description: description
+        key: clé
+        priority: priorité
+        queue_name: nom de la file d'attente
+        schedule: planification
+        static: statique ?
+      job_scheduled_execution:
+        job_id: tâche
+        priority: priorité
+        queue_name: nom de la file d'attente
+        scheduled_at: prévue à
+      job_semaphore:
+        expires_at: expire à
+        key: clé
+        value: valeur
       message:
         body: corps
         from_user_id: de l'utilisateur
@@ -136,6 +198,7 @@ fr:
       autocomplete: saisie semi-automatique
       created_at: créé à
       delete: supprimer l'adresse
+      destroy: détruire l'adresse
       edit: modifier l'adresse
       id: identifiant
       primary: principal ?
@@ -167,6 +230,7 @@ fr:
     show:
       created_at: créé à
       delete: supprimer le fichier
+      destroy: détruire le fichier
       download: télécharger
       edit: modifier le fichier
       id: identifiant
@@ -230,6 +294,50 @@ fr:
     handles:
       edit: modifier
       index: identifiants
+      new: nouveau
+    job_blocked_executions:
+      edit: modifier
+      index: exécutions de tâches bloquées
+      new: nouvelle
+    job_claimed_executions:
+      edit: modifier
+      index: exécutions de tâches revendiquées
+      new: nouvelle
+    job_contexts:
+      edit: modifier
+      index: contextes de tâches
+      new: nouveau
+    job_failed_executions:
+      edit: modifier
+      index: exécutions de tâches échouées
+      new: nouvelle
+    job_pauses:
+      edit: modifier
+      index: pauses de tâches
+      new: nouvelle
+    job_processes:
+      edit: modifier
+      index: processus de tâches
+      new: nouveau
+    job_ready_executions:
+      edit: modifier
+      index: exécutions de tâches prêtes
+      new: nouvelle
+    job_recurring_executions:
+      edit: modifier
+      index: exécutions récurrentes de tâches
+      new: nouvelle
+    job_recurring_tasks:
+      edit: modifier
+      index: tâches récurrentes
+      new: nouvelle
+    job_scheduled_executions:
+      edit: modifier
+      index: exécutions de tâches programmées
+      new: nouvelle
+    job_semaphores:
+      edit: modifier
+      index: sémaphores de tâches
       new: nouveau
     jobs:
       edit: modifier
@@ -338,6 +446,7 @@ fr:
       content: contenu
       created_at: créée à
       delete: supprimer la configuration
+      destroy: détruire la configuration
       edit: modifier la configuration
       id: identifiant
       name: nom
@@ -368,6 +477,7 @@ fr:
       country_code: code pays
       created_at: créé à
       delete: supprimer le code pays adresse ip
+      destroy: détruire le code pays adresse ip
       edit: modifier le code pays adresse ip
       id: identifiant
       ip_address: adresse ip
@@ -405,6 +515,7 @@ fr:
     show:
       created_at: créé à
       delete: supprimer la donnée
+      destroy: détruire la donnée
       edit: modifier la donnée
       id: identifiant
       key: clef
@@ -434,6 +545,7 @@ fr:
     show:
       created_at: créé à
       delete: supprimer l'appareil
+      destroy: détruire l'appareil
       edit: modifier l'appareil
       id: identifiant
       platform: appareil
@@ -473,6 +585,7 @@ fr:
     show:
       created_at: créé à
       delete: supprimer l'adresse e-mail
+      destroy: détruire l'adresse e-mail
       edit: modifier l'adresse e-mail
       email_address: adresse email
       id: identifiant
@@ -506,6 +619,7 @@ fr:
       context: contexte
       created_at: créé à
       delete: supprimer l'occurence d'erreur
+      destroy: détruire l'occurence d'erreur
       edit: modifier
       error: erreur
       full_backtrace: trace complète
@@ -541,7 +655,8 @@ fr:
       title: non trouvé
     show:
       created_at: créé à
-      delete: erreur de suppression
+      delete: supprimer l'erreur
+      destroy: détruire l'erreur
       edit: modifier
       error_occurrences: occurences d'erreur
       exception_class: classe d'exception
@@ -614,7 +729,8 @@ fr:
       title: nouvelle horaire de exemples
     show:
       created_at: créé à
-      delete: supprimer la horaire des exemples
+      delete: supprimer la horaire d'exemples
+      destroy: détruire la horaire d'exemples
       edit: modifier la horaire des exemples
       example: exemple
       id: identifiant
@@ -649,7 +765,8 @@ fr:
       title: nouveau exemple
     show:
       created_at: créé à
-      delete: supprimer le exemple
+      delete: supprimer l'exemple
+      destroy: détruire l'exemple
       description: description
       edit: modifier le exemple
       example_schedules: horaires d'exemple
@@ -684,6 +801,7 @@ fr:
     show:
       created_at: créé à
       delete: supprimer l'invité
+      destroy: détruire l'invité
       edit: modifier l'invité
       id: identifiant
       updated_at: mis à jour à
@@ -717,7 +835,8 @@ fr:
       title: nouvelle identifiant
     show:
       created_at: créé à
-      delete: supprimer la identifiant
+      delete: supprimer l'identifiant
+      destroy: détruire l'identifiant
       edit: modifier la identifiant
       handle: identifiant
       id: identifiant
@@ -778,7 +897,359 @@ fr:
       removeScreenshotButtonLabel: enlever la capture d'écran
       submitButtonLabel: rapporter
       successMessageText: bug rapporté
+  job_blocked_executions:
+    create:
+      notice: exécution de tâche bloquée créée
+    destroy:
+      notice: exécution de tâche bloquée supprimée
+    edit:
+      submit: mettre à jour l'exécution de tâche bloquée
+      title: modifier l'exécution de tâche bloquée
+    index:
+      delete_all: supprimer tout
+      destroy_all: détruire tout
+      new: nouvelle exécution de tâche bloquée
+      title: exécutions de tâches bloquées
+    model:
+      to_s: job_blocked_execution#%{id}
+    new:
+      submit: créer l'exécution de tâche bloquée
+      title: nouvelle exécution de tâche bloquée
+    show:
+      concurrency_key: clé de concurrence
+      created_at: créée à
+      delete: supprimer l'exécution de tâche bloquée
+      destroy: détruire l'exécution de tâche bloquée
+      edit: modifier l'exécution de tâche bloquée
+      expires_at: expire à
+      id: identifiant
+      job: tâche
+      job_id: tâche
+      priority: priorité
+      queue_name: nom de la file d'attente
+      updated_at: mise à jour à
+    update:
+      notice: exécution de tâche bloquée mise à jour
+  job_claimed_executions:
+    create:
+      notice: exécution de tâche revendiquée créée
+    destroy:
+      notice: exécution de tâche revendiquée supprimée
+    edit:
+      submit: mettre à jour l'exécution de tâche revendiquée
+      title: modifier l'exécution de tâche revendiquée
+    index:
+      delete_all: supprimer tout
+      destroy_all: détruire tout
+      new: nouvelle exécution de tâche revendiquée
+      title: exécutions de tâches revendiquées
+    model:
+      to_s: job_claimed_execution#%{id}
+    new:
+      submit: créer l'exécution de tâche revendiquée
+      title: nouvelle exécution de tâche revendiquée
+    show:
+      created_at: créée à
+      delete: supprimer l'exécution de tâche revendiquée
+      destroy: détruire l'exécution de tâche revendiquée
+      edit: modifier l'exécution de tâche revendiquée
+      id: identifiant
+      job: tâche
+      job_id: tâche
+      process_id: processus
+      updated_at: mise à jour à
+    update:
+      notice: exécution de tâche revendiquée mise à jour
+  job_contexts:
+    create:
+      notice: contexte de tâche créé
+    destroy:
+      notice: contexte de tâche supprimé
+    edit:
+      submit: mettre à jour le contexte de tâche
+      title: modifier le contexte de tâche
+    index:
+      delete_all: supprimer tout
+      destroy_all: détruire tout
+      new: nouveau contexte de tâche
+      title: contextes de tâches
+    model:
+      invalid_json: json invalide
+      to_s: job_context#%{id}
+    new:
+      submit: créer le contexte de tâche
+      title: nouveau contexte de tâche
+    show:
+      active_job_id: identifiant de tâche active
+      context: contexte
+      created_at: créée à
+      delete: supprimer le contexte de tâche
+      destroy: détruire le contexte de tâche
+      edit: modifier le contexte de tâche
+      id: identifiant
+      job: tâche
+      updated_at: mise à jour à
+    update:
+      notice: contexte de tâche mis à jour
+  job_failed_executions:
+    create:
+      notice: exécution de tâche échouée créée
+    destroy:
+      notice: exécution de tâche échouée supprimée
+    edit:
+      submit: mettre à jour l'exécution de tâche échouée
+      title: modifier l'exécution de tâche échouée
+    index:
+      delete_all: supprimer tout
+      destroy_all: détruire tout
+      new: nouvelle exécution de tâche échouée
+      title: exécutions de tâches échouées
+    model:
+      invalid_json: json invalide
+      to_s: job_failed_execution#%{id}
+    new:
+      submit: créer l'exécution de tâche échouée
+      title: nouvelle exécution de tâche échouée
+    show:
+      created_at: créée à
+      delete: supprimer l'exécution de tâche échouée
+      destroy: détruire l'exécution de tâche échouée
+      edit: modifier l'exécution de tâche échouée
+      error: erreur
+      id: identifiant
+      job: tâche
+      job_id: tâche
+      updated_at: mise à jour à
+    update:
+      notice: exécution de tâche échouée mise à jour
+  job_pauses:
+    create:
+      notice: pause de tâche créée
+    destroy:
+      notice: pause de tâche supprimée
+    edit:
+      submit: mettre à jour la pause de tâche
+      title: modifier la pause de tâche
+    index:
+      delete_all: supprimer tout
+      destroy_all: détruire tout
+      new: nouvelle pause de tâche
+      title: pauses de tâches
+    model:
+      to_s: job_pause#%{id}
+    new:
+      submit: créer la pause de tâche
+      title: nouvelle pause de tâche
+    show:
+      created_at: créée à
+      delete: supprimer la pause de tâche
+      destroy: détruire la pause de tâche
+      edit: modifier la pause de tâche
+      id: identifiant
+      queue_name: nom de la file d'attente
+      updated_at: mise à jour à
+    update:
+      notice: pause de tâche mise à jour
+  job_processes:
+    create:
+      notice: processus de tâche créé
+    destroy:
+      notice: processus de tâche supprimé
+    edit:
+      submit: mettre à jour le processus de tâche
+      title: modifier le processus de tâche
+    index:
+      delete_all: supprimer tout
+      destroy_all: détruire tout
+      new: nouveau processus de tâche
+      title: processus de tâches
+    model:
+      invalid_json: json invalide
+      to_s: job_process#%{id}
+    new:
+      submit: créer le processus de tâche
+      title: nouveau processus de tâche
+    show:
+      created_at: créée à
+      delete: supprimer le processus de tâche
+      destroy: détruire le processus de tâche
+      edit: modifier le processus de tâche
+      hostname: nom d'hôte
+      id: identifiant
+      kind: type
+      last_heartbeat_at: dernier heartbeat à
+      metadata: métadonnées
+      name: nom
+      pid: pid
+      supervisor_id: superviseur
+      updated_at: mise à jour à
+    update:
+      notice: processus de tâche mis à jour
+  job_ready_executions:
+    create:
+      notice: exécution de tâche prête créée
+    destroy:
+      notice: exécution de tâche prête supprimée
+    edit:
+      submit: mettre à jour l'exécution de tâche prête
+      title: modifier l'exécution de tâche prête
+    index:
+      delete_all: supprimer tout
+      destroy_all: détruire tout
+      new: nouvelle exécution de tâche prête
+      title: exécutions de tâches prêtes
+    model:
+      to_s: job_ready_execution#%{id}
+    new:
+      submit: créer l'exécution de tâche prête
+      title: nouvelle exécution de tâche prête
+    show:
+      created_at: créée à
+      delete: supprimer l'exécution de tâche prête
+      destroy: détruire l'exécution de tâche prête
+      edit: modifier l'exécution de tâche prête
+      id: identifiant
+      job: tâche
+      job_id: tâche
+      priority: priorité
+      queue_name: nom de la file d'attente
+      updated_at: mise à jour à
+    update:
+      notice: exécution de tâche prête mise à jour
+  job_recurring_executions:
+    create:
+      notice: exécution récurrente de tâche créée
+    destroy:
+      notice: exécution récurrente de tâche supprimée
+    edit:
+      submit: mettre à jour l'exécution récurrente de tâche
+      title: modifier l'exécution récurrente de tâche
+    index:
+      delete_all: supprimer tout
+      destroy_all: détruire tout
+      new: nouvelle exécution récurrente de tâche
+      title: exécutions récurrentes de tâches
+    model:
+      to_s: job_recurring_execution#%{id}
+    new:
+      submit: créer l'exécution récurrente de tâche
+      title: nouvelle exécution récurrente de tâche
+    show:
+      created_at: créée à
+      delete: supprimer l'exécution récurrente de tâche
+      destroy: détruire l'exécution récurrente de tâche
+      edit: modifier l'exécution récurrente de tâche
+      id: identifiant
+      job: tâche
+      job_id: tâche
+      run_at: exécuter à
+      task_key: clé de tâche
+      updated_at: mise à jour à
+    update:
+      notice: exécution récurrente de tâche mise à jour
+  job_recurring_tasks:
+    create:
+      notice: tâche récurrente créée
+    destroy:
+      notice: tâche récurrente supprimée
+    edit:
+      submit: mettre à jour la tâche récurrente
+      title: modifier la tâche récurrente
+    index:
+      delete_all: supprimer tout
+      destroy_all: détruire tout
+      new: nouvelle tâche récurrente
+      title: tâches récurrentes
+    model:
+      invalid_json: json invalide
+      to_s: job_recurring_task#%{id}
+    new:
+      submit: créer la tâche récurrente
+      title: nouvelle tâche récurrente
+    show:
+      arguments: arguments
+      class_name: nom de la classe
+      command: commande
+      created_at: créée à
+      delete: supprimer la tâche récurrente
+      destroy: détruire la tâche récurrente
+      description: description
+      edit: modifier la tâche récurrente
+      id: identifiant
+      key: clé
+      priority: priorité
+      queue_name: nom de la file d'attente
+      schedule: planification
+      static: statique ?
+      updated_at: mise à jour à
+    update:
+      notice: tâche récurrente mise à jour
+  job_scheduled_executions:
+    create:
+      notice: exécution de tâche programmée créée
+    destroy:
+      notice: exécution de tâche programmée supprimée
+    edit:
+      submit: mettre à jour l'exécution de tâche programmée
+      title: modifier l'exécution de tâche programmée
+    index:
+      delete_all: supprimer tout
+      destroy_all: détruire tout
+      new: nouvelle exécution de tâche programmée
+      title: exécutions de tâches programmées
+    model:
+      to_s: job_scheduled_execution#%{id}
+    new:
+      submit: créer l'exécution de tâche programmée
+      title: nouvelle exécution de tâche programmée
+    show:
+      created_at: créée à
+      delete: supprimer l'exécution de tâche programmée
+      destroy: détruire l'exécution de tâche programmée
+      edit: modifier l'exécution de tâche programmée
+      id: identifiant
+      job: tâche
+      job_id: tâche
+      priority: priorité
+      queue_name: nom de la file d'attente
+      scheduled_at: prévue à
+      updated_at: mise à jour à
+    update:
+      notice: exécution de tâche programmée mise à jour
+  job_semaphores:
+    create:
+      notice: sémaphore de tâche créé
+    destroy:
+      notice: sémaphore de tâche supprimé
+    edit:
+      submit: mettre à jour le sémaphore de tâche
+      title: modifier le sémaphore de tâche
+    index:
+      delete_all: supprimer tout
+      destroy_all: détruire tout
+      new: nouveau sémaphore de tâche
+      title: sémaphores de tâches
+    model:
+      invalid_json: json invalide
+      to_s: job_semaphore#%{id}
+    new:
+      submit: créer le sémaphore de tâche
+      title: nouveau sémaphore de tâche
+    show:
+      created_at: créée à
+      delete: supprimer le sémaphore de tâche
+      destroy: détruire le sémaphore de tâche
+      edit: modifier le sémaphore de tâche
+      expires_at: expire à
+      id: identifiant
+      key: clé
+      updated_at: mise à jour à
+      value: valeur
+    update:
+      notice: sémaphore de tâche mis à jour
   jobs:
+    create:
+      notice: tâche créée
     delete:
       notice: tâche supprimée
     delete_all:
@@ -791,12 +1262,66 @@ fr:
       notice: tâche abandonnée
     discard_all:
       notice: tâches supprimées
+    edit:
+      submit: mettre à jour la tâche
+      title: modifier la tâche
     index:
       delete_all: supprimer tout
       destroy_all: détruire tout
       discard_all: abandonner tout
+      job_blocked_executions:
+        one: 1 exécution de tâche bloquée
+        other: "%{count} exécutions de tâches bloquées"
+        zero: 0 exécutions de tâches bloquées
+      job_claimed_executions:
+        one: 1 exécution de tâche revendiquée
+        other: "%{count} exécutions de tâches revendiquées"
+        zero: 0 exécutions de tâches revendiquées
+      job_contexts:
+        one: 1 contexte de tâche
+        other: "%{count} contextes de tâches"
+        zero: 0 contextes de tâches
+      job_failed_executions:
+        one: 1 exécution de tâche échouée
+        other: "%{count} exécutions de tâches échouées"
+        zero: 0 exécutions de tâches échouées
+      job_pauses:
+        one: 1 pause de tâche
+        other: "%{count} pauses de tâches"
+        zero: 0 pauses de tâches
+      job_processes:
+        one: 1 processus de tâche
+        other: "%{count} processus de tâches"
+        zero: 0 processus de tâches
+      job_ready_executions:
+        one: 1 exécution de tâche prête
+        other: "%{count} exécutions de tâches prêtes"
+        zero: 0 exécutions de tâches prêtes
+      job_recurring_executions:
+        one: 1 exécution récurrente de tâche
+        other: "%{count} exécutions récurrentes de tâches"
+        zero: 0 exécutions récurrentes de tâches
+      job_recurring_tasks:
+        one: 1 tâche récurrente
+        other: "%{count} tâches récurrentes"
+        zero: 0 tâches récurrentes
+      job_scheduled_executions:
+        one: 1 exécution de tâche programmée
+        other: "%{count} exécutions de tâches programmées"
+        zero: 0 exécutions de tâches programmées
+      job_semaphores:
+        one: 1 sémaphore de tâche
+        other: "%{count} sémaphores de tâches"
+        zero: 0 sémaphores de tâches
+      new: nouvelle tâche
       retry_all: réessayer tout
       title: tâches
+    model:
+      invalid_json: json invalide
+      to_s: tâche#%{id}
+    new:
+      submit: créer la tâche
+      title: nouvelle tâche
     retry:
       notice: tâche retentée
     retry_all:
@@ -809,13 +1334,23 @@ fr:
       delete: supprimer la tâche
       destroy: détruire la tâche
       discard: abandonner la tâche
+      edit: modifier la tâche
       finished_at: terminée à
       id: identifiant
+      job_blocked_executions: exécutions de tâches bloquées
+      job_claimed_executions: exécutions de tâches revendiquées
+      job_contexts: contextes de tâches
+      job_failed_executions: exécutions de tâches échouées
+      job_ready_executions: exécutions de tâches prêtes
+      job_recurring_executions: exécutions récurrentes de tâches
+      job_scheduled_executions: exécutions de tâches programmées
       priority: priorité
       queue_name: nom de la file d'attente
       retry: réessayer la tâche
       scheduled_at: prévue à
       updated_at: mise à jour à
+    update:
+      notice: tâche mise à jour
   layouts:
     application:
       feedback: bug ?
@@ -909,6 +1444,7 @@ fr:
       content: contenu
       created_at: créé à
       delete: supprimer le message
+      destroy: détruire le message
       edit: modifier le message
       from_user: de l'utilisateur
       id: identifiant
@@ -948,6 +1484,7 @@ fr:
     show:
       created_at: créé à
       delete: supprimer le nom
+      destroy: détruire le nom
       edit: modifier le nom
       family_name: nom de famille
       given_name: prénom
@@ -1000,6 +1537,7 @@ fr:
     show:
       created_at: créé à
       delete: supprimer le mot de passe
+      destroy: détruire le mot de passe
       edit: modifier le mot de passe
       hint: indice
       id: identifiant
@@ -1039,6 +1577,7 @@ fr:
     show:
       created_at: créé à
       delete: supprimer le numéro de téléphone
+      destroy: détruire le numéro de téléphone
       edit: modifier le numéro de téléphone
       id: identifiant
       phone_number: numéro de téléphone
@@ -1065,7 +1604,8 @@ fr:
       to_s: exécution_du_programme#%{id}
     show:
       created_at: créé à
-      delete: supprimer l'exécution du programme
+      delete: supprimer l'exécution de programme
+      destroy: détruire l'exécution de programme
       error: erreur
       error_app_backtrace: erreur de trace d'application
       error_backtrace: trace d'erreur
@@ -1135,7 +1675,8 @@ fr:
       schedule_once_html: commence %{local_time}, ne se répète pas
     show:
       created_at: créé à
-      delete: supprimer l'invite du programme
+      delete: supprimer l'horaire d'invite de programme
+      destroy: détruire l'horaire d'invite de programme
       edit: modifier le programme d'invite de programmation
       id: identifiant
       interval: intervalle
@@ -1169,7 +1710,8 @@ fr:
       to_s: invite_de_programme#%{id}
     show:
       created_at: créé à
-      delete: invite de suppression du programme
+      delete: supprimer l'invite de programme
+      destroy: détruire l'invite de programme
       error: erreur
       error_app_backtrace: erreur de trace d'application
       error_backtrace: trace d'erreur
@@ -1246,7 +1788,8 @@ fr:
       schedule_once_html: commence %{local_time}, ne se répète pas
     show:
       created_at: créé à
-      delete: supprimer la horaire des programmes
+      delete: supprimer l'horaire de programme
+      destroy: détruire l'horaire de programme
       edit: modifier la horaire des programmes
       id: identifiant
       interval: intervalle
@@ -1332,6 +1875,7 @@ fr:
     show:
       created_at: créé à
       delete: supprimer le programme
+      destroy: détruire le programme
       edit: modifier le programme
       evaluate: évaluer
       id: identifiant
@@ -1374,7 +1918,8 @@ fr:
     show:
       context: contexte
       created_at: créée à
-      delete: supprimer l'exécution du terminal
+      delete: supprimer l'exécution de terminal
+      destroy: détruire l'exécution de terminal
       error: erreur
       error_app_backtrace: erreur de trace d'application
       error_backtrace: trace d'erreur
@@ -1422,6 +1967,7 @@ fr:
     show:
       created_at: créé à
       delete: supprimer le programme de terminal
+      destroy: détruire le programme de terminal
       edit: modifier le programme de terminal
       id: identifiant
       input: entrée
@@ -1452,6 +1998,7 @@ fr:
     show:
       created_at: créé à
       delete: supprimer l'invite de terminal
+      destroy: détruire l'invite de terminal
       edit: modifier l'invite de terminal
       error: erreur
       error_app_backtrace: erreur de trace d'application
@@ -1502,7 +2049,8 @@ fr:
       title: nouveau terminal
     show:
       created_at: créé à
-      delete: supprimer le terminal
+      delete: supprimer la session de terminal
+      destroy: détruire la session de terminal
       edit: modifier le terminal
       evaluate: évaluer
       evaluate_all: évaluer tout
@@ -1663,6 +2211,17 @@ fr:
       examples: exemples
       guests: invités
       handles: identifiants
+      job_blocked_executions: exécutions de tâches bloquées
+      job_claimed_executions: exécutions de tâches revendiquées
+      job_contexts: contextes de tâches
+      job_failed_executions: exécutions de tâches échouées
+      job_pauses: pauses de tâches
+      job_processes: processus de tâches
+      job_ready_executions: exécutions de tâches prêtes
+      job_recurring_executions: exécutions récurrentes de tâches
+      job_recurring_tasks: tâches récurrentes
+      job_scheduled_executions: exécutions de tâches programmées
+      job_semaphores: sémaphores de tâches
       jobs: tâches
       messages: messages
       names: noms
@@ -1776,6 +2335,7 @@ fr:
     show:
       created_at: créé à
       delete: supprimer le fuseau horaire
+      destroy: détruire le fuseau horaire
       edit: modifier le fuseau horaire
       id: identifiant
       primary: principal ?
@@ -1806,6 +2366,7 @@ fr:
     show:
       created_at: créé à
       delete: supprimer le jeton
+      destroy: détruire le jeton
       edit: modifier le jeton
       id: identifiant
       primary: principal ?
@@ -1843,6 +2404,7 @@ fr:
       admin: admin
       created_at: créé à
       delete: supprimer l'utilisateur
+      destroy: détruire l'utilisateur
       device: appareil
       edit: modifier l'utilisateur
       email_address: adresse email

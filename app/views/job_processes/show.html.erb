@@ -1,0 +1,81 @@
+<% content_for(:title, @job_process) %>
+
+<%= turbo_stream_from(@job_process) %>
+
+<% if @job_process.id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".id") %></div>
+    <div class="font-bold"><%= @job_process.id %></div>
+  </div>
+<% end %>
+
+<% if @job_process.name.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".name") %></div>
+    <div class="font-bold"><%= @job_process.name %></div>
+  </div>
+<% end %>
+
+<% if @job_process.hostname.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".hostname") %></div>
+    <div class="font-bold"><%= @job_process.hostname %></div>
+  </div>
+<% end %>
+
+<% if @job_process.kind.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".kind") %></div>
+    <div class="font-bold"><%= @job_process.kind %></div>
+  </div>
+<% end %>
+
+<% if @job_process.pid.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".pid") %></div>
+    <div class="font-bold"><%= @job_process.pid %></div>
+  </div>
+<% end %>
+
+<% if @job_process.supervisor_id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".supervisor_id") %></div>
+    <div class="font-bold"><%= @job_process.supervisor_id %></div>
+  </div>
+<% end %>
+
+<% if @job_process.last_heartbeat_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".last_heartbeat_at") %></div>
+    <div class="font-bold">
+      <%= local_time(@job_process.last_heartbeat_at) %>
+    </div>
+  </div>
+<% end %>
+
+<% if @job_process.metadata.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".metadata") %></div>
+    <div class="code"><%= @job_process.metadata_json %></div>
+  </div>
+<% end %>
+
+<% if @job_process.updated_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".updated_at") %></div>
+    <div class="font-bold"><%= local_time(@job_process.updated_at) %></div>
+  </div>
+<% end %>
+
+<% if @job_process.created_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".created_at") %></div>
+    <div class="font-bold"><%= local_time(@job_process.created_at) %></div>
+  </div>
+<% end %>
+
+<div class="p">
+  <%= link_to(t(".edit"), edit_url, class: "link") %>
+  <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+  <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
+</div>

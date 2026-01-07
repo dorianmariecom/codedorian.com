@@ -7,7 +7,10 @@ class ProgramSchedulesController < ApplicationController
   before_action do
     add_breadcrumb(key: "program_schedules.index", path: index_url)
   end
-  before_action(:load_program_schedule, only: %i[show edit update destroy])
+  before_action(
+    :load_program_schedule,
+    only: %i[show edit update destroy delete]
+  )
 
   def index
     authorize(ProgramSchedule)
@@ -31,7 +34,7 @@ class ProgramSchedulesController < ApplicationController
   def create
     @program_schedule = authorize(scope.new(program_schedule_params))
 
-    if @program_schedule.save
+    if @program_schedule.save(context: :controller)
       log_in(@program_schedule.user)
       redirect_to(show_url, notice: t(".notice"))
     else
@@ -41,7 +44,9 @@ class ProgramSchedulesController < ApplicationController
   end
 
   def update
-    if @program_schedule.update(program_schedule_params)
+    @program_schedule.assign_attributes(program_schedule_params)
+
+    if @program_schedule.save(context: :controller)
       log_in(@program_schedule.user)
       redirect_to(show_url, notice: t(".notice"))
     else
@@ -54,6 +59,15 @@ class ProgramSchedulesController < ApplicationController
     @program_schedule.destroy!
 
     redirect_to(index_url, notice: t(".notice"))
+  end
+
+  def delete
+    @program_schedule.delete
+
+    redirect_to(
+      index_url,
+      notice: t(".notice", default: t("#{controller_name}.destroy.notice"))
+    )
   end
 
   def destroy_all

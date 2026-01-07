@@ -11,6 +11,13 @@ class Job < SolidQueue::Job
     inverse_of: :job
   )
 
+  has_many(:job_blocked_executions, dependent: :destroy)
+  has_many(:job_claimed_executions, dependent: :destroy)
+  has_many(:job_failed_executions, dependent: :destroy)
+  has_many(:job_ready_executions, dependent: :destroy)
+  has_many(:job_recurring_executions, dependent: :destroy)
+  has_many(:job_scheduled_executions, dependent: :destroy)
+
   %i[
     address
     attachment
@@ -42,12 +49,13 @@ class Job < SolidQueue::Job
     user
   ].each do |model|
     scope :"where_#{model}",
-          ->(instance) do
-            joins(:job_contexts).where(<<~SQL.squish, instance.try(:id))
+          ->(instance) { joins(:job_contexts).where(<<~SQL.squish, instance) }
       job_contexts.context->'#{model}'->>'id' = ?
     SQL
-          end
   end
+
+  validate { can!(:update, :job) }
+  validate(:parse_and_validate_arguments, on: :controller)
 
   def self.search_fields
     {
@@ -104,7 +112,13 @@ class Job < SolidQueue::Job
   rescue SolidQueue::Execution::UndiscardableError
   end
 
-  def pretty_json_arguments
+  def parse_and_validate_arguments
+    self.arguments = JSON.parse(arguments.to_s)
+  rescue JSON::ParserError
+    errors.add(:arguments, t("invalid_json"))
+  end
+
+  def arguments_json
     JSON.pretty_generate(arguments)
   end
 
@@ -116,12 +130,17 @@ class Job < SolidQueue::Job
     Truncate.strip(queue_name)
   end
 
+  def concurrency_key_sample
+    Truncate.strip(concurrency_key)
+  end
+
   def arguments_sample
     Truncate.strip(arguments.to_json)
   end
 
   def to_s
     class_name_sample.presence || queue_name_sample.presence ||
-      arguments_sample.presence || t("to_s", id: id)
+      concurrency_key_sample.presence || arguments_sample.presence ||
+      t("to_s", id: id)
   end
 end

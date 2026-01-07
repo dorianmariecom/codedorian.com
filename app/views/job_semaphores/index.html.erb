@@ -1,0 +1,20 @@
+<%= turbo_stream_from(@job_semaphores) %>
+
+<div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
+
+<%= render("shared/search") %>
+
+<turbo-frame id="search" target="_top">
+  <% if @job_semaphores.any? %>
+    <div class="p">
+      <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
+      <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "job_semaphores/job_semaphore",
+    collection: @job_semaphores,
+    as: :job_semaphore
+  ) %>
+</turbo-frame>

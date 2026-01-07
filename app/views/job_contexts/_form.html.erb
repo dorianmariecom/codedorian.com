@@ -1,0 +1,28 @@
+<%= form_for(show_url) do |f| %>
+  <% context = f.object.errors.include?(:context) ? f.object.context : f.object.context_json %>
+
+  <div class="p">
+    <%= f.label(:active_job_id, class: :label) %>
+    <%= f.text_field(:active_job_id, class: :input) %>
+  </div>
+
+  <div class="p" data-controller="editor">
+    <%= f.label(:context, class: :label) %>
+    <div class="border border-black rounded overflow-hidden">
+      <%= f.hidden_field(:context, value: context, data: { editor_target: :input }) %>
+      <div data-editor-target="editor"></div>
+    </div>
+    <div class="text-gray-600"><%= Faker::Internet.slug.to_json %></div>
+  </div>
+
+  <div class="p">
+    <%= f.submit(
+      submit,
+      class: "button",
+      data: {
+        controller: "bridge--button",
+        bridge__button_title_value: submit
+      }
+    ) %>
+  </div>
+<% end %>

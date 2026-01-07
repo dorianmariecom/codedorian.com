@@ -6,7 +6,7 @@ class EmailAddressesController < ApplicationController
   before_action do
     add_breadcrumb(key: "email_addresses.index", path: index_url)
   end
-  before_action(:load_email_address, only: %i[show edit update destroy])
+  before_action(:load_email_address, only: %i[show edit update destroy delete])
 
   def index
     authorize(EmailAddress)
@@ -33,7 +33,7 @@ class EmailAddressesController < ApplicationController
   def create
     @email_address = authorize(scope.new(email_address_params))
 
-    if @email_address.save
+    if @email_address.save(context: :controller)
       log_in(@email_address.user)
       redirect_to(show_url, notice: t(".notice"))
     else
@@ -43,7 +43,9 @@ class EmailAddressesController < ApplicationController
   end
 
   def update
-    if @email_address.update(email_address_params)
+    @email_address.assign_attributes(email_address_params)
+
+    if @email_address.save(context: :controller)
       log_in(@email_address.user)
       redirect_to(show_url, notice: t(".notice"))
     else
@@ -56,6 +58,15 @@ class EmailAddressesController < ApplicationController
     @email_address.destroy!
 
     redirect_to(index_url, notice: t(".notice"))
+  end
+
+  def delete
+    @email_address.delete
+
+    redirect_to(
+      index_url,
+      notice: t(".notice", default: t("#{controller_name}.destroy.notice"))
+    )
   end
 
   def destroy_all

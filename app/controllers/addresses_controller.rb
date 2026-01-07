@@ -4,7 +4,7 @@ class AddressesController < ApplicationController
   before_action(:load_guest)
   before_action(:load_user)
   before_action { add_breadcrumb(key: "addresses.index", path: index_url) }
-  before_action(:load_address, only: %i[show edit update destroy])
+  before_action(:load_address, only: %i[show edit update destroy delete])
 
   def index
     authorize(Address)
@@ -54,6 +54,15 @@ class AddressesController < ApplicationController
     @address.destroy!
 
     redirect_to(index_url, notice: t(".notice"))
+  end
+
+  def delete
+    @address.delete
+
+    redirect_to(
+      index_url,
+      notice: t(".notice", default: t("#{controller_name}.destroy.notice"))
+    )
   end
 
   def destroy_all

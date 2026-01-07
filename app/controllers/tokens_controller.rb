@@ -3,7 +3,7 @@
 class TokensController < ApplicationController
   before_action(:load_user)
   before_action { add_breadcrumb(key: "tokens.index", path: index_url) }
-  before_action(:load_token, only: %i[show edit update destroy])
+  before_action(:load_token, only: %i[show edit update destroy delete])
 
   def index
     authorize(Token)
@@ -28,7 +28,7 @@ class TokensController < ApplicationController
   def create
     @token = authorize(scope.new(token_params))
 
-    if @token.save
+    if @token.save(context: :controller)
       log_in(@token.user)
       redirect_to(show_url, notice: t(".notice"))
     else
@@ -38,7 +38,9 @@ class TokensController < ApplicationController
   end
 
   def update
-    if @token.update(token_params)
+    @token.assign_attributes(token_params)
+
+    if @token.save(context: :controller)
       log_in(@token.user)
       redirect_to(show_url, notice: t(".notice"))
     else
@@ -51,6 +53,15 @@ class TokensController < ApplicationController
     @token.destroy!
 
     redirect_to(index_url, notice: t(".notice"))
+  end
+
+  def delete
+    @token.delete
+
+    redirect_to(
+      index_url,
+      notice: t(".notice", default: t("#{controller_name}.destroy.notice"))
+    )
   end
 
   def destroy_all

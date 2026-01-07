@@ -41,23 +41,11 @@ class MessagePolicy < ApplicationPolicy
     from_current_user? || to_current_user? || admin?
   end
 
+  def delete?
+    destroy?
+  end
+
   def destroy_all?
     true
-  end
-
-  def delete_all?
-    true
-  end
-
-  private
-
-  delegate :from_user, :to_user, to: :record
-
-  def from_current_user?
-    current_user? && from_user && current_user == from_user
-  end
-
-  def to_current_user?
-    current_user? && to_user && current_user == to_user
   end
 end

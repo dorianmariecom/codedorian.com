@@ -39,6 +39,10 @@ class ProgramPolicy < ApplicationPolicy
     owner? || admin?
   end
 
+  def delete?
+    destroy?
+  end
+
   def schedule_all?
     true
   end
@@ -48,10 +52,6 @@ class ProgramPolicy < ApplicationPolicy
   end
 
   def destroy_all?
-    true
-  end
-
-  def delete_all?
     true
   end
 end

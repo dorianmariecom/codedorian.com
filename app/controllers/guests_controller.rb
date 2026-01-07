@@ -2,7 +2,7 @@
 
 class GuestsController < ApplicationController
   before_action { add_breadcrumb(key: "guests.index", path: index_url) }
-  before_action(:load_guest, only: %i[show edit update destroy])
+  before_action(:load_guest, only: %i[show edit update destroy delete])
 
   def index
     authorize(Guest)
@@ -24,7 +24,7 @@ class GuestsController < ApplicationController
   end
 
   def create
-    @guest = authorize(scope.new(guest_params))
+    @guest = authorize(scope.new(guest_params.merge(id: nil)))
 
     Current.with(guest: @guest) do
       if @guest.save(context: :controller)
@@ -55,6 +55,17 @@ class GuestsController < ApplicationController
     log_out(@guest)
 
     redirect_to(root_path, notice: t(".notice"))
+  end
+
+  def delete
+    @guest.delete
+
+    log_out(@guest)
+
+    redirect_to(
+      root_path,
+      notice: t(".notice", default: t("#{controller_name}.destroy.notice"))
+    )
   end
 
   def destroy_all
@@ -108,6 +119,6 @@ class GuestsController < ApplicationController
   end
 
   def guest_params
-    { id: nil }
+    {}
   end
 end

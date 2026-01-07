@@ -1,0 +1,37 @@
+<% content_for(:title, @job_pause) %>
+
+<%= turbo_stream_from(@job_pause) %>
+
+<% if @job_pause.id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".id") %></div>
+    <div class="font-bold"><%= @job_pause.id %></div>
+  </div>
+<% end %>
+
+<% if @job_pause.queue_name.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".queue_name") %></div>
+    <div class="font-bold"><%= @job_pause.queue_name %></div>
+  </div>
+<% end %>
+
+<% if @job_pause.updated_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".updated_at") %></div>
+    <div class="font-bold"><%= local_time(@job_pause.updated_at) %></div>
+  </div>
+<% end %>
+
+<% if @job_pause.created_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".created_at") %></div>
+    <div class="font-bold"><%= local_time(@job_pause.created_at) %></div>
+  </div>
+<% end %>
+
+<div class="p">
+  <%= link_to(t(".edit"), edit_url, class: "link") %>
+  <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+  <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
+</div>

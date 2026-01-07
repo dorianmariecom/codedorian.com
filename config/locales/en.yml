@@ -55,6 +55,68 @@ en:
         primary: primary?
         user_id: user
         verified: verified?
+      job:
+        active_job_id: active job id
+        arguments: arguments
+        class_name: class name
+        concurrency_key: concurrency key
+        finished_at: finished at
+        priority: priority
+        queue_name: queue name
+        scheduled_at: scheduled at
+      job_blocked_execution:
+        concurrency_key: concurrency key
+        expires_at: expires at
+        job_id: job
+        priority: priority
+        queue_name: queue name
+      job_claimed_execution:
+        job_id: job
+        process_id: process id
+      job_context:
+        active_job_id: active job id
+        context: context
+        job: job
+      job_failed_execution:
+        error: error
+        job_id: job
+      job_pause:
+        queue_name: queue name
+      job_process:
+        hostname: hostname
+        kind: kind
+        last_heartbeat_at: last heartbeat at
+        metadata: metadata
+        name: name
+        pid: pid
+        supervisor_id: supervisor
+      job_ready_execution:
+        job_id: job
+        priority: priority
+        queue_name: queue name
+      job_recurring_execution:
+        job_id: job
+        run_at: run at
+        task_key: task key
+      job_recurring_task:
+        arguments: arguments
+        class_name: class name
+        command: command
+        description: description
+        key: key
+        priority: priority
+        queue_name: queue name
+        schedule: schedule
+        static: static?
+      job_scheduled_execution:
+        job_id: job
+        priority: priority
+        queue_name: queue name
+        scheduled_at: scheduled at
+      job_semaphore:
+        expires_at: expires at
+        key: key
+        value: value
       message:
         body: body
         from_user_id: from user
@@ -136,6 +198,7 @@ en:
       autocomplete: autocomplete
       created_at: created at
       delete: delete address
+      destroy: destroy address
       edit: edit address
       id: id
       primary: primary?
@@ -167,6 +230,7 @@ en:
     show:
       created_at: created at
       delete: delete file
+      destroy: destroy file
       download: download
       edit: edit file
       id: id
@@ -230,6 +294,50 @@ en:
     handles:
       edit: edit
       index: handles
+      new: new
+    job_blocked_executions:
+      edit: edit
+      index: job blocked executions
+      new: new
+    job_claimed_executions:
+      edit: edit
+      index: job claimed executions
+      new: new
+    job_contexts:
+      edit: edit
+      index: job contexts
+      new: new
+    job_failed_executions:
+      edit: edit
+      index: job failed executions
+      new: new
+    job_pauses:
+      edit: edit
+      index: job pauses
+      new: new
+    job_processes:
+      edit: edit
+      index: job processes
+      new: new
+    job_ready_executions:
+      edit: edit
+      index: job ready executions
+      new: new
+    job_recurring_executions:
+      edit: edit
+      index: job recurring executions
+      new: new
+    job_recurring_tasks:
+      edit: edit
+      index: job recurring tasks
+      new: new
+    job_scheduled_executions:
+      edit: edit
+      index: job scheduled executions
+      new: new
+    job_semaphores:
+      edit: edit
+      index: job semaphores
       new: new
     jobs:
       edit: edit
@@ -338,6 +446,7 @@ en:
       content: content
       created_at: created at
       delete: delete configuration
+      destroy: destroy configuration
       edit: edit configuration
       id: id
       name: name
@@ -368,6 +477,7 @@ en:
       country_code: country code
       created_at: created at
       delete: delete country code ip address
+      destroy: destroy country code ip address
       edit: edit country code ip address
       id: id
       ip_address: ip address
@@ -405,6 +515,7 @@ en:
     show:
       created_at: created at
       delete: delete datum
+      destroy: destroy datum
       edit: edit datum
       id: id
       key: key
@@ -434,6 +545,7 @@ en:
     show:
       created_at: created at
       delete: delete device
+      destroy: destroy device
       edit: edit device
       id: id
       platform: platform
@@ -473,6 +585,7 @@ en:
     show:
       created_at: created at
       delete: delete email address
+      destroy: destroy email address
       edit: edit email address
       email_address: email address
       id: id
@@ -506,6 +619,7 @@ en:
       context: context
       created_at: created at
       delete: delete error occurrence
+      destroy: destroy error occurrence
       edit: edit
       error: error
       full_backtrace: full backtrace
@@ -542,6 +656,7 @@ en:
     show:
       created_at: created at
       delete: delete error
+      destroy: destroy error
       edit: edit
       error_occurrences: error occurrences
       exception_class: exception class
@@ -615,6 +730,7 @@ en:
     show:
       created_at: created at
       delete: delete example schedule
+      destroy: destroy example schedule
       edit: edit example schedule
       example: example
       id: id
@@ -650,6 +766,7 @@ en:
     show:
       created_at: created at
       delete: delete example
+      destroy: destroy example
       description: description
       edit: edit example
       example_schedules: example schedules
@@ -684,6 +801,7 @@ en:
     show:
       created_at: created at
       delete: delete guest
+      destroy: destroy guest
       edit: edit guest
       id: id
       updated_at: updated at
@@ -718,6 +836,7 @@ en:
     show:
       created_at: created at
       delete: delete handle
+      destroy: destroy handle
       edit: edit handle
       handle: handle
       id: id
@@ -778,7 +897,359 @@ en:
       removeScreenshotButtonLabel: remove screenshot
       submitButtonLabel: report
       successMessageText: bug reported
+  job_blocked_executions:
+    create:
+      notice: job blocked execution created
+    destroy:
+      notice: job blocked execution deleted
+    edit:
+      submit: update job blocked execution
+      title: edit job blocked execution
+    index:
+      delete_all: delete all
+      destroy_all: destroy all
+      new: new job blocked execution
+      title: job blocked executions
+    model:
+      to_s: job_blocked_execution#%{id}
+    new:
+      submit: create job blocked execution
+      title: new job blocked execution
+    show:
+      concurrency_key: concurrency key
+      created_at: created at
+      delete: delete job blocked execution
+      destroy: destroy job blocked execution
+      edit: edit job blocked execution
+      expires_at: expires at
+      id: id
+      job: job
+      job_id: job
+      priority: priority
+      queue_name: queue name
+      updated_at: updated at
+    update:
+      notice: job blocked execution updated
+  job_claimed_executions:
+    create:
+      notice: job claimed execution created
+    destroy:
+      notice: job claimed execution deleted
+    edit:
+      submit: update job claimed execution
+      title: edit job claimed execution
+    index:
+      delete_all: delete all
+      destroy_all: destroy all
+      new: new job claimed execution
+      title: job claimed executions
+    model:
+      to_s: job_claimed_execution#%{id}
+    new:
+      submit: create job claimed execution
+      title: new job claimed execution
+    show:
+      created_at: created at
+      delete: delete job claimed execution
+      destroy: destroy job claimed execution
+      edit: edit job claimed execution
+      id: id
+      job: job
+      job_id: job
+      process_id: process
+      updated_at: updated at
+    update:
+      notice: job claimed execution updated
+  job_contexts:
+    create:
+      notice: job context created
+    destroy:
+      notice: job context deleted
+    edit:
+      submit: update job context
+      title: edit job context
+    index:
+      delete_all: delete all
+      destroy_all: destroy all
+      new: new job context
+      title: job contexts
+    model:
+      invalid_json: invalid json
+      to_s: job_context#%{id}
+    new:
+      submit: create job context
+      title: new job context
+    show:
+      active_job_id: active job id
+      context: context
+      created_at: created at
+      delete: delete job context
+      destroy: destroy job context
+      edit: edit job context
+      id: id
+      job: job
+      updated_at: updated at
+    update:
+      notice: job context updated
+  job_failed_executions:
+    create:
+      notice: job failed execution created
+    destroy:
+      notice: job failed execution deleted
+    edit:
+      submit: update job failed execution
+      title: edit job failed execution
+    index:
+      delete_all: delete all
+      destroy_all: destroy all
+      new: new job failed execution
+      title: job failed executions
+    model:
+      invalid_json: invalid json
+      to_s: job_failed_execution#%{id}
+    new:
+      submit: create job failed execution
+      title: new job failed execution
+    show:
+      created_at: created at
+      delete: delete job failed execution
+      destroy: destroy job failed execution
+      edit: edit job failed execution
+      error: error
+      id: id
+      job: job
+      job_id: job
+      updated_at: updated at
+    update:
+      notice: job failed execution updated
+  job_pauses:
+    create:
+      notice: job pause created
+    destroy:
+      notice: job pause deleted
+    edit:
+      submit: update job pause
+      title: edit job pause
+    index:
+      delete_all: delete all
+      destroy_all: destroy all
+      new: new job pause
+      title: job pauses
+    model:
+      to_s: job_pause#%{id}
+    new:
+      submit: create job pause
+      title: new job pause
+    show:
+      created_at: created at
+      delete: delete job pause
+      destroy: destroy job pause
+      edit: edit job pause
+      id: id
+      queue_name: queue name
+      updated_at: updated at
+    update:
+      notice: job pause updated
+  job_processes:
+    create:
+      notice: job process created
+    destroy:
+      notice: job process deleted
+    edit:
+      submit: update job process
+      title: edit job process
+    index:
+      delete_all: delete all
+      destroy_all: destroy all
+      new: new job process
+      title: job processes
+    model:
+      invalid_json: invalid json
+      to_s: job_process#%{id}
+    new:
+      submit: create job process
+      title: new job process
+    show:
+      created_at: created at
+      delete: delete job process
+      destroy: destroy job process
+      edit: edit job process
+      hostname: hostname
+      id: id
+      kind: kind
+      last_heartbeat_at: last heartbeat at
+      metadata: metadata
+      name: name
+      pid: pid
+      supervisor_id: supervisor
+      updated_at: updated at
+    update:
+      notice: job process updated
+  job_ready_executions:
+    create:
+      notice: job ready execution created
+    destroy:
+      notice: job ready execution deleted
+    edit:
+      submit: update job ready execution
+      title: edit job ready execution
+    index:
+      delete_all: delete all
+      destroy_all: destroy all
+      new: new job ready execution
+      title: job ready executions
+    model:
+      to_s: job_ready_execution#%{id}
+    new:
+      submit: create job ready execution
+      title: new job ready execution
+    show:
+      created_at: created at
+      delete: delete job ready execution
+      destroy: destroy job ready execution
+      edit: edit job ready execution
+      id: id
+      job: job
+      job_id: job
+      priority: priority
+      queue_name: queue name
+      updated_at: updated at
+    update:
+      notice: job ready execution updated
+  job_recurring_executions:
+    create:
+      notice: job recurring execution created
+    destroy:
+      notice: job recurring execution deleted
+    edit:
+      submit: update job recurring execution
+      title: edit job recurring execution
+    index:
+      delete_all: delete all
+      destroy_all: destroy all
+      new: new job recurring execution
+      title: job recurring executions
+    model:
+      to_s: job_recurring_execution#%{id}
+    new:
+      submit: create job recurring execution
+      title: new job recurring execution
+    show:
+      created_at: created at
+      delete: delete job recurring execution
+      destroy: destroy job recurring execution
+      edit: edit job recurring execution
+      id: id
+      job: job
+      job_id: job
+      run_at: run at
+      task_key: task key
+      updated_at: updated at
+    update:
+      notice: job recurring execution updated
+  job_recurring_tasks:
+    create:
+      notice: job recurring task created
+    destroy:
+      notice: job recurring task deleted
+    edit:
+      submit: update job recurring task
+      title: edit job recurring task
+    index:
+      delete_all: delete all
+      destroy_all: destroy all
+      new: new job recurring task
+      title: job recurring tasks
+    model:
+      invalid_json: invalid json
+      to_s: job_recurring_task#%{id}
+    new:
+      submit: create job recurring task
+      title: new job recurring task
+    show:
+      arguments: arguments
+      class_name: class name
+      command: command
+      created_at: created at
+      delete: delete job recurring task
+      destroy: destroy job recurring task
+      description: description
+      edit: edit job recurring task
+      id: id
+      key: key
+      priority: priority
+      queue_name: queue name
+      schedule: schedule
+      static: static?
+      updated_at: updated at
+    update:
+      notice: job recurring task updated
+  job_scheduled_executions:
+    create:
+      notice: job scheduled execution created
+    destroy:
+      notice: job scheduled execution deleted
+    edit:
+      submit: update job scheduled execution
+      title: edit job scheduled execution
+    index:
+      delete_all: delete all
+      destroy_all: destroy all
+      new: new job scheduled execution
+      title: job scheduled executions
+    model:
+      to_s: job_scheduled_execution#%{id}
+    new:
+      submit: create job scheduled execution
+      title: new job scheduled execution
+    show:
+      created_at: created at
+      delete: delete job scheduled execution
+      destroy: destroy job scheduled execution
+      edit: edit job scheduled execution
+      id: id
+      job: job
+      job_id: job
+      priority: priority
+      queue_name: queue name
+      scheduled_at: scheduled at
+      updated_at: updated at
+    update:
+      notice: job scheduled execution updated
+  job_semaphores:
+    create:
+      notice: job semaphore created
+    destroy:
+      notice: job semaphore deleted
+    edit:
+      submit: update job semaphore
+      title: edit job semaphore
+    index:
+      delete_all: delete all
+      destroy_all: destroy all
+      new: new job semaphore
+      title: job semaphores
+    model:
+      invalid_json: invalid json
+      to_s: job_semaphore#%{id}
+    new:
+      submit: create job semaphore
+      title: new job semaphore
+    show:
+      created_at: created at
+      delete: delete job semaphore
+      destroy: destroy job semaphore
+      edit: edit job semaphore
+      expires_at: expires at
+      id: id
+      key: key
+      updated_at: updated at
+      value: value
+    update:
+      notice: job semaphore updated
   jobs:
+    create:
+      notice: job created
     delete:
       notice: job deleted
     delete_all:
@@ -791,12 +1262,66 @@ en:
       notice: job discarded
     discard_all:
       notice: jobs discarded
+    edit:
+      submit: update job
+      title: edit job
     index:
       delete_all: delete all
       destroy_all: destroy all
       discard_all: discard all
+      job_blocked_executions:
+        one: 1 job blocked execution
+        other: "%{count} job blocked executions"
+        zero: 0 job blocked executions
+      job_claimed_executions:
+        one: 1 job claimed execution
+        other: "%{count} job claimed executions"
+        zero: 0 job claimed executions
+      job_contexts:
+        one: 1 job context
+        other: "%{count} job contexts"
+        zero: 0 job contexts
+      job_failed_executions:
+        one: 1 job failed execution
+        other: "%{count} job failed executions"
+        zero: 0 job failed executions
+      job_pauses:
+        one: 1 job pause
+        other: "%{count} job pauses"
+        zero: 0 job pauses
+      job_processes:
+        one: 1 job process
+        other: "%{count} job processes"
+        zero: 0 job processes
+      job_ready_executions:
+        one: 1 job ready execution
+        other: "%{count} job ready executions"
+        zero: 0 job ready executions
+      job_recurring_executions:
+        one: 1 job recurring execution
+        other: "%{count} job recurring executions"
+        zero: 0 job recurring executions
+      job_recurring_tasks:
+        one: 1 job recurring task
+        other: "%{count} job recurring tasks"
+        zero: 0 job recurring tasks
+      job_scheduled_executions:
+        one: 1 job scheduled execution
+        other: "%{count} job scheduled executions"
+        zero: 0 job scheduled executions
+      job_semaphores:
+        one: 1 job semaphore
+        other: "%{count} job semaphores"
+        zero: 0 job semaphores
+      new: new job
       retry_all: retry all
       title: jobs
+    model:
+      invalid_json: invalid json
+      to_s: job#%{id}
+    new:
+      submit: create job
+      title: new job
     retry:
       notice: job retried
     retry_all:
@@ -809,13 +1334,23 @@ en:
       delete: delete job
       destroy: destroy job
       discard: discard job
+      edit: edit job
       finished_at: finished at
       id: id
+      job_blocked_executions: job blocked executions
+      job_claimed_executions: job claimed executions
+      job_contexts: job contexts
+      job_failed_executions: job failed executions
+      job_ready_executions: job ready executions
+      job_recurring_executions: job recurring executions
+      job_scheduled_executions: job scheduled executions
       priority: priority
       queue_name: queue name
       retry: retry job
       scheduled_at: scheduled at
       updated_at: updated at
+    update:
+      notice: job updated
   layouts:
     application:
       feedback: bug?
@@ -909,6 +1444,7 @@ en:
       content: content
       created_at: created at
       delete: delete message
+      destroy: destroy message
       edit: edit message
       from_user: from user
       id: id
@@ -948,6 +1484,7 @@ en:
     show:
       created_at: created at
       delete: delete name
+      destroy: destroy name
       edit: edit name
       family_name: family name
       given_name: given name
@@ -1000,6 +1537,7 @@ en:
     show:
       created_at: created at
       delete: delete password
+      destroy: destroy password
       edit: edit password
       hint: hint
       id: id
@@ -1039,6 +1577,7 @@ en:
     show:
       created_at: created at
       delete: delete phone number
+      destroy: destroy phone number
       edit: edit phone number
       id: id
       phone_number: phone number
@@ -1066,6 +1605,7 @@ en:
     show:
       created_at: created at
       delete: delete program execution
+      destroy: destroy program execution
       error: error
       error_app_backtrace: error app backtrace
       error_backtrace: error backtrace
@@ -1136,6 +1676,7 @@ en:
     show:
       created_at: created at
       delete: delete program prompt schedule
+      destroy: destroy program prompt schedule
       edit: edit program prompt schedule
       id: id
       interval: interval
@@ -1170,6 +1711,7 @@ en:
     show:
       created_at: created at
       delete: delete program prompt
+      destroy: destroy program prompt
       error: error
       error_app_backtrace: error app backtrace
       error_backtrace: error backtrace
@@ -1247,6 +1789,7 @@ en:
     show:
       created_at: created at
       delete: delete program schedule
+      destroy: destroy program schedule
       edit: edit program schedule
       id: id
       interval: interval
@@ -1332,6 +1875,7 @@ en:
     show:
       created_at: created at
       delete: delete program
+      destroy: destroy program
       edit: edit program
       evaluate: evaluate
       id: id
@@ -1375,6 +1919,7 @@ en:
       context: context
       created_at: created at
       delete: delete repl execution
+      destroy: destroy repl execution
       error: error
       error_app_backtrace: error app backtrace
       error_backtrace: error backtrace
@@ -1422,6 +1967,7 @@ en:
     show:
       created_at: created at
       delete: delete repl program
+      destroy: destroy repl program
       edit: edit repl program
       id: id
       input: input
@@ -1452,6 +1998,7 @@ en:
     show:
       created_at: created at
       delete: delete repl prompt
+      destroy: destroy repl prompt
       edit: edit repl prompt
       error: error
       error_app_backtrace: error app backtrace
@@ -1503,6 +2050,7 @@ en:
     show:
       created_at: created at
       delete: delete repl session
+      destroy: destroy repl session
       edit: edit repl session
       evaluate: evaluate
       evaluate_all: evaluate all
@@ -1663,6 +2211,17 @@ en:
       examples: examples
       guests: guests
       handles: handles
+      job_blocked_executions: job blocked executions
+      job_claimed_executions: job claimed executions
+      job_contexts: job contexts
+      job_failed_executions: job failed executions
+      job_pauses: job pauses
+      job_processes: job processes
+      job_ready_executions: job ready executions
+      job_recurring_executions: job recurring executions
+      job_recurring_tasks: job recurring tasks
+      job_scheduled_executions: job scheduled executions
+      job_semaphores: job semaphores
       jobs: jobs
       messages: messages
       names: names
@@ -1776,6 +2335,7 @@ en:
     show:
       created_at: created at
       delete: delete time zone
+      destroy: destroy time zone
       edit: edit time zone
       id: id
       primary: primary?
@@ -1806,6 +2366,7 @@ en:
     show:
       created_at: created at
       delete: delete token
+      destroy: destroy token
       edit: edit token
       id: id
       primary: primary?
@@ -1843,6 +2404,7 @@ en:
       admin: admin
       created_at: created at
       delete: delete user
+      destroy: destroy user
       device: device
       edit: edit user
       email_address: email address

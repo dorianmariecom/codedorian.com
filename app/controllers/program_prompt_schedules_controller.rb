@@ -10,7 +10,7 @@ class ProgramPromptSchedulesController < ApplicationController
   end
   before_action(
     :load_program_prompt_schedule,
-    only: %i[show edit update destroy]
+    only: %i[show edit update destroy delete]
   )
 
   def index
@@ -37,7 +37,7 @@ class ProgramPromptSchedulesController < ApplicationController
     @program_prompt_schedule =
       authorize(scope.new(program_prompt_schedule_params))
 
-    if @program_prompt_schedule.save
+    if @program_prompt_schedule.save(context: :controller)
       log_in(@program_prompt_schedule.user)
       redirect_to(show_url, notice: t(".notice"))
     else
@@ -47,7 +47,9 @@ class ProgramPromptSchedulesController < ApplicationController
   end
 
   def update
-    if @program_prompt_schedule.update(program_prompt_schedule_params)
+    @program_prompt_schedule.assign_attributes(program_prompt_schedule_params)
+
+    if @program_prompt_schedule.save(context: :controller)
       log_in(@program_prompt_schedule.user)
       redirect_to(show_url, notice: t(".notice"))
     else
@@ -60,6 +62,15 @@ class ProgramPromptSchedulesController < ApplicationController
     @program_prompt_schedule.destroy!
 
     redirect_to(index_url, notice: t(".notice"))
+  end
+
+  def delete
+    @program_prompt_schedule.delete
+
+    redirect_to(
+      index_url,
+      notice: t(".notice", default: t("#{controller_name}.destroy.notice"))
+    )
   end
 
   def destroy_all

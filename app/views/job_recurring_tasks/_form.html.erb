@@ -1,0 +1,70 @@
+<%= form_for(show_url) do |f| %>
+  <% arguments =
+    (
+      if f.object.errors.include?(:arguments)
+        f.object.arguments
+      else
+        f.object.arguments_json
+      end
+    ) %>
+
+  <div class="p">
+    <%= f.label(:key, class: :label) %>
+    <%= f.text_field(:key, class: :input) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:class_name, class: :label) %>
+    <%= f.text_field(:class_name, class: :input) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:command, class: :label) %>
+    <%= f.text_field(:command, class: :input) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:schedule, class: :label) %>
+    <%= f.text_field(:schedule, class: :input) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:queue_name, class: :label) %>
+    <%= f.text_field(:queue_name, class: :input) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:priority, class: :label) %>
+    <%= f.number_field(:priority, class: :input) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:static, class: :label) %>
+    <%= f.check_box(:static, class: :input) %>
+  </div>
+
+  <div class="p" data-controller="editor">
+    <%= f.label(:arguments, class: :label) %>
+    <div class="border border-black rounded overflow-hidden">
+      <%= f.hidden_field(:arguments, value: arguments, data: { editor_target: :input }) %>
+      <div data-editor-target="editor"></div>
+    </div>
+    <div class="text-gray-600"><%= Faker::Internet.slug.to_json %></div>
+  </div>
+
+  <div class="p">
+    <%= f.label(:description, class: :label) %>
+    <%= f.text_area(:description, class: :input) %>
+  </div>
+
+  <div class="p">
+    <%= f.submit(
+      submit,
+      class: "button",
+      data: {
+        controller: "bridge--button",
+        bridge__button_title_value: submit
+      }
+    ) %>
+  </div>
+<% end %>
