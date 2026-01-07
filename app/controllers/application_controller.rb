@@ -65,12 +65,34 @@ class ApplicationController < ActionController::Base
       end
     end
 
+  DATABASE_ERROR =
+    lambda do |error|
+      respond_to do |format|
+        format.json do
+          render(
+            json: {
+              message: error_message_for(error)
+            },
+            status: :service_unavailable
+          )
+        end
+        format.any do
+          redirect_to(
+            root_path,
+            alert: "Database connection error. Please try again later."
+          )
+        end
+      end
+    end
+
   rescue_from ActionController::MissingExactTemplate, &REDIRECT_ERROR
   rescue_from ActionController::ParameterMissing, &REDIRECT_ERROR
   rescue_from ActiveRecord::RecordNotFound, &REDIRECT_ERROR
   rescue_from ActiveRecord::RecordNotUnique, &REDIRECT_ERROR
   rescue_from Pundit::NotAuthorizedError, &REDIRECT_ERROR
   rescue_from Recaptcha::VerifyError, &REDIRECT_ERROR
+  rescue_from ActiveRecord::DatabaseConnectionError, &DATABASE_ERROR
+  rescue_from ActiveRecord::ConnectionNotEstablished, &DATABASE_ERROR
 
   private
 
