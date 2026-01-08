@@ -62,4 +62,4 @@ RUN rm -rf /rails/node_modules \
 
 ENTRYPOINT ["/usr/bin/tini", "--", "/rails/bin/docker-entrypoint"]
 EXPOSE 3000
-CMD ["./bin/thrust", "./bin/web"]
+CMD ["./bin/web"]
