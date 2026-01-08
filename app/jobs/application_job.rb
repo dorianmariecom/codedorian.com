@@ -8,10 +8,8 @@ class ApplicationJob < ActiveJob::Base
 
   DISCARD_ON =
     lambda do |job, error|
-      Current.context.merge!(job: job, error: error)
-
+      set_context(job: job, error: error)
       job.cleanup_job_contexts
-
       log!(:discard_on)
     end
 

@@ -65,24 +65,12 @@ class Log < ApplicationRecord
       {
         arguments: arguments,
         class: job.class,
-        enqueued_at: job.enqueued_at,
-        executions: job.executions,
-        job_id: job.job_id,
-        locale: job.locale,
-        priority: job.priority,
-        provider_job_id: job.provider_job_id,
-        queue_name: job.queue_name,
-        scheduled_at: job.scheduled_at,
-        serialized_arguments: job.serialized_arguments,
-        successfully_enqueued?: job.successfully_enqueued?,
-        time_zone: job.timezone
+        **job.serialize
       }
     elsif object.is_a?(Gem::Version)
       object.to_s
     elsif object.is_a?(Hash)
-      object
-        .transform_keys(&:to_sym)
-        .transform_values { |value| convert(value) }
+      object.transform_values { |value| convert(value) }
     elsif object.is_an?(Array)
       object.map { |element| convert(element) }
     else

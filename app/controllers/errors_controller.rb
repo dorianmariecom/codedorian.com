@@ -111,7 +111,7 @@ class ErrorsController < ApplicationController
     @message = @exception&.message
     @backtrace = @exception&.backtrace
     @app_backtrace = Backtrace.app(@backtrace)
-    Current.context[:error] = @exception
+    set_context(error: @exception)
     log!(:not_found)
 
     add_breadcrumb
@@ -131,7 +131,7 @@ class ErrorsController < ApplicationController
     @message = @exception&.message
     @backtrace = @exception&.backtrace
     @app_backtrace = Backtrace.app(@backtrace)
-    Current.context[:error] = @exception
+    set_context(error: @exception)
     log!(:internal_server_error)
 
     add_breadcrumb
@@ -153,7 +153,7 @@ class ErrorsController < ApplicationController
     @message = @exception&.message
     @backtrace = @exception&.backtrace
     @app_backtrace = Backtrace.app(@backtrace)
-    Current.context[:error] = @exception
+    set_context(error: @exception)
     log!(:unprocessable_entity)
 
     add_breadcrumb
