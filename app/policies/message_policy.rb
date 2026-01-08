@@ -3,8 +3,8 @@
 class MessagePolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
-      scope.where(from_user: policy_scope(User)).or(
-        scope.where(to_user: policy_scope(User))
+      scope.where(from_user: current_user).or(
+        scope.where(to_user: current_user)
       )
     end
   end
