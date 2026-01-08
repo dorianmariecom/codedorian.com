@@ -118,49 +118,130 @@ class User < ApplicationRecord
   end
 
   def name
-    names.verified.order(primary: :desc).first&.name
+    if association(:names).loaded?
+      names
+        .select(&:verified)
+        .sort_by { |n| n.primary ? 0 : 1 }
+        .first
+        &.name
+    else
+      names.verified.order(primary: :desc).first&.name
+    end
   end
 
   def address
-    addresses.verified.order(primary: :desc).first&.address
+    if association(:addresses).loaded?
+      addresses
+        .select(&:verified)
+        .sort_by { |a| a.primary ? 0 : 1 }
+        .first
+        &.address
+    else
+      addresses.verified.order(primary: :desc).first&.address
+    end
   end
 
   def handle
-    handles.verified.order(primary: :desc).first&.handle
+    if association(:handles).loaded?
+      handles
+        .select(&:verified)
+        .sort_by { |h| h.primary ? 0 : 1 }
+        .first
+        &.handle
+    else
+      handles.verified.order(primary: :desc).first&.handle
+    end
   end
 
   def password
-    passwords.verified.order(primary: :desc).first&.password
+    if association(:passwords).loaded?
+      passwords
+        .select(&:verified)
+        .sort_by { |p| p.primary ? 0 : 1 }
+        .first
+        &.password
+    else
+      passwords.verified.order(primary: :desc).first&.password
+    end
   end
 
   def email_address
-    email_addresses.verified.order(primary: :desc).first&.email_address
+    if association(:email_addresses).loaded?
+      email_addresses
+        .select(&:verified)
+        .sort_by { |e| e.primary ? 0 : 1 }
+        .first
+        &.email_address
+    else
+      email_addresses.verified.order(primary: :desc).first&.email_address
+    end
   end
 
   def phone_number
-    phone_numbers.verified.order(primary: :desc).first&.phone_number
+    if association(:phone_numbers).loaded?
+      phone_numbers
+        .select(&:verified)
+        .sort_by { |p| p.primary ? 0 : 1 }
+        .first
+        &.phone_number
+    else
+      phone_numbers.verified.order(primary: :desc).first&.phone_number
+    end
   end
 
   def time_zone
     return @time_zone if defined?(@time_zone)
 
-    @time_zone = time_zones.verified.order(primary: :desc).first&.time_zone
+    @time_zone =
+      if association(:time_zones).loaded?
+        time_zones
+          .select(&:verified)
+          .sort_by { |tz| tz.primary ? 0 : 1 }
+          .first
+          &.time_zone
+      else
+        time_zones.verified.order(primary: :desc).first&.time_zone
+      end
   end
 
   def unverified_time_zone
-    time_zones.order(primary: :desc).first&.time_zone
+    if association(:time_zones).loaded?
+      time_zones.sort_by { |tz| tz.primary ? 0 : 1 }.first&.time_zone
+    else
+      time_zones.order(primary: :desc).first&.time_zone
+    end
   end
 
   def device
-    devices.verified.order(primary: :desc).first&.device
+    if association(:devices).loaded?
+      devices
+        .select(&:verified)
+        .sort_by { |d| d.primary ? 0 : 1 }
+        .first
+        &.device
+    else
+      devices.verified.order(primary: :desc).first&.device
+    end
   end
 
   def unverified_device
-    devices.order(primary: :desc).first&.device
+    if association(:devices).loaded?
+      devices.sort_by { |d| d.primary ? 0 : 1 }.first&.device
+    else
+      devices.order(primary: :desc).first&.device
+    end
   end
 
   def token
-    tokens.verified.order(primary: :desc).first&.token
+    if association(:tokens).loaded?
+      tokens
+        .select(&:verified)
+        .sort_by { |t| t.primary ? 0 : 1 }
+        .first
+        &.token
+    else
+      tokens.verified.order(primary: :desc).first&.token
+    end
   end
 
   def verified!
