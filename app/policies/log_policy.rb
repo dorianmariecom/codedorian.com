@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class JobPolicy < ApplicationPolicy
+class LogPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       admin? ? scope.all : scope.none
@@ -23,27 +23,7 @@ class JobPolicy < ApplicationPolicy
     admin?
   end
 
-  def retry?
-    admin?
-  end
-
-  def discard?
-    admin?
-  end
-
   def destroy?
-    admin?
-  end
-
-  def retry_all?
-    admin?
-  end
-
-  def discard_all?
-    admin?
-  end
-
-  def destroy_all?
     admin?
   end
 end

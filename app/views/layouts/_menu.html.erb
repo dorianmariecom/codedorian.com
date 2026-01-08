@@ -1,5 +1,5 @@
 <div class="p">
-  <%= link_to(root_path) do %>
+  <%= link_to(root_path, class: "link") do %>
     <div class="size-3 inline-flex items-center justify-center">
       <div class="size-2 <%= Current.bg_env %> rounded-full"></div>
     </div>
@@ -9,14 +9,7 @@
 
   <% if registered? %>
     <%= link_to(current_user, current_user, class: "link") %>
-
-    <%= button_to(
-      t(".log_out"),
-      %i[delete session],
-      method: :delete,
-      class: "button button--link",
-      form_class: "inline-block"
-    ) %>
+    <%= render("shared/confirm", text: t(".log_out"), url: %i[delete session]) %>
   <% else %>
     <%= link_to(t(".register"), %i[new user], class: "link") %>
     <%= link_to(t(".log_in"), %i[new session], class: "link") %>

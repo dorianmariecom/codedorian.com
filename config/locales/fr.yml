@@ -343,6 +343,10 @@ fr:
       edit: modifier
       index: tâches
       new: nouveau
+    logs:
+      edit: modifier
+      index: logs
+      new: nouveau
     messages:
       body: corps
       content: contenu
@@ -766,8 +770,8 @@ fr:
     show:
       created_at: créé à
       delete: supprimer l'exemple
-      destroy: détruire l'exemple
       description: description
+      destroy: détruire l'exemple
       edit: modifier le exemple
       example_schedules: horaires d'exemple
       id: identifiant
@@ -1172,8 +1176,8 @@ fr:
       command: commande
       created_at: créée à
       delete: supprimer la tâche récurrente
-      destroy: détruire la tâche récurrente
       description: description
+      destroy: détruire la tâche récurrente
       edit: modifier la tâche récurrente
       id: identifiant
       key: clé
@@ -1421,6 +1425,36 @@ fr:
       programs: programmes
       register: s'inscrire
       title: code
+  logs:
+    create:
+      notice: log créé
+    destroy:
+      notice: log supprimé
+    edit:
+      submit: mettre à jour le log
+      title: modifier le log
+    index:
+      delete_all: supprimer tout
+      destroy_all: détruire tout
+      new: nouveau log
+      title: logs
+    model:
+      invalid_json: json invalide
+      to_s: log#%{id}
+    new:
+      submit: créer un log
+      title: nouveau log
+    show:
+      context: contexte
+      created_at: créé à
+      delete: supprimer le log
+      destroy: détruire le log
+      edit: modifier le log
+      id: identifiant
+      message: message
+      updated_at: mis à jour à
+    update:
+      notice: log mis à jour
   messages:
     create:
       notice: message créé
@@ -2223,6 +2257,7 @@ fr:
       job_scheduled_executions: exécutions de tâches programmées
       job_semaphores: sémaphores de tâches
       jobs: tâches
+      logs: logs
       messages: messages
       names: noms
       passwords: mots de passe

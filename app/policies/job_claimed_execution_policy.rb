@@ -26,8 +26,4 @@ class JobClaimedExecutionPolicy < ApplicationPolicy
   def destroy?
     admin?
   end
-
-  def delete?
-    destroy?
-  end
 end

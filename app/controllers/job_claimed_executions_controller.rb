@@ -12,7 +12,10 @@ class JobClaimedExecutionsController < ApplicationController
   before_action do
     add_breadcrumb(key: "job_claimed_executions.index", path: index_url)
   end
-  before_action(:load_job_claimed_execution, only: %i[show edit update destroy delete])
+  before_action(
+    :load_job_claimed_execution,
+    only: %i[show edit update destroy delete]
+  )
 
   def index
     authorize(JobClaimedExecution)

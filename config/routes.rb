@@ -456,6 +456,12 @@ Rails.application.routes.draw do
       define_all_delete.call(:delete, :configurations)
     end
 
+    resources :logs do
+      define_delete_destroy.call
+      define_all_delete.call(:destroy, :logs)
+      define_all_delete.call(:delete, :logs)
+    end
+
     resources :examples do
       define_delete_destroy.call
       define_all_delete.call(:destroy, :examples)

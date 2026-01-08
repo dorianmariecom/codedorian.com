@@ -57,7 +57,7 @@ button {
 
   &:disabled {
     @apply pointer-events-none;
-    @apply text-gray-800;
+    @apply text-gray-300;
   }
 }
 

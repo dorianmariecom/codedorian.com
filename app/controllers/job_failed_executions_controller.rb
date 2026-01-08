@@ -12,7 +12,10 @@ class JobFailedExecutionsController < ApplicationController
   before_action do
     add_breadcrumb(key: "job_failed_executions.index", path: index_url)
   end
-  before_action(:load_job_failed_execution, only: %i[show edit update destroy delete])
+  before_action(
+    :load_job_failed_execution,
+    only: %i[show edit update destroy delete]
+  )
 
   def index
     authorize(JobFailedExecution)

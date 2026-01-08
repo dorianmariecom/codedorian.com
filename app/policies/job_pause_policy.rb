@@ -26,8 +26,4 @@ class JobPausePolicy < ApplicationPolicy
   def destroy?
     admin?
   end
-
-  def delete?
-    destroy?
-  end
 end

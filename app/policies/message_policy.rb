@@ -41,10 +41,6 @@ class MessagePolicy < ApplicationPolicy
     from_current_user? || to_current_user? || admin?
   end
 
-  def delete?
-    destroy?
-  end
-
   def destroy_all?
     true
   end

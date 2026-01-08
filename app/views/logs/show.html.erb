@@ -1,0 +1,44 @@
+<% content_for(:title, @log) %>
+
+<%= turbo_stream_from(@log) %>
+
+<% if @log.id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".id") %></div>
+    <div class="font-bold"><%= @log.id %></div>
+  </div>
+<% end %>
+
+<% if @log.message.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".message") %></div>
+    <div class="font-bold"><%= @log.message %></div>
+  </div>
+<% end %>
+
+<% if @log.context.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".context") %></div>
+    <div class="code"><%= @log.context_json %></div>
+  </div>
+<% end %>
+
+<% if @log.updated_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".updated_at") %></div>
+    <div class="font-bold"><%= local_time(@log.updated_at) %></div>
+  </div>
+<% end %>
+
+<% if @log.created_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".created_at") %></div>
+    <div class="font-bold"><%= local_time(@log.created_at) %></div>
+  </div>
+<% end %>
+
+<div class="p">
+  <%= link_to(t(".edit"), edit_url, class: "link") %>
+  <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+  <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
+</div>

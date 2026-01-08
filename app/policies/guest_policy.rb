@@ -33,10 +33,6 @@ class GuestPolicy < ApplicationPolicy
     self? || admin?
   end
 
-  def delete?
-    destroy?
-  end
-
   def destroy_all?
     true
   end

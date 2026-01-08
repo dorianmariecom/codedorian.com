@@ -343,6 +343,10 @@ en:
       edit: edit
       index: jobs
       new: new
+    logs:
+      edit: edit
+      index: logs
+      new: new
     messages:
       body: body
       content: content
@@ -766,8 +770,8 @@ en:
     show:
       created_at: created at
       delete: delete example
-      destroy: destroy example
       description: description
+      destroy: destroy example
       edit: edit example
       example_schedules: example schedules
       id: id
@@ -1172,8 +1176,8 @@ en:
       command: command
       created_at: created at
       delete: delete job recurring task
-      destroy: destroy job recurring task
       description: description
+      destroy: destroy job recurring task
       edit: edit job recurring task
       id: id
       key: key
@@ -1421,6 +1425,36 @@ en:
       programs: programs
       register: register
       title: code
+  logs:
+    create:
+      notice: log created
+    destroy:
+      notice: log deleted
+    edit:
+      submit: update log
+      title: edit log
+    index:
+      delete_all: delete all
+      destroy_all: destroy all
+      new: new log
+      title: logs
+    model:
+      invalid_json: invalid json
+      to_s: log#%{id}
+    new:
+      submit: create log
+      title: new log
+    show:
+      context: context
+      created_at: created at
+      delete: delete log
+      destroy: destroy log
+      edit: edit log
+      id: id
+      message: message
+      updated_at: updated at
+    update:
+      notice: log updated
   messages:
     create:
       notice: message created
@@ -2223,6 +2257,7 @@ en:
       job_scheduled_executions: job scheduled executions
       job_semaphores: job semaphores
       jobs: jobs
+      logs: logs
       messages: messages
       names: names
       passwords: passwords

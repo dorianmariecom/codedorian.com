@@ -4,7 +4,10 @@ class JobRecurringTasksController < ApplicationController
   before_action do
     add_breadcrumb(key: "job_recurring_tasks.index", path: index_url)
   end
-  before_action(:load_job_recurring_task, only: %i[show edit update destroy delete])
+  before_action(
+    :load_job_recurring_task,
+    only: %i[show edit update destroy delete]
+  )
 
   def index
     authorize(JobRecurringTask)

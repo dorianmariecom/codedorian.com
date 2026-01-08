@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  include(Pundit::Authorization)
   include(CanConcern)
+  include(LogConcern)
   include(PerformLaterConcern)
+  include(Pundit::Authorization)
 
   protect_from_forgery(with: :exception)
 
@@ -11,13 +12,14 @@ class ApplicationController < ActionController::Base
 
   before_action(:set_current_user)
   before_action(:set_current_guest)
-  before_action(:authorize_profiler)
   before_action(:set_current_request)
-  before_action(:set_time_zone)
-  before_action(:set_locale)
+  before_action(:set_current_version)
+  before_action(:set_current_time_zone)
+  before_action(:set_current_locale)
   before_action(:set_paper_trail_whodunnit)
+  before_action(:set_breadcrumbs)
   before_action(:verify_captcha)
-  before_action(:load_breadcrumbs)
+  before_action(:authorize_profiler)
 
   after_action(:verify_authorized)
   after_action(:verify_policy_scoped)
@@ -35,7 +37,7 @@ class ApplicationController < ActionController::Base
   helper_method(:admin?)
   helper_method(:can?)
   helper_method(:error_message_for)
-  helper_method(:version)
+  helper_method(:current_version)
   helper_method(:hotwire_native_modal?)
   helper_method(:filters)
   helper_method(:index_url)
@@ -54,8 +56,12 @@ class ApplicationController < ActionController::Base
   helper_method(:model_class)
   helper_method(:model_instance)
 
-  REDIRECT_ERROR =
+  RESCUE_FROM =
     lambda do |error|
+      set_context(error: error)
+
+      log!(:rescue_from)
+
       respond_to do |format|
         format.json do
           render(
@@ -69,12 +75,12 @@ class ApplicationController < ActionController::Base
       end
     end
 
-  rescue_from ActionController::MissingExactTemplate, &REDIRECT_ERROR
-  rescue_from ActionController::ParameterMissing, &REDIRECT_ERROR
-  rescue_from ActiveRecord::RecordNotFound, &REDIRECT_ERROR
-  rescue_from ActiveRecord::RecordNotUnique, &REDIRECT_ERROR
-  rescue_from Pundit::NotAuthorizedError, &REDIRECT_ERROR
-  rescue_from Recaptcha::VerifyError, &REDIRECT_ERROR
+  rescue_from(ActionController::MissingExactTemplate, &RESCUE_FROM)
+  rescue_from(ActionController::ParameterMissing, &RESCUE_FROM)
+  rescue_from(ActiveRecord::RecordNotFound, &RESCUE_FROM)
+  rescue_from(ActiveRecord::RecordNotUnique, &RESCUE_FROM)
+  rescue_from(Pundit::NotAuthorizedError, &RESCUE_FROM)
+  rescue_from(Recaptcha::VerifyError, &RESCUE_FROM)
 
   private
 
@@ -129,10 +135,16 @@ class ApplicationController < ActionController::Base
 
   def set_current_request
     Current.request = request
+    set_context(current_request: request)
   end
 
-  def set_time_zone
+  def set_current_version
+    set_context(current_version: current_version)
+  end
+
+  def set_current_time_zone
     Current.time_zone = current_time_zone
+    set_context(current_time_zone: current_time_zone)
   end
 
   def log_in(user)
@@ -215,7 +227,7 @@ class ApplicationController < ActionController::Base
     !!current_token
   end
 
-  def set_locale
+  def set_current_locale
     I18n.locale =
       locale_param.presence || current_user&.locale.presence ||
         browser_locale.presence || I18n.default_locale
@@ -260,8 +272,9 @@ class ApplicationController < ActionController::Base
   def set_context(**args)
     return if args.blank?
 
-    Rails.error.set_context(**args.transform_values(&:as_json))
-    Sentry.set_tags(**sentry_hash(args.transform_values(&:as_json)))
+    Rails.error.set_context(**Log.convert(args))
+    Sentry.set_tags(**sentry_hash(Log.convert(args)))
+    Current.context.merge!(**Log.convert(args))
   end
 
   def sentry_hash(hash, prefix = nil, acc = {})
@@ -292,7 +305,7 @@ class ApplicationController < ActionController::Base
     q.present? ? { search: { q: q } } : nil
   end
 
-  def version
+  def current_version
     app_version =
       request.headers["user-agent"]
         .to_s
@@ -302,7 +315,7 @@ class ApplicationController < ActionController::Base
         .to_s
         .presence
 
-    app_version ||= "0.0"
+    app_version ||= ENV.fetch("KAMAL_VERSION", "0.0")
 
     Gem::Version.new(app_version)
   end
@@ -372,7 +385,7 @@ class ApplicationController < ActionController::Base
     [*show_url(...), :destroy]
   end
 
-  def load_breadcrumbs
+  def set_breadcrumbs
     @breadcrumbs = [{ text: t("breadcrumbs.static.home"), path: root_path }]
   end
 

@@ -31,10 +31,6 @@ class CountryCodeIpAddressPolicy < ApplicationPolicy
     admin?
   end
 
-  def delete?
-    destroy?
-  end
-
   def destroy_all?
     admin?
   end

@@ -1,18 +1,31 @@
 # frozen_string_literal: true
 
 class ApplicationJob < ActiveJob::Base
-  include PerformLaterConcern
+  include(CanConcern)
+  include(LogConcern)
+  include(PerformLaterConcern)
+  include(Pundit::Authorization)
 
-  discard_on ActiveRecord::RecordNotFound
-  discard_on ActiveJob::DeserializationError
+  DISCARD_ON =
+    lambda do |job, error|
+      Current.context.merge!(job: job, error: error)
 
-  after_perform :cleanup_job_contexts
+      job.cleanup_job_contexts
+
+      log!(:discard_on)
+    end
+
+  discard_on(ActiveRecord::RecordNotFound, &DISCARD_ON)
+  discard_on(ActiveJob::DeserializationError, &DISCARD_ON)
+
+  after_perform(:cleanup_job_contexts)
 
   def set_context(**args)
     return if args.blank?
 
-    Rails.error.set_context(**args.transform_values(&:as_json))
-    Sentry.set_tags(**sentry_hash(args.transform_values(&:as_json)))
+    Rails.error.set_context(**Log.convert(args))
+    Sentry.set_tags(**sentry_hash(Log.convert(args)))
+    Current.context.merge!(**Log.convert(args))
   end
 
   def sentry_hash(hash, prefix = nil, acc = {})
@@ -29,5 +42,9 @@ class ApplicationJob < ActiveJob::Base
     PaperTrail.request(enabled: false) do
       JobContext.where(active_job_id: job_id).delete_all
     end
+  end
+
+  def current_user
+    Current.user
   end
 end
