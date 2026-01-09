@@ -14,6 +14,7 @@ class ApplicationController < ActionController::Base
   before_action(:set_current_guest)
   before_action(:set_current_request)
   before_action(:set_current_version)
+  before_action(:set_current_commit)
   before_action(:set_current_time_zone)
   before_action(:set_current_locale)
   before_action(:set_paper_trail_whodunnit)
@@ -38,6 +39,7 @@ class ApplicationController < ActionController::Base
   helper_method(:can?)
   helper_method(:error_message_for)
   helper_method(:current_version)
+  helper_method(:current_commit)
   helper_method(:hotwire_native_modal?)
   helper_method(:filters)
   helper_method(:index_url)
@@ -140,6 +142,10 @@ class ApplicationController < ActionController::Base
 
   def set_current_version
     set_context(current_version: current_version)
+  end
+
+  def set_current_commit
+    set_context(current_commit: current_commit)
   end
 
   def set_current_time_zone
@@ -315,9 +321,13 @@ class ApplicationController < ActionController::Base
         .to_s
         .presence
 
-    app_version ||= ENV.fetch("KAMAL_VERSION", "0.0")
+    app_version ||= "0.0"
 
     Gem::Version.new(app_version)
+  end
+
+  def current_commit
+    ENV.fetch("KAMAL_VERSION", nil)
   end
 
   def hotwire_native_modal?
