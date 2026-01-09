@@ -12,7 +12,10 @@ workers worker_count if worker_count > 1
 
 worker_timeout 3600 if ENV.fetch("RAILS_ENV", "development") == "development"
 
-bind "tcp://0.0.0.0:#{ENV.fetch("PORT", 3000)}"
+port = ENV.fetch("PORT", 3000)
+
+bind "tcp://0.0.0.0:#{port}"
+bind "tcp://[::]:#{port}"
 
 environment ENV.fetch("RAILS_ENV", "development")
 
