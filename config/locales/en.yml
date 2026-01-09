@@ -1415,16 +1415,15 @@ en:
             masculine: must be valid
       title: code
     menu:
+      account: account
       about: about
       admin: admin
       english: english
       french: french
       log_in: log in
-      log_out: log out
       messages: messages
       programs: programs
       register: register
-      title: code
   logs:
     create:
       notice: log created

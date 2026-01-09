@@ -1,15 +1,6 @@
-<div class="p">
-  <%= link_to(root_path, class: "link") do %>
-    <div class="size-3 inline-flex items-center justify-center">
-      <div class="size-2 <%= Current.bg_env %> rounded-full"></div>
-    </div>
-  <% end %>
-
-  <%= link_to(t(".title"), root_path, class: "link") %>
-
+<div class="p flex flex-wrap gap-2">
   <% if registered? %>
-    <%= link_to(current_user, current_user, class: "link") %>
-    <%= render("shared/confirm", text: t(".log_out"), url: %i[delete session]) %>
+    <%= link_to(t(".account"), current_user, class: "link") %>
   <% else %>
     <%= link_to(t(".register"), %i[new user], class: "link") %>
     <%= link_to(t(".log_in"), %i[new session], class: "link") %>
