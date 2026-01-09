@@ -1,1 +1,44 @@
---- {}
+---
+aliases:
+  console: app exec --interactive --reuse "bin/rails console"
+  db: app exec --interactive --reuse "bin/rails dbconsole"
+  live: app live
+  logs: app logs -f
+  maintenance: app maintenance
+  restart: app boot
+  shell: app exec --interactive --reuse "bash"
+  stop: app stop
+builder:
+  arch: arm64
+deploy_timeout: 300
+env:
+  secret:
+  - BASE_URL
+  - CODE_ENV
+  - DATABASE_URL
+  - HOST
+  - HOSTS
+  - RAILS_ENV
+  - RAILS_MASTER_KEY
+image: dorianmariecom/codedorian.com
+proxy:
+  ssl: true
+registry:
+  password:
+  - KAMAL_REGISTRY_PASSWORD
+  username:
+  - KAMAL_REGISTRY_USERNAME
+servers:
+  jobs:
+    cmd: bin/jobs
+    hosts:
+    - 138.201.175.197
+  push:
+    cmd: bin/push
+    hosts:
+    - 138.201.175.197
+  web:
+  - 138.201.175.197
+service: codedorian
+volumes:
+- code_storage:/rails/storage

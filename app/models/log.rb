@@ -62,11 +62,7 @@ class Log < ApplicationRecord
         rescue ActiveJob::DeserializationError
         end
 
-      {
-        arguments: arguments,
-        class: job.class,
-        **job.serialize
-      }
+      { arguments: arguments, class: job.class, **job.serialize }
     elsif object.is_a?(Gem::Version)
       object.to_s
     elsif object.is_a?(Hash)
