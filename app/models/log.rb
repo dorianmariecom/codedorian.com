@@ -63,6 +63,8 @@ class Log < ApplicationRecord
         end
 
       { arguments: arguments, class: job.class, **job.serialize }
+    elsif object.is_a?(Gem::Version)
+      object.to_s
     elsif object.is_a?(Hash)
       object.transform_values { |value| convert(value) }
     elsif object.is_an?(Array)

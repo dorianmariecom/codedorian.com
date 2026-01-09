@@ -315,7 +315,9 @@ class ApplicationController < ActionController::Base
         .to_s
         .presence
 
-    app_version || ENV.fetch("KAMAL_VERSION", "0.0")
+    app_version ||= ENV.fetch("KAMAL_VERSION", "0.0")
+
+    Gem::Version.new(app_version)
   end
 
   def hotwire_native_modal?
