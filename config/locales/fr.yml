@@ -1415,8 +1415,8 @@ fr:
             masculine: doit être valide
       title: code
     menu:
-      account: compte
       about: à propos
+      account: compte
       admin: admin
       english: anglais
       french: français
