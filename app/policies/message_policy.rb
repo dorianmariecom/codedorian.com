@@ -44,4 +44,30 @@ class MessagePolicy < ApplicationPolicy
   def destroy_all?
     true
   end
+
+  private
+
+  def from_user
+    record? && record.from_user
+  end
+
+  def to_user
+    record? && record.to_user
+  end
+
+  def from_user?
+    !!from_user
+  end
+
+  def to_user?
+    !!to_user
+  end
+
+  def from_current_user?
+    from_user? && current_user? && from_user == current_user
+  end
+
+  def to_current_user?
+    to_user? && current_user? && to_user == current_user
+  end
 end
