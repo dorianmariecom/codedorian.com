@@ -14,7 +14,6 @@
 - `bin/dev`: run the full dev stack via `Procfile.dev` (web, tailwind, jobs, etc.).
 - `bin/rails server`: start the Rails server directly.
 - `bin/rails tailwindcss:watch`: watch and rebuild Tailwind CSS.
-- `bin/rspec`: run the test suite.
 - `bin/ci`: run CI checks (eager_load, rubocop, brakeman, audits, secrets).
 - `bin/format`: run the formatter (delegates to the `dorian` gem).
 - `bin/build`: Docker build + push; note it prunes Docker volumes, so use with care.
@@ -25,12 +24,6 @@
 - Rails naming conventions apply: snake_case for Ruby, PascalCase for classes, pluralized controllers.
 - JS lives under `app/javascript/` and follows standard ES module naming (e.g., `*_controller.js` for Stimulus).
 - Keep changes consistent with existing files (indentation, spacing, and layout).
-
-## Testing Guidelines
-
-- Use RSpec for unit and integration tests (`spec/`).
-- Name specs by target class or feature, e.g., `spec/models/program_spec.rb`.
-- Run focused tests with `bin/rspec spec/models/program_spec.rb`.
 
 ## Commit & Pull Request Guidelines
 

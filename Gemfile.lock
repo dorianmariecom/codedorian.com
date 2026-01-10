@@ -125,7 +125,6 @@ GEM
     date (3.5.1)
     did-you-mean (0.1.1)
       levenshtein (>= 0.2.0)
-    diff-lcs (1.6.2)
     dorian (2.6.8)
       csv
       dorian-arguments
@@ -460,23 +459,6 @@ GEM
       rainbow
       thor (>= 0.18.1, < 2.0)
       web-push
-    rspec-core (3.13.6)
-      rspec-support (~> 3.13.0)
-    rspec-expectations (3.13.5)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.13.0)
-    rspec-mocks (3.13.7)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.13.0)
-    rspec-rails (8.0.2)
-      actionpack (>= 7.2)
-      activesupport (>= 7.2)
-      railties (>= 7.2)
-      rspec-core (~> 3.13)
-      rspec-expectations (~> 3.13)
-      rspec-mocks (~> 3.13)
-      rspec-support (~> 3.13)
-    rspec-support (3.13.6)
     rubocop (1.82.1)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
@@ -494,9 +476,6 @@ GEM
     rubocop-capybara (2.22.1)
       lint_roller (~> 1.1)
       rubocop (~> 1.72, >= 1.72.1)
-    rubocop-factory_bot (2.28.0)
-      lint_roller (~> 1.1)
-      rubocop (~> 1.72, >= 1.72.1)
     rubocop-performance (1.26.1)
       lint_roller (~> 1.1)
       rubocop (>= 1.75.0, < 2.0)
@@ -510,13 +489,6 @@ GEM
     rubocop-rake (0.7.1)
       lint_roller (~> 1.1)
       rubocop (>= 1.72.1)
-    rubocop-rspec (3.9.0)
-      lint_roller (~> 1.1)
-      rubocop (~> 1.81)
-    rubocop-rspec_rails (2.32.0)
-      lint_roller (~> 1.1)
-      rubocop (~> 1.72, >= 1.72.1)
-      rubocop-rspec (~> 3.5)
     ruby-progressbar (1.13.0)
     ruby-vips (2.3.0)
       ffi (~> 1.12)
@@ -683,14 +655,10 @@ DEPENDENCIES
   recaptcha
   redis
   rpush
-  rspec-rails
   rubocop-capybara
-  rubocop-factory_bot
   rubocop-performance
   rubocop-rails
   rubocop-rake
-  rubocop-rspec
-  rubocop-rspec_rails
   search_rails
   sentry-rails
   sentry-ruby
