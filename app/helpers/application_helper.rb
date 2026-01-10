@@ -56,6 +56,26 @@ module ApplicationHelper
     end
   end
 
+  def program_execution_status_options(status: nil)
+    ProgramExecution::STATUSES.map do |option_status|
+      [
+        t("program_executions.model.statuses.#{option_status}"),
+        option_status,
+        { selected: option_status == status }
+      ]
+    end
+  end
+
+  def program_prompt_status_options(status: nil)
+    ProgramPrompt::STATUSES.map do |option_status|
+      [
+        t("program_prompts.model.statuses.#{option_status}"),
+        option_status,
+        { selected: option_status == status }
+      ]
+    end
+  end
+
   def device_platform_options(platform: nil)
     Device::PLATFORMS.map do |device_platform|
       [

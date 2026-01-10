@@ -1,5 +1,7 @@
 <%= turbo_stream_from(@program_prompts) %>
 
+<div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
+
 <% if @program_prompt_schedules.any? %>
   <div class="p">
     <%= link_to(

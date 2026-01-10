@@ -144,6 +144,22 @@ fr:
         input: entrée
         name: nom
         user_id: utilisateur
+      program_execution:
+        error: erreur
+        error_backtrace: trace d'erreur
+        error_class: classe d'erreur
+        error_message: message d'erreur
+        input: entrée
+        output: sortie
+        program_id: programme
+        result: résultat
+        status: statut
+      program_prompt:
+        input: entrée
+        name: nom
+        program_id: programme
+        status: statut
+        user_id: utilisateur
       program_schedule:
         interval: intervalle
         program_id: programme
@@ -1602,11 +1618,17 @@ fr:
     update:
       notice: numéro de téléphone mis à jour
   program_executions:
+    create:
+      notice: exécution du programme créée
     destroy:
       notice: exécution du programme supprimée
+    edit:
+      submit: mettre à jour l'exécution du programme
+      title: modifier l'exécution du programme
     index:
       delete_all: supprimer tout
       destroy_all: détruire tout
+      new: nouvelle exécution de programme
       title: exécutions de programmes
     model:
       statuses:
@@ -1616,10 +1638,14 @@ fr:
         in_progress: en cours
         initialized: initialisé
       to_s: exécution_du_programme#%{id}
+    new:
+      submit: créer l'exécution du programme
+      title: nouvelle exécution de programme
     show:
       created_at: créé à
       delete: supprimer l'exécution de programme
       destroy: détruire l'exécution de programme
+      edit: modifier l'exécution de programme
       error: erreur
       error_app_backtrace: erreur de trace d'application
       error_backtrace: trace d'erreur
@@ -1632,6 +1658,8 @@ fr:
       result: résultat
       status: statut
       updated_at: mis à jour à
+    update:
+      notice: exécution du programme mise à jour
   program_prompt_schedules:
     create:
       notice: horaire d'invite de programme créé
@@ -1704,11 +1732,17 @@ fr:
     update:
       notice: horaire d'invite de programme mis à jour
   program_prompts:
+    create:
+      notice: invite du programme créée
     destroy:
       notice: invite du programme supprimée
+    edit:
+      submit: mettre à jour l'invite de programme
+      title: modifier l'invite de programme
     index:
       delete_all: supprimer tout
       destroy_all: détruire tout
+      new: nouvelle invite de programme
       program_prompt_schedules:
         one: 1 programme d'invite de programme
         other: Horaires d'invite du programme %{count}
@@ -1722,10 +1756,14 @@ fr:
         in_progress: en cours
         initialized: initialisé
       to_s: invite_de_programme#%{id}
+    new:
+      submit: créer l'invite de programme
+      title: nouvelle invite de programme
     show:
       created_at: créé à
       delete: supprimer l'invite de programme
       destroy: détruire l'invite de programme
+      edit: modifier l'invite de programme
       error: erreur
       error_app_backtrace: erreur de trace d'application
       error_backtrace: trace d'erreur
@@ -1745,6 +1783,8 @@ fr:
       status: statut
       updated_at: mis à jour à
       user: utilisateur
+    update:
+      notice: invite du programme mise à jour
   program_schedules:
     create:
       notice: horaire de programmes créée

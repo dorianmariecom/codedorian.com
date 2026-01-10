@@ -12,11 +12,11 @@ class ProgramExecutionPolicy < ApplicationPolicy
   end
 
   def create?
-    false
+    true
   end
 
   def update?
-    false
+    owner? || admin?
   end
 
   def show?

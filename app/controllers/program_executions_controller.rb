@@ -7,7 +7,10 @@ class ProgramExecutionsController < ApplicationController
   before_action do
     add_breadcrumb(key: "program_executions.index", path: index_url)
   end
-  before_action(:load_program_execution, only: %i[show destroy delete])
+  before_action(
+    :load_program_execution,
+    only: %i[show edit update destroy delete]
+  )
 
   def index
     authorize(ProgramExecution)
@@ -16,6 +19,42 @@ class ProgramExecutionsController < ApplicationController
   end
 
   def show
+  end
+
+  def new
+    @program_execution = authorize(scope.new(program: @program))
+
+    add_breadcrumb
+  end
+
+  def edit
+    add_breadcrumb
+  end
+
+  def create
+    @program_execution = authorize(scope.new(program_execution_params))
+
+    if @program_execution.save(context: :controller)
+      log_in(@program_execution.user)
+      @user = @program_execution.user
+      redirect_to(show_url, notice: t(".notice"))
+    else
+      flash.now.alert = @program_execution.alert
+      render(:new, status: :unprocessable_content)
+    end
+  end
+
+  def update
+    @program_execution.assign_attributes(program_execution_params)
+
+    if @program_execution.save(context: :controller)
+      log_in(@program_execution.user)
+      @user = @program_execution.user
+      redirect_to(show_url, notice: t(".notice"))
+    else
+      flash.now.alert = @program_execution.alert
+      render(:edit, status: :unprocessable_content)
+    end
   end
 
   def destroy
@@ -130,5 +169,33 @@ class ProgramExecutionsController < ApplicationController
     @program_execution = authorize(scope.find(id))
     set_context(program_execution: @program_execution)
     add_breadcrumb(text: @program_execution, path: show_url)
+  end
+
+  def program_execution_params
+    if admin?
+      params.expect(
+        program_execution: %i[
+          program_id
+          status
+          input
+          output
+          result
+          error
+          error_class
+          error_message
+          error_backtrace
+        ]
+      )
+    else
+      params.expect(
+        program_execution: %i[
+          input
+          output
+          result
+          error
+          error_class
+        ]
+      )
+    end
   end
 end

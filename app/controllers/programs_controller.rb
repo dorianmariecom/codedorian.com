@@ -130,7 +130,7 @@ class ProgramsController < ApplicationController
 
       if generate?
         @program_prompt =
-          authorize(program_prompts_scope.new(program_prompt_params))
+          authorize(program_prompts_scope.new(program_prompt_params), :create?)
 
         if @program_prompt.save(context: :controller)
           perform_later(

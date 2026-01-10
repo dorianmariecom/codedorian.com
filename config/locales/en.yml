@@ -144,6 +144,22 @@ en:
         input: input
         name: name
         user_id: user
+      program_execution:
+        error: error
+        error_backtrace: error backtrace
+        error_class: error class
+        error_message: error message
+        input: input
+        output: output
+        program_id: program
+        result: result
+        status: status
+      program_prompt:
+        input: input
+        name: name
+        program_id: program
+        status: status
+        user_id: user
       program_schedule:
         interval: interval
         program_id: program
@@ -1602,11 +1618,17 @@ en:
     update:
       notice: phone number updated
   program_executions:
+    create:
+      notice: program execution created
     destroy:
       notice: program execution deleted
+    edit:
+      submit: update program execution
+      title: edit program execution
     index:
       delete_all: delete all
       destroy_all: destroy all
+      new: new program execution
       title: program executions
     model:
       statuses:
@@ -1616,10 +1638,14 @@ en:
         in_progress: in progress
         initialized: initialized
       to_s: program_execution#%{id}
+    new:
+      submit: create program execution
+      title: new program execution
     show:
       created_at: created at
       delete: delete program execution
       destroy: destroy program execution
+      edit: edit program execution
       error: error
       error_app_backtrace: error app backtrace
       error_backtrace: error backtrace
@@ -1632,6 +1658,8 @@ en:
       result: result
       status: status
       updated_at: updated at
+    update:
+      notice: program execution updated
   program_prompt_schedules:
     create:
       notice: program prompt schedule created
@@ -1704,11 +1732,17 @@ en:
     update:
       notice: schedule updated
   program_prompts:
+    create:
+      notice: program prompt created
     destroy:
       notice: program prompt deleted
+    edit:
+      submit: update program prompt
+      title: edit program prompt
     index:
       delete_all: delete all
       destroy_all: destroy all
+      new: new program prompt
       program_prompt_schedules:
         one: 1 program prompt schedule
         other: "%{count} program prompt schedules"
@@ -1722,10 +1756,14 @@ en:
         in_progress: in progress
         initialized: initialized
       to_s: program_prompt#%{id}
+    new:
+      submit: create program prompt
+      title: new program prompt
     show:
       created_at: created at
       delete: delete program prompt
       destroy: destroy program prompt
+      edit: edit program prompt
       error: error
       error_app_backtrace: error app backtrace
       error_backtrace: error backtrace
@@ -1745,6 +1783,8 @@ en:
       status: status
       updated_at: updated at
       user: user
+    update:
+      notice: program prompt updated
   program_schedules:
     create:
       notice: program schedule created

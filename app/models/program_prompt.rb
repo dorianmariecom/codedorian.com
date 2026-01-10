@@ -255,7 +255,7 @@ class ProgramPrompt < ApplicationRecord
   end
 
   def programs_json
-    Rails.root.join("config/examples.json").read
+    Example.all.to_json
   end
 
   def initialized?

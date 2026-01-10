@@ -7,7 +7,10 @@ class ProgramPromptsController < ApplicationController
   before_action do
     add_breadcrumb(key: "program_prompts.index", path: index_url)
   end
-  before_action(:load_program_prompt, only: %i[show destroy delete])
+  before_action(
+    :load_program_prompt,
+    only: %i[show edit update destroy delete]
+  )
 
   def index
     authorize(ProgramPrompt)
@@ -19,6 +22,42 @@ class ProgramPromptsController < ApplicationController
   def show
     @program_prompt_schedules =
       program_prompt_schedules_scope.order(created_at: :asc).page(params[:page])
+  end
+
+  def new
+    @program_prompt = authorize(scope.new(program: @program))
+
+    add_breadcrumb
+  end
+
+  def edit
+    add_breadcrumb
+  end
+
+  def create
+    @program_prompt = authorize(scope.new(program_prompt_params))
+
+    if @program_prompt.save(context: :controller)
+      log_in(@program_prompt.user)
+      @user = @program_prompt.user
+      redirect_to(show_url, notice: t(".notice"))
+    else
+      flash.now.alert = @program_prompt.alert
+      render(:new, status: :unprocessable_content)
+    end
+  end
+
+  def update
+    @program_prompt.assign_attributes(program_prompt_params)
+
+    if @program_prompt.save(context: :controller)
+      log_in(@program_prompt.user)
+      @user = @program_prompt.user
+      redirect_to(show_url, notice: t(".notice"))
+    else
+      flash.now.alert = @program_prompt.alert
+      render(:edit, status: :unprocessable_content)
+    end
   end
 
   def destroy
@@ -141,5 +180,28 @@ class ProgramPromptsController < ApplicationController
     @program_prompt = authorize(scope.find(id))
     set_context(program_prompt: @program_prompt)
     add_breadcrumb(text: @program_prompt, path: show_url)
+  end
+
+  def program_prompt_params
+    if admin?
+      params.expect(
+        program_prompt: [
+          :program_id,
+          :user_id,
+          :name,
+          :input,
+          :status,
+          { program_prompt_schedules_attributes: %i[id _destroy starts_at interval] }
+        ]
+      )
+    else
+      params.expect(
+        program_prompt: [
+          :name,
+          :input,
+          { program_prompt_schedules_attributes: %i[id _destroy starts_at interval] }
+        ]
+      )
+    end
   end
 end
