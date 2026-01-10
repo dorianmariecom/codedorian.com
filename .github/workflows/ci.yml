@@ -153,9 +153,11 @@ jobs:
         - 5432:5432
     steps:
     - uses: actions/checkout@v5
+    - uses: actions/setup-node@v5
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
+    - run: npm ci
     - run: bin/rails db:prepare
     - run: bin/rails test:system
   test:
@@ -176,9 +178,11 @@ jobs:
         - 5432:5432
     steps:
     - uses: actions/checkout@v5
+    - uses: actions/setup-node@v5
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
+    - run: npm ci
     - run: bin/rails db:prepare
     - run: bin/rails test
 name: ci
