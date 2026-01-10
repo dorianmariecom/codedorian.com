@@ -115,49 +115,49 @@ class User < ApplicationRecord
   end
 
   def name
-    names.verified.order(primary: :desc).first&.name
+    names.verified.order(primary: :desc).first&.to_s
   end
 
   def address
-    addresses.verified.order(primary: :desc).first&.address
+    addresses.verified.order(primary: :desc).first&.to_s
   end
 
   def handle
-    handles.verified.order(primary: :desc).first&.handle
+    handles.verified.order(primary: :desc).first&.to_s
   end
 
   def password
-    passwords.verified.order(primary: :desc).first&.password
+    passwords.verified.order(primary: :desc).first&.to_s
   end
 
   def email_address
-    email_addresses.verified.order(primary: :desc).first&.email_address
+    email_addresses.verified.order(primary: :desc).first&.to_s
   end
 
   def phone_number
-    phone_numbers.verified.order(primary: :desc).first&.phone_number
+    phone_numbers.verified.order(primary: :desc).first&.to_s
   end
 
   def time_zone
     return @time_zone if defined?(@time_zone)
 
-    @time_zone = time_zones.verified.order(primary: :desc).first&.time_zone
+    @time_zone = time_zones.verified.order(primary: :desc).first&.to_s
   end
 
   def unverified_time_zone
-    time_zones.order(primary: :desc).first&.time_zone
+    time_zones.order(primary: :desc).first&.to_s
   end
 
   def device
-    devices.verified.order(primary: :desc).first&.device
+    devices.verified.order(primary: :desc).first&.to_s
   end
 
   def unverified_device
-    devices.order(primary: :desc).first&.device
+    devices.order(primary: :desc).first&.to_s
   end
 
   def token
-    tokens.verified.order(primary: :desc).first&.token
+    tokens.verified.order(primary: :desc).first&.to_s
   end
 
   def verified!
