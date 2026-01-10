@@ -6,6 +6,8 @@ android_config = Config.rpush.android
 
 Config.rpush.applications.each do |application|
   ios_config.environments.each do |environment|
+    next if Rails.env.test?
+
     p Rpush::Apnsp8::App.find_or_create_by!(
         name: application[:name],
         environment: environment,
@@ -17,6 +19,8 @@ Config.rpush.applications.each do |application|
   end
 
   android_config.environments.each do |environment|
+    next if Rails.env.test?
+
     p Rpush::Fcm::App.find_or_create_by!(
         name: application[:name],
         environment: environment,
@@ -28,5 +32,7 @@ Config.rpush.applications.each do |application|
 end
 
 Config.configurations.to_h.each do |name, content|
+  next if Rails.env.test?
+
   p Configuration.find_or_create_by!(name: name, content: content)
 end
