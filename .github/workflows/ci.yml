@@ -161,6 +161,8 @@ jobs:
   test:
     env:
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/code_test
+      RAILS_ENV: test
+      RAILS_MASTER_KEY: "${{secrets.TEST_RAILS_MASTER_KEY}}"
     name: test
     runs-on: ubuntu-latest
     services:
