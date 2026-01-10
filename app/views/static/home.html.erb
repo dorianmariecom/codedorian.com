@@ -1,12 +1,12 @@
 <h1 class="font-bold mb-4"><%= t(".title") %></h1>
 
 <% if guest? %>
-  <div class="p flex flex-wrap gap-2">
+  <div class="p p--flex">
     <%= link_to(t(".register"), %i[new user], class: "button") %>
     <%= link_to(t(".log_in"), %i[new session], class: "button") %>
   </div>
 <% elsif !hotwire_native_app? && !current_user_or_guest.unverified_device %>
-  <div class="p flex flex-wrap gap-2">
+  <div class="p p--flex">
     <%= link_to(Config.ios.url) do %>
       <%= image_tag("ios-#{I18n.locale}.svg", class: "h-14 inline-block mb-4") %>
     <% end %>
@@ -16,7 +16,7 @@
     <% end %>
   </div>
 <% else %>
-  <div class="p flex flex-wrap gap-2">
+  <div class="p p--flex">
     <%= link_to(t(".messages"), [current_user_or_guest, :messages], class: "button") %>
     <%= link_to(t(".programs"), [current_user_or_guest, :programs], class: "button") %>
   </div>

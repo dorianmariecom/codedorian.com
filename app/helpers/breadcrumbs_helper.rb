@@ -2,7 +2,7 @@
 
 module BreadcrumbsHelper
   def render_breadcrumbs
-    content_tag(:div, class: "p") do
+    content_tag(:div, class: "p p--flex") do
       safe_join(
         @breadcrumbs.map do |breadcrumb|
           link_to(breadcrumb[:text], breadcrumb[:path], class: "link")

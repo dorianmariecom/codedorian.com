@@ -36,6 +36,10 @@ button {
 
 .p {
   @apply mb-4;
+
+  &.p--flex {
+    @apply flex flex-wrap gap-2 items-center;
+  }
 }
 
 .ul {
