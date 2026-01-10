@@ -36,4 +36,10 @@ class GuestPolicy < ApplicationPolicy
   def destroy_all?
     true
   end
+
+  private
+
+  def self?
+    record? && current_guest? && record == current_guest
+  end
 end
