@@ -33,6 +33,7 @@ class PhoneNumbersController < ApplicationController
 
     if @phone_number.save(context: :controller)
       log_in(@phone_number.user)
+      @user = @phone_number.user
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @phone_number.alert
@@ -45,6 +46,7 @@ class PhoneNumbersController < ApplicationController
 
     if @phone_number.save(context: :controller)
       log_in(@phone_number.user)
+      @user = @phone_number.user
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @phone_number.alert

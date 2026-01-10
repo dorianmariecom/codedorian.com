@@ -148,9 +148,6 @@ fr:
         interval: intervalle
         program_id: programme
         starts_at: commence à
-      repl_session:
-        name: nom
-        user_id: utilisateur
       time_zone:
         primary: principal ?
         time_zone: fuseau horaire
@@ -385,22 +382,6 @@ fr:
     programs:
       edit: modifier
       index: programmes
-      new: nouveau
-    repl_executions:
-      edit: modifier
-      index: exécutions de terminaux
-      new: nouvelle
-    repl_programs:
-      edit: modifier
-      index: programmes de terminaux
-      new: nouveau
-    repl_prompts:
-      edit: modifier
-      index: invites de terminaux
-      new: nouveau
-    repl_sessions:
-      edit: modifier
-      index: terminaux
       new: nouveau
     sessions:
       edit: modifier
@@ -1879,22 +1860,6 @@ fr:
         one: 1 horaire de programmes
         other: "%{count} horaires de programmes"
         zero: 0 horaires de programmes
-      repl_executions:
-        one: 1 exécution de terminaux
-        other: "%{count} exécutions de terminaux"
-        zero: 0 exécutions de terminaux
-      repl_programs:
-        one: 1 programme de terminal
-        other: "%{count} programmes de terminaux"
-        zero: 0 programmes de terminaux
-      repl_prompts:
-        one: 1 invite de terminal
-        other: "%{count} invites de terminaux"
-        zero: 0 invites de terminaux
-      repl_sessions:
-        one: 1 terminal
-        other: "%{count} terminaux"
-        zero: 0 terminaux
       schedule_all: programmer tout
       title: programmes
       unschedule_all: déprogrammer tout
@@ -1933,174 +1898,6 @@ fr:
       notice: programme deprogrammé
     update:
       notice: programme mis à jour
-  repl_executions:
-    destroy:
-      notice: exécution du terminal supprimée
-    index:
-      delete_all: supprimer tout
-      destroy_all: détruire tout
-      title: exécutions de terminaux
-    model:
-      statuses:
-        created: crééé
-        done: faite
-        errored: erronée
-        in_progress: en cours
-        initialized: initialisée
-      to_s: execution_de_terminal#%{id}
-    show:
-      context: contexte
-      created_at: créée à
-      delete: supprimer l'exécution de terminal
-      destroy: détruire l'exécution de terminal
-      error: erreur
-      error_app_backtrace: erreur de trace d'application
-      error_backtrace: trace d'erreur
-      error_class: classe d'erreur
-      error_message: message d'erreur
-      id: identifiant
-      input: entrée
-      output: sortie
-      repl_program: programme du terminal
-      repl_session: terminal
-      result: résultat
-      status: statut
-      updated_at: mise à jour à
-      user: utilisateur
-  repl_programs:
-    create:
-      notice: programme de terminal créé
-    destroy:
-      notice: programme de terminal supprimé
-    edit:
-      submit: mettre à jour le programme de terminal
-      title: modifier le programme de terminal
-    form:
-      generate: générer
-      generating: génération
-      input_placeholder: entrez l'entrée de votre programme de terminal
-    index:
-      delete_all: supprimer tout
-      destroy_all: détruire tout
-      new: nouveau programme de terminal
-      repl_executions:
-        one: 1 exécution de terminal
-        other: "%{count} exécutions de terminaux"
-        zero: 0 exécutions de terminaux
-      repl_prompts:
-        one: 1 invite de terminal
-        other: "%{count} invites de terminaux"
-        zero: 0 invite de terminaux
-      title: programmes de terminaux
-    model:
-      to_s: programme_de_terminal#%{id}
-    new:
-      submit: créer un programme de terminal
-      title: nouveau programme de terminal
-    show:
-      created_at: créé à
-      delete: supprimer le programme de terminal
-      destroy: détruire le programme de terminal
-      edit: modifier le programme de terminal
-      id: identifiant
-      input: entrée
-      new_repl_execution: nouvelle exécution de terminal
-      new_repl_prompt: nouvelle invite de terminal
-      repl_executions: exécutions de terminal
-      repl_prompts: invites de terminal
-      repl_session: terminal
-      updated_at: mis à jour à
-      user: utilisateur
-    update:
-      notice: programme de terminaux mis à jour
-  repl_prompts:
-    destroy:
-      notice: invite de terminal supprimée
-    index:
-      delete_all: supprimer tout
-      destroy_all: détruire tout
-      title: invites de terminaux
-    model:
-      statuses:
-        created: créé
-        done: fait
-        errored: erroné
-        in_progress: en cours
-        initialized: initialisé
-      to_s: invite_de_terminal#%{id}
-    show:
-      created_at: créé à
-      delete: supprimer l'invite de terminal
-      destroy: détruire l'invite de terminal
-      edit: modifier l'invite de terminal
-      error: erreur
-      error_app_backtrace: erreur de trace d'application
-      error_backtrace: trace d'erreur
-      error_class: classe d'erreur
-      error_message: message d'erreur
-      id: identifiant
-      input: entrée
-      output: sortie
-      output_input: sortie entrée
-      output_name: sortie nom
-      repl_program: programme de terminal
-      repl_session: terminal
-      status: statut
-      updated_at: mis à jour à
-      user: utilisateur
-  repl_sessions:
-    create:
-      notice: terminal créé
-    destroy:
-      notice: terminal supprimé
-    edit:
-      submit: mettre à jour le terminal
-      title: modifier le terminal
-    form:
-      name_placeholder: entrez le nom de votre terminal
-    index:
-      delete_all: supprimer tout
-      destroy_all: détruire tout
-      new: nouveau terminal
-      repl_executions:
-        one: 1 exécution de terminal
-        other: "%{count} exécutions de terminaux"
-        zero: 0 exécutions de terminaux
-      repl_programs:
-        one: 1 programme de terminal
-        other: "%{count} programmes de terminaux"
-        zero: 0 programmes de terminaux
-      repl_prompts:
-        one: 1 invite de terminal
-        other: "%{count} invites de terminaux"
-        zero: 0 invites de terminaux
-      title: terminaux
-    model:
-      to_s: terminal#%{id}
-    new:
-      submit: créer un terminal
-      title: nouveau terminal
-    show:
-      created_at: créé à
-      delete: supprimer la session de terminal
-      destroy: détruire la session de terminal
-      edit: modifier le terminal
-      evaluate: évaluer
-      evaluate_all: évaluer tout
-      generate: générer
-      generating: génération
-      id: identifiant
-      name: nom
-      new_repl_execution: nouvelle exécution de terminal
-      new_repl_program: nouveau programme de terminal
-      new_repl_prompt: nouvelle invite de terminal
-      repl_executions: exécutions de terminal
-      repl_programs: programmes de terminal
-      repl_prompts: invites de terminal
-      updated_at: mis à jour à
-      user: utilisateur
-    update:
-      notice: terminal mis à jour
   sessions:
     create:
       notice: connecté
@@ -2139,10 +1936,6 @@ fr:
       program_prompt: invite de programme
       program_prompt_schedule: horaire d'invite de programme
       program_schedule: horaire de programme
-      repl_execution: éxécution de terminal
-      repl_program: programme de terminal
-      repl_prompt: invite de terminal
-      repl_session: terminal
       time_zone: fuseau horaire
       token: jeton
       user: utilisateur
@@ -2176,10 +1969,6 @@ fr:
       new_program_prompt: nouvel invite de programme
       new_program_prompt_schedule: nouvel horaire d'invite de programme
       new_program_schedule: nouvel horaire de programme
-      new_repl_execution: nouvelle exécution de terminal
-      new_repl_program: nouveau programme de terminal
-      new_repl_prompt: nouvelle invite de terminal
-      new_repl_session: nouveau terminal
       new_time_zone: nouveau fuseau horaire
       new_token: nouveau jeton
       passwords: mots de passe
@@ -2189,10 +1978,6 @@ fr:
       program_prompts: invites du programme
       program_schedules: horaires de programmes
       programs: programmes
-      repl_executions: exécutions de terminaux
-      repl_programs: programmes de terminaux
-      repl_prompts: invites de terminaux
-      repl_sessions: terminaux
       time_zones: fuseaux horaires
       tokens: jetons
     modal:
@@ -2266,10 +2051,6 @@ fr:
       program_prompts: invites de programmes
       program_schedules: horaires de programmes
       programs: programmes
-      repl_executions: exécutions de terminaux
-      repl_programs: programmes de terminaux
-      repl_prompts: invites de terminaux
-      repl_sessions: terminaux
       time_zones: fuseaux horaires
       title: admin
       tokens: jetons

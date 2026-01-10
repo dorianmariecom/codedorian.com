@@ -27,27 +27,6 @@ elsif filter == :program_prompt_schedule
   scope = scope.where_user(@user) if @user
   scope = scope.where_program(@program) if @program
   scope = scope.where_program_prompt(@program_prompt) if @program_prompt
-elsif filter == :repl_session
-  scope = policy_scope(ReplSession)
-  scope = scope.where_guest(@guest) if @guest
-  scope = scope.where_user(@user) if @user
-elsif filter == :repl_program
-  scope = policy_scope(ReplProgram)
-  scope = scope.where_guest(@guest) if @guest
-  scope = scope.where_user(@user) if @user
-  scope = scope.where_repl_session(@repl_session) if @repl_session
-elsif filter == :repl_prompt
-  scope = policy_scope(ReplPrompt)
-  scope = scope.where_guest(@guest) if @guest
-  scope = scope.where_user(@user) if @user
-  scope = scope.where_repl_session(@repl_session) if @repl_session
-  scope = scope.where_repl_program(@repl_program) if @repl_program
-elsif filter == :repl_execution
-  scope = policy_scope(ReplExecution)
-  scope = scope.where_guest(@guest) if @guest
-  scope = scope.where_user(@user) if @user
-  scope = scope.where_repl_session(@repl_session) if @repl_session
-  scope = scope.where_repl_program(@repl_program) if @repl_program
 elsif filter == :error
   scope = policy_scope(::Error)
   scope = scope.where_guest(@guest) if @guest
@@ -109,7 +88,6 @@ end %>
 <% program_context =
   @program || @program_prompt || @program_prompt_schedule ||
     @program_execution || @program_schedule %>
-<% repl_context = @repl_session || @repl_program || @repl_prompt || @repl_execution %>
 <% shown =
   if filter == :user
     admin? && !@guest
@@ -122,13 +100,9 @@ end %>
         program_execution
         program_schedule
       ].include?(filter)
-    !repl_context
-  elsif %i[repl_session repl_program repl_prompt repl_execution].include?(
-        filter
-      )
-    !program_context
+    true
   else
-    !program_context && !repl_context
+    !program_context
   end %>
 
 <% shown &&= scope.any? %>

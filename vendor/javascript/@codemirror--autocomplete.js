@@ -1,4 +1,4 @@
-// @codemirror/autocomplete@6.19.0 downloaded from https://ga.jspm.io/npm:@codemirror/autocomplete@6.19.0/dist/index.js
+// @codemirror/autocomplete@6.20.0 downloaded from https://ga.jspm.io/npm:@codemirror/autocomplete@6.20.0/dist/index.js
 
 import {
   Annotation as e,
@@ -26,8 +26,8 @@ import {
   getTooltip as y,
   ViewPlugin as x,
   Decoration as C,
-  WidgetType as S,
-  keymap as A,
+  WidgetType as A,
+  keymap as S,
 } from "@codemirror/view";
 import { syntaxTree as I, indentUnit as k } from "@codemirror/language";
 class CompletionContext {
@@ -55,7 +55,7 @@ class CompletionContext {
     let t = this.state.doc.lineAt(this.pos);
     let n = Math.max(t.from, this.pos - 250);
     let i = t.text.slice(n - t.from, this.pos - t.from);
-    let o = i.search(M(e, false));
+    let o = i.search(L(e, false));
     return o < 0 ? null : { from: n + o, to: this.pos, text: i.slice(o) };
   }
   get aborted() {
@@ -103,7 +103,7 @@ function T(e, t) {
     return null;
   };
 }
-function E(e, t) {
+function M(e, t) {
   return (n) => {
     for (let t = I(n.state).resolveInner(n.pos, -1); t; t = t.parent) {
       if (e.indexOf(t.name) > -1) return null;
@@ -120,10 +120,10 @@ class Option {
     this.score = i;
   }
 }
-function L(e) {
+function E(e) {
   return e.selection.main.from;
 }
-function M(e, t) {
+function L(e, t) {
   var n;
   let { source: i } = e;
   let o = t && i[0] != "^",
@@ -333,7 +333,8 @@ const W = l.define({
         addToOptions: [],
         positionInfo: j,
         filterStrict: false,
-        compareCompletions: (e, t) => e.label.localeCompare(t.label),
+        compareCompletions: (e, t) =>
+          (e.sortText || e.label).localeCompare(t.sortText || t.label),
         interactionDelay: 75,
         updateSyncTime: 100,
       },
@@ -548,28 +549,32 @@ class CompletionTooltip {
       );
       this.showOptions(t.options, e.id);
     }
-    if (this.updateSelectedOption(t.selected)) {
+    let n = this.updateSelectedOption(t.selected);
+    if (n) {
       this.destroyInfo();
-      let { completion: n } = t.options[t.selected];
-      let { info: i } = n;
-      if (!i) return;
-      let o = typeof i === "string" ? document.createTextNode(i) : i(n);
+      let { completion: i } = t.options[t.selected];
+      let { info: o } = i;
       if (!o) return;
-      "then" in o
-        ? o
-            .then((t) => {
-              t &&
-                this.view.state.field(this.stateField, false) == e &&
-                this.addInfoPane(t, n);
-            })
-            .catch((e) => v(this.view.state, e, "completion info"))
-        : this.addInfoPane(o, n);
+      let s = typeof o === "string" ? document.createTextNode(o) : o(i);
+      if (!s) return;
+      if ("then" in s)
+        s.then((t) => {
+          t &&
+            this.view.state.field(this.stateField, false) == e &&
+            this.addInfoPane(t, i);
+        }).catch((e) => v(this.view.state, e, "completion info"));
+      else {
+        this.addInfoPane(s, i);
+        n.setAttribute("aria-describedby", this.info.id);
+      }
     }
   }
   addInfoPane(e, t) {
     this.destroyInfo();
     let n = (this.info = document.createElement("div"));
     n.className = "cm-tooltip cm-completionInfo";
+    n.id =
+      "cm-completionInfo-" + Math.floor(Math.random() * 65535).toString(16);
     if (e.nodeType != null) {
       n.appendChild(e);
       this.infoDestroy = null;
@@ -588,15 +593,17 @@ class CompletionTooltip {
       n;
       n = n.nextSibling, i++
     )
-      if (n.nodeName == "LI" && n.id)
+      if (n.nodeName == "LI" && n.id) {
         if (i == e) {
           if (!n.hasAttribute("aria-selected")) {
             n.setAttribute("aria-selected", "true");
             t = n;
           }
-        } else
-          n.hasAttribute("aria-selected") && n.removeAttribute("aria-selected");
-      else i--;
+        } else if (n.hasAttribute("aria-selected")) {
+          n.removeAttribute("aria-selected");
+          n.removeAttribute("aria-describedby");
+        }
+      } else i--;
     t && K(this.list, t);
     return t;
   }
@@ -852,7 +859,7 @@ class CompletionState {
   update(e) {
     let { state: t } = e,
       n = t.facet(W);
-    let i = n.override || t.languageDataAt("autocomplete", L(t)).map($);
+    let i = n.override || t.languageDataAt("autocomplete", E(t)).map($);
     let o = i.map((t) => {
       let i =
         this.active.find((e) => e.source == t) ||
@@ -961,7 +968,7 @@ class ActiveSource {
     return this;
   }
   touches(e) {
-    return e.changes.touchesRange(L(e.state));
+    return e.changes.touchesRange(E(e.state));
   }
 }
 class ActiveResult extends ActiveSource {
@@ -982,11 +989,11 @@ class ActiveResult extends ActiveSource {
     i.map && !e.changes.empty && (i = i.map(i, e.changes));
     let o = e.changes.mapPos(this.from),
       s = e.changes.mapPos(this.to, 1);
-    let l = L(e.state);
+    let l = E(e.state);
     if (
       l > s ||
       !i ||
-      (t & 2 && (L(e.startState) == this.from || l < this.limit))
+      (t & 2 && (E(e.startState) == this.from || l < this.limit))
     )
       return new ActiveSource(this.source, t & 4 ? 1 : 0);
     let r = e.changes.mapPos(this.limit);
@@ -1000,7 +1007,7 @@ class ActiveResult extends ActiveSource {
             r,
             i,
             i.from,
-            (n = i.to) !== null && n !== void 0 ? n : L(e.state),
+            (n = i.to) !== null && n !== void 0 ? n : E(e.state),
           )
         : new ActiveSource(this.source, 1, this.explicit);
   }
@@ -1025,7 +1032,7 @@ class ActiveResult extends ActiveSource {
 function te(e, t, n, i) {
   if (!e) return false;
   let o = t.sliceDoc(n, i);
-  return typeof e == "function" ? e(o, n, i, t) : M(e, true).test(o);
+  return typeof e == "function" ? e(o, n, i, t) : L(e, true).test(o);
 }
 const ne = n.define({
   map(e, t) {
@@ -1197,7 +1204,7 @@ const pe = x.fromClass(
     }
     startQuery(e) {
       let { state: t } = this.view,
-        n = L(t);
+        n = E(t);
       let i = new CompletionContext(t, n, e.explicit, this.view);
       let o = new RunningQuery(e, i);
       this.running.push(o);
@@ -1235,7 +1242,7 @@ const pe = x.fromClass(
         if (s.done === void 0) continue;
         this.running.splice(o--, 1);
         if (s.done) {
-          let i = L(
+          let i = E(
             s.updates.length ? s.updates[0].startState : this.view.state,
           );
           let o = Math.min(i, s.done.from + (s.active.explicit ? 0 : 1));
@@ -1497,7 +1504,7 @@ class Snippet {
   }
 }
 let ve = C.widget({
-  widget: new (class extends S {
+  widget: new (class extends A {
     toDOM() {
       let e = document.createElement("span");
       e.className = "cm-snippetFieldPosition";
@@ -1561,7 +1568,7 @@ function Ce(e, n) {
     e.filter((e) => e.field == n).map((e) => t.range(e.from, e.to)),
   );
 }
-function Se(e) {
+function Ae(e) {
   let t = Snippet.parse(e);
   return (e, i, o, s) => {
     let { text: l, ranges: r } = t.instantiate(e.state, o);
@@ -1576,12 +1583,12 @@ function Se(e) {
       let t = new ActiveSnippet(r, 0);
       let i = (c.effects = [we.of(t)]);
       e.state.field(xe, false) === void 0 &&
-        i.push(n.appendConfig.of([xe, Le, Pe, ge]));
+        i.push(n.appendConfig.of([xe, Ee, Pe, ge]));
     }
     e.dispatch(e.state.update(c));
   };
 }
-function Ae(e) {
+function Se(e) {
   return ({ state: t, dispatch: n }) => {
     let i = t.field(xe, false);
     if (!i || (e < 0 && i.active == 0)) return false;
@@ -1603,8 +1610,8 @@ const Ie = ({ state: e, dispatch: t }) => {
   t(e.update({ effects: we.of(null) }));
   return true;
 };
-const ke = Ae(1);
-const De = Ae(-1);
+const ke = Se(1);
+const De = Se(-1);
 function Oe(e) {
   let t = e.field(xe, false);
   return !!(t && t.ranges.some((e) => e.field == t.active + 1));
@@ -1617,14 +1624,14 @@ const Te = [
   { key: "Tab", run: ke, shift: De },
   { key: "Escape", run: Ie },
 ];
-const Ee = l.define({
+const Me = l.define({
   combine(e) {
     return e.length ? e[0] : Te;
   },
 });
-const Le = c.highest(A.compute([Ee], (e) => e.facet(Ee)));
-function Me(e, t) {
-  return { ...t, apply: Se(e) };
+const Ee = c.highest(S.compute([Me], (e) => e.facet(Me)));
+function Le(e, t) {
+  return { ...t, apply: Ae(e) };
 }
 const Pe = w.domEventHandlers({
   mousedown(e, t) {
@@ -1961,7 +1968,7 @@ const ut = [
   { key: "Enter", run: ae },
 ];
 const ht = c.highest(
-  A.computeN([W], (e) => (e.facet(W).defaultKeymap ? [ut] : [])),
+  S.computeN([W], (e) => (e.facet(W).defaultKeymap ? [ut] : [])),
 );
 function pt(e) {
   let t = e.field(oe, false);
@@ -2012,7 +2019,7 @@ export {
   Oe as hasNextSnippetField,
   Re as hasPrevSnippetField,
   T as ifIn,
-  E as ifNotIn,
+  M as ifNotIn,
   et as insertBracket,
   F as insertCompletionText,
   re as moveCompletionSelection,
@@ -2022,8 +2029,8 @@ export {
   gt as selectedCompletion,
   vt as selectedCompletionIndex,
   bt as setSelectedCompletion,
-  Se as snippet,
-  Me as snippetCompletion,
-  Ee as snippetKeymap,
+  Ae as snippet,
+  Le as snippetCompletion,
+  Me as snippetKeymap,
   ce as startCompletion,
 };

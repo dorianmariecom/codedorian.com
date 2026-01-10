@@ -1,4 +1,4 @@
-// @sentry-internal/feedback@10.30.0 downloaded from https://ga.jspm.io/npm:@sentry-internal/feedback@10.30.0/build/npm/esm/index.js
+// @sentry-internal/feedback@10.32.1 downloaded from https://ga.jspm.io/npm:@sentry-internal/feedback@10.32.1/build/npm/esm/index.js
 
 import {
   GLOBAL_OBJ as e,
@@ -1812,8 +1812,8 @@ const Dn = () => ({
           screenshotInput: f,
           showName: e.showName || e.isNameRequired,
           showEmail: e.showEmail || e.isEmailRequired,
-          defaultName: (a && l?.[a.name]) || "",
-          defaultEmail: (a && l?.[a.email]) || "",
+          defaultName: String((a && l?.[a.name]) || ""),
+          defaultEmail: String((a && l?.[a.email]) || ""),
           onFormClose: () => {
             h(false);
             e.onFormClose?.();

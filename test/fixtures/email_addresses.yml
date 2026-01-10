@@ -1,0 +1,15 @@
+admin_email:
+  user: admin
+  email_address: "dorian@example.test"
+  verified: true
+  primary: true
+  created_at: 2025-01-10 09:15:00
+  updated_at: 2025-01-10 09:15:00
+
+other_email:
+  user: other_user
+  email_address: "camille.roux@example.test"
+  verified: true
+  primary: true
+  created_at: 2025-02-02 16:43:00
+  updated_at: 2025-02-02 16:43:00

@@ -35,6 +35,7 @@ class DevicesController < ApplicationController
 
     if @device.save(context: :controller)
       log_in(@device.user)
+      @user = @device.user
       respond_to do |format|
         format.html { redirect_to(show_url, notice: t(".notice")) }
         format.json { render(json: { message: t(".notice") }) }
@@ -62,6 +63,7 @@ class DevicesController < ApplicationController
 
     if @device.save(context: :controller)
       log_in(@device.user)
+      @user = @device.user
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @device.alert

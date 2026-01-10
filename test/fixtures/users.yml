@@ -1,0 +1,15 @@
+admin:
+  admin: true
+  verified: true
+  locale: en
+  description: "Site owner account for curated programs and support replies."
+  created_at: 2025-01-10 09:12:00
+  updated_at: 2025-03-01 14:25:00
+
+other_user:
+  admin: false
+  verified: true
+  locale: fr
+  description: "Beta user scheduling a morning digest."
+  created_at: 2025-02-02 16:40:00
+  updated_at: 2025-03-02 08:12:00

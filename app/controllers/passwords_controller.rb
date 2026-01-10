@@ -40,6 +40,7 @@ class PasswordsController < ApplicationController
 
     if @password.save(context: :controller)
       log_in(@password.user)
+      @user = @password.user
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @password.alert
@@ -52,6 +53,7 @@ class PasswordsController < ApplicationController
 
     if @password.save(context: :controller)
       log_in(@password.user)
+      @user = @password.user
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @password.alert

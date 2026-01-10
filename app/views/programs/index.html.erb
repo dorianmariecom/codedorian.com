@@ -16,44 +16,6 @@
   ) %>
 </div>
 
-<div class="p">
-  <%= link_to(
-    t(".repl_sessions", count: @repl_sessions.size),
-    [@user || @guest, :repl_sessions],
-    class: "link"
-  ) %>
-</div>
-
-<% if @repl_programs.any? %>
-  <div class="p">
-    <%= link_to(
-      t(".repl_programs", count: @repl_programs.size),
-      [@user || @guest, :repl_programs],
-      class: "link"
-    ) %>
-  </div>
-<% end %>
-
-<% if @repl_prompts.any? %>
-  <div class="p">
-    <%= link_to(
-      t(".repl_prompts", count: @repl_prompts.size),
-      [@user || @guest, :repl_prompts],
-      class: "link"
-    ) %>
-  </div>
-<% end %>
-
-<% if @repl_executions.any? %>
-  <div class="p">
-    <%= link_to(
-      t(".repl_executions", count: @repl_executions.size),
-      [@user || @guest, :repl_executions],
-      class: "link"
-    ) %>
-  </div>
-<% end %>
-
 <% if @program_executions.any? %>
   <div class="p">
     <%= link_to(

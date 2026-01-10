@@ -148,9 +148,6 @@ en:
         interval: interval
         program_id: program
         starts_at: starts at
-      repl_session:
-        name: name
-        user_id: user
       time_zone:
         primary: primary?
         time_zone: time zone
@@ -385,22 +382,6 @@ en:
     programs:
       edit: edit
       index: programs
-      new: new
-    repl_executions:
-      edit: edit
-      index: repl executions
-      new: new
-    repl_programs:
-      edit: edit
-      index: repl programs
-      new: new
-    repl_prompts:
-      edit: edit
-      index: repl prompts
-      new: new
-    repl_sessions:
-      edit: edit
-      index: repl sessions
       new: new
     sessions:
       edit: edit
@@ -1879,22 +1860,6 @@ en:
         one: 1 program schedule
         other: "%{count} program schedules"
         zero: 0 program schedules
-      repl_executions:
-        one: 1 repl execution
-        other: "%{count} repl executions"
-        zero: 0 repl executions
-      repl_programs:
-        one: 1 repl program
-        other: "%{count} repl programs"
-        zero: 0 repl programs
-      repl_prompts:
-        one: 1 repl prompt
-        other: "%{count} repl prompts"
-        zero: 0 repl prompts
-      repl_sessions:
-        one: 1 repl session
-        other: "%{count} repl sessions"
-        zero: 0 repl sessions
       schedule_all: schedule all
       title: programs
       unschedule_all: unschedule all
@@ -1933,174 +1898,6 @@ en:
       notice: program unscheduled
     update:
       notice: program updated
-  repl_executions:
-    destroy:
-      notice: repl execution deleted
-    index:
-      delete_all: delete all
-      destroy_all: destroy all
-      title: repl executions
-    model:
-      statuses:
-        created: created
-        done: done
-        errored: errored
-        in_progress: in progress
-        initialized: initialized
-      to_s: repl_execution#%{id}
-    show:
-      context: context
-      created_at: created at
-      delete: delete repl execution
-      destroy: destroy repl execution
-      error: error
-      error_app_backtrace: error app backtrace
-      error_backtrace: error backtrace
-      error_class: error class
-      error_message: error message
-      id: id
-      input: input
-      output: output
-      repl_program: repl program
-      repl_session: repl session
-      result: result
-      status: status
-      updated_at: updated at
-      user: user
-  repl_programs:
-    create:
-      notice: repl program created
-    destroy:
-      notice: repl program deleted
-    edit:
-      submit: update repl program
-      title: edit repl program
-    form:
-      generate: generate
-      generating: generating
-      input_placeholder: enter your repl program's input
-    index:
-      delete_all: delete all
-      destroy_all: destroy all
-      new: new repl program
-      repl_executions:
-        one: 1 repl execution
-        other: "%{count} repl executions"
-        zero: 0 repl executions
-      repl_prompts:
-        one: 1 repl prompt
-        other: "%{count} repl prompts"
-        zero: 0 repl prompts
-      title: repl programs
-    model:
-      to_s: repl_program#%{id}
-    new:
-      submit: create repl program
-      title: new repl program
-    show:
-      created_at: created at
-      delete: delete repl program
-      destroy: destroy repl program
-      edit: edit repl program
-      id: id
-      input: input
-      new_repl_execution: new repl execution
-      new_repl_prompt: new repl prompt
-      repl_executions: repl executions
-      repl_prompts: repl prompts
-      repl_session: repl session
-      updated_at: updated at
-      user: user
-    update:
-      notice: repl program updated
-  repl_prompts:
-    destroy:
-      notice: repl prompt deleted
-    index:
-      delete_all: delete all
-      destroy_all: destroy all
-      title: repl prompts
-    model:
-      statuses:
-        created: created
-        done: done
-        errored: errored
-        in_progress: in progress
-        initialized: initialized
-      to_s: repl_prompt#%{id}
-    show:
-      created_at: created at
-      delete: delete repl prompt
-      destroy: destroy repl prompt
-      edit: edit repl prompt
-      error: error
-      error_app_backtrace: error app backtrace
-      error_backtrace: error backtrace
-      error_class: error class
-      error_message: error message
-      id: id
-      input: input
-      output: output
-      output_input: output input
-      output_name: output name
-      repl_program: repl program
-      repl_session: repl session
-      status: status
-      updated_at: updated at
-      user: user
-  repl_sessions:
-    create:
-      notice: repl session created
-    destroy:
-      notice: repl session deleted
-    edit:
-      submit: update repl session
-      title: edit repl session
-    form:
-      name_placeholder: enter your repl session's name
-    index:
-      delete_all: delete all
-      destroy_all: destroy all
-      new: new repl session
-      repl_executions:
-        one: 1 repl execution
-        other: "%{count} repl executions"
-        zero: 0 repl executions
-      repl_programs:
-        one: 1 repl program
-        other: "%{count} repl programs"
-        zero: 0 repl programs
-      repl_prompts:
-        one: 1 repl prompt
-        other: "%{count} repl prompts"
-        zero: 0 repl prompts
-      title: repl sessions
-    model:
-      to_s: repl_session#%{id}
-    new:
-      submit: create repl session
-      title: new repl session
-    show:
-      created_at: created at
-      delete: delete repl session
-      destroy: destroy repl session
-      edit: edit repl session
-      evaluate: evaluate
-      evaluate_all: evaluate all
-      generate: generate
-      generating: generating
-      id: id
-      name: name
-      new_repl_execution: new repl execution
-      new_repl_program: new repl program
-      new_repl_prompt: new repl prompt
-      repl_executions: repl executions
-      repl_programs: repl programs
-      repl_prompts: repl prompts
-      updated_at: updated at
-      user: user
-    update:
-      notice: repl session updated
   sessions:
     create:
       notice: logged in
@@ -2139,10 +1936,6 @@ en:
       program_prompt: program prompt
       program_prompt_schedule: program prompt schedule
       program_schedule: program schedule
-      repl_execution: repl execution
-      repl_program: repl program
-      repl_prompt: repl prompt
-      repl_session: repl session
       time_zone: time zone
       token: token
       user: user
@@ -2176,10 +1969,6 @@ en:
       new_program_prompt: new program prompt
       new_program_prompt_schedule: new program prompt schedule
       new_program_schedule: new program schedule
-      new_repl_execution: new repl execution
-      new_repl_program: new repl program
-      new_repl_prompt: new repl prompt
-      new_repl_session: new repl session
       new_time_zone: new time zone
       new_token: new token
       passwords: passwords
@@ -2189,10 +1978,6 @@ en:
       program_prompts: program prompts
       program_schedules: program schedules
       programs: programs
-      repl_executions: repl executions
-      repl_programs: repl programs
-      repl_prompts: repl prompts
-      repl_sessions: repl sessions
       time_zones: time zones
       tokens: tokens
     modal:
@@ -2266,10 +2051,6 @@ en:
       program_prompts: program prompts
       program_schedules: program schedules
       programs: programs
-      repl_executions: repl executions
-      repl_programs: repl programs
-      repl_prompts: repl prompts
-      repl_sessions: repl sessions
       time_zones: time zones
       title: admin
       tokens: tokens

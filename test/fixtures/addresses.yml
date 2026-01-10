@@ -1,0 +1,17 @@
+address:
+  user: admin
+  address: "100 Market St, San Francisco, CA 94105, USA"
+  primary: true
+  verified: true
+  autocomplete: {"formattedAddress":"100 Market St, San Francisco, CA 94105, USA","locality":"San Francisco","region":"CA","postalCode":"94105","country":"US"}
+  created_at: 2025-01-10 09:18:00
+  updated_at: 2025-01-10 09:18:00
+
+other_address:
+  user: other_user
+  address: "18 Rue Oberkampf, 75011 Paris, France"
+  primary: true
+  verified: true
+  autocomplete: {"formattedAddress":"18 Rue Oberkampf, 75011 Paris, France","locality":"Paris","postalCode":"75011","country":"FR"}
+  created_at: 2025-02-02 16:45:00
+  updated_at: 2025-02-02 16:45:00

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_07_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_10_135206) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -191,14 +191,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_07_120000) do
   create_table "messages", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.bigint "from_user_id", null: false
-    t.bigint "program_id"
-    t.boolean "read", default: false, null: false
-    t.bigint "repl_program_id"
     t.bigint "to_user_id", null: false
     t.datetime "updated_at", null: false
     t.index ["from_user_id"], name: "index_messages_on_from_user_id"
-    t.index ["program_id"], name: "index_messages_on_program_id"
-    t.index ["repl_program_id"], name: "index_messages_on_repl_program_id"
     t.index ["to_user_id"], name: "index_messages_on_to_user_id"
   end
 
@@ -299,57 +294,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_07_120000) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.index ["user_id"], name: "index_programs_on_user_id"
-  end
-
-  create_table "repl_executions", force: :cascade do |t|
-    t.text "context"
-    t.datetime "created_at", null: false
-    t.text "error"
-    t.text "error_backtrace"
-    t.text "error_class"
-    t.text "error_message"
-    t.text "input"
-    t.text "output"
-    t.bigint "repl_program_id", null: false
-    t.text "result"
-    t.string "status", default: "initialized"
-    t.datetime "updated_at", null: false
-    t.index ["repl_program_id"],
-            name: "index_repl_executions_on_repl_program_id"
-  end
-
-  create_table "repl_programs", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.text "input"
-    t.bigint "repl_session_id", null: false
-    t.datetime "updated_at", null: false
-    t.index ["repl_session_id"], name: "index_repl_programs_on_repl_session_id"
-  end
-
-  create_table "repl_prompts", force: :cascade do |t|
-    t.text "backtrace"
-    t.datetime "created_at", null: false
-    t.text "error_backtrace"
-    t.text "error_class"
-    t.text "error_message"
-    t.text "input"
-    t.jsonb "output"
-    t.bigint "repl_program_id"
-    t.bigint "repl_session_id"
-    t.string "status", default: "initialized"
-    t.datetime "updated_at", null: false
-    t.bigint "user_id"
-    t.index ["repl_program_id"], name: "index_repl_prompts_on_repl_program_id"
-    t.index ["repl_session_id"], name: "index_repl_prompts_on_repl_session_id"
-    t.index ["user_id"], name: "index_repl_prompts_on_user_id"
-  end
-
-  create_table "repl_sessions", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.string "name"
-    t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
-    t.index ["user_id"], name: "index_repl_sessions_on_user_id"
   end
 
   create_table "rpush_apps", force: :cascade do |t|
@@ -706,10 +650,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_07_120000) do
   add_foreign_key "program_prompt_schedules", "program_prompts"
   add_foreign_key "program_prompts", "users"
   add_foreign_key "programs", "users"
-  add_foreign_key "repl_executions", "repl_programs"
-  add_foreign_key "repl_programs", "repl_sessions"
-  add_foreign_key "repl_prompts", "repl_sessions"
-  add_foreign_key "repl_sessions", "users"
   add_foreign_key "solid_errors_occurrences", "solid_errors", column: "error_id"
   add_foreign_key "solid_queue_blocked_executions",
                   "solid_queue_jobs",

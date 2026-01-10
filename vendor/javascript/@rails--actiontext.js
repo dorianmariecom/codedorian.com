@@ -1,17 +1,11 @@
-// @rails/actiontext@8.0.300 downloaded from https://ga.jspm.io/npm:@rails/actiontext@8.0.300/app/assets/javascripts/actiontext.esm.js
+// @rails/actiontext@8.1.100 downloaded from https://ga.jspm.io/npm:@rails/actiontext@8.1.100/app/assets/javascripts/actiontext.esm.js
 
-var t =
-  typeof globalThis !== "undefined"
-    ? globalThis
-    : typeof self !== "undefined"
-      ? self
-      : global;
-var e = { exports: {} };
-(function (e) {
-  (function (t) {
-    e.exports = t();
-  })(function (e) {
-    var r = [
+var t = { exports: {} };
+(function (t) {
+  (function (e) {
+    t.exports = e();
+  })(function (t) {
+    var e = [
       "0",
       "1",
       "2",
@@ -29,142 +23,142 @@ var e = { exports: {} };
       "e",
       "f",
     ];
-    function i(t, e) {
+    function r(t, e) {
       var r = t[0],
-        i = t[1],
-        s = t[2],
+        s = t[1],
+        i = t[2],
         n = t[3];
-      r += (((i & s) | (~i & n)) + e[0] - 680876936) | 0;
-      r = (((r << 7) | (r >>> 25)) + i) | 0;
-      n += (((r & i) | (~r & s)) + e[1] - 389564586) | 0;
+      r += (((s & i) | (~s & n)) + e[0] - 680876936) | 0;
+      r = (((r << 7) | (r >>> 25)) + s) | 0;
+      n += (((r & s) | (~r & i)) + e[1] - 389564586) | 0;
       n = (((n << 12) | (n >>> 20)) + r) | 0;
-      s += (((n & r) | (~n & i)) + e[2] + 606105819) | 0;
-      s = (((s << 17) | (s >>> 15)) + n) | 0;
-      i += (((s & n) | (~s & r)) + e[3] - 1044525330) | 0;
-      i = (((i << 22) | (i >>> 10)) + s) | 0;
-      r += (((i & s) | (~i & n)) + e[4] - 176418897) | 0;
-      r = (((r << 7) | (r >>> 25)) + i) | 0;
-      n += (((r & i) | (~r & s)) + e[5] + 1200080426) | 0;
+      i += (((n & r) | (~n & s)) + e[2] + 606105819) | 0;
+      i = (((i << 17) | (i >>> 15)) + n) | 0;
+      s += (((i & n) | (~i & r)) + e[3] - 1044525330) | 0;
+      s = (((s << 22) | (s >>> 10)) + i) | 0;
+      r += (((s & i) | (~s & n)) + e[4] - 176418897) | 0;
+      r = (((r << 7) | (r >>> 25)) + s) | 0;
+      n += (((r & s) | (~r & i)) + e[5] + 1200080426) | 0;
       n = (((n << 12) | (n >>> 20)) + r) | 0;
-      s += (((n & r) | (~n & i)) + e[6] - 1473231341) | 0;
-      s = (((s << 17) | (s >>> 15)) + n) | 0;
-      i += (((s & n) | (~s & r)) + e[7] - 45705983) | 0;
-      i = (((i << 22) | (i >>> 10)) + s) | 0;
-      r += (((i & s) | (~i & n)) + e[8] + 1770035416) | 0;
-      r = (((r << 7) | (r >>> 25)) + i) | 0;
-      n += (((r & i) | (~r & s)) + e[9] - 1958414417) | 0;
+      i += (((n & r) | (~n & s)) + e[6] - 1473231341) | 0;
+      i = (((i << 17) | (i >>> 15)) + n) | 0;
+      s += (((i & n) | (~i & r)) + e[7] - 45705983) | 0;
+      s = (((s << 22) | (s >>> 10)) + i) | 0;
+      r += (((s & i) | (~s & n)) + e[8] + 1770035416) | 0;
+      r = (((r << 7) | (r >>> 25)) + s) | 0;
+      n += (((r & s) | (~r & i)) + e[9] - 1958414417) | 0;
       n = (((n << 12) | (n >>> 20)) + r) | 0;
-      s += (((n & r) | (~n & i)) + e[10] - 42063) | 0;
-      s = (((s << 17) | (s >>> 15)) + n) | 0;
-      i += (((s & n) | (~s & r)) + e[11] - 1990404162) | 0;
-      i = (((i << 22) | (i >>> 10)) + s) | 0;
-      r += (((i & s) | (~i & n)) + e[12] + 1804603682) | 0;
-      r = (((r << 7) | (r >>> 25)) + i) | 0;
-      n += (((r & i) | (~r & s)) + e[13] - 40341101) | 0;
+      i += (((n & r) | (~n & s)) + e[10] - 42063) | 0;
+      i = (((i << 17) | (i >>> 15)) + n) | 0;
+      s += (((i & n) | (~i & r)) + e[11] - 1990404162) | 0;
+      s = (((s << 22) | (s >>> 10)) + i) | 0;
+      r += (((s & i) | (~s & n)) + e[12] + 1804603682) | 0;
+      r = (((r << 7) | (r >>> 25)) + s) | 0;
+      n += (((r & s) | (~r & i)) + e[13] - 40341101) | 0;
       n = (((n << 12) | (n >>> 20)) + r) | 0;
-      s += (((n & r) | (~n & i)) + e[14] - 1502002290) | 0;
-      s = (((s << 17) | (s >>> 15)) + n) | 0;
-      i += (((s & n) | (~s & r)) + e[15] + 1236535329) | 0;
-      i = (((i << 22) | (i >>> 10)) + s) | 0;
-      r += (((i & n) | (s & ~n)) + e[1] - 165796510) | 0;
-      r = (((r << 5) | (r >>> 27)) + i) | 0;
-      n += (((r & s) | (i & ~s)) + e[6] - 1069501632) | 0;
+      i += (((n & r) | (~n & s)) + e[14] - 1502002290) | 0;
+      i = (((i << 17) | (i >>> 15)) + n) | 0;
+      s += (((i & n) | (~i & r)) + e[15] + 1236535329) | 0;
+      s = (((s << 22) | (s >>> 10)) + i) | 0;
+      r += (((s & n) | (i & ~n)) + e[1] - 165796510) | 0;
+      r = (((r << 5) | (r >>> 27)) + s) | 0;
+      n += (((r & i) | (s & ~i)) + e[6] - 1069501632) | 0;
       n = (((n << 9) | (n >>> 23)) + r) | 0;
-      s += (((n & i) | (r & ~i)) + e[11] + 643717713) | 0;
-      s = (((s << 14) | (s >>> 18)) + n) | 0;
-      i += (((s & r) | (n & ~r)) + e[0] - 373897302) | 0;
-      i = (((i << 20) | (i >>> 12)) + s) | 0;
-      r += (((i & n) | (s & ~n)) + e[5] - 701558691) | 0;
-      r = (((r << 5) | (r >>> 27)) + i) | 0;
-      n += (((r & s) | (i & ~s)) + e[10] + 38016083) | 0;
+      i += (((n & s) | (r & ~s)) + e[11] + 643717713) | 0;
+      i = (((i << 14) | (i >>> 18)) + n) | 0;
+      s += (((i & r) | (n & ~r)) + e[0] - 373897302) | 0;
+      s = (((s << 20) | (s >>> 12)) + i) | 0;
+      r += (((s & n) | (i & ~n)) + e[5] - 701558691) | 0;
+      r = (((r << 5) | (r >>> 27)) + s) | 0;
+      n += (((r & i) | (s & ~i)) + e[10] + 38016083) | 0;
       n = (((n << 9) | (n >>> 23)) + r) | 0;
-      s += (((n & i) | (r & ~i)) + e[15] - 660478335) | 0;
-      s = (((s << 14) | (s >>> 18)) + n) | 0;
-      i += (((s & r) | (n & ~r)) + e[4] - 405537848) | 0;
-      i = (((i << 20) | (i >>> 12)) + s) | 0;
-      r += (((i & n) | (s & ~n)) + e[9] + 568446438) | 0;
-      r = (((r << 5) | (r >>> 27)) + i) | 0;
-      n += (((r & s) | (i & ~s)) + e[14] - 1019803690) | 0;
+      i += (((n & s) | (r & ~s)) + e[15] - 660478335) | 0;
+      i = (((i << 14) | (i >>> 18)) + n) | 0;
+      s += (((i & r) | (n & ~r)) + e[4] - 405537848) | 0;
+      s = (((s << 20) | (s >>> 12)) + i) | 0;
+      r += (((s & n) | (i & ~n)) + e[9] + 568446438) | 0;
+      r = (((r << 5) | (r >>> 27)) + s) | 0;
+      n += (((r & i) | (s & ~i)) + e[14] - 1019803690) | 0;
       n = (((n << 9) | (n >>> 23)) + r) | 0;
-      s += (((n & i) | (r & ~i)) + e[3] - 187363961) | 0;
-      s = (((s << 14) | (s >>> 18)) + n) | 0;
-      i += (((s & r) | (n & ~r)) + e[8] + 1163531501) | 0;
-      i = (((i << 20) | (i >>> 12)) + s) | 0;
-      r += (((i & n) | (s & ~n)) + e[13] - 1444681467) | 0;
-      r = (((r << 5) | (r >>> 27)) + i) | 0;
-      n += (((r & s) | (i & ~s)) + e[2] - 51403784) | 0;
+      i += (((n & s) | (r & ~s)) + e[3] - 187363961) | 0;
+      i = (((i << 14) | (i >>> 18)) + n) | 0;
+      s += (((i & r) | (n & ~r)) + e[8] + 1163531501) | 0;
+      s = (((s << 20) | (s >>> 12)) + i) | 0;
+      r += (((s & n) | (i & ~n)) + e[13] - 1444681467) | 0;
+      r = (((r << 5) | (r >>> 27)) + s) | 0;
+      n += (((r & i) | (s & ~i)) + e[2] - 51403784) | 0;
       n = (((n << 9) | (n >>> 23)) + r) | 0;
-      s += (((n & i) | (r & ~i)) + e[7] + 1735328473) | 0;
-      s = (((s << 14) | (s >>> 18)) + n) | 0;
-      i += (((s & r) | (n & ~r)) + e[12] - 1926607734) | 0;
-      i = (((i << 20) | (i >>> 12)) + s) | 0;
-      r += ((i ^ s ^ n) + e[5] - 378558) | 0;
-      r = (((r << 4) | (r >>> 28)) + i) | 0;
-      n += ((r ^ i ^ s) + e[8] - 2022574463) | 0;
+      i += (((n & s) | (r & ~s)) + e[7] + 1735328473) | 0;
+      i = (((i << 14) | (i >>> 18)) + n) | 0;
+      s += (((i & r) | (n & ~r)) + e[12] - 1926607734) | 0;
+      s = (((s << 20) | (s >>> 12)) + i) | 0;
+      r += ((s ^ i ^ n) + e[5] - 378558) | 0;
+      r = (((r << 4) | (r >>> 28)) + s) | 0;
+      n += ((r ^ s ^ i) + e[8] - 2022574463) | 0;
       n = (((n << 11) | (n >>> 21)) + r) | 0;
-      s += ((n ^ r ^ i) + e[11] + 1839030562) | 0;
-      s = (((s << 16) | (s >>> 16)) + n) | 0;
-      i += ((s ^ n ^ r) + e[14] - 35309556) | 0;
-      i = (((i << 23) | (i >>> 9)) + s) | 0;
-      r += ((i ^ s ^ n) + e[1] - 1530992060) | 0;
-      r = (((r << 4) | (r >>> 28)) + i) | 0;
-      n += ((r ^ i ^ s) + e[4] + 1272893353) | 0;
+      i += ((n ^ r ^ s) + e[11] + 1839030562) | 0;
+      i = (((i << 16) | (i >>> 16)) + n) | 0;
+      s += ((i ^ n ^ r) + e[14] - 35309556) | 0;
+      s = (((s << 23) | (s >>> 9)) + i) | 0;
+      r += ((s ^ i ^ n) + e[1] - 1530992060) | 0;
+      r = (((r << 4) | (r >>> 28)) + s) | 0;
+      n += ((r ^ s ^ i) + e[4] + 1272893353) | 0;
       n = (((n << 11) | (n >>> 21)) + r) | 0;
-      s += ((n ^ r ^ i) + e[7] - 155497632) | 0;
-      s = (((s << 16) | (s >>> 16)) + n) | 0;
-      i += ((s ^ n ^ r) + e[10] - 1094730640) | 0;
-      i = (((i << 23) | (i >>> 9)) + s) | 0;
-      r += ((i ^ s ^ n) + e[13] + 681279174) | 0;
-      r = (((r << 4) | (r >>> 28)) + i) | 0;
-      n += ((r ^ i ^ s) + e[0] - 358537222) | 0;
+      i += ((n ^ r ^ s) + e[7] - 155497632) | 0;
+      i = (((i << 16) | (i >>> 16)) + n) | 0;
+      s += ((i ^ n ^ r) + e[10] - 1094730640) | 0;
+      s = (((s << 23) | (s >>> 9)) + i) | 0;
+      r += ((s ^ i ^ n) + e[13] + 681279174) | 0;
+      r = (((r << 4) | (r >>> 28)) + s) | 0;
+      n += ((r ^ s ^ i) + e[0] - 358537222) | 0;
       n = (((n << 11) | (n >>> 21)) + r) | 0;
-      s += ((n ^ r ^ i) + e[3] - 722521979) | 0;
-      s = (((s << 16) | (s >>> 16)) + n) | 0;
-      i += ((s ^ n ^ r) + e[6] + 76029189) | 0;
-      i = (((i << 23) | (i >>> 9)) + s) | 0;
-      r += ((i ^ s ^ n) + e[9] - 640364487) | 0;
-      r = (((r << 4) | (r >>> 28)) + i) | 0;
-      n += ((r ^ i ^ s) + e[12] - 421815835) | 0;
+      i += ((n ^ r ^ s) + e[3] - 722521979) | 0;
+      i = (((i << 16) | (i >>> 16)) + n) | 0;
+      s += ((i ^ n ^ r) + e[6] + 76029189) | 0;
+      s = (((s << 23) | (s >>> 9)) + i) | 0;
+      r += ((s ^ i ^ n) + e[9] - 640364487) | 0;
+      r = (((r << 4) | (r >>> 28)) + s) | 0;
+      n += ((r ^ s ^ i) + e[12] - 421815835) | 0;
       n = (((n << 11) | (n >>> 21)) + r) | 0;
-      s += ((n ^ r ^ i) + e[15] + 530742520) | 0;
-      s = (((s << 16) | (s >>> 16)) + n) | 0;
-      i += ((s ^ n ^ r) + e[2] - 995338651) | 0;
-      i = (((i << 23) | (i >>> 9)) + s) | 0;
-      r += ((s ^ (i | ~n)) + e[0] - 198630844) | 0;
-      r = (((r << 6) | (r >>> 26)) + i) | 0;
-      n += ((i ^ (r | ~s)) + e[7] + 1126891415) | 0;
+      i += ((n ^ r ^ s) + e[15] + 530742520) | 0;
+      i = (((i << 16) | (i >>> 16)) + n) | 0;
+      s += ((i ^ n ^ r) + e[2] - 995338651) | 0;
+      s = (((s << 23) | (s >>> 9)) + i) | 0;
+      r += ((i ^ (s | ~n)) + e[0] - 198630844) | 0;
+      r = (((r << 6) | (r >>> 26)) + s) | 0;
+      n += ((s ^ (r | ~i)) + e[7] + 1126891415) | 0;
       n = (((n << 10) | (n >>> 22)) + r) | 0;
-      s += ((r ^ (n | ~i)) + e[14] - 1416354905) | 0;
-      s = (((s << 15) | (s >>> 17)) + n) | 0;
-      i += ((n ^ (s | ~r)) + e[5] - 57434055) | 0;
-      i = (((i << 21) | (i >>> 11)) + s) | 0;
-      r += ((s ^ (i | ~n)) + e[12] + 1700485571) | 0;
-      r = (((r << 6) | (r >>> 26)) + i) | 0;
-      n += ((i ^ (r | ~s)) + e[3] - 1894986606) | 0;
+      i += ((r ^ (n | ~s)) + e[14] - 1416354905) | 0;
+      i = (((i << 15) | (i >>> 17)) + n) | 0;
+      s += ((n ^ (i | ~r)) + e[5] - 57434055) | 0;
+      s = (((s << 21) | (s >>> 11)) + i) | 0;
+      r += ((i ^ (s | ~n)) + e[12] + 1700485571) | 0;
+      r = (((r << 6) | (r >>> 26)) + s) | 0;
+      n += ((s ^ (r | ~i)) + e[3] - 1894986606) | 0;
       n = (((n << 10) | (n >>> 22)) + r) | 0;
-      s += ((r ^ (n | ~i)) + e[10] - 1051523) | 0;
-      s = (((s << 15) | (s >>> 17)) + n) | 0;
-      i += ((n ^ (s | ~r)) + e[1] - 2054922799) | 0;
-      i = (((i << 21) | (i >>> 11)) + s) | 0;
-      r += ((s ^ (i | ~n)) + e[8] + 1873313359) | 0;
-      r = (((r << 6) | (r >>> 26)) + i) | 0;
-      n += ((i ^ (r | ~s)) + e[15] - 30611744) | 0;
+      i += ((r ^ (n | ~s)) + e[10] - 1051523) | 0;
+      i = (((i << 15) | (i >>> 17)) + n) | 0;
+      s += ((n ^ (i | ~r)) + e[1] - 2054922799) | 0;
+      s = (((s << 21) | (s >>> 11)) + i) | 0;
+      r += ((i ^ (s | ~n)) + e[8] + 1873313359) | 0;
+      r = (((r << 6) | (r >>> 26)) + s) | 0;
+      n += ((s ^ (r | ~i)) + e[15] - 30611744) | 0;
       n = (((n << 10) | (n >>> 22)) + r) | 0;
-      s += ((r ^ (n | ~i)) + e[6] - 1560198380) | 0;
-      s = (((s << 15) | (s >>> 17)) + n) | 0;
-      i += ((n ^ (s | ~r)) + e[13] + 1309151649) | 0;
-      i = (((i << 21) | (i >>> 11)) + s) | 0;
-      r += ((s ^ (i | ~n)) + e[4] - 145523070) | 0;
-      r = (((r << 6) | (r >>> 26)) + i) | 0;
-      n += ((i ^ (r | ~s)) + e[11] - 1120210379) | 0;
+      i += ((r ^ (n | ~s)) + e[6] - 1560198380) | 0;
+      i = (((i << 15) | (i >>> 17)) + n) | 0;
+      s += ((n ^ (i | ~r)) + e[13] + 1309151649) | 0;
+      s = (((s << 21) | (s >>> 11)) + i) | 0;
+      r += ((i ^ (s | ~n)) + e[4] - 145523070) | 0;
+      r = (((r << 6) | (r >>> 26)) + s) | 0;
+      n += ((s ^ (r | ~i)) + e[11] - 1120210379) | 0;
       n = (((n << 10) | (n >>> 22)) + r) | 0;
-      s += ((r ^ (n | ~i)) + e[2] + 718787259) | 0;
-      s = (((s << 15) | (s >>> 17)) + n) | 0;
-      i += ((n ^ (s | ~r)) + e[9] - 343485551) | 0;
-      i = (((i << 21) | (i >>> 11)) + s) | 0;
+      i += ((r ^ (n | ~s)) + e[2] + 718787259) | 0;
+      i = (((i << 15) | (i >>> 17)) + n) | 0;
+      s += ((n ^ (i | ~r)) + e[9] - 343485551) | 0;
+      s = (((s << 21) | (s >>> 11)) + i) | 0;
       t[0] = (r + t[0]) | 0;
-      t[1] = (i + t[1]) | 0;
-      t[2] = (s + t[2]) | 0;
+      t[1] = (s + t[1]) | 0;
+      t[2] = (i + t[2]) | 0;
       t[3] = (n + t[3]) | 0;
     }
     function s(t) {
@@ -178,7 +172,7 @@ var e = { exports: {} };
           (t.charCodeAt(e + 3) << 24);
       return r;
     }
-    function n(t) {
+    function i(t) {
       var e,
         r = [];
       for (e = 0; e < 64; e += 4)
@@ -186,262 +180,261 @@ var e = { exports: {} };
           t[e] + (t[e + 1] << 8) + (t[e + 2] << 16) + (t[e + 3] << 24);
       return r;
     }
-    function a(t) {
+    function n(t) {
       var e,
-        r,
+        i,
         n,
         a,
         o,
         h,
-        l = t.length,
-        u = [1732584193, -271733879, -1732584194, 271733878];
-      for (e = 64; e <= l; e += 64) i(u, s(t.substring(e - 64, e)));
+        c = t.length,
+        l = [1732584193, -271733879, -1732584194, 271733878];
+      for (e = 64; e <= c; e += 64) r(l, s(t.substring(e - 64, e)));
       t = t.substring(e - 64);
-      r = t.length;
+      i = t.length;
       n = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-      for (e = 0; e < r; e += 1) n[e >> 2] |= t.charCodeAt(e) << (e % 4 << 3);
+      for (e = 0; e < i; e += 1) n[e >> 2] |= t.charCodeAt(e) << (e % 4 << 3);
       n[e >> 2] |= 128 << (e % 4 << 3);
       if (e > 55) {
-        i(u, n);
+        r(l, n);
         for (e = 0; e < 16; e += 1) n[e] = 0;
       }
-      a = l * 8;
+      a = c * 8;
       a = a.toString(16).match(/(.*?)(.{0,8})$/);
       o = parseInt(a[2], 16);
       h = parseInt(a[1], 16) || 0;
       n[14] = o;
       n[15] = h;
-      i(u, n);
-      return u;
+      r(l, n);
+      return l;
     }
-    function o(t) {
+    function a(t) {
       var e,
-        r,
         s,
+        n,
         a,
         o,
         h,
-        l = t.length,
-        u = [1732584193, -271733879, -1732584194, 271733878];
-      for (e = 64; e <= l; e += 64) i(u, n(t.subarray(e - 64, e)));
-      t = e - 64 < l ? t.subarray(e - 64) : new Uint8Array(0);
-      r = t.length;
-      s = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-      for (e = 0; e < r; e += 1) s[e >> 2] |= t[e] << (e % 4 << 3);
-      s[e >> 2] |= 128 << (e % 4 << 3);
+        c = t.length,
+        l = [1732584193, -271733879, -1732584194, 271733878];
+      for (e = 64; e <= c; e += 64) r(l, i(t.subarray(e - 64, e)));
+      t = e - 64 < c ? t.subarray(e - 64) : new Uint8Array(0);
+      s = t.length;
+      n = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+      for (e = 0; e < s; e += 1) n[e >> 2] |= t[e] << (e % 4 << 3);
+      n[e >> 2] |= 128 << (e % 4 << 3);
       if (e > 55) {
-        i(u, s);
-        for (e = 0; e < 16; e += 1) s[e] = 0;
+        r(l, n);
+        for (e = 0; e < 16; e += 1) n[e] = 0;
       }
-      a = l * 8;
+      a = c * 8;
       a = a.toString(16).match(/(.*?)(.{0,8})$/);
       o = parseInt(a[2], 16);
       h = parseInt(a[1], 16) || 0;
-      s[14] = o;
-      s[15] = h;
-      i(u, s);
-      return u;
+      n[14] = o;
+      n[15] = h;
+      r(l, n);
+      return l;
+    }
+    function o(t) {
+      var r,
+        s = "";
+      for (r = 0; r < 4; r += 1)
+        s += e[(t >> (r * 8 + 4)) & 15] + e[(t >> (r * 8)) & 15];
+      return s;
     }
     function h(t) {
-      var e,
-        i = "";
-      for (e = 0; e < 4; e += 1)
-        i += r[(t >> (e * 8 + 4)) & 15] + r[(t >> (e * 8)) & 15];
-      return i;
-    }
-    function l(t) {
       var e;
-      for (e = 0; e < t.length; e += 1) t[e] = h(t[e]);
+      for (e = 0; e < t.length; e += 1) t[e] = o(t[e]);
       return t.join("");
     }
-    l(a("hello")) !== "5d41402abc4b2a76b9719d911017c592";
+    h(n("hello")) !== "5d41402abc4b2a76b9719d911017c592";
     typeof ArrayBuffer === "undefined" ||
       ArrayBuffer.prototype.slice ||
       (function () {
-        function r(t, e) {
+        function e(t, e) {
           t = t | 0 || 0;
           return t < 0 ? Math.max(t + e, 0) : Math.min(t, e);
         }
-        ArrayBuffer.prototype.slice = function (i, s) {
-          var n,
+        ArrayBuffer.prototype.slice = function (r, s) {
+          var i,
+            n,
             a,
             o,
-            h,
-            l = (this || t).byteLength,
-            u = r(i, l),
-            c = l;
-          s !== e && (c = r(s, l));
-          if (u > c) return new ArrayBuffer(0);
-          n = c - u;
-          a = new ArrayBuffer(n);
-          o = new Uint8Array(a);
-          h = new Uint8Array(this || t, u, n);
-          o.set(h);
-          return a;
+            h = this.byteLength,
+            c = e(r, h),
+            l = h;
+          s !== t && (l = e(s, h));
+          if (c > l) return new ArrayBuffer(0);
+          i = l - c;
+          n = new ArrayBuffer(i);
+          a = new Uint8Array(n);
+          o = new Uint8Array(this, c, i);
+          a.set(o);
+          return n;
         };
       })();
-    function u(t) {
+    function c(t) {
       /[\u0080-\uFFFF]/.test(t) && (t = unescape(encodeURIComponent(t)));
       return t;
     }
-    function c(t, e) {
+    function l(t, e) {
       var r,
-        i = t.length,
-        s = new ArrayBuffer(i),
-        n = new Uint8Array(s);
-      for (r = 0; r < i; r += 1) n[r] = t.charCodeAt(r);
-      return e ? n : s;
+        s = t.length,
+        i = new ArrayBuffer(s),
+        n = new Uint8Array(i);
+      for (r = 0; r < s; r += 1) n[r] = t.charCodeAt(r);
+      return e ? n : i;
     }
-    function d(t) {
+    function u(t) {
       return String.fromCharCode.apply(null, new Uint8Array(t));
     }
-    function f(t, e, r) {
-      var i = new Uint8Array(t.byteLength + e.byteLength);
-      i.set(new Uint8Array(t));
-      i.set(new Uint8Array(e), t.byteLength);
-      return r ? i : i.buffer;
+    function d(t, e, r) {
+      var s = new Uint8Array(t.byteLength + e.byteLength);
+      s.set(new Uint8Array(t));
+      s.set(new Uint8Array(e), t.byteLength);
+      return r ? s : s.buffer;
     }
-    function p(t) {
+    function f(t) {
       var e,
         r = [],
-        i = t.length;
-      for (e = 0; e < i - 1; e += 2) r.push(parseInt(t.substr(e, 2), 16));
+        s = t.length;
+      for (e = 0; e < s - 1; e += 2) r.push(parseInt(t.substr(e, 2), 16));
       return String.fromCharCode.apply(String, r);
     }
-    function b() {
+    function p() {
       this.reset();
     }
-    b.prototype.append = function (e) {
-      this.appendBinary(u(e));
-      return this || t;
+    p.prototype.append = function (t) {
+      this.appendBinary(c(t));
+      return this;
     };
-    b.prototype.appendBinary = function (e) {
-      (this || t)._buff += e;
-      (this || t)._length += e.length;
-      var r,
-        n = (this || t)._buff.length;
-      for (r = 64; r <= n; r += 64)
-        i((this || t)._hash, s((this || t)._buff.substring(r - 64, r)));
-      (this || t)._buff = (this || t)._buff.substring(r - 64);
-      return this || t;
+    p.prototype.appendBinary = function (t) {
+      this._buff += t;
+      this._length += t.length;
+      var e,
+        i = this._buff.length;
+      for (e = 64; e <= i; e += 64)
+        r(this._hash, s(this._buff.substring(e - 64, e)));
+      this._buff = this._buff.substring(e - 64);
+      return this;
     };
-    b.prototype.end = function (e) {
-      var r,
-        i,
-        s = (this || t)._buff,
-        n = s.length,
-        a = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-      for (r = 0; r < n; r += 1) a[r >> 2] |= s.charCodeAt(r) << (r % 4 << 3);
-      this._finish(a, n);
-      i = l((this || t)._hash);
-      e && (i = p(i));
+    p.prototype.end = function (t) {
+      var e,
+        r,
+        s = this._buff,
+        i = s.length,
+        n = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+      for (e = 0; e < i; e += 1) n[e >> 2] |= s.charCodeAt(e) << (e % 4 << 3);
+      this._finish(n, i);
+      r = h(this._hash);
+      t && (r = f(r));
       this.reset();
-      return i;
+      return r;
     };
-    b.prototype.reset = function () {
-      (this || t)._buff = "";
-      (this || t)._length = 0;
-      (this || t)._hash = [1732584193, -271733879, -1732584194, 271733878];
-      return this || t;
+    p.prototype.reset = function () {
+      this._buff = "";
+      this._length = 0;
+      this._hash = [1732584193, -271733879, -1732584194, 271733878];
+      return this;
     };
-    b.prototype.getState = function () {
+    p.prototype.getState = function () {
       return {
-        buff: (this || t)._buff,
-        length: (this || t)._length,
-        hash: (this || t)._hash.slice(),
+        buff: this._buff,
+        length: this._length,
+        hash: this._hash.slice(),
       };
     };
-    b.prototype.setState = function (e) {
-      (this || t)._buff = e.buff;
-      (this || t)._length = e.length;
-      (this || t)._hash = e.hash;
-      return this || t;
+    p.prototype.setState = function (t) {
+      this._buff = t.buff;
+      this._length = t.length;
+      this._hash = t.hash;
+      return this;
     };
-    b.prototype.destroy = function () {
-      delete (this || t)._hash;
-      delete (this || t)._buff;
-      delete (this || t)._length;
+    p.prototype.destroy = function () {
+      delete this._hash;
+      delete this._buff;
+      delete this._length;
     };
-    b.prototype._finish = function (e, r) {
+    p.prototype._finish = function (t, e) {
       var s,
-        n,
-        a,
-        o = r;
-      e[o >> 2] |= 128 << (o % 4 << 3);
-      if (o > 55) {
-        i((this || t)._hash, e);
-        for (o = 0; o < 16; o += 1) e[o] = 0;
-      }
-      s = (this || t)._length * 8;
-      s = s.toString(16).match(/(.*?)(.{0,8})$/);
-      n = parseInt(s[2], 16);
-      a = parseInt(s[1], 16) || 0;
-      e[14] = n;
-      e[15] = a;
-      i((this || t)._hash, e);
-    };
-    b.hash = function (t, e) {
-      return b.hashBinary(u(t), e);
-    };
-    b.hashBinary = function (t, e) {
-      var r = a(t),
-        i = l(r);
-      return e ? p(i) : i;
-    };
-    b.ArrayBuffer = function () {
-      this.reset();
-    };
-    b.ArrayBuffer.prototype.append = function (e) {
-      var r,
-        s = f((this || t)._buff.buffer, e, true),
-        a = s.length;
-      (this || t)._length += e.byteLength;
-      for (r = 64; r <= a; r += 64)
-        i((this || t)._hash, n(s.subarray(r - 64, r)));
-      (this || t)._buff =
-        r - 64 < a ? new Uint8Array(s.buffer.slice(r - 64)) : new Uint8Array(0);
-      return this || t;
-    };
-    b.ArrayBuffer.prototype.end = function (e) {
-      var r,
         i,
-        s = (this || t)._buff,
-        n = s.length,
-        a = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-      for (r = 0; r < n; r += 1) a[r >> 2] |= s[r] << (r % 4 << 3);
-      this._finish(a, n);
-      i = l((this || t)._hash);
-      e && (i = p(i));
+        n,
+        a = e;
+      t[a >> 2] |= 128 << (a % 4 << 3);
+      if (a > 55) {
+        r(this._hash, t);
+        for (a = 0; a < 16; a += 1) t[a] = 0;
+      }
+      s = this._length * 8;
+      s = s.toString(16).match(/(.*?)(.{0,8})$/);
+      i = parseInt(s[2], 16);
+      n = parseInt(s[1], 16) || 0;
+      t[14] = i;
+      t[15] = n;
+      r(this._hash, t);
+    };
+    p.hash = function (t, e) {
+      return p.hashBinary(c(t), e);
+    };
+    p.hashBinary = function (t, e) {
+      var r = n(t),
+        s = h(r);
+      return e ? f(s) : s;
+    };
+    p.ArrayBuffer = function () {
       this.reset();
-      return i;
     };
-    b.ArrayBuffer.prototype.reset = function () {
-      (this || t)._buff = new Uint8Array(0);
-      (this || t)._length = 0;
-      (this || t)._hash = [1732584193, -271733879, -1732584194, 271733878];
-      return this || t;
+    p.ArrayBuffer.prototype.append = function (t) {
+      var e,
+        s = d(this._buff.buffer, t, true),
+        n = s.length;
+      this._length += t.byteLength;
+      for (e = 64; e <= n; e += 64) r(this._hash, i(s.subarray(e - 64, e)));
+      this._buff =
+        e - 64 < n ? new Uint8Array(s.buffer.slice(e - 64)) : new Uint8Array(0);
+      return this;
     };
-    b.ArrayBuffer.prototype.getState = function () {
-      var e = b.prototype.getState.call(this || t);
-      e.buff = d(e.buff);
-      return e;
+    p.ArrayBuffer.prototype.end = function (t) {
+      var e,
+        r,
+        s = this._buff,
+        i = s.length,
+        n = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+      for (e = 0; e < i; e += 1) n[e >> 2] |= s[e] << (e % 4 << 3);
+      this._finish(n, i);
+      r = h(this._hash);
+      t && (r = f(r));
+      this.reset();
+      return r;
     };
-    b.ArrayBuffer.prototype.setState = function (e) {
-      e.buff = c(e.buff, true);
-      return b.prototype.setState.call(this || t, e);
+    p.ArrayBuffer.prototype.reset = function () {
+      this._buff = new Uint8Array(0);
+      this._length = 0;
+      this._hash = [1732584193, -271733879, -1732584194, 271733878];
+      return this;
     };
-    b.ArrayBuffer.prototype.destroy = b.prototype.destroy;
-    b.ArrayBuffer.prototype._finish = b.prototype._finish;
-    b.ArrayBuffer.hash = function (t, e) {
-      var r = o(new Uint8Array(t)),
-        i = l(r);
-      return e ? p(i) : i;
+    p.ArrayBuffer.prototype.getState = function () {
+      var t = p.prototype.getState.call(this);
+      t.buff = u(t.buff);
+      return t;
     };
-    return b;
+    p.ArrayBuffer.prototype.setState = function (t) {
+      t.buff = l(t.buff, true);
+      return p.prototype.setState.call(this, t);
+    };
+    p.ArrayBuffer.prototype.destroy = p.prototype.destroy;
+    p.ArrayBuffer.prototype._finish = p.prototype._finish;
+    p.ArrayBuffer.hash = function (t, e) {
+      var r = a(new Uint8Array(t)),
+        s = h(r);
+      return e ? f(s) : s;
+    };
+    return p;
   });
-})(e);
-var r = e.exports;
-const i =
+})(t);
+var e = t.exports;
+const r =
   File.prototype.slice || File.prototype.mozSlice || File.prototype.webkitSlice;
 class FileChecksum {
   static create(t, e) {
@@ -456,7 +449,7 @@ class FileChecksum {
   }
   create(t) {
     this.callback = t;
-    this.md5Buffer = new r.ArrayBuffer();
+    this.md5Buffer = new e.ArrayBuffer();
     this.fileReader = new FileReader();
     this.fileReader.addEventListener("load", (t) => this.fileReaderDidLoad(t));
     this.fileReader.addEventListener("error", (t) =>
@@ -482,8 +475,8 @@ class FileChecksum {
     ) {
       const t = this.chunkIndex * this.chunkSize;
       const e = Math.min(t + this.chunkSize, this.file.size);
-      const r = i.call(this.file, t, e);
-      this.fileReader.readAsArrayBuffer(r);
+      const s = r.call(this.file, t, e);
+      this.fileReader.readAsArrayBuffer(s);
       this.chunkIndex++;
       return true;
     }
@@ -491,39 +484,39 @@ class FileChecksum {
   }
 }
 function s(t) {
-  const e = a(document.head, `meta[name="${t}"]`);
+  const e = n(document.head, `meta[name="${t}"]`);
   if (e) return e.getAttribute("content");
+}
+function i(t, e) {
+  if (typeof t == "string") {
+    e = t;
+    t = document;
+  }
+  const r = t.querySelectorAll(e);
+  return o(r);
 }
 function n(t, e) {
   if (typeof t == "string") {
     e = t;
     t = document;
   }
-  const r = t.querySelectorAll(e);
-  return h(r);
-}
-function a(t, e) {
-  if (typeof t == "string") {
-    e = t;
-    t = document;
-  }
   return t.querySelector(e);
 }
-function o(t, e, r = {}) {
-  const { disabled: i } = t;
-  const { bubbles: s, cancelable: n, detail: a } = r;
+function a(t, e, r = {}) {
+  const { disabled: s } = t;
+  const { bubbles: i, cancelable: n, detail: a } = r;
   const o = document.createEvent("Event");
-  o.initEvent(e, s || true, n || true);
+  o.initEvent(e, i || true, n || true);
   o.detail = a || {};
   try {
     t.disabled = false;
     t.dispatchEvent(o);
   } finally {
-    t.disabled = i;
+    t.disabled = s;
   }
   return o;
 }
-function h(t) {
+function o(t) {
   return Array.isArray(t) ? t : Array.from ? Array.from(t) : [].slice.call(t);
 }
 class BlobRecord {
@@ -607,14 +600,14 @@ class BlobUpload {
     );
   }
 }
-let l = 0;
+let h = 0;
 class DirectUpload {
-  constructor(t, e, r, i = {}) {
-    this.id = ++l;
+  constructor(t, e, r, s = {}) {
+    this.id = ++h;
     this.file = t;
     this.url = e;
     this.delegate = r;
-    this.customHeaders = i;
+    this.customHeaders = s;
   }
   create(t) {
     FileChecksum.create(this.file, (e, r) => {
@@ -622,22 +615,22 @@ class DirectUpload {
         t(e);
         return;
       }
-      const i = new BlobRecord(this.file, r, this.url, this.customHeaders);
-      u(this.delegate, "directUploadWillCreateBlobWithXHR", i.xhr);
-      i.create((e) => {
+      const s = new BlobRecord(this.file, r, this.url, this.customHeaders);
+      c(this.delegate, "directUploadWillCreateBlobWithXHR", s.xhr);
+      s.create((e) => {
         if (e) t(e);
         else {
-          const e = new BlobUpload(i);
-          u(this.delegate, "directUploadWillStoreFileWithXHR", e.xhr);
+          const e = new BlobUpload(s);
+          c(this.delegate, "directUploadWillStoreFileWithXHR", e.xhr);
           e.create((e) => {
-            e ? t(e) : t(null, i.toJSON());
+            e ? t(e) : t(null, s.toJSON());
           });
         }
       });
     });
   }
 }
-function u(t, e, ...r) {
+function c(t, e, ...r) {
   if (t && typeof t[e] == "function") return t[e](...r);
 }
 class DirectUploadController {
@@ -653,17 +646,17 @@ class DirectUploadController {
     e.name = this.input.name;
     this.input.insertAdjacentElement("beforebegin", e);
     this.dispatch("start");
-    this.directUpload.create((r, i) => {
+    this.directUpload.create((r, s) => {
       if (r) {
         e.parentNode.removeChild(e);
         this.dispatchError(r);
-      } else e.value = i.signed_id;
+      } else e.value = s.signed_id;
       this.dispatch("end");
       t(r);
     });
   }
   uploadRequestDidProgress(t) {
-    const e = (t.loaded / t.total) * 100;
+    const e = (t.loaded / t.total) * 90;
     e && this.dispatch("progress", { progress: e });
   }
   get url() {
@@ -672,7 +665,7 @@ class DirectUploadController {
   dispatch(t, e = {}) {
     e.file = this.file;
     e.id = this.directUpload.id;
-    return o(this.input, `direct-upload:${t}`, { detail: e });
+    return a(this.input, `direct-upload:${t}`, { detail: e });
   }
   dispatchError(t) {
     const e = this.dispatch("error", { error: t });
@@ -686,20 +679,46 @@ class DirectUploadController {
     t.upload.addEventListener("progress", (t) =>
       this.uploadRequestDidProgress(t),
     );
+    t.upload.addEventListener("loadend", () => {
+      this.simulateResponseProgress(t);
+    });
+  }
+  simulateResponseProgress(t) {
+    let e = 90;
+    const r = Date.now();
+    const s = () => {
+      const i = Date.now() - r;
+      const n = this.estimateResponseTime();
+      const a = Math.min(i / n, 1);
+      e = 90 + a * 9;
+      this.dispatch("progress", { progress: e });
+      t.readyState !== XMLHttpRequest.DONE &&
+        e < 99 &&
+        requestAnimationFrame(s);
+    };
+    t.addEventListener("loadend", () => {
+      this.dispatch("progress", { progress: 100 });
+    });
+    requestAnimationFrame(s);
+  }
+  estimateResponseTime() {
+    const t = this.file.size;
+    const e = 1048576;
+    return t < e ? 1e3 : t < 10 * e ? 2e3 : 3e3 + (t / e) * 50;
   }
 }
-const c = "input[type=file][data-direct-upload-url]:not([disabled])";
+const l = "input[type=file][data-direct-upload-url]:not([disabled])";
 class DirectUploadsController {
   constructor(t) {
     this.form = t;
-    this.inputs = n(t, c).filter((t) => t.files.length);
+    this.inputs = i(t, l).filter((t) => t.files.length);
   }
   start(t) {
     const e = this.createDirectUploadControllers();
     const r = () => {
-      const i = e.shift();
-      if (i)
-        i.start((e) => {
+      const s = e.shift();
+      if (s)
+        s.start((e) => {
           if (e) {
             t(e);
             this.dispatch("end");
@@ -716,58 +735,58 @@ class DirectUploadsController {
   createDirectUploadControllers() {
     const t = [];
     this.inputs.forEach((e) => {
-      h(e.files).forEach((r) => {
-        const i = new DirectUploadController(e, r);
-        t.push(i);
+      o(e.files).forEach((r) => {
+        const s = new DirectUploadController(e, r);
+        t.push(s);
       });
     });
     return t;
   }
   dispatch(t, e = {}) {
-    return o(this.form, `direct-uploads:${t}`, { detail: e });
+    return a(this.form, `direct-uploads:${t}`, { detail: e });
   }
 }
-const d = "data-direct-uploads-processing";
-const f = new WeakMap();
-let p = false;
-function b() {
-  if (!p) {
-    p = true;
-    document.addEventListener("click", y, true);
-    document.addEventListener("submit", g, true);
+const u = "data-direct-uploads-processing";
+const d = new WeakMap();
+let f = false;
+function p() {
+  if (!f) {
+    f = true;
+    document.addEventListener("click", b, true);
+    document.addEventListener("submit", y, true);
     document.addEventListener("ajax:before", m);
   }
 }
-function y(t) {
+function b(t) {
   const e = t.target.closest("button, input");
-  e && e.type === "submit" && e.form && f.set(e.form, e);
+  e && e.type === "submit" && e.form && d.set(e.form, e);
 }
-function g(t) {
-  U(t);
+function y(t) {
+  g(t);
 }
 function m(t) {
-  t.target.tagName == "FORM" && U(t);
+  t.target.tagName == "FORM" && g(t);
 }
-function U(t) {
+function g(t) {
   const e = t.target;
-  if (e.hasAttribute(d)) {
+  if (e.hasAttribute(u)) {
     t.preventDefault();
     return;
   }
   const r = new DirectUploadsController(e);
-  const { inputs: i } = r;
-  if (i.length) {
+  const { inputs: s } = r;
+  if (s.length) {
     t.preventDefault();
-    e.setAttribute(d, "");
-    i.forEach(v);
+    e.setAttribute(u, "");
+    s.forEach(v);
     r.start((t) => {
-      e.removeAttribute(d);
-      t ? i.forEach(_) : A(e);
+      e.removeAttribute(u);
+      t ? s.forEach(U) : A(e);
     });
   }
 }
 function A(t) {
-  let e = f.get(t) || a(t, "input[type=submit], button[type=submit]");
+  let e = d.get(t) || n(t, "input[type=submit], button[type=submit]");
   if (e) {
     const { disabled: t } = e;
     e.disabled = false;
@@ -782,39 +801,69 @@ function A(t) {
     e.click();
     t.removeChild(e);
   }
-  f.delete(t);
+  d.delete(t);
 }
 function v(t) {
   t.disabled = true;
 }
-function _(t) {
+function U(t) {
   t.disabled = false;
 }
-function x() {
-  window.ActiveStorage && b();
+function E() {
+  window.ActiveStorage && p();
 }
-setTimeout(x, 1);
+setTimeout(E, 1);
 class AttachmentUpload {
-  constructor(t, e) {
+  constructor(t, e, r = t.file) {
     this.attachment = t;
     this.element = e;
-    this.directUpload = new DirectUpload(t.file, this.directUploadUrl, this);
+    this.directUpload = new DirectUpload(r, this.directUploadUrl, this);
+    this.file = r;
   }
   start() {
-    this.directUpload.create(this.directUploadDidComplete.bind(this));
-    this.dispatch("start");
+    return new Promise((t, e) => {
+      this.directUpload.create((r, s) =>
+        this.directUploadDidComplete(r, s, t, e),
+      );
+      this.dispatch("start");
+    });
   }
   directUploadWillStoreFileWithXHR(t) {
     t.upload.addEventListener("progress", (t) => {
-      const e = (t.loaded / t.total) * 100;
-      this.attachment.setUploadProgress(e);
+      const e = (t.loaded / t.total) * 90;
       e && this.dispatch("progress", { progress: e });
     });
+    t.upload.addEventListener("loadend", () => {
+      this.simulateResponseProgress(t);
+    });
   }
-  directUploadDidComplete(t, e) {
-    if (t) this.dispatchError(t);
+  simulateResponseProgress(t) {
+    let e = 90;
+    const r = Date.now();
+    const s = () => {
+      const i = Date.now() - r;
+      const n = this.estimateResponseTime();
+      const a = Math.min(i / n, 1);
+      e = 90 + a * 9;
+      this.dispatch("progress", { progress: e });
+      t.readyState !== XMLHttpRequest.DONE &&
+        e < 99 &&
+        requestAnimationFrame(s);
+    };
+    t.addEventListener("loadend", () => {
+      this.dispatch("progress", { progress: 100 });
+    });
+    requestAnimationFrame(s);
+  }
+  estimateResponseTime() {
+    const t = this.file.size;
+    const e = 1048576;
+    return t < e ? 1e3 : t < 10 * e ? 2e3 : 3e3 + (t / e) * 50;
+  }
+  directUploadDidComplete(t, e, r, s) {
+    if (t) this.dispatchError(t, s);
     else {
-      this.attachment.setAttributes({
+      r({
         sgid: e.attachable_sgid,
         url: this.createBlobUrl(e.signed_id, e.filename),
       });
@@ -828,11 +877,11 @@ class AttachmentUpload {
   }
   dispatch(t, e = {}) {
     e.attachment = this.attachment;
-    return o(this.element, `direct-upload:${t}`, { detail: e });
+    return a(this.element, `direct-upload:${t}`, { detail: e });
   }
-  dispatchError(t) {
-    const e = this.dispatch("error", { error: t });
-    e.defaultPrevented || alert(t);
+  dispatchError(t, e) {
+    const r = this.dispatch("error", { error: t });
+    r.defaultPrevented || e(t);
   }
   get directUploadUrl() {
     return this.element.dataset.directUploadUrl;
@@ -844,9 +893,13 @@ class AttachmentUpload {
 addEventListener("trix-attachment-add", (t) => {
   const { attachment: e, target: r } = t;
   if (e.file) {
-    const t = new AttachmentUpload(e, r);
-    t.start();
+    const t = new AttachmentUpload(e, r, e.file);
+    const s = (t) => e.setUploadProgress(t.detail.progress);
+    r.addEventListener("direct-upload:progress", s);
+    t.start()
+      .then((t) => e.setAttributes(t))
+      .catch((t) => alert(t))
+      .finally(() => r.removeEventListener("direct-upload:progress", s));
   }
 });
-var E = {};
-export { E as default };
+export { AttachmentUpload };

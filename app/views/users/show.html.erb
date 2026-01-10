@@ -125,11 +125,6 @@
 <%= render("shared/list", user: @user, model: ProgramSchedule) %>
 <%= render("shared/list", user: @user, model: ProgramPrompt) %>
 <%= render("shared/list", user: @user, model: ProgramPromptSchedule) %>
-<%= render("shared/list", user: @user, model: ReplExecution) %>
-<%= render("shared/list", user: @user, model: ReplProgram) %>
-<%= render("shared/list", user: @user, model: ReplPrompt) %>
-<%= render("shared/list", user: @user, model: ReplSession) %>
-
 <% if admin? %>
   <%= render("shared/list", user: @user, model: ::Error) %>
   <%= render("shared/list", user: @user, model: ErrorOccurrence) %>

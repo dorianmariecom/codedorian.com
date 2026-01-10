@@ -36,6 +36,7 @@ class ProgramSchedulesController < ApplicationController
 
     if @program_schedule.save(context: :controller)
       log_in(@program_schedule.user)
+      @user = @program_schedule.user
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @program_schedule.alert
@@ -48,6 +49,7 @@ class ProgramSchedulesController < ApplicationController
 
     if @program_schedule.save(context: :controller)
       log_in(@program_schedule.user)
+      @user = @program_schedule.user
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @program_schedule.alert

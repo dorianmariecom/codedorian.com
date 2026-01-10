@@ -1,0 +1,10 @@
+job:
+  active_job_id: "7c1c0f2b-6f8a-4b6c-9f5c-1e9f2e6a1a20"
+  class_name: "ProgramEvaluateJob"
+  queue_name: "default"
+  concurrency_key: "program:daily-studio-digest"
+  arguments: <%= [{ "_aj_globalid" => "gid://codedorian/Program/#{ActiveRecord::FixtureSet.identify(:program)}" }].to_json %>
+  priority: 5
+  scheduled_at: 2025-03-05 09:00:00
+  created_at: 2025-03-05 08:55:00
+  updated_at: 2025-03-05 08:55:00

@@ -1,13 +1,13 @@
-// @lezer/highlight@1.2.1 downloaded from https://ga.jspm.io/npm:@lezer/highlight@1.2.1/dist/index.js
+// @lezer/highlight@1.2.3 downloaded from https://ga.jspm.io/npm:@lezer/highlight@1.2.3/dist/index.js
 
 import { NodeProp as t } from "@lezer/common";
 let e = 0;
 class Tag {
-  constructor(t, a, i, r) {
+  constructor(t, a, i, o) {
     this.name = t;
     this.set = a;
     this.base = i;
-    this.modified = r;
+    this.modified = o;
     this.id = e++;
   }
   toString() {
@@ -45,27 +45,27 @@ class Modifier {
   }
   static get(t, e) {
     if (!e.length) return t;
-    let a = e[0].instances.find((a) => a.base == t && sameArray(e, a.modified));
+    let a = e[0].instances.find((a) => a.base == t && i(e, a.modified));
     if (a) return a;
-    let i = [],
-      r = new Tag(t.name, i, t, e);
-    for (let t of e) t.instances.push(r);
-    let o = powerSet(e);
+    let r = [],
+      n = new Tag(t.name, r, t, e);
+    for (let t of e) t.instances.push(n);
+    let s = o(e);
     for (let e of t.set)
-      if (!e.modified.length) for (let t of o) i.push(Modifier.get(e, t));
-    return r;
+      if (!e.modified.length) for (let t of s) r.push(Modifier.get(e, t));
+    return n;
   }
 }
-function sameArray(t, e) {
+function i(t, e) {
   return t.length == e.length && t.every((t, a) => t == e[a]);
 }
-function powerSet(t) {
+function o(t) {
   let e = [[]];
   for (let a = 0; a < t.length; a++)
-    for (let i = 0, r = e.length; i < r; i++) e.push(e[i].concat(t[a]));
+    for (let i = 0, o = e.length; i < o; i++) e.push(e[i].concat(t[a]));
   return e.sort((t, e) => e.length - t.length);
 }
-function styleTags(t) {
+function r(t) {
   let e = Object.create(null);
   for (let a in t) {
     let i = t[a];
@@ -73,36 +73,54 @@ function styleTags(t) {
     for (let t of a.split(" "))
       if (t) {
         let a = [],
-          r = 2,
-          o = t;
+          o = 2,
+          r = t;
         for (let e = 0; ; ) {
-          if (o == "..." && e > 0 && e + 3 == t.length) {
-            r = 1;
+          if (r == "..." && e > 0 && e + 3 == t.length) {
+            o = 1;
             break;
           }
-          let i = /^"(?:[^"\\]|\\.)*?"|[^\/!]+/.exec(o);
+          let i = /^"(?:[^"\\]|\\.)*?"|[^\/!]+/.exec(r);
           if (!i) throw new RangeError("Invalid path: " + t);
           a.push(i[0] == "*" ? "" : i[0][0] == '"' ? JSON.parse(i[0]) : i[0]);
           e += i[0].length;
           if (e == t.length) break;
-          let l = t[e++];
-          if (e == t.length && l == "!") {
-            r = 0;
+          let n = t[e++];
+          if (e == t.length && n == "!") {
+            o = 0;
             break;
           }
-          if (l != "/") throw new RangeError("Invalid path: " + t);
-          o = t.slice(e);
+          if (n != "/") throw new RangeError("Invalid path: " + t);
+          r = t.slice(e);
         }
-        let l = a.length - 1,
-          s = a[l];
+        let n = a.length - 1,
+          s = a[n];
         if (!s) throw new RangeError("Invalid path: " + t);
-        let n = new Rule(i, r, l > 0 ? a.slice(0, l) : null);
-        e[s] = n.sort(e[s]);
+        let l = new Rule(i, o, n > 0 ? a.slice(0, n) : null);
+        e[s] = l.sort(e[s]);
       }
   }
-  return i.add(e);
+  return n.add(e);
 }
-const i = new t();
+const n = new t({
+  combine(t, e) {
+    let a, i, o;
+    while (t || e) {
+      if (!t || (e && t.depth >= e.depth)) {
+        o = e;
+        e = e.next;
+      } else {
+        o = t;
+        t = t.next;
+      }
+      if (a && a.mode == o.mode && !o.context && !a.context) continue;
+      let r = new Rule(o.tags, o.mode, o.context);
+      a ? (a.next = r) : (i = r);
+      a = r;
+    }
+    return i;
+  },
+});
 class Rule {
   constructor(t, e, a, i) {
     this.tags = t;
@@ -129,15 +147,15 @@ class Rule {
   }
 }
 Rule.empty = new Rule([], 2, null);
-function tagHighlighter(t, e) {
+function s(t, e) {
   let a = Object.create(null);
   for (let e of t)
     if (Array.isArray(e.tag)) for (let t of e.tag) a[t.id] = e.class;
     else a[e.tag.id] = e.class;
-  let { scope: i, all: r = null } = e || {};
+  let { scope: i, all: o = null } = e || {};
   return {
     style: (t) => {
-      let e = r;
+      let e = o;
       for (let i of t)
         for (let t of i.set) {
           let i = a[t.id];
@@ -151,7 +169,7 @@ function tagHighlighter(t, e) {
     scope: i,
   };
 }
-function highlightTags(t, e) {
+function l(t, e) {
   let a = null;
   for (let i of t) {
     let t = i.style(e);
@@ -159,37 +177,37 @@ function highlightTags(t, e) {
   }
   return a;
 }
-function highlightTree(t, e, a, i = 0, r = t.length) {
-  let o = new HighlightBuilder(i, Array.isArray(e) ? e : [e], a);
-  o.highlightRange(t.cursor(), i, r, "", o.highlighters);
-  o.flush(r);
+function c(t, e, a, i = 0, o = t.length) {
+  let r = new HighlightBuilder(i, Array.isArray(e) ? e : [e], a);
+  r.highlightRange(t.cursor(), i, o, "", r.highlighters);
+  r.flush(o);
 }
-function highlightCode(t, e, a, i, r, o = 0, l = t.length) {
-  let s = o;
-  function writeTo(e, a) {
+function h(t, e, a, i, o, r = 0, n = t.length) {
+  let s = r;
+  function l(e, a) {
     if (!(e <= s)) {
-      for (let o = t.slice(s, e), l = 0; ; ) {
-        let t = o.indexOf("\n", l);
-        let e = t < 0 ? o.length : t;
-        e > l && i(o.slice(l, e), a);
+      for (let r = t.slice(s, e), n = 0; ; ) {
+        let t = r.indexOf("\n", n);
+        let e = t < 0 ? r.length : t;
+        e > n && i(r.slice(n, e), a);
         if (t < 0) break;
-        r();
-        l = t + 1;
+        o();
+        n = t + 1;
       }
       s = e;
     }
   }
-  highlightTree(
+  c(
     e,
     a,
     (t, e, a) => {
-      writeTo(t, "");
-      writeTo(e, a);
+      l(t, "");
+      l(e, a);
     },
-    o,
-    l,
+    r,
+    n,
   );
-  writeTo(l, "");
+  l(n, "");
 }
 class HighlightBuilder {
   constructor(t, e, a) {
@@ -208,56 +226,56 @@ class HighlightBuilder {
   flush(t) {
     t > this.at && this.class && this.span(this.at, t, this.class);
   }
-  highlightRange(e, a, i, r, o) {
-    let { type: l, from: s, to: n } = e;
-    if (s >= i || n <= a) return;
-    l.isTop && (o = this.highlighters.filter((t) => !t.scope || t.scope(l)));
-    let h = r;
-    let g = getStyleTags(e) || Rule.empty;
-    let c = highlightTags(o, g.tags);
-    if (c) {
+  highlightRange(e, a, i, o, r) {
+    let { type: n, from: s, to: c } = e;
+    if (s >= i || c <= a) return;
+    n.isTop && (r = this.highlighters.filter((t) => !t.scope || t.scope(n)));
+    let h = o;
+    let f = g(e) || Rule.empty;
+    let d = l(r, f.tags);
+    if (d) {
       h && (h += " ");
-      h += c;
-      g.mode == 1 && (r += (r ? " " : "") + c);
+      h += d;
+      f.mode == 1 && (o += (o ? " " : "") + d);
     }
     this.startSpan(Math.max(a, s), h);
-    if (g.opaque) return;
-    let f = e.tree && e.tree.prop(t.mounted);
-    if (f && f.overlay) {
-      let t = e.node.enter(f.overlay[0].from + s, 1);
-      let l = this.highlighters.filter((t) => !t.scope || t.scope(f.tree.type));
-      let g = e.firstChild();
-      for (let c = 0, d = s; ; c++) {
-        let m = c < f.overlay.length ? f.overlay[c] : null;
-        let p = m ? m.from + s : n;
-        let u = Math.max(a, d),
+    if (f.opaque) return;
+    let m = e.tree && e.tree.prop(t.mounted);
+    if (m && m.overlay) {
+      let t = e.node.enter(m.overlay[0].from + s, 1);
+      let n = this.highlighters.filter((t) => !t.scope || t.scope(m.tree.type));
+      let l = e.firstChild();
+      for (let g = 0, f = s; ; g++) {
+        let d = g < m.overlay.length ? m.overlay[g] : null;
+        let p = d ? d.from + s : c;
+        let u = Math.max(a, f),
           k = Math.min(i, p);
-        if (u < k && g)
+        if (u < k && l)
           while (e.from < k) {
-            this.highlightRange(e, u, k, r, o);
+            this.highlightRange(e, u, k, o, r);
             this.startSpan(Math.min(k, e.to), h);
             if (e.to >= p || !e.nextSibling()) break;
           }
-        if (!m || p > i) break;
-        d = m.to + s;
-        if (d > a) {
+        if (!d || p > i) break;
+        f = d.to + s;
+        if (f > a) {
           this.highlightRange(
             t.cursor(),
-            Math.max(a, m.from + s),
-            Math.min(i, d),
+            Math.max(a, d.from + s),
+            Math.min(i, f),
             "",
-            l,
+            n,
           );
-          this.startSpan(Math.min(i, d), h);
+          this.startSpan(Math.min(i, f), h);
         }
       }
-      g && e.parent();
+      l && e.parent();
     } else if (e.firstChild()) {
-      f && (r = "");
+      m && (o = "");
       do {
         if (!(e.to <= a)) {
           if (e.from >= i) break;
-          this.highlightRange(e, a, i, r, o);
+          this.highlightRange(e, a, i, o, r);
           this.startSpan(Math.min(i, e.to), h);
         }
       } while (e.nextSibling());
@@ -265,105 +283,105 @@ class HighlightBuilder {
     }
   }
 }
-function getStyleTags(t) {
-  let e = t.type.prop(i);
+function g(t) {
+  let e = t.type.prop(n);
   while (e && e.context && !t.matchContext(e.context)) e = e.next;
   return e || null;
 }
-const r = Tag.define;
-const o = r(),
-  l = r(),
-  s = r(l),
-  n = r(l),
-  h = r(),
-  g = r(h),
-  c = r(h),
-  f = r(),
-  d = r(f),
-  m = r(),
-  p = r(),
-  u = r(),
-  k = r(u),
-  y = r();
-const b = {
-  comment: o,
-  lineComment: r(o),
-  blockComment: r(o),
-  docComment: r(o),
-  name: l,
-  variableName: r(l),
-  typeName: s,
-  tagName: r(s),
-  propertyName: n,
-  attributeName: r(n),
-  className: r(l),
-  labelName: r(l),
-  namespace: r(l),
-  macroName: r(l),
-  literal: h,
-  string: g,
-  docString: r(g),
-  character: r(g),
-  attributeValue: r(g),
-  number: c,
-  integer: r(c),
-  float: r(c),
-  bool: r(h),
-  regexp: r(h),
-  escape: r(h),
-  color: r(h),
-  url: r(h),
-  keyword: m,
-  self: r(m),
-  null: r(m),
-  atom: r(m),
-  unit: r(m),
-  modifier: r(m),
-  operatorKeyword: r(m),
-  controlKeyword: r(m),
-  definitionKeyword: r(m),
-  moduleKeyword: r(m),
-  operator: p,
-  derefOperator: r(p),
-  arithmeticOperator: r(p),
-  logicOperator: r(p),
-  bitwiseOperator: r(p),
-  compareOperator: r(p),
-  updateOperator: r(p),
-  definitionOperator: r(p),
-  typeOperator: r(p),
-  controlOperator: r(p),
-  punctuation: u,
-  separator: r(u),
-  bracket: k,
-  angleBracket: r(k),
-  squareBracket: r(k),
-  paren: r(k),
-  brace: r(k),
-  content: f,
-  heading: d,
-  heading1: r(d),
-  heading2: r(d),
-  heading3: r(d),
-  heading4: r(d),
-  heading5: r(d),
-  heading6: r(d),
-  contentSeparator: r(f),
-  list: r(f),
-  quote: r(f),
-  emphasis: r(f),
-  strong: r(f),
-  link: r(f),
-  monospace: r(f),
-  strikethrough: r(f),
-  inserted: r(),
-  deleted: r(),
-  changed: r(),
-  invalid: r(),
-  meta: y,
-  documentMeta: r(y),
-  annotation: r(y),
-  processingInstruction: r(y),
+const f = Tag.define;
+const d = f(),
+  m = f(),
+  p = f(m),
+  u = f(m),
+  k = f(),
+  b = f(k),
+  y = f(k),
+  N = f(),
+  w = f(N),
+  x = f(),
+  v = f(),
+  M = f(),
+  O = f(M),
+  R = f();
+const T = {
+  comment: d,
+  lineComment: f(d),
+  blockComment: f(d),
+  docComment: f(d),
+  name: m,
+  variableName: f(m),
+  typeName: p,
+  tagName: f(p),
+  propertyName: u,
+  attributeName: f(u),
+  className: f(m),
+  labelName: f(m),
+  namespace: f(m),
+  macroName: f(m),
+  literal: k,
+  string: b,
+  docString: f(b),
+  character: f(b),
+  attributeValue: f(b),
+  number: y,
+  integer: f(y),
+  float: f(y),
+  bool: f(k),
+  regexp: f(k),
+  escape: f(k),
+  color: f(k),
+  url: f(k),
+  keyword: x,
+  self: f(x),
+  null: f(x),
+  atom: f(x),
+  unit: f(x),
+  modifier: f(x),
+  operatorKeyword: f(x),
+  controlKeyword: f(x),
+  definitionKeyword: f(x),
+  moduleKeyword: f(x),
+  operator: v,
+  derefOperator: f(v),
+  arithmeticOperator: f(v),
+  logicOperator: f(v),
+  bitwiseOperator: f(v),
+  compareOperator: f(v),
+  updateOperator: f(v),
+  definitionOperator: f(v),
+  typeOperator: f(v),
+  controlOperator: f(v),
+  punctuation: M,
+  separator: f(M),
+  bracket: O,
+  angleBracket: f(O),
+  squareBracket: f(O),
+  paren: f(O),
+  brace: f(O),
+  content: N,
+  heading: w,
+  heading1: f(w),
+  heading2: f(w),
+  heading3: f(w),
+  heading4: f(w),
+  heading5: f(w),
+  heading6: f(w),
+  contentSeparator: f(N),
+  list: f(N),
+  quote: f(N),
+  emphasis: f(N),
+  strong: f(N),
+  link: f(N),
+  monospace: f(N),
+  strikethrough: f(N),
+  inserted: f(),
+  deleted: f(),
+  changed: f(),
+  invalid: f(),
+  meta: R,
+  documentMeta: f(R),
+  annotation: f(R),
+  processingInstruction: f(R),
   definition: Tag.defineModifier("definition"),
   constant: Tag.defineModifier("constant"),
   function: Tag.defineModifier("function"),
@@ -371,55 +389,55 @@ const b = {
   local: Tag.defineModifier("local"),
   special: Tag.defineModifier("special"),
 };
-for (let t in b) {
-  let e = b[t];
+for (let t in T) {
+  let e = T[t];
   e instanceof Tag && (e.name = t);
 }
-const w = tagHighlighter([
-  { tag: b.link, class: "tok-link" },
-  { tag: b.heading, class: "tok-heading" },
-  { tag: b.emphasis, class: "tok-emphasis" },
-  { tag: b.strong, class: "tok-strong" },
-  { tag: b.keyword, class: "tok-keyword" },
-  { tag: b.atom, class: "tok-atom" },
-  { tag: b.bool, class: "tok-bool" },
-  { tag: b.url, class: "tok-url" },
-  { tag: b.labelName, class: "tok-labelName" },
-  { tag: b.inserted, class: "tok-inserted" },
-  { tag: b.deleted, class: "tok-deleted" },
-  { tag: b.literal, class: "tok-literal" },
-  { tag: b.string, class: "tok-string" },
-  { tag: b.number, class: "tok-number" },
-  { tag: [b.regexp, b.escape, b.special(b.string)], class: "tok-string2" },
-  { tag: b.variableName, class: "tok-variableName" },
-  { tag: b.local(b.variableName), class: "tok-variableName tok-local" },
+const S = s([
+  { tag: T.link, class: "tok-link" },
+  { tag: T.heading, class: "tok-heading" },
+  { tag: T.emphasis, class: "tok-emphasis" },
+  { tag: T.strong, class: "tok-strong" },
+  { tag: T.keyword, class: "tok-keyword" },
+  { tag: T.atom, class: "tok-atom" },
+  { tag: T.bool, class: "tok-bool" },
+  { tag: T.url, class: "tok-url" },
+  { tag: T.labelName, class: "tok-labelName" },
+  { tag: T.inserted, class: "tok-inserted" },
+  { tag: T.deleted, class: "tok-deleted" },
+  { tag: T.literal, class: "tok-literal" },
+  { tag: T.string, class: "tok-string" },
+  { tag: T.number, class: "tok-number" },
+  { tag: [T.regexp, T.escape, T.special(T.string)], class: "tok-string2" },
+  { tag: T.variableName, class: "tok-variableName" },
+  { tag: T.local(T.variableName), class: "tok-variableName tok-local" },
   {
-    tag: b.definition(b.variableName),
+    tag: T.definition(T.variableName),
     class: "tok-variableName tok-definition",
   },
-  { tag: b.special(b.variableName), class: "tok-variableName2" },
+  { tag: T.special(T.variableName), class: "tok-variableName2" },
   {
-    tag: b.definition(b.propertyName),
+    tag: T.definition(T.propertyName),
     class: "tok-propertyName tok-definition",
   },
-  { tag: b.typeName, class: "tok-typeName" },
-  { tag: b.namespace, class: "tok-namespace" },
-  { tag: b.className, class: "tok-className" },
-  { tag: b.macroName, class: "tok-macroName" },
-  { tag: b.propertyName, class: "tok-propertyName" },
-  { tag: b.operator, class: "tok-operator" },
-  { tag: b.comment, class: "tok-comment" },
-  { tag: b.meta, class: "tok-meta" },
-  { tag: b.invalid, class: "tok-invalid" },
-  { tag: b.punctuation, class: "tok-punctuation" },
+  { tag: T.typeName, class: "tok-typeName" },
+  { tag: T.namespace, class: "tok-namespace" },
+  { tag: T.className, class: "tok-className" },
+  { tag: T.macroName, class: "tok-macroName" },
+  { tag: T.propertyName, class: "tok-propertyName" },
+  { tag: T.operator, class: "tok-operator" },
+  { tag: T.comment, class: "tok-comment" },
+  { tag: T.meta, class: "tok-meta" },
+  { tag: T.invalid, class: "tok-invalid" },
+  { tag: T.punctuation, class: "tok-punctuation" },
 ]);
 export {
   Tag,
-  w as classHighlighter,
-  getStyleTags,
-  highlightCode,
-  highlightTree,
-  styleTags,
-  tagHighlighter,
-  b as tags,
+  S as classHighlighter,
+  g as getStyleTags,
+  h as highlightCode,
+  c as highlightTree,
+  r as styleTags,
+  s as tagHighlighter,
+  T as tags,
 };

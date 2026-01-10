@@ -1,0 +1,9 @@
+program_prompt:
+  user: admin
+  program: program
+  name: "Daily Studio Digest"
+  input: "Summarize today's tasks into a short text block."
+  status: "done"
+  output: {"name":"Daily Studio Digest","input":"output(fetch('tasks').join(\"\\n\"))","schedules":[{"starts_at":"2025-02-11T09:00:00Z","interval":"1 day"}]}
+  created_at: 2025-02-10 07:50:00
+  updated_at: 2025-02-10 08:01:00

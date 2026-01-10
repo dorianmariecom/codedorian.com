@@ -51,6 +51,7 @@ class AttachmentsController < ApplicationController
 
     if @attachment.save(context: :controller)
       log_in(@attachment.user)
+      @user = @attachment.user
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @attachment.alert
@@ -63,6 +64,7 @@ class AttachmentsController < ApplicationController
 
     if @attachment.save(context: :controller)
       log_in(@attachment.user)
+      @user = @attachment.user
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @attachment.alert

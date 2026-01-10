@@ -39,6 +39,7 @@ class ProgramPromptSchedulesController < ApplicationController
 
     if @program_prompt_schedule.save(context: :controller)
       log_in(@program_prompt_schedule.user)
+      @user = @program_prompt_schedule.user
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @program_prompt_schedule.alert
@@ -51,6 +52,7 @@ class ProgramPromptSchedulesController < ApplicationController
 
     if @program_prompt_schedule.save(context: :controller)
       log_in(@program_prompt_schedule.user)
+      @user = @program_prompt_schedule.user
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @program_prompt_schedule.alert

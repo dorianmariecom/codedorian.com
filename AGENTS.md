@@ -6,7 +6,7 @@
 - `app/javascript/` contains frontend controllers and JS utilities; `app/assets/` contains Tailwind and image assets.
 - `config/` contains environment, initializer, and deployment configuration.
 - `db/` contains migrations, schema, and seeds.
-- `spec/` contains RSpec tests.
+- `test/` contains Minitest tests.
 - `public/` hosts static assets (favicons, images).
 
 ## Build, Test, and Development Commands
@@ -14,6 +14,8 @@
 - `bin/dev`: run the full dev stack via `Procfile.dev` (web, tailwind, jobs, etc.).
 - `bin/rails server`: start the Rails server directly.
 - `bin/rails tailwindcss:watch`: watch and rebuild Tailwind CSS.
+- `bin/rails test`: run the Minitest suite.
+- `bin/rails test:system`: run system tests.
 - `bin/ci`: run CI checks (eager_load, rubocop, brakeman, audits, secrets).
 - `bin/format`: run the formatter (delegates to the `dorian` gem).
 - `bin/build`: Docker build + push; note it prunes Docker volumes, so use with care.

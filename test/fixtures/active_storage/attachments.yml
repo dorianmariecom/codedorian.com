@@ -1,0 +1,5 @@
+---
+attachment_file:
+  blob: test_txt
+  name: file
+  record: attachment (Attachment)

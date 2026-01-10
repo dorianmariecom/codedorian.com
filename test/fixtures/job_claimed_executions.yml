@@ -1,0 +1,5 @@
+job_claimed_execution:
+  job: job
+  process: job_process
+  created_at: 2025-03-05 09:00:05
+  updated_at: 2025-03-05 09:00:05

@@ -46,11 +46,6 @@
 <%= render("shared/list", user: @guest, model: ProgramSchedule) %>
 <%= render("shared/list", user: @guest, model: ProgramPrompt) %>
 <%= render("shared/list", user: @guest, model: ProgramPromptSchedule) %>
-<%= render("shared/list", user: @guest, model: ReplExecution) %>
-<%= render("shared/list", user: @guest, model: ReplProgram) %>
-<%= render("shared/list", user: @guest, model: ReplPrompt) %>
-<%= render("shared/list", user: @guest, model: ReplSession) %>
-
 <% if admin? %>
   <%= render("shared/list", user: @guest, model: ::Error) %>
   <%= render("shared/list", user: @guest, model: ErrorOccurrence) %>

@@ -9,9 +9,6 @@ class ErrorsController < ApplicationController
   before_action(:load_program_schedule)
   before_action(:load_program_prompt)
   before_action(:load_program_prompt_schedule)
-  before_action(:load_repl_session)
-  before_action(:load_repl_program)
-  before_action(:load_repl_prompt)
   before_action(:load_address)
   before_action(:load_attachment)
   before_action(:load_datum)
@@ -220,9 +217,6 @@ class ErrorsController < ApplicationController
     if @program_prompt_schedule
       scope = scope.where_program_prompt_schedule(@program_prompt_schedule)
     end
-    scope = scope.where_repl_session(@repl_session) if @repl_session
-    scope = scope.where_repl_program(@repl_program) if @repl_program
-    scope = scope.where_repl_prompt(@repl_prompt) if @repl_prompt
     scope = scope.where_address(@address) if @address
     scope = scope.where_attachment(@attachment) if @attachment
     scope = scope.where_datum(@datum) if @datum
@@ -248,9 +242,6 @@ class ErrorsController < ApplicationController
     if @program_prompt_schedule
       scope = scope.where_program_prompt_schedule(@program_prompt_schedule)
     end
-    scope = scope.where_repl_session(@repl_session) if @repl_session
-    scope = scope.where_repl_program(@repl_program) if @repl_program
-    scope = scope.where_repl_prompt(@repl_prompt) if @repl_prompt
     scope = scope.where_address(@address) if @address
     scope = scope.where_attachment(@attachment) if @attachment
     scope = scope.where_datum(@datum) if @datum
@@ -280,9 +271,6 @@ class ErrorsController < ApplicationController
     program_schedule: @program_schedule,
     program_prompt: @program_prompt,
     program_prompt_schedule: @program_prompt_schedule,
-    repl_session: @repl_session,
-    repl_program: @repl_program,
-    repl_prompt: @repl_prompt,
     address: @address,
     attachment: @attachment,
     datum: @datum,
@@ -314,13 +302,6 @@ class ErrorsController < ApplicationController
       return chain
     end
 
-    if repl_session || repl_program || repl_prompt
-      chain << repl_session if repl_session
-      chain << repl_program if repl_program
-      chain << repl_prompt if repl_prompt
-      return chain
-    end
-
     return chain << address if address
     return chain << attachment if attachment
     return chain << datum if datum
@@ -344,9 +325,6 @@ class ErrorsController < ApplicationController
       program_prompt
       program_prompt_schedule
       program_schedule
-      repl_session
-      repl_program
-      repl_prompt
       address
       attachment
       datum
@@ -390,30 +368,6 @@ class ErrorsController < ApplicationController
     scope = scope.where_user(@user) if @user
     scope = scope.where_program(@program) if @program
     scope = scope.where_program_prompt(@program_prompt) if @program_prompt
-    scope
-  end
-
-  def repl_sessions_scope
-    scope = policy_scope(ReplSession)
-    scope = scope.where_guest(@guest) if @guest
-    scope = scope.where_user(@user) if @user
-    scope
-  end
-
-  def repl_programs_scope
-    scope = policy_scope(ReplProgram)
-    scope = scope.where_guest(@guest) if @guest
-    scope = scope.where_user(@user) if @user
-    scope = scope.where_repl_session(@repl_session) if @repl_session
-    scope
-  end
-
-  def repl_prompts_scope
-    scope = policy_scope(ReplPrompt)
-    scope = scope.where_guest(@guest) if @guest
-    scope = scope.where_user(@user) if @user
-    scope = scope.where_repl_session(@repl_session) if @repl_session
-    scope = scope.where_repl_program(@repl_program) if @repl_program
     scope
   end
 
@@ -550,46 +504,6 @@ class ErrorsController < ApplicationController
     add_breadcrumb(
       text: @program_prompt_schedule,
       path: [@user, @program, @program_prompt, @program_prompt_schedule]
-    )
-  end
-
-  def load_repl_session
-    return if params[:repl_session_id].blank?
-
-    @repl_session = repl_sessions_scope.find(params[:repl_session_id])
-
-    set_context(repl_session: @repl_session)
-    add_breadcrumb(key: "repl_sessions.index", path: [@user, :repl_sessions])
-    add_breadcrumb(text: @repl_session, path: [@user, @repl_session])
-  end
-
-  def load_repl_program
-    return if params[:repl_program_id].blank?
-
-    @repl_program = repl_programs_scope.find(params[:repl_program_id])
-
-    add_breadcrumb(
-      key: "repl_programs.index",
-      path: [@user, @repl_session, :repl_programs]
-    )
-    add_breadcrumb(
-      text: @repl_program,
-      path: [@user, @repl_session, @repl_program]
-    )
-  end
-
-  def load_repl_prompt
-    return if params[:repl_prompt_id].blank?
-
-    @repl_prompt = repl_prompts_scope.find(params[:repl_prompt_id])
-
-    add_breadcrumb(
-      key: "repl_prompts.index",
-      path: [@user, @repl_session, @repl_program, :repl_prompts]
-    )
-    add_breadcrumb(
-      text: @repl_prompt,
-      path: [@user, @repl_session, @repl_program, @repl_prompt]
     )
   end
 

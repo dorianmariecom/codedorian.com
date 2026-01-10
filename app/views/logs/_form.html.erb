@@ -1,6 +1,4 @@
 <%= form_for(show_url) do |f| %>
-  <% content =
-    f.object.errors.include?(:content) ? f.object.content : f.object.content_json %>
   <% context =
     f.object.errors.include?(:context) ? f.object.context : f.object.context_json %>
 

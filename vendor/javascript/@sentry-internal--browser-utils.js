@@ -1,4 +1,4 @@
-// @sentry-internal/browser-utils@10.30.0 downloaded from https://ga.jspm.io/npm:@sentry-internal/browser-utils@10.30.0/build/esm/index.js
+// @sentry-internal/browser-utils@10.32.1 downloaded from https://ga.jspm.io/npm:@sentry-internal/browser-utils@10.32.1/build/esm/index.js
 
 import {
   GLOBAL_OBJ as t,
@@ -8,8 +8,8 @@ import {
   withActiveSpan as o,
   startInactiveSpan as i,
   getClient as s,
-  getCurrentScope as a,
-  browserPerformanceTimeOrigin as c,
+  getCurrentScope as c,
+  browserPerformanceTimeOrigin as a,
   timestampInSeconds as u,
   htmlTreeAsString as l,
   SEMANTIC_ATTRIBUTE_EXCLUSIVE_TIME as d,
@@ -32,13 +32,13 @@ import {
   fill as I,
   addNonEnumerableProperty as P,
   uuid4 as M,
-  supportsHistory as x,
-  isNativeFunction as A,
-  isString as q,
+  supportsHistory as q,
+  isNativeFunction as x,
+  isString as A,
   isBrowser as N,
 } from "@sentry/core";
-const O = typeof __SENTRY_DEBUG__ === "undefined" || __SENTRY_DEBUG__;
-const R = t;
+const R = typeof __SENTRY_DEBUG__ === "undefined" || __SENTRY_DEBUG__;
+const O = t;
 const $ = (t, e) =>
   t > e[1] ? "poor" : t > e[0] ? "needs-improvement" : "good";
 const H = (t, e, n, r) => {
@@ -57,7 +57,7 @@ const H = (t, e, n, r) => {
   };
 };
 const B = (t = true) => {
-  const e = R.performance?.getEntriesByType?.("navigation")[0];
+  const e = O.performance?.getEntriesByType?.("navigation")[0];
   if (!t || (e && e.responseStart > 0 && e.responseStart < performance.now()))
     return e;
 };
@@ -66,15 +66,15 @@ const D = () => {
   return t?.activationStart ?? 0;
 };
 function U(t, e, n) {
-  R.document && R.addEventListener(t, e, n);
+  O.document && O.addEventListener(t, e, n);
 }
 function z(t, e, n) {
-  R.document && R.removeEventListener(t, e, n);
+  O.document && O.removeEventListener(t, e, n);
 }
 let j = -1;
 const F = new Set();
 const V = () =>
-  R.document?.visibilityState !== "hidden" || R.document?.prerendering
+  O.document?.visibilityState !== "hidden" || O.document?.prerendering
     ? Infinity
     : 0;
 const Y = (t) => {
@@ -88,9 +88,9 @@ const Y = (t) => {
   }
 };
 const W = () => {
-  if (R.document && j < 0) {
+  if (O.document && j < 0) {
     const t = D();
-    const e = R.document.prerendering
+    const e = O.document.prerendering
       ? void 0
       : globalThis.performance
           .getEntriesByType("visibility-state")
@@ -110,7 +110,7 @@ const W = () => {
   };
 };
 function G(t) {
-  return t.type === "pagehide" || R.document?.visibilityState === "hidden";
+  return t.type === "pagehide" || O.document?.visibilityState === "hidden";
 }
 const X = () =>
   `v5-${Date.now()}-${Math.floor(Math.random() * 8999999999999) + 1e12}`;
@@ -118,9 +118,9 @@ const J = (t, e = -1) => {
   const n = B();
   let r = "navigate";
   n &&
-    (R.document?.prerendering || D() > 0
+    (O.document?.prerendering || D() > 0
       ? (r = "prerender")
-      : R.document?.wasDiscarded
+      : O.document?.wasDiscarded
         ? (r = "restore")
         : n.type && (r = n.type.replace(/_/g, "-")));
   const o = [];
@@ -193,7 +193,7 @@ const tt = (t) => {
   };
 };
 const et = (t) => {
-  R.document?.prerendering
+  O.document?.prerendering
     ? addEventListener("prerenderingchange", () => t(), true)
     : t();
 };
@@ -234,27 +234,27 @@ const it = (t, e = {}) => {
           r();
         }
       };
-      const a = Z("layout-shift", s);
-      if (a) {
+      const c = Z("layout-shift", s);
+      if (c) {
         r = H(t, n, ot, e.reportAllChanges);
         o.onHidden(() => {
-          s(a.takeRecords());
+          s(c.takeRecords());
           r(true);
         });
-        R?.setTimeout?.(r);
+        O?.setTimeout?.(r);
       }
     }),
   );
 };
 let st = 0;
-let at = Infinity;
-let ct = 0;
+let ct = Infinity;
+let at = 0;
 const ut = (t) => {
   t.forEach((t) => {
     if (t.interactionId) {
-      at = Math.min(at, t.interactionId);
-      ct = Math.max(ct, t.interactionId);
-      st = ct ? (ct - at) / 7 + 1 : 0;
+      ct = Math.min(ct, t.interactionId);
+      at = Math.max(at, t.interactionId);
+      st = at ? (at - ct) / 7 + 1 : 0;
     }
   });
 };
@@ -329,14 +329,14 @@ class InteractionManager {
 }
 const yt = (t) => {
   const e = (e) => {
-    (e.type !== "pagehide" && R.document?.visibilityState !== "hidden") || t(e);
+    (e.type !== "pagehide" && O.document?.visibilityState !== "hidden") || t(e);
   };
   U("visibilitychange", e, true);
   U("pagehide", e, true);
 };
 const gt = (t) => {
-  const e = R.requestIdleCallback || R.setTimeout;
-  if (R.document?.visibilityState === "hidden") t();
+  const e = O.requestIdleCallback || O.setTimeout;
+  if (O.document?.visibilityState === "hidden") t();
   else {
     t = tt(t);
     U("visibilitychange", t, { once: true, capture: true });
@@ -374,12 +374,12 @@ const bt = (t, e = {}) => {
         }
       });
     };
-    const a = Z("event", s, { durationThreshold: e.durationThreshold ?? vt });
+    const c = Z("event", s, { durationThreshold: e.durationThreshold ?? vt });
     o = H(t, r, _t, e.reportAllChanges);
-    if (a) {
-      a.observe({ type: "first-input", buffered: true });
+    if (c) {
+      c.observe({ type: "first-input", buffered: true });
       n.onHidden(() => {
-        s(a.takeRecords());
+        s(c.takeRecords());
         o(true);
       });
     }
@@ -408,12 +408,12 @@ const St = (t, e = {}) => {
         }
       }
     };
-    const a = Z("largest-contentful-paint", s);
-    if (a) {
+    const c = Z("largest-contentful-paint", s);
+    if (c) {
       o = H(t, r, Tt, e.reportAllChanges);
       const n = tt(() => {
-        s(a.takeRecords());
-        a.disconnect();
+        s(c.takeRecords());
+        c.disconnect();
         o(true);
       });
       const i = (t) => {
@@ -432,9 +432,9 @@ const Et = [800, 1800];
  * Runs in the next task after the page is done loading and/or prerendering.
  * @param callback
  */ const wt = (t) => {
-  R.document?.prerendering
+  O.document?.prerendering
     ? et(() => wt(t))
-    : R.document?.readyState !== "complete"
+    : O.document?.readyState !== "complete"
       ? addEventListener("load", () => wt(t), true)
       : setTimeout(t);
 };
@@ -455,20 +455,20 @@ const Ct = {};
 let It;
 let Pt;
 let Mt;
-let xt;
-function At(t, e = false) {
+let qt;
+function xt(t, e = false) {
   return zt("cls", t, Ht, It, e);
 }
-function qt(t, e = false) {
+function At(t, e = false) {
   return zt("lcp", t, Bt, Pt, e);
 }
 function Nt(t) {
   return zt("ttfb", t, Dt, Mt);
 }
-function Ot(t) {
-  return zt("inp", t, Ut, xt);
+function Rt(t) {
+  return zt("inp", t, Ut, qt);
 }
-function Rt(t, e) {
+function Ot(t, e) {
   Ft(t, e);
   if (!Ct[t]) {
     jt(t);
@@ -483,7 +483,7 @@ function $t(t, r) {
       try {
         i(r);
       } catch (r) {
-        O &&
+        R &&
           e.error(
             `Error while triggering instrumentation handler.\nType: ${t}\nName: ${n(i)}\nError:`,
             r,
@@ -517,7 +517,7 @@ function Dt() {
 function Ut() {
   return bt((t) => {
     $t("inp", { metric: t });
-    xt = t;
+    qt = t;
   });
 }
 function zt(t, e, n, r, o = false) {
@@ -561,8 +561,8 @@ function Wt(t) {
   return typeof t === "number" && isFinite(t);
 }
 function Gt(t, e, n, { ...s }) {
-  const a = r(t).start_timestamp;
-  a && a > e && typeof t.updateStartTime === "function" && t.updateStartTime(e);
+  const c = r(t).start_timestamp;
+  c && c > e && typeof t.updateStartTime === "function" && t.updateStartTime(e);
   return o(t, () => {
     const t = i({ startTime: e, ...s });
     t && t.end(n);
@@ -587,11 +587,11 @@ function Gt(t, e, n, { ...s }) {
  */ function Xt(t) {
   const e = s();
   if (!e) return;
-  const { name: n, transaction: r, attributes: o, startTime: c } = t;
+  const { name: n, transaction: r, attributes: o, startTime: a } = t;
   const { release: u, environment: l, sendDefaultPii: d } = e.getOptions();
   const p = e.getIntegrationByName("Replay");
   const f = p?.getReplayId();
-  const m = a();
+  const m = c();
   const h = m.getUser();
   const y = h !== void 0 ? h.email || h.id || h.ip_address : void 0;
   let g;
@@ -605,19 +605,19 @@ function Gt(t, e, n, { ...s }) {
     profile_id: g || void 0,
     replay_id: f || void 0,
     transaction: r,
-    "user_agent.original": R.navigator?.userAgent,
+    "user_agent.original": O.navigator?.userAgent,
     "client.address": d ? "{{auto}}" : void 0,
     ...o,
   };
   return i({
     name: n,
     attributes: _,
-    startTime: c,
+    startTime: a,
     experimental: { standalone: true },
   });
 }
 function Jt() {
-  return R.addEventListener && R.performance;
+  return O.addEventListener && O.performance;
 }
 /**
  * Converts from milliseconds to seconds
@@ -694,7 +694,7 @@ function ee(t) {
   let e = 0;
   let n;
   if (!Zt("layout-shift")) return;
-  const r = At(({ metric: t }) => {
+  const r = xt(({ metric: t }) => {
     const r = t.entries[t.entries.length - 1];
     if (r) {
       e = t.value;
@@ -707,9 +707,9 @@ function ee(t) {
   });
 }
 function ne(t, n, r, o) {
-  O && e.log(`Sending CLS span (${t})`);
-  const i = n ? Kt((c() || 0) + n.startTime) : u();
-  const s = a().getScopeData().transactionName;
+  R && e.log(`Sending CLS span (${t})`);
+  const i = n ? Kt((a() || 0) + n.startTime) : u();
+  const s = c().getScopeData().transactionName;
   const y = n ? l(n.sources[0]?.node) : "Layout shift";
   const g = {
     [f]: "auto.http.browser.cls",
@@ -732,7 +732,7 @@ function re(t) {
   let e = 0;
   let n;
   if (!Zt("largest-contentful-paint")) return;
-  const r = qt(({ metric: t }) => {
+  const r = At(({ metric: t }) => {
     const r = t.entries[t.entries.length - 1];
     if (r) {
       e = t.value;
@@ -745,9 +745,9 @@ function re(t) {
   });
 }
 function oe(t, n, r, o) {
-  O && e.log(`Sending LCP span (${t})`);
-  const i = Kt((c() || 0) + (n?.startTime || 0));
-  const s = a().getScopeData().transactionName;
+  R && e.log(`Sending LCP span (${t})`);
+  const i = Kt((a() || 0) + (n?.startTime || 0));
+  const s = c().getScopeData().transactionName;
   const u = n ? l(n.element) : "Largest contentful paint";
   const y = {
     [f]: "auto.http.browser.lcp",
@@ -771,7 +771,7 @@ function oe(t, n, r, o) {
   }
 }
 function ie(t) {
-  return t ? ((c() || performance.timeOrigin) + t) / 1e3 : t;
+  return t ? ((a() || performance.timeOrigin) + t) / 1e3 : t;
 }
 /**
  * Converts a PerformanceResourceTiming entry to span data for the resource span. Most importantly,
@@ -789,8 +789,8 @@ function ie(t) {
     e["network.protocol.version"] = r;
     e["network.protocol.name"] = n;
   }
-  return c() || Jt()?.timeOrigin
-    ? ae({
+  return a() || Jt()?.timeOrigin
+    ? ce({
         ...e,
         "http.request.redirect_start": ie(t.redirectStart),
         "http.request.redirect_end": ie(t.redirectEnd),
@@ -809,10 +809,10 @@ function ie(t) {
       })
     : e;
 }
-function ae(t) {
+function ce(t) {
   return Object.fromEntries(Object.entries(t).filter(([, t]) => t != null));
 }
-const ce = 2147483647;
+const ae = 2147483647;
 let ue = 0;
 let le = {};
 let de;
@@ -828,8 +828,8 @@ let pe;
   client: n,
 }) {
   const r = Jt();
-  if (r && c()) {
-    r.mark && R.performance.mark("sentry-tracing-init");
+  if (r && a()) {
+    r.mark && O.performance.mark("sentry-tracing-init");
     const o = e ? re(n) : _e();
     const i = ve();
     const s = t ? ee(n) : ge();
@@ -842,12 +842,12 @@ let pe;
   return () => {};
 }
 function me() {
-  Rt("longtask", ({ entries: t }) => {
+  Ot("longtask", ({ entries: t }) => {
     const e = y();
     if (!e) return;
     const { op: n, start_timestamp: o } = r(e);
     for (const r of t) {
-      const t = Kt(c() + r.startTime);
+      const t = Kt(a() + r.startTime);
       const i = Kt(r.duration);
       (n === "navigation" && o && t < o) ||
         Gt(e, t, t + i, {
@@ -864,11 +864,11 @@ function he() {
     if (e)
       for (const n of t.getEntries()) {
         if (!n.scripts[0]) continue;
-        const t = Kt(c() + n.startTime);
+        const t = Kt(a() + n.startTime);
         const { start_timestamp: o, op: i } = r(e);
         if (i === "navigation" && o && t < o) continue;
         const s = Kt(n.duration);
-        const a = { [f]: "auto.ui.browser.metrics" };
+        const c = { [f]: "auto.ui.browser.metrics" };
         const u = n.scripts[0];
         const {
           invoker: l,
@@ -877,27 +877,27 @@ function he() {
           sourceFunctionName: m,
           sourceCharPosition: h,
         } = u;
-        a["browser.script.invoker"] = l;
-        a["browser.script.invoker_type"] = d;
-        p && (a["code.filepath"] = p);
-        m && (a["code.function"] = m);
-        h !== -1 && (a["browser.script.source_char_position"] = h);
+        c["browser.script.invoker"] = l;
+        c["browser.script.invoker_type"] = d;
+        p && (c["code.filepath"] = p);
+        m && (c["code.function"] = m);
+        h !== -1 && (c["browser.script.source_char_position"] = h);
         Gt(e, t, t + s, {
           name: "Main UI thread blocked",
           op: "ui.long-animation-frame",
-          attributes: a,
+          attributes: c,
         });
       }
   });
   t.observe({ type: "long-animation-frame", buffered: true });
 }
 function ye() {
-  Rt("event", ({ entries: t }) => {
+  Ot("event", ({ entries: t }) => {
     const e = y();
     if (e)
       for (const n of t)
         if (n.name === "click") {
-          const t = Kt(c() + n.startTime);
+          const t = Kt(a() + n.startTime);
           const r = Kt(n.duration);
           const o = {
             name: l(n.target),
@@ -912,7 +912,7 @@ function ye() {
   });
 }
 function ge() {
-  return At(({ metric: t }) => {
+  return xt(({ metric: t }) => {
     const e = t.entries[t.entries.length - 1];
     if (e) {
       le.cls = { value: t.value, unit: "" };
@@ -921,7 +921,7 @@ function ge() {
   }, true);
 }
 function _e() {
-  return qt(({ metric: t }) => {
+  return At(({ metric: t }) => {
     const e = t.entries[t.entries.length - 1];
     if (e) {
       le.lcp = { value: t.value, unit: "millisecond" };
@@ -937,15 +937,15 @@ function ve() {
 }
 function be(t, e) {
   const n = Jt();
-  const o = c();
+  const o = a();
   if (!n?.getEntries || !o) return;
   const i = Kt(o);
   const s = n.getEntries();
-  const { op: a, start_timestamp: u } = r(t);
+  const { op: c, start_timestamp: u } = r(t);
   s.slice(ue).forEach((n) => {
     const r = Kt(n.startTime);
     const o = Kt(Math.max(0, n.duration));
-    if (!(a === "navigation" && u && i + r < u))
+    if (!(c === "navigation" && u && i + r < u))
       switch (n.entryType) {
         case "navigation":
           we(t, n, i);
@@ -955,12 +955,12 @@ function be(t, e) {
         case "measure": {
           Se(t, n, r, o, i, e.ignorePerformanceApiSpans);
           const s = W();
-          const a = n.startTime < s.firstHiddenTime;
+          const c = n.startTime < s.firstHiddenTime;
           n.name === "first-paint" &&
-            a &&
+            c &&
             (le.fp = { value: n.startTime, unit: "millisecond" });
           n.name === "first-contentful-paint" &&
-            a &&
+            c &&
             (le.fcp = { value: n.startTime, unit: "millisecond" });
           break;
         }
@@ -971,8 +971,8 @@ function be(t, e) {
   });
   ue = Math.max(s.length - 1, 0);
   Pe(t);
-  if (a === "pageload") {
-    Ae(le);
+  if (c === "pageload") {
+    xe(le);
     e.recordClsOnPageloadSpan || delete le.cls;
     e.recordLcpOnPageloadSpan || delete le.lcp;
     Object.entries(le).forEach(([t, e]) => {
@@ -998,17 +998,17 @@ function Se(t, e, n, r, o, i) {
   if (Te(e)) return;
   if (["mark", "measure"].includes(e.entryType) && v(e.name, i)) return;
   const s = B(false);
-  const a = Kt(s ? s.requestStart : 0);
-  const c = o + Math.max(n, a);
+  const c = Kt(s ? s.requestStart : 0);
+  const a = o + Math.max(n, c);
   const u = o + n;
   const l = u + r;
   const d = { [f]: "auto.resource.browser.metrics" };
-  if (c !== u) {
+  if (a !== u) {
     d["sentry.browser.measure_happened_before_request"] = true;
-    d["sentry.browser.measure_start_time"] = c;
+    d["sentry.browser.measure_start_time"] = a;
   }
   Ee(d, e);
-  c <= l && Gt(t, c, l, { name: e.name, op: e.entryType, attributes: d });
+  a <= l && Gt(t, a, l, { name: e.name, op: e.entryType, attributes: d });
 }
 function Ee(t, e) {
   try {
@@ -1050,10 +1050,10 @@ function we(t, e, n) {
 function ke(t, e, n, r, o = n) {
   const i = Le(n);
   const s = e[i];
-  const a = e[`${n}Start`];
-  a &&
+  const c = e[`${n}Start`];
+  c &&
     s &&
-    Gt(t, r + Kt(a), r + Kt(s), {
+    Gt(t, r + Kt(c), r + Kt(s), {
       op: `browser.${o}`,
       name: e.name,
       attributes: {
@@ -1091,14 +1091,14 @@ function Ce(t, e, n) {
 function Ie(t, e, n, r, o, i, s) {
   if (e.initiatorType === "xmlhttprequest" || e.initiatorType === "fetch")
     return;
-  const a = e.initiatorType ? `resource.${e.initiatorType}` : "resource.other";
-  if (s?.includes(a)) return;
-  const c = { [f]: "auto.resource.browser.metrics" };
+  const c = e.initiatorType ? `resource.${e.initiatorType}` : "resource.other";
+  if (s?.includes(c)) return;
+  const a = { [f]: "auto.resource.browser.metrics" };
   const u = T(n);
-  u.protocol && (c["url.scheme"] = u.protocol.split(":").pop());
-  u.host && (c["server.address"] = u.host);
-  c["url.same_origin"] = n.includes(R.location.origin);
-  xe(e, c, [
+  u.protocol && (a["url.scheme"] = u.protocol.split(":").pop());
+  u.host && (a["server.address"] = u.host);
+  a["url.same_origin"] = n.includes(O.location.origin);
+  qe(e, a, [
     ["responseStatus", "http.response.status_code"],
     ["transferSize", "http.response_transfer_size"],
     ["encodedBodySize", "http.response_content_length"],
@@ -1106,13 +1106,13 @@ function Ie(t, e, n, r, o, i, s) {
     ["renderBlockingStatus", "resource.render_blocking_status"],
     ["deliveryType", "http.response_delivery_type"],
   ]);
-  const l = { ...c, ...se(e) };
+  const l = { ...a, ...se(e) };
   const d = i + r;
   const p = d + o;
-  Gt(t, d, p, { name: n.replace(R.location.origin, ""), op: a, attributes: l });
+  Gt(t, d, p, { name: n.replace(O.location.origin, ""), op: c, attributes: l });
 }
 function Pe(t) {
-  const e = R.navigator;
+  const e = O.navigator;
   if (!e) return;
   const n = e.connection;
   if (n) {
@@ -1140,45 +1140,45 @@ function Me(t, e) {
       t.setAttribute(`cls.source.${n + 1}`, l(e.node)),
     );
 }
-function xe(t, e, n) {
+function qe(t, e, n) {
   n.forEach(([n, r]) => {
     const o = t[n];
     o != null &&
-      ((typeof o === "number" && o < ce) || typeof o === "string") &&
+      ((typeof o === "number" && o < ae) || typeof o === "string") &&
       (e[r] = o);
   });
 }
-function Ae(t) {
+function xe(t) {
   const e = B(false);
   if (!e) return;
   const { responseStart: n, requestStart: r } = e;
   r <= n && (t["ttfb.requestTime"] = { value: n - r, unit: "millisecond" });
 }
-function qe() {
+function Ae() {
   const t = Jt();
-  return t && c() ? Rt("element", Ne) : () => {};
+  return t && a() ? Ot("element", Ne) : () => {};
 }
 const Ne = ({ entries: t }) => {
   const e = y();
   const n = e ? S(e) : void 0;
-  const o = n ? r(n).description : a().getScopeData().transactionName;
+  const o = n ? r(n).description : c().getScopeData().transactionName;
   t.forEach((t) => {
     const e = t;
     if (!e.identifier) return;
     const n = e.name;
     const r = e.renderTime;
     const i = e.loadTime;
-    const [s, a] = i
+    const [s, c] = i
       ? [Kt(i), "load-time"]
       : r
         ? [Kt(r), "render-time"]
         : [u(), "entry-emission"];
-    const c = n === "image-paint" ? Kt(Math.max(0, (r ?? 0) - (i ?? 0))) : 0;
+    const a = n === "image-paint" ? Kt(Math.max(0, (r ?? 0) - (i ?? 0))) : 0;
     const l = {
       [f]: "auto.ui.browser.elementtiming",
       [p]: "ui.elementtiming",
       [E]: "component",
-      "sentry.span_start_time_source": a,
+      "sentry.span_start_time_source": c,
       "sentry.transaction_name": o,
       "element.id": e.id,
       "element.type": e.element?.tagName?.toLowerCase() || "unknown",
@@ -1200,13 +1200,13 @@ const Ne = ({ entries: t }) => {
         onlyIfParent: true,
       },
       (t) => {
-        t.end(s + c);
+        t.end(s + a);
       },
     );
   });
 };
-const Oe = 1e3;
-let Re;
+const Re = 1e3;
+let Oe;
 let $e;
 let He;
 function Be(t) {
@@ -1215,13 +1215,13 @@ function Be(t) {
   L(e, De);
 }
 function De() {
-  if (!R.document) return;
+  if (!O.document) return;
   const t = C.bind(null, "dom");
   const e = je(t, true);
-  R.document.addEventListener("click", e, false);
-  R.document.addEventListener("keypress", e, false);
+  O.document.addEventListener("click", e, false);
+  O.document.addEventListener("keypress", e, false);
   ["EventTarget", "Node"].forEach((e) => {
-    const n = R;
+    const n = O;
     const r = n[e]?.prototype;
     if (r?.hasOwnProperty?.("addEventListener")) {
       I(r, "addEventListener", function (e) {
@@ -1297,11 +1297,11 @@ function je(t, e = false) {
       $e = n.type;
       He = r ? r._sentryId : void 0;
     }
-    clearTimeout(Re);
-    Re = R.setTimeout(() => {
+    clearTimeout(Oe);
+    Oe = O.setTimeout(() => {
       He = void 0;
       $e = void 0;
-    }, Oe);
+    }, Re);
   };
 }
 function Fe(t) {
@@ -1318,17 +1318,17 @@ function Ye(t) {
   L(e, We);
 }
 function We() {
-  R.addEventListener("popstate", () => {
-    const t = R.location.href;
+  O.addEventListener("popstate", () => {
+    const t = O.location.href;
     const e = Ve;
     Ve = t;
     if (e === t) return;
     const n = { from: e, to: t };
     C("history", n);
   });
-  if (x()) {
-    I(R.history, "pushState", t);
-    I(R.history, "replaceState", t);
+  if (q()) {
+    I(O.history, "pushState", t);
+    I(O.history, "replaceState", t);
   }
   function t(t) {
     return function (...e) {
@@ -1347,7 +1347,7 @@ function We() {
 }
 function Ge(t) {
   try {
-    const e = new URL(t, R.location.origin);
+    const e = new URL(t, O.location.origin);
     return e.toString();
   } catch {
     return t;
@@ -1357,9 +1357,9 @@ const Xe = {};
 function Je(t) {
   const n = Xe[t];
   if (n) return n;
-  let r = R[t];
-  if (A(r)) return (Xe[t] = r.bind(R));
-  const o = R.document;
+  let r = O[t];
+  if (x(r)) return (Xe[t] = r.bind(O));
+  const o = O.document;
   if (o && typeof o.createElement === "function")
     try {
       const e = o.createElement("iframe");
@@ -1369,13 +1369,13 @@ function Je(t) {
       n?.[t] && (r = n[t]);
       o.head.removeChild(e);
     } catch (n) {
-      O &&
+      R &&
         e.warn(
           `Could not create sandbox iframe for ${t} check, bailing to window.${t}: `,
           n,
         );
     }
-  return r ? (Xe[t] = r.bind(R)) : r;
+  return r ? (Xe[t] = r.bind(O)) : r;
 }
 function Ke(t) {
   Xe[t] = void 0;
@@ -1393,20 +1393,20 @@ function en(t) {
   L(e, nn);
 }
 function nn() {
-  if (!R.XMLHttpRequest) return;
+  if (!O.XMLHttpRequest) return;
   const t = XMLHttpRequest.prototype;
   t.open = new Proxy(t.open, {
     apply(t, e, n) {
       const r = new Error();
       const o = u() * 1e3;
-      const i = q(n[0]) ? n[0].toUpperCase() : void 0;
+      const i = A(n[0]) ? n[0].toUpperCase() : void 0;
       const s = rn(n[1]);
       if (!i || !s) return t.apply(e, n);
       e[tn] = { method: i, url: s, request_headers: {} };
       i === "POST" &&
         s.match(/sentry_key/) &&
         (e.__sentry_own_request__ = true);
-      const a = () => {
+      const c = () => {
         const t = e[tn];
         if (t && e.readyState === 4) {
           try {
@@ -1424,16 +1424,16 @@ function nn() {
       "onreadystatechange" in e && typeof e.onreadystatechange === "function"
         ? (e.onreadystatechange = new Proxy(e.onreadystatechange, {
             apply(t, e, n) {
-              a();
+              c();
               return t.apply(e, n);
             },
           }))
-        : e.addEventListener("readystatechange", a);
+        : e.addEventListener("readystatechange", c);
       e.setRequestHeader = new Proxy(e.setRequestHeader, {
         apply(t, e, n) {
           const [r, o] = n;
           const i = e[tn];
-          i && q(r) && q(o) && (i.request_headers[r.toLowerCase()] = o);
+          i && A(r) && A(o) && (i.request_headers[r.toLowerCase()] = o);
           return t.apply(e, n);
         },
       });
@@ -1460,36 +1460,43 @@ function nn() {
  * @param url - The URL argument of an XHR method
  * @returns The parsed URL string or undefined if the URL is invalid
  */ function rn(t) {
-  if (q(t)) return t;
+  if (A(t)) return t;
   try {
     return t.toString();
   } catch {}
 }
-function on(t) {
+const on = Symbol.for("sentry__originalRequestBody");
+function sn(t) {
   return new URLSearchParams(t).toString();
 }
-function sn(t, n = e) {
+function cn(t, n = e) {
   try {
     if (typeof t === "string") return [t];
     if (t instanceof URLSearchParams) return [t.toString()];
-    if (t instanceof FormData) return [on(t)];
+    if (t instanceof FormData) return [sn(t)];
     if (!t) return [void 0];
   } catch (e) {
-    O && n.error(e, "Failed to serialize body", t);
+    R && n.error(e, "Failed to serialize body", t);
     return [void 0, "BODY_PARSE_ERROR"];
   }
-  O && n.log("Skipping network body because of body type", t);
+  R && n.log("Skipping network body because of body type", t);
   return [void 0, "UNPARSEABLE_BODY_TYPE"];
 }
 function an(t = []) {
-  if (t.length === 2 && typeof t[1] === "object") return t[1].body;
+  if (t.length >= 2 && t[1] && typeof t[1] === "object" && "body" in t[1])
+    return t[1].body;
+  if (t.length >= 1 && t[0] instanceof Request) {
+    const e = t[0];
+    const n = e[on];
+    return n !== void 0 ? n : void 0;
+  }
 }
-function cn(t) {
+function un(t) {
   let n;
   try {
     n = t.getAllResponseHeaders();
   } catch (n) {
-    O && e.error(n, "Failed to get xhr response headers", t);
+    R && e.error(n, "Failed to get xhr response headers", t);
     return {};
   }
   return n
@@ -1500,21 +1507,21 @@ function cn(t) {
       }, {})
     : {};
 }
-const un = [];
-const ln = new Map();
+const ln = [];
 const dn = new Map();
-const pn = 60;
-function fn() {
+const pn = new Map();
+const fn = 60;
+function mn() {
   const t = Jt();
-  if (t && c()) {
-    const t = hn();
+  if (t && a()) {
+    const t = yn();
     return () => {
       t();
     };
   }
   return () => {};
 }
-const mn = {
+const hn = {
   click: "click",
   pointerdown: "click",
   pointerup: "click",
@@ -1542,23 +1549,23 @@ const mn = {
   keypress: "press",
   input: "press",
 };
-function hn() {
-  return Ot(yn);
+function yn() {
+  return Rt(gn);
 }
-const yn = ({ metric: t }) => {
+const gn = ({ metric: t }) => {
   if (t.value == void 0) return;
   const e = Kt(t.value);
-  if (e > pn) return;
-  const n = t.entries.find((e) => e.duration === t.value && mn[e.name]);
+  if (e > fn) return;
+  const n = t.entries.find((e) => e.duration === t.value && hn[e.name]);
   if (!n) return;
   const { interactionId: o } = n;
-  const i = mn[n.name];
-  const s = Kt(c() + n.startTime);
+  const i = hn[n.name];
+  const s = Kt(a() + n.startTime);
   const u = y();
   const g = u ? S(u) : void 0;
-  const _ = o != null ? ln.get(o) : void 0;
+  const _ = o != null ? dn.get(o) : void 0;
   const v = _?.span || g;
-  const b = v ? r(v).description : a().getScopeData().transactionName;
+  const b = v ? r(v).description : c().getScopeData().transactionName;
   const T = _?.elementName || l(n.target);
   const E = {
     [f]: "auto.http.browser.inp",
@@ -1571,29 +1578,29 @@ const yn = ({ metric: t }) => {
     w.end(s + e);
   }
 };
-function gn() {
-  const t = Object.keys(mn);
+function _n() {
+  const t = Object.keys(hn);
   N() &&
     t.forEach((t) => {
-      R.addEventListener(t, e, { capture: true, passive: true });
+      O.addEventListener(t, e, { capture: true, passive: true });
     });
   function e(t) {
     const e = t.target;
     if (!e) return;
     const n = l(e);
     const r = Math.round(t.timeStamp);
-    dn.set(r, n);
-    if (dn.size > 50) {
-      const t = dn.keys().next().value;
-      t !== void 0 && dn.delete(t);
+    pn.set(r, n);
+    if (pn.size > 50) {
+      const t = pn.keys().next().value;
+      t !== void 0 && pn.delete(t);
     }
   }
   function n(t) {
     const e = Math.round(t.startTime);
-    let n = dn.get(e);
+    let n = pn.get(e);
     if (!n)
       for (let t = -5; t <= 5; t++) {
-        const r = dn.get(e + t);
+        const r = pn.get(e + t);
         if (r) {
           n = r;
           break;
@@ -1608,43 +1615,43 @@ function gn() {
       if (!Yt(t)) return;
       const e = t.interactionId;
       if (e == null) return;
-      if (ln.has(e)) return;
+      if (dn.has(e)) return;
       const o = t.target ? l(t.target) : n(t);
-      if (un.length > 10) {
-        const t = un.shift();
-        ln.delete(t);
+      if (ln.length > 10) {
+        const t = ln.shift();
+        dn.delete(t);
       }
-      un.push(e);
-      ln.set(e, { span: r, elementName: o });
+      ln.push(e);
+      dn.set(e, { span: r, elementName: o });
     });
   };
-  Rt("event", r);
-  Rt("first-input", r);
+  Ot("event", r);
+  Ot("first-input", r);
 }
 export {
   tn as SENTRY_XHR_DATA_KEY,
   Be as addClickKeypressInstrumentationHandler,
-  At as addClsInstrumentationHandler,
+  xt as addClsInstrumentationHandler,
   Ye as addHistoryInstrumentationHandler,
-  Ot as addInpInstrumentationHandler,
-  qt as addLcpInstrumentationHandler,
+  Rt as addInpInstrumentationHandler,
+  At as addLcpInstrumentationHandler,
   be as addPerformanceEntries,
-  Rt as addPerformanceInstrumentationHandler,
+  Ot as addPerformanceInstrumentationHandler,
   Nt as addTtfbInstrumentationHandler,
   en as addXhrInstrumentationHandler,
   Ke as clearCachedImplementation,
   Qt as extractNetworkProtocol,
   Qe as fetch,
-  sn as getBodyString,
+  cn as getBodyString,
   an as getFetchRequestArgBody,
   Je as getNativeImplementation,
-  cn as parseXhrResponseHeaders,
-  gn as registerInpInteractionListener,
+  un as parseXhrResponseHeaders,
+  _n as registerInpInteractionListener,
   se as resourceTimingToSpanAttributes,
-  on as serializeFormData,
+  sn as serializeFormData,
   Ze as setTimeout,
-  qe as startTrackingElementTiming,
-  fn as startTrackingINP,
+  Ae as startTrackingElementTiming,
+  mn as startTrackingINP,
   ye as startTrackingInteractions,
   he as startTrackingLongAnimationFrames,
   me as startTrackingLongTasks,

@@ -80,18 +80,6 @@ module ApplicationHelper
       end
   end
 
-  def repl_session_options(repl_session_id: nil)
-    policy_scope(ReplSession)
-      .order(:id)
-      .map do |repl_session|
-        [
-          repl_session&.to_s,
-          repl_session&.id,
-          { selected: repl_session_id == repl_session&.id }
-        ]
-      end
-  end
-
   def locale_options(locale: nil)
     locale = (locale.presence || I18n.locale).to_s
 

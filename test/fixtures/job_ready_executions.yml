@@ -1,0 +1,6 @@
+job_ready_execution:
+  job: job
+  queue_name: "default"
+  priority: 5
+  created_at: 2025-03-05 08:59:45
+  updated_at: 2025-03-05 08:59:45

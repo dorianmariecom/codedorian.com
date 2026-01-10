@@ -30,10 +30,6 @@ class JobClaimedExecution < SolidQueue::ClaimedExecution
     program_prompt
     program_prompt_schedule
     program_schedule
-    repl_execution
-    repl_program
-    repl_prompt
-    repl_session
     time_zone
     token
     user

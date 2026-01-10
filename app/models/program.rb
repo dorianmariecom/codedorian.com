@@ -17,8 +17,6 @@ class Program < ApplicationRecord
   has_many(:program_schedules, dependent: :destroy)
   has_many(:program_prompts, dependent: :destroy)
   has_many(:program_schedule_prompts, through: :program_prompts)
-  has_many(:messages, dependent: :nullify)
-
   accepts_nested_attributes_for(:program_schedules, allow_destroy: true)
 
   validate { can!(:update, user) }

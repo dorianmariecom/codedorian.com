@@ -21,3 +21,5 @@ run "importmap audit" bin/importmap audit
 run "bundler audit" bin/bundler-audit check --update --quiet
 run "npm audit" npm audit
 run "secrets" bin/secrets
+run "test" bin/rails test
+run "test:system" bin/rails test:system

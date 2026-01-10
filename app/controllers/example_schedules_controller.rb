@@ -34,6 +34,7 @@ class ExampleSchedulesController < ApplicationController
 
     if @example_schedule.save(context: :controller)
       log_in(@example_schedule.user)
+      @user = @example_schedule.user
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @example_schedule.alert
@@ -46,6 +47,7 @@ class ExampleSchedulesController < ApplicationController
 
     if @example_schedule.save(context: :controller)
       log_in(@example_schedule.user)
+      @user = @example_schedule.user
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @example_schedule.alert

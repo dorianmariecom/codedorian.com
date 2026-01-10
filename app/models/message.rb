@@ -13,12 +13,6 @@ class Message < ApplicationRecord
     default: -> { Current.user! },
     touch: true
   )
-  belongs_to(:program, default: -> { Current.program }, optional: true)
-  belongs_to(
-    :repl_program,
-    default: -> { Current.repl_program },
-    optional: true
-  )
 
   has_rich_text(:subject)
   has_rich_text(:body)
@@ -41,12 +35,6 @@ class Message < ApplicationRecord
     :where_user,
     ->(user) { where(from_user: user).or(where(to_user: user)) }
   )
-  scope(:where_program, ->(program) { where(program: program) })
-  scope(
-    :where_repl_program,
-    ->(repl_program) { where(repl_program: repl_program) }
-  )
-
   validate { can!(:update, from_user) }
   validate { can!(:update, to_user) }
 

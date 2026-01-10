@@ -1,0 +1,9 @@
+job_process:
+  name: "worker-1"
+  kind: "worker"
+  hostname: "studio-mac.local"
+  pid: 4321
+  last_heartbeat_at: 2025-03-05 08:59:30
+  metadata: "{\"queues\":[\"default\"],\"version\":\"1.2.0\"}"
+  created_at: 2025-03-05 08:50:00
+  updated_at: 2025-03-05 08:59:30

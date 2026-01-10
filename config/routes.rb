@@ -189,94 +189,6 @@ Rails.application.routes.draw do
         define_jobs.call
       end
 
-      resources :repl_sessions do
-        post :evaluate
-
-        define_delete_destroy.call
-        define_all_delete.call(:destroy, :repl_sessions)
-        define_all_delete.call(:delete, :repl_sessions)
-
-        resources(:repl_prompts) do
-          define_delete_destroy.call
-          define_all_delete.call(:destroy, :repl_prompts)
-          define_all_delete.call(:delete, :repl_prompts)
-
-          define_errors.call
-          define_jobs.call
-        end
-
-        resources(:repl_programs) do
-          define_delete_destroy.call
-          define_all_delete.call(:destroy, :repl_programs)
-          define_all_delete.call(:delete, :repl_programs)
-
-          resources(:repl_prompts) do
-            define_delete_destroy.call
-            define_all_delete.call(:destroy, :repl_prompts)
-            define_all_delete.call(:delete, :repl_prompts)
-
-            define_jobs.call
-            define_errors.call
-          end
-
-          resources(:repl_executions) do
-            define_delete_destroy.call
-            define_all_delete.call(:destroy, :repl_executions)
-            define_all_delete.call(:delete, :repl_executions)
-
-            define_errors.call
-          end
-
-          define_errors.call
-          define_jobs.call
-        end
-
-        resources(:repl_executions) do
-          define_delete_destroy.call
-          define_all_delete.call(:destroy, :repl_executions)
-          define_all_delete.call(:delete, :repl_executions)
-
-          define_errors.call
-        end
-
-        define_errors.call
-        define_jobs.call
-      end
-
-      resources(:repl_programs) do
-        define_delete_destroy.call
-        define_all_delete.call(:destroy, :repl_programs)
-        define_all_delete.call(:delete, :repl_programs)
-
-        resources(:repl_prompts) do
-          define_delete_destroy.call
-          define_all_delete.call(:destroy, :repl_prompts)
-          define_all_delete.call(:delete, :repl_prompts)
-
-          define_errors.call
-          define_jobs.call
-        end
-
-        resources(:repl_executions) do
-          define_delete_destroy.call
-          define_all_delete.call(:destroy, :repl_executions)
-          define_all_delete.call(:delete, :repl_executions)
-
-          define_errors.call
-        end
-
-        define_errors.call
-        define_jobs.call
-      end
-
-      resources(:repl_executions) do
-        define_delete_destroy.call
-        define_all_delete.call(:destroy, :repl_executions)
-        define_all_delete.call(:delete, :repl_executions)
-
-        define_errors.call
-      end
-
       resources :email_addresses do
         define_delete_destroy.call
         define_all_delete.call(:destroy, :email_addresses)
@@ -407,15 +319,6 @@ Rails.application.routes.draw do
 
           define_errors.call
         end
-
-        define_errors.call
-        define_jobs.call
-      end
-
-      resources(:repl_prompts) do
-        define_delete_destroy.call
-        define_all_delete.call(:destroy, :repl_prompts)
-        define_all_delete.call(:delete, :repl_prompts)
 
         define_errors.call
         define_jobs.call

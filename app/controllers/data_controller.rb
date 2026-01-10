@@ -30,6 +30,7 @@ class DataController < ApplicationController
 
     if @datum.save(context: :controller)
       log_in(@datum.user)
+      @user = @datum.user
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @datum.alert
@@ -42,6 +43,7 @@ class DataController < ApplicationController
 
     if @datum.save(context: :controller)
       log_in(@datum.user)
+      @user = @datum.user
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @datum.alert

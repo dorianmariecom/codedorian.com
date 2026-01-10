@@ -1,4 +1,4 @@
-// @sentry-internal/replay-canvas@10.30.0 downloaded from https://ga.jspm.io/npm:@sentry-internal/replay-canvas@10.30.0/build/npm/esm/index.js
+// @sentry-internal/replay-canvas@10.32.1 downloaded from https://ga.jspm.io/npm:@sentry-internal/replay-canvas@10.32.1/build/npm/esm/index.js
 
 import { defineIntegration as t } from "@sentry/core";
 var e = Object.defineProperty;

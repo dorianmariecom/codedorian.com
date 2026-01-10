@@ -35,6 +35,7 @@ class EmailAddressesController < ApplicationController
 
     if @email_address.save(context: :controller)
       log_in(@email_address.user)
+      @user = @email_address.user
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @email_address.alert
@@ -47,6 +48,7 @@ class EmailAddressesController < ApplicationController
 
     if @email_address.save(context: :controller)
       log_in(@email_address.user)
+      @user = @email_address.user
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @email_address.alert

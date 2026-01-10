@@ -31,6 +31,7 @@ class NamesController < ApplicationController
 
     if @name.save(context: :controller)
       log_in(@name.user)
+      @user = @name.user
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @name.alert
@@ -43,6 +44,7 @@ class NamesController < ApplicationController
 
     if @name.save(context: :controller)
       log_in(@name.user)
+      @user = @name.user
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @name.alert

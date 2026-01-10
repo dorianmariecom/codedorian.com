@@ -1,0 +1,5 @@
+job_context:
+  active_job_id: "7c1c0f2b-6f8a-4b6c-9f5c-1e9f2e6a1a20"
+  context: {"job":{"id":<%= ActiveRecord::FixtureSet.identify(:job) %>},"program":{"id":<%= ActiveRecord::FixtureSet.identify(:program) %>}}
+  created_at: 2025-03-05 08:55:10
+  updated_at: 2025-03-05 08:55:10

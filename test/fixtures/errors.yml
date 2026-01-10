@@ -1,0 +1,8 @@
+error:
+  exception_class: "Net::OpenTimeout"
+  fingerprint: "net-open-timeout-1"
+  message: "execution expired while contacting api.openai.com"
+  severity: "error"
+  source: "app"
+  created_at: 2025-02-18 09:12:00
+  updated_at: 2025-02-18 09:12:00

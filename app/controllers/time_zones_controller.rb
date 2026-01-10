@@ -31,6 +31,7 @@ class TimeZonesController < ApplicationController
 
     if @time_zone.save(context: :controller)
       log_in(@time_zone.user)
+      @user = @time_zone.user
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @time_zone.alert
@@ -43,6 +44,7 @@ class TimeZonesController < ApplicationController
 
     if @time_zone.save(context: :controller)
       log_in(@time_zone.user)
+      @user = @time_zone.user
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @time_zone.alert

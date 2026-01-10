@@ -120,10 +120,6 @@ button {
   &.input--code {
     @apply max-w-full whitespace-pre font-mono h-96;
   }
-
-  &.input--repl {
-    @apply max-w-full whitespace-pre font-mono;
-  }
 }
 
 .center {

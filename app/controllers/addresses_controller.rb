@@ -31,6 +31,7 @@ class AddressesController < ApplicationController
 
     if @address.save(context: :controller)
       log_in(@address.user)
+      @user = @address.user
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @address.alert
@@ -43,6 +44,7 @@ class AddressesController < ApplicationController
 
     if @address.save(context: :controller)
       log_in(@address.user)
+      @user = @address.user
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @address.alert

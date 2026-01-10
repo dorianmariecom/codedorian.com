@@ -31,6 +31,7 @@ class HandlesController < ApplicationController
 
     if @handle.save(context: :controller)
       log_in(@handle.user)
+      @user = @handle.user
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @handle.alert
@@ -43,6 +44,7 @@ class HandlesController < ApplicationController
 
     if @handle.save(context: :controller)
       log_in(@handle.user)
+      @user = @handle.user
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @handle.alert

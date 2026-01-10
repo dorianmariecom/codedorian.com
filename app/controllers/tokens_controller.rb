@@ -30,6 +30,7 @@ class TokensController < ApplicationController
 
     if @token.save(context: :controller)
       log_in(@token.user)
+      @user = @token.user
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @token.alert
@@ -42,6 +43,7 @@ class TokensController < ApplicationController
 
     if @token.save(context: :controller)
       log_in(@token.user)
+      @user = @token.user
       redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @token.alert

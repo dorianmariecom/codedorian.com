@@ -1,4 +1,4 @@
-// @sentry-internal/replay@10.30.0 downloaded from https://ga.jspm.io/npm:@sentry-internal/replay@10.30.0/build/npm/esm/index.js
+// @sentry-internal/replay@10.32.1 downloaded from https://ga.jspm.io/npm:@sentry-internal/replay@10.32.1/build/npm/esm/index.js
 
 import {
   GLOBAL_OBJ as e,
@@ -6460,8 +6460,24 @@ function Vo({
 const Jo =
   'img,image,svg,video,object,picture,embed,map,audio,link[rel="icon"],link[rel="apple-touch-icon"]';
 const Go = ["content-length", "content-type", "accept"];
-let Yo = false;
-const Xo = (e) => new Replay(e);
+const Yo = Symbol.for("sentry__originalRequestBody");
+let Xo = false;
+let Qo = false;
+function Zo() {
+  if (typeof Request === "undefined" || Qo) return;
+  const t = Request;
+  try {
+    const n = function (e, n) {
+      const s = new t(e, n);
+      n?.body != null && (s[Yo] = n.body);
+      return s;
+    };
+    n.prototype = t.prototype;
+    e.Request = n;
+    Qo = true;
+  } catch {}
+}
+const ei = (e) => new Replay(e);
 class Replay {
   constructor({
     flushMinDelay: e = X,
@@ -6494,9 +6510,10 @@ class Replay {
     beforeAddRecordingEvent: M,
     beforeErrorSampling: x,
     onError: T,
+    attachRawBodyFromRequest: A = false,
   } = {}) {
     this.name = "Replay";
-    const A = Ko({ mask: b, unmask: w, block: _, unblock: I, ignore: C });
+    const O = Ko({ mask: b, unmask: w, block: _, unblock: I, ignore: C });
     this._recordingOptions = {
       maskAllInputs: l,
       maskAllText: c,
@@ -6507,12 +6524,12 @@ class Replay {
         Vo({
           maskAttributes: v,
           maskAllText: c,
-          privacyOptions: A,
+          privacyOptions: O,
           key: e,
           value: t,
           el: n,
         }),
-      ...A,
+      ...O,
       slimDOMOptions: "all",
       inlineStylesheet: true,
       inlineImages: false,
@@ -6542,11 +6559,12 @@ class Replay {
       networkDetailAllowUrls: f,
       networkDetailDenyUrls: y,
       networkCaptureBodies: g,
-      networkRequestHeaders: Zo(S),
-      networkResponseHeaders: Zo(k),
+      networkRequestHeaders: ni(S),
+      networkResponseHeaders: ni(k),
       beforeAddRecordingEvent: M,
       beforeErrorSampling: x,
       onError: T,
+      attachRawBodyFromRequest: A,
       _experiments: a,
     };
     if (this._initialOptions.blockAllMedia) {
@@ -6565,13 +6583,14 @@ class Replay {
     this._isInitialized = true;
   }
   get _isInitialized() {
-    return Yo;
+    return Xo;
   }
   set _isInitialized(e) {
-    Yo = e;
+    Xo = e;
   }
   afterAllSetup(e) {
     if (R() && !this._replay) {
+      this._initialOptions.attachRawBodyFromRequest && Zo();
       this._setup(e);
       this._initialize(e);
     }
@@ -6615,7 +6634,7 @@ class Replay {
     }
   }
   _setup(e) {
-    const t = Qo(this._initialOptions, e);
+    const t = ti(this._initialOptions, e);
     this._replay = new ReplayContainer({
       options: t,
       recordingOptions: this._recordingOptions,
@@ -6631,7 +6650,7 @@ class Replay {
     /* eslint-enable @typescript-eslint/no-non-null-assertion */
   }
 }
-function Qo(e, t) {
+function ti(e, t) {
   const n = t.getOptions();
   const s = { sessionSampleRate: 0, errorSampleRate: 0, ...e };
   const r = A(n.replaysSessionSampleRate);
@@ -6647,11 +6666,11 @@ function Qo(e, t) {
   o != null && (s.errorSampleRate = o);
   return s;
 }
-function Zo(e) {
+function ni(e) {
   return [...Go, ...e.map((e) => e.toLowerCase())];
 }
-function ei() {
+function si() {
   const e = u();
   return e?.getIntegrationByName("Replay");
 }
-export { ei as getReplay, Xo as replayIntegration };
+export { si as getReplay, ei as replayIntegration };

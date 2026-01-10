@@ -1,4 +1,4 @@
-// @codemirror/language@6.11.3 downloaded from https://ga.jspm.io/npm:@codemirror/language@6.11.3/dist/index.js
+// @codemirror/language@6.12.1 downloaded from https://ga.jspm.io/npm:@codemirror/language@6.12.1/dist/index.js
 
 import {
   NodeProp as t,
@@ -119,7 +119,7 @@ function M(t, e, r) {
   let s = t.facet($),
     i = N(t).topNode;
   if (!s || s.allowsNesting)
-    for (let t = i; t; t = t.enter(e, r, n.ExcludeBuffers))
+    for (let t = i; t; t = t.enter(e, r, n.ExcludeBuffers | n.EnterBracketed))
       t.type.isTop && (i = t);
   return i;
 }

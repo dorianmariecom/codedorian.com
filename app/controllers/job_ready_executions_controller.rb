@@ -5,9 +5,6 @@ class JobReadyExecutionsController < ApplicationController
   before_action(:load_user)
   before_action(:load_program)
   before_action(:load_program_prompt)
-  before_action(:load_repl_session)
-  before_action(:load_repl_program)
-  before_action(:load_repl_prompt)
   before_action(:load_job)
   before_action do
     add_breadcrumb(key: "job_ready_executions.index", path: index_url)
@@ -147,42 +144,6 @@ class JobReadyExecutionsController < ApplicationController
     )
   end
 
-  def load_repl_session
-    return if params[:repl_session_id].blank?
-
-    @repl_session = repl_sessions_scope.find(params[:repl_session_id])
-
-    set_context(repl_session: @repl_session)
-    add_breadcrumb(key: "repl_sessions.index", path: [@user, :repl_sessions])
-    add_breadcrumb(text: @repl_session, path: [@user, @repl_session])
-  end
-
-  def load_repl_program
-    return if params[:repl_program_id].blank?
-
-    @repl_program = repl_programs_scope.find(params[:repl_program_id])
-
-    set_context(repl_program: @repl_program)
-    add_breadcrumb(key: "repl_programs.index", path: [@user, :repl_programs])
-    add_breadcrumb(
-      text: @repl_program,
-      path: [@user, @repl_session, @repl_program]
-    )
-  end
-
-  def load_repl_prompt
-    return if params[:repl_prompt_id].blank?
-
-    @repl_prompt = repl_prompts_scope.find(params[:repl_prompt_id])
-
-    set_context(repl_prompt: @repl_prompt)
-    add_breadcrumb(key: "repl_prompts.index", path: [@user, :repl_prompts])
-    add_breadcrumb(
-      text: @repl_prompt,
-      path: [@user, @repl_session, @repl_program, @repl_prompt]
-    )
-  end
-
   def load_job
     return if params[:job_id].blank?
 
@@ -203,9 +164,6 @@ class JobReadyExecutionsController < ApplicationController
     scope = scope.where_user(@user) if @user
     scope = scope.where_program(@program) if @program
     scope = scope.where_program_prompt(@program_prompt) if @program_prompt
-    scope = scope.where_repl_session(@repl_session) if @repl_session
-    scope = scope.where_repl_program(@repl_program) if @repl_program
-    scope = scope.where_repl_prompt(@repl_prompt) if @repl_prompt
     scope = scope.where_job(@job) if @job
     scope
   end
@@ -225,39 +183,12 @@ class JobReadyExecutionsController < ApplicationController
     scope
   end
 
-  def repl_sessions_scope
-    scope = policy_scope(ReplSession)
-    scope = scope.where_guest(@guest) if @guest
-    scope = scope.where_user(@user) if @user
-    scope
-  end
-
-  def repl_programs_scope
-    scope = policy_scope(ReplProgram)
-    scope = scope.where_guest(@guest) if @guest
-    scope = scope.where_user(@user) if @user
-    scope = scope.where_repl_session(@repl_session) if @repl_session
-    scope
-  end
-
-  def repl_prompts_scope
-    scope = policy_scope(ReplPrompt)
-    scope = scope.where_guest(@guest) if @guest
-    scope = scope.where_user(@user) if @user
-    scope = scope.where_repl_session(@repl_session) if @repl_session
-    scope = scope.where_repl_program(@repl_program) if @repl_program
-    scope
-  end
-
   def jobs_scope
     scope = policy_scope(Job)
     scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope = scope.where_program(@program) if @program
     scope = scope.where_program_prompt(@program_prompt) if @program_prompt
-    scope = scope.where_repl_session(@repl_session) if @repl_session
-    scope = scope.where_repl_program(@repl_program) if @repl_program
-    scope = scope.where_repl_prompt(@repl_prompt) if @repl_prompt
     scope
   end
 
@@ -274,20 +205,13 @@ class JobReadyExecutionsController < ApplicationController
     guest: @guest,
     program: @program,
     program_prompt: @program_prompt,
-    repl_session: @repl_session,
-    repl_program: @repl_program,
-    repl_prompt: @repl_prompt,
     job: @job
   )
-    if program || program_prompt
-      [user || guest, program, program_prompt, job].compact
-    else
-      [user || guest, repl_session, repl_program, repl_prompt, job].compact
-    end
+    [user || guest, program, program_prompt, job].compact
   end
 
   def filters
-    %i[user program program_prompt repl_session repl_program repl_prompt job]
+    %i[user program program_prompt job]
   end
 
   def load_job_ready_execution

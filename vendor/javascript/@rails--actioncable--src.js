@@ -1,4 +1,4 @@
-// @rails/actioncable/src@8.0.300 downloaded from https://ga.jspm.io/npm:@rails/actioncable@8.0.300/src/index.js
+// @rails/actioncable/src@8.1.100 downloaded from https://ga.jspm.io/npm:@rails/actioncable@8.1.100/src/index.js
 
 var t = {
   logger: typeof console !== "undefined" ? console : void 0,

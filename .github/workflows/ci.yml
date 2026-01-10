@@ -19,6 +19,8 @@ jobs:
     - bundler-audit
     - importmap-audit
     - npm-audit
+    - test
+    - system
     - rubocop
     runs-on: ubuntu-latest
     steps:
@@ -51,8 +53,6 @@ jobs:
   deploy-production:
     env:
       BASE_URL: "${{secrets.PRODUCTION_BASE_URL}}"
-      BETTER_STACK_INGESTING_HOST: "${{secrets.PRODUCTION_BETTER_STACK_INGESTING_HOST}}"
-      BETTER_STACK_SOURCE_TOKEN: "${{secrets.PRODUCTION_BETTER_STACK_SOURCE_TOKEN}}"
       CODE_ENV: "${{secrets.PRODUCTION_CODE_ENV}}"
       DATABASE_URL: "${{secrets.PRODUCTION_DATABASE_URL}}"
       HOST: "${{secrets.PRODUCTION_HOST}}"
@@ -82,8 +82,6 @@ jobs:
   deploy-staging:
     env:
       BASE_URL: "${{secrets.STAGING_BASE_URL}}"
-      BETTER_STACK_INGESTING_HOST: "${{secrets.STAGING_BETTER_STACK_INGESTING_HOST}}"
-      BETTER_STACK_SOURCE_TOKEN: "${{secrets.STAGING_BETTER_STACK_SOURCE_TOKEN}}"
       CODE_ENV: "${{secrets.STAGING_CODE_ENV}}"
       DATABASE_URL: "${{secrets.STAGING_DATABASE_URL}}"
       HOST: "${{secrets.STAGING_HOST}}"
@@ -135,5 +133,51 @@ jobs:
       with:
         bundler-cache: true
     - run: bin/rubocop
+  system:
+    env:
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/code_test
+      RAILS_ENV: test
+      RAILS_MASTER_KEY: "${{secrets.TEST_RAILS_MASTER_KEY}}"
+    name: system
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        env:
+          POSTGRES_DB: code_test
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+        image: postgres:15
+        options: --health-cmd "pg_isready -U postgres" --health-interval 10s --health-timeout
+          5s --health-retries 5
+        ports:
+        - 5432:5432
+    steps:
+    - uses: actions/checkout@v5
+    - uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true
+    - run: bin/rails db:prepare
+    - run: bin/rails test:system
+  test:
+    env:
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/code_test
+    name: test
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        env:
+          POSTGRES_DB: code_test
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+        image: postgres:15
+        ports:
+        - 5432:5432
+    steps:
+    - uses: actions/checkout@v5
+    - uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true
+    - run: bin/rails db:prepare
+    - run: bin/rails test
 name: ci
 'on': push

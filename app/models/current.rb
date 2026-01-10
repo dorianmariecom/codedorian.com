@@ -54,7 +54,6 @@ class Current < ActiveSupport::CurrentAttributes
   attribute(:time_zone)
   attribute(:request)
   attribute(:program)
-  attribute(:repl_program)
   attribute(:context, default: -> { {} })
 
   def ios_environments

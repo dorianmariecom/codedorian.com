@@ -1,4 +1,4 @@
-// style-mod@4.1.2 downloaded from https://ga.jspm.io/npm:style-mod@4.1.2/src/style-mod.js
+// style-mod@4.1.3 downloaded from https://ga.jspm.io/npm:style-mod@4.1.3/src/style-mod.js
 
 const e = "ͼ";
 const t = typeof Symbol == "undefined" ? "__" + e : Symbol.for(e);
@@ -16,50 +16,50 @@ class StyleModule {
   constructor(e, t) {
     this.rules = [];
     let { finish: s } = t || {};
-    function splitSelector(e) {
+    function l(e) {
       return /^@/.test(e) ? [e] : e.split(/,\s*/);
     }
-    function render(e, t, l, n) {
-      let i = [],
-        o = /^@(\w+)\b/.exec(e[0]),
-        r = o && o[1] == "keyframes";
-      if (o && t == null) return l.push(e[0] + ";");
+    function i(e, t, n, o) {
+      let r = [],
+        h = /^@(\w+)\b/.exec(e[0]),
+        u = h && h[1] == "keyframes";
+      if (h && t == null) return n.push(e[0] + ";");
       for (let s in t) {
-        let n = t[s];
+        let o = t[s];
         if (/&/.test(s))
-          render(
+          i(
             s
               .split(/,\s*/)
               .map((t) => e.map((e) => t.replace(/&/, e)))
               .reduce((e, t) => e.concat(t)),
+            o,
             n,
-            l,
           );
-        else if (n && typeof n == "object") {
-          if (!o)
+        else if (o && typeof o == "object") {
+          if (!h)
             throw new RangeError(
               "The value of a property (" +
                 s +
                 ") should be a primitive value.",
             );
-          render(splitSelector(s), n, i, r);
+          i(l(s), o, r, u);
         } else
-          n != null &&
-            i.push(
+          o != null &&
+            r.push(
               s
                 .replace(/_.*/, "")
                 .replace(/[A-Z]/g, (e) => "-" + e.toLowerCase()) +
                 ": " +
-                n +
+                o +
                 ";",
             );
       }
-      (i.length || r) &&
-        l.push(
-          (!s || o || n ? e : e.map(s)).join(", ") + " {" + i.join(" ") + "}",
+      (r.length || u) &&
+        n.push(
+          (!s || h || o ? e : e.map(s)).join(", ") + " {" + r.join(" ") + "}",
         );
     }
-    for (let t in e) render(splitSelector(t), e[t], this.rules);
+    for (let t in e) i(l(t), e[t], this.rules);
   }
   getRules() {
     return this.rules.join("\n");
@@ -70,22 +70,22 @@ class StyleModule {
     return e + s.toString(36);
   }
   static mount(e, t, l) {
-    let n = e[s],
-      i = l && l.nonce;
-    n ? i && n.setNonce(i) : (n = new StyleSet(e, i));
-    n.mount(Array.isArray(t) ? t : [t], e);
+    let i = e[s],
+      n = l && l.nonce;
+    i ? n && i.setNonce(n) : (i = new StyleSet(e, n));
+    i.mount(Array.isArray(t) ? t : [t], e);
   }
 }
-let n = new Map();
+let i = new Map();
 class StyleSet {
   constructor(e, t) {
     let l = e.ownerDocument || e,
-      i = l.defaultView;
-    if (!e.head && e.adoptedStyleSheets && i.CSSStyleSheet) {
-      let t = n.get(l);
+      n = l.defaultView;
+    if (!e.head && e.adoptedStyleSheets && n.CSSStyleSheet) {
+      let t = i.get(l);
       if (t) return (e[s] = t);
-      this.sheet = new i.CSSStyleSheet();
-      n.set(l, this);
+      this.sheet = new n.CSSStyleSheet();
+      i.set(l, this);
     } else {
       this.styleTag = l.createElement("style");
       t && this.styleTag.setAttribute("nonce", t);
@@ -96,24 +96,24 @@ class StyleSet {
   mount(e, t) {
     let s = this.sheet;
     let l = 0,
-      n = 0;
+      i = 0;
     for (let t = 0; t < e.length; t++) {
-      let i = e[t],
-        o = this.modules.indexOf(i);
-      if (o < n && o > -1) {
+      let n = e[t],
+        o = this.modules.indexOf(n);
+      if (o < i && o > -1) {
         this.modules.splice(o, 1);
-        n--;
+        i--;
         o = -1;
       }
       if (o == -1) {
-        this.modules.splice(n++, 0, i);
+        this.modules.splice(i++, 0, n);
         if (s)
-          for (let e = 0; e < i.rules.length; e++)
-            s.insertRule(i.rules[e], l++);
+          for (let e = 0; e < n.rules.length; e++)
+            s.insertRule(n.rules[e], l++);
       } else {
-        while (n < o) l += this.modules[n++].rules.length;
-        l += i.rules.length;
-        n++;
+        while (i < o) l += this.modules[i++].rules.length;
+        l += n.rules.length;
+        i++;
       }
     }
     if (s)

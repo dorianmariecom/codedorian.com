@@ -1,4 +1,4 @@
-// @codemirror/lint@6.8.5 downloaded from https://ga.jspm.io/npm:@codemirror/lint@6.8.5/dist/index.js
+// @codemirror/lint@6.9.2 downloaded from https://ga.jspm.io/npm:@codemirror/lint@6.9.2/dist/index.js
 
 import {
   Decoration as e,
@@ -36,50 +36,70 @@ class LintState {
     this.selected = i;
   }
   static init(t, i, n) {
-    let s = n.facet(D).markerFilter;
+    let s = n.facet($).markerFilter;
     s && (t = s(t, n));
     let o = t.slice().sort((e, t) => e.from - t.from || e.to - t.to);
     let l = new u(),
       r = [],
       a = 0;
+    let c = n.doc.iter(),
+      d = 0,
+      f = n.doc.length;
     for (let t = 0; ; ) {
       let i = t == o.length ? null : o[t];
       if (!i && !r.length) break;
-      let s, c;
+      let n, s;
       if (r.length) {
-        s = a;
-        c = r.reduce(
+        n = a;
+        s = r.reduce(
           (e, t) => Math.min(e, t.to),
-          i && i.from > s ? i.from : 1e8,
+          i && i.from > n ? i.from : 1e8,
         );
       } else {
-        s = i.from;
-        c = i.to;
+        n = i.from;
+        if (n > f) break;
+        s = i.to;
         r.push(i);
         t++;
       }
       while (t < o.length) {
         let e = o[t];
-        if (e.from != s || !(e.to > e.from || e.to == s)) {
-          c = Math.min(e.from, c);
+        if (e.from != n || !(e.to > e.from || e.to == n)) {
+          s = Math.min(e.from, s);
           break;
         }
         r.push(e);
         t++;
-        c = Math.min(e.to, c);
+        s = Math.min(e.to, s);
       }
-      let d = maxSeverity(r);
-      if (
-        r.some(
-          (e) =>
-            e.from == e.to ||
-            (e.from == e.to - 1 && n.doc.lineAt(e.from).to == e.from),
-        )
-      )
+      s = Math.min(s, f);
+      let u = false;
+      if (r.some((e) => e.from == n && (e.to == s || s == f))) {
+        u = n == s;
+        if (!u && s - n < 10) {
+          let e = n - (d + c.value.length);
+          if (e > 0) {
+            c.next(e);
+            d = n;
+          }
+          for (let e = n; ; ) {
+            if (e >= s) {
+              u = true;
+              break;
+            }
+            if (!c.lineBreak && d + c.value.length > e) break;
+            e = d + c.value.length;
+            d += c.value.length;
+            c.next();
+          }
+        }
+      }
+      let m = _(r);
+      if (u)
         l.add(
-          s,
-          s,
-          e.widget({ widget: new DiagnosticWidget(d), diagnostics: r.slice() }),
+          n,
+          n,
+          e.widget({ widget: new DiagnosticWidget(m), diagnostics: r.slice() }),
         );
       else {
         let t = r.reduce(
@@ -87,23 +107,24 @@ class LintState {
           "",
         );
         l.add(
+          n,
           s,
-          c,
           e.mark({
-            class: "cm-lintRange cm-lintRange-" + d + t,
+            class: "cm-lintRange cm-lintRange-" + m + t,
             diagnostics: r.slice(),
-            inclusiveEnd: r.some((e) => e.to > c),
+            inclusiveEnd: r.some((e) => e.to > s),
           }),
         );
       }
-      a = c;
+      a = s;
+      if (a == f) break;
       for (let e = 0; e < r.length; e++) r[e].to <= a && r.splice(e--, 1);
     }
-    let c = l.finish();
-    return new LintState(c, i, findDiagnostic(c));
+    let m = l.finish();
+    return new LintState(m, i, w(m));
   }
 }
-function findDiagnostic(e, t = null, i = 0) {
+function w(e, t = null, i = 0) {
   let n = null;
   e.between(i, 1e9, (e, i, { spec: s }) => {
     if (!(t && s.diagnostics.indexOf(t) < 0))
@@ -114,27 +135,27 @@ function findDiagnostic(e, t = null, i = 0) {
   });
   return n;
 }
-function hideTooltip(e, t) {
+function b(e, t) {
   let i = t.pos,
     n = t.end || i;
-  let s = e.state.facet(D).hideOn(e, i, n);
+  let s = e.state.facet($).hideOn(e, i, n);
   if (s != null) return s;
   let o = e.startState.doc.lineAt(t.pos);
   return !!(
-    e.effects.some((e) => e.is(w)) ||
+    e.effects.some((e) => e.is(y)) ||
     e.changes.touchesRange(o.from, Math.max(o.to, n))
   );
 }
-function maybeEnableLint(e, t) {
-  return e.field(x, false) ? t : t.concat(m.appendConfig.of(A));
+function k(e, t) {
+  return e.field(S, false) ? t : t.concat(m.appendConfig.of(ie));
 }
-function setDiagnostics(e, t) {
-  return { effects: maybeEnableLint(e, [w.of(t)]) };
+function x(e, t) {
+  return { effects: k(e, [y.of(t)]) };
 }
-const w = m.define();
-const b = m.define();
-const k = m.define();
-const x = h.define({
+const y = m.define();
+const C = m.define();
+const L = m.define();
+const S = h.define({
   create() {
     return new LintState(e.none, null, null);
   },
@@ -145,29 +166,27 @@ const x = h.define({
         s = e.panel;
       if (e.selected) {
         let s = t.changes.mapPos(e.selected.from, 1);
-        n =
-          findDiagnostic(i, e.selected.diagnostic, s) ||
-          findDiagnostic(i, null, s);
+        n = w(i, e.selected.diagnostic, s) || w(i, null, s);
       }
-      !i.size && s && t.state.facet(D).autoPanel && (s = null);
+      !i.size && s && t.state.facet($).autoPanel && (s = null);
       e = new LintState(i, s, n);
     }
     for (let i of t.effects)
-      if (i.is(w)) {
-        let n = t.state.facet(D).autoPanel
+      if (i.is(y)) {
+        let n = t.state.facet($).autoPanel
           ? i.value.length
             ? LintPanel.open
             : null
           : e.panel;
         e = LintState.init(i.value, n, t.state);
       } else
-        i.is(b)
+        i.is(C)
           ? (e = new LintState(
               e.diagnostics,
               i.value ? LintPanel.open : null,
               e.selected,
             ))
-          : i.is(k) && (e = new LintState(e.diagnostics, e.panel, i.value));
+          : i.is(L) && (e = new LintState(e.diagnostics, e.panel, i.value));
     return e;
   },
   provide: (e) => [
@@ -175,13 +194,13 @@ const x = h.define({
     t.decorations.from(e, (e) => e.diagnostics),
   ],
 });
-function diagnosticCount(e) {
-  let t = e.field(x, false);
+function T(e) {
+  let t = e.field(S, false);
   return t ? t.diagnostics.size : 0;
 }
-const y = e.mark({ class: "cm-lintRange cm-lintRange-active" });
-function lintTooltip(e, t, i) {
-  let { diagnostics: n } = e.state.field(x);
+const R = e.mark({ class: "cm-lintRange cm-lintRange-active" });
+function P(e, t, i) {
+  let { diagnostics: n } = e.state.field(S);
   let s,
     o = -1,
     l = -1;
@@ -197,7 +216,7 @@ function lintTooltip(e, t, i) {
       return false;
     }
   });
-  let r = e.state.facet(D).tooltipFilter;
+  let r = e.state.facet($).tooltipFilter;
   s && r && (s = r(s, e.state));
   return s
     ? {
@@ -205,34 +224,33 @@ function lintTooltip(e, t, i) {
         end: l,
         above: e.state.doc.lineAt(o).to < l,
         create() {
-          return { dom: diagnosticsTooltip(e, s) };
+          return { dom: M(e, s) };
         },
       }
     : null;
 }
-function diagnosticsTooltip(e, t) {
+function M(e, t) {
   return v(
     "ul",
     { class: "cm-tooltip-lint" },
-    t.map((t) => renderDiagnostic(e, t, false)),
+    t.map((t) => q(e, t, false)),
   );
 }
-const openLintPanel = (e) => {
-  let t = e.state.field(x, false);
-  (t && t.panel) ||
-    e.dispatch({ effects: maybeEnableLint(e.state, [b.of(true)]) });
+const I = (e) => {
+  let t = e.state.field(S, false);
+  (t && t.panel) || e.dispatch({ effects: k(e.state, [C.of(true)]) });
   let i = s(e, LintPanel.open);
   i && i.dom.querySelector(".cm-panel-lint ul").focus();
   return true;
 };
-const closeLintPanel = (e) => {
-  let t = e.state.field(x, false);
+const A = (e) => {
+  let t = e.state.field(S, false);
   if (!t || !t.panel) return false;
-  e.dispatch({ effects: b.of(false) });
+  e.dispatch({ effects: C.of(false) });
   return true;
 };
-const nextDiagnostic = (e) => {
-  let t = e.state.field(x, false);
+const D = (e) => {
+  let t = e.state.field(S, false);
   if (!t) return false;
   let i = e.state.selection.main,
     n = t.diagnostics.iter(i.to + 1);
@@ -246,9 +264,9 @@ const nextDiagnostic = (e) => {
   });
   return true;
 };
-const previousDiagnostic = (e) => {
+const B = (e) => {
   let { state: t } = e,
-    i = t.field(x, false);
+    i = t.field(S, false);
   if (!i) return false;
   let n = t.selection.main;
   let s, o, l, r;
@@ -272,17 +290,17 @@ const previousDiagnostic = (e) => {
   });
   return true;
 };
-const C = [
-  { key: "Mod-Shift-m", run: openLintPanel, preventDefault: true },
-  { key: "F8", run: nextDiagnostic },
+const O = [
+  { key: "Mod-Shift-m", run: I, preventDefault: true },
+  { key: "F8", run: D },
 ];
-const L = o.fromClass(
+const F = o.fromClass(
   class {
     constructor(e) {
       this.view = e;
       this.timeout = -1;
       this.set = true;
-      let { delay: t } = e.state.facet(D);
+      let { delay: t } = e.state.facet($);
       this.lintTime = Date.now() + t;
       this.run = this.run.bind(this);
       this.timeout = setTimeout(this.run, t);
@@ -295,14 +313,14 @@ const L = o.fromClass(
       else {
         this.set = false;
         let { state: e } = this.view,
-          { sources: t } = e.facet(D);
+          { sources: t } = e.facet($);
         t.length &&
-          batchResults(
+          z(
             t.map((e) => Promise.resolve(e(this.view))),
             (t) => {
               this.view.state.doc == e.doc &&
                 this.view.dispatch(
-                  setDiagnostics(
+                  x(
                     this.view.state,
                     t.reduce((e, t) => e.concat(t)),
                   ),
@@ -315,10 +333,10 @@ const L = o.fromClass(
       }
     }
     update(e) {
-      let t = e.state.facet(D);
+      let t = e.state.facet($);
       if (
         e.docChanged ||
-        t != e.startState.facet(D) ||
+        t != e.startState.facet($) ||
         (t.needsRefresh && t.needsRefresh(e))
       ) {
         this.lintTime = Date.now() + t.delay;
@@ -339,7 +357,7 @@ const L = o.fromClass(
     }
   },
 );
-function batchResults(e, t, i) {
+function z(e, t, i) {
   let n = [],
     s = -1;
   for (let o of e)
@@ -349,11 +367,11 @@ function batchResults(e, t, i) {
       n.length == e.length ? t(n) : (s = setTimeout(() => t(n), 200));
     }, i);
 }
-const D = f.define({
+const $ = f.define({
   combine(e) {
-    return Object.assign(
-      { sources: e.map((e) => e.source).filter((e) => e != null) },
-      g(
+    return {
+      sources: e.map((e) => e.source).filter((e) => e != null),
+      ...g(
         e.map((e) => e.config),
         {
           delay: 750,
@@ -362,19 +380,30 @@ const D = f.define({
           needsRefresh: null,
           hideOn: () => null,
         },
-        { needsRefresh: (e, t) => (e ? (t ? (i) => e(i) || t(i) : e) : t) },
+        {
+          delay: Math.max,
+          markerFilter: E,
+          tooltipFilter: E,
+          needsRefresh: (e, t) => (e ? (t ? (i) => e(i) || t(i) : e) : t),
+          hideOn: (e, t) =>
+            e ? (t ? (i, n, s) => e(i, n, s) || t(i, n, s) : e) : t,
+          autoPanel: (e, t) => e || t,
+        },
       ),
-    );
+    };
   },
 });
-function linter(e, t = {}) {
-  return [D.of({ source: e, config: t }), L, A];
+function E(e, t) {
+  return e ? (t ? (i, n) => t(e(i, n), n) : e) : t;
 }
-function forceLinting(e) {
-  let t = e.plugin(L);
+function H(e, t = {}) {
+  return [$.of({ source: e, config: t }), F, ie];
+}
+function N(e) {
+  let t = e.plugin(F);
   t && t.force();
 }
-function assignKeys(e) {
+function j(e) {
   let t = [];
   if (e)
     e: for (let { name: i } of e) {
@@ -392,9 +421,9 @@ function assignKeys(e) {
     }
   return t;
 }
-function renderDiagnostic(e, t, i) {
+function q(e, t, i) {
   var n;
-  let s = i ? assignKeys(t.actions) : [];
+  let s = i ? j(t.actions) : [];
   return v(
     "li",
     { class: "cm-diagnostic cm-diagnostic-" + t.severity },
@@ -407,29 +436,30 @@ function renderDiagnostic(e, t, i) {
       ? void 0
       : n.map((i, n) => {
           let o = false,
-            click = (n) => {
+            l = (n) => {
               n.preventDefault();
               if (o) return;
               o = true;
-              let s = findDiagnostic(e.state.field(x).diagnostics, t);
+              let s = w(e.state.field(S).diagnostics, t);
               s && i.apply(e, s.from, s.to);
             };
-          let { name: l } = i,
-            r = s[n] ? l.indexOf(s[n]) : -1;
-          let a =
-            r < 0
-              ? l
-              : [l.slice(0, r), v("u", l.slice(r, r + 1)), l.slice(r + 1)];
+          let { name: r } = i,
+            a = s[n] ? r.indexOf(s[n]) : -1;
+          let c =
+            a < 0
+              ? r
+              : [r.slice(0, a), v("u", r.slice(a, a + 1)), r.slice(a + 1)];
+          let d = i.markClass ? " " + i.markClass : "";
           return v(
             "button",
             {
               type: "button",
-              class: "cm-diagnosticAction",
-              onclick: click,
-              onmousedown: click,
-              "aria-label": ` Action: ${l}${r < 0 ? "" : ` (access key "${s[n]})"`}.`,
+              class: "cm-diagnosticAction" + d,
+              onclick: l,
+              onmousedown: l,
+              "aria-label": ` Action: ${r}${a < 0 ? "" : ` (access key "${s[n]})"`}.`,
             },
-            a,
+            c,
           );
         }),
     t.source && v("div", { class: "cm-diagnosticSource" }, t.source),
@@ -451,7 +481,7 @@ class PanelItem {
   constructor(e, t) {
     this.diagnostic = t;
     this.id = "item_" + Math.floor(Math.random() * 4294967295).toString(16);
-    this.dom = renderDiagnostic(e, t, true);
+    this.dom = q(e, t, true);
     this.dom.id = this.id;
     this.dom.setAttribute("role", "option");
   }
@@ -460,9 +490,9 @@ class LintPanel {
   constructor(e) {
     this.view = e;
     this.items = [];
-    let onkeydown = (t) => {
+    let t = (t) => {
       if (t.keyCode == 27) {
-        closeLintPanel(this.view);
+        A(this.view);
         this.view.focus();
       } else if (t.keyCode == 38 || t.keyCode == 33)
         this.moveSelection(
@@ -478,17 +508,17 @@ class LintPanel {
           return;
         {
           let { diagnostic: i } = this.items[this.selectedIndex],
-            n = assignKeys(i.actions);
+            n = j(i.actions);
           for (let s = 0; s < n.length; s++)
             if (n[s].toUpperCase().charCodeAt(0) == t.keyCode) {
-              let t = findDiagnostic(this.view.state.field(x).diagnostics, i);
+              let t = w(this.view.state.field(S).diagnostics, i);
               t && i.actions[s].apply(e, t.from, t.to);
             }
         }
       }
       t.preventDefault();
     };
-    let onclick = (e) => {
+    let i = (e) => {
       for (let t = 0; t < this.items.length; t++)
         this.items[t].dom.contains(e.target) && this.moveSelection(t);
     };
@@ -496,8 +526,8 @@ class LintPanel {
       tabIndex: 0,
       role: "listbox",
       "aria-label": this.view.state.phrase("Diagnostics"),
-      onkeydown: onkeydown,
-      onclick: onclick,
+      onkeydown: t,
+      onclick: i,
     });
     this.dom = v(
       "div",
@@ -509,7 +539,7 @@ class LintPanel {
           type: "button",
           name: "close",
           "aria-label": this.view.state.phrase("close"),
-          onclick: () => closeLintPanel(this.view),
+          onclick: () => A(this.view),
         },
         "×",
       ),
@@ -517,14 +547,14 @@ class LintPanel {
     this.update();
   }
   get selectedIndex() {
-    let e = this.view.state.field(x).selected;
+    let e = this.view.state.field(S).selected;
     if (!e) return -1;
     for (let t = 0; t < this.items.length; t++)
       if (this.items[t].diagnostic == e.diagnostic) return t;
     return -1;
   }
   update() {
-    let { diagnostics: e, selected: t } = this.view.state.field(x);
+    let { diagnostics: e, selected: t } = this.view.state.field(S);
     let i = 0,
       n = false,
       s = null;
@@ -603,43 +633,43 @@ class LintPanel {
   }
   sync() {
     let e = this.list.firstChild;
-    function rm() {
+    function t() {
       let t = e;
       e = t.nextSibling;
       t.remove();
     }
-    for (let t of this.items)
-      if (t.dom.parentNode == this.list) {
-        while (e != t.dom) rm();
-        e = t.dom.nextSibling;
-      } else this.list.insertBefore(t.dom, e);
-    while (e) rm();
+    for (let i of this.items)
+      if (i.dom.parentNode == this.list) {
+        while (e != i.dom) t();
+        e = i.dom.nextSibling;
+      } else this.list.insertBefore(i.dom, e);
+    while (e) t();
   }
   moveSelection(e) {
     if (this.selectedIndex < 0) return;
-    let t = this.view.state.field(x);
-    let i = findDiagnostic(t.diagnostics, this.items[e].diagnostic);
+    let t = this.view.state.field(S);
+    let i = w(t.diagnostics, this.items[e].diagnostic);
     i &&
       this.view.dispatch({
         selection: { anchor: i.from, head: i.to },
         scrollIntoView: true,
-        effects: k.of(i),
+        effects: L.of(i),
       });
   }
   static open(e) {
     return new LintPanel(e);
   }
 }
-function svg(e, t = 'viewBox="0 0 40 40"') {
+function G(e, t = 'viewBox="0 0 40 40"') {
   return `url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" ${t}>${encodeURIComponent(e)}</svg>')`;
 }
-function underline(e) {
-  return svg(
+function V(e) {
+  return G(
     `<path d="m0 2.5 l2 -1.5 l1 0 l2 1.5 l1 0" stroke="${e}" fill="none" stroke-width=".7"/>`,
     'width="6" height="3"',
   );
 }
-const T = t.baseTheme({
+const Y = t.baseTheme({
   ".cm-diagnostic": {
     padding: "3px 6px 3px 8px",
     marginLeft: "-1px",
@@ -666,10 +696,10 @@ const T = t.baseTheme({
     backgroundRepeat: "repeat-x",
     paddingBottom: "0.7px",
   },
-  ".cm-lintRange-error": { backgroundImage: underline("#d11") },
-  ".cm-lintRange-warning": { backgroundImage: underline("orange") },
-  ".cm-lintRange-info": { backgroundImage: underline("#999") },
-  ".cm-lintRange-hint": { backgroundImage: underline("#66d") },
+  ".cm-lintRange-error": { backgroundImage: V("#d11") },
+  ".cm-lintRange-warning": { backgroundImage: V("orange") },
+  ".cm-lintRange-info": { backgroundImage: V("#999") },
+  ".cm-lintRange-hint": { backgroundImage: V("#66d") },
   ".cm-lintRange-active": { backgroundColor: "#ffdd9980" },
   ".cm-tooltip-lint": { padding: 0, margin: 0 },
   ".cm-lintPoint": {
@@ -718,14 +748,14 @@ const T = t.baseTheme({
     },
   },
 });
-function severityWeight(e) {
+function Z(e) {
   return e == "error" ? 4 : e == "warning" ? 3 : e == "info" ? 2 : 1;
 }
-function maxSeverity(e) {
+function _(e) {
   let t = "hint",
     i = 1;
   for (let n of e) {
-    let e = severityWeight(n.severity);
+    let e = Z(n.severity);
     if (e > i) {
       i = e;
       t = n.severity;
@@ -737,72 +767,69 @@ class LintGutterMarker extends a {
   constructor(e) {
     super();
     this.diagnostics = e;
-    this.severity = maxSeverity(e);
+    this.severity = _(e);
   }
   toDOM(e) {
     let t = document.createElement("div");
     t.className = "cm-lint-marker cm-lint-marker-" + this.severity;
     let i = this.diagnostics;
-    let n = e.state.facet(O).tooltipFilter;
+    let n = e.state.facet(ne).tooltipFilter;
     n && (i = n(i, e.state));
-    i.length && (t.onmouseover = () => gutterMarkerMouseOver(e, t, i));
+    i.length && (t.onmouseover = () => W(e, t, i));
     return t;
   }
 }
-function trackHoverOn(e, t) {
-  let mousemove = (i) => {
-    let n = t.getBoundingClientRect();
+function U(e, t) {
+  let i = (n) => {
+    let s = t.getBoundingClientRect();
     if (
       !(
-        i.clientX > n.left - 10 &&
-        i.clientX < n.right + 10 &&
-        i.clientY > n.top - 10 &&
-        i.clientY < n.bottom + 10
+        n.clientX > s.left - 10 &&
+        n.clientX < s.right + 10 &&
+        n.clientY > s.top - 10 &&
+        n.clientY < s.bottom + 10
       )
     ) {
-      for (let e = i.target; e; e = e.parentNode)
+      for (let e = n.target; e; e = e.parentNode)
         if (e.nodeType == 1 && e.classList.contains("cm-tooltip-lint")) return;
-      window.removeEventListener("mousemove", mousemove);
-      e.state.field(P) && e.dispatch({ effects: M.of(null) });
+      window.removeEventListener("mousemove", i);
+      e.state.field(ee) && e.dispatch({ effects: Q.of(null) });
     }
   };
-  window.addEventListener("mousemove", mousemove);
+  window.addEventListener("mousemove", i);
 }
-function gutterMarkerMouseOver(e, t, i) {
-  function hovered() {
+function W(e, t, i) {
+  function n() {
     let n = e.elementAtHeight(
       t.getBoundingClientRect().top + 5 - e.documentTop,
     );
     const s = e.coordsAtPos(n.from);
     s &&
       e.dispatch({
-        effects: M.of({
+        effects: Q.of({
           pos: n.from,
           above: false,
           clip: false,
           create() {
-            return {
-              dom: diagnosticsTooltip(e, i),
-              getCoords: () => t.getBoundingClientRect(),
-            };
+            return { dom: M(e, i), getCoords: () => t.getBoundingClientRect() };
           },
         }),
       });
     t.onmouseout = t.onmousemove = null;
-    trackHoverOn(e, t);
+    U(e, t);
   }
-  let { hoverTime: n } = e.state.facet(O);
-  let s = setTimeout(hovered, n);
+  let { hoverTime: s } = e.state.facet(ne);
+  let o = setTimeout(n, s);
   t.onmouseout = () => {
-    clearTimeout(s);
+    clearTimeout(o);
     t.onmouseout = t.onmousemove = null;
   };
   t.onmousemove = () => {
-    clearTimeout(s);
-    s = setTimeout(hovered, n);
+    clearTimeout(o);
+    o = setTimeout(n, s);
   };
 }
-function markersForDiagnostics(e, t) {
+function X(e, t) {
   let i = Object.create(null);
   for (let n of t) {
     let t = e.lineAt(n.from);
@@ -812,91 +839,87 @@ function markersForDiagnostics(e, t) {
   for (let e in i) n.push(new LintGutterMarker(i[e]).range(+e));
   return p.of(n, true);
 }
-const S = c({
+const J = c({
   class: "cm-gutter-lint",
-  markers: (e) => e.state.field(R),
+  markers: (e) => e.state.field(K),
   widgetMarker: (e, t, i) => {
     let n = [];
-    e.state.field(R).between(i.from, i.to, (e, t, s) => {
+    e.state.field(K).between(i.from, i.to, (e, t, s) => {
       e > i.from && e < i.to && n.push(...s.diagnostics);
     });
     return n.length ? new LintGutterMarker(n) : null;
   },
 });
-const R = h.define({
+const K = h.define({
   create() {
     return p.empty;
   },
   update(e, t) {
     e = e.map(t.changes);
-    let i = t.state.facet(O).markerFilter;
+    let i = t.state.facet(ne).markerFilter;
     for (let n of t.effects)
-      if (n.is(w)) {
+      if (n.is(y)) {
         let s = n.value;
         i && (s = i(s || [], t.state));
-        e = markersForDiagnostics(t.state.doc, s.slice(0));
+        e = X(t.state.doc, s.slice(0));
       }
     return e;
   },
 });
-const M = m.define();
-const P = h.define({
+const Q = m.define();
+const ee = h.define({
   create() {
     return null;
   },
   update(e, t) {
     e &&
       t.docChanged &&
-      (e = hideTooltip(t, e)
-        ? null
-        : Object.assign(Object.assign({}, e), {
-            pos: t.changes.mapPos(e.pos),
-          }));
-    return t.effects.reduce((e, t) => (t.is(M) ? t.value : e), e);
+      (e = b(t, e) ? null : { ...e, pos: t.changes.mapPos(e.pos) });
+    return t.effects.reduce((e, t) => (t.is(Q) ? t.value : e), e);
   },
   provide: (e) => d.from(e),
 });
-const I = t.baseTheme({
+const te = t.baseTheme({
   ".cm-gutter-lint": {
     width: "1.4em",
     "& .cm-gutterElement": { padding: ".2em" },
   },
   ".cm-lint-marker": { width: "1em", height: "1em" },
   ".cm-lint-marker-info": {
-    content: svg(
+    content: G(
       '<path fill="#aaf" stroke="#77e" stroke-width="6" stroke-linejoin="round" d="M5 5L35 5L35 35L5 35Z"/>',
     ),
   },
   ".cm-lint-marker-warning": {
-    content: svg(
+    content: G(
       '<path fill="#fe8" stroke="#fd7" stroke-width="6" stroke-linejoin="round" d="M20 6L37 35L3 35Z"/>',
     ),
   },
   ".cm-lint-marker-error": {
-    content: svg(
+    content: G(
       '<circle cx="20" cy="20" r="15" fill="#f87" stroke="#f43" stroke-width="6"/>',
     ),
   },
 });
-const A = [
-  x,
-  t.decorations.compute([x], (t) => {
-    let { selected: i, panel: n } = t.field(x);
-    return i && n && i.from != i.to ? e.set([y.range(i.from, i.to)]) : e.none;
+const ie = [
+  S,
+  t.decorations.compute([S], (t) => {
+    let { selected: i, panel: n } = t.field(S);
+    return i && n && i.from != i.to ? e.set([R.range(i.from, i.to)]) : e.none;
   }),
-  i(lintTooltip, { hideOn: hideTooltip }),
-  T,
+  i(P, { hideOn: b }),
+  Y,
 ];
-const O = f.define({
+const ne = f.define({
   combine(e) {
     return g(e, { hoverTime: 300, markerFilter: null, tooltipFilter: null });
   },
 });
-function lintGutter(e = {}) {
-  return [O.of(e), R, S, I, P];
+function se(e = {}) {
+  return [ne.of(e), K, J, te, ee];
 }
-function forEachDiagnostic(e, t) {
-  let i = e.field(x, false);
+function oe(e, t) {
+  let i = e.field(S, false);
   if (i && i.diagnostics.size) {
     let e = [],
       n = [],
@@ -919,16 +942,16 @@ function forEachDiagnostic(e, t) {
   }
 }
 export {
-  closeLintPanel,
-  diagnosticCount,
-  forEachDiagnostic,
-  forceLinting,
-  lintGutter,
-  C as lintKeymap,
-  linter,
-  nextDiagnostic,
-  openLintPanel,
-  previousDiagnostic,
-  setDiagnostics,
-  w as setDiagnosticsEffect,
+  A as closeLintPanel,
+  T as diagnosticCount,
+  oe as forEachDiagnostic,
+  N as forceLinting,
+  se as lintGutter,
+  O as lintKeymap,
+  H as linter,
+  D as nextDiagnostic,
+  I as openLintPanel,
+  B as previousDiagnostic,
+  x as setDiagnostics,
+  y as setDiagnosticsEffect,
 };

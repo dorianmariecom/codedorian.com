@@ -1,4 +1,4 @@
-// @lezer/common@1.2.3 downloaded from https://ga.jspm.io/npm:@lezer/common@1.2.3/dist/index.js
+// @lezer/common@1.5.0 downloaded from https://ga.jspm.io/npm:@lezer/common@1.5.0/dist/index.js
 
 const e = 1024;
 let t = 0;
@@ -17,6 +17,7 @@ class NodeProp {
       (() => {
         throw new Error("This node type doesn't define a deserialize function");
       });
+    this.combine = e.combine || null;
   }
   add(e) {
     if (this.perNode)
@@ -42,10 +43,11 @@ NodeProp.contextHash = new NodeProp({ perNode: true });
 NodeProp.lookAhead = new NodeProp({ perNode: true });
 NodeProp.mounted = new NodeProp({ perNode: true });
 class MountedTree {
-  constructor(e, t, r) {
+  constructor(e, t, r, n = false) {
     this.tree = e;
     this.overlay = t;
     this.parser = r;
+    this.bracketed = n;
   }
   static get(e) {
     return e && e.props && e.props[NodeProp.mounted.id];
@@ -134,7 +136,10 @@ class NodeSet {
         let e = t(r);
         if (e) {
           n || (n = Object.assign({}, r.props));
-          n[e[0].id] = e[1];
+          let t = e[1],
+            i = e[0];
+          i.combine && i.id in n && (t = i.combine(n[i.id], t));
+          n[i.id] = t;
         }
       }
       t.push(n ? new NodeType(r.name, n, r.id, r.flags) : r);
@@ -150,6 +155,7 @@ var s;
   e[(e.IncludeAnonymous = 2)] = "IncludeAnonymous";
   e[(e.IgnoreMounts = 4)] = "IgnoreMounts";
   e[(e.IgnoreOverlays = 8)] = "IgnoreOverlays";
+  e[(e.EnterBracketed = 16)] = "EnterBracketed";
 })(s || (s = {}));
 class Tree {
   constructor(e, t, r, n, i) {
@@ -194,17 +200,17 @@ class Tree {
     return new TreeNode(this, 0, 0, null);
   }
   resolve(e, t = 0) {
-    let r = resolveNode(n.get(this) || this.topNode, e, t, false);
+    let r = l(n.get(this) || this.topNode, e, t, false);
     n.set(this, r);
     return r;
   }
   resolveInner(e, t = 0) {
-    let r = resolveNode(i.get(this) || this.topNode, e, t, true);
+    let r = l(i.get(this) || this.topNode, e, t, true);
     i.set(this, r);
     return r;
   }
   resolveStack(e, t = 0) {
-    return stackIterator(this, e, t);
+    return a(this, e, t);
   }
   iterate(e) {
     let { enter: t, leave: r, from: n = 0, to: i = this.length } = e;
@@ -243,7 +249,7 @@ class Tree {
   balance(e = {}) {
     return this.children.length <= 8
       ? this
-      : balanceRange(
+      : m(
           NodeType.none,
           this.children,
           this.positions,
@@ -256,7 +262,7 @@ class Tree {
         );
   }
   static build(e) {
-    return buildTree(e);
+    return p(e);
   }
 }
 Tree.empty = new Tree(NodeType.none, [], [], 0);
@@ -321,13 +327,13 @@ class TreeBuffer {
   }
   findChild(e, t, r, n, i) {
     let { buffer: s } = this,
-      o = -1;
-    for (let l = e; l != t; l = s[l + 3])
-      if (checkSide(i, n, s[l + 1], s[l + 2])) {
-        o = l;
+      l = -1;
+    for (let f = e; f != t; f = s[f + 3])
+      if (o(i, n, s[f + 1], s[f + 2])) {
+        l = f;
         if (r > 0) break;
       }
-    return o;
+    return l;
   }
   slice(e, t, r) {
     let n = this.buffer;
@@ -343,7 +349,7 @@ class TreeBuffer {
     return new TreeBuffer(i, s, this.set);
   }
 }
-function checkSide(e, t, r, n) {
+function o(e, t, r, n) {
   switch (e) {
     case -2:
       return r < t;
@@ -359,7 +365,7 @@ function checkSide(e, t, r, n) {
       return true;
   }
 }
-function resolveNode(e, t, r, n) {
+function l(e, t, r, n) {
   var i;
   while (
     e.from == e.to ||
@@ -389,20 +395,20 @@ class BaseNode {
     return new TreeCursor(this, e);
   }
   getChild(e, t = null, r = null) {
-    let n = getChildren(this, e, t, r);
+    let n = f(this, e, t, r);
     return n.length ? n[0] : null;
   }
   getChildren(e, t = null, r = null) {
-    return getChildren(this, e, t, r);
+    return f(this, e, t, r);
   }
   resolve(e, t = 0) {
-    return resolveNode(this, e, t, false);
+    return l(this, e, t, false);
   }
   resolveInner(e, t = 0) {
-    return resolveNode(this, e, t, true);
+    return l(this, e, t, true);
   }
   matchContext(e) {
-    return matchNodeContext(this.parent, e);
+    return h(this.parent, e);
   }
   enterUnfinishedNodesBefore(e) {
     let t = this.childBefore(e),
@@ -442,43 +448,48 @@ class TreeNode extends BaseNode {
     return this.from + this._tree.length;
   }
   nextChild(e, t, r, n, i = 0) {
-    for (let o = this; ; ) {
+    var l;
+    for (let f = this; ; ) {
       for (
-        let { children: l, positions: f } = o._tree, h = t > 0 ? l.length : -1;
-        e != h;
+        let { children: h, positions: u } = f._tree, a = t > 0 ? h.length : -1;
+        e != a;
         e += t
       ) {
-        let h = l[e],
-          u = f[e] + o.from;
-        if (checkSide(n, r, u, u + h.length))
-          if (h instanceof TreeBuffer) {
+        let a = h[e],
+          p = u[e] + f.from;
+        if (
+          (i & s.EnterBracketed &&
+            a instanceof Tree &&
+            ((l = MountedTree.get(a)) === null || l === void 0
+              ? void 0
+              : l.overlay) === null &&
+            (p >= r || p + a.length <= r)) ||
+          o(n, r, p, p + a.length)
+        )
+          if (a instanceof TreeBuffer) {
             if (i & s.ExcludeBuffers) continue;
-            let l = h.findChild(0, h.buffer.length, t, r - u, n);
-            if (l > -1)
-              return new BufferNode(new BufferContext(o, h, e, u), null, l);
-          } else if (
-            i & s.IncludeAnonymous ||
-            !h.type.isAnonymous ||
-            hasChild(h)
-          ) {
-            let l;
-            if (!(i & s.IgnoreMounts) && (l = MountedTree.get(h)) && !l.overlay)
-              return new TreeNode(l.tree, u, e, o);
-            let f = new TreeNode(h, u, e, o);
-            return i & s.IncludeAnonymous || !f.type.isAnonymous
-              ? f
-              : f.nextChild(t < 0 ? h.children.length - 1 : 0, t, r, n);
+            let o = a.findChild(0, a.buffer.length, t, r - p, n);
+            if (o > -1)
+              return new BufferNode(new BufferContext(f, a, e, p), null, o);
+          } else if (i & s.IncludeAnonymous || !a.type.isAnonymous || d(a)) {
+            let o;
+            if (!(i & s.IgnoreMounts) && (o = MountedTree.get(a)) && !o.overlay)
+              return new TreeNode(o.tree, p, e, f);
+            let l = new TreeNode(a, p, e, f);
+            return i & s.IncludeAnonymous || !l.type.isAnonymous
+              ? l
+              : l.nextChild(t < 0 ? a.children.length - 1 : 0, t, r, n, i);
           }
       }
-      if (i & s.IncludeAnonymous || !o.type.isAnonymous) return null;
+      if (i & s.IncludeAnonymous || !f.type.isAnonymous) return null;
       e =
-        o.index >= 0
-          ? o.index + t
+        f.index >= 0
+          ? f.index + t
           : t < 0
             ? -1
-            : o._parent._tree.children.length;
-      o = o._parent;
-      if (!o) return null;
+            : f._parent._tree.children.length;
+      f = f._parent;
+      if (!f) return null;
     }
   }
   get firstChild() {
@@ -493,6 +504,9 @@ class TreeNode extends BaseNode {
   childBefore(e) {
     return this.nextChild(this._tree.children.length - 1, -1, e, -2);
   }
+  prop(e) {
+    return this._tree.prop(e);
+  }
   enter(e, t, r = 0) {
     let n;
     if (
@@ -500,9 +514,10 @@ class TreeNode extends BaseNode {
       (n = MountedTree.get(this._tree)) &&
       n.overlay
     ) {
-      let r = e - this.from;
-      for (let { from: e, to: i } of n.overlay)
-        if ((t > 0 ? e <= r : e < r) && (t < 0 ? i >= r : i > r))
+      let i = e - this.from,
+        o = r & s.EnterBracketed && n.bracketed;
+      for (let { from: e, to: r } of n.overlay)
+        if ((t > 0 || o ? e <= i : e < i) && (t < 0 || o ? r >= i : r > i))
           return new TreeNode(n.tree, n.overlay[0].from + this.from, -1, this);
     }
     return this.nextChild(0, 1, e, t, r);
@@ -535,7 +550,7 @@ class TreeNode extends BaseNode {
     return this._tree.toString();
   }
 }
-function getChildren(e, t, r, n) {
+function f(e, t, r, n) {
   let i = e.cursor(),
     s = [];
   if (!i.firstChild()) return s;
@@ -550,7 +565,7 @@ function getChildren(e, t, r, n) {
     if (!i.nextSibling()) return n == null ? s : [];
   }
 }
-function matchNodeContext(e, t, r = t.length - 1) {
+function h(e, t, r = t.length - 1) {
   for (let n = e; r >= 0; n = n.parent) {
     if (!n) return false;
     if (!n.type.isAnonymous) {
@@ -607,6 +622,9 @@ class BufferNode extends BaseNode {
   }
   childBefore(e) {
     return this.child(-1, e, -2);
+  }
+  prop(e) {
+    return this.type.prop(e);
   }
   enter(e, t, r = 0) {
     if (r & s.ExcludeBuffers) return null;
@@ -667,7 +685,7 @@ class BufferNode extends BaseNode {
     return this.context.buffer.childString(this.index);
   }
 }
-function iterStack(e) {
+function u(e) {
   if (!e.length) return null;
   let t = 0,
     r = e[0];
@@ -689,10 +707,10 @@ class StackIterator {
     this.node = t;
   }
   get next() {
-    return iterStack(this.heads);
+    return u(this.heads);
   }
 }
-function stackIterator(e, t, r) {
+function a(e, t, r) {
   let n = e.resolveInner(t, r),
     i = null;
   for (let e = n instanceof TreeNode ? n : n.context.parent; e; e = e.parent)
@@ -709,21 +727,21 @@ function stackIterator(e, t, r) {
         s.overlay[s.overlay.length - 1].to >= t
       ) {
         let o = new TreeNode(s.tree, s.overlay[0].from + e.from, -1, e);
-        (i || (i = [n])).push(resolveNode(o, t, r, false));
+        (i || (i = [n])).push(l(o, t, r, false));
       }
     }
-  return i ? iterStack(i) : n;
+  return i ? u(i) : n;
 }
 class TreeCursor {
   get name() {
     return this.type.name;
   }
   constructor(e, t = 0) {
-    this.mode = t;
     this.buffer = null;
     this.stack = [];
     this.index = 0;
     this.bufferNode = null;
+    this.mode = t & ~s.EnterBracketed;
     if (e instanceof TreeNode) this.yieldNode(e);
     else {
       this._tree = e.context.parent;
@@ -880,7 +898,7 @@ class TreeCursor {
             this.mode & s.IncludeAnonymous ||
             e instanceof TreeBuffer ||
             !e.type.isAnonymous ||
-            hasChild(e)
+            d(e)
           )
             return false;
         }
@@ -954,11 +972,11 @@ class TreeCursor {
     }
   }
   matchContext(e) {
-    if (!this.buffer) return matchNodeContext(this.node.parent, e);
+    if (!this.buffer) return h(this.node.parent, e);
     let { buffer: t } = this.buffer,
       { types: r } = t.set;
     for (let n = e.length - 1, i = this.stack.length - 1; n >= 0; i--) {
-      if (i < 0) return matchNodeContext(this._tree, e, n);
+      if (i < 0) return h(this._tree, e, n);
       let s = r[t.buffer[this.stack[i]]];
       if (!s.isAnonymous) {
         if (e[n] && e[n] != s.name) return false;
@@ -968,12 +986,12 @@ class TreeCursor {
     return true;
   }
 }
-function hasChild(e) {
+function d(e) {
   return e.children.some(
-    (e) => e instanceof TreeBuffer || !e.type.isAnonymous || hasChild(e),
+    (e) => e instanceof TreeBuffer || !e.type.isAnonymous || d(e),
   );
 }
-function buildTree(t) {
+function p(t) {
   var r;
   let {
     buffer: n,
@@ -986,72 +1004,68 @@ function buildTree(t) {
   let h = i.types;
   let u = 0,
     a = 0;
-  function takeNode(e, t, r, n, d, p) {
-    let { id: c, start: g, end: m, size: x } = f;
-    let y = a,
-      b = u;
-    while (x < 0) {
+  function d(e, t, r, n, w, N) {
+    let { id: v, start: T, end: k, size: C } = f;
+    let _ = a,
+      B = u;
+    if (C < 0) {
       f.next();
-      if (x == -1) {
-        let t = o[c];
+      if (C == -1) {
+        let t = o[v];
         r.push(t);
-        n.push(g - e);
+        n.push(T - e);
         return;
       }
-      if (x == -3) {
-        u = c;
+      if (C == -3) {
+        u = v;
         return;
       }
-      if (x == -4) {
-        a = c;
+      if (C == -4) {
+        a = v;
         return;
       }
-      throw new RangeError(`Unrecognized record size: ${x}`);
+      throw new RangeError(`Unrecognized record size: ${C}`);
     }
-    let N,
-      w,
-      v = h[c];
-    let T = g - e;
-    if (m - g <= s && (w = findBufferSize(f.pos - t, d))) {
-      let t = new Uint16Array(w.size - w.skip);
-      let r = f.pos - w.size,
+    let A,
+      S,
+      P = h[v];
+    let I = T - e;
+    if (k - T <= s && (S = y(f.pos - t, w))) {
+      let t = new Uint16Array(S.size - S.skip);
+      let r = f.pos - S.size,
         n = t.length;
-      while (f.pos > r) n = copyToBuffer(w.start, t, n);
-      N = new TreeBuffer(t, m - w.start, i);
-      T = w.start - e;
+      while (f.pos > r) n = x(S.start, t, n);
+      A = new TreeBuffer(t, k - S.start, i);
+      I = S.start - e;
     } else {
-      let e = f.pos - x;
+      let e = f.pos - C;
       f.next();
       let t = [],
         r = [];
-      let n = c >= l ? c : -1;
+      let n = v >= l ? v : -1;
       let i = 0,
-        o = m;
+        o = k;
       while (f.pos > e)
         if (n >= 0 && f.id == n && f.size >= 0) {
           if (f.end <= o - s) {
-            makeRepeatLeaf(t, r, g, i, f.end, o, n, y, b);
+            g(t, r, T, i, f.end, o, n, _, B);
             i = t.length;
             o = f.end;
           }
           f.next();
-        } else
-          p > 2500 ? takeFlatNode(g, e, t, r) : takeNode(g, e, t, r, n, p + 1);
-      n >= 0 &&
-        i > 0 &&
-        i < t.length &&
-        makeRepeatLeaf(t, r, g, i, g, o, n, y, b);
+        } else N > 2500 ? p(T, e, t, r) : d(T, e, t, r, n, N + 1);
+      n >= 0 && i > 0 && i < t.length && g(t, r, T, i, T, o, n, _, B);
       t.reverse();
       r.reverse();
       if (n > -1 && i > 0) {
-        let e = makeBalanced(v, b);
-        N = balanceRange(v, t, r, 0, t.length, 0, m - g, e, e);
-      } else N = makeTree(v, t, r, m - g, y - m, b);
+        let e = c(P, B);
+        A = m(P, t, r, 0, t.length, 0, k - T, e, e);
+      } else A = b(P, t, r, k - T, _ - k, B);
     }
-    r.push(N);
-    n.push(T);
+    r.push(A);
+    n.push(I);
   }
-  function takeFlatNode(e, t, r, n) {
+  function p(e, t, r, n) {
     let o = [];
     let l = 0,
       h = -1;
@@ -1079,7 +1093,7 @@ function buildTree(t) {
       n.push(s - e);
     }
   }
-  function makeBalanced(e, t) {
+  function c(e, t) {
     return (r, n, i) => {
       let s,
         o,
@@ -1089,20 +1103,20 @@ function buildTree(t) {
         if (!f && s.type == e && s.length == i) return s;
         (o = s.prop(NodeProp.lookAhead)) && (l = n[f] + s.length + o);
       }
-      return makeTree(e, r, n, i, l, t);
+      return b(e, r, n, i, l, t);
     };
   }
-  function makeRepeatLeaf(e, t, r, n, s, o, l, f, h) {
+  function g(e, t, r, n, s, o, l, f, h) {
     let u = [],
       a = [];
     while (e.length > n) {
       u.push(e.pop());
       a.push(t.pop() + r - s);
     }
-    e.push(makeTree(i.types[l], u, a, o - s, f - o, h));
+    e.push(b(i.types[l], u, a, o - s, f - o, h));
     t.push(s - r);
   }
-  function makeTree(e, t, r, n, i, s, o) {
+  function b(e, t, r, n, i, s, o) {
     if (s) {
       let e = [NodeProp.contextHash, s];
       o = o ? [e].concat(o) : [e];
@@ -1113,7 +1127,7 @@ function buildTree(t) {
     }
     return new Tree(e, t, r, n, o);
   }
-  function findBufferSize(e, t) {
+  function y(e, t) {
     let r = f.fork();
     let n = 0,
       i = 0,
@@ -1138,7 +1152,7 @@ function buildTree(t) {
       r.next();
       while (r.pos > f) {
         if (r.size < 0) {
-          if (r.size != -3) break e;
+          if (r.size != -3 && r.size != -4) break e;
           a += 4;
         } else r.id >= l && (a += 4);
         r.next();
@@ -1154,14 +1168,14 @@ function buildTree(t) {
     }
     return u.size > 4 ? u : void 0;
   }
-  function copyToBuffer(e, t, r) {
+  function x(e, t, r) {
     let { id: n, start: i, end: s, size: o } = f;
     f.next();
     if (o >= 0 && n < l) {
       let l = r;
       if (o > 4) {
         let n = f.pos - (o - 4);
-        while (f.pos > n) r = copyToBuffer(e, t, r);
+        while (f.pos > n) r = x(e, t, r);
       }
       t[--r] = l;
       t[--r] = s - e;
@@ -1170,21 +1184,21 @@ function buildTree(t) {
     } else o == -3 ? (u = n) : o == -4 && (a = n);
     return r;
   }
-  let d = [],
-    p = [];
-  while (f.pos > 0) takeNode(t.start || 0, t.bufferStart || 0, d, p, -1, 0);
-  let c =
+  let w = [],
+    N = [];
+  while (f.pos > 0) d(t.start || 0, t.bufferStart || 0, w, N, -1, 0);
+  let v =
     (r = t.length) !== null && r !== void 0
       ? r
-      : d.length
-        ? p[0] + d[0].length
+      : w.length
+        ? N[0] + w[0].length
         : 0;
-  return new Tree(h[t.topID], d.reverse(), p.reverse(), c);
+  return new Tree(h[t.topID], w.reverse(), N.reverse(), v);
 }
-const o = new WeakMap();
-function nodeSize(e, t) {
+const c = new WeakMap();
+function g(e, t) {
   if (!e.isAnonymous || t instanceof TreeBuffer || t.type != e) return 1;
-  let r = o.get(t);
+  let r = c.get(t);
   if (r == null) {
     r = 1;
     for (let n of t.children) {
@@ -1192,44 +1206,44 @@ function nodeSize(e, t) {
         r = 1;
         break;
       }
-      r += nodeSize(e, n);
+      r += g(e, n);
     }
-    o.set(t, r);
+    c.set(t, r);
   }
   return r;
 }
-function balanceRange(e, t, r, n, i, s, o, l, f) {
+function m(e, t, r, n, i, s, o, l, f) {
   let h = 0;
-  for (let r = n; r < i; r++) h += nodeSize(e, t[r]);
+  for (let r = n; r < i; r++) h += g(e, t[r]);
   let u = Math.ceil((h * 1.5) / 8);
   let a = [],
     d = [];
-  function divide(t, r, n, i, o) {
+  function p(t, r, n, i, o) {
     for (let l = n; l < i; ) {
       let n = l,
         h = r[l],
-        p = nodeSize(e, t[l]);
+        c = g(e, t[l]);
       l++;
       for (; l < i; l++) {
-        let r = nodeSize(e, t[l]);
-        if (p + r >= u) break;
-        p += r;
+        let r = g(e, t[l]);
+        if (c + r >= u) break;
+        c += r;
       }
       if (l == n + 1) {
-        if (p > u) {
+        if (c > u) {
           let e = t[n];
-          divide(e.children, e.positions, 0, e.children.length, r[n] + o);
+          p(e.children, e.positions, 0, e.children.length, r[n] + o);
           continue;
         }
         a.push(t[n]);
       } else {
         let i = r[l - 1] + t[l - 1].length - h;
-        a.push(balanceRange(e, t, r, n, l, h, i, null, f));
+        a.push(m(e, t, r, n, l, h, i, null, f));
       }
       d.push(h + o - s);
     }
   }
-  divide(t, r, n, i, 0);
+  p(t, r, n, i, 0);
   return (l || f)(a, d, o);
 }
 class NodeWeakMap {
@@ -1352,38 +1366,40 @@ class StringInput {
     return this.string.slice(e, t);
   }
 }
-function parseMixed(e) {
+function b(e) {
   return (t, r, n, i) => new MixedParse(t, e, r, n, i);
 }
 class InnerParse {
-  constructor(e, t, r, n, i) {
+  constructor(e, t, r, n, i, s) {
     this.parser = e;
     this.parse = t;
     this.overlay = r;
-    this.target = n;
-    this.from = i;
+    this.bracketed = n;
+    this.target = i;
+    this.from = s;
   }
 }
-function checkRanges(e) {
+function y(e) {
   if (!e.length || e.some((e) => e.from >= e.to))
     throw new RangeError(
       "Invalid inner parse ranges given: " + JSON.stringify(e),
     );
 }
 class ActiveOverlay {
-  constructor(e, t, r, n, i, s, o) {
+  constructor(e, t, r, n, i, s, o, l) {
     this.parser = e;
     this.predicate = t;
     this.mounts = r;
     this.index = n;
     this.start = i;
-    this.target = s;
-    this.prev = o;
+    this.bracketed = s;
+    this.target = o;
+    this.prev = l;
     this.depth = 0;
     this.ranges = [];
   }
 }
-const l = new NodeProp({ perNode: true });
+const x = new NodeProp({ perNode: true });
 class MixedParse {
   constructor(e, t, r, n, i) {
     this.nest = t;
@@ -1414,7 +1430,7 @@ class MixedParse {
           e.children,
           e.positions,
           e.length,
-          e.propValues.concat([[l, this.stoppedAt]]),
+          e.propValues.concat([[x, this.stoppedAt]]),
         ));
       return e;
     }
@@ -1423,7 +1439,12 @@ class MixedParse {
     if (t) {
       this.innerDone++;
       let r = Object.assign(Object.create(null), e.target.props);
-      r[NodeProp.mounted.id] = new MountedTree(t, e.overlay, e.parser);
+      r[NodeProp.mounted.id] = new MountedTree(
+        t,
+        e.overlay,
+        e.parser,
+        e.bracketed,
+      );
       e.target.props = r;
     }
     return null;
@@ -1472,13 +1493,17 @@ class MixedParse {
             }
         }
         l = false;
-      } else if (r && (s = checkCover(r.ranges, n.from, n.to))) l = s != 2;
+      } else if (r && (s = w(r.ranges, n.from, n.to))) l = s != 2;
       else if (
         !n.type.isAnonymous &&
         (i = this.nest(n, this.input)) &&
         (n.from < n.to || !i.overlay)
       ) {
-        n.tree || materialize(n);
+        if (!n.tree) {
+          v(n);
+          t && t.depth++;
+          r && r.depth++;
+        }
         let s = e.findMounts(n.from, i.parser);
         if (typeof i.overlay == "function")
           t = new ActiveOverlay(
@@ -1487,27 +1512,29 @@ class MixedParse {
             s,
             this.inner.length,
             n.from,
+            !!i.bracketed,
             n.tree,
             t,
           );
         else {
-          let e = punchRanges(
+          let e = T(
             this.ranges,
             i.overlay || (n.from < n.to ? [new Range(n.from, n.to)] : []),
           );
-          e.length && checkRanges(e);
+          e.length && y(e);
           (!e.length && i.overlay) ||
             this.inner.push(
               new InnerParse(
                 i.parser,
                 e.length
-                  ? i.parser.startParse(this.input, enterFragments(s, e), e)
+                  ? i.parser.startParse(this.input, C(s, e), e)
                   : i.parser.startParse(""),
                 i.overlay
                   ? i.overlay.map(
                       (e) => new Range(e.from - n.from, e.to - n.from),
                     )
                   : null,
+                !!i.bracketed,
                 n.tree,
                 e.length ? e[0].from : n.from,
               ),
@@ -1533,22 +1560,19 @@ class MixedParse {
           if (n.nextSibling()) break;
           if (!n.parent()) break e;
           if (t && !--t.depth) {
-            let e = punchRanges(this.ranges, t.ranges);
+            let e = T(this.ranges, t.ranges);
             if (e.length) {
-              checkRanges(e);
+              y(e);
               this.inner.splice(
                 t.index,
                 0,
                 new InnerParse(
                   t.parser,
-                  t.parser.startParse(
-                    this.input,
-                    enterFragments(t.mounts, e),
-                    e,
-                  ),
+                  t.parser.startParse(this.input, C(t.mounts, e), e),
                   t.ranges.map(
                     (e) => new Range(e.from - t.start, e.to - t.start),
                   ),
+                  t.bracketed,
                   t.target,
                   e[0].from,
                 ),
@@ -1561,21 +1585,21 @@ class MixedParse {
     }
   }
 }
-function checkCover(e, t, r) {
+function w(e, t, r) {
   for (let n of e) {
     if (n.from >= r) break;
     if (n.to > t) return n.from <= t && n.to >= r ? 2 : 1;
   }
   return 0;
 }
-function sliceBuf(e, t, r, n, i, s) {
+function N(e, t, r, n, i, s) {
   if (t < r) {
     let o = e.buffer[t + 1];
     n.push(e.slice(t, r, o));
     i.push(o - s);
   }
 }
-function materialize(e) {
+function v(e) {
   let { node: t } = e,
     r = [];
   let n = t.context.buffer;
@@ -1588,23 +1612,23 @@ function materialize(e) {
   let o = i.children[s],
     l = o.buffer,
     f = [s];
-  function split(e, n, i, s, h, u) {
-    let a = r[u];
-    let d = [],
-      p = [];
-    sliceBuf(o, e, a, d, p, s);
-    let c = l[a + 1],
-      g = l[a + 2];
-    f.push(d.length);
-    let m = u
-      ? split(a + 4, l[a + 3], o.set.types[l[a]], c, g - c, u - 1)
+  function h(e, n, i, s, u, a) {
+    let d = r[a];
+    let p = [],
+      c = [];
+    N(o, e, d, p, c, s);
+    let g = l[d + 1],
+      m = l[d + 2];
+    f.push(p.length);
+    let b = a
+      ? h(d + 4, l[d + 3], o.set.types[l[d]], g, m - g, a - 1)
       : t.toTree();
-    d.push(m);
-    p.push(c - s);
-    sliceBuf(o, l[a + 3], n, d, p, s);
-    return new Tree(i, d, p, h);
+    p.push(b);
+    c.push(g - s);
+    N(o, l[d + 3], n, p, c, s);
+    return new Tree(i, p, c, u);
   }
-  i.children[s] = split(0, l.length, NodeType.none, 0, o.length, r.length - 1);
+  i.children[s] = h(0, l.length, NodeType.none, 0, o.length, r.length - 1);
   for (let t of f) {
     let r = e.tree.children[t],
       n = e.tree.positions[t];
@@ -1655,7 +1679,7 @@ class FragmentCursor {
     this.fragI = 0;
     if (e.length) {
       let r = (this.curFrag = e[0]);
-      this.curTo = (t = r.tree.prop(l)) !== null && t !== void 0 ? t : r.to;
+      this.curTo = (t = r.tree.prop(x)) !== null && t !== void 0 ? t : r.to;
       this.inner = new StructureCursor(r.tree, -r.offset);
     } else this.curFrag = this.inner = null;
   }
@@ -1674,7 +1698,7 @@ class FragmentCursor {
     if (this.fragI == this.fragments.length) this.curFrag = this.inner = null;
     else {
       let t = (this.curFrag = this.fragments[this.fragI]);
-      this.curTo = (e = t.tree.prop(l)) !== null && e !== void 0 ? e : t.to;
+      this.curTo = (e = t.tree.prop(x)) !== null && e !== void 0 ? e : t.to;
       this.inner = new StructureCursor(t.tree, -t.offset);
     }
   }
@@ -1700,7 +1724,7 @@ class FragmentCursor {
     return n;
   }
 }
-function punchRanges(e, t) {
+function T(e, t) {
   let r = null,
     n = t;
   for (let i = 1, s = 0; i < e.length; i++) {
@@ -1720,7 +1744,7 @@ function punchRanges(e, t) {
   }
   return n;
 }
-function findCoverChanges(e, t, r, n) {
+function k(e, t, r, n) {
   let i = 0,
     s = 0,
     o = false,
@@ -1750,7 +1774,7 @@ function findCoverChanges(e, t, r, n) {
   }
   return h;
 }
-function enterFragments(e, t) {
+function C(e, t) {
   let r = [];
   for (let { pos: n, mount: i, frag: s } of e) {
     let e = n + (i.overlay ? i.overlay[0].from : 0),
@@ -1759,7 +1783,7 @@ function enterFragments(e, t) {
       f = Math.min(s.to, o);
     if (i.overlay) {
       let o = i.overlay.map((e) => new Range(e.from + n, e.to + n));
-      let h = findCoverChanges(t, o, l, f);
+      let h = k(t, o, l, f);
       for (let t = 0, n = l; ; t++) {
         let o = t == h.length,
           l = o ? f : h[t].from;
@@ -1804,5 +1828,5 @@ export {
   TreeBuffer,
   TreeCursor,
   TreeFragment,
-  parseMixed,
+  b as parseMixed,
 };
