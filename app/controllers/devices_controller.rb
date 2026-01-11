@@ -120,7 +120,8 @@ class DevicesController < ApplicationController
   end
 
   def load_user
-    return if params[:user_id].blank?
+    # Don't load user for guest routes or when no user_id is provided
+    return if params[:user_id].blank? || params[:guest_id].present?
 
     @user =
       if params[:user_id] == "me"
