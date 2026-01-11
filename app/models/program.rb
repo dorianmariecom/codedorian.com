@@ -11,7 +11,6 @@ class Program < ApplicationRecord
   has_one(
     :program_execution,
     -> { order(created_at: :desc) },
-    dependent: :destroy,
     inverse_of: :program
   )
   has_many(:program_schedules, dependent: :destroy)
