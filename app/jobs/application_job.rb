@@ -38,8 +38,15 @@ class ApplicationJob < ActiveJob::Base
 
   def cleanup_job_contexts
     PaperTrail.request(enabled: false) do
+      # Ensure the database connection is active before attempting cleanup
+      # This prevents failures when the connection has been terminated due to idle timeout
+      ActiveRecord::Base.connection.verify!
       JobContext.where(active_job_id: job_id).delete_all
     end
+  rescue ActiveRecord::ConnectionNotEstablished, ActiveRecord::ConnectionFailed => e
+    # If connection cannot be re-established, log the error and continue
+    # The job has already completed, so cleanup failure should not fail the job
+    Rails.logger.warn("Failed to cleanup job contexts for job #{job_id}: #{e.class} - #{e.message}")
   end
 
   def current_user
