@@ -2,6 +2,6 @@
 
 class CreateGuests < ActiveRecord::Migration[8.1]
   def change
-    create_table :guests, &:timestamps
+    create_table(:guests, &:timestamps)
   end
 end

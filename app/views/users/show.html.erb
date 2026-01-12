@@ -9,19 +9,31 @@
   </div>
 <% end %>
 
-<% if @user.admin? %>
-  <div class="p font-bold"><%= t(".admin") %></div>
+<% if admin? && @user.admin.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".admin") %></div>
+    <div class="font-bold"><%= @user.admin %></div>
+  </div>
 <% end %>
 
-<div class="p">
-  <div class="text-gray-600"><%= t(".locale") %></div>
-  <div class="font-bold"><%= @user.translated_locale %></div>
-</div>
+<% if @user.locale.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".locale") %></div>
+    <div class="font-bold"><%= @user.translated_locale %></div>
+  </div>
+<% end %>
 
 <% if @user.name.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".name") %></div>
     <div class="font-bold"><%= @user.name %></div>
+  </div>
+<% end %>
+
+<% if @user.description.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".description") %></div>
+    <div class="font-bold"><%= @user.description %></div>
   </div>
 <% end %>
 
@@ -74,10 +86,12 @@
   </div>
 <% end %>
 
-<div class="p">
-  <div class="text-gray-600"><%= t(".verified") %></div>
-  <div class="font-bold"><%= @user.verified %></div>
-</div>
+<% if admin? && @user.verified.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".verified") %></div>
+    <div class="font-bold"><%= @user.verified %></div>
+  </div>
+<% end %>
 
 <% if @user.updated_at.present? %>
   <div class="p">
@@ -102,8 +116,8 @@
       method: :post
     ) %>
   <% end %>
-  <%= render("shared/confirm", text: t(".log_out"), url: %i[delete session]) %>
-  <%= link_to(t(".edit"), edit_url, class: "link") %>
+  <%= render("shared/confirm", text: t(".log_out"), url: :login) %>
+  <%= link_to(t(".edit"), edit_url, class: :link) %>
   <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
   <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
 </div>
@@ -117,7 +131,6 @@
 <%= render("shared/list", user: @user, model: TimeZone) %>
 <%= render("shared/list", user: @user, model: Device) %>
 <%= render("shared/list", user: @user, model: Token) %>
-<%= render("shared/list", user: @user, model: Attachment) %>
 <%= render("shared/list", user: @user, model: Datum) %>
 <%= render("shared/list", user: @user, model: Message) %>
 <%= render("shared/list", user: @user, model: Program) %>
@@ -129,4 +142,46 @@
   <%= render("shared/list", user: @user, model: ::Error) %>
   <%= render("shared/list", user: @user, model: ErrorOccurrence) %>
   <%= render("shared/list", user: @user, model: Job) %>
+<% end %>
+
+<% if can?(:index, Version) %>
+  <div class="p font-bold">
+    <%= link_to(t(".versions"), [@user, :versions], class: :link) %>
+  </div>
+
+  <% if can?(:create, Version) %>
+    <div class="p">
+      <%= link_to(t(".new_version"), [:new, @user, :version], class: "button") %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "versions/version",
+    collection: @versions,
+    as: :version,
+    locals: {
+      nested: [@user]
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, Log) %>
+  <div class="p font-bold">
+    <%= link_to(t(".logs"), [@user, :logs], class: :link) %>
+  </div>
+
+  <% if can?(:create, Log) %>
+    <div class="p">
+      <%= link_to(t(".new_log"), [:new, @user, :log], class: "button") %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "logs/log",
+    collection: @logs,
+    as: :log,
+    locals: {
+      nested: [@user]
+    }
+  ) %>
 <% end %>

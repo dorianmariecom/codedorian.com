@@ -7,10 +7,7 @@ class ProgramPromptsController < ApplicationController
   before_action do
     add_breadcrumb(key: "program_prompts.index", path: index_url)
   end
-  before_action(
-    :load_program_prompt,
-    only: %i[show edit update destroy delete]
-  )
+  before_action(:load_program_prompt, only: %i[show edit update destroy delete])
 
   def index
     authorize(ProgramPrompt)
@@ -22,6 +19,8 @@ class ProgramPromptsController < ApplicationController
   def show
     @program_prompt_schedules =
       program_prompt_schedules_scope.order(created_at: :asc).page(params[:page])
+    @versions = versions_scope.order(created_at: :desc).page(params[:page])
+    @logs = logs_scope.order(created_at: :desc).page(params[:page])
   end
 
   def new
@@ -80,7 +79,7 @@ class ProgramPromptsController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(index_url)
+    redirect_back_or_to(index_url, notice: t(".notice"))
   end
 
   def delete_all
@@ -88,7 +87,7 @@ class ProgramPromptsController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(index_url)
+    redirect_back_or_to(index_url, notice: t(".notice"))
   end
 
   private
@@ -156,6 +155,18 @@ class ProgramPromptsController < ApplicationController
     scope
   end
 
+  def versions_scope
+    scope = policy_scope(Version)
+    scope = scope.where_program_prompt(@program_prompt) if @program_prompt
+    scope
+  end
+
+  def logs_scope
+    scope = policy_scope(Log)
+    scope = scope.where_program_prompt(@program_prompt) if @program_prompt
+    scope
+  end
+
   def model_class
     ProgramPrompt
   end
@@ -191,7 +202,14 @@ class ProgramPromptsController < ApplicationController
           :name,
           :input,
           :status,
-          { program_prompt_schedules_attributes: %i[id _destroy starts_at interval] }
+          {
+            program_prompt_schedules_attributes: %i[
+              id
+              _destroy
+              starts_at
+              interval
+            ]
+          }
         ]
       )
     else
@@ -199,7 +217,14 @@ class ProgramPromptsController < ApplicationController
         program_prompt: [
           :name,
           :input,
-          { program_prompt_schedules_attributes: %i[id _destroy starts_at interval] }
+          {
+            program_prompt_schedules_attributes: %i[
+              id
+              _destroy
+              starts_at
+              interval
+            ]
+          }
         ]
       )
     end

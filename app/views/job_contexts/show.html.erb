@@ -22,7 +22,7 @@
 
     <% if can?(:show, @job_context.job) %>
       <div class="font-bold">
-        <%= link_to(@job_context.job, [*nested(job: nil), @job_context.job], class: "link") %>
+        <%= link_to(@job_context.job, [*nested(job: nil), @job_context.job], class: :link) %>
       </div>
     <% else %>
       <div class="font-bold"><%= @job_context.job %></div>
@@ -51,8 +51,54 @@
   </div>
 <% end %>
 
-<div class="p">
-  <%= link_to(t(".edit"), edit_url, class: "link") %>
+<div class="p p--flex">
+  <%= link_to(t(".edit"), edit_url, class: :link) %>
   <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
   <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
 </div>
+
+<% if can?(:index, Version) %>
+  <div class="p font-bold">
+    <%= link_to(t(".versions"), [*nested, @job_context, :versions], class: :link) %>
+  </div>
+
+  <% if can?(:create, Version) %>
+    <div class="p">
+      <%= link_to(
+        t(".new_version"),
+        [:new, *nested, @job_context, :version],
+        class: "button"
+      ) %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "versions/version",
+    collection: @versions,
+    as: :version,
+    locals: {
+      nested: [*nested, @job_context]
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, Log) %>
+  <div class="p font-bold">
+    <%= link_to(t(".logs"), [*nested, @job_context, :logs], class: :link) %>
+  </div>
+
+  <% if can?(:create, Log) %>
+    <div class="p">
+      <%= link_to(t(".new_log"), [:new, *nested, @job_context, :log], class: "button") %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "logs/log",
+    collection: @logs,
+    as: :log,
+    locals: {
+      nested: [*nested, @job_context]
+    }
+  ) %>
+<% end %>

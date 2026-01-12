@@ -1,0 +1,7 @@
+---
+session:
+  created_at: '2025-02-10 08:00:00'
+  data:
+    user_id: "<%= ActiveRecord::FixtureSet.identify(:admin) %>"
+  session_id: session-test-id
+  updated_at: '2025-02-10 08:00:00'

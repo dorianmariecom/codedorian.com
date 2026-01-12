@@ -1,0 +1,20 @@
+<%= turbo_stream_from(@versions) %>
+
+<div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
+
+<%= render("shared/search") %>
+
+<turbo-frame id="search" target="_top">
+  <% if @versions.any? %>
+    <div class="p p--flex">
+      <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
+      <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "versions/version",
+    collection: @versions,
+    as: :version
+  ) %>
+</turbo-frame>

@@ -159,6 +159,7 @@ class ApplicationController < ActionController::Base
     elsif user&.id
       Current.user = user
       session[:user_id] = user.id
+      log_out_guest(current_guest)
     else
       Current.user = nil
       session[:user_id] = nil
@@ -189,6 +190,11 @@ class ApplicationController < ActionController::Base
         break
       end
     end
+  end
+
+  def log_out_guest(_guest)
+    Current.guest = nil
+    session[:guest_id] = nil
   end
 
   def delete_link_header
@@ -332,7 +338,7 @@ class ApplicationController < ActionController::Base
 
   def hotwire_native_modal?
     return false if request.path == new_user_path
-    return false if request.path == new_session_path
+    return false if request.path == new_login_path
     return true if request.path.ends_with?("/new")
     return true if request.path.ends_with?("/edit")
 

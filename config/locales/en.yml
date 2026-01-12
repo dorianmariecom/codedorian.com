@@ -178,6 +178,13 @@ en:
         admin: admin?
         locale: language
         verified: verified?
+      version:
+        event: event
+        item_id: item
+        item_type: item type
+        object: object
+        object_changes: object changes
+        whodunnit: whodunnit
     errors:
       models:
         phone_number:
@@ -186,8 +193,12 @@ en:
   addresses:
     create:
       notice: address created
+    delete_all:
+      notice: addresses deleted
     destroy:
       notice: address deleted
+    destroy_all:
+      notice: addresses destroyed
     edit:
       submit: update address
       title: edit address
@@ -214,52 +225,22 @@ en:
       destroy: destroy address
       edit: edit address
       id: id
+      logs: logs
+      new_log: new log
+      new_version: new version
       primary: primary?
       updated_at: updated at
       user: user
       verified: verified?
+      versions: versions
     update:
       notice: address updated
   application:
     current_user_required: current user required
-  attachments:
-    create:
-      notice: file created
-    destroy:
-      notice: file deleted
-    edit:
-      submit: update file
-      title: edit file
-    index:
-      delete_all: delete all
-      destroy_all: destroy all
-      new: new file
-      title: files
-    model:
-      to_s: file#%{id}
-    new:
-      submit: create file
-      title: new file
-    show:
-      created_at: created at
-      delete: delete file
-      destroy: destroy file
-      download: download
-      edit: edit file
-      id: id
-      preview: preview
-      updated_at: updated at
-      user: user
-    update:
-      notice: file updated
   breadcrumbs:
     addresses:
       edit: edit
       index: addresses
-      new: new
-    attachments:
-      edit: edit
-      index: files
       new: new
     configurations:
       edit: edit
@@ -399,6 +380,9 @@ en:
       edit: edit
       index: programs
       new: new
+    session:
+      create: log in
+      new: log in
     sessions:
       edit: edit
       index: sessions
@@ -424,11 +408,19 @@ en:
       edit: edit
       index: users
       new: new
+    versions:
+      edit: edit
+      index: versions
+      new: new
   configurations:
     create:
       notice: configuration created
+    delete_all:
+      notice: configurations deleted
     destroy:
       notice: configuration deleted
+    destroy_all:
+      notice: configurations destroyed
     edit:
       submit: update configuration
       title: edit configuration
@@ -450,15 +442,23 @@ en:
       destroy: destroy configuration
       edit: edit configuration
       id: id
+      logs: logs
       name: name
+      new_log: new log
+      new_version: new version
       updated_at: updated at
+      versions: versions
     update:
       notice: configuration updated
   country_code_ip_addresses:
     create:
       notice: country code ip address created
+    delete_all:
+      notice: country code ip addresses deleted
     destroy:
       notice: country code ip address deleted
+    destroy_all:
+      notice: country code ip addresses destroyed
     edit:
       submit: update country code ip address
       title: edit country code ip address
@@ -482,8 +482,12 @@ en:
       edit: edit country code ip address
       id: id
       ip_address: ip address
+      logs: logs
       lookup: lookup
+      new_log: new log
+      new_version: new version
       updated_at: updated at
+      versions: versions
     update:
       notice: country code ip address updated
   current:
@@ -497,8 +501,12 @@ en:
   data:
     create:
       notice: datum created
+    delete_all:
+      notice: data deleted
     destroy:
       notice: datum deleted
+    destroy_all:
+      notice: data destroyed
     edit:
       submit: update datum
       title: edit datum
@@ -520,16 +528,24 @@ en:
       edit: edit datum
       id: id
       key: key
+      logs: logs
+      new_log: new log
+      new_version: new version
       updated_at: updated at
       user: user
       value: value
+      versions: versions
     update:
       notice: datum updated
   devices:
     create:
       notice: device created
+    delete_all:
+      notice: devices deleted
     destroy:
       notice: device deleted
+    destroy_all:
+      notice: devices destroyed
     edit:
       submit: update device
       title: edit device
@@ -549,19 +565,27 @@ en:
       destroy: destroy device
       edit: edit device
       id: id
+      logs: logs
+      new_log: new log
+      new_version: new version
       platform: platform
       primary: primary?
       token: token
       updated_at: updated at
       user: user
       verified: verified?
+      versions: versions
     update:
       notice: device updated
   email_addresses:
     create:
       notice: email address created
+    delete_all:
+      notice: email addresses deleted
     destroy:
       notice: email address deleted
+    destroy_all:
+      notice: email addresses destroyed
     edit:
       submit: update email address
       title: edit email address
@@ -590,17 +614,25 @@ en:
       edit: edit email address
       email_address: email address
       id: id
+      logs: logs
+      new_log: new log
+      new_version: new version
       primary: primary?
       updated_at: updated at
       user: user
       verified: verified?
+      versions: versions
     update:
       notice: email address updated
   error_occurrences:
     create:
       notice: error occurrence created
+    delete_all:
+      notice: error occurrences deleted
     destroy:
       notice: error occurrence deleted
+    destroy_all:
+      notice: error occurrences destroyed
     edit:
       submit: update error occurrence
       title: edit error occurrence
@@ -625,14 +657,22 @@ en:
       error: error
       full_backtrace: full backtrace
       id: id
+      logs: logs
+      new_log: new log
+      new_version: new version
       updated_at: updated at
+      versions: versions
     update:
       notice: error occurrence updated
   errors:
     create:
       notice: error created
+    delete_all:
+      notice: errors deleted
     destroy:
       notice: error deleted
+    destroy_all:
+      notice: errors destroyed
     edit:
       submit: update error
       title: edit error
@@ -663,12 +703,16 @@ en:
       exception_class: exception class
       fingerprint: fingerprint
       id: id
+      logs: logs
       message: message
+      new_log: new log
+      new_version: new version
       resolved_at: resolved at
       severity: severity
       source: source
       updated_at: updated at
       verified: verified?
+      versions: versions
     unprocessable_entity:
       title: unprocessable entity
     update:
@@ -676,8 +720,12 @@ en:
   example_schedules:
     create:
       notice: example schedule created
+    delete_all:
+      notice: example schedules deleted
     destroy:
       notice: example schedule deleted
+    destroy_all:
+      notice: example schedules destroyed
     edit:
       submit: update example schedule
       title: edit example schedule
@@ -736,17 +784,25 @@ en:
       example: example
       id: id
       interval: interval
+      logs: logs
+      new_log: new log
+      new_version: new version
       schedule_html: starts %{local_time}, repeats every %{interval}
       schedule_once_html: starts %{local_time}, doesn't repeat
       starts_at: starts at
       updated_at: updated at
+      versions: versions
     update:
       notice: schedule updated
   examples:
     create:
       notice: example created
+    delete_all:
+      notice: examples deleted
     destroy:
       notice: example deleted
+    destroy_all:
+      notice: examples destroyed
     edit:
       submit: update example
       title: edit example
@@ -774,18 +830,26 @@ en:
       id: id
       input: input
       locale: locale
+      logs: logs
       name: name
       new_example_schedule: new example schedule
+      new_log: new log
+      new_version: new version
       position: position
       title: title
       updated_at: updated at
+      versions: versions
     update:
       notice: example updated
   guests:
     create:
       notice: guest created
+    delete_all:
+      notice: guests deleted
     destroy:
       notice: guest deleted
+    destroy_all:
+      notice: guests destroyed
     edit:
       submit: update guest
       title: edit guest
@@ -805,14 +869,22 @@ en:
       destroy: destroy guest
       edit: edit guest
       id: id
+      logs: logs
+      new_log: new log
+      new_version: new version
       updated_at: updated at
+      versions: versions
     update:
       notice: guest updated
   handles:
     create:
       notice: handle created
+    delete_all:
+      notice: handles deleted
     destroy:
       notice: handle deleted
+    destroy_all:
+      notice: handles destroyed
     edit:
       submit: update handle
       title: edit handle
@@ -841,10 +913,14 @@ en:
       edit: edit handle
       handle: handle
       id: id
+      logs: logs
+      new_log: new log
+      new_version: new version
       primary: primary?
       updated_at: updated at
       user: user
       verified: verified?
+      versions: versions
     update:
       notice: handle updated
   helpers:
@@ -901,8 +977,12 @@ en:
   job_blocked_executions:
     create:
       notice: job blocked execution created
+    delete_all:
+      notice: job blocked executions deleted
     destroy:
       notice: job blocked execution deleted
+    destroy_all:
+      notice: job blocked executions destroyed
     edit:
       submit: update job blocked execution
       title: edit job blocked execution
@@ -926,16 +1006,24 @@ en:
       id: id
       job: job
       job_id: job
+      logs: logs
+      new_log: new log
+      new_version: new version
       priority: priority
       queue_name: queue name
       updated_at: updated at
+      versions: versions
     update:
       notice: job blocked execution updated
   job_claimed_executions:
     create:
       notice: job claimed execution created
+    delete_all:
+      notice: job claimed executions deleted
     destroy:
       notice: job claimed execution deleted
+    destroy_all:
+      notice: job claimed executions destroyed
     edit:
       submit: update job claimed execution
       title: edit job claimed execution
@@ -957,15 +1045,23 @@ en:
       id: id
       job: job
       job_id: job
+      logs: logs
+      new_log: new log
+      new_version: new version
       process_id: process
       updated_at: updated at
+      versions: versions
     update:
       notice: job claimed execution updated
   job_contexts:
     create:
       notice: job context created
+    delete_all:
+      notice: job contexts deleted
     destroy:
       notice: job context deleted
+    destroy_all:
+      notice: job contexts destroyed
     edit:
       submit: update job context
       title: edit job context
@@ -989,14 +1085,22 @@ en:
       edit: edit job context
       id: id
       job: job
+      logs: logs
+      new_log: new log
+      new_version: new version
       updated_at: updated at
+      versions: versions
     update:
       notice: job context updated
   job_failed_executions:
     create:
       notice: job failed execution created
+    delete_all:
+      notice: job failed executions deleted
     destroy:
       notice: job failed execution deleted
+    destroy_all:
+      notice: job failed executions destroyed
     edit:
       submit: update job failed execution
       title: edit job failed execution
@@ -1020,14 +1124,22 @@ en:
       id: id
       job: job
       job_id: job
+      logs: logs
+      new_log: new log
+      new_version: new version
       updated_at: updated at
+      versions: versions
     update:
       notice: job failed execution updated
   job_pauses:
     create:
       notice: job pause created
+    delete_all:
+      notice: job pauses deleted
     destroy:
       notice: job pause deleted
+    destroy_all:
+      notice: job pauses destroyed
     edit:
       submit: update job pause
       title: edit job pause
@@ -1047,15 +1159,23 @@ en:
       destroy: destroy job pause
       edit: edit job pause
       id: id
+      logs: logs
+      new_log: new log
+      new_version: new version
       queue_name: queue name
       updated_at: updated at
+      versions: versions
     update:
       notice: job pause updated
   job_processes:
     create:
       notice: job process created
+    delete_all:
+      notice: job processes deleted
     destroy:
       notice: job process deleted
+    destroy_all:
+      notice: job processes destroyed
     edit:
       submit: update job process
       title: edit job process
@@ -1079,18 +1199,26 @@ en:
       id: id
       kind: kind
       last_heartbeat_at: last heartbeat at
+      logs: logs
       metadata: metadata
       name: name
+      new_log: new log
+      new_version: new version
       pid: pid
       supervisor_id: supervisor
       updated_at: updated at
+      versions: versions
     update:
       notice: job process updated
   job_ready_executions:
     create:
       notice: job ready execution created
+    delete_all:
+      notice: job ready executions deleted
     destroy:
       notice: job ready execution deleted
+    destroy_all:
+      notice: job ready executions destroyed
     edit:
       submit: update job ready execution
       title: edit job ready execution
@@ -1112,16 +1240,24 @@ en:
       id: id
       job: job
       job_id: job
+      logs: logs
+      new_log: new log
+      new_version: new version
       priority: priority
       queue_name: queue name
       updated_at: updated at
+      versions: versions
     update:
       notice: job ready execution updated
   job_recurring_executions:
     create:
       notice: job recurring execution created
+    delete_all:
+      notice: job recurring executions deleted
     destroy:
       notice: job recurring execution deleted
+    destroy_all:
+      notice: job recurring executions destroyed
     edit:
       submit: update job recurring execution
       title: edit job recurring execution
@@ -1143,16 +1279,24 @@ en:
       id: id
       job: job
       job_id: job
+      logs: logs
+      new_log: new log
+      new_version: new version
       run_at: run at
       task_key: task key
       updated_at: updated at
+      versions: versions
     update:
       notice: job recurring execution updated
   job_recurring_tasks:
     create:
       notice: job recurring task created
+    delete_all:
+      notice: job recurring tasks deleted
     destroy:
       notice: job recurring task deleted
+    destroy_all:
+      notice: job recurring tasks destroyed
     edit:
       submit: update job recurring task
       title: edit job recurring task
@@ -1178,18 +1322,26 @@ en:
       edit: edit job recurring task
       id: id
       key: key
+      logs: logs
+      new_log: new log
+      new_version: new version
       priority: priority
       queue_name: queue name
       schedule: schedule
       static: static?
       updated_at: updated at
+      versions: versions
     update:
       notice: job recurring task updated
   job_scheduled_executions:
     create:
       notice: job scheduled execution created
+    delete_all:
+      notice: job scheduled executions deleted
     destroy:
       notice: job scheduled execution deleted
+    destroy_all:
+      notice: job scheduled executions destroyed
     edit:
       submit: update job scheduled execution
       title: edit job scheduled execution
@@ -1211,17 +1363,25 @@ en:
       id: id
       job: job
       job_id: job
+      logs: logs
+      new_log: new log
+      new_version: new version
       priority: priority
       queue_name: queue name
       scheduled_at: scheduled at
       updated_at: updated at
+      versions: versions
     update:
       notice: job scheduled execution updated
   job_semaphores:
     create:
       notice: job semaphore created
+    delete_all:
+      notice: job semaphores deleted
     destroy:
       notice: job semaphore deleted
+    destroy_all:
+      notice: job semaphores destroyed
     edit:
       submit: update job semaphore
       title: edit job semaphore
@@ -1244,8 +1404,12 @@ en:
       expires_at: expires at
       id: id
       key: key
+      logs: logs
+      new_log: new log
+      new_version: new version
       updated_at: updated at
       value: value
+      versions: versions
     update:
       notice: job semaphore updated
   jobs:
@@ -1345,11 +1509,15 @@ en:
       job_ready_executions: job ready executions
       job_recurring_executions: job recurring executions
       job_scheduled_executions: job scheduled executions
+      logs: logs
+      new_log: new log
+      new_version: new version
       priority: priority
       queue_name: queue name
       retry: retry job
       scheduled_at: scheduled at
       updated_at: updated at
+      versions: versions
     update:
       notice: job updated
   layouts:
@@ -1424,8 +1592,12 @@ en:
   logs:
     create:
       notice: log created
+    delete_all:
+      notice: logs deleted
     destroy:
       notice: log deleted
+    destroy_all:
+      notice: logs destroyed
     edit:
       submit: update log
       title: edit log
@@ -1447,15 +1619,23 @@ en:
       destroy: destroy log
       edit: edit log
       id: id
+      logs: logs
       message: message
+      new_log: new log
+      new_version: new version
       updated_at: updated at
+      versions: versions
     update:
       notice: log updated
   messages:
     create:
       notice: message created
+    delete_all:
+      notice: messages deleted
     destroy:
       notice: message deleted
+    destroy_all:
+      notice: messages destroyed
     edit:
       submit: update message
       title: edit message
@@ -1478,16 +1658,24 @@ en:
       edit: edit message
       from_user: from user
       id: id
+      logs: logs
+      new_log: new log
+      new_version: new version
       subject: subject
       to_user: to user
       updated_at: updated at
+      versions: versions
     update:
       notice: message updated
   names:
     create:
       notice: name created
+    delete_all:
+      notice: names deleted
     destroy:
       notice: name deleted
+    destroy_all:
+      notice: names destroyed
     edit:
       submit: update name
       title: edit name
@@ -1519,10 +1707,14 @@ en:
       family_name: family name
       given_name: given name
       id: id
+      logs: logs
+      new_log: new log
+      new_version: new version
       primary: primary?
       updated_at: updated at
       user: user
       verified: verified?
+      versions: versions
     update:
       notice: name updated
   password_validator:
@@ -1539,8 +1731,12 @@ en:
   passwords:
     create:
       notice: password created
+    delete_all:
+      notice: passwords deleted
     destroy:
       notice: password deleted
+    destroy_all:
+      notice: passwords destroyed
     edit:
       submit: update password
       title: edit password
@@ -1571,18 +1767,26 @@ en:
       edit: edit password
       hint: hint
       id: id
+      logs: logs
+      new_log: new log
+      new_version: new version
       password: password
       primary: primary?
       updated_at: updated at
       user: user
       verified: verified?
+      versions: versions
     update:
       notice: password updated
   phone_numbers:
     create:
       notice: phone number created
+    delete_all:
+      notice: phone numbers deleted
     destroy:
       notice: phone number deleted
+    destroy_all:
+      notice: phone numbers destroyed
     edit:
       submit: update phone number
       title: edit phone number
@@ -1610,18 +1814,26 @@ en:
       destroy: destroy phone number
       edit: edit phone number
       id: id
+      logs: logs
+      new_log: new log
+      new_version: new version
       phone_number: phone number
       primary: primary?
       updated_at: updated at
       user: user
       verified: verified?
+      versions: versions
     update:
       notice: phone number updated
   program_executions:
     create:
       notice: program execution created
+    delete_all:
+      notice: program executions deleted
     destroy:
       notice: program execution deleted
+    destroy_all:
+      notice: program executions destroyed
     edit:
       submit: update program execution
       title: edit program execution
@@ -1653,18 +1865,26 @@ en:
       error_message: error message
       id: id
       input: input
+      logs: logs
+      new_log: new log
+      new_version: new version
       output: output
       program: program
       result: result
       status: status
       updated_at: updated at
+      versions: versions
     update:
       notice: program execution updated
   program_prompt_schedules:
     create:
       notice: program prompt schedule created
+    delete_all:
+      notice: program prompt schedules deleted
     destroy:
       notice: program prompt schedule deleted
+    destroy_all:
+      notice: program prompt schedules destroyed
     edit:
       submit: update program prompt schedule
       title: edit program prompt schedule
@@ -1722,6 +1942,9 @@ en:
       edit: edit program prompt schedule
       id: id
       interval: interval
+      logs: logs
+      new_log: new log
+      new_version: new version
       program: program
       program_prompt: prompt
       schedule_html: starts %{local_time}, repeats every %{interval}
@@ -1729,13 +1952,18 @@ en:
       starts_at: starts at
       updated_at: updated at
       user: user
+      versions: versions
     update:
       notice: schedule updated
   program_prompts:
     create:
       notice: program prompt created
+    delete_all:
+      notice: program prompts deleted
     destroy:
       notice: program prompt deleted
+    destroy_all:
+      notice: program prompts destroyed
     edit:
       submit: update program prompt
       title: edit program prompt
@@ -1760,6 +1988,7 @@ en:
       submit: create program prompt
       title: new program prompt
     show:
+      backtrace: backtrace
       created_at: created at
       delete: delete program prompt
       destroy: destroy program prompt
@@ -1771,8 +2000,11 @@ en:
       error_message: error message
       id: id
       input: input
+      logs: logs
       name: name
+      new_log: new log
       new_program_prompt_schedule: new schedule
+      new_version: new version
       output: output
       output_input: output input
       output_name: output name
@@ -1783,13 +2015,18 @@ en:
       status: status
       updated_at: updated at
       user: user
+      versions: versions
     update:
       notice: program prompt updated
   program_schedules:
     create:
       notice: program schedule created
+    delete_all:
+      notice: program schedules deleted
     destroy:
       notice: program schedule deleted
+    destroy_all:
+      notice: program schedules destroyed
     edit:
       submit: update program schedule
       title: edit program schedule
@@ -1847,19 +2084,27 @@ en:
       edit: edit program schedule
       id: id
       interval: interval
+      logs: logs
+      new_log: new log
+      new_version: new version
       program: program
       schedule_html: starts %{local_time}, repeats every %{interval}
       schedule_once_html: starts %{local_time}, doesn't repeat
       starts_at: starts at
       updated_at: updated at
       user: user
+      versions: versions
     update:
       notice: schedule updated
   programs:
     create:
       notice: program created
+    delete_all:
+      notice: programs deleted
     destroy:
       notice: program deleted
+    destroy_all:
+      notice: programs destroyed
     edit:
       submit: update program
       title: edit program
@@ -1869,10 +2114,6 @@ en:
       generate: generate
       generating: generating
     index:
-      attachments:
-        one: 1 file
-        other: "%{count} files"
-        zero: 0 files
       data:
         one: 1 datum
         other: "%{count} data"
@@ -1910,6 +2151,8 @@ en:
       title: new program
     schedule:
       notice: program scheduled
+    schedule_all:
+      notice: programs scheduled
     show:
       created_at: created at
       delete: delete program
@@ -1918,10 +2161,14 @@ en:
       evaluate: evaluate
       id: id
       input: input
+      logs: logs
       name: name
+      new_log: new log
+      new_program_execution: new program execution
       new_program_prompt: new program prompt
       new_program_prompt_schedule: new program prompt schedule
       new_program_schedule: new program schedule
+      new_version: new version
       next_at: next at
       previous_at: previous at
       program_executions: program executions
@@ -1934,11 +2181,14 @@ en:
       unschedule: unschedule
       updated_at: updated at
       user: user
+      versions: versions
     unschedule:
       notice: program unscheduled
+    unschedule_all:
+      notice: programs unscheduled
     update:
       notice: program updated
-  sessions:
+  session:
     create:
       notice: logged in
       wrong_email_address: wrong email address
@@ -1949,6 +2199,49 @@ en:
       register: register
       submit: log in
       title: log in
+  sessions:
+    create:
+      notice: session created
+    delete_all:
+      notice: sessions deleted
+    destroy:
+      notice: session deleted
+    destroy_all:
+      notice: sessions destroyed
+    edit:
+      submit: update session
+      title: edit session
+    form:
+      data_placeholder: enter json session data
+      invalid_json: data must be valid json
+    index:
+      delete_all: delete all
+      destroy_all: destroy all
+      new: new session
+      title: sessions
+    model:
+      invalid_json: invalid json
+      to_s: session#%{id}
+    new:
+      submit: create session
+      title: new session
+    show:
+      created_at: created at
+      data: data
+      delete: delete session
+      destroy: destroy session
+      edit: edit session
+      guest: guest
+      id: id
+      logs: logs
+      new_log: new log
+      new_version: new version
+      session_id: session id
+      updated_at: updated at
+      user: user
+      versions: versions
+    update:
+      notice: session updated
   shared:
     confirm:
       modal_cancel: 'no'
@@ -1957,7 +2250,6 @@ en:
     filter:
       address: address
       all: all
-      attachment: file
       datum: datum
       device: device
       email_address: email address
@@ -1981,7 +2273,6 @@ en:
       user: user
     list:
       addresses: addresses
-      attachments: files
       data: data
       devices: devices
       email_addresses: email addresses
@@ -1992,7 +2283,6 @@ en:
       messages: messages
       names: names
       new_address: new address
-      new_attachment: new file
       new_datum: new datum
       new_device: new device
       new_email_address: new email address
@@ -2009,6 +2299,7 @@ en:
       new_program_prompt: new program prompt
       new_program_prompt_schedule: new program prompt schedule
       new_program_schedule: new program schedule
+      new_session: new session
       new_time_zone: new time zone
       new_token: new token
       passwords: passwords
@@ -2018,6 +2309,7 @@ en:
       program_prompts: program prompts
       program_schedules: program schedules
       programs: programs
+      sessions: sessions
       time_zones: time zones
       tokens: tokens
     modal:
@@ -2057,7 +2349,6 @@ en:
       version: 'version: '
     admin:
       addresses: addresses
-      attachments: files
       configurations: configurations
       country_code_ip_addresses: country code ip addresses
       data: data
@@ -2091,10 +2382,12 @@ en:
       program_prompts: program prompts
       program_schedules: program schedules
       programs: programs
+      sessions: sessions
       time_zones: time zones
       title: admin
       tokens: tokens
       users: users
+      versions: versions
     download:
       title: download
     home:
@@ -2110,7 +2403,7 @@ en:
           it informs me well about the program
       - author: marie-odile
         content: |
-          I like it a lot, even enormously
+          i like it a lot, even enormously
           the sentences are pretty, soothing, and positive
       - author: vincent
         content: |
@@ -2130,7 +2423,7 @@ en:
           all programs are saved and easily accessible
       - author: mom
         content: |
-          I really like my programs,
+          i really like my programs,
           questions/answers, and world days that inform me
           and give me the opportunity to share this knowledge
       - author: laurie
@@ -2167,8 +2460,12 @@ en:
   time_zones:
     create:
       notice: time zone created
+    delete_all:
+      notice: time zones deleted
     destroy:
       notice: time zone deleted
+    destroy_all:
+      notice: time zones destroyed
     edit:
       submit: update time zone
       title: edit time zone
@@ -2193,18 +2490,26 @@ en:
       destroy: destroy time zone
       edit: edit time zone
       id: id
+      logs: logs
+      new_log: new log
+      new_version: new version
       primary: primary?
       time_zone: time zone
       updated_at: updated at
       user: user
       verified: verified?
+      versions: versions
     update:
       notice: time zone updated
   tokens:
     create:
       notice: token created
+    delete_all:
+      notice: tokens deleted
     destroy:
       notice: token deleted
+    destroy_all:
+      notice: tokens destroyed
     edit:
       submit: update token
       title: edit token
@@ -2224,21 +2529,31 @@ en:
       destroy: destroy token
       edit: edit token
       id: id
+      logs: logs
+      new_log: new log
+      new_version: new version
       primary: primary?
       token: token
       updated_at: updated at
       user: user
       verified: verified?
+      versions: versions
     update:
       notice: token updated
   users:
     create:
       notice: user created
+    delete_all:
+      notice: users deleted
     destroy:
       notice: user deleted
+    destroy_all:
+      notice: users destroyed
     edit:
       submit: update user
       title: edit user
+    impersonate:
+      notice: user impersonated
     index:
       delete_all: delete all
       destroy_all: destroy all
@@ -2259,6 +2574,7 @@ en:
       admin: admin
       created_at: created at
       delete: delete user
+      description: description
       destroy: destroy user
       device: device
       edit: edit user
@@ -2268,14 +2584,60 @@ en:
       impersonate: impersonate
       locale: language
       log_out: log out
+      logs: logs
       name: name
+      new_log: new log
+      new_version: new version
       password: password
       phone_number: phone number
       time_zone: time zone
       updated_at: updated at
       verified: verified?
+      versions: versions
     update:
       notice: user updated
+  versions:
+    create:
+      notice: version created
+    delete_all:
+      notice: versions deleted
+    destroy:
+      notice: version deleted
+    destroy_all:
+      notice: versions destroyed
+    edit:
+      submit: update version
+      title: edit version
+    index:
+      delete_all: delete all
+      destroy_all: destroy all
+      new: new version
+      title: versions
+    model:
+      invalid_json: invalid json
+      to_s: version#%{id}
+    new:
+      submit: create version
+      title: new version
+    show:
+      created_at: created at
+      delete: delete version
+      destroy: destroy version
+      edit: edit version
+      event: event
+      id: id
+      item_id: item
+      item_type: item type
+      logs: logs
+      new_log: new log
+      new_version: new version
+      object: object
+      object_changes: object changes
+      updated_at: updated at
+      versions: versions
+      whodunnit: whodunnit
+    update:
+      notice: version updated
   views:
     pagination:
       first: first

@@ -11,6 +11,6 @@ class RemoveReplTables < ActiveRecord::Migration[7.1]
   end
 
   def down
-    raise ActiveRecord::IrreversibleMigration
+    raise(ActiveRecord::IrreversibleMigration)
   end
 end

@@ -1,0 +1,67 @@
+<%= form_for(show_url) do |f| %>
+  <% object =
+    f.object.errors.include?(:object) ? f.object.object : f.object.object_json %>
+  <% object_changes =
+    (
+      if f.object.errors.include?(:object_changes)
+        f.object.object_changes
+      else
+        f.object.object_changes_json
+      end
+    ) %>
+
+  <div class="p">
+    <%= f.label(:event, class: :label) %>
+    <%= f.text_field(:event, class: :input) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:item_type, class: :label) %>
+    <%= f.text_field(:item_type, class: :input) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:item_id, class: :label) %>
+    <%= f.number_field(:item_id, class: :input) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:whodunnit, class: :label) %>
+    <%= f.number_field(:whodunnit, class: :input) %>
+  </div>
+
+  <div class="p" data-controller="editor">
+    <%= f.label(:object, class: :label) %>
+    <div class="border border-black rounded overflow-hidden">
+      <%= f.hidden_field(:object, value: object, data: { editor_target: :input }) %>
+      <div data-editor-target="editor"></div>
+    </div>
+    <div class="text-gray-600"><%= Faker::Internet.slug.to_json %></div>
+  </div>
+
+  <div class="p" data-controller="editor">
+    <%= f.label(:object_changes, class: :label) %>
+    <div class="border border-black rounded overflow-hidden">
+      <%= f.hidden_field(
+        :object_changes,
+        value: object_changes,
+        data: {
+          editor_target: :input
+        }
+      ) %>
+      <div data-editor-target="editor"></div>
+    </div>
+    <div class="text-gray-600"><%= Faker::Internet.slug.to_json %></div>
+  </div>
+
+  <div class="p">
+    <%= f.submit(
+      submit,
+      class: "button",
+      data: {
+        controller: "bridge--button",
+        bridge__button_title_value: submit
+      }
+    ) %>
+  </div>
+<% end %>

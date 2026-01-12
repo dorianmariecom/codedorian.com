@@ -1,57 +1,49 @@
 <%= turbo_stream_from(@programs) %>
 
 <div class="p">
-  <%= link_to(t(".examples", count: @examples.size), :examples, class: "link") %>
+  <%= link_to(t(".examples", count: @examples.size), :examples, class: :link) %>
 </div>
 
 <div class="p">
-  <%= link_to(t(".data", count: @data.size), [@user || @guest, :data], class: "link") %>
-</div>
-
-<div class="p">
-  <%= link_to(
-    t(".attachments", count: @attachments.size),
-    [@user || @guest, :attachments],
-    class: "link"
-  ) %>
+  <%= link_to(t(".data", count: @data.size), [@user || @guest, :data], class: :link) %>
 </div>
 
 <% if @program_executions.any? %>
-  <div class="p">
+  <div class="p p--flex">
     <%= link_to(
       t(".program_executions", count: @program_executions.size),
       [@user || @guest, :program_executions],
-      class: "link"
+      class: :link
     ) %>
   </div>
 <% end %>
 
 <% if @program_prompts.any? %>
-  <div class="p">
+  <div class="p p--flex">
     <%= link_to(
       t(".program_prompts", count: @program_prompts.size),
       [@user || @guest, :program_prompts],
-      class: "link"
+      class: :link
     ) %>
   </div>
 <% end %>
 
 <% if @program_schedules.any? %>
-  <div class="p">
+  <div class="p p--flex">
     <%= link_to(
       t(".program_schedules", count: @program_schedules.size),
       [@user || @guest, :program_schedules],
-      class: "link"
+      class: :link
     ) %>
   </div>
 <% end %>
 
 <% if @program_prompt_schedules.any? %>
-  <div class="p">
+  <div class="p p--flex">
     <%= link_to(
       t(".program_prompt_schedules", count: @program_prompt_schedules.size),
       [@user || @guest, :program_prompt_schedules],
-      class: "link"
+      class: :link
     ) %>
   </div>
 <% end %>
@@ -62,7 +54,7 @@
 
 <turbo-frame id="search" target="_top">
   <% if @programs.any? %>
-    <div class="p">
+    <div class="p p--flex">
       <%= render(
         "shared/confirm",
         url: [:schedule_all, *index_url],

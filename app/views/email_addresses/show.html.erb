@@ -23,15 +23,19 @@
   </div>
 <% end %>
 
-<div class="p">
-  <div class="text-gray-600"><%= t(".primary") %></div>
-  <strong class="font-bold"><%= @email_address.primary? %></strong>
-</div>
+<% if @email_address.primary.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".primary") %></div>
+    <div class="font-bold"><%= @email_address.primary? %></div>
+  </div>
+<% end %>
 
-<div class="p">
-  <div class="text-gray-600"><%= t(".verified") %></div>
-  <strong class="font-bold"><%= @email_address.verified? %></strong>
-</div>
+<% if admin? && @email_address.verified.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".verified") %></div>
+    <div class="font-bold"><%= @email_address.verified? %></div>
+  </div>
+<% end %>
 
 <% if @email_address.updated_at.present? %>
   <div class="p">
@@ -51,8 +55,54 @@
   </div>
 <% end %>
 
-<div class="p">
-  <%= link_to(t(".edit"), edit_url, class: "link") %>
+<div class="p p--flex">
+  <%= link_to(t(".edit"), edit_url, class: :link) %>
   <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
   <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
 </div>
+
+<% if can?(:index, Version) %>
+  <div class="p font-bold">
+    <%= link_to(t(".versions"), [*nested, @email_address, :versions], class: :link) %>
+  </div>
+
+  <% if can?(:create, Version) %>
+    <div class="p">
+      <%= link_to(
+        t(".new_version"),
+        [:new, *nested, @email_address, :version],
+        class: "button"
+      ) %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "versions/version",
+    collection: @versions,
+    as: :version,
+    locals: {
+      nested: [*nested, @email_address]
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, Log) %>
+  <div class="p font-bold">
+    <%= link_to(t(".logs"), [*nested, @email_address, :logs], class: :link) %>
+  </div>
+
+  <% if can?(:create, Log) %>
+    <div class="p">
+      <%= link_to(t(".new_log"), [:new, *nested, @email_address, :log], class: "button") %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "logs/log",
+    collection: @logs,
+    as: :log,
+    locals: {
+      nested: [*nested, @email_address]
+    }
+  ) %>
+<% end %>

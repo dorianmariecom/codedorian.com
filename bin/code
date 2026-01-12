@@ -62,7 +62,7 @@ Current.with(user: User.find_by(id: parsed.options.user_id)) do
         )
       )
     rescue Code::Error => e
-      warn "#{e.class}: #{e.message}"
+      warn("#{e.class}: #{e.message}")
     end
   end
 

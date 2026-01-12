@@ -60,7 +60,7 @@ module TabsHelper
           {
             title: t("helpers.application.tabs.log_in"),
             image: ios ? "person.crop.circle.fill" : :login,
-            path: new_session_path,
+            path: new_login_path,
             default: false
           }
         end

@@ -17,10 +17,13 @@ class CountryCodeIpAddressesController < ApplicationController
   end
 
   def show
+    @versions = versions_scope.order(created_at: :desc).page(params[:page])
+    @logs = logs_scope.order(created_at: :desc).page(params[:page])
+
     authorize(@country_code_ip_address, :edit?) unless id == "me"
 
     respond_to do |format|
-      format.json { render json: @country_code_ip_address }
+      format.json { render(json: @country_code_ip_address) }
       format.html { authorize(@country_code_ip_address, :edit?) }
     end
   end
@@ -84,7 +87,7 @@ class CountryCodeIpAddressesController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(index_url)
+    redirect_back_or_to(index_url, notice: t(".notice"))
   end
 
   def delete_all
@@ -92,7 +95,7 @@ class CountryCodeIpAddressesController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(index_url)
+    redirect_back_or_to(index_url, notice: t(".notice"))
   end
 
   private
@@ -115,6 +118,22 @@ class CountryCodeIpAddressesController < ApplicationController
 
   def scope
     searched_policy_scope(CountryCodeIpAddress)
+  end
+
+  def versions_scope
+    scope = policy_scope(Version)
+    if @country_code_ip_address
+      scope = scope.where_country_code_ip_address(@country_code_ip_address)
+    end
+    scope
+  end
+
+  def logs_scope
+    scope = policy_scope(Log)
+    if @country_code_ip_address
+      scope = scope.where_country_code_ip_address(@country_code_ip_address)
+    end
+    scope
   end
 
   def model_class

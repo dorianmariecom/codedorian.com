@@ -1,11 +1,12 @@
+---
 job_recurring_task:
-  key: "daily-studio-digest"
-  class_name: "ProgramEvaluateJob"
-  schedule: "every day at 09:00"
-  static: true
-  queue_name: "default"
-  priority: 5
   arguments: '<%= [{ "_aj_globalid" => "gid://codedorian/Program/#{ActiveRecord::FixtureSet.identify(:program)}" }].to_json %>'
-  description: "Daily digest for studio tasks"
-  created_at: 2025-03-01 07:45:00
-  updated_at: 2025-03-01 07:45:00
+  class_name: ProgramEvaluateJob
+  created_at: '2025-03-01 07:45:00'
+  description: Daily digest for studio tasks
+  key: daily-studio-digest
+  priority: 5
+  queue_name: default
+  schedule: every day at 09:00
+  static: true
+  updated_at: '2025-03-01 07:45:00'

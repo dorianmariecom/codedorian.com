@@ -3,17 +3,17 @@
 <% content = local_assigns.fetch(:content, true) %>
 <% singular = model.model_singular %>
 <% plural = model.model_plural %>
-<% collection =
-  policy_scope(model)
-    .where_user(user)
-    .page(params[:page])
-    .order(created_at: :asc) %>
-<% partial = "#{plural}/#{singular}" %>
-<% as = singular %>
-
 <% if can?(:index, model) %>
+  <% collection =
+    policy_scope(model)
+      .where_user(user)
+      .page(params[:page])
+      .order(created_at: :asc) %>
+  <% partial = "#{plural}/#{singular}" %>
+  <% as = singular %>
+
   <div class="p font-bold">
-    <%= link_to(t(".#{plural}"), [user, plural.to_sym], class: "link") %>
+    <%= link_to(t(".#{plural}"), [user, plural.to_sym], class: :link) %>
   </div>
 
   <% if can?(:create, model) %>

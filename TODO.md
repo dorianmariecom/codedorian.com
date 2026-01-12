@@ -1,0 +1,3 @@
+- cache crud
+- cable crud
+- jobs associated models

@@ -1,17 +1,17 @@
+---
 device:
+  created_at: '2025-01-10 09:22:00'
+  platform: ios
+  primary: true
+  token: apns_3f9c1d2e6a7b48c0a1d2f3e4b5c6d7e8
+  updated_at: '2025-01-10 09:22:00'
   user: admin
-  token: "apns_3f9c1d2e6a7b48c0a1d2f3e4b5c6d7e8"
-  platform: "ios"
   verified: true
-  primary: true
-  created_at: 2025-01-10 09:22:00
-  updated_at: 2025-01-10 09:22:00
-
 other_device:
-  user: other_user
-  token: "fcm_b4c7e8129a3d4f6b8c1d2e3f4a5b6c7d"
-  platform: "android"
-  verified: true
+  created_at: '2025-02-02 16:48:00'
+  platform: android
   primary: true
-  created_at: 2025-02-02 16:48:00
-  updated_at: 2025-02-02 16:48:00
+  token: fcm_b4c7e8129a3d4f6b8c1d2e3f4a5b6c7d
+  updated_at: '2025-02-02 16:48:00'
+  user: other_user
+  verified: true

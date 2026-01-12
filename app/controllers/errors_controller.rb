@@ -10,7 +10,6 @@ class ErrorsController < ApplicationController
   before_action(:load_program_prompt)
   before_action(:load_program_prompt_schedule)
   before_action(:load_address)
-  before_action(:load_attachment)
   before_action(:load_datum)
   before_action(:load_device)
   before_action(:load_email_address)
@@ -35,6 +34,7 @@ class ErrorsController < ApplicationController
   def show
     @error_occurrences =
       error_occurrences_scope.page(params[:page]).order(created_at: :desc)
+    @logs = logs_scope.order(created_at: :desc).page(params[:page])
   end
 
   def new
@@ -89,7 +89,7 @@ class ErrorsController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(index_url)
+    redirect_back_or_to(index_url, notice: t(".notice"))
   end
 
   def delete_all
@@ -97,7 +97,7 @@ class ErrorsController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(index_url)
+    redirect_back_or_to(index_url, notice: t(".notice"))
   end
 
   def not_found
@@ -209,50 +209,91 @@ class ErrorsController < ApplicationController
 
   def scope
     scope = searched_policy_scope(Error)
-    scope = scope.where_guest(@guest) if @guest
-    scope = scope.where_user(@user) if @user
-    scope = scope.where_program(@program) if @program
-    scope = scope.where_program_schedule(@program_schedule) if @program_schedule
-    scope = scope.where_program_prompt(@program_prompt) if @program_prompt
+
     if @program_prompt_schedule
       scope = scope.where_program_prompt_schedule(@program_prompt_schedule)
+    elsif @program_prompt
+      scope = scope.where_program_prompt(@program_prompt)
+    elsif @program_schedule
+      scope = scope.where_program_schedule(@program_schedule)
+    elsif @program
+      scope = scope.where_program(@program)
+    elsif @address
+      scope = scope.where_address(@address)
+    elsif @datum
+      scope = scope.where_datum(@datum)
+    elsif @device
+      scope = scope.where_device(@device)
+    elsif @email_address
+      scope = scope.where_email_address(@email_address)
+    elsif @handle
+      scope = scope.where_handle(@handle)
+    elsif @message
+      scope = scope.where_message(@message)
+    elsif @name
+      scope = scope.where_name(@name)
+    elsif @phone_number
+      scope = scope.where_phone_number(@phone_number)
+    elsif @time_zone
+      scope = scope.where_time_zone(@time_zone)
+    elsif @token
+      scope = scope.where_token(@token)
+    elsif @user
+      scope = scope.where_user(@user)
+    elsif @guest
+      scope = scope.where_guest(@guest)
     end
-    scope = scope.where_address(@address) if @address
-    scope = scope.where_attachment(@attachment) if @attachment
-    scope = scope.where_datum(@datum) if @datum
-    scope = scope.where_device(@device) if @device
-    scope = scope.where_email_address(@email_address) if @email_address
-    scope = scope.where_handle(@handle) if @handle
-    scope = scope.where_message(@message) if @message
-    scope = scope.where_name(@name) if @name
-    scope = scope.where_phone_number(@phone_number) if @phone_number
-    scope = scope.where_time_zone(@time_zone) if @time_zone
-    scope = scope.where_token(@token) if @token
+
     scope
   end
 
   def error_occurrences_scope
     scope = searched_policy_scope(ErrorOccurrence)
-    scope = scope.where_guest(@guest) if @guest
-    scope = scope.where_user(@user) if @user
-    scope = scope.where_error(@error) if @error
-    scope = scope.where_program(@program) if @program
-    scope = scope.where_program_schedule(@program_schedule) if @program_schedule
-    scope = scope.where_program_prompt(@program_prompt) if @program_prompt
-    if @program_prompt_schedule
+
+    if @error
+      scope = scope.where_error(@error)
+    elsif @program_prompt_schedule
       scope = scope.where_program_prompt_schedule(@program_prompt_schedule)
+    elsif @program_prompt
+      scope = scope.where_program_prompt(@program_prompt)
+    elsif @program_schedule
+      scope = scope.where_program_schedule(@program_schedule)
+    elsif @program
+      scope = scope.where_program(@program)
+    elsif @address
+      scope = scope.where_address(@address)
+    elsif @datum
+      scope = scope.where_datum(@datum)
+    elsif @device
+      scope = scope.where_device(@device)
+    elsif @email_address
+      scope = scope.where_email_address(@email_address)
+    elsif @handle
+      scope = scope.where_handle(@handle)
+    elsif @message
+      scope = scope.where_message(@message)
+    elsif @name
+      scope = scope.where_name(@name)
+    elsif @phone_number
+      scope = scope.where_phone_number(@phone_number)
+    elsif @time_zone
+      scope = scope.where_time_zone(@time_zone)
+    elsif @token
+      scope = scope.where_token(@token)
+    elsif @user
+      scope = scope.where_user(@user)
+    elsif @guest
+      scope = scope.where_guest(@guest)
     end
-    scope = scope.where_address(@address) if @address
-    scope = scope.where_attachment(@attachment) if @attachment
-    scope = scope.where_datum(@datum) if @datum
-    scope = scope.where_device(@device) if @device
-    scope = scope.where_email_address(@email_address) if @email_address
-    scope = scope.where_handle(@handle) if @handle
-    scope = scope.where_message(@message) if @message
-    scope = scope.where_name(@name) if @name
-    scope = scope.where_phone_number(@phone_number) if @phone_number
-    scope = scope.where_time_zone(@time_zone) if @time_zone
-    scope = scope.where_token(@token) if @token
+
+    scope
+  end
+
+  def logs_scope
+    scope = policy_scope(Log)
+
+    scope = scope.where_error(@error) if @error
+
     scope
   end
 
@@ -272,7 +313,6 @@ class ErrorsController < ApplicationController
     program_prompt: @program_prompt,
     program_prompt_schedule: @program_prompt_schedule,
     address: @address,
-    attachment: @attachment,
     datum: @datum,
     device: @device,
     email_address: @email_address,
@@ -303,7 +343,6 @@ class ErrorsController < ApplicationController
     end
 
     return chain << address if address
-    return chain << attachment if attachment
     return chain << datum if datum
     return chain << device if device
     return chain << email_address if email_address
@@ -326,7 +365,6 @@ class ErrorsController < ApplicationController
       program_prompt_schedule
       program_schedule
       address
-      attachment
       datum
       device
       email_address
@@ -341,110 +379,131 @@ class ErrorsController < ApplicationController
 
   def programs_scope
     scope = policy_scope(Program)
+
     scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
+
     scope
   end
 
   def program_schedules_scope
     scope = policy_scope(ProgramSchedule)
+
     scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope = scope.where_program(@program) if @program
+
     scope
   end
 
   def program_prompts_scope
     scope = policy_scope(ProgramPrompt)
+
     scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope = scope.where_program(@program) if @program
+
     scope
   end
 
   def program_prompt_schedules_scope
     scope = policy_scope(ProgramPromptSchedule)
+
     scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope = scope.where_program(@program) if @program
     scope = scope.where_program_prompt(@program_prompt) if @program_prompt
+
     scope
   end
 
   def addresses_scope
     scope = policy_scope(Address)
-    scope = scope.where_guest(@guest) if @guest
-    scope = scope.where_user(@user) if @user
-    scope
-  end
 
-  def attachments_scope
-    scope = policy_scope(Attachment)
     scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
+
     scope
   end
 
   def data_scope
     scope = policy_scope(Datum)
+
     scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
+
     scope
   end
 
   def devices_scope
     scope = policy_scope(Device)
+
     scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
+
     scope
   end
 
   def email_addresses_scope
     scope = policy_scope(EmailAddress)
+
     scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
+
     scope
   end
 
   def handles_scope
     scope = policy_scope(Handle)
+
     scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
+
     scope
   end
 
   def messages_scope
     scope = policy_scope(Message)
+
     scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
+
     scope
   end
 
   def names_scope
     scope = policy_scope(Name)
+
     scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
+
     scope
   end
 
   def phone_numbers_scope
     scope = policy_scope(PhoneNumber)
+
     scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
+
     scope
   end
 
   def time_zones_scope
     scope = policy_scope(TimeZone)
+
     scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
+
     scope
   end
 
   def tokens_scope
     scope = policy_scope(Token)
+
     scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
+
     scope
   end
 
@@ -515,16 +574,6 @@ class ErrorsController < ApplicationController
     set_context(address: @address)
     add_breadcrumb(key: "addresses.index", path: [@user, :addresses])
     add_breadcrumb(text: @address, path: [@user, @address])
-  end
-
-  def load_attachment
-    return if params[:attachment_id].blank?
-
-    @attachment = attachments_scope.find(params[:attachment_id])
-
-    set_context(attachment: @attachment)
-    add_breadcrumb(key: "attachments.index", path: [@user, :attachments])
-    add_breadcrumb(text: @attachment, path: [@user, @attachment])
   end
 
   def load_datum

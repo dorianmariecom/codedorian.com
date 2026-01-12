@@ -7,7 +7,6 @@ class ErrorOccurrence < SolidErrors::Occurrence
 
   %i[
     address
-    attachment
     current_user
     datum
     device
@@ -29,7 +28,7 @@ class ErrorOccurrence < SolidErrors::Occurrence
     token
     user
   ].each do |model|
-    scope :"where_#{model}", ->(instance) { where(<<~SQL.squish, instance) }
+    scope(:"where_#{model}", ->(instance) { where(<<~SQL.squish, instance) })
       (solid_errors_occurrences.context->'#{model}'->>'id') = ?
     SQL
   end

@@ -35,10 +35,6 @@ elsif filter == :address
   scope = policy_scope(Address)
   scope = scope.where_guest(@guest) if @guest
   scope = scope.where_user(@user) if @user
-elsif filter == :attachment
-  scope = policy_scope(Attachment)
-  scope = scope.where_guest(@guest) if @guest
-  scope = scope.where_user(@user) if @user
 elsif filter == :datum
   scope = policy_scope(Datum)
   scope = scope.where_guest(@guest) if @guest

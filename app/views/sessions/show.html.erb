@@ -1,0 +1,99 @@
+<% content_for(:title, @session) %>
+
+<%= turbo_stream_from(@session) %>
+
+<% if @session.id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".id") %></div>
+    <div class="font-bold"><%= @session.id %></div>
+  </div>
+<% end %>
+
+<% if @session.session_id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".session_id") %></div>
+    <div class="font-bold"><%= @session.session_id %></div>
+  </div>
+<% end %>
+
+<% if @session.user.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".user") %></div>
+    <%= render("shared/user", user: @session.user) %>
+  </div>
+<% end %>
+
+<% if @session.guest.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".guest") %></div>
+    <% if can?(:show, @session.guest) %>
+      <div class="font-bold">
+        <%= link_to(@session.guest, @session.guest, class: :link) %>
+      </div>
+    <% else %>
+      <div class="font-bold"><%= @session.guest %></div>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @session.data.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".data") %></div>
+    <div class="code"><%= @session.data_json %></div>
+  </div>
+<% end %>
+
+<% if @session.updated_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".updated_at") %></div>
+    <div class="font-bold"><%= local_time(@session.updated_at) %></div>
+  </div>
+<% end %>
+
+<% if @session.created_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".created_at") %></div>
+    <div class="font-bold"><%= local_time(@session.created_at) %></div>
+  </div>
+<% end %>
+
+<% if can?(:update, @session) || can?(:destroy, @session) %>
+  <div class="p">
+    <% if can?(:update, @session) %>
+      <%= link_to(t("sessions.show.edit"), edit_url, class: :link) %>
+    <% end %>
+    <% if can?(:destroy, @session) %>
+      <%= render(
+        "shared/confirm",
+        url: destroy_url,
+        text: t("sessions.show.destroy"),
+        class: :link
+      ) %>
+      <%= render(
+        "shared/confirm",
+        url: delete_url,
+        text: t("sessions.show.delete"),
+        class: :link
+      ) %>
+    <% end %>
+  </div>
+<% end %>
+
+<% if can?(:index, Log) %>
+  <div class="p font-bold">
+    <%= link_to(t(".logs"), [*nested, @session, :logs], class: :link) %>
+  </div>
+  <% if can?(:create, Log) %>
+    <div class="p">
+      <%= link_to(t(".new_log"), [:new, *nested, @session, :log], class: "button") %>
+    </div>
+  <% end %>
+  <%= render_collection(
+    partial: "logs/log",
+    collection: @logs,
+    as: :log,
+    locals: {
+      nested: [*nested, @session]
+    }
+  ) %>
+<% end %>

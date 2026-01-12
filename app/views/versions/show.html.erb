@@ -1,0 +1,107 @@
+<% content_for(:title, @version) %>
+
+<%= turbo_stream_from(@version) %>
+
+<% if @version.id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".id") %></div>
+    <div class="font-bold"><%= @version.id %></div>
+  </div>
+<% end %>
+
+<% if @version.event.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".event") %></div>
+    <div class="font-bold"><%= @version.event %></div>
+  </div>
+<% end %>
+
+<% if @version.item_type.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".item_type") %></div>
+    <div class="font-bold"><%= @version.item_type %></div>
+  </div>
+<% end %>
+
+<% if @version.item_id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".item_id") %></div>
+    <div class="font-bold"><%= @version.item_id %></div>
+  </div>
+<% end %>
+
+<% if @version.whodunnit.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".whodunnit") %></div>
+    <div class="font-bold"><%= @version.whodunnit %></div>
+  </div>
+<% end %>
+
+<% if @version.object.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".object") %></div>
+    <div class="code"><%= @version.object_json %></div>
+  </div>
+<% end %>
+
+<% if @version.object_changes.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".object_changes") %></div>
+    <div class="code"><%= @version.object_changes_json %></div>
+  </div>
+<% end %>
+
+<% if @version.updated_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".updated_at") %></div>
+    <div class="font-bold"><%= local_time(@version.updated_at) %></div>
+  </div>
+<% end %>
+
+<% if @version.created_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".created_at") %></div>
+    <div class="font-bold"><%= local_time(@version.created_at) %></div>
+  </div>
+<% end %>
+
+<% if can?(:update, @version) || can?(:destroy, @version) %>
+  <div class="p">
+    <% if can?(:update, @version) %>
+      <%= link_to(t("versions.show.edit"), edit_url, class: :link) %>
+    <% end %>
+    <% if can?(:destroy, @version) %>
+      <%= render(
+        "shared/confirm",
+        url: destroy_url,
+        text: t("versions.show.destroy"),
+        class: :link
+      ) %>
+      <%= render(
+        "shared/confirm",
+        url: delete_url,
+        text: t("versions.show.delete"),
+        class: :link
+      ) %>
+    <% end %>
+  </div>
+<% end %>
+
+<% if can?(:index, Log) && !@log %>
+  <div class="p font-bold">
+    <%= link_to(t(".logs"), [*nested, @version, :logs], class: :link) %>
+  </div>
+  <% if can?(:create, Log) %>
+    <div class="p">
+      <%= link_to(t(".new_log"), [:new, *nested, @version, :log], class: "button") %>
+    </div>
+  <% end %>
+  <%= render_collection(
+    partial: "logs/log",
+    collection: @logs,
+    as: :log,
+    locals: {
+      nested: [*nested, @version]
+    }
+  ) %>
+<% end %>

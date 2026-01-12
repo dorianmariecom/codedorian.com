@@ -23,20 +23,26 @@
   </div>
 <% end %>
 
-<div class="p">
-  <div class="text-gray-600"><%= t(".password") %></div>
-  <div class="font-bold">***</div>
-</div>
+<% if @password.password_digest.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".password") %></div>
+    <div class="font-bold">***</div>
+  </div>
+<% end %>
 
-<div class="p">
-  <div class="text-gray-600"><%= t(".primary") %></div>
-  <div class="font-bold"><%= @password.primary? %></div>
-</div>
+<% if @password.primary.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".primary") %></div>
+    <div class="font-bold"><%= @password.primary? %></div>
+  </div>
+<% end %>
 
-<div class="p">
-  <div class="text-gray-600"><%= t(".verified") %></div>
-  <div class="font-bold"><%= @password.verified? %></div>
-</div>
+<% if admin? && @password.verified.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".verified") %></div>
+    <div class="font-bold"><%= @password.verified? %></div>
+  </div>
+<% end %>
 
 <% if @password.updated_at.present? %>
   <div class="p">
@@ -52,8 +58,54 @@
   </div>
 <% end %>
 
-<div class="p">
-  <%= link_to(t(".edit"), edit_url, class: "link") %>
+<div class="p p--flex">
+  <%= link_to(t(".edit"), edit_url, class: :link) %>
   <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
   <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
 </div>
+
+<% if can?(:index, Version) %>
+  <div class="p font-bold">
+    <%= link_to(t(".versions"), [*nested, @password, :versions], class: :link) %>
+  </div>
+
+  <% if can?(:create, Version) %>
+    <div class="p">
+      <%= link_to(
+        t(".new_version"),
+        [:new, *nested, @password, :version],
+        class: "button"
+      ) %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "versions/version",
+    collection: @versions,
+    as: :version,
+    locals: {
+      nested: [*nested, @password]
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, Log) %>
+  <div class="p font-bold">
+    <%= link_to(t(".logs"), [*nested, @password, :logs], class: :link) %>
+  </div>
+
+  <% if can?(:create, Log) %>
+    <div class="p">
+      <%= link_to(t(".new_log"), [:new, *nested, @password, :log], class: "button") %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "logs/log",
+    collection: @logs,
+    as: :log,
+    locals: {
+      nested: [*nested, @password]
+    }
+  ) %>
+<% end %>

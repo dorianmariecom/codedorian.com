@@ -1,18 +1,4 @@
-<% content_for(:title) do %>
-  <% if @program_prompt_schedule.once? %>
-    <%= t(
-      ".schedule_once_html",
-      local_time: local_time(@program_prompt_schedule.starts_at),
-      interval: @program_prompt_schedule.translated_interval
-    ) %>
-  <% else %>
-    <%= t(
-      ".schedule_html",
-      local_time: local_time(@program_prompt_schedule.starts_at),
-      interval: @program_prompt_schedule.translated_interval
-    ) %>
-  <% end %>
-<% end %>
+<% content_for(:title, @program_prompt_schedule) %>
 
 <%= turbo_stream_from(@program_prompt_schedule) %>
 
@@ -39,7 +25,7 @@
         <%= link_to(
           @program_prompt_schedule.program,
           [@user, @program_prompt_schedule.program],
-          class: "link"
+          class: :link
         ) %>
       </div>
     <% else %>
@@ -57,7 +43,7 @@
         <%= link_to(
           @program_prompt_schedule.program_prompt,
           [@user, @program, @program_prompt_schedule.program_prompt],
-          class: "link"
+          class: :link
         ) %>
       </div>
     <% else %>
@@ -104,8 +90,62 @@
   </div>
 <% end %>
 
-<div class="p">
-  <%= link_to(t(".edit"), edit_url, class: "link") %>
+<div class="p p--flex">
+  <%= link_to(t(".edit"), edit_url, class: :link) %>
   <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
   <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
 </div>
+
+<% if can?(:index, Version) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".versions"),
+      [*nested, @program_prompt_schedule, :versions],
+      class: :link
+    ) %>
+  </div>
+
+  <% if can?(:create, Version) %>
+    <div class="p">
+      <%= link_to(
+        t(".new_version"),
+        [:new, *nested, @program_prompt_schedule, :version],
+        class: "button"
+      ) %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "versions/version",
+    collection: @versions,
+    as: :version,
+    locals: {
+      nested: [*nested, @program_prompt_schedule]
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, Log) %>
+  <div class="p font-bold">
+    <%= link_to(t(".logs"), [*nested, @program_prompt_schedule, :logs], class: :link) %>
+  </div>
+
+  <% if can?(:create, Log) %>
+    <div class="p">
+      <%= link_to(
+        t(".new_log"),
+        [:new, *nested, @program_prompt_schedule, :log],
+        class: "button"
+      ) %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "logs/log",
+    collection: @logs,
+    as: :log,
+    locals: {
+      nested: [*nested, @program_prompt_schedule]
+    }
+  ) %>
+<% end %>

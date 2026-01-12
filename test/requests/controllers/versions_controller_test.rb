@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class AttachmentsControllerTest < ActionDispatch::IntegrationTest
+class VersionsControllerTest < ActionDispatch::IntegrationTest
   include ControllerSmokeHelper
 
   setup do
@@ -15,5 +15,5 @@ class AttachmentsControllerTest < ActionDispatch::IntegrationTest
     )
   end
 
-  smoke_actions_for "attachments"
+  smoke_actions_for "versions"
 end

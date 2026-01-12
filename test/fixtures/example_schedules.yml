@@ -1,6 +1,7 @@
+---
 example_schedule:
+  created_at: '2025-01-15 10:05:00'
   example: example
-  interval: "1 day"
-  starts_at: 2025-01-16 09:30:00
-  created_at: 2025-01-15 10:05:00
-  updated_at: 2025-01-15 10:05:00
+  interval: 1 day
+  starts_at: '2025-01-16 09:30:00'
+  updated_at: '2025-01-15 10:05:00'

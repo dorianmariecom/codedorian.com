@@ -88,7 +88,7 @@ module ActionDispatch
 
     def sign_in(email, password)
       post(
-        session_path,
+        login_path,
         params: {
           session: {
             email_address: email,

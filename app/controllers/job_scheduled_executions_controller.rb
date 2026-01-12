@@ -22,6 +22,7 @@ class JobScheduledExecutionsController < ApplicationController
   end
 
   def show
+    @logs = logs_scope.order(created_at: :desc).page(params[:page])
   end
 
   def new
@@ -77,7 +78,7 @@ class JobScheduledExecutionsController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(index_url)
+    redirect_back_or_to(index_url, notice: t(".notice"))
   end
 
   def delete_all
@@ -85,7 +86,7 @@ class JobScheduledExecutionsController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(index_url)
+    redirect_back_or_to(index_url, notice: t(".notice"))
   end
 
   private
@@ -162,35 +163,64 @@ class JobScheduledExecutionsController < ApplicationController
 
   def scope
     scope = searched_policy_scope(JobScheduledExecution)
-    scope = scope.where_guest(@guest) if @guest
-    scope = scope.where_user(@user) if @user
-    scope = scope.where_program(@program) if @program
-    scope = scope.where_program_prompt(@program_prompt) if @program_prompt
-    scope = scope.where_job(@job) if @job
+
+    if @job
+      scope = scope.where_job(@job)
+    elsif @program_prompt
+      scope = scope.where_program_prompt(@program_prompt)
+    elsif @program
+      scope = scope.where_program(@program)
+    elsif @user
+      scope = scope.where_user(@user)
+    elsif @guest
+      scope = scope.where_guest(@guest)
+    end
+
     scope
   end
 
   def programs_scope
     scope = policy_scope(Program)
+
     scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
+
     scope
   end
 
   def program_prompts_scope
     scope = policy_scope(ProgramPrompt)
+
     scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope = scope.where_program(@program) if @program
+
     scope
   end
 
   def jobs_scope
     scope = policy_scope(Job)
-    scope = scope.where_guest(@guest) if @guest
-    scope = scope.where_user(@user) if @user
-    scope = scope.where_program(@program) if @program
-    scope = scope.where_program_prompt(@program_prompt) if @program_prompt
+
+    if @program_prompt
+      scope = scope.where_program_prompt(@program_prompt)
+    elsif @program
+      scope = scope.where_program(@program)
+    elsif @user
+      scope = scope.where_user(@user)
+    elsif @guest
+      scope = scope.where_guest(@guest)
+    end
+
+    scope
+  end
+
+  def logs_scope
+    scope = policy_scope(Log)
+
+    if @job_scheduled_execution
+      scope = scope.where_job_scheduled_execution(@job_scheduled_execution)
+    end
+
     scope
   end
 

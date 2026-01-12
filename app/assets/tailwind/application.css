@@ -46,7 +46,6 @@ button {
   @apply list-disc ml-4;
 }
 
-.link,
 .button {
   @apply bg-black hover:bg-gray-800 focus:bg-gray-800;
   @apply focus:border-white focus:outline focus:outline-black focus:outline-1;
@@ -65,22 +64,25 @@ button {
   }
 }
 
-.link,
-.button.button--link,
-.button.button--secondary {
+.link {
   @apply underline;
   @apply bg-white hover:bg-gray-100 focus:bg-gray-200;
   @apply border border-black;
   @apply focus:border-black focus:outline-black;
   @apply text-black;
+  @apply px-4 py-2 rounded inline-block;
 
-  &.button--red {
+  &.link--red {
     @apply text-red-600;
   }
 
   &:disabled {
     @apply pointer-events-none;
     @apply text-gray-600;
+  }
+
+  &.link--red:disabled {
+    @apply text-red-800;
   }
 }
 
@@ -152,6 +154,11 @@ trix-editor,
 
   a {
     @apply underline;
+    @apply bg-white hover:bg-gray-100 focus:bg-gray-200;
+    @apply border border-black;
+    @apply focus:border-black focus:outline-black;
+    @apply text-black;
+    @apply px-4 py-2 rounded inline-block;
   }
 
   h1,
@@ -206,10 +213,16 @@ trix-toolbar {
   .last {
     a {
       @apply underline;
+      @apply bg-white hover:bg-gray-100 focus:bg-gray-200;
+      @apply border border-black;
+      @apply focus:border-black focus:outline-black;
+      @apply text-black;
+      @apply px-4 py-2 rounded inline-block;
     }
   }
 
   .page.current {
     @apply font-bold;
+    @apply px-4 py-2;
   }
 }

@@ -1,100 +1,83 @@
-<div class="p"><%= link_to(t(".addresses"), :addresses, class: "link") %></div>
+<div class="p"><%= link_to(t(".addresses"), :addresses, class: :link) %></div>
 <div class="p">
-  <%= link_to(t(".attachments"), :attachments, class: "link") %>
+  <%= link_to(t(".configurations"), :configurations, class: :link) %>
 </div>
-<div class="p">
-  <%= link_to(t(".configurations"), :configurations, class: "link") %>
-</div>
-<div class="p"><%= link_to(t(".logs"), :logs, class: "link") %></div>
+<div class="p"><%= link_to(t(".logs"), :logs, class: :link) %></div>
+<div class="p"><%= link_to(t(".versions"), :versions, class: :link) %></div>
 <div class="p">
   <%= link_to(
     t(".country_code_ip_addresses"),
     :country_code_ip_addresses,
-    class: "link"
+    class: :link
   ) %>
 </div>
-<div class="p"><%= link_to(t(".data"), :data, class: "link") %></div>
-<div class="p"><%= link_to(t(".devices"), :devices, class: "link") %></div>
+<div class="p"><%= link_to(t(".data"), :data, class: :link) %></div>
+<div class="p"><%= link_to(t(".devices"), :devices, class: :link) %></div>
 <div class="p">
-  <%= link_to(t(".email_addresses"), :email_addresses, class: "link") %>
+  <%= link_to(t(".email_addresses"), :email_addresses, class: :link) %>
 </div>
 <div class="p">
-  <%= link_to(t(".error_occurrences"), :error_occurrences, class: "link") %>
+  <%= link_to(t(".error_occurrences"), :error_occurrences, class: :link) %>
 </div>
-<div class="p"><%= link_to(t(".errors"), :errors, class: "link") %></div>
-<div class="p"><%= link_to(t(".examples"), :examples, class: "link") %></div>
+<div class="p"><%= link_to(t(".errors"), :errors, class: :link) %></div>
+<div class="p"><%= link_to(t(".examples"), :examples, class: :link) %></div>
 <div class="p">
-  <%= link_to(t(".example_schedules"), :example_schedules, class: "link") %>
+  <%= link_to(t(".example_schedules"), :example_schedules, class: :link) %>
 </div>
-<div class="p"><%= link_to(t(".guests"), :guests, class: "link") %></div>
-<div class="p"><%= link_to(t(".handles"), :handles, class: "link") %></div>
-<div class="p"><%= link_to(t(".jobs"), :jobs, class: "link") %></div>
+<div class="p"><%= link_to(t(".guests"), :guests, class: :link) %></div>
+<div class="p"><%= link_to(t(".handles"), :handles, class: :link) %></div>
+<div class="p"><%= link_to(t(".jobs"), :jobs, class: :link) %></div>
 <div class="p">
-  <%= link_to(t(".job_blocked_executions"), :job_blocked_executions, class: "link") %>
-</div>
-<div class="p">
-  <%= link_to(t(".job_claimed_executions"), :job_claimed_executions, class: "link") %>
+  <%= link_to(t(".job_blocked_executions"), :job_blocked_executions, class: :link) %>
 </div>
 <div class="p">
-  <%= link_to(t(".job_contexts"), :job_contexts, class: "link") %>
+  <%= link_to(t(".job_claimed_executions"), :job_claimed_executions, class: :link) %>
 </div>
 <div class="p">
-  <%= link_to(t(".job_failed_executions"), :job_failed_executions, class: "link") %>
+  <%= link_to(t(".job_contexts"), :job_contexts, class: :link) %>
 </div>
 <div class="p">
-  <%= link_to(t(".job_pauses"), :job_pauses, class: "link") %>
+  <%= link_to(t(".job_failed_executions"), :job_failed_executions, class: :link) %>
+</div>
+<div class="p"><%= link_to(t(".job_pauses"), :job_pauses, class: :link) %></div>
+<div class="p">
+  <%= link_to(t(".job_processes"), :job_processes, class: :link) %>
 </div>
 <div class="p">
-  <%= link_to(t(".job_processes"), :job_processes, class: "link") %>
+  <%= link_to(t(".job_ready_executions"), :job_ready_executions, class: :link) %>
 </div>
 <div class="p">
-  <%= link_to(t(".job_ready_executions"), :job_ready_executions, class: "link") %>
+  <%= link_to(t(".job_recurring_executions"), :job_recurring_executions, class: :link) %>
 </div>
 <div class="p">
-  <%= link_to(
-    t(".job_recurring_executions"),
-    :job_recurring_executions,
-    class: "link"
-  ) %>
+  <%= link_to(t(".job_recurring_tasks"), :job_recurring_tasks, class: :link) %>
 </div>
 <div class="p">
-  <%= link_to(t(".job_recurring_tasks"), :job_recurring_tasks, class: "link") %>
+  <%= link_to(t(".job_scheduled_executions"), :job_scheduled_executions, class: :link) %>
 </div>
 <div class="p">
-  <%= link_to(
-    t(".job_scheduled_executions"),
-    :job_scheduled_executions,
-    class: "link"
-  ) %>
+  <%= link_to(t(".job_semaphores"), :job_semaphores, class: :link) %>
+</div>
+<div class="p"><%= link_to(t(".messages"), :messages, class: :link) %></div>
+<div class="p"><%= link_to(t(".names"), :names, class: :link) %></div>
+<div class="p"><%= link_to(t(".passwords"), :passwords, class: :link) %></div>
+<div class="p">
+  <%= link_to(t(".phone_numbers"), :phone_numbers, class: :link) %>
 </div>
 <div class="p">
-  <%= link_to(t(".job_semaphores"), :job_semaphores, class: "link") %>
-</div>
-<div class="p"><%= link_to(t(".messages"), :messages, class: "link") %></div>
-<div class="p"><%= link_to(t(".names"), :names, class: "link") %></div>
-<div class="p"><%= link_to(t(".passwords"), :passwords, class: "link") %></div>
-<div class="p">
-  <%= link_to(t(".phone_numbers"), :phone_numbers, class: "link") %>
+  <%= link_to(t(".program_executions"), :program_executions, class: :link) %>
 </div>
 <div class="p">
-  <%= link_to(t(".program_executions"), :program_executions, class: "link") %>
+  <%= link_to(t(".program_prompt_schedules"), :program_prompt_schedules, class: :link) %>
 </div>
 <div class="p">
-  <%= link_to(
-    t(".program_prompt_schedules"),
-    :program_prompt_schedules,
-    class: "link"
-  ) %>
+  <%= link_to(t(".program_prompts"), :program_prompts, class: :link) %>
 </div>
 <div class="p">
-  <%= link_to(t(".program_prompts"), :program_prompts, class: "link") %>
+  <%= link_to(t(".program_schedules"), :program_schedules, class: :link) %>
 </div>
-<div class="p">
-  <%= link_to(t(".program_schedules"), :program_schedules, class: "link") %>
-</div>
-<div class="p"><%= link_to(t(".programs"), :programs, class: "link") %></div>
-<div class="p">
-  <%= link_to(t(".time_zones"), :time_zones, class: "link") %>
-</div>
-<div class="p"><%= link_to(t(".tokens"), :tokens, class: "link") %></div>
-<div class="p"><%= link_to(t(".users"), :users, class: "link") %></div>
+<div class="p"><%= link_to(t(".programs"), :programs, class: :link) %></div>
+<div class="p"><%= link_to(t(".sessions"), :sessions, class: :link) %></div>
+<div class="p"><%= link_to(t(".time_zones"), :time_zones, class: :link) %></div>
+<div class="p"><%= link_to(t(".tokens"), :tokens, class: :link) %></div>
+<div class="p"><%= link_to(t(".users"), :users, class: :link) %></div>

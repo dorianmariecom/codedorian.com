@@ -1,5 +1,9 @@
+---
 log:
-  message: "Scheduled program evaluation for Daily Studio Digest"
-  context: {"program":"Daily Studio Digest","queue":"default","scheduled_at":"2025-03-05T09:00:00Z"}
-  created_at: 2025-03-05 08:59:00
-  updated_at: 2025-03-05 08:59:00
+  context:
+    program: Daily Studio Digest
+    queue: default
+    scheduled_at: '2025-03-05T09:00:00Z'
+  created_at: '2025-03-05 08:59:00'
+  message: Scheduled program evaluation for Daily Studio Digest
+  updated_at: '2025-03-05 08:59:00'

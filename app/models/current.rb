@@ -181,11 +181,11 @@ class Current < ActiveSupport::CurrentAttributes
   end
 
   def user_or_guest
-    user || guest
+    user || guest!
   end
 
   def admin?
-    (user || guest).admin?
+    (user || guest!).admin?
   end
 
   def user=(user)

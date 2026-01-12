@@ -1,0 +1,15 @@
+---
+version:
+  created_at: '2025-02-10 08:00:00'
+  event: create
+  item_id: "<%= ActiveRecord::FixtureSet.identify(:program) %>"
+  item_type: Program
+  object:
+    name: Daily Studio Digest
+    scheduled: true
+  object_changes:
+    name:
+    -
+    - Daily Studio Digest
+  updated_at: '2025-02-10 08:00:00'
+  whodunnit: "<%= ActiveRecord::FixtureSet.identify(:admin) %>"

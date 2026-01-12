@@ -1,6 +1,4 @@
-<% content_for(:title) do %>
-  <%= local_time(@error_occurrence.created_at) %>
-<% end %>
+<% content_for(:title, @error_occurrence) %>
 
 <%= turbo_stream_from(@error_occurrence) %>
 
@@ -17,11 +15,7 @@
 
     <% if can?(:show, @error_occurrence.error) %>
       <div class="font-bold">
-        <%= link_to(
-          @error_occurrence.error,
-          [@user, @error_occurrence.error],
-          class: "link"
-        ) %>
+        <%= link_to(@error_occurrence.error, [@user, @error_occurrence.error], class: :link) %>
       </div>
     <% else %>
       <div class="font-bold"><%= @error_occurrence.error %></div>
@@ -64,8 +58,33 @@
   </div>
 <% end %>
 
-<div class="p">
-  <%= link_to(t(".edit"), edit_url, class: "link") %>
+<div class="p p--flex">
+  <%= link_to(t(".edit"), edit_url, class: :link) %>
   <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
   <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
 </div>
+
+<% if can?(:index, Log) %>
+  <div class="p font-bold">
+    <%= link_to(t(".logs"), [*nested, @error_occurrence, :logs], class: :link) %>
+  </div>
+
+  <% if can?(:create, Log) %>
+    <div class="p">
+      <%= link_to(
+        t(".new_log"),
+        [:new, *nested, @error_occurrence, :log],
+        class: "button"
+      ) %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "logs/log",
+    collection: @logs,
+    as: :log,
+    locals: {
+      nested: [*nested, @error_occurrence]
+    }
+  ) %>
+<% end %>

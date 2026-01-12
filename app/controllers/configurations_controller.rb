@@ -11,8 +11,11 @@ class ConfigurationsController < ApplicationController
   end
 
   def show
+    @versions = versions_scope.order(created_at: :desc).page(params[:page])
+    @logs = logs_scope.order(created_at: :desc).page(params[:page])
+
     respond_to do |format|
-      format.json { render json: @configuration.content }
+      format.json { render(json: @configuration.content) }
       format.html { authorize(@configuration, :edit?) }
     end
   end
@@ -69,7 +72,7 @@ class ConfigurationsController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(index_url)
+    redirect_back_or_to(index_url, notice: t(".notice"))
   end
 
   def delete_all
@@ -77,7 +80,7 @@ class ConfigurationsController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(index_url)
+    redirect_back_or_to(index_url, notice: t(".notice"))
   end
 
   private
@@ -95,6 +98,18 @@ class ConfigurationsController < ApplicationController
 
   def scope
     searched_policy_scope(Configuration)
+  end
+
+  def versions_scope
+    scope = policy_scope(Version)
+    scope = scope.where_configuration(@configuration) if @configuration
+    scope
+  end
+
+  def logs_scope
+    scope = policy_scope(Log)
+    scope = scope.where_configuration(@configuration) if @configuration
+    scope
   end
 
   def model_class

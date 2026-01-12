@@ -65,8 +65,8 @@
   </div>
 <% end %>
 
-<div class="p">
-  <%= link_to(t(".edit"), edit_url, class: "link") %>
+<div class="p p--flex">
+  <%= link_to(t(".edit"), edit_url, class: :link) %>
   <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
   <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
 </div>
@@ -75,7 +75,7 @@
   <%= link_to(
     t(".error_occurrences"),
     [@user, @error, :error_occurrences],
-    class: "link"
+    class: :link
   ) %>
 </div>
 
@@ -87,3 +87,24 @@
     nested: [@user, @error]
   }
 ) %>
+
+<% if can?(:index, Log) %>
+  <div class="p font-bold">
+    <%= link_to(t(".logs"), [@user, @error, :logs], class: :link) %>
+  </div>
+
+  <% if can?(:create, Log) %>
+    <div class="p">
+      <%= link_to(t(".new_log"), [:new, @user, @error, :log], class: "button") %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "logs/log",
+    collection: @logs,
+    as: :log,
+    locals: {
+      nested: [@user, @error]
+    }
+  ) %>
+<% end %>

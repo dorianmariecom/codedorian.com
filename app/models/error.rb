@@ -7,7 +7,6 @@ class Error < SolidErrors::Error
 
   %i[
     address
-    attachment
     current_user
     datum
     device
@@ -29,12 +28,12 @@ class Error < SolidErrors::Error
     token
     user
   ].each do |model|
-    scope :"where_#{model}",
-          ->(instance) do
-            joins(:error_occurrences).where(<<~SQL.squish, instance)
+    scope(
+      :"where_#{model}",
+      ->(instance) { joins(:error_occurrences).where(<<~SQL.squish, instance) }
       (solid_errors_occurrences.context->'#{model}'->>'id') = ?
     SQL
-          end
+    )
   end
 
   def self.search_fields

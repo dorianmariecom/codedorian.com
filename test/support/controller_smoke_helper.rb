@@ -38,7 +38,7 @@ module ControllerSmokeHelper
     when :head
       head(path, params: request_params)
     else
-      raise "Unsupported HTTP method #{method}"
+      raise("Unsupported HTTP method #{method}")
     end
 
     ControllerSmokeHelper.assert_response_ok(self, controller, action)
@@ -112,8 +112,6 @@ module ControllerSmokeHelper
       test_case.guests(:guest).id
     when :address_id
       test_case.addresses(:address).id
-    when :attachment_id
-      test_case.attachments(:attachment).id
     when :configuration_id
       test_case.configurations(:configuration).name
     when :country_code_ip_address_id
@@ -182,10 +180,14 @@ module ControllerSmokeHelper
       test_case.time_zones(:time_zone).id
     when :token_id
       test_case.tokens(:token).id
+    when :session_id
+      test_case.sessions(:session).session_id
+    when :version_id
+      test_case.versions(:version).id
     when :path
       "missing"
     else
-      raise "No mapping for required param #{part}"
+      raise("No mapping for required param #{part}")
     end
   end
 
@@ -193,8 +195,6 @@ module ControllerSmokeHelper
     case controller
     when "addresses"
       test_case.addresses(:address).id
-    when "attachments"
-      test_case.attachments(:attachment).id
     when "configurations"
       test_case.configurations(:configuration).name
     when "country_code_ip_addresses"
@@ -261,24 +261,35 @@ module ControllerSmokeHelper
       test_case.program_prompt_schedules(:program_prompt_schedule).id
     when "program_schedules"
       test_case.program_schedules(:program_schedule).id
+    when "sessions"
+      test_case.sessions(:session).id
     when "tokens"
       test_case.tokens(:token).id
     when "users"
       test_case.users(:admin).id
     when "time_zones"
       test_case.time_zones(:time_zone).id
+    when "versions"
+      test_case.versions(:version).id
     else
-      raise "No mapping for controller #{controller}"
+      raise("No mapping for controller #{controller}")
     end
   end
 
   def self.request_params_for(controller, action, params, test_case)
     case "#{controller}##{action}"
-    when "sessions#create"
+    when "session#create"
       {
         session: {
           email_address: test_case.email_addresses(:admin_email).email_address,
           password: test_case.passwords(:password).hint
+        }
+      }
+    when "sessions#create"
+      {
+        session: {
+          session_id: "session-smoke-#{SecureRandom.hex(4)}",
+          data: { user_id: test_case.users(:admin).id }.to_json
         }
       }
     when "passwords#check"

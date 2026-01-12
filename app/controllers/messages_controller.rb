@@ -16,6 +16,8 @@ class MessagesController < ApplicationController
   end
 
   def show
+    @versions = versions_scope.order(created_at: :desc).page(params[:page])
+    @logs = logs_scope.order(created_at: :desc).page(params[:page])
   end
 
   def subject
@@ -83,7 +85,7 @@ class MessagesController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(index_url)
+    redirect_back_or_to(index_url, notice: t(".notice"))
   end
 
   def delete_all
@@ -91,7 +93,7 @@ class MessagesController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(index_url)
+    redirect_back_or_to(index_url, notice: t(".notice"))
   end
 
   private
@@ -130,6 +132,18 @@ class MessagesController < ApplicationController
     scope = searched_policy_scope(Message)
     scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
+    scope
+  end
+
+  def versions_scope
+    scope = policy_scope(Version)
+    scope = scope.where_message(@message) if @message
+    scope
+  end
+
+  def logs_scope
+    scope = policy_scope(Log)
+    scope = scope.where_message(@message) if @message
     scope
   end
 

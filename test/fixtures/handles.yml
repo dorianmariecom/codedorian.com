@@ -1,15 +1,15 @@
+---
 handle:
+  created_at: '2025-01-10 09:14:00'
+  handle: codedorian
+  primary: true
+  updated_at: '2025-01-10 09:14:00'
   user: admin
-  handle: "codedorian"
   verified: true
-  primary: true
-  created_at: 2025-01-10 09:14:00
-  updated_at: 2025-01-10 09:14:00
-
 other_handle:
-  user: other_user
-  handle: "camille"
-  verified: true
+  created_at: '2025-02-02 16:42:00'
+  handle: camille
   primary: true
-  created_at: 2025-02-02 16:42:00
-  updated_at: 2025-02-02 16:42:00
+  updated_at: '2025-02-02 16:42:00'
+  user: other_user
+  verified: true

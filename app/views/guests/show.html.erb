@@ -23,8 +23,8 @@
   </div>
 <% end %>
 
-<div class="p">
-  <%= link_to(t(".edit"), edit_url, class: "link") %>
+<div class="p p--flex">
+  <%= link_to(t(".edit"), edit_url, class: :link) %>
   <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
   <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
 </div>
@@ -38,7 +38,6 @@
 <%= render("shared/list", user: @guest, model: TimeZone) %>
 <%= render("shared/list", user: @guest, model: Device) %>
 <%= render("shared/list", user: @guest, model: Token) %>
-<%= render("shared/list", user: @guest, model: Attachment) %>
 <%= render("shared/list", user: @guest, model: Datum) %>
 <%= render("shared/list", user: @guest, model: Message) %>
 <%= render("shared/list", user: @guest, model: Program) %>
@@ -50,4 +49,46 @@
   <%= render("shared/list", user: @guest, model: ::Error) %>
   <%= render("shared/list", user: @guest, model: ErrorOccurrence) %>
   <%= render("shared/list", user: @guest, model: Job) %>
+<% end %>
+
+<% if can?(:index, Version) %>
+  <div class="p font-bold">
+    <%= link_to(t(".versions"), [@guest, :versions], class: :link) %>
+  </div>
+
+  <% if can?(:create, Version) %>
+    <div class="p">
+      <%= link_to(t(".new_version"), [:new, @guest, :version], class: "button") %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "versions/version",
+    collection: @versions,
+    as: :version,
+    locals: {
+      nested: [@guest]
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, Log) %>
+  <div class="p font-bold">
+    <%= link_to(t(".logs"), [@guest, :logs], class: :link) %>
+  </div>
+
+  <% if can?(:create, Log) %>
+    <div class="p">
+      <%= link_to(t(".new_log"), [:new, @guest, :log], class: "button") %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "logs/log",
+    collection: @logs,
+    as: :log,
+    locals: {
+      nested: [@guest]
+    }
+  ) %>
 <% end %>

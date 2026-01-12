@@ -7,7 +7,7 @@ class AdminConstraints
 end
 
 Rails.application.routes.draw do
-  mount ActionCable.server => "/cable"
+  mount(ActionCable.server => "/cable")
 
   define_all_delete =
     lambda do |action, controller|
@@ -34,19 +34,48 @@ Rails.application.routes.draw do
 
   define_delete_destroy =
     lambda do
-      delete :delete
-      delete :destroy
+      delete(:delete)
+      delete(:destroy)
+    end
+
+  define_logs_versions =
+    lambda do
+      resources(:logs) do
+        define_delete_destroy.call
+        define_all_delete.call(:destroy, :logs)
+        define_all_delete.call(:delete, :logs)
+
+        resources(:versions) do
+          define_delete_destroy.call
+          define_all_delete.call(:destroy, :versions)
+          define_all_delete.call(:delete, :versions)
+        end
+      end
+
+      resources(:versions) do
+        define_delete_destroy.call
+        define_all_delete.call(:destroy, :versions)
+        define_all_delete.call(:delete, :versions)
+
+        resources(:logs) do
+          define_delete_destroy.call
+          define_all_delete.call(:destroy, :logs)
+          define_all_delete.call(:delete, :logs)
+        end
+      end
     end
 
   define_errors =
     lambda do
       resources(:errors) do
         define_delete_destroy.call
+        define_logs_versions.call
         define_all_delete.call(:destroy, :errors)
         define_all_delete.call(:delete, :errors)
 
         resources(:error_occurrences) do
           define_delete_destroy.call
+          define_logs_versions.call
           define_all_delete.call(:destroy, :error_occurrences)
           define_all_delete.call(:delete, :error_occurrences)
         end
@@ -54,6 +83,7 @@ Rails.application.routes.draw do
 
       resources(:error_occurrences) do
         define_delete_destroy.call
+        define_logs_versions.call
         define_all_delete.call(:destroy, :error_occurrences)
         define_all_delete.call(:delete, :error_occurrences)
       end
@@ -63,6 +93,7 @@ Rails.application.routes.draw do
     lambda do |resource|
       resources(resource) do
         define_delete_destroy.call
+        define_logs_versions.call
         define_all_delete.call(:destroy, resource)
         define_all_delete.call(:delete, resource)
 
@@ -97,8 +128,9 @@ Rails.application.routes.draw do
     lambda do
       resources(:jobs) do
         define_delete_destroy.call
-        post :discard
-        post :retry
+        define_logs_versions.call
+        post(:discard)
+        post(:retry)
 
         define_all_delete.call(:destroy, :jobs)
         define_all_delete.call(:delete, :jobs)
@@ -114,31 +146,22 @@ Rails.application.routes.draw do
 
   define =
     lambda do
-      resources :data do
+      resources(:data) do
         define_delete_destroy.call
+        define_logs_versions.call
         define_all_delete.call(:destroy, :data)
         define_all_delete.call(:delete, :data)
 
         define_errors.call
       end
 
-      resources :attachments, path: "/files" do
-        get :preview
-        get :download
+      resources(:programs) do
+        post(:evaluate)
+        post(:schedule)
+        post(:unschedule)
 
         define_delete_destroy.call
-        define_all_delete.call(:destroy, :attachments)
-        define_all_delete.call(:delete, :attachments)
-
-        define_errors.call
-      end
-
-      resources :programs do
-        post :evaluate
-        post :schedule
-        post :unschedule
-
-        define_delete_destroy.call
+        define_logs_versions.call
         define_all_patch.call(:schedule, :programs)
         define_all_patch.call(:unschedule, :programs)
         define_all_delete.call(:destroy, :programs)
@@ -146,11 +169,13 @@ Rails.application.routes.draw do
 
         resources(:program_prompts) do
           define_delete_destroy.call
+          define_logs_versions.call
           define_all_delete.call(:destroy, :program_prompts)
           define_all_delete.call(:delete, :program_prompts)
 
           resources(:program_prompt_schedules) do
             define_delete_destroy.call
+            define_logs_versions.call
             define_all_delete.call(:destroy, :program_prompt_schedules)
             define_all_delete.call(:delete, :program_prompt_schedules)
 
@@ -163,6 +188,7 @@ Rails.application.routes.draw do
 
         resources(:program_executions) do
           define_delete_destroy.call
+          define_logs_versions.call
           define_all_delete.call(:destroy, :program_executions)
           define_all_delete.call(:delete, :program_executions)
 
@@ -171,6 +197,7 @@ Rails.application.routes.draw do
 
         resources(:program_schedules) do
           define_delete_destroy.call
+          define_logs_versions.call
           define_all_delete.call(:destroy, :program_schedules)
           define_all_delete.call(:delete, :program_schedules)
 
@@ -179,6 +206,7 @@ Rails.application.routes.draw do
 
         resources(:program_prompt_schedules) do
           define_delete_destroy.call
+          define_logs_versions.call
           define_all_delete.call(:destroy, :program_prompt_schedules)
           define_all_delete.call(:delete, :program_prompt_schedules)
 
@@ -189,16 +217,18 @@ Rails.application.routes.draw do
         define_jobs.call
       end
 
-      resources :email_addresses do
+      resources(:email_addresses) do
         define_delete_destroy.call
+        define_logs_versions.call
         define_all_delete.call(:destroy, :email_addresses)
         define_all_delete.call(:delete, :email_addresses)
 
         define_errors.call
       end
 
-      resources :phone_numbers do
+      resources(:phone_numbers) do
         define_delete_destroy.call
+        define_logs_versions.call
         define_all_delete.call(:destroy, :phone_numbers)
         define_all_delete.call(:delete, :phone_numbers)
 
@@ -207,6 +237,7 @@ Rails.application.routes.draw do
 
       resources(:program_executions) do
         define_delete_destroy.call
+        define_logs_versions.call
         define_all_delete.call(:destroy, :program_executions)
         define_all_delete.call(:delete, :program_executions)
 
@@ -215,6 +246,7 @@ Rails.application.routes.draw do
 
       resources(:time_zones) do
         define_delete_destroy.call
+        define_logs_versions.call
         define_all_delete.call(:destroy, :time_zones)
         define_all_delete.call(:delete, :time_zones)
 
@@ -222,9 +254,10 @@ Rails.application.routes.draw do
       end
 
       resources(:passwords) do
-        post :check, on: :collection
+        post(:check, on: :collection)
 
         define_delete_destroy.call
+        define_logs_versions.call
         define_all_delete.call(:destroy, :passwords)
         define_all_delete.call(:delete, :passwords)
 
@@ -233,6 +266,7 @@ Rails.application.routes.draw do
 
       resources(:program_schedules) do
         define_delete_destroy.call
+        define_logs_versions.call
         define_all_delete.call(:destroy, :program_schedules)
         define_all_delete.call(:delete, :program_schedules)
 
@@ -241,6 +275,7 @@ Rails.application.routes.draw do
 
       resources(:devices) do
         define_delete_destroy.call
+        define_logs_versions.call
         define_all_delete.call(:destroy, :devices)
         define_all_delete.call(:delete, :devices)
 
@@ -248,11 +283,12 @@ Rails.application.routes.draw do
       end
 
       resources(:messages) do
-        get :content
-        get :subject
-        get :body
+        get(:content)
+        get(:subject)
+        get(:body)
 
         define_delete_destroy.call
+        define_logs_versions.call
         define_all_delete.call(:destroy, :messages)
         define_all_delete.call(:delete, :messages)
 
@@ -261,6 +297,7 @@ Rails.application.routes.draw do
 
       resources(:handles) do
         define_delete_destroy.call
+        define_logs_versions.call
         define_all_delete.call(:destroy, :handles)
         define_all_delete.call(:delete, :handles)
 
@@ -269,6 +306,7 @@ Rails.application.routes.draw do
 
       resources(:addresses) do
         define_delete_destroy.call
+        define_logs_versions.call
         define_all_delete.call(:destroy, :addresses)
         define_all_delete.call(:delete, :addresses)
 
@@ -277,6 +315,7 @@ Rails.application.routes.draw do
 
       resources(:guests) do
         define_delete_destroy.call
+        define_logs_versions.call
         define_all_delete.call(:destroy, :guests)
         define_all_delete.call(:delete, :guests)
 
@@ -285,6 +324,7 @@ Rails.application.routes.draw do
 
       resources(:names) do
         define_delete_destroy.call
+        define_logs_versions.call
         define_all_delete.call(:destroy, :names)
         define_all_delete.call(:delete, :names)
 
@@ -293,14 +333,23 @@ Rails.application.routes.draw do
 
       resources(:tokens) do
         define_delete_destroy.call
+        define_logs_versions.call
         define_all_delete.call(:destroy, :tokens)
         define_all_delete.call(:delete, :tokens)
 
         define_errors.call
       end
 
+      resources(:sessions) do
+        define_delete_destroy.call
+        define_logs_versions.call
+        define_all_delete.call(:destroy, :sessions)
+        define_all_delete.call(:delete, :sessions)
+      end
+
       resources(:program_prompt_schedules) do
         define_delete_destroy.call
+        define_logs_versions.call
         define_all_delete.call(:destroy, :program_prompt_schedules)
         define_all_delete.call(:delete, :program_prompt_schedules)
 
@@ -309,11 +358,13 @@ Rails.application.routes.draw do
 
       resources(:program_prompts) do
         define_delete_destroy.call
+        define_logs_versions.call
         define_all_delete.call(:destroy, :program_prompts)
         define_all_delete.call(:delete, :program_prompts)
 
         resources(:program_prompt_schedules) do
           define_delete_destroy.call
+          define_logs_versions.call
           define_all_delete.call(:destroy, :program_prompt_schedules)
           define_all_delete.call(:delete, :program_prompt_schedules)
 
@@ -328,11 +379,12 @@ Rails.application.routes.draw do
       define_job_admin_resources.call
       define_errors.call
       define_jobs.call
+      define_logs_versions.call
     end
 
   default_url_options(host: ENV.fetch("BASE_URL", nil))
 
-  scope "(:locale)", locale: /en|fr|/ do
+  scope("(:locale)", locale: /en|fr|/) do
     resources(:guests) do
       define_delete_destroy.call
       define_all_delete.call(:destroy, :guests)
@@ -342,7 +394,7 @@ Rails.application.routes.draw do
     end
 
     resources(:users) do
-      post :impersonate
+      post(:impersonate)
 
       define_delete_destroy.call
       define_all_delete.call(:destroy, :users)
@@ -353,67 +405,80 @@ Rails.application.routes.draw do
 
     define.call
 
-    resources :configurations do
+    resources(:configurations) do
       define_delete_destroy.call
+      define_logs_versions.call
       define_all_delete.call(:destroy, :configurations)
       define_all_delete.call(:delete, :configurations)
     end
 
-    resources :logs do
+    resources(:logs) do
       define_delete_destroy.call
+      define_logs_versions.call
       define_all_delete.call(:destroy, :logs)
       define_all_delete.call(:delete, :logs)
     end
 
-    resources :examples do
+    resources(:versions) do
       define_delete_destroy.call
+      define_logs_versions.call
+      define_all_delete.call(:destroy, :versions)
+      define_all_delete.call(:delete, :versions)
+    end
+
+    resources(:examples) do
+      define_delete_destroy.call
+      define_logs_versions.call
       define_all_delete.call(:destroy, :examples)
       define_all_delete.call(:delete, :examples)
 
-      resources :example_schedules do
+      resources(:example_schedules) do
         define_delete_destroy.call
+        define_logs_versions.call
         define_all_delete.call(:destroy, :example_schedules)
         define_all_delete.call(:delete, :example_schedules)
       end
     end
 
-    resources :example_schedules do
+    resources(:example_schedules) do
       define_delete_destroy.call
+      define_logs_versions.call
       define_all_delete.call(:destroy, :example_schedules)
       define_all_delete.call(:delete, :example_schedules)
     end
 
-    resources :country_code_ip_addresses do
-      post :lookup
+    resources(:country_code_ip_addresses) do
+      post(:lookup)
 
       define_delete_destroy.call
+      define_logs_versions.call
       define_all_delete.call(:destroy, :country_code_ip_addresses)
       define_all_delete.call(:delete, :country_code_ip_addresses)
     end
 
-    resource :session do
-      delete :delete
+    patch(:time_zone, to: "users#update_time_zone")
+
+    resource(:session, controller: :session, as: :login) do
+      define_delete_destroy.call
     end
 
-    patch :time_zone, to: "users#update_time_zone"
+    get(:up, to: "static#up")
+    get(:about, to: "static#about")
+    get(:terms, to: "static#terms")
+    get(:privacy, to: "static#privacy")
+    get(:icons, to: "static#icons")
+    get(:ios, to: "static#ios")
+    get(:android, to: "static#android")
+    get(:download, to: "static#download")
+    get(:form, to: "static#form")
+    get(:admin, to: "static#admin")
 
-    get :up, to: "static#up"
-    get :about, to: "static#about"
-    get :terms, to: "static#terms"
-    get :privacy, to: "static#privacy"
-    get :icons, to: "static#icons"
-    get :ios, to: "static#ios"
-    get :android, to: "static#android"
-    get :download, to: "static#download"
-    get :form, to: "static#form"
-    get :admin, to: "static#admin"
+    match("/404", to: "errors#not_found", via: :all)
+    match("/422", to: "errors#unprocessable_entity", via: :all)
+    match("/500", to: "errors#internal_server_error", via: :all)
 
-    match "/404", to: "errors#not_found", via: :all
-    match "/422", to: "errors#unprocessable_entity", via: :all
-    match "/500", to: "errors#internal_server_error", via: :all
+    root(to: "static#home")
 
-    root to: "static#home"
-
-    match "*path", to: "errors#not_found", via: :all
+    match("*path", to: "errors#not_found", via: :all)
   end
 end

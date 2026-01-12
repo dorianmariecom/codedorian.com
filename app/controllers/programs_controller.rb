@@ -18,7 +18,6 @@ class ProgramsController < ApplicationController
     @program_executions = program_executions_scope
     @program_prompt_schedules = program_prompt_schedules_scope
     @data = data_scope
-    @attachments = attachments_scope
     @examples = examples_scope
   end
 
@@ -34,6 +33,10 @@ class ProgramsController < ApplicationController
 
     @program_prompt_schedules =
       program_prompt_schedules_scope.order(created_at: :asc).page(params[:page])
+
+    @versions = versions_scope.order(created_at: :desc).page(params[:page])
+
+    @logs = logs_scope.order(created_at: :desc).page(params[:page])
   end
 
   def evaluate
@@ -111,7 +114,7 @@ class ProgramsController < ApplicationController
           flash.now.alert = @program_prompt.alert
         end
 
-        redirect_to(edit_url)
+        redirect_to(edit_url, notice: t(".notice"))
       else
         redirect_to(show_url, notice: t(".notice"))
       end
@@ -153,7 +156,7 @@ class ProgramsController < ApplicationController
           flash.now.alert = @program_prompt.alert
         end
 
-        head :no_content
+        head(:no_content)
       else
         redirect_to(show_url, notice: t(".notice"))
       end
@@ -183,7 +186,7 @@ class ProgramsController < ApplicationController
 
     scope.schedule_all
 
-    redirect_back_or_to(index_url)
+    redirect_back_or_to(index_url, notice: t(".notice"))
   end
 
   def unschedule_all
@@ -191,7 +194,7 @@ class ProgramsController < ApplicationController
 
     scope.unschedule_all
 
-    redirect_back_or_to(index_url)
+    redirect_back_or_to(index_url, notice: t(".notice"))
   end
 
   def destroy_all
@@ -199,7 +202,7 @@ class ProgramsController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(index_url)
+    redirect_back_or_to(index_url, notice: t(".notice"))
   end
 
   def delete_all
@@ -207,7 +210,7 @@ class ProgramsController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(index_url)
+    redirect_back_or_to(index_url, notice: t(".notice"))
   end
 
   private
@@ -281,6 +284,12 @@ class ProgramsController < ApplicationController
     scope
   end
 
+  def versions_scope
+    scope = policy_scope(Version)
+    scope = scope.where_program(@program) if @program
+    scope
+  end
+
   def data_scope
     scope = policy_scope(Datum)
     scope = scope.where_guest(@guest) if @guest
@@ -288,15 +297,14 @@ class ProgramsController < ApplicationController
     scope
   end
 
-  def attachments_scope
-    scope = policy_scope(Attachment)
-    scope = scope.where_guest(@guest) if @guest
-    scope = scope.where_user(@user) if @user
-    scope
-  end
-
   def examples_scope
     policy_scope(Example)
+  end
+
+  def logs_scope
+    scope = policy_scope(Log)
+    scope = scope.where_program(@program) if @program
+    scope
   end
 
   def model_class

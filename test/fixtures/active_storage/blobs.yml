@@ -1,2 +1,0 @@
-test_txt:
-  <%= ActiveStorage::FixtureSet.blob filename: "test.txt", content_type: "text/plain" %>

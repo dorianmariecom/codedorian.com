@@ -11,6 +11,7 @@ class JobSemaphoresController < ApplicationController
   end
 
   def show
+    @logs = logs_scope.order(created_at: :desc).page(params[:page])
   end
 
   def new
@@ -65,7 +66,7 @@ class JobSemaphoresController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(index_url)
+    redirect_back_or_to(index_url, notice: t(".notice"))
   end
 
   def delete_all
@@ -73,7 +74,7 @@ class JobSemaphoresController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(index_url)
+    redirect_back_or_to(index_url, notice: t(".notice"))
   end
 
   private
@@ -90,6 +91,12 @@ class JobSemaphoresController < ApplicationController
 
   def scope
     searched_policy_scope(JobSemaphore)
+  end
+
+  def logs_scope
+    scope = policy_scope(Log)
+    scope = scope.where_job_semaphore(@job_semaphore) if @job_semaphore
+    scope
   end
 
   def model_class

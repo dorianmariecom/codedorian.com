@@ -1,26 +1,26 @@
 <div class="p p--flex">
   <% if registered? %>
-    <%= link_to(t(".account"), current_user, class: "link") %>
+    <%= link_to(t(".account"), current_user, class: :link) %>
   <% else %>
-    <%= link_to(t(".register"), %i[new user], class: "link") %>
-    <%= link_to(t(".log_in"), %i[new session], class: "link") %>
+    <%= link_to(t(".register"), %i[new user], class: :link) %>
+    <%= link_to(t(".log_in"), %i[new session], class: :link) %>
   <% end %>
 
-  <%= link_to(t(".programs"), [current_user_or_guest, :programs], class: "link") %>
+  <%= link_to(t(".programs"), [current_user_or_guest, :programs], class: :link) %>
 
   <% if registered? %>
-    <%= link_to(t(".messages"), [current_user_or_guest, :messages], class: "link") %>
+    <%= link_to(t(".messages"), [current_user_or_guest, :messages], class: :link) %>
   <% end %>
 
-  <%= link_to(t(".about"), :about, class: "link") %>
+  <%= link_to(t(".about"), :about, class: :link) %>
 
   <% if admin? %>
-    <%= link_to(t(".admin"), :admin, class: "link") %>
+    <%= link_to(t(".admin"), :admin, class: :link) %>
   <% end %>
 
   <% if fr? %>
-    <%= link_to(t(".english"), url_for(locale: :en), class: "link") %>
+    <%= link_to(t(".english"), url_for(locale: :en), class: :link) %>
   <% else %>
-    <%= link_to(t(".french"), url_for(locale: :fr), class: "link") %>
+    <%= link_to(t(".french"), url_for(locale: :fr), class: :link) %>
   <% end %>
 </div>

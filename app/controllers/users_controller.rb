@@ -20,7 +20,7 @@ class UsersController < ApplicationController
     session[:previous_user_ids] << current_user.id
     session[:user_id] = @user.id
 
-    redirect_to(show_url)
+    redirect_to(show_url, notice: t(".notice"))
   end
 
   def update_time_zone
@@ -45,6 +45,8 @@ class UsersController < ApplicationController
   end
 
   def show
+    @versions = versions_scope.order(created_at: :desc).page(params[:page])
+    @logs = logs_scope.order(created_at: :desc).page(params[:page])
   end
 
   def new
@@ -107,7 +109,7 @@ class UsersController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(index_url)
+    redirect_back_or_to(index_url, notice: t(".notice"))
   end
 
   def delete_all
@@ -115,7 +117,7 @@ class UsersController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(index_url)
+    redirect_back_or_to(index_url, notice: t(".notice"))
   end
 
   private
@@ -134,6 +136,18 @@ class UsersController < ApplicationController
 
   def scope
     searched_policy_scope(User)
+  end
+
+  def versions_scope
+    scope = policy_scope(Version)
+    scope = scope.where_user(@user) if @user
+    scope
+  end
+
+  def logs_scope
+    scope = policy_scope(Log)
+    scope = scope.where_user(@user) if @user
+    scope
   end
 
   def model_class

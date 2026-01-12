@@ -21,6 +21,8 @@ class ProgramPromptSchedulesController < ApplicationController
   end
 
   def show
+    @versions = versions_scope.order(created_at: :desc).page(params[:page])
+    @logs = logs_scope.order(created_at: :desc).page(params[:page])
   end
 
   def new
@@ -80,7 +82,7 @@ class ProgramPromptSchedulesController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(index_url)
+    redirect_back_or_to(index_url, notice: t(".notice"))
   end
 
   def delete_all
@@ -88,7 +90,7 @@ class ProgramPromptSchedulesController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(index_url)
+    redirect_back_or_to(index_url, notice: t(".notice"))
   end
 
   private
@@ -157,6 +159,14 @@ class ProgramPromptSchedulesController < ApplicationController
     scope
   end
 
+  def versions_scope
+    scope = policy_scope(Version)
+    if @program_prompt_schedule
+      scope = scope.where_program_prompt_schedule(@program_prompt_schedule)
+    end
+    scope
+  end
+
   def program_prompt_scope
     scope = policy_scope(ProgramPrompt)
     scope = scope.where_guest(@guest) if @guest
@@ -169,6 +179,14 @@ class ProgramPromptSchedulesController < ApplicationController
     scope = policy_scope(Program)
     scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
+    scope
+  end
+
+  def logs_scope
+    scope = policy_scope(Log)
+    if @program_prompt_schedule
+      scope = scope.where_program_prompt_schedule(@program_prompt_schedule)
+    end
     scope
   end
 

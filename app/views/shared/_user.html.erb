@@ -1,5 +1,5 @@
 <% if can?(:show, user) %>
-  <div class="font-bold"><%= link_to(user, user, class: "link") %></div>
+  <div class="font-bold"><%= link_to(user, user, class: :link) %></div>
 <% else %>
   <div class="font-bold"><%= user %></div>
 <% end %>

@@ -1,6 +1,7 @@
+---
 job_semaphore:
-  key: "program:daily-studio-digest"
+  created_at: '2025-03-05 09:00:00'
+  expires_at: '2025-03-05 09:15:00'
+  key: program:daily-studio-digest
+  updated_at: '2025-03-05 09:00:00'
   value: 1
-  expires_at: 2025-03-05 09:15:00
-  created_at: 2025-03-05 09:00:00
-  updated_at: 2025-03-05 09:00:00

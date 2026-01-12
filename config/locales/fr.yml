@@ -178,6 +178,13 @@ fr:
         admin: admin ?
         locale: langage
         verified: vérifié ?
+      version:
+        event: événement
+        item_id: élément
+        item_type: type d'élément
+        object: objet
+        object_changes: changements d'objet
+        whodunnit: auteur
     errors:
       models:
         phone_number:
@@ -186,8 +193,12 @@ fr:
   addresses:
     create:
       notice: adresse créée
+    delete_all:
+      notice: adresses supprimées
     destroy:
       notice: adresse supprimée
+    destroy_all:
+      notice: adresses détruites
     edit:
       submit: mettre à jour l'adresse
       title: modifier l'adresse
@@ -209,58 +220,29 @@ fr:
     show:
       address: adresse
       autocomplete: saisie semi-automatique
+      backtrace: backtrace
       created_at: créé à
       delete: supprimer l'adresse
       destroy: détruire l'adresse
       edit: modifier l'adresse
       id: identifiant
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
       primary: principal ?
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifié ?
+      versions: versions
     update:
       notice: adresse mise à jour
   application:
     current_user_required: utilisateur actuel requis
-  attachments:
-    create:
-      notice: fichier créé
-    destroy:
-      notice: fichier supprimé
-    edit:
-      submit: mettre à jour le fichier
-      title: modifier le fichier
-    index:
-      delete_all: supprimer tout
-      destroy_all: détruire tout
-      new: nouveau fichier
-      title: fichiers
-    model:
-      to_s: fichier#%{id}
-    new:
-      submit: créer un fichier
-      title: nouveau fichier
-    show:
-      created_at: créé à
-      delete: supprimer le fichier
-      destroy: détruire le fichier
-      download: télécharger
-      edit: modifier le fichier
-      id: identifiant
-      preview: aperçu
-      updated_at: mis à jour à
-      user: utilisateur
-    update:
-      notice: fichier mis à jour
   breadcrumbs:
     addresses:
       edit: modifier
       index: adresses
       new: nouvelle
-    attachments:
-      edit: modifier
-      index: fichiers
-      new: nouveau
     configurations:
       edit: modifier
       index: configurations
@@ -399,6 +381,9 @@ fr:
       edit: modifier
       index: programmes
       new: nouveau
+    session:
+      create: connexion
+      new: connexion
     sessions:
       edit: modifier
       index: sessions
@@ -424,11 +409,19 @@ fr:
       edit: modifier
       index: utilisateurs
       new: nouveau
+    versions:
+      edit: modifier
+      index: versions
+      new: nouvelle
   configurations:
     create:
       notice: configuration créée
+    delete_all:
+      notice: configurations supprimées
     destroy:
       notice: configuration supprimée
+    destroy_all:
+      notice: configurations détruites
     edit:
       submit: mettre à jour la configuration
       title: modifier la configuration
@@ -450,15 +443,23 @@ fr:
       destroy: détruire la configuration
       edit: modifier la configuration
       id: identifiant
+      logs: logs
       name: nom
+      new_log: nouveau log
+      new_version: nouvelle version
       updated_at: mise à jour à
+      versions: versions
     update:
       notice: configuration mise à jour
   country_code_ip_addresses:
     create:
       notice: code pays adresse ip créée
+    delete_all:
+      notice: codes pays adresses ip supprimés
     destroy:
       notice: code pays adresse ip supprimée
+    destroy_all:
+      notice: codes pays adresses ip détruits
     edit:
       submit: mettre à jour du code pays adresse ip
       title: modifier le code pays adresse ip
@@ -482,8 +483,12 @@ fr:
       edit: modifier le code pays adresse ip
       id: identifiant
       ip_address: adresse ip
+      logs: logs
       lookup: rechercher
+      new_log: nouveau log
+      new_version: nouvelle version
       updated_at: mis à jour à
+      versions: versions
     update:
       notice: code pays adresse ip mis à jour
   current:
@@ -497,8 +502,12 @@ fr:
   data:
     create:
       notice: donnée créée
+    delete_all:
+      notice: données supprimées
     destroy:
       notice: donnée supprimée
+    destroy_all:
+      notice: données détruites
     edit:
       submit: mettre à jour la donnée
       title: modifier la donnée
@@ -520,16 +529,24 @@ fr:
       edit: modifier la donnée
       id: identifiant
       key: clef
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
       updated_at: mis à jour à
       user: utilisateur
       value: valeur
+      versions: versions
     update:
       notice: donnée mise à jour
   devices:
     create:
       notice: appareil créé
+    delete_all:
+      notice: appareils supprimés
     destroy:
       notice: appareil supprimé
+    destroy_all:
+      notice: appareils détruits
     edit:
       submit: mettre à jour l'appareil
       title: modifier l'appareil
@@ -549,19 +566,27 @@ fr:
       destroy: détruire l'appareil
       edit: modifier l'appareil
       id: identifiant
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
       platform: appareil
       primary: principal ?
       token: jeton
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifié ?
+      versions: versions
     update:
       notice: appareil mis à jour
   email_addresses:
     create:
       notice: adresse e-mail créée
+    delete_all:
+      notice: adresses e-mail supprimées
     destroy:
       notice: adresse e-mail supprimée
+    destroy_all:
+      notice: adresses e-mail détruites
     edit:
       submit: mettre à jour l'adresse e-mail
       title: modifier l'adresse e-mail
@@ -590,17 +615,25 @@ fr:
       edit: modifier l'adresse e-mail
       email_address: adresse email
       id: identifiant
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
       primary: principal ?
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifié ?
+      versions: versions
     update:
       notice: adresse e-mail mise à jour
   error_occurrences:
     create:
       notice: occurence d'erreur créée
+    delete_all:
+      notice: occurences d'erreur supprimées
     destroy:
       notice: occurence d'erreur supprimée
+    destroy_all:
+      notice: occurences d'erreur détruites
     edit:
       submit: mettre à jour l'occurence d'erreur
       title: modifier l'occurence d'erreur
@@ -625,14 +658,22 @@ fr:
       error: erreur
       full_backtrace: trace complète
       id: identifiant
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
       updated_at: mis à jour à
+      versions: versions
     update:
       notice: occurence d'erreur mise à jour
   errors:
     create:
       notice: erreur créée
+    delete_all:
+      notice: erreurs supprimées
     destroy:
       notice: erreur supprimée
+    destroy_all:
+      notice: erreurs détruites
     edit:
       submit: mettre à jour l'erreur
       title: modifier l'erreur
@@ -646,7 +687,7 @@ fr:
       new: nouvelle erreur
       title: erreurs
     internal_server_error:
-      title: Erreur interne du serveur
+      title: erreur interne du serveur
     model:
       to_s: erreur#%{id}
     new:
@@ -663,12 +704,16 @@ fr:
       exception_class: classe d'exception
       fingerprint: empreinte
       id: identifiant
+      logs: logs
       message: message
+      new_log: nouveau log
+      new_version: nouvelle version
       resolved_at: résolue à
       severity: gravité
       source: source
       updated_at: mis à jour à
       verified: vérifié ?
+      versions: versions
     unprocessable_entity:
       title: entité non traitable
     update:
@@ -676,8 +721,12 @@ fr:
   example_schedules:
     create:
       notice: horaire de l'exemple créée
+    delete_all:
+      notice: horaires d'exemples supprimées
     destroy:
       notice: horaire de l'exemple supprimée
+    destroy_all:
+      notice: horaires d'exemples détruites
     edit:
       submit: mettre à jour l'horaire de l'exemple
       title: modifier l'horaire de l'exemple
@@ -736,17 +785,25 @@ fr:
       example: exemple
       id: identifiant
       interval: intervalle
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
       schedule_html: commence %{local_time}, se répète tous les %{interval}
       schedule_once_html: commence %{local_time}, ne se répète pas
       starts_at: commence à
       updated_at: mis à jour à
+      versions: versions
     update:
       notice: horaire d'exemple mis à jour
   examples:
     create:
       notice: exemple créé
+    delete_all:
+      notice: exemples supprimés
     destroy:
       notice: exemple supprimé
+    destroy_all:
+      notice: exemples détruits
     edit:
       submit: mettre à jour l'exemple
       title: modifier l'exemple
@@ -774,18 +831,26 @@ fr:
       id: identifiant
       input: entrée
       locale: langage
+      logs: logs
       name: nom
       new_example_schedule: nouvelle horaire d'exemple
+      new_log: nouveau log
+      new_version: nouvelle version
       position: position
       title: titre
       updated_at: mis à jour à
+      versions: versions
     update:
       notice: exemple mis à jour
   guests:
     create:
       notice: invité créé
+    delete_all:
+      notice: invités supprimés
     destroy:
       notice: invité supprimé
+    destroy_all:
+      notice: invités détruits
     edit:
       submit: mettre à jour l'invité
       title: modifier l'invité
@@ -805,14 +870,22 @@ fr:
       destroy: détruire l'invité
       edit: modifier l'invité
       id: identifiant
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
       updated_at: mis à jour à
+      versions: versions
     update:
       notice: invité mis à jour
   handles:
     create:
       notice: identifiant créée
+    delete_all:
+      notice: identifiants supprimés
     destroy:
       notice: identifiant supprimée
+    destroy_all:
+      notice: identifiants détruits
     edit:
       submit: identifiant de mise à jour
       title: modifier la identifiant
@@ -841,10 +914,14 @@ fr:
       edit: modifier la identifiant
       handle: identifiant
       id: identifiant
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
       primary: principal ?
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifié ?
+      versions: versions
     update:
       notice: identifiant mise à jour
   helpers:
@@ -901,8 +978,12 @@ fr:
   job_blocked_executions:
     create:
       notice: exécution de tâche bloquée créée
+    delete_all:
+      notice: exécutions de tâches bloquées supprimées
     destroy:
       notice: exécution de tâche bloquée supprimée
+    destroy_all:
+      notice: exécutions de tâches bloquées détruites
     edit:
       submit: mettre à jour l'exécution de tâche bloquée
       title: modifier l'exécution de tâche bloquée
@@ -926,16 +1007,24 @@ fr:
       id: identifiant
       job: tâche
       job_id: tâche
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
       priority: priorité
       queue_name: nom de la file d'attente
       updated_at: mise à jour à
+      versions: versions
     update:
       notice: exécution de tâche bloquée mise à jour
   job_claimed_executions:
     create:
       notice: exécution de tâche revendiquée créée
+    delete_all:
+      notice: exécutions de tâches revendiquées supprimées
     destroy:
       notice: exécution de tâche revendiquée supprimée
+    destroy_all:
+      notice: exécutions de tâches revendiquées détruites
     edit:
       submit: mettre à jour l'exécution de tâche revendiquée
       title: modifier l'exécution de tâche revendiquée
@@ -957,15 +1046,23 @@ fr:
       id: identifiant
       job: tâche
       job_id: tâche
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
       process_id: processus
       updated_at: mise à jour à
+      versions: versions
     update:
       notice: exécution de tâche revendiquée mise à jour
   job_contexts:
     create:
       notice: contexte de tâche créé
+    delete_all:
+      notice: contextes de tâches supprimés
     destroy:
       notice: contexte de tâche supprimé
+    destroy_all:
+      notice: contextes de tâches détruits
     edit:
       submit: mettre à jour le contexte de tâche
       title: modifier le contexte de tâche
@@ -989,14 +1086,22 @@ fr:
       edit: modifier le contexte de tâche
       id: identifiant
       job: tâche
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
       updated_at: mise à jour à
+      versions: versions
     update:
       notice: contexte de tâche mis à jour
   job_failed_executions:
     create:
       notice: exécution de tâche échouée créée
+    delete_all:
+      notice: exécutions de tâches échouées supprimées
     destroy:
       notice: exécution de tâche échouée supprimée
+    destroy_all:
+      notice: exécutions de tâches échouées détruites
     edit:
       submit: mettre à jour l'exécution de tâche échouée
       title: modifier l'exécution de tâche échouée
@@ -1020,14 +1125,22 @@ fr:
       id: identifiant
       job: tâche
       job_id: tâche
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
       updated_at: mise à jour à
+      versions: versions
     update:
       notice: exécution de tâche échouée mise à jour
   job_pauses:
     create:
       notice: pause de tâche créée
+    delete_all:
+      notice: pauses de tâches supprimées
     destroy:
       notice: pause de tâche supprimée
+    destroy_all:
+      notice: pauses de tâches détruites
     edit:
       submit: mettre à jour la pause de tâche
       title: modifier la pause de tâche
@@ -1047,15 +1160,23 @@ fr:
       destroy: détruire la pause de tâche
       edit: modifier la pause de tâche
       id: identifiant
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
       queue_name: nom de la file d'attente
       updated_at: mise à jour à
+      versions: versions
     update:
       notice: pause de tâche mise à jour
   job_processes:
     create:
       notice: processus de tâche créé
+    delete_all:
+      notice: processus de tâches supprimés
     destroy:
       notice: processus de tâche supprimé
+    destroy_all:
+      notice: processus de tâches détruits
     edit:
       submit: mettre à jour le processus de tâche
       title: modifier le processus de tâche
@@ -1079,18 +1200,26 @@ fr:
       id: identifiant
       kind: type
       last_heartbeat_at: dernier heartbeat à
+      logs: logs
       metadata: métadonnées
       name: nom
+      new_log: nouveau log
+      new_version: nouvelle version
       pid: pid
       supervisor_id: superviseur
       updated_at: mise à jour à
+      versions: versions
     update:
       notice: processus de tâche mis à jour
   job_ready_executions:
     create:
       notice: exécution de tâche prête créée
+    delete_all:
+      notice: exécutions de tâches prêtes supprimées
     destroy:
       notice: exécution de tâche prête supprimée
+    destroy_all:
+      notice: exécutions de tâches prêtes détruites
     edit:
       submit: mettre à jour l'exécution de tâche prête
       title: modifier l'exécution de tâche prête
@@ -1112,16 +1241,24 @@ fr:
       id: identifiant
       job: tâche
       job_id: tâche
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
       priority: priorité
       queue_name: nom de la file d'attente
       updated_at: mise à jour à
+      versions: versions
     update:
       notice: exécution de tâche prête mise à jour
   job_recurring_executions:
     create:
       notice: exécution récurrente de tâche créée
+    delete_all:
+      notice: exécutions récurrentes de tâches supprimées
     destroy:
       notice: exécution récurrente de tâche supprimée
+    destroy_all:
+      notice: exécutions récurrentes de tâches détruites
     edit:
       submit: mettre à jour l'exécution récurrente de tâche
       title: modifier l'exécution récurrente de tâche
@@ -1143,16 +1280,24 @@ fr:
       id: identifiant
       job: tâche
       job_id: tâche
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
       run_at: exécuter à
       task_key: clé de tâche
       updated_at: mise à jour à
+      versions: versions
     update:
       notice: exécution récurrente de tâche mise à jour
   job_recurring_tasks:
     create:
       notice: tâche récurrente créée
+    delete_all:
+      notice: tâches récurrentes supprimées
     destroy:
       notice: tâche récurrente supprimée
+    destroy_all:
+      notice: tâches récurrentes détruites
     edit:
       submit: mettre à jour la tâche récurrente
       title: modifier la tâche récurrente
@@ -1178,18 +1323,26 @@ fr:
       edit: modifier la tâche récurrente
       id: identifiant
       key: clé
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
       priority: priorité
       queue_name: nom de la file d'attente
       schedule: planification
       static: statique ?
       updated_at: mise à jour à
+      versions: versions
     update:
       notice: tâche récurrente mise à jour
   job_scheduled_executions:
     create:
       notice: exécution de tâche programmée créée
+    delete_all:
+      notice: exécutions de tâches programmées supprimées
     destroy:
       notice: exécution de tâche programmée supprimée
+    destroy_all:
+      notice: exécutions de tâches programmées détruites
     edit:
       submit: mettre à jour l'exécution de tâche programmée
       title: modifier l'exécution de tâche programmée
@@ -1211,17 +1364,25 @@ fr:
       id: identifiant
       job: tâche
       job_id: tâche
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
       priority: priorité
       queue_name: nom de la file d'attente
       scheduled_at: prévue à
       updated_at: mise à jour à
+      versions: versions
     update:
       notice: exécution de tâche programmée mise à jour
   job_semaphores:
     create:
       notice: sémaphore de tâche créé
+    delete_all:
+      notice: sémaphores de tâche supprimés
     destroy:
       notice: sémaphore de tâche supprimé
+    destroy_all:
+      notice: sémaphores de tâche détruits
     edit:
       submit: mettre à jour le sémaphore de tâche
       title: modifier le sémaphore de tâche
@@ -1244,8 +1405,12 @@ fr:
       expires_at: expire à
       id: identifiant
       key: clé
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
       updated_at: mise à jour à
       value: valeur
+      versions: versions
     update:
       notice: sémaphore de tâche mis à jour
   jobs:
@@ -1345,11 +1510,15 @@ fr:
       job_ready_executions: exécutions de tâches prêtes
       job_recurring_executions: exécutions récurrentes de tâches
       job_scheduled_executions: exécutions de tâches programmées
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
       priority: priorité
       queue_name: nom de la file d'attente
       retry: réessayer la tâche
       scheduled_at: prévue à
       updated_at: mise à jour à
+      versions: versions
     update:
       notice: tâche mise à jour
   layouts:
@@ -1375,7 +1544,7 @@ fr:
           not_present: doit être présent
         trix:
           GB: gb
-          KB: Ko
+          KB: ko
           MB: mb
           PB: pb
           TB: tuberculose
@@ -1390,7 +1559,7 @@ fr:
           indent: augmenter le niveau
           italic: italique
           link: lien
-          numbers: Nombres
+          numbers: nombres
           outdent: diminuer le niveau
           quote: citation
           redo: refaire
@@ -1398,8 +1567,8 @@ fr:
           strike: barré
           undo: défaire
           unlink: dissocier
-          url: URL
-          urlPlaceholder: entrez une URL…
+          url: url
+          urlPlaceholder: entrez une url…
         validation:
           not_email:
             feminine: doit être une adresse e-mail
@@ -1424,8 +1593,12 @@ fr:
   logs:
     create:
       notice: log créé
+    delete_all:
+      notice: logs supprimés
     destroy:
       notice: log supprimé
+    destroy_all:
+      notice: logs détruits
     edit:
       submit: mettre à jour le log
       title: modifier le log
@@ -1447,15 +1620,23 @@ fr:
       destroy: détruire le log
       edit: modifier le log
       id: identifiant
+      logs: logs
       message: message
+      new_log: nouveau log
+      new_version: nouvelle version
       updated_at: mis à jour à
+      versions: versions
     update:
       notice: log mis à jour
   messages:
     create:
       notice: message créé
+    delete_all:
+      notice: messages supprimés
     destroy:
       notice: message supprimé
+    destroy_all:
+      notice: messages détruits
     edit:
       submit: message de mise à jour
       title: modifier le message
@@ -1478,16 +1659,24 @@ fr:
       edit: modifier le message
       from_user: de l'utilisateur
       id: identifiant
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
       subject: sujet
       to_user: à l'utilisateur
       updated_at: mis à jour à
+      versions: versions
     update:
       notice: message mis à jour
   names:
     create:
       notice: nom créé
+    delete_all:
+      notice: noms supprimés
     destroy:
       notice: nom supprimé
+    destroy_all:
+      notice: noms détruits
     edit:
       submit: mettre à jour le nom
       title: modifier le nom
@@ -1519,10 +1708,14 @@ fr:
       family_name: nom de famille
       given_name: prénom
       id: identifiant
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
       primary: principal ?
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifié ?
+      versions: versions
     update:
       notice: nom mis à jour
   password_validator:
@@ -1539,8 +1732,12 @@ fr:
   passwords:
     create:
       notice: mot de passe créé
+    delete_all:
+      notice: mots de passe supprimés
     destroy:
       notice: mot de passe supprimé
+    destroy_all:
+      notice: mots de passe détruits
     edit:
       submit: mettre à jour le mot de passe
       title: modifier le mot de passe
@@ -1571,18 +1768,26 @@ fr:
       edit: modifier le mot de passe
       hint: indice
       id: identifiant
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
       password: mot de passe
       primary: principal ?
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifié ?
+      versions: versions
     update:
       notice: mot de passe mis à jour
   phone_numbers:
     create:
       notice: numéro de téléphone créé
+    delete_all:
+      notice: numéros de téléphone supprimés
     destroy:
       notice: numéro de téléphone supprimé
+    destroy_all:
+      notice: numéros de téléphone détruits
     edit:
       submit: mettre à jour le numéro de téléphone
       title: modifier le numéro de téléphone
@@ -1610,18 +1815,26 @@ fr:
       destroy: détruire le numéro de téléphone
       edit: modifier le numéro de téléphone
       id: identifiant
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
       phone_number: numéro de téléphone
       primary: principal ?
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifié ?
+      versions: versions
     update:
       notice: numéro de téléphone mis à jour
   program_executions:
     create:
       notice: exécution du programme créée
+    delete_all:
+      notice: exécutions de programmes supprimées
     destroy:
       notice: exécution du programme supprimée
+    destroy_all:
+      notice: exécutions de programmes détruites
     edit:
       submit: mettre à jour l'exécution du programme
       title: modifier l'exécution du programme
@@ -1653,18 +1866,26 @@ fr:
       error_message: message d'erreur
       id: identifiant
       input: entrée
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
       output: sortie
       program: programme
       result: résultat
       status: statut
       updated_at: mis à jour à
+      versions: versions
     update:
       notice: exécution du programme mise à jour
   program_prompt_schedules:
     create:
       notice: horaire d'invite de programme créé
+    delete_all:
+      notice: horaires d'invite de programme supprimés
     destroy:
       notice: horaire d'invite de programme supprimé
+    destroy_all:
+      notice: horaires d'invite de programme détruits
     edit:
       submit: horaire de mise à jour du programme
       title: modifier l'horaire d'invite de programme
@@ -1722,6 +1943,9 @@ fr:
       edit: modifier le programme d'invite de programmation
       id: identifiant
       interval: intervalle
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
       program: programme
       program_prompt: rapide
       schedule_html: commence %{local_time}, se répète tous les %{interval}
@@ -1729,13 +1953,18 @@ fr:
       starts_at: commence à
       updated_at: mis à jour à
       user: utilisateur
+      versions: versions
     update:
       notice: horaire d'invite de programme mis à jour
   program_prompts:
     create:
       notice: invite du programme créée
+    delete_all:
+      notice: invites du programme supprimées
     destroy:
       notice: invite du programme supprimée
+    destroy_all:
+      notice: invites du programme détruites
     edit:
       submit: mettre à jour l'invite de programme
       title: modifier l'invite de programme
@@ -1745,7 +1974,7 @@ fr:
       new: nouvelle invite de programme
       program_prompt_schedules:
         one: 1 programme d'invite de programme
-        other: Horaires d'invite du programme %{count}
+        other: "%{count} horaires d'invite du programme"
         zero: 0 horaires d'invite de programme
       title: invites du programme
     model:
@@ -1760,6 +1989,7 @@ fr:
       submit: créer l'invite de programme
       title: nouvelle invite de programme
     show:
+      backtrace: trace
       created_at: créé à
       delete: supprimer l'invite de programme
       destroy: détruire l'invite de programme
@@ -1771,8 +2001,11 @@ fr:
       error_message: message d'erreur
       id: identifiant
       input: entrée
+      logs: logs
       name: nom
+      new_log: nouveau log
       new_program_prompt_schedule: nouvel horaire
+      new_version: nouvelle version
       output: sortie
       output_input: sortie entrée
       output_name: sortie nom
@@ -1783,13 +2016,18 @@ fr:
       status: statut
       updated_at: mis à jour à
       user: utilisateur
+      versions: versions
     update:
       notice: invite du programme mise à jour
   program_schedules:
     create:
       notice: horaire de programmes créée
+    delete_all:
+      notice: horaires de programmes supprimés
     destroy:
       notice: horaire des programmes supprimée
+    destroy_all:
+      notice: horaires de programmes détruits
     edit:
       submit: mettre à jour l'horaire des programmes
       title: modifier la horaire des programmes
@@ -1847,19 +2085,27 @@ fr:
       edit: modifier la horaire des programmes
       id: identifiant
       interval: intervalle
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
       program: programme
       schedule_html: commence %{local_time}, se répète tous les %{interval}
       schedule_once_html: commence %{local_time}, ne se répète pas
       starts_at: commence à
       updated_at: mis à jour à
       user: utilisateur
+      versions: versions
     update:
       notice: horaire de programme mis à jour
   programs:
     create:
       notice: programme créé
+    delete_all:
+      notice: programmes supprimés
     destroy:
       notice: programme supprimé
+    destroy_all:
+      notice: programmes détruits
     edit:
       submit: mettre à jour le programme
       title: modifier le programme
@@ -1869,10 +2115,6 @@ fr:
       generate: générer
       generating: génération
     index:
-      attachments:
-        one: 1 fichier
-        other: "%{count} fichiers"
-        zero: 0 fichiers
       data:
         one: 1 donnée
         other: "%{count} données"
@@ -1910,6 +2152,8 @@ fr:
       title: nouveau programme
     schedule:
       notice: programme prévu
+    schedule_all:
+      notice: programmes prévus
     show:
       created_at: créé à
       delete: supprimer le programme
@@ -1918,10 +2162,13 @@ fr:
       evaluate: évaluer
       id: identifiant
       input: entrée
+      logs: logs
       name: nom
+      new_log: nouveau log
       new_program_prompt: invite de nouveau programme
       new_program_prompt_schedule: nouveau horaire des invites du programme
       new_program_schedule: nouvelle horaire de programmes
+      new_version: nouvelle version
       next_at: prochain à
       previous_at: précédent à
       program_executions: exécutions de programmes
@@ -1934,11 +2181,14 @@ fr:
       unschedule: déprogrammer
       updated_at: mis à jour à
       user: utilisateur
+      versions: versions
     unschedule:
       notice: programme deprogrammé
+    unschedule_all:
+      notice: programmes deprogrammés
     update:
       notice: programme mis à jour
-  sessions:
+  session:
     create:
       notice: connecté
       wrong_email_address: mauvaise adresse e-mail
@@ -1949,6 +2199,49 @@ fr:
       register: s'inscrire
       submit: se connecter
       title: connexion
+  sessions:
+    create:
+      notice: session créée
+    delete_all:
+      notice: sessions supprimées
+    destroy:
+      notice: session supprimée
+    destroy_all:
+      notice: sessions détruites
+    edit:
+      submit: mettre à jour la session
+      title: modifier la session
+    form:
+      data_placeholder: saisissez des données json de session
+      invalid_json: les données doivent être du json valide
+    index:
+      delete_all: supprimer tout
+      destroy_all: détruire tout
+      new: nouvelle session
+      title: sessions
+    model:
+      invalid_json: json invalide
+      to_s: session#%{id}
+    new:
+      submit: créer la session
+      title: nouvelle session
+    show:
+      created_at: créé à
+      data: données
+      delete: supprimer la session
+      destroy: détruire la session
+      edit: modifier la session
+      guest: invité
+      id: id
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
+      session_id: id de session
+      updated_at: mis à jour à
+      user: utilisateur
+      versions: versions
+    update:
+      notice: session mise à jour
   shared:
     confirm:
       modal_cancel: non
@@ -1957,7 +2250,6 @@ fr:
     filter:
       address: adresse
       all: tous
-      attachment: fichier
       datum: donnée
       device: appareil
       email_address: adresse e-mail
@@ -1981,7 +2273,6 @@ fr:
       user: utilisateur
     list:
       addresses: adresses
-      attachments: fichiers
       data: données
       devices: appareils
       email_addresses: adresses e-mail
@@ -1992,7 +2283,6 @@ fr:
       messages: messages
       names: noms
       new_address: nouvelle adresse
-      new_attachment: nouveau fichier
       new_datum: nouvelle donnée
       new_device: nouvel appareil
       new_email_address: nouvelle adresse e-mail
@@ -2009,6 +2299,7 @@ fr:
       new_program_prompt: nouvel invite de programme
       new_program_prompt_schedule: nouvel horaire d'invite de programme
       new_program_schedule: nouvel horaire de programme
+      new_session: nouvelle session
       new_time_zone: nouveau fuseau horaire
       new_token: nouveau jeton
       passwords: mots de passe
@@ -2018,10 +2309,11 @@ fr:
       program_prompts: invites du programme
       program_schedules: horaires de programmes
       programs: programmes
+      sessions: sessions
       time_zones: fuseaux horaires
       tokens: jetons
     modal:
-      cancel: Annuler
+      cancel: annuler
       confirm: confirmer
     search:
       placeholder: saisissez votre requête de recherche
@@ -2031,7 +2323,7 @@ fr:
       about_html: |
         <p>
           code est le projet de
-           <a href="https://dorianmarie.com">Dorian Marié</a>
+           <a href="https://dorianmarie.com">dorian marié</a>
         </p>
       download: télécharger
       localhost: localhost
@@ -2057,7 +2349,6 @@ fr:
       version: 'version: '
     admin:
       addresses: adresses
-      attachments: fichiers
       configurations: configurations
       country_code_ip_addresses: code pays adresse ip
       data: données
@@ -2091,10 +2382,12 @@ fr:
       program_prompts: invites de programmes
       program_schedules: horaires de programmes
       programs: programmes
+      sessions: sessions
       time_zones: fuseaux horaires
       title: admin
       tokens: jetons
       users: utilisateurs
+      versions: versions
     download:
       title: télécharger
     home:
@@ -2167,8 +2460,12 @@ fr:
   time_zones:
     create:
       notice: fuseau horaire créé
+    delete_all:
+      notice: fuseaux horaires supprimés
     destroy:
       notice: fuseau horaire supprimé
+    destroy_all:
+      notice: fuseaux horaires détruits
     edit:
       submit: mettre à jour le fuseau horaire
       title: modifier le fuseau horaire
@@ -2193,18 +2490,26 @@ fr:
       destroy: détruire le fuseau horaire
       edit: modifier le fuseau horaire
       id: identifiant
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
       primary: principal ?
       time_zone: fuseau horaire
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifié ?
+      versions: versions
     update:
       notice: fuseau horaire mis à jour
   tokens:
     create:
       notice: jeton créé
+    delete_all:
+      notice: jetons supprimés
     destroy:
       notice: jeton supprimé
+    destroy_all:
+      notice: jetons détruits
     edit:
       submit: jeton de mise à jour
       title: modifier le jeton
@@ -2224,21 +2529,31 @@ fr:
       destroy: détruire le jeton
       edit: modifier le jeton
       id: identifiant
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
       primary: principal ?
       token: jeton
       updated_at: mis à jour à
       user: utilisateur
       verified: vérifié ?
+      versions: versions
     update:
       notice: jeton mis à jour
   users:
     create:
       notice: utilisateur créé
+    delete_all:
+      notice: utilisateurs supprimés
     destroy:
       notice: utilisateur supprimé
+    destroy_all:
+      notice: utilisateurs détruits
     edit:
       submit: mettre à jour l'utilisateur
       title: modifier l'utilisateur
+    impersonate:
+      notice: utilisateur usurpé
     index:
       delete_all: supprimer tout
       destroy_all: détruire tout
@@ -2259,6 +2574,7 @@ fr:
       admin: admin
       created_at: créé à
       delete: supprimer l'utilisateur
+      description: description
       destroy: détruire l'utilisateur
       device: appareil
       edit: modifier l'utilisateur
@@ -2268,14 +2584,60 @@ fr:
       impersonate: imiter
       locale: langue
       log_out: se déconnecter
+      logs: logs
       name: nom
+      new_log: nouveau log
+      new_version: nouvelle version
       password: mot de passe
       phone_number: numéro de téléphone
       time_zone: fuseau horaire
       updated_at: mis à jour à
       verified: vérifié ?
+      versions: versions
     update:
       notice: utilisateur mis à jour
+  versions:
+    create:
+      notice: version créée
+    delete_all:
+      notice: versions supprimées
+    destroy:
+      notice: version supprimée
+    destroy_all:
+      notice: versions détruites
+    edit:
+      submit: mettre à jour la version
+      title: modifier la version
+    index:
+      delete_all: supprimer tout
+      destroy_all: détruire tout
+      new: nouvelle version
+      title: versions
+    model:
+      invalid_json: json invalide
+      to_s: version#%{id}
+    new:
+      submit: créer une version
+      title: nouvelle version
+    show:
+      created_at: créé à
+      delete: supprimer la version
+      destroy: détruire la version
+      edit: modifier la version
+      event: événement
+      id: identifiant
+      item_id: élément
+      item_type: type d'élément
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
+      object: objet
+      object_changes: changements d'objet
+      updated_at: mis à jour à
+      versions: versions
+      whodunnit: auteur
+    update:
+      notice: version mise à jour
   views:
     pagination:
       first: premier

@@ -85,13 +85,13 @@
     url: [*show_url, :discard],
     method: :post
   ) %>
-  <%= link_to(t(".edit"), edit_url, class: "link") %>
+  <%= link_to(t(".edit"), edit_url, class: :link) %>
   <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
   <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
 </div>
 
 <div class="p font-bold">
-  <%= link_to(t(".job_contexts"), [*nested, @job, :job_contexts], class: "link") %>
+  <%= link_to(t(".job_contexts"), [*nested, @job, :job_contexts], class: :link) %>
 </div>
 
 <%= render_collection(
@@ -107,7 +107,7 @@
   <%= link_to(
     t(".job_ready_executions"),
     [*nested, @job, :job_ready_executions],
-    class: "link"
+    class: :link
   ) %>
 </div>
 
@@ -124,7 +124,7 @@
   <%= link_to(
     t(".job_failed_executions"),
     [*nested, @job, :job_failed_executions],
-    class: "link"
+    class: :link
   ) %>
 </div>
 
@@ -141,7 +141,7 @@
   <%= link_to(
     t(".job_scheduled_executions"),
     [*nested, @job, :job_scheduled_executions],
-    class: "link"
+    class: :link
   ) %>
 </div>
 
@@ -158,7 +158,7 @@
   <%= link_to(
     t(".job_blocked_executions"),
     [*nested, @job, :job_blocked_executions],
-    class: "link"
+    class: :link
   ) %>
 </div>
 
@@ -175,7 +175,7 @@
   <%= link_to(
     t(".job_claimed_executions"),
     [*nested, @job, :job_claimed_executions],
-    class: "link"
+    class: :link
   ) %>
 </div>
 
@@ -192,7 +192,7 @@
   <%= link_to(
     t(".job_recurring_executions"),
     [*nested, @job, :job_recurring_executions],
-    class: "link"
+    class: :link
   ) %>
 </div>
 
@@ -204,3 +204,24 @@
     nested: [*nested, @job]
   }
 ) %>
+
+<% if can?(:index, Log) %>
+  <div class="p font-bold">
+    <%= link_to(t(".logs"), [*nested, @job, :logs], class: :link) %>
+  </div>
+
+  <% if can?(:create, Log) %>
+    <div class="p">
+      <%= link_to(t(".new_log"), [:new, *nested, @job, :log], class: "button") %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "logs/log",
+    collection: @logs,
+    as: :log,
+    locals: {
+      nested: [*nested, @job]
+    }
+  ) %>
+<% end %>

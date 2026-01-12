@@ -1,24 +1,26 @@
 <%= turbo_stream_from(@examples) %>
 
 <% if @example_schedules.any? %>
-  <div class="p">
+  <div class="p p--flex">
     <%= link_to(
       t(".example_schedules", count: @example_schedules.size),
       [@user || @guest, :example_schedules],
-      class: "link"
+      class: :link
     ) %>
   </div>
 <% end %>
 
 <% if can?(:create, Example) %>
-  <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
+  <div class="p p--flex">
+    <%= link_to(t(".new"), new_url, class: "button") %>
+  </div>
 <% end %>
 
 <%= render("shared/search") %>
 
 <turbo-frame id="search" target="_top">
   <% if @examples.any? && can?(:destroy_all, Example) %>
-    <div class="p">
+    <div class="p p--flex">
       <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
       <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
     </div>

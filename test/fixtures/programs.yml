@@ -1,15 +1,15 @@
-program:
-  user: admin
-  name: "Daily Studio Digest"
-  input: "output(fetch('tasks').join(\"\\n\"))"
-  scheduled: true
-  created_at: 2025-02-10 08:00:00
-  updated_at: 2025-02-10 08:05:00
-
+---
 other_program:
-  user: other_user
-  name: "Weather Reminder"
-  input: "output(fetch('weather').summary)"
+  created_at: '2025-02-12 18:30:00'
+  input: output(fetch('weather').summary)
+  name: Weather Reminder
   scheduled: false
-  created_at: 2025-02-12 18:30:00
-  updated_at: 2025-02-12 18:30:00
+  updated_at: '2025-02-12 18:30:00'
+  user: other_user
+program:
+  created_at: '2025-02-10 08:00:00'
+  input: output(fetch('tasks').join("\n"))
+  name: Daily Studio Digest
+  scheduled: true
+  updated_at: '2025-02-10 08:05:00'
+  user: admin

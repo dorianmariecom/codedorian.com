@@ -1,25 +1,25 @@
 <%= form_for(show_url) do |f| %>
-<% if admin? %>
-  <div class="p">
-    <%= f.label(:program_id, class: :label) %>
-    <%= f.select(
-      :program_id,
-      program_options(program_id: f.object.program_id),
-      {},
-      class: :input
-    ) %>
-  </div>
+  <% if admin? %>
+    <div class="p">
+      <%= f.label(:program_id, class: :label) %>
+      <%= f.select(
+        :program_id,
+        program_options(program_id: f.object.program_id),
+        {},
+        class: :input
+      ) %>
+    </div>
 
-  <div class="p">
-    <%= f.label(:status, class: :label) %>
-    <%= f.select(
-      :status,
-      program_execution_status_options(status: f.object.status),
-      {},
-      class: :input
-    ) %>
-  </div>
-<% end %>
+    <div class="p">
+      <%= f.label(:status, class: :label) %>
+      <%= f.select(
+        :status,
+        program_execution_status_options(status: f.object.status),
+        {},
+        class: :input
+      ) %>
+    </div>
+  <% end %>
 
   <div class="p" data-controller="editor">
     <%= f.label(:input, class: :label) %>

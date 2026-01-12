@@ -1,8 +1,12 @@
+---
 program_execution:
+  created_at: '2025-02-11 09:02:00'
+  input: output(fetch('tasks').join("\n"))
+  output: |-
+    - Finish landing page copy
+    - Review onboarding flow
+    - Prepare weekly update
   program: program
-  status: "done"
-  input: "output(fetch('tasks').join(\"\\n\"))"
-  output: "- Finish landing page copy\n- Review onboarding flow\n- Prepare weekly update"
-  result: "ok"
-  created_at: 2025-02-11 09:02:00
-  updated_at: 2025-02-11 09:02:10
+  result: ok
+  status: done
+  updated_at: '2025-02-11 09:02:10'

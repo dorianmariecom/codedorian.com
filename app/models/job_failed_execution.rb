@@ -11,7 +11,6 @@ class JobFailedExecution < SolidQueue::FailedExecution
 
   %i[
     address
-    attachment
     current_user
     datum
     device
@@ -34,10 +33,12 @@ class JobFailedExecution < SolidQueue::FailedExecution
     token
     user
   ].each do |model|
-    scope :"where_#{model}",
-          ->(instance) { joins(:job_contexts).where(<<~SQL.squish, instance) }
+    scope(
+      :"where_#{model}",
+      ->(instance) { joins(:job_contexts).where(<<~SQL.squish, instance) }
               job_contexts.context->'#{model}'->>'id' = ?
             SQL
+    )
   end
 
   validate { can!(:update, :job_failed_execution) }

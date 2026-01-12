@@ -12,13 +12,13 @@ require_relative "../lib/middleware/errors"
 
 module CodeApp
   class Application < Rails::Application
-    config.load_defaults 8.1
+    config.load_defaults(8.1)
     config.active_job.queue_adapter = :solid_queue
     config.active_record.automatically_invert_plural_associations = true
     config.active_record.default_column_serializer = JSON
     config.autoload_lib(ignore: %w[assets tasks])
     config.exceptions_app = routes
-    config.session_store :cookie_store, expire_after: 1.year
+    config.session_store(:active_record_store, expire_after: 1.year)
     config.hosts += ENV.fetch("HOSTS", "").split(",")
     config.hosts += %w[::1 127.0.0.1 localhost]
     config.host_authorization = {
@@ -26,7 +26,10 @@ module CodeApp
     }
     config.i18n.default_locale = :en
     config.i18n.available_locales = %i[en fr]
-    config.middleware.insert_before ActionDispatch::RemoteIp, Middleware::Errors
+    config.middleware.insert_before(
+      ActionDispatch::RemoteIp,
+      Middleware::Errors
+    )
     config.solid_queue.preserve_finished_jobs = false
   end
 end

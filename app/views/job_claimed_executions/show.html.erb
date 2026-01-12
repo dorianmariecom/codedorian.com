@@ -18,7 +18,7 @@
         <%= link_to(
           @job_claimed_execution.job,
           [*nested(job: nil), @job_claimed_execution.job],
-          class: "link"
+          class: :link
         ) %>
       </div>
     <% else %>
@@ -57,8 +57,33 @@
   </div>
 <% end %>
 
-<div class="p">
-  <%= link_to(t(".edit"), edit_url, class: "link") %>
+<div class="p p--flex">
+  <%= link_to(t(".edit"), edit_url, class: :link) %>
   <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
   <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
 </div>
+
+<% if can?(:index, Log) %>
+  <div class="p font-bold">
+    <%= link_to(t(".logs"), [*nested, @job_claimed_execution, :logs], class: :link) %>
+  </div>
+
+  <% if can?(:create, Log) %>
+    <div class="p">
+      <%= link_to(
+        t(".new_log"),
+        [:new, *nested, @job_claimed_execution, :log],
+        class: "button"
+      ) %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "logs/log",
+    collection: @logs,
+    as: :log,
+    locals: {
+      nested: [*nested, @job_claimed_execution]
+    }
+  ) %>
+<% end %>

@@ -1,0 +1,28 @@
+<%= form_for(show_url) do |f| %>
+  <div class="p">
+    <%= f.label(:session_id, class: :label) %>
+    <%= f.text_field(:session_id, class: :input) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:data, class: :label) %>
+    <%= f.text_area(
+      :data,
+      value: f.object.data_json,
+      class: :input,
+      rows: 10,
+      placeholder: t(".data_placeholder")
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.submit(
+      submit,
+      class: "button",
+      data: {
+        controller: "bridge--button",
+        bridge__button_title_value: submit
+      }
+    ) %>
+  </div>
+<% end %>

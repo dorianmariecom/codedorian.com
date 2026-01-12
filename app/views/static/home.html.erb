@@ -8,11 +8,11 @@
 <% elsif !hotwire_native_app? && !current_user_or_guest.unverified_device %>
   <div class="p p--flex">
     <%= link_to(Config.ios.url) do %>
-      <%= image_tag("ios-#{I18n.locale}.svg", class: "h-14 inline-block mb-4") %>
+      <%= image_tag("ios-#{I18n.locale}.svg", class: "h-14") %>
     <% end %>
 
     <%= link_to(Config.android.url) do %>
-      <%= image_tag("android-#{I18n.locale}.svg", class: "h-14 inline-block mb-4") %>
+      <%= image_tag("android-#{I18n.locale}.svg", class: "h-14") %>
     <% end %>
   </div>
 <% else %>

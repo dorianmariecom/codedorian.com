@@ -1,17 +1,17 @@
+---
 name:
+  created_at: '2025-01-10 09:13:00'
+  family_name: Marie
+  given_name: Dorian
+  primary: true
+  updated_at: '2025-01-10 09:13:00'
   user: admin
-  given_name: "Dorian"
-  family_name: "Marie"
-  primary: true
   verified: true
-  created_at: 2025-01-10 09:13:00
-  updated_at: 2025-01-10 09:13:00
-
 other_name:
-  user: other_user
-  given_name: "Camille"
-  family_name: "Roux"
+  created_at: '2025-02-02 16:41:00'
+  family_name: Roux
+  given_name: Camille
   primary: true
+  updated_at: '2025-02-02 16:41:00'
+  user: other_user
   verified: true
-  created_at: 2025-02-02 16:41:00
-  updated_at: 2025-02-02 16:41:00

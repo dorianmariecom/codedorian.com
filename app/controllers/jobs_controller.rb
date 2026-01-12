@@ -47,6 +47,7 @@ class JobsController < ApplicationController
       job_recurring_executions_scope.order(created_at: :desc).page(
         params[:page]
       )
+    @logs = logs_scope.order(created_at: :desc).page(params[:page])
   end
 
   def new
@@ -96,10 +97,7 @@ class JobsController < ApplicationController
   def delete
     @job.delete
 
-    redirect_to(
-      index_url,
-      notice: t(".notice", default: t("#{controller_name}.destroy.notice"))
-    )
+    redirect_to(index_url, notice: t(".notice"))
   end
 
   def destroy
@@ -211,35 +209,54 @@ class JobsController < ApplicationController
 
   def scope
     scope = searched_policy_scope(Job)
-    scope = scope.where_guest(@guest) if @guest
-    scope = scope.where_user(@user) if @user
-    scope = scope.where_program(@program) if @program
-    scope = scope.where_program_prompt(@program_prompt) if @program_prompt
+
+    if @program_prompt
+      scope = scope.where_program_prompt(@program_prompt)
+    elsif @program
+      scope = scope.where_program(@program)
+    elsif @user
+      scope = scope.where_user(@user)
+    elsif @guest
+      scope = scope.where_guest(@guest)
+    end
+
     scope
   end
 
   def programs_scope
     scope = policy_scope(Program)
+
     scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
+
     scope
   end
 
   def program_prompts_scope
     scope = policy_scope(ProgramPrompt)
+
     scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope = scope.where_program(@program) if @program
+
     scope
   end
 
   def job_contexts_scope
     scope = policy_scope(JobContext)
-    scope = scope.where_guest(@guest) if @guest
-    scope = scope.where_user(@user) if @user
-    scope = scope.where_program(@program) if @program
-    scope = scope.where_program_prompt(@program_prompt) if @program_prompt
-    scope = scope.where_job(@job) if @job
+
+    if @job
+      scope = scope.where_job(@job)
+    elsif @program_prompt
+      scope = scope.where_program_prompt(@program_prompt)
+    elsif @program
+      scope = scope.where_program(@program)
+    elsif @user
+      scope = scope.where_user(@user)
+    elsif @guest
+      scope = scope.where_guest(@guest)
+    end
+
     scope
   end
 
@@ -257,66 +274,122 @@ class JobsController < ApplicationController
 
   def job_ready_executions_scope
     scope = policy_scope(JobReadyExecution)
-    scope = scope.where_guest(@guest) if @guest
-    scope = scope.where_user(@user) if @user
-    scope = scope.where_program(@program) if @program
-    scope = scope.where_program_prompt(@program_prompt) if @program_prompt
-    scope = scope.where_job(@job) if @job
+
+    if @job
+      scope = scope.where_job(@job)
+    elsif @program_prompt
+      scope = scope.where_program_prompt(@program_prompt)
+    elsif @program
+      scope = scope.where_program(@program)
+    elsif @user
+      scope = scope.where_user(@user)
+    elsif @guest
+      scope = scope.where_guest(@guest)
+    end
+
     scope
   end
 
   def job_failed_executions_scope
     scope = policy_scope(JobFailedExecution)
-    scope = scope.where_guest(@guest) if @guest
-    scope = scope.where_user(@user) if @user
-    scope = scope.where_program(@program) if @program
-    scope = scope.where_program_prompt(@program_prompt) if @program_prompt
-    scope = scope.where_job(@job) if @job
+
+    if @job
+      scope = scope.where_job(@job)
+    elsif @program_prompt
+      scope = scope.where_program_prompt(@program_prompt)
+    elsif @program
+      scope = scope.where_program(@program)
+    elsif @user
+      scope = scope.where_user(@user)
+    elsif @guest
+      scope = scope.where_guest(@guest)
+    end
+
     scope
   end
 
   def job_scheduled_executions_scope
     scope = policy_scope(JobScheduledExecution)
-    scope = scope.where_guest(@guest) if @guest
-    scope = scope.where_user(@user) if @user
-    scope = scope.where_program(@program) if @program
-    scope = scope.where_program_prompt(@program_prompt) if @program_prompt
-    scope = scope.where_job(@job) if @job
+
+    if @job
+      scope = scope.where_job(@job)
+    elsif @program_prompt
+      scope = scope.where_program_prompt(@program_prompt)
+    elsif @program
+      scope = scope.where_program(@program)
+    elsif @user
+      scope = scope.where_user(@user)
+    elsif @guest
+      scope = scope.where_guest(@guest)
+    end
+
     scope
   end
 
   def job_blocked_executions_scope
     scope = policy_scope(JobBlockedExecution)
-    scope = scope.where_guest(@guest) if @guest
-    scope = scope.where_user(@user) if @user
-    scope = scope.where_program(@program) if @program
-    scope = scope.where_program_prompt(@program_prompt) if @program_prompt
-    scope = scope.where_job(@job) if @job
+
+    if @job
+      scope = scope.where_job(@job)
+    elsif @program_prompt
+      scope = scope.where_program_prompt(@program_prompt)
+    elsif @program
+      scope = scope.where_program(@program)
+    elsif @user
+      scope = scope.where_user(@user)
+    elsif @guest
+      scope = scope.where_guest(@guest)
+    end
+
     scope
   end
 
   def job_claimed_executions_scope
     scope = policy_scope(JobClaimedExecution)
-    scope = scope.where_guest(@guest) if @guest
-    scope = scope.where_user(@user) if @user
-    scope = scope.where_program(@program) if @program
-    scope = scope.where_program_prompt(@program_prompt) if @program_prompt
-    scope = scope.where_job(@job) if @job
+
+    if @job
+      scope = scope.where_job(@job)
+    elsif @program_prompt
+      scope = scope.where_program_prompt(@program_prompt)
+    elsif @program
+      scope = scope.where_program(@program)
+    elsif @user
+      scope = scope.where_user(@user)
+    elsif @guest
+      scope = scope.where_guest(@guest)
+    end
+
     scope
   end
 
   def job_recurring_executions_scope
     scope = policy_scope(JobRecurringExecution)
-    scope = scope.where_guest(@guest) if @guest
-    scope = scope.where_user(@user) if @user
-    scope = scope.where_program(@program) if @program
-    scope = scope.where_program_prompt(@program_prompt) if @program_prompt
-    scope = scope.where_job(@job) if @job
+
+    if @job
+      scope = scope.where_job(@job)
+    elsif @program_prompt
+      scope = scope.where_program_prompt(@program_prompt)
+    elsif @program
+      scope = scope.where_program(@program)
+    elsif @user
+      scope = scope.where_user(@user)
+    elsif @guest
+      scope = scope.where_guest(@guest)
+    end
+
     scope
   end
 
   def job_recurring_tasks_scope
     policy_scope(JobRecurringTask)
+  end
+
+  def logs_scope
+    scope = policy_scope(Log)
+
+    scope = scope.where_job(@job) if @job
+
+    scope
   end
 
   def model_class

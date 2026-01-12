@@ -19,6 +19,8 @@ class ProgramExecutionsController < ApplicationController
   end
 
   def show
+    @versions = versions_scope.order(created_at: :desc).page(params[:page])
+    @logs = logs_scope.order(created_at: :desc).page(params[:page])
   end
 
   def new
@@ -77,7 +79,7 @@ class ProgramExecutionsController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(index_url)
+    redirect_back_or_to(index_url, notice: t(".notice"))
   end
 
   def delete_all
@@ -85,7 +87,7 @@ class ProgramExecutionsController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(index_url)
+    redirect_back_or_to(index_url, notice: t(".notice"))
   end
 
   private
@@ -138,10 +140,26 @@ class ProgramExecutionsController < ApplicationController
     scope
   end
 
+  def versions_scope
+    scope = policy_scope(Version)
+    if @program_execution
+      scope = scope.where_program_execution(@program_execution)
+    end
+    scope
+  end
+
   def programs_scope
     scope = policy_scope(Program)
     scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
+    scope
+  end
+
+  def logs_scope
+    scope = policy_scope(Log)
+    if @program_execution
+      scope = scope.where_program_execution(@program_execution)
+    end
     scope
   end
 
@@ -188,13 +206,7 @@ class ProgramExecutionsController < ApplicationController
       )
     else
       params.expect(
-        program_execution: %i[
-          input
-          output
-          result
-          error
-          error_class
-        ]
+        program_execution: %i[input output result error error_class]
       )
     end
   end

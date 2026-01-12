@@ -30,10 +30,12 @@
   </div>
 <% end %>
 
-<div class="p">
-  <div class="text-gray-600"><%= t(".scheduled") %></div>
-  <div class="font-bold"><%= @program.scheduled %></div>
-</div>
+<% if @program.scheduled.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".scheduled") %></div>
+    <div class="font-bold"><%= @program.scheduled %></div>
+  </div>
+<% end %>
 
 <% if @program.starts_at.present? %>
   <div class="p">
@@ -100,8 +102,8 @@
   ) %>
 </div>
 
-<div class="p">
-  <%= link_to(t(".edit"), edit_url, class: "link") %>
+<div class="p p--flex">
+  <%= link_to(t(".edit"), edit_url, class: :link) %>
   <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
   <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
 </div>
@@ -110,17 +112,19 @@
   <%= link_to(
     t(".program_schedules"),
     [@user, @program, :program_schedules],
-    class: "link"
+    class: :link
   ) %>
 </div>
 
-<div class="p">
-  <%= link_to(
-    t(".new_program_schedule"),
-    [:new, @user, @program, :program_schedule],
-    class: "button"
-  ) %>
-</div>
+<% if can?(:create, ProgramSchedule) %>
+  <div class="p">
+    <%= link_to(
+      t(".new_program_schedule"),
+      [:new, @user, @program, :program_schedule],
+      class: "button"
+    ) %>
+  </div>
+<% end %>
 
 <%= render_collection(
   partial: "program_schedules/program_schedule",
@@ -135,7 +139,7 @@
   <%= link_to(
     t(".program_executions"),
     [@user, @program, :program_executions],
-    class: "link"
+    class: :link
   ) %>
 </div>
 
@@ -152,7 +156,7 @@
   <%= link_to(
     t(".program_prompts"),
     [@user, @program, :program_prompts],
-    class: "link"
+    class: :link
   ) %>
 </div>
 
@@ -169,17 +173,19 @@
   <%= link_to(
     t(".program_prompt_schedules"),
     [@user, @program, :program_prompt_schedules],
-    class: "link"
+    class: :link
   ) %>
 </div>
 
-<div class="p">
-  <%= link_to(
-    t(".new_program_prompt_schedule"),
-    [:new, @user, @program, :program_prompt_schedule],
-    class: "button"
-  ) %>
-</div>
+<% if can?(:create, ProgramPromptSchedule) %>
+  <div class="p">
+    <%= link_to(
+      t(".new_program_prompt_schedule"),
+      [:new, @user, @program, :program_prompt_schedule],
+      class: "button"
+    ) %>
+  </div>
+<% end %>
 
 <%= render_collection(
   partial: "program_prompt_schedules/program_prompt_schedule",
@@ -189,3 +195,45 @@
     nested: [@user, @program]
   }
 ) %>
+
+<% if can?(:index, Version) %>
+  <div class="p font-bold">
+    <%= link_to(t(".versions"), [@user, @program, :versions], class: :link) %>
+  </div>
+
+  <% if can?(:create, Version) %>
+    <div class="p">
+      <%= link_to(t(".new_version"), [:new, @user, @program, :version], class: "button") %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "versions/version",
+    collection: @versions,
+    as: :version,
+    locals: {
+      nested: [@user, @program]
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, Log) %>
+  <div class="p font-bold">
+    <%= link_to(t(".logs"), [@user, @program, :logs], class: :link) %>
+  </div>
+
+  <% if can?(:create, Log) %>
+    <div class="p">
+      <%= link_to(t(".new_log"), [:new, @user, @program, :log], class: "button") %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "logs/log",
+    collection: @logs,
+    as: :log,
+    locals: {
+      nested: [@user, @program]
+    }
+  ) %>
+<% end %>

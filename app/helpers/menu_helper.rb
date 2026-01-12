@@ -36,7 +36,7 @@ module MenuHelper
           {
             title: t("helpers.application.menu.log_in"),
             image: ios ? "person.crop.circle.fill" : :login,
-            path: new_session_path
+            path: new_login_path
           }
         end
       ),

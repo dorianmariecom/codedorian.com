@@ -13,6 +13,8 @@ class TimeZonesController < ApplicationController
   end
 
   def show
+    @versions = versions_scope.order(created_at: :desc).page(params[:page])
+    @logs = logs_scope.order(created_at: :desc).page(params[:page])
   end
 
   def new
@@ -72,7 +74,7 @@ class TimeZonesController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(index_url)
+    redirect_back_or_to(index_url, notice: t(".notice"))
   end
 
   def delete_all
@@ -80,7 +82,7 @@ class TimeZonesController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(index_url)
+    redirect_back_or_to(index_url, notice: t(".notice"))
   end
 
   private
@@ -123,6 +125,18 @@ class TimeZonesController < ApplicationController
     scope = searched_policy_scope(TimeZone)
     scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
+    scope
+  end
+
+  def versions_scope
+    scope = policy_scope(Version)
+    scope = scope.where_time_zone(@time_zone) if @time_zone
+    scope
+  end
+
+  def logs_scope
+    scope = policy_scope(Log)
+    scope = scope.where_time_zone(@time_zone) if @time_zone
     scope
   end
 

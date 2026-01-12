@@ -11,6 +11,7 @@ class JobPausesController < ApplicationController
   end
 
   def show
+    @logs = logs_scope.order(created_at: :desc).page(params[:page])
   end
 
   def new
@@ -65,7 +66,7 @@ class JobPausesController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(index_url)
+    redirect_back_or_to(index_url, notice: t(".notice"))
   end
 
   def delete_all
@@ -73,7 +74,7 @@ class JobPausesController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(index_url)
+    redirect_back_or_to(index_url, notice: t(".notice"))
   end
 
   private
@@ -90,6 +91,12 @@ class JobPausesController < ApplicationController
 
   def scope
     searched_policy_scope(JobPause)
+  end
+
+  def logs_scope
+    scope = policy_scope(Log)
+    scope = scope.where_job_pause(@job_pause) if @job_pause
+    scope
   end
 
   def model_class

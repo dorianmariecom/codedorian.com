@@ -1,5 +1,11 @@
+---
 error_occurrence:
+  context:
+    program:
+      id: "<%= ActiveRecord::FixtureSet.identify(:program) %>"
+    request_id: req_01HQY1A7KTK8J8GQK1CN9M4P4H
+    user:
+      id: "<%= ActiveRecord::FixtureSet.identify(:admin) %>"
+  created_at: '2025-02-18 09:12:05'
   error: error
-  context: {"user":{"id":<%= ActiveRecord::FixtureSet.identify(:admin) %>},"program":{"id":<%= ActiveRecord::FixtureSet.identify(:program) %>},"request_id":"req_01HQY1A7KTK8J8GQK1CN9M4P4H"}
-  created_at: 2025-02-18 09:12:05
-  updated_at: 2025-02-18 09:12:05
+  updated_at: '2025-02-18 09:12:05'

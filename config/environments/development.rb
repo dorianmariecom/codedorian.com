@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.configure do
-  config.action_controller.perform_caching = false
+  config.action_controller.perform_caching = true
   config.action_controller.raise_on_missing_callback_actions = true
   config.action_mailer.perform_caching = false
   config.action_mailer.perform_deliveries = true
@@ -19,7 +19,7 @@ Rails.application.configure do
   config.active_support.disallowed_deprecation = :raise
   config.active_support.disallowed_deprecation_warnings = []
   config.assets.quiet = true
-  config.cache_store = :null_store
+  config.cache_store = :solid_cache_store
   config.consider_all_requests_local = true
   config.eager_load = false
   config.enable_reloading = true

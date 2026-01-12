@@ -12,6 +12,8 @@ class TokensController < ApplicationController
   end
 
   def show
+    @versions = versions_scope.order(created_at: :desc).page(params[:page])
+    @logs = logs_scope.order(created_at: :desc).page(params[:page])
   end
 
   def new
@@ -71,7 +73,7 @@ class TokensController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(index_url)
+    redirect_back_or_to(index_url, notice: t(".notice"))
   end
 
   def delete_all
@@ -79,7 +81,7 @@ class TokensController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(index_url)
+    redirect_back_or_to(index_url, notice: t(".notice"))
   end
 
   private
@@ -106,6 +108,18 @@ class TokensController < ApplicationController
   def scope
     scope = searched_policy_scope(Token)
     scope = scope.where_user(@user) if @user
+    scope
+  end
+
+  def versions_scope
+    scope = policy_scope(Version)
+    scope = scope.where_token(@token) if @token
+    scope
+  end
+
+  def logs_scope
+    scope = policy_scope(Log)
+    scope = scope.where_token(@token) if @token
     scope
   end
 

@@ -3,6 +3,53 @@
 class Log < ApplicationRecord
   validate(:parse_and_validate_context, on: :controller)
 
+  %i[
+    address
+    configuration
+    country_code_ip_address
+    datum
+    device
+    email_address
+    error
+    error_occurrence
+    example
+    example_schedule
+    guest
+    handle
+    job
+    job_blocked_execution
+    job_claimed_execution
+    job_context
+    job_failed_execution
+    job_pause
+    job_process
+    job_ready_execution
+    job_recurring_execution
+    job_recurring_task
+    job_scheduled_execution
+    job_semaphore
+    log
+    message
+    name
+    password
+    phone_number
+    program
+    program_execution
+    program_prompt
+    program_prompt_schedule
+    program_schedule
+    session
+    time_zone
+    token
+    user
+    version
+  ].each do |model|
+    scope(
+      :"where_#{model}",
+      ->(record) { where("logs.context->'#{model}'->>'id' = ?", record) }
+    )
+  end
+
   def self.search_fields
     {
       message: {
@@ -93,6 +140,6 @@ class Log < ApplicationRecord
   end
 
   def to_s
-    message_sample.presence || context_sample.presence || t("to_s", id: id)
+    context_sample.presence || message_sample.presence || t("to_s", id: id)
   end
 end

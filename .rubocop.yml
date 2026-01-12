@@ -106,6 +106,8 @@ Style/IfUnlessModifier:
   Enabled: false
 Style/Lambda:
   Enabled: false
+Style/MethodCallWithArgsParentheses:
+  Enabled: true
 Style/MultilineBlockChain:
   Enabled: false
 Style/NestedTernaryOperator:

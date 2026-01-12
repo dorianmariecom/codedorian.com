@@ -23,15 +23,19 @@
   </div>
 <% end %>
 
-<div class="p">
-  <div class="text-gray-600"><%= t(".primary") %></div>
-  <div class="font-bold"><%= @time_zone.primary? %></div>
-</div>
+<% if @time_zone.primary.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".primary") %></div>
+    <div class="font-bold"><%= @time_zone.primary? %></div>
+  </div>
+<% end %>
 
-<div class="p">
-  <div class="text-gray-600"><%= t(".verified") %></div>
-  <div class="font-bold"><%= @time_zone.verified? %></div>
-</div>
+<% if admin? && @time_zone.verified.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".verified") %></div>
+    <div class="font-bold"><%= @time_zone.verified? %></div>
+  </div>
+<% end %>
 
 <% if @time_zone.updated_at.present? %>
   <div class="p">
@@ -47,8 +51,54 @@
   </div>
 <% end %>
 
-<div class="p">
-  <%= link_to(t(".edit"), edit_url, class: "link") %>
+<div class="p p--flex">
+  <%= link_to(t(".edit"), edit_url, class: :link) %>
   <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
   <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
 </div>
+
+<% if can?(:index, Version) %>
+  <div class="p font-bold">
+    <%= link_to(t(".versions"), [*nested, @time_zone, :versions], class: :link) %>
+  </div>
+
+  <% if can?(:create, Version) %>
+    <div class="p">
+      <%= link_to(
+        t(".new_version"),
+        [:new, *nested, @time_zone, :version],
+        class: "button"
+      ) %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "versions/version",
+    collection: @versions,
+    as: :version,
+    locals: {
+      nested: [*nested, @time_zone]
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, Log) %>
+  <div class="p font-bold">
+    <%= link_to(t(".logs"), [*nested, @time_zone, :logs], class: :link) %>
+  </div>
+
+  <% if can?(:create, Log) %>
+    <div class="p">
+      <%= link_to(t(".new_log"), [:new, *nested, @time_zone, :log], class: "button") %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "logs/log",
+    collection: @logs,
+    as: :log,
+    locals: {
+      nested: [*nested, @time_zone]
+    }
+  ) %>
+<% end %>

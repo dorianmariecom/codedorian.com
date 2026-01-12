@@ -16,6 +16,7 @@ class JobRecurringTasksController < ApplicationController
   end
 
   def show
+    @logs = logs_scope.order(created_at: :desc).page(params[:page])
   end
 
   def new
@@ -70,7 +71,7 @@ class JobRecurringTasksController < ApplicationController
 
     scope.destroy_all
 
-    redirect_back_or_to(index_url)
+    redirect_back_or_to(index_url, notice: t(".notice"))
   end
 
   def delete_all
@@ -78,7 +79,7 @@ class JobRecurringTasksController < ApplicationController
 
     scope.delete_all
 
-    redirect_back_or_to(index_url)
+    redirect_back_or_to(index_url, notice: t(".notice"))
   end
 
   private
@@ -95,6 +96,14 @@ class JobRecurringTasksController < ApplicationController
 
   def scope
     searched_policy_scope(JobRecurringTask)
+  end
+
+  def logs_scope
+    scope = policy_scope(Log)
+    if @job_recurring_task
+      scope = scope.where_job_recurring_task(@job_recurring_task)
+    end
+    scope
   end
 
   def model_class
