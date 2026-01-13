@@ -9,6 +9,12 @@ class StaticController < ApplicationController
   end
 
   def up
+    # Check database connectivity
+    ActiveRecord::Base.connection.execute("SELECT 1")
+    
+    render plain: "OK"
+  rescue ActiveRecord::DatabaseConnectionError => e
+    render plain: "Database connection error: #{e.message}", status: :service_unavailable
   end
 
   def about
