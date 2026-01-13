@@ -223,7 +223,7 @@ module ApplicationHelper
   end
 
   def turbo_stream_from(first, *streamables, **attributes)
-    if first.is_an?(ActiveRecord::Relation)
+    if first.is_a?(ActiveRecord::Relation)
       safe_join(first.map { |model| turbo_stream_from(model) })
     else
       super
