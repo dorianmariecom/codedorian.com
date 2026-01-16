@@ -120,7 +120,7 @@ GEM
       railties (>= 7.2.0, < 8.2.0)
       zeitwerk (>= 2.5.0)
     cmdparse (3.0.7)
-    code-ruby (1.8.6)
+    code-ruby (1.8.7)
       activesupport
       base64
       bigdecimal
