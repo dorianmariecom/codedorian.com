@@ -1,7 +1,8 @@
 <% text = local_assigns.fetch(:text) %>
 <% url = local_assigns.fetch(:url) %>
 <% method = local_assigns.fetch(:method, :delete) %>
-<% classes = local_assigns.fetch(:class, method == :delete ? "link link--red" : :link) %>
+<% classes =
+  local_assigns.fetch(:class, method == :delete ? "link link--red" : :link) %>
 
 <% if hotwire_native_app? %>
   <%= button_to(

@@ -454,32 +454,99 @@ class VersionsController < ApplicationController
     @version
   end
 
-  def nested
-    [
-      @user || @guest,
-      @program,
-      @program_prompt,
-      @program_prompt_schedule,
-      @program_execution,
-      @program_schedule,
-      @job_context,
-      @address,
-      @configuration,
-      @country_code_ip_address,
-      @datum,
-      @device,
-      @email_address,
-      @example,
-      @example_schedule,
-      @handle,
-      @log,
-      @message,
-      @name,
-      @password,
-      @phone_number,
-      @time_zone,
-      @token
-    ].compact
+  def nested(
+    user: @user,
+    guest: @guest,
+    program: @program,
+    program_prompt: @program_prompt,
+    program_prompt_schedule: @program_prompt_schedule,
+    program_execution: @program_execution,
+    program_schedule: @program_schedule,
+    job_context: @job_context,
+    address: @address,
+    configuration: @configuration,
+    country_code_ip_address: @country_code_ip_address,
+    datum: @datum,
+    device: @device,
+    email_address: @email_address,
+    example: @example,
+    example_schedule: @example_schedule,
+    handle: @handle,
+    log: @log,
+    message: @message,
+    name: @name,
+    password: @password,
+    phone_number: @phone_number,
+    time_zone: @time_zone,
+    token: @token
+  )
+    chain = []
+    chain << user if user
+    chain << guest if guest && !user
+
+    if program || program_prompt || program_prompt_schedule ||
+         program_execution || program_schedule
+      chain << program if program
+
+      if program_prompt_schedule
+        chain << program_prompt if program_prompt
+        chain << program_prompt_schedule
+      elsif program_prompt
+        chain << program_prompt
+      elsif program_execution
+        chain << program_execution
+      elsif program_schedule
+        chain << program_schedule
+      end
+
+      chain << job_context if job_context
+      chain << log if log
+      return chain
+    end
+
+    if job_context
+      chain << job_context
+      chain << log if log
+      return chain
+    end
+
+    if example_schedule
+      chain << example if example
+      chain << example_schedule
+    elsif example
+      chain << example
+    elsif address
+      chain << address
+    elsif configuration
+      chain << configuration
+    elsif country_code_ip_address
+      chain << country_code_ip_address
+    elsif datum
+      chain << datum
+    elsif device
+      chain << device
+    elsif email_address
+      chain << email_address
+    elsif handle
+      chain << handle
+    elsif log
+      chain << log
+    elsif message
+      chain << message
+    elsif name
+      chain << name
+    elsif password
+      chain << password
+    elsif phone_number
+      chain << phone_number
+    elsif time_zone
+      chain << time_zone
+    elsif token
+      chain << token
+    end
+
+    chain << log if log && !chain.include?(log)
+    chain
   end
 
   def filters
