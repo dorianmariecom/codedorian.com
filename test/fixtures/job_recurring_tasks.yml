@@ -1,7 +1,6 @@
 ---
 job_recurring_task:
-  arguments: <%= [{ "_aj_globalid" => "gid://codedorian/Program/#{ActiveRecord::FixtureSet.identify(:program)}"
-    }].to_json %>
+  arguments: '<%= [{ "_aj_globalid" => "gid://codedorian/Program/#{ActiveRecord::FixtureSet.identify(:program)}" }].to_json %>'
   class_name: ProgramEvaluateJob
   created_at: '2025-03-01 07:45:00'
   description: Daily digest for studio tasks
