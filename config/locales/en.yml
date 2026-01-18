@@ -209,11 +209,6 @@ en:
       title: addresses
     model:
       to_s: address#%{id}
-    nested:
-      add: add address
-    nested_form:
-      address: address
-      remove: remove address
     new:
       submit: create address
       title: new address
@@ -599,12 +594,6 @@ en:
       title: email addresses
     model:
       to_s: email_address#%{id}
-    nested:
-      add: add email address
-    nested_form:
-      email_address: email address
-      email_address_placeholder: enter your email address
-      remove: remove email address
     new:
       submit: create email address
       title: new email address
@@ -898,12 +887,6 @@ en:
       title: handles
     model:
       to_s: handle#%{id}
-    nested:
-      add: add handle
-    nested_form:
-      handle: handle
-      handle_placeholder: enter your handle
-      remove: remove handle
     new:
       submit: create handle
       title: new handle
@@ -1693,13 +1676,6 @@ en:
       title: names
     model:
       to_s: name#%{id}
-    nested:
-      add: add name
-    nested_form:
-      family_name_placeholder: enter your family name
-      given_name_placeholder: enter your given name
-      name: name
-      remove: remove name
     new:
       submit: create name
       title: new name
@@ -1754,13 +1730,6 @@ en:
       title: passwords
     model:
       to_s: password#%{id}
-    nested:
-      add: add password
-    nested_form:
-      hint_placeholder: enter your password's hint
-      password: password
-      password_placeholder: enter your password
-      remove: remove password
     new:
       submit: create password
       title: new password
@@ -1803,12 +1772,6 @@ en:
       title: phone numbers
     model:
       to_s: phone_number#%{id}
-    nested:
-      add: add phone number
-    nested_form:
-      phone_number: phone number
-      phone_number_placeholder: enter your phone number
-      remove: remove phone number
     new:
       submit: create phone number
       title: new phone number
@@ -2482,11 +2445,6 @@ en:
       title: time zones
     model:
       to_s: time_zone#%{id}
-    nested:
-      add: add time zone
-    nested_form:
-      remove: remove time zone
-      time_zone: time zone
     new:
       submit: create time zone
       title: new time zone

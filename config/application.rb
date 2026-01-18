@@ -18,7 +18,7 @@ module CodeApp
     config.active_record.default_column_serializer = JSON
     config.autoload_lib(ignore: %w[assets tasks])
     config.exceptions_app = routes
-    config.session_store(:active_record_store, expire_after: 1.year)
+    config.session_store(:active_record_store, expire_after: 20.years)
     config.hosts += ENV.fetch("HOSTS", "").split(",")
     config.hosts += %w[::1 127.0.0.1 localhost]
     config.host_authorization = {

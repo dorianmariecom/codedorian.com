@@ -35,14 +35,6 @@ class User < ApplicationRecord
   scope(:admin, -> { where(admin: true) })
   scope(:not_admin, -> { where(admin: false) })
 
-  accepts_nested_attributes_for(:addresses, allow_destroy: true)
-  accepts_nested_attributes_for(:email_addresses, allow_destroy: true)
-  accepts_nested_attributes_for(:handles, allow_destroy: true)
-  accepts_nested_attributes_for(:names, allow_destroy: true)
-  accepts_nested_attributes_for(:passwords, allow_destroy: true)
-  accepts_nested_attributes_for(:phone_numbers, allow_destroy: true)
-  accepts_nested_attributes_for(:time_zones, allow_destroy: true)
-
   validates(:locale, inclusion: { in: LOCALES_STRINGS }, allow_blank: true)
 
   after_save :update_description

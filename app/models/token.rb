@@ -9,7 +9,8 @@ class Token < ApplicationRecord
   scope(:not_verified, -> { where(verified: false) })
   scope(:where_user, ->(user) { where(user: user) })
 
-  validates(:token, presence: true)
+  validates(:token, presence: true, uniqueness: true)
+  validate(:token_secure)
   validate { can!(:update, user) }
 
   after_initialize { self.token ||= SecureRandom.hex }
@@ -66,6 +67,15 @@ class Token < ApplicationRecord
 
   def not_verified!
     update!(verified: false)
+  end
+
+  def token_secure
+    return if token.blank?
+
+    result = PasswordValidator.check(token)
+    return if result.success?
+
+    errors.add(:token, result.message.presence || :weak)
   end
 
   def to_s

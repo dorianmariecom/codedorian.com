@@ -209,11 +209,6 @@ fr:
       title: adresses
     model:
       to_s: adresse#%{id}
-    nested:
-      add: ajouter une adresse
-    nested_form:
-      address: adresse
-      remove: supprimer l'adresse
     new:
       submit: créer une adresse
       title: nouvelle adresse
@@ -600,12 +595,6 @@ fr:
       title: adresses e-mail
     model:
       to_s: adresse_email#%{id}
-    nested:
-      add: ajouter une adresse e-mail
-    nested_form:
-      email_address: adresse email
-      email_address_placeholder: entrez votre adresse e-mail
-      remove: supprimer l'adresse e-mail
     new:
       submit: créer une adresse e-mail
       title: nouvelle adresse e-mail
@@ -899,12 +888,6 @@ fr:
       title: identifiants
     model:
       to_s: identifiant#%{id}
-    nested:
-      add: ajouter une identifiant
-    nested_form:
-      handle: identifiant
-      handle_placeholder: entrez votre identifiant
-      remove: retirer la identifiant
     new:
       submit: créer une identifiant
       title: nouvelle identifiant
@@ -1695,13 +1678,6 @@ fr:
       title: noms
     model:
       to_s: nom#%{id}
-    nested:
-      add: ajouter un nom
-    nested_form:
-      family_name_placeholder: entrez votre nom de famille
-      given_name_placeholder: entrez votre prénom
-      name: nom
-      remove: supprimer le nom
     new:
       submit: créer un nom
       title: nouveau nom
@@ -1756,13 +1732,6 @@ fr:
       title: mots de passe
     model:
       to_s: mot de passe#%{id}
-    nested:
-      add: ajouter un mot de passe
-    nested_form:
-      hint_placeholder: entrez l'indice de votre mot de passe
-      password: mot de passe
-      password_placeholder: entrez votre mot de passe
-      remove: supprimer le mot de passe
     new:
       submit: créer un mot de passe
       title: nouveau mot de passe
@@ -1805,12 +1774,6 @@ fr:
       title: numéros de téléphone
     model:
       to_s: numéro_de_téléphone#%{id}
-    nested:
-      add: ajouter un numéro de téléphone
-    nested_form:
-      phone_number: numéro de téléphone
-      phone_number_placeholder: entrez votre numéro de téléphone
-      remove: supprimer le numéro de téléphone
     new:
       submit: créer un numéro de téléphone
       title: nouveau numéro de téléphone
@@ -2483,11 +2446,6 @@ fr:
       title: fuseaux horaires
     model:
       to_s: fuseau horaire#%{id}
-    nested:
-      add: ajouter un fuseau horaire
-    nested_form:
-      remove: supprimer le fuseau horaire
-      time_zone: fuseau horaire
     new:
       submit: créer un fuseau horaire
       title: nouveau fuseau horaire

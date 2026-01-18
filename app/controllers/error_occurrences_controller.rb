@@ -335,7 +335,6 @@ class ErrorOccurrencesController < ApplicationController
       email_address
       handle
       job
-      message
       name
       phone_number
       time_zone

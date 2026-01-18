@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_12_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_18_213626) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -600,6 +600,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_12_000000) do
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.boolean "verified", default: false, null: false
+    t.index ["token"], name: "index_tokens_on_token", unique: true
     t.index %w[user_id verified primary],
             name: "index_tokens_on_user_id_and_verified_and_primary"
     t.index ["user_id"], name: "index_tokens_on_user_id"

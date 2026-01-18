@@ -359,7 +359,6 @@ class ErrorsController < ApplicationController
   def filters
     %i[
       user
-      guest
       program
       program_prompt
       program_prompt_schedule
@@ -369,7 +368,6 @@ class ErrorsController < ApplicationController
       device
       email_address
       handle
-      message
       name
       phone_number
       time_zone
