@@ -25,25 +25,17 @@
 
 <% if @message.subject.present? %>
   <div class="p">
-    <div class="text-gray-600">
-      <%= link_to(t(".subject"), [*show_url, :subject], class: :link) %>
-    </div>
+    <div class="text-gray-600"><%= t(".subject") %></div>
     <%= @message.subject %>
   </div>
 <% end %>
 
 <% if @message.body.present? %>
   <div class="p">
-    <div class="text-gray-600">
-      <%= link_to(t(".body"), [*show_url, :body], class: :link) %>
-    </div>
+    <div class="text-gray-600"><%= t(".body") %></div>
     <%= @message.body %>
   </div>
 <% end %>
-
-<div class="p text-gray-600">
-  <%= link_to(t(".content"), [*show_url, :content], class: :link) %>
-</div>
 
 <% if @message.updated_at.present? %>
   <div class="p">
