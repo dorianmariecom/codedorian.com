@@ -27,12 +27,13 @@ Rails.application.config.content_security_policy do |policy|
     "https://*.ingest.de.sentry.io",
 
     # HubSpot – scripts, analytics, banners, forms, APIs
+    "https://*.hs-analytics.net",
+    "https://*.hs-banner.com",
     "https://*.hs-scripts.com",
-    "https://*.hubspot.com",
+    "https://*.hscollectedforms.net",
+    "https://*.hsforms.com",
     "https://*.hubapi.com",
-    "https://js-eu1.hs-banner.com",
-    "https://js-eu1.hs-analytics.net",
-    "https://js-eu1.hscollectedforms.net"
+    "https://*.hubspot.com"
   )
 end
 
