@@ -952,8 +952,6 @@ en:
       successMessageText: bug reported
     tabs:
       account: account
-      admin: admin
-      form: form
       home: home
       log_in: log in
       messages: messages

@@ -924,8 +924,6 @@ fr:
         register: s'inscrire
       tabs:
         account: compte
-        admin: admin
-        form: formulaire
         home: accueil
         log_in: se connecter
         messages: messages
