@@ -29,6 +29,10 @@ class StaticPolicy < ApplicationPolicy
     true
   end
 
+  def book?
+    true
+  end
+
   def admin?
     current_user? && current_user.admin?
   end

@@ -24,7 +24,14 @@ class StaticController < ApplicationController
   end
 
   def form
-    redirect_to(fr? ? Config.form.fr_url : Config.form.en_url, allow_other_host: true)
+    redirect_to(
+      fr? ? Config.form.fr_url : Config.form.en_url,
+      allow_other_host: true
+    )
+  end
+
+  def book
+    redirect_to(Config.book.url, allow_other_host: true)
   end
 
   def admin

@@ -7,6 +7,7 @@
   <% end %>
 
   <%= link_to(t(".form"), :form, class: :link) %>
+  <%= link_to(t(".book"), :book, class: :link) %>
   <%= link_to(t(".programs"), [current_user_or_guest, :programs], class: :link) %>
 
   <% if registered? %>

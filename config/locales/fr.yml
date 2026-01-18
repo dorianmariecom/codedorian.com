@@ -391,6 +391,7 @@ fr:
     static:
       about: à propos
       admin: admin
+      book: réserver
       download: télécharger
       form: formulaire
       home: accueil
@@ -930,22 +931,23 @@ fr:
         about: à propos
         account: compte
         admin: admin
+        book: réserver
         english: anglais
+        form: formulaire
         french: français
         log_in: se connecter
         messages: messages
         programs: programmes
         register: s'inscrire
-        form: formulaire
       tabs:
         account: compte
         admin: admin
+        form: formulaire
         home: accueil
         log_in: se connecter
         messages: messages
         programs: programmes
         register: s'inscrire
-        form: formulaire
     label:
       session:
         email_address: adresse email
@@ -1582,11 +1584,12 @@ fr:
             masculine: doit être valide
       title: code
     menu:
-      form: formulaire
       about: à propos
       account: compte
       admin: admin
+      book: réserver
       english: anglais
+      form: formulaire
       french: français
       log_in: se connecter
       messages: messages
@@ -2393,6 +2396,7 @@ fr:
     download:
       title: télécharger
     home:
+      book: réserver
       form: formulaire
       log_in: se connecter
       messages: messages

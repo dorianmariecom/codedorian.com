@@ -471,6 +471,7 @@ Rails.application.routes.draw do
     get(:android, to: "static#android")
     get(:download, to: "static#download")
     get(:form, to: "static#form")
+    get(:book, to: "static#book")
     get(:admin, to: "static#admin")
 
     match("/404", to: "errors#not_found", via: :all)

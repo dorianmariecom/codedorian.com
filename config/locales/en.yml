@@ -390,6 +390,7 @@ en:
     static:
       about: about
       admin: admin
+      book: book
       download: download
       form: form
       home: home
@@ -924,31 +925,22 @@ en:
     update:
       notice: handle updated
   helpers:
-    application:
-      menu:
-        about: about
-        account: account
-        admin: admin
-        english: english
-        french: french
-        log_in: log in
-        messages: messages
-        programs: programs
-        register: register
-        form: form
-      tabs:
-        account: account
-        admin: admin
-        home: home
-        log_in: log in
-        messages: messages
-        programs: programs
-        register: register
-        form: form
     label:
       session:
         email_address: email address
         password: password
+    menu:
+      about: about
+      account: account
+      admin: admin
+      book: book
+      english: english
+      form: form
+      french: french
+      log_in: log in
+      messages: messages
+      programs: programs
+      register: register
     page_entries_info:
       more_pages:
         display_entries: "%{total} found"
@@ -975,6 +967,15 @@ en:
       removeScreenshotButtonLabel: remove screenshot
       submitButtonLabel: report
       successMessageText: bug reported
+    tabs:
+      account: account
+      admin: admin
+      form: form
+      home: home
+      log_in: log in
+      messages: messages
+      programs: programs
+      register: register
   job_blocked_executions:
     create:
       notice: job blocked execution created
@@ -1584,13 +1585,14 @@ en:
       about: about
       account: account
       admin: admin
+      book: book
       english: english
+      form: form
       french: french
       log_in: log in
       messages: messages
       programs: programs
       register: register
-      form: form
   logs:
     create:
       notice: log created
@@ -2393,6 +2395,7 @@ en:
     download:
       title: download
     home:
+      book: book
       form: form
       log_in: log in
       messages: messages
