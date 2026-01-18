@@ -20,6 +20,12 @@ module TabsHelper
         default: true
       },
       {
+        title: t("helpers.application.tabs.form"),
+        image: ios ? :checklist : :assignment,
+        path: form_path,
+        default: false
+      },
+      {
         title: t("helpers.application.tabs.programs"),
         image: ios ? "laptopcomputer" : :computer,
         path: polymorphic_path([current_user_or_guest, :programs]),
@@ -61,16 +67,6 @@ module TabsHelper
             title: t("helpers.application.tabs.log_in"),
             image: ios ? "person.crop.circle.fill" : :login,
             path: new_login_path,
-            default: false
-          }
-        end
-      ),
-      (
-        if admin?
-          {
-            title: t("helpers.application.tabs.admin"),
-            image: ios ? :suitcase : :work,
-            path: admin_path,
             default: false
           }
         end

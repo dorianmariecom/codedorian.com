@@ -15,7 +15,10 @@ Rails.application.config.content_security_policy do |policy|
     "https://proxy.dorianmarie.com",
     "https://js-de.sentry-cdn.com",
     "https://browser.sentry-cdn.com",
-    "https://*.ingest.de.sentry.io"
+    "https://*.ingest.de.sentry.io",
+    "https://*.hs-scripts.com",
+    "https://*.hubspot.com",
+    "https://*.hubapi.com"
   )
 end
 

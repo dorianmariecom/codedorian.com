@@ -140,14 +140,6 @@ module ApplicationHelper
     current_user_or_guest.devices.map(&:token)
   end
 
-  def fr?
-    I18n.locale == :fr
-  end
-
-  def en?
-    I18n.locale == :en
-  end
-
   def recaptcha_site_key
     Config.google.recaptcha.site_key
   end

@@ -932,11 +932,11 @@ fr:
         admin: admin
         english: anglais
         french: français
-        home: accueil
         log_in: se connecter
         messages: messages
         programs: programmes
         register: s'inscrire
+        form: formulaire
       tabs:
         account: compte
         admin: admin
@@ -945,6 +945,7 @@ fr:
         messages: messages
         programs: programmes
         register: s'inscrire
+        form: formulaire
     label:
       session:
         email_address: adresse email
@@ -1581,6 +1582,7 @@ fr:
             masculine: doit être valide
       title: code
     menu:
+      form: formulaire
       about: à propos
       account: compte
       admin: admin
@@ -2391,6 +2393,7 @@ fr:
     download:
       title: télécharger
     home:
+      form: formulaire
       log_in: se connecter
       messages: messages
       programs: programmes

@@ -46,8 +46,13 @@ module MenuHelper
         path: root_path
       },
       {
+        title: t("helpers.application.menu.form"),
+        image: ios ? :checklist : :assignment,
+        path: form_path
+      },
+      {
         title: t("helpers.application.menu.programs"),
-        image: ios ? "laptopcomputer" : :computer,
+        image: ios ? :laptopcomputer : :computer,
         path: polymorphic_path([current_user_or_guest, :programs])
       },
       {

@@ -57,6 +57,8 @@ class ApplicationController < ActionController::Base
   helper_method(:resource_name)
   helper_method(:model_class)
   helper_method(:model_instance)
+  helper_method(:en?)
+  helper_method(:fr?)
 
   RESCUE_FROM =
     lambda do |error|
@@ -415,5 +417,13 @@ class ApplicationController < ActionController::Base
 
   def authorize_profiler
     Rack::MiniProfiler.authorize_request if admin?
+  end
+
+  def en?
+    I18n.locale == :en
+  end
+
+  def fr?
+    I18n.locale == :fr
   end
 end

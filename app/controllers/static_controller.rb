@@ -24,7 +24,7 @@ class StaticController < ApplicationController
   end
 
   def form
-    redirect_to(Config.form.url, allow_other_host: true)
+    redirect_to(fr? ? Config.form.fr_url : Config.form.en_url, allow_other_host: true)
   end
 
   def admin
