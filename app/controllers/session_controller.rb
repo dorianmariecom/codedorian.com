@@ -28,10 +28,10 @@ class SessionController < ApplicationController
 
     if @users.none?
       flash.now.alert = t(".wrong_email_address")
-      render(status: :unprocessable_content)
+      render(:new, status: :unprocessable_content)
     elsif @user.nil?
       flash.now.alert = t(".wrong_password")
-      render(status: :unprocessable_content)
+      render(:new, status: :unprocessable_content)
     else
       log_in(@user)
       redirect_to(@user, notice: t(".notice"))
