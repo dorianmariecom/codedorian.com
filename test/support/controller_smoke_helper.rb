@@ -93,7 +93,7 @@ module ControllerSmokeHelper
       params[part] = required_value(part, route, test_case)
     end
 
-    params[:locale] ||= "en" if route.path.spec.to_s.include?(":locale")
+    params[:locale] ||= I18n.locale.to_s if route.path.spec.to_s.include?(":locale")
 
     params
   end
@@ -103,7 +103,7 @@ module ControllerSmokeHelper
 
     case part
     when :locale
-      "en"
+      I18n.locale.to_s
     when :id
       id_for_controller(controller, test_case)
     when :user_id

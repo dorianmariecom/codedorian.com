@@ -770,10 +770,38 @@ fr:
         one: 1 jour
         other: "%{count} jours"
         zero: 0 jours
+      fifth_friday: cinquième vendredi
+      fifth_monday: cinquième lundi
+      fifth_saturday: cinquième samedi
+      fifth_sunday: cinquième dimanche
+      fifth_thursday: cinquième jeudi
+      fifth_tuesday: cinquième mardi
+      fifth_wednesday: cinquième mercredi
+      first_friday: premier vendredi
+      first_monday: premier lundi
+      first_saturday: premier samedi
+      first_sunday: premier dimanche
+      first_thursday: premier jeudi
+      first_tuesday: premier mardi
+      first_wednesday: premier mercredi
+      fourth_friday: quatrième vendredi
+      fourth_monday: quatrième lundi
+      fourth_saturday: quatrième samedi
+      fourth_sunday: quatrième dimanche
+      fourth_thursday: quatrième jeudi
+      fourth_tuesday: quatrième mardi
+      fourth_wednesday: quatrième mercredi
       hours:
         one: 1 heure
         other: "%{count} heures"
         zero: 0 heures
+      last_friday: dernier vendredi
+      last_monday: dernier lundi
+      last_saturday: dernier samedi
+      last_sunday: dernier dimanche
+      last_thursday: dernier jeudi
+      last_tuesday: dernier mardi
+      last_wednesday: dernier mercredi
       minutes:
         one: 1 minute
         other: "%{count} minutes"
@@ -783,10 +811,24 @@ fr:
         other: "%{count} mois"
         zero: 0 mois
       once: une fois
+      second_friday: deuxième vendredi
+      second_monday: deuxième lundi
+      second_saturday: deuxième samedi
+      second_sunday: deuxième dimanche
+      second_thursday: deuxième jeudi
+      second_tuesday: deuxième mardi
+      second_wednesday: deuxième mercredi
       seconds:
         one: 1 seconde
         other: "%{count} secondes"
         zero: 0 seconde
+      third_friday: troisième vendredi
+      third_monday: troisième lundi
+      third_saturday: troisième samedi
+      third_sunday: troisième dimanche
+      third_thursday: troisième jeudi
+      third_tuesday: troisième mardi
+      third_wednesday: troisième mercredi
       to_s: exemple_horaire#%{id}
       weeks:
         one: 1 semaine
@@ -1997,6 +2039,20 @@ fr:
         one: 1 jour
         other: "%{count} jours"
         zero: 0 jours
+      first_friday: premier vendredi
+      first_monday: premier lundi
+      first_saturday: premier samedi
+      first_sunday: premier dimanche
+      first_thursday: premier jeudi
+      first_tuesday: premier mardi
+      first_wednesday: premier mercredi
+      fourth_friday: quatrième vendredi
+      fourth_monday: quatrième lundi
+      fourth_saturday: quatrième samedi
+      fourth_sunday: quatrième dimanche
+      fourth_thursday: quatrième jeudi
+      fourth_tuesday: quatrième mardi
+      fourth_wednesday: quatrième mercredi
       hours:
         one: 1 heure
         other: "%{count} heures"
@@ -2010,10 +2066,24 @@ fr:
         other: "%{count} mois"
         zero: 0 mois
       once: une fois
+      second_friday: deuxième vendredi
+      second_monday: deuxième lundi
+      second_saturday: deuxième samedi
+      second_sunday: deuxième dimanche
+      second_thursday: deuxième jeudi
+      second_tuesday: deuxième mardi
+      second_wednesday: deuxième mercredi
       seconds:
         one: 1 seconde
         other: "%{count} secondes"
         zero: 0 seconde
+      third_friday: troisième vendredi
+      third_monday: troisième lundi
+      third_saturday: troisième samedi
+      third_sunday: troisième dimanche
+      third_thursday: troisième jeudi
+      third_tuesday: troisième mardi
+      third_wednesday: troisième mercredi
       to_s: programme_invite_horaire#%{id}
       weeks:
         one: 1 semaine
@@ -2147,10 +2217,38 @@ fr:
         one: 1 jour
         other: "%{count} jours"
         zero: 0 jours
+      fifth_friday: cinquième vendredi
+      fifth_monday: cinquième lundi
+      fifth_saturday: cinquième samedi
+      fifth_sunday: cinquième dimanche
+      fifth_thursday: cinquième jeudi
+      fifth_tuesday: cinquième mardi
+      fifth_wednesday: cinquième mercredi
+      first_friday: premier vendredi
+      first_monday: premier lundi
+      first_saturday: premier samedi
+      first_sunday: premier dimanche
+      first_thursday: premier jeudi
+      first_tuesday: premier mardi
+      first_wednesday: premier mercredi
+      fourth_friday: quatrième vendredi
+      fourth_monday: quatrième lundi
+      fourth_saturday: quatrième samedi
+      fourth_sunday: quatrième dimanche
+      fourth_thursday: quatrième jeudi
+      fourth_tuesday: quatrième mardi
+      fourth_wednesday: quatrième mercredi
       hours:
         one: 1 heure
         other: "%{count} heures"
         zero: 0 heures
+      last_friday: dernier vendredi
+      last_monday: dernier lundi
+      last_saturday: dernier samedi
+      last_sunday: dernier dimanche
+      last_thursday: dernier jeudi
+      last_tuesday: dernier mardi
+      last_wednesday: dernier mercredi
       minutes:
         one: 1 minute
         other: "%{count} minutes"
@@ -2160,10 +2258,24 @@ fr:
         other: "%{count} mois"
         zero: 0 mois
       once: une fois
+      second_friday: deuxième vendredi
+      second_monday: deuxième lundi
+      second_saturday: deuxième samedi
+      second_sunday: deuxième dimanche
+      second_thursday: deuxième jeudi
+      second_tuesday: deuxième mardi
+      second_wednesday: deuxième mercredi
       seconds:
         one: 1 seconde
         other: "%{count} secondes"
         zero: 0 seconde
+      third_friday: troisième vendredi
+      third_monday: troisième lundi
+      third_saturday: troisième samedi
+      third_sunday: troisième dimanche
+      third_thursday: troisième jeudi
+      third_tuesday: troisième mardi
+      third_wednesday: troisième mercredi
       to_s: programme_horaire#%{id}
       weeks:
         one: 1 semaine

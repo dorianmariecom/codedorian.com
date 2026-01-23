@@ -769,10 +769,38 @@ en:
         one: 1 day
         other: "%{count} days"
         zero: 0 days
+      fifth_friday: fifth friday
+      fifth_monday: fifth monday
+      fifth_saturday: fifth saturday
+      fifth_sunday: fifth sunday
+      fifth_thursday: fifth thursday
+      fifth_tuesday: fifth tuesday
+      fifth_wednesday: fifth wednesday
+      first_friday: first friday
+      first_monday: first monday
+      first_saturday: first saturday
+      first_sunday: first sunday
+      first_thursday: first thursday
+      first_tuesday: first tuesday
+      first_wednesday: first wednesday
+      fourth_friday: fourth friday
+      fourth_monday: fourth monday
+      fourth_saturday: fourth saturday
+      fourth_sunday: fourth sunday
+      fourth_thursday: fourth thursday
+      fourth_tuesday: fourth tuesday
+      fourth_wednesday: fourth wednesday
       hours:
         one: 1 hour
         other: "%{count} hours"
         zero: 0 hours
+      last_friday: last friday
+      last_monday: last monday
+      last_saturday: last saturday
+      last_sunday: last sunday
+      last_thursday: last thursday
+      last_tuesday: last tuesday
+      last_wednesday: last wednesday
       minutes:
         one: 1 minute
         other: "%{count} minutes"
@@ -782,10 +810,24 @@ en:
         other: "%{count} months"
         zero: 0 months
       once: once
+      second_friday: second friday
+      second_monday: second monday
+      second_saturday: second saturday
+      second_sunday: second sunday
+      second_thursday: second thursday
+      second_tuesday: second tuesday
+      second_wednesday: second wednesday
       seconds:
         one: 1 second
         other: "%{count} seconds"
         zero: 0 seconds
+      third_friday: third friday
+      third_monday: third monday
+      third_saturday: third saturday
+      third_sunday: third sunday
+      third_thursday: third thursday
+      third_tuesday: third tuesday
+      third_wednesday: third wednesday
       to_s: example_schedule#%{id}
       weeks:
         one: 1 week
@@ -1992,10 +2034,38 @@ en:
         one: 1 day
         other: "%{count} days"
         zero: 0 days
+      fifth_friday: fifth friday
+      fifth_monday: fifth monday
+      fifth_saturday: fifth saturday
+      fifth_sunday: fifth sunday
+      fifth_thursday: fifth thursday
+      fifth_tuesday: fifth tuesday
+      fifth_wednesday: fifth wednesday
+      first_friday: first friday
+      first_monday: first monday
+      first_saturday: first saturday
+      first_sunday: first sunday
+      first_thursday: first thursday
+      first_tuesday: first tuesday
+      first_wednesday: first wednesday
+      fourth_friday: fourth friday
+      fourth_monday: fourth monday
+      fourth_saturday: fourth saturday
+      fourth_sunday: fourth sunday
+      fourth_thursday: fourth thursday
+      fourth_tuesday: fourth tuesday
+      fourth_wednesday: fourth wednesday
       hours:
         one: 1 hour
         other: "%{count} hours"
         zero: 0 hours
+      last_friday: last friday
+      last_monday: last monday
+      last_saturday: last saturday
+      last_sunday: last sunday
+      last_thursday: last thursday
+      last_tuesday: last tuesday
+      last_wednesday: last wednesday
       minutes:
         one: 1 minute
         other: "%{count} minutes"
@@ -2005,10 +2075,24 @@ en:
         other: "%{count} months"
         zero: 0 months
       once: once
+      second_friday: second friday
+      second_monday: second monday
+      second_saturday: second saturday
+      second_sunday: second sunday
+      second_thursday: second thursday
+      second_tuesday: second tuesday
+      second_wednesday: second wednesday
       seconds:
         one: 1 second
         other: "%{count} seconds"
         zero: 0 seconds
+      third_friday: third friday
+      third_monday: third monday
+      third_saturday: third saturday
+      third_sunday: third sunday
+      third_thursday: third thursday
+      third_tuesday: third tuesday
+      third_wednesday: third wednesday
       to_s: program_prompt_schedule#%{id}
       weeks:
         one: 1 week
@@ -2142,10 +2226,38 @@ en:
         one: 1 day
         other: "%{count} days"
         zero: 0 days
+      fifth_friday: fifth friday
+      fifth_monday: fifth monday
+      fifth_saturday: fifth saturday
+      fifth_sunday: fifth sunday
+      fifth_thursday: fifth thursday
+      fifth_tuesday: fifth tuesday
+      fifth_wednesday: fifth wednesday
+      first_friday: first friday
+      first_monday: first monday
+      first_saturday: first saturday
+      first_sunday: first sunday
+      first_thursday: first thursday
+      first_tuesday: first tuesday
+      first_wednesday: first wednesday
+      fourth_friday: fourth friday
+      fourth_monday: fourth monday
+      fourth_saturday: fourth saturday
+      fourth_sunday: fourth sunday
+      fourth_thursday: fourth thursday
+      fourth_tuesday: fourth tuesday
+      fourth_wednesday: fourth wednesday
       hours:
         one: 1 hour
         other: "%{count} hours"
         zero: 0 hours
+      last_friday: last friday
+      last_monday: last monday
+      last_saturday: last saturday
+      last_sunday: last sunday
+      last_thursday: last thursday
+      last_tuesday: last tuesday
+      last_wednesday: last wednesday
       minutes:
         one: 1 minute
         other: "%{count} minutes"
@@ -2155,10 +2267,24 @@ en:
         other: "%{count} months"
         zero: 0 months
       once: once
+      second_friday: second friday
+      second_monday: second monday
+      second_saturday: second saturday
+      second_sunday: second sunday
+      second_thursday: second thursday
+      second_tuesday: second tuesday
+      second_wednesday: second wednesday
       seconds:
         one: 1 second
         other: "%{count} seconds"
         zero: 0 seconds
+      third_friday: third friday
+      third_monday: third monday
+      third_saturday: third saturday
+      third_sunday: third sunday
+      third_thursday: third thursday
+      third_tuesday: third tuesday
+      third_wednesday: third wednesday
       to_s: program_schedule#%{id}
       weeks:
         one: 1 week

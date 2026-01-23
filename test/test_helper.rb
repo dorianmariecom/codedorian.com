@@ -81,10 +81,28 @@ module ActiveSupport
   end
 end
 
+module LocaleTestHelper
+  def test(name, &block)
+    return super unless block
+
+    %i[en fr].each do |locale|
+      super("#{name} (#{locale})") do
+        I18n.with_locale(locale) { instance_exec(&block) }
+      end
+    end
+  end
+end
+
+ActiveSupport::TestCase.singleton_class.prepend(LocaleTestHelper)
+
 module ActionDispatch
   class IntegrationTest
     include Rails.application.routes.url_helpers
     include ActionDispatch::TestProcess
+
+    def default_url_options
+      { locale: I18n.locale }
+    end
 
     def sign_in(email, password)
       post(

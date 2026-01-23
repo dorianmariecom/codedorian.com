@@ -13,7 +13,7 @@ class LogOutTest < ApplicationSystemTestCase
     fill_in "session_password", with: passwords(:other_password).hint
     within("form") { click_button I18n.t("session.new.submit") }
 
-    assert_current_path "/users/#{user.id}"
+    assert_current_path user_path(id: user)
 
     click_button I18n.t("users.show.log_out")
 
