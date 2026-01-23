@@ -1,4 +1,4 @@
-// @sentry-internal/replay@10.32.1 downloaded from https://ga.jspm.io/npm:@sentry-internal/replay@10.32.1/build/npm/esm/index.js
+// @sentry-internal/replay@10.34.0 downloaded from https://ga.jspm.io/npm:@sentry-internal/replay@10.34.0/build/npm/esm/index.js
 
 import {
   GLOBAL_OBJ as e,

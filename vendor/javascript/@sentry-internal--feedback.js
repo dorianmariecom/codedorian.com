@@ -1,4 +1,4 @@
-// @sentry-internal/feedback@10.32.1 downloaded from https://ga.jspm.io/npm:@sentry-internal/feedback@10.32.1/build/npm/esm/index.js
+// @sentry-internal/feedback@10.34.0 downloaded from https://ga.jspm.io/npm:@sentry-internal/feedback@10.34.0/build/npm/esm/index.js
 
 import {
   GLOBAL_OBJ as e,
@@ -205,7 +205,7 @@ function Z(e) {
 }
 function Y({ colorScheme: e, themeDark: n, themeLight: t, styleNonce: o }) {
   const r = _.createElement("style");
-  r.textContent = `\n:host {\n  --font-family: system-ui, 'Helvetica Neue', Arial, sans-serif;\n  --font-size: 14px;\n  --z-index: 100000;\n\n  --page-margin: 16px;\n  --inset: auto 0 0 auto;\n  --actor-inset: var(--inset);\n\n  font-family: var(--font-family);\n  font-size: var(--font-size);\n\n  ${e !== "system" ? "color-scheme: only light;" : ""}\n\n  ${Z(e === "dark" ? { ...j, ...n } : { ...O, ...t })}\n}\n\n${e === "system" ? `\n@media (prefers-color-scheme: dark) {\n  :host {\n    ${Z({ ...j, ...n })}\n  }\n}` : ""}\n}\n`;
+  r.textContent = `\n:host {\n  --font-family: system-ui, 'Helvetica Neue', Arial, sans-serif;\n  --font-size: 14px;\n  --z-index: 100000;\n\n  --page-margin: 16px;\n  --inset: auto 0 0 auto;\n  --actor-inset: var(--inset);\n\n  font-family: var(--font-family);\n  font-size: var(--font-size);\n\n  ${e !== "system" ? `color-scheme: only ${e};` : ""}\n\n  ${Z(e === "dark" ? { ...j, ...n } : { ...O, ...t })}\n}\n\n${e === "system" ? `\n@media (prefers-color-scheme: dark) {\n  :host {\n    color-scheme: only dark;\n\n    ${Z({ ...j, ...n })}\n  }\n}` : ""}\n`;
   o && r.setAttribute("nonce", o);
   return r;
 }

@@ -1,4 +1,4 @@
-// intl-tel-input@25.14.1 downloaded from https://ga.jspm.io/npm:intl-tel-input@25.14.1/build/js/intlTelInput.js
+// intl-tel-input@25.15.0 downloaded from https://ga.jspm.io/npm:intl-tel-input@25.15.0/build/js/intlTelInput.js
 
 var t = {};
 (function (e) {
@@ -2294,7 +2294,7 @@ var t = {};
         attachUtils: ot,
         startedLoadingUtilsScript: false,
         startedLoadingAutoCountry: false,
-        version: "25.14.1",
+        version: "25.15.0",
       },
     );
     var lt = at;

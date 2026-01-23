@@ -1,4 +1,4 @@
-// @sentry-internal/browser-utils@10.32.1 downloaded from https://ga.jspm.io/npm:@sentry-internal/browser-utils@10.32.1/build/esm/index.js
+// @sentry-internal/browser-utils@10.34.0 downloaded from https://ga.jspm.io/npm:@sentry-internal/browser-utils@10.34.0/build/esm/index.js
 
 import {
   GLOBAL_OBJ as t,
@@ -136,8 +136,12 @@ const J = (t, e = -1) => {
 };
 const K = new WeakMap();
 function Q(t, e) {
-  K.get(t) || K.set(t, new e());
-  return K.get(t);
+  try {
+    K.get(t) || K.set(t, new e());
+    return K.get(t);
+  } catch (t) {
+    return new e();
+  }
 }
 class LayoutShiftManager {
   constructor() {
@@ -328,28 +332,22 @@ class InteractionManager {
   }
 }
 const yt = (t) => {
-  const e = (e) => {
-    (e.type !== "pagehide" && O.document?.visibilityState !== "hidden") || t(e);
-  };
-  U("visibilitychange", e, true);
-  U("pagehide", e, true);
-};
-const gt = (t) => {
   const e = O.requestIdleCallback || O.setTimeout;
   if (O.document?.visibilityState === "hidden") t();
   else {
     t = tt(t);
     U("visibilitychange", t, { once: true, capture: true });
+    U("pagehide", t, { once: true, capture: true });
     e(() => {
       t();
       z("visibilitychange", t, { capture: true });
+      z("pagehide", t, { capture: true });
     });
-    yt(t);
   }
 };
-const _t = [200, 500];
-const vt = 40;
-const bt = (t, e = {}) => {
+const gt = [200, 500];
+const _t = 40;
+const vt = (t, e = {}) => {
   if (
     !(
       globalThis.PerformanceEventTiming &&
@@ -364,7 +362,7 @@ const bt = (t, e = {}) => {
     let o;
     const i = Q(e, InteractionManager);
     const s = (t) => {
-      gt(() => {
+      yt(() => {
         for (const e of t) i._processEntry(e);
         const e = i._estimateP98LongestInteraction();
         if (e && e._latency !== r.value) {
@@ -374,8 +372,8 @@ const bt = (t, e = {}) => {
         }
       });
     };
-    const c = Z("event", s, { durationThreshold: e.durationThreshold ?? vt });
-    o = H(t, r, _t, e.reportAllChanges);
+    const c = Z("event", s, { durationThreshold: e.durationThreshold ?? _t });
+    o = H(t, r, gt, e.reportAllChanges);
     if (c) {
       c.observe({ type: "first-input", buffered: true });
       n.onHidden(() => {
@@ -390,8 +388,8 @@ class LCPEntryManager {
     this._onBeforeProcessingEntry?.(t);
   }
 }
-const Tt = [2500, 4e3];
-const St = (t, e = {}) => {
+const bt = [2500, 4e3];
+const Tt = (t, e = {}) => {
   et(() => {
     const n = W();
     const r = J("LCP");
@@ -410,7 +408,7 @@ const St = (t, e = {}) => {
     };
     const c = Z("largest-contentful-paint", s);
     if (c) {
-      o = H(t, r, Tt, e.reportAllChanges);
+      o = H(t, r, bt, e.reportAllChanges);
       const n = tt(() => {
         s(c.takeRecords());
         c.disconnect();
@@ -418,7 +416,7 @@ const St = (t, e = {}) => {
       });
       const i = (t) => {
         if (t.isTrusted) {
-          gt(n);
+          yt(n);
           z(t.type, i, { capture: true });
         }
       };
@@ -427,21 +425,21 @@ const St = (t, e = {}) => {
     }
   });
 };
-const Et = [800, 1800];
+const St = [800, 1800];
 /**
  * Runs in the next task after the page is done loading and/or prerendering.
  * @param callback
- */ const wt = (t) => {
+ */ const Et = (t) => {
   O.document?.prerendering
-    ? et(() => wt(t))
+    ? et(() => Et(t))
     : O.document?.readyState !== "complete"
-      ? addEventListener("load", () => wt(t), true)
+      ? addEventListener("load", () => Et(t), true)
       : setTimeout(t);
 };
-const kt = (t, e = {}) => {
+const wt = (t, e = {}) => {
   const n = J("TTFB");
-  const r = H(t, n, Et, e.reportAllChanges);
-  wt(() => {
+  const r = H(t, n, St, e.reportAllChanges);
+  Et(() => {
     const t = B();
     if (t) {
       n.value = Math.max(t.responseStart - D(), 0);
@@ -450,34 +448,34 @@ const kt = (t, e = {}) => {
     }
   });
 };
+const kt = {};
 const Lt = {};
-const Ct = {};
+let Ct;
 let It;
 let Pt;
 let Mt;
-let qt;
-function xt(t, e = false) {
-  return zt("cls", t, Ht, It, e);
+function qt(t, e = false) {
+  return Ut("cls", t, $t, Ct, e);
 }
-function At(t, e = false) {
-  return zt("lcp", t, Bt, Pt, e);
+function xt(t, e = false) {
+  return Ut("lcp", t, Ht, It, e);
+}
+function At(t) {
+  return Ut("ttfb", t, Bt, Pt);
 }
 function Nt(t) {
-  return zt("ttfb", t, Dt, Mt);
+  return Ut("inp", t, Dt, Mt);
 }
-function Rt(t) {
-  return zt("inp", t, Ut, qt);
-}
-function Ot(t, e) {
-  Ft(t, e);
-  if (!Ct[t]) {
-    jt(t);
-    Ct[t] = true;
+function Rt(t, e) {
+  jt(t, e);
+  if (!Lt[t]) {
+    zt(t);
+    Lt[t] = true;
   }
-  return Vt(t, e);
+  return Ft(t, e);
 }
-function $t(t, r) {
-  const o = Lt[t];
+function Ot(t, r) {
+  const o = kt[t];
   if (o?.length)
     for (const i of o)
       try {
@@ -490,73 +488,101 @@ function $t(t, r) {
           );
       }
 }
-function Ht() {
+function $t() {
   return it(
     (t) => {
-      $t("cls", { metric: t });
+      Ot("cls", { metric: t });
+      Ct = t;
+    },
+    { reportAllChanges: true },
+  );
+}
+function Ht() {
+  return Tt(
+    (t) => {
+      Ot("lcp", { metric: t });
       It = t;
     },
     { reportAllChanges: true },
   );
 }
 function Bt() {
-  return St(
-    (t) => {
-      $t("lcp", { metric: t });
-      Pt = t;
-    },
-    { reportAllChanges: true },
-  );
+  return wt((t) => {
+    Ot("ttfb", { metric: t });
+    Pt = t;
+  });
 }
 function Dt() {
-  return kt((t) => {
-    $t("ttfb", { metric: t });
+  return vt((t) => {
+    Ot("inp", { metric: t });
     Mt = t;
   });
 }
-function Ut() {
-  return bt((t) => {
-    $t("inp", { metric: t });
-    qt = t;
-  });
-}
-function zt(t, e, n, r, o = false) {
-  Ft(t, e);
+function Ut(t, e, n, r, o = false) {
+  jt(t, e);
   let i;
-  if (!Ct[t]) {
+  if (!Lt[t]) {
     i = n();
-    Ct[t] = true;
+    Lt[t] = true;
   }
   r && e({ metric: r });
-  return Vt(t, e, o ? i : void 0);
+  return Ft(t, e, o ? i : void 0);
 }
-function jt(t) {
+function zt(t) {
   const e = {};
   t === "event" && (e.durationThreshold = 0);
   Z(
     t,
     (e) => {
-      $t(t, { entries: e });
+      Ot(t, { entries: e });
     },
     e,
   );
 }
-function Ft(t, e) {
-  Lt[t] = Lt[t] || [];
-  Lt[t].push(e);
+function jt(t, e) {
+  kt[t] = kt[t] || [];
+  kt[t].push(e);
 }
-function Vt(t, e, n) {
+function Ft(t, e, n) {
   return () => {
     n && n();
-    const r = Lt[t];
+    const r = kt[t];
     if (!r) return;
     const o = r.indexOf(e);
     o !== -1 && r.splice(o, 1);
   };
 }
-function Yt(t) {
+function Vt(t) {
   return "duration" in t;
 }
+/**
+ * Sentry-specific change:
+ *
+ * This function's logic was NOT updated to web-vitals 4.2.4 or 5.x but we continue
+ * to use the web-vitals 3.5.2 version due to having stricter browser support.
+ *
+ * PR with context that made the changes:
+ * https://github.com/GoogleChrome/web-vitals/pull/442/files#r1530492402
+ *
+ * The PR removed listening to the `pagehide` event, in favour of only listening to
+ * the `visibilitychange` event. This is "more correct" but some browsers we still
+ * support (Safari <14.4) don't fully support `visibilitychange` or have known bugs
+ * with respect to the `visibilitychange` event.
+ *
+ * TODO (v11): If we decide to drop support for Safari 14.4, we can use the logic
+ * from web-vitals 4.2.4. In this case, we also need to update the integration tests
+ * that currently trigger the `pagehide` event to simulate the page being hidden.
+ *
+ * @param {OnHiddenCallback} cb - Callback to be executed when the page is hidden or unloaded.
+ *
+ * @deprecated use `whenIdleOrHidden` or `addPageListener('visibilitychange')` instead
+ */ const Yt = (t) => {
+  const e = (e) => {
+    (e.type !== "pagehide" && O.document?.visibilityState !== "hidden") || t(e);
+  };
+  U("visibilitychange", e, { capture: true, once: true });
+  U("pagehide", e, { capture: true, once: true });
+};
 function Wt(t) {
   return typeof t === "number" && isFinite(t);
 }
@@ -675,7 +701,7 @@ function Zt(t) {
     !r && n && e(t, n);
     r = true;
   }
-  yt(() => {
+  Yt(() => {
     o("pagehide");
   });
   const i = t.on("beforeStartNavigationSpan", (t, e) => {
@@ -694,7 +720,7 @@ function ee(t) {
   let e = 0;
   let n;
   if (!Zt("layout-shift")) return;
-  const r = xt(({ metric: t }) => {
+  const r = qt(({ metric: t }) => {
     const r = t.entries[t.entries.length - 1];
     if (r) {
       e = t.value;
@@ -732,7 +758,7 @@ function re(t) {
   let e = 0;
   let n;
   if (!Zt("largest-contentful-paint")) return;
-  const r = At(({ metric: t }) => {
+  const r = xt(({ metric: t }) => {
     const r = t.entries[t.entries.length - 1];
     if (r) {
       e = t.value;
@@ -842,7 +868,7 @@ let pe;
   return () => {};
 }
 function me() {
-  Ot("longtask", ({ entries: t }) => {
+  Rt("longtask", ({ entries: t }) => {
     const e = y();
     if (!e) return;
     const { op: n, start_timestamp: o } = r(e);
@@ -892,7 +918,7 @@ function he() {
   t.observe({ type: "long-animation-frame", buffered: true });
 }
 function ye() {
-  Ot("event", ({ entries: t }) => {
+  Rt("event", ({ entries: t }) => {
     const e = y();
     if (e)
       for (const n of t)
@@ -912,7 +938,7 @@ function ye() {
   });
 }
 function ge() {
-  return xt(({ metric: t }) => {
+  return qt(({ metric: t }) => {
     const e = t.entries[t.entries.length - 1];
     if (e) {
       le.cls = { value: t.value, unit: "" };
@@ -921,7 +947,7 @@ function ge() {
   }, true);
 }
 function _e() {
-  return At(({ metric: t }) => {
+  return xt(({ metric: t }) => {
     const e = t.entries[t.entries.length - 1];
     if (e) {
       le.lcp = { value: t.value, unit: "millisecond" };
@@ -930,7 +956,7 @@ function _e() {
   }, true);
 }
 function ve() {
-  return Nt(({ metric: t }) => {
+  return At(({ metric: t }) => {
     const e = t.entries[t.entries.length - 1];
     e && (le.ttfb = { value: t.value, unit: "millisecond" });
   });
@@ -1156,7 +1182,7 @@ function xe(t) {
 }
 function Ae() {
   const t = Jt();
-  return t && a() ? Ot("element", Ne) : () => {};
+  return t && a() ? Rt("element", Ne) : () => {};
 }
 const Ne = ({ entries: t }) => {
   const e = y();
@@ -1550,7 +1576,7 @@ const hn = {
   input: "press",
 };
 function yn() {
-  return Rt(gn);
+  return Nt(gn);
 }
 const gn = ({ metric: t }) => {
   if (t.value == void 0) return;
@@ -1612,7 +1638,7 @@ function _n() {
     const e = y();
     const r = e && S(e);
     t.forEach((t) => {
-      if (!Yt(t)) return;
+      if (!Vt(t)) return;
       const e = t.interactionId;
       if (e == null) return;
       if (dn.has(e)) return;
@@ -1625,19 +1651,19 @@ function _n() {
       dn.set(e, { span: r, elementName: o });
     });
   };
-  Ot("event", r);
-  Ot("first-input", r);
+  Rt("event", r);
+  Rt("first-input", r);
 }
 export {
   tn as SENTRY_XHR_DATA_KEY,
   Be as addClickKeypressInstrumentationHandler,
-  xt as addClsInstrumentationHandler,
+  qt as addClsInstrumentationHandler,
   Ye as addHistoryInstrumentationHandler,
-  Rt as addInpInstrumentationHandler,
-  At as addLcpInstrumentationHandler,
+  Nt as addInpInstrumentationHandler,
+  xt as addLcpInstrumentationHandler,
   be as addPerformanceEntries,
-  Ot as addPerformanceInstrumentationHandler,
-  Nt as addTtfbInstrumentationHandler,
+  Rt as addPerformanceInstrumentationHandler,
+  At as addTtfbInstrumentationHandler,
   en as addXhrInstrumentationHandler,
   Ke as clearCachedImplementation,
   Qt as extractNetworkProtocol,

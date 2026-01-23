@@ -86,22 +86,3 @@
     <% end %>
   </div>
 <% end %>
-
-<% if can?(:index, Log) && !@log %>
-  <div class="p font-bold">
-    <%= link_to(t(".logs"), [*nested, @version, :logs], class: :link) %>
-  </div>
-  <% if can?(:create, Log) %>
-    <div class="p">
-      <%= link_to(t(".new_log"), [:new, *nested, @version, :log], class: "button") %>
-    </div>
-  <% end %>
-  <%= render_collection(
-    partial: "logs/log",
-    collection: @logs,
-    as: :log,
-    locals: {
-      nested: [*nested, @version]
-    }
-  ) %>
-<% end %>

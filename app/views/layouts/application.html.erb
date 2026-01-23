@@ -1,9 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="<%= I18n.locale %>">
   <head>
-    <title><%= strip_tags(title) %></title>
+    <title><%= meta_title %></title>
+    <meta name="description" content="<%= meta_description %>" />
+    <% if meta_canonical_url.present? %>
+      <link rel="canonical" href="<%= meta_canonical_url %>" />
+    <% end %>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta charset="utf-8" />
+    <meta property="og:title" content="<%= meta_title %>" />
+    <meta property="og:description" content="<%= meta_description %>" />
+    <meta property="og:image" content="<%= meta_image_url %>" />
+    <meta property="og:site_name" content="<%= t(".title") %>" />
+    <% if meta_canonical_url.present? %>
+      <meta property="og:url" content="<%= meta_canonical_url %>" />
+    <% end %>
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="<%= I18n.locale %>" />
+    <% alternate_locale_urls.each do |locale, url| %>
+      <% if locale != I18n.locale %>
+        <meta property="og:locale:alternate" content="<%= locale %>" />
+        <link rel="alternate" href="<%= url %>" hreflang="<%= locale %>" />
+      <% end %>
+    <% end %>
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="<%= meta_title %>" />
+    <meta name="twitter:description" content="<%= meta_description %>" />
+    <meta name="twitter:image" content="<%= meta_image_url %>" />
     <%= csp_meta_tag %>
     <%= csrf_meta_tags %>
     <%= javascript_importmap_tags %>

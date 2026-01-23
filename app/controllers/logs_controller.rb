@@ -31,7 +31,6 @@ class LogsController < ApplicationController
   before_action(:load_example)
   before_action(:load_example_schedule)
   before_action(:load_handle)
-  before_action(:load_parent_log)
   before_action(:load_message)
   before_action(:load_name)
   before_action(:load_password)
@@ -39,7 +38,6 @@ class LogsController < ApplicationController
   before_action(:load_session)
   before_action(:load_time_zone)
   before_action(:load_token)
-  before_action(:load_version)
   before_action { add_breadcrumb(key: "logs.index", path: index_url) }
   before_action(:load_log, only: %i[show edit update destroy delete])
 
@@ -50,7 +48,6 @@ class LogsController < ApplicationController
   end
 
   def show
-    @versions = versions_scope.order(created_at: :desc).page(params[:page])
   end
 
   def new
@@ -473,15 +470,6 @@ class LogsController < ApplicationController
     add_breadcrumb(text: @handle, path: [*nested, @handle].uniq)
   end
 
-  def load_parent_log
-    return if params[:log_id].blank?
-
-    @parent_log = authorize(scope.find(params[:log_id]))
-
-    set_context(log: @parent_log)
-    add_breadcrumb(text: @parent_log, path: [*nested, @parent_log].uniq)
-  end
-
   def load_message
     return if params[:message_id].blank?
 
@@ -545,15 +533,6 @@ class LogsController < ApplicationController
     add_breadcrumb(text: @token, path: [*nested, @token].uniq)
   end
 
-  def load_version
-    return if params[:version_id].blank?
-
-    @version = versions_scope.find(params[:version_id])
-
-    set_context(version: @version)
-    add_breadcrumb(text: @version, path: [*nested, @version].uniq)
-  end
-
   def load_log
     @log = authorize(scope.find(id))
     set_context(log: @log)
@@ -567,13 +546,7 @@ class LogsController < ApplicationController
   def scope
     scope = searched_policy_scope(Log)
 
-    if @version
-      scope = scope.where_version(@version)
-    elsif @parent_log
-      scope = scope.where_log(@parent_log)
-    elsif @message
-      scope = scope.where_message(@message)
-    elsif @name
+    if @name
       scope = scope.where_name(@name)
     elsif @password
       scope = scope.where_password(@password)
@@ -697,15 +670,13 @@ class LogsController < ApplicationController
     example: @example,
     example_schedule: @example_schedule,
     handle: @handle,
-    parent_log: @parent_log,
     message: @message,
     name: @name,
     password: @password,
     phone_number: @phone_number,
     session: @session,
     time_zone: @time_zone,
-    token: @token,
-    version: @version
+    token: @token
   )
     chain = []
     chain << user if user
@@ -736,7 +707,6 @@ class LogsController < ApplicationController
       chain << job_leaf if job_leaf
       chain << error if error
       chain << error_occurrence if error_occurrence
-      chain << version if version
       return chain
     end
 
@@ -745,7 +715,6 @@ class LogsController < ApplicationController
       chain << job_leaf if job_leaf
       chain << error if error
       chain << error_occurrence if error_occurrence
-      chain << version if version
       return chain
     end
 
@@ -768,8 +737,6 @@ class LogsController < ApplicationController
       chain << email_address
     elsif handle
       chain << handle
-    elsif parent_log
-      chain << parent_log
     elsif message
       chain << message
     elsif name
@@ -790,10 +757,11 @@ class LogsController < ApplicationController
     end
 
     chain << error if error && !chain.include?(error)
+
     if error_occurrence && !chain.include?(error_occurrence)
       chain << error_occurrence
     end
-    chain << version if version
+
     chain
   end
 
@@ -1231,13 +1199,5 @@ class LogsController < ApplicationController
 
   def users_scope
     policy_scope(User)
-  end
-
-  def versions_scope
-    scope = policy_scope(Version)
-
-    scope = scope.where_log(@log) if @log
-
-    scope
   end
 end

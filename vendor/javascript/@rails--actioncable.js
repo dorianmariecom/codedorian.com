@@ -1,4 +1,4 @@
-// @rails/actioncable@8.1.100 downloaded from https://ga.jspm.io/npm:@rails/actioncable@8.1.100/app/assets/javascripts/actioncable.esm.js
+// @rails/actioncable@8.1.200 downloaded from https://ga.jspm.io/npm:@rails/actioncable@8.1.200/app/assets/javascripts/actioncable.esm.js
 
 var t = {
   logger: typeof console !== "undefined" ? console : void 0,

@@ -44,24 +44,12 @@ Rails.application.routes.draw do
         define_delete_destroy.call
         define_all_delete.call(:destroy, :logs)
         define_all_delete.call(:delete, :logs)
-
-        resources(:versions) do
-          define_delete_destroy.call
-          define_all_delete.call(:destroy, :versions)
-          define_all_delete.call(:delete, :versions)
-        end
       end
 
       resources(:versions) do
         define_delete_destroy.call
         define_all_delete.call(:destroy, :versions)
         define_all_delete.call(:delete, :versions)
-
-        resources(:logs) do
-          define_delete_destroy.call
-          define_all_delete.call(:destroy, :logs)
-          define_all_delete.call(:delete, :logs)
-        end
       end
     end
 
@@ -183,7 +171,6 @@ Rails.application.routes.draw do
           end
 
           define_errors.call
-          define_jobs.call
         end
 
         resources(:program_executions) do
@@ -214,7 +201,6 @@ Rails.application.routes.draw do
         end
 
         define_errors.call
-        define_jobs.call
       end
 
       resources(:email_addresses) do
@@ -372,7 +358,6 @@ Rails.application.routes.draw do
         end
 
         define_errors.call
-        define_jobs.call
       end
 
       define_job_execution_resources.call

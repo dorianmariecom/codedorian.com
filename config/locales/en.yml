@@ -200,16 +200,19 @@ en:
     destroy_all:
       notice: addresses destroyed
     edit:
+      description: update address details and verification status.
       submit: update address
       title: edit address
     index:
       delete_all: delete all
+      description: browse and manage saved addresses tied to users.
       destroy_all: destroy all
       new: new address
       title: addresses
     model:
       to_s: address#%{id}
     new:
+      description: add a new address for a user profile.
       submit: create address
       title: new address
     show:
@@ -217,6 +220,7 @@ en:
       autocomplete: autocomplete
       created_at: created at
       delete: delete address
+      description: view address details, ownership, and audit history.
       destroy: destroy address
       edit: edit address
       id: id
@@ -418,10 +422,12 @@ en:
     destroy_all:
       notice: configurations destroyed
     edit:
+      description: update configuration content and settings.
       submit: update configuration
       title: edit configuration
     index:
       delete_all: delete all
+      description: review and manage configuration entries and JSON content.
       destroy_all: destroy all
       new: new configuration
       title: configurations
@@ -429,12 +435,14 @@ en:
       invalid_json: invalid json
       to_s: configuration#%{id}
     new:
+      description: create a configuration entry for system settings.
       submit: create configuration
       title: new configuration
     show:
       content: content
       created_at: created at
       delete: delete configuration
+      description: view configuration details, content, and versions.
       destroy: destroy configuration
       edit: edit configuration
       id: id
@@ -456,10 +464,12 @@ en:
     destroy_all:
       notice: country code ip addresses destroyed
     edit:
+      description: update a country code IP address entry.
       submit: update country code ip address
       title: edit country code ip address
     index:
       delete_all: delete all
+      description: review country code IP entries and lookup data.
       destroy_all: destroy all
       new: new country code ip address
       title: country code ip addresses
@@ -468,12 +478,14 @@ en:
     model:
       to_s: country_code_ip_address#%{id}
     new:
+      description: add a country code IP address record.
       submit: create country code ip address
       title: new country code ip address
     show:
       country_code: country code
       created_at: created at
       delete: delete country code ip address
+      description: view IP address metadata and lookup details.
       destroy: destroy country code ip address
       edit: edit country code ip address
       id: id
@@ -504,10 +516,12 @@ en:
     destroy_all:
       notice: data destroyed
     edit:
+      description: update a data record and its JSON content.
       submit: update datum
       title: edit datum
     index:
       delete_all: delete all
+      description: browse key-value data entries.
       destroy_all: destroy all
       new: new datum
       title: data
@@ -515,11 +529,13 @@ en:
       invalid_json: invalid json
       to_s: datum#%{id}
     new:
+      description: create a new data record.
       submit: create datum
       title: new datum
     show:
       created_at: created at
       delete: delete datum
+      description: view data details, content, and versions.
       destroy: destroy datum
       edit: edit datum
       id: id
@@ -543,21 +559,25 @@ en:
     destroy_all:
       notice: devices destroyed
     edit:
+      description: update device details, platform, and verification.
       submit: update device
       title: edit device
     index:
       delete_all: delete all
+      description: manage registered devices and platforms.
       destroy_all: destroy all
       new: new device
       title: devices
     model:
       to_s: device#%{id}
     new:
+      description: register a new device for a user.
       submit: create device
       title: new device
     show:
       created_at: created at
       delete: delete device
+      description: view device details and associated user.
       destroy: destroy device
       edit: edit device
       id: id
@@ -583,23 +603,27 @@ en:
     destroy_all:
       notice: email addresses destroyed
     edit:
+      description: update an email address and verification status.
       submit: update email address
       title: edit email address
     form:
       email_address_placeholder: enter your email address
     index:
       delete_all: delete all
+      description: manage user email addresses and verification status.
       destroy_all: destroy all
       new: new email address
       title: email addresses
     model:
       to_s: email_address#%{id}
     new:
+      description: add an email address for a user.
       submit: create email address
       title: new email address
     show:
       created_at: created at
       delete: delete email address
+      description: view email address details and history.
       destroy: destroy email address
       edit: edit email address
       email_address: email address
@@ -624,10 +648,12 @@ en:
     destroy_all:
       notice: error occurrences destroyed
     edit:
+      description: update an error occurrence record.
       submit: update error occurrence
       title: edit error occurrence
     index:
       delete_all: delete all
+      description: review error occurrences and their context.
       destroy_all: destroy all
       new: new error occurrence
       title: error occurrences
@@ -635,6 +661,7 @@ en:
       invalid_json: invalid json
       to_s: error_occurrence#%{id}
     new:
+      description: log a new error occurrence.
       submit: create error occurrence
       title: new error occurrence
     show:
@@ -642,6 +669,7 @@ en:
       context: context
       created_at: created at
       delete: delete error occurrence
+      description: inspect occurrence context, backtrace, and timing.
       destroy: destroy error occurrence
       edit: edit
       error: error
@@ -664,10 +692,12 @@ en:
     destroy_all:
       notice: errors destroyed
     edit:
+      description: update error metadata and resolution status.
       submit: update error
       title: edit error
     index:
       delete_all: delete all
+      description: browse errors, severity, and occurrence counts.
       destroy_all: destroy all
       error_occurrences:
         one: 1 error occurrence
@@ -676,17 +706,21 @@ en:
       new: new error
       title: errors
     internal_server_error:
+      description: an unexpected error occurred on the server.
       title: internal server error
     model:
       to_s: error#%{id}
     new:
+      description: create an error record for tracking.
       submit: create error
       title: new error
     not_found:
+      description: the page you requested could not be found.
       title: not found
     show:
       created_at: created at
       delete: delete error
+      description: review error details, sources, and related occurrences.
       destroy: destroy error
       edit: edit
       error_occurrences: error occurrences
@@ -704,6 +738,7 @@ en:
       verified: verified?
       versions: versions
     unprocessable_entity:
+      description: the request could not be processed.
       title: unprocessable entity
     update:
       notice: error updated
@@ -717,6 +752,7 @@ en:
     destroy_all:
       notice: example schedules destroyed
     edit:
+      description: adjust timing and recurrence for an example schedule.
       submit: update example schedule
       title: edit example schedule
     example_schedule:
@@ -724,6 +760,7 @@ en:
       schedule_once_html: starts %{local_time}, doesn't repeat
     index:
       delete_all: delete all
+      description: manage schedules for examples and automation runs.
       destroy_all: destroy all
       new: new example schedule
       title: example schedules
@@ -764,11 +801,13 @@ en:
       example_schedule: example schedule
       remove: remove example schedule
     new:
+      description: create a schedule for an example.
       submit: create example schedule
       title: new example schedule
     show:
       created_at: created at
       delete: delete example schedule
+      description: view example schedule timing and settings.
       destroy: destroy example schedule
       edit: edit example schedule
       example: example
@@ -794,10 +833,12 @@ en:
     destroy_all:
       notice: examples destroyed
     edit:
+      description: update an example's content and localization.
       submit: update example
       title: edit example
     index:
       delete_all: delete all
+      description: browse example messages and templates.
       destroy_all: destroy all
       example_schedules:
         one: 1 example schedule
@@ -808,6 +849,7 @@ en:
     model:
       to_s: example#%{id}
     new:
+      description: create a new example with title and description.
       submit: create example
       title: new example
     show:
@@ -841,21 +883,25 @@ en:
     destroy_all:
       notice: guests destroyed
     edit:
+      description: update guest details and status.
       submit: update guest
       title: edit guest
     index:
       delete_all: delete all
+      description: manage guest accounts and access.
       destroy_all: destroy all
       new: new guest
       title: guests
     model:
       to_s: guest#%{id}
     new:
+      description: create a guest account.
       submit: create guest
       title: new guest
     show:
       created_at: created at
       delete: delete guest
+      description: view guest profile details and activity.
       destroy: destroy guest
       edit: edit guest
       id: id
@@ -876,23 +922,27 @@ en:
     destroy_all:
       notice: handles destroyed
     edit:
+      description: update a handle and verification status.
       submit: update handle
       title: edit handle
     form:
       handle_placeholder: enter your handle
     index:
       delete_all: delete all
+      description: manage user handles and verification.
       destroy_all: destroy all
       new: new handle
       title: handles
     model:
       to_s: handle#%{id}
     new:
+      description: add a new handle for a user.
       submit: create handle
       title: new handle
     show:
       created_at: created at
       delete: delete handle
+      description: view handle details and related user.
       destroy: destroy handle
       edit: edit handle
       handle: handle
@@ -967,22 +1017,26 @@ en:
     destroy_all:
       notice: job blocked executions destroyed
     edit:
+      description: update a blocked job execution record.
       submit: update job blocked execution
       title: edit job blocked execution
     index:
       delete_all: delete all
+      description: review jobs blocked by concurrency limits.
       destroy_all: destroy all
       new: new job blocked execution
       title: job blocked executions
     model:
       to_s: job_blocked_execution#%{id}
     new:
+      description: create a blocked execution record.
       submit: create job blocked execution
       title: new job blocked execution
     show:
       concurrency_key: concurrency key
       created_at: created at
       delete: delete job blocked execution
+      description: view blocked execution details and priority.
       destroy: destroy job blocked execution
       edit: edit job blocked execution
       expires_at: expires at
@@ -1008,21 +1062,25 @@ en:
     destroy_all:
       notice: job claimed executions destroyed
     edit:
+      description: update a claimed execution record.
       submit: update job claimed execution
       title: edit job claimed execution
     index:
       delete_all: delete all
+      description: review claimed job executions.
       destroy_all: destroy all
       new: new job claimed execution
       title: job claimed executions
     model:
       to_s: job_claimed_execution#%{id}
     new:
+      description: create a claimed execution record.
       submit: create job claimed execution
       title: new job claimed execution
     show:
       created_at: created at
       delete: delete job claimed execution
+      description: view claimed execution details and worker info.
       destroy: destroy job claimed execution
       edit: edit job claimed execution
       id: id
@@ -1046,10 +1104,12 @@ en:
     destroy_all:
       notice: job contexts destroyed
     edit:
+      description: update job context metadata.
       submit: update job context
       title: edit job context
     index:
       delete_all: delete all
+      description: browse job contexts and metadata.
       destroy_all: destroy all
       new: new job context
       title: job contexts
@@ -1057,6 +1117,7 @@ en:
       invalid_json: invalid json
       to_s: job_context#%{id}
     new:
+      description: create a job context record.
       submit: create job context
       title: new job context
     show:
@@ -1064,6 +1125,7 @@ en:
       context: context
       created_at: created at
       delete: delete job context
+      description: view job context details and payload.
       destroy: destroy job context
       edit: edit job context
       id: id
@@ -1085,10 +1147,12 @@ en:
     destroy_all:
       notice: job failed executions destroyed
     edit:
+      description: update a failed execution record.
       submit: update job failed execution
       title: edit job failed execution
     index:
       delete_all: delete all
+      description: review failed job executions and errors.
       destroy_all: destroy all
       new: new job failed execution
       title: job failed executions
@@ -1096,11 +1160,13 @@ en:
       invalid_json: invalid json
       to_s: job_failed_execution#%{id}
     new:
+      description: create a failed execution record.
       submit: create job failed execution
       title: new job failed execution
     show:
       created_at: created at
       delete: delete job failed execution
+      description: view failure details and linked error.
       destroy: destroy job failed execution
       edit: edit job failed execution
       error: error
@@ -1124,21 +1190,25 @@ en:
     destroy_all:
       notice: job pauses destroyed
     edit:
+      description: update job pause settings.
       submit: update job pause
       title: edit job pause
     index:
       delete_all: delete all
+      description: manage paused job queues.
       destroy_all: destroy all
       new: new job pause
       title: job pauses
     model:
       to_s: job_pause#%{id}
     new:
+      description: pause a job queue.
       submit: create job pause
       title: new job pause
     show:
       created_at: created at
       delete: delete job pause
+      description: view job pause details and status.
       destroy: destroy job pause
       edit: edit job pause
       id: id
@@ -1160,10 +1230,12 @@ en:
     destroy_all:
       notice: job processes destroyed
     edit:
+      description: update job process metadata.
       submit: update job process
       title: edit job process
     index:
       delete_all: delete all
+      description: monitor job processes and workers.
       destroy_all: destroy all
       new: new job process
       title: job processes
@@ -1171,11 +1243,13 @@ en:
       invalid_json: invalid json
       to_s: job_process#%{id}
     new:
+      description: register a job process.
       submit: create job process
       title: new job process
     show:
       created_at: created at
       delete: delete job process
+      description: view job process status and heartbeat.
       destroy: destroy job process
       edit: edit job process
       hostname: hostname
@@ -1203,21 +1277,25 @@ en:
     destroy_all:
       notice: job ready executions destroyed
     edit:
+      description: update a ready execution record.
       submit: update job ready execution
       title: edit job ready execution
     index:
       delete_all: delete all
+      description: review jobs ready to execute.
       destroy_all: destroy all
       new: new job ready execution
       title: job ready executions
     model:
       to_s: job_ready_execution#%{id}
     new:
+      description: create a ready execution record.
       submit: create job ready execution
       title: new job ready execution
     show:
       created_at: created at
       delete: delete job ready execution
+      description: view ready execution details and priority.
       destroy: destroy job ready execution
       edit: edit job ready execution
       id: id
@@ -1242,21 +1320,25 @@ en:
     destroy_all:
       notice: job recurring executions destroyed
     edit:
+      description: update a recurring execution record.
       submit: update job recurring execution
       title: edit job recurring execution
     index:
       delete_all: delete all
+      description: review recurring job runs.
       destroy_all: destroy all
       new: new job recurring execution
       title: job recurring executions
     model:
       to_s: job_recurring_execution#%{id}
     new:
+      description: create a recurring execution record.
       submit: create job recurring execution
       title: new job recurring execution
     show:
       created_at: created at
       delete: delete job recurring execution
+      description: view recurring execution timing and status.
       destroy: destroy job recurring execution
       edit: edit job recurring execution
       id: id
@@ -1281,10 +1363,12 @@ en:
     destroy_all:
       notice: job recurring tasks destroyed
     edit:
+      description: update a recurring task's command and schedule.
       submit: update job recurring task
       title: edit job recurring task
     index:
       delete_all: delete all
+      description: manage recurring job tasks and schedules.
       destroy_all: destroy all
       new: new job recurring task
       title: job recurring tasks
@@ -1292,6 +1376,7 @@ en:
       invalid_json: invalid json
       to_s: job_recurring_task#%{id}
     new:
+      description: create a recurring job task.
       submit: create job recurring task
       title: new job recurring task
     show:
@@ -1326,21 +1411,25 @@ en:
     destroy_all:
       notice: job scheduled executions destroyed
     edit:
+      description: update scheduled execution timing.
       submit: update job scheduled execution
       title: edit job scheduled execution
     index:
       delete_all: delete all
+      description: review jobs scheduled for future runs.
       destroy_all: destroy all
       new: new job scheduled execution
       title: job scheduled executions
     model:
       to_s: job_scheduled_execution#%{id}
     new:
+      description: create a scheduled execution record.
       submit: create job scheduled execution
       title: new job scheduled execution
     show:
       created_at: created at
       delete: delete job scheduled execution
+      description: view scheduled execution details and run time.
       destroy: destroy job scheduled execution
       edit: edit job scheduled execution
       id: id
@@ -1366,10 +1455,12 @@ en:
     destroy_all:
       notice: job semaphores destroyed
     edit:
+      description: update a semaphore entry.
       submit: update job semaphore
       title: edit job semaphore
     index:
       delete_all: delete all
+      description: manage job semaphores and concurrency keys.
       destroy_all: destroy all
       new: new job semaphore
       title: job semaphores
@@ -1377,11 +1468,13 @@ en:
       invalid_json: invalid json
       to_s: job_semaphore#%{id}
     new:
+      description: create a semaphore entry.
       submit: create job semaphore
       title: new job semaphore
     show:
       created_at: created at
       delete: delete job semaphore
+      description: view semaphore details and expiration.
       destroy: destroy job semaphore
       edit: edit job semaphore
       expires_at: expires at
@@ -1411,10 +1504,12 @@ en:
     discard_all:
       notice: jobs discarded
     edit:
+      description: update job parameters and scheduling.
       submit: update job
       title: edit job
     index:
       delete_all: delete all
+      description: browse enqueued and processed jobs.
       destroy_all: destroy all
       discard_all: discard all
       job_blocked_executions:
@@ -1468,6 +1563,7 @@ en:
       invalid_json: invalid json
       to_s: job#%{id}
     new:
+      description: create a job for immediate or scheduled execution.
       submit: create job
       title: new job
     retry:
@@ -1480,6 +1576,7 @@ en:
       concurrency_key: concurrency key
       created_at: created at
       delete: delete job
+      description: review job details, status, and related executions.
       destroy: destroy job
       discard: discard job
       edit: edit job
@@ -1584,10 +1681,12 @@ en:
     destroy_all:
       notice: logs destroyed
     edit:
+      description: update a log entry.
       submit: update log
       title: edit log
     index:
       delete_all: delete all
+      description: review audit logs and system events.
       destroy_all: destroy all
       new: new log
       title: logs
@@ -1595,12 +1694,14 @@ en:
       invalid_json: invalid json
       to_s: log#%{id}
     new:
+      description: create a log entry.
       submit: create log
       title: new log
     show:
       context: context
       created_at: created at
       delete: delete log
+      description: view log details and related records.
       destroy: destroy log
       edit: edit log
       id: id
@@ -1613,6 +1714,10 @@ en:
     update:
       notice: log updated
   messages:
+    body:
+      description: read the full body of this message.
+    content:
+      description: view the rendered content of this message.
     create:
       notice: message created
     delete_all:
@@ -1622,16 +1727,19 @@ en:
     destroy_all:
       notice: messages destroyed
     edit:
+      description: edit a message's subject and body.
       submit: update message
       title: edit message
     index:
       delete_all: delete all
+      description: browse scheduled and delivered messages.
       destroy_all: destroy all
       new: new message
       title: messages
     model:
       to_s: message#%{id}
     new:
+      description: create a new message.
       submit: create message
       title: new message
     show:
@@ -1639,6 +1747,7 @@ en:
       content: content
       created_at: created at
       delete: delete message
+      description: view message details and recipients.
       destroy: destroy message
       edit: edit message
       from_user: from user
@@ -1650,6 +1759,8 @@ en:
       to_user: to user
       updated_at: updated at
       versions: versions
+    subject:
+      description: view the subject line for this message.
     update:
       notice: message updated
   names:
@@ -1662,6 +1773,7 @@ en:
     destroy_all:
       notice: names destroyed
     edit:
+      description: update a user's name details.
       submit: update name
       title: edit name
     form:
@@ -1669,17 +1781,20 @@ en:
       given_name_placeholder: enter your given name
     index:
       delete_all: delete all
+      description: manage user names and verification status.
       destroy_all: destroy all
       new: new name
       title: names
     model:
       to_s: name#%{id}
     new:
+      description: add a new name for a user.
       submit: create name
       title: new name
     show:
       created_at: created at
       delete: delete name
+      description: view name details and history.
       destroy: destroy name
       edit: edit name
       family_name: family name
@@ -1716,6 +1831,7 @@ en:
     destroy_all:
       notice: passwords destroyed
     edit:
+      description: update a stored password and hints.
       submit: update password
       title: edit password
     form:
@@ -1723,17 +1839,20 @@ en:
       password_placeholder: enter your password
     index:
       delete_all: delete all
+      description: manage saved passwords for users.
       destroy_all: destroy all
       new: new password
       title: passwords
     model:
       to_s: password#%{id}
     new:
+      description: create a new password record.
       submit: create password
       title: new password
     show:
       created_at: created at
       delete: delete password
+      description: view password details and verification status.
       destroy: destroy password
       edit: edit password
       hint: hint
@@ -1759,23 +1878,27 @@ en:
     destroy_all:
       notice: phone numbers destroyed
     edit:
+      description: update a phone number and verification status.
       submit: update phone number
       title: edit phone number
     form:
       phone_number_placeholder: enter your phone number
     index:
       delete_all: delete all
+      description: manage user phone numbers and verification status.
       destroy_all: destroy all
       new: new phone number
       title: phone numbers
     model:
       to_s: phone_number#%{id}
     new:
+      description: add a new phone number for a user.
       submit: create phone number
       title: new phone number
     show:
       created_at: created at
       delete: delete phone number
+      description: view phone number details and history.
       destroy: destroy phone number
       edit: edit phone number
       id: id
@@ -1800,10 +1923,12 @@ en:
     destroy_all:
       notice: program executions destroyed
     edit:
+      description: update a program execution record.
       submit: update program execution
       title: edit program execution
     index:
       delete_all: delete all
+      description: review program runs and results.
       destroy_all: destroy all
       new: new program execution
       title: program executions
@@ -1816,11 +1941,13 @@ en:
         initialized: initialized
       to_s: program_execution#%{id}
     new:
+      description: create a new program execution.
       submit: create program execution
       title: new program execution
     show:
       created_at: created at
       delete: delete program execution
+      description: view execution input, output, and status.
       destroy: destroy program execution
       edit: edit program execution
       error: error
@@ -1851,10 +1978,12 @@ en:
     destroy_all:
       notice: program prompt schedules destroyed
     edit:
+      description: update a prompt schedule for a program.
       submit: update program prompt schedule
       title: edit program prompt schedule
     index:
       delete_all: delete all
+      description: manage prompt schedules for programs.
       destroy_all: destroy all
       new: new program prompt schedule
       title: program prompt schedules
@@ -1895,6 +2024,7 @@ en:
       program_prompt_schedule: program prompt schedule
       remove: remove program prompt schedule
     new:
+      description: create a new prompt schedule.
       submit: create program prompt schedule
       title: new program prompt schedule
     program_prompt_schedule:
@@ -1903,6 +2033,7 @@ en:
     show:
       created_at: created at
       delete: delete program prompt schedule
+      description: view prompt schedule timing and settings.
       destroy: destroy program prompt schedule
       edit: edit program prompt schedule
       id: id
@@ -1930,10 +2061,12 @@ en:
     destroy_all:
       notice: program prompts destroyed
     edit:
+      description: update a program prompt and its input.
       submit: update program prompt
       title: edit program prompt
     index:
       delete_all: delete all
+      description: browse program prompts and their schedules.
       destroy_all: destroy all
       new: new program prompt
       program_prompt_schedules:
@@ -1950,12 +2083,14 @@ en:
         initialized: initialized
       to_s: program_prompt#%{id}
     new:
+      description: create a new program prompt.
       submit: create program prompt
       title: new program prompt
     show:
       backtrace: backtrace
       created_at: created at
       delete: delete program prompt
+      description: view prompt input, output, and status.
       destroy: destroy program prompt
       edit: edit program prompt
       error: error
@@ -1993,10 +2128,12 @@ en:
     destroy_all:
       notice: program schedules destroyed
     edit:
+      description: update timing and recurrence for a program schedule.
       submit: update program schedule
       title: edit program schedule
     index:
       delete_all: delete all
+      description: manage schedules for programs.
       destroy_all: destroy all
       new: new program schedule
       title: program schedules
@@ -2037,6 +2174,7 @@ en:
       program_schedule: program schedule
       remove: remove program schedule
     new:
+      description: create a new program schedule.
       submit: create program schedule
       title: new program schedule
     program_schedule:
@@ -2045,6 +2183,7 @@ en:
     show:
       created_at: created at
       delete: delete program schedule
+      description: view program schedule timing and settings.
       destroy: destroy program schedule
       edit: edit program schedule
       id: id
@@ -2071,6 +2210,7 @@ en:
     destroy_all:
       notice: programs destroyed
     edit:
+      description: update program details and input.
       submit: update program
       title: edit program
     evaluate:
@@ -2084,6 +2224,7 @@ en:
         other: "%{count} data"
         zero: 0 data
       delete_all: delete all
+      description: browse programs and their automation runs.
       destroy_all: destroy all
       examples:
         one: 1 example
@@ -2112,6 +2253,7 @@ en:
     model:
       to_s: program#%{id}
     new:
+      description: create a new program for automation.
       submit: create program
       title: new program
     schedule:
@@ -2121,6 +2263,7 @@ en:
     show:
       created_at: created at
       delete: delete program
+      description: view program details, schedules, and executions.
       destroy: destroy program
       edit: edit program
       evaluate: evaluate
@@ -2161,6 +2304,7 @@ en:
     destroy:
       notice: logged out
     new:
+      description: sign in to manage your codedorian account.
       register: register
       submit: log in
       title: log in
@@ -2174,6 +2318,7 @@ en:
     destroy_all:
       notice: sessions destroyed
     edit:
+      description: update session data and metadata.
       submit: update session
       title: edit session
     form:
@@ -2181,6 +2326,7 @@ en:
       invalid_json: data must be valid json
     index:
       delete_all: delete all
+      description: review active sessions and access history.
       destroy_all: destroy all
       new: new session
       title: sessions
@@ -2188,12 +2334,14 @@ en:
       invalid_json: invalid json
       to_s: session#%{id}
     new:
+      description: create a new session record.
       submit: create session
       title: new session
     show:
       created_at: created at
       data: data
       delete: delete session
+      description: view session details and associated user.
       destroy: destroy session
       edit: edit session
       guest: guest
@@ -2290,6 +2438,7 @@ en:
           code is the project of
           <a href="https://dorianmarie.com">dorian marié</a>
         </p>
+      description: learn about codedorian and the project by dorian marie.
       download: download
       localhost: localhost
       privacy: privacy policy
@@ -2317,6 +2466,7 @@ en:
       configurations: configurations
       country_code_ip_addresses: country code ip addresses
       data: data
+      description: codedorian admin dashboard.
       devices: devices
       email_addresses: email addresses
       error_occurrences: error occurrences
@@ -2354,9 +2504,11 @@ en:
       users: users
       versions: versions
     download:
+      description: download the codedorian app for ios and android.
       title: download
     home:
       book: book
+      description: schedule messages, notifications, and programs with code.
       form: form
       log_in: log in
       messages: messages
@@ -2400,6 +2552,7 @@ en:
       register: register
       title: code
     privacy:
+      description: read the codedorian privacy policy.
       privacy_html: |
         <p>welcome to codedorian.com ("we," "our," "us"). your privacy is important to us. this privacy policy explains how we collect, use, and protect your information when you use our website.</p>
         <p>we may collect personal information (such as your name, email, and contact details) and non-personal information (such as browser type and ip address) when you use our website.</p>
@@ -2412,6 +2565,7 @@ en:
         <p>if you have any questions about this privacy policy, please contact us at <a href="mailto:dorian@dorianmarie.com">dorian@dorianmarie.com</a>.</p>
       title: privacy policy
     terms:
+      description: read the codedorian terms and conditions.
       terms_html: |
         <p>welcome to codedorian.com ("we," "our," "us"). by accessing or using our website, you agree to be bound by these terms and conditions. if you do not agree, please do not use our website.</p>
         <p>you agree to use this website only for lawful purposes and in a way that does not infringe on the rights of others or restrict their use of the site.</p>
@@ -2423,6 +2577,7 @@ en:
       title: terms and conditions
     up:
       body: working
+      description: codedorian status page.
       title: "/up"
   time_zones:
     create:
@@ -2434,21 +2589,25 @@ en:
     destroy_all:
       notice: time zones destroyed
     edit:
+      description: update a user's time zone settings.
       submit: update time zone
       title: edit time zone
     index:
       delete_all: delete all
+      description: manage user time zones and verification status.
       destroy_all: destroy all
       new: new time zone
       title: time zones
     model:
       to_s: time_zone#%{id}
     new:
+      description: add a new time zone for a user.
       submit: create time zone
       title: new time zone
     show:
       created_at: created at
       delete: delete time zone
+      description: view time zone details and history.
       destroy: destroy time zone
       edit: edit time zone
       id: id
@@ -2473,21 +2632,25 @@ en:
     destroy_all:
       notice: tokens destroyed
     edit:
+      description: update an access token and verification status.
       submit: update token
       title: edit token
     index:
       delete_all: delete all
+      description: manage access tokens and verification status.
       destroy_all: destroy all
       new: new token
       title: tokens
     model:
       to_s: token#%{id}
     new:
+      description: create a new access token.
       submit: create token
       title: new token
     show:
       created_at: created at
       delete: delete token
+      description: view token details and history.
       destroy: destroy token
       edit: edit token
       id: id
@@ -2512,12 +2675,14 @@ en:
     destroy_all:
       notice: users destroyed
     edit:
+      description: update user profile details and settings.
       submit: update user
       title: edit user
     impersonate:
       notice: user impersonated
     index:
       delete_all: delete all
+      description: browse user accounts and admin status.
       destroy_all: destroy all
       new: new user
       title: users
@@ -2528,6 +2693,7 @@ en:
         none: none
       to_s: user#%{id}
     new:
+      description: create a new user account.
       log_in: log in
       submit: create user
       title: new user
@@ -2568,10 +2734,12 @@ en:
     destroy_all:
       notice: versions destroyed
     edit:
+      description: update a version record.
       submit: update version
       title: edit version
     index:
       delete_all: delete all
+      description: review change history and versions.
       destroy_all: destroy all
       new: new version
       title: versions
@@ -2579,11 +2747,13 @@ en:
       invalid_json: invalid json
       to_s: version#%{id}
     new:
+      description: create a new version record.
       submit: create version
       title: new version
     show:
       created_at: created at
       delete: delete version
+      description: view version details and audit history.
       destroy: destroy version
       edit: edit version
       event: event

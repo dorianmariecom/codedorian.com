@@ -5,11 +5,62 @@ module ApplicationHelper
   DEFAULT_METHOD = "unknown-method"
 
   def title
-    controller = controller_name
+    content_for(:title).presence ||
+      t("#{controller_name}.#{meta_action_name}.title")
+  end
+
+  def meta_title
+    strip_tags(title)
+  end
+
+  def description
+    content_for(:description).presence ||
+      t("#{controller_name}.#{meta_action_name}.description")
+  end
+
+  def meta_description
+    strip_tags(description)
+  end
+
+  def meta_image_url
+    content_for(:image).presence || "#{Current.base_url}/img/favicon.png"
+  end
+
+  def meta_canonical_url
+    return unless request
+
+    host = ENV.fetch("HOST", nil)
+    return if host.blank?
+
+    host, port = host.split(":")
+
+    uri = URI.parse(request.original_url)
+    uri.scheme = request.scheme
+    uri.host = host
+    uri.port = port
+    uri.query = nil
+    uri.fragment = nil
+    uri.to_s
+  end
+
+  def alternate_locale_urls
+    return [] unless request
+
+    I18n.available_locales.map do |locale|
+      [
+        locale,
+        url_for(locale: locale, only_path: false, host: ENV.fetch("HOST", nil))
+      ]
+    end
+  end
+
+  private
+
+  def meta_action_name
     action = action_name
     action = "new" if action == "create"
     action = "edit" if action == "update"
-    content_for(:title).presence || t("#{controller}.#{action}.title")
+    action
   end
 
   def sentry_release

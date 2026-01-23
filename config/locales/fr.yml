@@ -200,16 +200,19 @@ fr:
     destroy_all:
       notice: adresses détruites
     edit:
+      description: mettre à jour les détails de l'adresse et la vérification.
       submit: mettre à jour l'adresse
       title: modifier l'adresse
     index:
       delete_all: supprimer tout
+      description: parcourir et gérer les adresses liées aux utilisateurs.
       destroy_all: détruire tout
       new: nouvelle adresse
       title: adresses
     model:
       to_s: adresse#%{id}
     new:
+      description: ajouter une nouvelle adresse pour un utilisateur.
       submit: créer une adresse
       title: nouvelle adresse
     show:
@@ -218,6 +221,7 @@ fr:
       backtrace: backtrace
       created_at: créé à
       delete: supprimer l'adresse
+      description: voir les détails de l'adresse, le propriétaire et l'historique.
       destroy: détruire l'adresse
       edit: modifier l'adresse
       id: identifiant
@@ -390,8 +394,8 @@ fr:
       download: télécharger
       form: formulaire
       home: accueil
-      privacy: confidentialité
-      terms: termes
+      privacy: politique de confidentialité
+      terms: termes et conditions
       up: fonctionne
     time_zones:
       edit: modifier
@@ -419,10 +423,12 @@ fr:
     destroy_all:
       notice: configurations détruites
     edit:
+      description: mettre à jour le contenu et les paramètres de configuration.
       submit: mettre à jour la configuration
       title: modifier la configuration
     index:
       delete_all: supprimer tout
+      description: consulter et gérer les entrées de configuration et leur JSON.
       destroy_all: détruire tout
       new: nouvelle configuration
       title: configurations
@@ -430,12 +436,14 @@ fr:
       invalid_json: json invalide
       to_s: configuration#%{id}
     new:
+      description: créer une entrée de configuration pour les paramètres système.
       submit: créer une configuration
       title: nouvelle configuration
     show:
       content: contenu
       created_at: créée à
       delete: supprimer la configuration
+      description: voir les détails, le contenu et l'historique des versions.
       destroy: détruire la configuration
       edit: modifier la configuration
       id: identifiant
@@ -457,10 +465,12 @@ fr:
     destroy_all:
       notice: codes pays adresses ip détruits
     edit:
+      description: mettre à jour une entrée d'adresse IP par pays.
       submit: mettre à jour du code pays adresse ip
       title: modifier le code pays adresse ip
     index:
       delete_all: supprimer tout
+      description: consulter les entrées IP par code pays et les recherches.
       destroy_all: détruire tout
       new: nouveau code pays adresse ip
       title: codes pays adresses ip
@@ -469,12 +479,14 @@ fr:
     model:
       to_s: code_pays_adresse_ip#%{id}
     new:
+      description: ajouter une adresse IP avec son code pays.
       submit: créer un code pays adresse ip
       title: nouveau code pays adresse ip
     show:
       country_code: code pays
       created_at: créé à
       delete: supprimer le code pays adresse ip
+      description: voir les métadonnées IP et les détails de recherche.
       destroy: détruire le code pays adresse ip
       edit: modifier le code pays adresse ip
       id: identifiant
@@ -505,10 +517,12 @@ fr:
     destroy_all:
       notice: données détruites
     edit:
+      description: mettre à jour une donnée et son contenu JSON.
       submit: mettre à jour la donnée
       title: modifier la donnée
     index:
       delete_all: supprimer tout
+      description: parcourir les données clé-valeur.
       destroy_all: détruire tout
       new: nouvelle donnée
       title: données
@@ -516,11 +530,13 @@ fr:
       invalid_json: json invalide
       to_s: donnée#%{id}
     new:
+      description: créer une nouvelle donnée.
       submit: créer une donnée
       title: nouvelle donnée
     show:
       created_at: créé à
       delete: supprimer la donnée
+      description: voir les détails, le contenu et les versions.
       destroy: détruire la donnée
       edit: modifier la donnée
       id: identifiant
@@ -544,21 +560,25 @@ fr:
     destroy_all:
       notice: appareils détruits
     edit:
+      description: mettre à jour l'appareil, la plateforme et la vérification.
       submit: mettre à jour l'appareil
       title: modifier l'appareil
     index:
       delete_all: supprimer tout
+      description: gérer les appareils enregistrés et les plateformes.
       destroy_all: détruire tout
       new: nouvel appareil
       title: appareils
     model:
       to_s: appareil#%{id}
     new:
+      description: enregistrer un nouvel appareil pour un utilisateur.
       submit: créer un appareil
       title: nouvel appareil
     show:
       created_at: créé à
       delete: supprimer l'appareil
+      description: voir les détails de l'appareil et l'utilisateur associé.
       destroy: détruire l'appareil
       edit: modifier l'appareil
       id: identifiant
@@ -584,23 +604,27 @@ fr:
     destroy_all:
       notice: adresses e-mail détruites
     edit:
+      description: mettre à jour une adresse e-mail et sa vérification.
       submit: mettre à jour l'adresse e-mail
       title: modifier l'adresse e-mail
     form:
       email_address_placeholder: entrez votre adresse e-mail
     index:
       delete_all: supprimer tout
+      description: gérer les adresses e-mail et leur vérification.
       destroy_all: détruire tout
       new: nouvelle adresse e-mail
       title: adresses e-mail
     model:
       to_s: adresse_email#%{id}
     new:
+      description: ajouter une adresse e-mail pour un utilisateur.
       submit: créer une adresse e-mail
       title: nouvelle adresse e-mail
     show:
       created_at: créé à
       delete: supprimer l'adresse e-mail
+      description: voir les détails de l'adresse e-mail et l'historique.
       destroy: détruire l'adresse e-mail
       edit: modifier l'adresse e-mail
       email_address: adresse email
@@ -625,10 +649,12 @@ fr:
     destroy_all:
       notice: occurences d'erreur détruites
     edit:
+      description: mettre à jour un enregistrement d'occurence d'erreur.
       submit: mettre à jour l'occurence d'erreur
       title: modifier l'occurence d'erreur
     index:
       delete_all: supprimer tout
+      description: consulter les occurences d'erreur et leur contexte.
       destroy_all: détruire tout
       new: nouvelle occurence d'erreur
       title: occurences d'erreur
@@ -636,6 +662,7 @@ fr:
       invalid_json: json invalide
       to_s: occurence_d_erreur#%{id}
     new:
+      description: enregistrer une nouvelle occurence d'erreur.
       submit: créer une occurence d'erreur
       title: nouvelle occurence d'erreur
     show:
@@ -643,6 +670,7 @@ fr:
       context: contexte
       created_at: créé à
       delete: supprimer l'occurence d'erreur
+      description: consulter le contexte, la backtrace et la date.
       destroy: détruire l'occurence d'erreur
       edit: modifier
       error: erreur
@@ -665,10 +693,12 @@ fr:
     destroy_all:
       notice: erreurs détruites
     edit:
+      description: mettre à jour les métadonnées d'erreur et la résolution.
       submit: mettre à jour l'erreur
       title: modifier l'erreur
     index:
       delete_all: supprimer tout
+      description: parcourir les erreurs, leur gravité et leur fréquence.
       destroy_all: détruire tout
       error_occurrences:
         one: 1 occurence d'erreur
@@ -677,17 +707,21 @@ fr:
       new: nouvelle erreur
       title: erreurs
     internal_server_error:
+      description: une erreur inattendue s'est produite.
       title: erreur interne du serveur
     model:
       to_s: erreur#%{id}
     new:
+      description: créer un enregistrement d'erreur.
       submit: créer une erreur
       title: nouvelle erreur
     not_found:
+      description: la page demandée est introuvable.
       title: non trouvé
     show:
       created_at: créé à
       delete: supprimer l'erreur
+      description: voir les détails de l'erreur et les occurences liées.
       destroy: détruire l'erreur
       edit: modifier
       error_occurrences: occurences d'erreur
@@ -705,6 +739,7 @@ fr:
       verified: vérifié ?
       versions: versions
     unprocessable_entity:
+      description: la requête ne peut pas être traitée.
       title: entité non traitable
     update:
       notice: erreur mise à jour
@@ -718,6 +753,7 @@ fr:
     destroy_all:
       notice: horaires d'exemples détruites
     edit:
+      description: ajuster la planification et la récurrence.
       submit: mettre à jour l'horaire de l'exemple
       title: modifier l'horaire de l'exemple
     example_schedule:
@@ -725,6 +761,7 @@ fr:
       schedule_once_html: commence %{local_time}, ne se répète pas
     index:
       delete_all: supprimer tout
+      description: gérer les plannings des exemples.
       destroy_all: détruire tout
       new: nouvelle horaire d'exemple
       title: horaires d'exemples
@@ -765,11 +802,13 @@ fr:
       example_schedule: exemple
       remove: supprimer la horaire des exemples
     new:
+      description: créer un planning pour un exemple.
       submit: créer un exemple
       title: nouvelle horaire de exemples
     show:
       created_at: créé à
       delete: supprimer la horaire d'exemples
+      description: voir les paramètres de planning.
       destroy: détruire la horaire d'exemples
       edit: modifier la horaire des exemples
       example: exemple
@@ -795,10 +834,12 @@ fr:
     destroy_all:
       notice: exemples détruits
     edit:
+      description: mettre à jour le contenu et la localisation.
       submit: mettre à jour l'exemple
       title: modifier l'exemple
     index:
       delete_all: supprimer tout
+      description: parcourir les exemples et modèles.
       destroy_all: détruire tout
       example_schedules:
         one: 1 horaire d'exemples
@@ -809,6 +850,7 @@ fr:
     model:
       to_s: exemple#%{id}
     new:
+      description: créer un nouvel exemple avec titre et description.
       submit: créer un exemple
       title: nouveau exemple
     show:
@@ -842,21 +884,25 @@ fr:
     destroy_all:
       notice: invités détruits
     edit:
+      description: mettre à jour les détails et le statut de l'invité.
       submit: mettre à jour l'invité
       title: modifier l'invité
     index:
       delete_all: supprimer tout
+      description: gérer les comptes invités.
       destroy_all: détruire tout
       new: nouvel invité
       title: invités
     model:
       to_s: invité#%{id}
     new:
+      description: créer un compte invité.
       submit: créer un invité
       title: nouvel invité
     show:
       created_at: créé à
       delete: supprimer l'invité
+      description: voir le profil invité et l'activité.
       destroy: détruire l'invité
       edit: modifier l'invité
       id: identifiant
@@ -877,23 +923,27 @@ fr:
     destroy_all:
       notice: identifiants détruits
     edit:
+      description: mettre à jour un identifiant et sa vérification.
       submit: identifiant de mise à jour
       title: modifier la identifiant
     form:
       handle_placeholder: entrez votre identifiant
     index:
       delete_all: supprimer tout
+      description: gérer les identifiants et la vérification.
       destroy_all: détruire tout
       new: nouvelle identifiant
       title: identifiants
     model:
       to_s: identifiant#%{id}
     new:
+      description: ajouter un identifiant pour un utilisateur.
       submit: créer une identifiant
       title: nouvelle identifiant
     show:
       created_at: créé à
       delete: supprimer l'identifiant
+      description: voir les détails de l'identifiant et l'utilisateur.
       destroy: détruire l'identifiant
       edit: modifier la identifiant
       handle: identifiant
@@ -969,22 +1019,26 @@ fr:
     destroy_all:
       notice: exécutions de tâches bloquées détruites
     edit:
+      description: mettre à jour une exécution bloquée.
       submit: mettre à jour l'exécution de tâche bloquée
       title: modifier l'exécution de tâche bloquée
     index:
       delete_all: supprimer tout
+      description: consulter les tâches bloquées par la concurrence.
       destroy_all: détruire tout
       new: nouvelle exécution de tâche bloquée
       title: exécutions de tâches bloquées
     model:
       to_s: job_blocked_execution#%{id}
     new:
+      description: créer un enregistrement d'exécution bloquée.
       submit: créer l'exécution de tâche bloquée
       title: nouvelle exécution de tâche bloquée
     show:
       concurrency_key: clé de concurrence
       created_at: créée à
       delete: supprimer l'exécution de tâche bloquée
+      description: voir les détails de l'exécution bloquée et la priorité.
       destroy: détruire l'exécution de tâche bloquée
       edit: modifier l'exécution de tâche bloquée
       expires_at: expire à
@@ -1010,21 +1064,25 @@ fr:
     destroy_all:
       notice: exécutions de tâches revendiquées détruites
     edit:
+      description: mettre à jour une exécution revendiquée.
       submit: mettre à jour l'exécution de tâche revendiquée
       title: modifier l'exécution de tâche revendiquée
     index:
       delete_all: supprimer tout
+      description: consulter les exécutions de tâches revendiquées.
       destroy_all: détruire tout
       new: nouvelle exécution de tâche revendiquée
       title: exécutions de tâches revendiquées
     model:
       to_s: job_claimed_execution#%{id}
     new:
+      description: créer un enregistrement d'exécution revendiquée.
       submit: créer l'exécution de tâche revendiquée
       title: nouvelle exécution de tâche revendiquée
     show:
       created_at: créée à
       delete: supprimer l'exécution de tâche revendiquée
+      description: voir les détails de l'exécution revendiquée et du worker.
       destroy: détruire l'exécution de tâche revendiquée
       edit: modifier l'exécution de tâche revendiquée
       id: identifiant
@@ -1048,10 +1106,12 @@ fr:
     destroy_all:
       notice: contextes de tâches détruits
     edit:
+      description: mettre à jour le contexte de tâche.
       submit: mettre à jour le contexte de tâche
       title: modifier le contexte de tâche
     index:
       delete_all: supprimer tout
+      description: parcourir les contextes et métadonnées des tâches.
       destroy_all: détruire tout
       new: nouveau contexte de tâche
       title: contextes de tâches
@@ -1059,6 +1119,7 @@ fr:
       invalid_json: json invalide
       to_s: job_context#%{id}
     new:
+      description: créer un contexte de tâche.
       submit: créer le contexte de tâche
       title: nouveau contexte de tâche
     show:
@@ -1066,6 +1127,7 @@ fr:
       context: contexte
       created_at: créée à
       delete: supprimer le contexte de tâche
+      description: voir les détails du contexte et la charge utile.
       destroy: détruire le contexte de tâche
       edit: modifier le contexte de tâche
       id: identifiant
@@ -1087,10 +1149,12 @@ fr:
     destroy_all:
       notice: exécutions de tâches échouées détruites
     edit:
+      description: mettre à jour une exécution échouée.
       submit: mettre à jour l'exécution de tâche échouée
       title: modifier l'exécution de tâche échouée
     index:
       delete_all: supprimer tout
+      description: consulter les exécutions échouées et erreurs.
       destroy_all: détruire tout
       new: nouvelle exécution de tâche échouée
       title: exécutions de tâches échouées
@@ -1098,11 +1162,13 @@ fr:
       invalid_json: json invalide
       to_s: job_failed_execution#%{id}
     new:
+      description: créer un enregistrement d'exécution échouée.
       submit: créer l'exécution de tâche échouée
       title: nouvelle exécution de tâche échouée
     show:
       created_at: créée à
       delete: supprimer l'exécution de tâche échouée
+      description: voir les détails de l'échec et l'erreur associée.
       destroy: détruire l'exécution de tâche échouée
       edit: modifier l'exécution de tâche échouée
       error: erreur
@@ -1126,21 +1192,25 @@ fr:
     destroy_all:
       notice: pauses de tâches détruites
     edit:
+      description: mettre à jour les paramètres de pause.
       submit: mettre à jour la pause de tâche
       title: modifier la pause de tâche
     index:
       delete_all: supprimer tout
+      description: gérer les files d'attente en pause.
       destroy_all: détruire tout
       new: nouvelle pause de tâche
       title: pauses de tâches
     model:
       to_s: job_pause#%{id}
     new:
+      description: mettre en pause une file d'attente.
       submit: créer la pause de tâche
       title: nouvelle pause de tâche
     show:
       created_at: créée à
       delete: supprimer la pause de tâche
+      description: voir les détails de la pause.
       destroy: détruire la pause de tâche
       edit: modifier la pause de tâche
       id: identifiant
@@ -1162,10 +1232,12 @@ fr:
     destroy_all:
       notice: processus de tâches détruits
     edit:
+      description: mettre à jour les métadonnées du processus.
       submit: mettre à jour le processus de tâche
       title: modifier le processus de tâche
     index:
       delete_all: supprimer tout
+      description: surveiller les processus et workers.
       destroy_all: détruire tout
       new: nouveau processus de tâche
       title: processus de tâches
@@ -1173,11 +1245,13 @@ fr:
       invalid_json: json invalide
       to_s: job_process#%{id}
     new:
+      description: enregistrer un processus de tâche.
       submit: créer le processus de tâche
       title: nouveau processus de tâche
     show:
       created_at: créée à
       delete: supprimer le processus de tâche
+      description: voir l'état du processus et le heartbeat.
       destroy: détruire le processus de tâche
       edit: modifier le processus de tâche
       hostname: nom d'hôte
@@ -1205,21 +1279,25 @@ fr:
     destroy_all:
       notice: exécutions de tâches prêtes détruites
     edit:
+      description: mettre à jour une exécution prête.
       submit: mettre à jour l'exécution de tâche prête
       title: modifier l'exécution de tâche prête
     index:
       delete_all: supprimer tout
+      description: consulter les tâches prêtes à exécuter.
       destroy_all: détruire tout
       new: nouvelle exécution de tâche prête
       title: exécutions de tâches prêtes
     model:
       to_s: job_ready_execution#%{id}
     new:
+      description: créer un enregistrement d'exécution prête.
       submit: créer l'exécution de tâche prête
       title: nouvelle exécution de tâche prête
     show:
       created_at: créée à
       delete: supprimer l'exécution de tâche prête
+      description: voir les détails et la priorité.
       destroy: détruire l'exécution de tâche prête
       edit: modifier l'exécution de tâche prête
       id: identifiant
@@ -1244,21 +1322,25 @@ fr:
     destroy_all:
       notice: exécutions récurrentes de tâches détruites
     edit:
+      description: mettre à jour une exécution récurrente.
       submit: mettre à jour l'exécution récurrente de tâche
       title: modifier l'exécution récurrente de tâche
     index:
       delete_all: supprimer tout
+      description: consulter les exécutions récurrentes.
       destroy_all: détruire tout
       new: nouvelle exécution récurrente de tâche
       title: exécutions récurrentes de tâches
     model:
       to_s: job_recurring_execution#%{id}
     new:
+      description: créer un enregistrement d'exécution récurrente.
       submit: créer l'exécution récurrente de tâche
       title: nouvelle exécution récurrente de tâche
     show:
       created_at: créée à
       delete: supprimer l'exécution récurrente de tâche
+      description: voir la date d'exécution et l'état.
       destroy: détruire l'exécution récurrente de tâche
       edit: modifier l'exécution récurrente de tâche
       id: identifiant
@@ -1283,10 +1365,12 @@ fr:
     destroy_all:
       notice: tâches récurrentes détruites
     edit:
+      description: mettre à jour la commande et la planification.
       submit: mettre à jour la tâche récurrente
       title: modifier la tâche récurrente
     index:
       delete_all: supprimer tout
+      description: gérer les tâches récurrentes.
       destroy_all: détruire tout
       new: nouvelle tâche récurrente
       title: tâches récurrentes
@@ -1294,6 +1378,7 @@ fr:
       invalid_json: json invalide
       to_s: job_recurring_task#%{id}
     new:
+      description: créer une tâche récurrente.
       submit: créer la tâche récurrente
       title: nouvelle tâche récurrente
     show:
@@ -1328,21 +1413,25 @@ fr:
     destroy_all:
       notice: exécutions de tâches programmées détruites
     edit:
+      description: mettre à jour le timing de l'exécution planifiée.
       submit: mettre à jour l'exécution de tâche programmée
       title: modifier l'exécution de tâche programmée
     index:
       delete_all: supprimer tout
+      description: consulter les tâches planifiées.
       destroy_all: détruire tout
       new: nouvelle exécution de tâche programmée
       title: exécutions de tâches programmées
     model:
       to_s: job_scheduled_execution#%{id}
     new:
+      description: créer une exécution planifiée.
       submit: créer l'exécution de tâche programmée
       title: nouvelle exécution de tâche programmée
     show:
       created_at: créée à
       delete: supprimer l'exécution de tâche programmée
+      description: voir les détails et l'heure prévue.
       destroy: détruire l'exécution de tâche programmée
       edit: modifier l'exécution de tâche programmée
       id: identifiant
@@ -1368,10 +1457,12 @@ fr:
     destroy_all:
       notice: sémaphores de tâche détruits
     edit:
+      description: mettre à jour une entrée de sémaphore.
       submit: mettre à jour le sémaphore de tâche
       title: modifier le sémaphore de tâche
     index:
       delete_all: supprimer tout
+      description: gérer les sémaphores et clés de concurrence.
       destroy_all: détruire tout
       new: nouveau sémaphore de tâche
       title: sémaphores de tâches
@@ -1379,11 +1470,13 @@ fr:
       invalid_json: json invalide
       to_s: job_semaphore#%{id}
     new:
+      description: créer une entrée de sémaphore.
       submit: créer le sémaphore de tâche
       title: nouveau sémaphore de tâche
     show:
       created_at: créée à
       delete: supprimer le sémaphore de tâche
+      description: voir les détails du sémaphore et l'expiration.
       destroy: détruire le sémaphore de tâche
       edit: modifier le sémaphore de tâche
       expires_at: expire à
@@ -1413,10 +1506,12 @@ fr:
     discard_all:
       notice: tâches supprimées
     edit:
+      description: mettre à jour les paramètres et la planification.
       submit: mettre à jour la tâche
       title: modifier la tâche
     index:
       delete_all: supprimer tout
+      description: parcourir les tâches en file et exécutées.
       destroy_all: détruire tout
       discard_all: abandonner tout
       job_blocked_executions:
@@ -1470,6 +1565,7 @@ fr:
       invalid_json: json invalide
       to_s: tâche#%{id}
     new:
+      description: créer une tâche pour exécution immédiate ou planifiée.
       submit: créer la tâche
       title: nouvelle tâche
     retry:
@@ -1482,6 +1578,7 @@ fr:
       concurrency_key: clé de concurrence
       created_at: créée à
       delete: supprimer la tâche
+      description: voir les détails de la tâche, l'état et les exécutions.
       destroy: détruire la tâche
       discard: abandonner la tâche
       edit: modifier la tâche
@@ -1586,10 +1683,12 @@ fr:
     destroy_all:
       notice: logs détruits
     edit:
+      description: mettre à jour une entrée de log.
       submit: mettre à jour le log
       title: modifier le log
     index:
       delete_all: supprimer tout
+      description: consulter les logs d'audit et événements.
       destroy_all: détruire tout
       new: nouveau log
       title: logs
@@ -1597,12 +1696,14 @@ fr:
       invalid_json: json invalide
       to_s: log#%{id}
     new:
+      description: créer une entrée de log.
       submit: créer un log
       title: nouveau log
     show:
       context: contexte
       created_at: créé à
       delete: supprimer le log
+      description: voir les détails du log et les enregistrements liés.
       destroy: détruire le log
       edit: modifier le log
       id: identifiant
@@ -1615,6 +1716,10 @@ fr:
     update:
       notice: log mis à jour
   messages:
+    body:
+      description: lire le corps complet du message.
+    content:
+      description: voir le contenu rendu du message.
     create:
       notice: message créé
     delete_all:
@@ -1624,16 +1729,19 @@ fr:
     destroy_all:
       notice: messages détruits
     edit:
+      description: modifier le sujet et le contenu d'un message.
       submit: message de mise à jour
       title: modifier le message
     index:
       delete_all: supprimer tout
+      description: parcourir les messages programmés et envoyés.
       destroy_all: détruire tout
       new: nouveau message
       title: messages
     model:
       to_s: message#%{id}
     new:
+      description: créer un nouveau message.
       submit: créer un message
       title: nouveau message
     show:
@@ -1641,6 +1749,7 @@ fr:
       content: contenu
       created_at: créé à
       delete: supprimer le message
+      description: voir les détails du message et les destinataires.
       destroy: détruire le message
       edit: modifier le message
       from_user: de l'utilisateur
@@ -1652,8 +1761,13 @@ fr:
       to_user: à l'utilisateur
       updated_at: mis à jour à
       versions: versions
+    subject:
+      description: voir le sujet du message.
     update:
       notice: message mis à jour
+  meta:
+    description: programmer des messages, notifications et programmes avec code.
+    site_name: codedorian
   names:
     create:
       notice: nom créé
@@ -1664,6 +1778,7 @@ fr:
     destroy_all:
       notice: noms détruits
     edit:
+      description: mettre à jour les informations de nom.
       submit: mettre à jour le nom
       title: modifier le nom
     form:
@@ -1671,17 +1786,20 @@ fr:
       given_name_placeholder: entrez votre prénom
     index:
       delete_all: supprimer tout
+      description: gérer les noms d'utilisateur et la vérification.
       destroy_all: détruire tout
       new: nouveau nom
       title: noms
     model:
       to_s: nom#%{id}
     new:
+      description: ajouter un nouveau nom pour un utilisateur.
       submit: créer un nom
       title: nouveau nom
     show:
       created_at: créé à
       delete: supprimer le nom
+      description: voir les détails du nom et l'historique.
       destroy: détruire le nom
       edit: modifier le nom
       family_name: nom de famille
@@ -1718,6 +1836,7 @@ fr:
     destroy_all:
       notice: mots de passe détruits
     edit:
+      description: mettre à jour un mot de passe et ses indices.
       submit: mettre à jour le mot de passe
       title: modifier le mot de passe
     form:
@@ -1725,17 +1844,20 @@ fr:
       password_placeholder: entrez votre mot de passe
     index:
       delete_all: supprimer tout
+      description: gérer les mots de passe enregistrés.
       destroy_all: détruire tout
       new: nouveau mot de passe
       title: mots de passe
     model:
       to_s: mot de passe#%{id}
     new:
+      description: créer un nouveau mot de passe.
       submit: créer un mot de passe
       title: nouveau mot de passe
     show:
       created_at: créé à
       delete: supprimer le mot de passe
+      description: voir les détails et la vérification du mot de passe.
       destroy: détruire le mot de passe
       edit: modifier le mot de passe
       hint: indice
@@ -1761,23 +1883,27 @@ fr:
     destroy_all:
       notice: numéros de téléphone détruits
     edit:
+      description: mettre à jour un numéro et la vérification.
       submit: mettre à jour le numéro de téléphone
       title: modifier le numéro de téléphone
     form:
       phone_number_placeholder: entrez votre numéro de téléphone
     index:
       delete_all: supprimer tout
+      description: gérer les numéros de téléphone et la vérification.
       destroy_all: détruire tout
       new: nouveau numéro de téléphone
       title: numéros de téléphone
     model:
       to_s: numéro_de_téléphone#%{id}
     new:
+      description: ajouter un nouveau numéro de téléphone pour un utilisateur.
       submit: créer un numéro de téléphone
       title: nouveau numéro de téléphone
     show:
       created_at: créé à
       delete: supprimer le numéro de téléphone
+      description: voir les détails du numéro de téléphone et l'historique.
       destroy: détruire le numéro de téléphone
       edit: modifier le numéro de téléphone
       id: identifiant
@@ -1802,10 +1928,12 @@ fr:
     destroy_all:
       notice: exécutions de programmes détruites
     edit:
+      description: mettre à jour une exécution de programme.
       submit: mettre à jour l'exécution du programme
       title: modifier l'exécution du programme
     index:
       delete_all: supprimer tout
+      description: consulter les exécutions de programme et résultats.
       destroy_all: détruire tout
       new: nouvelle exécution de programme
       title: exécutions de programmes
@@ -1818,11 +1946,13 @@ fr:
         initialized: initialisé
       to_s: exécution_du_programme#%{id}
     new:
+      description: créer une nouvelle exécution de programme.
       submit: créer l'exécution du programme
       title: nouvelle exécution de programme
     show:
       created_at: créé à
       delete: supprimer l'exécution de programme
+      description: voir l'entrée, la sortie et le statut.
       destroy: détruire l'exécution de programme
       edit: modifier l'exécution de programme
       error: erreur
@@ -1853,10 +1983,12 @@ fr:
     destroy_all:
       notice: horaires d'invite de programme détruits
     edit:
+      description: mettre à jour un horaire d'invite de programme.
       submit: horaire de mise à jour du programme
       title: modifier l'horaire d'invite de programme
     index:
       delete_all: supprimer tout
+      description: gérer les horaires d'invite de programme.
       destroy_all: détruire tout
       new: nouvel horaire  d'invite de programmes
       title: horaires des invites du programme
@@ -1897,6 +2029,7 @@ fr:
       program_prompt_schedule: horaire d'invite de programme
       remove: supprimer l'horaire de l'invite du programme
     new:
+      description: créer un nouvel horaire d'invite.
       submit: créer un horaire d'invite de programme
       title: nouvel horaire des invites du programme
     program_prompt_schedule:
@@ -1905,6 +2038,7 @@ fr:
     show:
       created_at: créé à
       delete: supprimer l'horaire d'invite de programme
+      description: voir le timing et les paramètres de l'horaire.
       destroy: détruire l'horaire d'invite de programme
       edit: modifier le programme d'invite de programmation
       id: identifiant
@@ -1932,10 +2066,12 @@ fr:
     destroy_all:
       notice: invites du programme détruites
     edit:
+      description: mettre à jour une invite et son entrée.
       submit: mettre à jour l'invite de programme
       title: modifier l'invite de programme
     index:
       delete_all: supprimer tout
+      description: parcourir les invites de programme et leurs horaires.
       destroy_all: détruire tout
       new: nouvelle invite de programme
       program_prompt_schedules:
@@ -1952,12 +2088,14 @@ fr:
         initialized: initialisé
       to_s: invite_de_programme#%{id}
     new:
+      description: créer une nouvelle invite de programme.
       submit: créer l'invite de programme
       title: nouvelle invite de programme
     show:
       backtrace: trace
       created_at: créé à
       delete: supprimer l'invite de programme
+      description: voir l'entrée, la sortie et le statut de l'invite.
       destroy: détruire l'invite de programme
       edit: modifier l'invite de programme
       error: erreur
@@ -1995,10 +2133,12 @@ fr:
     destroy_all:
       notice: horaires de programmes détruits
     edit:
+      description: mettre à jour le timing d'un horaire de programme.
       submit: mettre à jour l'horaire des programmes
       title: modifier la horaire des programmes
     index:
       delete_all: supprimer tout
+      description: gérer les horaires de programmes.
       destroy_all: détruire tout
       new: nouvelle horaire de programmes
       title: horaires de programmes
@@ -2039,6 +2179,7 @@ fr:
       program_schedule: horaire de programme
       remove: supprimer la horaire des programmes
     new:
+      description: créer un nouvel horaire de programme.
       submit: créer un programme
       title: nouvelle horaire de programmes
     program_schedule:
@@ -2047,6 +2188,7 @@ fr:
     show:
       created_at: créé à
       delete: supprimer l'horaire de programme
+      description: voir le timing et les paramètres de l'horaire.
       destroy: détruire l'horaire de programme
       edit: modifier la horaire des programmes
       id: identifiant
@@ -2073,6 +2215,7 @@ fr:
     destroy_all:
       notice: programmes détruits
     edit:
+      description: mettre à jour les détails et l'entrée du programme.
       submit: mettre à jour le programme
       title: modifier le programme
     evaluate:
@@ -2086,6 +2229,7 @@ fr:
         other: "%{count} données"
         zero: 0 données
       delete_all: supprimer tout
+      description: parcourir les programmes et leurs exécutions.
       destroy_all: détruire tout
       examples:
         one: 1 exemple
@@ -2114,6 +2258,7 @@ fr:
     model:
       to_s: programme#%{id}
     new:
+      description: créer un nouveau programme d'automatisation.
       submit: créer un programme
       title: nouveau programme
     schedule:
@@ -2123,6 +2268,7 @@ fr:
     show:
       created_at: créé à
       delete: supprimer le programme
+      description: voir les détails, horaires et exécutions du programme.
       destroy: détruire le programme
       edit: modifier le programme
       evaluate: évaluer
@@ -2162,6 +2308,7 @@ fr:
     destroy:
       notice: déconnecté
     new:
+      description: se connecter pour gérer votre compte codedorian.
       register: s'inscrire
       submit: se connecter
       title: connexion
@@ -2175,6 +2322,7 @@ fr:
     destroy_all:
       notice: sessions détruites
     edit:
+      description: mettre à jour les données de session.
       submit: mettre à jour la session
       title: modifier la session
     form:
@@ -2182,6 +2330,7 @@ fr:
       invalid_json: les données doivent être du json valide
     index:
       delete_all: supprimer tout
+      description: consulter les sessions actives et l'historique.
       destroy_all: détruire tout
       new: nouvelle session
       title: sessions
@@ -2189,12 +2338,14 @@ fr:
       invalid_json: json invalide
       to_s: session#%{id}
     new:
+      description: créer un nouvel enregistrement de session.
       submit: créer la session
       title: nouvelle session
     show:
       created_at: créé à
       data: données
       delete: supprimer la session
+      description: voir les détails de session et l'utilisateur associé.
       destroy: détruire la session
       edit: modifier la session
       guest: invité
@@ -2291,6 +2442,7 @@ fr:
           code est le projet de
            <a href="https://dorianmarie.com">dorian marié</a>
         </p>
+      description: en savoir plus sur codedorian et le projet de dorian marié.
       download: télécharger
       localhost: localhost
       privacy: politique de confidentialité
@@ -2318,6 +2470,7 @@ fr:
       configurations: configurations
       country_code_ip_addresses: code pays adresse ip
       data: données
+      description: tableau de bord d'administration codedorian.
       devices: appareils
       email_addresses: adresses e-mail
       error_occurrences: occurences d'erreur
@@ -2355,9 +2508,11 @@ fr:
       users: utilisateurs
       versions: versions
     download:
+      description: télécharger l'application codedorian pour ios et android.
       title: télécharger
     home:
       book: réserver
+      description: programmer des messages, notifications et programmes avec code.
       form: formulaire
       log_in: se connecter
       messages: messages
@@ -2401,6 +2556,7 @@ fr:
       register: s'inscrire
       title: code
     privacy:
+      description: consulter la politique de confidentialité de codedorian.
       privacy_html: |
         <p>bienvenue sur codedorian.com (« nous », « notre », « nos »). votre vie privée est importante pour nous. cette politique de confidentialité explique comment nous collectons, utilisons et protégeons vos informations lorsque vous utilisez notre site web.</p>
         <p> nous pouvons collecter des informations personnelles (telles que votre nom, votre adresse e-mail et vos coordonnées) et des informations non personnelles (telles que le type de navigateur et l'adresse ip) lorsque vous utilisez notre site web.</p>
@@ -2413,6 +2569,7 @@ fr:
         <p> si vous avez des questions sur cette politique de confidentialité, veuillez nous contacter à <a href="mailto:dorian@dorianmarie.com">dorian@dorianmarie.com</a> .</p>
       title: politique de confidentialité
     terms:
+      description: consulter les termes et conditions de codedorian.
       terms_html: |
         <p>bienvenue sur codedorian.com (« nous », « notre », « nos »). en accédant ou en utilisant notre site web, vous acceptez d'être lié par ces termes et conditions. si vous n'êtes pas d'accord, veuillez ne pas utiliser notre site web.</p>
         <p> vous acceptez d'utiliser ce site web uniquement à des fins légales et d'une manière qui ne porte pas atteinte aux droits d'autrui ni ne restreint leur utilisation du site.</p>
@@ -2424,6 +2581,7 @@ fr:
       title: termes et conditions
     up:
       body: fonctionne
+      description: page d'etat codedorian.
       title: "/up"
   time_zones:
     create:
@@ -2435,21 +2593,25 @@ fr:
     destroy_all:
       notice: fuseaux horaires détruits
     edit:
+      description: mettre à jour le fuseau horaire d'un utilisateur.
       submit: mettre à jour le fuseau horaire
       title: modifier le fuseau horaire
     index:
       delete_all: supprimer tout
+      description: gérer les fuseaux horaires et la vérification.
       destroy_all: détruire tout
       new: nouveau fuseau horaire
       title: fuseaux horaires
     model:
       to_s: fuseau horaire#%{id}
     new:
+      description: ajouter un fuseau horaire pour un utilisateur.
       submit: créer un fuseau horaire
       title: nouveau fuseau horaire
     show:
       created_at: créé à
       delete: supprimer le fuseau horaire
+      description: voir les détails du fuseau horaire et l'historique.
       destroy: détruire le fuseau horaire
       edit: modifier le fuseau horaire
       id: identifiant
@@ -2474,21 +2636,25 @@ fr:
     destroy_all:
       notice: jetons détruits
     edit:
+      description: mettre à jour un jeton d'accès et la vérification.
       submit: jeton de mise à jour
       title: modifier le jeton
     index:
       delete_all: supprimer tout
+      description: gérer les jetons d'accès et la vérification.
       destroy_all: détruire tout
       new: nouveau jeton
       title: jetons
     model:
       to_s: jeton#%{id}
     new:
+      description: créer un nouveau jeton d'accès.
       submit: créer un jeton
       title: nouveau jeton
     show:
       created_at: créé à
       delete: supprimer le jeton
+      description: voir les détails du jeton et l'historique.
       destroy: détruire le jeton
       edit: modifier le jeton
       id: identifiant
@@ -2513,12 +2679,14 @@ fr:
     destroy_all:
       notice: utilisateurs détruits
     edit:
+      description: mettre à jour le profil et les paramètres utilisateur.
       submit: mettre à jour l'utilisateur
       title: modifier l'utilisateur
     impersonate:
       notice: utilisateur usurpé
     index:
       delete_all: supprimer tout
+      description: parcourir les comptes utilisateurs et statut admin.
       destroy_all: détruire tout
       new: nouvel utilisateur
       title: utilisateurs
@@ -2529,6 +2697,7 @@ fr:
         none: aucun
       to_s: utilisateur#%{id}
     new:
+      description: créer un nouveau compte utilisateur.
       log_in: se connecter
       submit: créer un utilisateur
       title: nouvel utilisateur
@@ -2569,10 +2738,12 @@ fr:
     destroy_all:
       notice: versions détruites
     edit:
+      description: mettre à jour un enregistrement de version.
       submit: mettre à jour la version
       title: modifier la version
     index:
       delete_all: supprimer tout
+      description: consulter l'historique des changements.
       destroy_all: détruire tout
       new: nouvelle version
       title: versions
@@ -2580,11 +2751,13 @@ fr:
       invalid_json: json invalide
       to_s: version#%{id}
     new:
+      description: créer un nouvel enregistrement de version.
       submit: créer une version
       title: nouvelle version
     show:
       created_at: créé à
       delete: supprimer la version
+      description: voir les détails de version et l'audit.
       destroy: détruire la version
       edit: modifier la version
       event: événement

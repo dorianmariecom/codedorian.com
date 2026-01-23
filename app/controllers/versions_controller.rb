@@ -18,7 +18,6 @@ class VersionsController < ApplicationController
   before_action(:load_example)
   before_action(:load_example_schedule)
   before_action(:load_handle)
-  before_action(:load_log)
   before_action(:load_message)
   before_action(:load_name)
   before_action(:load_password)
@@ -35,7 +34,6 @@ class VersionsController < ApplicationController
   end
 
   def show
-    @logs = version_logs_scope.order(created_at: :desc).page(params[:page])
   end
 
   def new
@@ -309,15 +307,6 @@ class VersionsController < ApplicationController
     add_breadcrumb(text: @handle, path: [*nested, @handle].uniq)
   end
 
-  def load_log
-    return if params[:log_id].blank?
-
-    @log = logs_scope.find(params[:log_id])
-
-    set_context(log: @log)
-    add_breadcrumb(text: @log, path: [*nested, @log].uniq)
-  end
-
   def load_message
     return if params[:message_id].blank?
 
@@ -385,9 +374,7 @@ class VersionsController < ApplicationController
   def scope
     scope = searched_policy_scope(Version)
 
-    if @log
-      scope = scope.where_log(@log)
-    elsif @message
+    if @message
       scope = scope.where_message(@message)
     elsif @name
       scope = scope.where_name(@name)
@@ -438,14 +425,6 @@ class VersionsController < ApplicationController
     scope
   end
 
-  def version_logs_scope
-    scope = policy_scope(Log)
-
-    scope = scope.where_version(@version) if @version
-
-    scope
-  end
-
   def model_class
     Version
   end
@@ -472,7 +451,6 @@ class VersionsController < ApplicationController
     example: @example,
     example_schedule: @example_schedule,
     handle: @handle,
-    log: @log,
     message: @message,
     name: @name,
     password: @password,
@@ -500,13 +478,11 @@ class VersionsController < ApplicationController
       end
 
       chain << job_context if job_context
-      chain << log if log
       return chain
     end
 
     if job_context
       chain << job_context
-      chain << log if log
       return chain
     end
 
@@ -529,8 +505,6 @@ class VersionsController < ApplicationController
       chain << email_address
     elsif handle
       chain << handle
-    elsif log
-      chain << log
     elsif message
       chain << message
     elsif name
@@ -545,7 +519,6 @@ class VersionsController < ApplicationController
       chain << token
     end
 
-    chain << log if log && !chain.include?(log)
     chain
   end
 
@@ -653,10 +626,6 @@ class VersionsController < ApplicationController
     end
 
     scope
-  end
-
-  def logs_scope
-    policy_scope(Log)
   end
 
   def messages_scope

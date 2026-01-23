@@ -1,4 +1,4 @@
-// @sentry-internal/replay-canvas@10.32.1 downloaded from https://ga.jspm.io/npm:@sentry-internal/replay-canvas@10.32.1/build/npm/esm/index.js
+// @sentry-internal/replay-canvas@10.34.0 downloaded from https://ga.jspm.io/npm:@sentry-internal/replay-canvas@10.34.0/build/npm/esm/index.js
 
 import { defineIntegration as t } from "@sentry/core";
 var e = Object.defineProperty;
@@ -777,7 +777,8 @@ const H = (t = {}) => {
     maxCanvasSize: [e ? Math.min(e, z) : z, n ? Math.min(n, z) : z],
   };
   let s;
-  const a = new Promise((t) => (s = t));
+  let a;
+  const o = new Promise((t) => (a = t));
   return {
     name: G,
     getOptions() {
@@ -796,14 +797,15 @@ const H = (t = {}) => {
               } catch {}
             },
           });
-          s(r);
+          s = r;
+          a(r);
           return r;
         },
         ...(U[t] || U.medium),
       };
     },
     async snapshot(t, e) {
-      const n = await a;
+      const n = s || (await o);
       n.snapshot(t, e);
     },
   };

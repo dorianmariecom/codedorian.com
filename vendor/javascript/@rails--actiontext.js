@@ -1,4 +1,4 @@
-// @rails/actiontext@8.1.100 downloaded from https://ga.jspm.io/npm:@rails/actiontext@8.1.100/app/assets/javascripts/actiontext.esm.js
+// @rails/actiontext@8.1.200 downloaded from https://ga.jspm.io/npm:@rails/actiontext@8.1.200/app/assets/javascripts/actiontext.esm.js
 
 var t = { exports: {} };
 (function (t) {

@@ -1,4 +1,4 @@
-// @codemirror/state@6.5.3 downloaded from https://ga.jspm.io/npm:@codemirror/state@6.5.3/dist/index.js
+// @codemirror/state@6.5.4 downloaded from https://ga.jspm.io/npm:@codemirror/state@6.5.4/dist/index.js
 
 import { findClusterBreak as t } from "@marijn/find-cluster-break";
 class Text {
@@ -1051,6 +1051,7 @@ class SelectionRange {
     return (
       this.anchor == t.anchor &&
       this.head == t.head &&
+      this.goalColumn == t.goalColumn &&
       (!e || !this.empty || this.assoc == t.assoc)
     );
   }

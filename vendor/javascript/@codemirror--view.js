@@ -1,4 +1,4 @@
-// @codemirror/view@6.39.8 downloaded from https://ga.jspm.io/npm:@codemirror/view@6.39.8/dist/index.js
+// @codemirror/view@6.39.11 downloaded from https://ga.jspm.io/npm:@codemirror/view@6.39.11/dist/index.js
 
 import {
   RangeValue as t,
@@ -2204,7 +2204,7 @@ class TileCache {
         ) {
           s.splice(o, 1);
           o < this.index[0] && this.index[0]--;
-          if (r.length == e && (r.flags & 497) == i) {
+          if (r.widget == t && r.length == e && (r.flags & 497) == i) {
             this.reused.set(r, 1);
             return r;
           }
@@ -2222,6 +2222,10 @@ class TileCache {
       this.reused.set(t, e);
       return t.dom;
     }
+  }
+  clear() {
+    for (let t = 0; t < this.buckets.length; t++)
+      this.buckets[t].length = this.index[t] = 0;
   }
 }
 class TileUpdate {
@@ -2262,13 +2266,22 @@ class TileUpdate {
         o += t;
       }
       if (!r) break;
-      this.forward(r.fromA, r.toA);
       if (e && r.fromA <= e.range.fromA && r.toA >= e.range.toA) {
+        this.forward(
+          r.fromA,
+          e.range.fromA,
+          e.range.fromA < e.range.toA ? 1 : -1,
+        );
         this.emit(o, e.range.fromB);
+        this.cache.clear();
         this.builder.addComposition(e, i);
         this.text.skip(e.range.toB - e.range.fromB);
+        this.forward(e.range.fromA, r.toA);
         this.emit(e.range.toB, r.toB);
-      } else this.emit(o, r.toB);
+      } else {
+        this.forward(r.fromA, r.toA);
+        this.emit(o, r.toB);
+      }
       o = r.toB;
       s = r.toA;
     }
@@ -2404,12 +2417,12 @@ class TileUpdate {
     this.openWidget = r > n;
     this.openMarks = r;
   }
-  forward(t, e) {
-    if (e - t <= 10) this.old.advance(e - t, 1, this.reuseWalker);
+  forward(t, e, i = 1) {
+    if (e - t <= 10) this.old.advance(e - t, i, this.reuseWalker);
     else {
       this.old.advance(5, -1, this.reuseWalker);
       this.old.advance(e - t - 10, -1);
-      this.old.advance(5, 1, this.reuseWalker);
+      this.old.advance(5, i, this.reuseWalker);
     }
   }
   getCompositionContext(t) {
@@ -3295,11 +3308,8 @@ function Ge(t, e, i, s) {
   let u = h.left + a;
   let f =
     s !== null && s !== void 0 ? s : t.viewState.heightOracle.textHeight >> 1;
-  for (let e = 0; ; e += 10) {
-    let i = l + (f + e) * r;
-    let s = _e(t, { x: u, y: i }, false, r);
-    return o.cursor(s.pos, s.assoc, void 0, a);
-  }
+  let p = _e(t, { x: u, y: l + f * r }, false, r);
+  return o.cursor(p.pos, p.assoc, void 0, a);
 }
 function Ke(t, e, i) {
   for (;;) {
@@ -3680,8 +3690,7 @@ function ti(t, e) {
         insert: a.of(e.text.slice(c.from, c.toB).split($e)),
       };
     }
-  } else
-    s && ((!t.hasFocus && t.state.facet(ee)) || s.main.eq(n)) && (s = null);
+  } else s && ((!t.hasFocus && t.state.facet(ee)) || ri(s, n)) && (s = null);
   if (!i && !s) return false;
   if (!i && e.typeOver && !n.empty && s && s.main.empty)
     i = { from: n.from, to: n.to, insert: t.state.doc.slice(n.from, n.to) };
@@ -3738,7 +3747,7 @@ function ti(t, e) {
     i = { from: n.from, to: n.to, insert: a.of([" "]) };
   }
   if (i) return ei(t, i, s, r);
-  if (s && !s.main.eq(n)) {
+  if (s && !ri(s, n)) {
     let e = false,
       i = "select";
     if (t.inputState.lastSelectionTime > Date.now() - 50) {
@@ -3912,6 +3921,9 @@ function ni(t, e) {
     s = t.length == 2 ? t[1].pos : i;
   return i > -1 && s > -1 ? o.single(i + e, s + e) : null;
 }
+function ri(t, e) {
+  return e.head == t.main.head && e.anchor == t.main.anchor;
+}
 class InputState {
   setSelectionOrigin(t) {
     this.lastSelectionOrigin = t;
@@ -3944,10 +3956,10 @@ class InputState {
     this.handleEvent = this.handleEvent.bind(this);
     this.notifiedFocused = t.hasFocus;
     P.safari && t.contentDOM.addEventListener("input", () => null);
-    P.gecko && Fi(t.contentDOM.ownerDocument);
+    P.gecko && zi(t.contentDOM.ownerDocument);
   }
   handleEvent(t) {
-    wi(this.view, t) &&
+    vi(this.view, t) &&
       !this.ignoreDuringComposition(t) &&
       ((t.type == "keydown" && this.keydown(t)) ||
         (this.view.updateState != 0
@@ -3968,7 +3980,7 @@ class InputState {
     }
   }
   ensureHandlers(t) {
-    let e = li(t),
+    let e = ai(t),
       i = this.handlers,
       s = this.view.contentDOM;
     for (let t in e)
@@ -3996,7 +4008,7 @@ class InputState {
       return true;
     this.tabFocusMode > 0 &&
       t.keyCode != 27 &&
-      ci.indexOf(t.keyCode) < 0 &&
+      di.indexOf(t.keyCode) < 0 &&
       (this.tabFocusMode = -1);
     if (
       P.android &&
@@ -4013,8 +4025,8 @@ class InputState {
       !t.synthetic &&
       !t.altKey &&
       !t.metaKey &&
-      (((e = ai.find((e) => e.keyCode == t.keyCode)) && !t.ctrlKey) ||
-        (hi.indexOf(t.key) > -1 && t.ctrlKey && !t.shiftKey))
+      (((e = hi.find((e) => e.keyCode == t.keyCode)) && !t.ctrlKey) ||
+        (ci.indexOf(t.key) > -1 && t.ctrlKey && !t.shiftKey))
     ) {
       this.pendingIOSKey = e || t;
       setTimeout(() => this.flushIOSKey(), 250);
@@ -4071,7 +4083,7 @@ class InputState {
     this.mouseSelection && this.mouseSelection.destroy();
   }
 }
-function ri(t, e) {
+function li(t, e) {
   return (i, s) => {
     try {
       return e.call(t, s, i);
@@ -4080,7 +4092,7 @@ function ri(t, e) {
     }
   };
 }
-function li(t) {
+function ai(t) {
   let e = Object.create(null);
   function i(t) {
     return e[t] || (e[t] = { observers: [], handlers: [] });
@@ -4092,31 +4104,31 @@ function li(t) {
     if (s)
       for (let t in s) {
         let o = s[t];
-        o && i(t).handlers.push(ri(e.value, o));
+        o && i(t).handlers.push(li(e.value, o));
       }
     if (o)
       for (let t in o) {
         let s = o[t];
-        s && i(t).observers.push(ri(e.value, s));
+        s && i(t).observers.push(li(e.value, s));
       }
   }
-  for (let t in vi) i(t).handlers.push(vi[t]);
-  for (let t in bi) i(t).observers.push(bi[t]);
+  for (let t in bi) i(t).handlers.push(bi[t]);
+  for (let t in yi) i(t).observers.push(yi[t]);
   return e;
 }
-const ai = [
+const hi = [
   { key: "Backspace", keyCode: 8, inputType: "deleteContentBackward" },
   { key: "Enter", keyCode: 13, inputType: "insertParagraph" },
   { key: "Enter", keyCode: 13, inputType: "insertLineBreak" },
   { key: "Delete", keyCode: 46, inputType: "deleteContentForward" },
 ];
-const hi = "dthko";
-const ci = [16, 17, 18, 20, 91, 92, 224, 225];
-const di = 6;
-function ui(t) {
+const ci = "dthko";
+const di = [16, 17, 18, 20, 91, 92, 224, 225];
+const ui = 6;
+function fi(t) {
   return Math.max(0, t) * 0.7 + 8;
 }
-function fi(t, e) {
+function pi(t, e) {
   return Math.max(
     Math.abs(t.clientX - e.clientX),
     Math.abs(t.clientY - e.clientY),
@@ -4137,15 +4149,15 @@ class MouseSelection {
     o.addEventListener("mousemove", (this.move = this.move.bind(this)));
     o.addEventListener("mouseup", (this.up = this.up.bind(this)));
     this.extend = e.shiftKey;
-    this.multiple = t.state.facet(d.allowMultipleSelections) && pi(t, e);
-    this.dragging = !(!mi(t, e) || Oi(e) != 1) && null;
+    this.multiple = t.state.facet(d.allowMultipleSelections) && gi(t, e);
+    this.dragging = !(!wi(t, e) || Bi(e) != 1) && null;
   }
   start(t) {
     this.dragging === false && this.select(t);
   }
   move(t) {
     if (t.buttons == 0) return this.destroy();
-    if (this.dragging || (this.dragging == null && fi(this.startEvent, t) < 10))
+    if (this.dragging || (this.dragging == null && pi(this.startEvent, t) < 10))
       return;
     this.select((this.lastEvent = t));
     let e = 0,
@@ -4159,12 +4171,12 @@ class MouseSelection {
     this.scrollParents.y &&
       ({ top: o, bottom: r } = this.scrollParents.y.getBoundingClientRect());
     let l = fe(this.view);
-    t.clientX - l.left <= s + di
-      ? (e = -ui(s - t.clientX))
-      : t.clientX + l.right >= n - di && (e = ui(t.clientX - n));
-    t.clientY - l.top <= o + di
-      ? (i = -ui(o - t.clientY))
-      : t.clientY + l.bottom >= r - di && (i = ui(t.clientY - r));
+    t.clientX - l.left <= s + ui
+      ? (e = -fi(s - t.clientX))
+      : t.clientX + l.right >= n - ui && (e = fi(t.clientX - n));
+    t.clientY - l.top <= o + ui
+      ? (i = -fi(o - t.clientY))
+      : t.clientY + l.bottom >= r - ui && (i = fi(t.clientY - r));
     this.setScrollSpeed(e, i);
   }
   up(t) {
@@ -4217,15 +4229,15 @@ class MouseSelection {
         setTimeout(() => this.select(this.lastEvent), 20);
   }
 }
-function pi(t, e) {
+function gi(t, e) {
   let i = t.state.facet(Ft);
   return i.length ? i[0](e) : P.mac ? e.metaKey : e.ctrlKey;
 }
-function gi(t, e) {
+function mi(t, e) {
   let i = t.state.facet(zt);
   return i.length ? i[0](e) : P.mac ? !e.altKey : !e.ctrlKey;
 }
-function mi(t, e) {
+function wi(t, e) {
   let { main: i } = t.state.selection;
   if (i.empty) return false;
   let s = j(t.root);
@@ -4243,7 +4255,7 @@ function mi(t, e) {
   }
   return false;
 }
-function wi(t, e) {
+function vi(t, e) {
   if (!e.bubbles) return true;
   if (e.defaultPrevented) return false;
   for (let i, s = e.target; s != t.contentDOM; s = s.parentNode)
@@ -4258,10 +4270,10 @@ function wi(t, e) {
       return false;
   return true;
 }
-const vi = Object.create(null);
 const bi = Object.create(null);
-const yi = (P.ie && P.ie_version < 15) || (P.ios && P.webkit_version < 604);
-function xi(t) {
+const yi = Object.create(null);
+const xi = (P.ie && P.ie_version < 15) || (P.ios && P.webkit_version < 604);
+function Mi(t) {
   let e = t.dom.parentNode;
   if (!e) return;
   let i = e.appendChild(document.createElement("textarea"));
@@ -4270,24 +4282,24 @@ function xi(t) {
   setTimeout(() => {
     t.focus();
     i.remove();
-    Si(t, i.value);
+    Ci(t, i.value);
   }, 50);
 }
-function Mi(t, e, i) {
+function Si(t, e, i) {
   for (let s of t.facet(e)) i = s(i, t);
   return i;
 }
-function Si(t, e) {
-  e = Mi(t.state, _t, e);
+function Ci(t, e) {
+  e = Si(t.state, _t, e);
   let i,
     { state: s } = t,
     n = 1,
     r = s.toText(e);
   let l = r.lines == s.selection.ranges.length;
   let a =
-    Wi != null &&
+    Vi != null &&
     s.selection.ranges.every((t) => t.empty) &&
-    Wi == r.toString();
+    Vi == r.toString();
   if (a) {
     let t = -1;
     i = s.changeByRange((i) => {
@@ -4312,25 +4324,25 @@ function Si(t, e) {
       : s.replaceSelection(r);
   t.dispatch(i, { userEvent: "input.paste", scrollIntoView: true });
 }
-bi.scroll = (t) => {
+yi.scroll = (t) => {
   t.inputState.lastScrollTop = t.scrollDOM.scrollTop;
   t.inputState.lastScrollLeft = t.scrollDOM.scrollLeft;
 };
-vi.keydown = (t, e) => {
+bi.keydown = (t, e) => {
   t.inputState.setSelectionOrigin("select");
   e.keyCode == 27 &&
     t.inputState.tabFocusMode != 0 &&
     (t.inputState.tabFocusMode = Date.now() + 2e3);
   return false;
 };
-bi.touchstart = (t, e) => {
+yi.touchstart = (t, e) => {
   t.inputState.lastTouchTime = Date.now();
   t.inputState.setSelectionOrigin("select.pointer");
 };
-bi.touchmove = (t) => {
+yi.touchmove = (t) => {
   t.inputState.setSelectionOrigin("select.pointer");
 };
-vi.mousedown = (t, e) => {
+bi.mousedown = (t, e) => {
   t.observer.flush();
   if (t.inputState.lastTouchTime > Date.now() - 2e3) return false;
   let i = null;
@@ -4338,7 +4350,7 @@ vi.mousedown = (t, e) => {
     i = s(t, e);
     if (i) break;
   }
-  i || e.button != 0 || (i = Bi(t, e));
+  i || e.button != 0 || (i = Ei(t, e));
   if (i) {
     let s = !t.hasFocus;
     t.inputState.startMouseSelection(new MouseSelection(t, e, i, s));
@@ -4356,7 +4368,7 @@ vi.mousedown = (t, e) => {
   } else t.inputState.setSelectionOrigin("select.pointer");
   return false;
 };
-function Ci(t, e, i, s) {
+function ki(t, e, i, s) {
   if (s == 1) return o.cursor(e, i);
   if (s == 2) return Pe(t.state, e, i);
   {
@@ -4368,27 +4380,27 @@ function Ci(t, e, i, s) {
     return o.range(r, l);
   }
 }
-const ki = P.ie && P.ie_version <= 11;
-let Ti = null,
-  Ai = 0,
-  Di = 0;
-function Oi(t) {
-  if (!ki) return t.detail;
-  let e = Ti,
-    i = Di;
-  Ti = t;
-  Di = Date.now();
-  return (Ai =
+const Ti = P.ie && P.ie_version <= 11;
+let Ai = null,
+  Di = 0,
+  Oi = 0;
+function Bi(t) {
+  if (!Ti) return t.detail;
+  let e = Ai,
+    i = Oi;
+  Ai = t;
+  Oi = Date.now();
+  return (Di =
     !e ||
     (i > Date.now() - 400 &&
       Math.abs(e.clientX - t.clientX) < 2 &&
       Math.abs(e.clientY - t.clientY) < 2)
-      ? (Ai + 1) % 3
+      ? (Di + 1) % 3
       : 1);
 }
-function Bi(t, e) {
+function Ei(t, e) {
   let i = t.posAndSideAtCoords({ x: e.clientX, y: e.clientY }, false),
-    s = Oi(e);
+    s = Bi(e);
   let n = t.state.selection;
   return {
     update(t) {
@@ -4400,16 +4412,16 @@ function Bi(t, e) {
     get(e, r, l) {
       let a,
         h = t.posAndSideAtCoords({ x: e.clientX, y: e.clientY }, false);
-      let c = Ci(t, h.pos, h.assoc, s);
+      let c = ki(t, h.pos, h.assoc, s);
       if (i.pos != h.pos && !r) {
-        let e = Ci(t, i.pos, i.assoc, s);
+        let e = ki(t, i.pos, i.assoc, s);
         let n = Math.min(e.from, c.from),
           r = Math.max(e.to, c.to);
         c = n < c.from ? o.range(n, r) : o.range(r, n);
       }
       return r
         ? n.replaceRange(n.main.extend(c.from, c.to))
-        : l && s == 1 && n.ranges.length > 1 && (a = Ei(n, h.pos))
+        : l && s == 1 && n.ranges.length > 1 && (a = Li(n, h.pos))
           ? a
           : l
             ? n.addRange(c)
@@ -4417,7 +4429,7 @@ function Bi(t, e) {
     },
   };
 }
-function Ei(t, e) {
+function Li(t, e) {
   for (let i = 0; i < t.ranges.length; i++) {
     let { from: s, to: n } = t.ranges[i];
     if (s <= e && n >= e)
@@ -4428,7 +4440,7 @@ function Ei(t, e) {
   }
   return null;
 }
-vi.dragstart = (t, e) => {
+bi.dragstart = (t, e) => {
   let {
     selection: { main: i },
   } = t.state;
@@ -4446,22 +4458,22 @@ vi.dragstart = (t, e) => {
   if (e.dataTransfer) {
     e.dataTransfer.setData(
       "Text",
-      Mi(t.state, jt, t.state.sliceDoc(i.from, i.to)),
+      Si(t.state, jt, t.state.sliceDoc(i.from, i.to)),
     );
     e.dataTransfer.effectAllowed = "copyMove";
   }
   return false;
 };
-vi.dragend = (t) => {
+bi.dragend = (t) => {
   t.inputState.draggedContent = null;
   return false;
 };
-function Li(t, e, i, s) {
-  i = Mi(t.state, _t, i);
+function Ri(t, e, i, s) {
+  i = Si(t.state, _t, i);
   if (!i) return;
   let o = t.posAtCoords({ x: e.clientX, y: e.clientY }, false);
   let { draggedContent: n } = t.inputState;
-  let r = s && n && gi(t, e) ? { from: n.from, to: n.to } : null;
+  let r = s && n && mi(t, e) ? { from: n.from, to: n.to } : null;
   let l = { from: o, insert: i };
   let a = t.state.changes(r ? [r, l] : l);
   t.focus();
@@ -4472,7 +4484,7 @@ function Li(t, e, i, s) {
   });
   t.inputState.draggedContent = null;
 }
-vi.drop = (t, e) => {
+bi.drop = (t, e) => {
   if (!e.dataTransfer) return false;
   if (t.state.readOnly) return true;
   let i = e.dataTransfer.files;
@@ -4481,7 +4493,7 @@ vi.drop = (t, e) => {
       o = 0;
     let n = () => {
       ++o == i.length &&
-        Li(t, e, s.filter((t) => t != null).join(t.state.lineBreak), false);
+        Ri(t, e, s.filter((t) => t != null).join(t.state.lineBreak), false);
     };
     for (let t = 0; t < i.length; t++) {
       let e = new FileReader();
@@ -4497,24 +4509,24 @@ vi.drop = (t, e) => {
   {
     let i = e.dataTransfer.getData("Text");
     if (i) {
-      Li(t, e, i, true);
+      Ri(t, e, i, true);
       return true;
     }
   }
   return false;
 };
-vi.paste = (t, e) => {
+bi.paste = (t, e) => {
   if (t.state.readOnly) return true;
   t.observer.flush();
-  let i = yi ? null : e.clipboardData;
+  let i = xi ? null : e.clipboardData;
   if (i) {
-    Si(t, i.getData("text/plain") || i.getData("text/uri-list"));
+    Ci(t, i.getData("text/plain") || i.getData("text/uri-list"));
     return true;
   }
-  xi(t);
+  Mi(t);
   return false;
 };
-function Ri(t, e) {
+function Hi(t, e) {
   let i = t.dom.parentNode;
   if (!i) return;
   let s = i.appendChild(document.createElement("textarea"));
@@ -4528,7 +4540,7 @@ function Ri(t, e) {
     t.focus();
   }, 50);
 }
-function Hi(t) {
+function Wi(t) {
   let e = [],
     i = [],
     s = false;
@@ -4549,44 +4561,46 @@ function Hi(t) {
     }
     s = true;
   }
-  return { text: Mi(t, jt, e.join(t.lineBreak)), ranges: i, linewise: s };
+  return { text: Si(t, jt, e.join(t.lineBreak)), ranges: i, linewise: s };
 }
-let Wi = null;
-vi.copy = vi.cut = (t, e) => {
-  let { text: i, ranges: s, linewise: o } = Hi(t.state);
-  if (!i && !o) return false;
-  Wi = o ? i : null;
+let Vi = null;
+bi.copy = bi.cut = (t, e) => {
+  let i = j(t.root);
+  if (i && !$(t.contentDOM, i)) return false;
+  let { text: s, ranges: o, linewise: n } = Wi(t.state);
+  if (!s && !n) return false;
+  Vi = n ? s : null;
   e.type != "cut" ||
     t.state.readOnly ||
-    t.dispatch({ changes: s, scrollIntoView: true, userEvent: "delete.cut" });
-  let n = yi ? null : e.clipboardData;
-  if (n) {
-    n.clearData();
-    n.setData("text/plain", i);
+    t.dispatch({ changes: o, scrollIntoView: true, userEvent: "delete.cut" });
+  let r = xi ? null : e.clipboardData;
+  if (r) {
+    r.clearData();
+    r.setData("text/plain", s);
     return true;
   }
-  Ri(t, i);
+  Hi(t, s);
   return false;
 };
-const Vi = u.define();
-function Pi(t, e) {
+const Pi = u.define();
+function Ni(t, e) {
   let i = [];
   for (let s of t.facet(Xt)) {
     let o = s(t, e);
     o && i.push(o);
   }
-  return i.length ? t.update({ effects: i, annotations: Vi.of(true) }) : null;
+  return i.length ? t.update({ effects: i, annotations: Pi.of(true) }) : null;
 }
-function Ni(t) {
+function Ii(t) {
   setTimeout(() => {
     let e = t.hasFocus;
     if (e != t.inputState.notifiedFocused) {
-      let i = Pi(t.state, e);
+      let i = Ni(t.state, e);
       i ? t.dispatch(i) : t.update([]);
     }
   }, 10);
 }
-bi.focus = (t) => {
+yi.focus = (t) => {
   t.inputState.lastFocusTime = Date.now();
   if (
     !t.scrollDOM.scrollTop &&
@@ -4595,20 +4609,20 @@ bi.focus = (t) => {
     t.scrollDOM.scrollTop = t.inputState.lastScrollTop;
     t.scrollDOM.scrollLeft = t.inputState.lastScrollLeft;
   }
-  Ni(t);
+  Ii(t);
 };
-bi.blur = (t) => {
+yi.blur = (t) => {
   t.observer.clearSelectionRange();
-  Ni(t);
+  Ii(t);
 };
-bi.compositionstart = bi.compositionupdate = (t) => {
+yi.compositionstart = yi.compositionupdate = (t) => {
   if (!t.observer.editContext) {
     t.inputState.compositionFirstChange == null &&
       (t.inputState.compositionFirstChange = true);
     t.inputState.composing < 0 && (t.inputState.composing = 0);
   }
 };
-bi.compositionend = (t) => {
+yi.compositionend = (t) => {
   if (!t.observer.editContext) {
     t.inputState.composing = -1;
     t.inputState.compositionEndedAt = Date.now();
@@ -4627,10 +4641,10 @@ bi.compositionend = (t) => {
           }, 50);
   }
 };
-bi.contextmenu = (t) => {
+yi.contextmenu = (t) => {
   t.inputState.lastContextMenu = Date.now();
 };
-vi.beforeinput = (t, e) => {
+bi.beforeinput = (t, e) => {
   var i, s;
   if (e.inputType == "insertText" || e.inputType == "insertCompositionText") {
     t.inputState.insertingText = e.data;
@@ -4654,7 +4668,7 @@ vi.beforeinput = (t, e) => {
   if (
     P.chrome &&
     P.android &&
-    (o = ai.find((t) => t.inputType == e.inputType))
+    (o = hi.find((t) => t.inputType == e.inputType))
   ) {
     t.observer.delayAndroidKey(o.key, o.keyCode);
     if (o.key == "Backspace" || o.key == "Delete") {
@@ -4681,21 +4695,21 @@ vi.beforeinput = (t, e) => {
   P.safari &&
     e.inputType == "insertText" &&
     t.inputState.composing >= 0 &&
-    setTimeout(() => bi.compositionend(t, e), 20);
+    setTimeout(() => yi.compositionend(t, e), 20);
   return false;
 };
-const Ii = new Set();
-function Fi(t) {
-  if (!Ii.has(t)) {
-    Ii.add(t);
+const Fi = new Set();
+function zi(t) {
+  if (!Fi.has(t)) {
+    Fi.add(t);
     t.addEventListener("copy", () => {});
     t.addEventListener("cut", () => {});
   }
 }
-const zi = ["pre-wrap", "normal", "pre-line", "break-spaces"];
-let qi = false;
-function Gi() {
-  qi = false;
+const qi = ["pre-wrap", "normal", "pre-line", "break-spaces"];
+let Gi = false;
+function Ki() {
+  Gi = false;
 }
 class HeightOracle {
   constructor(t) {
@@ -4731,7 +4745,7 @@ class HeightOracle {
     return this;
   }
   mustRefreshForWrapping(t) {
-    return zi.indexOf(t) > -1 != this.lineWrapping;
+    return qi.indexOf(t) > -1 != this.lineWrapping;
   }
   mustRefreshForHeights(t) {
     let e = false;
@@ -4746,9 +4760,11 @@ class HeightOracle {
     return e;
   }
   refresh(t, e, i, s, o, n) {
-    let r = zi.indexOf(t) > -1;
+    let r = qi.indexOf(t) > -1;
     let l =
-      Math.round(e) != Math.round(this.lineHeight) || this.lineWrapping != r;
+      Math.abs(e - this.lineHeight) > 0.3 ||
+      this.lineWrapping != r ||
+      Math.abs(i - this.charWidth) > 0.1;
     this.lineWrapping = r;
     this.lineHeight = e;
     this.charWidth = i;
@@ -4816,13 +4832,13 @@ class BlockInfo {
     );
   }
 }
-var Ki = (function (t) {
+var Yi = (function (t) {
   t[(t.ByPos = 0)] = "ByPos";
   t[(t.ByHeight = 1)] = "ByHeight";
   t[(t.ByPosNoHeight = 2)] = "ByPosNoHeight";
   return t;
-})(Ki || (Ki = {}));
-const Yi = 0.001;
+})(Yi || (Yi = {}));
+const Xi = 0.001;
 class HeightMap {
   constructor(t, e, i = 2) {
     this.length = t;
@@ -4837,7 +4853,7 @@ class HeightMap {
   }
   setHeight(t) {
     if (this.height != t) {
-      Math.abs(this.height - t) > Yi && (qi = true);
+      Math.abs(this.height - t) > Xi && (Gi = true);
       this.height = t;
     }
   }
@@ -4855,20 +4871,20 @@ class HeightMap {
       n = i.doc;
     for (let r = s.length - 1; r >= 0; r--) {
       let { fromA: l, toA: a, fromB: h, toB: c } = s[r];
-      let d = o.lineAt(l, Ki.ByPosNoHeight, i.setDoc(e), 0, 0);
-      let u = d.to >= a ? d : o.lineAt(a, Ki.ByPosNoHeight, i, 0, 0);
+      let d = o.lineAt(l, Yi.ByPosNoHeight, i.setDoc(e), 0, 0);
+      let u = d.to >= a ? d : o.lineAt(a, Yi.ByPosNoHeight, i, 0, 0);
       c += u.to - a;
       a = u.to;
       while (r > 0 && d.from <= s[r - 1].toA) {
         l = s[r - 1].fromA;
         h = s[r - 1].fromB;
         r--;
-        l < d.from && (d = o.lineAt(l, Ki.ByPosNoHeight, i, 0, 0));
+        l < d.from && (d = o.lineAt(l, Yi.ByPosNoHeight, i, 0, 0));
       }
       h += d.from - l;
       l = d.from;
       let f = NodeBuilder.build(i.setDoc(n), t, h, c);
-      o = Xi(o, o.replace(l, a, f));
+      o = _i(o, o.replace(l, a, f));
     }
     return o.updateHeight(i, 0);
   }
@@ -4923,13 +4939,13 @@ class HeightMap {
     );
   }
 }
-function Xi(t, e) {
+function _i(t, e) {
   if (t == e) return t;
-  t.constructor != e.constructor && (qi = true);
+  t.constructor != e.constructor && (Gi = true);
   return e;
 }
 HeightMap.prototype.size = 1;
-const _i = Decoration.replace({});
+const ji = Decoration.replace({});
 class HeightMapBlock extends HeightMap {
   constructor(t, e, i) {
     super(t, e);
@@ -4947,7 +4963,7 @@ class HeightMapBlock extends HeightMap {
   }
   blockAt(t, e, i, s) {
     return this.spaceAbove && t < i + this.spaceAbove
-      ? new BlockInfo(s, 0, i, this.spaceAbove, _i)
+      ? new BlockInfo(s, 0, i, this.spaceAbove, ji)
       : this.mainBlock(i, s);
   }
   lineAt(t, e, i, s, o) {
@@ -4955,7 +4971,7 @@ class HeightMapBlock extends HeightMap {
     return this.spaceAbove ? this.blockAt(0, i, s, o).join(n) : n;
   }
   forEachLine(t, e, i, s, o, n) {
-    t <= o + this.length && e >= o && n(this.lineAt(0, Ki.ByPos, i, s, o));
+    t <= o + this.length && e >= o && n(this.lineAt(0, Yi.ByPos, i, s, o));
   }
   setMeasuredHeight(t) {
     let e = t.heights[t.index++];
@@ -5070,8 +5086,8 @@ class HeightMapGap extends HeightMap {
     }
   }
   lineAt(t, e, i, s, o) {
-    if (e == Ki.ByHeight) return this.blockAt(t, i, s, o);
-    if (e == Ki.ByPosNoHeight) {
+    if (e == Yi.ByHeight) return this.blockAt(t, i, s, o);
+    if (e == Yi.ByPosNoHeight) {
       let { from: e, to: s } = i.doc.lineAt(t);
       return new BlockInfo(e, s - e, 0, 0, 0);
     }
@@ -5142,7 +5158,7 @@ class HeightMapGap extends HeightMap {
           l = -o;
           o = s.heights[s.index++];
         }
-        r == -1 ? (r = o) : Math.abs(o - r) >= Yi && (r = -2);
+        r == -1 ? (r = o) : Math.abs(o - r) >= Xi && (r = -2);
         let a = new HeightMapText(e, o, l);
         a.outdated = false;
         i.push(a);
@@ -5151,10 +5167,10 @@ class HeightMapGap extends HeightMap {
       n <= o && i.push(null, new HeightMapGap(o - n).updateHeight(t, n));
       let l = HeightMap.of(i);
       (r < 0 ||
-        Math.abs(l.height - this.height) >= Yi ||
-        Math.abs(r - this.heightMetrics(t, e).perLine) >= Yi) &&
-        (qi = true);
-      return Xi(this, l);
+        Math.abs(l.height - this.height) >= Xi ||
+        Math.abs(r - this.heightMetrics(t, e).perLine) >= Xi) &&
+        (Gi = true);
+      return _i(this, l);
     }
     if (i || this.outdated) {
       this.setHeight(t.heightForGap(e, e + this.length));
@@ -5189,12 +5205,12 @@ class HeightMapBranch extends HeightMap {
   lineAt(t, e, i, s, o) {
     let n = s + this.left.height,
       r = o + this.left.length + this.break;
-    let l = e == Ki.ByHeight ? t < n : t < r;
+    let l = e == Yi.ByHeight ? t < n : t < r;
     let a = l
       ? this.left.lineAt(t, e, i, s, o)
       : this.right.lineAt(t, e, i, n, r);
     if (this.break || (l ? a.to < r : a.from > r)) return a;
-    let h = e == Ki.ByPosNoHeight ? Ki.ByPosNoHeight : Ki.ByPos;
+    let h = e == Yi.ByPosNoHeight ? Yi.ByPosNoHeight : Yi.ByPos;
     return l
       ? a.join(this.right.lineAt(r, h, i, n, r))
       : this.left.lineAt(r, h, i, s, o).join(a);
@@ -5206,7 +5222,7 @@ class HeightMapBranch extends HeightMap {
       t < l && this.left.forEachLine(t, e, i, s, o, n);
       e >= l && this.right.forEachLine(t, e, i, r, l, n);
     } else {
-      let a = this.lineAt(l, Ki.ByPos, i, s, o);
+      let a = this.lineAt(l, Yi.ByPos, i, s, o);
       t < a.from && this.left.forEachLine(t, a.from - 1, i, s, o, n);
       a.to >= t && a.from <= e && n(a);
       e > a.to && this.right.forEachLine(a.to + 1, e, i, r, l, n);
@@ -5221,11 +5237,11 @@ class HeightMapBranch extends HeightMap {
     t > 0 && this.decomposeLeft(t, o);
     let n = o.length;
     for (let t of i) o.push(t);
-    t > 0 && ji(o, n - 1);
+    t > 0 && Ui(o, n - 1);
     if (e < this.length) {
       let t = o.length;
       this.decomposeRight(e, o);
-      ji(o, t);
+      Ui(o, t);
     }
     return HeightMap.of(o);
   }
@@ -5250,8 +5266,8 @@ class HeightMapBranch extends HeightMap {
   balanced(t, e) {
     if (t.size > 2 * e.size || e.size > 2 * t.size)
       return HeightMap.of(this.break ? [t, null, e] : [t, e]);
-    this.left = Xi(this.left, t);
-    this.right = Xi(this.right, e);
+    this.left = _i(this.left, t);
+    this.right = _i(this.right, e);
     this.setHeight(t.height + e.height);
     this.outdated = t.outdated || e.outdated;
     this.size = t.size + e.size;
@@ -5277,14 +5293,14 @@ class HeightMapBranch extends HeightMap {
     return this.left + (this.break ? " " : "-") + this.right;
   }
 }
-function ji(t, e) {
+function Ui(t, e) {
   let i, s;
   t[e] == null &&
     (i = t[e - 1]) instanceof HeightMapGap &&
     (s = t[e + 1]) instanceof HeightMapGap &&
     t.splice(e - 1, 3, new HeightMapGap(i.length + 1 + s.length));
 }
-const Ui = 5;
+const $i = 5;
 class NodeBuilder {
   constructor(t, e) {
     this.pos = t;
@@ -5323,7 +5339,7 @@ class NodeBuilder {
       let n = e - t;
       i.block
         ? this.addBlock(new HeightMapBlock(n, s, i))
-        : (n || o || s >= Ui) && this.addLineDeco(s, o, n);
+        : (n || o || s >= $i) && this.addLineDeco(s, o, n);
     } else e > t && this.span(t, e);
     this.lineEnd > -1 &&
       this.lineEnd < this.pos &&
@@ -5390,7 +5406,7 @@ class NodeBuilder {
     return n.finish(s);
   }
 }
-function $i(t, i, s) {
+function Qi(t, i, s) {
   let o = new DecorationComparator();
   e.compare(t, i, s, o, 0);
   return o.changes;
@@ -5405,7 +5421,7 @@ class DecorationComparator {
       _(t, e, this.changes, 5);
   }
 }
-function Qi(t, e) {
+function Ji(t, e) {
   let i = t.getBoundingClientRect();
   let s = t.ownerDocument,
     o = s.defaultView || window;
@@ -5442,7 +5458,7 @@ function Qi(t, e) {
     bottom: Math.max(l, a) - (i.top + e),
   };
 }
-function Ji(t) {
+function Zi(t) {
   let e = t.getBoundingClientRect(),
     i = t.ownerDocument.defaultView || window;
   return (
@@ -5452,7 +5468,7 @@ function Ji(t) {
     e.bottom > 0
   );
 }
-function Zi(t, e) {
+function ts(t, e) {
   let i = t.getBoundingClientRect();
   return {
     left: 0,
@@ -5531,7 +5547,7 @@ class ViewState {
     this.scaleY = 1;
     this.scrollAnchorPos = 0;
     this.scrollAnchorHeight = -1;
-    this.scaler = os;
+    this.scaler = ns;
     this.scrollTarget = null;
     this.printing = false;
     this.mustMeasureContent = true;
@@ -5542,7 +5558,7 @@ class ViewState {
       .facet(ne)
       .some((t) => typeof t != "function" && t.class == "cm-lineWrapping");
     this.heightOracle = new HeightOracle(e);
-    this.stateDeco = t.facet(re).filter((t) => typeof t != "function");
+    this.stateDeco = rs(t);
     this.heightMap = HeightMap.empty().applyChanges(
       this.stateDeco,
       a.empty,
@@ -5577,7 +5593,7 @@ class ViewState {
     let t = this.scaler;
     this.scaler =
       this.heightMap.height <= 7e6
-        ? os
+        ? ns
         : new BigScaler(this.heightOracle, this.heightMap, this.viewports);
     return t.eq(this.scaler) ? 0 : 2;
   }
@@ -5590,29 +5606,29 @@ class ViewState {
       0,
       0,
       (t) => {
-        this.viewportLines.push(ns(t, this.scaler));
+        this.viewportLines.push(ls(t, this.scaler));
       },
     );
   }
   update(t, e = null) {
     this.state = t.state;
     let i = this.stateDeco;
-    this.stateDeco = this.state.facet(re).filter((t) => typeof t != "function");
+    this.stateDeco = rs(this.state);
     let s = t.changedRanges;
     let o = ChangedRange.extendWithRanges(
       s,
-      $i(i, this.stateDeco, t ? t.changes : l.empty(this.state.doc.length)),
+      Qi(i, this.stateDeco, t ? t.changes : l.empty(this.state.doc.length)),
     );
     let n = this.heightMap.height;
     let r = this.scrolledToBottom ? null : this.scrollAnchorAt(this.scrollTop);
-    Gi();
+    Ki();
     this.heightMap = this.heightMap.applyChanges(
       this.stateDeco,
       t.startState.doc,
       this.heightOracle.setDoc(this.state.doc),
       o,
     );
-    (this.heightMap.height != n || qi) && (t.flags |= 2);
+    (this.heightMap.height != n || Gi) && (t.flags |= 2);
     if (r) {
       this.scrollAnchorPos = t.changes.mapPos(r.from, -1);
       this.scrollAnchorHeight = r.top;
@@ -5637,7 +5653,7 @@ class ViewState {
     t.flags |= this.computeVisibleRanges(t.changes);
     e && (this.scrollTarget = e);
     !this.mustEnforceCursorAssoc &&
-      t.selectionSet &&
+      (t.selectionSet || t.focusChanged) &&
       t.view.lineWrapping &&
       t.state.selection.main.empty &&
       t.state.selection.main.assoc &&
@@ -5650,7 +5666,8 @@ class ViewState {
     let s = this.heightOracle;
     let o = i.whiteSpace;
     this.defaultTextDirection = i.direction == "rtl" ? vt.RTL : vt.LTR;
-    let n = this.heightOracle.mustRefreshForWrapping(o);
+    let n =
+      this.heightOracle.mustRefreshForWrapping(o) || this.mustMeasureContent;
     let r = e.getBoundingClientRect();
     let l = n || this.mustMeasureContent || this.contentDOMHeight != r.height;
     this.contentDOMHeight = r.height;
@@ -5687,7 +5704,7 @@ class ViewState {
       this.scrollTop = f;
     }
     this.scrolledToBottom = gt(t.scrollDOM);
-    let p = (this.printing ? Zi : Qi)(e, this.paddingTop);
+    let p = (this.printing ? ts : Ji)(e, this.paddingTop);
     let g = p.top - this.pixelViewport.top,
       m = p.bottom - this.pixelViewport.bottom;
     this.pixelViewport = p;
@@ -5698,7 +5715,7 @@ class ViewState {
       this.inView = w;
       w && (l = true);
     }
-    if (!this.inView && !this.scrollTarget && !Ji(t.dom)) return 0;
+    if (!this.inView && !this.scrollTarget && !Zi(t.dom)) return 0;
     let v = r.width;
     if (
       this.contentDOMWidth != v ||
@@ -5729,7 +5746,7 @@ class ViewState {
       g > 0 && m > 0
         ? (c = Math.max(g, m))
         : g < 0 && m < 0 && (c = Math.min(g, m));
-      Gi();
+      Ki();
       for (let i of this.viewports) {
         let o =
           i.from == this.viewport.from
@@ -5746,7 +5763,7 @@ class ViewState {
             : this.heightMap
         ).updateHeight(s, 0, n, new MeasuredHeights(i.from, o));
       }
-      qi && (h |= 2);
+      Gi && (h |= 2);
     }
     let b =
       !this.viewportIsAppropriate(this.viewport, c) ||
@@ -5780,8 +5797,8 @@ class ViewState {
       o = this.heightOracle;
     let { visibleTop: n, visibleBottom: r } = this;
     let l = new Viewport(
-      s.lineAt(n - i * 1e3, Ki.ByHeight, o, 0, 0).from,
-      s.lineAt(r + 1e3 * (1 - i), Ki.ByHeight, o, 0, 0).to,
+      s.lineAt(n - i * 1e3, Yi.ByHeight, o, 0, 0).from,
+      s.lineAt(r + 1e3 * (1 - i), Yi.ByHeight, o, 0, 0).to,
     );
     if (e) {
       let { head: t } = e.range;
@@ -5791,7 +5808,7 @@ class ViewState {
           this.pixelViewport.bottom - this.pixelViewport.top,
         );
         let n,
-          r = s.lineAt(t, Ki.ByPos, o, 0, 0);
+          r = s.lineAt(t, Yi.ByPos, o, 0, 0);
         n =
           e.y == "center"
             ? (r.top + r.bottom) / 2 - i / 2
@@ -5799,8 +5816,8 @@ class ViewState {
               ? r.top
               : r.bottom - i;
         l = new Viewport(
-          s.lineAt(n - 500, Ki.ByHeight, o, 0, 0).from,
-          s.lineAt(n + i + 500, Ki.ByHeight, o, 0, 0).to,
+          s.lineAt(n - 500, Yi.ByHeight, o, 0, 0).from,
+          s.lineAt(n + i + 500, Yi.ByHeight, o, 0, 0).to,
         );
       }
     }
@@ -5810,22 +5827,22 @@ class ViewState {
     let i = e.mapPos(t.from, -1),
       s = e.mapPos(t.to, 1);
     return new Viewport(
-      this.heightMap.lineAt(i, Ki.ByPos, this.heightOracle, 0, 0).from,
-      this.heightMap.lineAt(s, Ki.ByPos, this.heightOracle, 0, 0).to,
+      this.heightMap.lineAt(i, Yi.ByPos, this.heightOracle, 0, 0).from,
+      this.heightMap.lineAt(s, Yi.ByPos, this.heightOracle, 0, 0).to,
     );
   }
   viewportIsAppropriate({ from: t, to: e }, i = 0) {
     if (!this.inView) return true;
     let { top: s } = this.heightMap.lineAt(
       t,
-      Ki.ByPos,
+      Yi.ByPos,
       this.heightOracle,
       0,
       0,
     );
     let { bottom: o } = this.heightMap.lineAt(
       e,
-      Ki.ByPos,
+      Yi.ByPos,
       this.heightOracle,
       0,
       0,
@@ -5866,7 +5883,7 @@ class ViewState {
           a(t + 10, r, h, c);
           return;
         }
-      let f = ss(
+      let f = os(
         t,
         (t) =>
           t.from >= h.from &&
@@ -5893,7 +5910,7 @@ class ViewState {
     };
     let h = (e) => {
       if (e.length < r || e.type != K.Text) return;
-      let o = ts(e.from, e.to, this.stateDeco);
+      let o = es(e.from, e.to, this.stateDeco);
       if (o.total < r) return;
       let n = this.scrollTarget ? this.scrollTarget.range.head : null;
       let l, h;
@@ -5902,7 +5919,7 @@ class ViewState {
           (s / this.heightOracle.lineLength) * this.heightOracle.lineHeight;
         let i, r;
         if (n != null) {
-          let s = is(o, n);
+          let s = ss(o, n);
           let l = ((this.visibleBottom - this.visibleTop) / 2 + t) / e.height;
           i = s - l;
           r = s + l;
@@ -5910,8 +5927,8 @@ class ViewState {
           i = (this.visibleTop - e.top - t) / e.height;
           r = (this.visibleBottom - e.top + t) / e.height;
         }
-        l = es(o, i);
-        h = es(o, r);
+        l = is(o, i);
+        h = is(o, r);
       } else {
         let i = o.total * this.heightOracle.charWidth;
         let r = s * this.heightOracle.charWidth;
@@ -5928,7 +5945,7 @@ class ViewState {
           d = this.pixelViewport.right + a;
         let u, f;
         if (n != null) {
-          let t = is(o, n);
+          let t = ss(o, n);
           let e = ((d - c) / 2 + r) / i;
           u = t - e;
           f = t + e;
@@ -5936,8 +5953,8 @@ class ViewState {
           u = (c - r) / i;
           f = (d + r) / i;
         }
-        l = es(o, u);
-        h = es(o, f);
+        l = is(o, u);
+        h = is(o, f);
       }
       l > e.from && a(e.from, l, e, o);
       h < e.to && a(h, e.to, e, o);
@@ -5947,7 +5964,7 @@ class ViewState {
     return l;
   }
   gapSize(t, e, i, s) {
-    let o = is(s, i) - is(s, e);
+    let o = ss(s, i) - ss(s, e);
     return this.heightOracle.lineWrapping
       ? t.height * o
       : s.total * this.heightOracle.charWidth * o;
@@ -5996,8 +6013,8 @@ class ViewState {
       (t >= this.viewport.from &&
         t <= this.viewport.to &&
         this.viewportLines.find((e) => e.from <= t && e.to >= t)) ||
-      ns(
-        this.heightMap.lineAt(t, Ki.ByPos, this.heightOracle, 0, 0),
+      ls(
+        this.heightMap.lineAt(t, Yi.ByPos, this.heightOracle, 0, 0),
         this.scaler,
       )
     );
@@ -6007,10 +6024,10 @@ class ViewState {
       (t >= this.viewportLines[0].top &&
         t <= this.viewportLines[this.viewportLines.length - 1].bottom &&
         this.viewportLines.find((e) => e.top <= t && e.bottom >= t)) ||
-      ns(
+      ls(
         this.heightMap.lineAt(
           this.scaler.fromDOM(t),
-          Ki.ByHeight,
+          Yi.ByHeight,
           this.heightOracle,
           0,
           0,
@@ -6026,7 +6043,7 @@ class ViewState {
       : this.viewportLines[0];
   }
   elementAtHeight(t) {
-    return ns(
+    return ls(
       this.heightMap.blockAt(this.scaler.fromDOM(t), this.heightOracle, 0, 0),
       this.scaler,
     );
@@ -6044,7 +6061,7 @@ class Viewport {
     this.to = e;
   }
 }
-function ts(t, i, s) {
+function es(t, i, s) {
   let o = [],
     n = t,
     r = 0;
@@ -6070,7 +6087,7 @@ function ts(t, i, s) {
   }
   return { total: r, ranges: o };
 }
-function es({ total: t, ranges: e }, i) {
+function is({ total: t, ranges: e }, i) {
   if (i <= 0) return e[0].from;
   if (i >= 1) return e[e.length - 1].to;
   let s = Math.floor(t * i);
@@ -6081,7 +6098,7 @@ function es({ total: t, ranges: e }, i) {
     s -= n;
   }
 }
-function is(t, e) {
+function ss(t, e) {
   let i = 0;
   for (let { from: s, to: o } of t.ranges) {
     if (e <= o) {
@@ -6092,10 +6109,10 @@ function is(t, e) {
   }
   return i / t.total;
 }
-function ss(t, e) {
+function os(t, e) {
   for (let i of t) if (e(i)) return i;
 }
-const os = {
+const ns = {
   toDOM(t) {
     return t;
   },
@@ -6107,14 +6124,20 @@ const os = {
     return t == this;
   },
 };
+function rs(t) {
+  let i = t.facet(re).filter((t) => typeof t != "function");
+  let s = t.facet(ae).filter((t) => typeof t != "function");
+  s.length && i.push(e.join(s));
+  return i;
+}
 class BigScaler {
   constructor(t, e, i) {
     let s = 0,
       o = 0,
       n = 0;
     this.viewports = i.map(({ from: i, to: o }) => {
-      let n = e.lineAt(i, Ki.ByPos, t, 0, 0).top;
-      let r = e.lineAt(o, Ki.ByPos, t, 0, 0).bottom;
+      let n = e.lineAt(i, Yi.ByPos, t, 0, 0).top;
+      let r = e.lineAt(o, Yi.ByPos, t, 0, 0).bottom;
       s += r - n;
       return { from: i, to: o, top: n, bottom: r, domTop: 0, domBottom: 0 };
     });
@@ -6154,7 +6177,7 @@ class BigScaler {
     );
   }
 }
-function ns(t, e) {
+function ls(t, e) {
   if (e.scale == 1) return t;
   let i = e.toDOM(t.top),
     s = e.toDOM(t.bottom);
@@ -6163,16 +6186,16 @@ function ns(t, e) {
     t.length,
     i,
     s - i,
-    Array.isArray(t._content) ? t._content.map((t) => ns(t, e)) : t._content,
+    Array.isArray(t._content) ? t._content.map((t) => ls(t, e)) : t._content,
   );
 }
-const rs = n.define({ combine: (t) => t.join(" ") });
-const ls = n.define({ combine: (t) => t.indexOf(true) > -1 });
-const as = x.newName(),
-  hs = x.newName(),
-  cs = x.newName();
-const ds = { "&light": "." + hs, "&dark": "." + cs };
-function us(t, e, i) {
+const as = n.define({ combine: (t) => t.join(" ") });
+const hs = n.define({ combine: (t) => t.indexOf(true) > -1 });
+const cs = x.newName(),
+  ds = x.newName(),
+  us = x.newName();
+const fs = { "&light": "." + ds, "&dark": "." + us };
+function ps(t, e, i) {
   return new x(e, {
     finish(e) {
       return /&/.test(e)
@@ -6185,8 +6208,8 @@ function us(t, e, i) {
     },
   });
 }
-const fs = us(
-  "." + as,
+const gs = ps(
+  "." + cs,
   {
     "&": {
       position: "relative !important",
@@ -6388,16 +6411,16 @@ const fs = us(
       backgroundColor: "inherit",
     },
   },
-  ds,
+  fs,
 );
-const ps = {
+const ms = {
   childList: true,
   characterData: true,
   subtree: true,
   attributes: true,
   characterDataOldValue: true,
 };
-const gs = P.ie && P.ie_version <= 11;
+const ws = P.ie && P.ie_version <= 11;
 class DOMObserver {
   constructor(t) {
     this.view = t;
@@ -6442,7 +6465,7 @@ class DOMObserver {
       t.state.facet(ee) &&
         (t.contentDOM.editContext = this.editContext.editContext);
     }
-    gs &&
+    ws &&
       (this.onCharData = (t) => {
         this.queue.push({
           target: t.target,
@@ -6558,7 +6581,7 @@ class DOMObserver {
       (P.safari &&
         t.root.nodeType == 11 &&
         t.root.activeElement == this.dom &&
-        vs(this.view, e)) ||
+        ys(this.view, e)) ||
       e;
     if (!i || this.selectionRange.eq(i)) return false;
     let s = $(this.dom, i);
@@ -6619,8 +6642,8 @@ class DOMObserver {
   }
   start() {
     if (!this.active) {
-      this.observer.observe(this.dom, ps);
-      gs &&
+      this.observer.observe(this.dom, ms);
+      ws &&
         this.dom.addEventListener("DOMCharacterDataModified", this.onCharData);
       this.active = true;
     }
@@ -6629,7 +6652,7 @@ class DOMObserver {
     if (this.active) {
       this.active = false;
       this.observer.disconnect();
-      gs &&
+      ws &&
         this.dom.removeEventListener(
           "DOMCharacterDataModified",
           this.onCharData,
@@ -6732,7 +6755,7 @@ class DOMObserver {
     let s = ti(this.view, e);
     this.view.state == i &&
       (e.domChanged ||
-        (e.newSel && !e.newSel.main.eq(this.view.state.selection.main))) &&
+        (e.newSel && !ri(this.view.state.selection, e.newSel.main))) &&
       this.view.update([]);
     return s;
   }
@@ -6741,8 +6764,8 @@ class DOMObserver {
     if (!e || e.isWidget()) return null;
     e.markDirty(t.type == "attributes");
     if (t.type == "childList") {
-      let i = ms(e, t.previousSibling || t.target.previousSibling, -1);
-      let s = ms(e, t.nextSibling || t.target.nextSibling, 1);
+      let i = vs(e, t.previousSibling || t.target.previousSibling, -1);
+      let s = vs(e, t.nextSibling || t.target.nextSibling, 1);
       return {
         from: i ? e.posAfter(i) : e.posAtStart,
         to: s ? e.posBefore(s) : e.posAtEnd,
@@ -6814,7 +6837,7 @@ class DOMObserver {
     }
   }
 }
-function ms(t, e, i) {
+function vs(t, e, i) {
   while (e) {
     let s = Tile.get(e);
     if (s && s.parent == t) return s;
@@ -6823,7 +6846,7 @@ function ms(t, e, i) {
   }
   return null;
 }
-function ws(t, e) {
+function bs(t, e) {
   let i = e.startContainer,
     s = e.startOffset;
   let o = e.endContainer,
@@ -6832,10 +6855,10 @@ function ws(t, e) {
   J(r.node, r.offset, o, n) && ([i, s, o, n] = [o, n, i, s]);
   return { anchorNode: i, anchorOffset: s, focusNode: o, focusOffset: n };
 }
-function vs(t, e) {
+function ys(t, e) {
   if (e.getComposedRanges) {
     let i = e.getComposedRanges(t.root)[0];
-    if (i) return ws(t, i);
+    if (i) return bs(t, i);
   }
   let i = null;
   function s(t) {
@@ -6846,7 +6869,7 @@ function vs(t, e) {
   t.contentDOM.addEventListener("beforeinput", s, true);
   t.dom.ownerDocument.execCommand("indent");
   t.contentDOM.removeEventListener("beforeinput", s, true);
-  return i ? ws(t, i) : null;
+  return i ? bs(t, i) : null;
 }
 class EditContextManager {
   constructor(t) {
@@ -6890,7 +6913,7 @@ class EditContextManager {
           this.toEditorPos(i.selectionStart),
           this.toEditorPos(i.selectionEnd),
         );
-        e.main.eq(s) || t.dispatch({ selection: e, userEvent: "select" });
+        ri(e, s) || t.dispatch({ selection: e, userEvent: "select" });
         return;
       }
       let u = {
@@ -7187,7 +7210,10 @@ class EditorView {
     this.updateState = 0;
     this.requestMeasure();
     ((e = document.fonts) === null || e === void 0 ? void 0 : e.ready) &&
-      document.fonts.ready.then(() => this.requestMeasure());
+      document.fonts.ready.then(() => {
+        this.viewState.mustMeasureContent = true;
+        this.requestMeasure();
+      });
   }
   dispatch(...t) {
     let e =
@@ -7221,12 +7247,12 @@ class EditorView {
     let r = this.hasFocus,
       l = 0,
       a = null;
-    if (t.some((t) => t.annotation(Vi))) {
+    if (t.some((t) => t.annotation(Pi))) {
       this.inputState.notifiedFocused = r;
       l = 1;
     } else if (r != this.inputState.notifiedFocused) {
       this.inputState.notifiedFocused = r;
-      a = Pi(n, r);
+      a = Ni(n, r);
       a || (l = 1);
     }
     let h = this.observer.delayedAndroidKey,
@@ -7272,7 +7298,7 @@ class EditorView {
     } finally {
       this.updateState = 0;
     }
-    e.startState.facet(rs) != e.state.facet(rs) &&
+    e.startState.facet(as) != e.state.facet(as) &&
       (this.viewState.mustMeasureContent = true);
     (i ||
       s ||
@@ -7406,7 +7432,7 @@ class EditorView {
             return t.read(this);
           } catch (t) {
             te(this.state, t);
-            return ys;
+            return Ms;
           }
         });
         let h = ViewUpdate.create(this, this.state, []),
@@ -7422,7 +7448,7 @@ class EditorView {
           c && this.docViewUpdate();
         }
         for (let t = 0; t < l.length; t++)
-          if (a[t] != ys)
+          if (a[t] != Ms)
             try {
               let e = l[t];
               e.write && e.write(a[t], this);
@@ -7463,11 +7489,11 @@ class EditorView {
   }
   get themeClasses() {
     return (
-      as + " " + (this.state.facet(ls) ? cs : hs) + " " + this.state.facet(rs)
+      cs + " " + (this.state.facet(hs) ? us : ds) + " " + this.state.facet(as)
     );
   }
   updateAttrs() {
-    let t = xs(this, oe, {
+    let t = Ss(this, oe, {
       class:
         "cm-editor" +
         (this.hasFocus ? " cm-focused " : " ") +
@@ -7486,7 +7512,7 @@ class EditorView {
       "aria-multiline": "true",
     };
     this.state.readOnly && (e["aria-readonly"] = "true");
-    xs(this, ne, e);
+    Ss(this, ne, e);
     let i = this.observer.ignore(() => {
       let i = q(this.contentDOM, this.contentAttrs, e);
       let s = q(this.dom, this.editorAttrs, t);
@@ -7512,7 +7538,7 @@ class EditorView {
     let t = this.state.facet(EditorView.cspNonce);
     x.mount(
       this.root,
-      this.styleModules.concat(fs).reverse(),
+      this.styleModules.concat(gs).reverse(),
       t ? { nonce: t } : void 0,
     );
   }
@@ -7652,7 +7678,7 @@ class EditorView {
     return this.viewState.heightOracle.lineWrapping;
   }
   bidiSpans(t) {
-    if (t.length > bs) return Vt(t.length);
+    if (t.length > xs) return Vt(t.length);
     let e,
       i = this.textDirectionAt(t.from);
     for (let s of this.bidiCache)
@@ -7741,12 +7767,12 @@ class EditorView {
   }
   static theme(t, e) {
     let i = x.newName();
-    let s = [rs.of(i), pe.of(us(`.${i}`, t))];
-    e && e.dark && s.push(ls.of(true));
+    let s = [as.of(i), pe.of(ps(`.${i}`, t))];
+    e && e.dark && s.push(hs.of(true));
     return s;
   }
   static baseTheme(t) {
-    return p.lowest(pe.of(us("." + as, t, ds)));
+    return p.lowest(pe.of(ps("." + cs, t, fs)));
   }
   static findFromDOM(t) {
     var e;
@@ -7779,7 +7805,7 @@ EditorView.outerDecorations = ae;
 EditorView.atomicRanges = he;
 EditorView.bidiIsolatedRanges = ce;
 EditorView.scrollMargins = ue;
-EditorView.darkTheme = ls;
+EditorView.darkTheme = hs;
 EditorView.cspNonce = n.define({ combine: (t) => (t.length ? t[0] : "") });
 EditorView.contentAttributes = ne;
 EditorView.editorAttributes = oe;
@@ -7787,8 +7813,8 @@ EditorView.lineWrapping = EditorView.contentAttributes.of({
   class: "cm-lineWrapping",
 });
 EditorView.announce = r.define();
-const bs = 4096;
-const ys = {};
+const xs = 4096;
+const Ms = {};
 class CachedOrder {
   constructor(t, e, i, s, o, n) {
     this.from = t;
@@ -7820,7 +7846,7 @@ class CachedOrder {
     return i;
   }
 }
-function xs(t, e, i) {
+function Ss(t, e, i) {
   for (let s = t.state.facet(e), o = s.length - 1; o >= 0; o--) {
     let e = s[o],
       n = typeof e == "function" ? e(t) : e;
@@ -7828,8 +7854,8 @@ function xs(t, e, i) {
   }
   return i;
 }
-const Ms = P.mac ? "mac" : P.windows ? "win" : P.linux ? "linux" : "key";
-function Ss(t, e) {
+const Cs = P.mac ? "mac" : P.windows ? "win" : P.linux ? "linux" : "key";
+function ks(t, e) {
   const i = t.split(/-(?!$)/);
   let s = i[i.length - 1];
   s == "Space" && (s = " ");
@@ -7852,34 +7878,34 @@ function Ss(t, e) {
   r && (s = "Shift-" + s);
   return s;
 }
-function Cs(t, e, i) {
+function Ts(t, e, i) {
   e.altKey && (t = "Alt-" + t);
   e.ctrlKey && (t = "Ctrl-" + t);
   e.metaKey && (t = "Meta-" + t);
   i !== false && e.shiftKey && (t = "Shift-" + t);
   return t;
 }
-const ks = p.default(
+const As = p.default(
   EditorView.domEventHandlers({
     keydown(t, e) {
-      return Hs(Ds(e.state), t, e, "editor");
+      return Vs(Bs(e.state), t, e, "editor");
     },
   }),
 );
-const Ts = n.define({ enables: ks });
-const As = new WeakMap();
-function Ds(t) {
-  let e = t.facet(Ts);
-  let i = As.get(e);
-  i || As.set(e, (i = Ls(e.reduce((t, e) => t.concat(e), []))));
+const Ds = n.define({ enables: As });
+const Os = new WeakMap();
+function Bs(t) {
+  let e = t.facet(Ds);
+  let i = Os.get(e);
+  i || Os.set(e, (i = Hs(e.reduce((t, e) => t.concat(e), []))));
   return i;
 }
-function Os(t, e, i) {
-  return Hs(Ds(t.state), e, t, i);
+function Es(t, e, i) {
+  return Vs(Bs(t.state), e, t, i);
 }
-let Bs = null;
-const Es = 4e3;
-function Ls(t, e = Ms) {
+let Ls = null;
+const Rs = 4e3;
+function Hs(t, e = Cs) {
   let i = Object.create(null);
   let s = Object.create(null);
   let o = (t, e) => {
@@ -7895,7 +7921,7 @@ function Ls(t, e = Ms) {
   let n = (t, s, n, r, l) => {
     var a, h;
     let c = i[t] || (i[t] = Object.create(null));
-    let d = s.split(/ (?!$)/).map((t) => Ss(t, e));
+    let d = s.split(/ (?!$)/).map((t) => ks(t, e));
     for (let e = 1; e < d.length; e++) {
       let i = d.slice(0, e).join(" ");
       o(i, true);
@@ -7905,10 +7931,10 @@ function Ls(t, e = Ms) {
           stopPropagation: false,
           run: [
             (e) => {
-              let s = (Bs = { view: e, prefix: i, scope: t });
+              let s = (Ls = { view: e, prefix: i, scope: t });
               setTimeout(() => {
-                Bs == s && (Bs = null);
-              }, Es);
+                Ls == s && (Ls = null);
+              }, Rs);
               return true;
             },
           ],
@@ -7939,7 +7965,7 @@ function Ls(t, e = Ms) {
         t._any ||
           (t._any = { preventDefault: false, stopPropagation: false, run: [] });
         let { any: o } = s;
-        for (let e in t) t[e].run.push((t) => o(t, Rs));
+        for (let e in t) t[e].run.push((t) => o(t, Ws));
       }
     let o = s[e] || s.key;
     if (o)
@@ -7951,9 +7977,9 @@ function Ls(t, e = Ms) {
   }
   return i;
 }
-let Rs = null;
-function Hs(t, e, i, s) {
-  Rs = e;
+let Ws = null;
+function Vs(t, e, i, s) {
+  Ws = e;
   let o = M(e);
   let n = g(o, 0),
     r = m(n) == o.length && o != " ";
@@ -7961,11 +7987,11 @@ function Hs(t, e, i, s) {
     a = false,
     h = false,
     c = false;
-  if (Bs && Bs.view == i && Bs.scope == s) {
-    l = Bs.prefix + " ";
-    if (ci.indexOf(e.keyCode) < 0) {
+  if (Ls && Ls.view == i && Ls.scope == s) {
+    l = Ls.prefix + " ";
+    if (di.indexOf(e.keyCode) < 0) {
       h = true;
-      Bs = null;
+      Ls = null;
     }
   }
   let d = new Set();
@@ -7990,7 +8016,7 @@ function Hs(t, e, i, s) {
     p,
     w = t[s];
   if (w) {
-    u(w[l + Cs(o, e, !r)])
+    u(w[l + Ts(o, e, !r)])
       ? (a = true)
       : !r ||
           !(e.altKey || e.metaKey || e.ctrlKey) ||
@@ -7998,18 +8024,18 @@ function Hs(t, e, i, s) {
           (P.mac && e.altKey && !(e.ctrlKey || e.metaKey)) ||
           !(f = S[e.keyCode]) ||
           f == o
-        ? r && e.shiftKey && u(w[l + Cs(o, e, true)]) && (a = true)
-        : (u(w[l + Cs(f, e, true)]) ||
+        ? r && e.shiftKey && u(w[l + Ts(o, e, true)]) && (a = true)
+        : (u(w[l + Ts(f, e, true)]) ||
             (e.shiftKey &&
               (p = C[e.keyCode]) != o &&
               p != f &&
-              u(w[l + Cs(p, e, false)]))) &&
+              u(w[l + Ts(p, e, false)]))) &&
           (a = true);
     !a && u(w._any) && (a = true);
   }
   h && (a = true);
   a && c && e.stopPropagation();
-  Rs = null;
+  Ws = null;
   return a;
 }
 class RectangleMarker {
@@ -8050,7 +8076,7 @@ class RectangleMarker {
     if (i.empty) {
       let s = t.coordsAtPos(i.head, i.assoc || 1);
       if (!s) return [];
-      let o = Ws(t);
+      let o = Ps(t);
       return [
         new RectangleMarker(
           e,
@@ -8061,10 +8087,10 @@ class RectangleMarker {
         ),
       ];
     }
-    return Ps(t, e, i);
+    return Is(t, e, i);
   }
 }
-function Ws(t) {
+function Ps(t) {
   let e = t.scrollDOM.getBoundingClientRect();
   let i =
     t.textDirection == vt.LTR
@@ -8075,7 +8101,7 @@ function Ws(t) {
     top: e.top - t.scrollDOM.scrollTop * t.scaleY,
   };
 }
-function Vs(t, e, i, s) {
+function Ns(t, e, i, s) {
   let o = t.coordsAtPos(e, i * 2);
   if (!o) return s;
   let n = t.dom.getBoundingClientRect();
@@ -8089,14 +8115,14 @@ function Vs(t, e, i, s) {
         to: Math.min(s.to, Math.max(l, a)),
       };
 }
-function Ps(t, e, i) {
+function Is(t, e, i) {
   if (i.to <= t.viewport.from || i.from >= t.viewport.to) return [];
   let s = Math.max(i.from, t.viewport.from),
     o = Math.min(i.to, t.viewport.to);
   let n = t.textDirection == vt.LTR;
   let r = t.contentDOM,
     l = r.getBoundingClientRect(),
-    a = Ws(t);
+    a = Ps(t);
   let h = r.querySelector(".cm-line"),
     c = h && window.getComputedStyle(h);
   let d =
@@ -8107,8 +8133,8 @@ function Ps(t, e, i) {
     p = Ie(t, o, -1);
   let g = f.type == K.Text ? f : null;
   let m = p.type == K.Text ? p : null;
-  g && (t.lineWrapping || f.widgetLineBreaks) && (g = Vs(t, s, 1, g));
-  m && (t.lineWrapping || p.widgetLineBreaks) && (m = Vs(t, o, -1, m));
+  g && (t.lineWrapping || f.widgetLineBreaks) && (g = Ns(t, s, 1, g));
+  m && (t.lineWrapping || p.widgetLineBreaks) && (m = Ns(t, o, -1, m));
   if (g && m && g.from == m.from && g.to == m.to) return v(b(i.from, i.to, g));
   {
     let e = g ? b(i.from, null, g) : y(f, false);
@@ -8175,7 +8201,7 @@ function Ps(t, e, i) {
     return { top: i, bottom: i, horizontal: [] };
   }
 }
-function Ns(t, e) {
+function Fs(t, e) {
   return t.constructor == e.constructor && t.eq(e);
 }
 class LayerView {
@@ -8200,7 +8226,7 @@ class LayerView {
     e.mount && e.mount(this.dom, t);
   }
   update(t) {
-    t.startState.facet(Is) != t.state.facet(Is) && this.setOrder(t.state);
+    t.startState.facet(zs) != t.state.facet(zs) && this.setOrder(t.state);
     if (this.layer.update(t, this.dom) || t.geometryChanged) {
       this.scale();
       t.view.requestMeasure(this.measureReq);
@@ -8212,7 +8238,7 @@ class LayerView {
   }
   setOrder(t) {
     let e = 0,
-      i = t.facet(Is);
+      i = t.facet(zs);
     while (e < i.length && i[e] != this.layer) e++;
     this.dom.style.zIndex = String((this.layer.above ? 150 : -1) - e);
   }
@@ -8230,7 +8256,7 @@ class LayerView {
   draw(t) {
     if (
       t.length != this.drawn.length ||
-      t.some((t, e) => !Ns(t, this.drawn[e]))
+      t.some((t, e) => !Fs(t, this.drawn[e]))
     ) {
       let e = this.dom.firstChild,
         i = 0;
@@ -8261,11 +8287,11 @@ class LayerView {
     this.dom.remove();
   }
 }
-const Is = n.define();
-function Fs(t) {
-  return [ViewPlugin.define((e) => new LayerView(e, t)), Is.of(t)];
+const zs = n.define();
+function qs(t) {
+  return [ViewPlugin.define((e) => new LayerView(e, t)), zs.of(t)];
 }
-const zs = n.define({
+const Gs = n.define({
   combine(t) {
     return w(
       t,
@@ -8277,20 +8303,20 @@ const zs = n.define({
     );
   },
 });
-function qs(t = {}) {
-  return [zs.of(t), Ys, _s, js, $t.of(true)];
+function Ks(t = {}) {
+  return [Gs.of(t), _s, Us, $s, $t.of(true)];
 }
-function Gs(t) {
-  return t.facet(zs);
+function Ys(t) {
+  return t.facet(Gs);
 }
-function Ks(t) {
-  return t.startState.facet(zs) != t.state.facet(zs);
+function Xs(t) {
+  return t.startState.facet(Gs) != t.state.facet(Gs);
 }
-const Ys = Fs({
+const _s = qs({
   above: true,
   markers(t) {
     let { state: e } = t,
-      i = e.facet(zs);
+      i = e.facet(Gs);
     let s = [];
     for (let n of e.selection.ranges) {
       let r = n == e.selection.main;
@@ -8308,19 +8334,19 @@ const Ys = Fs({
     t.transactions.some((t) => t.selection) &&
       (e.style.animationName =
         e.style.animationName == "cm-blink" ? "cm-blink2" : "cm-blink");
-    let i = Ks(t);
-    i && Xs(t.state, e);
+    let i = Xs(t);
+    i && js(t.state, e);
     return t.docChanged || t.selectionSet || i;
   },
   mount(t, e) {
-    Xs(e.state, t);
+    js(e.state, t);
   },
   class: "cm-cursorLayer",
 });
-function Xs(t, e) {
-  e.style.animationDuration = t.facet(zs).cursorBlinkRate + "ms";
+function js(t, e) {
+  e.style.animationDuration = t.facet(Gs).cursorBlinkRate + "ms";
 }
-const _s = Fs({
+const Us = qs({
   above: false,
   markers(t) {
     return t.state.selection.ranges
@@ -8330,11 +8356,11 @@ const _s = Fs({
       .reduce((t, e) => t.concat(e));
   },
   update(t, e) {
-    return t.docChanged || t.selectionSet || t.viewportChanged || Ks(t);
+    return t.docChanged || t.selectionSet || t.viewportChanged || Xs(t);
   },
   class: "cm-selectionLayer",
 });
-const js = p.highest(
+const $s = p.highest(
   EditorView.theme({
     ".cm-line": {
       "& ::selection, &::selection": {
@@ -8353,21 +8379,21 @@ const js = p.highest(
     },
   }),
 );
-const Us = r.define({
+const Qs = r.define({
   map(t, e) {
     return t == null ? null : e.mapPos(t);
   },
 });
-const $s = v.define({
+const Js = v.define({
   create() {
     return null;
   },
   update(t, e) {
     t != null && (t = e.changes.mapPos(t));
-    return e.effects.reduce((t, e) => (e.is(Us) ? e.value : t), t);
+    return e.effects.reduce((t, e) => (e.is(Qs) ? e.value : t), t);
   },
 });
-const Qs = ViewPlugin.fromClass(
+const Zs = ViewPlugin.fromClass(
   class {
     constructor(t) {
       this.view = t;
@@ -8379,7 +8405,7 @@ const Qs = ViewPlugin.fromClass(
     }
     update(t) {
       var e;
-      let i = t.state.field($s);
+      let i = t.state.field(Js);
       if (i == null) {
         if (this.cursor != null) {
           (e = this.cursor) === null || e === void 0 ? void 0 : e.remove();
@@ -8392,13 +8418,13 @@ const Qs = ViewPlugin.fromClass(
           );
           this.cursor.className = "cm-dropCursor";
         }
-        (t.startState.field($s) != i || t.docChanged || t.geometryChanged) &&
+        (t.startState.field(Js) != i || t.docChanged || t.geometryChanged) &&
           this.view.requestMeasure(this.measureReq);
       }
     }
     readPos() {
       let { view: t } = this;
-      let e = t.state.field($s);
+      let e = t.state.field(Js);
       let i = e != null && t.coordsAtPos(e);
       if (!i) return null;
       let s = t.scrollDOM.getBoundingClientRect();
@@ -8422,8 +8448,8 @@ const Qs = ViewPlugin.fromClass(
       this.cursor && this.cursor.remove();
     }
     setDropPos(t) {
-      this.view.state.field($s) != t &&
-        this.view.dispatch({ effects: Us.of(t) });
+      this.view.state.field(Js) != t &&
+        this.view.dispatch({ effects: Qs.of(t) });
     }
   },
   {
@@ -8445,15 +8471,15 @@ const Qs = ViewPlugin.fromClass(
     },
   },
 );
-function Js() {
-  return [$s, Qs];
+function to() {
+  return [Js, Zs];
 }
-function Zs(t, e, i, s, o) {
+function eo(t, e, i, s, o) {
   e.lastIndex = 0;
   for (let n, r = t.iterRange(i, s), l = i; !r.next().done; l += r.value.length)
     if (!r.lineBreak) while ((n = e.exec(r.value))) o(l + n.index, n);
 }
-function to(t, e) {
+function io(t, e) {
   let i = t.visibleRanges;
   if (i.length == 1 && i[0].from == t.viewport.from && i[0].to == t.viewport.to)
     return i;
@@ -8500,8 +8526,8 @@ class MatchDecorator {
   createDeco(t) {
     let e = new b(),
       i = e.add.bind(e);
-    for (let { from: e, to: s } of to(t, this.maxLength))
-      Zs(t.state.doc, this.regexp, e, s, (e, s) => this.addMatch(s, t, e, i));
+    for (let { from: e, to: s } of io(t, this.maxLength))
+      eo(t.state.doc, this.regexp, e, s, (e, s) => this.addMatch(s, t, e, i));
     return e.finish();
   }
   updateDeco(t, e) {
@@ -8549,7 +8575,7 @@ class MatchDecorator {
           while ((h = this.regexp.exec(i.text)) && h.index < a - i.from)
             this.addMatch(h, t, h.index + i.from, d);
         } else
-          Zs(t.state.doc, this.regexp, l, a, (e, i) =>
+          eo(t.state.doc, this.regexp, l, a, (e, i) =>
             this.addMatch(i, t, e, d),
           );
         e = e.update({
@@ -8563,9 +8589,9 @@ class MatchDecorator {
     return e;
   }
 }
-const eo = /x/.unicode != null ? "gu" : "g";
-const io = new RegExp("[\0-\b\n--­؜​‎‏\u2028\u2029‭‮⁦⁧⁩\ufeff￹-￼]", eo);
-const so = {
+const so = /x/.unicode != null ? "gu" : "g";
+const oo = new RegExp("[\0-\b\n--­؜​‎‏\u2028\u2029‭‮⁦⁧⁩\ufeff￹-￼]", so);
+const no = {
   0: "null",
   7: "bell",
   8: "backspace",
@@ -8588,42 +8614,42 @@ const so = {
   65279: "zero width no-break space",
   65532: "object replacement",
 };
-let oo = null;
-function no() {
+let ro = null;
+function lo() {
   var t;
-  if (oo == null && typeof document != "undefined" && document.body) {
+  if (ro == null && typeof document != "undefined" && document.body) {
     let e = document.body.style;
-    oo = ((t = e.tabSize) !== null && t !== void 0 ? t : e.MozTabSize) != null;
+    ro = ((t = e.tabSize) !== null && t !== void 0 ? t : e.MozTabSize) != null;
   }
-  return oo || false;
+  return ro || false;
 }
-const ro = n.define({
+const ao = n.define({
   combine(t) {
-    let e = w(t, { render: null, specialChars: io, addSpecialChars: null });
-    (e.replaceTabs = !no()) &&
-      (e.specialChars = new RegExp("\t|" + e.specialChars.source, eo));
+    let e = w(t, { render: null, specialChars: oo, addSpecialChars: null });
+    (e.replaceTabs = !lo()) &&
+      (e.specialChars = new RegExp("\t|" + e.specialChars.source, so));
     e.addSpecialChars &&
       (e.specialChars = new RegExp(
         e.specialChars.source + "|" + e.addSpecialChars.source,
-        eo,
+        so,
       ));
     return e;
   },
 });
-function lo(t = {}) {
-  return [ro.of(t), ho()];
+function ho(t = {}) {
+  return [ao.of(t), uo()];
 }
-let ao = null;
-function ho() {
+let co = null;
+function uo() {
   return (
-    ao ||
-    (ao = ViewPlugin.fromClass(
+    co ||
+    (co = ViewPlugin.fromClass(
       class {
         constructor(t) {
           this.view = t;
           this.decorations = Decoration.none;
           this.decorationCache = Object.create(null);
-          this.decorator = this.makeDecorator(t.state.facet(ro));
+          this.decorator = this.makeDecorator(t.state.facet(ao));
           this.decorations = this.decorator.createDeco(t);
         }
         makeDecorator(t) {
@@ -8654,8 +8680,8 @@ function ho() {
           });
         }
         update(t) {
-          let e = t.state.facet(ro);
-          if (t.startState.facet(ro) != e) {
+          let e = t.state.facet(ao);
+          if (t.startState.facet(ao) != e) {
             this.decorator = this.makeDecorator(e);
             this.decorations = this.decorator.createDeco(t.view);
           } else
@@ -8666,9 +8692,9 @@ function ho() {
     ))
   );
 }
-const co = "•";
-function uo(t) {
-  return t >= 32 ? co : t == 10 ? "␤" : String.fromCharCode(9216 + t);
+const fo = "•";
+function po(t) {
+  return t >= 32 ? fo : t == 10 ? "␤" : String.fromCharCode(9216 + t);
 }
 class SpecialCharWidget extends WidgetType {
   constructor(t, e) {
@@ -8680,11 +8706,11 @@ class SpecialCharWidget extends WidgetType {
     return t.code == this.code;
   }
   toDOM(t) {
-    let e = uo(this.code);
+    let e = po(this.code);
     let i =
       t.state.phrase("Control character") +
       " " +
-      (so[this.code] || "0x" + this.code.toString(16));
+      (no[this.code] || "0x" + this.code.toString(16));
     let s = this.options.render && this.options.render(this.code, i, e);
     if (s) return s;
     let o = document.createElement("span");
@@ -8717,7 +8743,7 @@ class TabWidget extends WidgetType {
     return false;
   }
 }
-const fo = ViewPlugin.fromClass(
+const go = ViewPlugin.fromClass(
   class {
     constructor() {
       this.height = 1e3;
@@ -8737,22 +8763,22 @@ const fo = ViewPlugin.fromClass(
     }
   },
 );
-function po() {
+function mo() {
   return [
-    fo,
+    go,
     ne.of((t) => {
       var e;
       return (
-        ((e = t.plugin(fo)) === null || e === void 0 ? void 0 : e.attrs) || null
+        ((e = t.plugin(go)) === null || e === void 0 ? void 0 : e.attrs) || null
       );
     }),
   ];
 }
-function go() {
-  return wo;
+function wo() {
+  return bo;
 }
-const mo = Decoration.line({ class: "cm-activeLine" });
-const wo = ViewPlugin.fromClass(
+const vo = Decoration.line({ class: "cm-activeLine" });
+const bo = ViewPlugin.fromClass(
   class {
     constructor(t) {
       this.decorations = this.getDeco(t);
@@ -8767,7 +8793,7 @@ const wo = ViewPlugin.fromClass(
       for (let s of t.state.selection.ranges) {
         let o = t.lineBlockAt(s.head);
         if (o.from > e) {
-          i.push(mo.range(o.from));
+          i.push(vo.range(o.from));
           e = o.from;
         }
       }
@@ -8809,7 +8835,7 @@ class Placeholder extends WidgetType {
     return false;
   }
 }
-function vo(t) {
+function yo(t) {
   let e = ViewPlugin.fromClass(
     class {
       constructor(e) {
@@ -8832,12 +8858,12 @@ function vo(t) {
     ? [e, EditorView.contentAttributes.of({ "aria-placeholder": t })]
     : e;
 }
-const bo = 2e3;
-function yo(t, e, i) {
+const xo = 2e3;
+function Mo(t, e, i) {
   let s = Math.min(e.line, i.line),
     n = Math.max(e.line, i.line);
   let r = [];
-  if (e.off > bo || i.off > bo || e.col < 0 || i.col < 0) {
+  if (e.off > xo || i.off > xo || e.col < 0 || i.col < 0) {
     let l = Math.min(e.off, i.off),
       a = Math.max(e.off, i.off);
     for (let e = s; e <= n; e++) {
@@ -8859,24 +8885,24 @@ function yo(t, e, i) {
   }
   return r;
 }
-function xo(t, e) {
+function So(t, e) {
   let i = t.coordsAtPos(t.viewport.from);
   return i ? Math.round(Math.abs((i.left - e) / t.defaultCharacterWidth)) : -1;
 }
-function Mo(t, e) {
+function Co(t, e) {
   let i = t.posAtCoords({ x: e.clientX, y: e.clientY }, false);
   let s = t.state.doc.lineAt(i),
     o = i - s.from;
   let n =
-    o > bo
+    o > xo
       ? -1
       : o == s.length
-        ? xo(t, e.clientX)
+        ? So(t, e.clientX)
         : y(s.text, t.state.tabSize, i - s.from);
   return { line: s.number, col: n, off: o };
 }
-function So(t, e) {
-  let i = Mo(t, e),
+function ko(t, e) {
+  let i = Co(t, e),
     s = t.state.selection;
   return i
     ? {
@@ -8889,9 +8915,9 @@ function So(t, e) {
           }
         },
         get(e, n, r) {
-          let l = Mo(t, e);
+          let l = Co(t, e);
           if (!l) return s;
-          let a = yo(t.state, i, l);
+          let a = Mo(t.state, i, l);
           return a.length
             ? r
               ? o.create(a.concat(s.ranges))
@@ -8901,21 +8927,21 @@ function So(t, e) {
       }
     : null;
 }
-function Co(t) {
+function To(t) {
   let e =
     (t === null || t === void 0 ? void 0 : t.eventFilter) ||
     ((t) => t.altKey && t.button == 0);
-  return EditorView.mouseSelectionStyle.of((t, i) => (e(i) ? So(t, i) : null));
+  return EditorView.mouseSelectionStyle.of((t, i) => (e(i) ? ko(t, i) : null));
 }
-const ko = {
+const Ao = {
   Alt: [18, (t) => !!t.altKey],
   Control: [17, (t) => !!t.ctrlKey],
   Shift: [16, (t) => !!t.shiftKey],
   Meta: [91, (t) => !!t.metaKey],
 };
-const To = { style: "cursor: crosshair" };
-function Ao(t = {}) {
-  let [e, i] = ko[t.key || "Alt"];
+const Do = { style: "cursor: crosshair" };
+function Oo(t = {}) {
+  let [e, i] = Ao[t.key || "Alt"];
   let s = ViewPlugin.fromClass(
     class {
       constructor(t) {
@@ -8948,12 +8974,12 @@ function Ao(t = {}) {
     EditorView.contentAttributes.of((t) => {
       var e;
       return ((e = t.plugin(s)) === null || e === void 0 ? void 0 : e.isDown)
-        ? To
+        ? Do
         : null;
     }),
   ];
 }
-const Do = "-10000px";
+const Bo = "-10000px";
 class TooltipViewManager {
   constructor(t, e, i, s) {
     this.facet = e;
@@ -9007,14 +9033,14 @@ class TooltipViewManager {
     return true;
   }
 }
-function Oo(t = {}) {
-  return Eo.of(t);
+function Eo(t = {}) {
+  return Ro.of(t);
 }
-function Bo(t) {
+function Lo(t) {
   let e = t.dom.ownerDocument.documentElement;
   return { top: 0, left: 0, bottom: e.clientHeight, right: e.clientWidth };
 }
-const Eo = n.define({
+const Ro = n.define({
   combine: (t) => {
     var e, i, s;
     return {
@@ -9030,12 +9056,12 @@ const Eo = n.define({
       tooltipSpace:
         ((s = t.find((t) => t.tooltipSpace)) === null || s === void 0
           ? void 0
-          : s.tooltipSpace) || Bo,
+          : s.tooltipSpace) || Lo,
     };
   },
 });
-const Lo = new WeakMap();
-const Ro = ViewPlugin.fromClass(
+const Ho = new WeakMap();
+const Wo = ViewPlugin.fromClass(
   class {
     constructor(t) {
       this.view = t;
@@ -9044,7 +9070,7 @@ const Ro = ViewPlugin.fromClass(
       this.madeAbsolute = false;
       this.lastTransaction = 0;
       this.measureTimeout = -1;
-      let e = t.state.facet(Eo);
+      let e = t.state.facet(Ro);
       this.position = e.position;
       this.parent = e.parent;
       this.classes = t.themeClasses;
@@ -9060,7 +9086,7 @@ const Ro = ViewPlugin.fromClass(
           : null;
       this.manager = new TooltipViewManager(
         t,
-        Po,
+        Io,
         (t, e) => this.createTooltip(t, e),
         (t) => {
           this.resizeObserver && this.resizeObserver.unobserve(t.dom);
@@ -9114,7 +9140,7 @@ const Ro = ViewPlugin.fromClass(
       let e = this.manager.update(t, this.above);
       e && this.observeIntersection();
       let i = e || t.geometryChanged;
-      let s = t.state.facet(Eo);
+      let s = t.state.facet(Ro);
       if (s.position != this.position && !this.madeAbsolute) {
         this.position = s.position;
         for (let t of this.manager.tooltipViews)
@@ -9144,7 +9170,7 @@ const Ro = ViewPlugin.fromClass(
         i.dom.appendChild(t);
       }
       i.dom.style.position = this.position;
-      i.dom.style.top = Do;
+      i.dom.style.top = Bo;
       i.dom.style.left = "0px";
       this.container.insertBefore(i.dom, s);
       i.mount && i.mount(this.view);
@@ -9210,7 +9236,7 @@ const Ro = ViewPlugin.fromClass(
         size: this.manager.tooltipViews.map(({ dom: t }) =>
           t.getBoundingClientRect(),
         ),
-        space: this.view.state.facet(Eo).tooltipSpace(this.view),
+        space: this.view.state.facet(Ro).tooltipSpace(this.view),
         scaleX: t,
         scaleY: e,
         makeAbsolute: i,
@@ -9240,14 +9266,14 @@ const Ro = ViewPlugin.fromClass(
               d.right < Math.max(i.left, s.left) - 0.1 ||
               d.left > Math.min(i.right, s.right) + 0.1))
         ) {
-          c.style.top = Do;
+          c.style.top = Bo;
           continue;
         }
         let f = a.arrow ? h.dom.querySelector(".cm-tooltip-arrow") : null;
         let p = f ? 7 : 0;
         let g = u.right - u.left,
-          m = (e = Lo.get(h)) !== null && e !== void 0 ? e : u.bottom - u.top;
-        let w = h.offset || Vo,
+          m = (e = Ho.get(h)) !== null && e !== void 0 ? e : u.bottom - u.top;
+        let w = h.offset || No,
           v = this.view.textDirection == vt.LTR;
         let b =
           u.width > s.right - s.left
@@ -9273,10 +9299,10 @@ const Ro = ViewPlugin.fromClass(
         let x = (y ? d.top - s.top : s.bottom - d.bottom) - p;
         if (x < m && h.resize !== false) {
           if (x < this.view.defaultLineHeight) {
-            c.style.top = Do;
+            c.style.top = Bo;
             continue;
           }
-          Lo.set(h, m);
+          Ho.set(h, m);
           c.style.height = (m = x) / n + "px";
         } else c.style.height && (c.style.height = "");
         let M = y ? d.top - m - p - w.y : d.bottom + p + w.y;
@@ -9290,10 +9316,10 @@ const Ro = ViewPlugin.fromClass(
               (M = y ? t.top - m - 2 - p : t.bottom + p + 2);
         if (this.position == "absolute") {
           c.style.top = (M - t.parent.top) / n + "px";
-          Ho(c, (b - t.parent.left) / o);
+          Vo(c, (b - t.parent.left) / o);
         } else {
           c.style.top = M / n + "px";
-          Ho(c, b / o);
+          Vo(c, b / o);
         }
         if (f) {
           let t = d.left + (v ? w.x : -w.x) - (b + 14 - 7);
@@ -9312,7 +9338,7 @@ const Ro = ViewPlugin.fromClass(
         if (this.inView != this.view.inView) {
           this.inView = this.view.inView;
           if (!this.inView)
-            for (let t of this.manager.tooltipViews) t.dom.style.top = Do;
+            for (let t of this.manager.tooltipViews) t.dom.style.top = Bo;
         }
       }
     }
@@ -9325,11 +9351,11 @@ const Ro = ViewPlugin.fromClass(
     },
   },
 );
-function Ho(t, e) {
+function Vo(t, e) {
   let i = parseInt(t.style.left, 10);
   (isNaN(i) || Math.abs(e - i) > 1) && (t.style.left = e + "px");
 }
-const Wo = EditorView.baseTheme({
+const Po = EditorView.baseTheme({
   ".cm-tooltip": { zIndex: 500, boxSizing: "border-box" },
   "&light .cm-tooltip": {
     border: "1px solid #bbb",
@@ -9372,9 +9398,9 @@ const Wo = EditorView.baseTheme({
     },
   },
 });
-const Vo = { x: 0, y: 0 };
-const Po = n.define({ enables: [Ro, Wo] });
-const No = n.define({ combine: (t) => t.reduce((t, e) => t.concat(e), []) });
+const No = { x: 0, y: 0 };
+const Io = n.define({ enables: [Wo, Po] });
+const Fo = n.define({ combine: (t) => t.reduce((t, e) => t.concat(e), []) });
 class HoverTooltipHost {
   static create(t) {
     return new HoverTooltipHost(t);
@@ -9386,7 +9412,7 @@ class HoverTooltipHost {
     this.dom.classList.add("cm-tooltip-hover");
     this.manager = new TooltipViewManager(
       t,
-      No,
+      Fo,
       (t, e) => this.createHostedView(t, e),
       (t) => t.dom.remove(),
     );
@@ -9436,8 +9462,8 @@ class HoverTooltipHost {
     return this.passProp("resize");
   }
 }
-const Io = Po.compute([No], (t) => {
-  let e = t.facet(No);
+const zo = Io.compute([Fo], (t) => {
+  let e = t.facet(Fo);
   return e.length === 0
     ? null
     : {
@@ -9540,7 +9566,7 @@ class HoverPlugin {
         t.dispatch({ effects: this.setHover.of(Array.isArray(n) ? n : [n]) });
   }
   get tooltip() {
-    let t = this.view.plugin(Ro);
+    let t = this.view.plugin(Wo);
     let e = t
       ? t.manager.tooltips.findIndex((t) => t.create == HoverTooltipHost.create)
       : -1;
@@ -9557,7 +9583,7 @@ class HoverPlugin {
     this.hoverTimeout < 0 &&
       (this.hoverTimeout = setTimeout(this.checkHover, this.hoverTime));
     let { active: s, tooltip: o } = this;
-    if ((s.length && o && !zo(o.dom, t)) || this.pending) {
+    if ((s.length && o && !Go(o.dom, t)) || this.pending) {
       let { pos: o } = s[0] || this.pending,
         n =
           (i = (e = s[0]) === null || e === void 0 ? void 0 : e.end) !== null &&
@@ -9567,7 +9593,7 @@ class HoverPlugin {
       if (
         o == n
           ? this.view.posAtCoords(this.lastMove) != o
-          : !qo(this.view, o, n, t.clientX, t.clientY)
+          : !Ko(this.view, o, n, t.clientX, t.clientY)
       ) {
         this.view.dispatch({ effects: this.setHover.of([]) });
         this.pending = null;
@@ -9597,12 +9623,13 @@ class HoverPlugin {
   }
   destroy() {
     clearTimeout(this.hoverTimeout);
+    clearTimeout(this.restartTimeout);
     this.view.dom.removeEventListener("mouseleave", this.mouseleave);
     this.view.dom.removeEventListener("mousemove", this.mousemove);
   }
 }
-const Fo = 4;
-function zo(t, e) {
+const qo = 4;
+function Go(t, e) {
   let i,
     { left: s, right: o, top: n, bottom: r } = t.getBoundingClientRect();
   if ((i = t.querySelector(".cm-tooltip-arrow"))) {
@@ -9611,13 +9638,13 @@ function zo(t, e) {
     r = Math.max(t.bottom, r);
   }
   return (
-    e.clientX >= s - Fo &&
-    e.clientX <= o + Fo &&
-    e.clientY >= n - Fo &&
-    e.clientY <= r + Fo
+    e.clientX >= s - qo &&
+    e.clientX <= o + qo &&
+    e.clientY >= n - qo &&
+    e.clientY <= r + qo
   );
 }
-function qo(t, e, i, s, o, n) {
+function Ko(t, e, i, s, o, n) {
   let r = t.scrollDOM.getBoundingClientRect();
   let l = t.documentTop + t.documentPadding.top + t.contentHeight;
   if (r.left > s || r.right < s || r.top > o || Math.min(r.bottom, l) < o)
@@ -9625,7 +9652,7 @@ function qo(t, e, i, s, o, n) {
   let a = t.posAtCoords({ x: s, y: o }, false);
   return a >= e && a <= i;
 }
-function Go(t, e = {}) {
+function Yo(t, e = {}) {
   let s = r.define();
   let o = v.define({
     create() {
@@ -9652,37 +9679,37 @@ function Go(t, e = {}) {
       }
       for (let e of o.effects) {
         e.is(s) && (t = e.value);
-        e.is(Xo) && (t = []);
+        e.is(jo) && (t = []);
       }
       return t;
     },
-    provide: (t) => No.from(t),
+    provide: (t) => Fo.from(t),
   });
   return {
     active: o,
     extension: [
       o,
       ViewPlugin.define((i) => new HoverPlugin(i, t, o, s, e.hoverTime || 300)),
-      Io,
+      zo,
     ],
   };
 }
-function Ko(t, e) {
-  let i = t.plugin(Ro);
+function Xo(t, e) {
+  let i = t.plugin(Wo);
   if (!i) return null;
   let s = i.manager.tooltips.indexOf(e);
   return s < 0 ? null : i.manager.tooltipViews[s];
 }
-function Yo(t) {
-  return t.facet(No).some((t) => t);
+function _o(t) {
+  return t.facet(Fo).some((t) => t);
 }
-const Xo = r.define();
-const _o = Xo.of(null);
-function jo(t) {
-  let e = t.plugin(Ro);
+const jo = r.define();
+const Uo = jo.of(null);
+function $o(t) {
+  let e = t.plugin(Wo);
   e && e.maybeMeasure();
 }
-const Uo = n.define({
+const Qo = n.define({
   combine(t) {
     let e, i;
     for (let s of t) {
@@ -9692,21 +9719,21 @@ const Uo = n.define({
     return { topContainer: e, bottomContainer: i };
   },
 });
-function $o(t) {
-  return t ? [Uo.of(t)] : [];
+function Jo(t) {
+  return t ? [Qo.of(t)] : [];
 }
-function Qo(t, e) {
-  let i = t.plugin(Jo);
+function Zo(t, e) {
+  let i = t.plugin(tn);
   let s = i ? i.specs.indexOf(e) : -1;
   return s > -1 ? i.panels[s] : null;
 }
-const Jo = ViewPlugin.fromClass(
+const tn = ViewPlugin.fromClass(
   class {
     constructor(t) {
-      this.input = t.state.facet(tn);
+      this.input = t.state.facet(sn);
       this.specs = this.input.filter((t) => t);
       this.panels = this.specs.map((e) => e(t));
-      let e = t.state.facet(Uo);
+      let e = t.state.facet(Qo);
       this.top = new PanelGroup(t, true, e.topContainer);
       this.bottom = new PanelGroup(t, false, e.bottomContainer);
       this.top.sync(this.panels.filter((t) => t.top));
@@ -9717,7 +9744,7 @@ const Jo = ViewPlugin.fromClass(
       }
     }
     update(t) {
-      let e = t.state.facet(Uo);
+      let e = t.state.facet(Qo);
       if (this.top.container != e.topContainer) {
         this.top.sync([]);
         this.top = new PanelGroup(t.view, true, e.topContainer);
@@ -9728,7 +9755,7 @@ const Jo = ViewPlugin.fromClass(
       }
       this.top.syncClasses();
       this.bottom.syncClasses();
-      let i = t.state.facet(tn);
+      let i = t.state.facet(sn);
       if (i != this.input) {
         let e = i.filter((t) => t);
         let s = [],
@@ -9808,10 +9835,10 @@ class PanelGroup {
     let t = this.dom.firstChild;
     for (let e of this.panels)
       if (e.dom.parentNode == this.dom) {
-        while (t != e.dom) t = Zo(t);
+        while (t != e.dom) t = en(t);
         t = t.nextSibling;
       } else this.dom.insertBefore(e.dom, t);
-    while (t) t = Zo(t);
+    while (t) t = en(t);
   }
   scrollMargin() {
     return !this.dom || this.container
@@ -9836,55 +9863,55 @@ class PanelGroup {
     }
   }
 }
-function Zo(t) {
+function en(t) {
   let e = t.nextSibling;
   t.remove();
   return e;
 }
-const tn = n.define({ enables: Jo });
-function en(t, e) {
+const sn = n.define({ enables: tn });
+function on(t, e) {
   let i;
   let s = new Promise((t) => (i = t));
-  let o = (t) => ln(t, e, i);
-  t.state.field(on, false)
-    ? t.dispatch({ effects: nn.of(o) })
-    : t.dispatch({ effects: r.appendConfig.of(on.init(() => [o])) });
-  let n = rn.of(o);
+  let o = (t) => hn(t, e, i);
+  t.state.field(rn, false)
+    ? t.dispatch({ effects: ln.of(o) })
+    : t.dispatch({ effects: r.appendConfig.of(rn.init(() => [o])) });
+  let n = an.of(o);
   return {
     close: n,
     result: s.then((e) => {
       let i = t.win.queueMicrotask || ((e) => t.win.setTimeout(e, 10));
       i(() => {
-        t.state.field(on).indexOf(o) > -1 && t.dispatch({ effects: n });
+        t.state.field(rn).indexOf(o) > -1 && t.dispatch({ effects: n });
       });
       return e;
     }),
   };
 }
-function sn(t, e) {
-  let i = t.state.field(on, false) || [];
+function nn(t, e) {
+  let i = t.state.field(rn, false) || [];
   for (let s of i) {
-    let i = Qo(t, s);
+    let i = Zo(t, s);
     if (i && i.dom.classList.contains(e)) return i;
   }
   return null;
 }
-const on = v.define({
+const rn = v.define({
   create() {
     return [];
   },
   update(t, e) {
     for (let i of e.effects)
-      i.is(nn)
+      i.is(ln)
         ? (t = [i.value].concat(t))
-        : i.is(rn) && (t = t.filter((t) => t != i.value));
+        : i.is(an) && (t = t.filter((t) => t != i.value));
     return t;
   },
-  provide: (t) => tn.computeN([t], (e) => e.field(t)),
+  provide: (t) => sn.computeN([t], (e) => e.field(t)),
 });
-const nn = r.define();
-const rn = r.define();
-function ln(t, e, i) {
+const ln = r.define();
+const an = r.define();
+function hn(t, e, i) {
   let s = e.content ? e.content(t, () => r(null)) : null;
   if (!s) {
     s = k("form");
@@ -9970,9 +9997,9 @@ GutterMarker.prototype.toDOM = void 0;
 GutterMarker.prototype.mapMode = i.TrackBefore;
 GutterMarker.prototype.startSide = GutterMarker.prototype.endSide = -1;
 GutterMarker.prototype.point = true;
-const an = n.define();
-const hn = n.define();
-const cn = {
+const cn = n.define();
+const dn = n.define();
+const un = {
   class: "",
   renderEmptyElements: false,
   elementStyle: "",
@@ -9985,17 +10012,17 @@ const cn = {
   domEventHandlers: {},
   side: "before",
 };
-const dn = n.define();
-function un(t) {
-  return [pn(), dn.of({ ...cn, ...t })];
-}
-const fn = n.define({ combine: (t) => t.some((t) => t) });
+const fn = n.define();
 function pn(t) {
-  let e = [gn];
-  t && t.fixed === false && e.push(fn.of(true));
+  return [mn(), fn.of({ ...un, ...t })];
+}
+const gn = n.define({ combine: (t) => t.some((t) => t) });
+function mn(t) {
+  let e = [wn];
+  t && t.fixed === false && e.push(gn.of(true));
   return e;
 }
-const gn = ViewPlugin.fromClass(
+const wn = ViewPlugin.fromClass(
   class {
     constructor(t) {
       this.view = t;
@@ -10006,8 +10033,8 @@ const gn = ViewPlugin.fromClass(
       this.dom.setAttribute("aria-hidden", "true");
       this.dom.style.minHeight =
         this.view.contentHeight / this.view.scaleY + "px";
-      this.gutters = t.state.facet(dn).map((e) => new SingleGutterView(t, e));
-      this.fixed = !t.state.facet(fn);
+      this.gutters = t.state.facet(fn).map((e) => new SingleGutterView(t, e));
+      this.fixed = !t.state.facet(gn);
       for (let t of this.gutters)
         t.config.side == "after"
           ? this.getDOMAfter().appendChild(t.dom)
@@ -10040,7 +10067,7 @@ const gn = ViewPlugin.fromClass(
         this.dom.style.minHeight = t;
         this.domAfter && (this.domAfter.style.minHeight = t);
       }
-      if (this.view.state.facet(fn) != !this.fixed) {
+      if (this.view.state.facet(gn) != !this.fixed) {
         this.fixed = !this.fixed;
         this.dom.style.position = this.fixed ? "sticky" : "";
         this.domAfter &&
@@ -10054,7 +10081,7 @@ const gn = ViewPlugin.fromClass(
         this.dom.remove();
         this.domAfter && this.domAfter.remove();
       }
-      let s = e.iter(this.view.state.facet(an), this.view.viewport.from);
+      let s = e.iter(this.view.state.facet(cn), this.view.viewport.from);
       let o = [];
       let n = this.gutters.map(
         (t) =>
@@ -10070,12 +10097,12 @@ const gn = ViewPlugin.fromClass(
           let e = true;
           for (let i of t.type)
             if (i.type == K.Text && e) {
-              wn(s, o, i.from);
+              bn(s, o, i.from);
               for (let t of n) t.line(this.view, i, o);
               e = false;
             } else if (i.widget) for (let t of n) t.widget(this.view, i);
         } else if (t.type == K.Text) {
-          wn(s, o, t.from);
+          bn(s, o, t.from);
           for (let e of n) e.line(this.view, t, o);
         } else if (t.widget) for (let e of n) e.widget(this.view, t);
       }
@@ -10086,15 +10113,15 @@ const gn = ViewPlugin.fromClass(
       }
     }
     updateGutters(t) {
-      let i = t.startState.facet(dn),
-        s = t.state.facet(dn);
+      let i = t.startState.facet(fn),
+        s = t.state.facet(fn);
       let o =
         t.docChanged ||
         t.heightChanged ||
         t.viewportChanged ||
         !e.eq(
-          t.startState.facet(an),
-          t.state.facet(an),
+          t.startState.facet(cn),
+          t.state.facet(cn),
           t.view.viewport.from,
           t.view.viewport.to,
         );
@@ -10141,10 +10168,10 @@ const gn = ViewPlugin.fromClass(
       }),
   },
 );
-function mn(t) {
+function vn(t) {
   return Array.isArray(t) ? t : [t];
 }
-function wn(t, e, i) {
+function bn(t, e, i) {
   while (t.value && t.from <= i) {
     t.from == i && e.push(t.value);
     t.next();
@@ -10171,7 +10198,7 @@ class UpdateContext {
   }
   line(t, e, i) {
     let s = [];
-    wn(this.cursor, s, e.from);
+    bn(this.cursor, s, e.from);
     i.length && (s = s.concat(i));
     let o = this.gutter.config.lineMarker(t, e, s);
     o && s.unshift(o);
@@ -10181,7 +10208,7 @@ class UpdateContext {
   widget(t, e) {
     let i = this.gutter.config.widgetMarker(t, e.widget, e),
       s = i ? [i] : null;
-    for (let i of t.state.facet(hn)) {
+    for (let i of t.state.facet(dn)) {
       let o = i(t, e.widget, e);
       o && (s || (s = [])).push(o);
     }
@@ -10217,7 +10244,7 @@ class SingleGutterView {
         let r = t.lineBlockAtHeight(o - t.documentTop);
         e.domEventHandlers[i](t, r, s) && s.preventDefault();
       });
-    this.markers = mn(e.markers(t));
+    this.markers = vn(e.markers(t));
     if (e.initialSpacer) {
       this.spacer = new GutterElement(t, 0, 0, [e.initialSpacer(t)]);
       this.dom.appendChild(this.spacer.dom);
@@ -10227,7 +10254,7 @@ class SingleGutterView {
   }
   update(t) {
     let i = this.markers;
-    this.markers = mn(this.config.markers(t.view));
+    this.markers = vn(this.config.markers(t.view));
     if (this.spacer && this.config.updateSpacer) {
       let e = this.config.updateSpacer(this.spacer.markers[0], t);
       e != this.spacer.markers[0] && this.spacer.update(t.view, 0, 0, [e]);
@@ -10258,7 +10285,7 @@ class GutterElement {
     }
     this.above != i &&
       (this.dom.style.marginTop = (this.above = i) ? i + "px" : "");
-    vn(this.markers, s) || this.setMarkers(t, s);
+    yn(this.markers, s) || this.setMarkers(t, s);
   }
   setMarkers(t, e) {
     let i = "cm-gutterElement",
@@ -10298,14 +10325,14 @@ class GutterElement {
     this.setMarkers(null, []);
   }
 }
-function vn(t, e) {
+function yn(t, e) {
   if (t.length != e.length) return false;
   for (let i = 0; i < t.length; i++) if (!t[i].compare(e[i])) return false;
   return true;
 }
-const bn = n.define();
-const yn = n.define();
-const xn = n.define({
+const xn = n.define();
+const Mn = n.define();
+const Sn = n.define({
   combine(t) {
     return w(
       t,
@@ -10336,68 +10363,68 @@ class NumberMarker extends GutterMarker {
     return document.createTextNode(this.number);
   }
 }
-function Mn(t, e) {
-  return t.state.facet(xn).formatNumber(e, t.state);
+function Cn(t, e) {
+  return t.state.facet(Sn).formatNumber(e, t.state);
 }
-const Sn = dn.compute([xn], (t) => ({
+const kn = fn.compute([Sn], (t) => ({
   class: "cm-lineNumbers",
   renderEmptyElements: false,
   markers(t) {
-    return t.state.facet(bn);
+    return t.state.facet(xn);
   },
   lineMarker(t, e, i) {
     return i.some((t) => t.toDOM)
       ? null
-      : new NumberMarker(Mn(t, t.state.doc.lineAt(e.from).number));
+      : new NumberMarker(Cn(t, t.state.doc.lineAt(e.from).number));
   },
   widgetMarker: (t, e, i) => {
-    for (let s of t.state.facet(yn)) {
+    for (let s of t.state.facet(Mn)) {
       let o = s(t, e, i);
       if (o) return o;
     }
     return null;
   },
-  lineMarkerChange: (t) => t.startState.facet(xn) != t.state.facet(xn),
+  lineMarkerChange: (t) => t.startState.facet(Sn) != t.state.facet(Sn),
   initialSpacer(t) {
-    return new NumberMarker(Mn(t, kn(t.state.doc.lines)));
+    return new NumberMarker(Cn(t, An(t.state.doc.lines)));
   },
   updateSpacer(t, e) {
-    let i = Mn(e.view, kn(e.view.state.doc.lines));
+    let i = Cn(e.view, An(e.view.state.doc.lines));
     return i == t.number ? t : new NumberMarker(i);
   },
-  domEventHandlers: t.facet(xn).domEventHandlers,
+  domEventHandlers: t.facet(Sn).domEventHandlers,
   side: "before",
 }));
-function Cn(t = {}) {
-  return [xn.of(t), pn(), Sn];
+function Tn(t = {}) {
+  return [Sn.of(t), mn(), kn];
 }
-function kn(t) {
+function An(t) {
   let e = 9;
   while (e < t) e = e * 10 + 9;
   return e;
 }
-const Tn = new (class extends GutterMarker {
+const Dn = new (class extends GutterMarker {
   constructor() {
     super(...arguments);
     this.elementClass = "cm-activeLineGutter";
   }
 })();
-const An = an.compute(["selection"], (t) => {
+const On = cn.compute(["selection"], (t) => {
   let i = [],
     s = -1;
   for (let e of t.selection.ranges) {
     let o = t.doc.lineAt(e.head).from;
     if (o > s) {
       s = o;
-      i.push(Tn.range(o));
+      i.push(Dn.range(o));
     }
   }
   return e.of(i);
 });
-function Dn() {
-  return An;
+function Bn() {
+  return On;
 }
-function On(t) {
+function En(t) {
   return ViewPlugin.define(
     (e) => ({
       decorations: t.createDeco(e),
@@ -10408,37 +10435,37 @@ function On(t) {
     { decorations: (t) => t.decorations },
   );
 }
-const Bn = Decoration.mark({ class: "cm-highlightTab" });
-const En = Decoration.mark({ class: "cm-highlightSpace" });
-const Ln = On(
+const Ln = Decoration.mark({ class: "cm-highlightTab" });
+const Rn = Decoration.mark({ class: "cm-highlightSpace" });
+const Hn = En(
   new MatchDecorator({
     regexp: /\t| /g,
-    decoration: (t) => (t[0] == "\t" ? Bn : En),
+    decoration: (t) => (t[0] == "\t" ? Ln : Rn),
     boundary: /\S/,
-  }),
-);
-function Rn() {
-  return Ln;
-}
-const Hn = On(
-  new MatchDecorator({
-    regexp: /\s+$/g,
-    decoration: Decoration.mark({ class: "cm-trailingSpace" }),
   }),
 );
 function Wn() {
   return Hn;
 }
-const Vn = {
+const Vn = En(
+  new MatchDecorator({
+    regexp: /\s+$/g,
+    decoration: Decoration.mark({ class: "cm-trailingSpace" }),
+  }),
+);
+function Pn() {
+  return Vn;
+}
+const Nn = {
   HeightMap: HeightMap,
   HeightOracle: HeightOracle,
   MeasuredHeights: MeasuredHeights,
-  QueryType: Ki,
+  QueryType: Yi,
   ChangedRange: ChangedRange,
   computeOrder: Wt,
   moveVisually: Nt,
-  clearHeightChangeFlag: Gi,
-  getHeightChangeFlag: () => qi,
+  clearHeightChangeFlag: Ki,
+  getHeightChangeFlag: () => Gi,
 };
 export {
   BidiSpan,
@@ -10454,40 +10481,40 @@ export {
   ViewPlugin,
   ViewUpdate,
   WidgetType,
-  Vn as __test,
-  _o as closeHoverTooltips,
-  Ao as crosshairCursor,
-  qs as drawSelection,
-  Js as dropCursor,
-  sn as getDialog,
-  Gs as getDrawSelectionConfig,
-  Qo as getPanel,
-  Ko as getTooltip,
-  un as gutter,
-  an as gutterLineClass,
-  hn as gutterWidgetClass,
-  pn as gutters,
-  Yo as hasHoverTooltips,
-  go as highlightActiveLine,
-  Dn as highlightActiveLineGutter,
-  lo as highlightSpecialChars,
-  Wn as highlightTrailingWhitespace,
-  Rn as highlightWhitespace,
-  Go as hoverTooltip,
-  Ts as keymap,
-  Fs as layer,
-  bn as lineNumberMarkers,
-  yn as lineNumberWidgetMarker,
-  Cn as lineNumbers,
+  Nn as __test,
+  Uo as closeHoverTooltips,
+  Oo as crosshairCursor,
+  Ks as drawSelection,
+  to as dropCursor,
+  nn as getDialog,
+  Ys as getDrawSelectionConfig,
+  Zo as getPanel,
+  Xo as getTooltip,
+  pn as gutter,
+  cn as gutterLineClass,
+  dn as gutterWidgetClass,
+  mn as gutters,
+  _o as hasHoverTooltips,
+  wo as highlightActiveLine,
+  Bn as highlightActiveLineGutter,
+  ho as highlightSpecialChars,
+  Pn as highlightTrailingWhitespace,
+  Wn as highlightWhitespace,
+  Yo as hoverTooltip,
+  Ds as keymap,
+  qs as layer,
+  xn as lineNumberMarkers,
+  Mn as lineNumberWidgetMarker,
+  Tn as lineNumbers,
   te as logException,
-  $o as panels,
-  vo as placeholder,
-  Co as rectangularSelection,
-  jo as repositionTooltips,
-  Os as runScopeHandlers,
-  po as scrollPastEnd,
-  en as showDialog,
-  tn as showPanel,
-  Po as showTooltip,
-  Oo as tooltips,
+  Jo as panels,
+  yo as placeholder,
+  To as rectangularSelection,
+  $o as repositionTooltips,
+  Es as runScopeHandlers,
+  mo as scrollPastEnd,
+  on as showDialog,
+  sn as showPanel,
+  Io as showTooltip,
+  Eo as tooltips,
 };
