@@ -203,30 +203,8 @@ module ScheduleConcern
       month_cursor = threshold
 
       loop do
-        at =
-          if count == "last"
-            last_day = month_cursor.end_of_month.beginning_of_day
-            last_day - (1.day * ((last_day.wday - weekday) % WEEKDAYS.size))
-          else
-            weeks = COUNTS.index(count)
-
-            loop do
-              candidate = month_cursor.beginning_of_month
-              month = candidate.month
-              year = candidate.year
-              candidate +=
-                (1.day * ((weekday - candidate.wday) % WEEKDAYS.size))
-              candidate += weeks.weeks
-
-              if candidate.year == year && candidate.month == month
-                break candidate
-              end
-
-              month_cursor = month_cursor.next_month
-            end
-          end
-
-        return at if at >= threshold
+        at = monthly_candidate(month_cursor, weekday)
+        return at if at && at >= threshold
 
         month_cursor = month_cursor.next_month
       end
@@ -245,49 +223,50 @@ module ScheduleConcern
       at
     else
       weekday = WEEKDAYS.index(per)
-
-      return starts_at if starts_at.future?
-
-      now = Time.zone.now
-      month_cursor = starts_at
-      at = nil
+      threshold = [starts_at, Time.zone.now].max
+      month_cursor = threshold
 
       loop do
-        candidate =
-          if count == "last"
-            last_day = month_cursor.end_of_month.beginning_of_day
-            last_day - (1.day * ((last_day.wday - weekday) % WEEKDAYS.size))
-          else
-            weeks = COUNTS.index(count)
+        at = monthly_candidate(month_cursor, weekday)
+        return at if at && at < threshold
 
-            loop do
-              inner = month_cursor.beginning_of_month
-              month = inner.month
-              year = inner.year
-              inner += (1.day * ((weekday - inner.wday) % WEEKDAYS.size))
-              inner += weeks.weeks
-
-              break inner if inner.year == year && inner.month == month
-
-              month_cursor = month_cursor.next_month
-            end
-          end
-
-        if candidate < starts_at
-          month_cursor = month_cursor.next_month
-          next
-        end
-        break if candidate > now
-
-        at = candidate
-        month_cursor = month_cursor.next_month
+        month_cursor = month_cursor.prev_month
       end
-
-      at || starts_at
     end
   end
 
   def default_interval
     DEFAULT_INTERVAL
+  end
+
+  private
+
+  def monthly_candidate(month_cursor, weekday)
+    candidate =
+      if count == "last"
+        last_day = month_cursor.end_of_month.beginning_of_day
+        last_day - (1.day * ((last_day.wday - weekday) % WEEKDAYS.size))
+      else
+        weeks = COUNTS.index(count)
+        candidate = month_cursor.beginning_of_month
+        month = candidate.month
+        year = candidate.year
+        candidate += (1.day * ((weekday - candidate.wday) % WEEKDAYS.size))
+        candidate += weeks.weeks
+        return unless candidate.year == year && candidate.month == month
+
+        candidate
+      end
+
+    align_to_starts_at(candidate)
+  end
+
+  def align_to_starts_at(at)
+    at.change(
+      hour: starts_at.hour,
+      min: starts_at.min,
+      sec: starts_at.sec,
+      usec: starts_at.usec
+    )
   end
 end

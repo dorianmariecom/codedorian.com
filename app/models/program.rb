@@ -84,6 +84,7 @@ class Program < ApplicationRecord
     return false if scheduled_job?
     return false if program_execution&.generating?
     return false if starts_at > now
+    return false unless previous_at?
 
     !program_execution || program_execution.created_at <= previous_at
   end

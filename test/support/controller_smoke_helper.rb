@@ -93,7 +93,9 @@ module ControllerSmokeHelper
       params[part] = required_value(part, route, test_case)
     end
 
-    params[:locale] ||= I18n.locale.to_s if route.path.spec.to_s.include?(":locale")
+    params[:locale] ||= I18n.locale.to_s if route.path.spec.to_s.include?(
+      ":locale"
+    )
 
     params
   end
