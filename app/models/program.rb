@@ -6,6 +6,9 @@ class Program < ApplicationRecord
   belongs_to(:user, default: -> { Current.user! }, touch: true)
 
   scope(:where_user, ->(user) { where(user: user) })
+  scope(:scheduled, -> { where(scheduled: true) })
+  scope(:not_scheduled, -> { where(scheduled: false) })
+  scope(:unscheduled, -> { not_scheduled })
 
   has_many(:program_executions, dependent: :destroy)
   has_one(
@@ -32,6 +35,10 @@ class Program < ApplicationRecord
       input: {
         node: -> { arel_table[:input] },
         type: :string
+      },
+      scheduled: {
+        node: -> { arel_table[:scheduled] },
+        type: :boolean
       },
       **base_search_fields,
       **User.associated_search_fields
