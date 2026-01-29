@@ -54,14 +54,18 @@
 <% if @version.updated_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold"><%= local_time(@version.updated_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@version.updated_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 
 <% if @version.created_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold"><%= local_time(@version.created_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@version.created_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 

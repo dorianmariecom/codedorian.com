@@ -47,14 +47,14 @@
 <% if @device.updated_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <strong><%= local_time(@device.updated_at) %></strong>
+    <strong><%= local_time(@device.updated_at, format: :default) %></strong>
   </div>
 <% end %>
 
 <% if @device.created_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".created_at") %></div>
-    <strong><%= local_time(@device.created_at) %></strong>
+    <strong><%= local_time(@device.created_at, format: :default) %></strong>
   </div>
 <% end %>
 

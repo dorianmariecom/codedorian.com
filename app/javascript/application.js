@@ -39,6 +39,12 @@ if (window.RAILS_ENV === "production") {
   });
 }
 
+window.l =  LocalTime;
+
+LocalTime.config.i18n[window.LOCALE] = window.translations.local_time;
+LocalTime.config.locale = window.LOCALE;
+LocalTime.config.useFormat24 = window.LOCALE === "fr";
+
 LocalTime.start();
 
 Object.entries(window.translations.trix).forEach(([key, value]) => {

@@ -12,14 +12,18 @@
 <% if @guest.updated_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold"><%= local_time(@guest.updated_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@guest.updated_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 
 <% if @guest.created_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold"><%= local_time(@guest.created_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@guest.created_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 

@@ -37,7 +37,9 @@
 <% if @program_schedule.starts_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".starts_at") %></div>
-    <div class="font-bold"><%= local_time(@program_schedule.starts_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@program_schedule.starts_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 
@@ -51,14 +53,18 @@
 <% if @program_schedule.updated_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold"><%= local_time(@program_schedule.updated_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@program_schedule.updated_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 
 <% if @program_schedule.created_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold"><%= local_time(@program_schedule.created_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@program_schedule.created_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 

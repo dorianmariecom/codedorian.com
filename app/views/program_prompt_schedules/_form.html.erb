@@ -11,7 +11,9 @@
       }
     ) %>
     <div class="text-red-600" hidden data-validation-target="error"></div>
-    <div class="text-gray-600"><%= local_time(Time.zone.now) %></div>
+    <div class="text-gray-600">
+      <%= local_time(Time.zone.now, format: :default) %>
+    </div>
   </div>
 
   <div class="p">

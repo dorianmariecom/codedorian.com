@@ -1651,6 +1651,77 @@ fr:
         address:
           not_present: doit être présent
           not_valid: doit être valide
+        local_time:
+          date:
+            abbrDayNames:
+            - dim.
+            - lun.
+            - mar.
+            - mer.
+            - jeu.
+            - ven.
+            - sam.
+            abbrMonthNames:
+            - janv.
+            - févr.
+            - mars
+            - avril
+            - mai
+            - juin
+            - juil.
+            - août
+            - sept.
+            - oct.
+            - nov.
+            - déc.
+            dayNames:
+            - dimanche
+            - lundi
+            - mardi
+            - mercredi
+            - jeudi
+            - vendredi
+            - samedi
+            formats:
+              default: "%A %d %B %Y"
+              thisYear: "%A %d %B"
+            monthNames:
+            - janvier
+            - février
+            - mars
+            - avril
+            - mai
+            - juin
+            - juillet
+            - août
+            - septembre
+            - octobre
+            - novembre
+            - décembre
+            'on': le {date}
+            today: aujourd'hui
+            tomorrow: demain
+            yesterday: hier
+          datetime:
+            at: "{date} à {time}"
+            formats:
+              default: "%A %d %B %Y à %H:%M:%S"
+              default_24h: "%A %d %B %Y à %H:%M:%S"
+          time:
+            am: AM
+            elapsed: "{time} plus tôt"
+            format:
+              default: "%H:%M:%S"
+              default_24h: "%H:%M:%S"
+            hour: heure
+            hours: heures
+            minute: minute
+            minutes: minutes
+            pm: PM
+            second: seconde
+            seconds: secondes
+            signularAn: "{time}"
+            singular: "{time}"
         password:
           not_present: doit être présent
         phone_number:
@@ -2695,6 +2766,9 @@ fr:
       body: fonctionne
       description: page d'etat codedorian.
       title: "/up"
+  time:
+    formats:
+      default: "%A %d %B %Y à %H:%M:%S"
   time_zones:
     create:
       notice: fuseau horaire créé

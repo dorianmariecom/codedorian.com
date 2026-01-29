@@ -27,7 +27,7 @@
   <div class="p">
     <div class="text-gray-600"><%= t(".updated_at") %></div>
     <div class="font-bold">
-      <%= local_time(@country_code_ip_address.updated_at) %>
+      <%= local_time(@country_code_ip_address.updated_at, format: :default) %>
     </div>
   </div>
 <% end %>
@@ -36,7 +36,7 @@
   <div class="p">
     <div class="text-gray-600"><%= t(".created_at") %></div>
     <div class="font-bold">
-      <%= local_time(@country_code_ip_address.created_at) %>
+      <%= local_time(@country_code_ip_address.created_at, format: :default) %>
     </div>
   </div>
 <% end %>

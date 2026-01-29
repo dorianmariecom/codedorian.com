@@ -47,28 +47,36 @@
 <% if @job.scheduled_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".scheduled_at") %></div>
-    <div class="font-bold"><%= local_time(@job.scheduled_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@job.scheduled_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 
 <% if @job.finished_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".finished_at") %></div>
-    <div class="font-bold"><%= local_time(@job.finished_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@job.finished_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 
 <% if @job.updated_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold"><%= local_time(@job.updated_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@job.updated_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 
 <% if @job.created_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold"><%= local_time(@job.created_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@job.created_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 

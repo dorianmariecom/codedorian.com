@@ -76,7 +76,7 @@
   <div class="p">
     <div class="text-gray-600"><%= t(".updated_at") %></div>
     <div class="font-bold">
-      <%= local_time(@job_recurring_task.updated_at) %>
+      <%= local_time(@job_recurring_task.updated_at, format: :default) %>
     </div>
   </div>
 <% end %>
@@ -85,7 +85,7 @@
   <div class="p">
     <div class="text-gray-600"><%= t(".created_at") %></div>
     <div class="font-bold">
-      <%= local_time(@job_recurring_task.created_at) %>
+      <%= local_time(@job_recurring_task.created_at, format: :default) %>
     </div>
   </div>
 <% end %>

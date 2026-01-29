@@ -48,7 +48,7 @@
   <div class="p">
     <div class="text-gray-600"><%= t(".last_heartbeat_at") %></div>
     <div class="font-bold">
-      <%= local_time(@job_process.last_heartbeat_at) %>
+      <%= local_time(@job_process.last_heartbeat_at, format: :default) %>
     </div>
   </div>
 <% end %>
@@ -63,14 +63,18 @@
 <% if @job_process.updated_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold"><%= local_time(@job_process.updated_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@job_process.updated_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 
 <% if @job_process.created_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold"><%= local_time(@job_process.created_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@job_process.created_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 

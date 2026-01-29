@@ -19,7 +19,9 @@
         program_schedule_target: "startsAt"
       }
     ) %>
-    <div class="text-gray-600"><%= local_time(Time.zone.now) %></div>
+    <div class="text-gray-600">
+      <%= local_time(Time.zone.now, format: :default) %>
+    </div>
   </div>
 
   <div class="p">

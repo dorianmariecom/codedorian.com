@@ -60,6 +60,7 @@
       window.SENTRY_RELEASE = "<%= sentry_release %>";
       window.SENTRY_ENVIRONMENT = "<%= sentry_environment %>";
       window.SENTRY_FEEDBACK = <%= sentry_feedback.to_json.html_safe %>;
+      window.LOCALE = "<%= I18n.locale %>";
     </script>
 
     <div data-controller="update-time-zone"></div>

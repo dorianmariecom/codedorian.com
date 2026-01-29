@@ -33,14 +33,18 @@
 <% if @datum.updated_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold"><%= local_time(@datum.updated_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@datum.updated_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 
 <% if @datum.created_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold"><%= local_time(@datum.created_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@datum.created_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 

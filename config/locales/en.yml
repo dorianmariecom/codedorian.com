@@ -1649,6 +1649,77 @@ en:
         address:
           not_present: must be present
           not_valid: must be valid
+        local_time:
+          date:
+            abbrDayNames:
+            - sun.
+            - mon.
+            - tue.
+            - wed.
+            - thu.
+            - fri.
+            - sat.
+            abbrMonthNames:
+            - jan.
+            - feb.
+            - mar.
+            - apr.
+            - may
+            - jun.
+            - jul.
+            - aug.
+            - sep.
+            - oct.
+            - nov.
+            - dec.
+            dayNames:
+            - sunday
+            - monday
+            - tuesday
+            - wednesday
+            - thursday
+            - friday
+            - saturday
+            formats:
+              default: "%A %d %B %Y"
+              thisYear: "%A %d %B"
+            monthNames:
+            - january
+            - february
+            - march
+            - april
+            - may
+            - june
+            - july
+            - august
+            - september
+            - october
+            - november
+            - december
+            'on': on {date}
+            today: today
+            tomorrow: tomorrow
+            yesterday: yesterday
+          datetime:
+            at: "{date} at {time}"
+            formats:
+              default: "%A %d %B %Y at %H:%M:%S"
+              default_24h: "%A %d %B %Y at %H:%M:%S"
+          time:
+            am: AM
+            elapsed: "{time} ago"
+            format:
+              default: "%H:%M:%S"
+              default_24h: "%H:%M:%S"
+            hour: hour
+            hours: hours
+            minute: minute
+            minutes: minutes
+            pm: PM
+            second: second
+            seconds: seconds
+            signularAn: "{time}"
+            singular: "{time}"
         password:
           not_present: must be present
         phone_number:
@@ -2705,6 +2776,9 @@ en:
       body: working
       description: codedorian status page.
       title: "/up"
+  time:
+    formats:
+      default: "%A %d %B %Y at %H:%M:%S"
   time_zones:
     create:
       notice: time zone created

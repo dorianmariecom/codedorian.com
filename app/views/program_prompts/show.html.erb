@@ -131,14 +131,18 @@
 <% if @program_prompt.updated_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold"><%= local_time(@program_prompt.updated_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@program_prompt.updated_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 
 <% if @program_prompt.created_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold"><%= local_time(@program_prompt.created_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@program_prompt.created_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 

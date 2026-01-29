@@ -41,7 +41,7 @@
   <div class="p">
     <div class="text-gray-600"><%= t(".updated_at") %></div>
     <strong class="font-bold">
-      <%= local_time(@email_address.updated_at) %>
+      <%= local_time(@email_address.updated_at, format: :default) %>
     </strong>
   </div>
 <% end %>
@@ -50,7 +50,7 @@
   <div class="p">
     <div class="text-gray-600"><%= t(".created_at") %></div>
     <strong class="font-bold">
-      <%= local_time(@email_address.created_at) %>
+      <%= local_time(@email_address.created_at, format: :default) %>
     </strong>
   </div>
 <% end %>

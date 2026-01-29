@@ -47,14 +47,18 @@
 <% if @password.updated_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold"><%= local_time(@password.updated_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@password.updated_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 
 <% if @password.created_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold"><%= local_time(@password.created_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@password.created_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 

@@ -58,7 +58,7 @@
   <div class="p">
     <div class="text-gray-600"><%= t(".starts_at") %></div>
     <div class="font-bold">
-      <%= local_time(@program_prompt_schedule.starts_at) %>
+      <%= local_time(@program_prompt_schedule.starts_at, format: :default) %>
     </div>
   </div>
 <% end %>
@@ -76,7 +76,7 @@
   <div class="p">
     <div class="text-gray-600"><%= t(".updated_at") %></div>
     <div class="font-bold">
-      <%= local_time(@program_prompt_schedule.updated_at) %>
+      <%= local_time(@program_prompt_schedule.updated_at, format: :default) %>
     </div>
   </div>
 <% end %>
@@ -85,7 +85,7 @@
   <div class="p">
     <div class="text-gray-600"><%= t(".created_at") %></div>
     <div class="font-bold">
-      <%= local_time(@program_prompt_schedule.created_at) %>
+      <%= local_time(@program_prompt_schedule.created_at, format: :default) %>
     </div>
   </div>
 <% end %>

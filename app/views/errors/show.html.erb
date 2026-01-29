@@ -47,21 +47,27 @@
 <% if @error.resolved_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".resolved_at") %></div>
-    <div class="font-bold"><%= local_time(@error.resolved_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@error.resolved_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 
 <% if @error.updated_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold"><%= local_time(@error.updated_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@error.updated_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 
 <% if @error.created_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold"><%= local_time(@error.created_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@error.created_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 

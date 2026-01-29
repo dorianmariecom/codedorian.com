@@ -26,21 +26,27 @@
 <% if @job_semaphore.expires_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".expires_at") %></div>
-    <div class="font-bold"><%= local_time(@job_semaphore.expires_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@job_semaphore.expires_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 
 <% if @job_semaphore.updated_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold"><%= local_time(@job_semaphore.updated_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@job_semaphore.updated_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 
 <% if @job_semaphore.created_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold"><%= local_time(@job_semaphore.created_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@job_semaphore.created_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 

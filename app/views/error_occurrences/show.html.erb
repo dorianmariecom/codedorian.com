@@ -47,14 +47,18 @@
 <% if @error_occurrence.updated_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold"><%= local_time(@error_occurrence.updated_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@error_occurrence.updated_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 
 <% if @error_occurrence.created_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold"><%= local_time(@error_occurrence.created_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@error_occurrence.created_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 

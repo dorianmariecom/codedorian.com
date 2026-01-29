@@ -43,7 +43,7 @@
   <div class="p">
     <div class="text-gray-600"><%= t(".updated_at") %></div>
     <div class="font-bold">
-      <%= local_time(@job_claimed_execution.updated_at) %>
+      <%= local_time(@job_claimed_execution.updated_at, format: :default) %>
     </div>
   </div>
 <% end %>
@@ -52,7 +52,7 @@
   <div class="p">
     <div class="text-gray-600"><%= t(".created_at") %></div>
     <div class="font-bold">
-      <%= local_time(@job_claimed_execution.created_at) %>
+      <%= local_time(@job_claimed_execution.created_at, format: :default) %>
     </div>
   </div>
 <% end %>

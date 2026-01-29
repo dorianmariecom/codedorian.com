@@ -40,35 +40,45 @@
 <% if @program.starts_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".starts_at") %></div>
-    <div class="font-bold"><%= local_time(@program.starts_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@program.starts_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 
 <% if @program.previous_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".previous_at") %></div>
-    <div class="font-bold"><%= local_time(@program.previous_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@program.previous_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 
 <% if @program.next_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".next_at") %></div>
-    <div class="font-bold"><%= local_time(@program.next_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@program.next_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 
 <% if @program.updated_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold"><%= local_time(@program.updated_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@program.updated_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 
 <% if @program.created_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold"><%= local_time(@program.created_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@program.created_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 

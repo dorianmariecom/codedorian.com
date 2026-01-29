@@ -3,13 +3,13 @@
     <% if program_prompt_schedule.once? %>
       <%= t(
         ".schedule_once_html",
-        local_time: local_time(program_prompt_schedule.starts_at),
+        local_time: local_time(program_prompt_schedule.starts_at, format: :default),
         interval: program_prompt_schedule.translated_interval
       ) %>
     <% else %>
       <%= t(
         ".schedule_html",
-        local_time: local_time(program_prompt_schedule.starts_at),
+        local_time: local_time(program_prompt_schedule.starts_at, format: :default),
         interval: program_prompt_schedule.translated_interval
       ) %>
     <% end %>

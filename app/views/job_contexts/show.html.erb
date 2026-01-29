@@ -40,14 +40,18 @@
 <% if @job_context.updated_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold"><%= local_time(@job_context.updated_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@job_context.updated_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 
 <% if @job_context.created_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold"><%= local_time(@job_context.created_at) %></div>
+    <div class="font-bold">
+      <%= local_time(@job_context.created_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 
