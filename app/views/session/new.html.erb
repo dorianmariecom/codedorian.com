@@ -1,4 +1,4 @@
-<%= form_for(:session, url: login_path) do |f| %>
+<%= form_for(:session, url: login_path, data: { form_type: :login }) do |f| %>
   <div
     class="p"
     data-controller="validation"
@@ -14,9 +14,9 @@
       data: {
         validation_target: :input,
         action: "validation#input",
-        form_type: :other
+        form_type: :username
       },
-      autocomplete: "email"
+      autocomplete: :email
     ) %>
     <div class="text-red-600" hidden data-validation-target="error"></div>
     <div class="text-gray-600"><%= Faker::Internet.email %></div>
@@ -34,7 +34,7 @@
         data: {
           password_target: :input,
           action: "password#input",
-          form_type: :other
+          form_type: :password
         },
         autocomplete: "current-password"
       ) %>
@@ -61,7 +61,7 @@
   <div class="p">
     <%= f.submit(
       t(".submit"),
-      class: "button",
+      class: :button,
       data: {
         controller: "bridge--button",
         bridge__button_title_value: t(".submit")

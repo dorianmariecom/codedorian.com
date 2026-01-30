@@ -7,7 +7,7 @@
         "search[q]",
         q,
         autocomplete: :off,
-        data: { bridge__search_target: "q", form_type: :other }
+        data: { bridge__search_target: :q, form_type: :other }
       ) %>
     </form>
   </div>
@@ -26,7 +26,7 @@
             form_type: :other
           }
         ) %>
-        <%= submit_tag(t(".submit"), class: "button") %>
+        <%= submit_tag(t(".submit"), class: :button) %>
       </div>
     </form>
   </div>
