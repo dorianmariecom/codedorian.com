@@ -8,7 +8,7 @@
 
   <div class="p">
     <%= f.label(:hint, class: :label) %>
-    <%= f.text_field(:hint, class: :input, placeholder: t(".hint_placeholder")) %>
+    <%= f.text_field(:hint, class: :input, placeholder: t(".hint_placeholder"), autocomplete: "off", data: { form_type: :other }) %>
     <div class="text-gray-600"><%= Faker::Internet.password %></div>
   </div>
 
@@ -23,7 +23,7 @@
         data: {
           password_target: :input,
           action: "password#input",
-          form_type: :other
+          form_type: "password,new"
         },
         autocomplete: "new-password",
         placeholder: t(".password_placeholder")

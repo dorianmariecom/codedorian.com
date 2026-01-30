@@ -20,7 +20,7 @@
   <div class="p">
     <%= f.label(:name, class: :label) %>
     <div class="flex items-center gap-4">
-      <%= f.text_field(:name, class: "input max-w-none!") %>
+      <%= f.text_field(:name, class: "input max-w-none!", autocomplete: "off", data: { form_type: :other }) %>
 
       <%= f.submit(generate, class: "button", name: "program[generate]") %>
     </div>
