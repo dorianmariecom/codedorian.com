@@ -39,7 +39,7 @@ if (window.RAILS_ENV === "production") {
   });
 }
 
-window.l =  LocalTime;
+window.l = LocalTime;
 
 LocalTime.config.i18n[window.LOCALE] = window.translations.local_time;
 LocalTime.config.locale = window.LOCALE;

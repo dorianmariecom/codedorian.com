@@ -8,7 +8,9 @@
         {},
         class: :input,
         autocomplete: :off,
-        data: { form_type: :other }
+        data: {
+          form_type: :other
+        }
       ) %>
     </div>
   <% end %>
@@ -27,12 +29,18 @@
     <%= f.hidden_field(
       :autocomplete,
       autocomplete: :off,
-      data: { address_target: "autocomplete", form_type: :other }
+      data: {
+        address_target: "autocomplete",
+        form_type: :other
+      }
     ) %>
     <%= f.hidden_field(
       :address,
       autocomplete: :off,
-      data: { address_target: "address", form_type: :other }
+      data: {
+        address_target: "address",
+        form_type: :other
+      }
     ) %>
     <%= f.label(:address, class: :label, data: { address_target: :label }) %>
     <%= content_tag(
@@ -54,7 +62,9 @@
       :primary,
       class: :input,
       autocomplete: :off,
-      data: { form_type: :other }
+      data: {
+        form_type: :other
+      }
     ) %>
   </div>
 
@@ -65,7 +75,9 @@
         :verified,
         class: :input,
         autocomplete: :off,
-        data: { form_type: :other }
+        data: {
+          form_type: :other
+        }
       ) %>
     </div>
   <% end %>

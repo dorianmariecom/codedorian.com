@@ -3,13 +3,13 @@
 set -e
 
 run() {
-  printf "%s: ..." "$*"
-  if "$@" > /dev/null 2> /dev/null; then
-    echo " success"
-  else
-    echo " failure"
-    exit 1
-  fi
+    printf "%s: ..." "$*"
+    if "$@" >/dev/null 2>/dev/null; then
+        echo " success"
+    else
+        echo " failure"
+        exit 1
+    fi
 }
 
 run bin/eager_load

@@ -8,7 +8,9 @@
         {},
         class: :input,
         autocomplete: :off,
-        data: { form_type: :other }
+        data: {
+          form_type: :other
+        }
       ) %>
     </div>
   <% end %>
@@ -17,7 +19,10 @@
     <%= f.hidden_field(
       :phone_number,
       autocomplete: :off,
-      data: { phone_number_target: "hidden", form_type: :other }
+      data: {
+        phone_number_target: "hidden",
+        form_type: :other
+      }
     ) %>
     <%= f.label(
       :phone_number_input,
@@ -50,7 +55,9 @@
       :primary,
       class: :input,
       autocomplete: :off,
-      data: { form_type: :other }
+      data: {
+        form_type: :other
+      }
     ) %>
   </div>
 
@@ -61,7 +68,9 @@
         :verified,
         class: :input,
         autocomplete: :off,
-        data: { form_type: :other }
+        data: {
+          form_type: :other
+        }
       ) %>
     </div>
   <% end %>

@@ -7,7 +7,9 @@
       :job_id,
       class: :input,
       autocomplete: :off,
-      data: { form_type: :other }
+      data: {
+        form_type: :other
+      }
     ) %>
   </div>
 
@@ -18,7 +20,10 @@
         :error,
         value: error,
         autocomplete: :off,
-        data: { editor_target: :input, form_type: :other }
+        data: {
+          editor_target: :input,
+          form_type: :other
+        }
       ) %>
       <div data-editor-target="editor"></div>
     </div>
