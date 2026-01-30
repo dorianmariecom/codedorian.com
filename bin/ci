@@ -3,23 +3,21 @@
 set -e
 
 run() {
-    local name="$1"
-    shift
-    printf "%s: ..." "$name"
-    if "$@" >/dev/null 2>/dev/null; then
-        echo " success"
-    else
-        echo " failure"
-        exit 1
-    fi
+  printf "%s: ..." "$*"
+  if "$@" > /dev/null 2> /dev/null; then
+    echo " success"
+  else
+    echo " failure"
+    exit 1
+  fi
 }
 
-run "eager_load" bin/eager_load
-run "rubocop" bin/rubocop
-run "brakeman" bin/brakeman -A -q --color
-run "importmap audit" bin/importmap audit
-run "bundler audit" bin/bundler-audit check --update --quiet
-run "npm audit" npm audit
-run "secrets" bin/secrets
-run "test" bin/rails test
-run "test:system" bin/rails test:system
+run bin/eager_load
+run bin/rubocop
+run bin/brakeman -A -q --color
+run bin/importmap audit
+run bin/bundler-audit check --update --quiet
+run npm audit
+run bin/secrets
+run bin/rails test
+run bin/rails test:system

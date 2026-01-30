@@ -2,31 +2,47 @@
 
 Rails.application.config.content_security_policy do |policy|
   google_sources = %w[
-    //www.google.com
-    //www.gstatic.com
-    //www.recaptcha.net
+    https://www.google.com
+    http://www.google.com
+    https://www.gstatic.com
+    http://www.gstatic.com
+    https://www.recaptcha.net
+    http://www.recaptcha.net
   ]
 
   google_maps_sources = %w[
-    //maps.googleapis.com
-    //places.googleapis.com
-    //maps.gstatic.com
+    https://maps.googleapis.com
+    http://maps.googleapis.com
+    https://places.googleapis.com
+    http://places.googleapis.com
+    https://maps.gstatic.com
+    http://maps.gstatic.com
   ]
 
   sentry_sources = %w[
-    //js-de.sentry-cdn.com
-    //browser.sentry-cdn.com
-    //*.ingest.de.sentry.io
+    https://js-de.sentry-cdn.com
+    http://js-de.sentry-cdn.com
+    https://browser.sentry-cdn.com
+    http://browser.sentry-cdn.com
+    https://*.ingest.de.sentry.io
+    http://*.ingest.de.sentry.io
   ]
 
   hubspot_sources = %w[
-    //*.hs-analytics.net
-    //*.hs-banner.com
-    //*.hs-scripts.com
-    //*.hscollectedforms.net
-    //*.hsforms.com
-    //*.hubapi.com
-    //*.hubspot.com
+    https://*.hs-analytics.net
+    http://*.hs-analytics.net
+    https://*.hs-banner.com
+    http://*.hs-banner.com
+    https://*.hs-scripts.com
+    http://*.hs-scripts.com
+    https://*.hscollectedforms.net
+    http://*.hscollectedforms.net
+    https://*.hsforms.com
+    http://*.hsforms.com
+    https://*.hubapi.com
+    http://*.hubapi.com
+    https://*.hubspot.com
+    http://*.hubspot.com
   ]
 
   policy.default_src(
@@ -34,9 +50,12 @@ Rails.application.config.content_security_policy do |policy|
     :blob,
     :data,
     :unsafe_inline,
-    "//fonts.googleapis.com",
-    "//fonts.gstatic.com",
-    "//proxy.dorianmarie.com",
+    "https://fonts.googleapis.com",
+    "http://fonts.googleapis.com",
+    "https://fonts.gstatic.com",
+    "http://fonts.gstatic.com",
+    "https://proxy.dorianmarie.com",
+    "http://proxy.dorianmarie.com",
     *google_maps_sources,
     *google_sources,
     *hubspot_sources,
