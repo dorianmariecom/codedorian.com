@@ -15,7 +15,7 @@
   <div class="p" data-controller="password">
     <%= f.label(:password, class: :label, data: { password_target: :label }) %>
     <div class="flex gap-2 items-center">
-      <input type="hidden" autocomplete="username" />
+      <input type="hidden" autocomplete="username" data-form-type="other" />
       <%= f.password_field(
         :password,
         class: :input,
