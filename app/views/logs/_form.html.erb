@@ -4,13 +4,23 @@
 
   <div class="p">
     <%= f.label(:message, class: :label) %>
-    <%= f.text_area(:message, class: :input) %>
+    <%= f.text_area(
+      :message,
+      class: :input,
+      autocomplete: :off,
+      data: { form_type: :other }
+    ) %>
   </div>
 
   <div class="p" data-controller="editor">
     <%= f.label(:context, class: :label) %>
     <div class="border border-black rounded overflow-hidden">
-      <%= f.hidden_field(:context, value: context, data: { editor_target: :input }) %>
+      <%= f.hidden_field(
+        :context,
+        value: context,
+        autocomplete: :off,
+        data: { editor_target: :input, form_type: :other }
+      ) %>
       <div data-editor-target="editor"></div>
     </div>
     <div class="text-gray-600"><%= Faker::Internet.slug.to_json %></div>

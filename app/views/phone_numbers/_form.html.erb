@@ -2,12 +2,23 @@
   <% if admin? %>
     <div class="p">
       <%= f.label(:user_id, class: :label) %>
-      <%= f.select(:user_id, user_options(user_id: f.object.user_id), {}, class: :input) %>
+      <%= f.select(
+        :user_id,
+        user_options(user_id: f.object.user_id),
+        {},
+        class: :input,
+        autocomplete: :off,
+        data: { form_type: :other }
+      ) %>
     </div>
   <% end %>
 
   <div class="p" data-controller="phone-number">
-    <%= f.hidden_field(:phone_number, data: { phone_number_target: "hidden" }) %>
+    <%= f.hidden_field(
+      :phone_number,
+      autocomplete: :off,
+      data: { phone_number_target: "hidden", form_type: :other }
+    ) %>
     <%= f.label(
       :phone_number_input,
       class: :label,
@@ -35,13 +46,23 @@
 
   <div class="p">
     <%= f.label(:primary, class: :label) %>
-    <%= f.check_box(:primary, class: :input) %>
+    <%= f.check_box(
+      :primary,
+      class: :input,
+      autocomplete: :off,
+      data: { form_type: :other }
+    ) %>
   </div>
 
   <% if admin? %>
     <div class="p">
       <%= f.label(:verified, class: :label) %>
-      <%= f.check_box(:verified, class: :input) %>
+      <%= f.check_box(
+        :verified,
+        class: :input,
+        autocomplete: :off,
+        data: { form_type: :other }
+      ) %>
     </div>
   <% end %>
 

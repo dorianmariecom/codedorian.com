@@ -2,12 +2,12 @@
   <% if admin? %>
     <div class="p">
       <%= f.label(:admin, class: :label) %>
-      <%= f.check_box(:admin) %>
+      <%= f.check_box(:admin, autocomplete: :off, data: { form_type: :other }) %>
     </div>
 
     <div class="p">
       <%= f.label(:verified, class: :label) %>
-      <%= f.check_box(:verified) %>
+      <%= f.check_box(:verified, autocomplete: :off, data: { form_type: :other }) %>
     </div>
   <% end %>
 

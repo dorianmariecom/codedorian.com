@@ -3,7 +3,12 @@
 <% if hotwire_native_app? %>
   <div data-controller="bridge--search">
     <form data-bridge--search-target="form" data-turbo-frame="search">
-      <%= hidden_field_tag("search[q]", q, data: { bridge__search_target: "q" }) %>
+      <%= hidden_field_tag(
+        "search[q]",
+        q,
+        autocomplete: :off,
+        data: { bridge__search_target: "q", form_type: :other }
+      ) %>
     </form>
   </div>
 <% else %>
@@ -15,8 +20,10 @@
           q,
           placeholder: t(".placeholder"),
           class: :input,
+          autocomplete: :off,
           data: {
-            action: "search#search"
+            action: "search#search",
+            form_type: :other
           }
         ) %>
         <%= submit_tag(t(".submit"), class: "button") %>

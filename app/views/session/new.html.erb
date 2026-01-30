@@ -13,7 +13,8 @@
       required: true,
       data: {
         validation_target: :input,
-        action: "validation#input"
+        action: "validation#input",
+        form_type: :other
       },
       autocomplete: "email"
     ) %>
@@ -32,7 +33,8 @@
         required: true,
         data: {
           password_target: :input,
-          action: "password#input"
+          action: "password#input",
+          form_type: :other
         },
         autocomplete: "current-password"
       ) %>

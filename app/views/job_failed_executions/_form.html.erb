@@ -3,13 +3,23 @@
 
   <div class="p">
     <%= f.label(:job_id, class: :label) %>
-    <%= f.number_field(:job_id, class: :input) %>
+    <%= f.number_field(
+      :job_id,
+      class: :input,
+      autocomplete: :off,
+      data: { form_type: :other }
+    ) %>
   </div>
 
   <div class="p" data-controller="editor">
     <%= f.label(:error, class: :label) %>
     <div class="border border-black rounded overflow-hidden">
-      <%= f.hidden_field(:error, value: error, data: { editor_target: :input }) %>
+      <%= f.hidden_field(
+        :error,
+        value: error,
+        autocomplete: :off,
+        data: { editor_target: :input, form_type: :other }
+      ) %>
       <div data-editor-target="editor"></div>
     </div>
     <div class="text-gray-600"><%= Faker::Internet.slug.to_json %></div>

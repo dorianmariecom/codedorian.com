@@ -6,7 +6,9 @@
         :from_user_id,
         user_options(user_id: f.object.from_user_id),
         {},
-        class: :input
+        class: :input,
+        autocomplete: :off,
+        data: { form_type: :other }
       ) %>
     </div>
     <div class="p">
@@ -15,20 +17,32 @@
         :to_user_id,
         user_options(user_id: f.object.to_user_id),
         {},
-        class: :input
+        class: :input,
+        autocomplete: :off,
+        data: { form_type: :other }
       ) %>
     </div>
   <% end %>
 
   <div class="p" data-turbo-permanent>
     <%= f.label(:subject, class: :label) %>
-    <%= f.rich_textarea(:subject, class: :input) %>
+    <%= f.rich_textarea(
+      :subject,
+      class: :input,
+      autocomplete: :off,
+      data: { form_type: :other }
+    ) %>
     <div class="text-gray-600"><%= Faker::Lorem.sentence %></div>
   </div>
 
   <div class="p" data-turbo-permanent>
     <%= f.label(:body, class: :label) %>
-    <%= f.rich_textarea(:body, class: :input) %>
+    <%= f.rich_textarea(
+      :body,
+      class: :input,
+      autocomplete: :off,
+      data: { form_type: :other }
+    ) %>
     <div class="text-gray-600"><%= Faker::Lorem.paragraph %></div>
   </div>
 

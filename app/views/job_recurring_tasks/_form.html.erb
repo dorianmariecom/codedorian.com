@@ -10,43 +10,83 @@
 
   <div class="p">
     <%= f.label(:key, class: :label) %>
-    <%= f.text_field(:key, class: :input) %>
+    <%= f.text_field(
+      :key,
+      class: :input,
+      autocomplete: :off,
+      data: { form_type: :other }
+    ) %>
   </div>
 
   <div class="p">
     <%= f.label(:class_name, class: :label) %>
-    <%= f.text_field(:class_name, class: :input) %>
+    <%= f.text_field(
+      :class_name,
+      class: :input,
+      autocomplete: :off,
+      data: { form_type: :other }
+    ) %>
   </div>
 
   <div class="p">
     <%= f.label(:command, class: :label) %>
-    <%= f.text_field(:command, class: :input) %>
+    <%= f.text_field(
+      :command,
+      class: :input,
+      autocomplete: :off,
+      data: { form_type: :other }
+    ) %>
   </div>
 
   <div class="p">
     <%= f.label(:schedule, class: :label) %>
-    <%= f.text_field(:schedule, class: :input) %>
+    <%= f.text_field(
+      :schedule,
+      class: :input,
+      autocomplete: :off,
+      data: { form_type: :other }
+    ) %>
   </div>
 
   <div class="p">
     <%= f.label(:queue_name, class: :label) %>
-    <%= f.text_field(:queue_name, class: :input) %>
+    <%= f.text_field(
+      :queue_name,
+      class: :input,
+      autocomplete: :off,
+      data: { form_type: :other }
+    ) %>
   </div>
 
   <div class="p">
     <%= f.label(:priority, class: :label) %>
-    <%= f.number_field(:priority, class: :input) %>
+    <%= f.number_field(
+      :priority,
+      class: :input,
+      autocomplete: :off,
+      data: { form_type: :other }
+    ) %>
   </div>
 
   <div class="p">
     <%= f.label(:static, class: :label) %>
-    <%= f.check_box(:static, class: :input) %>
+    <%= f.check_box(
+      :static,
+      class: :input,
+      autocomplete: :off,
+      data: { form_type: :other }
+    ) %>
   </div>
 
   <div class="p" data-controller="editor">
     <%= f.label(:arguments, class: :label) %>
     <div class="border border-black rounded overflow-hidden">
-      <%= f.hidden_field(:arguments, value: arguments, data: { editor_target: :input }) %>
+      <%= f.hidden_field(
+        :arguments,
+        value: arguments,
+        autocomplete: :off,
+        data: { editor_target: :input, form_type: :other }
+      ) %>
       <div data-editor-target="editor"></div>
     </div>
     <div class="text-gray-600"><%= Faker::Internet.slug.to_json %></div>
@@ -54,7 +94,12 @@
 
   <div class="p">
     <%= f.label(:description, class: :label) %>
-    <%= f.text_area(:description, class: :input) %>
+    <%= f.text_area(
+      :description,
+      class: :input,
+      autocomplete: :off,
+      data: { form_type: :other }
+    ) %>
   </div>
 
   <div class="p">

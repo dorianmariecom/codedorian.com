@@ -199,7 +199,7 @@ module ApplicationHelper
     content_tag(
       :div,
       data: {
-        controller: "recaptcha",
+        controller: :recaptcha,
         action: "turbo:load@window->recaptcha#connect"
       }
     ) do
@@ -209,16 +209,20 @@ module ApplicationHelper
             "g-recaptcha-response",
             "",
             id: nil,
+            autocomplete: :off,
             data: {
-              recaptcha_target: "response"
+              recaptcha_target: :response,
+              form_type: :other
             }
           ),
           hidden_field_tag(
             "g-recaptcha-action",
             action,
             id: nil,
+            autocomplete: :off,
             data: {
-              recaptcha_target: "action"
+              recaptcha_target: :action,
+              form_type: :other
             }
           )
         ]

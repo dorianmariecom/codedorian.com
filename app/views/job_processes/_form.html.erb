@@ -10,38 +10,73 @@
 
   <div class="p">
     <%= f.label(:name, class: :label) %>
-    <%= f.text_field(:name, class: :input) %>
+    <%= f.text_field(
+      :name,
+      class: :input,
+      autocomplete: :off,
+      data: { form_type: :other }
+    ) %>
   </div>
 
   <div class="p">
     <%= f.label(:hostname, class: :label) %>
-    <%= f.text_field(:hostname, class: :input) %>
+    <%= f.text_field(
+      :hostname,
+      class: :input,
+      autocomplete: :off,
+      data: { form_type: :other }
+    ) %>
   </div>
 
   <div class="p">
     <%= f.label(:kind, class: :label) %>
-    <%= f.text_field(:kind, class: :input) %>
+    <%= f.text_field(
+      :kind,
+      class: :input,
+      autocomplete: :off,
+      data: { form_type: :other }
+    ) %>
   </div>
 
   <div class="p">
     <%= f.label(:pid, class: :label) %>
-    <%= f.number_field(:pid, class: :input) %>
+    <%= f.number_field(
+      :pid,
+      class: :input,
+      autocomplete: :off,
+      data: { form_type: :other }
+    ) %>
   </div>
 
   <div class="p">
     <%= f.label(:supervisor_id, class: :label) %>
-    <%= f.number_field(:supervisor_id, class: :input) %>
+    <%= f.number_field(
+      :supervisor_id,
+      class: :input,
+      autocomplete: :off,
+      data: { form_type: :other }
+    ) %>
   </div>
 
   <div class="p">
     <%= f.label(:last_heartbeat_at, class: :label) %>
-    <%= f.datetime_field(:last_heartbeat_at, class: :input) %>
+    <%= f.datetime_field(
+      :last_heartbeat_at,
+      class: :input,
+      autocomplete: :off,
+      data: { form_type: :other }
+    ) %>
   </div>
 
   <div class="p" data-controller="editor">
     <%= f.label(:metadata, class: :label) %>
     <div class="border border-black rounded overflow-hidden">
-      <%= f.hidden_field(:metadata, value: metadata, data: { editor_target: :input }) %>
+      <%= f.hidden_field(
+        :metadata,
+        value: metadata,
+        autocomplete: :off,
+        data: { editor_target: :input, form_type: :other }
+      ) %>
       <div data-editor-target="editor"></div>
     </div>
     <div class="text-gray-600"><%= Faker::Internet.slug.to_json %></div>

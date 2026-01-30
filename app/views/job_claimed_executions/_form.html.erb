@@ -1,12 +1,22 @@
 <%= form_for(show_url) do |f| %>
   <div class="p">
     <%= f.label(:job_id, class: :label) %>
-    <%= f.number_field(:job_id, class: :input) %>
+    <%= f.number_field(
+      :job_id,
+      class: :input,
+      autocomplete: :off,
+      data: { form_type: :other }
+    ) %>
   </div>
 
   <div class="p">
     <%= f.label(:process_id, class: :label) %>
-    <%= f.number_field(:process_id, class: :input) %>
+    <%= f.number_field(
+      :process_id,
+      class: :input,
+      autocomplete: :off,
+      data: { form_type: :other }
+    ) %>
   </div>
 
   <div class="p">

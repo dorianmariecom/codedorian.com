@@ -2,8 +2,8 @@
   class="example-schedule border-l border-black pl-5"
   data-new-record="<%= f.object.new_record? %>"
 >
-  <%= f.hidden_field(:id) %>
-  <%= f.hidden_field(:_destroy) %>
+  <%= f.hidden_field(:id, autocomplete: :off, data: { form_type: :other }) %>
+  <%= f.hidden_field(:_destroy, autocomplete: :off, data: { form_type: :other }) %>
 
   <h2 class="font-bold p"><%= t(".example_schedule") %></h2>
 

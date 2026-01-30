@@ -13,7 +13,14 @@
   <% if admin? %>
     <div class="p">
       <%= f.label(:user_id, class: :label) %>
-      <%= f.select(:user_id, user_options(user_id: f.object.user_id), {}, class: :input) %>
+      <%= f.select(
+        :user_id,
+        user_options(user_id: f.object.user_id),
+        {},
+        class: :input,
+        autocomplete: :off,
+        data: { form_type: :other }
+      ) %>
     </div>
   <% end %>
 
@@ -32,7 +39,11 @@
     <div
       class="flex-1 flex flex-col border border-black rounded overflow-hidden"
     >
-      <%= f.hidden_field(:input, data: { editor_target: :input }) %>
+      <%= f.hidden_field(
+        :input,
+        autocomplete: :off,
+        data: { editor_target: :input, form_type: :other }
+      ) %>
       <div
         class="flex-1 flex flex-col min-h-96"
         data-editor-target="editor"
