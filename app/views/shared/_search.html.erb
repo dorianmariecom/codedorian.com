@@ -2,7 +2,7 @@
 
 <% if hotwire_native_app? %>
   <div data-controller="bridge--search">
-    <form data-bridge--search-target="form" data-turbo-frame="search">
+    <form data-bridge--search-target="form" data-turbo-frame="search" data-turbo-action="advance" method="get">
       <%= hidden_field_tag(
         "search[q]",
         q,
@@ -16,7 +16,7 @@
   </div>
 <% else %>
   <div data-controller="search">
-    <form data-search-target="form" data-turbo-frame="search">
+    <form data-search-target="form" data-turbo-frame="search" data-turbo-action="advance" method="get">
       <div class="p flex gap-4">
         <%= text_field_tag(
           "search[q]",

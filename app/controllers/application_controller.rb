@@ -256,7 +256,7 @@ class ApplicationController < ActionController::Base
   end
 
   def default_url_options
-    { locale: locale_param }
+    super.merge(locale: locale_param)
   end
 
   def recaptcha_site_key

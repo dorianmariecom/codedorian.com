@@ -1,12 +1,7 @@
 # frozen_string_literal: true
 
-class AdminConstraints
-  def matches?(request)
-    User.find_by(id: request.session[:user_id])&.admin?
-  end
-end
-
 Rails.application.routes.draw do
+  mount(Blazer::Engine, at: :blazer)
   mount(ActionCable.server => "/cable")
 
   define_all_delete =
@@ -366,8 +361,6 @@ Rails.application.routes.draw do
       define_jobs.call
       define_logs_versions.call
     end
-
-  default_url_options(host: ENV.fetch("BASE_URL", nil))
 
   scope("(:locale)", locale: /en|fr|/) do
     resources(:guests) do

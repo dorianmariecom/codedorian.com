@@ -4,9 +4,10 @@ source "https://rubygems.org"
 
 ruby "3.4.5"
 
-gem "activerecord-session_store"
 gem "active_storage_validations"
+gem "activerecord-session_store"
 gem "bcrypt"
+gem "blazer"
 gem "brakeman"
 gem "browser"
 gem "bundle-audit"
