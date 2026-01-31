@@ -50,6 +50,7 @@ Rails.application.config.content_security_policy do |policy|
     :blob,
     :data,
     :unsafe_inline,
+    :unsafe_eval,
     "https://fonts.googleapis.com",
     "http://fonts.googleapis.com",
     "https://fonts.gstatic.com",

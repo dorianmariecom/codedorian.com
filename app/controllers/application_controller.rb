@@ -75,7 +75,7 @@ class ApplicationController < ActionController::Base
             status: :bad_request
           )
         end
-        format.any { redirect_to(root_path, alert: error_message_for(error)) }
+        format.any { redirect_to(main_app.root_path, alert: error_message_for(error)) }
       end
     end
 
@@ -105,13 +105,28 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user!
+    set_current_user
+
     return if current_user?
 
     message = alert = t("application.current_user_required")
 
     respond_to do |format|
       format.json { render(json: { message: message }, status: :unauthorized) }
-      format.any { redirect_to(root_path, alert: alert) }
+      format.any { redirect_to(main_app.root_path, alert: alert) }
+    end
+  end
+
+  def current_admin!
+    set_current_user
+
+    return if current_user? && admin?
+
+    message = alert = t("application.current_admin_required")
+
+    respond_to do |format|
+      format.json { render(json: { message: message }, status: :unauthorized) }
+      format.any { redirect_to(main_app.root_path, alert: alert) }
     end
   end
 
@@ -404,7 +419,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_breadcrumbs
-    @breadcrumbs = [{ text: t("breadcrumbs.static.home"), path: root_path }]
+    @breadcrumbs = [{ text: t("breadcrumbs.static.home"), path: main_app.root_path }]
   end
 
   def add_breadcrumb(

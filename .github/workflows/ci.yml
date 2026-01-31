@@ -53,6 +53,7 @@ jobs:
   deploy-production:
     env:
       BASE_URL: "${{secrets.PRODUCTION_BASE_URL}}"
+      BLAZER_DATABASE_URL: "${{secrets.PRODUCTION_BLAZER_DATABASE_URL}}"
       CODE_ENV: "${{secrets.PRODUCTION_CODE_ENV}}"
       DATABASE_URL: "${{secrets.PRODUCTION_DATABASE_URL}}"
       HOST: "${{secrets.PRODUCTION_HOST}}"
@@ -82,6 +83,7 @@ jobs:
   deploy-staging:
     env:
       BASE_URL: "${{secrets.STAGING_BASE_URL}}"
+      BLAZER_DATABASE_URL: "${{secrets.STAGING_BLAZER_DATABASE_URL}}"
       CODE_ENV: "${{secrets.STAGING_CODE_ENV}}"
       DATABASE_URL: "${{secrets.STAGING_DATABASE_URL}}"
       HOST: "${{secrets.STAGING_HOST}}"

@@ -237,6 +237,7 @@ fr:
       notice: adresse mise à jour
   application:
     current_user_required: utilisateur actuel requis
+    current_admin_required: administrateur actuel requis
   breadcrumbs:
     addresses:
       edit: modifier

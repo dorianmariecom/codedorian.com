@@ -1,0 +1,17 @@
+data_sources:
+  main:
+    url: <%= ENV["BLAZER_DATABASE_URL"] %>
+    use_transaction: false
+audit: true
+time_zone: "Europe/Paris"
+user_class: User
+user_method: current_user
+user_name: to_s
+before_action_method: current_admin!
+from_email: dorian@dorianmarie.com
+check_schedules:
+  - "1 day"
+  - "1 hour"
+  - "5 minutes"
+anomaly_checks: prophet
+forecasting: prophet
