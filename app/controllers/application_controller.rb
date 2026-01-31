@@ -75,7 +75,9 @@ class ApplicationController < ActionController::Base
             status: :bad_request
           )
         end
-        format.any { redirect_to(main_app.root_path, alert: error_message_for(error)) }
+        format.any do
+          redirect_to(main_app.root_path, alert: error_message_for(error))
+        end
       end
     end
 
@@ -419,7 +421,9 @@ class ApplicationController < ActionController::Base
   end
 
   def set_breadcrumbs
-    @breadcrumbs = [{ text: t("breadcrumbs.static.home"), path: main_app.root_path }]
+    @breadcrumbs = [
+      { text: t("breadcrumbs.static.home"), path: main_app.root_path }
+    ]
   end
 
   def add_breadcrumb(

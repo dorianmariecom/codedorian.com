@@ -235,8 +235,8 @@ en:
     update:
       notice: address updated
   application:
-    current_user_required: current user required
     current_admin_required: current admin required
+    current_user_required: current user required
   breadcrumbs:
     addresses:
       edit: edit
