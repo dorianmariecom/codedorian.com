@@ -194,8 +194,25 @@ module ScheduleConcern
     if once?
       starts_at
     elsif count?
-      at = starts_at
-      at += duration while at.past?
+      now = Time.zone.now
+      return starts_at if starts_at >= now
+
+      if month_based_interval?
+        interval_months = interval_months_count
+        months_diff =
+          ((now.year * 12) + now.month) -
+            ((starts_at.year * 12) + starts_at.month)
+        steps = months_diff / interval_months
+        at = starts_at.advance(months: steps * interval_months)
+        at = at.advance(months: interval_months) if at < now
+      else
+        interval_seconds = duration.to_i
+        elapsed = now.to_i - starts_at.to_i
+        steps = elapsed / interval_seconds
+        at = starts_at + (steps * interval_seconds)
+        at += interval_seconds if at < now
+      end
+
       at
     else
       weekday = WEEKDAYS.index(per)
@@ -215,12 +232,24 @@ module ScheduleConcern
     if once?
       starts_at
     elsif count?
-      at = starts_at
-      return at if at.future?
-
       now = Time.zone.now
-      at += duration while (at + duration) <= now
-      at
+      return starts_at if starts_at > now
+
+      if month_based_interval?
+        interval_months = interval_months_count
+        months_diff =
+          ((now.year * 12) + now.month) -
+            ((starts_at.year * 12) + starts_at.month)
+        steps = months_diff / interval_months
+        at = starts_at.advance(months: steps * interval_months)
+        at = at.advance(months: -interval_months) if at > now
+        at
+      else
+        interval_seconds = duration.to_i
+        elapsed = now.to_i - starts_at.to_i
+        steps = elapsed / interval_seconds
+        starts_at + (steps * interval_seconds)
+      end
     else
       weekday = WEEKDAYS.index(per)
       threshold = [starts_at, Time.zone.now].max
@@ -268,5 +297,15 @@ module ScheduleConcern
       sec: starts_at.sec,
       usec: starts_at.usec
     )
+  end
+
+  def month_based_interval?
+    per.in?(%w[month months year years])
+  end
+
+  def interval_months_count
+    return count * 12 if per.in?(%w[year years])
+
+    count
   end
 end
