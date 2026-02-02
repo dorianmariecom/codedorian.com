@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_02_201458) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_02_201459) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -181,6 +181,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_02_201458) do
     t.boolean "primary", default: false, null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
+    t.string "verification_code", default: "", null: false
     t.boolean "verified", default: false, null: false
     t.index %w[user_id verified primary],
             name: "index_email_addresses_on_user_id_and_verified_and_primary"
@@ -236,6 +237,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_02_201458) do
     t.datetime "created_at", null: false
     t.text "message"
     t.datetime "updated_at", null: false
+    t.index ["context"],
+            name: "index_logs_on_context",
+            opclass: :jsonb_path_ops,
+            using: :gin
   end
 
   create_table "messages", force: :cascade do |t|
@@ -279,6 +284,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_02_201458) do
     t.boolean "primary", default: false, null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
+    t.string "verification_code", default: "", null: false
     t.boolean "verified", default: false, null: false
     t.index %w[user_id verified primary],
             name: "index_phone_numbers_on_user_id_and_verified_and_primary"
@@ -430,7 +436,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_02_201458) do
 
   create_table "solid_cable_messages", force: :cascade do |t|
     t.binary "channel", null: false
-    t.bigint "channel_hash"
+    t.bigint "channel_hash", null: false
     t.datetime "created_at", null: false
     t.binary "payload", null: false
     t.index ["channel"], name: "index_solid_cable_messages_on_channel"
