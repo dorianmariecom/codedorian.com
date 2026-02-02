@@ -28,9 +28,16 @@ class ErrorOccurrence < SolidErrors::Occurrence
     token
     user
   ].each do |model|
-    scope(:"where_#{model}", ->(instance) { where(<<~SQL.squish, instance) })
-      (solid_errors_occurrences.context->'#{model}'->>'id') = ?
-    SQL
+    scope(
+      :"where_#{model}",
+      ->(instance) do
+        value = instance.respond_to?(:id) ? instance.id : instance
+        where(
+          "solid_errors_occurrences.context @> ?",
+          { model => { id: value } }.to_json
+        )
+      end
+    )
   end
 
   scope(:where_error, ->(error) { where(error: error) })

@@ -35,9 +35,13 @@ class JobContext < ApplicationRecord
     token
     user
   ].each do |model|
-    scope(:"where_#{model}", ->(instance) { where(<<~SQL.squish, instance) })
-      (job_contexts.context->'#{model}'->>'id') = ?
-    SQL
+    scope(
+      :"where_#{model}",
+      ->(instance) do
+        value = instance.respond_to?(:id) ? instance.id : instance
+        where("job_contexts.context @> ?", { model => { id: value } }.to_json)
+      end
+    )
   end
 
   validate(:parse_and_validate_context, on: :controller)

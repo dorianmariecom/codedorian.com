@@ -30,9 +30,13 @@ class Error < SolidErrors::Error
   ].each do |model|
     scope(
       :"where_#{model}",
-      ->(instance) { joins(:error_occurrences).where(<<~SQL.squish, instance) }
-      (solid_errors_occurrences.context->'#{model}'->>'id') = ?
-    SQL
+      ->(instance) do
+        value = instance.respond_to?(:id) ? instance.id : instance
+        joins(:error_occurrences).where(
+          "solid_errors_occurrences.context @> ?",
+          { model => { id: value } }.to_json
+        )
+      end
     )
   end
 

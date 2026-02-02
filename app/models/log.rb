@@ -46,7 +46,10 @@ class Log < ApplicationRecord
   ].each do |model|
     scope(
       :"where_#{model}",
-      ->(record) { where("logs.context->'#{model}'->>'id' = ?", record) }
+      ->(record) do
+        value = record.respond_to?(:id) ? record.id : record
+        where("logs.context @> ?", { model => { id: value } }.to_json)
+      end
     )
   end
 

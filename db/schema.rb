@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_31_084143) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_02_201458) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -471,10 +471,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_31_084143) do
 
   create_table "solid_errors_occurrences", force: :cascade do |t|
     t.text "backtrace"
-    t.json "context"
+    t.jsonb "context"
     t.datetime "created_at", null: false
     t.bigint "error_id", null: false
     t.datetime "updated_at", null: false
+    t.index ["context"],
+            name: "index_solid_errors_occurrences_on_context_gin",
+            using: :gin
     t.index ["error_id"], name: "index_solid_errors_occurrences_on_error_id"
   end
 
