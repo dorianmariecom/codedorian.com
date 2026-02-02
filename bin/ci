@@ -14,7 +14,7 @@ run() {
 
 run bin/eager_load
 run bin/rubocop
-run bin/brakeman -A -q --color
+run bin/brakeman --run-all-checks
 run bin/importmap audit
 run bin/bundler-audit check --update --quiet
 run npm audit
