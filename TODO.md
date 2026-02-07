@@ -1,3 +1,5 @@
 - cache crud
 - cable crud
 - jobs associated models
+- dorian#.thomas
+- nothing&.to_time
