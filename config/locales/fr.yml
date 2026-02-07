@@ -154,12 +154,6 @@ fr:
         program_id: programme
         result: résultat
         status: statut
-      program_prompt:
-        input: entrée
-        name: nom
-        program_id: programme
-        status: statut
-        user_id: utilisateur
       program_schedule:
         interval: intervalle
         program_id: programme
@@ -365,14 +359,6 @@ fr:
       edit: modifier
       index: exécutions de programmes
       new: nouvelle
-    program_prompt_schedules:
-      edit: modifier
-      index: horaires des invites de programmes
-      new: nouvelle
-    program_prompts:
-      edit: modifier
-      index: invites de programmes
-      new: nouveau
     program_schedules:
       edit: modifier
       index: horaires de programmes
@@ -2087,184 +2073,6 @@ fr:
       versions: versions
     update:
       notice: exécution du programme mise à jour
-  program_prompt_schedules:
-    create:
-      notice: horaire d'invite de programme créé
-    delete_all:
-      notice: horaires d'invite de programme supprimés
-    destroy:
-      notice: horaire d'invite de programme supprimé
-    destroy_all:
-      notice: horaires d'invite de programme détruits
-    edit:
-      description: mettre à jour un horaire d'invite de programme.
-      submit: horaire de mise à jour du programme
-      title: modifier l'horaire d'invite de programme
-    index:
-      delete_all: supprimer tout
-      description: gérer les horaires d'invite de programme.
-      destroy_all: détruire tout
-      new: nouvel horaire  d'invite de programmes
-      title: horaires des invites du programme
-    model:
-      days:
-        one: 1 jour
-        other: "%{count} jours"
-        zero: 0 jours
-      first_friday: premier vendredi
-      first_monday: premier lundi
-      first_saturday: premier samedi
-      first_sunday: premier dimanche
-      first_thursday: premier jeudi
-      first_tuesday: premier mardi
-      first_wednesday: premier mercredi
-      fourth_friday: quatrième vendredi
-      fourth_monday: quatrième lundi
-      fourth_saturday: quatrième samedi
-      fourth_sunday: quatrième dimanche
-      fourth_thursday: quatrième jeudi
-      fourth_tuesday: quatrième mardi
-      fourth_wednesday: quatrième mercredi
-      hours:
-        one: 1 heure
-        other: "%{count} heures"
-        zero: 0 heures
-      minutes:
-        one: 1 minute
-        other: "%{count} minutes"
-        zero: 0 minutes
-      months:
-        one: 1 mois
-        other: "%{count} mois"
-        zero: 0 mois
-      once: une fois
-      second_friday: deuxième vendredi
-      second_monday: deuxième lundi
-      second_saturday: deuxième samedi
-      second_sunday: deuxième dimanche
-      second_thursday: deuxième jeudi
-      second_tuesday: deuxième mardi
-      second_wednesday: deuxième mercredi
-      seconds:
-        one: 1 seconde
-        other: "%{count} secondes"
-        zero: 0 seconde
-      third_friday: troisième vendredi
-      third_monday: troisième lundi
-      third_saturday: troisième samedi
-      third_sunday: troisième dimanche
-      third_thursday: troisième jeudi
-      third_tuesday: troisième mardi
-      third_wednesday: troisième mercredi
-      to_s: programme_invite_horaire#%{id}
-      weeks:
-        one: 1 semaine
-        other: "%{count} semaines"
-        zero: 0 semaines
-      years:
-        one: 1 an
-        other: "%{count} ans"
-        zero: 0 ans
-    nested:
-      add: ajouter un horaire d'invite de planification
-    nested_form:
-      program_prompt_schedule: horaire d'invite de programme
-      remove: supprimer l'horaire de l'invite du programme
-    new:
-      description: créer un nouvel horaire d'invite.
-      submit: créer un horaire d'invite de programme
-      title: nouvel horaire des invites du programme
-    program_prompt_schedule:
-      schedule_html: commence %{local_time}, se répète tous les %{interval}
-      schedule_once_html: commence %{local_time}, ne se répète pas
-    show:
-      created_at: créé à
-      delete: supprimer l'horaire d'invite de programme
-      description: voir le timing et les paramètres de l'horaire.
-      destroy: détruire l'horaire d'invite de programme
-      edit: modifier le programme d'invite de programmation
-      id: identifiant
-      interval: intervalle
-      logs: logs
-      new_log: nouveau log
-      new_version: nouvelle version
-      program: programme
-      program_prompt: rapide
-      schedule_html: commence %{local_time}, se répète tous les %{interval}
-      schedule_once_html: commence %{local_time}, ne se répète pas
-      starts_at: commence à
-      updated_at: mis à jour à
-      user: utilisateur
-      versions: versions
-    update:
-      notice: horaire d'invite de programme mis à jour
-  program_prompts:
-    create:
-      notice: invite du programme créée
-    delete_all:
-      notice: invites du programme supprimées
-    destroy:
-      notice: invite du programme supprimée
-    destroy_all:
-      notice: invites du programme détruites
-    edit:
-      description: mettre à jour une invite et son entrée.
-      submit: mettre à jour l'invite de programme
-      title: modifier l'invite de programme
-    index:
-      delete_all: supprimer tout
-      description: parcourir les invites de programme et leurs horaires.
-      destroy_all: détruire tout
-      new: nouvelle invite de programme
-      program_prompt_schedules:
-        one: 1 programme d'invite de programme
-        other: "%{count} horaires d'invite du programme"
-        zero: 0 horaires d'invite de programme
-      title: invites du programme
-    model:
-      statuses:
-        created: créé
-        done: fait
-        errored: erroné
-        in_progress: en cours
-        initialized: initialisé
-      to_s: invite_de_programme#%{id}
-    new:
-      description: créer une nouvelle invite de programme.
-      submit: créer l'invite de programme
-      title: nouvelle invite de programme
-    show:
-      backtrace: trace
-      created_at: créé à
-      delete: supprimer l'invite de programme
-      description: voir l'entrée, la sortie et le statut de l'invite.
-      destroy: détruire l'invite de programme
-      edit: modifier l'invite de programme
-      error: erreur
-      error_app_backtrace: erreur de trace d'application
-      error_backtrace: trace d'erreur
-      error_class: classe d'erreur
-      error_message: message d'erreur
-      id: identifiant
-      input: entrée
-      logs: logs
-      name: nom
-      new_log: nouveau log
-      new_program_prompt_schedule: nouvel horaire
-      new_version: nouvelle version
-      output: sortie
-      output_input: sortie entrée
-      output_name: sortie nom
-      output_schedule: 'intervalle : %{interval}, commence à : %{starts_at}'
-      output_schedules: sortie horaires
-      program: programme
-      program_prompt_schedules: horaires des invites du programme
-      status: statut
-      updated_at: mis à jour à
-      user: utilisateur
-      versions: versions
-    update:
-      notice: invite du programme mise à jour
   program_schedules:
     create:
       notice: horaire de programmes créée
@@ -2404,9 +2212,6 @@ fr:
       title: modifier le programme
     evaluate:
       notice: programme évalué
-    form:
-      generate: générer
-      generating: génération
     index:
       data:
         one: 1 donnée
@@ -2424,14 +2229,6 @@ fr:
         one: 1 exécution de programme
         other: "%{count} exécutions de programme"
         zero: 0 exécutions de programme
-      program_prompt_schedules:
-        one: 1 horaire d'invite de programme
-        other: "%{count} horaires d'invite de programme"
-        zero: 0 horaires d'invite de programme
-      program_prompts:
-        one: 1 invite de programme
-        other: "%{count} invites de programme"
-        zero: 0 invites de programme
       program_schedules:
         one: 1 horaire de programmes
         other: "%{count} horaires de programmes"
@@ -2461,15 +2258,11 @@ fr:
       logs: logs
       name: nom
       new_log: nouveau log
-      new_program_prompt: invite de nouveau programme
-      new_program_prompt_schedule: nouveau horaire des invites du programme
       new_program_schedule: nouvelle horaire de programmes
       new_version: nouvelle version
       next_at: prochain à
       previous_at: précédent à
       program_executions: exécutions de programmes
-      program_prompt_schedules: horaires des invites du programme
-      program_prompts: invites du programme
       program_schedules: horaires de programmes
       schedule: programmer
       scheduled: programmé
@@ -2566,8 +2359,6 @@ fr:
       phone_number: numéro de téléphone
       program: programme
       program_execution: éxécution de programme
-      program_prompt: invite de programme
-      program_prompt_schedule: horaire d'invite de programme
       program_schedule: horaire de programme
       time_zone: fuseau horaire
       token: jeton
@@ -2597,8 +2388,6 @@ fr:
       new_phone_number: nouveau numéro de téléphone
       new_program: nouveau programme
       new_program_execution: nouvelle exécution de programme
-      new_program_prompt: nouvel invite de programme
-      new_program_prompt_schedule: nouvel horaire d'invite de programme
       new_program_schedule: nouvel horaire de programme
       new_session: nouvelle session
       new_time_zone: nouveau fuseau horaire
@@ -2606,8 +2395,6 @@ fr:
       passwords: mots de passe
       phone_numbers: numéros de téléphone
       program_executions: exécutions de programmes
-      program_prompt_schedules: horaires des invites de programmes
-      program_prompts: invites du programme
       program_schedules: horaires de programmes
       programs: programmes
       sessions: sessions
@@ -2681,8 +2468,6 @@ fr:
       passwords: mots de passe
       phone_numbers: numéros de téléphone
       program_executions: exécutions de programmes
-      program_prompt_schedules: horaires des invites de programmes
-      program_prompts: invites de programmes
       program_schedules: horaires de programmes
       programs: programmes
       sessions: sessions

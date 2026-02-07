@@ -162,50 +162,6 @@
   }
 ) %>
 
-<div class="p font-bold">
-  <%= link_to(
-    t(".program_prompts"),
-    [@user, @program, :program_prompts],
-    class: :link
-  ) %>
-</div>
-
-<%= render_collection(
-  partial: "program_prompts/program_prompt",
-  collection: @program_prompts,
-  as: :program_prompt,
-  locals: {
-    nested: [@user, @program]
-  }
-) %>
-
-<div class="p font-bold">
-  <%= link_to(
-    t(".program_prompt_schedules"),
-    [@user, @program, :program_prompt_schedules],
-    class: :link
-  ) %>
-</div>
-
-<% if can?(:create, ProgramPromptSchedule) %>
-  <div class="p">
-    <%= link_to(
-      t(".new_program_prompt_schedule"),
-      [:new, @user, @program, :program_prompt_schedule],
-      class: "button"
-    ) %>
-  </div>
-<% end %>
-
-<%= render_collection(
-  partial: "program_prompt_schedules/program_prompt_schedule",
-  collection: @program_prompt_schedules,
-  as: :program_prompt_schedule,
-  locals: {
-    nested: [@user, @program]
-  }
-) %>
-
 <% if can?(:index, Version) %>
   <div class="p font-bold">
     <%= link_to(t(".versions"), [@user, @program, :versions], class: :link) %>

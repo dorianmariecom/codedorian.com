@@ -140,8 +140,6 @@
 <%= render("shared/list", user: @user, model: Program) %>
 <%= render("shared/list", user: @user, model: ProgramExecution) %>
 <%= render("shared/list", user: @user, model: ProgramSchedule) %>
-<%= render("shared/list", user: @user, model: ProgramPrompt) %>
-<%= render("shared/list", user: @user, model: ProgramPromptSchedule) %>
 <% if admin? %>
   <%= render("shared/list", user: @user, model: ::Error) %>
   <%= render("shared/list", user: @user, model: ErrorOccurrence) %>

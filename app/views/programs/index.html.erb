@@ -18,31 +18,11 @@
   </div>
 <% end %>
 
-<% if @program_prompts.any? %>
-  <div class="p p--flex">
-    <%= link_to(
-      t(".program_prompts", count: @program_prompts.size),
-      [@user || @guest, :program_prompts],
-      class: :link
-    ) %>
-  </div>
-<% end %>
-
 <% if @program_schedules.any? %>
   <div class="p p--flex">
     <%= link_to(
       t(".program_schedules", count: @program_schedules.size),
       [@user || @guest, :program_schedules],
-      class: :link
-    ) %>
-  </div>
-<% end %>
-
-<% if @program_prompt_schedules.any? %>
-  <div class="p p--flex">
-    <%= link_to(
-      t(".program_prompt_schedules", count: @program_prompt_schedules.size),
-      [@user || @guest, :program_prompt_schedules],
       class: :link
     ) %>
   </div>

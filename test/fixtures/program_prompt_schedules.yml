@@ -1,7 +1,0 @@
----
-program_prompt_schedule:
-  created_at: '2025-02-10 07:55:00'
-  interval: 1 day
-  program_prompt: program_prompt
-  starts_at: '2025-02-11 09:00:00'
-  updated_at: '2025-02-10 07:55:00'

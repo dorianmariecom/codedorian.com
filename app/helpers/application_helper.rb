@@ -101,26 +101,10 @@ module ApplicationHelper
     end
   end
 
-  def program_prompt_schedule_interval_options(interval: nil)
-    ProgramPromptSchedule.interval_options.map do |label, value|
-      [label, value, { selected: value == interval }]
-    end
-  end
-
   def program_execution_status_options(status: nil)
     ProgramExecution::STATUSES.map do |option_status|
       [
         t("program_executions.model.statuses.#{option_status}"),
-        option_status,
-        { selected: option_status == status }
-      ]
-    end
-  end
-
-  def program_prompt_status_options(status: nil)
-    ProgramPrompt::STATUSES.map do |option_status|
-      [
-        t("program_prompts.model.statuses.#{option_status}"),
         option_status,
         { selected: option_status == status }
       ]

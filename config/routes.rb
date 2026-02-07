@@ -150,24 +150,6 @@ Rails.application.routes.draw do
         define_all_delete.call(:destroy, :programs)
         define_all_delete.call(:delete, :programs)
 
-        resources(:program_prompts) do
-          define_delete_destroy.call
-          define_logs_versions.call
-          define_all_delete.call(:destroy, :program_prompts)
-          define_all_delete.call(:delete, :program_prompts)
-
-          resources(:program_prompt_schedules) do
-            define_delete_destroy.call
-            define_logs_versions.call
-            define_all_delete.call(:destroy, :program_prompt_schedules)
-            define_all_delete.call(:delete, :program_prompt_schedules)
-
-            define_errors.call
-          end
-
-          define_errors.call
-        end
-
         resources(:program_executions) do
           define_delete_destroy.call
           define_logs_versions.call
@@ -182,15 +164,6 @@ Rails.application.routes.draw do
           define_logs_versions.call
           define_all_delete.call(:destroy, :program_schedules)
           define_all_delete.call(:delete, :program_schedules)
-
-          define_errors.call
-        end
-
-        resources(:program_prompt_schedules) do
-          define_delete_destroy.call
-          define_logs_versions.call
-          define_all_delete.call(:destroy, :program_prompt_schedules)
-          define_all_delete.call(:delete, :program_prompt_schedules)
 
           define_errors.call
         end
@@ -326,33 +299,6 @@ Rails.application.routes.draw do
         define_logs_versions.call
         define_all_delete.call(:destroy, :sessions)
         define_all_delete.call(:delete, :sessions)
-      end
-
-      resources(:program_prompt_schedules) do
-        define_delete_destroy.call
-        define_logs_versions.call
-        define_all_delete.call(:destroy, :program_prompt_schedules)
-        define_all_delete.call(:delete, :program_prompt_schedules)
-
-        define_errors.call
-      end
-
-      resources(:program_prompts) do
-        define_delete_destroy.call
-        define_logs_versions.call
-        define_all_delete.call(:destroy, :program_prompts)
-        define_all_delete.call(:delete, :program_prompts)
-
-        resources(:program_prompt_schedules) do
-          define_delete_destroy.call
-          define_logs_versions.call
-          define_all_delete.call(:destroy, :program_prompt_schedules)
-          define_all_delete.call(:delete, :program_prompt_schedules)
-
-          define_errors.call
-        end
-
-        define_errors.call
       end
 
       define_job_execution_resources.call

@@ -4,7 +4,6 @@ class JobsController < ApplicationController
   before_action(:load_guest)
   before_action(:load_user)
   before_action(:load_program)
-  before_action(:load_program_prompt)
   before_action { add_breadcrumb(key: "jobs.index", path: index_url) }
   before_action(
     :load_job,
@@ -180,22 +179,6 @@ class JobsController < ApplicationController
     add_breadcrumb(text: @program, path: [@user, @program])
   end
 
-  def load_program_prompt
-    return if params[:program_prompt_id].blank?
-
-    @program_prompt = program_prompts_scope.find(params[:program_prompt_id])
-
-    set_context(program_prompt: @program_prompt)
-    add_breadcrumb(
-      key: "program_prompts.index",
-      path: [@user, :program_prompts]
-    )
-    add_breadcrumb(
-      text: @program_prompt,
-      path: [@user, @program, @program_prompt]
-    )
-  end
-
   def load_job
     @job = authorize(scope.find(id))
 
@@ -210,9 +193,7 @@ class JobsController < ApplicationController
   def scope
     scope = searched_policy_scope(Job)
 
-    if @program_prompt
-      scope = scope.where_program_prompt(@program_prompt)
-    elsif @program
+    if @program
       scope = scope.where_program(@program)
     elsif @user
       scope = scope.where_user(@user)
@@ -232,23 +213,11 @@ class JobsController < ApplicationController
     scope
   end
 
-  def program_prompts_scope
-    scope = policy_scope(ProgramPrompt)
-
-    scope = scope.where_guest(@guest) if @guest
-    scope = scope.where_user(@user) if @user
-    scope = scope.where_program(@program) if @program
-
-    scope
-  end
-
   def job_contexts_scope
     scope = policy_scope(JobContext)
 
     if @job
       scope = scope.where_job(@job)
-    elsif @program_prompt
-      scope = scope.where_program_prompt(@program_prompt)
     elsif @program
       scope = scope.where_program(@program)
     elsif @user
@@ -277,8 +246,6 @@ class JobsController < ApplicationController
 
     if @job
       scope = scope.where_job(@job)
-    elsif @program_prompt
-      scope = scope.where_program_prompt(@program_prompt)
     elsif @program
       scope = scope.where_program(@program)
     elsif @user
@@ -295,8 +262,6 @@ class JobsController < ApplicationController
 
     if @job
       scope = scope.where_job(@job)
-    elsif @program_prompt
-      scope = scope.where_program_prompt(@program_prompt)
     elsif @program
       scope = scope.where_program(@program)
     elsif @user
@@ -313,8 +278,6 @@ class JobsController < ApplicationController
 
     if @job
       scope = scope.where_job(@job)
-    elsif @program_prompt
-      scope = scope.where_program_prompt(@program_prompt)
     elsif @program
       scope = scope.where_program(@program)
     elsif @user
@@ -331,8 +294,6 @@ class JobsController < ApplicationController
 
     if @job
       scope = scope.where_job(@job)
-    elsif @program_prompt
-      scope = scope.where_program_prompt(@program_prompt)
     elsif @program
       scope = scope.where_program(@program)
     elsif @user
@@ -349,8 +310,6 @@ class JobsController < ApplicationController
 
     if @job
       scope = scope.where_job(@job)
-    elsif @program_prompt
-      scope = scope.where_program_prompt(@program_prompt)
     elsif @program
       scope = scope.where_program(@program)
     elsif @user
@@ -367,8 +326,6 @@ class JobsController < ApplicationController
 
     if @job
       scope = scope.where_job(@job)
-    elsif @program_prompt
-      scope = scope.where_program_prompt(@program_prompt)
     elsif @program
       scope = scope.where_program(@program)
     elsif @user
@@ -400,17 +357,12 @@ class JobsController < ApplicationController
     @job
   end
 
-  def nested(
-    user: @user,
-    guest: @guest,
-    program: @program,
-    program_prompt: @program_prompt
-  )
-    [user || guest, program, program_prompt].compact
+  def nested(user: @user, guest: @guest, program: @program)
+    [user || guest, program].compact
   end
 
   def filters
-    %i[user program program_prompt]
+    %i[user program]
   end
 
   def job_params

@@ -26,8 +26,6 @@ class JobFailedExecution < SolidQueue::FailedExecution
     phone_number
     program
     program_execution
-    program_prompt
-    program_prompt_schedule
     program_schedule
     time_zone
     token

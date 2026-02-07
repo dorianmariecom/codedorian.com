@@ -13,10 +13,8 @@ class ProgramsController < ApplicationController
     authorize(Program)
 
     @programs = scope.page(params[:page]).order(name: :asc)
-    @program_prompts = program_prompts_scope
     @program_schedules = program_schedules_scope
     @program_executions = program_executions_scope
-    @program_prompt_schedules = program_prompt_schedules_scope
     @data = data_scope
     @examples = examples_scope
   end
@@ -27,12 +25,6 @@ class ProgramsController < ApplicationController
 
     @program_schedules =
       program_schedules_scope.order(created_at: :asc).page(params[:page])
-
-    @program_prompts =
-      program_prompts_scope.order(created_at: :asc).page(params[:page])
-
-    @program_prompt_schedules =
-      program_prompt_schedules_scope.order(created_at: :asc).page(params[:page])
 
     @versions = versions_scope.order(created_at: :desc).page(params[:page])
 
@@ -87,37 +79,7 @@ class ProgramsController < ApplicationController
     if @program.save(context: :controller)
       log_in(@program.user)
       @user = @program.user
-
-      if generate?
-        @user = @program.user
-        @program_prompt =
-          authorize(program_prompts_scope.new(program_prompt_params))
-
-        if @program_prompt.save(context: :controller)
-          perform_later(
-            ProgramPromptGenerateJob,
-            arguments: {
-              program_prompt: @program_prompt
-            },
-            context: {
-              current_user: current_user,
-              user: @user,
-              program: @program,
-              program_prompt: @program_prompt
-            },
-            current: {
-              user: current_user,
-              program: @program
-            }
-          )
-        else
-          flash.now.alert = @program_prompt.alert
-        end
-
-        redirect_to(edit_url, notice: t(".notice"))
-      else
-        redirect_to(show_url, notice: t(".notice"))
-      end
+      redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @program.alert
       render(:new, status: :unprocessable_content)
@@ -130,36 +92,7 @@ class ProgramsController < ApplicationController
     if @program.save(context: :controller)
       log_in(@program.user)
       @user = @program.user
-
-      if generate?
-        @program_prompt =
-          authorize(program_prompts_scope.new(program_prompt_params), :create?)
-
-        if @program_prompt.save(context: :controller)
-          perform_later(
-            ProgramPromptGenerateJob,
-            arguments: {
-              program_prompt: @program_prompt
-            },
-            context: {
-              current_user: current_user,
-              user: @user,
-              program: @program,
-              program_prompt: @program_prompt
-            },
-            current: {
-              user: current_user,
-              program: @program
-            }
-          )
-        else
-          flash.now.alert = @program_prompt.alert
-        end
-
-        head(:no_content)
-      else
-        redirect_to(show_url, notice: t(".notice"))
-      end
+      redirect_to(show_url, notice: t(".notice"))
     else
       flash.now.alert = @program.alert
       render(:edit, status: :unprocessable_content)
@@ -252,14 +185,6 @@ class ProgramsController < ApplicationController
     scope
   end
 
-  def program_prompts_scope
-    scope = policy_scope(ProgramPrompt)
-    scope = scope.where_guest(@guest) if @guest
-    scope = scope.where_user(@user) if @user
-    scope = scope.where_program(@program) if @program
-    scope
-  end
-
   def program_schedules_scope
     scope = policy_scope(ProgramSchedule)
     scope = scope.where_guest(@guest) if @guest
@@ -270,14 +195,6 @@ class ProgramsController < ApplicationController
 
   def program_executions_scope
     scope = policy_scope(ProgramExecution)
-    scope = scope.where_guest(@guest) if @guest
-    scope = scope.where_user(@user) if @user
-    scope = scope.where_program(@program) if @program
-    scope
-  end
-
-  def program_prompt_schedules_scope
-    scope = policy_scope(ProgramPromptSchedule)
     scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope = scope.where_program(@program) if @program
@@ -333,10 +250,6 @@ class ProgramsController < ApplicationController
     add_breadcrumb(text: @program, path: show_url)
   end
 
-  def generate?
-    params.dig(:program, :generate).present?
-  end
-
   def program_params
     if admin?
       params.expect(
@@ -355,37 +268,6 @@ class ProgramsController < ApplicationController
           { program_schedules_attributes: [%i[id _destroy starts_at interval]] }
         ]
       )
-    end
-  end
-
-  def program_prompt_params_with_schedules
-    if admin?
-      params.expect(
-        program: [
-          :user_id,
-          :name,
-          :input,
-          { program_schedules_attributes: [%i[starts_at interval]] }
-        ]
-      )
-    else
-      params.expect(
-        program: [
-          :input,
-          :name,
-          { program_schedules_attributes: [%i[starts_at interval]] }
-        ]
-      )
-    end
-  end
-
-  def program_prompt_params
-    program_prompt_params_with_schedules.transform_keys do |key|
-      if key == "program_schedules_attributes"
-        "program_prompt_schedules_attributes"
-      else
-        key
-      end
     end
   end
 end

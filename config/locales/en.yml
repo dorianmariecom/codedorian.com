@@ -154,12 +154,6 @@ en:
         program_id: program
         result: result
         status: status
-      program_prompt:
-        input: input
-        name: name
-        program_id: program
-        status: status
-        user_id: user
       program_schedule:
         interval: interval
         program_id: program
@@ -363,14 +357,6 @@ en:
     program_executions:
       edit: edit
       index: program executions
-      new: new
-    program_prompt_schedules:
-      edit: edit
-      index: program prompt schedules
-      new: new
-    program_prompts:
-      edit: edit
-      index: program prompts
       new: new
     program_schedules:
       edit: edit
@@ -2082,198 +2068,6 @@ en:
       versions: versions
     update:
       notice: program execution updated
-  program_prompt_schedules:
-    create:
-      notice: program prompt schedule created
-    delete_all:
-      notice: program prompt schedules deleted
-    destroy:
-      notice: program prompt schedule deleted
-    destroy_all:
-      notice: program prompt schedules destroyed
-    edit:
-      description: update a prompt schedule for a program.
-      submit: update program prompt schedule
-      title: edit program prompt schedule
-    index:
-      delete_all: delete all
-      description: manage prompt schedules for programs.
-      destroy_all: destroy all
-      new: new program prompt schedule
-      title: program prompt schedules
-    model:
-      days:
-        one: 1 day
-        other: "%{count} days"
-        zero: 0 days
-      fifth_friday: fifth friday
-      fifth_monday: fifth monday
-      fifth_saturday: fifth saturday
-      fifth_sunday: fifth sunday
-      fifth_thursday: fifth thursday
-      fifth_tuesday: fifth tuesday
-      fifth_wednesday: fifth wednesday
-      first_friday: first friday
-      first_monday: first monday
-      first_saturday: first saturday
-      first_sunday: first sunday
-      first_thursday: first thursday
-      first_tuesday: first tuesday
-      first_wednesday: first wednesday
-      fourth_friday: fourth friday
-      fourth_monday: fourth monday
-      fourth_saturday: fourth saturday
-      fourth_sunday: fourth sunday
-      fourth_thursday: fourth thursday
-      fourth_tuesday: fourth tuesday
-      fourth_wednesday: fourth wednesday
-      hours:
-        one: 1 hour
-        other: "%{count} hours"
-        zero: 0 hours
-      last_friday: last friday
-      last_monday: last monday
-      last_saturday: last saturday
-      last_sunday: last sunday
-      last_thursday: last thursday
-      last_tuesday: last tuesday
-      last_wednesday: last wednesday
-      minutes:
-        one: 1 minute
-        other: "%{count} minutes"
-        zero: 0 minutes
-      months:
-        one: 1 month
-        other: "%{count} months"
-        zero: 0 months
-      once: once
-      second_friday: second friday
-      second_monday: second monday
-      second_saturday: second saturday
-      second_sunday: second sunday
-      second_thursday: second thursday
-      second_tuesday: second tuesday
-      second_wednesday: second wednesday
-      seconds:
-        one: 1 second
-        other: "%{count} seconds"
-        zero: 0 seconds
-      third_friday: third friday
-      third_monday: third monday
-      third_saturday: third saturday
-      third_sunday: third sunday
-      third_thursday: third thursday
-      third_tuesday: third tuesday
-      third_wednesday: third wednesday
-      to_s: program_prompt_schedule#%{id}
-      weeks:
-        one: 1 week
-        other: "%{count} weeks"
-        zero: 0 weeks
-      years:
-        one: 1 year
-        other: "%{count} years"
-        zero: 0 years
-    nested:
-      add: add program prompt schedule
-    nested_form:
-      program_prompt_schedule: program prompt schedule
-      remove: remove program prompt schedule
-    new:
-      description: create a new prompt schedule.
-      submit: create program prompt schedule
-      title: new program prompt schedule
-    program_prompt_schedule:
-      schedule_html: starts %{local_time}, repeats every %{interval}
-      schedule_once_html: starts %{local_time}, doesn't repeat
-    show:
-      created_at: created at
-      delete: delete program prompt schedule
-      description: view prompt schedule timing and settings.
-      destroy: destroy program prompt schedule
-      edit: edit program prompt schedule
-      id: id
-      interval: interval
-      logs: logs
-      new_log: new log
-      new_version: new version
-      program: program
-      program_prompt: prompt
-      schedule_html: starts %{local_time}, repeats every %{interval}
-      schedule_once_html: starts %{local_time}, doesn't repeat
-      starts_at: starts at
-      updated_at: updated at
-      user: user
-      versions: versions
-    update:
-      notice: schedule updated
-  program_prompts:
-    create:
-      notice: program prompt created
-    delete_all:
-      notice: program prompts deleted
-    destroy:
-      notice: program prompt deleted
-    destroy_all:
-      notice: program prompts destroyed
-    edit:
-      description: update a program prompt and its input.
-      submit: update program prompt
-      title: edit program prompt
-    index:
-      delete_all: delete all
-      description: browse program prompts and their schedules.
-      destroy_all: destroy all
-      new: new program prompt
-      program_prompt_schedules:
-        one: 1 program prompt schedule
-        other: "%{count} program prompt schedules"
-        zero: 0 program prompt schedules
-      title: program prompts
-    model:
-      statuses:
-        created: created
-        done: done
-        errored: errored
-        in_progress: in progress
-        initialized: initialized
-      to_s: program_prompt#%{id}
-    new:
-      description: create a new program prompt.
-      submit: create program prompt
-      title: new program prompt
-    show:
-      backtrace: backtrace
-      created_at: created at
-      delete: delete program prompt
-      description: view prompt input, output, and status.
-      destroy: destroy program prompt
-      edit: edit program prompt
-      error: error
-      error_app_backtrace: error app backtrace
-      error_backtrace: error backtrace
-      error_class: error class
-      error_message: error message
-      id: id
-      input: input
-      logs: logs
-      name: name
-      new_log: new log
-      new_program_prompt_schedule: new schedule
-      new_version: new version
-      output: output
-      output_input: output input
-      output_name: output name
-      output_schedule: 'interval: %{interval}, starts at: %{starts_at}'
-      output_schedules: output schedules
-      program: program
-      program_prompt_schedules: program prompt schedules
-      status: status
-      updated_at: updated at
-      user: user
-      versions: versions
-    update:
-      notice: program prompt updated
   program_schedules:
     create:
       notice: program schedule created
@@ -2413,9 +2207,6 @@ en:
       title: edit program
     evaluate:
       notice: program evaluated
-    form:
-      generate: generate
-      generating: generating
     index:
       data:
         one: 1 datum
@@ -2433,14 +2224,6 @@ en:
         one: 1 program execution
         other: "%{count} program executions"
         zero: 0 program executions
-      program_prompt_schedules:
-        one: 1 program prompt schedule
-        other: "%{count} program prompt schedules"
-        zero: 0 program prompt schedules
-      program_prompts:
-        one: 1 program prompt
-        other: "%{count} program prompts"
-        zero: 0 program prompts
       program_schedules:
         one: 1 program schedule
         other: "%{count} program schedules"
@@ -2471,15 +2254,11 @@ en:
       name: name
       new_log: new log
       new_program_execution: new program execution
-      new_program_prompt: new program prompt
-      new_program_prompt_schedule: new program prompt schedule
       new_program_schedule: new program schedule
       new_version: new version
       next_at: next at
       previous_at: previous at
       program_executions: program executions
-      program_prompt_schedules: program prompt schedules
-      program_prompts: program prompts
       program_schedules: program schedules
       schedule: schedule
       scheduled: scheduled
@@ -2576,8 +2355,6 @@ en:
       phone_number: phone_number
       program: program
       program_execution: program execution
-      program_prompt: program prompt
-      program_prompt_schedule: program prompt schedule
       program_schedule: program schedule
       time_zone: time zone
       token: token
@@ -2607,8 +2384,6 @@ en:
       new_phone_number: new phone number
       new_program: new program
       new_program_execution: new program execution
-      new_program_prompt: new program prompt
-      new_program_prompt_schedule: new program prompt schedule
       new_program_schedule: new program schedule
       new_session: new session
       new_time_zone: new time zone
@@ -2616,8 +2391,6 @@ en:
       passwords: passwords
       phone_numbers: phone numbers
       program_executions: program executions
-      program_prompt_schedules: program prompt schedules
-      program_prompts: program prompts
       program_schedules: program schedules
       programs: programs
       sessions: sessions
@@ -2691,8 +2464,6 @@ en:
       passwords: passwords
       phone_numbers: phone numbers
       program_executions: program executions
-      program_prompt_schedules: program prompt schedules
-      program_prompts: program prompts
       program_schedules: program schedules
       programs: programs
       sessions: sessions

@@ -4,7 +4,6 @@ class JobFailedExecutionsController < ApplicationController
   before_action(:load_guest)
   before_action(:load_user)
   before_action(:load_program)
-  before_action(:load_program_prompt)
   before_action(:load_job)
   before_action do
     add_breadcrumb(key: "job_failed_executions.index", path: index_url)
@@ -129,22 +128,6 @@ class JobFailedExecutionsController < ApplicationController
     add_breadcrumb(text: @program, path: [@user, @program])
   end
 
-  def load_program_prompt
-    return if params[:program_prompt_id].blank?
-
-    @program_prompt = program_prompts_scope.find(params[:program_prompt_id])
-
-    set_context(program_prompt: @program_prompt)
-    add_breadcrumb(
-      key: "program_prompts.index",
-      path: [@user, :program_prompts]
-    )
-    add_breadcrumb(
-      text: @program_prompt,
-      path: [@user, @program, @program_prompt]
-    )
-  end
-
   def load_job
     return if params[:job_id].blank?
 
@@ -164,8 +147,6 @@ class JobFailedExecutionsController < ApplicationController
 
     if @job
       scope = scope.where_job(@job)
-    elsif @program_prompt
-      scope = scope.where_program_prompt(@program_prompt)
     elsif @program
       scope = scope.where_program(@program)
     elsif @user
@@ -186,22 +167,10 @@ class JobFailedExecutionsController < ApplicationController
     scope
   end
 
-  def program_prompts_scope
-    scope = policy_scope(ProgramPrompt)
-
-    scope = scope.where_guest(@guest) if @guest
-    scope = scope.where_user(@user) if @user
-    scope = scope.where_program(@program) if @program
-
-    scope
-  end
-
   def jobs_scope
     scope = policy_scope(Job)
 
-    if @program_prompt
-      scope = scope.where_program_prompt(@program_prompt)
-    elsif @program
+    if @program
       scope = scope.where_program(@program)
     elsif @user
       scope = scope.where_user(@user)
@@ -230,18 +199,12 @@ class JobFailedExecutionsController < ApplicationController
     @job_failed_execution
   end
 
-  def nested(
-    user: @user,
-    guest: @guest,
-    program: @program,
-    program_prompt: @program_prompt,
-    job: @job
-  )
-    [user || guest, program, program_prompt, job].compact
+  def nested(user: @user, guest: @guest, program: @program, job: @job)
+    [user || guest, program, job].compact
   end
 
   def filters
-    %i[user program program_prompt job]
+    %i[user program job]
   end
 
   def load_job_failed_execution

@@ -170,10 +170,6 @@ module ControllerSmokeHelper
       test_case.phone_numbers(:phone_number).id
     when :program_id
       test_case.programs(:program).id
-    when :program_prompt_id
-      test_case.program_prompts(:program_prompt).id
-    when :program_prompt_schedule_id
-      test_case.program_prompt_schedules(:program_prompt_schedule).id
     when :program_schedule_id
       test_case.program_schedules(:program_schedule).id
     when :program_execution_id
@@ -257,10 +253,6 @@ module ControllerSmokeHelper
       test_case.programs(:program).id
     when "program_executions"
       test_case.program_executions(:program_execution).id
-    when "program_prompts"
-      test_case.program_prompts(:program_prompt).id
-    when "program_prompt_schedules"
-      test_case.program_prompt_schedules(:program_prompt_schedule).id
     when "program_schedules"
       test_case.program_schedules(:program_schedule).id
     when "sessions"

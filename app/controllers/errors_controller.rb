@@ -7,8 +7,6 @@ class ErrorsController < ApplicationController
   before_action(:load_user)
   before_action(:load_program)
   before_action(:load_program_schedule)
-  before_action(:load_program_prompt)
-  before_action(:load_program_prompt_schedule)
   before_action(:load_address)
   before_action(:load_datum)
   before_action(:load_device)
@@ -210,11 +208,7 @@ class ErrorsController < ApplicationController
   def scope
     scope = searched_policy_scope(Error)
 
-    if @program_prompt_schedule
-      scope = scope.where_program_prompt_schedule(@program_prompt_schedule)
-    elsif @program_prompt
-      scope = scope.where_program_prompt(@program_prompt)
-    elsif @program_schedule
+    if @program_schedule
       scope = scope.where_program_schedule(@program_schedule)
     elsif @program
       scope = scope.where_program(@program)
@@ -252,10 +246,6 @@ class ErrorsController < ApplicationController
 
     if @error
       scope = scope.where_error(@error)
-    elsif @program_prompt_schedule
-      scope = scope.where_program_prompt_schedule(@program_prompt_schedule)
-    elsif @program_prompt
-      scope = scope.where_program_prompt(@program_prompt)
     elsif @program_schedule
       scope = scope.where_program_schedule(@program_schedule)
     elsif @program
@@ -310,8 +300,6 @@ class ErrorsController < ApplicationController
     guest: @guest,
     program: @program,
     program_schedule: @program_schedule,
-    program_prompt: @program_prompt,
-    program_prompt_schedule: @program_prompt_schedule,
     address: @address,
     datum: @datum,
     device: @device,
@@ -327,17 +315,10 @@ class ErrorsController < ApplicationController
     chain << user if user
     chain << guest if guest && !user
 
-    if program || program_prompt || program_prompt_schedule || program_schedule
+    if program || program_schedule
       chain << program if program
 
-      if program_prompt_schedule
-        chain << program_prompt if program_prompt
-        chain << program_prompt_schedule
-      elsif program_prompt
-        chain << program_prompt
-      elsif program_schedule
-        chain << program_schedule
-      end
+      chain << program_schedule if program_schedule
 
       return chain
     end
@@ -360,8 +341,6 @@ class ErrorsController < ApplicationController
     %i[
       user
       program
-      program_prompt
-      program_prompt_schedule
       program_schedule
       address
       datum
@@ -390,27 +369,6 @@ class ErrorsController < ApplicationController
     scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope = scope.where_program(@program) if @program
-
-    scope
-  end
-
-  def program_prompts_scope
-    scope = policy_scope(ProgramPrompt)
-
-    scope = scope.where_guest(@guest) if @guest
-    scope = scope.where_user(@user) if @user
-    scope = scope.where_program(@program) if @program
-
-    scope
-  end
-
-  def program_prompt_schedules_scope
-    scope = policy_scope(ProgramPromptSchedule)
-
-    scope = scope.where_guest(@guest) if @guest
-    scope = scope.where_user(@user) if @user
-    scope = scope.where_program(@program) if @program
-    scope = scope.where_program_prompt(@program_prompt) if @program_prompt
 
     scope
   end
@@ -529,38 +487,6 @@ class ErrorsController < ApplicationController
     add_breadcrumb(
       text: @program_schedule,
       path: [@user, @program, @program_schedule]
-    )
-  end
-
-  def load_program_prompt
-    return if params[:program_prompt_id].blank?
-
-    @program_prompt = program_prompts_scope.find(params[:program_prompt_id])
-
-    set_context(program_prompt: @program_prompt)
-    add_breadcrumb(
-      key: "program_prompts.index",
-      path: [@user, @program, :program_prompts]
-    )
-    add_breadcrumb(
-      text: @program_prompt,
-      path: [@user, @program, @program_prompt]
-    )
-  end
-
-  def load_program_prompt_schedule
-    return if params[:program_prompt_schedule_id].blank?
-
-    @program_prompt_schedule =
-      program_prompt_schedules_scope.find(params[:program_prompt_schedule_id])
-
-    add_breadcrumb(
-      key: "program_prompt_schedules.index",
-      path: [@user, @program, @program_prompt, :program_prompt_schedules]
-    )
-    add_breadcrumb(
-      text: @program_prompt_schedule,
-      path: [@user, @program, @program_prompt, @program_prompt_schedule]
     )
   end
 

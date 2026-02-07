@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_02_201459) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_07_171055) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -304,33 +304,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_02_201459) do
     t.string "status", default: "initialized"
     t.datetime "updated_at", null: false
     t.index ["program_id"], name: "index_program_executions_on_program_id"
-  end
-
-  create_table "program_prompt_schedules", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.string "interval"
-    t.bigint "program_prompt_id", null: false
-    t.datetime "starts_at"
-    t.datetime "updated_at", null: false
-    t.index ["program_prompt_id"],
-            name: "index_program_prompt_schedules_on_program_prompt_id"
-  end
-
-  create_table "program_prompts", force: :cascade do |t|
-    t.text "backtrace"
-    t.datetime "created_at", null: false
-    t.text "error_backtrace"
-    t.text "error_class"
-    t.text "error_message"
-    t.text "input"
-    t.text "name"
-    t.jsonb "output"
-    t.bigint "program_id"
-    t.string "status", default: "initialized"
-    t.datetime "updated_at", null: false
-    t.bigint "user_id"
-    t.index ["program_id"], name: "index_program_prompts_on_program_id"
-    t.index ["user_id"], name: "index_program_prompts_on_user_id"
   end
 
   create_table "program_schedules", force: :cascade do |t|
@@ -715,8 +688,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_02_201459) do
   add_foreign_key "passwords", "users"
   add_foreign_key "phone_numbers", "users"
   add_foreign_key "program_executions", "programs"
-  add_foreign_key "program_prompt_schedules", "program_prompts"
-  add_foreign_key "program_prompts", "users"
   add_foreign_key "programs", "users"
   add_foreign_key "solid_errors_occurrences", "solid_errors", column: "error_id"
   add_foreign_key "solid_queue_blocked_executions",

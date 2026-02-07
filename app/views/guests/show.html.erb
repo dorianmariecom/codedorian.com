@@ -47,8 +47,6 @@
 <%= render("shared/list", user: @guest, model: Program) %>
 <%= render("shared/list", user: @guest, model: ProgramExecution) %>
 <%= render("shared/list", user: @guest, model: ProgramSchedule) %>
-<%= render("shared/list", user: @guest, model: ProgramPrompt) %>
-<%= render("shared/list", user: @guest, model: ProgramPromptSchedule) %>
 <% if admin? %>
   <%= render("shared/list", user: @guest, model: ::Error) %>
   <%= render("shared/list", user: @guest, model: ErrorOccurrence) %>

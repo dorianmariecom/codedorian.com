@@ -4,8 +4,6 @@ class LogsController < ApplicationController
   before_action(:load_guest)
   before_action(:load_user)
   before_action(:load_program)
-  before_action(:load_program_prompt)
-  before_action(:load_program_prompt_schedule)
   before_action(:load_program_execution)
   before_action(:load_program_schedule)
   before_action(:load_job)
@@ -153,39 +151,6 @@ class LogsController < ApplicationController
     set_context(program: @program)
     add_breadcrumb(key: "programs.index", path: [@user, :programs])
     add_breadcrumb(text: @program, path: [@user, @program])
-  end
-
-  def load_program_prompt
-    return if params[:program_prompt_id].blank?
-
-    @program_prompt = program_prompts_scope.find(params[:program_prompt_id])
-
-    set_context(program_prompt: @program_prompt)
-    add_breadcrumb(
-      key: "program_prompts.index",
-      path: [@user, @program, :program_prompts]
-    )
-    add_breadcrumb(
-      text: @program_prompt,
-      path: [@user, @program, @program_prompt]
-    )
-  end
-
-  def load_program_prompt_schedule
-    return if params[:program_prompt_schedule_id].blank?
-
-    @program_prompt_schedule =
-      program_prompt_schedules_scope.find(params[:program_prompt_schedule_id])
-
-    set_context(program_prompt_schedule: @program_prompt_schedule)
-    add_breadcrumb(
-      key: "program_prompt_schedules.index",
-      path: [@user, @program, @program_prompt, :program_prompt_schedules]
-    )
-    add_breadcrumb(
-      text: @program_prompt_schedule,
-      path: [@user, @program, @program_prompt, @program_prompt_schedule]
-    )
   end
 
   def load_program_execution
@@ -600,10 +565,6 @@ class LogsController < ApplicationController
       scope = scope.where_job_recurring_task(@job_recurring_task)
     elsif @job
       scope = scope.where_job(@job)
-    elsif @program_prompt_schedule
-      scope = scope.where_program_prompt_schedule(@program_prompt_schedule)
-    elsif @program_prompt
-      scope = scope.where_program_prompt(@program_prompt)
     elsif @program_execution
       scope = scope.where_program_execution(@program_execution)
     elsif @program_schedule
@@ -643,8 +604,6 @@ class LogsController < ApplicationController
     user: @user,
     guest: @guest,
     program: @program,
-    program_prompt: @program_prompt,
-    program_prompt_schedule: @program_prompt_schedule,
     program_execution: @program_execution,
     program_schedule: @program_schedule,
     job: @job,
@@ -688,16 +647,10 @@ class LogsController < ApplicationController
         job_scheduled_execution || job_blocked_execution ||
         job_claimed_execution || job_recurring_execution || job_recurring_task
 
-    if program || program_prompt || program_prompt_schedule ||
-         program_execution || program_schedule
+    if program || program_execution || program_schedule
       chain << program if program
 
-      if program_prompt_schedule
-        chain << program_prompt if program_prompt
-        chain << program_prompt_schedule
-      elsif program_prompt
-        chain << program_prompt
-      elsif program_execution
+      if program_execution
         chain << program_execution
       elsif program_schedule
         chain << program_schedule
@@ -820,11 +773,7 @@ class LogsController < ApplicationController
   def errors_scope
     scope = policy_scope(Error)
 
-    if @program_prompt_schedule
-      scope = scope.where_program_prompt_schedule(@program_prompt_schedule)
-    elsif @program_prompt
-      scope = scope.where_program_prompt(@program_prompt)
-    elsif @program_schedule
+    if @program_schedule
       scope = scope.where_program_schedule(@program_schedule)
     elsif @program
       scope = scope.where_program(@program)
@@ -864,10 +813,6 @@ class LogsController < ApplicationController
 
     if @error
       scope = scope.where_error(@error)
-    elsif @program_prompt_schedule
-      scope = scope.where_program_prompt_schedule(@program_prompt_schedule)
-    elsif @program_prompt
-      scope = scope.where_program_prompt(@program_prompt)
     elsif @program_schedule
       scope = scope.where_program_schedule(@program_schedule)
     elsif @program
@@ -929,9 +874,7 @@ class LogsController < ApplicationController
   def jobs_scope
     scope = policy_scope(Job)
 
-    if @program_prompt
-      scope = scope.where_program_prompt(@program_prompt)
-    elsif @program
+    if @program
       scope = scope.where_program(@program)
     elsif @user
       scope = scope.where_user(@user)
@@ -947,8 +890,6 @@ class LogsController < ApplicationController
 
     if @job
       scope = scope.where_job(@job)
-    elsif @program_prompt
-      scope = scope.where_program_prompt(@program_prompt)
     elsif @program
       scope = scope.where_program(@program)
     elsif @user
@@ -977,8 +918,6 @@ class LogsController < ApplicationController
 
     if @job
       scope = scope.where_job(@job)
-    elsif @program_prompt
-      scope = scope.where_program_prompt(@program_prompt)
     elsif @program
       scope = scope.where_program(@program)
     elsif @user
@@ -995,8 +934,6 @@ class LogsController < ApplicationController
 
     if @job
       scope = scope.where_job(@job)
-    elsif @program_prompt
-      scope = scope.where_program_prompt(@program_prompt)
     elsif @program
       scope = scope.where_program(@program)
     elsif @user
@@ -1013,8 +950,6 @@ class LogsController < ApplicationController
 
     if @job
       scope = scope.where_job(@job)
-    elsif @program_prompt
-      scope = scope.where_program_prompt(@program_prompt)
     elsif @program
       scope = scope.where_program(@program)
     elsif @user
@@ -1031,8 +966,6 @@ class LogsController < ApplicationController
 
     if @job
       scope = scope.where_job(@job)
-    elsif @program_prompt
-      scope = scope.where_program_prompt(@program_prompt)
     elsif @program
       scope = scope.where_program(@program)
     elsif @user
@@ -1049,8 +982,6 @@ class LogsController < ApplicationController
 
     if @job
       scope = scope.where_job(@job)
-    elsif @program_prompt
-      scope = scope.where_program_prompt(@program_prompt)
     elsif @program
       scope = scope.where_program(@program)
     elsif @user
@@ -1067,8 +998,6 @@ class LogsController < ApplicationController
 
     if @job
       scope = scope.where_job(@job)
-    elsif @program_prompt
-      scope = scope.where_program_prompt(@program_prompt)
     elsif @program
       scope = scope.where_program(@program)
     elsif @user
@@ -1126,27 +1055,6 @@ class LogsController < ApplicationController
     scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope = scope.where_program(@program) if @program
-
-    scope
-  end
-
-  def program_prompts_scope
-    scope = policy_scope(ProgramPrompt)
-
-    scope = scope.where_guest(@guest) if @guest
-    scope = scope.where_user(@user) if @user
-    scope = scope.where_program(@program) if @program
-
-    scope
-  end
-
-  def program_prompt_schedules_scope
-    scope = policy_scope(ProgramPromptSchedule)
-
-    scope = scope.where_guest(@guest) if @guest
-    scope = scope.where_user(@user) if @user
-    scope = scope.where_program(@program) if @program
-    scope = scope.where_program_prompt(@program_prompt) if @program_prompt
 
     scope
   end

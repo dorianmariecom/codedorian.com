@@ -6,11 +6,6 @@ elsif filter == :program
   scope = policy_scope(Program)
   scope = scope.where_guest(@guest) if @guest
   scope = scope.where_user(@user) if @user
-elsif filter == :program_prompt
-  scope = policy_scope(ProgramPrompt)
-  scope = scope.where_guest(@guest) if @guest
-  scope = scope.where_user(@user) if @user
-  scope = scope.where_program(@program) if @program
 elsif filter == :program_execution
   scope = policy_scope(ProgramExecution)
   scope = scope.where_guest(@guest) if @guest
@@ -21,12 +16,6 @@ elsif filter == :program_schedule
   scope = scope.where_guest(@guest) if @guest
   scope = scope.where_user(@user) if @user
   scope = scope.where_program(@program) if @program
-elsif filter == :program_prompt_schedule
-  scope = policy_scope(ProgramPromptSchedule)
-  scope = scope.where_guest(@guest) if @guest
-  scope = scope.where_user(@user) if @user
-  scope = scope.where_program(@program) if @program
-  scope = scope.where_program_prompt(@program_prompt) if @program_prompt
 elsif filter == :error
   scope = policy_scope(::Error)
   scope = scope.where_guest(@guest) if @guest
@@ -81,21 +70,13 @@ else
   raise(NotImplementedError, "filter #{filter.inspect} not implemented")
 end %>
 
-<% program_context =
-  @program || @program_prompt || @program_prompt_schedule ||
-    @program_execution || @program_schedule %>
+<% program_context = @program || @program_execution || @program_schedule %>
 <% shown =
   if filter == :user
     admin? && !@guest
   elsif filter == :guest
     admin? && !@user
-  elsif %i[
-        program
-        program_prompt
-        program_prompt_schedule
-        program_execution
-        program_schedule
-      ].include?(filter)
+  elsif %i[program program_execution program_schedule].include?(filter)
     true
   else
     !program_context
