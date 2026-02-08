@@ -1,0 +1,94 @@
+<%= form_for(show_url) do |f| %>
+  <div class="p">
+    <%= f.label(:locale, class: :label) %>
+    <%= f.select(
+      :locale,
+      locale_options(locale: f.object.locale.presence || I18n.locale),
+      {},
+      required: true,
+      class: :input,
+      data: {
+        form_type: :other
+      },
+      autocomplete: :off
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:starts_at, class: :label) %>
+    <%= f.datetime_field(
+      :starts_at,
+      required: true,
+      class: :input,
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+    <div class="text-gray-600">
+      <%= local_time(Time.zone.now, format: :default) %>
+    </div>
+  </div>
+
+  <div class="p">
+    <%= f.label(:interval, class: :label) %>
+    <%= f.select(
+      :interval,
+      form_schedule_interval_options(interval: f.object.interval),
+      {},
+      required: true,
+      class: :input,
+      data: {
+        form_type: :other
+      },
+      autocomplete: :off
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:name, class: :label) %>
+    <%= f.text_field(
+      :name,
+      class: :input,
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:description, class: :label) %>
+    <%= f.text_area(
+      :description,
+      class: :input,
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:position, class: :label) %>
+    <%= f.number_field(
+      :position,
+      class: :input,
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.submit(
+      submit,
+      class: "button",
+      data: {
+        controller: "bridge--button",
+        bridge__button_title_value: submit
+      }
+    ) %>
+  </div>
+<% end %>

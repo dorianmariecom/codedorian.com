@@ -14,6 +14,9 @@ class Log < ApplicationRecord
     error_occurrence
     example
     example_schedule
+    form_delivery
+    form_program
+    form_schedule
     guest
     handle
     job

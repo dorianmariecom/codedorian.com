@@ -28,6 +28,9 @@ class LogsController < ApplicationController
   before_action(:load_email_address)
   before_action(:load_example)
   before_action(:load_example_schedule)
+  before_action(:load_form_delivery)
+  before_action(:load_form_program)
+  before_action(:load_form_schedule)
   before_action(:load_handle)
   before_action(:load_message)
   before_action(:load_name)
@@ -426,6 +429,33 @@ class LogsController < ApplicationController
     )
   end
 
+  def load_form_delivery
+    return if params[:form_delivery_id].blank?
+
+    @form_delivery = form_deliveries_scope.find(params[:form_delivery_id])
+
+    set_context(form_delivery: @form_delivery)
+    add_breadcrumb(text: @form_delivery, path: [*nested, @form_delivery].uniq)
+  end
+
+  def load_form_program
+    return if params[:form_program_id].blank?
+
+    @form_program = form_programs_scope.find(params[:form_program_id])
+
+    set_context(form_program: @form_program)
+    add_breadcrumb(text: @form_program, path: [*nested, @form_program].uniq)
+  end
+
+  def load_form_schedule
+    return if params[:form_schedule_id].blank?
+
+    @form_schedule = form_schedules_scope.find(params[:form_schedule_id])
+
+    set_context(form_schedule: @form_schedule)
+    add_breadcrumb(text: @form_schedule, path: [*nested, @form_schedule].uniq)
+  end
+
   def load_handle
     return if params[:handle_id].blank?
 
@@ -529,6 +559,12 @@ class LogsController < ApplicationController
       scope = scope.where_example_schedule(@example_schedule)
     elsif @example
       scope = scope.where_example(@example)
+    elsif @form_delivery
+      scope = scope.where_form_delivery(@form_delivery)
+    elsif @form_program
+      scope = scope.where_form_program(@form_program)
+    elsif @form_schedule
+      scope = scope.where_form_schedule(@form_schedule)
     elsif @email_address
       scope = scope.where_email_address(@email_address)
     elsif @device
@@ -606,6 +642,9 @@ class LogsController < ApplicationController
     program: @program,
     program_execution: @program_execution,
     program_schedule: @program_schedule,
+    form_delivery: @form_delivery,
+    form_program: @form_program,
+    form_schedule: @form_schedule,
     job: @job,
     job_context: @job_context,
     job_process: @job_process,
@@ -676,6 +715,12 @@ class LogsController < ApplicationController
       chain << example_schedule
     elsif example
       chain << example
+    elsif form_delivery
+      chain << form_delivery
+    elsif form_program
+      chain << form_program
+    elsif form_schedule
+      chain << form_schedule
     elsif address
       chain << address
     elsif configuration
@@ -856,6 +901,18 @@ class LogsController < ApplicationController
     scope = scope.where_example(@example) if @example
 
     scope
+  end
+
+  def form_deliveries_scope
+    policy_scope(FormDelivery)
+  end
+
+  def form_programs_scope
+    policy_scope(FormProgram)
+  end
+
+  def form_schedules_scope
+    policy_scope(FormSchedule)
   end
 
   def handles_scope

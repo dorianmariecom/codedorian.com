@@ -12,6 +12,9 @@ class Version < PaperTrail::Version
     email_address
     example
     example_schedule
+    form_delivery
+    form_program
+    form_schedule
     guest
     handle
     job_context

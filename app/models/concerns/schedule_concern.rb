@@ -128,7 +128,7 @@ module ScheduleConcern
       if interval == "once"
         t("once")
       elsif count.to_i.to_s == count
-        t(per.pluralize, count: count)
+        t(per.pluralize, count: count.to_i)
       else
         t(interval.parameterize.underscore)
       end

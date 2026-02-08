@@ -132,6 +132,12 @@ module ControllerSmokeHelper
       test_case.examples(:example).id
     when :example_schedule_id
       test_case.example_schedules(:example_schedule).id
+    when :form_program_id
+      test_case.form_programs(:form_program).id
+    when :form_schedule_id
+      test_case.form_schedules(:form_schedule).id
+    when :form_delivery_id
+      test_case.form_deliveries(:form_delivery).id
     when :handle_id
       test_case.handles(:handle).id
     when :job_id
@@ -211,6 +217,12 @@ module ControllerSmokeHelper
       test_case.examples(:example).id
     when "example_schedules"
       test_case.example_schedules(:example_schedule).id
+    when "form_deliveries"
+      test_case.form_deliveries(:form_delivery).id
+    when "form_programs"
+      test_case.form_programs(:form_program).id
+    when "form_schedules"
+      test_case.form_schedules(:form_schedule).id
     when "guests"
       test_case.guests(:guest).id
     when "handles"

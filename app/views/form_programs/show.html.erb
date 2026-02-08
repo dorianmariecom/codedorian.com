@@ -1,0 +1,114 @@
+<% content_for(:title, @form_program) %>
+
+<%= turbo_stream_from(@form_program) %>
+
+<% if can?(:update, @form_program) %>
+  <% if @form_program.id.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".id") %></div>
+      <div class="font-bold"><%= @form_program.id %></div>
+    </div>
+  <% end %>
+<% end %>
+
+<% if @form_program.position.present? && can?(:update, @form_program) %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".position") %></div>
+    <div class="font-bold"><%= @form_program.position %></div>
+  </div>
+<% end %>
+
+<% if @form_program.locale.present? && can?(:update, @form_program) %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".locale") %></div>
+    <div class="font-bold"><%= @form_program.locale %></div>
+  </div>
+<% end %>
+
+<% if @form_program.name.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".name") %></div>
+    <div class="font-bold"><%= @form_program.name %></div>
+  </div>
+<% end %>
+
+<% if @form_program.description.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".description") %></div>
+    <div class="content">
+      <%= simple_format(@form_program.description, {}, wrapper_tag: :div) %>
+    </div>
+  </div>
+<% end %>
+
+<% if can?(:update, @form_program) %>
+  <% if @form_program.updated_at.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".updated_at") %></div>
+      <div class="font-bold">
+        <%= local_time(@form_program.updated_at, format: :default) %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if @form_program.created_at.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".created_at") %></div>
+      <div class="font-bold">
+        <%= local_time(@form_program.created_at, format: :default) %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="p">
+    <%= link_to(t(".edit"), edit_url, class: :link) %>
+    <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+    <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
+  </div>
+<% end %>
+
+<% if can?(:index, Version) %>
+  <div class="p font-bold">
+    <%= link_to(t(".versions"), [*nested, @form_program, :versions], class: :link) %>
+  </div>
+
+  <% if can?(:create, Version) %>
+    <div class="p">
+      <%= link_to(
+        t(".new_version"),
+        [:new, *nested, @form_program, :version],
+        class: "button"
+      ) %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "versions/version",
+    collection: @versions,
+    as: :version,
+    locals: {
+      nested: [*nested, @form_program]
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, Log) %>
+  <div class="p font-bold">
+    <%= link_to(t(".logs"), [*nested, @form_program, :logs], class: :link) %>
+  </div>
+
+  <% if can?(:create, Log) %>
+    <div class="p">
+      <%= link_to(t(".new_log"), [:new, *nested, @form_program, :log], class: "button") %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "logs/log",
+    collection: @logs,
+    as: :log,
+    locals: {
+      nested: [*nested, @form_program]
+    }
+  ) %>
+<% end %>

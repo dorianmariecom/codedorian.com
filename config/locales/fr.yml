@@ -50,6 +50,23 @@ fr:
         example_id: exemple
         interval: intervalle
         starts_at: commence à
+      form_delivery:
+        description: description
+        locale: langage
+        name: nom
+        position: position
+      form_program:
+        description: description
+        locale: langage
+        name: nom
+        position: position
+      form_schedule:
+        description: description
+        interval: intervalle
+        locale: langage
+        name: nom
+        position: position
+        starts_at: commence à
       handle:
         handle: identifiant
         primary: principal ?
@@ -276,6 +293,18 @@ fr:
       edit: modifier
       index: exemples
       new: nouveau
+    form_deliveries:
+      edit: modifier
+      index: livraisons de formulaire
+      new: nouvelle
+    form_programs:
+      edit: modifier
+      index: programmes de formulaire
+      new: nouveau
+    form_schedules:
+      edit: modifier
+      index: horaires de formulaire
+      new: nouvelle
     guests:
       edit: modifier
       index: invités
@@ -902,6 +931,210 @@ fr:
       versions: versions
     update:
       notice: exemple mis à jour
+  form_deliveries:
+    create:
+      notice: livraison de formulaire créée
+    delete_all:
+      notice: livraisons de formulaire supprimées
+    destroy:
+      notice: livraison de formulaire supprimée
+    destroy_all:
+      notice: livraisons de formulaire détruites
+    edit:
+      description: mettre à jour une option de livraison du formulaire.
+      submit: mettre à jour la livraison de formulaire
+      title: modifier la livraison de formulaire
+    index:
+      delete_all: supprimer tout
+      description: gérer les options de livraison du formulaire.
+      destroy_all: détruire tout
+      new: nouvelle livraison de formulaire
+      title: livraisons de formulaire
+    model:
+      to_s: livraison_formulaire#%{id}
+    new:
+      description: créer une nouvelle option de livraison du formulaire.
+      submit: créer la livraison de formulaire
+      title: nouvelle livraison de formulaire
+    show:
+      created_at: créé à
+      delete: supprimer la livraison de formulaire
+      description: description
+      destroy: détruire la livraison de formulaire
+      edit: modifier la livraison de formulaire
+      id: identifiant
+      locale: langage
+      logs: logs
+      name: nom
+      new_log: nouveau log
+      new_version: nouvelle version
+      position: position
+      updated_at: mis à jour à
+      versions: versions
+    update:
+      notice: livraison de formulaire mise à jour
+  form_programs:
+    create:
+      notice: programme de formulaire créé
+    delete_all:
+      notice: programmes de formulaire supprimés
+    destroy:
+      notice: programme de formulaire supprimé
+    destroy_all:
+      notice: programmes de formulaire détruits
+    edit:
+      description: mettre à jour une option de programme du formulaire.
+      submit: mettre à jour le programme de formulaire
+      title: modifier le programme de formulaire
+    index:
+      delete_all: supprimer tout
+      description: gérer les options de programmes du formulaire.
+      destroy_all: détruire tout
+      new: nouveau programme de formulaire
+      title: programmes de formulaire
+    model:
+      to_s: programme_formulaire#%{id}
+    new:
+      description: créer une nouvelle option de programme du formulaire.
+      submit: créer le programme de formulaire
+      title: nouveau programme de formulaire
+    show:
+      created_at: créé à
+      delete: supprimer le programme de formulaire
+      description: description
+      destroy: détruire le programme de formulaire
+      edit: modifier le programme de formulaire
+      id: identifiant
+      locale: langage
+      logs: logs
+      name: nom
+      new_log: nouveau log
+      new_version: nouvelle version
+      position: position
+      updated_at: mis à jour à
+      versions: versions
+    update:
+      notice: programme de formulaire mis à jour
+  form_schedules:
+    create:
+      notice: horaire de formulaire créée
+    delete_all:
+      notice: horaires de formulaire supprimées
+    destroy:
+      notice: horaire de formulaire supprimée
+    destroy_all:
+      notice: horaires de formulaire détruites
+    edit:
+      description: ajuster la planification et la récurrence.
+      submit: mettre à jour l'horaire de formulaire
+      title: modifier l'horaire de formulaire
+    form_schedule:
+      schedule_html: commence %{local_time}, se répète tous les %{interval}
+      schedule_once_html: commence %{local_time}, ne se répète pas
+    index:
+      delete_all: supprimer tout
+      description: gérer les horaires de formulaire.
+      destroy_all: détruire tout
+      new: nouvelle horaire de formulaire
+      title: horaires de formulaire
+    model:
+      days:
+        one: 1 jour
+        other: "%{count} jours"
+        zero: 0 jours
+      fifth_friday: cinquième vendredi
+      fifth_monday: cinquième lundi
+      fifth_saturday: cinquième samedi
+      fifth_sunday: cinquième dimanche
+      fifth_thursday: cinquième jeudi
+      fifth_tuesday: cinquième mardi
+      fifth_wednesday: cinquième mercredi
+      first_friday: premier vendredi
+      first_monday: premier lundi
+      first_saturday: premier samedi
+      first_sunday: premier dimanche
+      first_thursday: premier jeudi
+      first_tuesday: premier mardi
+      first_wednesday: premier mercredi
+      fourth_friday: quatrième vendredi
+      fourth_monday: quatrième lundi
+      fourth_saturday: quatrième samedi
+      fourth_sunday: quatrième dimanche
+      fourth_thursday: quatrième jeudi
+      fourth_tuesday: quatrième mardi
+      fourth_wednesday: quatrième mercredi
+      hours:
+        one: 1 heure
+        other: "%{count} heures"
+        zero: 0 heures
+      last_friday: dernier vendredi
+      last_monday: dernier lundi
+      last_saturday: dernier samedi
+      last_sunday: dernier dimanche
+      last_thursday: dernier jeudi
+      last_tuesday: dernier mardi
+      last_wednesday: dernier mercredi
+      minutes:
+        one: 1 minute
+        other: "%{count} minutes"
+        zero: 0 minutes
+      months:
+        one: 1 mois
+        other: "%{count} mois"
+        zero: 0 mois
+      once: une fois
+      second_friday: deuxième vendredi
+      second_monday: deuxième lundi
+      second_saturday: deuxième samedi
+      second_sunday: deuxième dimanche
+      second_thursday: deuxième jeudi
+      second_tuesday: deuxième mardi
+      second_wednesday: deuxième mercredi
+      seconds:
+        one: 1 seconde
+        other: "%{count} secondes"
+        zero: 0 seconde
+      third_friday: troisième vendredi
+      third_monday: troisième lundi
+      third_saturday: troisième samedi
+      third_sunday: troisième dimanche
+      third_thursday: troisième jeudi
+      third_tuesday: troisième mardi
+      third_wednesday: troisième mercredi
+      to_s: horaire_formulaire#%{id}
+      weeks:
+        one: 1 semaine
+        other: "%{count} semaines"
+        zero: 0 semaines
+      years:
+        one: 1 an
+        other: "%{count} ans"
+        zero: 0 ans
+    new:
+      description: créer une nouvelle horaire de formulaire.
+      submit: créer un horaire de formulaire
+      title: nouvelle horaire de formulaire
+    show:
+      created_at: créé à
+      delete: supprimer la horaire de formulaire
+      description: description
+      destroy: détruire la horaire de formulaire
+      edit: modifier la horaire de formulaire
+      id: identifiant
+      interval: intervalle
+      locale: langage
+      logs: logs
+      name: nom
+      new_log: nouveau log
+      new_version: nouvelle version
+      position: position
+      schedule_html: commence %{local_time}, se répète tous les %{interval}
+      schedule_once_html: commence %{local_time}, ne se répète pas
+      starts_at: commence à
+      updated_at: mis à jour à
+      versions: versions
+    update:
+      notice: horaire de formulaire mis à jour
   guests:
     create:
       notice: invité créé
@@ -2445,6 +2678,9 @@ fr:
       errors: erreurs
       example_schedules: horaires d'exemples
       examples: exemples
+      form_deliveries: livraisons de formulaire
+      form_programs: programmes de formulaire
+      form_schedules: horaires de formulaire
       guests: invités
       handles: identifiants
       job_blocked_executions: exécutions de tâches bloquées

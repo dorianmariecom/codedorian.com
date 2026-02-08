@@ -50,6 +50,23 @@ en:
         example_id: example
         interval: interval
         starts_at: starts at
+      form_delivery:
+        description: description
+        locale: locale
+        name: name
+        position: position
+      form_program:
+        description: description
+        locale: locale
+        name: name
+        position: position
+      form_schedule:
+        description: description
+        interval: interval
+        locale: locale
+        name: name
+        position: position
+        starts_at: starts at
       handle:
         handle: handle
         primary: primary?
@@ -274,6 +291,18 @@ en:
     examples:
       edit: edit
       index: examples
+      new: new
+    form_deliveries:
+      edit: edit
+      index: form deliveries
+      new: new
+    form_programs:
+      edit: edit
+      index: form programs
+      new: new
+    form_schedules:
+      edit: edit
+      index: form schedules
       new: new
     guests:
       edit: edit
@@ -901,6 +930,210 @@ en:
       versions: versions
     update:
       notice: example updated
+  form_deliveries:
+    create:
+      notice: form delivery created
+    delete_all:
+      notice: form deliveries deleted
+    destroy:
+      notice: form delivery deleted
+    destroy_all:
+      notice: form deliveries destroyed
+    edit:
+      description: update a form delivery option.
+      submit: update form delivery
+      title: edit form delivery
+    index:
+      delete_all: delete all
+      description: manage form delivery options.
+      destroy_all: destroy all
+      new: new form delivery
+      title: form deliveries
+    model:
+      to_s: form_delivery#%{id}
+    new:
+      description: create a new form delivery option.
+      submit: create form delivery
+      title: new form delivery
+    show:
+      created_at: created at
+      delete: delete form delivery
+      description: description
+      destroy: destroy form delivery
+      edit: edit form delivery
+      id: id
+      locale: locale
+      logs: logs
+      name: name
+      new_log: new log
+      new_version: new version
+      position: position
+      updated_at: updated at
+      versions: versions
+    update:
+      notice: form delivery updated
+  form_programs:
+    create:
+      notice: form program created
+    delete_all:
+      notice: form programs deleted
+    destroy:
+      notice: form program deleted
+    destroy_all:
+      notice: form programs destroyed
+    edit:
+      description: update a form program option.
+      submit: update form program
+      title: edit form program
+    index:
+      delete_all: delete all
+      description: manage form program options.
+      destroy_all: destroy all
+      new: new form program
+      title: form programs
+    model:
+      to_s: form_program#%{id}
+    new:
+      description: create a new form program option.
+      submit: create form program
+      title: new form program
+    show:
+      created_at: created at
+      delete: delete form program
+      description: description
+      destroy: destroy form program
+      edit: edit form program
+      id: id
+      locale: locale
+      logs: logs
+      name: name
+      new_log: new log
+      new_version: new version
+      position: position
+      updated_at: updated at
+      versions: versions
+    update:
+      notice: form program updated
+  form_schedules:
+    create:
+      notice: form schedule created
+    delete_all:
+      notice: form schedules deleted
+    destroy:
+      notice: form schedule deleted
+    destroy_all:
+      notice: form schedules destroyed
+    edit:
+      description: update timing and recurrence for a form schedule.
+      submit: update form schedule
+      title: edit form schedule
+    form_schedule:
+      schedule_html: starts %{local_time}, repeats every %{interval}
+      schedule_once_html: starts %{local_time}, doesn't repeat
+    index:
+      delete_all: delete all
+      description: manage form schedules.
+      destroy_all: destroy all
+      new: new form schedule
+      title: form schedules
+    model:
+      days:
+        one: 1 day
+        other: "%{count} days"
+        zero: 0 days
+      fifth_friday: fifth friday
+      fifth_monday: fifth monday
+      fifth_saturday: fifth saturday
+      fifth_sunday: fifth sunday
+      fifth_thursday: fifth thursday
+      fifth_tuesday: fifth tuesday
+      fifth_wednesday: fifth wednesday
+      first_friday: first friday
+      first_monday: first monday
+      first_saturday: first saturday
+      first_sunday: first sunday
+      first_thursday: first thursday
+      first_tuesday: first tuesday
+      first_wednesday: first wednesday
+      fourth_friday: fourth friday
+      fourth_monday: fourth monday
+      fourth_saturday: fourth saturday
+      fourth_sunday: fourth sunday
+      fourth_thursday: fourth thursday
+      fourth_tuesday: fourth tuesday
+      fourth_wednesday: fourth wednesday
+      hours:
+        one: 1 hour
+        other: "%{count} hours"
+        zero: 0 hours
+      last_friday: last friday
+      last_monday: last monday
+      last_saturday: last saturday
+      last_sunday: last sunday
+      last_thursday: last thursday
+      last_tuesday: last tuesday
+      last_wednesday: last wednesday
+      minutes:
+        one: 1 minute
+        other: "%{count} minutes"
+        zero: 0 minutes
+      months:
+        one: 1 month
+        other: "%{count} months"
+        zero: 0 months
+      once: once
+      second_friday: second friday
+      second_monday: second monday
+      second_saturday: second saturday
+      second_sunday: second sunday
+      second_thursday: second thursday
+      second_tuesday: second tuesday
+      second_wednesday: second wednesday
+      seconds:
+        one: 1 second
+        other: "%{count} seconds"
+        zero: 0 seconds
+      third_friday: third friday
+      third_monday: third monday
+      third_saturday: third saturday
+      third_sunday: third sunday
+      third_thursday: third thursday
+      third_tuesday: third tuesday
+      third_wednesday: third wednesday
+      to_s: form_schedule#%{id}
+      weeks:
+        one: 1 week
+        other: "%{count} weeks"
+        zero: 0 weeks
+      years:
+        one: 1 year
+        other: "%{count} years"
+        zero: 0 years
+    new:
+      description: create a new form schedule.
+      submit: create form schedule
+      title: new form schedule
+    show:
+      created_at: created at
+      delete: delete form schedule
+      description: description
+      destroy: destroy form schedule
+      edit: edit form schedule
+      id: id
+      interval: interval
+      locale: locale
+      logs: logs
+      name: name
+      new_log: new log
+      new_version: new version
+      position: position
+      schedule_html: starts %{local_time}, repeats every %{interval}
+      schedule_once_html: starts %{local_time}, doesn't repeat
+      starts_at: starts at
+      updated_at: updated at
+      versions: versions
+    update:
+      notice: schedule updated
   guests:
     create:
       notice: guest created
@@ -2441,6 +2674,9 @@ en:
       errors: errors
       example_schedules: example schedules
       examples: examples
+      form_deliveries: form deliveries
+      form_programs: form programs
+      form_schedules: form schedules
       guests: guests
       handles: handles
       job_blocked_executions: job blocked executions

@@ -1,0 +1,128 @@
+<% content_for(:title, @form_schedule) %>
+
+<%= turbo_stream_from(@form_schedule) %>
+
+<% if @form_schedule.id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".id") %></div>
+    <div class="font-bold"><%= @form_schedule.id %></div>
+  </div>
+<% end %>
+
+<% if @form_schedule.position.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".position") %></div>
+    <div class="font-bold"><%= @form_schedule.position %></div>
+  </div>
+<% end %>
+
+<% if @form_schedule.locale.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".locale") %></div>
+    <div class="font-bold"><%= @form_schedule.locale %></div>
+  </div>
+<% end %>
+
+<% if @form_schedule.starts_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".starts_at") %></div>
+    <div class="font-bold">
+      <%= local_time(@form_schedule.starts_at, format: :default) %>
+    </div>
+  </div>
+<% end %>
+
+<% if @form_schedule.interval.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".interval") %></div>
+    <div class="font-bold"><%= @form_schedule.translated_interval %></div>
+  </div>
+<% end %>
+
+<% if @form_schedule.name.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".name") %></div>
+    <div class="font-bold"><%= @form_schedule.name %></div>
+  </div>
+<% end %>
+
+<% if @form_schedule.description.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".description") %></div>
+    <div class="content">
+      <%= simple_format(@form_schedule.description, {}, wrapper_tag: :div) %>
+    </div>
+  </div>
+<% end %>
+
+<% if @form_schedule.updated_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".updated_at") %></div>
+    <div class="font-bold">
+      <%= local_time(@form_schedule.updated_at, format: :default) %>
+    </div>
+  </div>
+<% end %>
+
+<% if @form_schedule.created_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".created_at") %></div>
+    <div class="font-bold">
+      <%= local_time(@form_schedule.created_at, format: :default) %>
+    </div>
+  </div>
+<% end %>
+
+<% if can?(:update, @form_schedule) %>
+  <div class="p">
+    <%= link_to(t(".edit"), edit_url, class: :link) %>
+    <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+    <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
+  </div>
+<% end %>
+
+<% if can?(:index, Version) %>
+  <div class="p font-bold">
+    <%= link_to(t(".versions"), [*nested, @form_schedule, :versions], class: :link) %>
+  </div>
+
+  <% if can?(:create, Version) %>
+    <div class="p">
+      <%= link_to(
+        t(".new_version"),
+        [:new, *nested, @form_schedule, :version],
+        class: "button"
+      ) %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "versions/version",
+    collection: @versions,
+    as: :version,
+    locals: {
+      nested: [*nested, @form_schedule]
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, Log) %>
+  <div class="p font-bold">
+    <%= link_to(t(".logs"), [*nested, @form_schedule, :logs], class: :link) %>
+  </div>
+
+  <% if can?(:create, Log) %>
+    <div class="p">
+      <%= link_to(t(".new_log"), [:new, *nested, @form_schedule, :log], class: "button") %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "logs/log",
+    collection: @logs,
+    as: :log,
+    locals: {
+      nested: [*nested, @form_schedule]
+    }
+  ) %>
+<% end %>

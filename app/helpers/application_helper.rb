@@ -101,6 +101,12 @@ module ApplicationHelper
     end
   end
 
+  def form_schedule_interval_options(interval: nil)
+    FormSchedule.interval_options.map do |label, value|
+      [label, value, { selected: value == interval }]
+    end
+  end
+
   def program_execution_status_options(status: nil)
     ProgramExecution::STATUSES.map do |option_status|
       [

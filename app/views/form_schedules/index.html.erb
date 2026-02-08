@@ -1,0 +1,24 @@
+<%= turbo_stream_from(@form_schedules) %>
+
+<% if can?(:create, FormSchedule) %>
+  <div class="p p--flex">
+    <%= link_to(t(".new"), new_url, class: "button") %>
+  </div>
+<% end %>
+
+<%= render("shared/search") %>
+
+<turbo-frame id="search" target="_top">
+  <% if @form_schedules.any? && can?(:destroy_all, FormSchedule) %>
+    <div class="p p--flex">
+      <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
+      <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "form_schedules/form_schedule",
+    collection: @form_schedules,
+    as: :form_schedule
+  ) %>
+</turbo-frame>
