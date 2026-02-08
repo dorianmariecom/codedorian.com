@@ -376,7 +376,6 @@ en:
     static:
       about: about
       admin: admin
-      book: book
       download: download
       form: form
       home: home
@@ -995,7 +994,6 @@ en:
       about: about
       account: account
       admin: admin
-      book: book
       english: english
       form: form
       french: french
@@ -1763,7 +1761,6 @@ en:
       about: about
       account: account
       admin: admin
-      book: book
       english: english
       form: form
       french: french
@@ -2476,7 +2473,6 @@ en:
       description: download the codedorian app for ios and android.
       title: download
     home:
-      book: book
       description: schedule messages, notifications, and programs with code.
       form: form
       log_in: log in

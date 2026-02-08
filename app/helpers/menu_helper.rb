@@ -46,11 +46,6 @@ module MenuHelper
         path: root_path
       },
       {
-        title: t("helpers.menu.book"),
-        image: ios ? :video : :video_call,
-        path: book_path
-      },
-      {
         title: t("helpers.menu.form"),
         image: ios ? :checklist : :assignment,
         path: form_path

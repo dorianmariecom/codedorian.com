@@ -30,10 +30,6 @@ class StaticController < ApplicationController
     )
   end
 
-  def book
-    redirect_to(Config.book.url, allow_other_host: true)
-  end
-
   def admin
   end
 end

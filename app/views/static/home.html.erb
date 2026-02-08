@@ -1,14 +1,12 @@
 <% if guest? %>
   <div class="p p--flex">
     <%= link_to(t(".form"), :form, class: "button") %>
-    <%= link_to(t(".book"), :book, class: "button") %>
     <%= link_to(t(".register"), %i[new user], class: "button") %>
     <%= link_to(t(".log_in"), %i[new session], class: "button") %>
   </div>
 <% elsif !hotwire_native_app? && !current_user_or_guest.unverified_device %>
   <div class="p p--flex">
     <%= link_to(t(".form"), :form, class: "button") %>
-    <%= link_to(t(".book"), :book, class: "button") %>
 
     <%= link_to(Config.ios.url) do %>
       <%= image_tag("ios-#{I18n.locale}.svg", class: "h-14") %>
@@ -21,7 +19,6 @@
 <% else %>
   <div class="p p--flex">
     <%= link_to(t(".form"), :form, class: "button") %>
-    <%= link_to(t(".book"), :book, class: "button") %>
     <%= link_to(t(".messages"), [current_user_or_guest, :messages], class: "button") %>
     <%= link_to(t(".programs"), [current_user_or_guest, :programs], class: "button") %>
   </div>

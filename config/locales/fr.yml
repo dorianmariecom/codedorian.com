@@ -377,7 +377,6 @@ fr:
     static:
       about: à propos
       admin: admin
-      book: réserver
       download: télécharger
       form: formulaire
       home: accueil
@@ -993,7 +992,6 @@ fr:
         about: à propos
         account: compte
         admin: admin
-        book: réserver
         english: anglais
         form: formulaire
         french: français
@@ -1765,7 +1763,6 @@ fr:
       about: à propos
       account: compte
       admin: admin
-      book: réserver
       english: anglais
       form: formulaire
       french: français
@@ -2480,7 +2477,6 @@ fr:
       description: télécharger l'application codedorian pour ios et android.
       title: télécharger
     home:
-      book: réserver
       description: programmer des messages, notifications et programmes avec code.
       form: formulaire
       log_in: se connecter
