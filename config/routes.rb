@@ -392,6 +392,27 @@ Rails.application.routes.draw do
       define_all_delete.call(:delete, :form_deliveries)
     end
 
+    resources(:submissions) do
+      define_delete_destroy.call
+      define_logs_versions.call
+      define_all_delete.call(:destroy, :submissions)
+      define_all_delete.call(:delete, :submissions)
+
+      resources(:submission_programs) do
+        define_delete_destroy.call
+        define_logs_versions.call
+        define_all_delete.call(:destroy, :submission_programs)
+        define_all_delete.call(:delete, :submission_programs)
+      end
+    end
+
+    resources(:submission_programs) do
+      define_delete_destroy.call
+      define_logs_versions.call
+      define_all_delete.call(:destroy, :submission_programs)
+      define_all_delete.call(:delete, :submission_programs)
+    end
+
     resources(:country_code_ip_addresses) do
       post(:lookup)
 

@@ -31,6 +31,8 @@ class LogsController < ApplicationController
   before_action(:load_form_delivery)
   before_action(:load_form_program)
   before_action(:load_form_schedule)
+  before_action(:load_submission)
+  before_action(:load_submission_program)
   before_action(:load_handle)
   before_action(:load_message)
   before_action(:load_name)
@@ -456,6 +458,28 @@ class LogsController < ApplicationController
     add_breadcrumb(text: @form_schedule, path: [*nested, @form_schedule].uniq)
   end
 
+  def load_submission
+    return if params[:submission_id].blank?
+
+    @submission = submissions_scope.find(params[:submission_id])
+
+    set_context(submission: @submission)
+    add_breadcrumb(text: @submission, path: [*nested, @submission].uniq)
+  end
+
+  def load_submission_program
+    return if params[:submission_program_id].blank?
+
+    @submission_program =
+      submission_programs_scope.find(params[:submission_program_id])
+
+    set_context(submission_program: @submission_program)
+    add_breadcrumb(
+      text: @submission_program,
+      path: [*nested, @submission_program].uniq
+    )
+  end
+
   def load_handle
     return if params[:handle_id].blank?
 
@@ -565,6 +589,10 @@ class LogsController < ApplicationController
       scope = scope.where_form_program(@form_program)
     elsif @form_schedule
       scope = scope.where_form_schedule(@form_schedule)
+    elsif @submission_program
+      scope = scope.where_submission_program(@submission_program)
+    elsif @submission
+      scope = scope.where_submission(@submission)
     elsif @email_address
       scope = scope.where_email_address(@email_address)
     elsif @device
@@ -645,6 +673,8 @@ class LogsController < ApplicationController
     form_delivery: @form_delivery,
     form_program: @form_program,
     form_schedule: @form_schedule,
+    submission: @submission,
+    submission_program: @submission_program,
     job: @job,
     job_context: @job_context,
     job_process: @job_process,
@@ -721,6 +751,11 @@ class LogsController < ApplicationController
       chain << form_program
     elsif form_schedule
       chain << form_schedule
+    elsif submission_program
+      chain << submission if submission
+      chain << submission_program
+    elsif submission
+      chain << submission
     elsif address
       chain << address
     elsif configuration
@@ -913,6 +948,16 @@ class LogsController < ApplicationController
 
   def form_schedules_scope
     policy_scope(FormSchedule)
+  end
+
+  def submissions_scope
+    policy_scope(Submission)
+  end
+
+  def submission_programs_scope
+    scope = policy_scope(SubmissionProgram)
+    scope = scope.where_submission(@submission) if @submission
+    scope
   end
 
   def handles_scope

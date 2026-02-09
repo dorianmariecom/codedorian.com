@@ -175,6 +175,28 @@ fr:
         interval: intervalle
         program_id: programme
         starts_at: commence à
+      submission:
+        email_address: adresse e-mail
+        family_name: nom de famille
+        given_name: prénom
+        locale: langage
+        phone_number: numéro de téléphone
+      submission_program:
+        description: description
+        form_delivery_description: description de livraison de formulaire
+        form_delivery_id: livraison de formulaire
+        form_delivery_name: nom de livraison de formulaire
+        form_program_description: description de programme de formulaire
+        form_program_id: programme de formulaire
+        form_program_name: nom de programme de formulaire
+        form_schedule_description: description de horaire de formulaire
+        form_schedule_id: horaire de formulaire
+        form_schedule_interval: intervalle de horaire de formulaire
+        form_schedule_name: nom de horaire de formulaire
+        form_schedule_starts_at: horaire de formulaire commence à
+        name: nom
+        position: position
+        submission_id: soumission
       time_zone:
         primary: principal ?
         time_zone: fuseau horaire
@@ -412,6 +434,14 @@ fr:
       privacy: politique de confidentialité
       terms: termes et conditions
       up: fonctionne
+    submission_programs:
+      edit: modifier
+      index: programmes de soumission
+      new: nouveau
+    submissions:
+      edit: modifier
+      index: soumissions
+      new: nouvelle
     time_zones:
       edit: modifier
       index: fuseaux horaires
@@ -2590,6 +2620,7 @@ fr:
       program: programme
       program_execution: éxécution de programme
       program_schedule: horaire de programme
+      submission: soumission
       time_zone: fuseau horaire
       token: jeton
       user: utilisateur
@@ -2704,6 +2735,8 @@ fr:
       program_schedules: horaires de programmes
       programs: programmes
       sessions: sessions
+      submission_programs: programmes de soumission
+      submissions: soumissions
       time_zones: fuseaux horaires
       title: admin
       tokens: jetons
@@ -2784,6 +2817,105 @@ fr:
       body: fonctionne
       description: page d'etat codedorian.
       title: "/up"
+  submission_programs:
+    create:
+      notice: programme de soumission créé
+    delete_all:
+      notice: programmes de soumission supprimés
+    destroy:
+      notice: programme de soumission supprimé
+    destroy_all:
+      notice: programmes de soumission détruits
+    edit:
+      description: mettre à jour un programme de soumission.
+      submit: mettre à jour le programme de soumission
+      title: modifier le programme de soumission
+    index:
+      delete_all: supprimer tout
+      description: gérer les programmes de soumission.
+      destroy_all: détruire tout
+      new: nouveau programme de soumission
+      title: programmes de soumission
+    model:
+      to_s: programme_soumission#%{id}
+    new:
+      description: créer un nouveau programme de soumission.
+      submit: créer le programme de soumission
+      title: nouveau programme de soumission
+    show:
+      created_at: créé à
+      delete: supprimer le programme de soumission
+      description: description
+      destroy: détruire le programme de soumission
+      edit: modifier le programme de soumission
+      form_delivery: livraison de formulaire
+      form_delivery_description: description de livraison de formulaire
+      form_delivery_name: nom de livraison de formulaire
+      form_program: programme de formulaire
+      form_program_description: description de programme de formulaire
+      form_program_name: nom de programme de formulaire
+      form_schedule: horaire de formulaire
+      form_schedule_description: description de horaire de formulaire
+      form_schedule_interval: intervalle de horaire de formulaire
+      form_schedule_name: nom de horaire de formulaire
+      form_schedule_starts_at: horaire de formulaire commence à
+      id: identifiant
+      logs: logs
+      name: nom
+      new_log: nouveau log
+      new_version: nouvelle version
+      position: position
+      submission: soumission
+      updated_at: mis à jour à
+      versions: versions
+    update:
+      notice: programme de soumission mis à jour
+  submissions:
+    create:
+      notice: soumission créée
+    delete_all:
+      notice: soumissions supprimées
+    destroy:
+      notice: soumission supprimée
+    destroy_all:
+      notice: soumissions détruites
+    edit:
+      description: mettre à jour une soumission.
+      submit: mettre à jour la soumission
+      title: modifier la soumission
+    index:
+      delete_all: supprimer tout
+      description: gérer les soumissions.
+      destroy_all: détruire tout
+      new: nouvelle soumission
+      title: soumissions
+    model:
+      to_s: soumission#%{id}
+    new:
+      description: créer une nouvelle soumission.
+      submit: créer une soumission
+      title: nouvelle soumission
+    show:
+      created_at: créé à
+      delete: supprimer la soumission
+      description: consulter les détails de la soumission.
+      destroy: détruire la soumission
+      edit: modifier la soumission
+      email_address: adresse e-mail
+      family_name: nom de famille
+      given_name: prénom
+      id: identifiant
+      locale: langage
+      logs: logs
+      new_log: nouveau log
+      new_submission_program: nouveau programme de soumission
+      new_version: nouvelle version
+      phone_number: numéro de téléphone
+      submission_programs: programmes de soumission
+      updated_at: mis à jour à
+      versions: versions
+    update:
+      notice: soumission mise à jour
   time:
     formats:
       default: "%A %d %B %Y à %H:%M:%S"

@@ -26,6 +26,8 @@ class Version < PaperTrail::Version
     program
     program_execution
     program_schedule
+    submission
+    submission_program
     time_zone
     token
     user

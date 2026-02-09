@@ -1,0 +1,259 @@
+<% content_for(:title, @submission_program) %>
+
+<%= turbo_stream_from(@submission_program) %>
+
+<% if @submission_program.id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".id") %></div>
+    <div class="font-bold"><%= @submission_program.id %></div>
+  </div>
+<% end %>
+
+<% if @submission_program.submission.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".submission") %></div>
+
+    <% if can?(:show, @submission_program.submission) %>
+      <div class="font-bold">
+        <%= link_to(
+          @submission_program.submission,
+          @submission_program.submission,
+          class: :link
+        ) %>
+      </div>
+    <% else %>
+      <div class="font-bold"><%= @submission_program.submission %></div>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @submission_program.form_program.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".form_program") %></div>
+
+    <% if can?(:show, @submission_program.form_program) %>
+      <div class="font-bold">
+        <%= link_to(
+          @submission_program.form_program,
+          @submission_program.form_program,
+          class: :link
+        ) %>
+      </div>
+    <% else %>
+      <div class="font-bold"><%= @submission_program.form_program %></div>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @submission_program.form_schedule.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".form_schedule") %></div>
+
+    <% if can?(:show, @submission_program.form_schedule) %>
+      <div class="font-bold">
+        <%= link_to(
+          @submission_program.form_schedule,
+          @submission_program.form_schedule,
+          class: :link
+        ) %>
+      </div>
+    <% else %>
+      <div class="font-bold"><%= @submission_program.form_schedule %></div>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @submission_program.form_delivery.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".form_delivery") %></div>
+
+    <% if can?(:show, @submission_program.form_delivery) %>
+      <div class="font-bold">
+        <%= link_to(
+          @submission_program.form_delivery,
+          @submission_program.form_delivery,
+          class: :link
+        ) %>
+      </div>
+    <% else %>
+      <div class="font-bold"><%= @submission_program.form_delivery %></div>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @submission_program.name.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".name") %></div>
+    <div class="font-bold"><%= @submission_program.name %></div>
+  </div>
+<% end %>
+
+<% if @submission_program.description.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".description") %></div>
+    <div class="content">
+      <%= simple_format(@submission_program.description, {}, wrapper_tag: :div) %>
+    </div>
+  </div>
+<% end %>
+
+<% if @submission_program.position.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".position") %></div>
+    <div class="font-bold"><%= @submission_program.position %></div>
+  </div>
+<% end %>
+
+<% if @submission_program.form_program_name.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".form_program_name") %></div>
+    <div class="font-bold"><%= @submission_program.form_program_name %></div>
+  </div>
+<% end %>
+
+<% if @submission_program.form_program_description.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".form_program_description") %></div>
+    <div class="content">
+      <%= simple_format(
+        @submission_program.form_program_description,
+        {},
+        wrapper_tag: :div
+      ) %>
+    </div>
+  </div>
+<% end %>
+
+<% if @submission_program.form_schedule_starts_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".form_schedule_starts_at") %></div>
+    <div class="font-bold">
+      <%= local_time(@submission_program.form_schedule_starts_at, format: :default) %>
+    </div>
+  </div>
+<% end %>
+
+<% if @submission_program.form_schedule_interval.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".form_schedule_interval") %></div>
+    <div class="font-bold">
+      <%= @submission_program.form_schedule_interval %>
+    </div>
+  </div>
+<% end %>
+
+<% if @submission_program.form_schedule_name.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".form_schedule_name") %></div>
+    <div class="font-bold"><%= @submission_program.form_schedule_name %></div>
+  </div>
+<% end %>
+
+<% if @submission_program.form_schedule_description.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".form_schedule_description") %></div>
+    <div class="content">
+      <%= simple_format(
+        @submission_program.form_schedule_description,
+        {},
+        wrapper_tag: :div
+      ) %>
+    </div>
+  </div>
+<% end %>
+
+<% if @submission_program.form_delivery_name.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".form_delivery_name") %></div>
+    <div class="font-bold"><%= @submission_program.form_delivery_name %></div>
+  </div>
+<% end %>
+
+<% if @submission_program.form_delivery_description.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".form_delivery_description") %></div>
+    <div class="content">
+      <%= simple_format(
+        @submission_program.form_delivery_description,
+        {},
+        wrapper_tag: :div
+      ) %>
+    </div>
+  </div>
+<% end %>
+
+<% if @submission_program.updated_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".updated_at") %></div>
+    <div class="font-bold">
+      <%= local_time(@submission_program.updated_at, format: :default) %>
+    </div>
+  </div>
+<% end %>
+
+<% if @submission_program.created_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".created_at") %></div>
+    <div class="font-bold">
+      <%= local_time(@submission_program.created_at, format: :default) %>
+    </div>
+  </div>
+<% end %>
+
+<% if can?(:update, @submission_program) %>
+  <div class="p">
+    <%= link_to(t(".edit"), edit_url, class: :link) %>
+    <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+    <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
+  </div>
+<% end %>
+
+<% if can?(:index, Version) %>
+  <div class="p font-bold">
+    <%= link_to(t(".versions"), [*nested, @submission_program, :versions], class: :link) %>
+  </div>
+
+  <% if can?(:create, Version) %>
+    <div class="p">
+      <%= link_to(
+        t(".new_version"),
+        [:new, *nested, @submission_program, :version],
+        class: "button"
+      ) %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "versions/version",
+    collection: @versions,
+    as: :version,
+    locals: {
+      nested: [*nested, @submission_program]
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, Log) %>
+  <div class="p font-bold">
+    <%= link_to(t(".logs"), [*nested, @submission_program, :logs], class: :link) %>
+  </div>
+
+  <% if can?(:create, Log) %>
+    <div class="p">
+      <%= link_to(
+        t(".new_log"),
+        [:new, *nested, @submission_program, :log],
+        class: "button"
+      ) %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "logs/log",
+    collection: @logs,
+    as: :log,
+    locals: {
+      nested: [*nested, @submission_program]
+    }
+  ) %>
+<% end %>

@@ -1,0 +1,142 @@
+<% content_for(:title, @submission) %>
+
+<%= turbo_stream_from(@submission) %>
+
+<% if can?(:update, @submission) %>
+  <% if @submission.id.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".id") %></div>
+      <div class="font-bold"><%= @submission.id %></div>
+    </div>
+  <% end %>
+<% end %>
+
+<% if @submission.email_address.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".email_address") %></div>
+    <div class="font-bold"><%= @submission.email_address %></div>
+  </div>
+<% end %>
+
+<% if @submission.phone_number.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".phone_number") %></div>
+    <div class="font-bold"><%= @submission.phone_number %></div>
+  </div>
+<% end %>
+
+<% if @submission.given_name.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".given_name") %></div>
+    <div class="font-bold"><%= @submission.given_name %></div>
+  </div>
+<% end %>
+
+<% if @submission.family_name.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".family_name") %></div>
+    <div class="font-bold"><%= @submission.family_name %></div>
+  </div>
+<% end %>
+
+<% if @submission.locale.present? && can?(:update, @submission) %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".locale") %></div>
+    <div class="font-bold"><%= @submission.locale %></div>
+  </div>
+<% end %>
+
+<% if can?(:update, @submission) %>
+  <% if @submission.updated_at.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".updated_at") %></div>
+      <div class="font-bold">
+        <%= local_time(@submission.updated_at, format: :default) %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if @submission.created_at.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".created_at") %></div>
+      <div class="font-bold">
+        <%= local_time(@submission.created_at, format: :default) %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="p">
+    <%= link_to(t(".edit"), edit_url, class: :link) %>
+    <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+    <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
+  </div>
+<% end %>
+
+<div class="p font-bold">
+  <%= link_to(
+    t(".submission_programs"),
+    [@submission, :submission_programs],
+    class: :link
+  ) %>
+</div>
+
+<% if can?(:create, SubmissionProgram) %>
+  <div class="p">
+    <%= link_to(
+      t(".new_submission_program"),
+      [:new, @submission, :submission_program],
+      class: "button"
+    ) %>
+  </div>
+<% end %>
+
+<%= render_collection(
+  partial: "submission_programs/submission_program",
+  collection: @submission_programs,
+  as: :submission_program,
+  locals: {
+    nested: [@submission]
+  }
+) %>
+
+<% if can?(:index, Version) %>
+  <div class="p font-bold">
+    <%= link_to(t(".versions"), [@submission, :versions], class: :link) %>
+  </div>
+
+  <% if can?(:create, Version) %>
+    <div class="p">
+      <%= link_to(t(".new_version"), [:new, @submission, :version], class: "button") %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "versions/version",
+    collection: @versions,
+    as: :version,
+    locals: {
+      nested: [@submission]
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, Log) %>
+  <div class="p font-bold">
+    <%= link_to(t(".logs"), [@submission, :logs], class: :link) %>
+  </div>
+
+  <% if can?(:create, Log) %>
+    <div class="p">
+      <%= link_to(t(".new_log"), [:new, @submission, :log], class: "button") %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "logs/log",
+    collection: @logs,
+    as: :log,
+    locals: {
+      nested: [@submission]
+    }
+  ) %>
+<% end %>

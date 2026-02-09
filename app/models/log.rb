@@ -40,6 +40,8 @@ class Log < ApplicationRecord
     program_execution
     program_schedule
     session
+    submission
+    submission_program
     time_zone
     token
     user

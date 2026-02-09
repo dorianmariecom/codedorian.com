@@ -66,6 +66,8 @@ elsif filter == :token
   scope = scope.where_user(@user) if @user
 elsif filter == :example
   scope = policy_scope(Example)
+elsif filter == :submission
+  scope = policy_scope(Submission)
 else
   raise(NotImplementedError, "filter #{filter.inspect} not implemented")
 end %>

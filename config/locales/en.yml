@@ -175,6 +175,28 @@ en:
         interval: interval
         program_id: program
         starts_at: starts at
+      submission:
+        email_address: email address
+        family_name: family name
+        given_name: given name
+        locale: locale
+        phone_number: phone number
+      submission_program:
+        description: description
+        form_delivery_description: form delivery description
+        form_delivery_id: form delivery
+        form_delivery_name: form delivery name
+        form_program_description: form program description
+        form_program_id: form program
+        form_program_name: form program name
+        form_schedule_description: form schedule description
+        form_schedule_id: form schedule
+        form_schedule_interval: form schedule interval
+        form_schedule_name: form schedule name
+        form_schedule_starts_at: form schedule starts at
+        name: name
+        position: position
+        submission_id: submission
       time_zone:
         primary: primary?
         time_zone: time zone
@@ -411,6 +433,14 @@ en:
       privacy: privacy
       terms: terms
       up: up
+    submission_programs:
+      edit: edit
+      index: submission programs
+      new: new
+    submissions:
+      edit: edit
+      index: submissions
+      new: new
     time_zones:
       edit: edit
       index: time zones
@@ -2586,6 +2616,7 @@ en:
       program: program
       program_execution: program execution
       program_schedule: program schedule
+      submission: submission
       time_zone: time zone
       token: token
       user: user
@@ -2700,6 +2731,8 @@ en:
       program_schedules: program schedules
       programs: programs
       sessions: sessions
+      submission_programs: submission programs
+      submissions: submissions
       time_zones: time zones
       title: admin
       tokens: tokens
@@ -2780,6 +2813,105 @@ en:
       body: working
       description: codedorian status page.
       title: "/up"
+  submission_programs:
+    create:
+      notice: submission program created
+    delete_all:
+      notice: submission programs deleted
+    destroy:
+      notice: submission program deleted
+    destroy_all:
+      notice: submission programs destroyed
+    edit:
+      description: update a submission program.
+      submit: update submission program
+      title: edit submission program
+    index:
+      delete_all: delete all
+      description: manage submission programs.
+      destroy_all: destroy all
+      new: new submission program
+      title: submission programs
+    model:
+      to_s: submission_program#%{id}
+    new:
+      description: create a new submission program.
+      submit: create submission program
+      title: new submission program
+    show:
+      created_at: created at
+      delete: delete submission program
+      description: description
+      destroy: destroy submission program
+      edit: edit submission program
+      form_delivery: form delivery
+      form_delivery_description: form delivery description
+      form_delivery_name: form delivery name
+      form_program: form program
+      form_program_description: form program description
+      form_program_name: form program name
+      form_schedule: form schedule
+      form_schedule_description: form schedule description
+      form_schedule_interval: form schedule interval
+      form_schedule_name: form schedule name
+      form_schedule_starts_at: form schedule starts at
+      id: id
+      logs: logs
+      name: name
+      new_log: new log
+      new_version: new version
+      position: position
+      submission: submission
+      updated_at: updated at
+      versions: versions
+    update:
+      notice: submission program updated
+  submissions:
+    create:
+      notice: submission created
+    delete_all:
+      notice: submissions deleted
+    destroy:
+      notice: submission deleted
+    destroy_all:
+      notice: submissions destroyed
+    edit:
+      description: update a submission.
+      submit: update submission
+      title: edit submission
+    index:
+      delete_all: delete all
+      description: manage submissions.
+      destroy_all: destroy all
+      new: new submission
+      title: submissions
+    model:
+      to_s: submission#%{id}
+    new:
+      description: create a new submission.
+      submit: create submission
+      title: new submission
+    show:
+      created_at: created at
+      delete: delete submission
+      description: view submission details.
+      destroy: destroy submission
+      edit: edit submission
+      email_address: email address
+      family_name: family name
+      given_name: given name
+      id: id
+      locale: locale
+      logs: logs
+      new_log: new log
+      new_submission_program: new submission program
+      new_version: new version
+      phone_number: phone number
+      submission_programs: submission programs
+      updated_at: updated at
+      versions: versions
+    update:
+      notice: submission updated
   time:
     formats:
       default: "%A %d %B %Y at %H:%M:%S"

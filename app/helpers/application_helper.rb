@@ -141,6 +141,52 @@ module ApplicationHelper
       end
   end
 
+  def submission_options(submission_id: nil)
+    ([nil] + policy_scope(Submission).order(:id).to_a).map do |submission|
+      [
+        submission&.to_s,
+        submission&.id,
+        { selected: submission_id == submission&.id }
+      ]
+    end
+  end
+
+  def form_program_options(form_program_id: nil)
+    (
+      [nil] + policy_scope(FormProgram).order(:position, :id).to_a
+    ).map do |form_program|
+      [
+        form_program&.to_s,
+        form_program&.id,
+        { selected: form_program_id == form_program&.id }
+      ]
+    end
+  end
+
+  def form_schedule_options(form_schedule_id: nil)
+    (
+      [nil] + policy_scope(FormSchedule).order(:position, :id).to_a
+    ).map do |form_schedule|
+      [
+        form_schedule&.to_s,
+        form_schedule&.id,
+        { selected: form_schedule_id == form_schedule&.id }
+      ]
+    end
+  end
+
+  def form_delivery_options(form_delivery_id: nil)
+    (
+      [nil] + policy_scope(FormDelivery).order(:position, :id).to_a
+    ).map do |form_delivery|
+      [
+        form_delivery&.to_s,
+        form_delivery&.id,
+        { selected: form_delivery_id == form_delivery&.id }
+      ]
+    end
+  end
+
   def locale_options(locale: nil)
     locale = (locale.presence || I18n.locale).to_s
 
