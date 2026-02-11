@@ -68,6 +68,9 @@ elsif filter == :example
   scope = policy_scope(Example)
 elsif filter == :submission
   scope = policy_scope(Submission)
+elsif filter == :submission_section
+  scope = policy_scope(SubmissionSection)
+  scope = scope.where_submission(@submission) if @submission
 else
   raise(NotImplementedError, "filter #{filter.inspect} not implemented")
 end %>

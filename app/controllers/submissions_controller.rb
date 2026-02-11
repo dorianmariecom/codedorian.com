@@ -11,8 +11,8 @@ class SubmissionsController < ApplicationController
   end
 
   def show
-    @submission_programs =
-      submission_programs_scope.order(position: :asc).page(params[:page])
+    @submission_sections =
+      submission_sections_scope.order(created_at: :asc).page(params[:page])
     @versions = versions_scope.order(created_at: :desc).page(params[:page])
     @logs = logs_scope.order(created_at: :desc).page(params[:page])
   end
@@ -86,12 +86,6 @@ class SubmissionsController < ApplicationController
     searched_policy_scope(Submission)
   end
 
-  def submission_programs_scope
-    scope = policy_scope(SubmissionProgram)
-    scope = scope.where_submission(@submission) if @submission
-    scope
-  end
-
   def versions_scope
     scope = policy_scope(Version)
     scope = scope.where_submission(@submission) if @submission
@@ -100,6 +94,12 @@ class SubmissionsController < ApplicationController
 
   def logs_scope
     scope = policy_scope(Log)
+    scope = scope.where_submission(@submission) if @submission
+    scope
+  end
+
+  def submission_sections_scope
+    scope = policy_scope(SubmissionSection)
     scope = scope.where_submission(@submission) if @submission
     scope
   end
@@ -133,7 +133,7 @@ class SubmissionsController < ApplicationController
   def submission_params
     if admin?
       params.expect(
-        submission: %i[email_address phone_number given_name family_name locale]
+        submission: %i[given_name family_name email_address phone_number locale]
       )
     else
       {}

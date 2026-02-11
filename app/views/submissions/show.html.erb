@@ -11,20 +11,6 @@
   <% end %>
 <% end %>
 
-<% if @submission.email_address.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".email_address") %></div>
-    <div class="font-bold"><%= @submission.email_address %></div>
-  </div>
-<% end %>
-
-<% if @submission.phone_number.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".phone_number") %></div>
-    <div class="font-bold"><%= @submission.phone_number %></div>
-  </div>
-<% end %>
-
 <% if @submission.given_name.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".given_name") %></div>
@@ -36,6 +22,20 @@
   <div class="p">
     <div class="text-gray-600"><%= t(".family_name") %></div>
     <div class="font-bold"><%= @submission.family_name %></div>
+  </div>
+<% end %>
+
+<% if @submission.email_address.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".email_address") %></div>
+    <div class="font-bold"><%= @submission.email_address %></div>
+  </div>
+<% end %>
+
+<% if @submission.phone_number.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".phone_number") %></div>
+    <div class="font-bold"><%= @submission.phone_number %></div>
   </div>
 <% end %>
 
@@ -74,26 +74,26 @@
 
 <div class="p font-bold">
   <%= link_to(
-    t(".submission_programs"),
-    [@submission, :submission_programs],
+    t(".submission_sections"),
+    [@submission, :submission_sections],
     class: :link
   ) %>
 </div>
 
-<% if can?(:create, SubmissionProgram) %>
+<% if can?(:create, SubmissionSection) %>
   <div class="p">
     <%= link_to(
-      t(".new_submission_program"),
-      [:new, @submission, :submission_program],
+      t(".new_submission_section"),
+      [:new, @submission, :submission_section],
       class: "button"
     ) %>
   </div>
 <% end %>
 
 <%= render_collection(
-  partial: "submission_programs/submission_program",
-  collection: @submission_programs,
-  as: :submission_program,
+  partial: "submission_sections/submission_section",
+  collection: @submission_sections,
+  as: :submission_section,
   locals: {
     nested: [@submission]
   }

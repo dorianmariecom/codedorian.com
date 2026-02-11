@@ -181,21 +181,28 @@ en:
         given_name: given name
         locale: locale
         phone_number: phone number
+        phone_number_input: phone number
+      submission_delivery:
+        description: description
+        locale: locale
+        name: name
+        submission_section_id: submission section
       submission_program:
         description: description
-        form_delivery_description: form delivery description
-        form_delivery_id: form delivery
-        form_delivery_name: form delivery name
-        form_program_description: form program description
-        form_program_id: form program
-        form_program_name: form program name
-        form_schedule_description: form schedule description
-        form_schedule_id: form schedule
-        form_schedule_interval: form schedule interval
-        form_schedule_name: form schedule name
-        form_schedule_starts_at: form schedule starts at
+        locale: locale
         name: name
-        position: position
+        submission_section_id: submission section
+      submission_schedule:
+        description: description
+        interval: interval
+        locale: locale
+        name: name
+        starts_at: starts at
+        submission_section_id: submission section
+      submission_section:
+        description: description
+        locale: locale
+        name: name
         submission_id: submission
       time_zone:
         primary: primary?
@@ -326,6 +333,8 @@ en:
       edit: edit
       index: form schedules
       new: new
+    forms:
+      show: form
     guests:
       edit: edit
       index: guests
@@ -428,14 +437,25 @@ en:
       about: about
       admin: admin
       download: download
-      form: form
       home: home
       privacy: privacy
       terms: terms
       up: up
+    submission_deliveries:
+      edit: edit
+      index: submission deliveries
+      new: new
     submission_programs:
       edit: edit
       index: submission programs
+      new: new
+    submission_schedules:
+      edit: edit
+      index: submission schedules
+      new: new
+    submission_sections:
+      edit: edit
+      index: submission sections
       new: new
     submissions:
       edit: edit
@@ -1164,6 +1184,14 @@ en:
       versions: versions
     update:
       notice: schedule updated
+  forms:
+    create:
+      notice: form submitted
+    show:
+      description: this is an example form to demonstrate form deliveries, programs,
+        and schedules.
+      intro: hi, it's dorian, i would like to make you some programs
+      title: form
   guests:
     create:
       notice: guest created
@@ -2617,6 +2645,7 @@ en:
       program_execution: program execution
       program_schedule: program schedule
       submission: submission
+      submission_section: submission section
       time_zone: time zone
       token: token
       user: user
@@ -2731,7 +2760,10 @@ en:
       program_schedules: program schedules
       programs: programs
       sessions: sessions
+      submission_deliveries: submission deliveries
       submission_programs: submission programs
+      submission_schedules: submission schedules
+      submission_sections: submission sections
       submissions: submissions
       time_zones: time zones
       title: admin
@@ -2813,6 +2845,49 @@ en:
       body: working
       description: codedorian status page.
       title: "/up"
+  submission_deliveries:
+    create:
+      notice: submission delivery created
+    delete_all:
+      notice: submission deliveries deleted
+    destroy:
+      notice: submission delivery deleted
+    destroy_all:
+      notice: submission deliveries destroyed
+    edit:
+      description: update a submission delivery.
+      submit: update submission delivery
+      title: edit submission delivery
+    index:
+      delete_all: delete all
+      description: manage submission deliveries.
+      destroy_all: destroy all
+      new: new submission delivery
+      title: submission deliveries
+    model:
+      to_s: submission_delivery#%{id}
+    new:
+      description: create a new submission delivery.
+      submit: create submission delivery
+      title: new submission delivery
+    show:
+      created_at: created at
+      delete: delete submission delivery
+      description: description
+      destroy: destroy submission delivery
+      edit: edit submission delivery
+      id: id
+      locale: locale
+      logs: logs
+      name: name
+      new_log: new log
+      new_version: new version
+      submission: submission
+      submission_section: submission section
+      updated_at: updated at
+      versions: versions
+    update:
+      notice: submission delivery updated
   submission_programs:
     create:
       notice: submission program created
@@ -2844,28 +2919,182 @@ en:
       description: description
       destroy: destroy submission program
       edit: edit submission program
-      form_delivery: form delivery
-      form_delivery_description: form delivery description
-      form_delivery_name: form delivery name
-      form_program: form program
-      form_program_description: form program description
-      form_program_name: form program name
-      form_schedule: form schedule
-      form_schedule_description: form schedule description
-      form_schedule_interval: form schedule interval
-      form_schedule_name: form schedule name
-      form_schedule_starts_at: form schedule starts at
       id: id
+      locale: locale
       logs: logs
       name: name
       new_log: new log
       new_version: new version
-      position: position
       submission: submission
+      submission_section: submission section
       updated_at: updated at
       versions: versions
     update:
       notice: submission program updated
+  submission_schedules:
+    create:
+      notice: submission schedule created
+    delete_all:
+      notice: submission schedules deleted
+    destroy:
+      notice: submission schedule deleted
+    destroy_all:
+      notice: submission schedules destroyed
+    edit:
+      description: update a submission schedule.
+      submit: update submission schedule
+      title: edit submission schedule
+    index:
+      delete_all: delete all
+      description: manage submission schedules.
+      destroy_all: destroy all
+      new: new submission schedule
+      title: submission schedules
+    model:
+      days:
+        one: 1 day
+        other: "%{count} days"
+        zero: 0 days
+      fifth_friday: fifth friday
+      fifth_monday: fifth monday
+      fifth_saturday: fifth saturday
+      fifth_sunday: fifth sunday
+      fifth_thursday: fifth thursday
+      fifth_tuesday: fifth tuesday
+      fifth_wednesday: fifth wednesday
+      first_friday: first friday
+      first_monday: first monday
+      first_saturday: first saturday
+      first_sunday: first sunday
+      first_thursday: first thursday
+      first_tuesday: first tuesday
+      first_wednesday: first wednesday
+      fourth_friday: fourth friday
+      fourth_monday: fourth monday
+      fourth_saturday: fourth saturday
+      fourth_sunday: fourth sunday
+      fourth_thursday: fourth thursday
+      fourth_tuesday: fourth tuesday
+      fourth_wednesday: fourth wednesday
+      hours:
+        one: 1 hour
+        other: "%{count} hours"
+        zero: 0 hours
+      last_friday: last friday
+      last_monday: last monday
+      last_saturday: last saturday
+      last_sunday: last sunday
+      last_thursday: last thursday
+      last_tuesday: last tuesday
+      last_wednesday: last wednesday
+      minutes:
+        one: 1 minute
+        other: "%{count} minutes"
+        zero: 0 minutes
+      months:
+        one: 1 month
+        other: "%{count} months"
+        zero: 0 months
+      once: once
+      second_friday: second friday
+      second_monday: second monday
+      second_saturday: second saturday
+      second_sunday: second sunday
+      second_thursday: second thursday
+      second_tuesday: second tuesday
+      second_wednesday: second wednesday
+      seconds:
+        one: 1 second
+        other: "%{count} seconds"
+        zero: 0 seconds
+      third_friday: third friday
+      third_monday: third monday
+      third_saturday: third saturday
+      third_sunday: third sunday
+      third_thursday: third thursday
+      third_tuesday: third tuesday
+      third_wednesday: third wednesday
+      to_s: submission_schedule#%{id}
+      weeks:
+        one: 1 week
+        other: "%{count} weeks"
+        zero: 0 weeks
+      years:
+        one: 1 year
+        other: "%{count} years"
+        zero: 0 years
+    new:
+      description: create a new submission schedule.
+      submit: create submission schedule
+      title: new submission schedule
+    show:
+      created_at: created at
+      delete: delete submission schedule
+      description: description
+      destroy: destroy submission schedule
+      edit: edit submission schedule
+      id: id
+      interval: interval
+      locale: locale
+      logs: logs
+      name: name
+      new_log: new log
+      new_version: new version
+      starts_at: starts at
+      submission: submission
+      submission_section: submission section
+      updated_at: updated at
+      versions: versions
+    update:
+      notice: submission schedule updated
+  submission_sections:
+    create:
+      notice: submission section created
+    delete_all:
+      notice: submission sections deleted
+    destroy:
+      notice: submission section deleted
+    destroy_all:
+      notice: submission sections destroyed
+    edit:
+      description: update a submission section.
+      submit: update submission section
+      title: edit submission section
+    index:
+      delete_all: delete all
+      description: manage submission sections.
+      destroy_all: destroy all
+      new: new submission section
+      title: submission sections
+    model:
+      to_s: submission_section#%{id}
+    new:
+      description: create a new submission section.
+      submit: create submission section
+      title: new submission section
+    show:
+      created_at: created at
+      delete: delete submission section
+      description: description
+      destroy: destroy submission section
+      edit: edit submission section
+      id: id
+      locale: locale
+      logs: logs
+      name: name
+      new_log: new log
+      new_submission_delivery: new submission delivery
+      new_submission_program: new submission program
+      new_submission_schedule: new submission schedule
+      new_version: new version
+      submission: submission
+      submission_deliveries: submission deliveries
+      submission_programs: submission programs
+      submission_schedules: submission schedules
+      updated_at: updated at
+      versions: versions
+    update:
+      notice: submission section updated
   submissions:
     create:
       notice: submission created
@@ -2904,10 +3133,10 @@ en:
       locale: locale
       logs: logs
       new_log: new log
-      new_submission_program: new submission program
+      new_submission_section: new submission section
       new_version: new version
       phone_number: phone number
-      submission_programs: submission programs
+      submission_sections: submission sections
       updated_at: updated at
       versions: versions
     update:

@@ -41,7 +41,10 @@ class Log < ApplicationRecord
     program_schedule
     session
     submission
+    submission_delivery
     submission_program
+    submission_schedule
+    submission_section
     time_zone
     token
     user

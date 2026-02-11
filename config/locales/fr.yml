@@ -181,21 +181,28 @@ fr:
         given_name: prénom
         locale: langage
         phone_number: numéro de téléphone
+        phone_number_input: numéro de téléphone
+      submission_delivery:
+        description: description
+        locale: langage
+        name: nom
+        submission_section_id: section de soumission
       submission_program:
         description: description
-        form_delivery_description: description de livraison de formulaire
-        form_delivery_id: livraison de formulaire
-        form_delivery_name: nom de livraison de formulaire
-        form_program_description: description de programme de formulaire
-        form_program_id: programme de formulaire
-        form_program_name: nom de programme de formulaire
-        form_schedule_description: description de horaire de formulaire
-        form_schedule_id: horaire de formulaire
-        form_schedule_interval: intervalle de horaire de formulaire
-        form_schedule_name: nom de horaire de formulaire
-        form_schedule_starts_at: horaire de formulaire commence à
+        locale: langage
         name: nom
-        position: position
+        submission_section_id: section de soumission
+      submission_schedule:
+        description: description
+        interval: intervalle
+        locale: langage
+        name: nom
+        starts_at: commence à
+        submission_section_id: section de soumission
+      submission_section:
+        description: description
+        locale: langage
+        name: nom
         submission_id: soumission
       time_zone:
         primary: principal ?
@@ -327,6 +334,8 @@ fr:
       edit: modifier
       index: horaires de formulaire
       new: nouvelle
+    forms:
+      show: formulaire
     guests:
       edit: modifier
       index: invités
@@ -429,15 +438,26 @@ fr:
       about: à propos
       admin: admin
       download: télécharger
-      form: formulaire
       home: accueil
       privacy: politique de confidentialité
       terms: termes et conditions
       up: fonctionne
+    submission_deliveries:
+      edit: modifier
+      index: livraisons de soumission
+      new: nouvelle
     submission_programs:
       edit: modifier
       index: programmes de soumission
       new: nouveau
+    submission_schedules:
+      edit: modifier
+      index: horaires de soumission
+      new: nouveau
+    submission_sections:
+      edit: modifier
+      index: sections de soumission
+      new: nouvelle
     submissions:
       edit: modifier
       index: soumissions
@@ -1165,6 +1185,14 @@ fr:
       versions: versions
     update:
       notice: horaire de formulaire mis à jour
+  forms:
+    create:
+      notice: formulaire envoyé
+    show:
+      description: ceci est un formulaire d'exemple pour démontrer les livraisons
+        de formulaire, les programmes et les horaires.
+      intro: salut, c'est dorian, je voudrais te faire des programmes
+      title: formulaire
   guests:
     create:
       notice: invité créé
@@ -2621,6 +2649,7 @@ fr:
       program_execution: éxécution de programme
       program_schedule: horaire de programme
       submission: soumission
+      submission_section: section de soumission
       time_zone: fuseau horaire
       token: jeton
       user: utilisateur
@@ -2735,7 +2764,10 @@ fr:
       program_schedules: horaires de programmes
       programs: programmes
       sessions: sessions
+      submission_deliveries: livraisons de soumission
       submission_programs: programmes de soumission
+      submission_schedules: horaires de soumission
+      submission_sections: sections de soumission
       submissions: soumissions
       time_zones: fuseaux horaires
       title: admin
@@ -2817,6 +2849,49 @@ fr:
       body: fonctionne
       description: page d'etat codedorian.
       title: "/up"
+  submission_deliveries:
+    create:
+      notice: livraison de soumission créée
+    delete_all:
+      notice: livraisons de soumission supprimées
+    destroy:
+      notice: livraison de soumission supprimée
+    destroy_all:
+      notice: livraisons de soumission détruites
+    edit:
+      description: mettre à jour une livraison de soumission.
+      submit: mettre à jour la livraison de soumission
+      title: modifier la livraison de soumission
+    index:
+      delete_all: supprimer tout
+      description: gérer les livraisons de soumission.
+      destroy_all: détruire tout
+      new: nouvelle livraison de soumission
+      title: livraisons de soumission
+    model:
+      to_s: livraison_soumission#%{id}
+    new:
+      description: créer une nouvelle livraison de soumission.
+      submit: créer la livraison de soumission
+      title: nouvelle livraison de soumission
+    show:
+      created_at: créé à
+      delete: supprimer la livraison de soumission
+      description: description
+      destroy: détruire la livraison de soumission
+      edit: modifier la livraison de soumission
+      id: identifiant
+      locale: langage
+      logs: logs
+      name: nom
+      new_log: nouveau log
+      new_version: nouvelle version
+      submission: soumission
+      submission_section: section de soumission
+      updated_at: mis à jour à
+      versions: versions
+    update:
+      notice: livraison de soumission mise à jour
   submission_programs:
     create:
       notice: programme de soumission créé
@@ -2848,28 +2923,182 @@ fr:
       description: description
       destroy: détruire le programme de soumission
       edit: modifier le programme de soumission
-      form_delivery: livraison de formulaire
-      form_delivery_description: description de livraison de formulaire
-      form_delivery_name: nom de livraison de formulaire
-      form_program: programme de formulaire
-      form_program_description: description de programme de formulaire
-      form_program_name: nom de programme de formulaire
-      form_schedule: horaire de formulaire
-      form_schedule_description: description de horaire de formulaire
-      form_schedule_interval: intervalle de horaire de formulaire
-      form_schedule_name: nom de horaire de formulaire
-      form_schedule_starts_at: horaire de formulaire commence à
       id: identifiant
+      locale: langage
       logs: logs
       name: nom
       new_log: nouveau log
       new_version: nouvelle version
-      position: position
       submission: soumission
+      submission_section: section de soumission
       updated_at: mis à jour à
       versions: versions
     update:
       notice: programme de soumission mis à jour
+  submission_schedules:
+    create:
+      notice: horaire de soumission créé
+    delete_all:
+      notice: horaires de soumission supprimés
+    destroy:
+      notice: horaire de soumission supprimé
+    destroy_all:
+      notice: horaires de soumission détruits
+    edit:
+      description: mettre à jour un horaire de soumission.
+      submit: mettre à jour l'horaire de soumission
+      title: modifier l'horaire de soumission
+    index:
+      delete_all: supprimer tout
+      description: gérer les horaires de soumission.
+      destroy_all: détruire tout
+      new: nouveau horaire de soumission
+      title: horaires de soumission
+    model:
+      days:
+        one: 1 jour
+        other: "%{count} jours"
+        zero: 0 jour
+      fifth_friday: cinquième vendredi
+      fifth_monday: cinquième lundi
+      fifth_saturday: cinquième samedi
+      fifth_sunday: cinquième dimanche
+      fifth_thursday: cinquième jeudi
+      fifth_tuesday: cinquième mardi
+      fifth_wednesday: cinquième mercredi
+      first_friday: premier vendredi
+      first_monday: premier lundi
+      first_saturday: premier samedi
+      first_sunday: premier dimanche
+      first_thursday: premier jeudi
+      first_tuesday: premier mardi
+      first_wednesday: premier mercredi
+      fourth_friday: quatrième vendredi
+      fourth_monday: quatrième lundi
+      fourth_saturday: quatrième samedi
+      fourth_sunday: quatrième dimanche
+      fourth_thursday: quatrième jeudi
+      fourth_tuesday: quatrième mardi
+      fourth_wednesday: quatrième mercredi
+      hours:
+        one: 1 heure
+        other: "%{count} heures"
+        zero: 0 heures
+      last_friday: dernier vendredi
+      last_monday: dernier lundi
+      last_saturday: dernier samedi
+      last_sunday: dernier dimanche
+      last_thursday: dernier jeudi
+      last_tuesday: dernier mardi
+      last_wednesday: dernier mercredi
+      minutes:
+        one: 1 minute
+        other: "%{count} minutes"
+        zero: 0 minutes
+      months:
+        one: 1 mois
+        other: "%{count} mois"
+        zero: 0 mois
+      once: une fois
+      second_friday: deuxième vendredi
+      second_monday: deuxième lundi
+      second_saturday: deuxième samedi
+      second_sunday: deuxième dimanche
+      second_thursday: deuxième jeudi
+      second_tuesday: deuxième mardi
+      second_wednesday: deuxième mercredi
+      seconds:
+        one: 1 seconde
+        other: "%{count} secondes"
+        zero: 0 seconde
+      third_friday: troisième vendredi
+      third_monday: troisième lundi
+      third_saturday: troisième samedi
+      third_sunday: troisième dimanche
+      third_thursday: troisième jeudi
+      third_tuesday: troisième mardi
+      third_wednesday: troisième mercredi
+      to_s: horaire_soumission#%{id}
+      weeks:
+        one: 1 semaine
+        other: "%{count} semaines"
+        zero: 0 semaines
+      years:
+        one: 1 an
+        other: "%{count} ans"
+        zero: 0 ans
+    new:
+      description: créer un nouveau horaire de soumission.
+      submit: créer l'horaire de soumission
+      title: nouveau horaire de soumission
+    show:
+      created_at: créé à
+      delete: supprimer l'horaire de soumission
+      description: description
+      destroy: détruire l'horaire de soumission
+      edit: modifier l'horaire de soumission
+      id: identifiant
+      interval: intervalle
+      locale: langage
+      logs: logs
+      name: nom
+      new_log: nouveau log
+      new_version: nouvelle version
+      starts_at: commence à
+      submission: soumission
+      submission_section: section de soumission
+      updated_at: mis à jour à
+      versions: versions
+    update:
+      notice: horaire de soumission mis à jour
+  submission_sections:
+    create:
+      notice: section de soumission créée
+    delete_all:
+      notice: sections de soumission supprimées
+    destroy:
+      notice: section de soumission supprimée
+    destroy_all:
+      notice: sections de soumission détruites
+    edit:
+      description: mettre à jour une section de soumission.
+      submit: mettre à jour la section de soumission
+      title: modifier la section de soumission
+    index:
+      delete_all: supprimer tout
+      description: gérer les sections de soumission.
+      destroy_all: détruire tout
+      new: nouvelle section de soumission
+      title: sections de soumission
+    model:
+      to_s: section_soumission#%{id}
+    new:
+      description: créer une nouvelle section de soumission.
+      submit: créer la section de soumission
+      title: nouvelle section de soumission
+    show:
+      created_at: créé à
+      delete: supprimer la section de soumission
+      description: description
+      destroy: détruire la section de soumission
+      edit: modifier la section de soumission
+      id: identifiant
+      locale: langage
+      logs: logs
+      name: nom
+      new_log: nouveau log
+      new_submission_delivery: nouvelle livraison de soumission
+      new_submission_program: nouveau programme de soumission
+      new_submission_schedule: nouvel horaire de soumission
+      new_version: nouvelle version
+      submission: soumission
+      submission_deliveries: livraisons de soumission
+      submission_programs: programmes de soumission
+      submission_schedules: horaires de soumission
+      updated_at: mis à jour à
+      versions: versions
+    update:
+      notice: section de soumission mise à jour
   submissions:
     create:
       notice: soumission créée
@@ -2908,10 +3137,10 @@ fr:
       locale: langage
       logs: logs
       new_log: nouveau log
-      new_submission_program: nouveau programme de soumission
+      new_submission_section: nouvelle section de soumission
       new_version: nouvelle version
       phone_number: numéro de téléphone
-      submission_programs: programmes de soumission
+      submission_sections: sections de soumission
       updated_at: mis à jour à
       versions: versions
     update:

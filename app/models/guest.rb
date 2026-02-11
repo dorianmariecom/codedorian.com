@@ -20,4 +20,5 @@ class Guest < ApplicationRecord
   def admin? = false
 
   def to_s = t("to_s", id: id)
+  def to_param = :me
 end

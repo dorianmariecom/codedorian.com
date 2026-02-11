@@ -404,6 +404,76 @@ Rails.application.routes.draw do
         define_all_delete.call(:destroy, :submission_programs)
         define_all_delete.call(:delete, :submission_programs)
       end
+
+      resources(:submission_schedules) do
+        define_delete_destroy.call
+        define_logs_versions.call
+        define_all_delete.call(:destroy, :submission_schedules)
+        define_all_delete.call(:delete, :submission_schedules)
+      end
+
+      resources(:submission_deliveries) do
+        define_delete_destroy.call
+        define_logs_versions.call
+        define_all_delete.call(:destroy, :submission_deliveries)
+        define_all_delete.call(:delete, :submission_deliveries)
+      end
+
+      resources(:submission_sections) do
+        define_delete_destroy.call
+        define_logs_versions.call
+        define_all_delete.call(:destroy, :submission_sections)
+        define_all_delete.call(:delete, :submission_sections)
+
+        resources(:submission_programs) do
+          define_delete_destroy.call
+          define_logs_versions.call
+          define_all_delete.call(:destroy, :submission_programs)
+          define_all_delete.call(:delete, :submission_programs)
+        end
+
+        resources(:submission_schedules) do
+          define_delete_destroy.call
+          define_logs_versions.call
+          define_all_delete.call(:destroy, :submission_schedules)
+          define_all_delete.call(:delete, :submission_schedules)
+        end
+
+        resources(:submission_deliveries) do
+          define_delete_destroy.call
+          define_logs_versions.call
+          define_all_delete.call(:destroy, :submission_deliveries)
+          define_all_delete.call(:delete, :submission_deliveries)
+        end
+      end
+    end
+
+    resources(:submission_sections) do
+      define_delete_destroy.call
+      define_logs_versions.call
+      define_all_delete.call(:destroy, :submission_sections)
+      define_all_delete.call(:delete, :submission_sections)
+
+      resources(:submission_programs) do
+        define_delete_destroy.call
+        define_logs_versions.call
+        define_all_delete.call(:destroy, :submission_programs)
+        define_all_delete.call(:delete, :submission_programs)
+      end
+
+      resources(:submission_schedules) do
+        define_delete_destroy.call
+        define_logs_versions.call
+        define_all_delete.call(:destroy, :submission_schedules)
+        define_all_delete.call(:delete, :submission_schedules)
+      end
+
+      resources(:submission_deliveries) do
+        define_delete_destroy.call
+        define_logs_versions.call
+        define_all_delete.call(:destroy, :submission_deliveries)
+        define_all_delete.call(:delete, :submission_deliveries)
+      end
     end
 
     resources(:submission_programs) do
@@ -411,6 +481,20 @@ Rails.application.routes.draw do
       define_logs_versions.call
       define_all_delete.call(:destroy, :submission_programs)
       define_all_delete.call(:delete, :submission_programs)
+    end
+
+    resources(:submission_schedules) do
+      define_delete_destroy.call
+      define_logs_versions.call
+      define_all_delete.call(:destroy, :submission_schedules)
+      define_all_delete.call(:delete, :submission_schedules)
+    end
+
+    resources(:submission_deliveries) do
+      define_delete_destroy.call
+      define_logs_versions.call
+      define_all_delete.call(:destroy, :submission_deliveries)
+      define_all_delete.call(:delete, :submission_deliveries)
     end
 
     resources(:country_code_ip_addresses) do
@@ -428,6 +512,8 @@ Rails.application.routes.draw do
       define_delete_destroy.call
     end
 
+    resource(:form)
+
     get(:up, to: "static#up")
     get(:about, to: "static#about")
     get(:terms, to: "static#terms")
@@ -436,7 +522,6 @@ Rails.application.routes.draw do
     get(:ios, to: "static#ios")
     get(:android, to: "static#android")
     get(:download, to: "static#download")
-    get(:form, to: "static#form")
     get(:admin, to: "static#admin")
 
     match("/404", to: "errors#not_found", via: :all)

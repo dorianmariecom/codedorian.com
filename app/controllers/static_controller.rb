@@ -23,13 +23,6 @@ class StaticController < ApplicationController
   def download
   end
 
-  def form
-    redirect_to(
-      fr? ? Config.form.fr_url : Config.form.en_url,
-      allow_other_host: true
-    )
-  end
-
   def admin
   end
 end

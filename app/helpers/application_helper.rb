@@ -107,6 +107,12 @@ module ApplicationHelper
     end
   end
 
+  def submission_schedule_interval_options(interval: nil)
+    SubmissionSchedule.interval_options.map do |label, value|
+      [label, value, { selected: value == interval }]
+    end
+  end
+
   def program_execution_status_options(status: nil)
     ProgramExecution::STATUSES.map do |option_status|
       [
@@ -147,6 +153,18 @@ module ApplicationHelper
         submission&.to_s,
         submission&.id,
         { selected: submission_id == submission&.id }
+      ]
+    end
+  end
+
+  def submission_section_options(submission_section_id: nil)
+    (
+      [nil] + policy_scope(SubmissionSection).order(:id).to_a
+    ).map do |submission_section|
+      [
+        submission_section&.to_s,
+        submission_section&.id,
+        { selected: submission_section_id == submission_section&.id }
       ]
     end
   end

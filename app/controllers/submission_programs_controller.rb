@@ -2,6 +2,7 @@
 
 class SubmissionProgramsController < ApplicationController
   before_action(:load_submission)
+  before_action(:load_submission_section)
   before_action do
     add_breadcrumb(key: "submission_programs.index", path: index_url)
   end
@@ -13,7 +14,7 @@ class SubmissionProgramsController < ApplicationController
   def index
     authorize(SubmissionProgram)
 
-    @submission_programs = scope.page(params[:page]).order(position: :asc)
+    @submission_programs = scope.page(params[:page]).order(created_at: :asc)
   end
 
   def show
@@ -22,7 +23,8 @@ class SubmissionProgramsController < ApplicationController
   end
 
   def new
-    @submission_program = authorize(scope.new(submission: @submission))
+    @submission_program =
+      authorize(scope.new(submission_section: @submission_section))
 
     add_breadcrumb
   end
@@ -32,9 +34,7 @@ class SubmissionProgramsController < ApplicationController
   end
 
   def create
-    attributes = submission_program_params
-    attributes[:submission] = @submission if @submission
-    @submission_program = authorize(scope.new(attributes))
+    @submission_program = authorize(scope.new(submission_program_params))
 
     if @submission_program.save(context: :controller)
       redirect_to(show_url, notice: t(".notice"))
@@ -91,24 +91,38 @@ class SubmissionProgramsController < ApplicationController
   def load_submission
     return if params[:submission_id].blank?
 
-    @submission = policy_scope(Submission).find(params[:submission_id])
+    @submission = submissions_scope.find(params[:submission_id])
 
     set_context(submission: @submission)
     add_breadcrumb(key: "submissions.index", path: :submissions)
-    add_breadcrumb(text: @submission, path: @submission)
+    add_breadcrumb(text: @submission, path: [@submission])
+  end
+
+  def load_submission_section
+    return if params[:submission_section_id].blank?
+
+    @submission_section =
+      submission_sections_scope.find(params[:submission_section_id])
+
+    set_context(submission_section: @submission_section)
+    add_breadcrumb(
+      text: @submission_section,
+      path: [@submission, @submission_section].compact
+    )
   end
 
   def scope
     scope = searched_policy_scope(SubmissionProgram)
-    scope = scope.where_submission(@submission) if @submission
+    if @submission_section
+      scope = scope.where_submission_section(@submission_section)
+    end
     scope
   end
 
   def versions_scope
     scope = policy_scope(Version)
     if @submission_program
-      scope =
-        scope.where_submission_program(@submission_program)
+      scope = scope.where_submission_program(@submission_program)
     end
     scope
   end
@@ -116,10 +130,19 @@ class SubmissionProgramsController < ApplicationController
   def logs_scope
     scope = policy_scope(Log)
     if @submission_program
-      scope =
-        scope.where_submission_program(@submission_program)
+      scope = scope.where_submission_program(@submission_program)
     end
     scope
+  end
+
+  def submission_sections_scope
+    scope = policy_scope(SubmissionSection)
+    scope = scope.where_submission(@submission) if @submission
+    scope
+  end
+
+  def submissions_scope
+    policy_scope(Submission)
   end
 
   def model_class
@@ -130,12 +153,12 @@ class SubmissionProgramsController < ApplicationController
     @submission_program
   end
 
-  def nested(submission: @submission)
-    [submission]
+  def nested(submission: @submission, submission_section: @submission_section)
+    [submission, submission_section].compact
   end
 
   def filters
-    [:submission]
+    [:submission_section]
   end
 
   def id
@@ -151,23 +174,7 @@ class SubmissionProgramsController < ApplicationController
   def submission_program_params
     if admin?
       params.expect(
-        submission_program: %i[
-          submission_id
-          form_schedule_id
-          form_program_id
-          form_delivery_id
-          name
-          description
-          position
-          form_program_name
-          form_program_description
-          form_schedule_starts_at
-          form_schedule_interval
-          form_schedule_name
-          form_schedule_description
-          form_delivery_name
-          form_delivery_description
-        ]
+        submission_program: %i[submission_section_id locale name description]
       )
     else
       {}

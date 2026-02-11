@@ -19,6 +19,9 @@
   <%= render_collection(
     partial: "submission_programs/submission_program",
     collection: @submission_programs,
-    as: :submission_program
+    as: :submission_program,
+    locals: {
+      nested: [@submission, @submission_section].compact
+    }
   ) %>
 </turbo-frame>

@@ -140,8 +140,14 @@ module ControllerSmokeHelper
       test_case.form_deliveries(:form_delivery).id
     when :submission_id
       test_case.submissions(:submission).id
+    when :submission_section_id
+      test_case.submission_sections(:submission_section).id
     when :submission_program_id
       test_case.submission_programs(:submission_program).id
+    when :submission_schedule_id
+      test_case.submission_schedules(:submission_schedule).id
+    when :submission_delivery_id
+      test_case.submission_deliveries(:submission_delivery).id
     when :handle_id
       test_case.handles(:handle).id
     when :job_id
@@ -227,8 +233,14 @@ module ControllerSmokeHelper
       test_case.form_programs(:form_program).id
     when "form_schedules"
       test_case.form_schedules(:form_schedule).id
+    when "submission_deliveries"
+      test_case.submission_deliveries(:submission_delivery).id
     when "submission_programs"
       test_case.submission_programs(:submission_program).id
+    when "submission_schedules"
+      test_case.submission_schedules(:submission_schedule).id
+    when "submission_sections"
+      test_case.submission_sections(:submission_section).id
     when "submissions"
       test_case.submissions(:submission).id
     when "guests"

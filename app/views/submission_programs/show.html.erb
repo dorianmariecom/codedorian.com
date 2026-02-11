@@ -2,82 +2,49 @@
 
 <%= turbo_stream_from(@submission_program) %>
 
-<% if @submission_program.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @submission_program.id %></div>
-  </div>
+<% if can?(:update, @submission_program) %>
+  <% if @submission_program.id.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".id") %></div>
+      <div class="font-bold"><%= @submission_program.id %></div>
+    </div>
+  <% end %>
 <% end %>
 
 <% if @submission_program.submission.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".submission") %></div>
-
     <% if can?(:show, @submission_program.submission) %>
-      <div class="font-bold">
-        <%= link_to(
-          @submission_program.submission,
-          @submission_program.submission,
-          class: :link
-        ) %>
-      </div>
+      <%= link_to(
+        @submission_program.submission,
+        @submission_program.submission,
+        class: :link
+      ) %>
     <% else %>
       <div class="font-bold"><%= @submission_program.submission %></div>
     <% end %>
   </div>
 <% end %>
 
-<% if @submission_program.form_program.present? %>
+<% if @submission_program.submission_section.present? %>
   <div class="p">
-    <div class="text-gray-600"><%= t(".form_program") %></div>
-
-    <% if can?(:show, @submission_program.form_program) %>
-      <div class="font-bold">
-        <%= link_to(
-          @submission_program.form_program,
-          @submission_program.form_program,
-          class: :link
-        ) %>
-      </div>
+    <div class="text-gray-600"><%= t(".submission_section") %></div>
+    <% if can?(:show, @submission_program.submission_section) %>
+      <%= link_to(
+        @submission_program.submission_section,
+        [@submission, @submission_program.submission_section].compact,
+        class: :link
+      ) %>
     <% else %>
-      <div class="font-bold"><%= @submission_program.form_program %></div>
+      <div class="font-bold"><%= @submission_program.submission_section %></div>
     <% end %>
   </div>
 <% end %>
 
-<% if @submission_program.form_schedule.present? %>
+<% if @submission_program.locale.present? && can?(:update, @submission_program) %>
   <div class="p">
-    <div class="text-gray-600"><%= t(".form_schedule") %></div>
-
-    <% if can?(:show, @submission_program.form_schedule) %>
-      <div class="font-bold">
-        <%= link_to(
-          @submission_program.form_schedule,
-          @submission_program.form_schedule,
-          class: :link
-        ) %>
-      </div>
-    <% else %>
-      <div class="font-bold"><%= @submission_program.form_schedule %></div>
-    <% end %>
-  </div>
-<% end %>
-
-<% if @submission_program.form_delivery.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".form_delivery") %></div>
-
-    <% if can?(:show, @submission_program.form_delivery) %>
-      <div class="font-bold">
-        <%= link_to(
-          @submission_program.form_delivery,
-          @submission_program.form_delivery,
-          class: :link
-        ) %>
-      </div>
-    <% else %>
-      <div class="font-bold"><%= @submission_program.form_delivery %></div>
-    <% end %>
+    <div class="text-gray-600"><%= t(".locale") %></div>
+    <div class="font-bold"><%= @submission_program.locale %></div>
   </div>
 <% end %>
 
@@ -97,110 +64,25 @@
   </div>
 <% end %>
 
-<% if @submission_program.position.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".position") %></div>
-    <div class="font-bold"><%= @submission_program.position %></div>
-  </div>
-<% end %>
-
-<% if @submission_program.form_program_name.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".form_program_name") %></div>
-    <div class="font-bold"><%= @submission_program.form_program_name %></div>
-  </div>
-<% end %>
-
-<% if @submission_program.form_program_description.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".form_program_description") %></div>
-    <div class="content">
-      <%= simple_format(
-        @submission_program.form_program_description,
-        {},
-        wrapper_tag: :div
-      ) %>
-    </div>
-  </div>
-<% end %>
-
-<% if @submission_program.form_schedule_starts_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".form_schedule_starts_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@submission_program.form_schedule_starts_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
-
-<% if @submission_program.form_schedule_interval.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".form_schedule_interval") %></div>
-    <div class="font-bold">
-      <%= @submission_program.form_schedule_interval %>
-    </div>
-  </div>
-<% end %>
-
-<% if @submission_program.form_schedule_name.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".form_schedule_name") %></div>
-    <div class="font-bold"><%= @submission_program.form_schedule_name %></div>
-  </div>
-<% end %>
-
-<% if @submission_program.form_schedule_description.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".form_schedule_description") %></div>
-    <div class="content">
-      <%= simple_format(
-        @submission_program.form_schedule_description,
-        {},
-        wrapper_tag: :div
-      ) %>
-    </div>
-  </div>
-<% end %>
-
-<% if @submission_program.form_delivery_name.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".form_delivery_name") %></div>
-    <div class="font-bold"><%= @submission_program.form_delivery_name %></div>
-  </div>
-<% end %>
-
-<% if @submission_program.form_delivery_description.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".form_delivery_description") %></div>
-    <div class="content">
-      <%= simple_format(
-        @submission_program.form_delivery_description,
-        {},
-        wrapper_tag: :div
-      ) %>
-    </div>
-  </div>
-<% end %>
-
-<% if @submission_program.updated_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@submission_program.updated_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
-
-<% if @submission_program.created_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@submission_program.created_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
-
 <% if can?(:update, @submission_program) %>
+  <% if @submission_program.updated_at.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".updated_at") %></div>
+      <div class="font-bold">
+        <%= local_time(@submission_program.updated_at, format: :default) %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if @submission_program.created_at.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".created_at") %></div>
+      <div class="font-bold">
+        <%= local_time(@submission_program.created_at, format: :default) %>
+      </div>
+    </div>
+  <% end %>
+
   <div class="p">
     <%= link_to(t(".edit"), edit_url, class: :link) %>
     <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>

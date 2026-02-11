@@ -1,19 +1,8 @@
 ---
 submission_program:
-  created_at: '2025-01-20 10:05:00'
-  description: Sends a welcome sequence.
-  form_delivery: form_delivery
-  form_delivery_description: Daily summary delivery.
-  form_delivery_name: Email digest
-  form_program: form_program
-  form_program_description: Automated onboarding messages for new signups.
-  form_program_name: Welcome series
-  form_schedule: form_schedule
-  form_schedule_description: Sends each morning.
-  form_schedule_interval: 1 day
-  form_schedule_name: Morning send
-  form_schedule_starts_at: '2025-01-16 09:30:00'
-  name: Welcome program
-  position: 1
-  submission: submission
-  updated_at: '2025-01-20 10:05:00'
+  created_at: '2025-01-20 10:00:00'
+  description: Program description
+  locale: en
+  name: Program A
+  submission_section: submission_section
+  updated_at: '2025-01-20 10:00:00'

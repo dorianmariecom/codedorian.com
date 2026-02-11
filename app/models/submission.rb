@@ -1,10 +1,39 @@
 # frozen_string_literal: true
 
 class Submission < ApplicationRecord
-  has_many(:submission_programs, dependent: :destroy)
+  EMAIL_ADDRESS_REGEXP = URI::MailTo::EMAIL_REGEXP
+
+  has_many(:submission_sections, dependent: :destroy)
+  normalizes(
+    :email_address,
+    with: ->(email_address) { email_address.to_s.downcase.strip }
+  )
+  normalizes(
+    :phone_number,
+    with: ->(phone_number) { Phonelib.parse(phone_number).e164 }
+  )
 
   validate { can!(:update, :submission) }
   validates(:locale, inclusion: { in: LOCALES_STRINGS })
+  validates(:given_name, presence: true)
+  validates(:family_name, presence: true)
+  validates(
+    :email_address,
+    format: {
+      with: EMAIL_ADDRESS_REGEXP
+    },
+    allow_blank: true
+  )
+  validate do
+    if phone_number.present? && phonelib.invalid?
+      errors.add(:phone_number, :invalid)
+    end
+  end
+  validate do
+    if phone_number.present? && phonelib.impossible?
+      errors.add(:phone_number, :impossible)
+    end
+  end
 
   def self.search_fields
     {
@@ -42,6 +71,14 @@ class Submission < ApplicationRecord
 
   def full_name
     [given_name, family_name].compact_blank.join(" ")
+  end
+
+  def phonelib
+    Phonelib.parse(phone_number)
+  end
+
+  def phone_number_formatted
+    phonelib.international
   end
 
   def to_s
