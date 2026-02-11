@@ -1,0 +1,96 @@
+<div class="p"><%= t(".intro") %></div>
+
+<%= form_for(@submission, url: form_path) do |f| %>
+  <div
+    class="p"
+    data-controller="validation"
+    data-validation-trim-value="true"
+    data-validation-gender-value="masculine"
+  >
+    <%= f.label(:given_name, class: :label, data: { validation_target: :label }) %>
+    <%= f.text_field(
+      :given_name,
+      class: :input,
+      required: true,
+      data: {
+        validation_target: :input,
+        action: "validation#input",
+        form_type: :other
+      },
+      autocomplete: "given-name"
+    ) %>
+    <div class="text-red-600" hidden data-validation-target="error"></div>
+  </div>
+
+  <div
+    class="p"
+    data-controller="validation"
+    data-validation-trim-value="true"
+    data-validation-gender-value="masculine"
+  >
+    <%= f.label(:family_name, class: :label, data: { validation_target: :label }) %>
+    <%= f.text_field(
+      :family_name,
+      class: :input,
+      required: true,
+      data: {
+        validation_target: :input,
+        action: "validation#input",
+        form_type: :other
+      },
+      autocomplete: "family-name"
+    ) %>
+    <div class="text-red-600" hidden data-validation-target="error"></div>
+  </div>
+
+  <div
+    class="p"
+    data-controller="validation"
+    data-validation-trim-value="true"
+    data-validation-gender-value="feminine"
+  >
+    <%= f.label(:email_address, class: :label, data: { validation_target: :label }) %>
+    <%= f.email_field(
+      :email_address,
+      class: :input,
+      required: true,
+      data: {
+        validation_target: :input,
+        action: "validation#input",
+        form_type: :other
+      },
+      autocomplete: "email"
+    ) %>
+    <div class="text-red-600" hidden data-validation-target="error"></div>
+  </div>
+
+  <div class="p" data-controller="phone-number">
+    <%= f.hidden_field(
+      :phone_number,
+      autocomplete: :off,
+      data: {
+        phone_number_target: "hidden",
+        form_type: :other
+      }
+    ) %>
+    <%= f.label(
+      :phone_number_input,
+      class: :label,
+      data: {
+        phone_number_target: :label
+      }
+    ) %>
+    <%= f.phone_field(
+      :phone_number_input,
+      value: f.object.phone_number_formatted,
+      class: :input,
+      data: {
+        phone_number_target: :input,
+        action: "phone-number#input",
+        form_type: :other
+      },
+      autocomplete: "tel"
+    ) %>
+    <div class="text-red-600" hidden data-phone-number-target="error"></div>
+  </div>
+<% end %>

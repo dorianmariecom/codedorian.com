@@ -1,0 +1,67 @@
+<%= form_for(show_url) do |f| %>
+  <% if admin? %>
+    <div class="p">
+      <%= f.label(:submission_id, class: :label) %>
+      <%= f.select(
+        :submission_id,
+        submission_options(submission_id: f.object.submission_id),
+        {},
+        class: :input,
+        autocomplete: :off,
+        data: {
+          form_type: :other
+        }
+      ) %>
+    </div>
+  <% end %>
+
+  <div class="p">
+    <%= f.label(:locale, class: :label) %>
+    <%= f.select(
+      :locale,
+      locale_options(locale: f.object.locale.presence || I18n.locale),
+      {},
+      required: true,
+      class: :input,
+      data: {
+        form_type: :other
+      },
+      autocomplete: :off
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:name, class: :label) %>
+    <%= f.text_field(
+      :name,
+      class: :input,
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:description, class: :label) %>
+    <%= f.text_area(
+      :description,
+      class: :input,
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.submit(
+      submit,
+      class: "button",
+      data: {
+        controller: "bridge--button",
+        bridge__button_title_value: submit
+      }
+    ) %>
+  </div>
+<% end %>

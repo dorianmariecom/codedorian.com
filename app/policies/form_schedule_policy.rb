@@ -3,7 +3,7 @@
 class FormSchedulePolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
-      admin? ? scope.all : scope.where(locale: I18n.locale)
+      scope.where(locale: I18n.locale)
     end
   end
 

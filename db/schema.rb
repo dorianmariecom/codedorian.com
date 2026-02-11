@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_08_120002) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_10_121000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -647,6 +647,62 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_08_120002) do
     t.index ["expires_at"], name: "index_solid_queue_semaphores_on_expires_at"
     t.index %w[key value], name: "index_solid_queue_semaphores_on_key_and_value"
     t.index ["key"], name: "index_solid_queue_semaphores_on_key", unique: true
+  end
+
+  create_table "submission_deliveries", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "locale", default: "en", null: false
+    t.string "name"
+    t.bigint "submission_section_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["submission_section_id"],
+            name: "index_submission_deliveries_on_submission_section_id"
+  end
+
+  create_table "submission_programs", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "locale", default: "en", null: false
+    t.string "name"
+    t.bigint "submission_section_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["submission_section_id"],
+            name: "index_submission_programs_on_submission_section_id"
+  end
+
+  create_table "submission_schedules", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "interval"
+    t.string "locale", default: "en", null: false
+    t.string "name"
+    t.datetime "starts_at"
+    t.bigint "submission_section_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["submission_section_id"],
+            name: "index_submission_schedules_on_submission_section_id"
+  end
+
+  create_table "submission_sections", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "locale", default: "en", null: false
+    t.string "name"
+    t.bigint "submission_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["submission_id"],
+            name: "index_submission_sections_on_submission_id"
+  end
+
+  create_table "submissions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "email_address"
+    t.string "family_name"
+    t.string "given_name"
+    t.string "locale", default: "en", null: false
+    t.string "phone_number"
+    t.datetime "updated_at", null: false
   end
 
   create_table "time_zones", force: :cascade do |t|

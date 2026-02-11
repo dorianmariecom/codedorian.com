@@ -11,13 +11,6 @@
   <% end %>
 <% end %>
 
-<% if @form_delivery.position.present? && can?(:update, @form_delivery) %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".position") %></div>
-    <div class="font-bold"><%= @form_delivery.position %></div>
-  </div>
-<% end %>
-
 <% if @form_delivery.locale.present? && can?(:update, @form_delivery) %>
   <div class="p">
     <div class="text-gray-600"><%= t(".locale") %></div>
@@ -38,6 +31,13 @@
     <div class="content">
       <%= simple_format(@form_delivery.description, {}, wrapper_tag: :div) %>
     </div>
+  </div>
+<% end %>
+
+<% if @form_delivery.position.present? && can?(:update, @form_delivery) %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".position") %></div>
+    <div class="font-bold"><%= @form_delivery.position %></div>
   </div>
 <% end %>
 

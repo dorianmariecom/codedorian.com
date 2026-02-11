@@ -1,0 +1,24 @@
+<%= turbo_stream_from(@submissions) %>
+
+<% if can?(:create, Submission) %>
+  <div class="p p--flex">
+    <%= link_to(t(".new"), new_url, class: "button") %>
+  </div>
+<% end %>
+
+<%= render("shared/search") %>
+
+<turbo-frame id="search" target="_top">
+  <% if @submissions.any? && can?(:destroy_all, Submission) %>
+    <div class="p p--flex">
+      <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
+      <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "submissions/submission",
+    collection: @submissions,
+    as: :submission
+  ) %>
+</turbo-frame>

@@ -13,7 +13,6 @@ gem "browser"
 gem "bundle-audit"
 gem "bundler-audit"
 gem "capybara"
-gem "cloudflare-rails"
 gem "code-ruby"
 gem "dorian"
 gem "dorian-arguments"
@@ -70,3 +69,5 @@ gem "turbo-rails"
 gem "webmock"
 gem "with_advisory_lock"
 gem "zxcvbn-ruby"
+
+group(:production) { gem "cloudflare-rails" }

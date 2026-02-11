@@ -1,0 +1,207 @@
+<% content_for(:title, @submission_section) %>
+
+<%= turbo_stream_from(@submission_section) %>
+
+<% if can?(:update, @submission_section) %>
+  <% if @submission_section.id.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".id") %></div>
+      <div class="font-bold"><%= @submission_section.id %></div>
+    </div>
+  <% end %>
+<% end %>
+
+<% if @submission_section.submission.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".submission") %></div>
+    <% if can?(:show, @submission_section.submission) %>
+      <%= link_to(
+        @submission_section.submission,
+        @submission_section.submission,
+        class: :link
+      ) %>
+    <% else %>
+      <div class="font-bold"><%= @submission_section.submission %></div>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @submission_section.locale.present? && can?(:update, @submission_section) %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".locale") %></div>
+    <div class="font-bold"><%= @submission_section.locale %></div>
+  </div>
+<% end %>
+
+<% if @submission_section.name.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".name") %></div>
+    <div class="font-bold"><%= @submission_section.name %></div>
+  </div>
+<% end %>
+
+<% if @submission_section.description.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".description") %></div>
+    <div class="content">
+      <%= simple_format(@submission_section.description, {}, wrapper_tag: :div) %>
+    </div>
+  </div>
+<% end %>
+
+<% if can?(:update, @submission_section) %>
+  <% if @submission_section.updated_at.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".updated_at") %></div>
+      <div class="font-bold">
+        <%= local_time(@submission_section.updated_at, format: :default) %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if @submission_section.created_at.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".created_at") %></div>
+      <div class="font-bold">
+        <%= local_time(@submission_section.created_at, format: :default) %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="p">
+    <%= link_to(t(".edit"), edit_url, class: :link) %>
+    <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+    <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
+  </div>
+<% end %>
+
+<div class="p font-bold">
+  <%= link_to(
+    t(".submission_programs"),
+    [*nested, @submission_section, :submission_programs],
+    class: :link
+  ) %>
+</div>
+
+<% if can?(:create, SubmissionProgram) %>
+  <div class="p">
+    <%= link_to(
+      t(".new_submission_program"),
+      [:new, *nested, @submission_section, :submission_program],
+      class: "button"
+    ) %>
+  </div>
+<% end %>
+
+<%= render_collection(
+  partial: "submission_programs/submission_program",
+  collection: @submission_programs,
+  as: :submission_program,
+  locals: {
+    nested: [*nested, @submission_section]
+  }
+) %>
+
+<div class="p font-bold">
+  <%= link_to(
+    t(".submission_schedules"),
+    [*nested, @submission_section, :submission_schedules],
+    class: :link
+  ) %>
+</div>
+
+<% if can?(:create, SubmissionSchedule) %>
+  <div class="p">
+    <%= link_to(
+      t(".new_submission_schedule"),
+      [:new, *nested, @submission_section, :submission_schedule],
+      class: "button"
+    ) %>
+  </div>
+<% end %>
+
+<%= render_collection(
+  partial: "submission_schedules/submission_schedule",
+  collection: @submission_schedules,
+  as: :submission_schedule,
+  locals: {
+    nested: [*nested, @submission_section]
+  }
+) %>
+
+<div class="p font-bold">
+  <%= link_to(
+    t(".submission_deliveries"),
+    [*nested, @submission_section, :submission_deliveries],
+    class: :link
+  ) %>
+</div>
+
+<% if can?(:create, SubmissionDelivery) %>
+  <div class="p">
+    <%= link_to(
+      t(".new_submission_delivery"),
+      [:new, *nested, @submission_section, :submission_delivery],
+      class: "button"
+    ) %>
+  </div>
+<% end %>
+
+<%= render_collection(
+  partial: "submission_deliveries/submission_delivery",
+  collection: @submission_deliveries,
+  as: :submission_delivery,
+  locals: {
+    nested: [*nested, @submission_section]
+  }
+) %>
+
+<% if can?(:index, Version) %>
+  <div class="p font-bold">
+    <%= link_to(t(".versions"), [*nested, @submission_section, :versions], class: :link) %>
+  </div>
+
+  <% if can?(:create, Version) %>
+    <div class="p">
+      <%= link_to(
+        t(".new_version"),
+        [:new, *nested, @submission_section, :version],
+        class: "button"
+      ) %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "versions/version",
+    collection: @versions,
+    as: :version,
+    locals: {
+      nested: [*nested, @submission_section]
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, Log) %>
+  <div class="p font-bold">
+    <%= link_to(t(".logs"), [*nested, @submission_section, :logs], class: :link) %>
+  </div>
+
+  <% if can?(:create, Log) %>
+    <div class="p">
+      <%= link_to(
+        t(".new_log"),
+        [:new, *nested, @submission_section, :log],
+        class: "button"
+      ) %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "logs/log",
+    collection: @logs,
+    as: :log,
+    locals: {
+      nested: [*nested, @submission_section]
+    }
+  ) %>
+<% end %>

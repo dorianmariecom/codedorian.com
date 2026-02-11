@@ -107,6 +107,12 @@ module ApplicationHelper
     end
   end
 
+  def submission_schedule_interval_options(interval: nil)
+    SubmissionSchedule.interval_options.map do |label, value|
+      [label, value, { selected: value == interval }]
+    end
+  end
+
   def program_execution_status_options(status: nil)
     ProgramExecution::STATUSES.map do |option_status|
       [
@@ -139,6 +145,64 @@ module ApplicationHelper
       .map do |program|
         [program&.to_s, program&.id, { selected: program_id == program&.id }]
       end
+  end
+
+  def submission_options(submission_id: nil)
+    ([nil] + policy_scope(Submission).order(:id).to_a).map do |submission|
+      [
+        submission&.to_s,
+        submission&.id,
+        { selected: submission_id == submission&.id }
+      ]
+    end
+  end
+
+  def submission_section_options(submission_section_id: nil)
+    (
+      [nil] + policy_scope(SubmissionSection).order(:id).to_a
+    ).map do |submission_section|
+      [
+        submission_section&.to_s,
+        submission_section&.id,
+        { selected: submission_section_id == submission_section&.id }
+      ]
+    end
+  end
+
+  def form_program_options(form_program_id: nil)
+    (
+      [nil] + policy_scope(FormProgram).order(:position, :id).to_a
+    ).map do |form_program|
+      [
+        form_program&.to_s,
+        form_program&.id,
+        { selected: form_program_id == form_program&.id }
+      ]
+    end
+  end
+
+  def form_schedule_options(form_schedule_id: nil)
+    (
+      [nil] + policy_scope(FormSchedule).order(:position, :id).to_a
+    ).map do |form_schedule|
+      [
+        form_schedule&.to_s,
+        form_schedule&.id,
+        { selected: form_schedule_id == form_schedule&.id }
+      ]
+    end
+  end
+
+  def form_delivery_options(form_delivery_id: nil)
+    (
+      [nil] + policy_scope(FormDelivery).order(:position, :id).to_a
+    ).map do |form_delivery|
+      [
+        form_delivery&.to_s,
+        form_delivery&.id,
+        { selected: form_delivery_id == form_delivery&.id }
+      ]
+    end
   end
 
   def locale_options(locale: nil)
