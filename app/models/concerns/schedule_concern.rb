@@ -205,6 +205,12 @@ module ScheduleConcern
         steps = months_diff / interval_months
         at = starts_at.advance(months: steps * interval_months)
         at = at.advance(months: interval_months) if at < now
+      elsif day_or_week_based_interval?
+        interval_days = interval_days_count
+        days_diff = (now.to_date - starts_at.to_date).to_i
+        steps = days_diff / interval_days
+        at = starts_at.advance(days: steps * interval_days)
+        at = at.advance(days: interval_days) if at < now
       else
         interval_seconds = duration.to_i
         elapsed = now.to_i - starts_at.to_i
@@ -243,6 +249,13 @@ module ScheduleConcern
         steps = months_diff / interval_months
         at = starts_at.advance(months: steps * interval_months)
         at = at.advance(months: -interval_months) if at > now
+        at
+      elsif day_or_week_based_interval?
+        interval_days = interval_days_count
+        days_diff = (now.to_date - starts_at.to_date).to_i
+        steps = days_diff / interval_days
+        at = starts_at.advance(days: steps * interval_days)
+        at = at.advance(days: -interval_days) if at > now
         at
       else
         interval_seconds = duration.to_i
@@ -303,8 +316,18 @@ module ScheduleConcern
     per.in?(%w[month months year years])
   end
 
+  def day_or_week_based_interval?
+    per.in?(%w[day days week weeks])
+  end
+
   def interval_months_count
     return count * 12 if per.in?(%w[year years])
+
+    count
+  end
+
+  def interval_days_count
+    return count * 7 if per.in?(%w[week weeks])
 
     count
   end
