@@ -61,4 +61,16 @@ class ScheduleConcernTest < ActiveSupport::TestCase
       assert_equal(expected_next, schedule.next_at)
     end
   end
+
+  test "daily schedules stay aligned to local wall clock across DST" do
+    Time.use_zone("Europe/Paris") do
+      travel_to(Time.zone.local(2026, 2, 11, 12, 0, 0)) do
+        starts_at = Time.zone.local(2025, 5, 16, 6, 0, 0)
+        schedule = ExampleSchedule.new(starts_at: starts_at, interval: "1 day")
+
+        assert_equal(Time.zone.local(2026, 2, 11, 6, 0, 0), schedule.previous_at)
+        assert_equal(Time.zone.local(2026, 2, 12, 6, 0, 0), schedule.next_at)
+      end
+    end
+  end
 end
