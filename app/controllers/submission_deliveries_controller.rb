@@ -174,7 +174,13 @@ class SubmissionDeliveriesController < ApplicationController
   def submission_delivery_params
     if admin?
       params.expect(
-        submission_delivery: %i[submission_section_id locale name description]
+        submission_delivery: %i[
+          submission_section_id
+          form_delivery_id
+          locale
+          name
+          description
+        ]
       )
     else
       {}

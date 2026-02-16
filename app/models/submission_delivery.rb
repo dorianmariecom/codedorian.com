@@ -2,6 +2,7 @@
 
 class SubmissionDelivery < ApplicationRecord
   belongs_to(:submission_section, touch: true)
+  belongs_to(:form_delivery)
   has_one(:submission, through: :submission_section)
 
   scope(

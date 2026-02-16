@@ -174,7 +174,13 @@ class SubmissionProgramsController < ApplicationController
   def submission_program_params
     if admin?
       params.expect(
-        submission_program: %i[submission_section_id locale name description]
+        submission_program: %i[
+          submission_section_id
+          form_program_id
+          locale
+          name
+          description
+        ]
       )
     else
       {}

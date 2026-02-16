@@ -4,6 +4,7 @@ class SubmissionSchedule < ApplicationRecord
   include(ScheduleConcern)
 
   belongs_to(:submission_section, touch: true)
+  belongs_to(:form_schedule)
   has_one(:submission, through: :submission_section)
 
   scope(

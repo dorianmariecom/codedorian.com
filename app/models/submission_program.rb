@@ -2,6 +2,7 @@
 
 class SubmissionProgram < ApplicationRecord
   belongs_to(:submission_section, touch: true)
+  belongs_to(:form_program)
   has_one(:submission, through: :submission_section)
 
   scope(

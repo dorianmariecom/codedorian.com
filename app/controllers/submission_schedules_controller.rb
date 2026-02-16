@@ -176,6 +176,7 @@ class SubmissionSchedulesController < ApplicationController
       params.expect(
         submission_schedule: %i[
           submission_section_id
+          form_schedule_id
           locale
           starts_at
           interval

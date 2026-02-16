@@ -6,6 +6,9 @@ class SubmissionSection < ApplicationRecord
   has_many(:submission_programs, dependent: :destroy)
   has_many(:submission_schedules, dependent: :destroy)
   has_many(:submission_deliveries, dependent: :destroy)
+  accepts_nested_attributes_for(:submission_programs, allow_destroy: true)
+  accepts_nested_attributes_for(:submission_schedules, allow_destroy: true)
+  accepts_nested_attributes_for(:submission_deliveries, allow_destroy: true)
 
   scope(:where_submission, ->(submission) { where(submission: submission) })
 

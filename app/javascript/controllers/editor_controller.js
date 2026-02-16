@@ -2,6 +2,8 @@ import { Controller } from "@hotwired/stimulus";
 import { createTheme } from "thememirror";
 import { indentOnInput, bracketMatching } from "@codemirror/language";
 import { tags as t } from "@lezer/highlight";
+import codeLanguage from "code-lang";
+import jsonLanguage from "json-lang";
 import {
   defaultKeymap,
   history,
@@ -28,14 +30,30 @@ const codeTheme = createTheme({
     gutterBackground: "#ffffff", // white
     gutterForeground: "#000000", // black
   },
-  styles: [],
+  styles: [
+    { tag: t.comment, color: "#6b7280" },
+    { tag: [t.string, t.regexp], color: "#0f766e" },
+    { tag: t.number, color: "#b45309" },
+    { tag: [t.atom, t.bool, t.null], color: "#7c3aed" },
+    { tag: [t.keyword, t.controlKeyword], color: "#1d4ed8", fontWeight: "600" },
+    { tag: [t.operator, t.operatorKeyword], color: "#be123c" },
+    { tag: t.punctuation, color: "#4b5563" },
+    { tag: t.separator, color: "#6b7280" },
+    { tag: t.bracket, color: "#7c2d12" },
+    { tag: t.special(t.brace), color: "#9333ea" },
+    { tag: t.variableName, color: "#111827" },
+    { tag: t.propertyName, color: "#0369a1" },
+    { tag: [t.typeName, t.className], color: "#0c4a6e", fontWeight: "600" },
+  ],
 });
 
 export default class extends Controller {
   static targets = ["input", "editor"];
+  static values = { language: String };
 
   connect() {
-    window.addEventListener("turbo:morph", this.reconnect.bind(this));
+    this.reconnectBound ||= this.reconnect.bind(this);
+    window.addEventListener("turbo:morph", this.reconnectBound);
 
     this.editor = new EditorView({
       doc: this.inputTarget.value,
@@ -55,6 +73,7 @@ export default class extends Controller {
         indentOnInput(),
         lineNumbers(),
         rectangularSelection(),
+        this.languageExtension(),
         codeTheme,
         EditorView.theme({
           "&": {
@@ -70,14 +89,30 @@ export default class extends Controller {
   }
 
   disconnect() {
-    window.removeEventListener("turbo:morph", this.reconnect.bind(this));
+    window.removeEventListener("turbo:morph", this.reconnectBound);
 
-    this.editor.destroy();
-    this.editor = null;
+    if (this.editor) {
+      this.editor.destroy();
+      this.editor = null;
+    }
   }
 
   reconnect() {
     this.disconnect();
     this.connect();
+  }
+
+  languageExtension() {
+    if (this.languageValue === "json") {
+      return jsonLanguage;
+    }
+
+    if (this.languageValue === "code") {
+      return codeLanguage;
+    }
+
+    throw new Error(
+      `Invalid editor language "${this.languageValue}". Expected "json" or "code".`
+    );
   }
 }
