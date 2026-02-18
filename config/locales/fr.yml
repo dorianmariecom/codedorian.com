@@ -1192,6 +1192,7 @@ fr:
       description: ceci est un formulaire d'exemple pour démontrer les livraisons
         de formulaire, les programmes et les horaires.
       intro: salut, c'est dorian, je voudrais te faire des programmes
+      submit: envoyer
       title: formulaire
   guests:
     create:
@@ -2870,6 +2871,11 @@ fr:
       title: livraisons de soumission
     model:
       to_s: livraison_soumission#%{id}
+    nested:
+      add: ajouter une livraison de soumission
+    nested_form:
+      remove: supprimer la livraison de soumission
+      submission_delivery: livraison de soumission
     new:
       description: créer une nouvelle livraison de soumission.
       submit: créer la livraison de soumission
@@ -2913,6 +2919,11 @@ fr:
       title: programmes de soumission
     model:
       to_s: programme_soumission#%{id}
+    nested:
+      add: ajouter un programme de soumission
+    nested_form:
+      remove: supprimer le programme de soumission
+      submission_program: programme de soumission
     new:
       description: créer un nouveau programme de soumission.
       submit: créer le programme de soumission
@@ -3027,6 +3038,11 @@ fr:
         one: 1 an
         other: "%{count} ans"
         zero: 0 ans
+    nested:
+      add: ajouter un horaire de soumission
+    nested_form:
+      remove: supprimer l'horaire de soumission
+      submission_schedule: horaire de soumission
     new:
       description: créer un nouveau horaire de soumission.
       submit: créer l'horaire de soumission
@@ -3072,6 +3088,11 @@ fr:
       title: sections de soumission
     model:
       to_s: section_soumission#%{id}
+    nested:
+      add: ajouter une section de soumission
+    nested_form:
+      remove: supprimer la section de soumission
+      submission_section: section de soumission
     new:
       description: créer une nouvelle section de soumission.
       submit: créer la section de soumission

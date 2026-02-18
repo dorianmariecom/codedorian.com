@@ -60,28 +60,20 @@ class FormsController < ApplicationController
   end
 
   def submission_params
-    params.require(:submission).permit(
-      :email_address,
-      :family_name,
-      :given_name,
-      :locale,
-      :phone_number,
-      submission_sections_attributes: [
-        :name,
-        :description,
+    params.expect(
+      submission: [
+        :email_address,
+        :family_name,
+        :given_name,
+        :locale,
+        :phone_number,
         {
-          submission_programs_attributes: %i[
-            form_program_id
-          ]
-        },
-        {
-          submission_schedules_attributes: %i[
-            form_schedule_id
-          ]
-        },
-        {
-          submission_deliveries_attributes: %i[
-            form_delivery_id
+          submission_sections_attributes: [
+            :name,
+            :description,
+            { submission_programs_attributes: %i[form_program_id] },
+            { submission_schedules_attributes: %i[form_schedule_id] },
+            { submission_deliveries_attributes: %i[form_delivery_id] }
           ]
         }
       ]

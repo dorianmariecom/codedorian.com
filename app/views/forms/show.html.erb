@@ -1,6 +1,15 @@
 <div class="p"><%= t(".intro") %></div>
 
 <%= form_for(@submission, url: form_path) do |f| %>
+  <%= f.hidden_field(
+    :locale,
+    value: f.object.locale.presence || I18n.locale,
+    autocomplete: :off,
+    data: {
+      form_type: :other
+    }
+  ) %>
+
   <div
     class="p"
     data-controller="validation"
@@ -92,5 +101,24 @@
       autocomplete: "tel"
     ) %>
     <div class="text-red-600" hidden data-phone-number-target="error"></div>
+  </div>
+
+  <%= render(
+    "submission_sections/nested",
+    f: f,
+    form_programs: @form_programs,
+    form_schedules: @form_schedules,
+    form_deliveries: @form_deliveries
+  ) %>
+
+  <div class="p">
+    <%= f.submit(
+      t(".submit"),
+      class: "button",
+      data: {
+        controller: "bridge--button",
+        bridge__button_title_value: t(".submit")
+      }
+    ) %>
   </div>
 <% end %>

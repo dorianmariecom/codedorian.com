@@ -1,0 +1,65 @@
+<div
+  class="submission-delivery submission-delivery-item"
+  data-delivery-picker-target="item"
+>
+  <%= f.hidden_field(:id, autocomplete: :off, data: { form_type: :other }) %>
+  <%= f.hidden_field(
+    :_destroy,
+    value: checked ? "0" : "1",
+    autocomplete: :off,
+    data: {
+      form_type: :other,
+      delivery_picker_target: :destroy
+    }
+  ) %>
+  <%= f.hidden_field(
+    :locale,
+    value: f.object.locale.presence || I18n.locale,
+    autocomplete: :off,
+    data: {
+      form_type: :other
+    }
+  ) %>
+  <%= f.hidden_field(
+    :form_delivery_id,
+    value: form_delivery.id,
+    autocomplete: :off,
+    data: {
+      form_type: :other
+    }
+  ) %>
+  <%= f.hidden_field(
+    :name,
+    value: f.object.name.presence || form_delivery.name,
+    autocomplete: :off,
+    data: {
+      form_type: :other
+    }
+  ) %>
+  <%= f.hidden_field(
+    :description,
+    value: f.object.description.presence || form_delivery.description,
+    autocomplete: :off,
+    data: {
+      form_type: :other
+    }
+  ) %>
+
+  <label class="submission-delivery-label">
+    <%= check_box_tag(
+      nil,
+      "1",
+      checked,
+      data: {
+        action: "delivery-picker#toggle",
+        delivery_picker_target: :checkbox
+      }
+    ) %>
+    <span class="submission-delivery-content">
+      <span class="font-bold text-black block"><%= form_delivery.name %></span>
+      <span class="text-sm text-gray-600 block mt-1">
+        <%= form_delivery.description %>
+      </span>
+    </span>
+  </label>
+</div>

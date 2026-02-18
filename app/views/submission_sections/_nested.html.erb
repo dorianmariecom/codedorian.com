@@ -1,0 +1,36 @@
+<div
+  data-controller="nested"
+  data-nested-selector-value=".js-submission-section"
+>
+  <template data-nested-target="template">
+    <%= f.fields_for(
+      :submission_sections,
+      SubmissionSection.new,
+      child_index: "NEW_RECORD"
+    ) do |submission_section_f| %>
+      <%= render(
+        "submission_sections/nested_form",
+        f: submission_section_f,
+        form_programs: form_programs,
+        form_schedules: form_schedules,
+        form_deliveries: form_deliveries
+      ) %>
+    <% end %>
+  </template>
+
+  <%= f.fields_for(:submission_sections) do |submission_section_f| %>
+    <%= render(
+      "submission_sections/nested_form",
+      f: submission_section_f,
+      form_programs: form_programs,
+      form_schedules: form_schedules,
+      form_deliveries: form_deliveries
+    ) %>
+  <% end %>
+
+  <div data-nested-target="target"></div>
+
+  <div class="p">
+    <button class="link" data-action="nested#add"><%= t(".add") %></button>
+  </div>
+</div>

@@ -1,7 +1,6 @@
 import { StreamLanguage } from "@codemirror/language";
 
-const NUMBER =
-  /^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?/;
+const NUMBER = /^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?/;
 const LITERAL = /^(?:true|false|null)\b/;
 
 const jsonLanguage = StreamLanguage.define({

@@ -112,7 +112,7 @@ export default class extends Controller {
     }
 
     throw new Error(
-      `Invalid editor language "${this.languageValue}". Expected "json" or "code".`
+      `Invalid editor language "${this.languageValue}". Expected "json" or "code".`,
     );
   }
 }

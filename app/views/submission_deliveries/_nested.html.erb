@@ -1,0 +1,33 @@
+<%
+  section_locale = f.object.locale.presence || I18n.locale
+  submission_deliveries_by_form_delivery_id =
+    f.object.submission_deliveries.index_by(&:form_delivery_id)
+%>
+
+<div class="p" data-controller="delivery-picker">
+  <h3 class="font-bold mb-2">how do you want to receive them?</h3>
+  <div class="submission-deliveries-list">
+    <% @form_deliveries.each do |form_delivery| %>
+      <%
+        existing_delivery = submission_deliveries_by_form_delivery_id[form_delivery.id]
+        submission_delivery =
+          existing_delivery ||
+            f.object.submission_deliveries.build(
+              form_delivery: form_delivery,
+              locale: section_locale,
+              name: form_delivery.name,
+              description: form_delivery.description
+            )
+      %>
+
+      <%= f.fields_for(:submission_deliveries, submission_delivery) do |submission_delivery_f| %>
+        <%= render(
+          "submission_deliveries/nested_form",
+          f: submission_delivery_f,
+          form_delivery: form_delivery,
+          checked: existing_delivery.present? && existing_delivery._destroy != "1"
+        ) %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<%
+  section_locale = f.object.locale.presence || I18n.locale
+  submission_schedules_by_form_schedule_id =
+    f.object.submission_schedules.index_by(&:form_schedule_id)
+%>
+
+<div class="p" data-controller="schedule-picker">
+  <h3 class="font-bold mb-2">when do you want to receive them?</h3>
+  <div class="submission-schedules-list">
+    <% @form_schedules.each do |form_schedule| %>
+      <%
+        existing_schedule = submission_schedules_by_form_schedule_id[form_schedule.id]
+        submission_schedule =
+          existing_schedule ||
+            f.object.submission_schedules.build(
+              form_schedule: form_schedule,
+              locale: section_locale,
+              starts_at: form_schedule.starts_at,
+              interval: form_schedule.interval,
+              name: form_schedule.name,
+              description: form_schedule.description
+            )
+        checked = existing_schedule.present? && existing_schedule._destroy != "1"
+      %>
+
+      <%= f.fields_for(:submission_schedules, submission_schedule) do |submission_schedule_f| %>
+        <%= render(
+          "submission_schedules/nested_form",
+          f: submission_schedule_f,
+          form_schedule: form_schedule,
+          checked: checked
+        ) %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

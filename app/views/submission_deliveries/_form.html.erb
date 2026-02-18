@@ -18,6 +18,20 @@
   <% end %>
 
   <div class="p">
+    <%= f.label(:form_delivery_id, class: :label) %>
+    <%= f.select(
+      :form_delivery_id,
+      form_delivery_options(form_delivery_id: f.object.form_delivery_id),
+      {},
+      class: :input,
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+  </div>
+
+  <div class="p">
     <%= f.label(:locale, class: :label) %>
     <%= f.select(
       :locale,

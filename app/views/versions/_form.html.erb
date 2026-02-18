@@ -58,7 +58,7 @@
     ) %>
   </div>
 
-  <div class="p" data-controller="editor">
+  <div class="p" data-controller="editor" data-editor-language-value="json">
     <%= f.label(:object, class: :label) %>
     <div class="border border-black rounded overflow-hidden">
       <%= f.hidden_field(
@@ -75,7 +75,7 @@
     <div class="text-gray-600"><%= Faker::Internet.slug.to_json %></div>
   </div>
 
-  <div class="p" data-controller="editor">
+  <div class="p" data-controller="editor" data-editor-language-value="json">
     <%= f.label(:object_changes, class: :label) %>
     <div class="border border-black rounded overflow-hidden">
       <%= f.hidden_field(

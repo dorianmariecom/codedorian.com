@@ -2,6 +2,7 @@
 submission_program:
   created_at: '2025-01-20 10:00:00'
   description: Program description
+  form_program: form_program
   locale: en
   name: Program A
   submission_section: submission_section

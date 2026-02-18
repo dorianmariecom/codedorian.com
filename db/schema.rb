@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_10_121000) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_15_113000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -652,10 +652,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_10_121000) do
   create_table "submission_deliveries", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
+    t.bigint "form_delivery_id"
     t.string "locale", default: "en", null: false
     t.string "name"
     t.bigint "submission_section_id", null: false
     t.datetime "updated_at", null: false
+    t.index ["form_delivery_id"],
+            name: "index_submission_deliveries_on_form_delivery_id"
     t.index ["submission_section_id"],
             name: "index_submission_deliveries_on_submission_section_id"
   end
@@ -663,10 +666,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_10_121000) do
   create_table "submission_programs", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
+    t.bigint "form_program_id"
     t.string "locale", default: "en", null: false
     t.string "name"
     t.bigint "submission_section_id", null: false
     t.datetime "updated_at", null: false
+    t.index ["form_program_id"],
+            name: "index_submission_programs_on_form_program_id"
     t.index ["submission_section_id"],
             name: "index_submission_programs_on_submission_section_id"
   end
@@ -674,12 +680,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_10_121000) do
   create_table "submission_schedules", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
+    t.bigint "form_schedule_id"
     t.string "interval"
     t.string "locale", default: "en", null: false
     t.string "name"
     t.datetime "starts_at"
     t.bigint "submission_section_id", null: false
     t.datetime "updated_at", null: false
+    t.index ["form_schedule_id"],
+            name: "index_submission_schedules_on_form_schedule_id"
     t.index ["submission_section_id"],
             name: "index_submission_schedules_on_submission_section_id"
   end

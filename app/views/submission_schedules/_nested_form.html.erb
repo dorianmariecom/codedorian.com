@@ -1,0 +1,185 @@
+<%
+  starts_at = f.object.starts_at || form_schedule.starts_at
+  interval = f.object.interval.presence || form_schedule.interval
+  weekday_interval =
+    interval.match?(
+      /\A(first|second|third|fourth|fifth|last) (monday|tuesday|wednesday|thursday|friday|saturday|sunday)\z/i
+    )
+  periodic_week = interval.match?(/week/i)
+  periodic_month_or_year = interval.match?(/month|year/i)
+  details = []
+  details << interval
+  if starts_at && (weekday_interval || periodic_week)
+    details << starts_at.strftime("%A").downcase
+  end
+  details << "day #{starts_at.day}" if starts_at && periodic_month_or_year
+  details << "hour #{starts_at.hour}" if starts_at
+  details << "minute #{starts_at.min}" if starts_at
+%>
+
+<div
+  class="submission-schedule submission-schedule-item"
+  data-schedule-picker-target="item"
+  data-controller="schedule-details"
+>
+  <%= f.hidden_field(:id, autocomplete: :off, data: { form_type: :other }) %>
+  <%= f.hidden_field(
+    :_destroy,
+    value: checked ? "0" : "1",
+    autocomplete: :off,
+    data: {
+      form_type: :other,
+      schedule_picker_target: :destroy
+    }
+  ) %>
+  <%= f.hidden_field(
+    :locale,
+    value: f.object.locale.presence || I18n.locale,
+    autocomplete: :off,
+    data: {
+      form_type: :other
+    }
+  ) %>
+  <%= f.hidden_field(
+    :form_schedule_id,
+    value: form_schedule.id,
+    autocomplete: :off,
+    data: {
+      form_type: :other
+    }
+  ) %>
+  <%= f.hidden_field(
+    :starts_at,
+    value: starts_at&.strftime("%Y-%m-%dT%H:%M"),
+    autocomplete: :off,
+    data: {
+      form_type: :other,
+      schedule_details_target: :startsAt
+    }
+  ) %>
+  <%= f.hidden_field(
+    :interval,
+    value: interval,
+    autocomplete: :off,
+    data: {
+      form_type: :other,
+      schedule_details_target: :interval
+    }
+  ) %>
+  <%= f.hidden_field(
+    :name,
+    value: f.object.name.presence || form_schedule.name,
+    autocomplete: :off,
+    data: {
+      form_type: :other
+    }
+  ) %>
+  <%= f.hidden_field(
+    :description,
+    value: f.object.description.presence || form_schedule.description,
+    autocomplete: :off,
+    data: {
+      form_type: :other
+    }
+  ) %>
+
+  <label class="submission-schedule-label">
+    <%= check_box_tag(
+      nil,
+      "1",
+      checked,
+      data: {
+        action: "schedule-picker#toggle schedule-details#toggle",
+        schedule_picker_target: :checkbox
+      }
+    ) %>
+    <span class="submission-schedule-content">
+      <span class="font-bold text-black block leading-tight">
+        <%= form_schedule.name %>
+      </span>
+      <span class="text-sm text-gray-600 block leading-tight mt-1">
+        <%= form_schedule.description %>
+      </span>
+      <span
+        class="text-xs text-gray-500 block mt-1"
+        data-schedule-details-target="summary"
+      >
+        <%= details.join(" · ") %>
+      </span>
+
+      <div class="schedule-details mt-2" data-schedule-details-target="details">
+        <div class="schedule-details-grid">
+          <label
+            class="label schedule-details-field"
+            data-schedule-details-target="weekdayField"
+          >
+            day of week
+            <select
+              class="input"
+              data-schedule-details-target="weekday"
+              data-action="change->schedule-details#update"
+            >
+              <% ScheduleConcern::WEEKDAYS.each_with_index do |weekday, index| %>
+                <option value="<%= index %>"><%= weekday %></option>
+              <% end %>
+            </select>
+          </label>
+
+          <label
+            class="label schedule-details-field"
+            data-schedule-details-target="dayField"
+          >
+            day of month
+            <input
+              type="number"
+              min="1"
+              max="31"
+              class="input"
+              data-schedule-details-target="day"
+              data-action="input->schedule-details#update"
+             />
+          </label>
+
+          <label
+            class="label schedule-details-field"
+            data-schedule-details-target="monthField"
+          >
+            month
+            <input
+              type="number"
+              min="1"
+              max="12"
+              class="input"
+              data-schedule-details-target="month"
+              data-action="input->schedule-details#update"
+             />
+          </label>
+
+          <label class="label schedule-details-field">
+            hour
+            <input
+              type="number"
+              min="0"
+              max="23"
+              class="input"
+              data-schedule-details-target="hour"
+              data-action="input->schedule-details#update"
+             />
+          </label>
+
+          <label class="label schedule-details-field">
+            minute
+            <input
+              type="number"
+              min="0"
+              max="59"
+              class="input"
+              data-schedule-details-target="minute"
+              data-action="input->schedule-details#update"
+             />
+          </label>
+        </div>
+      </div>
+    </span>
+  </label>
+</div>

@@ -1,0 +1,10 @@
+<div class="font-bold p"><%= t(".submission_programs") %></div>
+
+<% form_programs.each do |form_program| %>
+  <%= f.fields_for(
+    :submission_programs,
+    SubmissionProgram.new(form_program: form_program)
+  ) do |submission_program_f| %>
+    <%= render("submission_programs/nested_form", f: submission_program_f) %>
+  <% end %>
+<% end %>

@@ -1191,6 +1191,7 @@ en:
       description: this is an example form to demonstrate form deliveries, programs,
         and schedules.
       intro: hi, it's dorian, i would like to make you some programs
+      submit: submit
       title: form
   guests:
     create:
@@ -2866,6 +2867,11 @@ en:
       title: submission deliveries
     model:
       to_s: submission_delivery#%{id}
+    nested:
+      add: add submission delivery
+    nested_form:
+      remove: remove submission delivery
+      submission_delivery: submission delivery
     new:
       description: create a new submission delivery.
       submit: create submission delivery
@@ -2909,6 +2915,11 @@ en:
       title: submission programs
     model:
       to_s: submission_program#%{id}
+    nested:
+      add: add submission program
+      submission_programs: submission programs
+    nested_form:
+      remove: remove submission program
     new:
       description: create a new submission program.
       submit: create submission program
@@ -3023,6 +3034,11 @@ en:
         one: 1 year
         other: "%{count} years"
         zero: 0 years
+    nested:
+      add: add submission schedule
+    nested_form:
+      remove: remove submission schedule
+      submission_schedule: submission schedule
     new:
       description: create a new submission schedule.
       submit: create submission schedule
@@ -3068,6 +3084,11 @@ en:
       title: submission sections
     model:
       to_s: submission_section#%{id}
+    nested:
+      add: add submission section
+    nested_form:
+      remove: remove submission section
+      submission_section: submission section
     new:
       description: create a new submission section.
       submit: create submission section

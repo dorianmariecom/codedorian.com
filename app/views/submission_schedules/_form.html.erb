@@ -18,6 +18,20 @@
   <% end %>
 
   <div class="p">
+    <%= f.label(:form_schedule_id, class: :label) %>
+    <%= f.select(
+      :form_schedule_id,
+      form_schedule_options(form_schedule_id: f.object.form_schedule_id),
+      {},
+      class: :input,
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+  </div>
+
+  <div class="p">
     <%= f.label(:locale, class: :label) %>
     <%= f.select(
       :locale,

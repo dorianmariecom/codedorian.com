@@ -1,0 +1,38 @@
+<div
+  class="js-submission-section border-l border-black pl-4"
+  data-new-record="<%= f.object.new_record? %>"
+>
+  <%= render("submission_programs/nested", f: f, form_programs: form_programs) %>
+  <%= render("submission_schedules/nested", f: f, form_schedules: form_schedules) %>
+  <%= render("submission_deliveries/nested", f: f, form_deliveries: form_deliveries) %>
+
+  <div class="p">
+    <%= f.label(:name, class: :label) %>
+    <%= f.text_field(
+      :name,
+      class: :input,
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:description, class: :label) %>
+    <%= f.text_area(
+      :description,
+      class: :input,
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+  </div>
+
+  <div class="p">
+    <button class="link" data-action="nested#remove">
+      <%= t(".remove") %>
+    </button>
+  </div>
+</div>
