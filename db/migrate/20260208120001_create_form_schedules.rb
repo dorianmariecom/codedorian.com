@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateFormSchedules < ActiveRecord::Migration[7.1]
+class CreateFormSchedules < ActiveRecord::Migration[8.1]
   def change
     create_table(:form_schedules) do |t|
       t.string(:locale, null: false, default: "en")

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class DropSubmissionPrograms < ActiveRecord::Migration[7.1]
+class DropSubmissionPrograms < ActiveRecord::Migration[8.1]
   def change
     drop_table(:submission_programs) do |t|
       t.bigint(:submission_id, null: false)

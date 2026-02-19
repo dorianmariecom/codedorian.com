@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateSubmissionSectionsAndChildren < ActiveRecord::Migration[7.1]
+class CreateSubmissionSectionsAndChildren < ActiveRecord::Migration[8.1]
   def change
     create_table(:submission_sections) do |t|
       t.bigint(:submission_id, null: false)

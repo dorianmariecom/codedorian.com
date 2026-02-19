@@ -6,14 +6,12 @@ class FormEmailJob < ContextJob
       FormMailer.summary_email(
         submission: submission,
         to: "dorian@dorianmarie.com",
-        reply_to: submission.email_address,
-        locale: locale
+        reply_to: submission.email_address
       )&.deliver_later
 
       FormMailer.summary_email(
         submission: submission,
-        to: submission.email_address,
-        locale: locale
+        to: submission.email_address
       )&.deliver_later
     end
   end

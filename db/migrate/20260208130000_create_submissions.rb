@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateSubmissions < ActiveRecord::Migration[7.1]
+class CreateSubmissions < ActiveRecord::Migration[8.1]
   def change
     create_table(:submissions) do |t|
       t.string(:email_address)

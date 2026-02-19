@@ -40,8 +40,6 @@ class SubmissionSection < ApplicationRecord
     return unless submission
 
     self.locale ||= submission.locale.presence || I18n.locale
-    self.name ||= submission.name
-    self.description ||= submission.description
   end
 
   def name_sample

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddFormRelationsToSubmissionChildren < ActiveRecord::Migration[7.1]
+class AddFormRelationsToSubmissionChildren < ActiveRecord::Migration[8.1]
   def change
     add_reference(
       :submission_programs,
