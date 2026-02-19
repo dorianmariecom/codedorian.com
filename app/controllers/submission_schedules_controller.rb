@@ -178,8 +178,6 @@ class SubmissionSchedulesController < ApplicationController
           submission_section_id
           form_schedule_id
           locale
-          starts_at
-          interval
           name
           label
           description

@@ -16,22 +16,6 @@
   </div>
 <% end %>
 
-<% if @form_schedule.starts_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".starts_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@form_schedule.starts_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
-
-<% if @form_schedule.interval.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".interval") %></div>
-    <div class="font-bold"><%= @form_schedule.translated_interval %></div>
-  </div>
-<% end %>
-
 <% if @form_schedule.name.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".name") %></div>

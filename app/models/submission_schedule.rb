@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class SubmissionSchedule < ApplicationRecord
-  include(ScheduleConcern)
-
   belongs_to(:submission_section, touch: true)
   belongs_to(:form_schedule)
   has_one(:submission, through: :submission_section)
@@ -32,14 +30,6 @@ class SubmissionSchedule < ApplicationRecord
         node: -> { arel_table[:locale] },
         type: :string
       },
-      starts_at: {
-        node: -> { arel_table[:starts_at] },
-        type: :datetime
-      },
-      interval: {
-        node: -> { arel_table[:interval] },
-        type: :string
-      },
       name: {
         node: -> { arel_table[:name] },
         type: :string
@@ -60,8 +50,6 @@ class SubmissionSchedule < ApplicationRecord
     return unless form_schedule
 
     self.locale ||= form_schedule.locale || I18n.locale
-    self.starts_at ||= form_schedule.starts_at
-    self.interval ||= form_schedule.interval
     self.name ||= form_schedule.name
     self.label ||= form_schedule.label
     self.description ||= form_schedule.description
@@ -76,7 +64,6 @@ class SubmissionSchedule < ApplicationRecord
   end
 
   def to_s
-    name_sample.presence || description_sample.presence ||
-      translated_interval.presence || t("to_s", id: id)
+    name_sample.presence || description_sample.presence || t("to_s", id: id)
   end
 end

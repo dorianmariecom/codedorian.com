@@ -1,0 +1,106 @@
+---
+form_deliveries:
+- description: you will need to download the app (codedorian)
+  label: what's your user identifier on the app?
+  locale: en
+  name: push notification
+  position: 1
+- description: tu devras télécharger l'application (codedorian)
+  label: quel est ton identifiant utilisateur sur l'application?
+  locale: fr
+  name: notification push
+  position: 1
+- description: you will receive an email in your inbox
+  label: i already have your email address, anything else you want to add?
+  locale: en
+  name: email
+  position: 2
+- description: tu recevras un email dans ta boîte de réception
+  label: j'ai déjà ton adresse email, y a-t-il autre chose que tu souhaites ajouter?
+  locale: fr
+  name: email
+  position: 2
+- description: you will receive an sms on your phone
+  label: i already have your phone number, anything else you want to add?
+  locale: en
+  name: sms
+  position: 3
+- description: tu recevras un sms sur ton téléphone
+  label: j'ai déjà ton numéro de téléphone, y a-t-il autre chose que tu souhaites
+    ajouter?
+  locale: fr
+  name: sms
+  position: 3
+- description: you will receive a message on whatsapp
+  label: i already have your whatsapp number, anything else you want to add?
+  locale: en
+  name: whatsapp
+  position: 4
+- description: tu recevras un message sur whatsapp
+  label: j'ai déjà ton numéro whatsapp, y a-t-il autre chose que tu souhaites ajouter?
+  locale: fr
+  name: whatsapp
+  position: 4
+- description: you will receive a message on telegram
+  label: what is your telegram username? anything else you want to add?
+  locale: en
+  name: telegram
+  position: 5
+- description: tu recevras un message sur telegram
+  label: quel est ton nom d'utilisateur telegram? y a-t-il autre chose que tu souhaites
+    ajouter?
+  locale: fr
+  name: telegram
+  position: 5
+- description: you will receive a message on discord
+  label: what is your discord username? anything else you want to add?
+  locale: en
+  name: discord
+  position: 6
+- description: tu recevras un message sur discord
+  label: quel est ton nom d'utilisateur discord? y a-t-il autre chose que tu souhaites
+    ajouter?
+  locale: fr
+  name: discord
+  position: 6
+- description: you will receive a message on slack
+  label: what is your slack username? anything else you want to add?
+  locale: en
+  name: slack dm
+  position: 7
+- description: tu recevras un message sur slack
+  label: quel est ton nom d'utilisateur slack? y a-t-il autre chose que tu souhaites
+    ajouter?
+  locale: fr
+  name: slack
+  position: 7
+- description: you will receive a message on signal
+  label: what is your signal number? anything else you want to add?
+  locale: en
+  name: signal
+  position: 8
+- description: tu recevras un message sur signal
+  label: quel est ton numéro signal? y a-t-il autre chose que tu souhaites ajouter?
+  locale: fr
+  name: signal
+  position: 8
+- description: you will receive a message on a slack channel
+  label: what is the name of the slack channel? anything else you want to add?
+  locale: en
+  name: slack channel
+  position: 9
+- description: tu recevras un message sur un channel slack
+  label: quel est le nom du channel slack? y a-t-il autre chose que tu souhaites ajouter?
+  locale: fr
+  name: slack channel
+  position: 9
+- description: something else in mind?
+  label: what do you have in mind?
+  locale: en
+  name: other
+  position: 10
+- description: quelque chose d'autre en tête?
+  label: qu'est-ce que tu as en tête?
+  locale: fr
+  name: autre
+  position: 10

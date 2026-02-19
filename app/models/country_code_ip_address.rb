@@ -2,6 +2,7 @@
 
 class CountryCodeIpAddress < ApplicationRecord
   validates :ip_address, uniqueness: true, presence: true
+  validate { can!(:update, self) }
 
   def self.search_fields
     {

@@ -1,0 +1,416 @@
+---
+form_programs:
+- description: video games (steam, etc.), supermarkets (carrefour, etc.), etc.
+  label: what do you have in mind?
+  locale: en
+  name: discounts
+  position: 1
+- description: jeux vidéo (steam, etc.), supermarchés (carrefour, etc.), etc.
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: réductions
+  position: 1
+- description: with or without author/source/date/topic/etc.
+  label: what do you have in mind?
+  locale: en
+  name: quote
+  position: 2
+- description: avec ou sans auteur/source/date/sujet/etc.
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: citation
+  position: 2
+- description: with or without a topic
+  label: qu'as-tu en tête ?
+  locale: en
+  name: positive sentence
+  position: 3
+- description: avec ou sans sujet
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: phrase positive
+  position: 3
+- description: with or without a topic
+  label: what do you have in mind?
+  locale: en
+  name: word
+  position: 4
+- description: avec ou sans sujet
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: mot
+  position: 4
+- description: about the world, a country (france, united states, etc.), a region
+    (île-de-france, bay area, etc.), a city (paris, san francisco, etc.), a topic
+    (politics, sports, etc.), etc.
+  label: what do you have in mind?
+  locale: en
+  name: news
+  position: 5
+- description: sur le monde, un pays (france, états-unis, etc.), une région (île-de-france,
+    bay area, etc.), une ville (paris, san francisco, etc.), un sujet (politique,
+    sport, etc.), etc. with images, videos, etc.
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: actualités
+  position: 5
+- description: general fact, scientific fact, historical fact, etc. with or without
+    a topic
+  label: what do you have in mind?
+  locale: en
+  name: fact
+  position: 6
+- description: fait général, fait scientifique, fait historique, etc. avec ou sans
+    sujet
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: fait
+  position: 6
+- description: from google images, reddit, twitter, etc. with or without a topic
+  label: what do you have in mind?
+  locale: en
+  name: humoristic images
+  position: 7
+- description: de google images, reddit, twitter, etc. avec ou sans sujet
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: images humoristiques
+  position: 7
+- description: with or without a topic/author/source/date/etc.
+  label: what do you have in mind?
+  locale: en
+  name: joke
+  position: 8
+- description: avec ou sans sujet/auteur/source/date/etc.
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: blague
+  position: 8
+- description: the "day of", international day, world day, etc. (e.g. "world day of
+    laughter", "international day of happiness", etc.)
+  label: what do you have in mind?
+  locale: en
+  name: day
+  position: 9
+- description: la "journée de", journée internationale, journée mondiale, etc. (ex.
+    "journée mondiale du rire", "journée internationale du bonheur", etc.)
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: journée
+  position: 9
+- description: christmas, easter, etc. with or without a country/region (france, united
+    states, etc.)
+  label: what do you have in mind?
+  locale: en
+  name: holidays
+  position: 10
+- description: noël, pâques, etc. avec ou sans pays/région (france, états-unis, etc.)
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: jour fériés
+  position: 10
+- description: with or without a topic (e.g. "pasta", "chocolate cake", etc.)
+  label: what do you have in mind?
+  locale: en
+  name: recipe
+  position: 11
+- description: avec ou sans sujet (ex. "pâtes", "gâteau au chocolat", etc.)
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: recette
+  position: 11
+- description: with or without a topic (e.g. "action", "comedy", etc.)
+  label: what do you have in mind?
+  locale: en
+  name: movie
+  position: 12
+- description: avec ou sans sujet (ex. "action", "comédie", etc.)
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: film
+  position: 12
+- description: with or without a topic (e.g. "science fiction", "romance", etc.)
+  label: what do you have in mind?
+  locale: en
+  name: book
+  position: 13
+- description: avec ou sans sujet (ex. "science-fiction", "romance", etc.)
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: livre
+  position: 13
+- description: with or without a topic (e.g. "rock", "pop", etc.)
+  label: what do you have in mind?
+  locale: en
+  name: music
+  position: 14
+- description: avec ou sans sujet (ex. "rock", "pop", etc.)
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: musique
+  position: 14
+- description: with or without a topic (e.g. "action", "adventure", etc.)
+  label: what do you have in mind?
+  locale: en
+  name: video game
+  position: 15
+- description: avec ou sans sujet (ex. "action", "aventure", etc.)
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: jeu vidéo
+  position: 15
+- description: with or without a topic (e.g. "comedy", "drama", etc.)
+  label: what do you have in mind?
+  locale: en
+  name: tv show
+  position: 16
+- description: avec ou sans sujet (ex. "comédie", "drame", etc.)
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: série tv
+  position: 16
+- description: with or without a topic (e.g. "technology", "history", etc.)
+  label: what do you have in mind?
+  locale: en
+  name: podcast
+  position: 17
+- description: avec ou sans sujet (ex. "technologie", "histoire", etc.)
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: podcast
+  position: 17
+- description: with or without a topic (e.g. "technology", "cooking", etc.)
+  label: what do you have in mind?
+  locale: en
+  name: youtube video
+  position: 18
+- description: avec ou sans sujet (ex. "technologie", "cuisine", etc.)
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: vidéo youtube
+  position: 18
+- description: with or without a topic (e.g. "productivity", "fitness", etc.)
+  label: what do you have in mind?
+  locale: en
+  name: app
+  position: 19
+- description: avec ou sans sujet (ex. "productivité", "fitness", etc.)
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: application
+  position: 19
+- description: with or without a topic (e.g. "news", "entertainment", etc.)
+  label: what do you have in mind?
+  locale: en
+  name: website
+  position: 20
+- description: avec ou sans sujet (ex. "actualités", "divertissement", etc.)
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: site web
+  position: 20
+- description: with or without a topic (e.g. "python", "history", etc.)
+  label: what do you have in mind?
+  locale: en
+  name: learn
+  position: 21
+- description: avec ou sans sujet (ex. "python", "histoire", etc.)
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: apprendre
+  position: 21
+- description: with or without a topic (e.g. "python", "history", etc.)
+  label: what do you have in mind?
+  locale: en
+  name: online course
+  position: 22
+- description: avec ou sans sujet (ex. "python", "histoire", etc.)
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: cours en ligne
+  position: 22
+- description: with or without a topic (e.g. "technology", "music", etc.)
+  label: what do you have in mind?
+  locale: en
+  name: event
+  position: 23
+- description: avec ou sans sujet (ex. "technologie", "musique", etc.)
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: événement
+  position: 23
+- description: you provide the list of birthdays and i will notify you when a birthday
+    is coming up
+  label: what do you have in mind?
+  locale: en
+  name: birthdays
+  position: 24
+- description: tu me fournis la liste des anniversaires et je te notifierai quand
+    un anniversaire approche
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: anniversaires
+  position: 24
+- description: you provide the list of reminders and i will notify you when a reminder
+    is coming up
+  label: what do you have in mind?
+  locale: en
+  name: reminders
+  position: 25
+- description: tu me fournis la liste des rappels et je te notifierai quand un rappel
+    approche
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: rappels
+  position: 25
+- description: i connect to your calendar and notify you of upcoming events
+  label: what do you have in mind?
+  locale: en
+  name: calendar
+  position: 26
+- description: je me connecte à ton calendrier et te notifie des événements à venir
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: calendrier
+  position: 26
+- description: i provide you with the weather forecast for your location or any location
+    you choose
+  label: what do you have in mind?
+  locale: en
+  name: weather
+  position: 27
+- description: je te fournis les prévisions météorologiques pour ta localisation ou
+    toute localisation que tu choisis
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: météo
+  position: 27
+- description: i provide you with the traffic conditions for your location or any
+    location you choose
+  label: what do you have in mind?
+  locale: en
+  name: traffic
+  position: 28
+- description: je te fournis les conditions de trafic pour ta localisation ou toute
+    localisation que tu choisis
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: trafic
+  position: 28
+- description: i provide you with the latest sports scores for your favorite teams
+    or any teams you choose
+  label: what do you have in mind?
+  locale: en
+  name: sports scores
+  position: 29
+- description: je te fournis les derniers scores sportifs pour tes équipes préférées
+    ou toute équipe que tu choisis
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: scores sportifs
+  position: 29
+- description: i provide you with the latest stock prices for your favorite stocks
+    or any stocks you choose
+  label: what do you have in mind?
+  locale: en
+  name: stock prices
+  position: 30
+- description: je te fournis les derniers prix des actions pour tes actions préférées
+    ou toute action que tu choisis
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: prix des actions
+  position: 30
+- description: check if a website is up or down, check if a product is in stock, check
+    if a price has dropped, etc. and notify you of any changes
+  label: what do you have in mind?
+  locale: en
+  name: monitoring
+  position: 31
+- description: vérifier si un site web est en ligne ou hors ligne, vérifier si un
+    produit est en stock, vérifier si un prix a baissé, etc. et te notifier de tout
+    changement
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: surveillance
+  position: 31
+- description: school vacations for your country/region (france, united states, etc.)
+    and notify you of upcoming vacations
+  label: what do you have in mind?
+  locale: en
+  name: vacations
+  position: 32
+- description: vacances scolaires pour ton pays/région (france, états-unis, etc.)
+    et te notifier des vacances à venir
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: vacances
+  position: 32
+- description: daily, weekly, monthly, or yearly horoscope for your zodiac sign
+  label: what do you have in mind?
+  locale: en
+  name: horoscope
+  position: 33
+- description: horoscope quotidien, hebdomadaire, mensuel ou annuel pour ton signe
+    du zodiaque
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: horoscope
+  position: 33
+- description: i will make a simple blockchain for you and notify you of any new blocks
+    added to the chain
+  label: what do you have in mind?
+  locale: en
+  name: blockchain
+  position: 34
+- description: je vais créer une blockchain simple pour toi et te notifier de tout
+    nouveau bloc ajouté à la chaîne
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: blockchain
+  position: 34
+- description: i will provide a list of questions with or without a topic and answers
+    to those questions
+  label: what do you have in mind?
+  locale: en
+  name: questions
+  position: 35
+- description: je fournirai une liste de questions avec ou sans sujet et les réponses
+    à ces questions
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: questions
+  position: 35
+- description: i will notify you of success/failure commits in your pull requests
+  label: what do you have in mind?
+  locale: en
+  name: github
+  position: 36
+- description: je te notifierai des commits réussis/échoués dans tes pull requests
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: github
+  position: 36
+- description: you give me a list of names and i will randomly order them for you,
+    can be used for randomizing a list of people, a list of movies to watch, etc.
+  label: what do you have in mind?
+  locale: en
+  name: random order
+  position: 37
+- description: tu me donnes une liste de noms et je les ordonnerai aléatoirement pour
+    toi, peut être utilisé pour randomiser une liste de personnes, une liste de films
+    à regarder, etc.
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: ordre aléatoire
+  position: 37
+- description: something else in mind?
+  label: what do you have in mind?
+  locale: en
+  name: other
+  position: 38
+- description: quelque chose d'autre en tête ?
+  label: qu'as-tu en tête ?
+  locale: fr
+  name: autre
+  position: 38

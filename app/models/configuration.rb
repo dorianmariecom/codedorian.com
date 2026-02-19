@@ -4,6 +4,7 @@ class Configuration < ApplicationRecord
   validates :name, uniqueness: true, presence: true
   validates :content, presence: true
 
+  validate { can!(:update, self) }
   validate(:parse_and_validate_content, on: :controller)
 
   def self.search_fields

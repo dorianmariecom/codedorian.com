@@ -1,0 +1,54 @@
+---
+form_schedules:
+- description: at :00, :15, :30, etc.
+  label: at which minute of each hour?
+  locale: en
+  name: every hour
+  position: 1
+- description: à :00, :15, :30, etc.
+  label: à quelle minute de chaque heure?
+  locale: fr
+  name: chaque heure
+  position: 1
+- description: at 9am, 1pm, etc.
+  label: at which hour and minute of each day?
+  locale: en
+  name: every day
+  position: 2
+- description: à 9h, 13h, etc.
+  label: à quelle heure et minute de chaque jour?
+  locale: fr
+  name: chaque jour
+  position: 2
+- description: at 9am on Mondays, 1pm on Fridays, etc.
+  label: at which day, hour and minute of each week?
+  locale: en
+  name: every week
+  position: 3
+- description: à 9h le lundi, 13h le vendredi, etc
+  label: à quel jour, heure et minute de chaque semaine?
+  locale: fr
+  name: chaque semaine
+  position: 3
+- description: at 9am on the 1st of each month, 1pm on the 15th of each month, first
+    monday, last thursday, etc.
+  label: at which day, hour and minute of each month?
+  locale: en
+  name: every month
+  position: 4
+- description: à 9h le 1er de chaque mois, 13h le 15 de chaque mois, premier lundi,
+    dernier jeudi, etc.
+  label: à quel jour, heure et minute de chaque mois?
+  locale: fr
+  name: chaque mois
+  position: 4
+- description: something else in mind?
+  label: what do you have in mind?
+  locale: en
+  name: other
+  position: 5
+- description: autre chose en tête?
+  label: qu'as-tu en tête?
+  locale: fr
+  name: autre
+  position: 5

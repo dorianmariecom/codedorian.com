@@ -124,17 +124,7 @@ class FormSchedulesController < ApplicationController
 
   def form_schedule_params
     if admin?
-      params.expect(
-        form_schedule: %i[
-          locale
-          starts_at
-          interval
-          name
-          label
-          description
-          position
-        ]
-      )
+      params.expect(form_schedule: %i[locale name label description position])
     else
       {}
     end

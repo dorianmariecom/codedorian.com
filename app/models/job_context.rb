@@ -42,6 +42,7 @@ class JobContext < ApplicationRecord
     )
   end
 
+  validate { can!(:update, self) }
   validate(:parse_and_validate_context, on: :controller)
 
   def parse_and_validate_context

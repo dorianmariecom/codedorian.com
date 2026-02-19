@@ -59,6 +59,8 @@ class Log < ApplicationRecord
     )
   end
 
+  validate { can!(:update, self) }
+
   def self.search_fields
     {
       message: {

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class FormDelivery < ApplicationRecord
-  validate { can!(:update, :form_delivery) }
+  validate { can!(:update, self) }
   validates(:locale, inclusion: { in: LOCALES_STRINGS })
 
   def self.search_fields

@@ -3,9 +3,7 @@ submission_schedule:
   created_at: '2025-01-20 10:00:00'
   description: Schedule description
   form_schedule: form_schedule
-  interval: once
   locale: en
   name: Schedule A
-  starts_at: '2025-01-20 10:00:00'
   submission_section: submission_section
   updated_at: '2025-01-20 10:00:00'
