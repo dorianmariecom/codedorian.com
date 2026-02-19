@@ -3,6 +3,8 @@
   data-new-record="<%= f.object.new_record? %>"
 >
   <%= render("submission_programs/nested", f: f, form_programs: form_programs) %>
+  <%= render("submission_schedules/nested", f: f, form_schedules: form_schedules) %>
+  <%= render("submission_deliveries/nested", f: f, form_deliveries: form_deliveries) %>
 
   <div class="p">
     <%= f.label(:name, t(".name"), class: :label) %>

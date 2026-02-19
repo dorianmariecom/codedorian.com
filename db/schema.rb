@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_18_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_19_123000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -209,8 +209,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_18_120000) do
   create_table "form_deliveries", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
+    t.text "label"
     t.string "locale", default: "en", null: false
-    t.string "name"
+    t.text "name"
     t.bigint "position", default: 0, null: false
     t.datetime "updated_at", null: false
   end
@@ -218,8 +219,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_18_120000) do
   create_table "form_programs", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
+    t.text "label"
     t.string "locale", default: "en", null: false
-    t.string "name"
+    t.text "name"
     t.bigint "position", default: 0, null: false
     t.datetime "updated_at", null: false
   end
@@ -228,8 +230,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_18_120000) do
     t.datetime "created_at", null: false
     t.text "description"
     t.string "interval"
+    t.text "label"
     t.string "locale", default: "en", null: false
-    t.string "name"
+    t.text "name"
     t.bigint "position", default: 0, null: false
     t.datetime "starts_at"
     t.datetime "updated_at", null: false
@@ -653,8 +656,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_18_120000) do
     t.datetime "created_at", null: false
     t.text "description"
     t.bigint "form_delivery_id"
+    t.text "label"
     t.string "locale", default: "en", null: false
-    t.string "name"
+    t.text "name"
     t.bigint "submission_section_id", null: false
     t.datetime "updated_at", null: false
     t.text "value"
@@ -668,8 +672,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_18_120000) do
     t.datetime "created_at", null: false
     t.text "description"
     t.bigint "form_program_id"
+    t.text "label"
     t.string "locale", default: "en", null: false
-    t.string "name"
+    t.text "name"
     t.bigint "submission_section_id", null: false
     t.datetime "updated_at", null: false
     t.text "value"
@@ -684,8 +689,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_18_120000) do
     t.text "description"
     t.bigint "form_schedule_id"
     t.string "interval"
+    t.text "label"
     t.string "locale", default: "en", null: false
-    t.string "name"
+    t.text "name"
     t.datetime "starts_at"
     t.bigint "submission_section_id", null: false
     t.datetime "updated_at", null: false

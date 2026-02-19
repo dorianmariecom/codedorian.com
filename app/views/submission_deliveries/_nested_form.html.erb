@@ -1,7 +1,7 @@
-<% form_program = f.object.form_program %>
+<% form_delivery = f.object.form_delivery %>
 
-<% if form_program %>
-  <%= f.hidden_field(:form_program_id) %>
+<% if form_delivery %>
+  <%= f.hidden_field(:form_delivery_id) %>
 
   <label
     class="flex items-start mb-4 cursor-pointer gap-2"
@@ -26,14 +26,14 @@
     </div>
     <div>
       <div class="font-bold">
-        <%= simple_format(form_program.name, {}, wrapper_tag: :div) %>
+        <%= simple_format(form_delivery.name, {}, wrapper_tag: :div) %>
       </div>
       <div class="text-gray-600">
-        <%= simple_format(form_program.description, {}, wrapper_tag: :div) %>
+        <%= simple_format(form_delivery.description, {}, wrapper_tag: :div) %>
       </div>
       <%= content_tag(:div, hidden: !checked, data: { toggle_target: :target }) do %>
         <div class="font-bold">
-          <%= simple_format(form_program.label, {}, wrapper_tag: :div) %>
+          <%= simple_format(form_delivery.label, {}, wrapper_tag: :div) %>
         </div>
         <%= f.text_area(
           :value,

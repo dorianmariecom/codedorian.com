@@ -181,6 +181,7 @@ class SubmissionSchedulesController < ApplicationController
           starts_at
           interval
           name
+          label
           description
         ]
       )

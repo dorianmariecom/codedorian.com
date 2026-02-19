@@ -69,7 +69,18 @@
 <% if @submission_schedule.name.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".name") %></div>
-    <div class="font-bold"><%= @submission_schedule.name %></div>
+    <div class="content font-bold">
+      <%= simple_format(@submission_schedule.name, {}, wrapper_tag: :div) %>
+    </div>
+  </div>
+<% end %>
+
+<% if @submission_schedule.label.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".label") %></div>
+    <div class="content font-bold">
+      <%= simple_format(@submission_schedule.label, {}, wrapper_tag: :div) %>
+    </div>
   </div>
 <% end %>
 

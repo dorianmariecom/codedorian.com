@@ -14,6 +14,10 @@ class FormDelivery < ApplicationRecord
         node: -> { arel_table[:name] },
         type: :string
       },
+      label: {
+        node: -> { arel_table[:label] },
+        type: :string
+      },
       description: {
         node: -> { arel_table[:description] },
         type: :string

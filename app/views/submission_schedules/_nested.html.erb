@@ -1,0 +1,19 @@
+<div class="font-bold p"><%= t(".submission_schedules") %></div>
+
+<% submission_schedules_by_form_schedule_id =
+  f.object.submission_schedules.index_by(&:form_schedule_id) %>
+
+<% form_schedules.each do |form_schedule| %>
+  <% submission_schedule_from_form =
+    submission_schedules_by_form_schedule_id.key?(form_schedule.id) %>
+  <% submission_schedule =
+    submission_schedules_by_form_schedule_id[form_schedule.id] ||
+      SubmissionSchedule.new(form_schedule: form_schedule) %>
+  <%= f.fields_for(:submission_schedules, submission_schedule) do |submission_schedule_f| %>
+    <%= render(
+      "submission_schedules/nested_form",
+      f: submission_schedule_f,
+      checked: submission_schedule_from_form
+    ) %>
+  <% end %>
+<% end %>

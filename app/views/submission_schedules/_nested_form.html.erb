@@ -1,7 +1,7 @@
-<% form_program = f.object.form_program %>
+<% form_schedule = f.object.form_schedule %>
 
-<% if form_program %>
-  <%= f.hidden_field(:form_program_id) %>
+<% if form_schedule %>
+  <%= f.hidden_field(:form_schedule_id) %>
 
   <label
     class="flex items-start mb-4 cursor-pointer gap-2"
@@ -26,14 +26,14 @@
     </div>
     <div>
       <div class="font-bold">
-        <%= simple_format(form_program.name, {}, wrapper_tag: :div) %>
+        <%= simple_format(form_schedule.name, {}, wrapper_tag: :div) %>
       </div>
       <div class="text-gray-600">
-        <%= simple_format(form_program.description, {}, wrapper_tag: :div) %>
+        <%= simple_format(form_schedule.description, {}, wrapper_tag: :div) %>
       </div>
       <%= content_tag(:div, hidden: !checked, data: { toggle_target: :target }) do %>
         <div class="font-bold">
-          <%= simple_format(form_program.label, {}, wrapper_tag: :div) %>
+          <%= simple_format(form_schedule.label, {}, wrapper_tag: :div) %>
         </div>
         <%= f.text_area(
           :value,

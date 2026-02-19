@@ -169,6 +169,7 @@ Rails.application.routes.draw do
         end
 
         define_errors.call
+        define_jobs.call
       end
 
       resources(:email_addresses) do

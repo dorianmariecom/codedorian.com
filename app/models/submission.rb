@@ -18,7 +18,7 @@ class Submission < ApplicationRecord
     with: ->(phone_number) { Phonelib.parse(phone_number).e164 }
   )
 
-  validate { can!(:update, :submission) }
+  validate { can!(:update, self) }
   validates(:locale, inclusion: { in: LOCALES_STRINGS })
   validates(:given_name, presence: true)
   validates(:family_name, presence: true)

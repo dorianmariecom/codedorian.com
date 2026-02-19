@@ -184,21 +184,27 @@ en:
         phone_number_input: phone number
       submission_delivery:
         description: description
+        label: label
         locale: locale
         name: name
         submission_section_id: submission section
+        value: value
       submission_program:
         description: description
+        label: label
         locale: locale
         name: name
         submission_section_id: submission section
+        value: value
       submission_schedule:
         description: description
         interval: interval
+        label: label
         locale: locale
         name: name
         starts_at: starts at
         submission_section_id: submission section
+        value: value
       submission_section:
         description: description
         locale: locale
@@ -1012,6 +1018,7 @@ en:
       destroy: destroy form delivery
       edit: edit form delivery
       id: id
+      label: label
       locale: locale
       logs: logs
       name: name
@@ -1022,6 +1029,22 @@ en:
       versions: versions
     update:
       notice: form delivery updated
+  form_mailer:
+    summary_email:
+      delivery: delivery %{index}
+      description: description
+      email_address: email address
+      env: env
+      family_name: family name
+      given_name: given name
+      label: label
+      locale: locale
+      name: name
+      phone_number: phone number
+      program: program %{index}
+      schedule: schedule %{index}
+      section: section %{index}
+      value: value
   form_programs:
     create:
       notice: form program created
@@ -1054,6 +1077,7 @@ en:
       destroy: destroy form program
       edit: edit form program
       id: id
+      label: label
       locale: locale
       logs: logs
       name: name
@@ -1171,6 +1195,7 @@ en:
       edit: edit form schedule
       id: id
       interval: interval
+      label: label
       locale: locale
       logs: logs
       name: name
@@ -2872,10 +2897,7 @@ en:
     model:
       to_s: submission_delivery#%{id}
     nested:
-      add: add submission delivery
-    nested_form:
-      remove: remove submission delivery
-      submission_delivery: submission delivery
+      submission_deliveries: how would you like to receive your programs?
     new:
       description: create a new submission delivery.
       submit: create submission delivery
@@ -2887,6 +2909,7 @@ en:
       destroy: destroy submission delivery
       edit: edit submission delivery
       id: id
+      label: label
       locale: locale
       logs: logs
       name: name
@@ -2935,6 +2958,7 @@ en:
       destroy: destroy submission program
       edit: edit submission program
       id: id
+      label: label
       locale: locale
       logs: logs
       name: name
@@ -3040,10 +3064,7 @@ en:
         other: "%{count} years"
         zero: 0 years
     nested:
-      add: add submission schedule
-    nested_form:
-      remove: remove submission schedule
-      submission_schedule: submission schedule
+      submission_schedules: when do you want to receive the programs in this section?
     new:
       description: create a new submission schedule.
       submit: create submission schedule
@@ -3056,6 +3077,7 @@ en:
       edit: edit submission schedule
       id: id
       interval: interval
+      label: label
       locale: locale
       logs: logs
       name: name

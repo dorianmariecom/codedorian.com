@@ -124,7 +124,7 @@ class FormProgramsController < ApplicationController
 
   def form_program_params
     if admin?
-      params.expect(form_program: %i[locale name description position])
+      params.expect(form_program: %i[locale name label description position])
     else
       {}
     end

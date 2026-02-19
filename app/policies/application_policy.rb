@@ -116,4 +116,8 @@ class ApplicationPolicy
   def owner?
     user? && current_user? && user == current_user
   end
+
+  def new_record?
+    record? && record.new_record?
+  end
 end

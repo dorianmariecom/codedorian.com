@@ -184,21 +184,27 @@ fr:
         phone_number_input: numéro de téléphone
       submission_delivery:
         description: description
+        label: libellé
         locale: langage
         name: nom
         submission_section_id: section de soumission
+        value: valeur
       submission_program:
         description: description
+        label: libellé
         locale: langage
         name: nom
         submission_section_id: section de soumission
+        value: valeur
       submission_schedule:
         description: description
         interval: intervalle
+        label: libellé
         locale: langage
         name: nom
         starts_at: commence à
         submission_section_id: section de soumission
+        value: valeur
       submission_section:
         description: description
         locale: langage
@@ -1013,6 +1019,7 @@ fr:
       destroy: détruire la livraison de formulaire
       edit: modifier la livraison de formulaire
       id: identifiant
+      label: libellé
       locale: langage
       logs: logs
       name: nom
@@ -1023,6 +1030,22 @@ fr:
       versions: versions
     update:
       notice: livraison de formulaire mise à jour
+  form_mailer:
+    summary_email:
+      delivery: livraison %{index}
+      description: description
+      email_address: adresse e-mail
+      env: environnement
+      family_name: nom de famille
+      given_name: prénom
+      label: libellé
+      locale: langue
+      name: nom
+      phone_number: numéro de téléphone
+      program: programme %{index}
+      schedule: planning %{index}
+      section: section %{index}
+      value: valeur
   form_programs:
     create:
       notice: programme de formulaire créé
@@ -1055,6 +1078,7 @@ fr:
       destroy: détruire le programme de formulaire
       edit: modifier le programme de formulaire
       id: identifiant
+      label: libellé
       locale: langage
       logs: logs
       name: nom
@@ -1172,6 +1196,7 @@ fr:
       edit: modifier la horaire de formulaire
       id: identifiant
       interval: intervalle
+      label: libellé
       locale: langage
       logs: logs
       name: nom
@@ -2876,10 +2901,7 @@ fr:
     model:
       to_s: livraison_soumission#%{id}
     nested:
-      add: ajouter une livraison de soumission
-    nested_form:
-      remove: supprimer la livraison de soumission
-      submission_delivery: livraison de soumission
+      submission_deliveries: comment souhaites-tu reçevoir tes programmes ?
     new:
       description: créer une nouvelle livraison de soumission.
       submit: créer la livraison de soumission
@@ -2891,6 +2913,7 @@ fr:
       destroy: détruire la livraison de soumission
       edit: modifier la livraison de soumission
       id: identifiant
+      label: libellé
       locale: langage
       logs: logs
       name: nom
@@ -2940,6 +2963,7 @@ fr:
       destroy: détruire le programme de soumission
       edit: modifier le programme de soumission
       id: identifiant
+      label: libellé
       locale: langage
       logs: logs
       name: nom
@@ -3045,10 +3069,7 @@ fr:
         other: "%{count} ans"
         zero: 0 ans
     nested:
-      add: ajouter un horaire de soumission
-    nested_form:
-      remove: supprimer l'horaire de soumission
-      submission_schedule: horaire de soumission
+      submission_schedules: quand veux-tu reçevoir ces programmes ?
     new:
       description: créer un nouveau horaire de soumission.
       submit: créer l'horaire de soumission
@@ -3061,6 +3082,7 @@ fr:
       edit: modifier l'horaire de soumission
       id: identifiant
       interval: intervalle
+      label: libellé
       locale: langage
       logs: logs
       name: nom

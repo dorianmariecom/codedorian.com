@@ -1,0 +1,111 @@
+<p>
+  <strong><%= t(".env") %>:</strong>
+  <%= Current.translated_env %>
+</p>
+
+<p>
+  <strong><%= t(".given_name") %>:</strong>
+  <%= @submission.given_name %>
+</p>
+<p>
+  <strong><%= t(".family_name") %>:</strong>
+  <%= @submission.family_name %>
+</p>
+<p>
+  <strong><%= t(".email_address") %>:</strong>
+  <%= @submission.email_address %>
+</p>
+<p>
+  <strong><%= t(".phone_number") %>:</strong>
+  <%= @submission.phone_number %>
+</p>
+<p>
+  <strong><%= t(".locale") %>:</strong>
+  <%= @submission.locale %>
+</p>
+
+<% @sections.each_with_index do |section, section_index| %>
+  <p><%= t(".section", index: section_index + 1) %></p>
+  <div style="padding-left: 1rem;">
+    <p>
+      <strong><%= t(".name") %>:</strong>
+      <%= section.name %>
+    </p>
+    <p>
+      <strong><%= t(".description") %>:</strong>
+      <%= simple_format(section.description, {}, wrapper_tag: :span) %>
+    </p>
+
+    <% section.submission_programs.each_with_index do |program, program_index| %>
+      <p><%= t(".program", index: program_index + 1) %></p>
+      <div style="padding-left: 1rem;">
+        <p>
+          <strong><%= t(".name") %>:</strong>
+          <%= simple_format(program.name, {}, wrapper_tag: :span) %>
+        </p>
+        <p>
+          <strong><%= t(".description") %>:</strong>
+          <%= simple_format(program.description, {}, wrapper_tag: :span) %>
+        </p>
+        <% if program.value.present? %>
+          <p>
+            <strong><%= t(".label") %>:</strong>
+            <%= simple_format(program.label, {}, wrapper_tag: :span) %>
+          </p>
+          <p>
+            <strong><%= t(".value") %>:</strong>
+            <%= simple_format(program.value, {}, wrapper_tag: :span) %>
+          </p>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% section.submission_schedules.each_with_index do |schedule, schedule_index| %>
+      <p><%= t(".schedule", index: schedule_index + 1) %></p>
+      <div style="padding-left: 1rem;">
+        <p>
+          <strong><%= t(".name") %>:</strong>
+          <%= simple_format(schedule.name, {}, wrapper_tag: :span) %>
+        </p>
+        <p>
+          <strong><%= t(".description") %>:</strong>
+          <%= simple_format(schedule.description, {}, wrapper_tag: :span) %>
+        </p>
+        <% if schedule.value.present? %>
+          <p>
+            <strong><%= t(".label") %>:</strong>
+            <%= simple_format(schedule.label, {}, wrapper_tag: :span) %>
+          </p>
+          <p>
+            <strong><%= t(".value") %>:</strong>
+            <%= simple_format(schedule.value, {}, wrapper_tag: :span) %>
+          </p>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% section.submission_deliveries.each_with_index do |delivery, delivery_index| %>
+      <p><%= t(".delivery", index: delivery_index + 1) %></p>
+      <div style="padding-left: 1rem;">
+        <p>
+          <strong><%= t(".name") %>:</strong>
+          <%= simple_format(delivery.name, {}, wrapper_tag: :span) %>
+        </p>
+        <p>
+          <strong><%= t(".description") %>:</strong>
+          <%= simple_format(delivery.description, {}, wrapper_tag: :span) %>
+        </p>
+        <% if delivery.value.present? %>
+          <p>
+            <strong><%= t(".label") %>:</strong>
+            <%= simple_format(delivery.label, {}, wrapper_tag: :span) %>
+          </p>
+          <p>
+            <strong><%= t(".value") %>:</strong>
+            <%= simple_format(delivery.value, {}, wrapper_tag: :span) %>
+          </p>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

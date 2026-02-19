@@ -1,0 +1,19 @@
+<div class="font-bold p"><%= t(".submission_deliveries") %></div>
+
+<% submission_deliveries_by_form_delivery_id =
+  f.object.submission_deliveries.index_by(&:form_delivery_id) %>
+
+<% form_deliveries.each do |form_delivery| %>
+  <% submission_delivery_from_form =
+    submission_deliveries_by_form_delivery_id.key?(form_delivery.id) %>
+  <% submission_delivery =
+    submission_deliveries_by_form_delivery_id[form_delivery.id] ||
+      SubmissionDelivery.new(form_delivery: form_delivery) %>
+  <%= f.fields_for(:submission_deliveries, submission_delivery) do |submission_delivery_f| %>
+    <%= render(
+      "submission_deliveries/nested_form",
+      f: submission_delivery_f,
+      checked: submission_delivery_from_form
+    ) %>
+  <% end %>
+<% end %>

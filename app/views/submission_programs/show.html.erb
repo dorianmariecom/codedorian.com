@@ -51,7 +51,18 @@
 <% if @submission_program.name.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".name") %></div>
-    <div class="font-bold"><%= @submission_program.name %></div>
+    <div class="content font-bold">
+      <%= simple_format(@submission_program.name, {}, wrapper_tag: :div) %>
+    </div>
+  </div>
+<% end %>
+
+<% if @submission_program.label.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".label") %></div>
+    <div class="content font-bold">
+      <%= simple_format(@submission_program.label, {}, wrapper_tag: :div) %>
+    </div>
   </div>
 <% end %>
 

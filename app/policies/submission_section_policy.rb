@@ -20,7 +20,7 @@ class SubmissionSectionPolicy < ApplicationPolicy
   end
 
   def update?
-    admin?
+    admin? || new_record?
   end
 
   def destroy?

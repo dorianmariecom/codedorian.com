@@ -4,8 +4,7 @@ class SubmissionProgram < ApplicationRecord
   belongs_to(:submission_section, touch: true)
   belongs_to(:form_program)
   has_one(:submission, through: :submission_section)
-  before_validation(:set_default_locale, on: :create)
-  before_validation(:set_name_and_description_from_form_program)
+  before_validation(:copy_from_form_program)
 
   scope(
     :where_submission_section,
@@ -22,13 +21,8 @@ class SubmissionProgram < ApplicationRecord
     end
   )
 
-  validate { can!(:update, submission_section) }
+  validate { can!(:update, self) }
   validates(:locale, inclusion: { in: LOCALES_STRINGS })
-
-  def locale=(value)
-    @locale_explicitly_assigned = true
-    super
-  end
 
   def self.search_fields
     {
@@ -40,12 +34,25 @@ class SubmissionProgram < ApplicationRecord
         node: -> { arel_table[:name] },
         type: :string
       },
+      label: {
+        node: -> { arel_table[:label] },
+        type: :string
+      },
       description: {
         node: -> { arel_table[:description] },
         type: :string
       },
       **base_search_fields
     }
+  end
+
+  def copy_from_form_program
+    return unless form_program
+
+    self.locale ||= form_program.locale.presence || I18n.locale
+    self.name ||= form_program.name
+    self.label ||= form_program.label
+    self.description ||= form_program.description
   end
 
   def name_sample
@@ -58,22 +65,5 @@ class SubmissionProgram < ApplicationRecord
 
   def to_s
     name_sample.presence || description_sample.presence || t("to_s", id: id)
-  end
-
-  private
-
-  def set_default_locale
-    return if @locale_explicitly_assigned && locale.present?
-
-    self.locale =
-      submission_section&.locale.presence ||
-        submission_section&.submission&.locale.presence || I18n.locale.to_s
-  end
-
-  def set_name_and_description_from_form_program
-    return unless form_program
-
-    self.name = form_program.name
-    self.description = form_program.description
   end
 end

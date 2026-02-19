@@ -47,8 +47,20 @@
 
   <div class="p">
     <%= f.label(:name, class: :label) %>
-    <%= f.text_field(
+    <%= f.text_area(
       :name,
+      class: :input,
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:label, class: :label) %>
+    <%= f.text_area(
+      :label,
       class: :input,
       autocomplete: :off,
       data: {

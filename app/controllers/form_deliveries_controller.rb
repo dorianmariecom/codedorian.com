@@ -126,7 +126,7 @@ class FormDeliveriesController < ApplicationController
 
   def form_delivery_params
     if admin?
-      params.expect(form_delivery: %i[locale name description position])
+      params.expect(form_delivery: %i[locale name label description position])
     else
       {}
     end

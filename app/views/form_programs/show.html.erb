@@ -21,7 +21,18 @@
 <% if @form_program.name.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".name") %></div>
-    <div class="font-bold"><%= @form_program.name %></div>
+    <div class="content font-bold">
+      <%= simple_format(@form_program.name, {}, wrapper_tag: :div) %>
+    </div>
+  </div>
+<% end %>
+
+<% if @form_program.label.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".label") %></div>
+    <div class="content font-bold">
+      <%= simple_format(@form_program.label, {}, wrapper_tag: :div) %>
+    </div>
   </div>
 <% end %>
 

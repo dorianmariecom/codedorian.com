@@ -179,6 +179,7 @@ class SubmissionProgramsController < ApplicationController
           form_program_id
           locale
           name
+          label
           description
         ]
       )

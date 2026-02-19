@@ -21,7 +21,18 @@
 <% if @form_delivery.name.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".name") %></div>
-    <div class="font-bold"><%= @form_delivery.name %></div>
+    <div class="content font-bold">
+      <%= simple_format(@form_delivery.name, {}, wrapper_tag: :div) %>
+    </div>
+  </div>
+<% end %>
+
+<% if @form_delivery.label.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".label") %></div>
+    <div class="content font-bold">
+      <%= simple_format(@form_delivery.label, {}, wrapper_tag: :div) %>
+    </div>
   </div>
 <% end %>
 

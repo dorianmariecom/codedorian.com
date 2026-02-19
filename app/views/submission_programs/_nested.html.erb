@@ -1,10 +1,19 @@
 <div class="font-bold p"><%= t(".submission_programs") %></div>
 
+<% submission_programs_by_form_program_id =
+  f.object.submission_programs.index_by(&:form_program_id) %>
+
 <% form_programs.each do |form_program| %>
-  <%= f.fields_for(
-    :submission_programs,
-    SubmissionProgram.new(form_program: form_program)
-  ) do |submission_program_f| %>
-    <%= render("submission_programs/nested_form", f: submission_program_f) %>
+  <% submission_program_from_form =
+    submission_programs_by_form_program_id.key?(form_program.id) %>
+  <% submission_program =
+    submission_programs_by_form_program_id[form_program.id] ||
+      SubmissionProgram.new(form_program: form_program) %>
+  <%= f.fields_for(:submission_programs, submission_program) do |submission_program_f| %>
+    <%= render(
+      "submission_programs/nested_form",
+      f: submission_program_f,
+      checked: submission_program_from_form
+    ) %>
   <% end %>
 <% end %>

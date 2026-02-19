@@ -2,7 +2,6 @@
 
 class SubmissionSection < ApplicationRecord
   belongs_to(:submission, touch: true)
-  before_validation(:set_default_locale, on: :create)
 
   has_many(:submission_programs, dependent: :destroy)
   has_many(:submission_schedules, dependent: :destroy)
@@ -14,13 +13,10 @@ class SubmissionSection < ApplicationRecord
 
   scope(:where_submission, ->(submission) { where(submission: submission) })
 
-  validate { can!(:update, submission) }
+  validate { can!(:update, self) }
   validates(:locale, inclusion: { in: LOCALES_STRINGS })
 
-  def locale=(value)
-    @locale_explicitly_assigned = true
-    super
-  end
+  before_validation(:copy_from_submission)
 
   def self.search_fields
     {
@@ -40,6 +36,14 @@ class SubmissionSection < ApplicationRecord
     }
   end
 
+  def copy_from_submission
+    return unless submission
+
+    self.locale ||= submission.locale.presence || I18n.locale
+    self.name ||= submission.name
+    self.description ||= submission.description
+  end
+
   def name_sample
     Truncate.strip(name)
   end
@@ -50,13 +54,5 @@ class SubmissionSection < ApplicationRecord
 
   def to_s
     name_sample.presence || description_sample.presence || t("to_s", id: id)
-  end
-
-  private
-
-  def set_default_locale
-    return if @locale_explicitly_assigned && locale.present?
-
-    self.locale = submission&.locale.presence || I18n.locale.to_s
   end
 end

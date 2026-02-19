@@ -3,6 +3,13 @@
 require "test_helper"
 
 class FormsControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    sign_in(
+      email_addresses(:admin_email).email_address,
+      passwords(:password).hint
+    )
+  end
+
   test "show includes one nested section with one of each child" do
     get(form_path)
 
@@ -10,7 +17,7 @@ class FormsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "create redirects to root" do
-    assert_difference("Submission.count") do
+    assert_difference("Submission.count", 1) do
       post(
         form_path,
         params: {
@@ -18,7 +25,7 @@ class FormsControllerTest < ActionDispatch::IntegrationTest
             given_name: "Alex",
             family_name: "Doe",
             email_address: "alex@example.com",
-            phone_number: "+1 555 111 2222",
+            phone_number: "+14155552671",
             submission_sections_attributes: {
               "0" => {
                 name: "Section from form",

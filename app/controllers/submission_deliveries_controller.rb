@@ -179,6 +179,7 @@ class SubmissionDeliveriesController < ApplicationController
           form_delivery_id
           locale
           name
+          label
           description
         ]
       )

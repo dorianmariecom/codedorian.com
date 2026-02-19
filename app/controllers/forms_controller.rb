@@ -5,13 +5,10 @@ class FormsController < ApplicationController
   before_action { add_breadcrumb(key: "forms.show", path: index_url) }
 
   def show
-    @submission =
-      scope.new(
-        given_name: "dorian",
-        family_name: "marié",
-        email_address: "dorian@dorianmarie.com",
-        phone_number: "+33767239573"
-      )
+    @submission = scope.new
+    if @submission.submission_sections.empty?
+      @submission.submission_sections.build
+    end
     @form_programs = form_programs_scope.order(:position)
     @form_schedules = form_schedules_scope.order(:position)
     @form_deliveries = form_deliveries_scope.order(:position)
@@ -21,9 +18,22 @@ class FormsController < ApplicationController
     @submission = scope.new(submission_params)
 
     if @submission.save(context: :controller)
-      # redirect_to(root_path, notice: t(".notice"))
-      redirect_to(@submission, notice: t(".notice"))
+      perform_later(
+        FormEmailJob,
+        arguments: {
+          submission: @submission
+        },
+        context: {
+          submission: @submission
+        },
+        current: {
+        }
+      )
+      redirect_to(root_path, notice: t(".notice"))
     else
+      if @submission.submission_sections.empty?
+        @submission.submission_sections.build
+      end
       @form_programs = form_programs_scope.order(:position)
       @form_schedules = form_schedules_scope.order(:position)
       @form_deliveries = form_deliveries_scope.order(:position)
@@ -82,6 +92,12 @@ class FormsController < ApplicationController
               {
                 submission_programs_attributes: [
                   %i[_destroy form_program_id value]
+                ],
+                submission_schedules_attributes: [
+                  %i[_destroy form_schedule_id value]
+                ],
+                submission_deliveries_attributes: [
+                  %i[_destroy form_delivery_id value]
                 ]
               }
             ]

@@ -1,0 +1,43 @@
+<%= t(".env") %>: <%= Current.translated_env %>
+
+<%= t(".given_name") %>: <%= @submission.given_name %>
+<%= t(".family_name") %>: <%= @submission.family_name %>
+<%= t(".email_address") %>: <%= @submission.email_address %>
+<%= t(".phone_number") %>: <%= @submission.phone_number %>
+<%= t(".locale") %>: <%= @submission.locale %>
+
+<% @sections.each_with_index do |section, section_index| %>
+  <%= t(".section", index: section_index + 1) %>
+  <%= t(".name") %>: <%= section.name %>
+  <%= t(".description") %>: <%= strip_tags(section.description) %>
+
+  <% section.submission_programs.each_with_index do |program, program_index| %>
+    <%= t(".program", index: program_index + 1) %>
+    <%= t(".name") %>: <%= strip_tags(program.name) %>
+    <%= t(".description") %>: <%= strip_tags(program.description) %>
+    <% if program.value.present? %>
+      <%= t(".label") %>: <%= strip_tags(program.label) %>
+      <%= t(".value") %>: <%= strip_tags(program.value) %>
+    <% end %>
+  <% end %>
+
+  <% section.submission_schedules.each_with_index do |schedule, schedule_index| %>
+    <%= t(".schedule", index: schedule_index + 1) %>
+    <%= t(".name") %>: <%= strip_tags(schedule.name) %>
+    <%= t(".description") %>: <%= strip_tags(schedule.description) %>
+    <% if schedule.value.present? %>
+      <%= t(".label") %>: <%= strip_tags(schedule.label) %>
+      <%= t(".value") %>: <%= strip_tags(schedule.value) %>
+    <% end %>
+  <% end %>
+
+  <% section.submission_deliveries.each_with_index do |delivery, delivery_index| %>
+    <%= t(".delivery", index: delivery_index + 1) %>
+    <%= t(".name") %>: <%= strip_tags(delivery.name) %>
+    <%= t(".description") %>: <%= strip_tags(delivery.description) %>
+    <% if delivery.value.present? %>
+      <%= t(".label") %>: <%= strip_tags(delivery.label) %>
+      <%= t(".value") %>: <%= strip_tags(delivery.value) %>
+    <% end %>
+  <% end %>
+<% end %>
