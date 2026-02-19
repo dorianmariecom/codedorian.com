@@ -1,9 +1,42 @@
-<%= f.hidden_field(:form_program_id) %>
+<% form_program = f.object.form_program %>
 
-<label class="flex items-start mb-4 cursor-pointer gap-2">
-  <%= f.check_box(:_destroy, {}, "0", "1") %>
-  <div>
-    <div><%= f.object.form_program.name %></div>
-    <div class="text-gray-600"><%= f.object.form_program.description %></div>
-  </div>
-</label>
+<% if form_program %>
+  <%= f.hidden_field(:form_program_id) %>
+
+  <label
+    class="flex items-start mb-4 cursor-pointer gap-2"
+    data-controller="toggle"
+  >
+    <div>
+      <%= f.check_box(
+        :_destroy,
+        {
+          autocomplete: :off,
+          class: "input",
+          data: {
+            form_type: :other,
+            action: "toggle#toggle"
+          }
+        },
+        "0",
+        "1"
+      ) %>
+    </div>
+    <div>
+      <div><%= form_program.name %></div>
+      <div class="text-gray-600">
+        <%= simple_format(form_program.description, {}, wrapper_tag: :div) %>
+      </div>
+      <div hidden data-toggle-target="target">
+        <%= f.text_area(
+          :value,
+          class: "input",
+          autocomplete: :off,
+          data: {
+            form_type: :other
+          }
+        ) %>
+      </div>
+    </div>
+  </label>
+<% end %>

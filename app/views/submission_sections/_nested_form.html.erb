@@ -3,11 +3,9 @@
   data-new-record="<%= f.object.new_record? %>"
 >
   <%= render("submission_programs/nested", f: f, form_programs: form_programs) %>
-  <%= render("submission_schedules/nested", f: f, form_schedules: form_schedules) %>
-  <%= render("submission_deliveries/nested", f: f, form_deliveries: form_deliveries) %>
 
   <div class="p">
-    <%= f.label(:name, class: :label) %>
+    <%= f.label(:name, t(".name"), class: :label) %>
     <%= f.text_field(
       :name,
       class: :input,
@@ -19,7 +17,7 @@
   </div>
 
   <div class="p">
-    <%= f.label(:description, class: :label) %>
+    <%= f.label(:description, t(".description"), class: :label) %>
     <%= f.text_area(
       :description,
       class: :input,

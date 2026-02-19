@@ -64,6 +64,15 @@
   </div>
 <% end %>
 
+<% if @submission_program.value.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".value") %></div>
+    <div class="content">
+      <%= simple_format(@submission_program.value, {}, wrapper_tag: :div) %>
+    </div>
+  </div>
+<% end %>
+
 <% if can?(:update, @submission_program) %>
   <% if @submission_program.updated_at.present? %>
     <div class="p">

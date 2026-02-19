@@ -1,15 +1,6 @@
 <div class="p"><%= t(".intro") %></div>
 
 <%= form_for(@submission, url: form_path) do |f| %>
-  <%= f.hidden_field(
-    :locale,
-    value: f.object.locale.presence || I18n.locale,
-    autocomplete: :off,
-    data: {
-      form_type: :other
-    }
-  ) %>
-
   <div
     class="p"
     data-controller="validation"

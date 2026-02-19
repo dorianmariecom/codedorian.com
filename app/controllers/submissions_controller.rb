@@ -13,6 +13,12 @@ class SubmissionsController < ApplicationController
   def show
     @submission_sections =
       submission_sections_scope.order(created_at: :asc).page(params[:page])
+    @submission_programs =
+      submission_programs_scope.order(created_at: :asc).page(params[:page])
+    @submission_schedules =
+      submission_schedules_scope.order(created_at: :asc).page(params[:page])
+    @submission_deliveries =
+      submission_deliveries_scope.order(created_at: :asc).page(params[:page])
     @versions = versions_scope.order(created_at: :desc).page(params[:page])
     @logs = logs_scope.order(created_at: :desc).page(params[:page])
   end
@@ -100,6 +106,24 @@ class SubmissionsController < ApplicationController
 
   def submission_sections_scope
     scope = policy_scope(SubmissionSection)
+    scope = scope.where_submission(@submission) if @submission
+    scope
+  end
+
+  def submission_programs_scope
+    scope = policy_scope(SubmissionProgram)
+    scope = scope.where_submission(@submission) if @submission
+    scope
+  end
+
+  def submission_schedules_scope
+    scope = policy_scope(SubmissionSchedule)
+    scope = scope.where_submission(@submission) if @submission
+    scope
+  end
+
+  def submission_deliveries_scope
+    scope = policy_scope(SubmissionDelivery)
     scope = scope.where_submission(@submission) if @submission
     scope
   end

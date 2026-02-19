@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_15_113000) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_18_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -657,6 +657,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_15_113000) do
     t.string "name"
     t.bigint "submission_section_id", null: false
     t.datetime "updated_at", null: false
+    t.text "value"
     t.index ["form_delivery_id"],
             name: "index_submission_deliveries_on_form_delivery_id"
     t.index ["submission_section_id"],
@@ -671,6 +672,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_15_113000) do
     t.string "name"
     t.bigint "submission_section_id", null: false
     t.datetime "updated_at", null: false
+    t.text "value"
     t.index ["form_program_id"],
             name: "index_submission_programs_on_form_program_id"
     t.index ["submission_section_id"],
@@ -687,6 +689,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_15_113000) do
     t.datetime "starts_at"
     t.bigint "submission_section_id", null: false
     t.datetime "updated_at", null: false
+    t.text "value"
     t.index ["form_schedule_id"],
             name: "index_submission_schedules_on_form_schedule_id"
     t.index ["submission_section_id"],

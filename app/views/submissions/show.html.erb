@@ -99,6 +99,87 @@
   }
 ) %>
 
+<div class="p font-bold">
+  <%= link_to(
+    t(".submission_programs"),
+    [@submission, :submission_programs],
+    class: :link
+  ) %>
+</div>
+
+<% if can?(:create, SubmissionProgram) %>
+  <div class="p">
+    <%= link_to(
+      t(".new_submission_program"),
+      [:new, @submission, :submission_program],
+      class: "button"
+    ) %>
+  </div>
+<% end %>
+
+<%= render_collection(
+  partial: "submission_programs/submission_program",
+  collection: @submission_programs,
+  as: :submission_program,
+  locals: {
+    nested: [@submission]
+  }
+) %>
+
+<div class="p font-bold">
+  <%= link_to(
+    t(".submission_schedules"),
+    [@submission, :submission_schedules],
+    class: :link
+  ) %>
+</div>
+
+<% if can?(:create, SubmissionSchedule) %>
+  <div class="p">
+    <%= link_to(
+      t(".new_submission_schedule"),
+      [:new, @submission, :submission_schedule],
+      class: "button"
+    ) %>
+  </div>
+<% end %>
+
+<%= render_collection(
+  partial: "submission_schedules/submission_schedule",
+  collection: @submission_schedules,
+  as: :submission_schedule,
+  locals: {
+    nested: [@submission]
+  }
+) %>
+
+<div class="p font-bold">
+  <%= link_to(
+    t(".submission_deliveries"),
+    [@submission, :submission_deliveries],
+    class: :link
+  ) %>
+</div>
+
+<% if can?(:create, SubmissionDelivery) %>
+  <div class="p">
+    <%= link_to(
+      t(".new_submission_delivery"),
+      [:new, @submission, :submission_delivery],
+      class: "button"
+    ) %>
+  </div>
+<% end %>
+
+<%= render_collection(
+  partial: "submission_deliveries/submission_delivery",
+  collection: @submission_deliveries,
+  as: :submission_delivery,
+  locals: {
+    nested: [@submission]
+  }
+) %>
+
 <% if can?(:index, Version) %>
   <div class="p font-bold">
     <%= link_to(t(".versions"), [@submission, :versions], class: :link) %>

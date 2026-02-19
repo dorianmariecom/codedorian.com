@@ -6,6 +6,8 @@ class SubmissionSchedule < ApplicationRecord
   belongs_to(:submission_section, touch: true)
   belongs_to(:form_schedule)
   has_one(:submission, through: :submission_section)
+  before_validation(:set_default_locale, on: :create)
+  before_validation(:set_name_and_description_from_form_schedule)
 
   scope(
     :where_submission_section,
@@ -24,6 +26,11 @@ class SubmissionSchedule < ApplicationRecord
 
   validate { can!(:update, submission_section) }
   validates(:locale, inclusion: { in: LOCALES_STRINGS })
+
+  def locale=(value)
+    @locale_explicitly_assigned = true
+    super
+  end
 
   def self.search_fields
     {
@@ -62,5 +69,22 @@ class SubmissionSchedule < ApplicationRecord
   def to_s
     name_sample.presence || description_sample.presence ||
       translated_interval.presence || t("to_s", id: id)
+  end
+
+  private
+
+  def set_default_locale
+    return if @locale_explicitly_assigned && locale.present?
+
+    self.locale =
+      submission_section&.locale.presence ||
+        submission_section&.submission&.locale.presence || I18n.locale.to_s
+  end
+
+  def set_name_and_description_from_form_schedule
+    return unless form_schedule
+
+    self.name = form_schedule.name
+    self.description = form_schedule.description
   end
 end

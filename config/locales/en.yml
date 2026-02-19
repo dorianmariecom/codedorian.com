@@ -1186,12 +1186,16 @@ en:
       notice: schedule updated
   forms:
     create:
-      notice: form submitted
+      notice: form sent
+    new:
+      description: this is an example form to demonstrate form deliveries, programs,
+        and schedules.
+      title: form
     show:
       description: this is an example form to demonstrate form deliveries, programs,
         and schedules.
       intro: hi, it's dorian, i would like to make you some programs
-      submit: submit
+      submit: send
       title: form
   guests:
     create:
@@ -2891,6 +2895,7 @@ en:
       submission: submission
       submission_section: submission section
       updated_at: updated at
+      value: value
       versions: versions
     update:
       notice: submission delivery updated
@@ -2916,8 +2921,7 @@ en:
     model:
       to_s: submission_program#%{id}
     nested:
-      add: add submission program
-      submission_programs: submission programs
+      submission_programs: which programs do you want in this section?
     nested_form:
       remove: remove submission program
     new:
@@ -2939,6 +2943,7 @@ en:
       submission: submission
       submission_section: submission section
       updated_at: updated at
+      value: value
       versions: versions
     update:
       notice: submission program updated
@@ -3060,6 +3065,7 @@ en:
       submission: submission
       submission_section: submission section
       updated_at: updated at
+      value: value
       versions: versions
     update:
       notice: submission schedule updated
@@ -3085,10 +3091,11 @@ en:
     model:
       to_s: submission_section#%{id}
     nested:
-      add: add submission section
+      add: add section
     nested_form:
-      remove: remove submission section
-      submission_section: submission section
+      description: how would you describe this section?
+      name: how would you call this section?
+      remove: remove section
     new:
       description: create a new submission section.
       submit: create submission section
@@ -3154,9 +3161,15 @@ en:
       locale: locale
       logs: logs
       new_log: new log
+      new_submission_delivery: new submission delivery
+      new_submission_program: new submission program
+      new_submission_schedule: new submission schedule
       new_submission_section: new submission section
       new_version: new version
       phone_number: phone number
+      submission_deliveries: submission deliveries
+      submission_programs: submission programs
+      submission_schedules: submission schedules
       submission_sections: submission sections
       updated_at: updated at
       versions: versions

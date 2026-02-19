@@ -82,6 +82,15 @@
   </div>
 <% end %>
 
+<% if @submission_schedule.value.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".value") %></div>
+    <div class="content">
+      <%= simple_format(@submission_schedule.value, {}, wrapper_tag: :div) %>
+    </div>
+  </div>
+<% end %>
+
 <% if can?(:update, @submission_schedule) %>
   <% if @submission_schedule.updated_at.present? %>
     <div class="p">

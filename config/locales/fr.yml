@@ -1188,6 +1188,10 @@ fr:
   forms:
     create:
       notice: formulaire envoyé
+    new:
+      description: ceci est un formulaire d'exemple pour démontrer les livraisons
+        de formulaire, les programmes et les horaires.
+      title: formulaire
     show:
       description: ceci est un formulaire d'exemple pour démontrer les livraisons
         de formulaire, les programmes et les horaires.
@@ -2895,6 +2899,7 @@ fr:
       submission: soumission
       submission_section: section de soumission
       updated_at: mis à jour à
+      value: valeur
       versions: versions
     update:
       notice: livraison de soumission mise à jour
@@ -2920,7 +2925,7 @@ fr:
     model:
       to_s: programme_soumission#%{id}
     nested:
-      add: ajouter un programme de soumission
+      submission_programs: quels programmes veux-tu dans cette section ?
     nested_form:
       remove: supprimer le programme de soumission
       submission_program: programme de soumission
@@ -2943,6 +2948,7 @@ fr:
       submission: soumission
       submission_section: section de soumission
       updated_at: mis à jour à
+      value: valeur
       versions: versions
     update:
       notice: programme de soumission mis à jour
@@ -3064,6 +3070,7 @@ fr:
       submission: soumission
       submission_section: section de soumission
       updated_at: mis à jour à
+      value: valeur
       versions: versions
     update:
       notice: horaire de soumission mis à jour
@@ -3089,10 +3096,11 @@ fr:
     model:
       to_s: section_soumission#%{id}
     nested:
-      add: ajouter une section de soumission
+      add: ajouter une section
     nested_form:
-      remove: supprimer la section de soumission
-      submission_section: section de soumission
+      description: comment décrirais-tu cette section ?
+      name: comment appellerais-tu cette section ?
+      remove: retirer la section
     new:
       description: créer une nouvelle section de soumission.
       submit: créer la section de soumission
@@ -3158,9 +3166,15 @@ fr:
       locale: langage
       logs: logs
       new_log: nouveau log
+      new_submission_delivery: nouvelle remise de soumission
+      new_submission_program: nouveau programme de soumission
+      new_submission_schedule: nouveau calendrier de soumission
       new_submission_section: nouvelle section de soumission
       new_version: nouvelle version
       phone_number: numéro de téléphone
+      submission_deliveries: remises de soumission
+      submission_programs: programmes de soumission
+      submission_schedules: calendriers de soumission
       submission_sections: sections de soumission
       updated_at: mis à jour à
       versions: versions
