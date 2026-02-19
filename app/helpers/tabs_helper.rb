@@ -20,6 +20,12 @@ module TabsHelper
         default: true
       },
       {
+        title: t("helpers.tabs.form"),
+        image: ios ? :checklist : :assignment,
+        path: form_path,
+        default: false
+      },
+      {
         title: t("helpers.tabs.programs"),
         image: ios ? "laptopcomputer" : :computer,
         path: polymorphic_path([current_user_or_guest, :programs]),

@@ -1322,6 +1322,7 @@ en:
       messages: messages
       programs: programs
       register: register
+      home: home
     page_entries_info:
       more_pages:
         display_entries: "%{total} found"
@@ -1350,6 +1351,7 @@ en:
       successMessageText: bug reported
     tabs:
       account: account
+      form: form
       home: home
       log_in: log in
       messages: messages
