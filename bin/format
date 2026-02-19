@@ -3,4 +3,4 @@
 set -e
 
 dorian format
-rubocop --auto-correct-all
+rubocop --autocorrect-all
