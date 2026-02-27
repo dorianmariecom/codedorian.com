@@ -1,5 +1,59 @@
 #!/bin/bash -e
 
+# Function to wait for database to be ready
+wait_for_database() {
+  local max_attempts=30
+  local attempt=1
+  local wait_time=1
+
+  # Parse DATABASE_URL to extract host and port
+  if [ -n "$DATABASE_URL" ]; then
+    # Extract host and port from DATABASE_URL
+    # Format: postgres://user:password@host:port/database
+    local db_host=$(echo "$DATABASE_URL" | sed -E 's|.*@([^:/]+).*|\1|')
+    local db_port=$(echo "$DATABASE_URL" | sed -E 's|.*:([0-9]+)/.*|\1|')
+    
+    # If port extraction failed, default to 5432
+    if ! [[ "$db_port" =~ ^[0-9]+$ ]]; then
+      db_port=5432
+    fi
+    
+    # Skip wait if host is localhost, unix socket, or empty
+    if [ "$db_host" = "localhost" ] || [ "$db_host" = "127.0.0.1" ] || [ -z "$db_host" ] || [[ "$db_host" == /* ]]; then
+      echo "Database host is local or unix socket, skipping connection wait"
+      return 0
+    fi
+
+    echo "Waiting for database at $db_host:$db_port to be ready..."
+    
+    while [ $attempt -le $max_attempts ]; do
+      # Try to connect to the database port
+      if timeout 5 bash -c "echo > /dev/tcp/$db_host/$db_port" 2>/dev/null; then
+        echo "Database is ready!"
+        return 0
+      fi
+      
+      echo "Database not ready yet (attempt $attempt/$max_attempts). Waiting ${wait_time}s..."
+      sleep $wait_time
+      
+      # Exponential backoff with max of 10 seconds
+      attempt=$((attempt + 1))
+      wait_time=$((wait_time * 2))
+      if [ $wait_time -gt 10 ]; then
+        wait_time=10
+      fi
+    done
+    
+    echo "ERROR: Database at $db_host:$db_port is not ready after $max_attempts attempts"
+    exit 1
+  else
+    echo "DATABASE_URL not set, skipping connection wait"
+  fi
+}
+
+# Wait for database before running migrations
+wait_for_database
+
 ./bin/rails db:prepare
 
 exec "${@}"
