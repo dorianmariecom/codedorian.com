@@ -6,7 +6,7 @@ class ProgramsController < ApplicationController
   before_action { add_breadcrumb(key: "programs.index", path: index_url) }
   before_action(
     :load_program,
-    only: %i[show edit update destroy evaluate schedule unschedule]
+    only: %i[show edit update destroy evaluate format schedule unschedule]
   )
 
   def index
@@ -49,6 +49,14 @@ class ProgramsController < ApplicationController
     )
 
     redirect_back_or_to(show_url, notice: t(".notice"))
+  end
+
+  def format
+    @program.format!
+
+    redirect_back_or_to(show_url, notice: t(".notice"))
+  rescue Code::Error => e
+    redirect_back_or_to(show_url, alert: t(".alert", message: e.message))
   end
 
   def schedule

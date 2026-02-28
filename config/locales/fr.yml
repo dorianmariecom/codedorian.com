@@ -2531,6 +2531,9 @@ fr:
       title: modifier le programme
     evaluate:
       notice: programme évalué
+    format:
+      alert: 'formatage échoué : %{message}'
+      notice: programme formaté
     index:
       data:
         one: 1 donnée
@@ -2572,6 +2575,7 @@ fr:
       destroy: détruire le programme
       edit: modifier le programme
       evaluate: évaluer
+      format: formater
       id: identifiant
       input: entrée
       logs: logs

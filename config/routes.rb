@@ -140,6 +140,7 @@ Rails.application.routes.draw do
 
       resources(:programs) do
         post(:evaluate)
+        post(:format)
         post(:schedule)
         post(:unschedule)
 

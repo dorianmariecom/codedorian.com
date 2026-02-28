@@ -83,6 +83,10 @@ class Program < ApplicationRecord
     end
   end
 
+  def format!
+    update!(input: Code.format(input))
+  end
+
   def scheduled_now?
     return false if unscheduled?
     return false if program_schedules.none?

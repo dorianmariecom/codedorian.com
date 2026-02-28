@@ -105,6 +105,16 @@
 <div class="p">
   <%= render(
     "shared/confirm",
+    text: t(".format"),
+    url: [*show_url, :format],
+    method: :post,
+    class: "button"
+  ) %>
+</div>
+
+<div class="p">
+  <%= render(
+    "shared/confirm",
     text: t(".evaluate"),
     url: [*show_url, :evaluate],
     method: :post,

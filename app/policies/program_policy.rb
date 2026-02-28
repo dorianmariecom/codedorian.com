@@ -27,6 +27,10 @@ class ProgramPolicy < ApplicationPolicy
     owner? || admin?
   end
 
+  def format?
+    owner? || admin?
+  end
+
   def schedule?
     owner? || admin?
   end

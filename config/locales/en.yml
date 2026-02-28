@@ -2527,6 +2527,9 @@ en:
       title: edit program
     evaluate:
       notice: program evaluated
+    format:
+      alert: 'format failed: %{message}'
+      notice: program formatted
     index:
       data:
         one: 1 datum
@@ -2568,6 +2571,7 @@ en:
       destroy: destroy program
       edit: edit program
       evaluate: evaluate
+      format: format
       id: id
       input: input
       logs: logs
