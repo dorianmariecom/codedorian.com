@@ -3207,8 +3207,59 @@ fr:
       versions: versions
     update:
       notice: soumission mise à jour
+  date:
+    day_names:
+    - dimanche
+    - lundi
+    - mardi
+    - mercredi
+    - jeudi
+    - vendredi
+    - samedi
+    abbr_day_names:
+    - dim
+    - lun
+    - mar
+    - mer
+    - jeu
+    - ven
+    - sam
+    month_names:
+    -
+    - janvier
+    - février
+    - mars
+    - avril
+    - mai
+    - juin
+    - juillet
+    - août
+    - septembre
+    - octobre
+    - novembre
+    - décembre
+    abbr_month_names:
+    -
+    - janv
+    - févr
+    - mars
+    - avr
+    - mai
+    - juin
+    - juil
+    - août
+    - sept
+    - oct
+    - nov
+    - déc
+    formats:
+      default: "%d/%m/%Y"
+      short: "%d %b"
+      long: "%d %B %Y"
   time:
     formats:
+      short: "%H:%M"
+      long: "%d %B %Y à %H:%M"
       default: "%A %d %B %Y à %H:%M:%S"
   time_zones:
     create:

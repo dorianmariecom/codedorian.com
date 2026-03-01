@@ -233,7 +233,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_token
-    return if request.headers[:Token].blank?
+    return if request.headers[:token].blank?
 
     if instance_variable_defined?(:@current_token)
       @current_token
@@ -259,9 +259,11 @@ class ApplicationController < ActionController::Base
   end
 
   def set_current_locale
-    I18n.locale =
+    Current.locale =
       locale_param.presence || current_user&.locale.presence ||
         browser_locale.presence || I18n.default_locale
+
+    set_context(current_locale: Current.locale)
   end
 
   def browser_locale

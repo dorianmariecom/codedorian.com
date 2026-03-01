@@ -16,6 +16,9 @@ class Code
         when "programs"
           sig(args)
           code_programs
+        when "locale="
+          sig(args) { String }
+          Current.locale = code_value.raw
         else
           super
         end

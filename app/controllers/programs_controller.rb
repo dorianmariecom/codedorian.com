@@ -44,7 +44,8 @@ class ProgramsController < ApplicationController
       },
       current: {
         user: current_user,
-        program: @program
+        program: @program,
+        locale: I18n.locale
       }
     )
 

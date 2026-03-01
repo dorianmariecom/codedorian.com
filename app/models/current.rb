@@ -55,6 +55,7 @@ class Current < ActiveSupport::CurrentAttributes
   attribute(:request)
   attribute(:program)
   attribute(:context, default: -> { {} })
+  attribute(:locale)
 
   def ios_environments
     Config.rpush.ios.environments
@@ -190,12 +191,20 @@ class Current < ActiveSupport::CurrentAttributes
 
   def user=(user)
     self.time_zone = user&.time_zone
+    self.locale = user&.locale
     super
   end
 
   def time_zone=(time_zone)
-    Time.zone = user&.time_zone || time_zone
-    super(user&.time_zone || time_zone)
+    Time.zone = time_zone
+    super
+  end
+
+  def locale=(locale)
+    locale = locale.to_s.presence_in(LOCALES_STRINGS) || I18n.default_locale.to_s
+
+    I18n.locale = locale
+    super(locale)
   end
 
   def user!

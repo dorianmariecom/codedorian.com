@@ -20,7 +20,8 @@ class SchedulingJob < ContextJob
           },
           current: {
             user: program.user,
-            program: program
+            program: program,
+            locale: program.user.locale
           }
         )
       end

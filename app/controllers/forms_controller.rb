@@ -27,6 +27,7 @@ class FormsController < ApplicationController
           submission: @submission
         },
         current: {
+          locale: @submission.locale
         }
       )
       redirect_to(root_path, notice: t(".notice"))
