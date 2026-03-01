@@ -201,10 +201,11 @@ class Current < ActiveSupport::CurrentAttributes
   end
 
   def locale=(locale)
-    locale = locale.to_s.presence_in(LOCALES_STRINGS) || I18n.default_locale.to_s
+    locale =
+      locale.to_s.presence_in(LOCALES_STRINGS) || I18n.default_locale.to_s
 
     I18n.locale = locale
-    super(locale)
+    super
   end
 
   def user!

@@ -5,6 +5,8 @@ class Code
     class Current < Dictionary
       def self.call(**args)
         code_operator = args.fetch(:operator, nil).to_code
+        code_arguments = args.fetch(:arguments, []).to_code
+        code_value = code_arguments.code_first
 
         case code_operator.to_s
         when "user"
@@ -18,7 +20,8 @@ class Code
           code_programs
         when "locale="
           sig(args) { String }
-          Current.locale = code_value.raw
+          ::Current.locale = code_value.raw
+          code_value
         else
           super
         end

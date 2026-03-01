@@ -620,6 +620,55 @@ en:
       versions: versions
     update:
       notice: datum updated
+  date:
+    abbr_day_names:
+    - sun
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sat
+    abbr_month_names:
+    -
+    - jan
+    - feb
+    - mar
+    - apr
+    - may
+    - jun
+    - jul
+    - aug
+    - sep
+    - oct
+    - nov
+    - dec
+    day_names:
+    - sunday
+    - monday
+    - tuesday
+    - wednesday
+    - thursday
+    - friday
+    - saturday
+    formats:
+      default: "%Y-%m-%d"
+      long: "%B %d, %Y"
+      short: "%b %d"
+    month_names:
+    -
+    - january
+    - february
+    - march
+    - april
+    - may
+    - june
+    - july
+    - august
+    - september
+    - october
+    - november
+    - december
   devices:
     create:
       notice: device created
@@ -3203,60 +3252,11 @@ en:
       versions: versions
     update:
       notice: submission updated
-  date:
-    day_names:
-    - sunday
-    - monday
-    - tuesday
-    - wednesday
-    - thursday
-    - friday
-    - saturday
-    abbr_day_names:
-    - sun
-    - mon
-    - tue
-    - wed
-    - thu
-    - fri
-    - sat
-    month_names:
-    -
-    - january
-    - february
-    - march
-    - april
-    - may
-    - june
-    - july
-    - august
-    - september
-    - october
-    - november
-    - december
-    abbr_month_names:
-    -
-    - jan
-    - feb
-    - mar
-    - apr
-    - may
-    - jun
-    - jul
-    - aug
-    - sep
-    - oct
-    - nov
-    - dec
-    formats:
-      default: "%Y-%m-%d"
-      short: "%b %d"
-      long: "%B %d, %Y"
   time:
     formats:
-      short: "%H:%M"
-      long: "%B %d, %Y at %H:%M"
       default: "%A %d %B %Y at %H:%M:%S"
+      long: "%B %d, %Y at %H:%M"
+      short: "%H:%M"
   time_zones:
     create:
       notice: time zone created
