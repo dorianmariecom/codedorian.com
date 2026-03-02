@@ -129,7 +129,7 @@ GEM
     cmdparse (3.0.7)
     cmdstan (0.5.2)
       csv
-    code-ruby (1.9.7)
+    code-ruby (1.9.8)
       activesupport
       base64
       bigdecimal
@@ -547,10 +547,10 @@ GEM
       rails
       zeitwerk
     securerandom (0.4.1)
-    sentry-rails (6.4.0)
+    sentry-rails (6.4.1)
       railties (>= 5.2.0)
-      sentry-ruby (~> 6.4.0)
-    sentry-ruby (6.4.0)
+      sentry-ruby (~> 6.4.1)
+    sentry-ruby (6.4.1)
       bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
       logger
