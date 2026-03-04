@@ -2,7 +2,7 @@
 
 class FormsController < ApplicationController
   before_action { authorize :form }
-  before_action { add_breadcrumb(key: "forms.show", path: index_url) }
+  before_action { add_breadcrumb(key: "forms.show", path: :form) }
 
   def show
     @submission = scope.new

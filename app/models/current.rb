@@ -47,8 +47,6 @@ class Current < ActiveSupport::CurrentAttributes
 
   LOCALHOST_PUBLIC_SUFFIX = { sld: nil, tld: :localhost, trd: nil }.to_struct
 
-  resets { Time.zone = nil }
-
   attribute(:user)
   attribute(:guest)
   attribute(:time_zone)
