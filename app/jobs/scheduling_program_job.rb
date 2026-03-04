@@ -21,7 +21,8 @@ class SchedulingProgramJob < ContextJob
       current: {
         user: program.user,
         program: program,
-        locale: program.user.locale
+        locale: program.user.locale,
+        time_zone: program.user.unverified_time_zone
       }
     )
   end

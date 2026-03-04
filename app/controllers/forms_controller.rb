@@ -27,7 +27,8 @@ class FormsController < ApplicationController
           submission: @submission
         },
         current: {
-          locale: @submission.locale
+          locale: @submission.locale,
+          time_zone: current_time_zone
         }
       )
       redirect_to(root_path, notice: t(".notice"))
