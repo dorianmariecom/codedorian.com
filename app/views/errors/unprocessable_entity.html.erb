@@ -1,14 +1,18 @@
 <% if admin? %>
   <% if @class %>
-    <div class="code"><%= @class %></div>
+    <div class="code p"><%= syntax_highlight(@class, language: :code) %></div>
   <% end %>
   <% if @message %>
-    <div class="code"><%= @message %></div>
+    <div class="code p"><%= syntax_highlight(@message, language: :code) %></div>
   <% end %>
   <% if @app_backtrace %>
-    <div class="code"><%= @app_backtrace %></div>
+    <div class="code p">
+      <%= syntax_highlight(@app_backtrace, language: :code) %>
+    </div>
   <% end %>
   <% if @backtrace %>
-    <div class="code"><%= @backtrace %></div>
+    <div class="code p">
+      <%= syntax_highlight(@backtrace, language: :code) %>
+    </div>
   <% end %>
 <% end %>

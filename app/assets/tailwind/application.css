@@ -143,6 +143,45 @@ button {
 .code {
   @apply whitespace-pre font-mono rounded overflow-auto;
   @apply border-black border p-2 w-fit;
+
+  .syntax-keyword {
+    @apply text-blue-700 font-semibold;
+  }
+
+  .syntax-operator,
+  .syntax-punctuation,
+  .syntax-separator {
+    @apply text-zinc-700;
+  }
+
+  .syntax-atom {
+    @apply text-fuchsia-700;
+  }
+
+  .syntax-string {
+    @apply text-emerald-700;
+  }
+
+  .syntax-number {
+    @apply text-amber-700;
+  }
+
+  .syntax-comment {
+    @apply text-zinc-500 italic;
+  }
+
+  .syntax-typeName {
+    @apply text-cyan-700;
+  }
+
+  .syntax-variableName,
+  .syntax-propertyName {
+    @apply text-zinc-900;
+  }
+
+  .syntax-bracket {
+    @apply text-zinc-700;
+  }
 }
 
 .content,

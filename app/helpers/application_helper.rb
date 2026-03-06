@@ -4,6 +4,16 @@ module ApplicationHelper
   DEFAULT_ACTION = "unknown-action"
   DEFAULT_METHOD = "unknown-method"
 
+  def syntax_highlight(input, language: :code)
+    return if input.blank?
+
+    sanitize(
+      SyntaxHighlight::Formatter.format(input, language: language),
+      tags: ["span"],
+      attributes: ["class"]
+    )
+  end
+
   def title
     content_for(:title).presence ||
       t("#{controller_name}.#{meta_action_name}.title")

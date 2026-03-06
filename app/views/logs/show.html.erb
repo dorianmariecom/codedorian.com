@@ -19,7 +19,9 @@
 <% if @log.context.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".context") %></div>
-    <div class="code"><%= @log.context_json %></div>
+    <div class="code">
+      <%= syntax_highlight(@log.context_json, language: :json) %>
+    </div>
   </div>
 <% end %>
 

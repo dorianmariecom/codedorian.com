@@ -12,14 +12,18 @@
 <% if @job_semaphore.key.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".key") %></div>
-    <div class="code"><%= @job_semaphore.key_json %></div>
+    <div class="code">
+      <%= syntax_highlight(@job_semaphore.key_json, language: :json) %>
+    </div>
   </div>
 <% end %>
 
 <% if @job_semaphore.value.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".value") %></div>
-    <div class="code"><%= @job_semaphore.value_json %></div>
+    <div class="code">
+      <%= syntax_highlight(@job_semaphore.value_json, language: :json) %>
+    </div>
   </div>
 <% end %>
 

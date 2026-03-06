@@ -35,7 +35,9 @@
 <% if @job_failed_execution.error.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".error") %></div>
-    <div class="code"><%= @job_failed_execution.error_json %></div>
+    <div class="code">
+      <%= syntax_highlight(@job_failed_execution.error_json, language: :json) %>
+    </div>
   </div>
 <% end %>
 

@@ -19,7 +19,9 @@
 <% if @configuration.content.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".content") %></div>
-    <div class="code"><%= @configuration.content_json %></div>
+    <div class="code">
+      <%= syntax_highlight(@configuration.content_json, language: :json) %>
+    </div>
   </div>
 <% end %>
 
