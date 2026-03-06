@@ -40,18 +40,14 @@
 <% if @version.object.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".object") %></div>
-    <div class="code">
-      <%= syntax_highlight(@version.object_json, language: :json) %>
-    </div>
+    <%= json_highlight(@version.object_json) %>
   </div>
 <% end %>
 
 <% if @version.object_changes.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".object_changes") %></div>
-    <div class="code">
-      <%= syntax_highlight(@version.object_changes_json, language: :json) %>
-    </div>
+    <%= json_highlight(@version.object_changes_json) %>
   </div>
 <% end %>
 

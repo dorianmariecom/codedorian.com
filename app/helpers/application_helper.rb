@@ -14,6 +14,14 @@ module ApplicationHelper
     )
   end
 
+  def code_highlight(input, **options)
+    highlight(input, language: :code, **options)
+  end
+
+  def json_highlight(input, **options)
+    highlight(input, language: :json, **options)
+  end
+
   def title
     content_for(:title).presence ||
       t("#{controller_name}.#{meta_action_name}.title")
@@ -65,6 +73,17 @@ module ApplicationHelper
   end
 
   private
+
+  def highlight(input, language:, **options)
+    return if input.blank?
+
+    class_name = ["code", options[:class]].compact.join(" ")
+    content_tag(
+      :div,
+      syntax_highlight(input, language: language),
+      class: class_name
+    )
+  end
 
   def meta_action_name
     action = action_name

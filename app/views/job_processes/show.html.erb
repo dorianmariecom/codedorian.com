@@ -56,9 +56,7 @@
 <% if @job_process.metadata.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".metadata") %></div>
-    <div class="code">
-      <%= syntax_highlight(@job_process.metadata_json, language: :json) %>
-    </div>
+    <%= json_highlight(@job_process.metadata_json) %>
   </div>
 <% end %>
 

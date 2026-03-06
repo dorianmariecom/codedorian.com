@@ -49,9 +49,7 @@
 <% if @example.input.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".input") %></div>
-    <div class="code">
-      <%= syntax_highlight(@example.input, language: :code) %>
-    </div>
+    <%= code_highlight(@example.input) %>
   </div>
 <% end %>
 

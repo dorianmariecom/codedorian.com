@@ -26,9 +26,7 @@
 <% if @job_recurring_task.command.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".command") %></div>
-    <div class="code">
-      <%= syntax_highlight(@job_recurring_task.command, language: :code) %>
-    </div>
+    <%= code_highlight(@job_recurring_task.command) %>
   </div>
 <% end %>
 
@@ -63,18 +61,14 @@
 <% if @job_recurring_task.arguments.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".arguments") %></div>
-    <div class="code">
-      <%= syntax_highlight(@job_recurring_task.arguments_json, language: :json) %>
-    </div>
+    <%= json_highlight(@job_recurring_task.arguments_json) %>
   </div>
 <% end %>
 
 <% if @job_recurring_task.description.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".description") %></div>
-    <div class="code">
-      <%= syntax_highlight(@job_recurring_task.description, language: :code) %>
-    </div>
+    <%= code_highlight(@job_recurring_task.description) %>
   </div>
 <% end %>
 

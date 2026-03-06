@@ -114,9 +114,22 @@ module SyntaxHighlight
             next
           end
 
-          next if scan_and_emit("comment", %r{/\*.*?\*/}m, %r{//[^\n]*}, /#[^\n]*/)
-          next if scan_and_emit("string", /"(?:\\.|[^"\\])*"/, /'(?:\\.|[^'\\])*'/)
-          next if scan_and_emit("number", HEX_NUMBER, OCTAL_NUMBER, BINARY_NUMBER, FLOAT_NUMBER, INTEGER_NUMBER)
+          if scan_and_emit("comment", %r{/\*.*?\*/}m, %r{//[^\n]*}, /#[^\n]*/)
+            next
+          end
+          if scan_and_emit("string", /"(?:\\.|[^"\\])*"/, /'(?:\\.|[^'\\])*'/)
+            next
+          end
+          if scan_and_emit(
+               "number",
+               HEX_NUMBER,
+               OCTAL_NUMBER,
+               BINARY_NUMBER,
+               FLOAT_NUMBER,
+               INTEGER_NUMBER
+             )
+            next
+          end
 
           if (value = @scanner.scan(SYMBOL))
             emit("atom", value)

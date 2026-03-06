@@ -26,9 +26,7 @@
 <% if @address.autocomplete.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".autocomplete") %></div>
-    <div class="code">
-      <%= syntax_highlight(@address.autocomplete_json, language: :json) %>
-    </div>
+    <%= json_highlight(@address.autocomplete_json) %>
   </div>
 <% end %>
 

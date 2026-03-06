@@ -11,8 +11,7 @@ module SyntaxHighlight
         end
       CODE
 
-      highlighted =
-        SyntaxHighlight::Formatter.format(input, language: :code)
+      highlighted = SyntaxHighlight::Formatter.format(input, language: :code)
 
       assert_includes(highlighted, %(<span class="syntax-keyword">if</span>))
       assert_includes(highlighted, %(<span class="syntax-typeName">User</span>))
@@ -38,8 +37,7 @@ module SyntaxHighlight
         }
       JSON
 
-      highlighted =
-        SyntaxHighlight::Formatter.format(input, language: :json)
+      highlighted = SyntaxHighlight::Formatter.format(input, language: :json)
 
       assert_includes(
         highlighted,
@@ -57,8 +55,7 @@ module SyntaxHighlight
     test "escapes unsafe html inside token text" do
       input = "\"<script>alert(1)</script>\""
 
-      highlighted =
-        SyntaxHighlight::Formatter.format(input, language: :json)
+      highlighted = SyntaxHighlight::Formatter.format(input, language: :json)
 
       assert_includes(
         highlighted,

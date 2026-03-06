@@ -37,18 +37,14 @@
 <% if @program_execution.output.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".output") %></div>
-    <div class="code">
-      <%= syntax_highlight(@program_execution.output, language: :code) %>
-    </div>
+    <%= code_highlight(@program_execution.output) %>
   </div>
 <% end %>
 
 <% if @program_execution.result.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".result") %></div>
-    <div class="code">
-      <%= syntax_highlight(@program_execution.result, language: :code) %>
-    </div>
+    <%= code_highlight(@program_execution.result) %>
   </div>
 <% end %>
 
@@ -70,27 +66,21 @@
   <% if @program_execution.error_message.present? %>
     <div class="p">
       <div class="text-gray-600"><%= t(".error_message") %></div>
-      <div class="code">
-        <%= syntax_highlight(@program_execution.error_message, language: :code) %>
-      </div>
+      <%= code_highlight(@program_execution.error_message) %>
     </div>
   <% end %>
 
   <% if @program_execution.error_app_backtrace.present? %>
     <div class="p">
       <div class="text-gray-600"><%= t(".error_app_backtrace") %></div>
-      <div class="code">
-        <%= syntax_highlight(@program_execution.error_app_backtrace, language: :code) %>
-      </div>
+      <%= code_highlight(@program_execution.error_app_backtrace) %>
     </div>
   <% end %>
 
   <% if @program_execution.error_backtrace.present? %>
     <div class="p">
       <div class="text-gray-600"><%= t(".error_backtrace") %></div>
-      <div class="code">
-        <%= syntax_highlight(@program_execution.error_backtrace, language: :code) %>
-      </div>
+      <%= code_highlight(@program_execution.error_backtrace) %>
     </div>
   <% end %>
 <% end %>
@@ -98,9 +88,7 @@
 <% if @program_execution.input.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".input") %></div>
-    <div class="code">
-      <%= syntax_highlight(@program_execution.input, language: :code) %>
-    </div>
+    <%= code_highlight(@program_execution.input) %>
   </div>
 <% end %>
 

@@ -39,9 +39,7 @@
 <% if @session.data.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".data") %></div>
-    <div class="code">
-      <%= syntax_highlight(@session.data_json, language: :json) %>
-    </div>
+    <%= json_highlight(@session.data_json) %>
   </div>
 <% end %>
 

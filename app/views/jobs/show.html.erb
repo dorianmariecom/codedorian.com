@@ -33,9 +33,7 @@
 <% if @job.arguments.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".arguments") %></div>
-    <div class="code">
-      <%= syntax_highlight(@job.arguments_json, language: :json) %>
-    </div>
+    <%= json_highlight(@job.arguments_json) %>
   </div>
 <% end %>
 

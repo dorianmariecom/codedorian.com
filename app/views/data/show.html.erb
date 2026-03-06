@@ -19,18 +19,14 @@
 <% if @datum.key.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".key") %></div>
-    <div class="code">
-      <%= syntax_highlight(@datum.key_json, language: :json) %>
-    </div>
+    <%= json_highlight(@datum.key_json) %>
   </div>
 <% end %>
 
 <% if @datum.value.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".value") %></div>
-    <div class="code">
-      <%= syntax_highlight(@datum.value_json, language: :json) %>
-    </div>
+    <%= json_highlight(@datum.value_json) %>
   </div>
 <% end %>
 
