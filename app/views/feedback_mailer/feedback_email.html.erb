@@ -1,0 +1,37 @@
+<% if @feedback.message.present? %>
+  <p>
+    <strong><%= t(".feedback_message") %>:</strong>
+  </p>
+  <p><%= simple_format(@feedback.message) %></p>
+<% end %>
+
+<% if @feedback.locale.present? %>
+  <p>
+    <strong><%= t(".locale") %>:</strong>
+    <%= @feedback.locale %>
+  </p>
+<% end %>
+<% if @feedback.user.present? || @feedback.guest.present? %>
+  <p>
+    <strong><%= t(".user") %>:</strong>
+    <%= @feedback.user || @feedback.guest %>
+  </p>
+<% end %>
+<% if @feedback.path.present? %>
+  <p>
+    <strong><%= t(".path") %>:</strong>
+    <%= @feedback.path %>
+  </p>
+<% end %>
+<% if @feedback.ip.present? %>
+  <p>
+    <strong><%= t(".ip") %>:</strong>
+    <%= @feedback.ip %>
+  </p>
+<% end %>
+<% if @feedback.user_agent.present? %>
+  <p>
+    <strong><%= t(".user_agent") %>:</strong>
+    <%= @feedback.user_agent %>
+  </p>
+<% end %>

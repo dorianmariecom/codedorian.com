@@ -1,0 +1,20 @@
+<% if @feedback.message.present? %>
+  <%= t(".feedback_message") %>:
+  <%= @feedback.message %>
+<% end %>
+
+<% if @feedback.locale.present? %>
+  <%= t(".locale") %>: <%= @feedback.locale %>
+<% end %>
+<% if @feedback.user.present? || @feedback.guest.present? %>
+  <%= t(".user") %>: <%= @feedback.user || @feedback.guest %>
+<% end %>
+<% if @feedback.path.present? %>
+  <%= t(".path") %>: <%= @feedback.path %>
+<% end %>
+<% if @feedback.ip.present? %>
+  <%= t(".ip") %>: <%= @feedback.ip %>
+<% end %>
+<% if @feedback.user_agent.present? %>
+  <%= t(".user_agent") %>: <%= @feedback.user_agent %>
+<% end %>

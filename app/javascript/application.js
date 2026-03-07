@@ -21,20 +21,6 @@ if (window.RAILS_ENV === "production") {
         maskAllText: false,
         blockAllMedia: false,
       }),
-      Sentry.feedbackIntegration({
-        autoInject: false,
-        colorScheme: "light",
-        ...window.SENTRY_FEEDBACK,
-        themeLight: {
-          foreground: "black",
-          background: "white",
-          accentForeground: "white",
-          accentBackground: "black",
-          successColor: "#00a63e",
-          errorColor: "#e7000b",
-          boxShadow: "none",
-        },
-      }),
     ],
   });
 }

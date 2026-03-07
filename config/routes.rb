@@ -516,6 +516,12 @@ Rails.application.routes.draw do
 
     resource(:form)
 
+    resources(:feedbacks) do
+      define_delete_destroy.call
+      define_all_delete.call(:destroy, :feedbacks)
+      define_all_delete.call(:delete, :feedbacks)
+    end
+
     get(:up, to: "static#up")
     get(:about, to: "static#about")
     get(:terms, to: "static#terms")

@@ -1,0 +1,103 @@
+<%= form_for(show_url) do |f| %>
+  <% if admin? %>
+    <div class="p">
+      <%= f.label(:user_id, class: :label) %>
+      <%= f.select(
+        :user_id,
+        user_options(user_id: f.object.user_id),
+        {},
+        class: :input,
+        autocomplete: :off,
+        data: {
+          form_type: :other
+        }
+      ) %>
+    </div>
+    <div class="p">
+      <%= f.label(:guest_id, class: :label) %>
+      <%= f.number_field(
+        :guest_id,
+        class: :input,
+        autocomplete: :off,
+        data: {
+          form_type: :other
+        }
+      ) %>
+    </div>
+    <div class="p">
+      <%= f.label(:locale, class: :label) %>
+      <%= f.text_field(
+        :locale,
+        class: :input,
+        autocomplete: :off,
+        data: {
+          form_type: :other
+        }
+      ) %>
+    </div>
+    <div class="p">
+      <%= f.label(:path, class: :label) %>
+      <%= f.text_field(
+        :path,
+        class: :input,
+        autocomplete: :off,
+        data: {
+          form_type: :other
+        }
+      ) %>
+    </div>
+    <div class="p">
+      <%= f.label(:ip, class: :label) %>
+      <%= f.text_field(
+        :ip,
+        class: :input,
+        autocomplete: :off,
+        data: {
+          form_type: :other
+        }
+      ) %>
+    </div>
+    <div class="p">
+      <%= f.label(:user_agent, class: :label) %>
+      <%= f.text_area(
+        :user_agent,
+        class: :input,
+        autocomplete: :off,
+        data: {
+          form_type: :other
+        }
+      ) %>
+    </div>
+  <% end %>
+
+  <div
+    class="p"
+    data-controller="validation"
+    data-validation-trim-value="true"
+    data-validation-gender-value="masculine"
+  >
+    <%= f.label(:message, class: :label, data: { validation_target: :label }) %>
+    <%= f.text_area(
+      :message,
+      class: :input,
+      data: {
+        validation_target: :input,
+        action: "validation#input",
+        form_type: :other
+      },
+      autocomplete: :off
+    ) %>
+    <div class="text-red-600" hidden data-validation-target="error"></div>
+  </div>
+
+  <div class="p">
+    <%= f.submit(
+      submit,
+      class: "button",
+      data: {
+        controller: "bridge--button",
+        bridge__button_title_value: submit
+      }
+    ) %>
+  </div>
+<% end %>

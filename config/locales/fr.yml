@@ -50,6 +50,14 @@ fr:
         example_id: exemple
         interval: intervalle
         starts_at: commence à
+      feedback:
+        guest_id: invité
+        ip: ip
+        locale: langue
+        message: message
+        path: chemin
+        user_agent: navigateur
+        user_id: utilisateur
       form_delivery:
         description: description
         locale: langage
@@ -327,6 +335,10 @@ fr:
     examples:
       edit: modifier
       index: exemples
+      new: nouveau
+    feedbacks:
+      edit: modifier
+      index: retours
       new: nouveau
     form_deliveries:
       edit: modifier
@@ -1036,6 +1048,65 @@ fr:
       versions: versions
     update:
       notice: exemple mis à jour
+  feedback_mailer:
+    feedback_email:
+      feedback_message: message de retour
+      ip: ip
+      locale: langue
+      path: chemin
+      subject: "[%{env}] retour codedorian"
+      user: utilisateur
+      user_agent: navigateur
+  feedbacks:
+    _form:
+      message_label: message
+    create:
+      message_blank: le message doit être présent
+      notice: retour créé
+    delete:
+      notice: retour supprimé
+    delete_all:
+      notice: retours supprimés
+    destroy:
+      notice: retour détruit
+    destroy_all:
+      notice: retours détruits
+    edit:
+      description: modifier un retour.
+      submit: mettre à jour le retour
+      title: modifier le retour
+    form:
+      message_label: message
+      message_placeholder: retour
+    index:
+      delete_all: supprimer tout
+      description: consulter les retours utilisateurs.
+      destroy_all: détruire tout
+      new: nouveau retour
+      title: retours
+    model:
+      to_s: retour#%{id}
+    new:
+      description: créer un retour manuellement.
+      submit: créer le retour
+      title: nouveau retour
+    show:
+      created_at: créé à
+      delete: supprimer le retour
+      description: voir les détails du retour.
+      destroy: détruire le retour
+      edit: modifier le retour
+      guest: invité
+      id: identifiant
+      ip: ip
+      locale: locale
+      message: message
+      path: chemin
+      updated_at: mis à jour à
+      user: utilisateur
+      user_agent: user agent
+    update:
+      notice: retour mis à jour
   form_deliveries:
     create:
       notice: livraison de formulaire créée
@@ -2002,7 +2073,6 @@ fr:
       notice: tâche mise à jour
   layouts:
     application:
-      feedback: bug ?
       js:
         address:
           not_present: doit être présent
@@ -2129,6 +2199,7 @@ fr:
           not_valid:
             feminine: doit être valide
             masculine: doit être valide
+      new_feedback: nouveau retour
       title: code
     menu:
       about: à propos
@@ -2822,6 +2893,7 @@ fr:
       errors: erreurs
       example_schedules: horaires d'exemples
       examples: exemples
+      feedbacks: retours
       form_deliveries: livraisons de formulaire
       form_programs: programmes de formulaire
       form_schedules: horaires de formulaire

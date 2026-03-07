@@ -50,6 +50,14 @@ en:
         example_id: example
         interval: interval
         starts_at: starts at
+      feedback:
+        guest_id: guest
+        ip: ip
+        locale: locale
+        message: message
+        path: path
+        user_agent: user agent
+        user_id: user
       form_delivery:
         description: description
         locale: locale
@@ -326,6 +334,10 @@ en:
     examples:
       edit: edit
       index: examples
+      new: new
+    feedbacks:
+      edit: edit
+      index: feedbacks
       new: new
     form_deliveries:
       edit: edit
@@ -1035,6 +1047,65 @@ en:
       versions: versions
     update:
       notice: example updated
+  feedback_mailer:
+    feedback_email:
+      feedback_message: feedback message
+      ip: ip
+      locale: locale
+      path: path
+      subject: "[%{env}] codedorian feedback"
+      user: user
+      user_agent: user agent
+  feedbacks:
+    _form:
+      message_label: message
+    create:
+      message_blank: message must be present
+      notice: feedback created
+    delete:
+      notice: feedback deleted
+    delete_all:
+      notice: feedbacks deleted
+    destroy:
+      notice: feedback destroyed
+    destroy_all:
+      notice: feedbacks destroyed
+    edit:
+      description: edit feedback.
+      submit: update feedback
+      title: edit feedback
+    form:
+      message_label: message
+      message_placeholder: feedback
+    index:
+      delete_all: delete all
+      description: review user feedback messages.
+      destroy_all: destroy all
+      new: new feedback
+      title: feedbacks
+    model:
+      to_s: feedback#%{id}
+    new:
+      description: create feedback manually.
+      submit: create feedback
+      title: new feedback
+    show:
+      created_at: created at
+      delete: delete feedback
+      description: review feedback details.
+      destroy: destroy feedback
+      edit: edit feedback
+      guest: guest
+      id: id
+      ip: ip
+      locale: locale
+      message: message
+      path: path
+      updated_at: updated at
+      user: user
+      user_agent: user agent
+    update:
+      notice: feedback updated
   form_deliveries:
     create:
       notice: form delivery created
@@ -2001,7 +2072,6 @@ en:
       notice: job updated
   layouts:
     application:
-      feedback: bug?
       js:
         address:
           not_present: must be present
@@ -2128,6 +2198,7 @@ en:
           not_valid:
             feminine: must be valid
             masculine: must be valid
+      new_feedback: new feedback
       title: code
     menu:
       about: about
@@ -2819,6 +2890,7 @@ en:
       errors: errors
       example_schedules: example schedules
       examples: examples
+      feedbacks: feedbacks
       form_deliveries: form deliveries
       form_programs: form programs
       form_schedules: form schedules

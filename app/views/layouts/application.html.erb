@@ -59,7 +59,6 @@
       window.SENTRY_DSN = "<%= sentry_dsn %>";
       window.SENTRY_RELEASE = "<%= sentry_release %>";
       window.SENTRY_ENVIRONMENT = "<%= sentry_environment %>";
-      window.SENTRY_FEEDBACK = <%= sentry_feedback.to_json.html_safe %>;
       window.LOCALE = "<%= I18n.locale %>";
     </script>
 
@@ -117,8 +116,10 @@
 
     <%= yield %>
 
-    <button class="link fixed bottom-0 right-0 m-4" data-controller="feedback">
-      <%= t(".feedback") %>
-    </button>
+    <%= link_to(
+      t(".new_feedback"),
+      %i[new feedback],
+      class: "link fixed bottom-0 right-0 m-4 z-10"
+    ) %>
   </body>
 </html>

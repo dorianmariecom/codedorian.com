@@ -128,6 +128,8 @@ module ControllerSmokeHelper
       test_case.errors(:error).id
     when :error_occurrence_id
       test_case.error_occurrences(:error_occurrence).id
+    when :feedback_id
+      test_case.feedbacks(:feedback).id
     when :example_id
       test_case.examples(:example).id
     when :example_schedule_id
@@ -221,6 +223,8 @@ module ControllerSmokeHelper
       test_case.email_addresses(:admin_email).id
     when "errors"
       test_case.errors(:error).id
+    when "feedbacks"
+      test_case.feedbacks(:feedback).id
     when "error_occurrences"
       test_case.error_occurrences(:error_occurrence).id
     when "examples"
@@ -320,6 +324,10 @@ module ControllerSmokeHelper
       }
     when "passwords#check"
       { password: test_case.passwords(:password).hint }
+    when "feedbacks#create", "feedbacks#update"
+      { feedback: { message: "smoke feedback" } }
+    when "feedback_submissions#create"
+      { message: "smoke feedback submission" }
     else
       params
     end

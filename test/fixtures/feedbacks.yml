@@ -1,0 +1,9 @@
+---
+feedback:
+  guest: guest
+  ip: 127.0.0.1
+  locale: en
+  message: test feedback message
+  path: "/en"
+  user: admin
+  user_agent: test user agent

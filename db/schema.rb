@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_19_150000) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_07_111200) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -204,6 +204,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_19_150000) do
     t.string "name"
     t.bigint "position", default: 0, null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "feedbacks", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "guest_id"
+    t.string "ip"
+    t.string "locale"
+    t.text "message"
+    t.string "path"
+    t.datetime "updated_at", null: false
+    t.text "user_agent"
+    t.bigint "user_id"
+    t.index ["guest_id"], name: "index_feedbacks_on_guest_id"
+    t.index ["user_id"], name: "index_feedbacks_on_user_id"
   end
 
   create_table "form_deliveries", force: :cascade do |t|
@@ -780,6 +794,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_19_150000) do
   add_foreign_key "devices", "users"
   add_foreign_key "email_addresses", "users"
   add_foreign_key "example_schedules", "examples"
+  add_foreign_key "feedbacks", "guests"
+  add_foreign_key "feedbacks", "users"
   add_foreign_key "handles", "users"
   add_foreign_key "messages", "users", column: "from_user_id"
   add_foreign_key "messages", "users", column: "to_user_id"
