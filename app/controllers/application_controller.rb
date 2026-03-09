@@ -52,6 +52,7 @@ class ApplicationController < ActionController::Base
   helper_method(:delete_url)
   helper_method(:destroy_url)
   helper_method(:nested)
+  helper_method(:jobs_nested)
   helper_method(:search_params)
   helper_method(:resources_name)
   helper_method(:resource_name)
@@ -376,6 +377,16 @@ class ApplicationController < ActionController::Base
 
   def nested(...)
     raise(NotImplementedError, "#{self.class}#nested not implemented")
+  end
+
+  def jobs_nested(user: @user, guest: @guest, program: @program)
+    return [guest, program].compact if program && guest
+    return [user, program].compact if program && user
+    return [program] if program
+    return [user] if user
+    return [guest] if guest
+
+    []
   end
 
   def filters

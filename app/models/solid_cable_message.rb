@@ -3,8 +3,6 @@
 class SolidCableMessage < SolidCable::Message
   include(RecordConcern)
 
-  validate { can!(:update, self) }
-
   def self.search_fields
     {
       id: {

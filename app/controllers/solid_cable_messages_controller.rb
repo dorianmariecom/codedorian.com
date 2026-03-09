@@ -156,7 +156,7 @@ class SolidCableMessagesController < ApplicationController
         @solid_cable_message&.channel_hash
       end
 
-    attributes.merge(channel_hash:)
+    attributes.merge(channel_hash: channel_hash)
   end
 
   def binary_text(value)

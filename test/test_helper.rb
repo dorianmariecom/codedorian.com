@@ -13,7 +13,7 @@ module ActiveSupport
   class TestCase
     parallelize(workers: :number_of_processors)
     fixtures :all
-    set_fixture_class("solid_cable_messages": SolidCableMessage)
+    set_fixture_class(solid_cable_messages: SolidCableMessage)
 
     setup do
       WebMock.disable_net_connect!(allow_localhost: true)

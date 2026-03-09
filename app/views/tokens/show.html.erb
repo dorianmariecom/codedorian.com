@@ -66,7 +66,7 @@
       .page(params[:page]) %>
 
   <div class="p font-bold">
-    <%= link_to(Job.model_name.human(count: 2), [*nested, @token, :jobs], class: :link) %>
+    <%= link_to(Job.model_name.human(count: 2), [*jobs_nested, :jobs], class: :link) %>
   </div>
 
   <%= render_collection(
@@ -74,7 +74,7 @@
     collection: jobs,
     as: :job,
     locals: {
-      nested: [*nested, @token]
+      nested: jobs_nested
     }
   ) %>
 <% end %>

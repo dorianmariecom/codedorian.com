@@ -6,7 +6,6 @@ require "digest"
 class SolidCacheEntry < SolidCache::Entry
   include(RecordConcern)
 
-  validate { can!(:update, self) }
   validate(:decode_key_base64, on: :controller)
   validate(:decode_value_base64, on: :controller)
 
@@ -40,7 +39,7 @@ class SolidCacheEntry < SolidCache::Entry
   end
 
   def value_base64
-    @value_base64.presence || encode64(self.value)
+    @value_base64.presence || encode64(value)
   end
 
   def value_base64=(value)
@@ -67,34 +66,29 @@ class SolidCacheEntry < SolidCache::Entry
   end
 
   def decode_value_base64
-    decoded = decode64(@value_base64, :value_base64, self.value)
+    decoded = decode64(@value_base64, :value_base64, value)
     self.value = decoded if decoded
     sync_cache_metadata if errors.none?
   end
 
   def decode64(raw_value, attribute, current_value)
-    return current_value if raw_value.nil? && current_value.present?
+    return current_value if raw_value.nil?
 
-    if raw_value.blank?
-      errors.add(attribute, :blank)
-      return
-    end
-
-    Base64.strict_decode64(raw_value)
+    Base64.strict_decode64(raw_value.to_s)
   rescue ArgumentError
     errors.add(attribute, :invalid)
     nil
   end
 
   def encode64(raw_value)
-    return if raw_value.blank?
+    return if raw_value.nil?
 
     Base64.strict_encode64(raw_value)
   end
 
   def sync_cache_metadata
-    self.key_hash = Digest::SHA256.digest(key.to_s).unpack("q>").first
-    self.byte_size = key.to_s.bytesize + self.value.to_s.bytesize + row_overhead
+    self.key_hash = Digest::SHA256.digest(key.to_s).unpack1("q>")
+    self.byte_size = key.to_s.bytesize + value.to_s.bytesize + row_overhead
   end
 
   def row_overhead
