@@ -420,6 +420,14 @@ en:
       index: messages
       new: new
       subject: subject
+    solid_cache_entries:
+      edit: edit
+      index: solid cache entries
+      new: new
+    solid_cable_messages:
+      edit: edit
+      index: solid cable messages
+      new: new
     names:
       edit: edit
       index: names
@@ -2303,6 +2311,45 @@ en:
       description: view the subject line for this message.
     update:
       notice: message updated
+  solid_cable_messages:
+    create:
+      notice: solid cable message created
+    update:
+      notice: solid cable message updated
+    delete_all:
+      notice: solid cable messages deleted
+    destroy:
+      notice: solid cable message deleted
+    destroy_all:
+      notice: solid cable messages destroyed
+    edit:
+      description: edit a solid cable message record.
+      submit: update solid cable message
+      title: edit solid cable message
+    index:
+      delete_all: delete all
+      description: browse persisted action cable messages.
+      destroy_all: destroy all
+      new: new solid cable message
+      title: solid cable messages
+    model:
+      to_s: solid_cable_message#%{id}
+    new:
+      description: create a new persisted action cable message.
+      submit: create solid cable message
+      title: new solid cable message
+    show:
+      channel: channel
+      channel_hash: channel hash
+      channel_hex: channel hex
+      created_at: created at
+      delete: delete solid cable message
+      description: view a persisted action cable message.
+      destroy: destroy solid cable message
+      edit: edit solid cable message
+      id: id
+      payload: payload
+      payload_hex: payload hex
   names:
     create:
       notice: name created
@@ -2776,6 +2823,44 @@ en:
       versions: versions
     update:
       notice: session updated
+  solid_cache_entries:
+    create:
+      notice: solid cache entry created
+    delete_all:
+      notice: solid cache entries deleted
+    destroy:
+      notice: solid cache entry deleted
+    destroy_all:
+      notice: solid cache entries destroyed
+    edit:
+      description: update a solid cache entry.
+      submit: update solid cache entry
+      title: edit solid cache entry
+    index:
+      delete_all: delete all
+      description: browse solid cache entries.
+      destroy_all: destroy all
+      new: new solid cache entry
+      title: solid cache entries
+    model:
+      to_s: solid_cache_entry#%{id}
+    new:
+      description: create a new solid cache entry.
+      submit: create solid cache entry
+      title: new solid cache entry
+    show:
+      byte_size: byte size
+      created_at: created at
+      delete: delete solid cache entry
+      description: inspect a solid cache entry.
+      destroy: destroy solid cache entry
+      edit: edit solid cache entry
+      id: id
+      key_base64: key base64
+      key_hash: key hash
+      value_base64: value base64
+    update:
+      notice: solid cache entry updated
   shared:
     confirm:
       modal_cancel: 'no'
@@ -2917,6 +3002,8 @@ en:
       program_schedules: program schedules
       programs: programs
       sessions: sessions
+      solid_cache_entries: solid cache entries
+      solid_cable_messages: solid cable messages
       submission_deliveries: submission deliveries
       submission_programs: submission programs
       submission_schedules: submission schedules

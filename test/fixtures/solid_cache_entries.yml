@@ -1,0 +1,6 @@
+solid_cache_entry:
+  byte_size: 158
+  created_at: 2026-03-09 12:00:00
+  key: cache-key
+  key_hash: <%= Digest::SHA256.digest("cache-key").unpack("q>").first %>
+  value: cache-value

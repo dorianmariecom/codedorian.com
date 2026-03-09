@@ -1,0 +1,38 @@
+<%= form_for(show_url) do |f| %>
+  <div class="p">
+    <%= f.label(:channel, class: :label) %>
+    <%= f.text_area(
+      :channel,
+      value: binary_text(f.object.channel),
+      class: :input,
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:payload, class: :label) %>
+    <%= f.text_area(
+      :payload,
+      value: binary_text(f.object.payload),
+      class: :input,
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.submit(
+      submit,
+      class: "button",
+      data: {
+        controller: "bridge--button",
+        bridge__button_title_value: submit
+      }
+    ) %>
+  </div>
+<% end %>

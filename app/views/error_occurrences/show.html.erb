@@ -68,6 +68,28 @@
   <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
 </div>
 
+<% jobs_scope = :"where_#{@error_occurrence.model_singular}" %>
+<% if admin? && can?(:index, Job) && Job.respond_to?(jobs_scope) %>
+  <% jobs =
+    policy_scope(Job)
+      .public_send(jobs_scope, @error_occurrence)
+      .order(created_at: :desc)
+      .page(params[:page]) %>
+
+  <div class="p font-bold">
+    <%= link_to(Job.model_name.human(count: 2), [*nested, @error_occurrence, :jobs], class: :link) %>
+  </div>
+
+  <%= render_collection(
+    partial: "jobs/job",
+    collection: jobs,
+    as: :job,
+    locals: {
+      nested: [*nested, @error_occurrence]
+    }
+  ) %>
+<% end %>
+
 <% if can?(:index, Log) %>
   <div class="p font-bold">
     <%= link_to(t(".logs"), [*nested, @error_occurrence, :logs], class: :link) %>

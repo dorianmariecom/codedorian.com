@@ -421,6 +421,14 @@ fr:
       index: messages
       new: nouveau
       subject: sujet
+    solid_cache_entries:
+      edit: modifier
+      index: entrées solid cache
+      new: nouvelle
+    solid_cable_messages:
+      edit: modifier
+      index: messages solid cable
+      new: nouveau
     names:
       edit: modifier
       index: noms
@@ -2304,6 +2312,45 @@ fr:
       description: voir le sujet du message.
     update:
       notice: message mis à jour
+  solid_cable_messages:
+    create:
+      notice: message solid cable créé
+    update:
+      notice: message solid cable mis à jour
+    delete_all:
+      notice: messages solid cable supprimés
+    destroy:
+      notice: message solid cable supprimé
+    destroy_all:
+      notice: messages solid cable détruits
+    edit:
+      description: modifier un enregistrement de message solid cable.
+      submit: mettre à jour le message solid cable
+      title: modifier le message solid cable
+    index:
+      delete_all: supprimer tout
+      description: parcourir les messages action cable persistés.
+      destroy_all: détruire tout
+      new: nouveau message solid cable
+      title: messages solid cable
+    model:
+      to_s: solid_cable_message#%{id}
+    new:
+      description: créer un nouveau message action cable persistant.
+      submit: créer un message solid cable
+      title: nouveau message solid cable
+    show:
+      channel: canal
+      channel_hash: hash du canal
+      channel_hex: hex du canal
+      created_at: créé à
+      delete: supprimer le message solid cable
+      description: voir un message action cable persistant.
+      destroy: détruire le message solid cable
+      edit: modifier le message solid cable
+      id: identifiant
+      payload: charge utile
+      payload_hex: hex de la charge utile
   meta:
     description: programmer des messages, notifications et programmes avec code.
     site_name: codedorian
@@ -2779,6 +2826,44 @@ fr:
       versions: versions
     update:
       notice: session mise à jour
+  solid_cache_entries:
+    create:
+      notice: entrée solid cache créée
+    delete_all:
+      notice: entrées solid cache supprimées
+    destroy:
+      notice: entrée solid cache supprimée
+    destroy_all:
+      notice: entrées solid cache détruites
+    edit:
+      description: modifier une entrée solid cache.
+      submit: modifier l'entrée solid cache
+      title: modifier l'entrée solid cache
+    index:
+      delete_all: tout supprimer
+      description: parcourir les entrées solid cache.
+      destroy_all: tout détruire
+      new: nouvelle entrée solid cache
+      title: entrées solid cache
+    model:
+      to_s: solid_cache_entry#%{id}
+    new:
+      description: créer une nouvelle entrée solid cache.
+      submit: créer l'entrée solid cache
+      title: nouvelle entrée solid cache
+    show:
+      byte_size: taille en octets
+      created_at: créé le
+      delete: supprimer l'entrée solid cache
+      description: consulter une entrée solid cache.
+      destroy: détruire l'entrée solid cache
+      edit: modifier l'entrée solid cache
+      id: id
+      key_base64: clé base64
+      key_hash: hash de clé
+      value_base64: valeur base64
+    update:
+      notice: entrée solid cache modifiée
   shared:
     confirm:
       modal_cancel: non
@@ -2920,6 +3005,8 @@ fr:
       program_schedules: horaires de programmes
       programs: programmes
       sessions: sessions
+      solid_cache_entries: entrées solid cache
+      solid_cable_messages: messages solid cable
       submission_deliveries: livraisons de soumission
       submission_programs: programmes de soumission
       submission_schedules: horaires de soumission

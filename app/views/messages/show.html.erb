@@ -61,6 +61,28 @@
   <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
 </div>
 
+<% jobs_scope = :"where_#{@message.model_singular}" %>
+<% if admin? && can?(:index, Job) && Job.respond_to?(jobs_scope) %>
+  <% jobs =
+    policy_scope(Job)
+      .public_send(jobs_scope, @message)
+      .order(created_at: :desc)
+      .page(params[:page]) %>
+
+  <div class="p font-bold">
+    <%= link_to(Job.model_name.human(count: 2), [*nested, @message, :jobs], class: :link) %>
+  </div>
+
+  <%= render_collection(
+    partial: "jobs/job",
+    collection: jobs,
+    as: :job,
+    locals: {
+      nested: [*nested, @message]
+    }
+  ) %>
+<% end %>
+
 <% if can?(:index, Version) %>
   <div class="p font-bold">
     <%= link_to(t(".versions"), [*nested, @message, :versions], class: :link) %>

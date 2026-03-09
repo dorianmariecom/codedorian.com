@@ -1,0 +1,38 @@
+<%= form_for(show_url) do |f| %>
+  <div class="p">
+    <%= f.label(:key_base64, class: :label) %>
+    <%= f.text_area(
+      :key_base64,
+      class: :input,
+      rows: 4,
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:value_base64, class: :label) %>
+    <%= f.text_area(
+      :value_base64,
+      class: :input,
+      rows: 8,
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.submit(
+      submit,
+      class: "button",
+      data: {
+        controller: "bridge--button",
+        bridge__button_title_value: submit
+      }
+    ) %>
+  </div>
+<% end %>

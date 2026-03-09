@@ -1,0 +1,53 @@
+<% content_for(:title, @solid_cache_entry) %>
+
+<%= turbo_stream_from(@solid_cache_entry) %>
+
+<% if @solid_cache_entry.id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".id") %></div>
+    <div class="font-bold"><%= @solid_cache_entry.id %></div>
+  </div>
+<% end %>
+
+<% if @solid_cache_entry.key_hash.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".key_hash") %></div>
+    <div class="font-bold"><%= @solid_cache_entry.key_hash %></div>
+  </div>
+<% end %>
+
+<% if @solid_cache_entry.byte_size.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".byte_size") %></div>
+    <div class="font-bold"><%= @solid_cache_entry.byte_size %></div>
+  </div>
+<% end %>
+
+<% if @solid_cache_entry.key_base64.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".key_base64") %></div>
+    <div class="font-bold break-all"><%= @solid_cache_entry.key_base64 %></div>
+  </div>
+<% end %>
+
+<% if @solid_cache_entry.value_base64.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".value_base64") %></div>
+    <div class="font-bold break-all"><%= @solid_cache_entry.value_base64 %></div>
+  </div>
+<% end %>
+
+<% if @solid_cache_entry.created_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".created_at") %></div>
+    <div class="font-bold">
+      <%= local_time(@solid_cache_entry.created_at, format: :default) %>
+    </div>
+  </div>
+<% end %>
+
+<div class="p p--flex">
+  <%= link_to(t(".edit"), edit_url, class: :link) %>
+  <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+  <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
+</div>

@@ -198,6 +198,10 @@ module ControllerSmokeHelper
       test_case.tokens(:token).id
     when :session_id
       test_case.sessions(:session).session_id
+    when :solid_cache_entry_id
+      test_case.solid_cache_entries(:solid_cache_entry).id
+    when :solid_cable_message_id
+      test_case.solid_cable_messages(:solid_cable_message).id
     when :version_id
       test_case.versions(:version).id
     when :path
@@ -293,8 +297,12 @@ module ControllerSmokeHelper
       test_case.program_schedules(:program_schedule).id
     when "sessions"
       test_case.sessions(:session).id
+    when "solid_cache_entries"
+      test_case.solid_cache_entries(:solid_cache_entry).id
     when "tokens"
       test_case.tokens(:token).id
+    when "solid_cable_messages"
+      test_case.solid_cable_messages(:solid_cable_message).id
     when "users"
       test_case.users(:admin).id
     when "time_zones"
@@ -320,6 +328,13 @@ module ControllerSmokeHelper
         session: {
           session_id: "session-smoke-#{SecureRandom.hex(4)}",
           data: { user_id: test_case.users(:admin).id }.to_json
+        }
+      }
+    when "solid_cable_messages#create", "solid_cable_messages#update"
+      {
+        solid_cable_message: {
+          channel: "smoke:channel:#{SecureRandom.hex(4)}",
+          payload: { ok: true }.to_json
         }
       }
     when "passwords#check"

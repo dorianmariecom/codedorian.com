@@ -1,0 +1,54 @@
+<% content_for(:title, @solid_cable_message) %>
+
+<%= turbo_stream_from(@solid_cable_message) %>
+
+<% if @solid_cable_message.id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".id") %></div>
+    <div class="font-bold"><%= @solid_cable_message.id %></div>
+  </div>
+<% end %>
+
+<% if @solid_cable_message.channel.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".channel") %></div>
+    <div class="font-bold break-all"><%= binary_text(@solid_cable_message.channel) %></div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".channel_hex") %></div>
+    <%= code_highlight(binary_hex(@solid_cable_message.channel)) %>
+  </div>
+<% end %>
+
+<% if @solid_cable_message.channel_hash.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".channel_hash") %></div>
+    <div class="font-bold"><%= @solid_cable_message.channel_hash %></div>
+  </div>
+<% end %>
+
+<% if @solid_cable_message.payload.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".payload") %></div>
+    <div class="font-bold break-all"><%= binary_text(@solid_cable_message.payload) %></div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".payload_hex") %></div>
+    <%= code_highlight(binary_hex(@solid_cable_message.payload)) %>
+  </div>
+<% end %>
+
+<% if @solid_cable_message.created_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".created_at") %></div>
+    <div class="font-bold">
+      <%= local_time(@solid_cable_message.created_at, format: :default) %>
+    </div>
+  </div>
+<% end %>
+
+<div class="p p--flex">
+  <%= link_to(t(".edit"), edit_url, class: :link) %>
+  <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+  <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
+</div>

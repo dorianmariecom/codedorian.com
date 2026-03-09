@@ -251,6 +251,12 @@ Rails.application.routes.draw do
         define_errors.call
       end
 
+      resources(:solid_cable_messages) do
+        define_delete_destroy.call
+        define_all_delete.call(:destroy, :solid_cable_messages)
+        define_all_delete.call(:delete, :solid_cable_messages)
+      end
+
       resources(:handles) do
         define_delete_destroy.call
         define_logs_versions.call
@@ -520,6 +526,12 @@ Rails.application.routes.draw do
       define_delete_destroy.call
       define_all_delete.call(:destroy, :feedbacks)
       define_all_delete.call(:delete, :feedbacks)
+    end
+
+    resources(:solid_cache_entries) do
+      define_delete_destroy.call
+      define_all_delete.call(:destroy, :solid_cache_entries)
+      define_all_delete.call(:delete, :solid_cache_entries)
     end
 
     get(:up, to: "static#up")

@@ -94,6 +94,28 @@
   }
 ) %>
 
+<% jobs_scope = :"where_#{@error.model_singular}" %>
+<% if admin? && can?(:index, Job) && Job.respond_to?(jobs_scope) %>
+  <% jobs =
+    policy_scope(Job)
+      .public_send(jobs_scope, @error)
+      .order(created_at: :desc)
+      .page(params[:page]) %>
+
+  <div class="p font-bold">
+    <%= link_to(Job.model_name.human(count: 2), [@user, @error, :jobs], class: :link) %>
+  </div>
+
+  <%= render_collection(
+    partial: "jobs/job",
+    collection: jobs,
+    as: :job,
+    locals: {
+      nested: [@user, @error]
+    }
+  ) %>
+<% end %>
+
 <% if can?(:index, Log) %>
   <div class="p font-bold">
     <%= link_to(t(".logs"), [@user, @error, :logs], class: :link) %>
