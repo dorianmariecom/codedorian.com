@@ -1,5 +1,6 @@
+---
 solid_cable_message:
   channel: smoke:fixture:channel
   channel_hash: 5373568631502461653
-  created_at: 2026-03-09 10:00:00
+  created_at: '2026-03-09 10:00:00'
   payload: '{"fixture":true}'

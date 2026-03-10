@@ -12,7 +12,9 @@
 <% if @solid_cable_message.channel.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".channel") %></div>
-    <div class="font-bold break-all"><%= binary_text(@solid_cable_message.channel) %></div>
+    <div class="font-bold break-all">
+      <%= binary_text(@solid_cable_message.channel) %>
+    </div>
   </div>
   <div class="p">
     <div class="text-gray-600"><%= t(".channel_hex") %></div>
@@ -30,7 +32,9 @@
 <% if @solid_cable_message.payload.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".payload") %></div>
-    <div class="font-bold break-all"><%= binary_text(@solid_cable_message.payload) %></div>
+    <div class="font-bold break-all">
+      <%= binary_text(@solid_cable_message.payload) %>
+    </div>
   </div>
   <div class="p">
     <div class="text-gray-600"><%= t(".payload_hex") %></div>

@@ -5,7 +5,9 @@ class SolidCableMessagesController < ApplicationController
 
   before_action(:load_guest)
   before_action(:load_user)
-  before_action { add_breadcrumb(key: "solid_cable_messages.index", path: index_url) }
+  before_action do
+    add_breadcrumb(key: "solid_cable_messages.index", path: index_url)
+  end
   before_action(
     :load_solid_cable_message,
     only: %i[show edit update destroy delete]
@@ -14,7 +16,8 @@ class SolidCableMessagesController < ApplicationController
   def index
     authorize(SolidCableMessage)
 
-    @solid_cable_messages = scope.page(params[:page]).order(created_at: :desc, id: :desc)
+    @solid_cable_messages =
+      scope.page(params[:page]).order(created_at: :desc, id: :desc)
   end
 
   def show

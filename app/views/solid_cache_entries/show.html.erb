@@ -33,7 +33,9 @@
 <% if @solid_cache_entry.value_base64.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".value_base64") %></div>
-    <div class="font-bold break-all"><%= @solid_cache_entry.value_base64 %></div>
+    <div class="font-bold break-all">
+      <%= @solid_cache_entry.value_base64 %>
+    </div>
   </div>
 <% end %>
 
