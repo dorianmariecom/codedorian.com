@@ -279,7 +279,9 @@ fr:
       destroy: détruire l'adresse
       edit: modifier l'adresse
       id: identifiant
+      jobs: tâches
       logs: logs
+      new_job: nouvelle tâche
       new_log: nouveau log
       new_version: nouvelle version
       primary: principal ?
@@ -632,7 +634,9 @@ fr:
       edit: modifier la donnée
       id: identifiant
       key: clef
+      jobs: tâches
       logs: logs
+      new_job: nouvelle tâche
       new_log: nouveau log
       new_version: nouvelle version
       updated_at: mis à jour à
@@ -722,7 +726,9 @@ fr:
       destroy: détruire l'appareil
       edit: modifier l'appareil
       id: identifiant
+      jobs: tâches
       logs: logs
+      new_job: nouvelle tâche
       new_log: nouveau log
       new_version: nouvelle version
       platform: appareil
@@ -769,7 +775,9 @@ fr:
       edit: modifier l'adresse e-mail
       email_address: adresse email
       id: identifiant
+      jobs: tâches
       logs: logs
+      new_job: nouvelle tâche
       new_log: nouveau log
       new_version: nouvelle version
       primary: principal ?
@@ -816,7 +824,9 @@ fr:
       error: erreur
       full_backtrace: trace complète
       id: identifiant
+      jobs: tâches
       logs: logs
+      new_job: nouvelle tâche
       new_log: nouveau log
       new_version: nouvelle version
       updated_at: mis à jour à
@@ -868,8 +878,11 @@ fr:
       exception_class: classe d'exception
       fingerprint: empreinte
       id: identifiant
+      jobs: tâches
       logs: logs
       message: message
+      new_error_occurrence: nouvelle occurence d'erreur
+      new_job: nouvelle tâche
       new_log: nouveau log
       new_version: nouvelle version
       resolved_at: résolue à
@@ -1383,7 +1396,9 @@ fr:
       destroy: détruire l'invité
       edit: modifier l'invité
       id: identifiant
+      jobs: tâches
       logs: logs
+      new_job: nouvelle tâche
       new_log: nouveau log
       new_version: nouvelle version
       updated_at: mis à jour à
@@ -1425,7 +1440,9 @@ fr:
       edit: modifier la identifiant
       handle: identifiant
       id: identifiant
+      jobs: tâches
       logs: logs
+      new_job: nouvelle tâche
       new_log: nouveau log
       new_version: nouvelle version
       primary: principal ?
@@ -2069,6 +2086,13 @@ fr:
       job_recurring_executions: exécutions récurrentes de tâches
       job_scheduled_executions: exécutions de tâches programmées
       logs: logs
+      new_job_blocked_execution: nouvelle exécution de tâche bloquée
+      new_job_claimed_execution: nouvelle exécution de tâche revendiquée
+      new_job_context: nouveau contexte de tâche
+      new_job_failed_execution: nouvelle exécution de tâche échouée
+      new_job_ready_execution: nouvelle exécution de tâche prête
+      new_job_recurring_execution: nouvelle exécution récurrente de tâche
+      new_job_scheduled_execution: nouvelle exécution de tâche programmée
       new_log: nouveau log
       new_version: nouvelle version
       priority: priorité
@@ -2301,7 +2325,9 @@ fr:
       edit: modifier le message
       from_user: de l'utilisateur
       id: identifiant
+      jobs: tâches
       logs: logs
+      new_job: nouvelle tâche
       new_log: nouveau log
       new_version: nouvelle version
       subject: sujet
@@ -2352,7 +2378,9 @@ fr:
       family_name: nom de famille
       given_name: prénom
       id: identifiant
+      jobs: tâches
       logs: logs
+      new_job: nouvelle tâche
       new_log: nouveau log
       new_version: nouvelle version
       primary: principal ?
@@ -2409,7 +2437,9 @@ fr:
       edit: modifier le mot de passe
       hint: indice
       id: identifiant
+      jobs: tâches
       logs: logs
+      new_job: nouvelle tâche
       new_log: nouveau log
       new_version: nouvelle version
       password: mot de passe
@@ -2454,7 +2484,9 @@ fr:
       destroy: détruire le numéro de téléphone
       edit: modifier le numéro de téléphone
       id: identifiant
+      jobs: tâches
       logs: logs
+      new_job: nouvelle tâche
       new_log: nouveau log
       new_version: nouvelle version
       phone_number: numéro de téléphone
@@ -2509,7 +2541,9 @@ fr:
       error_message: message d'erreur
       id: identifiant
       input: entrée
+      jobs: tâches
       logs: logs
+      new_job: nouvelle tâche
       new_log: nouveau log
       new_version: nouvelle version
       output: sortie
@@ -2706,9 +2740,12 @@ fr:
       format: formater
       id: identifiant
       input: entrée
+      jobs: tâches
       logs: logs
       name: nom
+      new_job: nouvelle tâche
       new_log: nouveau log
+      new_program_execution: nouvelle exécution de programme
       new_program_schedule: nouvelle horaire de programmes
       new_version: nouvelle version
       next_at: prochain à
@@ -2834,7 +2871,7 @@ fr:
       new_error: nouvelle erreur
       new_error_occurrence: nouvelle occurence d'erreur
       new_handle: nouvelle identifiant
-      new_job: nouvel emploi
+      new_job: nouvelle tâche
       new_message: nouveau message
       new_name: nouveau nom
       new_password: nouveau mot de passe
@@ -3464,7 +3501,9 @@ fr:
       destroy: détruire le fuseau horaire
       edit: modifier le fuseau horaire
       id: identifiant
+      jobs: tâches
       logs: logs
+      new_job: nouvelle tâche
       new_log: nouveau log
       new_version: nouvelle version
       primary: principal ?
@@ -3507,7 +3546,9 @@ fr:
       destroy: détruire le jeton
       edit: modifier le jeton
       id: identifiant
+      jobs: tâches
       logs: logs
+      new_job: nouvelle tâche
       new_log: nouveau log
       new_version: nouvelle version
       primary: principal ?
@@ -3563,10 +3604,12 @@ fr:
       handle: identifiant
       id: identifiant
       impersonate: imiter
+      jobs: tâches
       locale: langue
       log_out: se déconnecter
       logs: logs
       name: nom
+      new_job: nouvelle tâche
       new_log: nouveau log
       new_version: nouvelle version
       password: mot de passe

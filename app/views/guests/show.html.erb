@@ -50,17 +50,22 @@
 <% if admin? %>
   <%= render("shared/list", user: @guest, model: ::Error) %>
   <%= render("shared/list", user: @guest, model: ErrorOccurrence) %>
-  <% jobs_scope = :"where_#{@guest.model_singular}" %>
-  <% if can?(:index, Job) && Job.respond_to?(jobs_scope) %>
+  <% if can?(:index, Job) %>
     <% jobs =
       policy_scope(Job)
-        .public_send(jobs_scope, @guest)
+        .where_guest(@guest)
         .order(created_at: :desc)
         .page(params[:page]) %>
 
     <div class="p font-bold">
-      <%= link_to(Job.model_name.human(count: 2), [*jobs_nested, :jobs], class: :link) %>
+      <%= link_to(t(".jobs"), [*jobs_nested, :jobs], class: :link) %>
     </div>
+
+    <% if can?(:create, Job) %>
+      <div class="p">
+        <%= link_to(t(".new_job"), [:new, *jobs_nested, :job], class: "button") %>
+      </div>
+    <% end %>
 
     <%= render_collection(
       partial: "jobs/job",

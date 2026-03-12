@@ -278,7 +278,9 @@ en:
       destroy: destroy address
       edit: edit address
       id: id
+      jobs: jobs
       logs: logs
+      new_job: new job
       new_log: new log
       new_version: new version
       primary: primary?
@@ -631,7 +633,9 @@ en:
       edit: edit datum
       id: id
       key: key
+      jobs: jobs
       logs: logs
+      new_job: new job
       new_log: new log
       new_version: new version
       updated_at: updated at
@@ -721,7 +725,9 @@ en:
       destroy: destroy device
       edit: edit device
       id: id
+      jobs: jobs
       logs: logs
+      new_job: new job
       new_log: new log
       new_version: new version
       platform: platform
@@ -768,7 +774,9 @@ en:
       edit: edit email address
       email_address: email address
       id: id
+      jobs: jobs
       logs: logs
+      new_job: new job
       new_log: new log
       new_version: new version
       primary: primary?
@@ -815,7 +823,9 @@ en:
       error: error
       full_backtrace: full backtrace
       id: id
+      jobs: jobs
       logs: logs
+      new_job: new job
       new_log: new log
       new_version: new version
       updated_at: updated at
@@ -867,8 +877,11 @@ en:
       exception_class: exception class
       fingerprint: fingerprint
       id: id
+      jobs: jobs
       logs: logs
       message: message
+      new_error_occurrence: new error occurrence
+      new_job: new job
       new_log: new log
       new_version: new version
       resolved_at: resolved at
@@ -1382,7 +1395,9 @@ en:
       destroy: destroy guest
       edit: edit guest
       id: id
+      jobs: jobs
       logs: logs
+      new_job: new job
       new_log: new log
       new_version: new version
       updated_at: updated at
@@ -1424,7 +1439,9 @@ en:
       edit: edit handle
       handle: handle
       id: id
+      jobs: jobs
       logs: logs
+      new_job: new job
       new_log: new log
       new_version: new version
       primary: primary?
@@ -2068,6 +2085,13 @@ en:
       job_recurring_executions: job recurring executions
       job_scheduled_executions: job scheduled executions
       logs: logs
+      new_job_blocked_execution: new job blocked execution
+      new_job_claimed_execution: new job claimed execution
+      new_job_context: new job context
+      new_job_failed_execution: new job failed execution
+      new_job_ready_execution: new job ready execution
+      new_job_recurring_execution: new job recurring execution
+      new_job_scheduled_execution: new job scheduled execution
       new_log: new log
       new_version: new version
       priority: priority
@@ -2300,7 +2324,9 @@ en:
       edit: edit message
       from_user: from user
       id: id
+      jobs: jobs
       logs: logs
+      new_job: new job
       new_log: new log
       new_version: new version
       subject: subject
@@ -2348,7 +2374,9 @@ en:
       family_name: family name
       given_name: given name
       id: id
+      jobs: jobs
       logs: logs
+      new_job: new job
       new_log: new log
       new_version: new version
       primary: primary?
@@ -2405,7 +2433,9 @@ en:
       edit: edit password
       hint: hint
       id: id
+      jobs: jobs
       logs: logs
+      new_job: new job
       new_log: new log
       new_version: new version
       password: password
@@ -2450,7 +2480,9 @@ en:
       destroy: destroy phone number
       edit: edit phone number
       id: id
+      jobs: jobs
       logs: logs
+      new_job: new job
       new_log: new log
       new_version: new version
       phone_number: phone number
@@ -2505,7 +2537,9 @@ en:
       error_message: error message
       id: id
       input: input
+      jobs: jobs
       logs: logs
+      new_job: new job
       new_log: new log
       new_version: new version
       output: output
@@ -2702,8 +2736,10 @@ en:
       format: format
       id: id
       input: input
+      jobs: jobs
       logs: logs
       name: name
+      new_job: new job
       new_log: new log
       new_program_execution: new program execution
       new_program_schedule: new program schedule
@@ -3459,7 +3495,9 @@ en:
       destroy: destroy time zone
       edit: edit time zone
       id: id
+      jobs: jobs
       logs: logs
+      new_job: new job
       new_log: new log
       new_version: new version
       primary: primary?
@@ -3502,7 +3540,9 @@ en:
       destroy: destroy token
       edit: edit token
       id: id
+      jobs: jobs
       logs: logs
+      new_job: new job
       new_log: new log
       new_version: new version
       primary: primary?
@@ -3558,10 +3598,12 @@ en:
       handle: handle
       id: id
       impersonate: impersonate
+      jobs: jobs
       locale: language
       log_out: log out
       logs: logs
       name: name
+      new_job: new job
       new_log: new log
       new_version: new version
       password: password
