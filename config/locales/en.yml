@@ -632,8 +632,8 @@ en:
       destroy: destroy datum
       edit: edit datum
       id: id
-      key: key
       jobs: jobs
+      key: key
       logs: logs
       new_job: new job
       new_log: new log

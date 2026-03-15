@@ -1,4 +1,4 @@
-// @sentry-internal/replay@10.34.0 downloaded from https://ga.jspm.io/npm:@sentry-internal/replay@10.34.0/build/npm/esm/index.js
+// @sentry-internal/replay@10.40.0 downloaded from https://ga.jspm.io/npm:@sentry-internal/replay@10.40.0/build/npm/esm/index.js
 
 import {
   GLOBAL_OBJ as e,
@@ -4480,14 +4480,24 @@ class WorkerHandler {
       this._worker.addEventListener(
         "message",
         ({ data: n }) => {
-          n.success ? e() : t();
+          if (n.success) e();
+          else {
+            $s &&
+              Xs.warn("Received worker message with unsuccessful status", n);
+            t(new Error("Received worker message with unsuccessful status"));
+          }
         },
         { once: true },
       );
       this._worker.addEventListener(
         "error",
         (e) => {
-          t(e);
+          $s && Xs.warn("Failed to load Replay compression worker", e);
+          t(
+            new Error(
+              `Failed to load Replay compression worker: ${e instanceof ErrorEvent && e.message ? e.message : "Unknown error. This can happen due to CSP policy restrictions, network issues, or the worker script failing to load."}`,
+            ),
+          );
         },
         { once: true },
       );
@@ -5743,13 +5753,13 @@ async function Uo({
     } catch {}
     throw t;
   }
+  const v = I({}, b);
+  if (C(v, "replay")) throw new RateLimitError(v);
   if (
     typeof b.statusCode === "number" &&
     (b.statusCode < 200 || b.statusCode >= 300)
   )
     throw new TransportStatusCodeError(b.statusCode);
-  const v = I({}, b);
-  if (C(v, "replay")) throw new RateLimitError(v);
   return b;
 }
 class TransportStatusCodeError extends Error {
@@ -5761,6 +5771,11 @@ class RateLimitError extends Error {
   constructor(e) {
     super("Rate limit hit");
     this.rateLimits = e;
+  }
+}
+class ReplayDurationLimitError extends Error {
+  constructor() {
+    super("Session is too long, not sending replay");
   }
 }
 async function Wo(e, t = { count: 0, interval: ee }) {
@@ -6315,7 +6330,7 @@ class ReplayContainer {
               t - this._context.initialTimestamp >
               this._options.maxReplayDuration + 3e4
             )
-              throw new Error("Session is too long, not sending replay");
+              throw new ReplayDurationLimitError();
             const n = this._popEventContext();
             const s = this.session.segmentId++;
             this._maybeSaveSession();
@@ -6334,10 +6349,13 @@ class ReplayContainer {
             this.stop({ reason: "sendReplay" });
             const t = u();
             if (t) {
-              const n =
+              let n;
+              n =
                 e instanceof RateLimitError
                   ? "ratelimit_backoff"
-                  : "send_error";
+                  : e instanceof ReplayDurationLimitError
+                    ? "invalid"
+                    : "send_error";
               t.recordDroppedEvent(n, "replay");
             }
           }

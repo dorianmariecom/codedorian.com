@@ -1,12 +1,12 @@
-// @codemirror/lint@6.9.2 downloaded from https://ga.jspm.io/npm:@codemirror/lint@6.9.2/dist/index.js
+// @codemirror/lint@6.9.5 downloaded from https://ga.jspm.io/npm:@codemirror/lint@6.9.5/dist/index.js
 
 import {
   Decoration as e,
   EditorView as t,
   hoverTooltip as i,
   showPanel as n,
-  getPanel as s,
-  ViewPlugin as o,
+  getPanel as o,
+  ViewPlugin as s,
   logException as l,
   WidgetType as r,
   GutterMarker as a,
@@ -36,9 +36,9 @@ class LintState {
     this.selected = i;
   }
   static init(t, i, n) {
-    let s = n.facet($).markerFilter;
-    s && (t = s(t, n));
-    let o = t.slice().sort((e, t) => e.from - t.from || e.to - t.to);
+    let o = n.facet($).markerFilter;
+    o && (t = o(t, n));
+    let s = t.slice().sort((e, t) => e.from - t.from || e.to - t.to);
     let l = new u(),
       r = [],
       a = 0;
@@ -46,44 +46,44 @@ class LintState {
       d = 0,
       f = n.doc.length;
     for (let t = 0; ; ) {
-      let i = t == o.length ? null : o[t];
+      let i = t == s.length ? null : s[t];
       if (!i && !r.length) break;
-      let n, s;
+      let n, o;
       if (r.length) {
         n = a;
-        s = r.reduce(
+        o = r.reduce(
           (e, t) => Math.min(e, t.to),
           i && i.from > n ? i.from : 1e8,
         );
       } else {
         n = i.from;
         if (n > f) break;
-        s = i.to;
+        o = i.to;
         r.push(i);
         t++;
       }
-      while (t < o.length) {
-        let e = o[t];
+      while (t < s.length) {
+        let e = s[t];
         if (e.from != n || !(e.to > e.from || e.to == n)) {
-          s = Math.min(e.from, s);
+          o = Math.min(e.from, o);
           break;
         }
         r.push(e);
         t++;
-        s = Math.min(e.to, s);
+        o = Math.min(e.to, o);
       }
-      s = Math.min(s, f);
+      o = Math.min(o, f);
       let u = false;
-      if (r.some((e) => e.from == n && (e.to == s || s == f))) {
-        u = n == s;
-        if (!u && s - n < 10) {
+      if (r.some((e) => e.from == n && (e.to == o || o == f))) {
+        u = n == o;
+        if (!u && o - n < 10) {
           let e = n - (d + c.value.length);
           if (e > 0) {
             c.next(e);
             d = n;
           }
           for (let e = n; ; ) {
-            if (e >= s) {
+            if (e >= o) {
               u = true;
               break;
             }
@@ -94,7 +94,7 @@ class LintState {
           }
         }
       }
-      let m = _(r);
+      let m = Z(r);
       if (u)
         l.add(
           n,
@@ -108,15 +108,15 @@ class LintState {
         );
         l.add(
           n,
-          s,
+          o,
           e.mark({
             class: "cm-lintRange cm-lintRange-" + m + t,
             diagnostics: r.slice(),
-            inclusiveEnd: r.some((e) => e.to > s),
+            inclusiveEnd: r.some((e) => e.to > o),
           }),
         );
       }
-      a = s;
+      a = o;
       if (a == f) break;
       for (let e = 0; e < r.length; e++) r[e].to <= a && r.splice(e--, 1);
     }
@@ -126,24 +126,24 @@ class LintState {
 }
 function w(e, t = null, i = 0) {
   let n = null;
-  e.between(i, 1e9, (e, i, { spec: s }) => {
-    if (!(t && s.diagnostics.indexOf(t) < 0))
+  e.between(i, 1e9, (e, i, { spec: o }) => {
+    if (!(t && o.diagnostics.indexOf(t) < 0))
       if (n) {
-        if (s.diagnostics.indexOf(n.diagnostic) < 0) return false;
+        if (o.diagnostics.indexOf(n.diagnostic) < 0) return false;
         n = new SelectedDiagnostic(n.from, i, n.diagnostic);
-      } else n = new SelectedDiagnostic(e, i, t || s.diagnostics[0]);
+      } else n = new SelectedDiagnostic(e, i, t || o.diagnostics[0]);
   });
   return n;
 }
 function b(e, t) {
   let i = t.pos,
     n = t.end || i;
-  let s = e.state.facet($).hideOn(e, i, n);
-  if (s != null) return s;
-  let o = e.startState.doc.lineAt(t.pos);
+  let o = e.state.facet($).hideOn(e, i, n);
+  if (o != null) return o;
+  let s = e.startState.doc.lineAt(t.pos);
   return !!(
     e.effects.some((e) => e.is(y)) ||
-    e.changes.touchesRange(o.from, Math.max(o.to, n))
+    e.changes.touchesRange(s.from, Math.max(s.to, n))
   );
 }
 function k(e, t) {
@@ -163,13 +163,13 @@ const S = h.define({
     if (t.docChanged && e.diagnostics.size) {
       let i = e.diagnostics.map(t.changes),
         n = null,
-        s = e.panel;
+        o = e.panel;
       if (e.selected) {
-        let s = t.changes.mapPos(e.selected.from, 1);
-        n = w(i, e.selected.diagnostic, s) || w(i, null, s);
+        let o = t.changes.mapPos(e.selected.from, 1);
+        n = w(i, e.selected.diagnostic, o) || w(i, null, o);
       }
-      !i.size && s && t.state.facet($).autoPanel && (s = null);
-      e = new LintState(i, s, n);
+      !i.size && o && t.state.facet($).autoPanel && (o = null);
+      e = new LintState(i, o, n);
     }
     for (let i of t.effects)
       if (i.is(y)) {
@@ -201,8 +201,8 @@ function T(e) {
 const R = e.mark({ class: "cm-lintRange cm-lintRange-active" });
 function P(e, t, i) {
   let { diagnostics: n } = e.state.field(S);
-  let s,
-    o = -1,
+  let o,
+    s = -1,
     l = -1;
   n.between(t - (i < 0 ? 1 : 0), t + (i > 0 ? 1 : 0), (e, n, { spec: r }) => {
     if (
@@ -210,21 +210,21 @@ function P(e, t, i) {
       t <= n &&
       (e == n || ((t > e || i > 0) && (t < n || i < 0)))
     ) {
-      s = r.diagnostics;
-      o = e;
+      o = r.diagnostics;
+      s = e;
       l = n;
       return false;
     }
   });
   let r = e.state.facet($).tooltipFilter;
-  s && r && (s = r(s, e.state));
-  return s
+  o && r && (o = r(o, e.state));
+  return o
     ? {
-        pos: o,
+        pos: s,
         end: l,
-        above: e.state.doc.lineAt(o).to < l,
+        above: e.state.doc.lineAt(s).to < l,
         create() {
-          return { dom: M(e, s) };
+          return { dom: M(e, o) };
         },
       }
     : null;
@@ -239,7 +239,7 @@ function M(e, t) {
 const I = (e) => {
   let t = e.state.field(S, false);
   (t && t.panel) || e.dispatch({ effects: k(e.state, [C.of(true)]) });
-  let i = s(e, LintPanel.open);
+  let i = o(e, LintPanel.open);
   i && i.dom.querySelector(".cm-panel-lint ul").focus();
   return true;
 };
@@ -253,10 +253,10 @@ const D = (e) => {
   let t = e.state.field(S, false);
   if (!t) return false;
   let i = e.state.selection.main,
-    n = t.diagnostics.iter(i.to + 1);
-  if (!n.value) {
-    n = t.diagnostics.iter(0);
-    if (!n.value || (n.from == i.from && n.to == i.to)) return false;
+    n = w(t.diagnostics, null, i.to + 1);
+  if (!n) {
+    n = w(t.diagnostics, null, 0);
+    if (!n || (n.from == i.from && n.to == i.to)) return false;
   }
   e.dispatch({
     selection: { anchor: n.from, head: n.to },
@@ -269,22 +269,22 @@ const B = (e) => {
     i = t.field(S, false);
   if (!i) return false;
   let n = t.selection.main;
-  let s, o, l, r;
+  let o, s, l, r;
   i.diagnostics.between(0, t.doc.length, (e, t) => {
-    if (t < n.to && (s == null || s < e)) {
-      s = e;
-      o = t;
+    if (t < n.to && (o == null || o < e)) {
+      o = e;
+      s = t;
     }
     if (l == null || e > l) {
       l = e;
       r = t;
     }
   });
-  if (l == null || (s == null && l == n.from)) return false;
+  if (l == null || (o == null && l == n.from)) return false;
   e.dispatch({
     selection: {
-      anchor: s !== null && s !== void 0 ? s : l,
-      head: o !== null && o !== void 0 ? o : r,
+      anchor: o !== null && o !== void 0 ? o : l,
+      head: s !== null && s !== void 0 ? s : r,
     },
     scrollIntoView: true,
   });
@@ -294,7 +294,7 @@ const O = [
   { key: "Mod-Shift-m", run: I, preventDefault: true },
   { key: "F8", run: D },
 ];
-const F = o.fromClass(
+const F = s.fromClass(
   class {
     constructor(e) {
       this.view = e;
@@ -359,12 +359,12 @@ const F = o.fromClass(
 );
 function z(e, t, i) {
   let n = [],
-    s = -1;
-  for (let o of e)
-    o.then((i) => {
+    o = -1;
+  for (let s of e)
+    s.then((i) => {
       n.push(i);
-      clearTimeout(s);
-      n.length == e.length ? t(n) : (s = setTimeout(() => t(n), 200));
+      clearTimeout(o);
+      n.length == e.length ? t(n) : (o = setTimeout(() => t(n), 200));
     }, i);
 }
 const $ = f.define({
@@ -386,7 +386,7 @@ const $ = f.define({
           tooltipFilter: E,
           needsRefresh: (e, t) => (e ? (t ? (i) => e(i) || t(i) : e) : t),
           hideOn: (e, t) =>
-            e ? (t ? (i, n, s) => e(i, n, s) || t(i, n, s) : e) : t,
+            e ? (t ? (i, n, o) => e(i, n, o) || t(i, n, o) : e) : t,
           autoPanel: (e, t) => e || t,
         },
       ),
@@ -423,7 +423,7 @@ function j(e) {
 }
 function q(e, t, i) {
   var n;
-  let s = i ? j(t.actions) : [];
+  let o = i ? j(t.actions) : [];
   return v(
     "li",
     { class: "cm-diagnostic cm-diagnostic-" + t.severity },
@@ -435,16 +435,16 @@ function q(e, t, i) {
     (n = t.actions) === null || n === void 0
       ? void 0
       : n.map((i, n) => {
-          let o = false,
+          let s = false,
             l = (n) => {
               n.preventDefault();
-              if (o) return;
-              o = true;
-              let s = w(e.state.field(S).diagnostics, t);
-              s && i.apply(e, s.from, s.to);
+              if (s) return;
+              s = true;
+              let o = w(e.state.field(S).diagnostics, t);
+              o && i.apply(e, o.from, o.to);
             };
           let { name: r } = i,
-            a = s[n] ? r.indexOf(s[n]) : -1;
+            a = o[n] ? r.indexOf(o[n]) : -1;
           let c =
             a < 0
               ? r
@@ -457,7 +457,7 @@ function q(e, t, i) {
               class: "cm-diagnosticAction" + d,
               onclick: l,
               onmousedown: l,
-              "aria-label": ` Action: ${r}${a < 0 ? "" : ` (access key "${s[n]})"`}.`,
+              "aria-label": ` Action: ${r}${a < 0 ? "" : ` (access key "${o[n]})"`}.`,
             },
             c,
           );
@@ -491,32 +491,34 @@ class LintPanel {
     this.view = e;
     this.items = [];
     let t = (t) => {
-      if (t.keyCode == 27) {
-        A(this.view);
-        this.view.focus();
-      } else if (t.keyCode == 38 || t.keyCode == 33)
-        this.moveSelection(
-          (this.selectedIndex - 1 + this.items.length) % this.items.length,
-        );
-      else if (t.keyCode == 40 || t.keyCode == 34)
-        this.moveSelection((this.selectedIndex + 1) % this.items.length);
-      else if (t.keyCode == 36) this.moveSelection(0);
-      else if (t.keyCode == 35) this.moveSelection(this.items.length - 1);
-      else if (t.keyCode == 13) this.view.focus();
-      else {
-        if (!(t.keyCode >= 65 && t.keyCode <= 90 && this.selectedIndex >= 0))
-          return;
-        {
-          let { diagnostic: i } = this.items[this.selectedIndex],
-            n = j(i.actions);
-          for (let s = 0; s < n.length; s++)
-            if (n[s].toUpperCase().charCodeAt(0) == t.keyCode) {
-              let t = w(this.view.state.field(S).diagnostics, i);
-              t && i.actions[s].apply(e, t.from, t.to);
-            }
+      if (!(t.ctrlKey || t.altKey || t.metaKey)) {
+        if (t.keyCode == 27) {
+          A(this.view);
+          this.view.focus();
+        } else if (t.keyCode == 38 || t.keyCode == 33)
+          this.moveSelection(
+            (this.selectedIndex - 1 + this.items.length) % this.items.length,
+          );
+        else if (t.keyCode == 40 || t.keyCode == 34)
+          this.moveSelection((this.selectedIndex + 1) % this.items.length);
+        else if (t.keyCode == 36) this.moveSelection(0);
+        else if (t.keyCode == 35) this.moveSelection(this.items.length - 1);
+        else if (t.keyCode == 13) this.view.focus();
+        else {
+          if (!(t.keyCode >= 65 && t.keyCode <= 90 && this.selectedIndex >= 0))
+            return;
+          {
+            let { diagnostic: i } = this.items[this.selectedIndex],
+              n = j(i.actions);
+            for (let o = 0; o < n.length; o++)
+              if (n[o].toUpperCase().charCodeAt(0) == t.keyCode) {
+                let t = w(this.view.state.field(S).diagnostics, i);
+                t && i.actions[o].apply(e, t.from, t.to);
+              }
+          }
         }
+        t.preventDefault();
       }
-      t.preventDefault();
     };
     let i = (e) => {
       for (let t = 0; t < this.items.length; t++)
@@ -557,12 +559,12 @@ class LintPanel {
     let { diagnostics: e, selected: t } = this.view.state.field(S);
     let i = 0,
       n = false,
-      s = null;
-    let o = new Set();
+      o = null;
+    let s = new Set();
     e.between(0, this.view.state.doc.length, (e, l, { spec: r }) => {
       for (let e of r.diagnostics) {
-        if (o.has(e)) continue;
-        o.add(e);
+        if (s.has(e)) continue;
+        s.add(e);
         let l,
           r = -1;
         for (let t = i; t < this.items.length; t++)
@@ -584,7 +586,7 @@ class LintPanel {
         if (t && l.diagnostic == t.diagnostic) {
           if (!l.dom.hasAttribute("aria-selected")) {
             l.dom.setAttribute("aria-selected", "true");
-            s = l;
+            o = l;
           }
         } else
           l.dom.hasAttribute("aria-selected") &&
@@ -610,12 +612,12 @@ class LintPanel {
       );
       n = true;
     }
-    if (s) {
-      this.list.setAttribute("aria-activedescendant", s.id);
+    if (o) {
+      this.list.setAttribute("aria-activedescendant", o.id);
       this.view.requestMeasure({
         key: this,
         read: () => ({
-          sel: s.dom.getBoundingClientRect(),
+          sel: o.dom.getBoundingClientRect(),
           panel: this.list.getBoundingClientRect(),
         }),
         write: ({ sel: e, panel: t }) => {
@@ -663,13 +665,13 @@ class LintPanel {
 function G(e, t = 'viewBox="0 0 40 40"') {
   return `url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" ${t}>${encodeURIComponent(e)}</svg>')`;
 }
-function V(e) {
+function K(e) {
   return G(
     `<path d="m0 2.5 l2 -1.5 l1 0 l2 1.5 l1 0" stroke="${e}" fill="none" stroke-width=".7"/>`,
     'width="6" height="3"',
   );
 }
-const Y = t.baseTheme({
+const V = t.baseTheme({
   ".cm-diagnostic": {
     padding: "3px 6px 3px 8px",
     marginLeft: "-1px",
@@ -696,10 +698,10 @@ const Y = t.baseTheme({
     backgroundRepeat: "repeat-x",
     paddingBottom: "0.7px",
   },
-  ".cm-lintRange-error": { backgroundImage: V("#d11") },
-  ".cm-lintRange-warning": { backgroundImage: V("orange") },
-  ".cm-lintRange-info": { backgroundImage: V("#999") },
-  ".cm-lintRange-hint": { backgroundImage: V("#66d") },
+  ".cm-lintRange-error": { backgroundImage: K("#d11") },
+  ".cm-lintRange-warning": { backgroundImage: K("orange") },
+  ".cm-lintRange-info": { backgroundImage: K("#999") },
+  ".cm-lintRange-hint": { backgroundImage: K("#66d") },
   ".cm-lintRange-active": { backgroundColor: "#ffdd9980" },
   ".cm-tooltip-lint": { padding: 0, margin: 0 },
   ".cm-lintPoint": {
@@ -747,15 +749,19 @@ const Y = t.baseTheme({
       margin: 0,
     },
   },
+  "&dark .cm-lintRange-active": { backgroundColor: "#86714a80" },
+  "&dark .cm-panel.cm-panel-lint ul": {
+    "& [aria-selected]": { backgroundColor: "#2e343e" },
+  },
 });
-function Z(e) {
+function Y(e) {
   return e == "error" ? 4 : e == "warning" ? 3 : e == "info" ? 2 : 1;
 }
-function _(e) {
+function Z(e) {
   let t = "hint",
     i = 1;
   for (let n of e) {
-    let e = Z(n.severity);
+    let e = Y(n.severity);
     if (e > i) {
       i = e;
       t = n.severity;
@@ -767,7 +773,7 @@ class LintGutterMarker extends a {
   constructor(e) {
     super();
     this.diagnostics = e;
-    this.severity = _(e);
+    this.severity = Z(e);
   }
   toDOM(e) {
     let t = document.createElement("div");
@@ -775,19 +781,19 @@ class LintGutterMarker extends a {
     let i = this.diagnostics;
     let n = e.state.facet(ne).tooltipFilter;
     n && (i = n(i, e.state));
-    i.length && (t.onmouseover = () => W(e, t, i));
+    i.length && (t.onmouseover = () => U(e, t, i));
     return t;
   }
 }
-function U(e, t) {
+function _(e, t) {
   let i = (n) => {
-    let s = t.getBoundingClientRect();
+    let o = t.getBoundingClientRect();
     if (
       !(
-        n.clientX > s.left - 10 &&
-        n.clientX < s.right + 10 &&
-        n.clientY > s.top - 10 &&
-        n.clientY < s.bottom + 10
+        n.clientX > o.left - 10 &&
+        n.clientX < o.right + 10 &&
+        n.clientY > o.top - 10 &&
+        n.clientY < o.bottom + 10
       )
     ) {
       for (let e = n.target; e; e = e.parentNode)
@@ -798,13 +804,13 @@ function U(e, t) {
   };
   window.addEventListener("mousemove", i);
 }
-function W(e, t, i) {
+function U(e, t, i) {
   function n() {
     let n = e.elementAtHeight(
       t.getBoundingClientRect().top + 5 - e.documentTop,
     );
-    const s = e.coordsAtPos(n.from);
-    s &&
+    const o = e.coordsAtPos(n.from);
+    o &&
       e.dispatch({
         effects: Q.of({
           pos: n.from,
@@ -816,20 +822,20 @@ function W(e, t, i) {
         }),
       });
     t.onmouseout = t.onmousemove = null;
-    U(e, t);
+    _(e, t);
   }
-  let { hoverTime: s } = e.state.facet(ne);
-  let o = setTimeout(n, s);
+  let { hoverTime: o } = e.state.facet(ne);
+  let s = setTimeout(n, o);
   t.onmouseout = () => {
-    clearTimeout(o);
+    clearTimeout(s);
     t.onmouseout = t.onmousemove = null;
   };
   t.onmousemove = () => {
-    clearTimeout(o);
-    o = setTimeout(n, s);
+    clearTimeout(s);
+    s = setTimeout(n, o);
   };
 }
-function X(e, t) {
+function W(e, t) {
   let i = Object.create(null);
   for (let n of t) {
     let t = e.lineAt(n.from);
@@ -839,18 +845,18 @@ function X(e, t) {
   for (let e in i) n.push(new LintGutterMarker(i[e]).range(+e));
   return p.of(n, true);
 }
-const J = c({
+const X = c({
   class: "cm-gutter-lint",
-  markers: (e) => e.state.field(K),
+  markers: (e) => e.state.field(J),
   widgetMarker: (e, t, i) => {
     let n = [];
-    e.state.field(K).between(i.from, i.to, (e, t, s) => {
-      e > i.from && e < i.to && n.push(...s.diagnostics);
+    e.state.field(J).between(i.from, i.to, (e, t, o) => {
+      e > i.from && e < i.to && n.push(...o.diagnostics);
     });
     return n.length ? new LintGutterMarker(n) : null;
   },
 });
-const K = h.define({
+const J = h.define({
   create() {
     return p.empty;
   },
@@ -859,9 +865,9 @@ const K = h.define({
     let i = t.state.facet(ne).markerFilter;
     for (let n of t.effects)
       if (n.is(y)) {
-        let s = n.value;
-        i && (s = i(s || [], t.state));
-        e = X(t.state.doc, s.slice(0));
+        let o = n.value;
+        i && (o = i(o || [], t.state));
+        e = W(t.state.doc, o.slice(0));
       }
     return e;
   },
@@ -908,45 +914,45 @@ const ie = [
     return i && n && i.from != i.to ? e.set([R.range(i.from, i.to)]) : e.none;
   }),
   i(P, { hideOn: b }),
-  Y,
+  V,
 ];
 const ne = f.define({
   combine(e) {
     return g(e, { hoverTime: 300, markerFilter: null, tooltipFilter: null });
   },
 });
-function se(e = {}) {
-  return [ne.of(e), K, J, te, ee];
+function oe(e = {}) {
+  return [ne.of(e), J, X, te, ee];
 }
-function oe(e, t) {
+function se(e, t) {
   let i = e.field(S, false);
   if (i && i.diagnostics.size) {
     let e = [],
       n = [],
-      s = -1;
-    for (let o = p.iter([i.diagnostics]); ; o.next()) {
+      o = -1;
+    for (let s = p.iter([i.diagnostics]); ; s.next()) {
       for (let i = 0; i < e.length; i++)
-        if (!o.value || o.value.spec.diagnostics.indexOf(e[i]) < 0) {
-          t(e[i], n[i], s);
+        if (!s.value || s.value.spec.diagnostics.indexOf(e[i]) < 0) {
+          t(e[i], n[i], o);
           e.splice(i, 1);
           n.splice(i--, 1);
         }
-      if (!o.value) break;
-      for (let t of o.value.spec.diagnostics)
+      if (!s.value) break;
+      for (let t of s.value.spec.diagnostics)
         if (e.indexOf(t) < 0) {
           e.push(t);
-          n.push(o.from);
+          n.push(s.from);
         }
-      s = o.to;
+      o = s.to;
     }
   }
 }
 export {
   A as closeLintPanel,
   T as diagnosticCount,
-  oe as forEachDiagnostic,
+  se as forEachDiagnostic,
   N as forceLinting,
-  se as lintGutter,
+  oe as lintGutter,
   O as lintKeymap,
   H as linter,
   D as nextDiagnostic,

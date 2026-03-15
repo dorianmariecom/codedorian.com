@@ -1,4 +1,4 @@
-// @lezer/common@1.5.0 downloaded from https://ga.jspm.io/npm:@lezer/common@1.5.0/dist/index.js
+// @lezer/common@1.5.1 downloaded from https://ga.jspm.io/npm:@lezer/common@1.5.1/dist/index.js
 
 const e = 1024;
 let t = 0;
@@ -448,48 +448,49 @@ class TreeNode extends BaseNode {
     return this.from + this._tree.length;
   }
   nextChild(e, t, r, n, i = 0) {
-    var l;
-    for (let f = this; ; ) {
+    for (let l = this; ; ) {
       for (
-        let { children: h, positions: u } = f._tree, a = t > 0 ? h.length : -1;
-        e != a;
+        let { children: f, positions: h } = l._tree, u = t > 0 ? f.length : -1;
+        e != u;
         e += t
       ) {
-        let a = h[e],
-          p = u[e] + f.from;
+        let u,
+          a = f[e],
+          p = h[e] + l.from;
         if (
           (i & s.EnterBracketed &&
             a instanceof Tree &&
-            ((l = MountedTree.get(a)) === null || l === void 0
-              ? void 0
-              : l.overlay) === null &&
-            (p >= r || p + a.length <= r)) ||
+            (u = MountedTree.get(a)) &&
+            !u.overlay &&
+            u.bracketed &&
+            r >= p &&
+            r <= p + a.length) ||
           o(n, r, p, p + a.length)
         )
           if (a instanceof TreeBuffer) {
             if (i & s.ExcludeBuffers) continue;
             let o = a.findChild(0, a.buffer.length, t, r - p, n);
             if (o > -1)
-              return new BufferNode(new BufferContext(f, a, e, p), null, o);
+              return new BufferNode(new BufferContext(l, a, e, p), null, o);
           } else if (i & s.IncludeAnonymous || !a.type.isAnonymous || d(a)) {
             let o;
             if (!(i & s.IgnoreMounts) && (o = MountedTree.get(a)) && !o.overlay)
-              return new TreeNode(o.tree, p, e, f);
-            let l = new TreeNode(a, p, e, f);
-            return i & s.IncludeAnonymous || !l.type.isAnonymous
-              ? l
-              : l.nextChild(t < 0 ? a.children.length - 1 : 0, t, r, n, i);
+              return new TreeNode(o.tree, p, e, l);
+            let f = new TreeNode(a, p, e, l);
+            return i & s.IncludeAnonymous || !f.type.isAnonymous
+              ? f
+              : f.nextChild(t < 0 ? a.children.length - 1 : 0, t, r, n, i);
           }
       }
-      if (i & s.IncludeAnonymous || !f.type.isAnonymous) return null;
+      if (i & s.IncludeAnonymous || !l.type.isAnonymous) return null;
       e =
-        f.index >= 0
-          ? f.index + t
+        l.index >= 0
+          ? l.index + t
           : t < 0
             ? -1
-            : f._parent._tree.children.length;
-      f = f._parent;
-      if (!f) return null;
+            : l._parent._tree.children.length;
+      l = l._parent;
+      if (!l) return null;
     }
   }
   get firstChild() {
@@ -1005,32 +1006,32 @@ function p(t) {
   let u = 0,
     a = 0;
   function d(e, t, r, n, w, N) {
-    let { id: v, start: T, end: k, size: C } = f;
+    let { id: T, start: v, end: k, size: C } = f;
     let _ = a,
       B = u;
     if (C < 0) {
       f.next();
       if (C == -1) {
-        let t = o[v];
+        let t = o[T];
         r.push(t);
-        n.push(T - e);
+        n.push(v - e);
         return;
       }
       if (C == -3) {
-        u = v;
+        u = T;
         return;
       }
       if (C == -4) {
-        a = v;
+        a = T;
         return;
       }
       throw new RangeError(`Unrecognized record size: ${C}`);
     }
     let A,
       S,
-      P = h[v];
-    let I = T - e;
-    if (k - T <= s && (S = y(f.pos - t, w))) {
+      P = h[T];
+    let I = v - e;
+    if (k - v <= s && (S = y(f.pos - t, w))) {
       let t = new Uint16Array(S.size - S.skip);
       let r = f.pos - S.size,
         n = t.length;
@@ -1042,25 +1043,25 @@ function p(t) {
       f.next();
       let t = [],
         r = [];
-      let n = v >= l ? v : -1;
+      let n = T >= l ? T : -1;
       let i = 0,
         o = k;
       while (f.pos > e)
         if (n >= 0 && f.id == n && f.size >= 0) {
           if (f.end <= o - s) {
-            g(t, r, T, i, f.end, o, n, _, B);
+            g(t, r, v, i, f.end, o, n, _, B);
             i = t.length;
             o = f.end;
           }
           f.next();
-        } else N > 2500 ? p(T, e, t, r) : d(T, e, t, r, n, N + 1);
-      n >= 0 && i > 0 && i < t.length && g(t, r, T, i, T, o, n, _, B);
+        } else N > 2500 ? p(v, e, t, r) : d(v, e, t, r, n, N + 1);
+      n >= 0 && i > 0 && i < t.length && g(t, r, v, i, v, o, n, _, B);
       t.reverse();
       r.reverse();
       if (n > -1 && i > 0) {
         let e = c(P, B);
-        A = m(P, t, r, 0, t.length, 0, k - T, e, e);
-      } else A = b(P, t, r, k - T, _ - k, B);
+        A = m(P, t, r, 0, t.length, 0, k - v, e, e);
+      } else A = b(P, t, r, k - v, _ - k, B);
     }
     r.push(A);
     n.push(I);
@@ -1187,13 +1188,13 @@ function p(t) {
   let w = [],
     N = [];
   while (f.pos > 0) d(t.start || 0, t.bufferStart || 0, w, N, -1, 0);
-  let v =
+  let T =
     (r = t.length) !== null && r !== void 0
       ? r
       : w.length
         ? N[0] + w[0].length
         : 0;
-  return new Tree(h[t.topID], w.reverse(), N.reverse(), v);
+  return new Tree(h[t.topID], w.reverse(), N.reverse(), T);
 }
 const c = new WeakMap();
 function g(e, t) {
@@ -1500,7 +1501,7 @@ class MixedParse {
         (n.from < n.to || !i.overlay)
       ) {
         if (!n.tree) {
-          v(n);
+          T(n);
           t && t.depth++;
           r && r.depth++;
         }
@@ -1517,7 +1518,7 @@ class MixedParse {
             t,
           );
         else {
-          let e = T(
+          let e = v(
             this.ranges,
             i.overlay || (n.from < n.to ? [new Range(n.from, n.to)] : []),
           );
@@ -1560,7 +1561,7 @@ class MixedParse {
           if (n.nextSibling()) break;
           if (!n.parent()) break e;
           if (t && !--t.depth) {
-            let e = T(this.ranges, t.ranges);
+            let e = v(this.ranges, t.ranges);
             if (e.length) {
               y(e);
               this.inner.splice(
@@ -1599,7 +1600,7 @@ function N(e, t, r, n, i, s) {
     i.push(o - s);
   }
 }
-function v(e) {
+function T(e) {
   let { node: t } = e,
     r = [];
   let n = t.context.buffer;
@@ -1724,7 +1725,7 @@ class FragmentCursor {
     return n;
   }
 }
-function T(e, t) {
+function v(e, t) {
   let r = null,
     n = t;
   for (let i = 1, s = 0; i < e.length; i++) {

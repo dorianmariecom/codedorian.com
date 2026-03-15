@@ -633,8 +633,8 @@ fr:
       destroy: détruire la donnée
       edit: modifier la donnée
       id: identifiant
-      key: clef
       jobs: tâches
+      key: clef
       logs: logs
       new_job: nouvelle tâche
       new_log: nouveau log

@@ -1,4 +1,4 @@
-// @sentry-internal/browser-utils@10.34.0 downloaded from https://ga.jspm.io/npm:@sentry-internal/browser-utils@10.34.0/build/esm/index.js
+// @sentry-internal/browser-utils@10.40.0 downloaded from https://ga.jspm.io/npm:@sentry-internal/browser-utils@10.40.0/build/esm/index.js
 
 import {
   GLOBAL_OBJ as t,

@@ -1,13 +1,13 @@
-// @sentry/core@10.34.0 downloaded from https://ga.jspm.io/npm:@sentry/core@10.34.0/build/esm/index.js
+// @sentry/core@10.40.0 downloaded from https://ga.jspm.io/npm:@sentry/core@10.40.0/build/esm/index.js
 
 const t = typeof __SENTRY_DEBUG__ === "undefined" || __SENTRY_DEBUG__;
 const e = globalThis;
-const n = "10.34.0";
-function o() {
-  s(e);
+const n = "10.40.0";
+function s() {
+  o(e);
   return e;
 }
-function s(t) {
+function o(t) {
   const e = (t.__SENTRY__ = t.__SENTRY__ || {});
   e.version = e.version || n;
   return (e[n] = e[n] || {});
@@ -22,10 +22,10 @@ function s(t) {
  * @param creator creator Factory function to create the singleton if it doesn't already exist on `__SENTRY__`
  * @param obj (Optional) The global object on which to look for `__SENTRY__`, if not `GLOBAL_OBJ`'s return value
  * @returns the singleton
- */ function r(t, o, s = e) {
-  const r = (s.__SENTRY__ = s.__SENTRY__ || {});
+ */ function r(t, s, o = e) {
+  const r = (o.__SENTRY__ = o.__SENTRY__ || {});
   const i = (r[n] = r[n] || {});
-  return i[t] || (i[t] = o());
+  return i[t] || (i[t] = s());
 }
 const i = ["debug", "info", "warn", "error", "log", "assert", "trace"];
 const a = "Sentry Logger ";
@@ -38,18 +38,18 @@ const c = {};
  */ function u(t) {
   if (!("console" in e)) return t();
   const n = e.console;
-  const o = {};
-  const s = Object.keys(c);
-  s.forEach((t) => {
+  const s = {};
+  const o = Object.keys(c);
+  o.forEach((t) => {
     const e = c[t];
-    o[t] = n[t];
+    s[t] = n[t];
     n[t] = e;
   });
   try {
     return t();
   } finally {
-    s.forEach((t) => {
-      n[t] = o[t];
+    o.forEach((t) => {
+      n[t] = s[t];
     });
   }
 }
@@ -71,11 +71,11 @@ function m(...t) {
 function g(...t) {
   h("error", ...t);
 }
-function h(n, ...o) {
+function h(n, ...s) {
   t &&
     f() &&
     u(() => {
-      e.console[n](`${a}[${n}]:`, ...o);
+      e.console[n](`${a}[${n}]:`, ...s);
     });
 }
 function _() {
@@ -90,8 +90,8 @@ const S = /\(error: (.*)\)/;
 const k = /captureMessage|captureException/;
 function w(...t) {
   const e = t.sort((t, e) => t[0] - e[0]).map((t) => t[1]);
-  return (t, n = 0, o = 0) => {
-    const s = [];
+  return (t, n = 0, s = 0) => {
+    const o = [];
     const r = t.split("\n");
     for (let t = n; t < r.length; t++) {
       let n = r[t];
@@ -101,35 +101,37 @@ function w(...t) {
         for (const t of e) {
           const e = t(i);
           if (e) {
-            s.push(e);
+            o.push(e);
             break;
           }
         }
-        if (s.length >= b + o) break;
+        if (o.length >= b + s) break;
       }
     }
-    return E(s.slice(o));
+    return A(o.slice(s));
   };
 }
 function x(t) {
   return Array.isArray(t) ? w(...t) : t;
 }
-function E(t) {
+function A(t) {
   if (!t.length) return [];
   const e = Array.from(t);
-  /sentryWrapped/.test(A(e).function || "") && e.pop();
+  /sentryWrapped/.test(E(e).function || "") && e.pop();
   e.reverse();
-  if (k.test(A(e).function || "")) {
+  if (k.test(E(e).function || "")) {
     e.pop();
-    k.test(A(e).function || "") && e.pop();
+    k.test(E(e).function || "") && e.pop();
   }
-  return e.slice(0, b).map((t) => ({
-    ...t,
-    filename: t.filename || A(e).filename,
-    function: t.function || v,
-  }));
+  return e
+    .slice(0, b)
+    .map((t) => ({
+      ...t,
+      filename: t.filename || E(e).filename,
+      function: t.function || v,
+    }));
 }
-function A(t) {
+function E(t) {
   return t[t.length - 1] || {};
 }
 const T = "<anonymous>";
@@ -162,20 +164,25 @@ function $(t) {
   const e = "__v_isVNode" in t && t.__v_isVNode;
   return e ? "[VueVNode]" : "[VueViewModel]";
 }
-const C = {};
-const N = {};
-function j(t, e) {
-  C[t] = C[t] || [];
-  C[t].push(e);
+function C(t) {
+  let e = t?.startsWith("file://") ? t.slice(7) : t;
+  e?.match(/\/[A-Z]:/) && (e = e.slice(1));
+  return e;
 }
-function R() {
-  Object.keys(C).forEach((t) => {
-    C[t] = void 0;
+const N = {};
+const j = {};
+function R(t, e) {
+  N[t] = N[t] || [];
+  N[t].push(e);
+}
+function M() {
+  Object.keys(N).forEach((t) => {
+    N[t] = void 0;
   });
 }
 function P(e, n) {
-  if (!N[e]) {
-    N[e] = true;
+  if (!j[e]) {
+    j[e] = true;
     try {
       n();
     } catch (n) {
@@ -183,66 +190,66 @@ function P(e, n) {
     }
   }
 }
-function M(e, n) {
-  const o = e && C[e];
-  if (o)
-    for (const s of o)
+function D(e, n) {
+  const s = e && N[e];
+  if (s)
+    for (const o of s)
       try {
-        s(n);
+        o(n);
       } catch (n) {
         t &&
           y.error(
-            `Error while triggering instrumentation handler.\nType: ${e}\nName: ${I(s)}\nError:`,
+            `Error while triggering instrumentation handler.\nType: ${e}\nName: ${I(o)}\nError:`,
             n,
           );
       }
 }
-let D = null;
-function F(t) {
+let F = null;
+function L(t) {
   const e = "error";
-  j(e, t);
-  P(e, L);
+  R(e, t);
+  P(e, q);
 }
-function L() {
-  D = e.onerror;
-  e.onerror = function (t, e, n, o, s) {
-    const r = { column: o, error: s, line: n, msg: t, url: e };
-    M("error", r);
-    return !!D && D.apply(this, arguments);
+function q() {
+  F = e.onerror;
+  e.onerror = function (t, e, n, s, o) {
+    const r = { column: s, error: o, line: n, msg: t, url: e };
+    D("error", r);
+    return !!F && F.apply(this, arguments);
   };
   e.onerror.__SENTRY_INSTRUMENTED__ = true;
 }
-let q = null;
-function U(t) {
+let U = null;
+function J(t) {
   const e = "unhandledrejection";
-  j(e, t);
-  P(e, J);
+  R(e, t);
+  P(e, z);
 }
-function J() {
-  q = e.onunhandledrejection;
+function z() {
+  U = e.onunhandledrejection;
   e.onunhandledrejection = function (t) {
     const e = t;
-    M("unhandledrejection", e);
-    return !q || q.apply(this, arguments);
+    D("unhandledrejection", e);
+    return !U || U.apply(this, arguments);
   };
   e.onunhandledrejection.__SENTRY_INSTRUMENTED__ = true;
 }
-const z = Object.prototype.toString;
+const B = Object.prototype.toString;
 /**
  * Checks whether given value's type is one of a few Error or Error-like
  * {@link isError}.
  *
  * @param wat A value to be checked.
  * @returns A boolean representing the result.
- */ function B(t) {
-  switch (z.call(t)) {
+ */ function W(t) {
+  switch (B.call(t)) {
     case "[object Error]":
     case "[object Exception]":
     case "[object DOMException]":
     case "[object WebAssembly.Exception]":
       return true;
     default:
-      return st(t, Error);
+      return rt(t, Error);
   }
 }
 /**
@@ -251,8 +258,8 @@ const z = Object.prototype.toString;
  * @param wat The value to be checked
  * @param className
  * @returns A boolean representing the result.
- */ function W(t, e) {
-  return z.call(t) === `[object ${e}]`;
+ */ function V(t, e) {
+  return B.call(t) === `[object ${e}]`;
 }
 /**
  * Checks whether given value's type is ErrorEvent
@@ -260,8 +267,8 @@ const z = Object.prototype.toString;
  *
  * @param wat A value to be checked.
  * @returns A boolean representing the result.
- */ function V(t) {
-  return W(t, "ErrorEvent");
+ */ function G(t) {
+  return V(t, "ErrorEvent");
 }
 /**
  * Checks whether given value's type is DOMError
@@ -269,8 +276,8 @@ const z = Object.prototype.toString;
  *
  * @param wat A value to be checked.
  * @returns A boolean representing the result.
- */ function G(t) {
-  return W(t, "DOMError");
+ */ function K(t) {
+  return V(t, "DOMError");
 }
 /**
  * Checks whether given value's type is DOMException
@@ -278,8 +285,8 @@ const z = Object.prototype.toString;
  *
  * @param wat A value to be checked.
  * @returns A boolean representing the result.
- */ function K(t) {
-  return W(t, "DOMException");
+ */ function H(t) {
+  return V(t, "DOMException");
 }
 /**
  * Checks whether given value's type is a string
@@ -287,8 +294,8 @@ const z = Object.prototype.toString;
  *
  * @param wat A value to be checked.
  * @returns A boolean representing the result.
- */ function H(t) {
-  return W(t, "String");
+ */ function Z(t) {
+  return V(t, "String");
 }
 /**
  * Checks whether given string is parameterized
@@ -296,7 +303,7 @@ const z = Object.prototype.toString;
  *
  * @param wat A value to be checked.
  * @returns A boolean representing the result.
- */ function Z(t) {
+ */ function Y(t) {
   return (
     typeof t === "object" &&
     t !== null &&
@@ -310,9 +317,9 @@ const z = Object.prototype.toString;
  *
  * @param wat A value to be checked.
  * @returns A boolean representing the result.
- */ function Y(t) {
+ */ function X(t) {
   return (
-    t === null || Z(t) || (typeof t !== "object" && typeof t !== "function")
+    t === null || Y(t) || (typeof t !== "object" && typeof t !== "function")
   );
 }
 /**
@@ -321,8 +328,8 @@ const z = Object.prototype.toString;
  *
  * @param wat A value to be checked.
  * @returns A boolean representing the result.
- */ function X(t) {
-  return W(t, "Object");
+ */ function Q(t) {
+  return V(t, "Object");
 }
 /**
  * Checks whether given value's type is an Event instance
@@ -330,8 +337,8 @@ const z = Object.prototype.toString;
  *
  * @param wat A value to be checked.
  * @returns A boolean representing the result.
- */ function Q(t) {
-  return typeof Event !== "undefined" && st(t, Event);
+ */ function tt(t) {
+  return typeof Event !== "undefined" && rt(t, Event);
 }
 /**
  * Checks whether given value's type is an Element instance
@@ -339,8 +346,8 @@ const z = Object.prototype.toString;
  *
  * @param wat A value to be checked.
  * @returns A boolean representing the result.
- */ function tt(t) {
-  return typeof Element !== "undefined" && st(t, Element);
+ */ function et(t) {
+  return typeof Element !== "undefined" && rt(t, Element);
 }
 /**
  * Checks whether given value's type is an regexp
@@ -348,13 +355,13 @@ const z = Object.prototype.toString;
  *
  * @param wat A value to be checked.
  * @returns A boolean representing the result.
- */ function et(t) {
-  return W(t, "RegExp");
+ */ function nt(t) {
+  return V(t, "RegExp");
 }
 /**
  * Checks whether given value has a then function.
  * @param wat A value to be checked.
- */ function nt(t) {
+ */ function st(t) {
   return Boolean(t?.then && typeof t.then === "function");
 }
 /**
@@ -365,7 +372,7 @@ const z = Object.prototype.toString;
  * @returns A boolean representing the result.
  */ function ot(t) {
   return (
-    X(t) &&
+    Q(t) &&
     "nativeEvent" in t &&
     "preventDefault" in t &&
     "stopPropagation" in t
@@ -378,7 +385,7 @@ const z = Object.prototype.toString;
  * @param wat A value to be checked.
  * @param base A constructor to be used in a check.
  * @returns A boolean representing the result.
- */ function st(t, e) {
+ */ function rt(t, e) {
   try {
     return t instanceof e;
   } catch {
@@ -390,44 +397,44 @@ const z = Object.prototype.toString;
  *
  * @param wat A value to be checked.
  * @returns A boolean representing the result.
- */ function rt(t) {
+ */ function it(t) {
   return !!(
     typeof t === "object" &&
     t !== null &&
     (t.__isVue || t._isVue || t.__v_isVNode)
   );
 }
-function it(t) {
-  return typeof Request !== "undefined" && st(t, Request);
+function at(t) {
+  return typeof Request !== "undefined" && rt(t, Request);
 }
-const at = e;
-const ct = 80;
+const ct = e;
+const ut = 80;
 /**
  * Given a child DOM element, returns a query-selector statement describing that
  * and its ancestors
  * e.g. [HTMLElement] => body > div > input#foo.btn[name=baz]
  * @returns generated DOM path
- */ function ut(t, e = {}) {
+ */ function lt(t, e = {}) {
   if (!t) return "<unknown>";
   try {
     let n = t;
-    const o = 5;
-    const s = [];
+    const s = 5;
+    const o = [];
     let r = 0;
     let i = 0;
     const a = " > ";
     const c = a.length;
     let u;
     const l = Array.isArray(e) ? e : e.keyAttrs;
-    const p = (!Array.isArray(e) && e.maxStringLength) || ct;
-    while (n && r++ < o) {
-      u = lt(n, l);
-      if (u === "html" || (r > 1 && i + s.length * c + u.length >= p)) break;
-      s.push(u);
+    const p = (!Array.isArray(e) && e.maxStringLength) || ut;
+    while (n && r++ < s) {
+      u = pt(n, l);
+      if (u === "html" || (r > 1 && i + o.length * c + u.length >= p)) break;
+      o.push(u);
       i += u.length;
       n = n.parentNode;
     }
-    return s.reverse().join(a);
+    return o.reverse().join(a);
   } catch {
     return "<unknown>";
   }
@@ -436,40 +443,40 @@ const ct = 80;
  * Returns a simple, query-selector representation of a DOM element
  * e.g. [HTMLElement] => input#foo.btn[name=baz]
  * @returns generated DOM path
- */ function lt(t, e) {
+ */ function pt(t, e) {
   const n = t;
-  const o = [];
+  const s = [];
   if (!n?.tagName) return "";
-  if (at.HTMLElement && n instanceof HTMLElement && n.dataset) {
+  if (ct.HTMLElement && n instanceof HTMLElement && n.dataset) {
     if (n.dataset.sentryComponent) return n.dataset.sentryComponent;
     if (n.dataset.sentryElement) return n.dataset.sentryElement;
   }
-  o.push(n.tagName.toLowerCase());
-  const s = e?.length
+  s.push(n.tagName.toLowerCase());
+  const o = e?.length
     ? e.filter((t) => n.getAttribute(t)).map((t) => [t, n.getAttribute(t)])
     : null;
-  if (s?.length)
-    s.forEach((t) => {
-      o.push(`[${t[0]}="${t[1]}"]`);
+  if (o?.length)
+    o.forEach((t) => {
+      s.push(`[${t[0]}="${t[1]}"]`);
     });
   else {
-    n.id && o.push(`#${n.id}`);
+    n.id && s.push(`#${n.id}`);
     const t = n.className;
-    if (t && H(t)) {
+    if (t && Z(t)) {
       const e = t.split(/\s+/);
-      for (const t of e) o.push(`.${t}`);
+      for (const t of e) s.push(`.${t}`);
     }
   }
   const r = ["aria-label", "type", "name", "title", "alt"];
   for (const t of r) {
     const e = n.getAttribute(t);
-    e && o.push(`[${t}="${e}"]`);
+    e && s.push(`[${t}="${e}"]`);
   }
-  return o.join("");
+  return s.join("");
 }
-function pt() {
+function ft() {
   try {
-    return at.document.location.href;
+    return ct.document.location.href;
   } catch {
     return "";
   }
@@ -480,8 +487,8 @@ function pt() {
  * precedence. This attribute is added at build-time by projects that have the component name annotation plugin installed.
  *
  * @returns a string representation of the component for the provided DOM element, or `null` if not found
- */ function ft(t) {
-  if (!at.HTMLElement) return null;
+ */ function dt(t) {
+  if (!ct.HTMLElement) return null;
   let e = t;
   const n = 5;
   for (let t = 0; t < n; t++) {
@@ -507,12 +514,12 @@ function pt() {
  * preserve the correct value of `this`, and the original method must be called using `origMethod.call(this, <other
  * args>)` or `origMethod.apply(this, [<other args>])` (rather than being called directly), again to preserve `this`.
  * @returns void
- */ function dt(e, n, o) {
+ */ function mt(e, n, s) {
   if (!(n in e)) return;
-  const s = e[n];
-  if (typeof s !== "function") return;
-  const r = o(s);
-  typeof r === "function" && gt(r, s);
+  const o = e[n];
+  if (typeof o !== "function") return;
+  const r = s(o);
+  typeof r === "function" && ht(r, o);
   try {
     e[n] = r;
   } catch {
@@ -525,10 +532,10 @@ function pt() {
  * @param obj The object on which to set the property
  * @param name The name of the property to be set
  * @param value The value to which to set the property
- */ function mt(e, n, o) {
+ */ function gt(e, n, s) {
   try {
     Object.defineProperty(e, n, {
-      value: o,
+      value: s,
       writable: true,
       configurable: true,
     });
@@ -542,11 +549,11 @@ function pt() {
  *
  * @param wrapped the wrapper function
  * @param original the original function that gets wrapped
- */ function gt(t, e) {
+ */ function ht(t, e) {
   try {
     const n = e.prototype || {};
     t.prototype = e.prototype = n;
-    mt(t, "__sentry_original__", e);
+    gt(t, "__sentry_original__", e);
   } catch {}
 }
 /**
@@ -555,7 +562,7 @@ function pt() {
  *
  * @param func the function to unwrap
  * @returns the unwrapped version of the function if available.
- */ function ht(t) {
+ */ function _t(t) {
   return t.__sentry_original__;
 }
 /**
@@ -565,31 +572,31 @@ function pt() {
  * @param value Initial source that we have to transform in order for it to be usable by the serializer
  * @returns An Event or Error turned into an object - or the value argument itself, when value is neither an Event nor
  *  an Error.
- */ function _t(t) {
-  if (B(t))
-    return { message: t.message, name: t.name, stack: t.stack, ...bt(t) };
-  if (Q(t)) {
+ */ function yt(t) {
+  if (W(t))
+    return { message: t.message, name: t.name, stack: t.stack, ...vt(t) };
+  if (tt(t)) {
     const e = {
       type: t.type,
-      target: yt(t.target),
-      currentTarget: yt(t.currentTarget),
-      ...bt(t),
+      target: bt(t.target),
+      currentTarget: bt(t.currentTarget),
+      ...vt(t),
     };
     typeof CustomEvent !== "undefined" &&
-      st(t, CustomEvent) &&
+      rt(t, CustomEvent) &&
       (e.detail = t.detail);
     return e;
   }
   return t;
 }
-function yt(t) {
+function bt(t) {
   try {
-    return tt(t) ? ut(t) : Object.prototype.toString.call(t);
+    return et(t) ? lt(t) : Object.prototype.toString.call(t);
   } catch {
     return "<unknown>";
   }
 }
-function bt(t) {
+function vt(t) {
   if (typeof t === "object" && t !== null) {
     const e = {};
     for (const n in t)
@@ -598,8 +605,8 @@ function bt(t) {
   }
   return {};
 }
-function vt(t) {
-  const e = Object.keys(_t(t));
+function St(t) {
+  const e = Object.keys(yt(t));
   e.sort();
   return e[0] ? e.join(", ") : "[object has no keys]";
 }
@@ -610,11 +617,11 @@ function vt(t) {
  * Attention: This function keeps circular references in the returned object.
  *
  * @deprecated This function is no longer used by the SDK and will be removed in a future major version.
- */ function St(t) {
+ */ function kt(t) {
   const e = new Map();
-  return kt(t, e);
+  return wt(t, e);
 }
-function kt(t, e) {
+function wt(t, e) {
   if (t === null || typeof t !== "object") return t;
   const n = e.get(t);
   if (n !== void 0) return n;
@@ -622,23 +629,23 @@ function kt(t, e) {
     const n = [];
     e.set(t, n);
     t.forEach((t) => {
-      n.push(kt(t, e));
+      n.push(wt(t, e));
     });
     return n;
   }
-  if (wt(t)) {
+  if (xt(t)) {
     const n = {};
     e.set(t, n);
-    const o = Object.keys(t);
-    o.forEach((o) => {
-      const s = t[o];
-      s !== void 0 && (n[o] = kt(s, e));
+    const s = Object.keys(t);
+    s.forEach((s) => {
+      const o = t[s];
+      o !== void 0 && (n[s] = wt(o, e));
     });
     return n;
   }
   return t;
 }
-function wt(t) {
+function xt(t) {
   const e = t.constructor;
   return e === Object || e === void 0;
 }
@@ -650,7 +657,7 @@ function wt(t) {
  *
  * @param wat The subject of the objectification
  * @returns A version of `wat` which can safely be used with `Object` class methods
- */ function xt(t) {
+ */ function At(t) {
   let e;
   switch (true) {
     case t == void 0:
@@ -659,7 +666,7 @@ function wt(t) {
     case typeof t === "symbol" || typeof t === "bigint":
       e = Object(t);
       break;
-    case Y(t):
+    case X(t):
       e = new t.constructor(t);
       break;
     default:
@@ -669,22 +676,22 @@ function wt(t) {
   return e;
 }
 let Et;
-function At(t) {
+function Tt(t) {
   if (Et !== void 0) return Et ? Et(t) : t();
   const n = Symbol.for("__SENTRY_SAFE_RANDOM_ID_WRAPPER__");
-  const o = e;
-  if (n in o && typeof o[n] === "function") {
-    Et = o[n];
+  const s = e;
+  if (n in s && typeof s[n] === "function") {
+    Et = s[n];
     return Et(t);
   }
   Et = null;
   return t();
 }
-function Tt() {
-  return At(() => Math.random());
-}
 function It() {
-  return At(() => Date.now());
+  return Tt(() => Math.random());
+}
+function $t() {
+  return Tt(() => Date.now());
 }
 /**
  * Truncates given string to the maximum characters count
@@ -692,7 +699,7 @@ function It() {
  * @param str An object that contains serializable values
  * @param max Maximum number of characters in truncated string (0 = unlimited)
  * @returns string Encoded
- */ function $t(t, e = 0) {
+ */ function Ot(t, e = 0) {
   return typeof t !== "string" || e === 0 || t.length <= e
     ? t
     : `${t.slice(0, e)}...`;
@@ -704,19 +711,19 @@ function It() {
  * @param str An object that contains serializable values
  * @param max Maximum number of characters in truncated string
  * @returns string Encoded
- */ function Ot(t, e) {
+ */ function Ct(t, e) {
   let n = t;
-  const o = n.length;
-  if (o <= 150) return n;
-  e > o && (e = o);
-  let s = Math.max(e - 60, 0);
-  s < 5 && (s = 0);
-  let r = Math.min(s + 140, o);
-  r > o - 5 && (r = o);
-  r === o && (s = Math.max(r - 140, 0));
-  n = n.slice(s, r);
-  s > 0 && (n = `'{snip} ${n}`);
-  r < o && (n += " {snip}");
+  const s = n.length;
+  if (s <= 150) return n;
+  e > s && (e = s);
+  let o = Math.max(e - 60, 0);
+  o < 5 && (o = 0);
+  let r = Math.min(o + 140, s);
+  r > s - 5 && (r = s);
+  r === s && (o = Math.max(r - 140, 0));
+  n = n.slice(o, r);
+  o > 0 && (n = `'{snip} ${n}`);
+  r < s && (n += " {snip}");
   return n;
 }
 /**
@@ -724,13 +731,13 @@ function It() {
  * @param input array of values to be joined together
  * @param delimiter string to be placed in-between values
  * @returns Joined values
- */ function Ct(t, e) {
+ */ function Nt(t, e) {
   if (!Array.isArray(t)) return "";
   const n = [];
   for (let e = 0; e < t.length; e++) {
-    const o = t[e];
+    const s = t[e];
     try {
-      rt(o) ? n.push(O(o)) : n.push(String(o));
+      it(s) ? n.push(O(s)) : n.push(String(s));
     } catch {
       n.push("[value cannot be serialized]");
     }
@@ -744,9 +751,9 @@ function It() {
  * @param pattern Either a regex or a string against which `value` will be matched
  * @param requireExactStringMatch If true, `value` must match `pattern` exactly. If false, `value` will match
  * `pattern` if it contains `pattern`. Only applies to string-type patterns.
- */ function Nt(t, e, n = false) {
+ */ function jt(t, e, n = false) {
   return (
-    !!H(t) && (et(e) ? e.test(t) : !!H(e) && (n ? t === e : t.includes(e)))
+    !!Z(t) && (nt(e) ? e.test(t) : !!Z(e) && (n ? t === e : t.includes(e)))
   );
 }
 /**
@@ -758,44 +765,44 @@ function It() {
  * @param requireExactStringMatch If true, `testString` must match one of the given string patterns exactly in order to
  * count. If false, `testString` will match a string pattern if it contains that pattern.
  * @returns
- */ function jt(t, e = [], n = false) {
-  return e.some((e) => Nt(t, e, n));
+ */ function Rt(t, e = [], n = false) {
+  return e.some((e) => jt(t, e, n));
 }
-function Rt() {
+function Mt() {
   const t = e;
   return t.crypto || t.msCrypto;
 }
 let Pt;
-function Mt() {
-  return Tt() * 16;
+function Dt() {
+  return It() * 16;
 }
 /**
  * UUID4 generator
  * @param crypto Object that provides the crypto API.
  * @returns string Generated UUID4.
- */ function Dt(t = Rt()) {
+ */ function Ft(t = Mt()) {
   try {
-    if (t?.randomUUID) return At(() => t.randomUUID()).replace(/-/g, "");
+    if (t?.randomUUID) return Tt(() => t.randomUUID()).replace(/-/g, "");
   } catch {}
   Pt || (Pt = [1e7] + 1e3 + 4e3 + 8e3 + 1e11);
   return Pt.replace(/[018]/g, (t) =>
-    (t ^ ((Mt() & 15) >> (t / 4))).toString(16),
+    (t ^ ((Dt() & 15) >> (t / 4))).toString(16),
   );
 }
-function Ft(t) {
+function Lt(t) {
   return t.exception?.values?.[0];
 }
 /**
  * Extracts either message or type+value from an event that can be used for user-facing logs
  * @returns event's description
- */ function Lt(t) {
+ */ function qt(t) {
   const { message: e, event_id: n } = t;
   if (e) return e;
-  const o = Ft(t);
-  return o
-    ? o.type && o.value
-      ? `${o.type}: ${o.value}`
-      : o.type || o.value || n || "<unknown>"
+  const s = Lt(t);
+  return s
+    ? s.type && s.value
+      ? `${s.type}: ${s.value}`
+      : s.type || s.value || n || "<unknown>"
     : n || "<unknown>";
 }
 /**
@@ -804,10 +811,10 @@ function Ft(t) {
  * @param value Value of the exception.
  * @param type Type of the exception.
  * @hidden
- */ function qt(t, e, n) {
-  const o = (t.exception = t.exception || {});
-  const s = (o.values = o.values || []);
-  const r = (s[0] = s[0] || {});
+ */ function Ut(t, e, n) {
+  const s = (t.exception = t.exception || {});
+  const o = (s.values = s.values || []);
+  const r = (o[0] = o[0] || {});
   r.value || (r.value = e || "");
   r.type || (r.type = n || "Error");
 }
@@ -817,35 +824,35 @@ function Ft(t) {
  * @param event The event to modify.
  * @param newMechanism Mechanism data to add to the event.
  * @hidden
- */ function Ut(t, e) {
-  const n = Ft(t);
+ */ function Jt(t, e) {
+  const n = Lt(t);
   if (!n) return;
-  const o = { type: "generic", handled: true };
-  const s = n.mechanism;
-  n.mechanism = { ...o, ...s, ...e };
+  const s = { type: "generic", handled: true };
+  const o = n.mechanism;
+  n.mechanism = { ...s, ...o, ...e };
   if (e && "data" in e) {
-    const t = { ...s?.data, ...e.data };
+    const t = { ...o?.data, ...e.data };
     n.mechanism.data = t;
   }
 }
-const Jt =
+const zt =
   /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/;
-function zt(t) {
+function Bt(t) {
   return parseInt(t || "", 10);
 }
 /**
  * Parses input into a SemVer interface
  * @param input string representation of a semver version
- */ function Bt(t) {
-  const e = t.match(Jt) || [];
-  const n = zt(e[1]);
-  const o = zt(e[2]);
-  const s = zt(e[3]);
+ */ function Wt(t) {
+  const e = t.match(zt) || [];
+  const n = Bt(e[1]);
+  const s = Bt(e[2]);
+  const o = Bt(e[3]);
   return {
     buildmetadata: e[5],
     major: isNaN(n) ? void 0 : n,
-    minor: isNaN(o) ? void 0 : o,
-    patch: isNaN(s) ? void 0 : s,
+    minor: isNaN(s) ? void 0 : s,
+    patch: isNaN(o) ? void 0 : o,
     prerelease: e[4],
   };
 }
@@ -855,14 +862,14 @@ function zt(t) {
  * @param lines string[] containing all lines
  * @param frame StackFrame that will be mutated
  * @param linesOfContext number of context lines we want to add pre/post
- */ function Wt(t, e, n = 5) {
+ */ function Vt(t, e, n = 5) {
   if (e.lineno === void 0) return;
-  const o = t.length;
-  const s = Math.max(Math.min(o - 1, e.lineno - 1), 0);
-  e.pre_context = t.slice(Math.max(0, s - n), s).map((t) => Ot(t, 0));
-  const r = Math.min(o - 1, s);
-  e.context_line = Ot(t[r], e.colno || 0);
-  e.post_context = t.slice(Math.min(s + 1, o), s + 1 + n).map((t) => Ot(t, 0));
+  const s = t.length;
+  const o = Math.max(Math.min(s - 1, e.lineno - 1), 0);
+  e.pre_context = t.slice(Math.max(0, o - n), o).map((t) => Ct(t, 0));
+  const r = Math.min(s - 1, o);
+  e.context_line = Ct(t[r], e.colno || 0);
+  e.post_context = t.slice(Math.min(o + 1, s), o + 1 + n).map((t) => Ct(t, 0));
 }
 /**
  * Checks whether or not we've already captured the given exception (note: not an identical exception - the very object
@@ -884,55 +891,55 @@ function zt(t) {
  *
  * @param A thrown exception to check or flag as having been seen
  * @returns `true` if the exception has already been captured, `false` if not (with the side effect of marking it seen)
- */ function Vt(t) {
-  if (Gt(t)) return true;
+ */ function Gt(t) {
+  if (Kt(t)) return true;
   try {
-    mt(t, "__sentry_captured__", true);
+    gt(t, "__sentry_captured__", true);
   } catch {}
   return false;
 }
-function Gt(t) {
+function Kt(t) {
   try {
     return t.__sentry_captured__;
   } catch {}
 }
-const Kt = 1e3;
-function Ht() {
-  return It() / Kt;
-}
+const Ht = 1e3;
 function Zt() {
-  const { performance: t } = e;
-  if (!t?.now || !t.timeOrigin) return Ht;
-  const n = t.timeOrigin;
-  return () => (n + At(() => t.now())) / Kt;
+  return $t() / Ht;
 }
-let Yt;
-function Xt() {
-  const t = Yt ?? (Yt = Zt());
+function Yt() {
+  const { performance: t } = e;
+  if (!t?.now || !t.timeOrigin) return Zt;
+  const n = t.timeOrigin;
+  return () => (n + Tt(() => t.now())) / Ht;
+}
+let Xt;
+function Qt() {
+  const t = Xt ?? (Xt = Yt());
   return t();
 }
-let Qt = null;
-function te() {
+let te = null;
+function ee() {
   const { performance: t } = e;
   if (!t?.now) return;
   const n = 3e5;
-  const o = At(() => t.now());
-  const s = It();
+  const s = Tt(() => t.now());
+  const o = $t();
   const r = t.timeOrigin;
   if (typeof r === "number") {
-    const t = Math.abs(r + o - s);
+    const t = Math.abs(r + s - o);
     if (t < n) return r;
   }
   const i = t.timing?.navigationStart;
   if (typeof i === "number") {
-    const t = Math.abs(i + o - s);
+    const t = Math.abs(i + s - o);
     if (t < n) return i;
   }
-  return s - o;
+  return o - s;
 }
-function ee() {
-  Qt === null && (Qt = te());
-  return Qt;
+function ne() {
+  te === null && (te = ee());
+  return te;
 }
 /**
  * Creates a new `Session` object by setting certain default parameters. If optional @param context
@@ -941,10 +948,10 @@ function ee() {
  * @param context (optional) additional properties to be applied to the returned session object
  *
  * @returns a new `Session` object
- */ function ne(t) {
-  const e = Xt();
+ */ function se(t) {
+  const e = Qt();
   const n = {
-    sid: Dt(),
+    sid: Ft(),
     init: true,
     timestamp: e,
     started: e,
@@ -952,7 +959,7 @@ function ee() {
     status: "ok",
     errors: 0,
     ignoreDuration: false,
-    toJSON: () => re(n),
+    toJSON: () => ie(n),
   };
   t && oe(n, t);
   return n;
@@ -972,10 +979,10 @@ function ee() {
     !t.ipAddress && e.user.ip_address && (t.ipAddress = e.user.ip_address);
     t.did || e.did || (t.did = e.user.id || e.user.email || e.user.username);
   }
-  t.timestamp = e.timestamp || Xt();
+  t.timestamp = e.timestamp || Qt();
   e.abnormal_mechanism && (t.abnormal_mechanism = e.abnormal_mechanism);
   e.ignoreDuration && (t.ignoreDuration = e.ignoreDuration);
-  e.sid && (t.sid = e.sid.length === 32 ? e.sid : Dt());
+  e.sid && (t.sid = e.sid.length === 32 ? e.sid : Ft());
   e.init !== void 0 && (t.init = e.init);
   !t.did && e.did && (t.did = `${e.did}`);
   typeof e.started === "number" && (t.started = e.started);
@@ -1002,7 +1009,7 @@ function ee() {
  * @param status the `SessionStatus` with which the session was closed. If you don't pass a status,
  *               this function will keep the previously set status, unless it was `'ok'` in which case
  *               it is changed to `'exited'`.
- */ function se(t, e) {
+ */ function re(t, e) {
   let n = {};
   e ? (n = { status: e }) : t.status === "ok" && (n = { status: "exited" });
   oe(t, n);
@@ -1015,7 +1022,7 @@ function ee() {
  * @param session the session to be converted
  *
  * @returns a JSON object of the passed session
- */ function re(t) {
+ */ function ie(t) {
   return {
     sid: `${t.sid}`,
     init: t.init,
@@ -1037,29 +1044,29 @@ function ee() {
     },
   };
 }
-function ie(t, e, n = 2) {
+function ae(t, e, n = 2) {
   if (!e || typeof e !== "object" || n <= 0) return e;
   if (t && Object.keys(e).length === 0) return t;
-  const o = { ...t };
+  const s = { ...t };
   for (const t in e)
     Object.prototype.hasOwnProperty.call(e, t) &&
-      (o[t] = ie(o[t], e[t], n - 1));
-  return o;
-}
-function ae() {
-  return Dt();
+      (s[t] = ae(s[t], e[t], n - 1));
+  return s;
 }
 function ce() {
-  return Dt().substring(16);
+  return Ft();
 }
-const ue = "_sentrySpan";
-function le(t, e) {
-  e ? mt(t, ue, e) : delete t[ue];
+function ue() {
+  return Ft().substring(16);
 }
-function pe(t) {
-  return t[ue];
+const le = "_sentrySpan";
+function pe(t, e) {
+  e ? gt(t, le, e) : delete t[le];
 }
-const fe = 100;
+function fe(t) {
+  return t[le];
+}
+const de = 100;
 class Scope {
   constructor() {
     this._notifyingListeners = false;
@@ -1073,7 +1080,7 @@ class Scope {
     this._extra = {};
     this._contexts = {};
     this._sdkProcessingMetadata = {};
-    this._propagationContext = { traceId: ae(), sampleRand: Tt() };
+    this._propagationContext = { traceId: ce(), sampleRand: It() };
   }
   clone() {
     const t = new Scope();
@@ -1095,7 +1102,8 @@ class Scope {
     t._propagationContext = { ...this._propagationContext };
     t._client = this._client;
     t._lastEventId = this._lastEventId;
-    le(t, pe(this));
+    t._conversationId = this._conversationId;
+    pe(t, fe(this));
     return t;
   }
   setClient(t) {
@@ -1130,6 +1138,11 @@ class Scope {
   }
   getUser() {
     return this._user;
+  }
+  setConversationId(t) {
+    this._conversationId = t || void 0;
+    this._notifyScopeListeners();
+    return this;
   }
   setTags(t) {
     this._tags = { ...this._tags, ...t };
@@ -1248,25 +1261,27 @@ class Scope {
   update(t) {
     if (!t) return this;
     const e = typeof t === "function" ? t(this) : t;
-    const n = e instanceof Scope ? e.getScopeData() : X(e) ? t : void 0;
+    const n = e instanceof Scope ? e.getScopeData() : Q(e) ? t : void 0;
     const {
-      tags: o,
-      attributes: s,
+      tags: s,
+      attributes: o,
       extra: r,
       user: i,
       contexts: a,
       level: c,
       fingerprint: u = [],
       propagationContext: l,
+      conversationId: p,
     } = n || {};
-    this._tags = { ...this._tags, ...o };
-    this._attributes = { ...this._attributes, ...s };
+    this._tags = { ...this._tags, ...s };
+    this._attributes = { ...this._attributes, ...o };
     this._extra = { ...this._extra, ...r };
     this._contexts = { ...this._contexts, ...a };
     i && Object.keys(i).length && (this._user = i);
     c && (this._level = c);
     u.length && (this._fingerprint = u);
     l && (this._propagationContext = l);
+    p && (this._conversationId = p);
     return this;
   }
   clear() {
@@ -1280,21 +1295,22 @@ class Scope {
     this._transactionName = void 0;
     this._fingerprint = void 0;
     this._session = void 0;
-    le(this, void 0);
+    this._conversationId = void 0;
+    pe(this, void 0);
     this._attachments = [];
-    this.setPropagationContext({ traceId: ae(), sampleRand: Tt() });
+    this.setPropagationContext({ traceId: ce(), sampleRand: It() });
     this._notifyScopeListeners();
     return this;
   }
   addBreadcrumb(t, e) {
-    const n = typeof e === "number" ? e : fe;
+    const n = typeof e === "number" ? e : de;
     if (n <= 0) return this;
-    const o = {
-      timestamp: Ht(),
+    const s = {
+      timestamp: Zt(),
       ...t,
-      message: t.message ? $t(t.message, 2048) : t.message,
+      message: t.message ? Ot(t.message, 2048) : t.message,
     };
-    this._breadcrumbs.push(o);
+    this._breadcrumbs.push(s);
     if (this._breadcrumbs.length > n) {
       this._breadcrumbs = this._breadcrumbs.slice(-n);
       this._client?.recordDroppedEvent("buffer_overflow", "log_item");
@@ -1333,11 +1349,12 @@ class Scope {
       propagationContext: this._propagationContext,
       sdkProcessingMetadata: this._sdkProcessingMetadata,
       transactionName: this._transactionName,
-      span: pe(this),
+      span: fe(this),
+      conversationId: this._conversationId,
     };
   }
   setSDKProcessingMetadata(t) {
-    this._sdkProcessingMetadata = ie(this._sdkProcessingMetadata, t, 2);
+    this._sdkProcessingMetadata = ae(this._sdkProcessingMetadata, t, 2);
     return this;
   }
   setPropagationContext(t) {
@@ -1352,51 +1369,51 @@ class Scope {
    *
    * @returns {string} The id of the captured Sentry event.
    */ captureException(e, n) {
-    const o = n?.event_id || Dt();
+    const s = n?.event_id || Ft();
     if (!this._client) {
       t &&
         y.warn("No client configured on scope - will not capture exception!");
-      return o;
+      return s;
     }
-    const s = new Error("Sentry syntheticException");
+    const o = new Error("Sentry syntheticException");
     this._client.captureException(
       e,
-      { originalException: e, syntheticException: s, ...n, event_id: o },
+      { originalException: e, syntheticException: o, ...n, event_id: s },
       this,
     );
-    return o;
+    return s;
   }
   /**
    * Capture a message for this scope.
    *
    * @returns {string} The id of the captured message.
-   */ captureMessage(e, n, o) {
-    const s = o?.event_id || Dt();
+   */ captureMessage(e, n, s) {
+    const o = s?.event_id || Ft();
     if (!this._client) {
       t && y.warn("No client configured on scope - will not capture message!");
-      return s;
+      return o;
     }
-    const r = o?.syntheticException ?? new Error(e);
+    const r = s?.syntheticException ?? new Error(e);
     this._client.captureMessage(
       e,
       n,
-      { originalException: e, syntheticException: r, ...o, event_id: s },
+      { originalException: e, syntheticException: r, ...s, event_id: o },
       this,
     );
-    return s;
+    return o;
   }
   /**
    * Capture a Sentry event for this scope.
    *
    * @returns {string} The id of the captured event.
    */ captureEvent(e, n) {
-    const o = n?.event_id || Dt();
+    const s = e.event_id || n?.event_id || Ft();
     if (!this._client) {
       t && y.warn("No client configured on scope - will not capture event!");
-      return o;
+      return s;
     }
-    this._client.captureEvent(e, { ...n, event_id: o }, this);
-    return o;
+    this._client.captureEvent(e, { ...n, event_id: s }, this);
+    return s;
   }
   _notifyScopeListeners() {
     if (!this._notifyingListeners) {
@@ -1408,20 +1425,20 @@ class Scope {
     }
   }
 }
-function de() {
+function me() {
   return r("defaultCurrentScope", () => new Scope());
 }
-function me() {
+function ge() {
   return r("defaultIsolationScope", () => new Scope());
 }
 class AsyncContextStack {
   constructor(t, e) {
     let n;
     n = t || new Scope();
-    let o;
-    o = e || new Scope();
+    let s;
+    s = e || new Scope();
     this._stack = [{ scope: n }];
-    this._isolationScope = o;
+    this._isolationScope = s;
   }
   withScope(t) {
     const e = this._pushScope();
@@ -1432,7 +1449,7 @@ class AsyncContextStack {
       this._popScope();
       throw t;
     }
-    if (nt(n))
+    if (st(n))
       return n.then(
         (t) => {
           this._popScope();
@@ -1467,158 +1484,159 @@ class AsyncContextStack {
     return !(this._stack.length <= 1) && !!this._stack.pop();
   }
 }
-function ge() {
-  const t = o();
-  const e = s(t);
-  return (e.stack = e.stack || new AsyncContextStack(de(), me()));
+function he() {
+  const t = s();
+  const e = o(t);
+  return (e.stack = e.stack || new AsyncContextStack(me(), ge()));
 }
-function he(t) {
-  return ge().withScope(t);
+function _e(t) {
+  return he().withScope(t);
 }
-function _e(t, e) {
-  const n = ge();
+function ye(t, e) {
+  const n = he();
   return n.withScope(() => {
     n.getStackTop().scope = t;
     return e(t);
   });
 }
-function ye(t) {
-  return ge().withScope(() => t(ge().getIsolationScope()));
+function be(t) {
+  return he().withScope(() => t(he().getIsolationScope()));
 }
-function be() {
+function ve() {
   return {
-    withIsolationScope: ye,
-    withScope: he,
-    withSetScope: _e,
-    withSetIsolationScope: (t, e) => ye(e),
-    getCurrentScope: () => ge().getScope(),
-    getIsolationScope: () => ge().getIsolationScope(),
+    withIsolationScope: be,
+    withScope: _e,
+    withSetScope: ye,
+    withSetIsolationScope: (t, e) => be(e),
+    getCurrentScope: () => he().getScope(),
+    getIsolationScope: () => he().getIsolationScope(),
   };
 }
-function ve(t) {
-  const e = o();
-  const n = s(e);
+function Se(t) {
+  const e = s();
+  const n = o(e);
   n.acs = t;
 }
-function Se(t) {
-  const e = s(t);
-  return e.acs ? e.acs : be();
-}
-function ke() {
-  const t = o();
-  const e = Se(t);
-  return e.getCurrentScope();
+function ke(t) {
+  const e = o(t);
+  return e.acs ? e.acs : ve();
 }
 function we() {
-  const t = o();
-  const e = Se(t);
-  return e.getIsolationScope();
+  const t = s();
+  const e = ke(t);
+  return e.getCurrentScope();
 }
 function xe() {
+  const t = s();
+  const e = ke(t);
+  return e.getIsolationScope();
+}
+function Ae() {
   return r("globalScope", () => new Scope());
 }
 function Ee(...t) {
-  const e = o();
-  const n = Se(e);
+  const e = s();
+  const n = ke(e);
   if (t.length === 2) {
-    const [e, o] = t;
-    return e ? n.withSetScope(e, o) : n.withScope(o);
+    const [e, s] = t;
+    return e ? n.withSetScope(e, s) : n.withScope(s);
   }
   return n.withScope(t[0]);
 }
-function Ae(...t) {
-  const e = o();
-  const n = Se(e);
+function Te(...t) {
+  const e = s();
+  const n = ke(e);
   if (t.length === 2) {
-    const [e, o] = t;
-    return e ? n.withSetIsolationScope(e, o) : n.withIsolationScope(o);
+    const [e, s] = t;
+    return e ? n.withSetIsolationScope(e, s) : n.withIsolationScope(s);
   }
   return n.withIsolationScope(t[0]);
 }
-function Te() {
-  return ke().getClient();
+function Ie() {
+  return we().getClient();
 }
-function Ie(t) {
+function $e(t) {
   const e = t.getPropagationContext();
-  const { traceId: n, parentSpanId: o, propagationSpanId: s } = e;
-  const r = { trace_id: n, span_id: s || ce() };
-  o && (r.parent_span_id = o);
+  const { traceId: n, parentSpanId: s, propagationSpanId: o } = e;
+  const r = { trace_id: n, span_id: o || ue() };
+  s && (r.parent_span_id = s);
   return r;
 }
-const $e = "sentry.source";
-const Oe = "sentry.sample_rate";
-const Ce = "sentry.previous_trace_sample_rate";
-const Ne = "sentry.op";
-const je = "sentry.origin";
-const Re = "sentry.idle_span_finish_reason";
+const Oe = "sentry.source";
+const Ce = "sentry.sample_rate";
+const Ne = "sentry.previous_trace_sample_rate";
+const je = "sentry.op";
+const Re = "sentry.origin";
+const Me = "sentry.idle_span_finish_reason";
 const Pe = "sentry.measurement_unit";
-const Me = "sentry.measurement_value";
-const De = "sentry.custom_span_name";
-const Fe = "sentry.profile_id";
-const Le = "sentry.exclusive_time";
-const qe = "cache.hit";
-const Ue = "cache.key";
-const Je = "cache.item_size";
-const ze = "http.request.method";
-const Be = "url.full";
-const We = "sentry.link.type";
-const Ve = 0;
-const Ge = 1;
-const Ke = 2;
+const De = "sentry.measurement_value";
+const Fe = "sentry.custom_span_name";
+const Le = "sentry.profile_id";
+const qe = "sentry.exclusive_time";
+const Ue = "cache.hit";
+const Je = "cache.key";
+const ze = "cache.item_size";
+const Be = "http.request.method";
+const We = "url.full";
+const Ve = "sentry.link.type";
+const Ge = "gen_ai.conversation.id";
+const Ke = 0;
+const He = 1;
+const Ze = 2;
 /**
  * Converts a HTTP status code into a sentry status with a message.
  *
  * @param httpStatus The HTTP response status code.
  * @returns The span status or internal_error.
- */ function He(t) {
-  if (t < 400 && t >= 100) return { code: Ge };
+ */ function Ye(t) {
+  if (t < 400 && t >= 100) return { code: He };
   if (t >= 400 && t < 500)
     switch (t) {
       case 401:
-        return { code: Ke, message: "unauthenticated" };
+        return { code: Ze, message: "unauthenticated" };
       case 403:
-        return { code: Ke, message: "permission_denied" };
+        return { code: Ze, message: "permission_denied" };
       case 404:
-        return { code: Ke, message: "not_found" };
+        return { code: Ze, message: "not_found" };
       case 409:
-        return { code: Ke, message: "already_exists" };
+        return { code: Ze, message: "already_exists" };
       case 413:
-        return { code: Ke, message: "failed_precondition" };
+        return { code: Ze, message: "failed_precondition" };
       case 429:
-        return { code: Ke, message: "resource_exhausted" };
+        return { code: Ze, message: "resource_exhausted" };
       case 499:
-        return { code: Ke, message: "cancelled" };
+        return { code: Ze, message: "cancelled" };
       default:
-        return { code: Ke, message: "invalid_argument" };
+        return { code: Ze, message: "invalid_argument" };
     }
   if (t >= 500 && t < 600)
     switch (t) {
       case 501:
-        return { code: Ke, message: "unimplemented" };
+        return { code: Ze, message: "unimplemented" };
       case 503:
-        return { code: Ke, message: "unavailable" };
+        return { code: Ze, message: "unavailable" };
       case 504:
-        return { code: Ke, message: "deadline_exceeded" };
+        return { code: Ze, message: "deadline_exceeded" };
       default:
-        return { code: Ke, message: "internal_error" };
+        return { code: Ze, message: "internal_error" };
     }
-  return { code: Ke, message: "internal_error" };
+  return { code: Ze, message: "internal_error" };
 }
-function Ze(t, e) {
+function Xe(t, e) {
   t.setAttribute("http.response.status_code", e);
-  const n = He(e);
+  const n = Ye(e);
   n.message !== "unknown_error" && t.setStatus(n);
 }
-const Ye = "_sentryScope";
-const Xe = "_sentryIsolationScope";
-function Qe(t) {
+const Qe = "_sentryScope";
+const tn = "_sentryIsolationScope";
+function en(t) {
   try {
     const n = e.WeakRef;
     if (typeof n === "function") return new n(t);
   } catch {}
   return t;
 }
-function tn(t) {
+function nn(t) {
   if (t) {
     if (typeof t === "object" && "deref" in t && typeof t.deref === "function")
       try {
@@ -1629,32 +1647,32 @@ function tn(t) {
     return t;
   }
 }
-function en(t, e, n) {
+function sn(t, e, n) {
   if (t) {
-    mt(t, Xe, Qe(n));
-    mt(t, Ye, e);
+    gt(t, tn, en(n));
+    gt(t, Qe, e);
   }
 }
-function nn(t) {
+function on(t) {
   const e = t;
-  return { scope: e[Ye], isolationScope: tn(e[Xe]) };
+  return { scope: e[Qe], isolationScope: nn(e[tn]) };
 }
-const on = "sentry-";
-const sn = /^sentry-/;
-const rn = 8192;
+const rn = "sentry-";
+const an = /^sentry-/;
+const cn = 8192;
 /**
  * Takes a baggage header and turns it into Dynamic Sampling Context, by extracting all the "sentry-" prefixed values
  * from it.
  *
  * @param baggageHeader A very bread definition of a baggage header as it might appear in various frameworks.
  * @returns The Dynamic Sampling Context that was found on `baggageHeader`, if there was any, `undefined` otherwise.
- */ function an(t) {
-  const e = un(t);
+ */ function un(t) {
+  const e = pn(t);
   if (!e) return;
   const n = Object.entries(e).reduce((t, [e, n]) => {
-    if (e.match(sn)) {
-      const o = e.slice(on.length);
-      t[o] = n;
+    if (e.match(an)) {
+      const s = e.slice(rn.length);
+      t[s] = n;
     }
     return t;
   }, {});
@@ -1668,40 +1686,40 @@ const rn = 8192;
  * `undefined` the function will return `undefined`.
  * @returns a baggage header, created from `dynamicSamplingContext`, or `undefined` either if `dynamicSamplingContext`
  * was `undefined`, or if `dynamicSamplingContext` didn't contain any values.
- */ function cn(t) {
+ */ function ln(t) {
   if (!t) return;
   const e = Object.entries(t).reduce((t, [e, n]) => {
-    n && (t[`${on}${e}`] = n);
+    n && (t[`${rn}${e}`] = n);
     return t;
   }, {});
-  return pn(e);
+  return dn(e);
 }
-function un(t) {
-  if (t && (H(t) || Array.isArray(t)))
+function pn(t) {
+  if (t && (Z(t) || Array.isArray(t)))
     return Array.isArray(t)
       ? t.reduce((t, e) => {
-          const n = ln(e);
+          const n = fn(e);
           Object.entries(n).forEach(([e, n]) => {
             t[e] = n;
           });
           return t;
         }, {})
-      : ln(t);
+      : fn(t);
 }
 /**
  * Will parse a baggage header, which is a simple key-value map, into a flat object.
  *
  * @param baggageHeader The baggage header to parse.
  * @returns a flat object containing all the key-value pairs from `baggageHeader`.
- */ function ln(t) {
+ */ function fn(t) {
   return t
     .split(",")
     .map((t) => {
       const e = t.indexOf("=");
       if (e === -1) return [];
       const n = t.slice(0, e);
-      const o = t.slice(e + 1);
-      return [n, o].map((t) => {
+      const s = t.slice(e + 1);
+      return [n, s].map((t) => {
         try {
           return decodeURIComponent(t.trim());
         } catch {
@@ -1720,25 +1738,25 @@ function un(t) {
  * @param object The object to turn into a baggage header.
  * @returns a baggage header string, or `undefined` if the object didn't have any values, since an empty baggage header
  * is not spec compliant.
- */ function pn(e) {
+ */ function dn(e) {
   if (Object.keys(e).length !== 0)
-    return Object.entries(e).reduce((e, [n, o], s) => {
-      const r = `${encodeURIComponent(n)}=${encodeURIComponent(o)}`;
-      const i = s === 0 ? r : `${e},${r}`;
-      if (i.length > rn) {
+    return Object.entries(e).reduce((e, [n, s], o) => {
+      const r = `${encodeURIComponent(n)}=${encodeURIComponent(s)}`;
+      const i = o === 0 ? r : `${e},${r}`;
+      if (i.length > cn) {
         t &&
           y.warn(
-            `Not adding key: ${n} with val: ${o} to baggage header due to exceeding baggage size limits.`,
+            `Not adding key: ${n} with val: ${s} to baggage header due to exceeding baggage size limits.`,
           );
         return e;
       }
       return i;
     }, "");
 }
-const fn = /^o(\d+)\./;
-const dn =
+const mn = /^o(\d+)\./;
+const gn =
   /^(?:(\w+):)\/\/(?:(\w+)(?::(\w+)?)?@)((?:\[[:.%\w]+\]|[\w.-]+))(?::(\d+))?\/(.+)/;
-function mn(t) {
+function hn(t) {
   return t === "http" || t === "https";
 }
 /**
@@ -1749,32 +1767,32 @@ function mn(t) {
  * to true.
  *
  * @param withPassword When set to true, the password will be included.
- */ function gn(t, e = false) {
+ */ function _n(t, e = false) {
   const {
     host: n,
-    path: o,
-    pass: s,
+    path: s,
+    pass: o,
     port: r,
     projectId: i,
     protocol: a,
     publicKey: c,
   } = t;
-  return `${a}://${c}${e && s ? `:${s}` : ""}@${n}${r ? `:${r}` : ""}/${o ? `${o}/` : o}${i}`;
+  return `${a}://${c}${e && o ? `:${o}` : ""}@${n}${r ? `:${r}` : ""}/${s ? `${s}/` : s}${i}`;
 }
 /**
  * Parses a Dsn from a given string.
  *
  * @param str A Dsn as string
  * @returns Dsn as DsnComponents or undefined if @param str is not a valid DSN string
- */ function hn(t) {
-  const e = dn.exec(t);
+ */ function yn(t) {
+  const e = gn.exec(t);
   if (!e) {
     u(() => {
       console.error(`Invalid Sentry Dsn: ${t}`);
     });
     return;
   }
-  const [n, o, s = "", r = "", i = "", a = ""] = e.slice(1);
+  const [n, s, o = "", r = "", i = "", a = ""] = e.slice(1);
   let c = "";
   let l = a;
   const p = l.split("/");
@@ -1786,17 +1804,17 @@ function mn(t) {
     const t = l.match(/^\d+/);
     t && (l = t[0]);
   }
-  return _n({
+  return bn({
     host: r,
-    pass: s,
+    pass: o,
     path: c,
     projectId: l,
     port: i,
     protocol: n,
-    publicKey: o,
+    publicKey: s,
   });
 }
-function _n(t) {
+function bn(t) {
   return {
     protocol: t.protocol,
     publicKey: t.publicKey || "",
@@ -1807,9 +1825,9 @@ function _n(t) {
     projectId: t.projectId,
   };
 }
-function yn(e) {
+function vn(e) {
   if (!t) return true;
-  const { port: n, projectId: o, protocol: s } = e;
+  const { port: n, projectId: s, protocol: o } = e;
   const r = ["protocol", "publicKey", "host", "projectId"];
   const i = r.find((t) => {
     if (!e[t]) {
@@ -1819,12 +1837,12 @@ function yn(e) {
     return false;
   });
   if (i) return false;
-  if (!o.match(/^\d+$/)) {
-    y.error(`Invalid Sentry Dsn: Invalid projectId ${o}`);
+  if (!s.match(/^\d+$/)) {
+    y.error(`Invalid Sentry Dsn: Invalid projectId ${s}`);
     return false;
   }
-  if (!mn(s)) {
-    y.error(`Invalid Sentry Dsn: Invalid protocol ${s}`);
+  if (!hn(o)) {
+    y.error(`Invalid Sentry Dsn: Invalid protocol ${o}`);
     return false;
   }
   if (n && isNaN(parseInt(n, 10))) {
@@ -1838,30 +1856,30 @@ function yn(e) {
  *
  * @param host The host from a DSN
  * @returns The org ID if found, undefined otherwise
- */ function bn(t) {
-  const e = t.match(fn);
+ */ function Sn(t) {
+  const e = t.match(mn);
   return e?.[1];
 }
-function vn(t) {
+function kn(t) {
   const e = t.getOptions();
   const { host: n } = t.getDsn() || {};
-  let o;
-  e.orgId ? (o = String(e.orgId)) : n && (o = bn(n));
-  return o;
+  let s;
+  e.orgId ? (s = String(e.orgId)) : n && (s = Sn(n));
+  return s;
 }
 /**
  * Creates a valid Sentry Dsn object, identifying a Sentry instance and project.
  * @returns a valid DsnComponents object or `undefined` if @param from is an invalid DSN source
- */ function Sn(t) {
-  const e = typeof t === "string" ? hn(t) : _n(t);
-  if (e && yn(e)) return e;
+ */ function wn(t) {
+  const e = typeof t === "string" ? yn(t) : bn(t);
+  if (e && vn(e)) return e;
 }
-function kn(t) {
+function xn(t) {
   if (typeof t === "boolean") return Number(t);
   const e = typeof t === "string" ? parseFloat(t) : t;
   return typeof e !== "number" || isNaN(e) || e < 0 || e > 1 ? void 0 : e;
 }
-const wn = new RegExp(
+const An = new RegExp(
   "^[ \\t]*([0-9a-f]{32})?-?([0-9a-f]{16})?-?([01])?[ \\t]*$",
 );
 /**
@@ -1873,57 +1891,57 @@ const wn = new RegExp(
  * @param traceparent Traceparent string
  *
  * @returns Object containing data from the header, or undefined if traceparent string is malformed
- */ function xn(t) {
+ */ function En(t) {
   if (!t) return;
-  const e = t.match(wn);
+  const e = t.match(An);
   if (!e) return;
   let n;
   e[3] === "1" ? (n = true) : e[3] === "0" && (n = false);
   return { traceId: e[1], parentSampled: n, parentSpanId: e[2] };
 }
-function En(t, e) {
-  const n = xn(t);
-  const o = an(e);
-  if (!n?.traceId) return { traceId: ae(), sampleRand: Tt() };
-  const s = In(n, o);
-  o && (o.sample_rand = s.toString());
+function Tn(t, e) {
+  const n = En(t);
+  const s = un(e);
+  if (!n?.traceId) return { traceId: ce(), sampleRand: It() };
+  const o = On(n, s);
+  s && (s.sample_rand = o.toString());
   const { traceId: r, parentSpanId: i, parentSampled: a } = n;
   return {
     traceId: r,
     parentSpanId: i,
     sampled: a,
-    dsc: o || {},
-    sampleRand: s,
+    dsc: s || {},
+    sampleRand: o,
   };
 }
-function An(t = ae(), e = ce(), n) {
-  let o = "";
-  n !== void 0 && (o = n ? "-1" : "-0");
-  return `${t}-${e}${o}`;
+function In(t = ce(), e = ue(), n) {
+  let s = "";
+  n !== void 0 && (s = n ? "-1" : "-0");
+  return `${t}-${e}${s}`;
 }
-function Tn(t = ae(), e = ce(), n) {
+function $n(t = ce(), e = ue(), n) {
   return `00-${t}-${e}-${n ? "01" : "00"}`;
 }
-function In(t, e) {
-  const n = kn(e?.sample_rand);
+function On(t, e) {
+  const n = xn(e?.sample_rand);
   if (n !== void 0) return n;
-  const o = kn(e?.sample_rate);
-  return o && t?.parentSampled !== void 0
+  const s = xn(e?.sample_rate);
+  return s && t?.parentSampled !== void 0
     ? t.parentSampled
-      ? Tt() * o
-      : o + Tt() * (1 - o)
-    : Tt();
+      ? It() * s
+      : s + It() * (1 - s)
+    : It();
 }
-function $n(t, e) {
-  const n = vn(t);
+function Cn(t, e) {
+  const n = kn(t);
   if (e && n && e !== n) {
     y.log(
       `Won't continue trace because org IDs don't match (incoming baggage: ${e}, SDK options: ${n})`,
     );
     return false;
   }
-  const o = t.getOptions().strictTraceContinuation || false;
-  if (o && ((e && !n) || (!e && n))) {
+  const s = t.getOptions().strictTraceContinuation || false;
+  if (s && ((e && !n) || (!e && n))) {
     y.log(
       `Starting a new trace because strict trace continuation is enabled but one org ID is missing (incoming baggage: ${e}, Sentry client: ${n})`,
     );
@@ -1931,83 +1949,83 @@ function $n(t, e) {
   }
   return true;
 }
-const On = 0;
-const Cn = 1;
-let Nn = false;
-function jn(t) {
+const Nn = 0;
+const jn = 1;
+let Rn = false;
+function Mn(t) {
   const { spanId: e, traceId: n } = t.spanContext();
   const {
-    data: o,
-    op: s,
+    data: s,
+    op: o,
     parent_span_id: r,
     status: i,
     origin: a,
     links: c,
-  } = qn(t);
+  } = Jn(t);
   return {
     parent_span_id: r,
     span_id: e,
     trace_id: n,
-    data: o,
-    op: s,
+    data: s,
+    op: o,
     status: i,
     origin: a,
     links: c,
   };
 }
-function Rn(t) {
-  const { spanId: e, traceId: n, isRemote: o } = t.spanContext();
-  const s = o ? e : qn(t).parent_span_id;
-  const r = nn(t).scope;
-  const i = o ? r?.getPropagationContext().propagationSpanId || ce() : e;
-  return { parent_span_id: s, span_id: i, trace_id: n };
-}
 function Pn(t) {
-  const { traceId: e, spanId: n } = t.spanContext();
-  const o = zn(t);
-  return An(e, n, o);
-}
-function Mn(t) {
-  const { traceId: e, spanId: n } = t.spanContext();
-  const o = zn(t);
-  return Tn(e, n, o);
+  const { spanId: e, traceId: n, isRemote: s } = t.spanContext();
+  const o = s ? e : Jn(t).parent_span_id;
+  const r = on(t).scope;
+  const i = s ? r?.getPropagationContext().propagationSpanId || ue() : e;
+  return { parent_span_id: o, span_id: i, trace_id: n };
 }
 function Dn(t) {
+  const { traceId: e, spanId: n } = t.spanContext();
+  const s = Wn(t);
+  return In(e, n, s);
+}
+function Fn(t) {
+  const { traceId: e, spanId: n } = t.spanContext();
+  const s = Wn(t);
+  return $n(e, n, s);
+}
+function Ln(t) {
   return t && t.length > 0
     ? t.map(
         ({
-          context: { spanId: t, traceId: e, traceFlags: n, ...o },
-          attributes: s,
+          context: { spanId: t, traceId: e, traceFlags: n, ...s },
+          attributes: o,
         }) => ({
           span_id: t,
           trace_id: e,
-          sampled: n === Cn,
-          attributes: s,
-          ...o,
+          sampled: n === jn,
+          attributes: o,
+          ...s,
         }),
       )
     : void 0;
 }
-function Fn(t) {
+function qn(t) {
   return typeof t === "number"
-    ? Ln(t)
+    ? Un(t)
     : Array.isArray(t)
       ? t[0] + t[1] / 1e9
       : t instanceof Date
-        ? Ln(t.getTime())
-        : Xt();
+        ? Un(t.getTime())
+        : Qt();
 }
-function Ln(t) {
+function Un(t) {
   const e = t > 9999999999;
   return e ? t / 1e3 : t;
 }
-function qn(t) {
-  if (Jn(t)) return t.getSpanJSON();
+function Jn(t) {
+  if (Bn(t)) return t.getSpanJSON();
   const { spanId: e, traceId: n } = t.spanContext();
-  if (Un(t)) {
+  if (zn(t)) {
     const {
-      attributes: o,
-      startTime: s,
+      attributes: s,
+      startTime: o,
       name: r,
       endTime: i,
       status: a,
@@ -2022,74 +2040,74 @@ function qn(t) {
     return {
       span_id: e,
       trace_id: n,
-      data: o,
+      data: s,
       description: r,
       parent_span_id: u,
-      start_timestamp: Fn(s),
-      timestamp: Fn(i) || void 0,
-      status: Bn(a),
-      op: o[Ne],
-      origin: o[je],
-      links: Dn(c),
+      start_timestamp: qn(o),
+      timestamp: qn(i) || void 0,
+      status: Vn(a),
+      op: s[je],
+      origin: s[Re],
+      links: Ln(c),
     };
   }
   return { span_id: e, trace_id: n, start_timestamp: 0, data: {} };
 }
-function Un(t) {
+function zn(t) {
   const e = t;
   return (
     !!e.attributes && !!e.startTime && !!e.name && !!e.endTime && !!e.status
   );
 }
-function Jn(t) {
+function Bn(t) {
   return typeof t.getSpanJSON === "function";
 }
-function zn(t) {
+function Wn(t) {
   const { traceFlags: e } = t.spanContext();
-  return e === Cn;
+  return e === jn;
 }
-function Bn(t) {
-  if (t && t.code !== Ve)
-    return t.code === Ge ? "ok" : t.message || "internal_error";
+function Vn(t) {
+  if (t && t.code !== Ke)
+    return t.code === He ? "ok" : t.message || "internal_error";
 }
-const Wn = "_sentryChildSpans";
-const Vn = "_sentryRootSpan";
-function Gn(t, e) {
-  const n = t[Vn] || t;
-  mt(e, Vn, n);
-  t[Wn] ? t[Wn].add(e) : mt(t, Wn, new Set([e]));
+const Gn = "_sentryChildSpans";
+const Kn = "_sentryRootSpan";
+function Hn(t, e) {
+  const n = t[Kn] || t;
+  gt(e, Kn, n);
+  t[Gn] ? t[Gn].add(e) : gt(t, Gn, new Set([e]));
 }
-function Kn(t, e) {
-  t[Wn] && t[Wn].delete(e);
+function Zn(t, e) {
+  t[Gn] && t[Gn].delete(e);
 }
-function Hn(t) {
+function Yn(t) {
   const e = new Set();
   function n(t) {
-    if (!e.has(t) && zn(t)) {
+    if (!e.has(t) && Wn(t)) {
       e.add(t);
-      const o = t[Wn] ? Array.from(t[Wn]) : [];
-      for (const t of o) n(t);
+      const s = t[Gn] ? Array.from(t[Gn]) : [];
+      for (const t of s) n(t);
     }
   }
   n(t);
   return Array.from(e);
 }
-function Zn(t) {
-  return t[Vn] || t;
+function Xn(t) {
+  return t[Kn] || t;
 }
-function Yn() {
-  const t = o();
-  const e = Se(t);
-  return e.getActiveSpan ? e.getActiveSpan() : pe(ke());
+function Qn() {
+  const t = s();
+  const e = ke(t);
+  return e.getActiveSpan ? e.getActiveSpan() : fe(we());
 }
-function Xn() {
-  if (!Nn) {
+function ts() {
+  if (!Rn) {
     u(() => {
       console.warn(
         "[Sentry] Returning null from `beforeSendSpan` is disallowed. To drop certain spans, configure the respective integrations directly or use `ignoreSpans`.",
       );
     });
-    Nn = true;
+    Rn = true;
   }
 }
 /**
@@ -2107,25 +2125,25 @@ function Xn() {
  *
  * @param span - The span to update the name of.
  * @param name - The name to set on the span.
- */ function Qn(t, e) {
+ */ function es(t, e) {
   t.updateName(e);
-  t.setAttributes({ [$e]: "custom", [De]: e });
+  t.setAttributes({ [Oe]: "custom", [Fe]: e });
 }
-let to = false;
-function eo() {
-  if (!to) {
+let ns = false;
+function ss() {
+  if (!ns) {
     e.tag = "sentry_tracingErrorCallback";
-    to = true;
-    F(e);
-    U(e);
+    ns = true;
+    L(e);
+    J(e);
   }
   function e() {
-    const e = Yn();
-    const n = e && Zn(e);
+    const e = Qn();
+    const n = e && Xn(e);
     if (n) {
       const e = "internal_error";
       t && y.log(`[Tracing] Root span: ${e} -> Global error occurred`);
-      n.setStatus({ code: Ke, message: e });
+      n.setStatus({ code: Ze, message: e });
     }
   }
 }
@@ -2144,68 +2162,68 @@ function eo() {
  *
  * @param maybeOptions An SDK options object to be passed to this function.
  * If this option is not provided, the function will use the current client's options.
- */ function no(t) {
+ */ function os(t) {
   if (typeof __SENTRY_TRACING__ === "boolean" && !__SENTRY_TRACING__)
     return false;
-  const e = t || Te()?.getOptions();
+  const e = t || Ie()?.getOptions();
   return !!e && (e.tracesSampleRate != null || !!e.tracesSampler);
 }
-function oo(t) {
+function rs(t) {
   y.log(
     `Ignoring span ${t.op} - ${t.description} because it matches \`ignoreSpans\`.`,
   );
 }
-function so(e, n) {
+function is(e, n) {
   if (!n?.length || !e.description) return false;
-  for (const o of n) {
-    if (io(o)) {
-      if (Nt(e.description, o)) {
-        t && oo(e);
+  for (const s of n) {
+    if (cs(s)) {
+      if (jt(e.description, s)) {
+        t && rs(e);
         return true;
       }
       continue;
     }
-    if (!o.name && !o.op) continue;
-    const n = !o.name || Nt(e.description, o.name);
-    const s = !o.op || (e.op && Nt(e.op, o.op));
-    if (n && s) {
-      t && oo(e);
+    if (!s.name && !s.op) continue;
+    const n = !s.name || jt(e.description, s.name);
+    const o = !s.op || (e.op && jt(e.op, s.op));
+    if (n && o) {
+      t && rs(e);
       return true;
     }
   }
   return false;
 }
-function ro(t, e) {
+function as(t, e) {
   const n = e.parent_span_id;
-  const o = e.span_id;
-  if (n) for (const e of t) e.parent_span_id === o && (e.parent_span_id = n);
+  const s = e.span_id;
+  if (n) for (const e of t) e.parent_span_id === s && (e.parent_span_id = n);
 }
-function io(t) {
+function cs(t) {
   return typeof t === "string" || t instanceof RegExp;
 }
-const ao = "production";
-const co = "development";
-const uo = "_frozenDsc";
-function lo(t, e) {
+const us = "production";
+const ls = "development";
+const ps = "_frozenDsc";
+function fs(t, e) {
   const n = t;
-  mt(n, uo, e);
+  gt(n, ps, e);
 }
-function po(t, e) {
+function ds(t, e) {
   const n = e.getOptions();
-  const { publicKey: o } = e.getDsn() || {};
-  const s = {
-    environment: n.environment || ao,
+  const { publicKey: s } = e.getDsn() || {};
+  const o = {
+    environment: n.environment || us,
     release: n.release,
-    public_key: o,
+    public_key: s,
     trace_id: t,
-    org_id: vn(e),
+    org_id: kn(e),
   };
-  e.emit("createDsc", s);
-  return s;
+  e.emit("createDsc", o);
+  return o;
 }
-function fo(t, e) {
+function ms(t, e) {
   const n = e.getPropagationContext();
-  return n.dsc || po(n.traceId, t);
+  return n.dsc || ds(n.traceId, t);
 }
 /**
  * Creates a dynamic sampling context from a span (and client and scope)
@@ -2213,49 +2231,49 @@ function fo(t, e) {
  * @param span the span from which a few values like the root span name and sample rate are extracted.
  *
  * @returns a dynamic sampling context
- */ function mo(t) {
-  const e = Te();
+ */ function gs(t) {
+  const e = Ie();
   if (!e) return {};
-  const n = Zn(t);
-  const o = qn(n);
-  const s = o.data;
+  const n = Xn(t);
+  const s = Jn(n);
+  const o = s.data;
   const r = n.spanContext().traceState;
-  const i = r?.get("sentry.sample_rate") ?? s[Oe] ?? s[Ce];
+  const i = r?.get("sentry.sample_rate") ?? o[Ce] ?? o[Ne];
   function a(t) {
     (typeof i !== "number" && typeof i !== "string") ||
       (t.sample_rate = `${i}`);
     return t;
   }
-  const c = n[uo];
+  const c = n[ps];
   if (c) return a(c);
   const u = r?.get("sentry.dsc");
-  const l = u && an(u);
+  const l = u && un(u);
   if (l) return a(l);
-  const p = po(t.spanContext().traceId, e);
-  const f = s[$e];
-  const d = o.description;
+  const p = ds(t.spanContext().traceId, e);
+  const f = o[Oe];
+  const d = s.description;
   f !== "url" && d && (p.transaction = d);
-  if (no()) {
-    p.sampled = String(zn(n));
+  if (os()) {
+    p.sampled = String(Wn(n));
     p.sample_rand =
       r?.get("sentry.sample_rand") ??
-      nn(n).scope?.getPropagationContext().sampleRand.toString();
+      on(n).scope?.getPropagationContext().sampleRand.toString();
   }
   a(p);
   e.emit("createDsc", p, n);
   return p;
 }
-function go(t) {
-  const e = mo(t);
-  return cn(e);
+function hs(t) {
+  const e = gs(t);
+  return ln(e);
 }
 class SentryNonRecordingSpan {
   constructor(t = {}) {
-    this._traceId = t.traceId || ae();
-    this._spanId = t.spanId || ce();
+    this._traceId = t.traceId || ce();
+    this._spanId = t.spanId || ue();
   }
   spanContext() {
-    return { spanId: this._spanId, traceId: this._traceId, traceFlags: On };
+    return { spanId: this._spanId, traceId: this._traceId, traceFlags: Nn };
   }
   end(t) {}
   setAttribute(t, e) {
@@ -2302,16 +2320,16 @@ class SentryNonRecordingSpan {
  * @param maxProperties The max number of elements or properties to be included in any single array or
  * object in the normalized output.
  * @returns A normalized version of the object, or `"**non-serializable**"` if any errors are thrown during normalization.
- */ function ho(t, e = 100, n = Infinity) {
+ */ function _s(t, e = 100, n = Infinity) {
   try {
-    return yo("", t, e, n);
+    return bs("", t, e, n);
   } catch (t) {
     return { ERROR: `**non-serializable** (${t})` };
   }
 }
-function _o(t, e = 3, n = 102400) {
-  const o = ho(t, e);
-  return ko(o) > n ? _o(t, e - 1, n) : o;
+function ys(t, e = 3, n = 102400) {
+  const s = _s(t, e);
+  return ws(s) > n ? ys(t, e - 1, n) : s;
 }
 /**
  * Visits a node to perform normalization on it
@@ -2321,15 +2339,15 @@ function _o(t, e = 3, n = 102400) {
  * @param depth Optional number indicating the maximum recursion depth
  * @param maxProperties Optional maximum number of properties/elements included in any single object/array
  * @param memo Optional Memo class handling decycling
- */ function yo(t, e, n = Infinity, o = Infinity, s = xo()) {
-  const [r, i] = s;
+ */ function bs(t, e, n = Infinity, s = Infinity, o = As()) {
+  const [r, i] = o;
   if (
     e == null ||
     ["boolean", "string"].includes(typeof e) ||
     (typeof e === "number" && Number.isFinite(e))
   )
     return e;
-  const a = bo(t, e);
+  const a = vs(t, e);
   if (!a.startsWith("[object ")) return a;
   if (e.__sentry_skip_normalization__) return e;
   const c =
@@ -2342,19 +2360,19 @@ function _o(t, e = 3, n = 102400) {
   if (u && typeof u.toJSON === "function")
     try {
       const t = u.toJSON();
-      return yo("", t, c - 1, o, s);
+      return bs("", t, c - 1, s, o);
     } catch {}
   const l = Array.isArray(e) ? [] : {};
   let p = 0;
-  const f = _t(e);
+  const f = yt(e);
   for (const t in f) {
     if (!Object.prototype.hasOwnProperty.call(f, t)) continue;
-    if (p >= o) {
+    if (p >= s) {
       l[t] = "[MaxProperties ~]";
       break;
     }
     const e = f[t];
-    l[t] = yo(t, e, c - 1, o, s);
+    l[t] = bs(t, e, c - 1, s, o);
     p++;
   }
   i(e);
@@ -2368,7 +2386,7 @@ function _o(t, e = 3, n = 102400) {
  *
  * @param value The value to stringify
  * @returns A stringified representation of the given value
- */ function bo(t, e) {
+ */ function vs(t, e) {
   try {
     if (t === "domain" && e && typeof e === "object" && e._events)
       return "[Domain]";
@@ -2376,13 +2394,13 @@ function _o(t, e = 3, n = 102400) {
     if (typeof global !== "undefined" && e === global) return "[Global]";
     if (typeof window !== "undefined" && e === window) return "[Window]";
     if (typeof document !== "undefined" && e === document) return "[Document]";
-    if (rt(e)) return O(e);
+    if (it(e)) return O(e);
     if (ot(e)) return "[SyntheticEvent]";
     if (typeof e === "number" && !Number.isFinite(e)) return `[${e}]`;
     if (typeof e === "function") return `[Function: ${I(e)}]`;
     if (typeof e === "symbol") return `[${String(e)}]`;
     if (typeof e === "bigint") return `[BigInt: ${String(e)}]`;
-    const n = vo(e);
+    const n = Ss(e);
     return /^HTML(\w*)Element$/.test(n)
       ? `[HTMLElement: ${n}]`
       : `[object ${n}]`;
@@ -2390,15 +2408,15 @@ function _o(t, e = 3, n = 102400) {
     return `**non-serializable** (${t})`;
   }
 }
-function vo(t) {
+function Ss(t) {
   const e = Object.getPrototypeOf(t);
   return e?.constructor ? e.constructor.name : "null prototype";
 }
-function So(t) {
+function ks(t) {
   return ~-encodeURI(t).split(/%..|./).length;
 }
-function ko(t) {
-  return So(JSON.stringify(t));
+function ws(t) {
+  return ks(JSON.stringify(t));
 }
 /**
  * Normalizes URLs in exceptions and stacktraces to a base path so Sentry can fingerprint
@@ -2407,18 +2425,18 @@ function ko(t) {
  * @param url The URL to be normalized.
  * @param basePath The application base path.
  * @returns The normalized URL.
- */ function wo(t, e) {
+ */ function xs(t, e) {
   const n = e.replace(/\\/g, "/").replace(/[|\\{}()[\]^$+*?.]/g, "\\$&");
-  let o = t;
+  let s = t;
   try {
-    o = decodeURI(t);
+    s = decodeURI(t);
   } catch {}
-  return o
+  return s
     .replace(/\\/g, "/")
     .replace(/webpack:\/?/g, "")
     .replace(new RegExp(`(file://)?/*${n}/*`, "ig"), "app:///");
 }
-function xo() {
+function As() {
   const t = new WeakSet();
   function e(e) {
     if (t.has(e)) return true;
@@ -2430,94 +2448,94 @@ function xo() {
   }
   return [e, n];
 }
-function Eo(t, e = []) {
+function Es(t, e = []) {
   return [t, e];
 }
-function Ao(t, e) {
-  const [n, o] = t;
-  return [n, [...o, e]];
+function Ts(t, e) {
+  const [n, s] = t;
+  return [n, [...s, e]];
 }
-function To(t, e) {
+function Is(t, e) {
   const n = t[1];
   for (const t of n) {
     const n = t[0].type;
-    const o = e(t, n);
-    if (o) return true;
+    const s = e(t, n);
+    if (s) return true;
   }
   return false;
 }
-function Io(t, e) {
-  return To(t, (t, n) => e.includes(n));
+function $s(t, e) {
+  return Is(t, (t, n) => e.includes(n));
 }
-function $o(t) {
-  const n = s(e);
+function Os(t) {
+  const n = o(e);
   return n.encodePolyfill ? n.encodePolyfill(t) : new TextEncoder().encode(t);
 }
-function Oo(t) {
-  const n = s(e);
+function Cs(t) {
+  const n = o(e);
   return n.decodePolyfill ? n.decodePolyfill(t) : new TextDecoder().decode(t);
 }
-function Co(t) {
+function Ns(t) {
   const [e, n] = t;
-  let o = JSON.stringify(e);
-  function s(t) {
-    typeof o === "string"
-      ? (o = typeof t === "string" ? o + t : [$o(o), t])
-      : o.push(typeof t === "string" ? $o(t) : t);
+  let s = JSON.stringify(e);
+  function o(t) {
+    typeof s === "string"
+      ? (s = typeof t === "string" ? s + t : [Os(s), t])
+      : s.push(typeof t === "string" ? Os(t) : t);
   }
   for (const t of n) {
     const [e, n] = t;
-    s(`\n${JSON.stringify(e)}\n`);
-    if (typeof n === "string" || n instanceof Uint8Array) s(n);
+    o(`\n${JSON.stringify(e)}\n`);
+    if (typeof n === "string" || n instanceof Uint8Array) o(n);
     else {
       let t;
       try {
         t = JSON.stringify(n);
       } catch {
-        t = JSON.stringify(ho(n));
+        t = JSON.stringify(_s(n));
       }
-      s(t);
+      o(t);
     }
   }
-  return typeof o === "string" ? o : No(o);
+  return typeof s === "string" ? s : js(s);
 }
-function No(t) {
+function js(t) {
   const e = t.reduce((t, e) => t + e.length, 0);
   const n = new Uint8Array(e);
-  let o = 0;
+  let s = 0;
   for (const e of t) {
-    n.set(e, o);
-    o += e.length;
+    n.set(e, s);
+    s += e.length;
   }
   return n;
 }
-function jo(t) {
-  let e = typeof t === "string" ? $o(t) : t;
+function Rs(t) {
+  let e = typeof t === "string" ? Os(t) : t;
   function n(t) {
     const n = e.subarray(0, t);
     e = e.subarray(t + 1);
     return n;
   }
-  function o() {
+  function s() {
     let t = e.indexOf(10);
     t < 0 && (t = e.length);
-    return JSON.parse(Oo(n(t)));
+    return JSON.parse(Cs(n(t)));
   }
-  const s = o();
+  const o = s();
   const r = [];
   while (e.length) {
-    const t = o();
+    const t = s();
     const e = typeof t.length === "number" ? t.length : void 0;
-    r.push([t, e ? n(e) : o()]);
+    r.push([t, e ? n(e) : s()]);
   }
-  return [s, r];
+  return [o, r];
 }
-function Ro(t) {
+function Ms(t) {
   const e = { type: "span" };
   return [e, t];
 }
-function Po(t) {
-  const e = typeof t.data === "string" ? $o(t.data) : t.data;
+function Ps(t) {
+  const e = typeof t.data === "string" ? Os(t.data) : t.data;
   return [
     {
       type: "attachment",
@@ -2529,7 +2547,7 @@ function Po(t) {
     e,
   ];
 }
-const Mo = {
+const Ds = {
   session: "session",
   sessions: "session",
   attachment: "attachment",
@@ -2549,25 +2567,25 @@ const Mo = {
   metric: "metric",
   trace_metric: "metric",
 };
-function Do(t) {
-  return Mo[t];
+function Fs(t) {
+  return Ds[t];
 }
-function Fo(t) {
+function Ls(t) {
   if (!t?.sdk) return;
   const { name: e, version: n } = t.sdk;
   return { name: e, version: n };
 }
-function Lo(t, e, n, o) {
-  const s = t.sdkProcessingMetadata?.dynamicSamplingContext;
+function qs(t, e, n, s) {
+  const o = t.sdkProcessingMetadata?.dynamicSamplingContext;
   return {
     event_id: t.event_id,
     sent_at: new Date().toISOString(),
     ...(e && { sdk: e }),
-    ...(!!n && o && { dsn: gn(o) }),
-    ...(s && { trace: s }),
+    ...(!!n && s && { dsn: _n(s) }),
+    ...(o && { trace: o }),
   };
 }
-function qo(t, e) {
+function Us(t, e) {
   if (!e) return t;
   const n = t.sdk || {};
   t.sdk = {
@@ -2583,124 +2601,124 @@ function qo(t, e) {
   };
   return t;
 }
-function Uo(t, e, n, o) {
-  const s = Fo(n);
+function Js(t, e, n, s) {
+  const o = Ls(n);
   const r = {
     sent_at: new Date().toISOString(),
-    ...(s && { sdk: s }),
-    ...(!!o && e && { dsn: gn(e) }),
+    ...(o && { sdk: o }),
+    ...(!!s && e && { dsn: _n(e) }),
   };
   const i =
     "aggregates" in t
       ? [{ type: "sessions" }, t]
       : [{ type: "session" }, t.toJSON()];
-  return Eo(r, [i]);
+  return Es(r, [i]);
 }
-function Jo(t, e, n, o) {
-  const s = Fo(n);
+function zs(t, e, n, s) {
+  const o = Ls(n);
   const r = t.type && t.type !== "replay_event" ? t.type : "event";
-  qo(t, n?.sdk);
-  const i = Lo(t, s, o, e);
+  Us(t, n?.sdk);
+  const i = qs(t, o, s, e);
   delete t.sdkProcessingMetadata;
   const a = [{ type: r }, t];
-  return Eo(i, [a]);
+  return Es(i, [a]);
 }
-function zo(t, e) {
+function Bs(t, e) {
   function n(t) {
     return !!t.trace_id && !!t.public_key;
   }
-  const o = mo(t[0]);
-  const s = e?.getDsn();
+  const s = gs(t[0]);
+  const o = e?.getDsn();
   const r = e?.getOptions().tunnel;
   const i = {
     sent_at: new Date().toISOString(),
-    ...(n(o) && { trace: o }),
-    ...(!!r && s && { dsn: gn(s) }),
+    ...(n(s) && { trace: s }),
+    ...(!!r && o && { dsn: _n(o) }),
   };
   const { beforeSendSpan: a, ignoreSpans: c } = e?.getOptions() || {};
-  const u = c?.length ? t.filter((t) => !so(qn(t), c)) : t;
+  const u = c?.length ? t.filter((t) => !is(Jn(t), c)) : t;
   const l = t.length - u.length;
   l && e?.recordDroppedEvent("before_send", "span", l);
   const p = a
     ? (t) => {
-        const e = qn(t);
+        const e = Jn(t);
         const n = a(e);
         if (!n) {
-          Xn();
+          ts();
           return e;
         }
         return n;
       }
-    : qn;
+    : Jn;
   const f = [];
   for (const t of u) {
     const e = p(t);
-    e && f.push(Ro(e));
+    e && f.push(Ms(e));
   }
-  return Eo(i, f);
+  return Es(i, f);
 }
-function Bo(e) {
+function Ws(e) {
   if (!t) return;
   const {
     description: n = "< unknown name >",
-    op: o = "< unknown op >",
-    parent_span_id: s,
-  } = qn(e);
+    op: s = "< unknown op >",
+    parent_span_id: o,
+  } = Jn(e);
   const { spanId: r } = e.spanContext();
-  const i = zn(e);
-  const a = Zn(e);
+  const i = Wn(e);
+  const a = Xn(e);
   const c = a === e;
   const u = `[Tracing] Starting ${i ? "sampled" : "unsampled"} ${c ? "root " : ""}span`;
-  const l = [`op: ${o}`, `name: ${n}`, `ID: ${r}`];
-  s && l.push(`parent ID: ${s}`);
+  const l = [`op: ${s}`, `name: ${n}`, `ID: ${r}`];
+  o && l.push(`parent ID: ${o}`);
   if (!c) {
-    const { op: t, description: e } = qn(a);
+    const { op: t, description: e } = Jn(a);
     l.push(`root ID: ${a.spanContext().spanId}`);
     t && l.push(`root op: ${t}`);
     e && l.push(`root description: ${e}`);
   }
   y.log(`${u}\n  ${l.join("\n  ")}`);
 }
-function Wo(e) {
+function Vs(e) {
   if (!t) return;
-  const { description: n = "< unknown name >", op: o = "< unknown op >" } =
-    qn(e);
-  const { spanId: s } = e.spanContext();
-  const r = Zn(e);
+  const { description: n = "< unknown name >", op: s = "< unknown op >" } =
+    Jn(e);
+  const { spanId: o } = e.spanContext();
+  const r = Xn(e);
   const i = r === e;
-  const a = `[Tracing] Finishing "${o}" ${i ? "root " : ""}span "${n}" with ID ${s}`;
+  const a = `[Tracing] Finishing "${s}" ${i ? "root " : ""}span "${n}" with ID ${o}`;
   y.log(a);
 }
-function Vo(e, n, o, s = Yn()) {
-  const r = s && Zn(s);
+function Gs(e, n, s, o = Qn()) {
+  const r = o && Xn(o);
   if (r) {
     t &&
-      y.log(`[Measurement] Setting measurement on root span: ${e} = ${n} ${o}`);
-    r.addEvent(e, { [Me]: n, [Pe]: o });
+      y.log(`[Measurement] Setting measurement on root span: ${e} = ${n} ${s}`);
+    r.addEvent(e, { [De]: n, [Pe]: s });
   }
 }
-function Go(t) {
+function Ks(t) {
   if (!t || t.length === 0) return;
   const e = {};
   t.forEach((t) => {
     const n = t.attributes || {};
-    const o = n[Pe];
-    const s = n[Me];
-    typeof o === "string" &&
-      typeof s === "number" &&
-      (e[t.name] = { value: s, unit: o });
+    const s = n[Pe];
+    const o = n[De];
+    typeof s === "string" &&
+      typeof o === "number" &&
+      (e[t.name] = { value: o, unit: s });
   });
   return e;
 }
-const Ko = 1e3;
+const Hs = 1e3;
 class SentrySpan {
   constructor(t = {}) {
-    this._traceId = t.traceId || ae();
-    this._spanId = t.spanId || ce();
-    this._startTime = t.startTimestamp || Xt();
+    this._traceId = t.traceId || ce();
+    this._spanId = t.spanId || ue();
+    this._startTime = t.startTimestamp || Qt();
     this._links = t.links;
     this._attributes = {};
-    this.setAttributes({ [je]: "manual", [Ne]: t.op, ...t.attributes });
+    this.setAttributes({ [Re]: "manual", [je]: t.op, ...t.attributes });
     this._name = t.name;
     t.parentSpanId && (this._parentSpanId = t.parentSpanId);
     "sampled" in t && (this._sampled = t.sampled);
@@ -2720,7 +2738,7 @@ class SentrySpan {
   recordException(t, e) {}
   spanContext() {
     const { _spanId: t, _traceId: e, _sampled: n } = this;
-    return { spanId: t, traceId: e, traceFlags: n ? Cn : On };
+    return { spanId: t, traceId: e, traceFlags: n ? jn : Nn };
   }
   setAttribute(t, e) {
     e === void 0 ? delete this._attributes[t] : (this._attributes[t] = e);
@@ -2731,7 +2749,7 @@ class SentrySpan {
     return this;
   }
   updateStartTime(t) {
-    this._startTime = Fn(t);
+    this._startTime = qn(t);
   }
   setStatus(t) {
     this._status = t;
@@ -2739,13 +2757,13 @@ class SentrySpan {
   }
   updateName(t) {
     this._name = t;
-    this.setAttribute($e, "custom");
+    this.setAttribute(Oe, "custom");
     return this;
   }
   end(t) {
     if (!this._endTime) {
-      this._endTime = Fn(t);
-      Wo(this);
+      this._endTime = qn(t);
+      Vs(this);
       this._onSpanEnded();
     }
   }
@@ -2753,32 +2771,32 @@ class SentrySpan {
     return {
       data: this._attributes,
       description: this._name,
-      op: this._attributes[Ne],
+      op: this._attributes[je],
       parent_span_id: this._parentSpanId,
       span_id: this._spanId,
       start_timestamp: this._startTime,
-      status: Bn(this._status),
+      status: Vn(this._status),
       timestamp: this._endTime,
       trace_id: this._traceId,
-      origin: this._attributes[je],
-      profile_id: this._attributes[Fe],
-      exclusive_time: this._attributes[Le],
-      measurements: Go(this._events),
-      is_segment: (this._isStandaloneSpan && Zn(this) === this) || void 0,
+      origin: this._attributes[Re],
+      profile_id: this._attributes[Le],
+      exclusive_time: this._attributes[qe],
+      measurements: Ks(this._events),
+      is_segment: (this._isStandaloneSpan && Xn(this) === this) || void 0,
       segment_id: this._isStandaloneSpan
-        ? Zn(this).spanContext().spanId
+        ? Xn(this).spanContext().spanId
         : void 0,
-      links: Dn(this._links),
+      links: Ln(this._links),
     };
   }
   isRecording() {
     return !this._endTime && !!this._sampled;
   }
-  addEvent(e, n, o) {
+  addEvent(e, n, s) {
     t && y.log("[Tracing] Adding an event to span:", e);
-    const s = Ho(n) ? n : o || Xt();
-    const r = Ho(n) ? {} : n || {};
-    const i = { name: e, time: Fn(s), attributes: r };
+    const o = Zs(n) ? n : s || Qt();
+    const r = Zs(n) ? {} : n || {};
+    const i = { name: e, time: qn(o), attributes: r };
     this._events.push(i);
     return this;
   }
@@ -2786,12 +2804,12 @@ class SentrySpan {
     return !!this._isStandaloneSpan;
   }
   _onSpanEnded() {
-    const e = Te();
+    const e = Ie();
     e && e.emit("spanEnd", this);
-    const n = this._isStandaloneSpan || this === Zn(this);
+    const n = this._isStandaloneSpan || this === Xn(this);
     if (!n) return;
     if (this._isStandaloneSpan) {
-      if (this._sampled) Xo(zo([this], e));
+      if (this._sampled) Qs(Bs([this], e));
       else {
         t &&
           y.log(
@@ -2801,14 +2819,14 @@ class SentrySpan {
       }
       return;
     }
-    const o = this._convertSpanToTransaction();
-    if (o) {
-      const t = nn(this).scope || ke();
-      t.captureEvent(o);
+    const s = this._convertSpanToTransaction();
+    if (s) {
+      const t = on(this).scope || we();
+      t.captureEvent(s);
     }
   }
   _convertSpanToTransaction() {
-    if (!Zo(qn(this))) return;
+    if (!Ys(Jn(this))) return;
     if (!this._name) {
       t &&
         y.warn(
@@ -2816,22 +2834,22 @@ class SentrySpan {
         );
       this._name = "<unlabeled transaction>";
     }
-    const { scope: e, isolationScope: n } = nn(this);
-    const o = e?.getScopeData().sdkProcessingMetadata?.normalizedRequest;
+    const { scope: e, isolationScope: n } = on(this);
+    const s = e?.getScopeData().sdkProcessingMetadata?.normalizedRequest;
     if (this._sampled !== true) return;
-    const s = Hn(this).filter((t) => t !== this && !Yo(t));
-    const r = s.map((t) => qn(t)).filter(Zo);
-    const i = this._attributes[$e];
+    const o = Yn(this).filter((t) => t !== this && !Xs(t));
+    const r = o.map((t) => Jn(t)).filter(Ys);
+    const i = this._attributes[Oe];
     /* eslint-disable @typescript-eslint/no-dynamic-delete */ delete this
-      ._attributes[De];
+      ._attributes[Fe];
     r.forEach((t) => {
-      delete t.data[De];
+      delete t.data[Fe];
     });
     const a = {
-      contexts: { trace: jn(this) },
+      contexts: { trace: Mn(this) },
       spans:
-        r.length > Ko
-          ? r.sort((t, e) => t.start_timestamp - e.start_timestamp).slice(0, Ko)
+        r.length > Hs
+          ? r.sort((t, e) => t.start_timestamp - e.start_timestamp).slice(0, Hs)
           : r,
       start_timestamp: this._startTime,
       timestamp: this._endTime,
@@ -2840,12 +2858,12 @@ class SentrySpan {
       sdkProcessingMetadata: {
         capturedSpanScope: e,
         capturedSpanIsolationScope: n,
-        dynamicSamplingContext: mo(this),
+        dynamicSamplingContext: gs(this),
       },
-      request: o,
+      request: s,
       ...(i && { transaction_info: { source: i } }),
     };
-    const c = Go(this._events);
+    const c = Ks(this._events);
     const u = c && Object.keys(c).length;
     if (u) {
       t &&
@@ -2858,40 +2876,40 @@ class SentrySpan {
     return a;
   }
 }
-function Ho(t) {
+function Zs(t) {
   return (t && typeof t === "number") || t instanceof Date || Array.isArray(t);
 }
-function Zo(t) {
+function Ys(t) {
   return !!t.start_timestamp && !!t.timestamp && !!t.span_id && !!t.trace_id;
 }
-function Yo(t) {
+function Xs(t) {
   return t instanceof SentrySpan && t.isStandaloneSpan();
 }
-function Xo(t) {
-  const e = Te();
+function Qs(t) {
+  const e = Ie();
   if (!e) return;
   const n = t[1];
   n && n.length !== 0
     ? e.sendEnvelope(t)
     : e.recordDroppedEvent("before_send", "span");
 }
-function Qo(t, e, n = () => {}, o = () => {}) {
-  let s;
+function to(t, e, n = () => {}, s = () => {}) {
+  let o;
   try {
-    s = t();
+    o = t();
   } catch (t) {
     e(t);
     n();
     throw t;
   }
-  return ts(s, e, n, o);
+  return eo(o, e, n, s);
 }
-function ts(t, e, n, o) {
-  if (nt(t))
+function eo(t, e, n, s) {
+  if (st(t))
     return t.then(
       (t) => {
         n();
-        o(t);
+        s(t);
         return t;
       },
       (t) => {
@@ -2901,12 +2919,12 @@ function ts(t, e, n, o) {
       },
     );
   n();
-  o(t);
+  s(t);
   return t;
 }
-function es(e, n, o) {
-  if (!no(e)) return [false];
-  let s;
+function no(e, n, s) {
+  if (!os(e)) return [false];
+  let o;
   let r;
   if (typeof e.tracesSampler === "function") {
     r = e.tracesSampler({
@@ -2918,13 +2936,13 @@ function es(e, n, o) {
             ? Number(n.parentSampled)
             : t,
     });
-    s = true;
+    o = true;
   } else if (n.parentSampled !== void 0) r = n.parentSampled;
   else if (typeof e.tracesSampleRate !== "undefined") {
     r = e.tracesSampleRate;
-    s = true;
+    o = true;
   }
-  const i = kn(r);
+  const i = xn(r);
   if (i === void 0) {
     t &&
       y.warn(
@@ -2940,45 +2958,45 @@ function es(e, n, o) {
             ? "tracesSampler returned 0 or false"
             : "a negative sampling decision was inherited or tracesSampleRate is set to 0"),
       );
-    return [false, i, s];
+    return [false, i, o];
   }
-  const a = o < i;
+  const a = s < i;
   a ||
     (t &&
       y.log(
         `[Tracing] Discarding transaction because it's not included in the random sample (sampling rate = ${Number(r)})`,
       ));
-  return [a, i, s];
+  return [a, i, o];
 }
-const ns = "__SENTRY_SUPPRESS_TRACING__";
-function os(t, e) {
-  const n = fs();
+const so = "__SENTRY_SUPPRESS_TRACING__";
+function oo(t, e) {
+  const n = mo();
   if (n.startSpan) return n.startSpan(t, e);
-  const o = ps(t);
-  const { forceTransaction: s, parentSpan: r, scope: i } = t;
+  const s = fo(t);
+  const { forceTransaction: o, parentSpan: r, scope: i } = t;
   const a = i?.clone();
   return Ee(a, () => {
-    const n = hs(r);
+    const n = yo(r);
     return n(() => {
-      const n = ke();
-      const i = gs(n, r);
+      const n = we();
+      const i = _o(n, r);
       const a = t.onlyIfParent && !i;
       const c = a
         ? new SentryNonRecordingSpan()
-        : ls({
+        : po({
             parentSpan: i,
-            spanArguments: o,
-            forceTransaction: s,
+            spanArguments: s,
+            forceTransaction: o,
             scope: n,
           });
-      le(n, c);
-      return Qo(
+      pe(n, c);
+      return to(
         () => e(c),
         () => {
-          const { status: t } = qn(c);
+          const { status: t } = Jn(c);
           !c.isRecording() ||
             (t && t !== "ok") ||
-            c.setStatus({ code: Ke, message: "internal_error" });
+            c.setStatus({ code: Ze, message: "internal_error" });
         },
         () => {
           c.end();
@@ -2987,71 +3005,71 @@ function os(t, e) {
     });
   });
 }
-function ss(t, e) {
-  const n = fs();
+function ro(t, e) {
+  const n = mo();
   if (n.startSpanManual) return n.startSpanManual(t, e);
-  const o = ps(t);
-  const { forceTransaction: s, parentSpan: r, scope: i } = t;
+  const s = fo(t);
+  const { forceTransaction: o, parentSpan: r, scope: i } = t;
   const a = i?.clone();
   return Ee(a, () => {
-    const n = hs(r);
+    const n = yo(r);
     return n(() => {
-      const n = ke();
-      const i = gs(n, r);
+      const n = we();
+      const i = _o(n, r);
       const a = t.onlyIfParent && !i;
       const c = a
         ? new SentryNonRecordingSpan()
-        : ls({
+        : po({
             parentSpan: i,
-            spanArguments: o,
-            forceTransaction: s,
+            spanArguments: s,
+            forceTransaction: o,
             scope: n,
           });
-      le(n, c);
-      return Qo(
+      pe(n, c);
+      return to(
         () => e(c, () => c.end()),
         () => {
-          const { status: t } = qn(c);
+          const { status: t } = Jn(c);
           !c.isRecording() ||
             (t && t !== "ok") ||
-            c.setStatus({ code: Ke, message: "internal_error" });
+            c.setStatus({ code: Ze, message: "internal_error" });
         },
       );
     });
   });
 }
-function rs(t) {
-  const e = fs();
+function io(t) {
+  const e = mo();
   if (e.startInactiveSpan) return e.startInactiveSpan(t);
-  const n = ps(t);
-  const { forceTransaction: o, parentSpan: s } = t;
+  const n = fo(t);
+  const { forceTransaction: s, parentSpan: o } = t;
   const r = t.scope
     ? (e) => Ee(t.scope, e)
-    : s !== void 0
-      ? (t) => as(s, t)
+    : o !== void 0
+      ? (t) => co(o, t)
       : (t) => t();
   return r(() => {
-    const e = ke();
-    const r = gs(e, s);
+    const e = we();
+    const r = _o(e, o);
     const i = t.onlyIfParent && !r;
     return i
       ? new SentryNonRecordingSpan()
-      : ls({ parentSpan: r, spanArguments: n, forceTransaction: o, scope: e });
+      : po({ parentSpan: r, spanArguments: n, forceTransaction: s, scope: e });
   });
 }
-const is = (t, e) => {
-  const n = o();
-  const s = Se(n);
-  if (s.continueTrace) return s.continueTrace(t, e);
+const ao = (t, e) => {
+  const n = s();
+  const o = ke(n);
+  if (o.continueTrace) return o.continueTrace(t, e);
   const { sentryTrace: r, baggage: i } = t;
-  const a = Te();
-  const c = an(i);
-  return a && !$n(a, c?.org_id)
-    ? us(e)
+  const a = Ie();
+  const c = un(i);
+  return a && !Cn(a, c?.org_id)
+    ? lo(e)
     : Ee((t) => {
-        const n = En(r, i);
+        const n = Tn(r, i);
         t.setPropagationContext(n);
-        le(t, void 0);
+        pe(t, void 0);
         return e();
       });
 };
@@ -3063,209 +3081,209 @@ const is = (t, e) => {
  * spans started within the callback will not be attached to a parent span.
  * @param callback Execution context in which the provided span will be active. Is passed the newly forked scope.
  * @returns the value returned from the provided callback function.
- */ function as(t, e) {
-  const n = fs();
+ */ function co(t, e) {
+  const n = mo();
   return n.withActiveSpan
     ? n.withActiveSpan(t, e)
     : Ee((n) => {
-        le(n, t || void 0);
+        pe(n, t || void 0);
         return e(n);
       });
 }
-function cs(t) {
-  const e = fs();
+function uo(t) {
+  const e = mo();
   return e.suppressTracing
     ? e.suppressTracing(t)
     : Ee((e) => {
-        e.setSDKProcessingMetadata({ [ns]: true });
+        e.setSDKProcessingMetadata({ [so]: true });
         const n = t();
-        e.setSDKProcessingMetadata({ [ns]: void 0 });
+        e.setSDKProcessingMetadata({ [so]: void 0 });
         return n;
       });
 }
-function us(e) {
+function lo(e) {
   return Ee((n) => {
-    n.setPropagationContext({ traceId: ae(), sampleRand: Tt() });
+    n.setPropagationContext({ traceId: ce(), sampleRand: It() });
     t &&
       y.log(
         `Starting a new trace with id ${n.getPropagationContext().traceId}`,
       );
-    return as(null, e);
+    return co(null, e);
   });
 }
-function ls({
+function po({
   parentSpan: t,
   spanArguments: e,
   forceTransaction: n,
-  scope: o,
+  scope: s,
 }) {
-  if (!no()) {
-    const o = new SentryNonRecordingSpan();
+  if (!os()) {
+    const s = new SentryNonRecordingSpan();
     if (n || !t) {
       const t = {
         sampled: "false",
         sample_rate: "0",
         transaction: e.name,
-        ...mo(o),
+        ...gs(s),
       };
-      lo(o, t);
+      fs(s, t);
     }
-    return o;
+    return s;
   }
-  const s = we();
+  const o = xe();
   let r;
   if (t && !n) {
-    r = ms(t, o, e);
-    Gn(t, r);
+    r = ho(t, s, e);
+    Hn(t, r);
   } else if (t) {
-    const n = mo(t);
-    const { traceId: s, spanId: i } = t.spanContext();
-    const a = zn(t);
-    r = ds({ traceId: s, parentSpanId: i, ...e }, o, a);
-    lo(r, n);
+    const n = gs(t);
+    const { traceId: o, spanId: i } = t.spanContext();
+    const a = Wn(t);
+    r = go({ traceId: o, parentSpanId: i, ...e }, s, a);
+    fs(r, n);
   } else {
     const {
       traceId: t,
       dsc: n,
       parentSpanId: i,
       sampled: a,
-    } = { ...s.getPropagationContext(), ...o.getPropagationContext() };
-    r = ds({ traceId: t, parentSpanId: i, ...e }, o, a);
-    n && lo(r, n);
+    } = { ...o.getPropagationContext(), ...s.getPropagationContext() };
+    r = go({ traceId: t, parentSpanId: i, ...e }, s, a);
+    n && fs(r, n);
   }
-  Bo(r);
-  en(r, o, s);
+  Ws(r);
+  sn(r, s, o);
   return r;
 }
-function ps(t) {
+function fo(t) {
   const e = t.experimental || {};
   const n = { isStandalone: e.standalone, ...t };
   if (t.startTime) {
     const e = { ...n };
-    e.startTimestamp = Fn(t.startTime);
+    e.startTimestamp = qn(t.startTime);
     delete e.startTime;
     return e;
   }
   return n;
 }
-function fs() {
-  const t = o();
-  return Se(t);
+function mo() {
+  const t = s();
+  return ke(t);
 }
-function ds(e, n, o) {
-  const s = Te();
-  const r = s?.getOptions() || {};
+function go(e, n, s) {
+  const o = Ie();
+  const r = o?.getOptions() || {};
   const { name: i = "" } = e;
   const a = {
     spanAttributes: { ...e.attributes },
     spanName: i,
-    parentSampled: o,
+    parentSampled: s,
   };
-  s?.emit("beforeSampling", a, { decision: false });
-  const c = a.parentSampled ?? o;
+  o?.emit("beforeSampling", a, { decision: false });
+  const c = a.parentSampled ?? s;
   const u = a.spanAttributes;
   const l = n.getPropagationContext();
-  const [p, f, d] = n.getScopeData().sdkProcessingMetadata[ns]
+  const [p, f, d] = n.getScopeData().sdkProcessingMetadata[so]
     ? [false]
-    : es(
+    : no(
         r,
         {
           name: i,
           parentSampled: c,
           attributes: u,
-          parentSampleRate: kn(l.dsc?.sample_rate),
+          parentSampleRate: xn(l.dsc?.sample_rate),
         },
         l.sampleRand,
       );
   const m = new SentrySpan({
     ...e,
-    attributes: { [$e]: "custom", [Oe]: f !== void 0 && d ? f : void 0, ...u },
+    attributes: { [Oe]: "custom", [Ce]: f !== void 0 && d ? f : void 0, ...u },
     sampled: p,
   });
-  if (!p && s) {
+  if (!p && o) {
     t &&
       y.log(
         "[Tracing] Discarding root span because its trace was not chosen to be sampled.",
       );
-    s.recordDroppedEvent("sample_rate", "transaction");
+    o.recordDroppedEvent("sample_rate", "transaction");
   }
-  s && s.emit("spanStart", m);
+  o && o.emit("spanStart", m);
   return m;
 }
-function ms(t, e, n) {
-  const { spanId: o, traceId: s } = t.spanContext();
-  const r = !e.getScopeData().sdkProcessingMetadata[ns] && zn(t);
+function ho(t, e, n) {
+  const { spanId: s, traceId: o } = t.spanContext();
+  const r = !e.getScopeData().sdkProcessingMetadata[so] && Wn(t);
   const i = r
-    ? new SentrySpan({ ...n, parentSpanId: o, traceId: s, sampled: r })
-    : new SentryNonRecordingSpan({ traceId: s });
-  Gn(t, i);
-  const a = Te();
+    ? new SentrySpan({ ...n, parentSpanId: s, traceId: o, sampled: r })
+    : new SentryNonRecordingSpan({ traceId: o });
+  Hn(t, i);
+  const a = Ie();
   if (a) {
     a.emit("spanStart", i);
     n.endTimestamp && a.emit("spanEnd", i);
   }
   return i;
 }
-function gs(t, e) {
+function _o(t, e) {
   if (e) return e;
   if (e === null) return;
-  const n = pe(t);
+  const n = fe(t);
   if (!n) return;
-  const o = Te();
-  const s = o ? o.getOptions() : {};
-  return s.parentSpanIsAlwaysRootSpan ? Zn(n) : n;
+  const s = Ie();
+  const o = s ? s.getOptions() : {};
+  return o.parentSpanIsAlwaysRootSpan ? Xn(n) : n;
 }
-function hs(t) {
-  return t !== void 0 ? (e) => as(t, e) : (t) => t();
+function yo(t) {
+  return t !== void 0 ? (e) => co(t, e) : (t) => t();
 }
-const _s = { idleTimeout: 1e3, finalTimeout: 3e4, childSpanTimeout: 15e3 };
-const ys = "heartbeatFailed";
-const bs = "idleTimeout";
-const vs = "finalTimeout";
-const Ss = "externalFinish";
-function ks(e, n = {}) {
-  const o = new Map();
-  let s = false;
+const bo = { idleTimeout: 1e3, finalTimeout: 3e4, childSpanTimeout: 15e3 };
+const vo = "heartbeatFailed";
+const So = "idleTimeout";
+const ko = "finalTimeout";
+const wo = "externalFinish";
+function xo(e, n = {}) {
+  const s = new Map();
+  let o = false;
   let r;
-  let i = Ss;
+  let i = wo;
   let a = !n.disableAutoFinish;
   const c = [];
   const {
-    idleTimeout: u = _s.idleTimeout,
-    finalTimeout: l = _s.finalTimeout,
-    childSpanTimeout: p = _s.childSpanTimeout,
+    idleTimeout: u = bo.idleTimeout,
+    finalTimeout: l = bo.finalTimeout,
+    childSpanTimeout: p = bo.childSpanTimeout,
     beforeSpanEnd: f,
     trimIdleSpanEndTimestamp: d = true,
   } = n;
-  const m = Te();
-  if (!m || !no()) {
+  const m = Ie();
+  if (!m || !os()) {
     const t = new SentryNonRecordingSpan();
-    const e = { sample_rate: "0", sampled: "false", ...mo(t) };
-    lo(t, e);
+    const e = { sample_rate: "0", sampled: "false", ...gs(t) };
+    fs(t, e);
     return t;
   }
-  const g = ke();
-  const h = Yn();
-  const _ = ws(e);
+  const g = we();
+  const h = Qn();
+  const _ = Ao(e);
   _.end = new Proxy(_.end, {
     apply(t, e, n) {
       f && f(_);
       if (e instanceof SentryNonRecordingSpan) return;
-      const [o, ...s] = n;
-      const r = o || Xt();
-      const i = Fn(r);
-      const a = Hn(_).filter((t) => t !== _);
-      const c = qn(_);
+      const [s, ...o] = n;
+      const r = s || Qt();
+      const i = qn(r);
+      const a = Yn(_).filter((t) => t !== _);
+      const c = Jn(_);
       if (!a.length || !d) {
         x(i);
-        return Reflect.apply(t, e, [i, ...s]);
+        return Reflect.apply(t, e, [i, ...o]);
       }
       const u = m.getOptions().ignoreSpans;
       const p = a?.reduce(
         (t, e) => {
-          const n = qn(e);
+          const n = Jn(e);
           return n.timestamp
-            ? u && so(n, u)
+            ? u && is(n, u)
               ? t
               : t
                 ? Math.max(t, n.timestamp)
@@ -3280,7 +3298,7 @@ function ks(e, n = {}) {
         Math.max(g || -Infinity, Math.min(i, p || Infinity)),
       );
       x(h);
-      return Reflect.apply(t, e, [h, ...s]);
+      return Reflect.apply(t, e, [h, ...o]);
     },
   });
   function b() {
@@ -3292,16 +3310,16 @@ function ks(e, n = {}) {
   function v(t) {
     b();
     r = setTimeout(() => {
-      if (!s && o.size === 0 && a) {
-        i = bs;
+      if (!o && s.size === 0 && a) {
+        i = So;
         _.end(t);
       }
     }, u);
   }
   function S(t) {
     r = setTimeout(() => {
-      if (!s && a) {
-        i = ys;
+      if (!o && a) {
+        i = vo;
         _.end(t);
       }
     }, p);
@@ -3311,38 +3329,38 @@ function ks(e, n = {}) {
    * @param spanId The span id that represents the activity
    */ function k(t) {
     b();
-    o.set(t, true);
-    const e = Xt();
+    s.set(t, true);
+    const e = Qt();
     S(e + p / 1e3);
   }
   /**
    * Remove an activity from usage
    * @param spanId The span id that represents the activity
    */ function w(t) {
-    o.has(t) && o.delete(t);
-    if (o.size === 0) {
-      const t = Xt();
+    s.has(t) && s.delete(t);
+    if (s.size === 0) {
+      const t = Qt();
       v(t + u / 1e3);
     }
   }
   function x(e) {
-    s = true;
-    o.clear();
+    o = true;
+    s.clear();
     c.forEach((t) => t());
-    le(g, h);
-    const n = qn(_);
+    pe(g, h);
+    const n = Jn(_);
     const { start_timestamp: r } = n;
     if (!r) return;
     const a = n.data;
-    a[Re] || _.setAttribute(Re, i);
+    a[Me] || _.setAttribute(Me, i);
     const p = n.status;
-    (p && p !== "unknown") || _.setStatus({ code: Ge });
+    (p && p !== "unknown") || _.setStatus({ code: He });
     y.log(`[Tracing] Idle span "${n.op}" finished`);
-    const f = Hn(_).filter((t) => t !== _);
+    const f = Yn(_).filter((t) => t !== _);
     let d = 0;
     f.forEach((n) => {
       if (n.isRecording()) {
-        n.setStatus({ code: Ke, message: "cancelled" });
+        n.setStatus({ code: Ze, message: "cancelled" });
         n.end(e);
         t &&
           y.log(
@@ -3350,11 +3368,11 @@ function ks(e, n = {}) {
             JSON.stringify(n, void 0, 2),
           );
       }
-      const o = qn(n);
-      const { timestamp: s = 0, start_timestamp: r = 0 } = o;
+      const s = Jn(n);
+      const { timestamp: o = 0, start_timestamp: r = 0 } = s;
       const i = r <= e;
       const a = (l + u) / 1e3;
-      const c = s - r <= a;
+      const c = o - r <= a;
       if (t) {
         const t = JSON.stringify(n, void 0, 2);
         i
@@ -3369,7 +3387,7 @@ function ks(e, n = {}) {
             );
       }
       if (!c || !i) {
-        Kn(_, n);
+        Zn(_, n);
         d++;
       }
     });
@@ -3378,19 +3396,19 @@ function ks(e, n = {}) {
   c.push(
     m.on("spanStart", (t) => {
       if (
-        s ||
+        o ||
         t === _ ||
-        !!qn(t).timestamp ||
+        !!Jn(t).timestamp ||
         (t instanceof SentrySpan && t.isStandaloneSpan())
       )
         return;
-      const e = Hn(_);
+      const e = Yn(_);
       e.includes(t) && k(t.spanContext().spanId);
     }),
   );
   c.push(
     m.on("spanEnd", (t) => {
-      s || w(t.spanContext().spanId);
+      o || w(t.spanContext().spanId);
     }),
   );
   c.push(
@@ -3398,35 +3416,35 @@ function ks(e, n = {}) {
       if (t === _) {
         a = true;
         v();
-        o.size && S();
+        s.size && S();
       }
     }),
   );
   n.disableAutoFinish || v();
   setTimeout(() => {
-    if (!s) {
-      _.setStatus({ code: Ke, message: "deadline_exceeded" });
-      i = vs;
+    if (!o) {
+      _.setStatus({ code: Ze, message: "deadline_exceeded" });
+      i = ko;
       _.end();
     }
   }, l);
   return _;
 }
-function ws(e) {
-  const n = rs(e);
-  le(ke(), n);
+function Ao(e) {
+  const n = io(e);
+  pe(we(), n);
   t && y.log("[Tracing] Started span is an idle span");
   return n;
 }
-/* eslint-disable @typescript-eslint/no-explicit-any */ const xs = 0;
-const Es = 1;
-const As = 2;
+/* eslint-disable @typescript-eslint/no-explicit-any */ const Eo = 0;
+const To = 1;
+const Io = 2;
 /**
  * Creates a resolved sync promise.
  *
  * @param value the value to resolve the promise with
  * @returns the resolved sync promise
- */ function Ts(t) {
+ */ function $o(t) {
   return new SyncPromise((e) => {
     e(t);
   });
@@ -3436,19 +3454,19 @@ const As = 2;
  *
  * @param value the value to reject the promise with
  * @returns the rejected sync promise
- */ function Is(t) {
+ */ function Oo(t) {
   return new SyncPromise((e, n) => {
     n(t);
   });
 }
 class SyncPromise {
   constructor(t) {
-    this._state = xs;
+    this._state = Eo;
     this._handlers = [];
     this._runExecutor(t);
   }
   then(t, e) {
-    return new SyncPromise((n, o) => {
+    return new SyncPromise((n, s) => {
       this._handlers.push([
         false,
         (e) => {
@@ -3456,7 +3474,7 @@ class SyncPromise {
             try {
               n(t(e));
             } catch (t) {
-              o(t);
+              s(t);
             }
           else n(e);
         },
@@ -3465,9 +3483,9 @@ class SyncPromise {
             try {
               n(e(t));
             } catch (t) {
-              o(t);
+              s(t);
             }
-          else o(t);
+          else s(t);
         },
       ]);
       this._executeHandlers();
@@ -3478,40 +3496,40 @@ class SyncPromise {
   }
   finally(t) {
     return new SyncPromise((e, n) => {
-      let o;
       let s;
+      let o;
       return this.then(
         (e) => {
-          s = false;
-          o = e;
+          o = false;
+          s = e;
           t && t();
         },
         (e) => {
-          s = true;
-          o = e;
+          o = true;
+          s = e;
           t && t();
         },
       ).then(() => {
-        s ? n(o) : e(o);
+        o ? n(s) : e(s);
       });
     });
   }
   _executeHandlers() {
-    if (this._state === xs) return;
+    if (this._state === Eo) return;
     const t = this._handlers.slice();
     this._handlers = [];
     t.forEach((t) => {
       if (!t[0]) {
-        this._state === Es && t[1](this._value);
-        this._state === As && t[2](this._value);
+        this._state === To && t[1](this._value);
+        this._state === Io && t[2](this._value);
         t[0] = true;
       }
     });
   }
   _runExecutor(t) {
     const e = (t, e) => {
-      if (this._state === xs)
-        if (nt(e)) void e.then(n, o);
+      if (this._state === Eo)
+        if (st(e)) void e.then(n, s);
         else {
           this._state = t;
           this._value = e;
@@ -3519,99 +3537,101 @@ class SyncPromise {
         }
     };
     const n = (t) => {
-      e(Es, t);
+      e(To, t);
     };
-    const o = (t) => {
-      e(As, t);
+    const s = (t) => {
+      e(Io, t);
     };
     try {
-      t(n, o);
+      t(n, s);
     } catch (t) {
-      o(t);
+      s(t);
     }
   }
 }
-function $s(t, e, n, o = 0) {
+function Co(t, e, n, s = 0) {
   try {
-    const s = Os(e, n, t, o);
-    return nt(s) ? s : Ts(s);
+    const o = No(e, n, t, s);
+    return st(o) ? o : $o(o);
   } catch (t) {
-    return Is(t);
+    return Oo(t);
   }
 }
-function Os(e, n, o, s) {
-  const r = o[s];
+function No(e, n, s, o) {
+  const r = s[o];
   if (!e || !r) return e;
   const i = r({ ...e }, n);
   t && i === null && y.log(`Event processor "${r.id || "?"}" dropped event`);
-  return nt(i) ? i.then((t) => Os(t, n, o, s + 1)) : Os(i, n, o, s + 1);
+  return st(i) ? i.then((t) => No(t, n, s, o + 1)) : No(i, n, s, o + 1);
 }
-let Cs;
-let Ns;
-let js;
-let Rs;
-function Ps(t) {
+let jo;
+let Ro;
+let Mo;
+let Po;
+function Do(t) {
   const n = e._sentryDebugIds;
-  const o = e._debugIds;
-  if (!n && !o) return {};
-  const s = n ? Object.keys(n) : [];
-  const r = o ? Object.keys(o) : [];
-  if (Rs && s.length === Ns && r.length === js) return Rs;
-  Ns = s.length;
-  js = r.length;
-  Rs = {};
-  Cs || (Cs = {});
+  const s = e._debugIds;
+  if (!n && !s) return {};
+  const o = n ? Object.keys(n) : [];
+  const r = s ? Object.keys(s) : [];
+  if (Po && o.length === Ro && r.length === Mo) return Po;
+  Ro = o.length;
+  Mo = r.length;
+  Po = {};
+  jo || (jo = {});
   const i = (e, n) => {
-    for (const o of e) {
-      const e = n[o];
-      const s = Cs?.[o];
-      if (s && Rs && e) {
-        Rs[s[0]] = e;
-        Cs && (Cs[o] = [s[0], e]);
+    for (const s of e) {
+      const e = n[s];
+      const o = jo?.[s];
+      if (o && Po && e) {
+        Po[o[0]] = e;
+        jo && (jo[s] = [o[0], e]);
       } else if (e) {
-        const n = t(o);
+        const n = t(s);
         for (let t = n.length - 1; t >= 0; t--) {
-          const s = n[t];
-          const r = s?.filename;
-          if (r && Rs && Cs) {
-            Rs[r] = e;
-            Cs[o] = [r, e];
+          const o = n[t];
+          const r = o?.filename;
+          if (r && Po && jo) {
+            Po[r] = e;
+            jo[s] = [r, e];
             break;
           }
         }
       }
     }
   };
-  n && i(s, n);
-  o && i(r, o);
-  return Rs;
+  n && i(o, n);
+  s && i(r, s);
+  return Po;
 }
-function Ms(t, e) {
-  const n = Ps(t);
+function Fo(t, e) {
+  const n = Do(t);
   if (!n) return [];
-  const o = [];
-  for (const t of e)
-    t && n[t] && o.push({ type: "sourcemap", code_file: t, debug_id: n[t] });
-  return o;
+  const s = [];
+  for (const t of e) {
+    const e = C(t);
+    e && n[e] && s.push({ type: "sourcemap", code_file: t, debug_id: n[e] });
+  }
+  return s;
 }
-function Ds(t, e) {
+function Lo(t, e) {
   const {
     fingerprint: n,
-    span: o,
-    breadcrumbs: s,
+    span: s,
+    breadcrumbs: o,
     sdkProcessingMetadata: r,
   } = e;
-  Us(t, e);
-  o && Bs(t, o);
-  Ws(t, n);
-  Js(t, s);
-  zs(t, r);
+  zo(t, e);
+  s && Vo(t, s);
+  Go(t, n);
+  Bo(t, o);
+  Wo(t, r);
 }
-function Fs(t, e) {
+function qo(t, e) {
   const {
     extra: n,
-    tags: o,
-    attributes: s,
+    tags: s,
+    attributes: o,
     user: r,
     contexts: i,
     level: a,
@@ -3624,12 +3644,12 @@ function Fs(t, e) {
     transactionName: m,
     span: g,
   } = e;
-  Ls(t, "extra", n);
-  Ls(t, "tags", o);
-  Ls(t, "attributes", s);
-  Ls(t, "user", r);
-  Ls(t, "contexts", i);
-  t.sdkProcessingMetadata = ie(t.sdkProcessingMetadata, c, 2);
+  Uo(t, "extra", n);
+  Uo(t, "tags", s);
+  Uo(t, "attributes", o);
+  Uo(t, "user", r);
+  Uo(t, "contexts", i);
+  t.sdkProcessingMetadata = ae(t.sdkProcessingMetadata, c, 2);
   a && (t.level = a);
   m && (t.transactionName = m);
   g && (t.span = g);
@@ -3639,8 +3659,8 @@ function Fs(t, e) {
   f.length && (t.attachments = [...t.attachments, ...f]);
   t.propagationContext = { ...t.propagationContext, ...d };
 }
-function Ls(t, e, n) {
-  t[e] = ie(t[e], n, 1);
+function Uo(t, e, n) {
+  t[e] = ae(t[e], n, 1);
 }
 /**
  * Get the scope data for the current scope after merging with the
@@ -3648,46 +3668,46 @@ function Ls(t, e, n) {
  *
  * @param currentScope - The current scope.
  * @returns The scope data.
- */ function qs(t, e) {
-  const n = xe().getScopeData();
-  t && Fs(n, t.getScopeData());
-  e && Fs(n, e.getScopeData());
+ */ function Jo(t, e) {
+  const n = Ae().getScopeData();
+  t && qo(n, t.getScopeData());
+  e && qo(n, e.getScopeData());
   return n;
 }
-function Us(t, e) {
+function zo(t, e) {
   const {
     extra: n,
-    tags: o,
-    user: s,
+    tags: s,
+    user: o,
     contexts: r,
     level: i,
     transactionName: a,
   } = e;
   Object.keys(n).length && (t.extra = { ...n, ...t.extra });
-  Object.keys(o).length && (t.tags = { ...o, ...t.tags });
-  Object.keys(s).length && (t.user = { ...s, ...t.user });
+  Object.keys(s).length && (t.tags = { ...s, ...t.tags });
+  Object.keys(o).length && (t.user = { ...o, ...t.user });
   Object.keys(r).length && (t.contexts = { ...r, ...t.contexts });
   i && (t.level = i);
   a && t.type !== "transaction" && (t.transaction = a);
 }
-function Js(t, e) {
+function Bo(t, e) {
   const n = [...(t.breadcrumbs || []), ...e];
   t.breadcrumbs = n.length ? n : void 0;
 }
-function zs(t, e) {
+function Wo(t, e) {
   t.sdkProcessingMetadata = { ...t.sdkProcessingMetadata, ...e };
 }
-function Bs(t, e) {
-  t.contexts = { trace: Rn(e), ...t.contexts };
+function Vo(t, e) {
+  t.contexts = { trace: Pn(e), ...t.contexts };
   t.sdkProcessingMetadata = {
-    dynamicSamplingContext: mo(e),
+    dynamicSamplingContext: gs(e),
     ...t.sdkProcessingMetadata,
   };
-  const n = Zn(e);
-  const o = qn(n).description;
-  o && !t.transaction && t.type === "transaction" && (t.transaction = o);
+  const n = Xn(e);
+  const s = Jn(n).description;
+  s && !t.transaction && t.type === "transaction" && (t.transaction = s);
 }
-function Ws(t, e) {
+function Go(t, e) {
   t.fingerprint = t.fingerprint
     ? Array.isArray(t.fingerprint)
       ? t.fingerprint
@@ -3710,30 +3730,31 @@ function Ws(t, e) {
  * @param scope A scope containing event metadata.
  * @returns A new event with more information.
  * @hidden
- */ function Vs(t, e, n, o, s, r) {
+ */ function Ko(t, e, n, s, o, r) {
   const { normalizeDepth: i = 3, normalizeMaxBreadth: a = 1e3 } = t;
   const c = {
     ...e,
-    event_id: e.event_id || n.event_id || Dt(),
-    timestamp: e.timestamp || Ht(),
+    event_id: e.event_id || n.event_id || Ft(),
+    timestamp: e.timestamp || Zt(),
   };
   const u = n.integrations || t.integrations.map((t) => t.name);
-  Gs(c, t);
-  Zs(c, u);
-  s && s.emit("applyFrameMetadata", e);
-  e.type === void 0 && Ks(c, t.stackParser);
-  const l = Xs(o, n.captureContext);
-  n.mechanism && Ut(c, n.mechanism);
-  const p = s ? s.getEventProcessors() : [];
-  const f = qs(r, l);
+  Ho(c, t);
+  Xo(c, u);
+  o && o.emit("applyFrameMetadata", e);
+  e.type === void 0 && Zo(c, t.stackParser);
+  const l = tr(s, n.captureContext);
+  n.mechanism && Jt(c, n.mechanism);
+  const p = o ? o.getEventProcessors() : [];
+  const f = Jo(r, l);
   const d = [...(n.attachments || []), ...f.attachments];
   d.length && (n.attachments = d);
-  Ds(c, f);
+  Lo(c, f);
   const m = [...p, ...f.eventProcessors];
-  const g = $s(m, c, n);
-  return g.then((t) => {
-    t && Hs(t);
-    return typeof i === "number" && i > 0 ? Ys(t, i, a) : t;
+  const g = n.data && n.data.__sentry__ === true;
+  const h = g ? $o(c) : Co(m, c, n);
+  return h.then((t) => {
+    t && Yo(t);
+    return typeof i === "number" && i > 0 ? Qo(t, i, a) : t;
   });
 }
 /**
@@ -3744,27 +3765,27 @@ function Ws(t, e) {
  * Only exported for tests.
  *
  * @param event event instance to be enhanced
- */ function Gs(t, e) {
-  const { environment: n, release: o, dist: s, maxValueLength: r } = e;
-  t.environment = t.environment || n || ao;
-  !t.release && o && (t.release = o);
-  !t.dist && s && (t.dist = s);
+ */ function Ho(t, e) {
+  const { environment: n, release: s, dist: o, maxValueLength: r } = e;
+  t.environment = t.environment || n || us;
+  !t.release && s && (t.release = s);
+  !t.dist && o && (t.dist = o);
   const i = t.request;
-  i?.url && r && (i.url = $t(i.url, r));
+  i?.url && r && (i.url = Ot(i.url, r));
   r &&
     t.exception?.values?.forEach((t) => {
-      t.value && (t.value = $t(t.value, r));
+      t.value && (t.value = Ot(t.value, r));
     });
 }
-function Ks(t, e) {
-  const n = Ps(e);
+function Zo(t, e) {
+  const n = Do(e);
   t.exception?.values?.forEach((t) => {
     t.stacktrace?.frames?.forEach((t) => {
       t.filename && (t.debug_id = n[t.filename]);
     });
   });
 }
-function Hs(t) {
+function Yo(t) {
   const e = {};
   t.exception?.values?.forEach((t) => {
     t.stacktrace?.frames?.forEach((t) => {
@@ -3787,7 +3808,7 @@ function Hs(t) {
 /**
  * This function adds all used integrations to the SDK info in the event.
  * @param event The event that will be filled with all integrations.
- */ function Zs(t, e) {
+ */ function Xo(t, e) {
   if (e.length > 0) {
     t.sdk = t.sdk || {};
     t.sdk.integrations = [...(t.sdk.integrations || []), ...e];
@@ -3802,48 +3823,48 @@ function Hs(t) {
  * - `extra`
  * @param event Event
  * @returns Normalized event
- */ function Ys(t, e, n) {
+ */ function Qo(t, e, n) {
   if (!t) return null;
-  const o = {
+  const s = {
     ...t,
     ...(t.breadcrumbs && {
       breadcrumbs: t.breadcrumbs.map((t) => ({
         ...t,
-        ...(t.data && { data: ho(t.data, e, n) }),
+        ...(t.data && { data: _s(t.data, e, n) }),
       })),
     }),
-    ...(t.user && { user: ho(t.user, e, n) }),
-    ...(t.contexts && { contexts: ho(t.contexts, e, n) }),
-    ...(t.extra && { extra: ho(t.extra, e, n) }),
+    ...(t.user && { user: _s(t.user, e, n) }),
+    ...(t.contexts && { contexts: _s(t.contexts, e, n) }),
+    ...(t.extra && { extra: _s(t.extra, e, n) }),
   };
-  if (t.contexts?.trace && o.contexts) {
-    o.contexts.trace = t.contexts.trace;
+  if (t.contexts?.trace && s.contexts) {
+    s.contexts.trace = t.contexts.trace;
     t.contexts.trace.data &&
-      (o.contexts.trace.data = ho(t.contexts.trace.data, e, n));
+      (s.contexts.trace.data = _s(t.contexts.trace.data, e, n));
   }
   t.spans &&
-    (o.spans = t.spans.map((t) => ({
+    (s.spans = t.spans.map((t) => ({
       ...t,
-      ...(t.data && { data: ho(t.data, e, n) }),
+      ...(t.data && { data: _s(t.data, e, n) }),
     })));
   t.contexts?.flags &&
-    o.contexts &&
-    (o.contexts.flags = ho(t.contexts.flags, 3, n));
-  return o;
+    s.contexts &&
+    (s.contexts.flags = _s(t.contexts.flags, 3, n));
+  return s;
 }
-function Xs(t, e) {
+function tr(t, e) {
   if (!e) return t;
   const n = t ? t.clone() : new Scope();
   n.update(e);
   return n;
 }
-function Qs(t) {
-  if (t) return tr(t) || nr(t) ? { captureContext: t } : t;
+function er(t) {
+  if (t) return nr(t) || or(t) ? { captureContext: t } : t;
 }
-function tr(t) {
+function nr(t) {
   return t instanceof Scope || typeof t === "function";
 }
-const er = [
+const sr = [
   "user",
   "level",
   "extra",
@@ -3852,8 +3873,8 @@ const er = [
   "fingerprint",
   "propagationContext",
 ];
-function nr(t) {
-  return Object.keys(t).some((t) => er.includes(t));
+function or(t) {
+  return Object.keys(t).some((t) => sr.includes(t));
 }
 /**
  * Captures an exception event and sends it to Sentry.
@@ -3861,8 +3882,8 @@ function nr(t) {
  * @param exception The exception to capture.
  * @param hint Optional additional data to attach to the Sentry event.
  * @returns the id of the captured Sentry event.
- */ function or(t, e) {
-  return ke().captureException(t, Qs(e));
+ */ function rr(t, e) {
+  return we().captureException(t, er(e));
 }
 /**
  * Captures a message event and sends it to Sentry.
@@ -3870,10 +3891,10 @@ function nr(t) {
  * @param message The message to send to Sentry.
  * @param captureContext Define the level of the message or pass in additional data to attach to the message.
  * @returns the id of the captured message.
- */ function sr(t, e) {
+ */ function ir(t, e) {
   const n = typeof e === "string" ? e : void 0;
-  const o = typeof e !== "string" ? { captureContext: e } : void 0;
-  return ke().captureMessage(t, n, o);
+  const s = typeof e !== "string" ? { captureContext: e } : void 0;
+  return we().captureMessage(t, n, s);
 }
 /**
  * Captures a manually created event and sends it to Sentry.
@@ -3881,34 +3902,34 @@ function nr(t) {
  * @param event The event to send to Sentry.
  * @param hint Optional additional data to attach to the Sentry event.
  * @returns the id of the captured event.
- */ function rr(t, e) {
-  return ke().captureEvent(t, e);
+ */ function ar(t, e) {
+  return we().captureEvent(t, e);
 }
 /**
  * Sets context data with the given name.
  * @param name of the context
  * @param context Any kind of data. This data will be normalized.
- */ function ir(t, e) {
-  we().setContext(t, e);
+ */ function cr(t, e) {
+  xe().setContext(t, e);
 }
 /**
  * Set an object that will be merged sent as extra data with the event.
  * @param extras Extras object to merge into current context.
- */ function ar(t) {
-  we().setExtras(t);
+ */ function ur(t) {
+  xe().setExtras(t);
 }
 /**
  * Set key:value that will be sent as extra data with the event.
  * @param key String of extra
  * @param extra Any kind of data. This data will be normalized.
- */ function cr(t, e) {
-  we().setExtra(t, e);
+ */ function lr(t, e) {
+  xe().setExtra(t, e);
 }
 /**
  * Set an object that will be merged sent as tags data with the event.
  * @param tags Tags context object to merge into current context.
- */ function ur(t) {
-  we().setTags(t);
+ */ function pr(t) {
+  xe().setTags(t);
 }
 /**
  * Set key:value that will be sent as tags data with the event.
@@ -3917,15 +3938,22 @@ function nr(t) {
  *
  * @param key String key of tag
  * @param value Value of tag
- */ function lr(t, e) {
-  we().setTag(t, e);
+ */ function fr(t, e) {
+  xe().setTag(t, e);
 }
 /**
  * Updates user context information for future events.
  *
  * @param user User context object to be set in the current context. Pass `null` to unset the user.
- */ function pr(t) {
-  we().setUser(t);
+ */ function dr(t) {
+  xe().setUser(t);
+}
+/**
+ * Sets the conversation ID for the current isolation scope.
+ *
+ * @param conversationId The conversation ID to set. Pass `null` or `undefined` to unset the conversation ID.
+ */ function mr(t) {
+  xe().setConversationId(t);
 }
 /**
  * The last error event id of the isolation scope.
@@ -3937,8 +3965,8 @@ function nr(t) {
  * they were dropped in `beforeSend`) could be returned.
  *
  * @returns The last event id of the isolation scope.
- */ function fr() {
-  return we().lastEventId();
+ */ function gr() {
+  return xe().lastEventId();
 }
 /**
  * Create a cron monitor check in and send it to Sentry.
@@ -3946,17 +3974,17 @@ function nr(t) {
  * @param checkIn An object that describes a check in.
  * @param upsertMonitorConfig An optional object that describes a monitor config. Use this if you want
  * to create a monitor automatically when sending a check in.
- */ function dr(e, n) {
-  const o = ke();
-  const s = Te();
-  if (s) {
-    if (s.captureCheckIn) return s.captureCheckIn(e, n, o);
+ */ function hr(e, n) {
+  const s = we();
+  const o = Ie();
+  if (o) {
+    if (o.captureCheckIn) return o.captureCheckIn(e, n, s);
     t &&
       y.warn(
         "Cannot capture check-in. Client does not support sending check-ins.",
       );
   } else t && y.warn("Cannot capture check-in. No client defined.");
-  return Dt();
+  return Ft();
 }
 /**
  * Wraps a callback with a cron monitor check in. The check in will be sent to Sentry when the callback finishes.
@@ -3965,12 +3993,12 @@ function nr(t) {
  * @param callback Callback to be monitored
  * @param upsertMonitorConfig An optional object that describes a monitor config. Use this if you want
  * to create a monitor automatically when sending a check in.
- */ function mr(t, e, n) {
-  function o() {
-    const o = dr({ monitorSlug: t, status: "in_progress" }, n);
-    const s = Xt();
+ */ function _r(t, e, n) {
+  function s() {
+    const s = hr({ monitorSlug: t, status: "in_progress" }, n);
+    const o = Qt();
     function r(e) {
-      dr({ monitorSlug: t, status: e, checkInId: o, duration: Xt() - s });
+      hr({ monitorSlug: t, status: e, checkInId: s, duration: Qt() - o });
     }
     let i;
     try {
@@ -3979,7 +4007,7 @@ function nr(t) {
       r("error");
       throw t;
     }
-    if (nt(i))
+    if (st(i))
       return i.then(
         (t) => {
           r("ok");
@@ -3993,7 +4021,7 @@ function nr(t) {
     r("ok");
     return i;
   }
-  return Ae(() => (n?.isolateTrace ? us(o) : o()));
+  return Te(() => (n?.isolateTrace ? lo(s) : s()));
 }
 /**
  * Call `flush()` on the current client, if there is one. See {@link Client.flush}.
@@ -4002,8 +4030,8 @@ function nr(t) {
  * the client to wait until all events are sent before resolving the promise.
  * @returns A promise which resolves to `true` if the queue successfully drains before the timeout, or `false` if it
  * doesn't (or if there's no client defined).
- */ async function gr(e) {
-  const n = Te();
+ */ async function yr(e) {
+  const n = Ie();
   if (n) return n.flush(e);
   t && y.warn("Cannot flush events. No client defined.");
   return Promise.resolve(false);
@@ -4015,21 +4043,21 @@ function nr(t) {
  * parameter will cause the client to wait until all events are sent before disabling itself.
  * @returns A promise which resolves to `true` if the queue successfully drains before the timeout, or `false` if it
  * doesn't (or if there's no client defined).
- */ async function hr(e) {
-  const n = Te();
+ */ async function br(e) {
+  const n = Ie();
   if (n) return n.close(e);
   t && y.warn("Cannot flush events and disable SDK. No client defined.");
   return Promise.resolve(false);
 }
-function _r() {
-  return !!Te();
+function vr() {
+  return !!Ie();
 }
-function yr() {
-  const t = Te();
+function Sr() {
+  const t = Ie();
   return t?.getOptions().enabled !== false && !!t?.getTransport();
 }
-function br(t) {
-  we().addEventProcessor(t);
+function kr(t) {
+  xe().addEventProcessor(t);
 }
 /**
  * Start a session on the current isolation scope.
@@ -4037,32 +4065,28 @@ function br(t) {
  * @param context (optional) additional properties to be applied to the returned session object
  *
  * @returns the new active session
- */ function vr(t) {
-  const n = we();
-  const o = ke();
-  const { userAgent: s } = e.navigator || {};
-  const r = ne({
-    user: o.getUser() || n.getUser(),
-    ...(s && { userAgent: s }),
-    ...t,
-  });
+ */ function wr(t) {
+  const n = xe();
+  const { user: s } = Jo(n, we());
+  const { userAgent: o } = e.navigator || {};
+  const r = se({ user: s, ...(o && { userAgent: o }), ...t });
   const i = n.getSession();
   i?.status === "ok" && oe(i, { status: "exited" });
-  Sr();
+  xr();
   n.setSession(r);
   return r;
 }
-function Sr() {
-  const t = we();
-  const e = ke();
+function xr() {
+  const t = xe();
+  const e = we();
   const n = e.getSession() || t.getSession();
-  n && se(n);
-  kr();
+  n && re(n);
+  Ar();
   t.setSession();
 }
-function kr() {
-  const t = we();
-  const e = Te();
+function Ar() {
+  const t = xe();
+  const e = Ie();
   const n = t.getSession();
   n && e && e.captureSession(n);
 }
@@ -4071,106 +4095,106 @@ function kr() {
  *
  * @param end If set the session will be marked as exited and removed from the scope.
  *            Defaults to `false`.
- */ function wr(t = false) {
-  t ? Sr() : kr();
+ */ function Er(t = false) {
+  t ? xr() : Ar();
 }
-const xr = "7";
-function Er(t) {
+const Tr = "7";
+function Ir(t) {
   const e = t.protocol ? `${t.protocol}:` : "";
   const n = t.port ? `:${t.port}` : "";
   return `${e}//${t.host}${n}${t.path ? `/${t.path}` : ""}/api/`;
 }
-function Ar(t) {
-  return `${Er(t)}${t.projectId}/envelope/`;
+function $r(t) {
+  return `${Ir(t)}${t.projectId}/envelope/`;
 }
-function Tr(t, e) {
-  const n = { sentry_version: xr };
+function Or(t, e) {
+  const n = { sentry_version: Tr };
   t.publicKey && (n.sentry_key = t.publicKey);
   e && (n.sentry_client = `${e.name}/${e.version}`);
   return new URLSearchParams(n).toString();
 }
-function Ir(t, e, n) {
-  return e || `${Ar(t)}?${Tr(t, n)}`;
+function Cr(t, e, n) {
+  return e || `${$r(t)}?${Or(t, n)}`;
 }
-function $r(t, e) {
-  const n = Sn(t);
+function Nr(t, e) {
+  const n = wn(t);
   if (!n) return "";
-  const o = `${Er(n)}embed/error-page/`;
-  let s = `dsn=${gn(n)}`;
+  const s = `${Ir(n)}embed/error-page/`;
+  let o = `dsn=${_n(n)}`;
   for (const t in e)
     if (t !== "dsn" && t !== "onClose")
       if (t === "user") {
         const t = e.user;
         if (!t) continue;
-        t.name && (s += `&name=${encodeURIComponent(t.name)}`);
-        t.email && (s += `&email=${encodeURIComponent(t.email)}`);
-      } else s += `&${encodeURIComponent(t)}=${encodeURIComponent(e[t])}`;
-  return `${o}?${s}`;
+        t.name && (o += `&name=${encodeURIComponent(t.name)}`);
+        t.email && (o += `&email=${encodeURIComponent(t.email)}`);
+      } else o += `&${encodeURIComponent(t)}=${encodeURIComponent(e[t])}`;
+  return `${s}?${o}`;
 }
-const Or = [];
-function Cr(t) {
+const jr = [];
+function Rr(t) {
   const e = {};
   t.forEach((t) => {
     const { name: n } = t;
-    const o = e[n];
-    (o && !o.isDefaultInstance && t.isDefaultInstance) || (e[n] = t);
+    const s = e[n];
+    (s && !s.isDefaultInstance && t.isDefaultInstance) || (e[n] = t);
   });
   return Object.values(e);
 }
-function Nr(t) {
+function Mr(t) {
   const e = t.defaultIntegrations || [];
   const n = t.integrations;
   e.forEach((t) => {
     t.isDefaultInstance = true;
   });
-  let o;
-  if (Array.isArray(n)) o = [...e, ...n];
+  let s;
+  if (Array.isArray(n)) s = [...e, ...n];
   else if (typeof n === "function") {
     const t = n(e);
-    o = Array.isArray(t) ? t : [t];
-  } else o = e;
-  return Cr(o);
+    s = Array.isArray(t) ? t : [t];
+  } else s = e;
+  return Rr(s);
 }
 /**
  * Given a list of integration instances this installs them all. When `withDefaults` is set to `true` then all default
  * integrations are added unless they were already provided before.
  * @param integrations array of integration instances
  * @param withDefault should enable default integrations
- */ function jr(t, e) {
+ */ function Pr(t, e) {
   const n = {};
   e.forEach((e) => {
-    e && Pr(t, e, n);
+    e && Fr(t, e, n);
   });
   return n;
 }
-function Rr(t, e) {
+function Dr(t, e) {
   for (const n of e) n?.afterAllSetup && n.afterAllSetup(t);
 }
-function Pr(e, n, o) {
-  if (o[n.name])
+function Fr(e, n, s) {
+  if (s[n.name])
     t &&
       y.log(`Integration skipped because it was already installed: ${n.name}`);
   else {
-    o[n.name] = n;
-    if (!Or.includes(n.name) && typeof n.setupOnce === "function") {
+    s[n.name] = n;
+    if (!jr.includes(n.name) && typeof n.setupOnce === "function") {
       n.setupOnce();
-      Or.push(n.name);
+      jr.push(n.name);
     }
     n.setup && typeof n.setup === "function" && n.setup(e);
     if (typeof n.preprocessEvent === "function") {
       const t = n.preprocessEvent.bind(n);
-      e.on("preprocessEvent", (n, o) => t(n, o, e));
+      e.on("preprocessEvent", (n, s) => t(n, s, e));
     }
     if (typeof n.processEvent === "function") {
       const t = n.processEvent.bind(n);
-      const o = Object.assign((n, o) => t(n, o, e), { id: n.name });
-      e.addEventProcessor(o);
+      const s = Object.assign((n, s) => t(n, s, e), { id: n.name });
+      e.addEventProcessor(s);
     }
     t && y.log(`Integration installed: ${n.name}`);
   }
 }
-function Mr(e) {
-  const n = Te();
+function Lr(e) {
+  const n = Ie();
   n
     ? n.addIntegration(e)
     : t &&
@@ -4178,10 +4202,10 @@ function Mr(e) {
         `Cannot add integration "${e.name}" because no SDK Client is available.`,
       );
 }
-function Dr(t) {
+function qr(t) {
   return t;
 }
-function Fr(t) {
+function Ur(t) {
   return (
     typeof t === "object" &&
     t != null &&
@@ -4200,11 +4224,11 @@ function Fr(t) {
  * @param useFallback - If true, unsupported values will be stringified to a string attribute value.
  *                      Defaults to false. In this case, `undefined` is returned for unsupported values.
  * @returns The typed attribute.
- */ function Lr(t, e) {
-  const { value: n, unit: o } = Fr(t) ? t : { value: t, unit: void 0 };
-  const s = Ur(n);
-  const r = o && typeof o === "string" ? { unit: o } : {};
-  if (s) return { ...s, ...r };
+ */ function Jr(t, e) {
+  const { value: n, unit: s } = Ur(t) ? t : { value: t, unit: void 0 };
+  const o = Br(n);
+  const r = s && typeof s === "string" ? { unit: s } : {};
+  if (o) return { ...o, ...r };
   if (!e || (e === "skip-undefined" && n === void 0)) return;
   let i = "";
   try {
@@ -4220,15 +4244,15 @@ function Fr(t) {
  *                   Defaults to false. In this case, `undefined` is returned for unsupported values.
  *
  * @returns The serialized attributes.
- */ function qr(t, e = false) {
+ */ function zr(t, e = false) {
   const n = {};
-  for (const [o, s] of Object.entries(t ?? {})) {
-    const t = Lr(s, e);
-    t && (n[o] = t);
+  for (const [s, o] of Object.entries(t ?? {})) {
+    const t = Jr(o, e);
+    t && (n[s] = t);
   }
   return n;
 }
-function Ur(t) {
+function Br(t) {
   const e =
     typeof t === "string"
       ? "string"
@@ -4241,23 +4265,23 @@ function Ur(t) {
             : "double";
   if (e) return { value: t, type: e };
 }
-function Jr(t, e) {
+function Wr(t, e) {
   return e
     ? Ee(e, () => {
-        const n = Yn();
-        const o = n ? Rn(n) : Ie(e);
-        const s = n ? mo(n) : fo(t, e);
-        return [s, o];
+        const n = Qn();
+        const s = n ? Pn(n) : $e(e);
+        const o = n ? gs(n) : ms(t, e);
+        return [o, s];
       })
     : [void 0, void 0];
 }
-const zr = { trace: 1, debug: 5, info: 9, warn: 13, error: 17, fatal: 21 };
+const Vr = { trace: 1, debug: 5, info: 9, warn: 13, error: 17, fatal: 21 };
 /**
  * Creates a log container envelope item for a list of logs.
  *
  * @param items - The logs to include in the envelope.
  * @returns The created log container envelope item.
- */ function Br(t) {
+ */ function Gr(t) {
   return [
     {
       type: "log",
@@ -4277,13 +4301,13 @@ const zr = { trace: 1, debug: 5, info: 9, warn: 13, error: 17, fatal: 21 };
  * @param tunnel - The tunnel to include in the envelope.
  * @param dsn - The DSN to include in the envelope.
  * @returns The created envelope.
- */ function Wr(t, e, n, o) {
-  const s = {};
-  e?.sdk && (s.sdk = { name: e.sdk.name, version: e.sdk.version });
-  !n || !o || (s.dsn = gn(o));
-  return Eo(s, [Br(t)]);
+ */ function Kr(t, e, n, s) {
+  const o = {};
+  e?.sdk && (o.sdk = { name: e.sdk.name, version: e.sdk.version });
+  !n || !s || (o.dsn = _n(s));
+  return Es(o, [Gr(t)]);
 }
-const Vr = 100;
+const Hr = 100;
 /**
  * Sets a log attribute if the value exists and the attribute key is not already present.
  *
@@ -4291,8 +4315,8 @@ const Vr = 100;
  * @param key - The attribute key to set.
  * @param value - The value to set (only sets if truthy and key not present).
  * @param setEvenIfPresent - Whether to set the attribute if it is present. Defaults to true.
- */ function Gr(t, e, n, o = true) {
-  !n || (t[e] && !o) || (t[e] = n);
+ */ function Zr(t, e, n, s = true) {
+  !n || (t[e] && !s) || (t[e] = n);
 }
 /**
  * Captures a serialized log event and adds it to the log buffer for the given client.
@@ -4302,14 +4326,14 @@ const Vr = 100;
  *
  * @experimental This method will experience breaking changes. This is not yet part of
  * the stable Sentry SDK API and can be changed or removed without warning.
- */ function Kr(t, e) {
-  const n = Xr();
-  const o = Yr(t);
-  if (o === void 0) n.set(t, [e]);
-  else if (o.length >= Vr) {
-    Zr(t, o);
+ */ function Yr(t, e) {
+  const n = ei();
+  const s = ti(t);
+  if (s === void 0) n.set(t, [e]);
+  else if (s.length >= Hr) {
+    Qr(t, s);
     n.set(t, [e]);
-  } else n.set(t, [...o, e]);
+  } else n.set(t, [...s, e]);
 }
 /**
  * Captures a log event and sends it to Sentry.
@@ -4321,9 +4345,9 @@ const Vr = 100;
  *
  * @experimental This method will experience breaking changes. This is not yet part of
  * the stable Sentry SDK API and can be changed or removed without warning.
- */ function Hr(e, n = ke(), o = Kr) {
-  const s = n?.getClient() ?? Te();
-  if (!s) {
+ */ function Xr(e, n = we(), s = Yr) {
+  const o = n?.getClient() ?? Ie();
+  if (!o) {
     t && y.warn("No client available to capture log.");
     return;
   }
@@ -4332,33 +4356,33 @@ const Vr = 100;
     environment: i,
     enableLogs: a = false,
     beforeSendLog: c,
-  } = s.getOptions();
+  } = o.getOptions();
   if (!a) {
     t && y.warn("logging option not enabled, log will not be captured.");
     return;
   }
-  const [, l] = Jr(s, n);
+  const [, l] = Wr(o, n);
   const p = { ...e.attributes };
   const {
     user: { id: f, email: d, username: m },
     attributes: g = {},
-  } = qs(we(), n);
-  Gr(p, "user.id", f, false);
-  Gr(p, "user.email", d, false);
-  Gr(p, "user.name", m, false);
-  Gr(p, "sentry.release", r);
-  Gr(p, "sentry.environment", i);
-  const { name: h, version: _ } = s.getSdkMetadata()?.sdk ?? {};
-  Gr(p, "sentry.sdk.name", h);
-  Gr(p, "sentry.sdk.version", _);
-  const b = s.getIntegrationByName("Replay");
+  } = Jo(xe(), n);
+  Zr(p, "user.id", f, false);
+  Zr(p, "user.email", d, false);
+  Zr(p, "user.name", m, false);
+  Zr(p, "sentry.release", r);
+  Zr(p, "sentry.environment", i);
+  const { name: h, version: _ } = o.getSdkMetadata()?.sdk ?? {};
+  Zr(p, "sentry.sdk.name", h);
+  Zr(p, "sentry.sdk.version", _);
+  const b = o.getIntegrationByName("Replay");
   const v = b?.getReplayId(true);
-  Gr(p, "sentry.replay_id", v);
+  Zr(p, "sentry.replay_id", v);
   v &&
     b?.getRecordingMode() === "buffer" &&
-    Gr(p, "sentry._internal.replay_is_buffering", true);
+    Zr(p, "sentry._internal.replay_is_buffering", true);
   const S = e.message;
-  if (Z(S)) {
+  if (Y(S)) {
     const {
       __sentry_template_string__: t,
       __sentry_template_values__: e = [],
@@ -4368,27 +4392,27 @@ const Vr = 100;
       p[`sentry.message.parameter.${e}`] = t;
     });
   }
-  const k = pe(n);
-  Gr(p, "sentry.trace.parent_span_id", k?.spanContext().spanId);
+  const k = fe(n);
+  Zr(p, "sentry.trace.parent_span_id", k?.spanContext().spanId);
   const w = { ...e, attributes: p };
-  s.emit("beforeCaptureLog", w);
+  o.emit("beforeCaptureLog", w);
   const x = c ? u(() => c(w)) : w;
   if (!x) {
-    s.recordDroppedEvent("before_send", "log_item", 1);
+    o.recordDroppedEvent("before_send", "log_item", 1);
     t && y.warn("beforeSendLog returned null, log will not be captured.");
     return;
   }
-  const { level: E, message: A, attributes: T = {}, severityNumber: I } = x;
+  const { level: A, message: E, attributes: T = {}, severityNumber: I } = x;
   const $ = {
-    timestamp: Xt(),
-    level: E,
-    body: A,
+    timestamp: Qt(),
+    level: A,
+    body: E,
     trace_id: l?.trace_id,
-    severity_number: I ?? zr[E],
-    attributes: { ...qr(g), ...qr(T, true) },
+    severity_number: I ?? Vr[A],
+    attributes: { ...zr(g), ...zr(T, true) },
   };
-  o(s, $);
-  s.emit("afterCaptureLog", x);
+  s(o, $);
+  o.emit("afterCaptureLog", x);
 }
 /**
  * Flushes the logs buffer to Sentry.
@@ -4398,14 +4422,14 @@ const Vr = 100;
  *
  * @experimental This method will experience breaking changes. This is not yet part of
  * the stable Sentry SDK API and can be changed or removed without warning.
- */ function Zr(t, e) {
-  const n = e ?? Yr(t) ?? [];
+ */ function Qr(t, e) {
+  const n = e ?? ti(t) ?? [];
   if (n.length === 0) return;
-  const o = t.getOptions();
-  const s = Wr(n, o._metadata, o.tunnel, t.getDsn());
-  Xr().set(t, []);
+  const s = t.getOptions();
+  const o = Kr(n, s._metadata, s.tunnel, t.getDsn());
+  ei().set(t, []);
   t.emit("flushLogs");
-  t.sendEnvelope(s);
+  t.sendEnvelope(o);
 }
 /**
  * Returns the log buffer for a given client.
@@ -4414,10 +4438,10 @@ const Vr = 100;
  *
  * @param client - The client to get the log buffer for.
  * @returns The log buffer for the given client.
- */ function Yr(t) {
-  return Xr().get(t);
+ */ function ti(t) {
+  return ei().get(t);
 }
-function Xr() {
+function ei() {
   return r("clientToLogBufferMap", () => new WeakMap());
 }
 /**
@@ -4425,7 +4449,7 @@ function Xr() {
  *
  * @param items - The metrics to include in the envelope.
  * @returns The created metric container envelope item.
- */ function Qr(t) {
+ */ function ni(t) {
   return [
     {
       type: "trace_metric",
@@ -4445,13 +4469,13 @@ function Xr() {
  * @param tunnel - The tunnel to include in the envelope.
  * @param dsn - The DSN to include in the envelope.
  * @returns The created envelope.
- */ function ti(t, e, n, o) {
-  const s = {};
-  e?.sdk && (s.sdk = { name: e.sdk.name, version: e.sdk.version });
-  !n || !o || (s.dsn = gn(o));
-  return Eo(s, [Qr(t)]);
+ */ function si(t, e, n, s) {
+  const o = {};
+  e?.sdk && (o.sdk = { name: e.sdk.name, version: e.sdk.version });
+  !n || !s || (o.dsn = _n(s));
+  return Es(o, [ni(t)]);
 }
-const ei = 1e3;
+const oi = 1e3;
 /**
  * Sets a metric attribute if the value exists and the attribute key is not already present.
  *
@@ -4459,8 +4483,8 @@ const ei = 1e3;
  * @param key - The attribute key to set.
  * @param value - The value to set (only sets if truthy and key not present).
  * @param setEvenIfPresent - Whether to set the attribute if it is present. Defaults to true.
- */ function ni(t, e, n, o = true) {
-  !n || (!o && e in t) || (t[e] = n);
+ */ function ri(t, e, n, s = true) {
+  !n || (!s && e in t) || (t[e] = n);
 }
 /**
  * Captures a serialized metric event and adds it to the metric buffer for the given client.
@@ -4470,48 +4494,48 @@ const ei = 1e3;
  *
  * @experimental This method will experience breaking changes. This is not yet part of
  * the stable Sentry SDK API and can be changed or removed without warning.
- */ function oi(t, e) {
-  const n = ui();
-  const o = ci(t);
-  if (o === void 0) n.set(t, [e]);
-  else if (o.length >= ei) {
-    ai(t, o);
+ */ function ii(t, e) {
+  const n = fi();
+  const s = pi(t);
+  if (s === void 0) n.set(t, [e]);
+  else if (s.length >= oi) {
+    li(t, s);
     n.set(t, [e]);
-  } else n.set(t, [...o, e]);
+  } else n.set(t, [...s, e]);
 }
-function si(t, e, n) {
-  const { release: o, environment: s } = e.getOptions();
+function ai(t, e, n) {
+  const { release: s, environment: o } = e.getOptions();
   const r = { ...t.attributes };
-  ni(r, "user.id", n.id, false);
-  ni(r, "user.email", n.email, false);
-  ni(r, "user.name", n.username, false);
-  ni(r, "sentry.release", o);
-  ni(r, "sentry.environment", s);
+  ri(r, "user.id", n.id, false);
+  ri(r, "user.email", n.email, false);
+  ri(r, "user.name", n.username, false);
+  ri(r, "sentry.release", s);
+  ri(r, "sentry.environment", o);
   const { name: i, version: a } = e.getSdkMetadata()?.sdk ?? {};
-  ni(r, "sentry.sdk.name", i);
-  ni(r, "sentry.sdk.version", a);
+  ri(r, "sentry.sdk.name", i);
+  ri(r, "sentry.sdk.version", a);
   const c = e.getIntegrationByName("Replay");
   const u = c?.getReplayId(true);
-  ni(r, "sentry.replay_id", u);
+  ri(r, "sentry.replay_id", u);
   u &&
     c?.getRecordingMode() === "buffer" &&
-    ni(r, "sentry._internal.replay_is_buffering", true);
+    ri(r, "sentry._internal.replay_is_buffering", true);
   return { ...t, attributes: r };
 }
-function ri(t, e, n, o) {
-  const [, s] = Jr(e, n);
-  const r = pe(n);
-  const i = r ? r.spanContext().traceId : s?.trace_id;
+function ci(t, e, n, s) {
+  const [, o] = Wr(e, n);
+  const r = fe(n);
+  const i = r ? r.spanContext().traceId : o?.trace_id;
   const a = r ? r.spanContext().spanId : void 0;
   return {
-    timestamp: Xt(),
+    timestamp: Qt(),
     trace_id: i ?? "",
     span_id: a,
     name: t.name,
     type: t.type,
     unit: t.unit,
     value: t.value,
-    attributes: { ...qr(o), ...qr(t.attributes, "skip-undefined") },
+    attributes: { ...zr(s), ...zr(t.attributes, "skip-undefined") },
   };
 }
 /**
@@ -4522,10 +4546,10 @@ function ri(t, e, n, o) {
  *
  * @experimental This method will experience breaking changes. This is not yet part of
  * the stable Sentry SDK API and can be changed or removed without warning.
- */ function ii(e, n) {
-  const o = n?.scope ?? ke();
-  const s = n?.captureSerializedMetric ?? oi;
-  const r = o?.getClient() ?? Te();
+ */ function ui(e, n) {
+  const s = n?.scope ?? we();
+  const o = n?.captureSerializedMetric ?? ii;
+  const r = s?.getClient() ?? Ie();
   if (!r) {
     t && y.warn("No client available to capture metric.");
     return;
@@ -4540,8 +4564,8 @@ function ri(t, e, n, o) {
     t && y.warn("metrics option not enabled, metric will not be captured.");
     return;
   }
-  const { user: l, attributes: p } = qs(we(), o);
-  const f = si(e, r, l);
+  const { user: l, attributes: p } = Jo(xe(), s);
+  const f = ai(e, r, l);
   r.emit("processMetric", f);
   const d = c || i?.beforeSendMetric;
   const m = d ? d(f) : f;
@@ -4549,9 +4573,9 @@ function ri(t, e, n, o) {
     t && y.log("`beforeSendMetric` returned `null`, will not send metric.");
     return;
   }
-  const g = ri(m, r, o, p);
+  const g = ci(m, r, s, p);
   t && y.log("[Metric]", g);
-  s(r, g);
+  o(r, g);
   r.emit("afterCaptureMetric", m);
 }
 /**
@@ -4562,14 +4586,14 @@ function ri(t, e, n, o) {
  *
  * @experimental This method will experience breaking changes. This is not yet part of
  * the stable Sentry SDK API and can be changed or removed without warning.
- */ function ai(t, e) {
-  const n = e ?? ci(t) ?? [];
+ */ function li(t, e) {
+  const n = e ?? pi(t) ?? [];
   if (n.length === 0) return;
-  const o = t.getOptions();
-  const s = ti(n, o._metadata, o.tunnel, t.getDsn());
-  ui().set(t, []);
+  const s = t.getOptions();
+  const o = si(n, s._metadata, s.tunnel, t.getDsn());
+  fi().set(t, []);
   t.emit("flushMetrics");
-  t.sendEnvelope(s);
+  t.sendEnvelope(o);
 }
 /**
  * Returns the metric buffer for a given client.
@@ -4578,17 +4602,29 @@ function ri(t, e, n, o) {
  *
  * @param client - The client to get the metric buffer for.
  * @returns The metric buffer for the given client.
- */ function ci(t) {
-  return ui().get(t);
+ */ function pi(t) {
+  return fi().get(t);
 }
-function ui() {
+function fi() {
   return r("clientToMetricBufferMap", () => new WeakMap());
 }
-const li = Symbol.for("SentryBufferFullError");
+/**
+ * Calls `unref` on a timer, if the method is available on @param timer.
+ *
+ * `unref()` is used to allow processes to exit immediately, even if the timer
+ * is still running and hasn't resolved yet.
+ *
+ * Use this in places where code can run on browser or server, since browsers
+ * do not support `unref`.
+ */ function di(t) {
+  typeof t === "object" && typeof t.unref === "function" && t.unref();
+  return t;
+}
+const mi = Symbol.for("SentryBufferFullError");
 /**
  * Creates an new PromiseBuffer object with the specified limit
  * @param limit max number of promises that can be stored in the buffer
- */ function pi(t = 100) {
+ */ function gi(t = 100) {
   const e = new Set();
   function n() {
     return e.size < t;
@@ -4598,7 +4634,7 @@ const li = Symbol.for("SentryBufferFullError");
    *
    * @param task Can be any PromiseLike<T>
    * @returns Removed promise.
-   */ function o(t) {
+   */ function s(t) {
     e.delete(t);
   }
   /**
@@ -4610,15 +4646,15 @@ const li = Symbol.for("SentryBufferFullError");
    *        requiring the promise to be wrapped in a function, we can defer promise creation until after the buffer
    *        limit check.
    * @returns The original promise.
-   */ function s(t) {
-    if (!n()) return Is(li);
-    const s = t();
-    e.add(s);
-    void s.then(
-      () => o(s),
-      () => o(s),
+   */ function o(t) {
+    if (!n()) return Oo(mi);
+    const o = t();
+    e.add(o);
+    void o.then(
+      () => s(o),
+      () => s(o),
     );
-    return s;
+    return o;
   }
   /**
    * Wait for all promises in the queue to resolve or for timeout to expire, whichever comes first.
@@ -4629,40 +4665,40 @@ const li = Symbol.for("SentryBufferFullError");
    * @returns A promise which will resolve to `true` if the queue is already empty or drains before the timeout, and
    * `false` otherwise
    */ function r(t) {
-    if (!e.size) return Ts(true);
+    if (!e.size) return $o(true);
     const n = Promise.allSettled(Array.from(e)).then(() => true);
     if (!t) return n;
-    const o = [n, new Promise((e) => setTimeout(() => e(false), t))];
-    return Promise.race(o);
+    const s = [n, new Promise((e) => di(setTimeout(() => e(false), t)))];
+    return Promise.race(s);
   }
   return {
     get $() {
       return Array.from(e);
     },
-    add: s,
+    add: o,
     drain: r,
   };
 }
-const fi = 6e4;
+const hi = 6e4;
 /**
  * Extracts Retry-After value from the request header or returns default value
  * @param header string representation of 'Retry-After' header
  * @param now current unix timestamp
  *
- */ function di(t, e = It()) {
+ */ function _i(t, e = $t()) {
   const n = parseInt(`${t}`, 10);
   if (!isNaN(n)) return n * 1e3;
-  const o = Date.parse(`${t}`);
-  return isNaN(o) ? fi : o - e;
+  const s = Date.parse(`${t}`);
+  return isNaN(s) ? hi : s - e;
 }
-function mi(t, e) {
+function yi(t, e) {
   return t[e] || t.all || 0;
 }
-function gi(t, e, n = It()) {
-  return mi(t, e) > n;
+function bi(t, e, n = $t()) {
+  return yi(t, e) > n;
 }
-function hi(t, { statusCode: e, headers: n }, o = It()) {
-  const s = { ...t };
+function vi(t, { statusCode: e, headers: n }, s = $t()) {
+  const o = { ...t };
   const r = n?.["x-sentry-rate-limits"];
   const i = n?.["retry-after"];
   if (r)
@@ -4673,49 +4709,57 @@ function hi(t, { statusCode: e, headers: n }, o = It()) {
       if (n)
         for (const t of n.split(";"))
           (t === "metric_bucket" && r && !r.split(";").includes("custom")) ||
-            (s[t] = o + a);
-      else s.all = o + a;
+            (o[t] = s + a);
+      else o.all = s + a;
     }
-  else i ? (s.all = o + di(i, o)) : e === 429 && (s.all = o + 6e4);
-  return s;
+  else i ? (o.all = s + _i(i, s)) : e === 429 && (o.all = s + 6e4);
+  return o;
 }
-const _i = 64;
+const Si = 64;
 /**
  * Creates an instance of a Sentry `Transport`
  *
  * @param options
  * @param makeRequest
- */ function yi(e, n, o = pi(e.bufferSize || _i)) {
-  let s = {};
-  const r = (t) => o.drain(t);
+ */ function ki(e, n, s = gi(e.bufferSize || Si)) {
+  let o = {};
+  const r = (t) => s.drain(t);
   function i(r) {
     const i = [];
-    To(r, (t, n) => {
-      const o = Do(n);
-      gi(s, o) ? e.recordDroppedEvent("ratelimit_backoff", o) : i.push(t);
+    Is(r, (t, n) => {
+      const s = Fs(n);
+      bi(o, s) ? e.recordDroppedEvent("ratelimit_backoff", s) : i.push(t);
     });
     if (i.length === 0) return Promise.resolve({});
-    const a = Eo(r[0], i);
+    const a = Es(r[0], i);
     const c = (n) => {
-      Io(a, ["client_report"])
+      $s(a, ["client_report"])
         ? t &&
           y.warn(
             `Dropping client report. Will not send outcomes (reason: ${n}).`,
           )
-        : To(a, (t, o) => {
-            e.recordDroppedEvent(n, Do(o));
+        : Is(a, (t, s) => {
+            e.recordDroppedEvent(n, Fs(s));
           });
     };
     const u = () =>
-      n({ body: Co(a) }).then(
+      n({ body: Ns(a) }).then(
         (e) => {
-          e.statusCode !== void 0 &&
-            (e.statusCode < 200 || e.statusCode >= 300) &&
+          if (e.statusCode === 413) {
             t &&
+              y.error(
+                "Sentry responded with status code 413. Envelope was discarded due to exceeding size limits.",
+              );
+            c("send_error");
+            return e;
+          }
+          t &&
+            e.statusCode !== void 0 &&
+            (e.statusCode < 200 || e.statusCode >= 300) &&
             y.warn(
               `Sentry responded with status code ${e.statusCode} to sent event.`,
             );
-          s = hi(s, e);
+          o = vi(o, e);
           return e;
         },
         (e) => {
@@ -4724,10 +4768,10 @@ const _i = 64;
           throw e;
         },
       );
-    return o.add(u).then(
+    return s.add(u).then(
       (t) => t,
       (e) => {
-        if (e === li) {
+        if (e === mi) {
           t && y.error("Skipped sending event because buffer is full.");
           c("queue_overflow");
           return Promise.resolve({});
@@ -4742,14 +4786,14 @@ const _i = 64;
  * Creates client report envelope
  * @param discarded_events An array of discard events
  * @param dsn A DSN that can be set on the header. Optional.
- */ function bi(t, e, n) {
-  const o = [
+ */ function wi(t, e, n) {
+  const s = [
     { type: "client_report" },
-    { timestamp: n || Ht(), discarded_events: t },
+    { timestamp: n || Zt(), discarded_events: t },
   ];
-  return Eo(e ? { dsn: e } : {}, [o]);
+  return Es(e ? { dsn: e } : {}, [s]);
 }
-function vi(t) {
+function xi(t) {
   const e = [];
   t.message && e.push(t.message);
   try {
@@ -4761,12 +4805,12 @@ function vi(t) {
   } catch {}
   return e;
 }
-function Si(t) {
+function Ai(t) {
   const {
     trace_id: e,
     parent_span_id: n,
-    span_id: o,
-    status: s,
+    span_id: s,
+    status: o,
     origin: r,
     data: i,
     op: a,
@@ -4776,19 +4820,19 @@ function Si(t) {
     description: t.transaction,
     op: a,
     parent_span_id: n,
-    span_id: o ?? "",
+    span_id: s ?? "",
     start_timestamp: t.start_timestamp ?? 0,
-    status: s,
+    status: o,
     timestamp: t.timestamp,
     trace_id: e ?? "",
     origin: r,
-    profile_id: i?.[Fe],
-    exclusive_time: i?.[Le],
+    profile_id: i?.[Le],
+    exclusive_time: i?.[qe],
     measurements: t.measurements,
     is_segment: true,
   };
 }
-function ki(t) {
+function Ei(t) {
   return {
     type: "transaction",
     timestamp: t.timestamp,
@@ -4804,32 +4848,32 @@ function ki(t) {
         origin: t.origin,
         data: {
           ...t.data,
-          ...(t.profile_id && { [Fe]: t.profile_id }),
-          ...(t.exclusive_time && { [Le]: t.exclusive_time }),
+          ...(t.profile_id && { [Le]: t.profile_id }),
+          ...(t.exclusive_time && { [qe]: t.exclusive_time }),
         },
       },
     },
     measurements: t.measurements,
   };
 }
-const wi = "Not capturing exception because it's already been captured.";
-const xi = "Discarded session because of missing or non-string release";
-const Ei = Symbol.for("SentryInternalError");
-const Ai = Symbol.for("SentryDoNotSendEventError");
-const Ti = 5e3;
-function Ii(t) {
-  return { message: t, [Ei]: true };
+const Ti = "Not capturing exception because it's already been captured.";
+const Ii = "Discarded session because of missing or non-string release";
+const $i = Symbol.for("SentryInternalError");
+const Oi = Symbol.for("SentryDoNotSendEventError");
+const Ci = 5e3;
+function Ni(t) {
+  return { message: t, [$i]: true };
 }
-function $i(t) {
-  return { message: t, [Ai]: true };
+function ji(t) {
+  return { message: t, [Oi]: true };
 }
-function Oi(t) {
-  return !!t && typeof t === "object" && Ei in t;
+function Ri(t) {
+  return !!t && typeof t === "object" && $i in t;
 }
-function Ci(t) {
-  return !!t && typeof t === "object" && Ai in t;
+function Mi(t) {
+  return !!t && typeof t === "object" && Oi in t;
 }
-function Ni(t, e, n, o, s) {
+function Pi(t, e, n, s, o) {
   let r = 0;
   let i;
   let a = false;
@@ -4839,17 +4883,19 @@ function Ni(t, e, n, o, s) {
     a = false;
   });
   t.on(e, (e) => {
-    r += o(e);
-    if (r >= 8e5) s(t);
+    r += s(e);
+    if (r >= 8e5) o(t);
     else if (!a) {
       a = true;
-      i = setTimeout(() => {
-        s(t);
-      }, Ti);
+      i = di(
+        setTimeout(() => {
+          o(t);
+        }, Ci),
+      );
     }
   });
   t.on("flush", () => {
-    s(t);
+    o(t);
   });
 }
 class Client {
@@ -4865,12 +4911,12 @@ class Client {
     this._outcomes = {};
     this._hooks = {};
     this._eventProcessors = [];
-    this._promiseBuffer = pi(e.transportOptions?.bufferSize ?? _i);
+    this._promiseBuffer = gi(e.transportOptions?.bufferSize ?? Si);
     e.dsn
-      ? (this._dsn = Sn(e.dsn))
+      ? (this._dsn = wn(e.dsn))
       : t && y.warn("No DSN provided, client will not send events.");
     if (this._dsn) {
-      const t = Ir(this._dsn, e.tunnel, e._metadata ? e._metadata.sdk : void 0);
+      const t = Cr(this._dsn, e.tunnel, e._metadata ? e._metadata.sdk : void 0);
       this._transport = e.transport({
         tunnel: this._options.tunnel,
         recordDroppedEvent: this.recordDroppedEvent.bind(this),
@@ -4881,54 +4927,54 @@ class Client {
     this._options.enableLogs =
       this._options.enableLogs ?? this._options._experiments?.enableLogs;
     this._options.enableLogs &&
-      Ni(this, "afterCaptureLog", "flushLogs", Li, Zr);
+      Pi(this, "afterCaptureLog", "flushLogs", zi, Qr);
     const n =
       this._options.enableMetrics ??
       this._options._experiments?.enableMetrics ??
       true;
-    n && Ni(this, "afterCaptureMetric", "flushMetrics", Fi, ai);
+    n && Pi(this, "afterCaptureMetric", "flushMetrics", Ji, li);
   }
-  captureException(e, n, o) {
-    const s = Dt();
-    if (Vt(e)) {
-      t && y.log(wi);
-      return s;
+  captureException(e, n, s) {
+    const o = Ft();
+    if (Gt(e)) {
+      t && y.log(Ti);
+      return o;
     }
-    const r = { event_id: s, ...n };
+    const r = { event_id: o, ...n };
     this._process(
       () =>
         this.eventFromException(e, r)
-          .then((t) => this._captureEvent(t, r, o))
+          .then((t) => this._captureEvent(t, r, s))
           .then((t) => t),
       "error",
     );
     return r.event_id;
   }
-  captureMessage(t, e, n, o) {
-    const s = { event_id: Dt(), ...n };
-    const r = Z(t) ? t : String(t);
-    const i = Y(t);
+  captureMessage(t, e, n, s) {
+    const o = { event_id: Ft(), ...n };
+    const r = Y(t) ? t : String(t);
+    const i = X(t);
     const a = i
-      ? this.eventFromMessage(r, e, s)
-      : this.eventFromException(t, s);
+      ? this.eventFromMessage(r, e, o)
+      : this.eventFromException(t, o);
     this._process(
-      () => a.then((t) => this._captureEvent(t, s, o)),
+      () => a.then((t) => this._captureEvent(t, o, s)),
       i ? "unknown" : "error",
     );
-    return s.event_id;
+    return o.event_id;
   }
-  captureEvent(e, n, o) {
-    const s = Dt();
-    if (n?.originalException && Vt(n.originalException)) {
-      t && y.log(wi);
-      return s;
+  captureEvent(e, n, s) {
+    const o = Ft();
+    if (n?.originalException && Gt(n.originalException)) {
+      t && y.log(Ti);
+      return o;
     }
-    const r = { event_id: s, ...n };
+    const r = { event_id: o, ...n };
     const i = e.sdkProcessingMetadata || {};
     const a = i.capturedSpanScope;
     const c = i.capturedSpanIsolationScope;
-    const u = ji(e.type);
-    this._process(() => this._captureEvent(e, r, a || o, c), u);
+    const u = Di(e.type);
+    this._process(() => this._captureEvent(e, r, a || s, c), u);
     return r.event_id;
   }
   captureSession(t) {
@@ -4968,8 +5014,8 @@ class Client {
     if (!e) return true;
     this.emit("flush");
     const n = await this._isClientDoneProcessing(t);
-    const o = await e.flush(t);
-    return n && o;
+    const s = await e.flush(t);
+    return n && s;
   }
   /**
    * Flush the event queue and set the client to `enabled = false`. See {@link Client.flush}.
@@ -4980,6 +5026,7 @@ class Client {
    * it doesn't.
    */
   async close(t) {
+    Qr(this);
     const e = await this.flush(t);
     this.getOptions().enabled = false;
     this.emit("close");
@@ -5007,43 +5054,43 @@ class Client {
   }
   addIntegration(t) {
     const e = this._integrations[t.name];
-    Pr(this, t, this._integrations);
-    e || Rr(this, [t]);
+    Fr(this, t, this._integrations);
+    e || Dr(this, [t]);
   }
   sendEvent(t, e = {}) {
     this.emit("beforeSendEvent", t, e);
-    let n = Jo(t, this._dsn, this._options._metadata, this._options.tunnel);
-    for (const t of e.attachments || []) n = Ao(n, Po(t));
+    let n = zs(t, this._dsn, this._options._metadata, this._options.tunnel);
+    for (const t of e.attachments || []) n = Ts(n, Ps(t));
     this.sendEnvelope(n).then((e) => this.emit("afterSendEvent", t, e));
   }
   sendSession(e) {
-    const { release: n, environment: o = ao } = this._options;
+    const { release: n, environment: s = us } = this._options;
     if ("aggregates" in e) {
-      const s = e.attrs || {};
-      if (!s.release && !n) {
-        t && y.warn(xi);
+      const o = e.attrs || {};
+      if (!o.release && !n) {
+        t && y.warn(Ii);
         return;
       }
-      s.release = s.release || n;
-      s.environment = s.environment || o;
-      e.attrs = s;
+      o.release = o.release || n;
+      o.environment = o.environment || s;
+      e.attrs = o;
     } else {
       if (!e.release && !n) {
-        t && y.warn(xi);
+        t && y.warn(Ii);
         return;
       }
       e.release = e.release || n;
-      e.environment = e.environment || o;
+      e.environment = e.environment || s;
     }
     this.emit("beforeSendSession", e);
-    const s = Uo(e, this._dsn, this._options._metadata, this._options.tunnel);
-    this.sendEnvelope(s);
+    const o = Js(e, this._dsn, this._options._metadata, this._options.tunnel);
+    this.sendEnvelope(o);
   }
-  recordDroppedEvent(e, n, o = 1) {
+  recordDroppedEvent(e, n, s = 1) {
     if (this._options.sendClientReports) {
-      const s = `${e}:${n}`;
-      t && y.log(`Recording outcome: "${s}"${o > 1 ? ` (${o} times)` : ""}`);
-      this._outcomes[s] = (this._outcomes[s] || 0) + o;
+      const o = `${e}:${n}`;
+      t && y.log(`Recording outcome: "${o}"${s > 1 ? ` (${s} times)` : ""}`);
+      this._outcomes[o] = (this._outcomes[o] || 0) + s;
     }
   }
   /* eslint-disable @typescript-eslint/unified-signatures */
@@ -5053,10 +5100,10 @@ class Client {
    * @returns {() => void} A function that, when executed, removes the registered callback.
    */ on(t, e) {
     const n = (this._hooks[t] = this._hooks[t] || new Set());
-    const o = (...t) => e(...t);
-    n.add(o);
+    const s = (...t) => e(...t);
+    n.add(s);
     return () => {
-      n.delete(o);
+      n.delete(s);
     };
   }
   emit(t, ...e) {
@@ -5077,17 +5124,17 @@ class Client {
   }
   /* eslint-enable @typescript-eslint/unified-signatures */ _setupIntegrations() {
     const { integrations: t } = this._options;
-    this._integrations = jr(this, t);
-    Rr(this, t);
+    this._integrations = Pr(this, t);
+    Dr(this, t);
   }
   _updateSessionFromEvent(t, e) {
     let n = e.level === "fatal";
-    let o = false;
-    const s = e.exception?.values;
-    if (s) {
-      o = true;
+    let s = false;
+    const o = e.exception?.values;
+    if (o) {
+      s = true;
       n = false;
-      for (const t of s)
+      for (const t of o)
         if (t.mechanism?.handled === false) {
           n = true;
           break;
@@ -5098,7 +5145,7 @@ class Client {
     if (i) {
       oe(t, {
         ...(n && { status: "crashed" }),
-        errors: t.errors || Number(o || n),
+        errors: t.errors || Number(s || n),
       });
       this.captureSession(t);
     }
@@ -5137,19 +5184,19 @@ class Client {
    * @param hint May contain additional information about the original exception.
    * @param currentScope A scope containing event metadata.
    * @returns A new event with more information.
-   */ _prepareEvent(t, e, n, o) {
-    const s = this.getOptions();
+   */ _prepareEvent(t, e, n, s) {
+    const o = this.getOptions();
     const r = Object.keys(this._integrations);
     !e.integrations && r?.length && (e.integrations = r);
     this.emit("preprocessEvent", t, e);
-    t.type || o.setLastEventId(t.event_id || e.event_id);
-    return Vs(s, t, e, n, this, o).then((t) => {
+    t.type || s.setLastEventId(t.event_id || e.event_id);
+    return Ko(o, t, e, n, this, s).then((t) => {
       if (t === null) return t;
       this.emit("postprocessEvent", t, e);
-      t.contexts = { trace: Ie(n), ...t.contexts };
-      const o = fo(this, n);
+      t.contexts = { trace: $e(n), ...t.contexts };
+      const s = ms(this, n);
       t.sdkProcessingMetadata = {
-        dynamicSamplingContext: o,
+        dynamicSamplingContext: s,
         ...t.sdkProcessingMetadata,
       };
       return t;
@@ -5160,12 +5207,12 @@ class Client {
    * @param event
    * @param hint
    * @param scope
-   */ _captureEvent(e, n = {}, o = ke(), s = we()) {
-    t && Mi(e) && y.log(`Captured error event \`${vi(e)[0] || "<unknown>"}\``);
-    return this._processEvent(e, n, o, s).then(
+   */ _captureEvent(e, n = {}, s = we(), o = xe()) {
+    t && qi(e) && y.log(`Captured error event \`${xi(e)[0] || "<unknown>"}\``);
+    return this._processEvent(e, n, s, o).then(
       (t) => t.event_id,
       (e) => {
-        t && (Ci(e) ? y.log(e.message) : Oi(e) ? y.warn(e.message) : y.warn(e));
+        t && (Mi(e) ? y.log(e.message) : Ri(e) ? y.warn(e.message) : y.warn(e));
       },
     );
   }
@@ -5181,68 +5228,68 @@ class Client {
    * @param hint May contain additional information about the original exception.
    * @param currentScope A scope containing event metadata.
    * @returns A SyncPromise that resolves with the event or rejects in case event was/will not be send.
-   */ _processEvent(t, e, n, o) {
-    const s = this.getOptions();
-    const { sampleRate: r } = s;
-    const i = Di(t);
-    const a = Mi(t);
+   */ _processEvent(t, e, n, s) {
+    const o = this.getOptions();
+    const { sampleRate: r } = o;
+    const i = Ui(t);
+    const a = qi(t);
     const c = t.type || "error";
     const u = `before send for type \`${c}\``;
-    const l = typeof r === "undefined" ? void 0 : kn(r);
-    if (a && typeof l === "number" && Tt() > l) {
+    const l = typeof r === "undefined" ? void 0 : xn(r);
+    if (a && typeof l === "number" && It() > l) {
       this.recordDroppedEvent("sample_rate", "error");
-      return Is(
-        $i(
+      return Oo(
+        ji(
           `Discarding event because it's not included in the random sample (sampling rate = ${r})`,
         ),
       );
     }
-    const p = ji(t.type);
-    return this._prepareEvent(t, e, n, o)
+    const p = Di(t.type);
+    return this._prepareEvent(t, e, n, s)
       .then((t) => {
         if (t === null) {
           this.recordDroppedEvent("event_processor", p);
-          throw $i("An event processor returned `null`, will not send event.");
+          throw ji("An event processor returned `null`, will not send event.");
         }
         const n = e.data && e.data.__sentry__ === true;
         if (n) return t;
-        const o = Pi(this, s, t, e);
-        return Ri(o, u);
+        const s = Li(this, o, t, e);
+        return Fi(s, u);
       })
-      .then((s) => {
-        if (s === null) {
+      .then((o) => {
+        if (o === null) {
           this.recordDroppedEvent("before_send", p);
           if (i) {
             const e = t.spans || [];
             const n = 1 + e.length;
             this.recordDroppedEvent("before_send", "span", n);
           }
-          throw $i(`${u} returned \`null\`, will not send event.`);
+          throw ji(`${u} returned \`null\`, will not send event.`);
         }
-        const r = n.getSession() || o.getSession();
-        a && r && this._updateSessionFromEvent(r, s);
+        const r = n.getSession() || s.getSession();
+        a && r && this._updateSessionFromEvent(r, o);
         if (i) {
-          const t = s.sdkProcessingMetadata?.spanCountBeforeProcessing || 0;
-          const e = s.spans ? s.spans.length : 0;
+          const t = o.sdkProcessingMetadata?.spanCountBeforeProcessing || 0;
+          const e = o.spans ? o.spans.length : 0;
           const n = t - e;
           n > 0 && this.recordDroppedEvent("before_send", "span", n);
         }
-        const c = s.transaction_info;
-        if (i && c && s.transaction !== t.transaction) {
+        const c = o.transaction_info;
+        if (i && c && o.transaction !== t.transaction) {
           const t = "custom";
-          s.transaction_info = { ...c, source: t };
+          o.transaction_info = { ...c, source: t };
         }
-        this.sendEvent(s, e);
-        return s;
+        this.sendEvent(o, e);
+        return o;
       })
       .then(null, (t) => {
-        if (Ci(t) || Oi(t)) throw t;
+        if (Mi(t) || Ri(t)) throw t;
         this.captureException(t, {
           mechanism: { handled: false, type: "internal" },
           data: { __sentry__: true },
           originalException: t,
         });
-        throw Ii(
+        throw Ni(
           `Event processing pipeline threw an error, original event will not be sent. Details have been sent as a new event.\nReason: ${t}`,
         );
       });
@@ -5256,7 +5303,7 @@ class Client {
       },
       (t) => {
         this._numProcessing--;
-        t === li && this.recordDroppedEvent("queue_overflow", e);
+        t === mi && this.recordDroppedEvent("queue_overflow", e);
         return t;
       },
     );
@@ -5265,8 +5312,8 @@ class Client {
     const t = this._outcomes;
     this._outcomes = {};
     return Object.entries(t).map(([t, e]) => {
-      const [n, o] = t.split(":");
-      return { reason: n, category: o, quantity: e };
+      const [n, s] = t.split(":");
+      return { reason: n, category: s, quantity: e };
     });
   }
   _flushOutcomes() {
@@ -5281,60 +5328,60 @@ class Client {
       return;
     }
     t && y.log("Sending outcomes:", e);
-    const n = bi(e, this._options.tunnel && gn(this._dsn));
+    const n = wi(e, this._options.tunnel && _n(this._dsn));
     this.sendEnvelope(n);
   }
 }
-function ji(t) {
+function Di(t) {
   return t === "replay_event" ? "replay" : t || "error";
 }
-function Ri(t, e) {
+function Fi(t, e) {
   const n = `${e} must return \`null\` or a valid event.`;
-  if (nt(t))
+  if (st(t))
     return t.then(
       (t) => {
-        if (!X(t) && t !== null) throw Ii(n);
+        if (!Q(t) && t !== null) throw Ni(n);
         return t;
       },
       (t) => {
-        throw Ii(`${e} rejected with ${t}`);
+        throw Ni(`${e} rejected with ${t}`);
       },
     );
-  if (!X(t) && t !== null) throw Ii(n);
+  if (!Q(t) && t !== null) throw Ni(n);
   return t;
 }
-function Pi(t, e, n, o) {
+function Li(t, e, n, s) {
   const {
-    beforeSend: s,
+    beforeSend: o,
     beforeSendTransaction: r,
     beforeSendSpan: i,
     ignoreSpans: a,
   } = e;
   let c = n;
-  if (Mi(c) && s) return s(c, o);
-  if (Di(c)) {
+  if (qi(c) && o) return o(c, s);
+  if (Ui(c)) {
     if (i || a) {
-      const e = Si(c);
-      if (a?.length && so(e, a)) return null;
+      const e = Ai(c);
+      if (a?.length && is(e, a)) return null;
       if (i) {
         const t = i(e);
-        t ? (c = ie(n, ki(t))) : Xn();
+        t ? (c = ae(n, Ei(t))) : ts();
       }
       if (c.spans) {
         const e = [];
         const n = c.spans;
         for (const t of n)
-          if (a?.length && so(t, a)) ro(n, t);
+          if (a?.length && is(t, a)) as(n, t);
           else if (i) {
             const n = i(t);
             if (n) e.push(n);
             else {
-              Xn();
+              ts();
               e.push(t);
             }
           } else e.push(t);
-        const o = c.spans.length - e.length;
-        o && t.recordDroppedEvent("before_send", "span", o);
+        const s = c.spans.length - e.length;
+        s && t.recordDroppedEvent("before_send", "span", s);
         c.spans = e;
       }
     }
@@ -5346,15 +5393,15 @@ function Pi(t, e, n, o) {
           spanCountBeforeProcessing: t,
         };
       }
-      return r(c, o);
+      return r(c, s);
     }
   }
   return c;
 }
-function Mi(t) {
+function qi(t) {
   return t.type === void 0;
 }
-function Di(t) {
+function Ui(t) {
   return t.type === "transaction";
 }
 /**
@@ -5362,40 +5409,40 @@ function Di(t) {
  *
  * @param metric - The metric to estimate the size of.
  * @returns The estimated size of the metric in bytes.
- */ function Fi(t) {
+ */ function Ji(t) {
   let e = 0;
   t.name && (e += t.name.length * 2);
   e += 8;
-  return e + qi(t.attributes);
+  return e + Bi(t.attributes);
 }
 /**
  * Estimate the size of a log in bytes.
  *
  * @param log - The log to estimate the size of.
  * @returns The estimated size of the log in bytes.
- */ function Li(t) {
+ */ function zi(t) {
   let e = 0;
   t.message && (e += t.message.length * 2);
-  return e + qi(t.attributes);
+  return e + Bi(t.attributes);
 }
 /**
  * Estimate the size of attributes in bytes.
  *
  * @param attributes - The attributes object to estimate the size of.
  * @returns The estimated size of the attributes in bytes.
- */ function qi(t) {
+ */ function Bi(t) {
   if (!t) return 0;
   let e = 0;
   Object.values(t).forEach((t) => {
     Array.isArray(t)
-      ? (e += t.length * Ui(t[0]))
-      : Y(t)
-        ? (e += Ui(t))
+      ? (e += t.length * Wi(t[0]))
+      : X(t)
+        ? (e += Wi(t))
         : (e += 100);
   });
   return e;
 }
-function Ui(t) {
+function Wi(t) {
   return typeof t === "string"
     ? t.length * 2
     : typeof t === "number"
@@ -5404,19 +5451,19 @@ function Ui(t) {
         ? 4
         : 0;
 }
-function Ji(t, e, n, o, s) {
+function Vi(t, e, n, s, o) {
   const r = { sent_at: new Date().toISOString() };
   n?.sdk && (r.sdk = { name: n.sdk.name, version: n.sdk.version });
-  !o || !s || (r.dsn = gn(s));
+  !s || !o || (r.dsn = _n(o));
   e && (r.trace = e);
-  const i = zi(t);
-  return Eo(r, [i]);
+  const i = Gi(t);
+  return Es(r, [i]);
 }
-function zi(t) {
+function Gi(t) {
   const e = { type: "check_in" };
   return [e, t];
 }
-function Bi(t) {
+function Ki(t) {
   const e = t._metadata?.sdk;
   const n = e?.name && e?.version ? `${e?.name}/${e?.version}` : void 0;
   t.transportOptions = {
@@ -5424,33 +5471,33 @@ function Bi(t) {
     headers: { ...(n && { "user-agent": n }), ...t.transportOptions?.headers },
   };
 }
-function Wi(t, e) {
+function Hi(t, e) {
   return t(e.stack || "", 1);
 }
-function Vi(t) {
+function Zi(t) {
   return (
-    B(t) &&
+    W(t) &&
     "__sentry_fetch_url_host__" in t &&
     typeof t.__sentry_fetch_url_host__ === "string"
   );
 }
-function Gi(t) {
-  return Vi(t) ? `${t.message} (${t.__sentry_fetch_url_host__})` : t.message;
+function Yi(t) {
+  return Zi(t) ? `${t.message} (${t.__sentry_fetch_url_host__})` : t.message;
 }
-function Ki(t, e) {
-  const n = { type: e.name || e.constructor.name, value: Gi(e) };
-  const o = Wi(t, e);
-  o.length && (n.stacktrace = { frames: o });
+function Xi(t, e) {
+  const n = { type: e.name || e.constructor.name, value: Yi(e) };
+  const s = Hi(t, e);
+  s.length && (n.stacktrace = { frames: s });
   return n;
 }
-function Hi(t) {
+function Qi(t) {
   for (const e in t)
     if (Object.prototype.hasOwnProperty.call(t, e)) {
       const n = t[e];
       if (n instanceof Error) return n;
     }
 }
-function Zi(t) {
+function ta(t) {
   if ("name" in t && typeof t.name === "string") {
     let e = `'${t.name}' captured as exception`;
     "message" in t &&
@@ -5459,55 +5506,55 @@ function Zi(t) {
     return e;
   }
   if ("message" in t && typeof t.message === "string") return t.message;
-  const e = vt(t);
-  if (V(t))
+  const e = St(t);
+  if (G(t))
     return `Event \`ErrorEvent\` captured as exception with message \`${t.message}\``;
-  const n = Yi(t);
+  const n = ea(t);
   return `${n && n !== "Object" ? `'${n}'` : "Object"} captured as exception with keys: ${e}`;
 }
-function Yi(t) {
+function ea(t) {
   try {
     const e = Object.getPrototypeOf(t);
     return e ? e.constructor.name : void 0;
   } catch {}
 }
-function Xi(t, e, n, o) {
-  if (B(n)) return [n, void 0];
+function na(t, e, n, s) {
+  if (W(n)) return [n, void 0];
   e.synthetic = true;
-  if (X(n)) {
+  if (Q(n)) {
     const e = t?.getOptions().normalizeDepth;
-    const s = { __serialized__: _o(n, e) };
-    const r = Hi(n);
-    if (r) return [r, s];
-    const i = Zi(n);
-    const a = o?.syntheticException || new Error(i);
+    const o = { __serialized__: ys(n, e) };
+    const r = Qi(n);
+    if (r) return [r, o];
+    const i = ta(n);
+    const a = s?.syntheticException || new Error(i);
     a.message = i;
-    return [a, s];
+    return [a, o];
   }
-  const s = o?.syntheticException || new Error(n);
-  s.message = `${n}`;
-  return [s, void 0];
+  const o = s?.syntheticException || new Error(n);
+  o.message = `${n}`;
+  return [o, void 0];
 }
-function Qi(t, e, n, o) {
-  const s = o?.data && o.data.mechanism;
-  const r = s || { handled: true, type: "generic" };
-  const [i, a] = Xi(t, r, n, o);
-  const c = { exception: { values: [Ki(e, i)] } };
+function sa(t, e, n, s) {
+  const o = s?.data && s.data.mechanism;
+  const r = o || { handled: true, type: "generic" };
+  const [i, a] = na(t, r, n, s);
+  const c = { exception: { values: [Xi(e, i)] } };
   a && (c.extra = a);
-  qt(c, void 0, void 0);
-  Ut(c, r);
-  return { ...c, event_id: o?.event_id };
+  Ut(c, void 0, void 0);
+  Jt(c, r);
+  return { ...c, event_id: s?.event_id };
 }
-function ta(t, e, n = "info", o, s) {
-  const r = { event_id: o?.event_id, level: n };
-  if (s && o?.syntheticException) {
-    const n = Wi(t, o.syntheticException);
+function oa(t, e, n = "info", s, o) {
+  const r = { event_id: s?.event_id, level: n };
+  if (o && s?.syntheticException) {
+    const n = Hi(t, s.syntheticException);
     if (n.length) {
       r.exception = { values: [{ value: e, stacktrace: { frames: n } }] };
-      Ut(r, { synthetic: true });
+      Jt(r, { synthetic: true });
     }
   }
-  if (Z(e)) {
+  if (Y(e)) {
     const { __sentry_template_string__: t, __sentry_template_values__: n } = e;
     r.logentry = { message: t, params: n };
     return r;
@@ -5521,28 +5568,28 @@ class ServerRuntimeClient extends Client {
    * @param options Configuration options for this SDK.
    */
   constructor(t) {
-    eo();
-    Bi(t);
+    ss();
+    Ki(t);
     super(t);
     this._setUpMetricsProcessing();
   }
   eventFromException(t, e) {
-    const n = Qi(this, this._options.stackParser, t, e);
+    const n = sa(this, this._options.stackParser, t, e);
     n.level = "error";
-    return Ts(n);
+    return $o(n);
   }
   eventFromMessage(t, e = "info", n) {
-    return Ts(
-      ta(this._options.stackParser, t, e, n, this._options.attachStacktrace),
+    return $o(
+      oa(this._options.stackParser, t, e, n, this._options.attachStacktrace),
     );
   }
   captureException(t, e, n) {
-    ea(e);
+    ra(e);
     return super.captureException(t, e, n);
   }
   captureEvent(t, e, n) {
-    const o = !t.type && t.exception?.values && t.exception.values.length > 0;
-    o && ea(e);
+    const s = !t.type && t.exception?.values && t.exception.values.length > 0;
+    s && ra(e);
     return super.captureEvent(t, e, n);
   }
   /**
@@ -5551,16 +5598,16 @@ class ServerRuntimeClient extends Client {
    * @param checkIn An object that describes a check in.
    * @param upsertMonitorConfig An optional object that describes a monitor config. Use this if you want
    * to create a monitor automatically when sending a check in.
-   */ captureCheckIn(e, n, o) {
-    const s = "checkInId" in e && e.checkInId ? e.checkInId : Dt();
+   */ captureCheckIn(e, n, s) {
+    const o = "checkInId" in e && e.checkInId ? e.checkInId : Ft();
     if (!this._isEnabled()) {
       t && y.warn("SDK not enabled, will not capture check-in.");
-      return s;
+      return o;
     }
     const r = this.getOptions();
     const { release: i, environment: a, tunnel: c } = r;
     const u = {
-      check_in_id: s,
+      check_in_id: o,
       monitor_slug: e.monitorSlug,
       status: e.status,
       release: i,
@@ -5576,14 +5623,14 @@ class ServerRuntimeClient extends Client {
         failure_issue_threshold: n.failureIssueThreshold,
         recovery_threshold: n.recoveryThreshold,
       });
-    const [l, p] = Jr(this, o);
+    const [l, p] = Wr(this, s);
     p && (u.contexts = { trace: p });
-    const f = Ji(u, l, this.getSdkMetadata(), c, this.getDsn());
+    const f = Vi(u, l, this.getSdkMetadata(), c, this.getDsn());
     t && y.log("Sending checkin:", e.monitorSlug, e.status);
     this.sendEnvelope(f);
-    return s;
+    return o;
   }
-  _prepareEvent(t, e, n, o) {
+  _prepareEvent(t, e, n, s) {
     this._options.platform &&
       (t.platform = t.platform || this._options.platform);
     this._options.runtime &&
@@ -5593,7 +5640,7 @@ class ServerRuntimeClient extends Client {
       });
     this._options.serverName &&
       (t.server_name = t.server_name || this._options.serverName);
-    return super._prepareEvent(t, e, n, o);
+    return super._prepareEvent(t, e, n, s);
   }
   _setUpMetricsProcessing() {
     this.on("processMetric", (t) => {
@@ -5605,8 +5652,8 @@ class ServerRuntimeClient extends Client {
     });
   }
 }
-function ea(t) {
-  const e = we().getScopeData().sdkProcessingMetadata.requestSession;
+function ra(t) {
+  const e = xe().getScopeData().sdkProcessingMetadata.requestSession;
   if (e) {
     const n = t?.mechanism?.handled ?? true;
     n && e.status !== "crashed"
@@ -5620,7 +5667,7 @@ function ea(t) {
  *
  * @param clientClass The client class to instantiate.
  * @param options Options to pass to the client.
- */ function na(e, n) {
+ */ function ia(e, n) {
   n.debug === true &&
     (t
       ? y.enable()
@@ -5629,64 +5676,65 @@ function ea(t) {
             "[Sentry] Cannot initialize SDK with `debug` option using a non-debug bundle.",
           );
         }));
-  const o = ke();
-  o.update(n.initialScope);
-  const s = new e(n);
-  oa(s);
-  s.init();
-  return s;
+  const s = we();
+  s.update(n.initialScope);
+  const o = new e(n);
+  aa(o);
+  o.init();
+  return o;
 }
-function oa(t) {
-  ke().setClient(t);
+function aa(t) {
+  we().setClient(t);
 }
-const sa = 100;
-const ra = 5e3;
-const ia = 36e5;
+const ca = 100;
+const ua = 5e3;
+const la = 36e5;
 /**
  * Wraps a transport and stores and retries events when they fail to send.
  *
  * @param createTransport The transport to wrap.
- */ function aa(e) {
+ */ function pa(e) {
   function n(...e) {
     t && y.log("[Offline]:", ...e);
   }
   return (t) => {
-    const o = e(t);
+    const s = e(t);
     if (!t.createStore)
       throw new Error("No `createStore` function was provided");
-    const s = t.createStore(t);
-    let r = ra;
+    const o = t.createStore(t);
+    let r = ua;
     let i;
-    function a(e, n, o) {
+    function a(e, n, s) {
       return (
-        !Io(e, ["client_report"]) && (!t.shouldStore || t.shouldStore(e, n, o))
+        !$s(e, ["client_report"]) && (!t.shouldStore || t.shouldStore(e, n, s))
       );
     }
     function c(t) {
       i && clearTimeout(i);
-      i = setTimeout(async () => {
-        i = void 0;
-        const t = await s.shift();
-        if (t) {
-          n("Attempting to send previously queued event");
-          t[0].sent_at = new Date().toISOString();
-          void l(t, true).catch((t) => {
-            n("Failed to retry sending", t);
-          });
-        }
-      }, t);
-      typeof i !== "number" && i.unref && i.unref();
+      i = di(
+        setTimeout(async () => {
+          i = void 0;
+          const t = await o.shift();
+          if (t) {
+            n("Attempting to send previously queued event");
+            t[0].sent_at = new Date().toISOString();
+            void l(t, true).catch((t) => {
+              n("Failed to retry sending", t);
+            });
+          }
+        }, t),
+      );
     }
     function u() {
       if (!i) {
         c(r);
-        r = Math.min(r * 2, ia);
+        r = Math.min(r * 2, la);
       }
     }
     async function l(e, i = false) {
-      if (!i && Io(e, ["replay_event", "replay_recording"])) {
-        await s.push(e);
-        c(sa);
+      if (!i && $s(e, ["replay_event", "replay_recording"])) {
+        await o.push(e);
+        c(ca);
         return {};
       }
       try {
@@ -5694,18 +5742,18 @@ const ia = 36e5;
           throw new Error(
             "Envelope not sent because `shouldSend` callback returned false",
           );
-        const n = await o.send(e);
-        let s = sa;
+        const n = await s.send(e);
+        let o = ca;
         if (n)
-          if (n.headers?.["retry-after"]) s = di(n.headers["retry-after"]);
-          else if (n.headers?.["x-sentry-rate-limits"]) s = 6e4;
+          if (n.headers?.["retry-after"]) o = _i(n.headers["retry-after"]);
+          else if (n.headers?.["x-sentry-rate-limits"]) o = 6e4;
           else if ((n.statusCode || 0) >= 400) return n;
-        c(s);
-        r = ra;
+        c(o);
+        r = ua;
         return n;
       } catch (t) {
         if (await a(e, t, r)) {
-          i ? await s.unshift(e) : await s.push(e);
+          i ? await o.unshift(e) : await o.push(e);
           u();
           n("Error sending. Event queued.", t);
           return {};
@@ -5718,84 +5766,84 @@ const ia = 36e5;
       send: l,
       flush: (t) => {
         if (t === void 0) {
-          r = ra;
-          c(sa);
+          r = ua;
+          c(ca);
         }
-        return o.flush(t);
+        return s.flush(t);
       },
     };
   };
 }
-const ca = "MULTIPLEXED_TRANSPORT_EXTRA_KEY";
-function ua(t, e) {
+const fa = "MULTIPLEXED_TRANSPORT_EXTRA_KEY";
+function da(t, e) {
   let n;
-  To(t, (t, o) => {
-    e.includes(o) && (n = Array.isArray(t) ? t[1] : void 0);
+  Is(t, (t, s) => {
+    e.includes(s) && (n = Array.isArray(t) ? t[1] : void 0);
     return !!n;
   });
   return n;
 }
-function la(t, e) {
+function ma(t, e) {
   return (n) => {
-    const o = t(n);
+    const s = t(n);
     return {
-      ...o,
+      ...s,
       send: async (t) => {
-        const n = ua(t, ["event", "transaction", "profile", "replay_event"]);
+        const n = da(t, ["event", "transaction", "profile", "replay_event"]);
         n && (n.release = e);
-        return o.send(t);
+        return s.send(t);
       },
     };
   };
 }
-function pa(t, e) {
-  return Eo(e ? { ...t[0], dsn: e } : t[0], t[1]);
+function ga(t, e) {
+  return Es(e ? { ...t[0], dsn: e } : t[0], t[1]);
 }
-function fa(t, e) {
+function ha(t, e) {
   return (n) => {
-    const o = t(n);
-    const s = new Map();
+    const s = t(n);
+    const o = new Map();
     const r =
       e ||
       ((t) => {
         const e = t.getEvent();
-        return e?.extra?.[ca] && Array.isArray(e.extra[ca]) ? e.extra[ca] : [];
+        return e?.extra?.[fa] && Array.isArray(e.extra[fa]) ? e.extra[fa] : [];
       });
-    function i(e, o) {
-      const r = o ? `${e}:${o}` : e;
-      let i = s.get(r);
+    function i(e, s) {
+      const r = s ? `${e}:${s}` : e;
+      let i = o.get(r);
       if (!i) {
-        const a = hn(e);
+        const a = yn(e);
         if (!a) return;
-        const c = Ir(a, n.tunnel);
-        i = o ? la(t, o)({ ...n, url: c }) : t({ ...n, url: c });
-        s.set(r, i);
+        const c = Cr(a, n.tunnel);
+        i = s ? ma(t, s)({ ...n, url: c }) : t({ ...n, url: c });
+        o.set(r, i);
       }
       return [e, i];
     }
     async function a(t) {
       function e(e) {
         const n = e?.length ? e : ["event"];
-        return ua(t, n);
+        return da(t, n);
       }
       const n = r({ envelope: t, getEvent: e })
         .map((t) =>
           typeof t === "string" ? i(t, void 0) : i(t.dsn, t.release),
         )
         .filter((t) => !!t);
-      const s = n.length ? n : [["", o]];
-      const a = await Promise.all(s.map(([e, n]) => n.send(pa(t, e))));
+      const o = n.length ? n : [["", s]];
+      const a = await Promise.all(o.map(([e, n]) => n.send(ga(t, e))));
       return a[0];
     }
     async function c(t) {
-      const e = [...s.values(), o];
+      const e = [...o.values(), s];
       const n = await Promise.all(e.map((e) => e.flush(t)));
       return n.every((t) => t);
     }
     return { send: a, flush: c };
   };
 }
-const da = new Set();
+const _a = new Set();
 /**
  * Mark AI provider modules to skip instrumentation wrapping.
  *
@@ -5810,9 +5858,9 @@ const da = new Set();
  * // In LangChain integration
  * _INTERNAL_skipAiProviderWrapping(['@anthropic-ai/sdk', 'openai', '@google/generative-ai']);
  * ```
- */ function ma(e) {
+ */ function ya(e) {
   e.forEach((e) => {
-    da.add(e);
+    _a.add(e);
     t && y.log(`AI provider "${e}" wrapping will be skipped`);
   });
 }
@@ -5830,20 +5878,34 @@ const da = new Set();
  *   return Reflect.construct(Original, args); // Don't instrument
  * }
  * ```
- */ function ga(t) {
-  return da.has(t);
+ */ function ba(t) {
+  return _a.has(t);
 }
-function ha() {
-  da.clear();
+function va() {
+  _a.clear();
   t && y.log("Cleared AI provider skip registrations");
 }
-const _a = "thismessage:/";
+const Sa = new Set(["false", "f", "n", "no", "off", "0"]);
+const ka = new Set(["true", "t", "y", "yes", "on", "1"]);
+/**
+ * A helper function which casts an ENV variable value to `true` or `false` using the constants defined above.
+ * In strict mode, it may return `null` if the value doesn't match any of the predefined values.
+ *
+ * @param value The value of the env variable
+ * @param options -- Only has `strict` key for now, which requires a strict match for `true` in TRUTHY_ENV_VALUES
+ * @returns true/false if the lowercase value matches the predefined values above. If not, null in strict mode,
+ *          and Boolean(value) in loose mode.
+ */ function wa(t, e) {
+  const n = String(t).toLowerCase();
+  return !Sa.has(n) && (!!ka.has(n) || (e?.strict ? null : Boolean(t)));
+}
+const xa = "thismessage:/";
 /**
  * Checks if the URL object is relative
  *
  * @param url - The URL object to check
  * @returns True if the URL object is relative, false otherwise
- */ function ya(t) {
+ */ function Aa(t) {
   return "isRelative" in t;
 }
 /**
@@ -5851,19 +5913,19 @@ const _a = "thismessage:/";
  *
  * @param url - The URL to parse
  * @returns The parsed URL object or undefined if the URL is invalid
- */ function ba(t, e) {
+ */ function Ea(t, e) {
   const n = t.indexOf("://") <= 0 && t.indexOf("//") !== 0;
-  const o = e ?? (n ? _a : void 0);
+  const s = e ?? (n ? xa : void 0);
   try {
-    if ("canParse" in URL && !URL.canParse(t, o)) return;
-    const e = new URL(t, o);
+    if ("canParse" in URL && !URL.canParse(t, s)) return;
+    const e = new URL(t, s);
     return n
       ? { isRelative: n, pathname: e.pathname, search: e.search, hash: e.hash }
       : e;
   } catch {}
 }
-function va(t) {
-  if (ya(t)) return t.pathname;
+function Ta(t) {
+  if (Aa(t)) return t.pathname;
   const e = new URL(t);
   e.search = "";
   e.hash = "";
@@ -5872,10 +5934,10 @@ function va(t) {
   e.username && (e.username = "%filtered%");
   return e.toString();
 }
-function Sa(t, e, n, o) {
-  const s = n?.method?.toUpperCase() ?? "GET";
-  const r = o || (t ? (e === "client" ? va(t) : t.pathname) : "/");
-  return `${s} ${r}`;
+function Ia(t, e, n, s) {
+  const o = n?.method?.toUpperCase() ?? "GET";
+  const r = s || (t ? (e === "client" ? Ta(t) : t.pathname) : "/");
+  return `${o} ${r}`;
 }
 /**
  * Takes a parsed URL object and returns a set of attributes for the span
@@ -5890,29 +5952,29 @@ function Sa(t, e, n, o) {
  * @param request - The request object, see {@link PartialRequest}
  * @param routeName - The name of the route, must be low cardinality
  * @returns The span name and attributes for the HTTP operation
- */ function ka(t, e, n, o, s) {
-  const r = { [je]: n, [$e]: "url" };
-  if (s) {
-    r[e === "server" ? "http.route" : "url.template"] = s;
-    r[$e] = "route";
+ */ function $a(t, e, n, s, o) {
+  const r = { [Re]: n, [Oe]: "url" };
+  if (o) {
+    r[e === "server" ? "http.route" : "url.template"] = o;
+    r[Oe] = "route";
   }
-  o?.method && (r[ze] = o.method.toUpperCase());
+  s?.method && (r[Be] = s.method.toUpperCase());
   if (t) {
     t.search && (r["url.query"] = t.search);
     t.hash && (r["url.fragment"] = t.hash);
     if (t.pathname) {
       r["url.path"] = t.pathname;
-      t.pathname === "/" && (r[$e] = "route");
+      t.pathname === "/" && (r[Oe] = "route");
     }
-    if (!ya(t)) {
-      r[Be] = t.href;
+    if (!Aa(t)) {
+      r[We] = t.href;
       t.port && (r["url.port"] = t.port);
       t.protocol && (r["url.scheme"] = t.protocol);
       t.hostname &&
         (r[e === "server" ? "server.address" : "url.domain"] = t.hostname);
     }
   }
-  return [Sa(t, e, o, s), r];
+  return [Ia(t, e, s, o), r];
 }
 /**
  * Parses string form of URL into an object
@@ -5920,21 +5982,21 @@ function Sa(t, e, n, o) {
  * // intentionally using regex and not <a/> href parsing trick because React Native and other
  * // environments where DOM might not be available
  * @returns parsed URL object
- */ function wa(t) {
+ */ function Oa(t) {
   if (!t) return {};
   const e = t.match(
     /^(([^:/?#]+):)?(\/\/([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?$/,
   );
   if (!e) return {};
   const n = e[6] || "";
-  const o = e[8] || "";
+  const s = e[8] || "";
   return {
     host: e[4],
     path: e[5],
     protocol: e[2],
     search: n,
-    hash: o,
-    relative: e[5] + n + o,
+    hash: s,
+    relative: e[5] + n + s,
   };
 }
 /**
@@ -5942,40 +6004,69 @@ function Sa(t, e, n, o) {
  *
  * @param urlPath Full URL or path, including possible query string and/or fragment
  * @returns URL or path without query string or fragment
- */ function xa(t) {
+ */ function Ca(t) {
   return t.split(/[?#]/, 1)[0];
 }
-function Ea(t) {
-  const { protocol: e, host: n, path: o } = t;
-  const s =
+function Na(t) {
+  const { protocol: e, host: n, path: s } = t;
+  const o =
     n
       ?.replace(/^.*@/, "[filtered]:[filtered]@")
       .replace(/(:80)$/, "")
       .replace(/(:443)$/, "") || "";
-  return `${e ? `${e}://` : ""}${s}${o}`;
+  return `${e ? `${e}://` : ""}${o}${s}`;
+}
+/**
+ * Strips the content from a data URL, returning a placeholder with the MIME type.
+ *
+ * Data URLs can be very long (e.g. base64 encoded scripts for Web Workers),
+ * with little valuable information, often leading to envelopes getting dropped due
+ * to size limit violations. Therefore, we strip data URLs and replace them with a
+ * placeholder.
+ *
+ * @param url - The URL to process
+ * @param includeDataPrefix - If true, includes the first 10 characters of the data stream
+ *                            for debugging (e.g., to identify magic bytes like WASM's AGFzbQ).
+ *                            Defaults to true.
+ * @returns For data URLs, returns a short format like `data:text/javascript;base64,SGVsbG8gV2... [truncated]`.
+ *          For non-data URLs, returns the original URL unchanged.
+ */ function ja(t, e = true) {
+  if (t.startsWith("data:")) {
+    const n = t.match(/^data:([^;,]+)/);
+    const s = n ? n[1] : "text/plain";
+    const o = t.includes(";base64,");
+    const r = t.indexOf(",");
+    let i = "";
+    if (e && r !== -1) {
+      const e = t.slice(r + 1);
+      i = e.length > 10 ? `${e.slice(0, 10)}... [truncated]` : e;
+    }
+    return `data:${s}${o ? ",base64" : ""}${i ? `,${i}` : ""}`;
+  }
+  return t;
 }
 /**
  * Checks whether given url points to Sentry server
  *
  * @param url url to verify
- */ function Aa(t, e) {
+ */ function Ra(t, e) {
   const n = e?.getDsn();
-  const o = e?.getOptions().tunnel;
-  return Ia(t, n) || Ta(t, o);
+  const s = e?.getOptions().tunnel;
+  return Pa(t, n) || Ma(t, s);
 }
-function Ta(t, e) {
-  return !!e && $a(t) === $a(e);
+function Ma(t, e) {
+  return !!e && Da(t) === Da(e);
 }
-function Ia(t, e) {
-  const n = ba(t);
+function Pa(t, e) {
+  const n = Ea(t);
   return (
-    !(!n || ya(n)) &&
+    !(!n || Aa(n)) &&
     !!e &&
     n.host.includes(e.host) &&
     /(^|&|\?)sentry_key=/.test(n.search)
   );
 }
-function $a(t) {
+function Da(t) {
   return t[t.length - 1] === "/" ? t.slice(0, -1) : t;
 }
 /**
@@ -5988,7 +6079,7 @@ function $a(t) {
  * @param values Expressions extracted from template string
  *
  * @returns A `ParameterizedString` object that can be passed into `captureMessage` or Sentry.logger.X methods.
- */ function Oa(t, ...e) {
+ */ function Fa(t, ...e) {
   const n = new String(String.raw(t, ...e));
   n.__sentry_template_string__ = t
     .join("\0")
@@ -6003,15 +6094,61 @@ function $a(t) {
  * @param strings An array of string values splitted between expressions
  * @param values Expressions extracted from template string
  * @returns A `ParameterizedString` object that can be passed into `captureMessage` or Sentry.logger.X methods.
- */ const Ca = Oa;
+ */ const La = Fa;
+/**
+ * Core Sentry tunnel handler - framework agnostic.
+ *
+ * Validates the envelope DSN against allowed DSNs, then forwards the
+ * envelope to the Sentry ingest endpoint.
+ *
+ * @returns A `Response` — either the upstream Sentry response on success, or an error response.
+ */ async function qa(t) {
+  const { request: e, allowedDsns: n } = t;
+  if (n.length === 0)
+    return new Response("Tunnel not configured", { status: 500 });
+  const s = new Uint8Array(await e.arrayBuffer());
+  let o;
+  try {
+    [o] = Rs(s);
+  } catch {
+    return new Response("Invalid envelope", { status: 400 });
+  }
+  if (!o)
+    return new Response("Invalid envelope: missing header", { status: 400 });
+  const r = o.dsn;
+  if (!r) return new Response("Invalid envelope: missing DSN", { status: 400 });
+  const i = n.some((t) => t === r);
+  if (!i) {
+    y.warn(`Sentry tunnel: rejected request with unauthorized DSN (${r})`);
+    return new Response("DSN not allowed", { status: 403 });
+  }
+  const a = wn(r);
+  if (!a) {
+    y.warn(`Could not extract DSN Components from: ${r}`);
+    return new Response("Invalid DSN", { status: 403 });
+  }
+  const c = Cr(a);
+  try {
+    return await fetch(c, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-sentry-envelope" },
+      body: s,
+    });
+  } catch (t) {
+    y.error("Sentry tunnel: failed to forward envelope", t);
+    return new Response("Failed to forward envelope to Sentry", {
+      status: 500,
+    });
+  }
+}
 /**
  * @internal
  * @deprecated -- set ip inferral via via SDK metadata options on client instead.
- */ function Na(t) {
+ */ function Ua(t) {
   t.user?.ip_address === void 0 &&
     (t.user = { ...t.user, ip_address: "{{auto}}" });
 }
-function ja(t) {
+function Ja(t) {
   "aggregates" in t
     ? t.attrs?.ip_address === void 0 &&
       (t.attrs = { ...t.attrs, ip_address: "{{auto}}" })
@@ -6029,15 +6166,13 @@ function ja(t) {
  *
  * @param options SDK options object that gets mutated
  * @param names list of package names
- */ function Ra(t, e, o = [e], s = "npm") {
-  const r = t._metadata || {};
-  r.sdk ||
-    (r.sdk = {
-      name: `sentry.javascript.${e}`,
-      packages: o.map((t) => ({ name: `${s}:@sentry/${t}`, version: n })),
-      version: n,
-    });
-  t._metadata = r;
+ */ function za(t, e, s = [e], o = "npm") {
+  const r = ((t._metadata = t._metadata || {}).sdk = t._metadata.sdk || {});
+  if (!r.name) {
+    r.name = `sentry.javascript.${e}`;
+    r.packages = s.map((t) => ({ name: `${o}:@sentry/${t}`, version: n }));
+    r.version = n;
+  }
 }
 /**
  * Extracts trace propagation data from the current span or from the client's scope (via transaction or propagation
@@ -6052,44 +6187,58 @@ function ja(t) {
  *
  * @returns an object with the tracing data values. The object keys are the name of the tracing key to be used as header
  * or meta tag name.
- */ function Pa(t = {}) {
-  const e = t.client || Te();
-  if (!yr() || !e) return {};
-  const n = o();
-  const s = Se(n);
-  if (s.getTraceData) return s.getTraceData(t);
-  const r = t.scope || ke();
-  const i = t.span || Yn();
-  const a = i ? Pn(i) : Ma(r);
-  const c = i ? mo(i) : fo(e, r);
-  const u = cn(c);
-  const l = wn.test(a);
+ */ function Ba(t = {}) {
+  const e = t.client || Ie();
+  if (!Sr() || !e) return {};
+  const n = s();
+  const o = ke(n);
+  if (o.getTraceData) return o.getTraceData(t);
+  const r = t.scope || we();
+  const i = t.span || Qn();
+  const a = i ? Dn(i) : Wa(r);
+  const c = i ? gs(i) : ms(e, r);
+  const u = ln(c);
+  const l = An.test(a);
   if (!l) {
     y.warn("Invalid sentry-trace data. Cannot generate trace data");
     return {};
   }
   const p = { "sentry-trace": a, baggage: u };
-  t.propagateTraceparent && (p.traceparent = i ? Mn(i) : Da(r));
+  t.propagateTraceparent && (p.traceparent = i ? Fn(i) : Va(r));
   return p;
 }
-function Ma(t) {
+function Wa(t) {
   const {
     traceId: e,
     sampled: n,
-    propagationSpanId: o,
+    propagationSpanId: s,
   } = t.getPropagationContext();
-  return An(e, o, n);
+  return In(e, s, n);
 }
-function Da(t) {
+function Va(t) {
   const {
     traceId: e,
     sampled: n,
-    propagationSpanId: o,
+    propagationSpanId: s,
   } = t.getPropagationContext();
-  return Tn(e, o, n);
+  return $n(e, s, n);
 }
-function Fa(t) {
-  return Object.entries(t || Pa())
+const Ga =
+  "[Tracing] Not injecting trace data for url because it does not match tracePropagationTargets:";
+function Ka(e, n, s) {
+  if (typeof e !== "string" || !n) return true;
+  const o = s?.get(e);
+  if (o !== void 0) {
+    t && !o && y.log(Ga, e);
+    return o;
+  }
+  const r = Rt(e, n);
+  s?.set(e, r);
+  t && !r && y.log(Ga, e);
+  return r;
+}
+function Ha(t) {
+  return Object.entries(t || Ba())
     .map(([t, e]) => `<meta name="${t}" content="${e}"/>`)
     .join("\n");
 }
@@ -6110,36 +6259,36 @@ function Fa(t) {
  *          The debounced function has two additional properties:
  *          - `flush`: Invokes the debounced function immediately and returns its return value
  *          - `cancel`: Cancels the debouncing process and resets the debouncing timer
- */ function La(t, e, n) {
-  let o;
+ */ function Za(t, e, n) {
   let s;
+  let o;
   let r;
   const i = n?.maxWait ? Math.max(n.maxWait, e) : 0;
   const a = n?.setTimeoutImpl || setTimeout;
   function c() {
     u();
-    o = t();
-    return o;
+    s = t();
+    return s;
   }
   function u() {
-    s !== void 0 && clearTimeout(s);
+    o !== void 0 && clearTimeout(o);
     r !== void 0 && clearTimeout(r);
-    s = r = void 0;
+    o = r = void 0;
   }
   function l() {
-    return s !== void 0 || r !== void 0 ? c() : o;
+    return o !== void 0 || r !== void 0 ? c() : s;
   }
   function p() {
-    s && clearTimeout(s);
-    s = a(c, e);
+    o && clearTimeout(o);
+    o = a(c, e);
     i && r === void 0 && (r = a(c, i));
-    return o;
+    return s;
   }
   p.cancel = u;
   p.flush = l;
   return p;
 }
-function qa(t) {
+function Ya(t) {
   const e = {};
   try {
     t.forEach((t, n) => {
@@ -6148,7 +6297,7 @@ function qa(t) {
   } catch {}
   return e;
 }
-function Ua(t) {
+function Xa(t) {
   const e = Object.create(null);
   try {
     Object.entries(t).forEach(([t, n]) => {
@@ -6157,37 +6306,37 @@ function Ua(t) {
   } catch {}
   return e;
 }
-function Ja(t) {
-  const e = qa(t.headers);
-  return { method: t.method, url: t.url, query_string: Ya(t.url), headers: e };
+function Qa(t) {
+  const e = Ya(t.headers);
+  return { method: t.method, url: t.url, query_string: cc(t.url), headers: e };
 }
-function za(t) {
+function tc(t) {
   const e = t.headers || {};
   const n =
     typeof e["x-forwarded-host"] === "string" ? e["x-forwarded-host"] : void 0;
-  const o = n || (typeof e.host === "string" ? e.host : void 0);
-  const s =
+  const s = n || (typeof e.host === "string" ? e.host : void 0);
+  const o =
     typeof e["x-forwarded-proto"] === "string"
       ? e["x-forwarded-proto"]
       : void 0;
-  const r = s || t.protocol || (t.socket?.encrypted ? "https" : "http");
+  const r = o || t.protocol || (t.socket?.encrypted ? "https" : "http");
   const i = t.url || "";
-  const a = Ba({ url: i, host: o, protocol: r });
+  const a = ec({ url: i, host: s, protocol: r });
   const c = t.body || void 0;
   const u = t.cookies;
   return {
     url: a,
     method: t.method,
-    query_string: Ya(i),
-    headers: Ua(e),
+    query_string: cc(i),
+    headers: Xa(e),
     cookies: u,
     data: c,
   };
 }
-function Ba({ url: t, protocol: e, host: n }) {
+function ec({ url: t, protocol: e, host: n }) {
   return t?.startsWith("http") ? t : t && n ? `${e}://${n}${t}` : void 0;
 }
-const Wa = [
+const nc = [
   "auth",
   "token",
   "secret",
@@ -6206,46 +6355,46 @@ const Wa = [
   "set-cookie",
   "cookie",
 ];
-const Va = ["x-forwarded-", "-user"];
-function Ga(t, e = false) {
+const sc = ["x-forwarded-", "-user"];
+function oc(t, e = false) {
   const n = {};
   try {
-    Object.entries(t).forEach(([t, o]) => {
-      if (o == null) return;
-      const s = t.toLowerCase();
-      const r = s === "cookie" || s === "set-cookie";
-      if (r && typeof o === "string" && o !== "") {
-        const t = s === "set-cookie";
-        const r = o.indexOf(";");
-        const i = t && r !== -1 ? o.substring(0, r) : o;
+    Object.entries(t).forEach(([t, s]) => {
+      if (s == null) return;
+      const o = t.toLowerCase();
+      const r = o === "cookie" || o === "set-cookie";
+      if (r && typeof s === "string" && s !== "") {
+        const t = o === "set-cookie";
+        const r = s.indexOf(";");
+        const i = t && r !== -1 ? s.substring(0, r) : s;
         const a = t ? [i] : i.split("; ");
         for (const t of a) {
-          const o = t.indexOf("=");
-          const r = o !== -1 ? t.substring(0, o) : t;
-          const i = o !== -1 ? t.substring(o + 1) : "";
+          const s = t.indexOf("=");
+          const r = s !== -1 ? t.substring(0, s) : t;
+          const i = s !== -1 ? t.substring(s + 1) : "";
           const a = r.toLowerCase();
-          Ha(n, s, a, i, e);
+          ic(n, o, a, i, e);
         }
-      } else Ha(n, s, "", o, e);
+      } else ic(n, o, "", s, e);
     });
   } catch {}
   return n;
 }
-function Ka(t) {
+function rc(t) {
   return t.replace(/-/g, "_");
 }
-function Ha(t, e, n, o, s) {
+function ic(t, e, n, s, o) {
   const r = n
-    ? `http.request.header.${Ka(e)}.${Ka(n)}`
-    : `http.request.header.${Ka(e)}`;
-  const i = Za(n || e, o, s);
+    ? `http.request.header.${rc(e)}.${rc(n)}`
+    : `http.request.header.${rc(e)}`;
+  const i = ac(n || e, s, o);
   i !== void 0 && (t[r] = i);
 }
-function Za(t, e, n) {
-  const o = n
-    ? Wa.some((e) => t.includes(e))
-    : [...Va, ...Wa].some((e) => t.includes(e));
-  return o
+function ac(t, e, n) {
+  const s = n
+    ? nc.some((e) => t.includes(e))
+    : [...sc, ...nc].some((e) => t.includes(e));
+  return s
     ? "[Filtered]"
     : Array.isArray(e)
       ? e.map((t) => (t != null ? String(t) : t)).join(";")
@@ -6253,7 +6402,7 @@ function Za(t, e, n) {
         ? e
         : void 0;
 }
-function Ya(t) {
+function cc(t) {
   if (t)
     try {
       const e = new URL(t, "http://s.io").search.slice(1);
@@ -6262,42 +6411,42 @@ function Ya(t) {
       return;
     }
 }
-const Xa = 100;
-function Qa(t, e) {
-  const n = Te();
-  const o = we();
+const uc = 100;
+function lc(t, e) {
+  const n = Ie();
+  const s = xe();
   if (!n) return;
-  const { beforeBreadcrumb: s = null, maxBreadcrumbs: r = Xa } = n.getOptions();
+  const { beforeBreadcrumb: o = null, maxBreadcrumbs: r = uc } = n.getOptions();
   if (r <= 0) return;
-  const i = Ht();
+  const i = Zt();
   const a = { timestamp: i, ...t };
-  const c = s ? u(() => s(a, e)) : a;
+  const c = o ? u(() => o(a, e)) : a;
   if (c !== null) {
     n.emit && n.emit("beforeAddBreadcrumb", c, e);
-    o.addBreadcrumb(c, r);
+    s.addBreadcrumb(c, r);
   }
 }
-let tc;
-const ec = "FunctionToString";
-const nc = new WeakMap();
-const oc = () => ({
-  name: ec,
+let pc;
+const fc = "FunctionToString";
+const dc = new WeakMap();
+const mc = () => ({
+  name: fc,
   setupOnce() {
-    tc = Function.prototype.toString;
+    pc = Function.prototype.toString;
     try {
       Function.prototype.toString = function (...t) {
-        const e = ht(this);
-        const n = nc.has(Te()) && e !== void 0 ? e : this;
-        return tc.apply(n, t);
+        const e = _t(this);
+        const n = dc.has(Ie()) && e !== void 0 ? e : this;
+        return pc.apply(n, t);
       };
     } catch {}
   },
   setup(t) {
-    nc.set(t, true);
+    dc.set(t, true);
   },
 });
-const sc = Dr(oc);
-const rc = [
+const gc = qr(mc);
+const hc = [
   /^Script error\.?$/,
   /^Javascript error: Script error\.? on line 0$/,
   /^ResizeObserver loop completed with undelivered notifications.$/,
@@ -6310,7 +6459,7 @@ const rc = [
   /^Non-Error promise rejection captured with value: Object Not Found Matching Id:\d+, MethodName:simulateEvent, ParamCount:\d+$/,
   /^Java exception was raised during method invocation$/,
 ];
-const ic = "EventFilters";
+const _c = "EventFilters";
 /**
  * An integration that filters out events (errors and transactions) based on:
  *
@@ -6323,20 +6472,20 @@ const ic = "EventFilters";
  *   - The same option passed to the integration directly via @param options
  *
  * Events filtered by this integration will not be sent to Sentry.
- */ const ac = Dr((t = {}) => {
+ */ const yc = qr((t = {}) => {
   let e;
   return {
-    name: ic,
+    name: _c,
     setup(n) {
-      const o = n.getOptions();
-      e = uc(t, o);
+      const s = n.getOptions();
+      e = vc(t, s);
     },
-    processEvent(n, o, s) {
+    processEvent(n, s, o) {
       if (!e) {
-        const n = s.getOptions();
-        e = uc(t, n);
+        const n = o.getOptions();
+        e = vc(t, n);
       }
-      return lc(n, e) ? null : n;
+      return Sc(n, e) ? null : n;
     },
   };
 });
@@ -6355,15 +6504,15 @@ const ic = "EventFilters";
  *
  * @deprecated this integration was renamed and will be removed in a future major version.
  * Use `eventFiltersIntegration` instead.
- */ const cc = Dr((t = {}) => ({ ...ac(t), name: "InboundFilters" }));
-function uc(t = {}, e = {}) {
+ */ const bc = qr((t = {}) => ({ ...yc(t), name: "InboundFilters" }));
+function vc(t = {}, e = {}) {
   return {
     allowUrls: [...(t.allowUrls || []), ...(e.allowUrls || [])],
     denyUrls: [...(t.denyUrls || []), ...(e.denyUrls || [])],
     ignoreErrors: [
       ...(t.ignoreErrors || []),
       ...(e.ignoreErrors || []),
-      ...(t.disableErrorDefaults ? [] : rc),
+      ...(t.disableErrorDefaults ? [] : hc),
     ],
     ignoreTransactions: [
       ...(t.ignoreTransactions || []),
@@ -6371,66 +6520,66 @@ function uc(t = {}, e = {}) {
     ],
   };
 }
-function lc(e, n) {
+function Sc(e, n) {
   if (e.type) {
-    if (e.type === "transaction" && fc(e, n.ignoreTransactions)) {
+    if (e.type === "transaction" && wc(e, n.ignoreTransactions)) {
       t &&
         y.warn(
-          `Event dropped due to being matched by \`ignoreTransactions\` option.\nEvent: ${Lt(e)}`,
+          `Event dropped due to being matched by \`ignoreTransactions\` option.\nEvent: ${qt(e)}`,
         );
       return true;
     }
   } else {
-    if (pc(e, n.ignoreErrors)) {
+    if (kc(e, n.ignoreErrors)) {
       t &&
         y.warn(
-          `Event dropped due to being matched by \`ignoreErrors\` option.\nEvent: ${Lt(e)}`,
+          `Event dropped due to being matched by \`ignoreErrors\` option.\nEvent: ${qt(e)}`,
         );
       return true;
     }
-    if (_c(e)) {
+    if (Ic(e)) {
       t &&
         y.warn(
-          `Event dropped due to not having an error message, error type or stacktrace.\nEvent: ${Lt(e)}`,
+          `Event dropped due to not having an error message, error type or stacktrace.\nEvent: ${qt(e)}`,
         );
       return true;
     }
-    if (dc(e, n.denyUrls)) {
+    if (xc(e, n.denyUrls)) {
       t &&
         y.warn(
-          `Event dropped due to being matched by \`denyUrls\` option.\nEvent: ${Lt(e)}.\nUrl: ${hc(e)}`,
+          `Event dropped due to being matched by \`denyUrls\` option.\nEvent: ${qt(e)}.\nUrl: ${Tc(e)}`,
         );
       return true;
     }
-    if (!mc(e, n.allowUrls)) {
+    if (!Ac(e, n.allowUrls)) {
       t &&
         y.warn(
-          `Event dropped due to not being matched by \`allowUrls\` option.\nEvent: ${Lt(e)}.\nUrl: ${hc(e)}`,
+          `Event dropped due to not being matched by \`allowUrls\` option.\nEvent: ${qt(e)}.\nUrl: ${Tc(e)}`,
         );
       return true;
     }
   }
   return false;
 }
-function pc(t, e) {
-  return !!e?.length && vi(t).some((t) => jt(t, e));
+function kc(t, e) {
+  return !!e?.length && xi(t).some((t) => Rt(t, e));
 }
-function fc(t, e) {
+function wc(t, e) {
   if (!e?.length) return false;
   const n = t.transaction;
-  return !!n && jt(n, e);
+  return !!n && Rt(n, e);
 }
-function dc(t, e) {
+function xc(t, e) {
   if (!e?.length) return false;
-  const n = hc(t);
-  return !!n && jt(n, e);
+  const n = Tc(t);
+  return !!n && Rt(n, e);
 }
-function mc(t, e) {
+function Ac(t, e) {
   if (!e?.length) return true;
-  const n = hc(t);
-  return !n || jt(n, e);
+  const n = Tc(t);
+  return !n || Rt(n, e);
 }
-function gc(t = []) {
+function Ec(t = []) {
   for (let e = t.length - 1; e >= 0; e--) {
     const n = t[e];
     if (n && n.filename !== "<anonymous>" && n.filename !== "[native code]")
@@ -6438,7 +6587,7 @@ function gc(t = []) {
   }
   return null;
 }
-function hc(e) {
+function Tc(e) {
   try {
     const t = [...(e.exception?.values ?? [])]
       .reverse()
@@ -6447,13 +6596,13 @@ function hc(e) {
           t.mechanism?.parent_id === void 0 && t.stacktrace?.frames?.length,
       );
     const n = t?.stacktrace?.frames;
-    return n ? gc(n) : null;
+    return n ? Ec(n) : null;
   } catch {
-    t && y.error(`Cannot extract url for event ${Lt(e)}`);
+    t && y.error(`Cannot extract url for event ${qt(e)}`);
     return null;
   }
 }
-function _c(t) {
+function Ic(t) {
   return (
     !!t.exception?.values?.length &&
     !t.message &&
@@ -6462,145 +6611,148 @@ function _c(t) {
     )
   );
 }
-function yc(t, e, n, o, s, r) {
-  if (!s.exception?.values || !r || !st(r.originalException, Error)) return;
+function $c(t, e, n, s, o, r) {
+  if (!o.exception?.values || !r || !rt(r.originalException, Error)) return;
   const i =
-    s.exception.values.length > 0
-      ? s.exception.values[s.exception.values.length - 1]
+    o.exception.values.length > 0
+      ? o.exception.values[o.exception.values.length - 1]
       : void 0;
   i &&
-    (s.exception.values = bc(
+    (o.exception.values = Oc(
       t,
       e,
-      o,
+      s,
       r.originalException,
       n,
-      s.exception.values,
+      o.exception.values,
       i,
       0,
     ));
 }
-function bc(t, e, n, o, s, r, i, a) {
+function Oc(t, e, n, s, o, r, i, a) {
   if (r.length >= n + 1) return r;
   let c = [...r];
-  if (st(o[s], Error)) {
-    vc(i, a);
-    const r = t(e, o[s]);
+  if (rt(s[o], Error)) {
+    Nc(i, a, s);
+    const r = t(e, s[o]);
     const u = c.length;
-    Sc(r, s, u, a);
-    c = bc(t, e, n, o[s], s, [r, ...c], r, u);
+    jc(r, o, u, a);
+    c = Oc(t, e, n, s[o], o, [r, ...c], r, u);
   }
-  Array.isArray(o.errors) &&
-    o.errors.forEach((o, r) => {
-      if (st(o, Error)) {
-        vc(i, a);
-        const u = t(e, o);
-        const l = c.length;
-        Sc(u, `errors[${r}]`, l, a);
-        c = bc(t, e, n, o, s, [u, ...c], u, l);
+  Cc(s) &&
+    s.errors.forEach((r, u) => {
+      if (rt(r, Error)) {
+        Nc(i, a, s);
+        const l = t(e, r);
+        const p = c.length;
+        jc(l, `errors[${u}]`, p, a);
+        c = Oc(t, e, n, r, o, [l, ...c], l, p);
       }
     });
   return c;
 }
-function vc(t, e) {
+function Cc(t) {
+  return Array.isArray(t.errors);
+}
+function Nc(t, e, n) {
   t.mechanism = {
     handled: true,
     type: "auto.core.linked_errors",
+    ...(Cc(n) && { is_exception_group: true }),
     ...t.mechanism,
-    ...(t.type === "AggregateError" && { is_exception_group: true }),
     exception_id: e,
   };
 }
-function Sc(t, e, n, o) {
+function jc(t, e, n, s) {
   t.mechanism = {
     handled: true,
     ...t.mechanism,
     type: "chained",
     source: e,
     exception_id: n,
-    parent_id: o,
+    parent_id: s,
   };
 }
-const kc = "cause";
-const wc = 5;
-const xc = "LinkedErrors";
-const Ec = (t = {}) => {
-  const e = t.limit || wc;
-  const n = t.key || kc;
+const Rc = "cause";
+const Mc = 5;
+const Pc = "LinkedErrors";
+const Dc = (t = {}) => {
+  const e = t.limit || Mc;
+  const n = t.key || Rc;
   return {
-    name: xc,
-    preprocessEvent(t, o, s) {
-      const r = s.getOptions();
-      yc(Ki, r.stackParser, n, e, t, o);
+    name: Pc,
+    preprocessEvent(t, s, o) {
+      const r = o.getOptions();
+      $c(Xi, r.stackParser, n, e, t, s);
     },
   };
 };
-const Ac = Dr(Ec);
-const Tc = new Map();
-const Ic = new Set();
+const Fc = qr(Dc);
+const Lc = new Map();
+const qc = new Set();
 /**
  * Builds a map of filenames to module metadata from the global _sentryModuleMetadata object.
  * This is useful for forwarding metadata from web workers to the main thread.
  *
  * @param parser - Stack parser to use for extracting filenames from stack traces
  * @returns A map of filename to metadata object
- */ function $c(t) {
+ */ function Uc(t) {
   if (!e._sentryModuleMetadata) return {};
   const n = {};
-  for (const o of Object.keys(e._sentryModuleMetadata)) {
-    const s = e._sentryModuleMetadata[o];
-    const r = t(o);
+  for (const s of Object.keys(e._sentryModuleMetadata)) {
+    const o = e._sentryModuleMetadata[s];
+    const r = t(s);
     for (const t of r.reverse())
       if (t.filename) {
-        n[t.filename] = s;
+        n[t.filename] = o;
         break;
       }
   }
   return n;
 }
-function Oc(t) {
+function Jc(t) {
   if (e._sentryModuleMetadata)
     for (const n of Object.keys(e._sentryModuleMetadata)) {
-      const o = e._sentryModuleMetadata[n];
-      if (Ic.has(n)) continue;
-      Ic.add(n);
-      const s = t(n);
-      for (const t of s.reverse())
+      const s = e._sentryModuleMetadata[n];
+      if (qc.has(n)) continue;
+      qc.add(n);
+      const o = t(n);
+      for (const t of o.reverse())
         if (t.filename) {
-          Tc.set(t.filename, o);
+          Lc.set(t.filename, s);
           break;
         }
     }
 }
-function Cc(t, e) {
-  Oc(t);
-  return Tc.get(e);
+function zc(t, e) {
+  Jc(t);
+  return Lc.get(e);
 }
-function Nc(t, e) {
+function Bc(t, e) {
   e.exception?.values?.forEach((e) => {
     e.stacktrace?.frames?.forEach((e) => {
       if (!e.filename || e.module_metadata) return;
-      const n = Cc(t, e.filename);
+      const n = zc(t, e.filename);
       n && (e.module_metadata = n);
     });
   });
 }
-function jc(t) {
+function Wc(t) {
   t.exception?.values?.forEach((t) => {
     t.stacktrace?.frames?.forEach((t) => {
       delete t.module_metadata;
     });
   });
 }
-const Rc = Dr(() => ({
+const Vc = qr(() => ({
   name: "ModuleMetadata",
   setup(t) {
     t.on("beforeEnvelope", (t) => {
-      To(t, (t, e) => {
+      Is(t, (t, e) => {
         if (e === "event") {
           const e = Array.isArray(t) ? t[1] : void 0;
           if (e) {
-            jc(e);
+            Wc(e);
             t[1] = e;
           }
         }
@@ -6609,25 +6761,25 @@ const Rc = Dr(() => ({
     t.on("applyFrameMetadata", (e) => {
       if (e.type) return;
       const n = t.getOptions().stackParser;
-      Nc(n, e);
+      Bc(n, e);
     });
   },
 }));
-function Pc(t) {
+function Gc(t) {
   const e = {};
   let n = 0;
   while (n < t.length) {
-    const o = t.indexOf("=", n);
-    if (o === -1) break;
-    let s = t.indexOf(";", n);
-    if (s === -1) s = t.length;
-    else if (s < o) {
-      n = t.lastIndexOf(";", o - 1) + 1;
+    const s = t.indexOf("=", n);
+    if (s === -1) break;
+    let o = t.indexOf(";", n);
+    if (o === -1) o = t.length;
+    else if (o < s) {
+      n = t.lastIndexOf(";", s - 1) + 1;
       continue;
     }
-    const r = t.slice(n, o).trim();
+    const r = t.slice(n, s).trim();
     if (void 0 === e[r]) {
-      let n = t.slice(o + 1, s).trim();
+      let n = t.slice(s + 1, o).trim();
       n.charCodeAt(0) === 34 && (n = n.slice(1, -1));
       try {
         e[r] = n.indexOf("%") !== -1 ? decodeURIComponent(n) : n;
@@ -6635,11 +6787,11 @@ function Pc(t) {
         e[r] = n;
       }
     }
-    n = s + 1;
+    n = o + 1;
   }
   return e;
 }
-const Mc = [
+const Kc = [
   "X-Client-IP",
   "X-Forwarded-For",
   "Fly-Client-IP",
@@ -6653,92 +6805,94 @@ const Mc = [
   "Forwarded",
   "X-Vercel-Forwarded-For",
 ];
-function Dc(t) {
-  const e = Mc.map((e) => {
-    const n = t[e];
-    const o = Array.isArray(n) ? n.join(";") : n;
-    return e === "Forwarded" ? Fc(o) : o?.split(",").map((t) => t.trim());
+function Hc(t) {
+  const e = {};
+  for (const n of Object.keys(t)) e[n.toLowerCase()] = t[n];
+  const n = Kc.map((t) => {
+    const n = e[t.toLowerCase()];
+    const s = Array.isArray(n) ? n.join(";") : n;
+    return t === "Forwarded" ? Zc(s) : s?.split(",").map((t) => t.trim());
   });
-  const n = e.reduce((t, e) => (e ? t.concat(e) : t), []);
-  const o = n.find((t) => t !== null && Lc(t));
+  const s = n.reduce((t, e) => (e ? t.concat(e) : t), []);
+  const o = s.find((t) => t !== null && Yc(t));
   return o || null;
 }
-function Fc(t) {
+function Zc(t) {
   if (!t) return null;
   for (const e of t.split(";")) if (e.startsWith("for=")) return e.slice(4);
   return null;
 }
-function Lc(t) {
+function Yc(t) {
   const e =
     /(?:^(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}$)|(?:^(?:(?:[a-fA-F\d]{1,4}:){7}(?:[a-fA-F\d]{1,4}|:)|(?:[a-fA-F\d]{1,4}:){6}(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|:[a-fA-F\d]{1,4}|:)|(?:[a-fA-F\d]{1,4}:){5}(?::(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|(?::[a-fA-F\d]{1,4}){1,2}|:)|(?:[a-fA-F\d]{1,4}:){4}(?:(?::[a-fA-F\d]{1,4}){0,1}:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|(?::[a-fA-F\d]{1,4}){1,3}|:)|(?:[a-fA-F\d]{1,4}:){3}(?:(?::[a-fA-F\d]{1,4}){0,2}:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|(?::[a-fA-F\d]{1,4}){1,4}|:)|(?:[a-fA-F\d]{1,4}:){2}(?:(?::[a-fA-F\d]{1,4}){0,3}:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|(?::[a-fA-F\d]{1,4}){1,5}|:)|(?:[a-fA-F\d]{1,4}:){1}(?:(?::[a-fA-F\d]{1,4}){0,4}:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|(?::[a-fA-F\d]{1,4}){1,6}|:)|(?::(?:(?::[a-fA-F\d]{1,4}){0,5}:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|(?::[a-fA-F\d]{1,4}){1,7}|:)))(?:%[0-9a-zA-Z]{1,})?$)/;
   return e.test(t);
 }
-const qc = {
+const Xc = {
   cookies: true,
   data: true,
   headers: true,
   query_string: true,
   url: true,
 };
-const Uc = "RequestData";
-const Jc = (t = {}) => {
-  const e = { ...qc, ...t.include };
+const Qc = "RequestData";
+const tu = (t = {}) => {
+  const e = { ...Xc, ...t.include };
   return {
-    name: Uc,
-    processEvent(t, n, o) {
-      const { sdkProcessingMetadata: s = {} } = t;
-      const { normalizedRequest: r, ipAddress: i } = s;
-      const a = { ...e, ip: e.ip ?? o.getOptions().sendDefaultPii };
-      r && Bc(t, r, { ipAddress: i }, a);
+    name: Qc,
+    processEvent(t, n, s) {
+      const { sdkProcessingMetadata: o = {} } = t;
+      const { normalizedRequest: r, ipAddress: i } = o;
+      const a = { ...e, ip: e.ip ?? s.getOptions().sendDefaultPii };
+      r && nu(t, r, { ipAddress: i }, a);
       return t;
     },
   };
 };
-const zc = Dr(Jc);
-function Bc(t, e, n, o) {
-  t.request = { ...t.request, ...Wc(e, o) };
-  if (o.ip) {
-    const o = (e.headers && Dc(e.headers)) || n.ipAddress;
-    o && (t.user = { ...t.user, ip_address: o });
+const eu = qr(tu);
+function nu(t, e, n, s) {
+  t.request = { ...t.request, ...su(e, s) };
+  if (s.ip) {
+    const s = (e.headers && Hc(e.headers)) || n.ipAddress;
+    s && (t.user = { ...t.user, ip_address: s });
   }
 }
-function Wc(t, e) {
+function su(t, e) {
   const n = {};
-  const o = { ...t.headers };
+  const s = { ...t.headers };
   if (e.headers) {
-    n.headers = o;
-    e.cookies || delete o.cookie;
+    n.headers = s;
+    e.cookies || delete s.cookie;
     e.ip ||
-      Mc.forEach((t) => {
-        delete o[t];
+      Kc.forEach((t) => {
+        delete s[t];
       });
   }
   n.method = t.method;
   e.url && (n.url = t.url);
   if (e.cookies) {
-    const e = t.cookies || (o?.cookie ? Pc(o.cookie) : void 0);
+    const e = t.cookies || (s?.cookie ? Gc(s.cookie) : void 0);
     n.cookies = e || {};
   }
   e.query_string && (n.query_string = t.query_string);
   e.data && (n.data = t.data);
   return n;
 }
-function Vc(t) {
+function ou(t) {
   const e = "console";
-  j(e, t);
-  P(e, Gc);
+  R(e, t);
+  P(e, ru);
 }
-function Gc() {
+function ru() {
   "console" in e &&
     i.forEach(function (t) {
       t in e.console &&
-        dt(e.console, t, function (n) {
+        mt(e.console, t, function (n) {
           c[t] = n;
           return function (...n) {
-            const o = { args: n, level: t };
-            M("console", o);
-            const s = c[t];
-            s?.apply(e.console, n);
+            const s = { args: n, level: t };
+            D("console", s);
+            const o = c[t];
+            o?.apply(e.console, n);
           };
         });
     });
@@ -6748,64 +6902,64 @@ function Gc() {
  *
  * @param level String representation of desired `SeverityLevel`.
  * @returns The `SeverityLevel` corresponding to the given string, or 'log' if the string isn't a valid level.
- */ function Kc(t) {
+ */ function iu(t) {
   return t === "warn"
     ? "warning"
     : ["fatal", "error", "warning", "log", "info", "debug"].includes(t)
       ? t
       : "log";
 }
-const Hc = "CaptureConsole";
-const Zc = (t = {}) => {
+const au = "CaptureConsole";
+const cu = (t = {}) => {
   const n = t.levels || i;
-  const o = t.handled ?? true;
+  const s = t.handled ?? true;
   return {
-    name: Hc,
+    name: au,
     setup(t) {
       "console" in e &&
-        Vc(({ args: e, level: s }) => {
-          Te() === t && n.includes(s) && Xc(e, s, o);
+        ou(({ args: e, level: o }) => {
+          Ie() === t && n.includes(o) && lu(e, o, s);
         });
     },
   };
 };
-const Yc = Dr(Zc);
-function Xc(t, e, n) {
-  const o = Kc(e);
-  const s = new Error();
-  const r = { level: Kc(e), extra: { arguments: t } };
+const uu = qr(cu);
+function lu(t, e, n) {
+  const s = iu(e);
+  const o = new Error();
+  const r = { level: iu(e), extra: { arguments: t } };
   Ee((i) => {
     i.addEventProcessor((t) => {
       t.logger = "console";
-      Ut(t, { handled: n, type: "auto.core.capture_console" });
+      Jt(t, { handled: n, type: "auto.core.capture_console" });
       return t;
     });
     if (e === "assert") {
       if (!t[0]) {
-        const e = `Assertion failed: ${Ct(t.slice(1), " ") || "console.assert"}`;
+        const e = `Assertion failed: ${Nt(t.slice(1), " ") || "console.assert"}`;
         i.setExtra("arguments", t.slice(1));
-        i.captureMessage(e, o, { captureContext: r, syntheticException: s });
+        i.captureMessage(e, s, { captureContext: r, syntheticException: o });
       }
       return;
     }
     const a = t.find((t) => t instanceof Error);
     if (a) {
-      or(a, r);
+      rr(a, r);
       return;
     }
-    const c = Ct(t, " ");
-    i.captureMessage(c, o, { captureContext: r, syntheticException: s });
+    const c = Nt(t, " ");
+    i.captureMessage(c, s, { captureContext: r, syntheticException: o });
   });
 }
-const Qc = "Dedupe";
-const tu = () => {
+const pu = "Dedupe";
+const fu = () => {
   let e;
   return {
-    name: Qc,
+    name: pu,
     processEvent(n) {
       if (n.type) return n;
       try {
-        if (nu(n, e)) {
+        if (mu(n, e)) {
           t &&
             y.warn(
               "Event dropped due to being a duplicate of previously captured event.",
@@ -6817,97 +6971,97 @@ const tu = () => {
     },
   };
 };
-const eu = Dr(tu);
-function nu(t, e) {
-  return !!e && (!!ou(t, e) || !!su(t, e));
+const du = qr(fu);
+function mu(t, e) {
+  return !!e && (!!gu(t, e) || !!hu(t, e));
 }
-function ou(t, e) {
+function gu(t, e) {
   const n = t.message;
-  const o = e.message;
+  const s = e.message;
   return (
-    !(!n && !o) &&
-    !((n && !o) || (!n && o)) &&
-    n === o &&
-    !!iu(t, e) &&
-    !!ru(t, e)
+    !(!n && !s) &&
+    !((n && !s) || (!n && s)) &&
+    n === s &&
+    !!yu(t, e) &&
+    !!_u(t, e)
   );
 }
-function su(t, e) {
-  const n = au(e);
-  const o = au(t);
+function hu(t, e) {
+  const n = bu(e);
+  const s = bu(t);
   return (
-    !(!n || !o) &&
-    n.type === o.type &&
-    n.value === o.value &&
-    !!iu(t, e) &&
-    !!ru(t, e)
+    !(!n || !s) &&
+    n.type === s.type &&
+    n.value === s.value &&
+    !!yu(t, e) &&
+    !!_u(t, e)
   );
 }
-function ru(t, e) {
+function _u(t, e) {
   let n = $(t);
-  let o = $(e);
-  if (!n && !o) return true;
-  if ((n && !o) || (!n && o)) return false;
+  let s = $(e);
+  if (!n && !s) return true;
+  if ((n && !s) || (!n && s)) return false;
   n;
-  o;
-  if (o.length !== n.length) return false;
-  for (let t = 0; t < o.length; t++) {
-    const e = o[t];
-    const s = n[t];
+  s;
+  if (s.length !== n.length) return false;
+  for (let t = 0; t < s.length; t++) {
+    const e = s[t];
+    const o = n[t];
     if (
-      e.filename !== s.filename ||
-      e.lineno !== s.lineno ||
-      e.colno !== s.colno ||
-      e.function !== s.function
+      e.filename !== o.filename ||
+      e.lineno !== o.lineno ||
+      e.colno !== o.colno ||
+      e.function !== o.function
     )
       return false;
   }
   return true;
 }
-function iu(t, e) {
+function yu(t, e) {
   let n = t.fingerprint;
-  let o = e.fingerprint;
-  if (!n && !o) return true;
-  if ((n && !o) || (!n && o)) return false;
+  let s = e.fingerprint;
+  if (!n && !s) return true;
+  if ((n && !s) || (!n && s)) return false;
   n;
-  o;
+  s;
   try {
-    return !!(n.join("") === o.join(""));
+    return !!(n.join("") === s.join(""));
   } catch {
     return false;
   }
 }
-function au(t) {
+function bu(t) {
   return t.exception?.values?.[0];
 }
-const cu = "ExtraErrorData";
-const uu = (t = {}) => {
+const vu = "ExtraErrorData";
+const Su = (t = {}) => {
   const { depth: e = 3, captureErrorCause: n = true } = t;
   return {
-    name: cu,
-    processEvent(t, o, s) {
-      const { maxValueLength: r } = s.getOptions();
-      return pu(t, o, e, n, r);
+    name: vu,
+    processEvent(t, s, o) {
+      const { maxValueLength: r } = o.getOptions();
+      return wu(t, s, e, n, r);
     },
   };
 };
-const lu = Dr(uu);
-function pu(t, e = {}, n, o, s) {
-  if (!e.originalException || !B(e.originalException)) return t;
+const ku = qr(Su);
+function wu(t, e = {}, n, s, o) {
+  if (!e.originalException || !W(e.originalException)) return t;
   const r = e.originalException.name || e.originalException.constructor.name;
-  const i = fu(e.originalException, o, s);
+  const i = xu(e.originalException, s, o);
   if (i) {
     const e = { ...t.contexts };
-    const o = ho(i, n);
-    if (X(o)) {
-      mt(o, "__sentry_skip_normalization__", true);
-      e[r] = o;
+    const s = _s(i, n);
+    if (Q(s)) {
+      gt(s, "__sentry_skip_normalization__", true);
+      e[r] = s;
     }
     return { ...t, contexts: e };
   }
   return t;
 }
-function fu(e, n, o) {
+function xu(e, n, s) {
   try {
     const t = [
       "name",
@@ -6920,36 +7074,36 @@ function fu(e, n, o) {
       "columnNumber",
       "toJSON",
     ];
-    const s = {};
+    const o = {};
     for (const n of Object.keys(e)) {
       if (t.indexOf(n) !== -1) continue;
       const r = e[n];
-      s[n] = B(r) || typeof r === "string" ? (o ? $t(`${r}`, o) : `${r}`) : r;
+      o[n] = W(r) || typeof r === "string" ? (s ? Ot(`${r}`, s) : `${r}`) : r;
     }
     if (n && e.cause !== void 0)
-      if (B(e.cause)) {
+      if (W(e.cause)) {
         const t = e.cause.name || e.cause.constructor.name;
-        s.cause = { [t]: fu(e.cause, false, o) };
-      } else s.cause = e.cause;
+        o.cause = { [t]: xu(e.cause, false, s) };
+      } else o.cause = e.cause;
     if (typeof e.toJSON === "function") {
       const t = e.toJSON();
       for (const e of Object.keys(t)) {
         const n = t[e];
-        s[e] = B(n) ? n.toString() : n;
+        o[e] = W(n) ? n.toString() : n;
       }
     }
-    return s;
+    return o;
   } catch (e) {
     t && y.error("Unable to extract extra data from the Error object:", e);
   }
   return null;
 }
-function du(t, e) {
+function Au(t, e) {
   let n = 0;
   for (let e = t.length - 1; e >= 0; e--) {
-    const o = t[e];
-    if (o === ".") t.splice(e, 1);
-    else if (o === "..") {
+    const s = t[e];
+    if (s === ".") t.splice(e, 1);
+    else if (s === "..") {
       t.splice(e, 1);
       n++;
     } else if (n) {
@@ -6960,89 +7114,89 @@ function du(t, e) {
   if (e) for (; n--; n) t.unshift("..");
   return t;
 }
-const mu =
+const Eu =
   /^(\S+:\\|\/?)([\s\S]*?)((?:\.{1,2}|[^/\\]+?|)(\.[^./\\]*|))(?:[/\\]*)$/;
-function gu(t) {
+function Tu(t) {
   const e = t.length > 1024 ? `<truncated>${t.slice(-1024)}` : t;
-  const n = mu.exec(e);
+  const n = Eu.exec(e);
   return n ? n.slice(1) : [];
 }
-function hu(...t) {
+function Iu(...t) {
   let e = "";
   let n = false;
-  for (let o = t.length - 1; o >= -1 && !n; o--) {
-    const s = o >= 0 ? t[o] : "/";
-    if (s) {
-      e = `${s}/${e}`;
-      n = s.charAt(0) === "/";
+  for (let s = t.length - 1; s >= -1 && !n; s--) {
+    const o = s >= 0 ? t[s] : "/";
+    if (o) {
+      e = `${o}/${e}`;
+      n = o.charAt(0) === "/";
     }
   }
-  e = du(
+  e = Au(
     e.split("/").filter((t) => !!t),
     !n,
   ).join("/");
   return (n ? "/" : "") + e || ".";
 }
-function _u(t) {
+function $u(t) {
   let e = 0;
   for (; e < t.length; e++) if (t[e] !== "") break;
   let n = t.length - 1;
   for (; n >= 0; n--) if (t[n] !== "") break;
   return e > n ? [] : t.slice(e, n - e + 1);
 }
-function yu(t, e) {
-  t = hu(t).slice(1);
-  e = hu(e).slice(1);
-  const n = _u(t.split("/"));
-  const o = _u(e.split("/"));
-  const s = Math.min(n.length, o.length);
-  let r = s;
-  for (let t = 0; t < s; t++)
-    if (n[t] !== o[t]) {
+function Ou(t, e) {
+  t = Iu(t).slice(1);
+  e = Iu(e).slice(1);
+  const n = $u(t.split("/"));
+  const s = $u(e.split("/"));
+  const o = Math.min(n.length, s.length);
+  let r = o;
+  for (let t = 0; t < o; t++)
+    if (n[t] !== s[t]) {
       r = t;
       break;
     }
   let i = [];
   for (let t = r; t < n.length; t++) i.push("..");
-  i = i.concat(o.slice(r));
+  i = i.concat(s.slice(r));
   return i.join("/");
 }
-function bu(t) {
-  const e = vu(t);
+function Cu(t) {
+  const e = Nu(t);
   const n = t.slice(-1) === "/";
-  let o = du(
+  let s = Au(
     t.split("/").filter((t) => !!t),
     !e,
   ).join("/");
-  o || e || (o = ".");
-  o && n && (o += "/");
-  return (e ? "/" : "") + o;
+  s || e || (s = ".");
+  s && n && (s += "/");
+  return (e ? "/" : "") + s;
 }
-function vu(t) {
+function Nu(t) {
   return t.charAt(0) === "/";
 }
-function Su(...t) {
-  return bu(t.join("/"));
+function ju(...t) {
+  return Cu(t.join("/"));
 }
-function ku(t) {
-  const e = gu(t);
+function Ru(t) {
+  const e = Tu(t);
   const n = e[0] || "";
-  let o = e[1];
-  if (!n && !o) return ".";
-  o && (o = o.slice(0, o.length - 1));
-  return n + o;
+  let s = e[1];
+  if (!n && !s) return ".";
+  s && (s = s.slice(0, s.length - 1));
+  return n + s;
 }
-function wu(t, e) {
-  let n = gu(t)[2] || "";
+function Mu(t, e) {
+  let n = Tu(t)[2] || "";
   e && n.slice(e.length * -1) === e && (n = n.slice(0, n.length - e.length));
   return n;
 }
-const xu = "RewriteFrames";
-const Eu = Dr((t = {}) => {
+const Pu = "RewriteFrames";
+const Du = qr((t = {}) => {
   const n = t.root;
-  const o = t.prefix || "app:///";
-  const s = "window" in e && !!e.window;
-  const r = t.iteratee || Au({ isBrowser: s, root: n, prefix: o });
+  const s = t.prefix || "app:///";
+  const o = "window" in e && !!e.window;
+  const r = t.iteratee || Fu({ isBrowser: o, root: n, prefix: s });
   function i(t) {
     try {
       return {
@@ -7063,7 +7217,7 @@ const Eu = Dr((t = {}) => {
     return { ...t, frames: t?.frames?.map((t) => r(t)) };
   }
   return {
-    name: xu,
+    name: Pu,
     processEvent(t) {
       let e = t;
       t.exception && Array.isArray(t.exception.values) && (e = i(e));
@@ -7071,29 +7225,29 @@ const Eu = Dr((t = {}) => {
     },
   };
 });
-function Au({ isBrowser: t, root: e, prefix: n }) {
-  return (o) => {
-    if (!o.filename) return o;
-    const s =
-      /^[a-zA-Z]:\\/.test(o.filename) ||
-      (o.filename.includes("\\") && !o.filename.includes("/"));
-    const r = /^\//.test(o.filename);
+function Fu({ isBrowser: t, root: e, prefix: n }) {
+  return (s) => {
+    if (!s.filename) return s;
+    const o =
+      /^[a-zA-Z]:\\/.test(s.filename) ||
+      (s.filename.includes("\\") && !s.filename.includes("/"));
+    const r = /^\//.test(s.filename);
     if (t) {
       if (e) {
-        const t = o.filename;
-        t.indexOf(e) === 0 && (o.filename = t.replace(e, n));
+        const t = s.filename;
+        t.indexOf(e) === 0 && (s.filename = t.replace(e, n));
       }
-    } else if (s || r) {
-      const t = s
-        ? o.filename.replace(/^[a-zA-Z]:/, "").replace(/\\/g, "/")
-        : o.filename;
-      const r = e ? yu(e, t) : wu(t);
-      o.filename = `${n}${r}`;
+    } else if (o || r) {
+      const t = o
+        ? s.filename.replace(/^[a-zA-Z]:/, "").replace(/\\/g, "/")
+        : s.filename;
+      const r = e ? Ou(e, t) : Mu(t);
+      s.filename = `${n}${r}`;
     }
-    return o;
+    return s;
   };
 }
-const Tu = [
+const Lu = [
   "reauthenticate",
   "signInAnonymously",
   "signInWithOAuth",
@@ -7105,7 +7259,7 @@ const Tu = [
   "signUp",
   "verifyOtp",
 ];
-const Iu = [
+const qu = [
   "createUser",
   "deleteUser",
   "listUsers",
@@ -7113,7 +7267,7 @@ const Iu = [
   "updateUserById",
   "inviteUserByEmail",
 ];
-const $u = {
+const Uu = {
   eq: "eq",
   neq: "neq",
   gt: "gt",
@@ -7142,13 +7296,13 @@ const $u = {
   wfts: "websearch",
   not: "not",
 };
-const Ou = ["select", "insert", "upsert", "update", "delete"];
-function Cu(t) {
+const Ju = ["select", "insert", "upsert", "update", "delete"];
+function zu(t) {
   try {
     t.__SENTRY_INSTRUMENTED__ = true;
   } catch {}
 }
-function Nu(t) {
+function Bu(t) {
   try {
     return t.__SENTRY_INSTRUMENTED__;
   } catch {
@@ -7160,7 +7314,7 @@ function Nu(t) {
  * @param method - The HTTP method of the request
  * @param headers - The request headers
  * @returns The database operation type ('select', 'insert', 'upsert', 'update', or 'delete')
- */ function ju(t, e = {}) {
+ */ function Wu(t, e = {}) {
   switch (t) {
     case "GET":
       return "select";
@@ -7179,13 +7333,13 @@ function Nu(t) {
  * @param key - The filter key from the URL search parameters
  * @param query - The filter value from the URL search parameters
  * @returns A string representation of the filter as a method call
- */ function Ru(t, e) {
+ */ function Vu(t, e) {
   if (e === "" || e === "*") return "select(*)";
   if (t === "select") return `select(${e})`;
   if (t === "or" || t.endsWith(".or")) return `${t}${e}`;
-  const [n, ...o] = e.split(".");
-  let s;
-  s = n?.startsWith("fts")
+  const [n, ...s] = e.split(".");
+  let o;
+  o = n?.startsWith("fts")
     ? "textSearch"
     : n?.startsWith("plfts")
       ? "textSearch[plain]"
@@ -7193,115 +7347,115 @@ function Nu(t) {
         ? "textSearch[phrase]"
         : n?.startsWith("wfts")
           ? "textSearch[websearch]"
-          : (n && $u[n]) || "filter";
-  return `${s}(${t}, ${o.join(".")})`;
+          : (n && Uu[n]) || "filter";
+  return `${o}(${t}, ${s.join(".")})`;
 }
-function Pu(t, e = false) {
+function Gu(t, e = false) {
   return new Proxy(t, {
-    apply(n, o, s) {
-      return os(
+    apply(n, s, o) {
+      return oo(
         {
           name: `auth ${e ? "(admin) " : ""}${t.name}`,
           attributes: {
-            [je]: "auto.db.supabase",
-            [Ne]: "db",
+            [Re]: "auto.db.supabase",
+            [je]: "db",
             "db.system": "postgresql",
             "db.operation": `auth.${e ? "admin." : ""}${t.name}`,
           },
         },
         (t) =>
-          Reflect.apply(n, o, s)
+          Reflect.apply(n, s, o)
             .then((e) => {
               if (e && typeof e === "object" && "error" in e && e.error) {
-                t.setStatus({ code: Ke });
-                or(e.error, {
+                t.setStatus({ code: Ze });
+                rr(e.error, {
                   mechanism: { handled: false, type: "auto.db.supabase.auth" },
                 });
-              } else t.setStatus({ code: Ge });
+              } else t.setStatus({ code: He });
               t.end();
               return e;
             })
             .catch((e) => {
-              t.setStatus({ code: Ke });
+              t.setStatus({ code: Ze });
               t.end();
-              or(e, {
+              rr(e, {
                 mechanism: { handled: false, type: "auto.db.supabase.auth" },
               });
               throw e;
             })
-            .then(...s),
+            .then(...o),
       );
     },
   });
 }
-function Mu(t) {
+function Ku(t) {
   const e = t.auth;
-  if (e && !Nu(t.auth)) {
-    for (const n of Tu) {
-      const o = e[n];
-      o && typeof t.auth[n] === "function" && (t.auth[n] = Pu(o));
+  if (e && !Bu(t.auth)) {
+    for (const n of Lu) {
+      const s = e[n];
+      s && typeof t.auth[n] === "function" && (t.auth[n] = Gu(s));
     }
-    for (const n of Iu) {
-      const o = e.admin[n];
-      o &&
+    for (const n of qu) {
+      const s = e.admin[n];
+      s &&
         typeof t.auth.admin[n] === "function" &&
-        (t.auth.admin[n] = Pu(o, true));
+        (t.auth.admin[n] = Gu(s, true));
     }
-    Cu(t.auth);
+    zu(t.auth);
   }
 }
-function Du(t) {
-  if (!Nu(t.prototype.from)) {
+function Hu(t) {
+  if (!Bu(t.prototype.from)) {
     t.prototype.from = new Proxy(t.prototype.from, {
       apply(t, e, n) {
-        const o = Reflect.apply(t, e, n);
-        const s = o.constructor;
-        Lu(s);
-        return o;
+        const s = Reflect.apply(t, e, n);
+        const o = s.constructor;
+        Yu(o);
+        return s;
       },
     });
-    Cu(t.prototype.from);
+    zu(t.prototype.from);
   }
 }
-function Fu(t) {
-  if (!Nu(t.prototype.then)) {
+function Zu(t) {
+  if (!Bu(t.prototype.then)) {
     t.prototype.then = new Proxy(t.prototype.then, {
       apply(t, e, n) {
-        const o = Ou;
-        const s = e;
-        const r = ju(s.method, s.headers);
-        if (!o.includes(r)) return Reflect.apply(t, e, n);
-        if (!s?.url?.pathname || typeof s.url.pathname !== "string")
+        const s = Ju;
+        const o = e;
+        const r = Wu(o.method, o.headers);
+        if (!s.includes(r)) return Reflect.apply(t, e, n);
+        if (!o?.url?.pathname || typeof o.url.pathname !== "string")
           return Reflect.apply(t, e, n);
-        const i = s.url.pathname.split("/");
+        const i = o.url.pathname.split("/");
         const a = i.length > 0 ? i[i.length - 1] : "";
         const c = [];
-        for (const [t, e] of s.url.searchParams.entries()) c.push(Ru(t, e));
+        for (const [t, e] of o.url.searchParams.entries()) c.push(Vu(t, e));
         const u = Object.create(null);
-        if (X(s.body)) for (const [t, e] of Object.entries(s.body)) u[t] = e;
+        if (Q(o.body)) for (const [t, e] of Object.entries(o.body)) u[t] = e;
         const l = `${r === "select" ? "" : `${r}${u ? "(...) " : ""}`}${c.join(" ")} from(${a})`;
         const p = {
           "db.table": a,
-          "db.schema": s.schema,
-          "db.url": s.url.origin,
-          "db.sdk": s.headers["X-Client-Info"],
+          "db.schema": o.schema,
+          "db.url": o.url.origin,
+          "db.sdk": o.headers["X-Client-Info"],
           "db.system": "postgresql",
           "db.operation": r,
-          [je]: "auto.db.supabase",
-          [Ne]: "db",
+          [Re]: "auto.db.supabase",
+          [je]: "db",
         };
         c.length && (p["db.query"] = c);
         Object.keys(u).length && (p["db.body"] = u);
-        return os({ name: l, attributes: p }, (o) =>
+        return oo({ name: l, attributes: p }, (s) =>
           Reflect.apply(t, e, [])
             .then(
               (t) => {
-                if (o) {
+                if (s) {
                   t &&
                     typeof t === "object" &&
                     "status" in t &&
-                    Ze(o, t.status || 500);
-                  o.end();
+                    Xe(s, t.status || 500);
+                  s.end();
                 }
                 if (t.error) {
                   const e = new Error(t.error.message);
@@ -7310,9 +7464,9 @@ function Fu(t) {
                   const n = {};
                   c.length && (n.query = c);
                   Object.keys(u).length && (n.body = u);
-                  or(e, (t) => {
+                  rr(e, (t) => {
                     t.addEventProcessor((t) => {
-                      Ut(t, {
+                      Jt(t, {
                         handled: false,
                         type: "auto.db.supabase.postgres",
                       });
@@ -7327,13 +7481,13 @@ function Fu(t) {
                 c.length && (n.query = c);
                 Object.keys(u).length && (n.body = u);
                 Object.keys(n).length && (e.data = n);
-                Qa(e);
+                lc(e);
                 return t;
               },
               (t) => {
-                if (o) {
-                  Ze(o, 500);
-                  o.end();
+                if (s) {
+                  Xe(s, 500);
+                  s.end();
                 }
                 throw t;
               },
@@ -7342,25 +7496,25 @@ function Fu(t) {
         );
       },
     });
-    Cu(t.prototype.then);
+    zu(t.prototype.then);
   }
 }
-function Lu(e) {
-  for (const n of Ou)
-    if (!Nu(e.prototype[n])) {
+function Yu(e) {
+  for (const n of Ju)
+    if (!Bu(e.prototype[n])) {
       e.prototype[n] = new Proxy(e.prototype[n], {
-        apply(e, o, s) {
-          const r = Reflect.apply(e, o, s);
+        apply(e, s, o) {
+          const r = Reflect.apply(e, s, o);
           const i = r.constructor;
           t && y.log(`Instrumenting ${n} operation's PostgRESTFilterBuilder`);
-          Fu(i);
+          Zu(i);
           return r;
         },
       });
-      Cu(e.prototype[n]);
+      zu(e.prototype[n]);
     }
 }
-const qu = (e) => {
+const Xu = (e) => {
   if (!e) {
     t &&
       y.warn(
@@ -7369,23 +7523,23 @@ const qu = (e) => {
     return;
   }
   const n = e.constructor === Function ? e : e.constructor;
-  Du(n);
-  Mu(e);
+  Hu(n);
+  Ku(e);
 };
-const Uu = "Supabase";
-const Ju = (t) => ({
+const Qu = "Supabase";
+const tl = (t) => ({
   setupOnce() {
-    qu(t);
+    Xu(t);
   },
-  name: Uu,
+  name: Qu,
 });
-const zu = Dr((t) => Ju(t.supabaseClient));
-const Bu = 10;
-const Wu = "ZodErrors";
-function Vu(t) {
-  return B(t) && t.name === "ZodError" && Array.isArray(t.issues);
+const el = qr((t) => tl(t.supabaseClient));
+const nl = 10;
+const sl = "ZodErrors";
+function ol(t) {
+  return W(t) && t.name === "ZodError" && Array.isArray(t.issues);
 }
-function Gu(t) {
+function rl(t) {
   return {
     ...t,
     path: "path" in t && Array.isArray(t.path) ? t.path.join(".") : void 0,
@@ -7404,13 +7558,13 @@ function Gu(t) {
  *
  * @example
  * flattenIssuePath([0, 'foo', 1, 'bar']) // -> '<array>.foo.<array>.bar'
- */ function Ku(t) {
+ */ function il(t) {
   return t.map((t) => (typeof t === "number" ? "<array>" : t)).join(".");
 }
-function Hu(t) {
+function al(t) {
   const e = new Set();
   for (const n of t.issues) {
-    const t = Ku(n.path);
+    const t = il(n.path);
     t.length > 0 && e.add(t);
   }
   const n = Array.from(e);
@@ -7425,24 +7579,24 @@ function Hu(t) {
     }
     return `Failed to validate ${e}`;
   }
-  return `Failed to validate keys: ${$t(n.join(", "), 100)}`;
+  return `Failed to validate keys: ${Ot(n.join(", "), 100)}`;
 }
-function Zu(t, e = false, n, o) {
+function cl(t, e = false, n, s) {
   if (
     !n.exception?.values ||
-    !o.originalException ||
-    !Vu(o.originalException) ||
-    o.originalException.issues.length === 0
+    !s.originalException ||
+    !ol(s.originalException) ||
+    s.originalException.issues.length === 0
   )
     return n;
   try {
-    const s = e
-      ? o.originalException.issues
-      : o.originalException.issues.slice(0, t);
-    const r = s.map(Gu);
+    const o = e
+      ? s.originalException.issues
+      : s.originalException.issues.slice(0, t);
+    const r = o.map(rl);
     if (e) {
-      Array.isArray(o.attachments) || (o.attachments = []);
-      o.attachments.push({
+      Array.isArray(s.attachments) || (s.attachments = []);
+      s.attachments.push({
         filename: "zod_issues.json",
         data: JSON.stringify({ issues: r }),
       });
@@ -7452,7 +7606,7 @@ function Zu(t, e = false, n, o) {
       exception: {
         ...n.exception,
         values: [
-          { ...n.exception.values[0], value: Hu(o.originalException) },
+          { ...n.exception.values[0], value: al(s.originalException) },
           ...n.exception.values.slice(1),
         ],
       },
@@ -7475,26 +7629,26 @@ function Zu(t, e = false, n, o) {
     };
   }
 }
-const Yu = (t = {}) => {
-  const e = t.limit ?? Bu;
+const ul = (t = {}) => {
+  const e = t.limit ?? nl;
   return {
-    name: Wu,
-    processEvent(n, o) {
-      const s = Zu(e, t.saveZodIssuesAsAttachment, n, o);
-      return s;
+    name: sl,
+    processEvent(n, s) {
+      const o = cl(e, t.saveZodIssuesAsAttachment, n, s);
+      return o;
     },
   };
 };
-const Xu = Dr(Yu);
-const Qu = Dr((t) => ({
+const ll = qr(ul);
+const pl = qr((t) => ({
   name: "ThirdPartyErrorsFilter",
   setup(t) {
     t.on("beforeEnvelope", (t) => {
-      To(t, (t, e) => {
+      Is(t, (t, e) => {
         if (e === "event") {
           const e = Array.isArray(t) ? t[1] : void 0;
           if (e) {
-            jc(e);
+            Wc(e);
             t[1] = e;
           }
         }
@@ -7503,19 +7657,19 @@ const Qu = Dr((t) => ({
     t.on("applyFrameMetadata", (e) => {
       if (e.type) return;
       const n = t.getOptions().stackParser;
-      Nc(n, e);
+      Bc(n, e);
     });
   },
   processEvent(e) {
-    const n = el(e, t.ignoreSentryInternalFrames);
+    const n = dl(e, t.ignoreSentryInternalFrames);
     if (n) {
-      const o =
+      const s =
         t.behaviour === "drop-error-if-contains-third-party-frames" ||
         t.behaviour === "apply-tag-if-contains-third-party-frames"
           ? "some"
           : "every";
-      const s = n[o]((e) => !e.some((e) => t.filterKeys.includes(e)));
-      if (s) {
+      const o = n[s]((e) => !e.some((e) => t.filterKeys.includes(e)));
+      if (o) {
         const n =
           t.behaviour === "drop-error-if-contains-third-party-frames" ||
           t.behaviour ===
@@ -7527,21 +7681,21 @@ const Qu = Dr((t) => ({
     return e;
   },
 }));
-function tl(t, e) {
+function fl(t, e) {
   if (e !== 0 || !t.context_line || !t.filename) return false;
   if (
     !t.filename.includes("sentry") ||
     !t.filename.includes("helpers") ||
-    !t.context_line.includes(sl)
+    !t.context_line.includes(hl)
   )
     return false;
   if (t.pre_context) {
     const e = t.pre_context.length;
-    for (let n = 0; n < e; n++) if (t.pre_context[n]?.includes(ol)) return true;
+    for (let n = 0; n < e; n++) if (t.pre_context[n]?.includes(gl)) return true;
   }
   return false;
 }
-function el(t, e) {
+function dl(t, e) {
   const n = $(t);
   if (n)
     return n
@@ -7549,64 +7703,64 @@ function el(t, e) {
         (t, n) =>
           !!t.filename &&
           (t.lineno != null || t.colno != null || t.instruction_addr != null) &&
-          (!e || !tl(t, n)),
+          (!e || !fl(t, n)),
       )
       .map((t) =>
         t.module_metadata
           ? Object.keys(t.module_metadata)
-              .filter((t) => t.startsWith(nl))
-              .map((t) => t.slice(nl.length))
+              .filter((t) => t.startsWith(ml))
+              .map((t) => t.slice(ml.length))
           : [],
       );
 }
-const nl = "_sentryBundlerPluginAppKey:";
-const ol = "Attempt to invoke user-land function";
-const sl = "fn.apply(this, wrappedArguments)";
-const rl = "Console";
-const il = Dr((t = {}) => {
+const ml = "_sentryBundlerPluginAppKey:";
+const gl = "Attempt to invoke user-land function";
+const hl = "fn.apply(this, wrappedArguments)";
+const _l = "Console";
+const yl = qr((t = {}) => {
   const e = new Set(t.levels || i);
   return {
-    name: rl,
+    name: _l,
     setup(t) {
-      Vc(({ args: n, level: o }) => {
-        Te() === t && e.has(o) && al(o, n);
+      ou(({ args: n, level: s }) => {
+        Ie() === t && e.has(s) && bl(s, n);
       });
     },
   };
 });
-function al(t, e) {
+function bl(t, e) {
   const n = {
     category: "console",
     data: { arguments: e, logger: "console" },
-    level: Kc(t),
-    message: cl(e),
+    level: iu(t),
+    message: vl(e),
   };
   if (t === "assert") {
     if (e[0] !== false) return;
     {
       const t = e.slice(1);
       n.message =
-        t.length > 0 ? `Assertion failed: ${cl(t)}` : "Assertion failed";
+        t.length > 0 ? `Assertion failed: ${vl(t)}` : "Assertion failed";
       n.data.arguments = t;
     }
   }
-  Qa(n, { input: e, level: t });
+  lc(n, { input: e, level: t });
 }
-function cl(t) {
+function vl(t) {
   return "util" in e && typeof e.util.format === "function"
     ? e.util.format(...t)
-    : Ct(t, " ");
+    : Nt(t, " ");
 }
-const ul = 100;
-const ll = 10;
-const pl = "flag.evaluation.";
-function fl(t) {
-  const e = ke();
+const Sl = 100;
+const kl = 10;
+const wl = "flag.evaluation.";
+function xl(t) {
+  const e = we();
   const n = e.getScopeData().contexts.flags;
-  const o = n ? n.values : [];
-  if (!o.length) return t;
+  const s = n ? n.values : [];
+  if (!s.length) return t;
   t.contexts === void 0 && (t.contexts = {});
-  t.contexts.flags = { values: [...o] };
+  t.contexts.flags = { values: [...s] };
   return t;
 }
 /**
@@ -7619,11 +7773,11 @@ function fl(t) {
  * @param name     Name of the feature flag to insert.
  * @param value    Value of the feature flag.
  * @param maxSize  Max number of flags the buffer should store. Default value should always be used in production.
- */ function dl(t, e, n = ul) {
-  const o = ke().getScopeData().contexts;
-  o.flags || (o.flags = { values: [] });
-  const s = o.flags.values;
-  ml(s, t, e, n);
+ */ function Al(t, e, n = Sl) {
+  const s = we().getScopeData().contexts;
+  s.flags || (s.flags = { values: [] });
+  const o = s.flags.values;
+  El(o, t, e, n);
 }
 /**
  * Exported for tests only. Currently only accepts boolean values (otherwise no-op).
@@ -7636,19 +7790,19 @@ function fl(t) {
  * @param name       Name of the feature flag to insert.
  * @param value      Value of the feature flag.
  * @param maxSize    Max number of flags the buffer should store. Default value should always be used in production.
- */ function ml(e, n, o, s) {
-  if (typeof o !== "boolean") return;
-  if (e.length > s) {
+ */ function El(e, n, s, o) {
+  if (typeof s !== "boolean") return;
+  if (e.length > o) {
     t &&
       y.error(
-        `[Feature Flags] insertToFlagBuffer called on a buffer larger than maxSize=${s}`,
+        `[Feature Flags] insertToFlagBuffer called on a buffer larger than maxSize=${o}`,
       );
     return;
   }
   const r = e.findIndex((t) => t.flag === n);
   r !== -1 && e.splice(r, 1);
-  e.length === s && e.shift();
-  e.push({ flag: n, result: o });
+  e.length === o && e.shift();
+  e.push({ flag: n, result: s });
 }
 /**
  * Records a feature flag evaluation for the active span. This is a no-op for non-boolean values.
@@ -7658,51 +7812,64 @@ function fl(t) {
  * @param name             Name of the feature flag.
  * @param value            Value of the feature flag. Non-boolean values are ignored.
  * @param maxFlagsPerSpan  Max number of flags a buffer should store. Default value should always be used in production.
- */ function gl(t, e, n = ll) {
+ */ function Tl(t, e, n = kl) {
   if (typeof e !== "boolean") return;
-  const o = Yn();
-  if (!o) return;
-  const s = qn(o).data;
-  if (`${pl}${t}` in s) {
-    o.setAttribute(`${pl}${t}`, e);
+  const s = Qn();
+  if (!s) return;
+  const o = Jn(s).data;
+  if (`${wl}${t}` in o) {
+    s.setAttribute(`${wl}${t}`, e);
     return;
   }
-  const r = Object.keys(s).filter((t) => t.startsWith(pl)).length;
-  r < n && o.setAttribute(`${pl}${t}`, e);
+  const r = Object.keys(o).filter((t) => t.startsWith(wl)).length;
+  r < n && s.setAttribute(`${wl}${t}`, e);
 }
-const hl = Dr(() => ({
+const Il = qr(() => ({
   name: "FeatureFlags",
   processEvent(t, e, n) {
-    return fl(t);
+    return xl(t);
   },
   addFeatureFlag(t, e) {
-    dl(t, e);
-    gl(t, e);
+    Al(t, e);
+    Tl(t, e);
   },
 }));
-const _l = Dr(({ growthbookClass: t }) => ({
+const $l = qr(({ growthbookClass: t }) => ({
   name: "GrowthBook",
   setupOnce() {
     const e = t.prototype;
-    typeof e.isOn === "function" && dt(e, "isOn", yl);
-    typeof e.getFeatureValue === "function" && dt(e, "getFeatureValue", yl);
+    typeof e.isOn === "function" && mt(e, "isOn", Ol);
+    typeof e.getFeatureValue === "function" && mt(e, "getFeatureValue", Ol);
   },
   processEvent(t, e, n) {
-    return fl(t);
+    return xl(t);
   },
 }));
-function yl(t) {
+function Ol(t) {
   return function (...e) {
     const n = e[0];
-    const o = t.apply(this, e);
-    if (typeof n === "string" && typeof o === "boolean") {
-      dl(n, o);
-      gl(n, o);
+    const s = t.apply(this, e);
+    if (typeof n === "string" && typeof s === "boolean") {
+      Al(n, s);
+      Tl(n, s);
     }
-    return o;
+    return s;
   };
 }
-function bl(t) {
+const Cl = "ConversationId";
+const Nl = () => ({
+  name: Cl,
+  setup(t) {
+    t.on("spanStart", (t) => {
+      const e = we().getScopeData();
+      const n = xe().getScopeData();
+      const s = e.conversationId || n.conversationId;
+      s && t.setAttribute(Ge, s);
+    });
+  },
+});
+const jl = qr(Nl);
+function Rl(t) {
   return (
     !!t &&
     typeof t._profiler !== "undefined" &&
@@ -7710,70 +7877,72 @@ function bl(t) {
     typeof t._profiler.stop === "function"
   );
 }
-function vl() {
-  const e = Te();
+function Ml() {
+  const e = Ie();
   if (!e) {
     t && y.warn("No Sentry client available, profiling is not started");
     return;
   }
   const n = e.getIntegrationByName("ProfilingIntegration");
   n
-    ? bl(n)
+    ? Rl(n)
       ? n._profiler.start()
       : t && y.warn("Profiler is not available on profiling integration.")
     : t && y.warn("ProfilingIntegration is not available");
 }
-function Sl() {
-  const e = Te();
+function Pl() {
+  const e = Ie();
   if (!e) {
     t && y.warn("No Sentry client available, profiling is not started");
     return;
   }
   const n = e.getIntegrationByName("ProfilingIntegration");
   n
-    ? bl(n)
+    ? Rl(n)
       ? n._profiler.stop()
       : t && y.warn("Profiler is not available on profiling integration.")
     : t && y.warn("ProfilingIntegration is not available");
 }
-const kl = { startProfiler: vl, stopProfiler: Sl };
+const Dl = { startProfiler: Ml, stopProfiler: Pl };
 /**
  * Create and track fetch request spans for usage in combination with `addFetchInstrumentationHandler`.
  *
  * @returns Span if a span was created, otherwise void.
- */ function wl(t, e, n, o, s) {
+ */ function Fl(t, e, n, s, o) {
   if (!t.fetchData) return;
   const { method: r, url: i } = t.fetchData;
-  const a = no() && e(i);
-  if (t.endTimestamp && a) {
+  const a = os() && e(i);
+  if (t.endTimestamp) {
     const e = t.fetchData.__span;
     if (!e) return;
-    const n = o[e];
+    const n = s[e];
     if (n) {
-      Al(n, t);
-      xl(n, t, s);
-      delete o[e];
+      if (a) {
+        Ul(n, t);
+        Ll(n, t, o);
+      }
+      delete s[e];
     }
     return;
   }
   const {
     spanOrigin: c = "auto.http.browser",
     propagateTraceparent: u = false,
-  } = typeof s === "object" ? s : { spanOrigin: s };
-  const l = !!Yn();
-  const p = a && l ? rs($l(i, r, c)) : new SentryNonRecordingSpan();
+  } = typeof o === "object" ? o : { spanOrigin: o };
+  const l = !!Qn();
+  const p = a && l ? io(Bl(i, r, c)) : new SentryNonRecordingSpan();
   t.fetchData.__span = p.spanContext().spanId;
-  o[p.spanContext().spanId] = p;
+  s[p.spanContext().spanId] = p;
   if (n(t.fetchData.url)) {
     const e = t.args[0];
-    const n = t.args[1] || {};
-    const o = El(e, n, no() && l ? p : void 0, u);
-    if (o) {
+    const n = { ...(t.args[1] || {}) };
+    const s = ql(e, n, os() && l ? p : void 0, u);
+    if (s) {
       t.args[1] = n;
-      n.headers = o;
+      n.headers = s;
     }
   }
-  const f = Te();
+  const f = Ie();
   if (f) {
     const e = {
       input: t.args,
@@ -7785,36 +7954,36 @@ const kl = { startProfiler: vl, stopProfiler: Sl };
   }
   return p;
 }
-function xl(t, e, n) {
-  const o = typeof n === "object" && n !== null ? n.onRequestSpanEnd : void 0;
-  o?.(t, { headers: e.response?.headers, error: e.error });
+function Ll(t, e, n) {
+  const s = typeof n === "object" && n !== null ? n.onRequestSpanEnd : void 0;
+  s?.(t, { headers: e.response?.headers, error: e.error });
 }
-function El(t, e, n, o) {
-  const s = Pa({ span: n, propagateTraceparent: o });
-  const r = s["sentry-trace"];
-  const i = s.baggage;
-  const a = s.traceparent;
+function ql(t, e, n, s) {
+  const o = Ba({ span: n, propagateTraceparent: s });
+  const r = o["sentry-trace"];
+  const i = o.baggage;
+  const a = o.traceparent;
   if (!r) return;
-  const c = e.headers || (it(t) ? t.headers : void 0);
+  const c = e.headers || (at(t) ? t.headers : void 0);
   if (c) {
-    if (Il(c)) {
+    if (zl(c)) {
       const t = new Headers(c);
       t.get("sentry-trace") || t.set("sentry-trace", r);
-      o && a && !t.get("traceparent") && t.set("traceparent", a);
+      s && a && !t.get("traceparent") && t.set("traceparent", a);
       if (i) {
         const e = t.get("baggage");
-        e ? Tl(e) || t.set("baggage", `${e},${i}`) : t.set("baggage", i);
+        e ? Jl(e) || t.set("baggage", `${e},${i}`) : t.set("baggage", i);
       }
       return t;
     }
     if (Array.isArray(c)) {
       const t = [...c];
       c.find((t) => t[0] === "sentry-trace") || t.push(["sentry-trace", r]);
-      o &&
+      s &&
         a &&
         !c.find((t) => t[0] === "traceparent") &&
         t.push(["traceparent", a]);
-      const e = c.find((t) => t[0] === "baggage" && Tl(t[1]));
+      const e = c.find((t) => t[0] === "baggage" && Jl(t[1]));
       i && !e && t.push(["baggage", i]);
       return t;
     }
@@ -7822,104 +7991,109 @@ function El(t, e, n, o) {
       const t = "sentry-trace" in c ? c["sentry-trace"] : void 0;
       const e = "traceparent" in c ? c.traceparent : void 0;
       const n = "baggage" in c ? c.baggage : void 0;
-      const s = n ? (Array.isArray(n) ? [...n] : [n]) : [];
-      const u = n && (Array.isArray(n) ? n.find((t) => Tl(t)) : Tl(n));
-      i && !u && s.push(i);
+      const o = n ? (Array.isArray(n) ? [...n] : [n]) : [];
+      const u = n && (Array.isArray(n) ? n.find((t) => Jl(t)) : Jl(n));
+      i && !u && o.push(i);
       const l = {
         ...c,
         "sentry-trace": t ?? r,
-        baggage: s.length > 0 ? s.join(",") : void 0,
+        baggage: o.length > 0 ? o.join(",") : void 0,
       };
-      o && a && !e && (l.traceparent = a);
+      s && a && !e && (l.traceparent = a);
       return l;
     }
   }
-  return { ...s };
+  return { ...o };
 }
-function Al(t, e) {
+function Ul(t, e) {
   if (e.response) {
-    Ze(t, e.response.status);
+    Xe(t, e.response.status);
     const n = e.response?.headers?.get("content-length");
     if (n) {
       const e = parseInt(n);
       e > 0 && t.setAttribute("http.response_content_length", e);
     }
-  } else e.error && t.setStatus({ code: Ke, message: "internal_error" });
+  } else e.error && t.setStatus({ code: Ze, message: "internal_error" });
   t.end();
 }
-function Tl(t) {
-  return t.split(",").some((t) => t.trim().startsWith(on));
+function Jl(t) {
+  return t.split(",").some((t) => t.trim().startsWith(rn));
 }
-function Il(t) {
-  return typeof Headers !== "undefined" && st(t, Headers);
+function zl(t) {
+  return typeof Headers !== "undefined" && rt(t, Headers);
 }
-function $l(t, e, n) {
-  const o = ba(t);
-  return { name: o ? `${e} ${va(o)}` : e, attributes: Ol(t, o, e, n) };
+function Bl(t, e, n) {
+  if (t.startsWith("data:")) {
+    const s = ja(t);
+    return { name: `${e} ${s}`, attributes: Wl(t, void 0, e, n) };
+  }
+  const s = Ea(t);
+  const o = s ? Ta(s) : t;
+  return { name: `${e} ${o}`, attributes: Wl(t, s, e, n) };
 }
-function Ol(t, e, n, o) {
-  const s = {
-    url: t,
+function Wl(t, e, n, s) {
+  const o = {
+    url: ja(t),
     type: "fetch",
     "http.method": n,
-    [je]: o,
-    [Ne]: "http.client",
+    [Re]: s,
+    [je]: "http.client",
   };
   if (e) {
-    if (!ya(e)) {
-      s["http.url"] = e.href;
-      s["server.address"] = e.host;
+    if (!Aa(e)) {
+      o["http.url"] = ja(e.href);
+      o["server.address"] = e.host;
     }
-    e.search && (s["http.query"] = e.search);
-    e.hash && (s["http.fragment"] = e.hash);
+    e.search && (o["http.query"] = e.search);
+    e.hash && (o["http.fragment"] = e.hash);
   }
-  return s;
+  return o;
 }
-const Cl = { mechanism: { handled: false, type: "auto.rpc.trpc.middleware" } };
-function Nl(t) {
+const Vl = { mechanism: { handled: false, type: "auto.rpc.trpc.middleware" } };
+function Gl(t) {
   typeof t === "object" &&
     t !== null &&
     "ok" in t &&
     !t.ok &&
     "error" in t &&
-    or(t.error, Cl);
+    rr(t.error, Vl);
 }
-function jl(t = {}) {
+function Kl(t = {}) {
   return async function (e) {
-    const { path: n, type: o, next: s, rawInput: r, getRawInput: i } = e;
-    const a = Te();
+    const { path: n, type: s, next: o, rawInput: r, getRawInput: i } = e;
+    const a = Ie();
     const c = a?.getOptions();
-    const u = { procedure_path: n, procedure_type: o };
-    mt(
+    const u = { procedure_path: n, procedure_type: s };
+    gt(
       u,
       "__sentry_override_normalization_depth__",
       1 + (c?.normalizeDepth ?? 5),
     );
     if (t.attachRpcInput !== void 0 ? t.attachRpcInput : c?.sendDefaultPii) {
-      r !== void 0 && (u.input = ho(r));
+      r !== void 0 && (u.input = _s(r));
       if (i !== void 0 && typeof i === "function")
         try {
           const t = await i();
-          u.input = ho(t);
+          u.input = _s(t);
         } catch {}
     }
-    return Ae((e) => {
+    return Te((e) => {
       e.setContext("trpc", u);
-      return ss(
+      return ro(
         {
           name: `trpc/${n}`,
           op: "rpc.server",
-          attributes: { [$e]: "route", [je]: "auto.rpc.trpc" },
+          attributes: { [Oe]: "route", [Re]: "auto.rpc.trpc" },
           forceTransaction: !!t.forceTransaction,
         },
         async (t) => {
           try {
-            const e = await s();
-            Nl(e);
+            const e = await o();
+            Gl(e);
             t.end();
             return e;
           } catch (e) {
-            or(e, Cl);
+            rr(e, Vl);
             t.end();
             throw e;
           }
@@ -7935,13 +8109,13 @@ function jl(t = {}) {
  * @param error - Error to capture
  * @param errorType - Classification of error type for filtering
  * @param extraData - Additional context data to include
- */ function Rl(t, e, n) {
+ */ function Hl(t, e, n) {
   try {
-    const o = Te();
-    if (!o) return;
-    const s = Yn();
-    s?.isRecording() && s.setStatus({ code: Ke, message: "internal_error" });
-    or(t, {
+    const s = Ie();
+    if (!s) return;
+    const o = Qn();
+    o?.isRecording() && o.setStatus({ code: Ze, message: "internal_error" });
+    rr(t, {
       mechanism: {
         type: "auto.ai.mcp_server",
         handled: false,
@@ -7955,16 +8129,16 @@ function jl(t = {}) {
  * @internal
  * @param serverInstance - MCP server instance
  * @param methodName - Method name to wrap (tool, resource, prompt)
- */ function Pl(t, e) {
-  dt(
+ */ function Zl(t, e) {
+  mt(
     t,
     e,
     (t) =>
-      function (n, ...o) {
-        const s = o[o.length - 1];
-        if (typeof s !== "function") return t.call(this, n, ...o);
-        const r = Ml(s, e, n);
-        return t.call(this, n, ...o.slice(0, -1), r);
+      function (n, ...s) {
+        const o = s[s.length - 1];
+        if (typeof o !== "function") return t.call(this, n, ...s);
+        const r = Yl(o, e, n);
+        return t.call(this, n, ...s.slice(0, -1), r);
       },
   );
 }
@@ -7975,13 +8149,13 @@ function jl(t = {}) {
  * @param methodName - MCP method name
  * @param handlerName - Handler identifier
  * @returns Wrapped handler function
- */ function Ml(e, n, o) {
-  return function (...s) {
+ */ function Yl(e, n, s) {
+  return function (...o) {
     try {
-      return Dl.call(this, e, n, o, s);
+      return Xl.call(this, e, n, s, o);
     } catch (n) {
       t && y.warn("MCP handler wrapping failed:", n);
-      return e.apply(this, s);
+      return e.apply(this, o);
     }
   };
 }
@@ -7994,17 +8168,17 @@ function jl(t = {}) {
  * @param handlerArgs - Handler arguments
  * @param extraHandlerData - Additional handler context
  * @returns Handler execution result
- */ function Dl(t, e, n, o) {
+ */ function Xl(t, e, n, s) {
   try {
-    const s = t.apply(this, o);
-    return s && typeof s === "object" && typeof s.then === "function"
-      ? Promise.resolve(s).catch((t) => {
-          Fl(t, e, n);
+    const o = t.apply(this, s);
+    return o && typeof o === "object" && typeof o.then === "function"
+      ? Promise.resolve(o).catch((t) => {
+          Ql(t, e, n);
           throw t;
         })
-      : s;
+      : o;
   } catch (t) {
-    Fl(t, e, n);
+    Ql(t, e, n);
     throw t;
   }
 }
@@ -8014,90 +8188,90 @@ function jl(t = {}) {
  * @param error - Error to capture
  * @param methodName - MCP method name
  * @param handlerName - Handler identifier
- */ function Fl(t, e, n) {
+ */ function Ql(t, e, n) {
   try {
-    const o = {};
+    const s = {};
     if (e === "tool") {
-      o.tool_name = n;
+      s.tool_name = n;
       t.name === "ProtocolValidationError" ||
       t.message.includes("validation") ||
       t.message.includes("protocol")
-        ? Rl(t, "validation", o)
+        ? Hl(t, "validation", s)
         : t.name === "ServerTimeoutError" ||
             t.message.includes("timed out") ||
             t.message.includes("timeout")
-          ? Rl(t, "timeout", o)
-          : Rl(t, "tool_execution", o);
+          ? Hl(t, "timeout", s)
+          : Hl(t, "tool_execution", s);
     } else if (e === "resource") {
-      o.resource_uri = n;
-      Rl(t, "resource_execution", o);
+      s.resource_uri = n;
+      Hl(t, "resource_execution", s);
     } else if (e === "prompt") {
-      o.prompt_name = n;
-      Rl(t, "prompt_execution", o);
+      s.prompt_name = n;
+      Hl(t, "prompt_execution", s);
     }
   } catch (t) {}
 }
 /**
  * Wraps tool handlers to associate them with request spans
  * @param serverInstance - MCP server instance
- */ function Ll(t) {
-  Pl(t, "tool");
+ */ function tp(t) {
+  Zl(t, "tool");
 }
 /**
  * Wraps resource handlers to associate them with request spans
  * @param serverInstance - MCP server instance
- */ function ql(t) {
-  Pl(t, "resource");
+ */ function ep(t) {
+  Zl(t, "resource");
 }
 /**
  * Wraps prompt handlers to associate them with request spans
  * @param serverInstance - MCP server instance
- */ function Ul(t) {
-  Pl(t, "prompt");
+ */ function np(t) {
+  Zl(t, "prompt");
 }
 /**
  * Wraps all MCP handler types (tool, resource, prompt) for span correlation
  * @param serverInstance - MCP server instance
- */ function Jl(t) {
-  Ll(t);
-  ql(t);
-  Ul(t);
+ */ function sp(t) {
+  tp(t);
+  ep(t);
+  np(t);
 }
-const zl = "mcp.method.name";
-const Bl = "mcp.request.id";
-const Wl = "mcp.session.id";
-const Vl = "mcp.transport";
-const Gl = "mcp.server.name";
-const Kl = "mcp.server.title";
-const Hl = "mcp.server.version";
-const Zl = "mcp.protocol.version";
-const Yl = "mcp.tool.name";
-const Xl = "mcp.resource.uri";
-const Ql = "mcp.prompt.name";
-const tp = "mcp.tool.result.is_error";
-const ep = "mcp.tool.result.content_count";
-const np = "mcp.prompt.result.description";
-const op = "mcp.prompt.result.message_count";
-const sp = "mcp.request.argument";
-const rp = "mcp.logging.level";
-const ip = "mcp.logging.logger";
-const ap = "mcp.logging.data_type";
-const cp = "mcp.logging.message";
-const up = "network.transport";
-const lp = "network.protocol.version";
-const pp = "client.address";
-const fp = "client.port";
-const dp = "mcp.server";
-const mp = "mcp.notification.client_to_server";
-const gp = "mcp.notification.server_to_client";
-const hp = "auto.function.mcp_server";
-const _p = "auto.mcp.notification";
-const yp = "route";
+const op = "mcp.method.name";
+const rp = "mcp.request.id";
+const ip = "mcp.session.id";
+const ap = "mcp.transport";
+const cp = "mcp.server.name";
+const up = "mcp.server.title";
+const lp = "mcp.server.version";
+const pp = "mcp.protocol.version";
+const fp = "mcp.tool.name";
+const dp = "mcp.resource.uri";
+const mp = "mcp.prompt.name";
+const gp = "mcp.tool.result.is_error";
+const hp = "mcp.tool.result.content_count";
+const _p = "mcp.prompt.result.description";
+const yp = "mcp.prompt.result.message_count";
+const bp = "mcp.request.argument";
+const vp = "mcp.logging.level";
+const Sp = "mcp.logging.logger";
+const kp = "mcp.logging.data_type";
+const wp = "mcp.logging.message";
+const xp = "network.transport";
+const Ap = "network.protocol.version";
+const Ep = "client.address";
+const Tp = "client.port";
+const Ip = "mcp.server";
+const $p = "mcp.notification.client_to_server";
+const Op = "mcp.notification.server_to_client";
+const Cp = "auto.function.mcp_server";
+const Np = "auto.mcp.notification";
+const jp = "route";
 /**
  * Validates if a message is a JSON-RPC request
  * @param message - Message to validate
  * @returns True if message is a JSON-RPC request
- */ function bp(t) {
+ */ function Rp(t) {
   return (
     typeof t === "object" &&
     t !== null &&
@@ -8111,7 +8285,7 @@ const yp = "route";
  * Validates if a message is a JSON-RPC notification
  * @param message - Message to validate
  * @returns True if message is a JSON-RPC notification
- */ function vp(t) {
+ */ function Mp(t) {
   return (
     typeof t === "object" &&
     t !== null &&
@@ -8125,7 +8299,7 @@ const yp = "route";
  * Validates if a message is a JSON-RPC response
  * @param message - Message to validate
  * @returns True if message is a JSON-RPC response
- */ function Sp(t) {
+ */ function Pp(t) {
   return (
     typeof t === "object" &&
     t !== null &&
@@ -8139,7 +8313,7 @@ const yp = "route";
  * Validates MCP server instance with type checking
  * @param instance - Object to validate as MCP server instance
  * @returns True if instance has required MCP server methods
- */ function kp(e) {
+ */ function Dp(e) {
   if (
     typeof e === "object" &&
     e !== null &&
@@ -8156,7 +8330,7 @@ const yp = "route";
  * Check if the item is a valid content item
  * @param item - The item to check
  * @returns True if the item is a valid content item, false otherwise
- */ function wp(t) {
+ */ function Fp(t) {
   return t != null && typeof t === "object";
 }
 /**
@@ -8164,23 +8338,23 @@ const yp = "route";
  * @param content - Array of content items from tool result
  * @param includeContent - Whether to include actual content (text, URIs) or just metadata
  * @returns Attributes extracted from each content item
- */ function xp(t, e) {
-  const n = { [ep]: t.length };
-  for (const [o, s] of t.entries()) {
-    if (!wp(s)) continue;
-    const r = t.length === 1 ? "mcp.tool.result" : `mcp.tool.result.${o}`;
-    typeof s.type === "string" && (n[`${r}.content_type`] = s.type);
+ */ function Lp(t, e) {
+  const n = { [hp]: t.length };
+  for (const [s, o] of t.entries()) {
+    if (!Fp(o)) continue;
+    const r = t.length === 1 ? "mcp.tool.result" : `mcp.tool.result.${s}`;
+    typeof o.type === "string" && (n[`${r}.content_type`] = o.type);
     if (e) {
       const t = (t, e) => {
         typeof e === "string" && (n[`${r}.${t}`] = e);
       };
-      t("mime_type", s.mimeType);
-      t("uri", s.uri);
-      t("name", s.name);
-      typeof s.text === "string" && (n[`${r}.content`] = s.text);
-      typeof s.data === "string" && (n[`${r}.data_size`] = s.data.length);
-      const e = s.resource;
-      if (wp(e)) {
+      t("mime_type", o.mimeType);
+      t("uri", o.uri);
+      t("name", o.name);
+      typeof o.text === "string" && (n[`${r}.content`] = o.text);
+      typeof o.data === "string" && (n[`${r}.data_size`] = o.data.length);
+      const e = o.resource;
+      if (Fp(e)) {
         t("resource_uri", e.uri);
         t("resource_mime_type", e.mimeType);
       }
@@ -8193,10 +8367,10 @@ const yp = "route";
  * @param result - Tool execution result
  * @param recordOutputs - Whether to include actual content or just metadata (counts, error status)
  * @returns Attributes extracted from tool result content
- */ function Ep(t, e) {
-  if (!wp(t)) return {};
-  const n = Array.isArray(t.content) ? xp(t.content, e) : {};
-  typeof t.isError === "boolean" && (n[tp] = t.isError);
+ */ function qp(t, e) {
+  if (!Fp(t)) return {};
+  const n = Array.isArray(t.content) ? Lp(t.content, e) : {};
+  typeof t.isError === "boolean" && (n[gp] = t.isError);
   return n;
 }
 /**
@@ -8204,30 +8378,30 @@ const yp = "route";
  * @param result - Prompt execution result
  * @param recordOutputs - Whether to include actual content or just metadata (counts)
  * @returns Attributes extracted from prompt result
- */ function Ap(t, e) {
+ */ function Up(t, e) {
   const n = {};
-  if (!wp(t)) return n;
-  e && typeof t.description === "string" && (n[np] = t.description);
+  if (!Fp(t)) return n;
+  e && typeof t.description === "string" && (n[_p] = t.description);
   if (Array.isArray(t.messages)) {
-    n[op] = t.messages.length;
+    n[yp] = t.messages.length;
     if (e) {
       const e = t.messages;
-      for (const [t, o] of e.entries()) {
-        if (!wp(o)) continue;
-        const s =
+      for (const [t, s] of e.entries()) {
+        if (!Fp(s)) continue;
+        const o =
           e.length === 1 ? "mcp.prompt.result" : `mcp.prompt.result.${t}`;
-        const r = (t, o) => {
-          if (typeof o === "string") {
-            const r = e.length === 1 ? `${s}.message_${t}` : `${s}.${t}`;
-            n[r] = o;
+        const r = (t, s) => {
+          if (typeof s === "string") {
+            const r = e.length === 1 ? `${o}.message_${t}` : `${o}.${t}`;
+            n[r] = s;
           }
         };
-        r("role", o.role);
-        if (wp(o.content)) {
-          const t = o.content;
+        r("role", s.role);
+        if (Fp(s.content)) {
+          const t = s.content;
           if (typeof t.text === "string") {
-            const o = e.length === 1 ? `${s}.message_content` : `${s}.content`;
-            n[o] = t.text;
+            const s = e.length === 1 ? `${o}.message_content` : `${o}.content`;
+            n[s] = t.text;
           }
         }
       }
@@ -8235,58 +8409,66 @@ const yp = "route";
   }
   return n;
 }
-const Tp = new WeakMap();
-/**
- * Stores session data for a transport with sessionId
- * @param transport - MCP transport instance
- * @param sessionData - Session data to store
- */ function Ip(t, e) {
-  t.sessionId && Tp.set(t, e);
+const Jp = new Map();
+const zp = new WeakMap();
+function Bp(t) {
+  const e = t.sessionId;
+  return e ? Jp.get(e) : zp.get(t);
+}
+function Wp(t, e) {
+  const n = t.sessionId;
+  n ? Jp.set(n, e) : zp.set(t, e);
 }
 /**
- * Updates session data for a transport with sessionId (merges with existing data)
+ * Stores session data for a transport
+ * @param transport - MCP transport instance
+ * @param sessionData - Session data to store
+ */ function Vp(t, e) {
+  Wp(t, e);
+}
+/**
+ * Updates session data for a transport (merges with existing data)
  * @param transport - MCP transport instance
  * @param partialSessionData - Partial session data to merge with existing data
- */ function $p(t, e) {
-  if (t.sessionId) {
-    const n = Tp.get(t) || {};
-    Tp.set(t, { ...n, ...e });
-  }
+ */ function Gp(t, e) {
+  const n = Bp(t) || {};
+  Wp(t, { ...n, ...e });
 }
 /**
  * Retrieves client information for a transport
  * @param transport - MCP transport instance
  * @returns Client information if available
- */ function Op(t) {
-  return Tp.get(t)?.clientInfo;
+ */ function Kp(t) {
+  return Bp(t)?.clientInfo;
 }
 /**
  * Retrieves protocol version for a transport
  * @param transport - MCP transport instance
  * @returns Protocol version if available
- */ function Cp(t) {
-  return Tp.get(t)?.protocolVersion;
+ */ function Hp(t) {
+  return Bp(t)?.protocolVersion;
 }
 /**
  * Retrieves full session data for a transport
  * @param transport - MCP transport instance
  * @returns Complete session data if available
- */ function Np(t) {
-  return Tp.get(t);
+ */ function Zp(t) {
+  return Bp(t);
 }
 /**
  * Cleans up session data for a specific transport (when that transport closes)
  * @param transport - MCP transport instance
- */ function jp(t) {
-  Tp.delete(t);
+ */ function Yp(t) {
+  const e = t.sessionId;
+  e && Jp.delete(e);
 }
 /**
  * Extracts and validates PartyInfo from an unknown object
  * @param obj - Unknown object that might contain party info
  * @returns Validated PartyInfo object with only string properties
- */ function Rp(t) {
+ */ function Xp(t) {
   const e = {};
-  if (wp(t)) {
+  if (Fp(t)) {
     typeof t.name === "string" && (e.name = t.name);
     typeof t.title === "string" && (e.title = t.title);
     typeof t.version === "string" && (e.version = t.version);
@@ -8297,12 +8479,12 @@ const Tp = new WeakMap();
  * Extracts session data from "initialize" requests
  * @param request - JSON-RPC "initialize" request containing client info and protocol version
  * @returns Session data extracted from request parameters including protocol version and client info
- */ function Pp(t) {
+ */ function Qp(t) {
   const e = {};
-  if (wp(t.params)) {
+  if (Fp(t.params)) {
     typeof t.params.protocolVersion === "string" &&
       (e.protocolVersion = t.params.protocolVersion);
-    t.params.clientInfo && (e.clientInfo = Rp(t.params.clientInfo));
+    t.params.clientInfo && (e.clientInfo = Xp(t.params.clientInfo));
   }
   return e;
 }
@@ -8310,12 +8492,12 @@ const Tp = new WeakMap();
  * Extracts session data from "initialize" response
  * @param result - "initialize" response result containing server info and protocol version
  * @returns Partial session data extracted from response including protocol version and server info
- */ function Mp(t) {
+ */ function tf(t) {
   const e = {};
-  if (wp(t)) {
+  if (Fp(t)) {
     typeof t.protocolVersion === "string" &&
       (e.protocolVersion = t.protocolVersion);
-    t.serverInfo && (e.serverInfo = Rp(t.serverInfo));
+    t.serverInfo && (e.serverInfo = Xp(t.serverInfo));
   }
   return e;
 }
@@ -8323,8 +8505,8 @@ const Tp = new WeakMap();
  * Build client attributes from stored client info
  * @param transport - MCP transport instance
  * @returns Client attributes for span instrumentation
- */ function Dp(t) {
-  const e = Op(t);
+ */ function ef(t) {
+  const e = Kp(t);
   const n = {};
   e?.name && (n["mcp.client.name"] = e.name);
   e?.title && (n["mcp.client.title"] = e.title);
@@ -8335,7 +8517,7 @@ const Tp = new WeakMap();
  * Build client attributes from PartyInfo directly
  * @param clientInfo - Client party info
  * @returns Client attributes for span instrumentation
- */ function Fp(t) {
+ */ function nf(t) {
   const e = {};
   t?.name && (e["mcp.client.name"] = t.name);
   t?.title && (e["mcp.client.title"] = t.title);
@@ -8346,30 +8528,30 @@ const Tp = new WeakMap();
  * Build server attributes from stored server info
  * @param transport - MCP transport instance
  * @returns Server attributes for span instrumentation
- */ function Lp(t) {
-  const e = Np(t)?.serverInfo;
+ */ function sf(t) {
+  const e = Zp(t)?.serverInfo;
   const n = {};
-  e?.name && (n[Gl] = e.name);
-  e?.title && (n[Kl] = e.title);
-  e?.version && (n[Hl] = e.version);
+  e?.name && (n[cp] = e.name);
+  e?.title && (n[up] = e.title);
+  e?.version && (n[lp] = e.version);
   return n;
 }
 /**
  * Build server attributes from PartyInfo directly
  * @param serverInfo - Server party info
  * @returns Server attributes for span instrumentation
- */ function qp(t) {
+ */ function of(t) {
   const e = {};
-  t?.name && (e[Gl] = t.name);
-  t?.title && (e[Kl] = t.title);
-  t?.version && (e[Hl] = t.version);
+  t?.name && (e[cp] = t.name);
+  t?.title && (e[up] = t.title);
+  t?.version && (e[lp] = t.version);
   return e;
 }
 /**
  * Extracts client connection info from extra handler data
  * @param extra - Extra handler data containing connection info
  * @returns Client address and port information
- */ function Up(t) {
+ */ function rf(t) {
   return {
     address:
       t?.requestInfo?.remoteAddress ||
@@ -8386,16 +8568,16 @@ const Tp = new WeakMap();
  * Extracts transport types based on transport constructor name
  * @param transport - MCP transport instance
  * @returns Transport type mapping for span attributes
- */ function Jp(t) {
+ */ function af(t) {
   if (!t?.constructor)
     return { mcpTransport: "unknown", networkTransport: "unknown" };
   const e =
     typeof t.constructor?.name === "string" ? t.constructor.name : "unknown";
   let n = "unknown";
-  const o = e.toLowerCase();
-  o.includes("stdio")
+  const s = e.toLowerCase();
+  s.includes("stdio")
     ? (n = "pipe")
-    : (o.includes("http") || o.includes("sse")) && (n = "tcp");
+    : (s.includes("http") || s.includes("sse")) && (n = "tcp");
   return { mcpTransport: e, networkTransport: n };
 }
 /**
@@ -8404,39 +8586,49 @@ const Tp = new WeakMap();
  * @param extra - Optional extra handler data
  * @returns Transport attributes for span instrumentation
  * @note sessionId may be undefined during initial setup - session should be established by client during initialize flow
- */ function zp(t, e) {
+ */ function cf(t, e) {
   const n = t && "sessionId" in t ? t.sessionId : void 0;
-  const o = e ? Up(e) : {};
-  const { mcpTransport: s, networkTransport: r } = Jp(t);
-  const i = Dp(t);
-  const a = Lp(t);
-  const c = Cp(t);
+  const s = e ? rf(e) : {};
+  const { mcpTransport: o, networkTransport: r } = af(t);
+  const i = ef(t);
+  const a = sf(t);
+  const c = Hp(t);
   const u = {
-    ...(n && { [Wl]: n }),
-    ...(o.address && { [pp]: o.address }),
-    ...(o.port && { [fp]: o.port }),
-    [Vl]: s,
-    [up]: r,
-    [lp]: "2.0",
-    ...(c && { [Zl]: c }),
+    ...(n && { [ip]: n }),
+    ...(s.address && { [Ep]: s.address }),
+    ...(s.port && { [Tp]: s.port }),
+    [ap]: o,
+    [xp]: r,
+    [Ap]: "2.0",
+    ...(c && { [pp]: c }),
     ...i,
     ...a,
   };
   return u;
 }
-const Bp = new WeakMap();
+const uf = new Map();
+const lf = new WeakMap();
 /**
- * Gets or creates the span map for a specific transport instance
+ * Gets or creates the span map for a transport, using sessionId when available
  * @internal
  * @param transport - MCP transport instance
- * @returns Span map for the transport
- */ function Wp(t) {
-  let e = Bp.get(t);
-  if (!e) {
-    e = new Map();
-    Bp.set(t, e);
+ * @returns Span map for the transport/session
+ */ function pf(t) {
+  const e = t.sessionId;
+  if (e) {
+    let t = uf.get(e);
+    if (!t) {
+      t = new Map();
+      uf.set(e, t);
+    }
+    return t;
   }
-  return e;
+  let n = lf.get(t);
+  if (!n) {
+    n = new Map();
+    lf.set(t, n);
+  }
+  return n;
 }
 /**
  * Stores span context for later correlation with handler execution
@@ -8444,9 +8636,9 @@ const Bp = new WeakMap();
  * @param requestId - Request identifier
  * @param span - Active span to correlate
  * @param method - MCP method name
- */ function Vp(t, e, n, o) {
-  const s = Wp(t);
-  s.set(e, { span: n, method: o, startTime: Date.now() });
+ */ function ff(t, e, n, s) {
+  const o = pf(t);
+  o.set(e, { span: n, method: s, startTime: Date.now() });
 }
 /**
  * Completes span with results and cleans up correlation
@@ -8454,58 +8646,70 @@ const Bp = new WeakMap();
  * @param requestId - Request identifier
  * @param result - Execution result for attribute extraction
  * @param options - Resolved MCP options
- */ function Gp(t, e, n, o) {
-  const s = Wp(t);
-  const r = s.get(e);
+ */ function df(t, e, n, s) {
+  const o = pf(t);
+  const r = o.get(e);
   if (r) {
     const { span: t, method: i } = r;
     if (i === "initialize") {
-      const e = Mp(n);
-      const o = qp(e.serverInfo);
-      const s = { ...o };
-      e.protocolVersion && (s[Zl] = e.protocolVersion);
-      t.setAttributes(s);
+      const e = tf(n);
+      const s = of(e.serverInfo);
+      const o = { ...s };
+      e.protocolVersion && (o[pp] = e.protocolVersion);
+      t.setAttributes(o);
     } else if (i === "tools/call") {
-      const e = Ep(n, o.recordOutputs);
+      const e = qp(n, s.recordOutputs);
       t.setAttributes(e);
     } else if (i === "prompts/get") {
-      const e = Ap(n, o.recordOutputs);
+      const e = Up(n, s.recordOutputs);
       t.setAttributes(e);
     }
     t.end();
-    s.delete(e);
+    o.delete(e);
   }
 }
 /**
  * Cleans up pending spans for a specific transport (when that transport closes)
  * @param transport - MCP transport instance
- */ function Kp(t) {
-  const e = Bp.get(t);
+ */ function mf(t) {
+  const e = t.sessionId;
   if (e) {
-    for (const [, t] of e) {
-      t.span.setStatus({ code: Ke, message: "cancelled" });
+    const t = uf.get(e);
+    if (t) {
+      for (const [, e] of t) {
+        e.span.setStatus({ code: Ze, message: "cancelled" });
+        e.span.end();
+      }
+      uf.delete(e);
+    }
+    return;
+  }
+  const n = lf.get(t);
+  if (n) {
+    for (const [, t] of n) {
+      t.span.setStatus({ code: Ze, message: "cancelled" });
       t.span.end();
     }
-    e.clear();
+    n.clear();
   }
 }
-const Hp = {
+const gf = {
   "tools/call": {
     targetField: "name",
-    targetAttribute: Yl,
+    targetAttribute: fp,
     captureArguments: true,
     argumentsField: "arguments",
   },
   "resources/read": {
     targetField: "uri",
-    targetAttribute: Xl,
+    targetAttribute: dp,
     captureUri: true,
   },
-  "resources/subscribe": { targetField: "uri", targetAttribute: Xl },
-  "resources/unsubscribe": { targetField: "uri", targetAttribute: Xl },
+  "resources/subscribe": { targetField: "uri", targetAttribute: dp },
+  "resources/unsubscribe": { targetField: "uri", targetAttribute: dp },
   "prompts/get": {
     targetField: "name",
-    targetAttribute: Ql,
+    targetAttribute: mp,
     captureName: true,
     captureArguments: true,
     argumentsField: "arguments",
@@ -8516,16 +8720,16 @@ const Hp = {
  * @param method - MCP method name
  * @param params - Method parameters
  * @returns Target name and attributes for span instrumentation
- */ function Zp(t, e) {
-  const n = Hp[t];
+ */ function hf(t, e) {
+  const n = gf[t];
   if (!n) return { attributes: {} };
-  const o =
+  const s =
     n.targetField && typeof e?.[n.targetField] === "string"
       ? e[n.targetField]
       : void 0;
   return {
-    target: o,
-    attributes: o && n.targetAttribute ? { [n.targetAttribute]: o } : {},
+    target: s,
+    attributes: s && n.targetAttribute ? { [n.targetAttribute]: s } : {},
   };
 }
 /**
@@ -8533,21 +8737,21 @@ const Hp = {
  * @param method - MCP method name
  * @param params - Method parameters
  * @returns Arguments as span attributes with mcp.request.argument prefix
- */ function Yp(t, e) {
+ */ function _f(t, e) {
   const n = {};
-  const o = Hp[t];
-  if (!o) return n;
-  if (o.captureArguments && o.argumentsField && e?.[o.argumentsField]) {
-    const t = e[o.argumentsField];
+  const s = gf[t];
+  if (!s) return n;
+  if (s.captureArguments && s.argumentsField && e?.[s.argumentsField]) {
+    const t = e[s.argumentsField];
     if (typeof t === "object" && t !== null)
-      for (const [e, o] of Object.entries(t))
-        n[`${sp}.${e.toLowerCase()}`] = JSON.stringify(o);
+      for (const [e, s] of Object.entries(t))
+        n[`${bp}.${e.toLowerCase()}`] = JSON.stringify(s);
   }
-  o.captureUri && e?.uri && (n[`${sp}.uri`] = JSON.stringify(e.uri));
-  o.captureName && e?.name && (n[`${sp}.name`] = JSON.stringify(e.name));
+  s.captureUri && e?.uri && (n[`${bp}.uri`] = JSON.stringify(e.uri));
+  s.captureName && e?.name && (n[`${bp}.name`] = JSON.stringify(e.name));
   return n;
 }
-function Xp(t) {
+function yf(t) {
   return typeof t === "string" ? t : JSON.stringify(t);
 }
 /**
@@ -8556,47 +8760,47 @@ function Xp(t) {
  * @param params - Notification parameters
  * @param recordInputs - Whether to include actual content or just metadata
  * @returns Method-specific attributes for span instrumentation
- */ function Qp(t, e, n) {
-  const o = {};
+ */ function bf(t, e, n) {
+  const s = {};
   switch (t) {
     case "notifications/cancelled":
-      e?.requestId && (o["mcp.cancelled.request_id"] = String(e.requestId));
-      e?.reason && (o["mcp.cancelled.reason"] = String(e.reason));
+      e?.requestId && (s["mcp.cancelled.request_id"] = String(e.requestId));
+      e?.reason && (s["mcp.cancelled.reason"] = String(e.reason));
       break;
     case "notifications/message":
-      e?.level && (o[rp] = String(e.level));
-      e?.logger && (o[ip] = String(e.logger));
+      e?.level && (s[vp] = String(e.level));
+      e?.logger && (s[Sp] = String(e.logger));
       if (e?.data !== void 0) {
-        o[ap] = typeof e.data;
-        n && (o[cp] = Xp(e.data));
+        s[kp] = typeof e.data;
+        n && (s[wp] = yf(e.data));
       }
       break;
     case "notifications/progress":
-      e?.progressToken && (o["mcp.progress.token"] = String(e.progressToken));
+      e?.progressToken && (s["mcp.progress.token"] = String(e.progressToken));
       typeof e?.progress === "number" &&
-        (o["mcp.progress.current"] = e.progress);
+        (s["mcp.progress.current"] = e.progress);
       if (typeof e?.total === "number") {
-        o["mcp.progress.total"] = e.total;
+        s["mcp.progress.total"] = e.total;
         typeof e?.progress === "number" &&
-          (o["mcp.progress.percentage"] = (e.progress / e.total) * 100);
+          (s["mcp.progress.percentage"] = (e.progress / e.total) * 100);
       }
-      e?.message && (o["mcp.progress.message"] = String(e.message));
+      e?.message && (s["mcp.progress.message"] = String(e.message));
       break;
     case "notifications/resources/updated":
       if (e?.uri) {
-        o[Xl] = String(e.uri);
-        const t = ba(String(e.uri));
+        s[dp] = String(e.uri);
+        const t = Ea(String(e.uri));
         t &&
-          !ya(t) &&
-          (o["mcp.resource.protocol"] = t.protocol.replace(":", ""));
+          !Aa(t) &&
+          (s["mcp.resource.protocol"] = t.protocol.replace(":", ""));
       }
       break;
     case "notifications/initialized":
-      o["mcp.lifecycle.phase"] = "initialization_complete";
-      o["mcp.protocol.ready"] = 1;
+      s["mcp.lifecycle.phase"] = "initialization_complete";
+      s["mcp.protocol.ready"] = 1;
       break;
   }
-  return o;
+  return s;
 }
 /**
  * Build type-specific attributes based on message type
@@ -8605,19 +8809,19 @@ function Xp(t) {
  * @param params - Optional parameters for attribute extraction
  * @param recordInputs - Whether to capture input arguments in spans
  * @returns Type-specific attributes for span instrumentation
- */ function tf(t, e, n, o) {
+ */ function vf(t, e, n, s) {
   if (t === "request") {
     const t = e;
-    const s = Zp(t.method, n || {});
+    const o = hf(t.method, n || {});
     return {
-      ...(t.id !== void 0 && { [Bl]: String(t.id) }),
-      ...s.attributes,
-      ...(o ? Yp(t.method, n || {}) : {}),
+      ...(t.id !== void 0 && { [rp]: String(t.id) }),
+      ...o.attributes,
+      ...(s ? _f(t.method, n || {}) : {}),
     };
   }
-  return Qp(e.method, n || {}, o);
+  return bf(e.method, n || {}, s);
 }
-const ef = new Set([pp, fp, Xl]);
+const Sf = new Set([Ep, Tp, dp]);
 /**
  * Checks if an attribute key should be considered network PII.
  *
@@ -8629,19 +8833,19 @@ const ef = new Set([pp, fp, Xl]);
  * @param key - Attribute key to evaluate
  * @returns true if the attribute should be filtered out (is network PII), false if it should be preserved
  * @internal
- */ function nf(t) {
-  return ef.has(t);
+ */ function kf(t) {
+  return Sf.has(t);
 }
 /**
  * Removes network PII attributes from span data when sendDefaultPii is false
  * @param spanData - Raw span attributes
  * @param sendDefaultPii - Whether to include PII data
  * @returns Filtered span attributes
- */ function of(t, e) {
+ */ function wf(t, e) {
   return e
     ? t
     : Object.entries(t).reduce((t, [e, n]) => {
-        nf(e) || (t[e] = n);
+        kf(e) || (t[e] = n);
         return t;
       }, {});
 }
@@ -8651,7 +8855,7 @@ const ef = new Set([pp, fp, Xl]);
  * @param method - MCP method name
  * @param target - Optional target identifier
  * @returns Formatted span name
- */ function sf(t, e) {
+ */ function xf(t, e) {
   return e ? `${t} ${e}` : t;
 }
 /**
@@ -8659,36 +8863,36 @@ const ef = new Set([pp, fp, Xl]);
  * @internal
  * @param type - Span type configuration
  * @returns Sentry-specific attributes
- */ function rf(t) {
+ */ function Af(t) {
   let e;
   let n;
   switch (t) {
     case "request":
-      e = dp;
-      n = hp;
+      e = Ip;
+      n = Cp;
       break;
     case "notification-incoming":
-      e = mp;
-      n = _p;
+      e = $p;
+      n = Np;
       break;
     case "notification-outgoing":
-      e = gp;
-      n = _p;
+      e = Op;
+      n = Np;
       break;
   }
-  return { [Ne]: e, [je]: n, [$e]: yp };
+  return { [je]: e, [Re]: n, [Oe]: jp };
 }
 /**
  * Unified builder for creating MCP spans
  * @internal
  * @param config - Span configuration
  * @returns Created span
- */ function af(t) {
+ */ function Ef(t) {
   const {
     type: e,
     message: n,
-    transport: o,
-    extra: s,
+    transport: s,
+    extra: o,
     callback: r,
     options: i,
   } = t;
@@ -8696,14 +8900,14 @@ const ef = new Set([pp, fp, Xl]);
   const c = n.params;
   let u;
   if (e === "request") {
-    const t = Zp(a, c || {});
-    u = sf(a, t.target);
+    const t = hf(a, c || {});
+    u = xf(a, t.target);
   } else u = a;
-  const l = { ...zp(o, s), [zl]: a, ...tf(e, n, c, i?.recordInputs), ...rf(e) };
-  const p = Te();
+  const l = { ...cf(s, o), [op]: a, ...vf(e, n, c, i?.recordInputs), ...Af(e) };
+  const p = Ie();
   const f = Boolean(p?.getOptions().sendDefaultPii);
-  const d = of(l, f);
-  return os({ name: u, forceTransaction: true, attributes: d }, r);
+  const d = wf(l, f);
+  return oo({ name: u, forceTransaction: true, attributes: d }, r);
 }
 /**
  * Creates a span for incoming MCP notifications
@@ -8713,14 +8917,14 @@ const ef = new Set([pp, fp, Xl]);
  * @param options - Resolved MCP options
  * @param callback - Span execution callback
  * @returns Span execution result
- */ function cf(t, e, n, o, s) {
-  return af({
+ */ function Tf(t, e, n, s, o) {
+  return Ef({
     type: "notification-incoming",
     message: t,
     transport: e,
     extra: n,
-    callback: s,
-    options: o,
+    callback: o,
+    options: s,
   });
 }
 /**
@@ -8730,13 +8934,13 @@ const ef = new Set([pp, fp, Xl]);
  * @param options - Resolved MCP options
  * @param callback - Span execution callback
  * @returns Span execution result
- */ function uf(t, e, n, o) {
-  return af({
+ */ function If(t, e, n, s) {
+  return Ef({
     type: "notification-outgoing",
     message: t,
     transport: e,
     options: n,
-    callback: o,
+    callback: s,
   });
 }
 /**
@@ -8746,21 +8950,21 @@ const ef = new Set([pp, fp, Xl]);
  * @param extra - Optional extra handler data
  * @param options - Resolved MCP options
  * @returns Span configuration object
- */ function lf(t, e, n, o) {
-  const { method: s } = t;
+ */ function $f(t, e, n, s) {
+  const { method: o } = t;
   const r = t.params;
-  const i = Zp(s, r || {});
-  const a = sf(s, i.target);
+  const i = hf(o, r || {});
+  const a = xf(o, i.target);
   const c = {
-    ...zp(e, n),
-    [zl]: s,
-    ...tf("request", t, r, o?.recordInputs),
-    ...rf("request"),
+    ...cf(e, n),
+    [op]: o,
+    ...vf("request", t, r, s?.recordInputs),
+    ...Af("request"),
   };
-  const u = Te();
+  const u = Ie();
   const l = Boolean(u?.getOptions().sendDefaultPii);
-  const p = of(c, l);
-  return { name: a, op: dp, forceTransaction: true, attributes: p };
+  const p = wf(c, l);
+  return { name: a, op: Ip, forceTransaction: true, attributes: p };
 }
 /**
  * Wraps transport.onmessage to create spans for incoming messages.
@@ -8768,38 +8972,38 @@ const ef = new Set([pp, fp, Xl]);
  * in the session data for the transport.
  * @param transport - MCP transport instance to wrap
  * @param options - Resolved MCP options
- */ function pf(t, e) {
+ */ function Of(t, e) {
   t.onmessage &&
-    dt(
+    mt(
       t,
       "onmessage",
       (t) =>
-        function (n, o) {
-          if (bp(n)) {
-            const s = n.method === "initialize";
+        function (n, s) {
+          if (Rp(n)) {
+            const o = n.method === "initialize";
             let r;
-            if (s)
+            if (o)
               try {
-                r = Pp(n);
-                Ip(this, r);
+                r = Qp(n);
+                Vp(this, r);
               } catch {}
-            const i = we().clone();
-            return Ae(i, () => {
-              const i = lf(n, this, o, e);
-              const a = rs(i);
-              s &&
+            const i = xe().clone();
+            return Te(i, () => {
+              const i = $f(n, this, s, e);
+              const a = io(i);
+              o &&
                 r &&
                 a.setAttributes({
-                  ...Fp(r.clientInfo),
-                  ...(r.protocolVersion && { [Zl]: r.protocolVersion }),
+                  ...nf(r.clientInfo),
+                  ...(r.protocolVersion && { [pp]: r.protocolVersion }),
                 });
-              Vp(this, n.id, a, n.method);
-              return as(a, () => t.call(this, n, o));
+              ff(this, n.id, a, n.method);
+              return co(a, () => t.call(this, n, s));
             });
           }
-          return vp(n)
-            ? cf(n, this, o, e, () => t.call(this, n, o))
-            : t.call(this, n, o);
+          return Mp(n)
+            ? Tf(n, this, s, e, () => t.call(this, n, s))
+            : t.call(this, n, s);
         },
     );
 }
@@ -8809,26 +9013,26 @@ const ef = new Set([pp, fp, Xl]);
  * in the session data for the transport.
  * @param transport - MCP transport instance to wrap
  * @param options - Resolved MCP options
- */ function ff(t, e) {
+ */ function Cf(t, e) {
   t.send &&
-    dt(
+    mt(
       t,
       "send",
       (t) =>
         async function (...n) {
-          const [o] = n;
-          if (vp(o)) return uf(o, this, e, () => t.call(this, ...n));
-          if (Sp(o) && o.id !== null && o.id !== void 0) {
-            o.error && gf(o.error);
+          const [s] = n;
+          if (Mp(s)) return If(s, this, e, () => t.call(this, ...n));
+          if (Pp(s) && s.id !== null && s.id !== void 0) {
+            s.error && Rf(s.error);
             if (
-              wp(o.result) &&
-              (o.result.protocolVersion || o.result.serverInfo)
+              Fp(s.result) &&
+              (s.result.protocolVersion || s.result.serverInfo)
             )
               try {
-                const t = Mp(o.result);
-                $p(this, t);
+                const t = tf(s.result);
+                Gp(this, t);
               } catch {}
-            Gp(this, o.id, o.result, e);
+            df(this, s.id, s.result, e);
           }
           return t.call(this, ...n);
         },
@@ -8837,15 +9041,15 @@ const ef = new Set([pp, fp, Xl]);
 /**
  * Wraps transport.onclose to clean up pending spans for this transport only
  * @param transport - MCP transport instance to wrap
- */ function df(t) {
+ */ function Nf(t) {
   t.onclose &&
-    dt(
+    mt(
       t,
       "onclose",
       (t) =>
         function (...e) {
-          Kp(this);
-          jp(this);
+          mf(this);
+          Yp(this);
           return t.call(this, ...e);
         },
     );
@@ -8853,14 +9057,14 @@ const ef = new Set([pp, fp, Xl]);
 /**
  * Wraps transport error handlers to capture connection errors
  * @param transport - MCP transport instance to wrap
- */ function mf(t) {
+ */ function jf(t) {
   t.onerror &&
-    dt(
+    mt(
       t,
       "onerror",
       (t) =>
         function (e) {
-          hf(e);
+          Mf(e);
           return t.call(this, e);
         },
     );
@@ -8870,7 +9074,7 @@ const ef = new Set([pp, fp, Xl]);
  * @see https://www.jsonrpc.org/specification#error_object
  * @internal
  * @param errorResponse - JSON-RPC error response
- */ function gf(t) {
+ */ function Rf(t) {
   try {
     if (t && typeof t === "object" && "code" in t && "message" in t) {
       const e = t;
@@ -8878,7 +9082,7 @@ const ef = new Set([pp, fp, Xl]);
       if (n) {
         const t = new Error(e.message);
         t.name = `JsonRpcError_${e.code}`;
-        Rl(t, "protocol");
+        Hl(t, "protocol");
       }
     }
   } catch {}
@@ -8887,12 +9091,12 @@ const ef = new Set([pp, fp, Xl]);
  * Captures transport connection errors
  * @internal
  * @param error - Transport error
- */ function hf(t) {
+ */ function Mf(t) {
   try {
-    Rl(t, "transport");
+    Hl(t, "transport");
   } catch {}
 }
-const _f = new WeakSet();
+const Pf = new WeakSet();
 /**
  * Wraps a MCP Server instance from the `@modelcontextprotocol/sdk` package with Sentry instrumentation.
  *
@@ -8923,37 +9127,37 @@ const _f = new WeakSet();
  * @param mcpServerInstance - MCP server instance to instrument
  * @param options - Optional configuration for recording inputs and outputs
  * @returns Instrumented server instance (same reference)
- */ function yf(t, e) {
-  if (_f.has(t)) return t;
-  if (!kp(t)) return t;
+ */ function Df(t, e) {
+  if (Pf.has(t)) return t;
+  if (!Dp(t)) return t;
   const n = t;
-  const o = Te();
-  const s = Boolean(o?.getOptions().sendDefaultPii);
+  const s = Ie();
+  const o = Boolean(s?.getOptions().sendDefaultPii);
   const r = {
-    recordInputs: e?.recordInputs ?? s,
-    recordOutputs: e?.recordOutputs ?? s,
+    recordInputs: e?.recordInputs ?? o,
+    recordOutputs: e?.recordOutputs ?? o,
   };
-  dt(
+  mt(
     n,
     "connect",
     (t) =>
       async function (e, ...n) {
-        const o = await t.call(this, e, ...n);
-        pf(e, r);
-        ff(e, r);
-        df(e);
-        mf(e);
-        return o;
+        const s = await t.call(this, e, ...n);
+        Of(e, r);
+        Cf(e, r);
+        Nf(e);
+        jf(e);
+        return s;
       },
   );
-  Jl(n);
-  _f.add(t);
+  sp(n);
+  Pf.add(t);
   return t;
 }
-function bf(t, e = {}, n = ke()) {
+function Ff(t, e = {}, n = we()) {
   const {
-    message: o,
-    name: s,
+    message: s,
+    name: o,
     email: r,
     url: i,
     source: a,
@@ -8964,8 +9168,8 @@ function bf(t, e = {}, n = ke()) {
     contexts: {
       feedback: {
         contact_email: r,
-        name: s,
-        message: o,
+        name: o,
+        message: s,
         url: i,
         source: a,
         associated_event_id: c,
@@ -8975,7 +9179,7 @@ function bf(t, e = {}, n = ke()) {
     level: "info",
     tags: u,
   };
-  const p = n?.getClient() || Te();
+  const p = n?.getClient() || Ie();
   p && p.emit("beforeSendFeedback", l, e);
   const f = n.captureEvent(l, e);
   return f;
@@ -8988,8 +9192,8 @@ function bf(t, e = {}, n = ke()) {
  * @param attributes - Arbitrary structured data that stores information about the log - e.g., userId: 100.
  * @param scope - The scope to capture the log with.
  * @param severityNumber - The severity number of the log.
- */ function vf(t, e, n, o, s) {
-  Hr({ level: t, message: e, attributes: n, severityNumber: s }, o);
+ */ function Lf(t, e, n, s, o) {
+  Xr({ level: t, message: e, attributes: n, severityNumber: o }, s);
 }
 /**
  * @summary Capture a log with the `trace` level. Requires the `enableLogs` option to be enabled.
@@ -9016,8 +9220,8 @@ function bf(t, e = {}, n = ke()) {
  *   sessionId: 'abc-xyz'
  * });
  * ```
- */ function Sf(t, e, { scope: n } = {}) {
-  vf("trace", t, e, n);
+ */ function qf(t, e, { scope: n } = {}) {
+  Lf("trace", t, e, n);
 }
 /**
  * @summary Capture a log with the `debug` level. Requires the `enableLogs` option to be enabled.
@@ -9045,8 +9249,8 @@ function bf(t, e = {}, n = ke()) {
  *   duration: 250
  * });
  * ```
- */ function kf(t, e, { scope: n } = {}) {
-  vf("debug", t, e, n);
+ */ function Uf(t, e, { scope: n } = {}) {
+  Lf("debug", t, e, n);
 }
 /**
  * @summary Capture a log with the `info` level. Requires the `enableLogs` option to be enabled.
@@ -9074,8 +9278,8 @@ function bf(t, e = {}, n = ke()) {
  *   timestamp: Date.now()
  * });
  * ```
- */ function wf(t, e, { scope: n } = {}) {
-  vf("info", t, e, n);
+ */ function Jf(t, e, { scope: n } = {}) {
+  Lf("info", t, e, n);
 }
 /**
  * @summary Capture a log with the `warn` level. Requires the `enableLogs` option to be enabled.
@@ -9104,8 +9308,8 @@ function bf(t, e = {}, n = ke()) {
  *   clientVersion: '1.2.3'
  * });
  * ```
- */ function xf(t, e, { scope: n } = {}) {
-  vf("warn", t, e, n);
+ */ function zf(t, e, { scope: n } = {}) {
+  Lf("warn", t, e, n);
 }
 /**
  * @summary Capture a log with the `error` level. Requires the `enableLogs` option to be enabled.
@@ -9135,8 +9339,8 @@ function bf(t, e = {}, n = ke()) {
  *   userId: 'user-456'
  * });
  * ```
- */ function Ef(t, e, { scope: n } = {}) {
-  vf("error", t, e, n);
+ */ function Bf(t, e, { scope: n } = {}) {
+  Lf("error", t, e, n);
 }
 /**
  * @summary Capture a log with the `fatal` level. Requires the `enableLogs` option to be enabled.
@@ -9166,20 +9370,20 @@ function bf(t, e = {}, n = ke()) {
  *   timestamp: Date.now()
  * });
  * ```
- */ function Af(t, e, { scope: n } = {}) {
-  vf("fatal", t, e, n);
+ */ function Wf(t, e, { scope: n } = {}) {
+  Lf("fatal", t, e, n);
 }
-var Tf = Object.freeze(
+var Vf = Object.freeze(
   Object.defineProperty(
     {
       __proto__: null,
-      debug: kf,
-      error: Ef,
-      fatal: Af,
-      fmt: Ca,
-      info: wf,
-      trace: Sf,
-      warn: xf,
+      debug: Uf,
+      error: Bf,
+      fatal: Wf,
+      fmt: La,
+      info: Jf,
+      trace: qf,
+      warn: zf,
     },
     Symbol.toStringTag,
     { value: "Module" },
@@ -9192,10 +9396,10 @@ var Tf = Object.freeze(
  * @param normalizeDepth - The depth to normalize the values.
  * @param normalizeMaxBreadth - The max breadth to normalize the values.
  * @returns The formatted string.
- */ function If(t, n, o) {
+ */ function Gf(t, n, s) {
   return "util" in e && typeof e.util.format === "function"
     ? e.util.format(...t)
-    : $f(t, n, o);
+    : Kf(t, n, s);
 }
 /**
  * Joins the given values into a string.
@@ -9204,9 +9408,9 @@ var Tf = Object.freeze(
  * @param normalizeDepth - The depth to normalize the values.
  * @param normalizeMaxBreadth - The max breadth to normalize the values.
  * @returns The joined string.
- */ function $f(t, e, n) {
+ */ function Kf(t, e, n) {
   return t
-    .map((t) => (Y(t) ? String(t) : JSON.stringify(ho(t, e, n))))
+    .map((t) => (X(t) ? String(t) : JSON.stringify(_s(t, e, n))))
     .join(" ");
 }
 /**
@@ -9214,7 +9418,7 @@ var Tf = Object.freeze(
  *
  * @param str - The string to check
  * @returns true if the string contains console substitution patterns
- */ function Of(t) {
+ */ function Hf(t) {
   return /%[sdifocO]/.test(t);
 }
 /**
@@ -9222,48 +9426,48 @@ var Tf = Object.freeze(
  *
  * @param args - The console arguments
  * @returns An object with template and parameter attributes
- */ function Cf(t, e) {
+ */ function Zf(t, e) {
   const n = {};
-  const o = new Array(e.length).fill("{}").join(" ");
-  n["sentry.message.template"] = `${t} ${o}`;
+  const s = new Array(e.length).fill("{}").join(" ");
+  n["sentry.message.template"] = `${t} ${s}`;
   e.forEach((t, e) => {
     n[`sentry.message.parameter.${e}`] = t;
   });
   return n;
 }
-const Nf = "ConsoleLogs";
-const jf = { [je]: "auto.log.console" };
-const Rf = (e = {}) => {
+const Yf = "ConsoleLogs";
+const Xf = { [Re]: "auto.log.console" };
+const Qf = (e = {}) => {
   const n = e.levels || i;
   return {
-    name: Nf,
+    name: Yf,
     setup(e) {
       const {
-        enableLogs: o,
-        normalizeDepth: s = 3,
+        enableLogs: s,
+        normalizeDepth: o = 3,
         normalizeMaxBreadth: r = 1e3,
       } = e.getOptions();
-      o
-        ? Vc(({ args: t, level: o }) => {
-            if (Te() !== e || !n.includes(o)) return;
+      s
+        ? ou(({ args: t, level: s }) => {
+            if (Ie() !== e || !n.includes(s)) return;
             const i = t[0];
             const a = t.slice(1);
-            if (o === "assert") {
+            if (s === "assert") {
               if (!i) {
                 const t =
                   a.length > 0
-                    ? `Assertion failed: ${If(a, s, r)}`
+                    ? `Assertion failed: ${Gf(a, o, r)}`
                     : "Assertion failed";
-                Hr({ level: "error", message: t, attributes: jf });
+                Xr({ level: "error", message: t, attributes: Xf });
               }
               return;
             }
-            const c = o === "log";
-            const u = t.length > 1 && typeof t[0] === "string" && !Of(t[0]);
-            const l = { ...jf, ...(u ? Cf(i, a) : {}) };
-            Hr({
-              level: c ? "info" : o,
-              message: If(t, s, r),
+            const c = s === "log";
+            const u = t.length > 1 && typeof t[0] === "string" && !Hf(t[0]);
+            const l = { ...Xf, ...(u ? Zf(i, a) : {}) };
+            Xr({
+              level: c ? "info" : s,
+              message: Gf(t, o, r),
               severityNumber: c ? 10 : void 0,
               attributes: l,
             });
@@ -9275,7 +9479,7 @@ const Rf = (e = {}) => {
     },
   };
 };
-const Pf = Dr(Rf);
+const td = qr(Qf);
 /**
  * Capture a metric with the given type, name, and value.
  *
@@ -9283,14 +9487,14 @@ const Pf = Dr(Rf);
  * @param name - The name of the metric.
  * @param value - The value of the metric.
  * @param options - Options for capturing the metric.
- */ function Mf(t, e, n, o) {
-  ii(
-    { type: t, name: e, value: n, unit: o?.unit, attributes: o?.attributes },
-    { scope: o?.scope },
+ */ function ed(t, e, n, s) {
+  ui(
+    { type: t, name: e, value: n, unit: s?.unit, attributes: s?.attributes },
+    { scope: s?.scope },
   );
 }
 /**
- * @summary Increment a counter metric. Requires the `_experiments.enableMetrics` option to be enabled.
+ * @summary Increment a counter metric.
  *
  * @param name - The name of the counter metric.
  * @param value - The value to increment by (defaults to 1).
@@ -9318,11 +9522,11 @@ const Pf = Dr(Rf);
  *   }
  * });
  * ```
- */ function Df(t, e = 1, n) {
-  Mf("counter", t, e, n);
+ */ function nd(t, e = 1, n) {
+  ed("counter", t, e, n);
 }
 /**
- * @summary Set a gauge metric to a specific value. Requires the `_experiments.enableMetrics` option to be enabled.
+ * @summary Set a gauge metric to a specific value.
  *
  * @param name - The name of the gauge metric.
  * @param value - The current value of the gauge.
@@ -9350,11 +9554,11 @@ const Pf = Dr(Rf);
  *   }
  * });
  * ```
- */ function Ff(t, e, n) {
-  Mf("gauge", t, e, n);
+ */ function sd(t, e, n) {
+  ed("gauge", t, e, n);
 }
 /**
- * @summary Record a value in a distribution metric. Requires the `_experiments.enableMetrics` option to be enabled.
+ * @summary Record a value in a distribution metric.
  *
  * @param name - The name of the distribution metric.
  * @param value - The value to record in the distribution.
@@ -9382,17 +9586,17 @@ const Pf = Dr(Rf);
  *   }
  * });
  * ```
- */ function Lf(t, e, n) {
-  Mf("distribution", t, e, n);
+ */ function od(t, e, n) {
+  ed("distribution", t, e, n);
 }
-var qf = Object.freeze(
+var rd = Object.freeze(
   Object.defineProperty(
-    { __proto__: null, count: Df, distribution: Lf, gauge: Ff },
+    { __proto__: null, count: nd, distribution: od, gauge: sd },
     Symbol.toStringTag,
     { value: "Module" },
   ),
 );
-const Uf = ["trace", "debug", "info", "warn", "error", "fatal"];
+const id = ["trace", "debug", "info", "warn", "error", "fatal"];
 /**
  * Creates a new Sentry reporter for Consola that forwards logs to Sentry. Requires the `enableLogs` option to be enabled.
  *
@@ -9422,39 +9626,39 @@ const Uf = ["trace", "debug", "info", "warn", "error", "fatal"];
  * consola.info('This will be sent to Sentry');
  * consola.error('This error will also be sent to Sentry');
  * ```
- */ function Jf(t = {}) {
-  const e = new Set(t.levels ?? Uf);
+ */ function ad(t = {}) {
+  const e = new Set(t.levels ?? id);
   const n = t.client;
   return {
     log(t) {
       const {
-        type: o,
-        level: s,
+        type: s,
+        level: o,
         message: r,
         args: i,
         tag: a,
         date: c,
         ...u
       } = t;
-      const l = n || Te();
+      const l = n || Ie();
       if (!l) return;
-      const p = Wf(o, s);
+      const p = ld(s, o);
       if (!e.has(p)) return;
       const { normalizeDepth: f = 3, normalizeMaxBreadth: d = 1e3 } =
         l.getOptions();
       const m = [];
       r && m.push(r);
-      i && i.length > 0 && m.push(If(i, f, d));
+      i && i.length > 0 && m.push(Gf(i, f, d));
       const g = m.join(" ");
       u["sentry.origin"] = "auto.log.consola";
       a && (u["consola.tag"] = a);
-      o && (u["consola.type"] = o);
-      s != null && typeof s === "number" && (u["consola.level"] = s);
-      Hr({ level: p, message: g, attributes: u });
+      s && (u["consola.type"] = s);
+      o != null && typeof o === "number" && (u["consola.level"] = o);
+      Xr({ level: p, message: g, attributes: u });
     },
   };
 }
-const zf = {
+const cd = {
   silent: "trace",
   fatal: "fatal",
   error: "error",
@@ -9472,7 +9676,7 @@ const zf = {
   critical: "fatal",
   notice: "info",
 };
-const Bf = {
+const ud = {
   0: "fatal",
   1: "warn",
   2: "info",
@@ -9486,76 +9690,96 @@ const Bf = {
  * @param type - The Consola log type (e.g., 'error', 'warn', 'info')
  * @param level - The Consola numeric log level (0-5) or null for some types like 'verbose'
  * @returns The corresponding Sentry log severity level
- */ function Wf(t, e) {
+ */ function ld(t, e) {
   if (t === "verbose") return "debug";
   if (t === "silent") return "trace";
   if (t) {
-    const e = zf[t];
+    const e = cd[t];
     if (e) return e;
   }
   if (typeof e === "number") {
-    const t = Bf[e];
+    const t = ud[e];
     if (t) return t;
   }
   return "info";
 }
-const Vf = "gen_ai.prompt";
-const Gf = "gen_ai.system";
-const Kf = "gen_ai.request.model";
-const Hf = "gen_ai.request.stream";
-const Zf = "gen_ai.request.temperature";
-const Yf = "gen_ai.request.max_tokens";
-const Xf = "gen_ai.request.frequency_penalty";
-const Qf = "gen_ai.request.presence_penalty";
-const td = "gen_ai.request.top_p";
-const ed = "gen_ai.request.top_k";
-const nd = "gen_ai.request.encoding_format";
-const od = "gen_ai.request.dimensions";
-const sd = "gen_ai.response.finish_reasons";
-const rd = "gen_ai.response.model";
-const id = "gen_ai.response.id";
-const ad = "gen_ai.response.stop_reason";
-const cd = "gen_ai.usage.input_tokens";
-const ud = "gen_ai.usage.output_tokens";
-const ld = "gen_ai.usage.total_tokens";
-const pd = "gen_ai.operation.name";
-const fd = "gen_ai.request.messages.original_length";
-const dd = "gen_ai.request.messages";
-const md = "gen_ai.response.text";
-const gd = "gen_ai.request.available_tools";
-const hd = "gen_ai.response.streaming";
-const _d = "gen_ai.response.tool_calls";
-const yd = "gen_ai.agent.name";
-const bd = "gen_ai.pipeline.name";
-const vd = "gen_ai.conversation.id";
-const Sd = "gen_ai.usage.cache_creation_input_tokens";
-const kd = "gen_ai.usage.cache_read_input_tokens";
-const wd = "gen_ai.usage.input_tokens.cache_write";
-const xd = "gen_ai.usage.input_tokens.cached";
-const Ed = "gen_ai.invoke_agent";
-const Ad = "gen_ai.generate_text";
-const Td = "gen_ai.stream_text";
-const Id = "gen_ai.generate_object";
-const $d = "gen_ai.stream_object";
-const Od = "gen_ai.embed";
-const Cd = "gen_ai.embed_many";
-const Nd = "gen_ai.execute_tool";
-const jd = "openai.response.id";
-const Rd = "openai.response.model";
-const Pd = "openai.response.timestamp";
-const Md = "openai.usage.completion_tokens";
-const Dd = "openai.usage.prompt_tokens";
-const Fd = {
-  CHAT: "chat",
-  RESPONSES: "responses",
-  EMBEDDINGS: "embeddings",
-  CONVERSATIONS: "conversations",
-};
-const Ld = "anthropic.response.timestamp";
-const qd = new Map();
-const Ud = 2e4;
-const Jd = (t) => new TextEncoder().encode(t).length;
-const zd = (t) => Jd(JSON.stringify(t));
+const pd = "gen_ai.prompt";
+const fd = "gen_ai.system";
+const dd = "gen_ai.request.model";
+const md = "gen_ai.request.stream";
+const gd = "gen_ai.request.temperature";
+const hd = "gen_ai.request.max_tokens";
+const _d = "gen_ai.request.frequency_penalty";
+const yd = "gen_ai.request.presence_penalty";
+const bd = "gen_ai.request.top_p";
+const vd = "gen_ai.request.top_k";
+const Sd = "gen_ai.request.encoding_format";
+const kd = "gen_ai.request.dimensions";
+const wd = "gen_ai.response.finish_reasons";
+const xd = "gen_ai.response.model";
+const Ad = "gen_ai.response.id";
+const Ed = "gen_ai.response.stop_reason";
+const Td = "gen_ai.usage.input_tokens";
+const Id = "gen_ai.usage.output_tokens";
+const $d = "gen_ai.usage.total_tokens";
+const Od = "gen_ai.operation.name";
+const Cd = "sentry.sdk_meta.gen_ai.input.messages.original_length";
+const Nd = "gen_ai.input.messages";
+const jd = "gen_ai.system_instructions";
+const Rd = "gen_ai.response.text";
+const Md = "gen_ai.request.available_tools";
+const Pd = "gen_ai.response.streaming";
+const Dd = "gen_ai.response.tool_calls";
+const Fd = "gen_ai.agent.name";
+const Ld = "gen_ai.pipeline.name";
+const qd = "gen_ai.conversation.id";
+const Ud = "gen_ai.usage.cache_creation_input_tokens";
+const Jd = "gen_ai.usage.cache_read_input_tokens";
+const zd = "gen_ai.usage.input_tokens.cache_write";
+const Bd = "gen_ai.usage.input_tokens.cached";
+const Wd = "gen_ai.invoke_agent";
+const Vd = "gen_ai.generate_text";
+const Gd = "gen_ai.stream_text";
+const Kd = "gen_ai.generate_object";
+const Hd = "gen_ai.stream_object";
+const Zd = "gen_ai.embeddings.input";
+const Yd = "gen_ai.embed";
+const Xd = "gen_ai.embed_many";
+const Qd = "gen_ai.rerank";
+const tm = "gen_ai.execute_tool";
+const em = "gen_ai.tool.name";
+const nm = "gen_ai.tool.call.id";
+const sm = "gen_ai.tool.type";
+const om = "gen_ai.tool.input";
+const rm = "gen_ai.tool.output";
+const im = "openai.response.id";
+const am = "openai.response.model";
+const cm = "openai.response.timestamp";
+const um = "openai.usage.completion_tokens";
+const lm = "openai.usage.prompt_tokens";
+const pm = { CHAT: "chat", EMBEDDINGS: "embeddings" };
+const fm = "anthropic.response.timestamp";
+const dm = new Map();
+const mm = new Set([
+  "ai.generateText",
+  "ai.streamText",
+  "ai.generateObject",
+  "ai.streamObject",
+  "ai.embed",
+  "ai.embedMany",
+  "ai.rerank",
+]);
+const gm = new Set([
+  "ai.generateText.doGenerate",
+  "ai.streamText.doStream",
+  "ai.generateObject.doGenerate",
+  "ai.streamObject.doStream",
+]);
+const hm = new Set(["ai.embed.doEmbed", "ai.embedMany.doEmbed"]);
+const _m = new Set(["ai.rerank.doRerank"]);
+const ym = 2e4;
+const bm = (t) => new TextEncoder().encode(t).length;
+const vm = (t) => bm(JSON.stringify(t));
 /**
  * Truncate a string to fit within maxBytes when encoded as UTF-8.
  * Uses binary search for efficiency with multi-byte characters.
@@ -9563,28 +9787,28 @@ const zd = (t) => Jd(JSON.stringify(t));
  * @param text - The string to truncate
  * @param maxBytes - Maximum byte length (UTF-8 encoded)
  * @returns Truncated string that fits within maxBytes
- */ function Bd(t, e) {
-  if (Jd(t) <= e) return t;
+ */ function Sm(t, e) {
+  if (bm(t) <= e) return t;
   let n = 0;
-  let o = t.length;
-  let s = "";
-  while (n <= o) {
-    const r = Math.floor((n + o) / 2);
+  let s = t.length;
+  let o = "";
+  while (n <= s) {
+    const r = Math.floor((n + s) / 2);
     const i = t.slice(0, r);
-    const a = Jd(i);
+    const a = bm(i);
     if (a <= e) {
-      s = i;
+      o = i;
       n = r + 1;
-    } else o = r - 1;
+    } else s = r - 1;
   }
-  return s;
+  return o;
 }
 /**
  * Extract text content from a Google GenAI message part.
  * Parts are either plain strings or objects with a text property.
  *
  * @returns The text content
- */ function Wd(t) {
+ */ function km(t) {
   return typeof t === "string" ? t : "text" in t ? t.text : "";
 }
 /**
@@ -9593,10 +9817,10 @@ const zd = (t) => Jd(JSON.stringify(t));
  * @param part - Original part (string or object)
  * @param text - New text content
  * @returns New part with updated text
- */ function Vd(t, e) {
+ */ function wm(t, e) {
   return typeof t === "string" ? e : { ...t, text: e };
 }
-function Gd(t) {
+function xm(t) {
   return (
     t !== null &&
     typeof t === "object" &&
@@ -9604,7 +9828,7 @@ function Gd(t) {
     typeof t.content === "string"
   );
 }
-function Kd(t) {
+function Am(t) {
   return (
     t !== null &&
     typeof t === "object" &&
@@ -9612,11 +9836,11 @@ function Kd(t) {
     Array.isArray(t.content)
   );
 }
-function Hd(t) {
+function Em(t) {
   return (
     !(!t || typeof t !== "object") &&
-    (Zd(t) ||
-      Yd(t) ||
+    (Tm(t) ||
+      Im(t) ||
       ("media_type" in t && typeof t.media_type === "string" && "data" in t) ||
       ("image_url" in t &&
         typeof t.image_url === "string" &&
@@ -9627,12 +9851,12 @@ function Hd(t) {
       ("uri" in t && typeof t.uri === "string" && t.uri.startsWith("data:")))
   );
 }
-function Zd(t) {
+function Tm(t) {
   return (
-    "type" in t && typeof t.type === "string" && "source" in t && Hd(t.source)
+    "type" in t && typeof t.type === "string" && "source" in t && Em(t.source)
   );
 }
-function Yd(t) {
+function Im(t) {
   return (
     "inlineData" in t &&
     !!t.inlineData &&
@@ -9641,7 +9865,7 @@ function Yd(t) {
     typeof t.inlineData.data === "string"
   );
 }
-function Xd(t) {
+function $m(t) {
   return (
     t !== null &&
     typeof t === "object" &&
@@ -9656,12 +9880,12 @@ function Xd(t) {
  * @param message - Message with content property
  * @param maxBytes - Maximum byte limit
  * @returns Array with truncated message, or empty array if it doesn't fit
- */ function Qd(t, e) {
+ */ function Om(t, e) {
   const n = { ...t, content: "" };
-  const o = zd(n);
-  const s = e - o;
-  if (s <= 0) return [];
-  const r = Bd(t.content, s);
+  const s = vm(n);
+  const o = e - s;
+  if (o <= 0) return [];
+  const r = Sm(t.content, o);
   return [{ ...t, content: r }];
 }
 /**
@@ -9671,20 +9895,20 @@ function Xd(t) {
  * @param message - Message with parts array
  * @param maxBytes - Maximum byte limit
  * @returns Array with truncated message, or empty array if it doesn't fit
- */ function tm(t, e) {
+ */ function Cm(t, e) {
   const { parts: n } = t;
-  const o = n.map((t) => Vd(t, ""));
-  const s = zd({ ...t, parts: o });
-  let r = e - s;
+  const s = n.map((t) => wm(t, ""));
+  const o = vm({ ...t, parts: s });
+  let r = e - o;
   if (r <= 0) return [];
   const i = [];
   for (const t of n) {
-    const e = Wd(t);
-    const n = Jd(e);
+    const e = km(t);
+    const n = bm(e);
     if (!(n <= r)) {
       if (i.length === 0) {
-        const n = Bd(e, r);
-        n && i.push(Vd(t, n));
+        const n = Sm(e, r);
+        n && i.push(wm(t, n));
         break;
       }
       break;
@@ -9704,35 +9928,34 @@ function Xd(t) {
  * @param message - The message to truncate
  * @param maxBytes - Maximum byte limit for the message
  * @returns Array containing the truncated message, or empty array if truncation fails
- */ function em(t, e) {
-  return t && typeof t === "object"
-    ? Gd(t)
-      ? Qd(t, e)
-      : Xd(t)
-        ? tm(t, e)
-        : []
-    : [];
+ */ function Nm(t, e) {
+  if (!t) return [];
+  if (typeof t === "string") {
+    const n = Sm(t, e);
+    return n ? [n] : [];
+  }
+  return typeof t !== "object" ? [] : xm(t) ? Om(t, e) : $m(t) ? Cm(t, e) : [];
 }
-const nm = "[Filtered]";
-const om = ["image_url", "data", "content", "b64_json", "result", "uri"];
-function sm(t) {
+const jm = "[Filtered]";
+const Rm = ["image_url", "data", "content", "b64_json", "result", "uri"];
+function Mm(t) {
   const e = { ...t };
-  Hd(e.source) && (e.source = sm(e.source));
-  Yd(t) && (e.inlineData = { ...t.inlineData, data: nm });
-  for (const t of om) typeof e[t] === "string" && (e[t] = nm);
+  Em(e.source) && (e.source = Mm(e.source));
+  Im(t) && (e.inlineData = { ...t.inlineData, data: jm });
+  for (const t of Rm) typeof e[t] === "string" && (e[t] = jm);
   return e;
 }
-function rm(t) {
+function Pm(t) {
   const e = t.map((t) => {
     let e;
     if (!!t && typeof t === "object") {
-      Kd(t)
-        ? (e = { ...t, content: rm(t.content) })
+      Am(t)
+        ? (e = { ...t, content: Pm(t.content) })
         : "content" in t &&
-          Hd(t.content) &&
-          (e = { ...t, content: sm(t.content) });
-      Xd(t) && (e = { ...(e ?? t), parts: rm(t.parts) });
-      Hd(e) ? (e = sm(e)) : Hd(t) && (e = sm(t));
+          Em(t.content) &&
+          (e = { ...t, content: Mm(t.content) });
+      $m(t) && (e = { ...(e ?? t), parts: Pm(t.parts) });
+      Em(e) ? (e = Mm(e)) : Em(t) && (e = Mm(t));
     }
     return e ?? t;
   });
@@ -9742,39 +9965,27 @@ function rm(t) {
  * Truncate an array of messages to fit within a byte limit.
  *
  * Strategy:
- * - Keeps the newest messages (from the end of the array)
- * - Uses O(n) algorithm: precompute sizes once, then find largest suffix under budget
- * - If no complete messages fit, attempts to truncate the newest single message
+ * - Always keeps only the last (newest) message
+ * - Strips inline media from the message
+ * - Truncates the message content if it exceeds the byte limit
  *
  * @param messages - Array of messages to truncate
- * @param maxBytes - Maximum total byte limit for all messages
- * @returns Truncated array of messages
+ * @param maxBytes - Maximum total byte limit for the message
+ * @returns Array containing only the last message (possibly truncated)
  *
  * @example
  * ```ts
  * const messages = [msg1, msg2, msg3, msg4]; // newest is msg4
  * const truncated = truncateMessagesByBytes(messages, 10000);
- * // Returns [msg3, msg4] if they fit, or [msg4] if only it fits, etc.
+ * // Returns [msg4] (truncated if needed)
  * ```
- */ function im(t, e) {
+ */ function Dm(t, e) {
   if (!Array.isArray(t) || t.length === 0) return t;
-  const n = rm(t);
-  const o = zd(n);
-  if (o <= e) return n;
-  const s = n.map(zd);
-  let r = 0;
-  let i = n.length;
-  for (let t = n.length - 1; t >= 0; t--) {
-    const n = s[t];
-    if (n && r + n > e) break;
-    n && (r += n);
-    i = t;
-  }
-  if (i === n.length) {
-    const t = n[n.length - 1];
-    return em(t, e);
-  }
-  return n.slice(i);
+  const n = t[t.length - 1];
+  const s = Pm([n]);
+  const o = s[0];
+  const r = vm(o);
+  return r <= e ? s : Nm(o, e);
 }
 /**
  * Truncate GenAI messages using the default byte limit.
@@ -9783,32 +9994,34 @@ function rm(t) {
  *
  * @param messages - Array of messages to truncate
  * @returns Truncated array of messages
- */ function am(t) {
-  return im(t, Ud);
+ */ function Fm(t) {
+  return Dm(t, ym);
 }
 /**
  * Truncate GenAI string input using the default byte limit.
  *
  * @param input - The string to truncate
  * @returns Truncated string
- */ function cm(t) {
-  return Bd(t, Ud);
+ */ function Lm(t) {
+  return Sm(t, ym);
 }
-function um(t) {
+function qm(t) {
   return t.includes("messages")
-    ? "messages"
+    ? "chat"
     : t.includes("completions")
-      ? "completions"
-      : t.includes("models")
-        ? "models"
-        : t.includes("chat")
-          ? "chat"
-          : t.split(".").pop() || "unknown";
+      ? "text_completion"
+      : t.includes("generateContent")
+        ? "generate_content"
+        : t.includes("models")
+          ? "models"
+          : t.includes("chat")
+            ? "chat"
+            : t.split(".").pop() || "unknown";
 }
-function lm(t) {
-  return `gen_ai.${um(t)}`;
+function Um(t) {
+  return `gen_ai.${qm(t)}`;
 }
-function pm(t, e) {
+function Jm(t, e) {
   return t ? `${t}.${e}` : e;
 }
 /**
@@ -9818,12 +10031,12 @@ function pm(t, e) {
  * @param completionTokens - The number of completion tokens
  * @param cachedInputTokens - The number of cached input tokens
  * @param cachedOutputTokens - The number of cached output tokens
- */ function fm(t, e, n, o, s) {
-  e !== void 0 && t.setAttributes({ [cd]: e });
-  n !== void 0 && t.setAttributes({ [ud]: n });
-  if (e !== void 0 || n !== void 0 || o !== void 0 || s !== void 0) {
-    const r = (e ?? 0) + (n ?? 0) + (o ?? 0) + (s ?? 0);
-    t.setAttributes({ [ld]: r });
+ */ function zm(t, e, n, s, o) {
+  e !== void 0 && t.setAttributes({ [Td]: e });
+  n !== void 0 && t.setAttributes({ [Id]: n });
+  if (e !== void 0 || n !== void 0 || s !== void 0 || o !== void 0) {
+    const r = (e ?? 0) + (n ?? 0) + (s ?? 0) + (o ?? 0);
+    t.setAttributes({ [$d]: r });
   }
 }
 /**
@@ -9831,60 +10044,86 @@ function pm(t, e) {
  *
  * @param value - The string or array of strings to truncate
  * @returns The truncated JSON string
- */ function dm(t) {
-  if (typeof t === "string") return cm(t);
+ */ function Bm(t) {
+  if (typeof t === "string") return Lm(t);
   if (Array.isArray(t)) {
-    const e = am(t);
+    const e = Fm(t);
     return JSON.stringify(e);
   }
   return JSON.stringify(t);
 }
-const mm = "operation.name";
-const gm = "ai.prompt";
-const hm = "ai.schema";
-const _m = "ai.response.object";
-const ym = "ai.response.text";
-const bm = "ai.response.toolCalls";
-const vm = "ai.prompt.messages";
-const Sm = "ai.prompt.tools";
-const km = "ai.model.id";
-const wm = "ai.response.providerMetadata";
-const xm = "ai.usage.cachedInputTokens";
-const Em = "ai.telemetry.functionId";
-const Am = "ai.usage.completionTokens";
-const Tm = "ai.usage.promptTokens";
-const Im = "ai.toolCall.name";
-const $m = "ai.toolCall.id";
-const Om = "ai.toolCall.args";
-const Cm = "ai.toolCall.result";
-function Nm(t, e) {
+/**
+ * Extract system instructions from messages array.
+ * Finds the first system message and formats it according to OpenTelemetry semantic conventions.
+ *
+ * @param messages - Array of messages to extract system instructions from
+ * @returns systemInstructions (JSON string) and filteredMessages (without system message)
+ */ function Wm(t) {
+  if (!Array.isArray(t))
+    return { systemInstructions: void 0, filteredMessages: t };
+  const e = t.findIndex(
+    (t) => t && typeof t === "object" && "role" in t && t.role === "system",
+  );
+  if (e === -1) return { systemInstructions: void 0, filteredMessages: t };
+  const n = t[e];
+  const s =
+    typeof n.content === "string"
+      ? n.content
+      : n.content !== void 0
+        ? JSON.stringify(n.content)
+        : void 0;
+  if (!s) return { systemInstructions: void 0, filteredMessages: t };
+  const o = JSON.stringify([{ type: "text", content: s }]);
+  const r = [...t.slice(0, e), ...t.slice(e + 1)];
+  return { systemInstructions: o, filteredMessages: r };
+}
+const Vm = "operation.name";
+const Gm = "ai.operationId";
+const Km = "ai.prompt";
+const Hm = "ai.schema";
+const Zm = "ai.response.object";
+const Ym = "ai.response.text";
+const Xm = "ai.response.toolCalls";
+const Qm = "ai.prompt.messages";
+const tg = "ai.prompt.tools";
+const eg = "ai.model.id";
+const ng = "ai.response.providerMetadata";
+const sg = "ai.usage.cachedInputTokens";
+const og = "ai.telemetry.functionId";
+const rg = "ai.usage.completionTokens";
+const ig = "ai.usage.promptTokens";
+const ag = "ai.toolCall.name";
+const cg = "ai.toolCall.id";
+const ug = "ai.toolCall.args";
+const lg = "ai.toolCall.result";
+function pg(t, e) {
   const n = t.parent_span_id;
   if (!n) return;
-  const o = t.data[cd];
-  const s = t.data[ud];
-  if (typeof o === "number" || typeof s === "number") {
+  const s = t.data[Td];
+  const o = t.data[Id];
+  if (typeof s === "number" || typeof o === "number") {
     const t = e.get(n) || { inputTokens: 0, outputTokens: 0 };
-    typeof o === "number" && (t.inputTokens += o);
-    typeof s === "number" && (t.outputTokens += s);
+    typeof s === "number" && (t.inputTokens += s);
+    typeof o === "number" && (t.outputTokens += o);
     e.set(n, t);
   }
 }
-function jm(t, e) {
+function fg(t, e) {
   const n = e.get(t.span_id);
   if (n && t.data) {
-    n.inputTokens > 0 && (t.data[cd] = n.inputTokens);
-    n.outputTokens > 0 && (t.data[ud] = n.outputTokens);
+    n.inputTokens > 0 && (t.data[Td] = n.inputTokens);
+    n.outputTokens > 0 && (t.data[Id] = n.outputTokens);
     (n.inputTokens > 0 || n.outputTokens > 0) &&
       (t.data["gen_ai.usage.total_tokens"] = n.inputTokens + n.outputTokens);
   }
 }
-function Rm(t) {
-  return qd.get(t);
+function dg(t) {
+  return dm.get(t);
 }
-function Pm(t) {
-  qd.delete(t);
+function mg(t) {
+  dm.delete(t);
 }
-function Mm(t) {
+function gg(t) {
   const e = t.map((t) => {
     if (typeof t === "string")
       try {
@@ -9896,40 +10135,67 @@ function Mm(t) {
   });
   return JSON.stringify(e);
 }
-function Dm(t) {
+/**
+ * Filter out invalid entries in messages array
+ * @param input - The input array to filter
+ * @returns The filtered array
+ */ function hg(t) {
+  return t.filter(
+    (t) => !!t && typeof t === "object" && "role" in t && "content" in t,
+  );
+}
+function _g(t) {
   try {
     const e = JSON.parse(t);
     if (!!e && typeof e === "object") {
-      const { prompt: t, system: n } = e;
-      if (typeof t === "string" || typeof n === "string") {
-        const e = [];
-        typeof n === "string" && e.push({ role: "system", content: n });
-        typeof t === "string" && e.push({ role: "user", content: t });
-        return e;
+      let { messages: t } = e;
+      const { prompt: n, system: s } = e;
+      const o = [];
+      typeof s === "string" && o.push({ role: "system", content: s });
+      if (typeof t === "string")
+        try {
+          t = JSON.parse(t);
+        } catch {}
+      if (Array.isArray(t)) {
+        o.push(...hg(t));
+        return o;
       }
+      if (Array.isArray(n)) {
+        o.push(...hg(n));
+        return o;
+      }
+      typeof n === "string" && o.push({ role: "user", content: n });
+      if (o.length > 0) return o;
     }
   } catch {}
   return [];
 }
-function Fm(t, e) {
-  if (e[gm]) {
-    const n = dm(e[gm]);
-    t.setAttribute("gen_ai.prompt", n);
-  }
-  const n = e[gm];
-  if (typeof n !== "string" || e[dd] || e[vm]) {
-    if (typeof e[vm] === "string")
+function yg(t, e) {
+  if (typeof e[Km] !== "string" || e[Nd] || e[Qm]) {
+    if (typeof e[Qm] === "string")
       try {
-        const n = JSON.parse(e[vm]);
-        Array.isArray(n) &&
-          t.setAttributes({ [vm]: void 0, [dd]: dm(n), [fd]: n.length });
+        const n = JSON.parse(e[Qm]);
+        if (Array.isArray(n)) {
+          const { systemInstructions: e, filteredMessages: s } = Wm(n);
+          e && t.setAttribute(jd, e);
+          const o = Array.isArray(s) ? s.length : 0;
+          const r = Bm(s);
+          t.setAttributes({ [Qm]: r, [Nd]: r, [Cd]: o });
+        }
       } catch {}
   } else {
-    const e = Dm(n);
-    e.length && t.setAttributes({ [dd]: dm(e), [fd]: e.length });
+    const n = e[Km];
+    const s = _g(n);
+    if (s.length) {
+      const { systemInstructions: e, filteredMessages: n } = Wm(s);
+      e && t.setAttribute(jd, e);
+      const o = Array.isArray(n) ? n.length : 0;
+      const r = Bm(n);
+      t.setAttributes({ [Km]: r, [Nd]: r, [Cd]: o });
+    }
   }
 }
-function Lm(t) {
+function bg(t) {
   switch (t) {
     case "ai.generateText":
     case "ai.streamText":
@@ -9937,109 +10203,137 @@ function Lm(t) {
     case "ai.streamObject":
     case "ai.embed":
     case "ai.embedMany":
-      return Ed;
+    case "ai.rerank":
+      return Wd;
     case "ai.generateText.doGenerate":
-      return Ad;
+      return Vd;
     case "ai.streamText.doStream":
-      return Td;
+      return Gd;
     case "ai.generateObject.doGenerate":
-      return Id;
+      return Kd;
     case "ai.streamObject.doStream":
-      return $d;
+      return Hd;
     case "ai.embed.doEmbed":
-      return Od;
+      return Yd;
     case "ai.embedMany.doEmbed":
-      return Cd;
+      return Xd;
+    case "ai.rerank.doRerank":
+      return Qd;
     case "ai.toolCall":
-      return Nd;
+      return tm;
     default:
       return t.startsWith("ai.stream") ? "ai.run" : void 0;
   }
 }
-function qm(t, e) {
-  t.setAttribute(je, e);
+function vg(t, e) {
+  t.setAttribute(Re, e);
 }
-function Um(t) {
-  const { data: e, description: n } = qn(t);
+function Sg(t) {
+  return mm.has(t)
+    ? "invoke_agent"
+    : gm.has(t)
+      ? "generate_content"
+      : hm.has(t)
+        ? "embeddings"
+        : _m.has(t)
+          ? "rerank"
+          : t === "ai.toolCall"
+            ? "execute_tool"
+            : t;
+}
+function kg(t) {
+  const { data: e, description: n } = Jn(t);
   n &&
-    (e[Im] && e[$m] && n === "ai.toolCall"
-      ? Wm(t, e)
-      : n.startsWith("ai.") && Vm(t, n, e));
+    (e[ag] && e[cg] && n === "ai.toolCall"
+      ? Eg(t, e)
+      : (e[Gm] || n.startsWith("ai.")) && Tg(t, n, e));
 }
-function Jm(t) {
+function wg(t) {
   if (t.type === "transaction" && t.spans) {
     const e = new Map();
     for (const n of t.spans) {
-      zm(n);
-      Nm(n, e);
+      xg(n);
+      pg(n, e);
     }
-    for (const n of t.spans) n.op === "gen_ai.invoke_agent" && jm(n, e);
+    for (const n of t.spans) n.op === "gen_ai.invoke_agent" && fg(n, e);
     const n = t.contexts?.trace;
-    n && n.op === "gen_ai.invoke_agent" && jm(n, e);
+    n && n.op === "gen_ai.invoke_agent" && fg(n, e);
   }
   return t;
 }
-function zm(t) {
+function xg(t) {
   const { data: e, origin: n } = t;
   if (n === "auto.vercelai.otel") {
-    Bm(e, Am, ud);
-    Bm(e, Tm, cd);
-    Bm(e, xm, xd);
-    typeof e[cd] === "number" &&
-      typeof e[xd] === "number" &&
-      (e[cd] = e[cd] + e[xd]);
-    typeof e[ud] === "number" &&
-      typeof e[cd] === "number" &&
-      (e["gen_ai.usage.total_tokens"] = e[ud] + e[cd]);
-    e[Sm] && Array.isArray(e[Sm]) && (e[Sm] = Mm(e[Sm]));
-    Bm(e, mm, pd);
-    Bm(e, vm, dd);
-    Bm(e, ym, "gen_ai.response.text");
-    Bm(e, bm, "gen_ai.response.tool_calls");
-    Bm(e, _m, "gen_ai.response.object");
-    Bm(e, Sm, "gen_ai.request.available_tools");
-    Bm(e, Om, "gen_ai.tool.input");
-    Bm(e, Cm, "gen_ai.tool.output");
-    Bm(e, hm, "gen_ai.request.schema");
-    Bm(e, km, Kf);
-    Km(e);
+    Ag(e, rg, Id);
+    Ag(e, ig, Td);
+    Ag(e, sg, Bd);
+    Ag(e, "ai.usage.inputTokens", Td);
+    Ag(e, "ai.usage.outputTokens", Id);
+    Ag(
+      e,
+      "ai.response.avgOutputTokensPerSecond",
+      "ai.response.avgCompletionTokensPerSecond",
+    );
+    typeof e[Td] === "number" &&
+      typeof e[Bd] === "number" &&
+      (e[Td] = e[Td] + e[Bd]);
+    typeof e[Id] === "number" &&
+      typeof e[Td] === "number" &&
+      (e[$d] = e[Id] + e[Td]);
+    e[tg] && Array.isArray(e[tg]) && (e[tg] = gg(e[tg]));
+    if (e[Vm]) {
+      const t = Sg(e[Vm]);
+      e[Od] = t;
+      delete e[Vm];
+    }
+    Ag(e, Qm, Nd);
+    Ag(e, Ym, "gen_ai.response.text");
+    Ag(e, Xm, "gen_ai.response.tool_calls");
+    Ag(e, Zm, "gen_ai.response.object");
+    Ag(e, tg, "gen_ai.request.available_tools");
+    Ag(e, ug, om);
+    Ag(e, lg, rm);
+    Ag(e, Hm, "gen_ai.request.schema");
+    Ag(e, eg, dd);
+    $g(e);
     for (const t of Object.keys(e))
-      t.startsWith("ai.") && Bm(e, t, `vercel.${t}`);
+      t.startsWith("ai.") && Ag(e, t, `vercel.${t}`);
   }
 }
-function Bm(t, e, n) {
+function Ag(t, e, n) {
   if (t[e] != null) {
     t[n] = t[e];
     delete t[e];
   }
 }
-function Wm(t, e) {
-  qm(t, "auto.vercelai.otel");
-  t.setAttribute(Ne, "gen_ai.execute_tool");
-  Bm(e, Im, "gen_ai.tool.name");
-  Bm(e, $m, "gen_ai.tool.call.id");
-  const n = e["gen_ai.tool.call.id"];
-  typeof n === "string" && qd.set(n, t);
-  e["gen_ai.tool.type"] || t.setAttribute("gen_ai.tool.type", "function");
-  const o = e["gen_ai.tool.name"];
-  o && t.updateName(`execute_tool ${o}`);
+function Eg(t, e) {
+  vg(t, "auto.vercelai.otel");
+  t.setAttribute(je, "gen_ai.execute_tool");
+  t.setAttribute(Od, "execute_tool");
+  Ag(e, ag, em);
+  Ag(e, cg, nm);
+  const n = e[nm];
+  typeof n === "string" && dm.set(n, t);
+  e[sm] || t.setAttribute(sm, "function");
+  const s = e[em];
+  s && t.updateName(`execute_tool ${s}`);
 }
-function Vm(t, e, n) {
-  qm(t, "auto.vercelai.otel");
-  const o = e.replace("ai.", "");
-  t.setAttribute("ai.pipeline.name", o);
-  t.updateName(o);
-  const s = n[Em];
-  if (s && typeof s === "string") {
-    t.updateName(`${o} ${s}`);
-    t.setAttribute("gen_ai.function_id", s);
+function Tg(t, e, n) {
+  vg(t, "auto.vercelai.otel");
+  const s = e.replace("ai.", "");
+  t.setAttribute("ai.pipeline.name", s);
+  t.updateName(s);
+  const o = n[og];
+  if (o && typeof o === "string") {
+    t.updateName(`${s} ${o}`);
+    t.setAttribute("gen_ai.function_id", o);
   }
-  Fm(t, n);
-  n[km] && !n[rd] && t.setAttribute(rd, n[km]);
+  yg(t, n);
+  n[eg] && !n[xd] && t.setAttribute(xd, n[eg]);
   t.setAttribute("ai.streaming", e.includes("stream"));
-  const r = Lm(e);
-  r && t.setAttribute(Ne, r);
-  const i = n[km];
+  const r = bg(e);
+  r && t.setAttribute(je, r);
+  const i = n[eg];
   if (i)
     switch (e) {
       case "ai.generateText.doGenerate":
@@ -10060,50 +10354,53 @@ function Vm(t, e, n) {
       case "ai.embedMany.doEmbed":
         t.updateName(`embed_many ${i}`);
         break;
+      case "ai.rerank.doRerank":
+        t.updateName(`rerank ${i}`);
+        break;
     }
 }
-function Gm(t) {
-  t.on("spanStart", Um);
-  t.addEventProcessor(Object.assign(Jm, { id: "VercelAiEventProcessor" }));
+function Ig(t) {
+  t.on("spanStart", kg);
+  t.addEventProcessor(Object.assign(wg, { id: "VercelAiEventProcessor" }));
 }
-function Km(t) {
-  const e = t[wm];
+function $g(t) {
+  const e = t[ng];
   if (e)
     try {
       const n = JSON.parse(e);
-      const o = n.openai ?? n.azure;
-      if (o) {
-        Hm(t, xd, o.cachedPromptTokens);
-        Hm(t, "gen_ai.usage.output_tokens.reasoning", o.reasoningTokens);
-        Hm(
+      const s = n.openai ?? n.azure;
+      if (s) {
+        Og(t, Bd, s.cachedPromptTokens);
+        Og(t, "gen_ai.usage.output_tokens.reasoning", s.reasoningTokens);
+        Og(
           t,
           "gen_ai.usage.output_tokens.prediction_accepted",
-          o.acceptedPredictionTokens,
+          s.acceptedPredictionTokens,
         );
-        Hm(
+        Og(
           t,
           "gen_ai.usage.output_tokens.prediction_rejected",
-          o.rejectedPredictionTokens,
+          s.rejectedPredictionTokens,
         );
-        Hm(t, "gen_ai.conversation.id", o.responseId);
+        Og(t, "gen_ai.conversation.id", s.responseId);
       }
       if (n.anthropic) {
         const e =
           n.anthropic.usage?.cache_read_input_tokens ??
           n.anthropic.cacheReadInputTokens;
-        Hm(t, xd, e);
-        const o =
+        Og(t, Bd, e);
+        const s =
           n.anthropic.usage?.cache_creation_input_tokens ??
           n.anthropic.cacheCreationInputTokens;
-        Hm(t, wd, o);
+        Og(t, zd, s);
       }
       if (n.bedrock?.usage) {
-        Hm(t, xd, n.bedrock.usage.cacheReadInputTokens);
-        Hm(t, wd, n.bedrock.usage.cacheWriteInputTokens);
+        Og(t, Bd, n.bedrock.usage.cacheReadInputTokens);
+        Og(t, zd, n.bedrock.usage.cacheWriteInputTokens);
       }
       if (n.deepseek) {
-        Hm(t, xd, n.deepseek.promptCacheHitTokens);
-        Hm(
+        Og(t, Bd, n.deepseek.promptCacheHitTokens);
+        Og(
           t,
           "gen_ai.usage.input_tokens.cache_miss",
           n.deepseek.promptCacheMissTokens,
@@ -10111,23 +10408,23 @@ function Km(t) {
       }
     } catch {}
 }
-function Hm(t, e, n) {
+function Og(t, e, n) {
   n != null && (t[e] = n);
 }
-const Zm = "OpenAI";
-const Ym = [
+const Cg = "OpenAI";
+const Ng = [
   "responses.create",
   "chat.completions.create",
   "embeddings.create",
   "conversations.create",
 ];
-const Xm = [
+const jg = [
   "response.output_item.added",
   "response.function_call_arguments.delta",
   "response.function_call_arguments.done",
   "response.output_item.done",
 ];
-const Qm = [
+const Rg = [
   "response.created",
   "response.in_progress",
   "response.failed",
@@ -10135,29 +10432,27 @@ const Qm = [
   "response.incomplete",
   "response.queued",
   "response.output_text.delta",
-  ...Xm,
+  ...jg,
 ];
-function tg(t) {
-  return t.includes("chat.completions")
-    ? Fd.CHAT
-    : t.includes("responses")
-      ? Fd.RESPONSES
-      : t.includes("embeddings")
-        ? Fd.EMBEDDINGS
-        : t.includes("conversations")
-          ? Fd.CONVERSATIONS
-          : t.split(".").pop() || "unknown";
+function Mg(t) {
+  return t.includes("chat.completions") || t.includes("responses")
+    ? pm.CHAT
+    : t.includes("embeddings")
+      ? pm.EMBEDDINGS
+      : t.includes("conversations")
+        ? pm.CHAT
+        : t.split(".").pop() || "unknown";
 }
-function eg(t) {
-  return `gen_ai.${tg(t)}`;
+function Pg(t) {
+  return `gen_ai.${Mg(t)}`;
 }
-function ng(t) {
-  return Ym.includes(t);
+function Dg(t) {
+  return Ng.includes(t);
 }
-function og(t, e) {
+function Fg(t, e) {
   return t ? `${t}.${e}` : e;
 }
-function sg(t) {
+function Lg(t) {
   return (
     t !== null &&
     typeof t === "object" &&
@@ -10165,7 +10460,7 @@ function sg(t) {
     t.object === "chat.completion"
   );
 }
-function rg(t) {
+function qg(t) {
   return (
     t !== null &&
     typeof t === "object" &&
@@ -10173,7 +10468,7 @@ function rg(t) {
     t.object === "response"
   );
 }
-function ig(t) {
+function Ug(t) {
   if (t === null || typeof t !== "object" || !("object" in t)) return false;
   const e = t;
   return (
@@ -10182,7 +10477,7 @@ function ig(t) {
     e.model.toLowerCase().includes("embedding")
   );
 }
-function ag(t) {
+function Jg(t) {
   return (
     t !== null &&
     typeof t === "object" &&
@@ -10190,7 +10485,7 @@ function ag(t) {
     t.object === "conversation"
   );
 }
-function cg(t) {
+function zg(t) {
   return (
     t !== null &&
     typeof t === "object" &&
@@ -10199,7 +10494,7 @@ function cg(t) {
     t.type.startsWith("response.")
   );
 }
-function ug(t) {
+function Bg(t) {
   return (
     t !== null &&
     typeof t === "object" &&
@@ -10207,32 +10502,32 @@ function ug(t) {
     t.object === "chat.completion.chunk"
   );
 }
-function lg(t, e, n) {
-  gg(t, e.id, e.model, e.created);
+function Wg(t, e, n) {
+  Zg(t, e.id, e.model, e.created);
   e.usage &&
-    mg(
+    Hg(
       t,
       e.usage.prompt_tokens,
       e.usage.completion_tokens,
       e.usage.total_tokens,
     );
   if (Array.isArray(e.choices)) {
-    const o = e.choices.map((t) => t.finish_reason).filter((t) => t !== null);
-    o.length > 0 && t.setAttributes({ [sd]: JSON.stringify(o) });
+    const s = e.choices.map((t) => t.finish_reason).filter((t) => t !== null);
+    s.length > 0 && t.setAttributes({ [wd]: JSON.stringify(s) });
     if (n) {
       const n = e.choices
         .map((t) => t.message?.tool_calls)
         .filter((t) => Array.isArray(t) && t.length > 0)
         .flat();
-      n.length > 0 && t.setAttributes({ [_d]: JSON.stringify(n) });
+      n.length > 0 && t.setAttributes({ [Dd]: JSON.stringify(n) });
     }
   }
 }
-function pg(t, e, n) {
-  gg(t, e.id, e.model, e.created_at);
-  e.status && t.setAttributes({ [sd]: JSON.stringify([e.status]) });
+function Vg(t, e, n) {
+  Zg(t, e.id, e.model, e.created_at);
+  e.status && t.setAttributes({ [wd]: JSON.stringify([e.status]) });
   e.usage &&
-    mg(t, e.usage.input_tokens, e.usage.output_tokens, e.usage.total_tokens);
+    Hg(t, e.usage.input_tokens, e.usage.output_tokens, e.usage.total_tokens);
   if (n) {
     const n = e;
     if (Array.isArray(n.output) && n.output.length > 0) {
@@ -10240,18 +10535,18 @@ function pg(t, e, n) {
         (t) =>
           typeof t === "object" && t !== null && t.type === "function_call",
       );
-      e.length > 0 && t.setAttributes({ [_d]: JSON.stringify(e) });
+      e.length > 0 && t.setAttributes({ [Dd]: JSON.stringify(e) });
     }
   }
 }
-function fg(t, e) {
-  t.setAttributes({ [Rd]: e.model, [rd]: e.model });
-  e.usage && mg(t, e.usage.prompt_tokens, void 0, e.usage.total_tokens);
+function Gg(t, e) {
+  t.setAttributes({ [am]: e.model, [xd]: e.model });
+  e.usage && Hg(t, e.usage.prompt_tokens, void 0, e.usage.total_tokens);
 }
-function dg(t, e) {
-  const { id: n, created_at: o } = e;
-  t.setAttributes({ [jd]: n, [id]: n, [vd]: n });
-  o && t.setAttributes({ [Pd]: new Date(o * 1e3).toISOString() });
+function Kg(t, e) {
+  const { id: n, created_at: s } = e;
+  t.setAttributes({ [im]: n, [Ad]: n, [qd]: n });
+  s && t.setAttributes({ [cm]: new Date(s * 1e3).toISOString() });
 }
 /**
  * Set token usage attributes
@@ -10259,10 +10554,10 @@ function dg(t, e) {
  * @param promptTokens - The number of prompt tokens
  * @param completionTokens - The number of completion tokens
  * @param totalTokens - The number of total tokens
- */ function mg(t, e, n, o) {
-  e !== void 0 && t.setAttributes({ [Dd]: e, [cd]: e });
-  n !== void 0 && t.setAttributes({ [Md]: n, [ud]: n });
-  o !== void 0 && t.setAttributes({ [ld]: o });
+ */ function Hg(t, e, n, s) {
+  e !== void 0 && t.setAttributes({ [lm]: e, [Td]: e });
+  n !== void 0 && t.setAttributes({ [um]: n, [Id]: n });
+  s !== void 0 && t.setAttributes({ [$d]: s });
 }
 /**
  * Set common response attributes
@@ -10270,29 +10565,29 @@ function dg(t, e) {
  * @param id - The response id
  * @param model - The response model
  * @param timestamp - The response timestamp
- */ function gg(t, e, n, o) {
-  t.setAttributes({ [jd]: e, [id]: e });
-  t.setAttributes({ [Rd]: n, [rd]: n });
-  t.setAttributes({ [Pd]: new Date(o * 1e3).toISOString() });
+ */ function Zg(t, e, n, s) {
+  t.setAttributes({ [im]: e, [Ad]: e });
+  t.setAttributes({ [am]: n, [xd]: n });
+  t.setAttributes({ [cm]: new Date(s * 1e3).toISOString() });
 }
-function hg(t) {
+function Yg(t) {
   return "conversation" in t && typeof t.conversation === "string"
     ? t.conversation
     : "previous_response_id" in t && typeof t.previous_response_id === "string"
       ? t.previous_response_id
       : void 0;
 }
-function _g(t) {
-  const e = { [Kf]: t.model ?? "unknown" };
-  "temperature" in t && (e[Zf] = t.temperature);
-  "top_p" in t && (e[td] = t.top_p);
-  "frequency_penalty" in t && (e[Xf] = t.frequency_penalty);
-  "presence_penalty" in t && (e[Qf] = t.presence_penalty);
-  "stream" in t && (e[Hf] = t.stream);
-  "encoding_format" in t && (e[nd] = t.encoding_format);
-  "dimensions" in t && (e[od] = t.dimensions);
-  const n = hg(t);
-  n && (e[vd] = n);
+function Xg(t) {
+  const e = { [dd]: t.model ?? "unknown" };
+  "temperature" in t && (e[gd] = t.temperature);
+  "top_p" in t && (e[bd] = t.top_p);
+  "frequency_penalty" in t && (e[_d] = t.frequency_penalty);
+  "presence_penalty" in t && (e[yd] = t.presence_penalty);
+  "stream" in t && (e[md] = t.stream);
+  "encoding_format" in t && (e[Sd] = t.encoding_format);
+  "dimensions" in t && (e[kd] = t.dimensions);
+  const n = Yg(t);
+  n && (e[qd] = n);
   return e;
 }
 /**
@@ -10303,15 +10598,15 @@ function _g(t) {
  * @param state - The current streaming state to update.
  *
  *  @see https://platform.openai.com/docs/guides/function-calling#streaming
- */ function yg(t, e) {
+ */ function Qg(t, e) {
   for (const n of t) {
     const t = n.index;
     if (t !== void 0 && n.function)
       if (t in e.chatCompletionToolCalls) {
-        const o = e.chatCompletionToolCalls[t];
+        const s = e.chatCompletionToolCalls[t];
         n.function.arguments &&
-          o?.function &&
-          (o.function.arguments += n.function.arguments);
+          s?.function &&
+          (s.function.arguments += n.function.arguments);
       } else
         e.chatCompletionToolCalls[t] = {
           ...n,
@@ -10328,7 +10623,7 @@ function _g(t) {
  * @param chunk - The ChatCompletionChunk event to process.
  * @param state - The current streaming state to update.
  * @param recordOutputs - Whether to record output text fragments.
- */ function bg(t, e, n) {
+ */ function th(t, e, n) {
   e.responseId = t.id ?? e.responseId;
   e.responseModel = t.model ?? e.responseModel;
   e.responseTimestamp = t.created ?? e.responseTimestamp;
@@ -10337,12 +10632,12 @@ function _g(t) {
     e.completionTokens = t.usage.completion_tokens;
     e.totalTokens = t.usage.total_tokens;
   }
-  for (const o of t.choices ?? []) {
+  for (const s of t.choices ?? []) {
     if (n) {
-      o.delta?.content && e.responseTexts.push(o.delta.content);
-      o.delta?.tool_calls && yg(o.delta.tool_calls, e);
+      s.delta?.content && e.responseTexts.push(s.delta.content);
+      s.delta?.tool_calls && Qg(s.delta.tool_calls, e);
     }
-    o.finish_reason && e.finishReasons.push(o.finish_reason);
+    s.finish_reason && e.finishReasons.push(s.finish_reason);
   }
 }
 /**
@@ -10352,32 +10647,32 @@ function _g(t) {
  * @param state - The current streaming state to update.
  * @param recordOutputs - Whether to record output text fragments.
  * @param span - The span to update with error status if needed.
- */ function vg(t, e, n, o) {
+ */ function eh(t, e, n, s) {
   if (!(t && typeof t === "object")) {
     e.eventTypes.push("unknown:non-object");
     return;
   }
   if (t instanceof Error) {
-    o.setStatus({ code: Ke, message: "internal_error" });
-    or(t, {
+    s.setStatus({ code: Ze, message: "internal_error" });
+    rr(t, {
       mechanism: { handled: false, type: "auto.ai.openai.stream-response" },
     });
     return;
   }
   if (!("type" in t)) return;
-  const s = t;
-  if (Qm.includes(s.type)) {
+  const o = t;
+  if (Rg.includes(o.type)) {
     if (n) {
-      s.type === "response.output_item.done" &&
-        "item" in s &&
-        e.responsesApiToolCalls.push(s.item);
-      if (s.type === "response.output_text.delta" && "delta" in s && s.delta) {
-        e.responseTexts.push(s.delta);
+      o.type === "response.output_item.done" &&
+        "item" in o &&
+        e.responsesApiToolCalls.push(o.item);
+      if (o.type === "response.output_text.delta" && "delta" in o && o.delta) {
+        e.responseTexts.push(o.delta);
         return;
       }
     }
-    if ("response" in s) {
-      const { response: t } = s;
+    if ("response" in o) {
+      const { response: t } = o;
       e.responseId = t.id ?? e.responseId;
       e.responseModel = t.model ?? e.responseModel;
       e.responseTimestamp = t.created_at ?? e.responseTimestamp;
@@ -10389,7 +10684,7 @@ function _g(t) {
       t.status && e.finishReasons.push(t.status);
       n && t.output_text && e.responseTexts.push(t.output_text);
     }
-  } else e.eventTypes.push(s.type);
+  } else e.eventTypes.push(o.type);
 }
 /**
  * Instruments a stream of OpenAI events, updating the provided span with relevant attributes and
@@ -10400,8 +10695,8 @@ function _g(t) {
  * @param span - The span to add attributes to and to finish at the end of the stream.
  * @param recordOutputs - Whether to record output text fragments in the span.
  * @returns An async generator yielding each event from the input stream.
- */ async function* Sg(t, e, n) {
-  const o = {
+ */ async function* nh(t, e, n) {
+  const s = {
     eventTypes: [],
     responseTexts: [],
     finishReasons: [],
@@ -10415,132 +10710,188 @@ function _g(t) {
     responsesApiToolCalls: [],
   };
   try {
-    for await (const s of t) {
-      ug(s) ? bg(s, o, n) : cg(s) && vg(s, o, n, e);
-      yield s;
+    for await (const o of t) {
+      Bg(o) ? th(o, s, n) : zg(o) && eh(o, s, n, e);
+      yield o;
     }
   } finally {
-    gg(e, o.responseId, o.responseModel, o.responseTimestamp);
-    mg(e, o.promptTokens, o.completionTokens, o.totalTokens);
-    e.setAttributes({ [hd]: true });
-    o.finishReasons.length &&
-      e.setAttributes({ [sd]: JSON.stringify(o.finishReasons) });
+    Zg(e, s.responseId, s.responseModel, s.responseTimestamp);
+    Hg(e, s.promptTokens, s.completionTokens, s.totalTokens);
+    e.setAttributes({ [Pd]: true });
+    s.finishReasons.length &&
+      e.setAttributes({ [wd]: JSON.stringify(s.finishReasons) });
     n &&
-      o.responseTexts.length &&
-      e.setAttributes({ [md]: o.responseTexts.join("") });
-    const t = Object.values(o.chatCompletionToolCalls);
-    const s = [...t, ...o.responsesApiToolCalls];
-    s.length > 0 && e.setAttributes({ [_d]: JSON.stringify(s) });
+      s.responseTexts.length &&
+      e.setAttributes({ [Rd]: s.responseTexts.join("") });
+    const t = Object.values(s.chatCompletionToolCalls);
+    const o = [...t, ...s.responsesApiToolCalls];
+    o.length > 0 && e.setAttributes({ [Dd]: JSON.stringify(o) });
     e.end();
   }
 }
-function kg(t) {
-  const e = Array.isArray(t.tools) ? t.tools : [];
-  const n = t.web_search_options && typeof t.web_search_options === "object";
-  const o = n ? [{ type: "web_search_options", ...t.web_search_options }] : [];
-  const s = [...e, ...o];
-  return s.length > 0 ? JSON.stringify(s) : void 0;
+function sh(e) {
+  const n = Array.isArray(e.tools) ? e.tools : [];
+  const s = e.web_search_options && typeof e.web_search_options === "object";
+  const o = s ? [{ type: "web_search_options", ...e.web_search_options }] : [];
+  const r = [...n, ...o];
+  if (r.length !== 0)
+    try {
+      return JSON.stringify(r);
+    } catch (e) {
+      t && y.error("Failed to serialize OpenAI tools:", e);
+      return;
+    }
 }
-function wg(t, e) {
-  const n = { [Gf]: "openai", [pd]: tg(e), [je]: "auto.ai.openai" };
+function oh(t, e) {
+  const n = { [fd]: "openai", [Od]: Mg(e), [Re]: "auto.ai.openai" };
   if (t.length > 0 && typeof t[0] === "object" && t[0] !== null) {
     const e = t[0];
-    const o = kg(e);
-    o && (n[gd] = o);
-    Object.assign(n, _g(e));
-  } else n[Kf] = "unknown";
+    const s = sh(e);
+    s && (n[Md] = s);
+    Object.assign(n, Xg(e));
+  } else n[dd] = "unknown";
   return n;
 }
-function xg(t, e, n) {
+function rh(t, e, n) {
   if (!e || typeof e !== "object") return;
-  const o = e;
-  if (sg(o)) {
-    lg(t, o, n);
-    if (n && o.choices?.length) {
-      const e = o.choices.map((t) => t.message?.content || "");
-      t.setAttributes({ [md]: JSON.stringify(e) });
+  const s = e;
+  if (Lg(s)) {
+    Wg(t, s, n);
+    if (n && s.choices?.length) {
+      const e = s.choices.map((t) => t.message?.content || "");
+      t.setAttributes({ [Rd]: JSON.stringify(e) });
     }
-  } else if (rg(o)) {
-    pg(t, o, n);
-    n && o.output_text && t.setAttributes({ [md]: o.output_text });
-  } else ig(o) ? fg(t, o) : ag(o) && dg(t, o);
+  } else if (qg(s)) {
+    Vg(t, s, n);
+    n && s.output_text && t.setAttributes({ [Rd]: s.output_text });
+  } else Ug(s) ? Gg(t, s) : Jg(s) && Kg(t, s);
 }
-function Eg(t, e) {
-  const n = "input" in e ? e.input : "messages" in e ? e.messages : void 0;
-  const o = Array.isArray(n) ? n.length : void 0;
-  if (n && o !== 0) {
-    const e = dm(n);
-    t.setAttribute(dd, e);
-    o && t.setAttribute(fd, o);
+function ih(t, e, n) {
+  if (n === pm.EMBEDDINGS && "input" in e) {
+    const n = e.input;
+    if (n == null) return;
+    if (typeof n === "string" && n.length === 0) return;
+    if (Array.isArray(n) && n.length === 0) return;
+    t.setAttribute(Zd, typeof n === "string" ? n : JSON.stringify(n));
+    return;
   }
+  const s = "input" in e ? e.input : "messages" in e ? e.messages : void 0;
+  if (!s) return;
+  if (Array.isArray(s) && s.length === 0) return;
+  const { systemInstructions: o, filteredMessages: r } = Wm(s);
+  o && t.setAttribute(jd, o);
+  const i = Bm(r);
+  t.setAttribute(Nd, i);
+  Array.isArray(r) ? t.setAttribute(Cd, r.length) : t.setAttribute(Cd, 1);
 }
-function Ag(t, e, n, o) {
-  return async function (...s) {
-    const r = wg(s, e);
-    const i = r[Kf] || "unknown";
-    const a = tg(e);
-    const c = s[0];
+async function ah(t, e) {
+  const n = t.catch((t) => {
+    rr(t, { mechanism: { handled: false, type: "auto.ai.openai" } });
+    throw t;
+  });
+  const s = await e;
+  const o = await n;
+  return o && typeof o === "object" && "data" in o ? { ...o, data: s } : s;
+}
+function ch(t, e) {
+  return st(t)
+    ? new Proxy(t, {
+        get(t, n) {
+          const s = n in Promise.prototype || n === Symbol.toStringTag;
+          const o = s ? e : t;
+          const r = Reflect.get(o, n);
+          return n === "withResponse" && typeof r === "function"
+            ? function () {
+                const n = r.call(t);
+                return ah(n, e);
+              }
+            : typeof r === "function"
+              ? r.bind(o)
+              : r;
+        },
+      })
+    : e;
+}
+function uh(t, e, n, s) {
+  return function (...o) {
+    const r = oh(o, e);
+    const i = r[dd] || "unknown";
+    const a = Mg(e);
+    const c = o[0];
     const u = c && typeof c === "object" && c.stream === true;
-    return u
-      ? ss(
-          { name: `${a} ${i} stream-response`, op: eg(e), attributes: r },
-          async (r) => {
-            try {
-              o.recordInputs && c && Eg(r, c);
-              const e = await t.apply(n, s);
-              return Sg(e, r, o.recordOutputs ?? false);
-            } catch (t) {
-              r.setStatus({ code: Ke, message: "internal_error" });
-              or(t, {
-                mechanism: {
-                  handled: false,
-                  type: "auto.ai.openai.stream",
-                  data: { function: e },
-                },
-              });
-              r.end();
-              throw t;
-            }
-          },
-        )
-      : os({ name: `${a} ${i}`, op: eg(e), attributes: r }, async (r) => {
+    const l = {
+      name: `${a} ${i}${u ? " stream-response" : ""}`,
+      op: Pg(e),
+      attributes: r,
+    };
+    if (u) {
+      let r;
+      const i = ro(l, (i) => {
+        r = t.apply(n, o);
+        s.recordInputs && c && ih(i, c, a);
+        return (async () => {
           try {
-            o.recordInputs && c && Eg(r, c);
-            const e = await t.apply(n, s);
-            xg(r, e, o.recordOutputs);
-            return e;
+            const t = await r;
+            return nh(t, i, s.recordOutputs ?? false);
           } catch (t) {
-            or(t, {
+            i.setStatus({ code: Ze, message: "internal_error" });
+            rr(t, {
               mechanism: {
                 handled: false,
-                type: "auto.ai.openai",
+                type: "auto.ai.openai.stream",
                 data: { function: e },
               },
             });
+            i.end();
             throw t;
           }
-        });
+        })();
+      });
+      return ch(r, i);
+    }
+    let p;
+    const f = oo(l, (r) => {
+      p = t.apply(n, o);
+      s.recordInputs && c && ih(r, c, a);
+      return p.then(
+        (t) => {
+          rh(r, t, s.recordOutputs);
+          return t;
+        },
+        (t) => {
+          rr(t, {
+            mechanism: {
+              handled: false,
+              type: "auto.ai.openai",
+              data: { function: e },
+            },
+          });
+          throw t;
+        },
+      );
+    });
+    return ch(p, f);
   };
 }
-function Tg(t, e = "", n) {
+function lh(t, e = "", n) {
   return new Proxy(t, {
-    get(t, o) {
-      const s = t[o];
-      const r = og(e, String(o));
-      return typeof s === "function" && ng(r)
-        ? Ag(s, r, t, n)
-        : typeof s === "function"
-          ? s.bind(t)
-          : s && typeof s === "object"
-            ? Tg(s, r, n)
-            : s;
+    get(t, s) {
+      const o = t[s];
+      const r = Fg(e, String(s));
+      return typeof o === "function" && Dg(r)
+        ? uh(o, r, t, n)
+        : typeof o === "function"
+          ? o.bind(t)
+          : o && typeof o === "object"
+            ? lh(o, r, n)
+            : o;
     },
   });
 }
-function Ig(t, e) {
-  const n = Boolean(Te()?.getOptions().sendDefaultPii);
-  const o = { recordInputs: n, recordOutputs: n, ...e };
-  return Tg(t, "", o);
+function ph(t, e) {
+  const n = Boolean(Ie()?.getOptions().sendDefaultPii);
+  const s = { recordInputs: n, recordOutputs: n, ...e };
+  return lh(t, "", s);
 }
 /**
  * Checks if an event is an error event
@@ -10549,10 +10900,10 @@ function Ig(t, e) {
  * @param recordOutputs - Whether to record outputs
  * @param span - The span to update
  * @returns Whether an error occurred
- */ function $g(t, e) {
+ */ function fh(t, e) {
   if ("type" in t && typeof t.type === "string" && t.type === "error") {
-    e.setStatus({ code: Ke, message: t.error?.type ?? "internal_error" });
-    or(t.error, {
+    e.setStatus({ code: Ze, message: t.error?.type ?? "internal_error" });
+    rr(t.error, {
       mechanism: { handled: false, type: "auto.ai.anthropic.anthropic_error" },
     });
     return true;
@@ -10563,7 +10914,7 @@ function Ig(t, e) {
  * Processes the message metadata of an event
  * @param event - The event to process
  * @param state - The state of the streaming process
- */ function Og(t, e) {
+ */ function dh(t, e) {
   t.type === "message_delta" &&
     t.usage &&
     "output_tokens" in t.usage &&
@@ -10584,7 +10935,7 @@ function Ig(t, e) {
     }
   }
 }
-function Cg(t, e) {
+function mh(t, e) {
   t.type === "content_block_start" &&
     typeof t.index === "number" &&
     t.content_block &&
@@ -10596,7 +10947,7 @@ function Cg(t, e) {
         inputJsonParts: [],
       }));
 }
-function Ng(t, e, n) {
+function gh(t, e, n) {
   if (t.type === "content_block_delta" && t.delta) {
     if (
       typeof t.index === "number" &&
@@ -10609,18 +10960,18 @@ function Ng(t, e, n) {
     n && typeof t.delta.text === "string" && e.responseTexts.push(t.delta.text);
   }
 }
-function jg(t, e) {
+function hh(t, e) {
   if (t.type !== "content_block_stop" || typeof t.index !== "number") return;
   const n = e.activeToolBlocks[t.index];
   if (!n) return;
-  const o = n.inputJsonParts.join("");
-  let s;
+  const s = n.inputJsonParts.join("");
+  let o;
   try {
-    s = o ? JSON.parse(o) : {};
+    o = s ? JSON.parse(s) : {};
   } catch {
-    s = { __unparsed: o };
+    o = { __unparsed: s };
   }
-  e.toolCalls.push({ type: "tool_use", id: n.id, name: n.name, input: s });
+  e.toolCalls.push({ type: "tool_use", id: n.id, name: n.name, input: o });
   delete e.activeToolBlocks[t.index];
 }
 /**
@@ -10629,41 +10980,41 @@ function jg(t, e) {
  * @param state - The state of the streaming process
  * @param recordOutputs - Whether to record outputs
  * @param span - The span to update
- */ function Rg(t, e, n, o) {
+ */ function _h(t, e, n, s) {
   if (!(t && typeof t === "object")) return;
-  const s = $g(t, o);
-  if (!s) {
-    Og(t, e);
-    Cg(t, e);
-    Ng(t, e, n);
-    jg(t, e);
+  const o = fh(t, s);
+  if (!o) {
+    dh(t, e);
+    mh(t, e);
+    gh(t, e, n);
+    hh(t, e);
   }
 }
-function Pg(t, e, n) {
+function yh(t, e, n) {
   if (e.isRecording()) {
-    t.responseId && e.setAttributes({ [id]: t.responseId });
-    t.responseModel && e.setAttributes({ [rd]: t.responseModel });
-    fm(
+    t.responseId && e.setAttributes({ [Ad]: t.responseId });
+    t.responseModel && e.setAttributes({ [xd]: t.responseModel });
+    zm(
       e,
       t.promptTokens,
       t.completionTokens,
       t.cacheCreationInputTokens,
       t.cacheReadInputTokens,
     );
-    e.setAttributes({ [hd]: true });
+    e.setAttributes({ [Pd]: true });
     t.finishReasons.length > 0 &&
-      e.setAttributes({ [sd]: JSON.stringify(t.finishReasons) });
+      e.setAttributes({ [wd]: JSON.stringify(t.finishReasons) });
     n &&
       t.responseTexts.length > 0 &&
-      e.setAttributes({ [md]: t.responseTexts.join("") });
+      e.setAttributes({ [Rd]: t.responseTexts.join("") });
     n &&
       t.toolCalls.length > 0 &&
-      e.setAttributes({ [_d]: JSON.stringify(t.toolCalls) });
+      e.setAttributes({ [Dd]: JSON.stringify(t.toolCalls) });
     e.end();
   }
 }
-async function* Mg(t, e, n) {
-  const o = {
+async function* bh(t, e, n) {
+  const s = {
     responseTexts: [],
     finishReasons: [],
     responseId: "",
@@ -10676,34 +11027,34 @@ async function* Mg(t, e, n) {
     activeToolBlocks: {},
   };
   try {
-    for await (const s of t) {
-      Rg(s, o, n, e);
-      yield s;
+    for await (const o of t) {
+      _h(o, s, n, e);
+      yield o;
     }
   } finally {
-    o.responseId && e.setAttributes({ [id]: o.responseId });
-    o.responseModel && e.setAttributes({ [rd]: o.responseModel });
-    fm(
+    s.responseId && e.setAttributes({ [Ad]: s.responseId });
+    s.responseModel && e.setAttributes({ [xd]: s.responseModel });
+    zm(
       e,
-      o.promptTokens,
-      o.completionTokens,
-      o.cacheCreationInputTokens,
-      o.cacheReadInputTokens,
+      s.promptTokens,
+      s.completionTokens,
+      s.cacheCreationInputTokens,
+      s.cacheReadInputTokens,
     );
-    e.setAttributes({ [hd]: true });
-    o.finishReasons.length > 0 &&
-      e.setAttributes({ [sd]: JSON.stringify(o.finishReasons) });
+    e.setAttributes({ [Pd]: true });
+    s.finishReasons.length > 0 &&
+      e.setAttributes({ [wd]: JSON.stringify(s.finishReasons) });
     n &&
-      o.responseTexts.length > 0 &&
-      e.setAttributes({ [md]: o.responseTexts.join("") });
+      s.responseTexts.length > 0 &&
+      e.setAttributes({ [Rd]: s.responseTexts.join("") });
     n &&
-      o.toolCalls.length > 0 &&
-      e.setAttributes({ [_d]: JSON.stringify(o.toolCalls) });
+      s.toolCalls.length > 0 &&
+      e.setAttributes({ [Dd]: JSON.stringify(s.toolCalls) });
     e.end();
   }
 }
-function Dg(t, e, n) {
-  const o = {
+function vh(t, e, n) {
+  const s = {
     responseTexts: [],
     finishReasons: [],
     responseId: "",
@@ -10716,24 +11067,24 @@ function Dg(t, e, n) {
     activeToolBlocks: {},
   };
   t.on("streamEvent", (t) => {
-    Rg(t, o, n, e);
+    _h(t, s, n, e);
   });
   t.on("message", () => {
-    Pg(o, e, n);
+    yh(s, e, n);
   });
   t.on("error", (t) => {
-    or(t, {
+    rr(t, {
       mechanism: { handled: false, type: "auto.ai.anthropic.stream_error" },
     });
     if (e.isRecording()) {
-      e.setStatus({ code: Ke, message: "stream_error" });
+      e.setStatus({ code: Ze, message: "stream_error" });
       e.end();
     }
   });
   return t;
 }
-const Fg = "Anthropic_AI";
-const Lg = [
+const Sh = "Anthropic_AI";
+const kh = [
   "messages.create",
   "messages.stream",
   "messages.countTokens",
@@ -10742,55 +11093,58 @@ const Lg = [
   "models.retrieve",
   "beta.messages.create",
 ];
-function qg(t) {
-  return Lg.includes(t);
+function wh(t) {
+  return kh.includes(t);
 }
-function Ug(t, e) {
-  const n = Array.isArray(e) ? e.length : void 0;
-  n !== 0 && t.setAttributes({ [dd]: dm(e), [fd]: n });
+function xh(t, e) {
+  if (Array.isArray(e) && e.length === 0) return;
+  const { systemInstructions: n, filteredMessages: s } = Wm(e);
+  n && t.setAttributes({ [jd]: n });
+  const o = Array.isArray(s) ? s.length : 1;
+  t.setAttributes({ [Nd]: Bm(s), [Cd]: o });
 }
-function Jg(t, e) {
+function Ah(t, e) {
   if (e.error) {
-    t.setStatus({ code: Ke, message: e.error.type || "internal_error" });
-    or(e.error, {
+    t.setStatus({ code: Ze, message: e.error.type || "internal_error" });
+    rr(e.error, {
       mechanism: { handled: false, type: "auto.ai.anthropic.anthropic_error" },
     });
   }
 }
-function zg(t) {
-  const { system: e, messages: n, input: o } = t;
-  const s =
+function Eh(t) {
+  const { system: e, messages: n, input: s } = t;
+  const o =
     typeof e === "string" ? [{ role: "system", content: t.system }] : [];
-  const r = Array.isArray(o) ? o : o != null ? [o] : void 0;
+  const r = Array.isArray(s) ? s : s != null ? [s] : void 0;
   const i = Array.isArray(n) ? n : n != null ? [n] : [];
   const a = r ?? i;
-  return [...s, ...a];
+  return [...o, ...a];
 }
-function Bg(t, e) {
-  const n = { [Gf]: "anthropic", [pd]: um(e), [je]: "auto.ai.anthropic" };
+function Th(t, e) {
+  const n = { [fd]: "anthropic", [Od]: qm(e), [Re]: "auto.ai.anthropic" };
   if (t.length > 0 && typeof t[0] === "object" && t[0] !== null) {
     const e = t[0];
-    e.tools && Array.isArray(e.tools) && (n[gd] = JSON.stringify(e.tools));
-    n[Kf] = e.model ?? "unknown";
-    "temperature" in e && (n[Zf] = e.temperature);
-    "top_p" in e && (n[td] = e.top_p);
-    "stream" in e && (n[Hf] = e.stream);
-    "top_k" in e && (n[ed] = e.top_k);
-    "frequency_penalty" in e && (n[Xf] = e.frequency_penalty);
-    "max_tokens" in e && (n[Yf] = e.max_tokens);
+    e.tools && Array.isArray(e.tools) && (n[Md] = JSON.stringify(e.tools));
+    n[dd] = e.model ?? "unknown";
+    "temperature" in e && (n[gd] = e.temperature);
+    "top_p" in e && (n[bd] = e.top_p);
+    "stream" in e && (n[md] = e.stream);
+    "top_k" in e && (n[vd] = e.top_k);
+    "frequency_penalty" in e && (n[_d] = e.frequency_penalty);
+    "max_tokens" in e && (n[hd] = e.max_tokens);
   } else
-    n[Kf] = e === "models.retrieve" || e === "models.get" ? t[0] : "unknown";
+    n[dd] = e === "models.retrieve" || e === "models.get" ? t[0] : "unknown";
   return n;
 }
-function Wg(t, e) {
-  const n = zg(e);
-  Ug(t, n);
-  "prompt" in e && t.setAttributes({ [Vf]: JSON.stringify(e.prompt) });
+function Ih(t, e) {
+  const n = Eh(e);
+  xh(t, n);
+  "prompt" in e && t.setAttributes({ [pd]: JSON.stringify(e.prompt) });
 }
-function Vg(t, e) {
+function $h(t, e) {
   if ("content" in e && Array.isArray(e.content)) {
     t.setAttributes({
-      [md]: e.content
+      [Rd]: e.content
         .map((t) => t.text)
         .filter((t) => !!t)
         .join(""),
@@ -10798,24 +11152,24 @@ function Vg(t, e) {
     const n = [];
     for (const t of e.content)
       (t.type !== "tool_use" && t.type !== "server_tool_use") || n.push(t);
-    n.length > 0 && t.setAttributes({ [_d]: JSON.stringify(n) });
+    n.length > 0 && t.setAttributes({ [Dd]: JSON.stringify(n) });
   }
-  "completion" in e && t.setAttributes({ [md]: e.completion });
+  "completion" in e && t.setAttributes({ [Rd]: e.completion });
   "input_tokens" in e &&
-    t.setAttributes({ [md]: JSON.stringify(e.input_tokens) });
+    t.setAttributes({ [Rd]: JSON.stringify(e.input_tokens) });
 }
-function Gg(t, e) {
+function Oh(t, e) {
   if ("id" in e && "model" in e) {
-    t.setAttributes({ [id]: e.id, [rd]: e.model });
+    t.setAttributes({ [Ad]: e.id, [xd]: e.model });
     "created" in e &&
       typeof e.created === "number" &&
-      t.setAttributes({ [Ld]: new Date(e.created * 1e3).toISOString() });
+      t.setAttributes({ [fm]: new Date(e.created * 1e3).toISOString() });
     "created_at" in e &&
       typeof e.created_at === "number" &&
-      t.setAttributes({ [Ld]: new Date(e.created_at * 1e3).toISOString() });
+      t.setAttributes({ [fm]: new Date(e.created_at * 1e3).toISOString() });
     "usage" in e &&
       e.usage &&
-      fm(
+      zm(
         t,
         e.usage.input_tokens,
         e.usage.output_tokens,
@@ -10824,16 +11178,16 @@ function Gg(t, e) {
       );
   }
 }
-function Kg(t, e, n) {
+function Ch(t, e, n) {
   if (e && typeof e === "object")
-    if ("type" in e && e.type === "error") Jg(t, e);
+    if ("type" in e && e.type === "error") Ah(t, e);
     else {
-      n && Vg(t, e);
-      Gg(t, e);
+      n && $h(t, e);
+      Oh(t, e);
     }
 }
-function Hg(t, e, n) {
-  or(t, {
+function Nh(t, e, n) {
+  rr(t, {
     mechanism: {
       handled: false,
       type: "auto.ai.anthropic",
@@ -10841,54 +11195,54 @@ function Hg(t, e, n) {
     },
   });
   if (e.isRecording()) {
-    e.setStatus({ code: Ke, message: "internal_error" });
+    e.setStatus({ code: Ze, message: "internal_error" });
     e.end();
   }
   throw t;
 }
-function Zg(t, e, n, o, s, r, i, a, c, u, l) {
-  const p = s[Kf] ?? "unknown";
-  const f = { name: `${r} ${p} stream-response`, op: lm(i), attributes: s };
-  return ss(
+function jh(t, e, n, s, o, r, i, a, c, u, l) {
+  const p = o[dd] ?? "unknown";
+  const f = { name: `${r} ${p} stream-response`, op: Um(i), attributes: o };
+  return ro(
     f,
     u && !l
       ? async (e) => {
           try {
-            c.recordInputs && a && Wg(e, a);
-            const s = await t.apply(n, o);
-            return Mg(s, e, c.recordOutputs ?? false);
+            c.recordInputs && a && Ih(e, a);
+            const o = await t.apply(n, s);
+            return bh(o, e, c.recordOutputs ?? false);
           } catch (t) {
-            return Hg(t, e, i);
+            return Nh(t, e, i);
           }
         }
       : (t) => {
           try {
-            c.recordInputs && a && Wg(t, a);
-            const s = e.apply(n, o);
-            return Dg(s, t, c.recordOutputs ?? false);
+            c.recordInputs && a && Ih(t, a);
+            const o = e.apply(n, s);
+            return vh(o, t, c.recordOutputs ?? false);
           } catch (e) {
-            return Hg(e, t, i);
+            return Nh(e, t, i);
           }
         },
   );
 }
-function Yg(t, e, n, o) {
+function Rh(t, e, n, s) {
   return new Proxy(t, {
-    apply(s, r, i) {
-      const a = Bg(i, e);
-      const c = a[Kf] ?? "unknown";
-      const u = um(e);
+    apply(o, r, i) {
+      const a = Th(i, e);
+      const c = a[dd] ?? "unknown";
+      const u = qm(e);
       const l = typeof i[0] === "object" ? i[0] : void 0;
       const p = Boolean(l?.stream);
       const f = e === "messages.stream";
       return p || f
-        ? Zg(t, s, n, i, a, u, e, l, o, p, f)
-        : os({ name: `${u} ${c}`, op: lm(e), attributes: a }, (t) => {
-            o.recordInputs && l && Wg(t, l);
-            return Qo(
-              () => s.apply(n, i),
+        ? jh(t, o, n, i, a, u, e, l, s, p, f)
+        : oo({ name: `${u} ${c}`, op: Um(e), attributes: a }, (t) => {
+            s.recordInputs && l && Ih(t, l);
+            return to(
+              () => o.apply(n, i),
               (t) => {
-                or(t, {
+                rr(t, {
                   mechanism: {
                     handled: false,
                     type: "auto.ai.anthropic",
@@ -10897,24 +11251,24 @@ function Yg(t, e, n, o) {
                 });
               },
               () => {},
-              (e) => Kg(t, e, o.recordOutputs),
+              (e) => Ch(t, e, s.recordOutputs),
             );
           });
     },
   });
 }
-function Xg(t, e = "", n) {
+function Mh(t, e = "", n) {
   return new Proxy(t, {
-    get(t, o) {
-      const s = t[o];
-      const r = pm(e, String(o));
-      return typeof s === "function" && qg(r)
-        ? Yg(s, r, t, n)
-        : typeof s === "function"
-          ? s.bind(t)
-          : s && typeof s === "object"
-            ? Xg(s, r, n)
-            : s;
+    get(t, s) {
+      const o = t[s];
+      const r = Jm(e, String(s));
+      return typeof o === "function" && wh(r)
+        ? Rh(o, r, t, n)
+        : typeof o === "function"
+          ? o.bind(t)
+          : o && typeof o === "object"
+            ? Mh(o, r, n)
+            : o;
     },
   });
 }
@@ -10926,33 +11280,33 @@ function Xg(t, e = "", n) {
  * @param client - The Anthropic AI client to instrument
  * @param options - Optional configuration for recording inputs and outputs
  * @returns The instrumented client with the same type as the input
- */ function Qg(t, e) {
-  const n = Boolean(Te()?.getOptions().sendDefaultPii);
-  const o = { recordInputs: n, recordOutputs: n, ...e };
-  return Xg(t, "", o);
+ */ function Ph(t, e) {
+  const n = Boolean(Ie()?.getOptions().sendDefaultPii);
+  const s = { recordInputs: n, recordOutputs: n, ...e };
+  return Mh(t, "", s);
 }
-const th = "Google_GenAI";
-const eh = [
+const Dh = "Google_GenAI";
+const Fh = [
   "models.generateContent",
   "models.generateContentStream",
   "chats.create",
   "sendMessage",
   "sendMessageStream",
 ];
-const nh = "google_genai";
-const oh = "chats.create";
-const sh = "chat";
+const Lh = "google_genai";
+const qh = "chats.create";
+const Uh = "chat";
 /**
  * Checks if a response chunk contains an error
  * @param chunk - The response chunk to check
  * @param span - The span to update if error is found
  * @returns Whether an error occurred
- */ function rh(t, e) {
+ */ function Jh(t, e) {
   const n = t?.promptFeedback;
   if (n?.blockReason) {
     const t = n.blockReasonMessage ?? n.blockReason;
-    e.setStatus({ code: Ke, message: `Content blocked: ${t}` });
-    or(`Content blocked: ${t}`, {
+    e.setStatus({ code: Ze, message: `Content blocked: ${t}` });
+    rr(`Content blocked: ${t}`, {
       mechanism: { handled: false, type: "auto.ai.google_genai" },
     });
     return true;
@@ -10963,7 +11317,7 @@ const sh = "chat";
  * Processes response metadata from a chunk
  * @param chunk - The response chunk to process
  * @param state - The state of the streaming process
- */ function ih(t, e) {
+ */ function zh(t, e) {
   typeof t.responseId === "string" && (e.responseId = t.responseId);
   typeof t.modelVersion === "string" && (e.responseModel = t.modelVersion);
   const n = t.usageMetadata;
@@ -10981,13 +11335,13 @@ const sh = "chat";
  * @param chunk - The response chunk to process
  * @param state - The state of the streaming process
  * @param recordOutputs - Whether to record outputs
- */ function ah(t, e, n) {
+ */ function Bh(t, e, n) {
   Array.isArray(t.functionCalls) && e.toolCalls.push(...t.functionCalls);
-  for (const o of t.candidates ?? []) {
-    o?.finishReason &&
-      !e.finishReasons.includes(o.finishReason) &&
-      e.finishReasons.push(o.finishReason);
-    for (const t of o?.content?.parts ?? []) {
+  for (const s of t.candidates ?? []) {
+    s?.finishReason &&
+      !e.finishReasons.includes(s.finishReason) &&
+      e.finishReasons.push(s.finishReason);
+    for (const t of s?.content?.parts ?? []) {
       n && t.text && e.responseTexts.push(t.text);
       t.functionCall &&
         e.toolCalls.push({
@@ -11005,46 +11359,46 @@ const sh = "chat";
  * @param state - The state of the streaming process
  * @param recordOutputs - Whether to record outputs
  * @param span - The span to update
- */ function ch(t, e, n, o) {
-  if (t && !rh(t, o)) {
-    ih(t, e);
-    ah(t, e, n);
+ */ function Wh(t, e, n, s) {
+  if (t && !Jh(t, s)) {
+    zh(t, e);
+    Bh(t, e, n);
   }
 }
-async function* uh(t, e, n) {
-  const o = { responseTexts: [], finishReasons: [], toolCalls: [] };
+async function* Vh(t, e, n) {
+  const s = { responseTexts: [], finishReasons: [], toolCalls: [] };
   try {
-    for await (const s of t) {
-      ch(s, o, n, e);
-      yield s;
+    for await (const o of t) {
+      Wh(o, s, n, e);
+      yield o;
     }
   } finally {
-    const t = { [hd]: true };
-    o.responseId && (t[id] = o.responseId);
-    o.responseModel && (t[rd] = o.responseModel);
-    o.promptTokens !== void 0 && (t[cd] = o.promptTokens);
-    o.completionTokens !== void 0 && (t[ud] = o.completionTokens);
-    o.totalTokens !== void 0 && (t[ld] = o.totalTokens);
-    o.finishReasons.length && (t[sd] = JSON.stringify(o.finishReasons));
-    n && o.responseTexts.length && (t[md] = o.responseTexts.join(""));
-    n && o.toolCalls.length && (t[_d] = JSON.stringify(o.toolCalls));
+    const t = { [Pd]: true };
+    s.responseId && (t[Ad] = s.responseId);
+    s.responseModel && (t[xd] = s.responseModel);
+    s.promptTokens !== void 0 && (t[Td] = s.promptTokens);
+    s.completionTokens !== void 0 && (t[Id] = s.completionTokens);
+    s.totalTokens !== void 0 && (t[$d] = s.totalTokens);
+    s.finishReasons.length && (t[wd] = JSON.stringify(s.finishReasons));
+    n && s.responseTexts.length && (t[Rd] = s.responseTexts.join(""));
+    n && s.toolCalls.length && (t[Dd] = JSON.stringify(s.toolCalls));
     e.setAttributes(t);
     e.end();
   }
 }
-function lh(t) {
-  if (eh.includes(t)) return true;
+function Gh(t) {
+  if (Fh.includes(t)) return true;
   const e = t.split(".").pop();
-  return eh.includes(e);
+  return Fh.includes(e);
 }
-function ph(t) {
+function Kh(t) {
   return t.includes("Stream");
 }
-function fh(t, e = "user") {
+function Hh(t, e = "user") {
   return typeof t === "string"
     ? [{ role: e, content: t }]
     : Array.isArray(t)
-      ? t.flatMap((t) => fh(t, e))
+      ? t.flatMap((t) => Hh(t, e))
       : typeof t === "object" && t
         ? "role" in t && typeof t.role === "string"
           ? [t]
@@ -11053,7 +11407,7 @@ function fh(t, e = "user") {
             : [{ role: e, content: t }]
         : [];
 }
-function dh(t, e) {
+function Zh(t, e) {
   if ("model" in t && typeof t.model === "string") return t.model;
   if (e && typeof e === "object") {
     const t = e;
@@ -11063,65 +11417,68 @@ function dh(t, e) {
   }
   return "unknown";
 }
-function mh(t) {
+function Yh(t) {
   const e = {};
   "temperature" in t &&
     typeof t.temperature === "number" &&
-    (e[Zf] = t.temperature);
-  "topP" in t && typeof t.topP === "number" && (e[td] = t.topP);
-  "topK" in t && typeof t.topK === "number" && (e[ed] = t.topK);
+    (e[gd] = t.temperature);
+  "topP" in t && typeof t.topP === "number" && (e[bd] = t.topP);
+  "topK" in t && typeof t.topK === "number" && (e[vd] = t.topK);
   "maxOutputTokens" in t &&
     typeof t.maxOutputTokens === "number" &&
-    (e[Yf] = t.maxOutputTokens);
+    (e[hd] = t.maxOutputTokens);
   "frequencyPenalty" in t &&
     typeof t.frequencyPenalty === "number" &&
-    (e[Xf] = t.frequencyPenalty);
+    (e[_d] = t.frequencyPenalty);
   "presencePenalty" in t &&
     typeof t.presencePenalty === "number" &&
-    (e[Qf] = t.presencePenalty);
+    (e[yd] = t.presencePenalty);
   return e;
 }
-function gh(t, e, n) {
-  const o = { [Gf]: nh, [pd]: um(t), [je]: "auto.ai.google_genai" };
+function Xh(t, e, n) {
+  const s = { [fd]: Lh, [Od]: qm(t), [Re]: "auto.ai.google_genai" };
   if (e) {
-    o[Kf] = dh(e, n);
+    s[dd] = Zh(e, n);
     if ("config" in e && typeof e.config === "object" && e.config) {
       const t = e.config;
-      Object.assign(o, mh(t));
+      Object.assign(s, Yh(t));
       if ("tools" in t && Array.isArray(t.tools)) {
         const e = t.tools.flatMap((t) => t.functionDeclarations);
-        o[gd] = JSON.stringify(e);
+        s[Md] = JSON.stringify(e);
       }
     }
-  } else o[Kf] = dh({}, n);
-  return o;
+  } else s[dd] = Zh({}, n);
+  return s;
 }
-function hh(t, e) {
+function Qh(t, e) {
   const n = [];
   "config" in e &&
     e.config &&
     typeof e.config === "object" &&
     "systemInstruction" in e.config &&
     e.config.systemInstruction &&
-    n.push(...fh(e.config.systemInstruction, "system"));
-  "history" in e && n.push(...fh(e.history, "user"));
-  "contents" in e && n.push(...fh(e.contents, "user"));
-  "message" in e && n.push(...fh(e.message, "user"));
-  Array.isArray(n) &&
-    n.length &&
-    t.setAttributes({ [fd]: n.length, [dd]: JSON.stringify(am(n)) });
+    n.push(...Hh(e.config.systemInstruction, "system"));
+  "history" in e && n.push(...Hh(e.history, "user"));
+  "contents" in e && n.push(...Hh(e.contents, "user"));
+  "message" in e && n.push(...Hh(e.message, "user"));
+  if (Array.isArray(n) && n.length) {
+    const { systemInstructions: e, filteredMessages: s } = Wm(n);
+    e && t.setAttribute(jd, e);
+    const o = Array.isArray(s) ? s.length : 0;
+    t.setAttributes({ [Cd]: o, [Nd]: JSON.stringify(Fm(s)) });
+  }
 }
-function _h(t, e, n) {
+function t_(t, e, n) {
   if (e && typeof e === "object") {
-    e.modelVersion && t.setAttribute(rd, e.modelVersion);
+    e.modelVersion && t.setAttribute(xd, e.modelVersion);
     if (e.usageMetadata && typeof e.usageMetadata === "object") {
       const n = e.usageMetadata;
       typeof n.promptTokenCount === "number" &&
-        t.setAttributes({ [cd]: n.promptTokenCount });
+        t.setAttributes({ [Td]: n.promptTokenCount });
       typeof n.candidatesTokenCount === "number" &&
-        t.setAttributes({ [ud]: n.candidatesTokenCount });
+        t.setAttributes({ [Id]: n.candidatesTokenCount });
       typeof n.totalTokenCount === "number" &&
-        t.setAttributes({ [ld]: n.totalTokenCount });
+        t.setAttributes({ [$d]: n.totalTokenCount });
     }
     if (n && Array.isArray(e.candidates) && e.candidates.length > 0) {
       const n = e.candidates
@@ -11134,58 +11491,58 @@ function _h(t, e, n) {
             : "",
         )
         .filter((t) => t.length > 0);
-      n.length > 0 && t.setAttributes({ [md]: n.join("") });
+      n.length > 0 && t.setAttributes({ [Rd]: n.join("") });
     }
     if (n && e.functionCalls) {
       const n = e.functionCalls;
       Array.isArray(n) &&
         n.length > 0 &&
-        t.setAttributes({ [_d]: JSON.stringify(n) });
+        t.setAttributes({ [Dd]: JSON.stringify(n) });
     }
   }
 }
-function yh(t, e, n, o) {
-  const s = e === oh;
+function e_(t, e, n, s) {
+  const o = e === qh;
   return new Proxy(t, {
     apply(t, r, i) {
       const a = i[0];
-      const c = gh(e, a, n);
-      const u = c[Kf] ?? "unknown";
-      const l = um(e);
-      return ph(e)
-        ? ss(
-            { name: `${l} ${u} stream-response`, op: lm(e), attributes: c },
-            async (s) => {
+      const c = Xh(e, a, n);
+      const u = c[dd] ?? "unknown";
+      const l = qm(e);
+      return Kh(e)
+        ? ro(
+            { name: `${l} ${u} stream-response`, op: Um(e), attributes: c },
+            async (o) => {
               try {
-                o.recordInputs && a && hh(s, a);
+                s.recordInputs && a && Qh(o, a);
                 const e = await t.apply(n, i);
-                return uh(e, s, Boolean(o.recordOutputs));
+                return Vh(e, o, Boolean(s.recordOutputs));
               } catch (t) {
-                s.setStatus({ code: Ke, message: "internal_error" });
-                or(t, {
+                o.setStatus({ code: Ze, message: "internal_error" });
+                rr(t, {
                   mechanism: {
                     handled: false,
                     type: "auto.ai.google_genai",
                     data: { function: e },
                   },
                 });
-                s.end();
+                o.end();
                 throw t;
               }
             },
           )
-        : os(
+        : oo(
             {
-              name: s ? `${l} ${u} create` : `${l} ${u}`,
-              op: lm(e),
+              name: o ? `${l} ${u} create` : `${l} ${u}`,
+              op: Um(e),
               attributes: c,
             },
             (r) => {
-              o.recordInputs && a && hh(r, a);
-              return Qo(
+              s.recordInputs && a && Qh(r, a);
+              return to(
                 () => t.apply(n, i),
                 (t) => {
-                  or(t, {
+                  rr(t, {
                     mechanism: {
                       handled: false,
                       type: "auto.ai.google_genai",
@@ -11195,7 +11552,7 @@ function yh(t, e, n, o) {
                 },
                 () => {},
                 (t) => {
-                  s || _h(r, t, o.recordOutputs);
+                  o || t_(r, t, s.recordOutputs);
                 },
               );
             },
@@ -11203,25 +11560,25 @@ function yh(t, e, n, o) {
     },
   });
 }
-function bh(t, e = "", n) {
+function n_(t, e = "", n) {
   return new Proxy(t, {
-    get: (t, o, s) => {
-      const r = Reflect.get(t, o, s);
-      const i = pm(e, String(o));
-      if (typeof r === "function" && lh(i)) {
-        if (i === oh) {
-          const e = yh(r, i, t, n);
+    get: (t, s, o) => {
+      const r = Reflect.get(t, s, o);
+      const i = Jm(e, String(s));
+      if (typeof r === "function" && Gh(i)) {
+        if (i === qh) {
+          const e = e_(r, i, t, n);
           return function (...t) {
-            const o = e(...t);
-            return o && typeof o === "object" ? bh(o, sh, n) : o;
+            const s = e(...t);
+            return s && typeof s === "object" ? n_(s, Uh, n) : s;
           };
         }
-        return yh(r, i, t, n);
+        return e_(r, i, t, n);
       }
       return typeof r === "function"
         ? r.bind(t)
         : r && typeof r === "object"
-          ? bh(r, i, n)
+          ? n_(r, i, n)
           : r;
     },
   });
@@ -11247,14 +11604,14 @@ function bh(t, e = "", n) {
  * const chat = instrumentedClient.chats.create({ model: 'gemini-1.5-pro' });
  * const response = await chat.sendMessage({ message: 'Hello' });
  * ```
- */ function vh(t, e) {
-  const n = Boolean(Te()?.getOptions().sendDefaultPii);
-  const o = { recordInputs: n, recordOutputs: n, ...e };
-  return bh(t, "", o);
+ */ function s_(t, e) {
+  const n = Boolean(Ie()?.getOptions().sendDefaultPii);
+  const s = { recordInputs: n, recordOutputs: n, ...e };
+  return n_(t, "", s);
 }
-const Sh = "LangChain";
-const kh = "auto.ai.langchain";
-const wh = {
+const o_ = "LangChain";
+const r_ = "auto.ai.langchain";
+const i_ = {
   human: "user",
   ai: "assistant",
   assistant: "assistant",
@@ -11262,14 +11619,14 @@ const wh = {
   function: "function",
   tool: "tool",
 };
-const xh = (t, e, n) => {
+const a_ = (t, e, n) => {
   n != null && (t[e] = n);
 };
-const Eh = (t, e, n) => {
-  const o = Number(n);
-  Number.isNaN(o) || (t[e] = o);
+const c_ = (t, e, n) => {
+  const s = Number(n);
+  Number.isNaN(s) || (t[e] = s);
 };
-function Ah(t) {
+function u_(t) {
   if (typeof t === "string") return t;
   try {
     return JSON.stringify(t);
@@ -11282,11 +11639,11 @@ function Ah(t) {
  *
  * @param role Incoming role value (free-form, any casing)
  * @returns Canonical role: 'user' | 'assistant' | 'system' | 'function' | 'tool' | <passthrough>
- */ function Th(t) {
+ */ function l_(t) {
   const e = t.toLowerCase();
-  return wh[e] ?? e;
+  return i_[e] ?? e;
 }
-function Ih(t) {
+function p_(t) {
   return t.includes("System")
     ? "system"
     : t.includes("Human")
@@ -11308,7 +11665,7 @@ function Ih(t) {
  *
  * @param tags LangChain tags (string[] or record)
  * @returns The `invocation_params` object, if present
- */ function $h(t) {
+ */ function f_(t) {
   if (t && !Array.isArray(t)) return t.invocation_params;
 }
 /**
@@ -11323,81 +11680,85 @@ function Ih(t) {
  *
  * @param messages Mixed LangChain messages
  * @returns Array of normalized `{ role, content }`
- */ function Oh(t) {
+ */ function d_(t) {
   return t.map((t) => {
     const e = t._getType;
     if (typeof e === "function") {
       const n = e.call(t);
-      return { role: Th(n), content: Ah(t.content) };
+      return { role: l_(n), content: u_(t.content) };
     }
-    const n = t.constructor?.name;
-    if (n) return { role: Th(Ih(n)), content: Ah(t.content) };
-    if (t.type) {
-      const e = String(t.type).toLowerCase();
-      return { role: Th(e), content: Ah(t.content) };
-    }
-    if (t.role) return { role: Th(String(t.role)), content: Ah(t.content) };
     if (t.lc === 1 && t.kwargs) {
       const e = t.id;
       const n = Array.isArray(e) && e.length > 0 ? e[e.length - 1] : "";
-      const o = typeof n === "string" ? Ih(n) : "user";
-      return { role: Th(o), content: Ah(t.kwargs?.content) };
+      const s = typeof n === "string" ? p_(n) : "user";
+      return { role: l_(s), content: u_(t.kwargs?.content) };
     }
-    return { role: "user", content: Ah(t.content) };
+    if (t.type) {
+      const e = String(t.type).toLowerCase();
+      return { role: l_(e), content: u_(t.content) };
+    }
+    if (t.role) return { role: l_(String(t.role)), content: u_(t.content) };
+    const n = t.constructor?.name;
+    return n && n !== "Object"
+      ? { role: l_(p_(n)), content: u_(t.content) }
+      : { role: "user", content: u_(t.content) };
   });
 }
-function Ch(t, e, n) {
-  const o = {};
-  const s = "kwargs" in t ? t.kwargs : void 0;
-  const r = e?.temperature ?? n?.ls_temperature ?? s?.temperature;
-  Eh(o, Zf, r);
-  const i = e?.max_tokens ?? n?.ls_max_tokens ?? s?.max_tokens;
-  Eh(o, Yf, i);
-  const a = e?.top_p ?? s?.top_p;
-  Eh(o, td, a);
+function m_(t, e, n) {
+  const s = {};
+  const o = "kwargs" in t ? t.kwargs : void 0;
+  const r = e?.temperature ?? n?.ls_temperature ?? o?.temperature;
+  c_(s, gd, r);
+  const i = e?.max_tokens ?? n?.ls_max_tokens ?? o?.max_tokens;
+  c_(s, hd, i);
+  const a = e?.top_p ?? o?.top_p;
+  c_(s, bd, a);
   const c = e?.frequency_penalty;
-  Eh(o, Xf, c);
+  c_(s, _d, c);
   const u = e?.presence_penalty;
-  Eh(o, Qf, u);
-  e && "stream" in e && xh(o, Hf, Boolean(e.stream));
-  return o;
+  c_(s, yd, u);
+  e && "stream" in e && a_(s, md, Boolean(e.stream));
+  return s;
 }
-function Nh(t, e, n, o, s, r) {
+function g_(t, e, n, s, o) {
   return {
-    [Gf]: Ah(t ?? "langchain"),
-    [pd]: n,
-    [Kf]: Ah(e),
-    [je]: kh,
-    ...Ch(o, s, r),
+    [fd]: u_(t ?? "langchain"),
+    [Od]: "chat",
+    [dd]: u_(e),
+    [Re]: r_,
+    ...m_(n, s, o),
   };
 }
-function jh(t, e, n, o, s) {
-  const r = s?.ls_provider;
-  const i = o?.model ?? s?.ls_model_name ?? "unknown";
-  const a = Nh(r, i, "pipeline", t, o, s);
+function h_(t, e, n, s, o) {
+  const r = o?.ls_provider;
+  const i = s?.model ?? o?.ls_model_name ?? "unknown";
+  const a = g_(r, i, t, s, o);
   if (n && Array.isArray(e) && e.length > 0) {
-    xh(a, fd, e.length);
+    a_(a, Cd, e.length);
     const t = e.map((t) => ({ role: "user", content: t }));
-    xh(a, dd, Ah(t));
+    a_(a, Nd, u_(t));
   }
   return a;
 }
-function Rh(t, e, n, o, s) {
-  const r = s?.ls_provider ?? t.id?.[2];
-  const i = o?.model ?? s?.ls_model_name ?? "unknown";
-  const a = Nh(r, i, "chat", t, o, s);
+function __(t, e, n, s, o) {
+  const r = o?.ls_provider ?? t.id?.[2];
+  const i = s?.model ?? o?.ls_model_name ?? "unknown";
+  const a = g_(r, i, t, s, o);
   if (n && Array.isArray(e) && e.length > 0) {
-    const t = Oh(e.flat());
-    xh(a, fd, t.length);
-    const n = am(t);
-    xh(a, dd, Ah(n));
+    const t = d_(e.flat());
+    const { systemInstructions: n, filteredMessages: s } = Wm(t);
+    n && a_(a, jd, n);
+    const o = Array.isArray(s) ? s.length : 0;
+    a_(a, Cd, o);
+    const r = Fm(s);
+    a_(a, Nd, u_(r));
   }
   return a;
 }
-function Ph(t, e) {
+function y_(t, e) {
   const n = [];
-  const o = t.flat();
-  for (const t of o) {
+  const s = t.flat();
+  for (const t of s) {
     const e = t.message?.content;
     if (Array.isArray(e))
       for (const t of e) {
@@ -11405,34 +11766,34 @@ function Ph(t, e) {
         e.type === "tool_use" && n.push(e);
       }
   }
-  n.length > 0 && xh(e, _d, Ah(n));
+  n.length > 0 && a_(e, Dd, u_(n));
 }
-function Mh(t, e) {
+function b_(t, e) {
   if (!t) return;
   const n = t.tokenUsage;
-  const o = t.usage;
+  const s = t.usage;
   if (n) {
-    Eh(e, cd, n.promptTokens);
-    Eh(e, ud, n.completionTokens);
-    Eh(e, ld, n.totalTokens);
-  } else if (o) {
-    Eh(e, cd, o.input_tokens);
-    Eh(e, ud, o.output_tokens);
-    const t = Number(o.input_tokens);
-    const n = Number(o.output_tokens);
-    const s = (Number.isNaN(t) ? 0 : t) + (Number.isNaN(n) ? 0 : n);
-    s > 0 && Eh(e, ld, s);
-    o.cache_creation_input_tokens !== void 0 &&
-      Eh(e, Sd, o.cache_creation_input_tokens);
-    o.cache_read_input_tokens !== void 0 &&
-      Eh(e, kd, o.cache_read_input_tokens);
+    c_(e, Td, n.promptTokens);
+    c_(e, Id, n.completionTokens);
+    c_(e, $d, n.totalTokens);
+  } else if (s) {
+    c_(e, Td, s.input_tokens);
+    c_(e, Id, s.output_tokens);
+    const t = Number(s.input_tokens);
+    const n = Number(s.output_tokens);
+    const o = (Number.isNaN(t) ? 0 : t) + (Number.isNaN(n) ? 0 : n);
+    o > 0 && c_(e, $d, o);
+    s.cache_creation_input_tokens !== void 0 &&
+      c_(e, Ud, s.cache_creation_input_tokens);
+    s.cache_read_input_tokens !== void 0 &&
+      c_(e, Jd, s.cache_read_input_tokens);
   }
 }
-function Dh(t, e) {
+function v_(t, e) {
   if (!t) return;
   const n = {};
   if (Array.isArray(t.generations)) {
-    const o = t.generations
+    const s = t.generations
       .flat()
       .map((t) =>
         t.generationInfo?.finish_reason
@@ -11442,37 +11803,37 @@ function Dh(t, e) {
             : null,
       )
       .filter((t) => typeof t === "string");
-    o.length > 0 && xh(n, sd, Ah(o));
-    Ph(t.generations, n);
+    s.length > 0 && a_(n, wd, u_(s));
+    y_(t.generations, n);
     if (e) {
       const e = t.generations
         .flat()
         .map((t) => t.text ?? t.message?.content)
         .filter((t) => typeof t === "string");
-      e.length > 0 && xh(n, md, Ah(e));
+      e.length > 0 && a_(n, Rd, u_(e));
     }
   }
-  Mh(t.llmOutput, n);
-  const o = t.llmOutput;
-  const s = t.generations?.[0]?.[0];
-  const r = s?.message;
-  const i = o?.model_name ?? o?.model ?? r?.response_metadata?.model_name;
-  i && xh(n, rd, i);
-  const a = o?.id ?? r?.id;
-  a && xh(n, id, a);
-  const c = o?.stop_reason ?? r?.response_metadata?.finish_reason;
-  c && xh(n, ad, Ah(c));
+  b_(t.llmOutput, n);
+  const s = t.llmOutput;
+  const o = t.generations?.[0]?.[0];
+  const r = o?.message;
+  const i = s?.model_name ?? s?.model ?? r?.response_metadata?.model_name;
+  i && a_(n, xd, i);
+  const a = s?.id ?? r?.id;
+  a && a_(n, Ad, a);
+  const c = s?.stop_reason ?? r?.response_metadata?.finish_reason;
+  c && a_(n, Ed, u_(c));
   return n;
 }
-function Fh(t = {}) {
+function S_(t = {}) {
   const e = t.recordInputs ?? false;
   const n = t.recordOutputs ?? false;
-  const o = new Map();
-  const s = (t) => {
-    const e = o.get(t);
+  const s = new Map();
+  const o = (t) => {
+    const e = s.get(t);
     if (e?.isRecording()) {
       e.end();
-      o.delete(t);
+      s.delete(t);
     }
   };
   const r = {
@@ -11492,120 +11853,120 @@ function Fh(t = {}) {
     ignoreCustomEvent: false,
     raiseError: false,
     awaitHandlers: true,
-    handleLLMStart(t, n, s, r, i, a, c, u) {
-      const l = $h(a);
-      const p = jh(t, n, e, l, c);
-      const f = p[Kf];
-      const d = p[pd];
-      ss(
+    handleLLMStart(t, n, o, r, i, a, c, u) {
+      const l = f_(a);
+      const p = h_(t, n, e, l, c);
+      const f = p[dd];
+      const d = p[Od];
+      ro(
         {
           name: `${d} ${f}`,
-          op: "gen_ai.pipeline",
-          attributes: { ...p, [Ne]: "gen_ai.pipeline" },
+          op: "gen_ai.chat",
+          attributes: { ...p, [je]: "gen_ai.chat" },
         },
         (t) => {
-          o.set(s, t);
+          s.set(o, t);
           return t;
         },
       );
     },
-    handleChatModelStart(t, n, s, r, i, a, c, u) {
-      const l = $h(a);
-      const p = Rh(t, n, e, l, c);
-      const f = p[Kf];
-      const d = p[pd];
-      ss(
+    handleChatModelStart(t, n, o, r, i, a, c, u) {
+      const l = f_(a);
+      const p = __(t, n, e, l, c);
+      const f = p[dd];
+      const d = p[Od];
+      ro(
         {
           name: `${d} ${f}`,
           op: "gen_ai.chat",
-          attributes: { ...p, [Ne]: "gen_ai.chat" },
+          attributes: { ...p, [je]: "gen_ai.chat" },
         },
         (t) => {
-          o.set(s, t);
+          s.set(o, t);
           return t;
         },
       );
     },
     handleLLMEnd(t, e, r, i, a) {
-      const c = o.get(e);
+      const c = s.get(e);
       if (c?.isRecording()) {
-        const o = Dh(t, n);
-        o && c.setAttributes(o);
-        s(e);
+        const s = v_(t, n);
+        s && c.setAttributes(s);
+        o(e);
       }
     },
     handleLLMError(t, e) {
-      const n = o.get(e);
+      const n = s.get(e);
       if (n?.isRecording()) {
-        n.setStatus({ code: Ke, message: "llm_error" });
-        s(e);
+        n.setStatus({ code: Ze, message: "llm_error" });
+        o(e);
       }
-      or(t, { mechanism: { handled: false, type: `${kh}.llm_error_handler` } });
+      rr(t, { mechanism: { handled: false, type: `${r_}.llm_error_handler` } });
     },
-    handleChainStart(t, n, s, r) {
+    handleChainStart(t, n, o, r) {
       const i = t.name || "unknown_chain";
-      const a = { [je]: "auto.ai.langchain", "langchain.chain.name": i };
+      const a = { [Re]: "auto.ai.langchain", "langchain.chain.name": i };
       e && (a["langchain.chain.inputs"] = JSON.stringify(n));
-      ss(
+      ro(
         {
           name: `chain ${i}`,
           op: "gen_ai.invoke_agent",
-          attributes: { ...a, [Ne]: "gen_ai.invoke_agent" },
+          attributes: { ...a, [je]: "gen_ai.invoke_agent" },
         },
         (t) => {
-          o.set(s, t);
+          s.set(o, t);
           return t;
         },
       );
     },
     handleChainEnd(t, e) {
-      const r = o.get(e);
+      const r = s.get(e);
       if (r?.isRecording()) {
         n && r.setAttributes({ "langchain.chain.outputs": JSON.stringify(t) });
-        s(e);
+        o(e);
       }
     },
     handleChainError(t, e) {
-      const n = o.get(e);
+      const n = s.get(e);
       if (n?.isRecording()) {
-        n.setStatus({ code: Ke, message: "chain_error" });
-        s(e);
+        n.setStatus({ code: Ze, message: "chain_error" });
+        o(e);
       }
-      or(t, {
-        mechanism: { handled: false, type: `${kh}.chain_error_handler` },
+      rr(t, {
+        mechanism: { handled: false, type: `${r_}.chain_error_handler` },
       });
     },
-    handleToolStart(t, n, s, r) {
+    handleToolStart(t, n, o, r) {
       const i = t.name || "unknown_tool";
-      const a = { [je]: kh, "gen_ai.tool.name": i };
-      e && (a["gen_ai.tool.input"] = n);
-      ss(
+      const a = { [Re]: r_, [em]: i };
+      e && (a[om] = n);
+      ro(
         {
           name: `execute_tool ${i}`,
           op: "gen_ai.execute_tool",
-          attributes: { ...a, [Ne]: "gen_ai.execute_tool" },
+          attributes: { ...a, [je]: "gen_ai.execute_tool" },
         },
         (t) => {
-          o.set(s, t);
+          s.set(o, t);
           return t;
         },
       );
     },
     handleToolEnd(t, e) {
-      const r = o.get(e);
+      const r = s.get(e);
       if (r?.isRecording()) {
-        n && r.setAttributes({ "gen_ai.tool.output": JSON.stringify(t) });
-        s(e);
+        n && r.setAttributes({ [rm]: JSON.stringify(t) });
+        o(e);
       }
     },
     handleToolError(t, e) {
-      const n = o.get(e);
+      const n = s.get(e);
       if (n?.isRecording()) {
-        n.setStatus({ code: Ke, message: "tool_error" });
-        s(e);
+        n.setStatus({ code: Ze, message: "tool_error" });
+        o(e);
       }
-      or(t, {
-        mechanism: { handled: false, type: `${kh}.tool_error_handler` },
+      rr(t, {
+        mechanism: { handled: false, type: `${r_}.tool_error_handler` },
       });
     },
     copy() {
@@ -11620,9 +11981,9 @@ function Fh(t = {}) {
   };
   return r;
 }
-const Lh = "LangGraph";
-const qh = "auto.ai.langgraph";
-function Uh(t) {
+const k_ = "LangGraph";
+const w_ = "auto.ai.langgraph";
+function x_(t) {
   if (!t || t.length === 0) return null;
   const e = [];
   for (const n of t)
@@ -11632,42 +11993,42 @@ function Uh(t) {
     }
   return e.length > 0 ? e : null;
 }
-function Jh(t) {
+function A_(t) {
   const e = t;
   let n = 0;
-  let o = 0;
   let s = 0;
+  let o = 0;
   if (e.usage_metadata && typeof e.usage_metadata === "object") {
     const t = e.usage_metadata;
     typeof t.input_tokens === "number" && (n = t.input_tokens);
-    typeof t.output_tokens === "number" && (o = t.output_tokens);
-    typeof t.total_tokens === "number" && (s = t.total_tokens);
-    return { inputTokens: n, outputTokens: o, totalTokens: s };
+    typeof t.output_tokens === "number" && (s = t.output_tokens);
+    typeof t.total_tokens === "number" && (o = t.total_tokens);
+    return { inputTokens: n, outputTokens: s, totalTokens: o };
   }
   if (e.response_metadata && typeof e.response_metadata === "object") {
     const t = e.response_metadata;
     if (t.tokenUsage && typeof t.tokenUsage === "object") {
       const e = t.tokenUsage;
       typeof e.promptTokens === "number" && (n = e.promptTokens);
-      typeof e.completionTokens === "number" && (o = e.completionTokens);
-      typeof e.totalTokens === "number" && (s = e.totalTokens);
+      typeof e.completionTokens === "number" && (s = e.completionTokens);
+      typeof e.totalTokens === "number" && (o = e.totalTokens);
     }
   }
-  return { inputTokens: n, outputTokens: o, totalTokens: s };
+  return { inputTokens: n, outputTokens: s, totalTokens: o };
 }
-function zh(t, e) {
+function E_(t, e) {
   const n = e;
   if (n.response_metadata && typeof n.response_metadata === "object") {
     const e = n.response_metadata;
     e.model_name &&
       typeof e.model_name === "string" &&
-      t.setAttribute(rd, e.model_name);
+      t.setAttribute(xd, e.model_name);
     e.finish_reason &&
       typeof e.finish_reason === "string" &&
-      t.setAttribute(sd, [e.finish_reason]);
+      t.setAttribute(wd, [e.finish_reason]);
   }
 }
-function Bh(t) {
+function T_(t) {
   if (!t.builder?.nodes?.tools?.runnable?.tools) return null;
   const e = t.builder?.nodes?.tools?.runnable?.tools;
   return e && Array.isArray(e) && e.length !== 0
@@ -11678,58 +12039,58 @@ function Bh(t) {
       }))
     : null;
 }
-function Wh(t, e, n) {
-  const o = n;
-  const s = o?.messages;
-  if (!s || !Array.isArray(s)) return;
+function I_(t, e, n) {
+  const s = n;
+  const o = s?.messages;
+  if (!o || !Array.isArray(o)) return;
   const r = e?.length ?? 0;
-  const i = s.length > r ? s.slice(r) : [];
+  const i = o.length > r ? o.slice(r) : [];
   if (i.length === 0) return;
-  const a = Uh(i);
-  a && t.setAttribute(_d, JSON.stringify(a));
-  const c = Oh(i);
-  t.setAttribute(md, JSON.stringify(c));
+  const a = x_(i);
+  a && t.setAttribute(Dd, JSON.stringify(a));
+  const c = d_(i);
+  t.setAttribute(Rd, JSON.stringify(c));
   let u = 0;
   let l = 0;
   let p = 0;
   for (const e of i) {
-    const n = Jh(e);
+    const n = A_(e);
     u += n.inputTokens;
     l += n.outputTokens;
     p += n.totalTokens;
-    zh(t, e);
+    E_(t, e);
   }
-  u > 0 && t.setAttribute(cd, u);
-  l > 0 && t.setAttribute(ud, l);
-  p > 0 && t.setAttribute(ld, p);
+  u > 0 && t.setAttribute(Td, u);
+  l > 0 && t.setAttribute(Id, l);
+  p > 0 && t.setAttribute($d, p);
 }
-function Vh(t, e) {
+function $_(t, e) {
   return new Proxy(t, {
-    apply(t, n, o) {
-      return os(
+    apply(t, n, s) {
+      return oo(
         {
           op: "gen_ai.create_agent",
           name: "create_agent",
           attributes: {
-            [je]: qh,
-            [Ne]: "gen_ai.create_agent",
-            [pd]: "create_agent",
+            [Re]: w_,
+            [je]: "gen_ai.create_agent",
+            [Od]: "create_agent",
           },
         },
-        (s) => {
+        (o) => {
           try {
-            const r = Reflect.apply(t, n, o);
-            const i = o.length > 0 ? o[0] : {};
+            const r = Reflect.apply(t, n, s);
+            const i = s.length > 0 ? s[0] : {};
             if (i?.name && typeof i.name === "string") {
-              s.setAttribute(yd, i.name);
-              s.updateName(`create_agent ${i.name}`);
+              o.setAttribute(Fd, i.name);
+              o.updateName(`create_agent ${i.name}`);
             }
             const a = r.invoke;
-            a && typeof a === "function" && (r.invoke = Gh(a.bind(r), r, i, e));
+            a && typeof a === "function" && (r.invoke = O_(a.bind(r), r, i, e));
             return r;
           } catch (t) {
-            s.setStatus({ code: Ke, message: "internal_error" });
-            or(t, {
+            o.setStatus({ code: Ze, message: "internal_error" });
+            rr(t, {
               mechanism: { handled: false, type: "auto.ai.langgraph.error" },
             });
             throw t;
@@ -11739,43 +12100,46 @@ function Vh(t, e) {
     },
   });
 }
-function Gh(t, e, n, o) {
+function O_(t, e, n, s) {
   return new Proxy(t, {
-    apply(t, s, r) {
-      return os(
+    apply(t, o, r) {
+      return oo(
         {
           op: "gen_ai.invoke_agent",
           name: "invoke_agent",
-          attributes: { [je]: qh, [Ne]: Ed, [pd]: "invoke_agent" },
+          attributes: { [Re]: w_, [je]: Wd, [Od]: "invoke_agent" },
         },
         async (i) => {
           try {
             const a = n?.name;
             if (a && typeof a === "string") {
-              i.setAttribute(bd, a);
-              i.setAttribute(yd, a);
+              i.setAttribute(Ld, a);
+              i.setAttribute(Fd, a);
               i.updateName(`invoke_agent ${a}`);
             }
             const c = r.length > 1 ? r[1] : void 0;
             const u = c?.configurable;
             const l = u?.thread_id;
-            l && typeof l === "string" && i.setAttribute(vd, l);
-            const p = Bh(e);
-            p && i.setAttribute(gd, JSON.stringify(p));
-            const f = o.recordInputs;
-            const d = o.recordOutputs;
-            const m = r.length > 0 ? (r[0].messages ?? []) : [];
+            l && typeof l === "string" && i.setAttribute(qd, l);
+            const p = T_(e);
+            p && i.setAttribute(Md, JSON.stringify(p));
+            const f = s.recordInputs;
+            const d = s.recordOutputs;
+            const m = r.length > 0 ? (r[0]?.messages ?? []) : [];
             if (m && f) {
-              const t = Oh(m);
-              const e = am(t);
-              i.setAttributes({ [dd]: JSON.stringify(e), [fd]: t.length });
+              const t = d_(m);
+              const { systemInstructions: e, filteredMessages: n } = Wm(t);
+              e && i.setAttribute(jd, e);
+              const s = Fm(n);
+              const o = Array.isArray(n) ? n.length : 0;
+              i.setAttributes({ [Nd]: JSON.stringify(s), [Cd]: o });
             }
-            const g = await Reflect.apply(t, s, r);
-            d && Wh(i, m ?? null, g);
+            const g = await Reflect.apply(t, o, r);
+            d && I_(i, m ?? null, g);
             return g;
           } catch (t) {
-            i.setStatus({ code: Ke, message: "internal_error" });
-            or(t, {
+            i.setStatus({ code: Ze, message: "internal_error" });
+            rr(t, {
               mechanism: { handled: false, type: "auto.ai.langgraph.error" },
             });
             throw t;
@@ -11807,12 +12171,12 @@ function Gh(t, e, n, o) {
  * instrumentLangGraph(graph, { recordInputs: true, recordOutputs: true });
  * const compiled = graph.compile({ name: 'my_agent' });
  * ```
- */ function Kh(t, e) {
+ */ function C_(t, e) {
   const n = e || {};
-  t.compile = Vh(t.compile.bind(t), n);
+  t.compile = $_(t.compile.bind(t), n);
   return t;
 }
-function Hh(t) {
+function N_(t) {
   return t === void 0
     ? void 0
     : t >= 400 && t < 500
@@ -11831,13 +12195,13 @@ function Hh(t) {
     this.logLevel = e;
   }
 }
-const Zh = e;
+const j_ = e;
 /**
  * Tells whether current environment supports ErrorEvent objects
  * {@link supportsErrorEvent}.
  *
  * @returns Answer to the given question.
- */ function Yh() {
+ */ function R_() {
   try {
     new ErrorEvent("");
     return true;
@@ -11850,7 +12214,7 @@ const Zh = e;
  * {@link supportsDOMError}.
  *
  * @returns Answer to the given question.
- */ function Xh() {
+ */ function M_() {
   try {
     new DOMError("");
     return true;
@@ -11863,7 +12227,7 @@ const Zh = e;
  * {@link supportsDOMException}.
  *
  * @returns Answer to the given question.
- */ function Qh() {
+ */ function P_() {
   try {
     new DOMException("");
     return true;
@@ -11876,8 +12240,8 @@ const Zh = e;
  * {@link supportsHistory}.
  *
  * @returns Answer to the given question.
- */ function t_() {
-  return "history" in Zh && !!Zh.history;
+ */ function D_() {
+  return "history" in j_ && !!j_.history;
 }
 /**
  * Tells whether current environment supports Fetch API
@@ -11885,9 +12249,9 @@ const Zh = e;
  *
  * @returns Answer to the given question.
  * @deprecated This is no longer used and will be removed in a future major version.
- */ const e_ = n_;
-function n_() {
-  if (!("fetch" in Zh)) return false;
+ */ const F_ = L_;
+function L_() {
+  if (!("fetch" in j_)) return false;
   try {
     new Headers();
     new Request("data:,");
@@ -11897,7 +12261,7 @@ function n_() {
     return false;
   }
 }
-function o_(t) {
+function q_(t) {
   return (
     t && /^function\s+\w+\(\)\s+\{\s+\[native code\]\s+\}$/.test(t.toString())
   );
@@ -11907,18 +12271,18 @@ function o_(t) {
  * {@link supportsNativeFetch}.
  *
  * @returns true if `window.fetch` is natively implemented, false otherwise
- */ function s_() {
+ */ function U_() {
   if (typeof EdgeRuntime === "string") return true;
-  if (!n_()) return false;
-  if (o_(Zh.fetch)) return true;
+  if (!L_()) return false;
+  if (q_(j_.fetch)) return true;
   let e = false;
-  const n = Zh.document;
+  const n = j_.document;
   if (n && typeof n.createElement === "function")
     try {
       const t = n.createElement("iframe");
       t.hidden = true;
       n.head.appendChild(t);
-      t.contentWindow?.fetch && (e = o_(t.contentWindow.fetch));
+      t.contentWindow?.fetch && (e = q_(t.contentWindow.fetch));
       n.head.removeChild(t);
     } catch (e) {
       t &&
@@ -11934,8 +12298,8 @@ function o_(t) {
  * {@link supportsReportingObserver}.
  *
  * @returns Answer to the given question.
- */ function r_() {
-  return "ReportingObserver" in Zh;
+ */ function J_() {
+  return "ReportingObserver" in j_;
 }
 /**
  * Tells whether current environment supports Referrer Policy API
@@ -11943,8 +12307,8 @@ function o_(t) {
  *
  * @returns Answer to the given question.
  * @deprecated This is no longer used and will be removed in a future major version.
- */ function i_() {
-  if (!n_()) return false;
+ */ function z_() {
+  if (!L_()) return false;
   try {
     new Request("_", { referrerPolicy: "origin" });
     return true;
@@ -11952,48 +12316,48 @@ function o_(t) {
     return false;
   }
 }
-/* eslint-disable @typescript-eslint/no-explicit-any */ function a_(t, e) {
+/* eslint-disable @typescript-eslint/no-explicit-any */ function B_(t, e) {
   const n = "fetch";
-  j(n, t);
-  P(n, () => u_(void 0, e));
+  R(n, t);
+  P(n, () => V_(void 0, e));
 }
-function c_(t) {
+function W_(t) {
   const e = "fetch-body-resolved";
-  j(e, t);
-  P(e, () => u_(p_));
+  R(e, t);
+  P(e, () => V_(K_));
 }
-function u_(t, n = false) {
-  (n && !s_()) ||
-    dt(e, "fetch", function (n) {
-      return function (...o) {
-        const s = new Error();
-        const { method: r, url: i } = m_(o);
+function V_(t, n = false) {
+  (n && !U_()) ||
+    mt(e, "fetch", function (n) {
+      return function (...s) {
+        const o = new Error();
+        const { method: r, url: i } = Y_(s);
         const a = {
-          args: o,
+          args: s,
           fetchData: { method: r, url: i },
-          startTimestamp: Xt() * 1e3,
-          virtualError: s,
-          headers: g_(o),
+          startTimestamp: Qt() * 1e3,
+          virtualError: o,
+          headers: X_(s),
         };
-        t || M("fetch", { ...a });
-        return n.apply(e, o).then(
+        t || D("fetch", { ...a });
+        return n.apply(e, s).then(
           async (e) => {
             t
               ? t(e)
-              : M("fetch", { ...a, endTimestamp: Xt() * 1e3, response: e });
+              : D("fetch", { ...a, endTimestamp: Qt() * 1e3, response: e });
             return e;
           },
           (t) => {
-            M("fetch", { ...a, endTimestamp: Xt() * 1e3, error: t });
-            if (B(t) && t.stack === void 0) {
-              t.stack = s.stack;
-              mt(t, "framesToPop", 1);
+            D("fetch", { ...a, endTimestamp: Qt() * 1e3, error: t });
+            if (W(t) && t.stack === void 0) {
+              t.stack = o.stack;
+              gt(t, "framesToPop", 1);
             }
-            const e = Te();
+            const e = Ie();
             const n = e?.getOptions().enhanceFetchErrorMessages ?? "always";
-            const o = n !== false;
+            const s = n !== false;
             if (
-              o &&
+              s &&
               t instanceof TypeError &&
               (t.message === "Failed to fetch" ||
                 t.message === "Load failed" ||
@@ -12001,10 +12365,10 @@ function u_(t, n = false) {
             )
               try {
                 const e = new URL(a.fetchData.url);
-                const o = e.host;
+                const s = e.host;
                 n === "always"
-                  ? (t.message = `${t.message} (${o})`)
-                  : mt(t, "__sentry_fetch_url_host__", o);
+                  ? (t.message = `${t.message} (${s})`)
+                  : gt(t, "__sentry_fetch_url_host__", s);
               } catch {}
             throw t;
           },
@@ -12012,11 +12376,11 @@ function u_(t, n = false) {
       };
     });
 }
-async function l_(t, e) {
+async function G_(t, e) {
   if (t?.body) {
     const n = t.body;
-    const o = n.getReader();
-    const s = setTimeout(() => {
+    const s = n.getReader();
+    const o = setTimeout(() => {
       n.cancel().then(null, () => {});
     }, 9e4);
     let r = true;
@@ -12026,9 +12390,9 @@ async function l_(t, e) {
         t = setTimeout(() => {
           n.cancel().then(null, () => {});
         }, 5e3);
-        const { done: s } = await o.read();
+        const { done: o } = await s.read();
         clearTimeout(t);
-        if (s) {
+        if (o) {
           e();
           r = false;
         }
@@ -12038,83 +12402,83 @@ async function l_(t, e) {
         clearTimeout(t);
       }
     }
-    clearTimeout(s);
-    o.releaseLock();
+    clearTimeout(o);
+    s.releaseLock();
     n.cancel().then(null, () => {});
   }
 }
-function p_(t) {
+function K_(t) {
   let e;
   try {
     e = t.clone();
   } catch {
     return;
   }
-  l_(e, () => {
-    M("fetch-body-resolved", { endTimestamp: Xt() * 1e3, response: t });
+  G_(e, () => {
+    D("fetch-body-resolved", { endTimestamp: Qt() * 1e3, response: t });
   });
 }
-function f_(t, e) {
+function H_(t, e) {
   return !!t && typeof t === "object" && !!t[e];
 }
-function d_(t) {
+function Z_(t) {
   return typeof t === "string"
     ? t
     : t
-      ? f_(t, "url")
+      ? H_(t, "url")
         ? t.url
         : t.toString
           ? t.toString()
           : ""
       : "";
 }
-function m_(t) {
+function Y_(t) {
   if (t.length === 0) return { method: "GET", url: "" };
   if (t.length === 2) {
     const [e, n] = t;
     return {
-      url: d_(e),
-      method: f_(n, "method")
+      url: Z_(e),
+      method: H_(n, "method")
         ? String(n.method).toUpperCase()
-        : it(e) && f_(e, "method")
+        : at(e) && H_(e, "method")
           ? String(e.method).toUpperCase()
           : "GET",
     };
   }
   const e = t[0];
   return {
-    url: d_(e),
-    method: f_(e, "method") ? String(e.method).toUpperCase() : "GET",
+    url: Z_(e),
+    method: H_(e, "method") ? String(e.method).toUpperCase() : "GET",
   };
 }
-function g_(t) {
+function X_(t) {
   const [e, n] = t;
   try {
     if (typeof n === "object" && n !== null && "headers" in n && n.headers)
       return new Headers(n.headers);
-    if (it(e)) return new Headers(e.headers);
+    if (at(e)) return new Headers(e.headers);
   } catch {}
 }
 /**
  * Figures out if we're building a browser bundle.
  *
  * @returns true if this is a browser bundle build.
- */ function h_() {
+ */ function Q_() {
   return (
     typeof __SENTRY_BROWSER_BUNDLE__ !== "undefined" &&
     !!__SENTRY_BROWSER_BUNDLE__
   );
 }
-function __() {
+function ty() {
   return "npm";
 }
 /**
  * Checks whether we're in the Node.js or Browser environment
  *
  * @returns Answer to given question
- */ function y_() {
+ */ function ey() {
   return (
-    !h_() &&
+    !Q_() &&
     Object.prototype.toString.call(
       typeof process !== "undefined" ? process : 0,
     ) === "[object process]"
@@ -12124,7 +12488,7 @@ function __() {
  * Requires a module which is protected against bundler minification.
  *
  * @param request The module path to resolve
- */ function b_(t, e) {
+ */ function ny(t, e) {
   return t.require(e);
 }
 /**
@@ -12140,22 +12504,22 @@ function __() {
  * @param moduleName module name to require
  * @param existingModule module to use for requiring
  * @returns possibly required module
- */ function v_(t, e = module) {
+ */ function sy(t, e = module) {
   let n;
   try {
-    n = b_(e, t);
+    n = ny(e, t);
   } catch {}
   if (!n)
     try {
-      const { cwd: o } = b_(e, "process");
-      n = b_(e, `${o()}/node_modules/${t}`);
+      const { cwd: s } = ny(e, "process");
+      n = ny(e, `${s()}/node_modules/${t}`);
     } catch {}
   return n;
 }
-function S_() {
-  return typeof window !== "undefined" && (!y_() || k_());
+function oy() {
+  return typeof window !== "undefined" && (!ey() || ry());
 }
-function k_() {
+function ry() {
   const t = e.process;
   return t?.type === "renderer";
 }
@@ -12167,12 +12531,12 @@ function k_() {
  * @param exportName The name of the export to replace (e.g., 'GoogleGenAI', 'Anthropic', 'OpenAI')
  * @param wrappedConstructor The wrapped constructor function to replace the original with
  * @returns void
- */ function w_(t, e, n) {
-  const o = t[e];
-  if (typeof o === "function") {
+ */ function iy(t, e, n) {
+  const s = t[e];
+  if (typeof s === "function") {
     try {
       t[e] = n;
-    } catch (o) {
+    } catch (s) {
       Object.defineProperty(t, e, {
         value: n,
         writable: true,
@@ -12180,7 +12544,7 @@ function k_() {
         enumerable: true,
       });
     }
-    if (t.default === o)
+    if (t.default === s)
       try {
         t.default = n;
       } catch (e) {
@@ -12193,7 +12557,7 @@ function k_() {
       }
   }
 }
-function x_(t, e = false) {
+function ay(t, e = false) {
   const n =
     e ||
     (t &&
@@ -12203,68 +12567,75 @@ function x_(t, e = false) {
       !t.match(/^[a-zA-Z]([a-zA-Z0-9.\-+])*:\/\//));
   return !n && t !== void 0 && !t.includes("node_modules/");
 }
-function E_(t) {
+function cy(t) {
   const e = /^\s*[-]{4,}$/;
   const n = /at (?:async )?(?:(.+?)\s+\()?(?:(.+):(\d+):(\d+)?|([^)]+))\)?/;
-  const o = /at (?:async )?(.+?) \(data:(.*?),/;
-  return (s) => {
-    const r = s.match(o);
+  const s = /at (?:async )?(.+?) \(data:(.*?),/;
+  return (o) => {
+    const r = o.match(s);
     if (r) return { filename: `<data:${r[2]}>`, function: r[1] };
-    const i = s.match(n);
+    const i = o.match(n);
     if (i) {
       let e;
       let n;
-      let o;
       let s;
+      let o;
       let r;
       if (i[1]) {
-        o = i[1];
-        let t = o.lastIndexOf(".");
-        o[t - 1] === "." && t--;
+        s = i[1];
+        let t = s.lastIndexOf(".");
+        s[t - 1] === "." && t--;
         if (t > 0) {
-          e = o.slice(0, t);
-          n = o.slice(t + 1);
-          const s = e.indexOf(".Module");
-          if (s > 0) {
-            o = o.slice(s + 1);
-            e = e.slice(0, s);
+          e = s.slice(0, t);
+          n = s.slice(t + 1);
+          const o = e.indexOf(".Module");
+          if (o > 0) {
+            s = s.slice(o + 1);
+            e = e.slice(0, o);
           }
         }
-        s = void 0;
+        o = void 0;
       }
       if (n) {
-        s = e;
+        o = e;
         r = n;
       }
       if (n === "<anonymous>") {
         r = void 0;
-        o = void 0;
+        s = void 0;
       }
-      if (o === void 0) {
+      if (s === void 0) {
         r = r || v;
-        o = s ? `${s}.${r}` : r;
+        s = o ? `${o}.${r}` : r;
       }
-      let a = i[2]?.startsWith("file://") ? i[2].slice(7) : i[2];
+      let a = C(i[2]);
       const c = i[5] === "native";
-      a?.match(/\/[A-Z]:/) && (a = a.slice(1));
       a || !i[5] || c || (a = i[5]);
+      const u = a ? py(a) : void 0;
       return {
-        filename: a ? decodeURI(a) : void 0,
-        module: t ? t(a) : void 0,
-        function: o,
-        lineno: T_(i[3]),
-        colno: T_(i[4]),
-        in_app: x_(a || "", c),
+        filename: u ?? a,
+        module: u && t?.(u),
+        function: s,
+        lineno: ly(i[3]),
+        colno: ly(i[4]),
+        in_app: ay(a || "", c),
       };
     }
-    return s.match(e) ? { filename: s } : void 0;
+    return o.match(e) ? { filename: o } : void 0;
   };
 }
-function A_(t) {
-  return [90, E_(t)];
+function uy(t) {
+  return [90, cy(t)];
 }
-function T_(t) {
+function ly(t) {
   return parseInt(t || "", 10) || void 0;
+}
+function py(t) {
+  try {
+    return decodeURI(t);
+  } catch {
+    return;
+  }
 }
 /**
  * A node.js watchdog timer
@@ -12272,38 +12643,38 @@ function T_(t) {
  * @param anrThreshold The threshold for when we consider ANR
  * @param callback The callback to call for ANR
  * @returns An object with `poll` and `enabled` functions {@link WatchdogReturn}
- */ function I_(t, e, n, o) {
-  const s = t();
+ */ function fy(t, e, n, s) {
+  const o = t();
   let r = false;
   let i = true;
   setInterval(() => {
-    const t = s.getTimeMs();
+    const t = o.getTimeMs();
     if (r === false && t > e + n) {
       r = true;
-      i && o();
+      i && s();
     }
     t < e + n && (r = false);
   }, 20);
   return {
     poll: () => {
-      s.reset();
+      o.reset();
     },
     enabled: (t) => {
       i = t;
     },
   };
 }
-function $_(t, e, n) {
-  const o = e ? e.replace(/^file:\/\//, "") : void 0;
-  const s = t.location.columnNumber ? t.location.columnNumber + 1 : void 0;
+function dy(t, e, n) {
+  const s = e ? e.replace(/^file:\/\//, "") : void 0;
+  const o = t.location.columnNumber ? t.location.columnNumber + 1 : void 0;
   const r = t.location.lineNumber ? t.location.lineNumber + 1 : void 0;
   return {
-    filename: o,
-    module: n(o),
+    filename: s,
+    module: n(s),
     function: t.functionName || v,
-    colno: s,
+    colno: o,
     lineno: r,
-    in_app: o ? x_(o) : void 0,
+    in_app: s ? ay(s) : void 0,
   };
 }
 class LRUMap {
@@ -12346,50 +12717,50 @@ class LRUMap {
     return t;
   }
 }
-function O_(t) {
+function my(t) {
   if (typeof EdgeRuntime !== "string") return;
   const n = e[Symbol.for("@vercel/request-context")];
-  const o = n?.get?.();
-  o?.waitUntil && o.waitUntil(t);
+  const s = n?.get?.();
+  s?.waitUntil && s.waitUntil(t);
 }
-async function C_(t) {
+async function gy(t) {
   try {
     y.log("Flushing events...");
-    await gr(t);
+    await yr(t);
     y.log("Done flushing events");
   } catch (t) {
     y.log("Error while flushing events:\n", t);
   }
 }
-async function N_(t = {}) {
+async function hy(t = {}) {
   const { timeout: n = 2e3 } = t;
   if (
     "cloudflareWaitUntil" in t &&
     typeof t?.cloudflareWaitUntil === "function"
   ) {
-    t.cloudflareWaitUntil(C_(n));
+    t.cloudflareWaitUntil(gy(n));
     return;
   }
   if (
     "cloudflareCtx" in t &&
     typeof t.cloudflareCtx?.waitUntil === "function"
   ) {
-    t.cloudflareCtx.waitUntil(C_(n));
+    t.cloudflareCtx.waitUntil(gy(n));
     return;
   }
   if (e[Symbol.for("@vercel/request-context")]) {
-    O_(C_(n));
+    my(gy(n));
     return;
   }
   if (typeof process === "undefined") return;
-  const o =
+  const s =
     !!process.env.FUNCTIONS_WORKER_RUNTIME ||
     !!process.env.LAMBDA_TASK_ROOT ||
     !!process.env.K_SERVICE ||
     !!process.env.CF_PAGES ||
     !!process.env.VERCEL ||
     !!process.env.NETLIFY;
-  o && (await C_(n));
+  s && (await gy(n));
 }
 /**
  * Given a string, escape characters which have meaning in the regex grammar, such that the result is safe to feed to
@@ -12397,358 +12768,366 @@ async function N_(t = {}) {
  *
  * @param regexString The string to escape
  * @returns An version of the string with all special regex characters escaped
- */ function j_(t) {
+ */ function _y(t) {
   return t.replace(/[|\\{}()[\]^$+*?.]/g, "\\$&").replace(/-/g, "\\x2d");
 }
 export {
-  Fg as ANTHROPIC_AI_INTEGRATION_NAME,
+  Sh as ANTHROPIC_AI_INTEGRATION_NAME,
   i as CONSOLE_LEVELS,
   Client,
-  ao as DEFAULT_ENVIRONMENT,
-  fi as DEFAULT_RETRY_AFTER,
-  co as DEV_ENVIRONMENT,
+  us as DEFAULT_ENVIRONMENT,
+  hi as DEFAULT_RETRY_AFTER,
+  ls as DEV_ENVIRONMENT,
+  Ge as GEN_AI_CONVERSATION_ID_ATTRIBUTE,
   e as GLOBAL_OBJ,
-  th as GOOGLE_GENAI_INTEGRATION_NAME,
-  Sh as LANGCHAIN_INTEGRATION_NAME,
-  Lh as LANGGRAPH_INTEGRATION_NAME,
+  Dh as GOOGLE_GENAI_INTEGRATION_NAME,
+  o_ as LANGCHAIN_INTEGRATION_NAME,
+  k_ as LANGGRAPH_INTEGRATION_NAME,
   LRUMap,
-  rn as MAX_BAGGAGE_STRING_LENGTH,
-  ca as MULTIPLEXED_TRANSPORT_EXTRA_KEY,
-  Zm as OPENAI_INTEGRATION_NAME,
+  cn as MAX_BAGGAGE_STRING_LENGTH,
+  fa as MULTIPLEXED_TRANSPORT_EXTRA_KEY,
+  Cg as OPENAI_INTEGRATION_NAME,
   n as SDK_VERSION,
-  qe as SEMANTIC_ATTRIBUTE_CACHE_HIT,
-  Je as SEMANTIC_ATTRIBUTE_CACHE_ITEM_SIZE,
-  Ue as SEMANTIC_ATTRIBUTE_CACHE_KEY,
-  Le as SEMANTIC_ATTRIBUTE_EXCLUSIVE_TIME,
-  ze as SEMANTIC_ATTRIBUTE_HTTP_REQUEST_METHOD,
-  Fe as SEMANTIC_ATTRIBUTE_PROFILE_ID,
-  De as SEMANTIC_ATTRIBUTE_SENTRY_CUSTOM_SPAN_NAME,
-  Re as SEMANTIC_ATTRIBUTE_SENTRY_IDLE_SPAN_FINISH_REASON,
+  Ue as SEMANTIC_ATTRIBUTE_CACHE_HIT,
+  ze as SEMANTIC_ATTRIBUTE_CACHE_ITEM_SIZE,
+  Je as SEMANTIC_ATTRIBUTE_CACHE_KEY,
+  qe as SEMANTIC_ATTRIBUTE_EXCLUSIVE_TIME,
+  Be as SEMANTIC_ATTRIBUTE_HTTP_REQUEST_METHOD,
+  Le as SEMANTIC_ATTRIBUTE_PROFILE_ID,
+  Fe as SEMANTIC_ATTRIBUTE_SENTRY_CUSTOM_SPAN_NAME,
+  Me as SEMANTIC_ATTRIBUTE_SENTRY_IDLE_SPAN_FINISH_REASON,
   Pe as SEMANTIC_ATTRIBUTE_SENTRY_MEASUREMENT_UNIT,
-  Me as SEMANTIC_ATTRIBUTE_SENTRY_MEASUREMENT_VALUE,
-  Ne as SEMANTIC_ATTRIBUTE_SENTRY_OP,
-  je as SEMANTIC_ATTRIBUTE_SENTRY_ORIGIN,
-  Ce as SEMANTIC_ATTRIBUTE_SENTRY_PREVIOUS_TRACE_SAMPLE_RATE,
-  Oe as SEMANTIC_ATTRIBUTE_SENTRY_SAMPLE_RATE,
-  $e as SEMANTIC_ATTRIBUTE_SENTRY_SOURCE,
-  Be as SEMANTIC_ATTRIBUTE_URL_FULL,
-  We as SEMANTIC_LINK_ATTRIBUTE_LINK_TYPE,
-  on as SENTRY_BAGGAGE_KEY_PREFIX,
-  sn as SENTRY_BAGGAGE_KEY_PREFIX_REGEX,
-  li as SENTRY_BUFFER_FULL_ERROR,
-  Ke as SPAN_STATUS_ERROR,
-  Ge as SPAN_STATUS_OK,
-  Ve as SPAN_STATUS_UNSET,
+  De as SEMANTIC_ATTRIBUTE_SENTRY_MEASUREMENT_VALUE,
+  je as SEMANTIC_ATTRIBUTE_SENTRY_OP,
+  Re as SEMANTIC_ATTRIBUTE_SENTRY_ORIGIN,
+  Ne as SEMANTIC_ATTRIBUTE_SENTRY_PREVIOUS_TRACE_SAMPLE_RATE,
+  Ce as SEMANTIC_ATTRIBUTE_SENTRY_SAMPLE_RATE,
+  Oe as SEMANTIC_ATTRIBUTE_SENTRY_SOURCE,
+  We as SEMANTIC_ATTRIBUTE_URL_FULL,
+  Ve as SEMANTIC_LINK_ATTRIBUTE_LINK_TYPE,
+  rn as SENTRY_BAGGAGE_KEY_PREFIX,
+  an as SENTRY_BAGGAGE_KEY_PREFIX_REGEX,
+  mi as SENTRY_BUFFER_FULL_ERROR,
+  Ze as SPAN_STATUS_ERROR,
+  He as SPAN_STATUS_OK,
+  Ke as SPAN_STATUS_UNSET,
   Scope,
   SentryError,
   SentryNonRecordingSpan,
   SentrySpan,
   ServerRuntimeClient,
   SyncPromise,
-  wn as TRACEPARENT_REGEXP,
-  _s as TRACING_DEFAULTS,
+  An as TRACEPARENT_REGEXP,
+  bo as TRACING_DEFAULTS,
   v as UNKNOWN_FUNCTION,
-  ul as _INTERNAL_FLAG_BUFFER_SIZE,
-  ll as _INTERNAL_MAX_FLAGS_PER_SPAN,
-  gl as _INTERNAL_addFeatureFlagToActiveSpan,
-  Hr as _INTERNAL_captureLog,
-  ii as _INTERNAL_captureMetric,
-  Kr as _INTERNAL_captureSerializedLog,
-  oi as _INTERNAL_captureSerializedMetric,
-  Pm as _INTERNAL_cleanupToolCallSpan,
-  ha as _INTERNAL_clearAiProviderSkips,
-  fl as _INTERNAL_copyFlagsFromScopeToEvent,
-  Gi as _INTERNAL_enhanceErrorWithSentryInfo,
-  Zr as _INTERNAL_flushLogsBuffer,
-  ai as _INTERNAL_flushMetricsBuffer,
-  Rm as _INTERNAL_getSpanForToolCallId,
-  dl as _INTERNAL_insertFlagToScope,
-  It as _INTERNAL_safeDateNow,
-  Tt as _INTERNAL_safeMathRandom,
-  le as _INTERNAL_setSpanForScope,
-  ga as _INTERNAL_shouldSkipAiProviderWrapping,
-  ma as _INTERNAL_skipAiProviderWrapping,
-  At as _INTERNAL_withRandomSafeContext,
-  ja as addAutoIpAddressToSession,
-  Na as addAutoIpAddressToUser,
-  Qa as addBreadcrumb,
-  Gn as addChildSpanToSpan,
-  Vc as addConsoleInstrumentationHandler,
-  Wt as addContextToFrame,
-  br as addEventProcessor,
-  Ut as addExceptionMechanism,
-  qt as addExceptionTypeValue,
-  c_ as addFetchEndInstrumentationHandler,
-  a_ as addFetchInstrumentationHandler,
-  F as addGlobalErrorInstrumentationHandler,
-  U as addGlobalUnhandledRejectionInstrumentationHandler,
-  j as addHandler,
-  Mr as addIntegration,
-  Ao as addItemToEnvelope,
-  mt as addNonEnumerableProperty,
-  Gm as addVercelAiProcessors,
-  yc as applyAggregateErrorsToEvent,
-  Ds as applyScopeDataToEvent,
-  Ra as applySdkMetadata,
-  an as baggageHeaderToDynamicSamplingContext,
-  wu as basename,
-  ee as browserPerformanceTimeOrigin,
-  $_ as callFrameToStackFrame,
-  dr as captureCheckIn,
-  Yc as captureConsoleIntegration,
-  rr as captureEvent,
-  or as captureException,
-  bf as captureFeedback,
-  sr as captureMessage,
-  wr as captureSession,
-  Vt as checkOrSetAlreadyCaught,
-  hr as close,
-  se as closeSession,
-  il as consoleIntegration,
-  Pf as consoleLoggingIntegration,
+  Sl as _INTERNAL_FLAG_BUFFER_SIZE,
+  kl as _INTERNAL_MAX_FLAGS_PER_SPAN,
+  Tl as _INTERNAL_addFeatureFlagToActiveSpan,
+  Xr as _INTERNAL_captureLog,
+  ui as _INTERNAL_captureMetric,
+  Yr as _INTERNAL_captureSerializedLog,
+  ii as _INTERNAL_captureSerializedMetric,
+  mg as _INTERNAL_cleanupToolCallSpan,
+  va as _INTERNAL_clearAiProviderSkips,
+  xl as _INTERNAL_copyFlagsFromScopeToEvent,
+  Yi as _INTERNAL_enhanceErrorWithSentryInfo,
+  Qr as _INTERNAL_flushLogsBuffer,
+  li as _INTERNAL_flushMetricsBuffer,
+  dg as _INTERNAL_getSpanForToolCallId,
+  Al as _INTERNAL_insertFlagToScope,
+  $t as _INTERNAL_safeDateNow,
+  It as _INTERNAL_safeMathRandom,
+  pe as _INTERNAL_setSpanForScope,
+  ba as _INTERNAL_shouldSkipAiProviderWrapping,
+  ya as _INTERNAL_skipAiProviderWrapping,
+  Tt as _INTERNAL_withRandomSafeContext,
+  Ja as addAutoIpAddressToSession,
+  Ua as addAutoIpAddressToUser,
+  lc as addBreadcrumb,
+  Hn as addChildSpanToSpan,
+  ou as addConsoleInstrumentationHandler,
+  Vt as addContextToFrame,
+  kr as addEventProcessor,
+  Jt as addExceptionMechanism,
+  Ut as addExceptionTypeValue,
+  W_ as addFetchEndInstrumentationHandler,
+  B_ as addFetchInstrumentationHandler,
+  L as addGlobalErrorInstrumentationHandler,
+  J as addGlobalUnhandledRejectionInstrumentationHandler,
+  R as addHandler,
+  Lr as addIntegration,
+  Ts as addItemToEnvelope,
+  gt as addNonEnumerableProperty,
+  Ig as addVercelAiProcessors,
+  $c as applyAggregateErrorsToEvent,
+  Lo as applyScopeDataToEvent,
+  za as applySdkMetadata,
+  un as baggageHeaderToDynamicSamplingContext,
+  Mu as basename,
+  ne as browserPerformanceTimeOrigin,
+  dy as callFrameToStackFrame,
+  hr as captureCheckIn,
+  uu as captureConsoleIntegration,
+  ar as captureEvent,
+  rr as captureException,
+  Ff as captureFeedback,
+  ir as captureMessage,
+  Er as captureSession,
+  Gt as checkOrSetAlreadyCaught,
+  br as close,
+  re as closeSession,
+  yl as consoleIntegration,
+  td as consoleLoggingIntegration,
   u as consoleSandbox,
-  is as continueTrace,
-  Dn as convertSpanLinksForEnvelope,
-  _t as convertToPlainObject,
-  Po as createAttachmentEnvelopeItem,
-  Ji as createCheckInEnvelope,
-  bi as createClientReportEnvelope,
-  Jf as createConsolaReporter,
-  Eo as createEnvelope,
-  Jo as createEventEnvelope,
-  Lo as createEventEnvelopeHeaders,
-  Fh as createLangChainCallbackHandler,
-  Uo as createSessionEnvelope,
-  zo as createSpanEnvelope,
-  Ro as createSpanEnvelopeItem,
+  ao as continueTrace,
+  jl as conversationIdIntegration,
+  Ln as convertSpanLinksForEnvelope,
+  yt as convertToPlainObject,
+  Ps as createAttachmentEnvelopeItem,
+  Vi as createCheckInEnvelope,
+  wi as createClientReportEnvelope,
+  ad as createConsolaReporter,
+  Es as createEnvelope,
+  zs as createEventEnvelope,
+  qs as createEventEnvelopeHeaders,
+  S_ as createLangChainCallbackHandler,
+  Js as createSessionEnvelope,
+  Bs as createSpanEnvelope,
+  Ms as createSpanEnvelopeItem,
   w as createStackParser,
-  yi as createTransport,
-  Ht as dateTimestampInSeconds,
-  La as debounce,
+  ki as createTransport,
+  Zt as dateTimestampInSeconds,
+  Za as debounce,
   y as debug,
-  eu as dedupeIntegration,
-  Dr as defineIntegration,
-  ku as dirname,
-  mi as disabledUntil,
-  St as dropUndefinedKeys,
-  hn as dsnFromString,
-  gn as dsnToString,
-  cn as dynamicSamplingContextToSentryBaggageHeader,
-  Sr as endSession,
-  Io as envelopeContainsItemType,
-  Do as envelopeItemTypeToDataCategory,
-  j_ as escapeStringForRegex,
-  ac as eventFiltersIntegration,
-  ta as eventFromMessage,
-  Qi as eventFromUnknownInput,
-  Ki as exceptionFromError,
-  lu as extraErrorDataIntegration,
-  vt as extractExceptionKeysForMessage,
-  Ya as extractQueryParamsFromUrl,
-  xn as extractTraceparentData,
-  hl as featureFlagsIntegration,
-  x_ as filenameIsInApp,
-  dt as fill,
-  gr as flush,
-  N_ as flushIfServerless,
-  Ca as fmt,
-  To as forEachEnvelopeItem,
-  sc as functionToStringIntegration,
-  An as generateSentryTraceHeader,
-  ce as generateSpanId,
-  ae as generateTraceId,
-  Tn as generateTraceparentHeader,
-  Yn as getActiveSpan,
-  Hh as getBreadcrumbLogLevelFromHttpStatusCode,
-  nn as getCapturedScopesOnSpan,
-  Te as getClient,
-  qs as getCombinedScopeData,
-  ft as getComponentName,
-  ke as getCurrentScope,
-  Ms as getDebugImagesForResources,
-  de as getDefaultCurrentScope,
-  me as getDefaultIsolationScope,
-  po as getDynamicSamplingContextFromClient,
-  fo as getDynamicSamplingContextFromScope,
-  mo as getDynamicSamplingContextFromSpan,
-  Ir as getEnvelopeEndpointWithUrlEncodedAuth,
-  Lt as getEventDescription,
-  Ps as getFilenameToDebugIdMap,
-  $c as getFilenameToMetadataMap,
+  du as dedupeIntegration,
+  qr as defineIntegration,
+  Ru as dirname,
+  yi as disabledUntil,
+  kt as dropUndefinedKeys,
+  yn as dsnFromString,
+  _n as dsnToString,
+  ln as dynamicSamplingContextToSentryBaggageHeader,
+  xr as endSession,
+  wa as envToBool,
+  $s as envelopeContainsItemType,
+  Fs as envelopeItemTypeToDataCategory,
+  _y as escapeStringForRegex,
+  yc as eventFiltersIntegration,
+  oa as eventFromMessage,
+  sa as eventFromUnknownInput,
+  Xi as exceptionFromError,
+  ku as extraErrorDataIntegration,
+  St as extractExceptionKeysForMessage,
+  cc as extractQueryParamsFromUrl,
+  En as extractTraceparentData,
+  Il as featureFlagsIntegration,
+  ay as filenameIsInApp,
+  mt as fill,
+  yr as flush,
+  hy as flushIfServerless,
+  La as fmt,
+  Is as forEachEnvelopeItem,
+  gc as functionToStringIntegration,
+  In as generateSentryTraceHeader,
+  ue as generateSpanId,
+  ce as generateTraceId,
+  $n as generateTraceparentHeader,
+  Qn as getActiveSpan,
+  N_ as getBreadcrumbLogLevelFromHttpStatusCode,
+  on as getCapturedScopesOnSpan,
+  Ie as getClient,
+  Jo as getCombinedScopeData,
+  dt as getComponentName,
+  we as getCurrentScope,
+  Fo as getDebugImagesForResources,
+  me as getDefaultCurrentScope,
+  ge as getDefaultIsolationScope,
+  ds as getDynamicSamplingContextFromClient,
+  ms as getDynamicSamplingContextFromScope,
+  gs as getDynamicSamplingContextFromSpan,
+  Cr as getEnvelopeEndpointWithUrlEncodedAuth,
+  qt as getEventDescription,
+  Do as getFilenameToDebugIdMap,
+  Uc as getFilenameToMetadataMap,
   $ as getFramesFromEvent,
   I as getFunctionName,
-  xe as getGlobalScope,
+  Ae as getGlobalScope,
   r as getGlobalSingleton,
-  ka as getHttpSpanDetailsFromUrlObject,
-  Nr as getIntegrationsToSetup,
-  we as getIsolationScope,
-  pt as getLocationHref,
-  o as getMainCarrier,
-  ht as getOriginalFunction,
-  $r as getReportDialogEndpoint,
-  Zn as getRootSpan,
-  __ as getSDKSource,
-  Ea as getSanitizedUrlString,
-  va as getSanitizedUrlStringFromUrlObject,
-  Fo as getSdkMetadataForEnvelopeHeader,
-  Hn as getSpanDescendants,
-  He as getSpanStatusFromHttpCode,
-  Bn as getStatusMessage,
-  Ie as getTraceContextFromScope,
-  Pa as getTraceData,
-  Fa as getTraceMetaTags,
-  _l as growthbookIntegration,
-  Qo as handleCallbackErrors,
-  no as hasSpansEnabled,
-  Ua as headersToDict,
-  ut as htmlTreeAsString,
-  Ga as httpHeadersToSpanAttributes,
-  za as httpRequestToRequestData,
-  cc as inboundFiltersIntegration,
-  na as initAndBind,
-  Or as installedIntegrations,
-  Qg as instrumentAnthropicAiClient,
-  wl as instrumentFetchRequest,
-  vh as instrumentGoogleGenAIClient,
-  Kh as instrumentLangGraph,
-  Ig as instrumentOpenAiClient,
-  Vh as instrumentStateGraphCompile,
-  qu as instrumentSupabaseClient,
-  vu as isAbsolute,
-  S_ as isBrowser,
-  h_ as isBrowserBundle,
-  G as isDOMError,
-  K as isDOMException,
-  tt as isElement,
-  yr as isEnabled,
-  B as isError,
-  V as isErrorEvent,
-  Q as isEvent,
-  _r as isInitialized,
-  st as isInstanceOf,
-  Nt as isMatchingPattern,
-  o_ as isNativeFunction,
-  y_ as isNodeEnv,
-  Z as isParameterizedString,
-  X as isPlainObject,
-  Y as isPrimitive,
-  gi as isRateLimited,
-  et as isRegExp,
-  Aa as isSentryRequestUrl,
-  H as isString,
+  $a as getHttpSpanDetailsFromUrlObject,
+  Mr as getIntegrationsToSetup,
+  xe as getIsolationScope,
+  ft as getLocationHref,
+  s as getMainCarrier,
+  _t as getOriginalFunction,
+  Nr as getReportDialogEndpoint,
+  Xn as getRootSpan,
+  ty as getSDKSource,
+  Na as getSanitizedUrlString,
+  Ta as getSanitizedUrlStringFromUrlObject,
+  Ls as getSdkMetadataForEnvelopeHeader,
+  Yn as getSpanDescendants,
+  Ye as getSpanStatusFromHttpCode,
+  Vn as getStatusMessage,
+  $e as getTraceContextFromScope,
+  Ba as getTraceData,
+  Ha as getTraceMetaTags,
+  $l as growthbookIntegration,
+  to as handleCallbackErrors,
+  qa as handleTunnelRequest,
+  os as hasSpansEnabled,
+  Xa as headersToDict,
+  lt as htmlTreeAsString,
+  oc as httpHeadersToSpanAttributes,
+  tc as httpRequestToRequestData,
+  bc as inboundFiltersIntegration,
+  ia as initAndBind,
+  jr as installedIntegrations,
+  Ph as instrumentAnthropicAiClient,
+  Fl as instrumentFetchRequest,
+  s_ as instrumentGoogleGenAIClient,
+  C_ as instrumentLangGraph,
+  ph as instrumentOpenAiClient,
+  $_ as instrumentStateGraphCompile,
+  Xu as instrumentSupabaseClient,
+  Nu as isAbsolute,
+  Kt as isAlreadyCaptured,
+  oy as isBrowser,
+  Q_ as isBrowserBundle,
+  K as isDOMError,
+  H as isDOMException,
+  et as isElement,
+  Sr as isEnabled,
+  W as isError,
+  G as isErrorEvent,
+  tt as isEvent,
+  vr as isInitialized,
+  rt as isInstanceOf,
+  jt as isMatchingPattern,
+  q_ as isNativeFunction,
+  ey as isNodeEnv,
+  Y as isParameterizedString,
+  Q as isPlainObject,
+  X as isPrimitive,
+  bi as isRateLimited,
+  nt as isRegExp,
+  Ra as isSentryRequestUrl,
+  Z as isString,
   ot as isSyntheticEvent,
-  nt as isThenable,
-  ya as isURLObjectRelative,
-  rt as isVueViewModel,
-  Su as join,
-  fr as lastEventId,
-  Ac as linkedErrorsIntegration,
-  v_ as loadModule,
-  Wo as logSpanEnd,
-  Bo as logSpanStart,
-  Tf as logger,
-  Sn as makeDsn,
-  fa as makeMultiplexedTransport,
-  aa as makeOfflineTransport,
-  pi as makePromiseBuffer,
-  ne as makeSession,
-  gt as markFunctionWrapped,
+  st as isThenable,
+  Aa as isURLObjectRelative,
+  it as isVueViewModel,
+  ju as join,
+  gr as lastEventId,
+  Fc as linkedErrorsIntegration,
+  sy as loadModule,
+  Vs as logSpanEnd,
+  Ws as logSpanStart,
+  Vf as logger,
+  wn as makeDsn,
+  ha as makeMultiplexedTransport,
+  pa as makeOfflineTransport,
+  gi as makePromiseBuffer,
+  se as makeSession,
+  ht as markFunctionWrapped,
   P as maybeInstrument,
-  Fs as mergeScopeData,
-  qf as metrics,
-  Rc as moduleMetadataIntegration,
-  E_ as node,
-  A_ as nodeStackLineParser,
-  ho as normalize,
-  bu as normalizePath,
-  _o as normalizeToSize,
-  wo as normalizeUrlToBase,
-  $s as notifyEventProcessors,
-  pn as objectToBaggageHeader,
-  xt as objectify,
+  qo as mergeScopeData,
+  rd as metrics,
+  Vc as moduleMetadataIntegration,
+  cy as node,
+  uy as nodeStackLineParser,
+  _s as normalize,
+  Cu as normalizePath,
+  ys as normalizeToSize,
+  xs as normalizeUrlToBase,
+  Co as notifyEventProcessors,
+  dn as objectToBaggageHeader,
+  At as objectify,
   c as originalConsoleMethods,
-  Oa as parameterize,
-  un as parseBaggageHeader,
-  jo as parseEnvelope,
-  di as parseRetryAfterHeader,
-  kn as parseSampleRate,
-  Bt as parseSemver,
-  Wi as parseStackFrames,
-  ba as parseStringToURLObject,
-  wa as parseUrl,
-  Vs as prepareEvent,
-  kl as profiler,
-  En as propagationContextFromHeaders,
-  eo as registerSpanErrorInstrumentation,
-  Is as rejectedSyncPromise,
-  yu as relative,
-  w_ as replaceExports,
-  zc as requestDataIntegration,
-  R as resetInstrumentationHandlers,
-  hu as resolve,
-  Ts as resolvedSyncPromise,
-  Eu as rewriteFramesIntegration,
-  Ct as safeJoin,
-  es as sampleSpan,
-  Co as serializeEnvelope,
-  ve as setAsyncContextStrategy,
-  en as setCapturedScopesOnSpan,
-  ir as setContext,
-  oa as setCurrentClient,
-  cr as setExtra,
-  ar as setExtras,
-  Ze as setHttpStatus,
-  Vo as setMeasurement,
-  lr as setTag,
-  ur as setTags,
-  pr as setUser,
-  Kc as severityLevelFromString,
-  $n as shouldContinueTrace,
-  Ot as snipLine,
-  zn as spanIsSampled,
-  Fn as spanTimeInputToSeconds,
-  go as spanToBaggageHeader,
-  qn as spanToJSON,
-  Rn as spanToTraceContext,
-  Pn as spanToTraceHeader,
+  Fa as parameterize,
+  pn as parseBaggageHeader,
+  Rs as parseEnvelope,
+  _i as parseRetryAfterHeader,
+  xn as parseSampleRate,
+  Wt as parseSemver,
+  Hi as parseStackFrames,
+  Ea as parseStringToURLObject,
+  Oa as parseUrl,
+  Ko as prepareEvent,
+  Dl as profiler,
+  Tn as propagationContextFromHeaders,
+  ss as registerSpanErrorInstrumentation,
+  Oo as rejectedSyncPromise,
+  Ou as relative,
+  iy as replaceExports,
+  eu as requestDataIntegration,
+  M as resetInstrumentationHandlers,
+  Iu as resolve,
+  $o as resolvedSyncPromise,
+  Du as rewriteFramesIntegration,
+  Nt as safeJoin,
+  no as sampleSpan,
+  Ns as serializeEnvelope,
+  Se as setAsyncContextStrategy,
+  sn as setCapturedScopesOnSpan,
+  cr as setContext,
+  mr as setConversationId,
+  aa as setCurrentClient,
+  lr as setExtra,
+  ur as setExtras,
+  Xe as setHttpStatus,
+  Gs as setMeasurement,
+  fr as setTag,
+  pr as setTags,
+  dr as setUser,
+  iu as severityLevelFromString,
+  Cn as shouldContinueTrace,
+  Ka as shouldPropagateTraceForUrl,
+  Ct as snipLine,
+  Wn as spanIsSampled,
+  qn as spanTimeInputToSeconds,
+  hs as spanToBaggageHeader,
+  Jn as spanToJSON,
+  Pn as spanToTraceContext,
+  Dn as spanToTraceHeader,
   x as stackParserFromStackParserOptions,
-  ks as startIdleSpan,
-  rs as startInactiveSpan,
-  us as startNewTrace,
-  vr as startSession,
-  os as startSpan,
-  ss as startSpanManual,
-  jt as stringMatchesSomePattern,
-  E as stripSentryFramesAndReverse,
-  xa as stripUrlQueryAndFragment,
-  zu as supabaseIntegration,
-  Xh as supportsDOMError,
-  Qh as supportsDOMException,
-  Yh as supportsErrorEvent,
-  e_ as supportsFetch,
-  t_ as supportsHistory,
-  s_ as supportsNativeFetch,
-  i_ as supportsReferrerPolicy,
-  r_ as supportsReportingObserver,
-  cs as suppressTracing,
-  Qu as thirdPartyErrorFilterIntegration,
-  Go as timedEventsToMeasurements,
-  Xt as timestampInSeconds,
-  M as triggerHandlers,
-  jl as trpcMiddleware,
-  $t as truncate,
-  hi as updateRateLimits,
+  xo as startIdleSpan,
+  io as startInactiveSpan,
+  lo as startNewTrace,
+  wr as startSession,
+  oo as startSpan,
+  ro as startSpanManual,
+  Rt as stringMatchesSomePattern,
+  ja as stripDataUrlContent,
+  A as stripSentryFramesAndReverse,
+  Ca as stripUrlQueryAndFragment,
+  el as supabaseIntegration,
+  M_ as supportsDOMError,
+  P_ as supportsDOMException,
+  R_ as supportsErrorEvent,
+  F_ as supportsFetch,
+  D_ as supportsHistory,
+  U_ as supportsNativeFetch,
+  z_ as supportsReferrerPolicy,
+  J_ as supportsReportingObserver,
+  uo as suppressTracing,
+  pl as thirdPartyErrorFilterIntegration,
+  Ks as timedEventsToMeasurements,
+  Qt as timestampInSeconds,
+  D as triggerHandlers,
+  Kl as trpcMiddleware,
+  Ot as truncate,
+  vi as updateRateLimits,
   oe as updateSession,
-  Qn as updateSpanName,
-  Dt as uuid4,
-  O_ as vercelWaitUntil,
-  I_ as watchdogTimer,
-  qa as winterCGHeadersToDict,
-  Ja as winterCGRequestToRequestData,
-  as as withActiveSpan,
-  Ae as withIsolationScope,
-  mr as withMonitor,
+  es as updateSpanName,
+  Ft as uuid4,
+  my as vercelWaitUntil,
+  fy as watchdogTimer,
+  Ya as winterCGHeadersToDict,
+  Qa as winterCGRequestToRequestData,
+  co as withActiveSpan,
+  Te as withIsolationScope,
+  _r as withMonitor,
   Ee as withScope,
-  yf as wrapMcpServerWithSentry,
-  Xu as zodErrorsIntegration,
+  Df as wrapMcpServerWithSentry,
+  ll as zodErrorsIntegration,
 };

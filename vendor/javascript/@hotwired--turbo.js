@@ -1,4 +1,4 @@
-// @hotwired/turbo@8.0.21 downloaded from https://ga.jspm.io/npm:@hotwired/turbo@8.0.21/dist/turbo.es2017-esm.js
+// @hotwired/turbo@8.0.23 downloaded from https://ga.jspm.io/npm:@hotwired/turbo@8.0.23/dist/turbo.es2017-esm.js
 
 const e = { eager: "eager", lazy: "lazy" };
 class FrameElement extends HTMLElement {
@@ -4625,14 +4625,14 @@ function bt(e) {
 }
 var wt = Object.freeze({
   __proto__: null,
-  navigator: ct,
-  session: ot,
-  cache: at,
   PageRenderer: PageRenderer,
   PageSnapshot: PageSnapshot,
   FrameRenderer: FrameRenderer,
   fetch: G,
   config: O,
+  session: ot,
+  cache: at,
+  navigator: ct,
   start: lt,
   registerAdapter: ht,
   visit: dt,

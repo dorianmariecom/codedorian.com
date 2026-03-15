@@ -1,4 +1,4 @@
-// @sentry/browser@10.34.0 downloaded from https://ga.jspm.io/npm:@sentry/browser@10.34.0/build/npm/esm/prod/index.js
+// @sentry/browser@10.40.0 downloaded from https://ga.jspm.io/npm:@sentry/browser@10.40.0/build/npm/esm/prod/index.js
 
 import {
   buildFeedbackIntegration as e,
@@ -15,8 +15,8 @@ import {
   captureException as c,
   markFunctionWrapped as l,
   addNonEnumerableProperty as u,
-  getLocationHref as f,
-  getClient as d,
+  getLocationHref as d,
+  getClient as f,
   SDK_VERSION as p,
   normalizeToSize as g,
   isEvent as m,
@@ -27,29 +27,29 @@ import {
   isDOMException as b,
   isError as S,
   isPlainObject as w,
-  isParameterizedString as P,
-  extractExceptionKeysForMessage as k,
+  isParameterizedString as k,
+  extractExceptionKeysForMessage as P,
   Client as T,
   getSDKSource as E,
-  applySdkMetadata as x,
-  _INTERNAL_flushLogsBuffer as R,
-  _INTERNAL_flushMetricsBuffer as I,
+  applySdkMetadata as I,
+  _INTERNAL_flushLogsBuffer as x,
+  _INTERNAL_flushMetricsBuffer as R,
   addAutoIpAddressToSession as C,
   createTransport as L,
   makePromiseBuffer as O,
   debug as A,
   UNKNOWN_FUNCTION as $,
-  createStackParser as q,
-  dsnToString as D,
+  createStackParser as D,
+  dsnToString as q,
   createEnvelope as M,
   addConsoleInstrumentationHandler as N,
-  addFetchInstrumentationHandler as H,
-  defineIntegration as F,
+  addFetchInstrumentationHandler as F,
+  defineIntegration as H,
   addBreadcrumb as j,
   getEventDescription as U,
   htmlTreeAsString as B,
-  getComponentName as z,
-  safeJoin as W,
+  getComponentName as W,
+  safeJoin as z,
   severityLevelFromString as G,
   getBreadcrumbLogLevelFromHttpStatusCode as X,
   parseUrl as K,
@@ -57,77 +57,79 @@ import {
   getFunctionName as J,
   startSession as V,
   captureSession as Q,
-  addGlobalErrorInstrumentationHandler as Z,
-  captureEvent as ee,
-  addGlobalUnhandledRejectionInstrumentationHandler as te,
-  isPrimitive as ne,
-  isString as re,
-  applyAggregateErrorsToEvent as oe,
-  serializeEnvelope as se,
-  consoleSandbox as ie,
-  inboundFiltersIntegration as ae,
-  functionToStringIntegration as ce,
-  dedupeIntegration as le,
-  getIntegrationsToSetup as ue,
-  stackParserFromStackParserOptions as fe,
-  initAndBind as de,
-  getCurrentScope as pe,
-  lastEventId as ge,
-  getReportDialogEndpoint as me,
-  captureMessage as he,
-  supportsReportingObserver as ye,
-  supportsNativeFetch as _e,
-  isSentryRequestUrl as ve,
-  stripUrlQueryAndFragment as be,
-  addContextToFrame as Se,
-  spanToJSON as we,
-  SEMANTIC_ATTRIBUTE_SENTRY_OP as Pe,
-  SEMANTIC_ATTRIBUTE_URL_FULL as ke,
-  SEMANTIC_ATTRIBUTE_HTTP_REQUEST_METHOD as Te,
-  stringMatchesSomePattern as Ee,
-  addFetchEndInstrumentationHandler as xe,
-  instrumentFetchRequest as Re,
-  hasSpansEnabled as Ie,
-  setHttpStatus as Ce,
-  getActiveSpan as Le,
-  startInactiveSpan as Oe,
-  SEMANTIC_ATTRIBUTE_SENTRY_ORIGIN as Ae,
-  SentryNonRecordingSpan as $e,
-  getTraceData as qe,
-  getRootSpan as De,
-  SPAN_STATUS_ERROR as Me,
-  SEMANTIC_ATTRIBUTE_SENTRY_PREVIOUS_TRACE_SAMPLE_RATE as Ne,
-  SEMANTIC_ATTRIBUTE_SENTRY_SAMPLE_RATE as He,
-  SEMANTIC_LINK_ATTRIBUTE_LINK_TYPE as Fe,
-  TRACING_DEFAULTS as je,
-  SEMANTIC_ATTRIBUTE_SENTRY_SOURCE as Ue,
-  dateTimestampInSeconds as Be,
-  startIdleSpan as ze,
-  getDynamicSamplingContextFromSpan as We,
-  spanIsSampled as Ge,
-  browserPerformanceTimeOrigin as Xe,
-  parseStringToURLObject as Ke,
-  registerSpanErrorInstrumentation as Ye,
-  timestampInSeconds as Je,
-  SEMANTIC_ATTRIBUTE_SENTRY_IDLE_SPAN_FINISH_REASON as Ve,
-  getIsolationScope as Qe,
-  generateSpanId as Ze,
-  generateTraceId as et,
-  propagationContextFromHeaders as tt,
-  _INTERNAL_setSpanForScope as nt,
-  parseEnvelope as rt,
-  makeOfflineTransport as ot,
-  uuid4 as st,
-  DEFAULT_ENVIRONMENT as it,
-  forEachEnvelopeItem as at,
-  getDebugImagesForResources as ct,
-  getGlobalScope as lt,
-  getSdkMetadataForEnvelopeHeader as ut,
-  _INTERNAL_copyFlagsFromScopeToEvent as ft,
-  _INTERNAL_insertFlagToScope as dt,
-  _INTERNAL_addFeatureFlagToActiveSpan as pt,
-  growthbookIntegration as gt,
-  suppressTracing as mt,
+  getIsolationScope as Z,
+  addGlobalErrorInstrumentationHandler as ee,
+  captureEvent as te,
+  addGlobalUnhandledRejectionInstrumentationHandler as ne,
+  isPrimitive as re,
+  isString as oe,
+  stripDataUrlContent as se,
+  applyAggregateErrorsToEvent as ie,
+  serializeEnvelope as ae,
+  consoleSandbox as ce,
+  inboundFiltersIntegration as le,
+  functionToStringIntegration as ue,
+  conversationIdIntegration as de,
+  dedupeIntegration as fe,
+  getIntegrationsToSetup as pe,
+  stackParserFromStackParserOptions as ge,
+  initAndBind as me,
+  getCurrentScope as he,
+  lastEventId as ye,
+  getReportDialogEndpoint as _e,
+  captureMessage as ve,
+  supportsReportingObserver as be,
+  supportsNativeFetch as Se,
+  isSentryRequestUrl as we,
+  stripUrlQueryAndFragment as ke,
+  addContextToFrame as Pe,
+  spanToJSON as Te,
+  SEMANTIC_ATTRIBUTE_SENTRY_OP as Ee,
+  SEMANTIC_ATTRIBUTE_URL_FULL as Ie,
+  SEMANTIC_ATTRIBUTE_HTTP_REQUEST_METHOD as xe,
+  stringMatchesSomePattern as Re,
+  addFetchEndInstrumentationHandler as Ce,
+  instrumentFetchRequest as Le,
+  hasSpansEnabled as Oe,
+  setHttpStatus as Ae,
+  getActiveSpan as $e,
+  startInactiveSpan as De,
+  SEMANTIC_ATTRIBUTE_SENTRY_ORIGIN as qe,
+  SentryNonRecordingSpan as Me,
+  getTraceData as Ne,
+  getRootSpan as Fe,
+  SPAN_STATUS_ERROR as He,
+  SEMANTIC_ATTRIBUTE_SENTRY_PREVIOUS_TRACE_SAMPLE_RATE as je,
+  SEMANTIC_ATTRIBUTE_SENTRY_SAMPLE_RATE as Ue,
+  SEMANTIC_LINK_ATTRIBUTE_LINK_TYPE as Be,
+  TRACING_DEFAULTS as We,
+  SEMANTIC_ATTRIBUTE_SENTRY_SOURCE as ze,
+  dateTimestampInSeconds as Ge,
+  startIdleSpan as Xe,
+  getDynamicSamplingContextFromSpan as Ke,
+  spanIsSampled as Ye,
+  browserPerformanceTimeOrigin as Je,
+  parseStringToURLObject as Ve,
+  registerSpanErrorInstrumentation as Qe,
+  timestampInSeconds as Ze,
+  SEMANTIC_ATTRIBUTE_SENTRY_IDLE_SPAN_FINISH_REASON as et,
+  generateSpanId as tt,
+  generateTraceId as nt,
+  propagationContextFromHeaders as rt,
+  _INTERNAL_setSpanForScope as ot,
+  parseEnvelope as st,
+  makeOfflineTransport as it,
+  uuid4 as at,
+  DEFAULT_ENVIRONMENT as ct,
+  forEachEnvelopeItem as lt,
+  getDebugImagesForResources as ut,
+  getGlobalScope as dt,
+  getSdkMetadataForEnvelopeHeader as ft,
+  _INTERNAL_copyFlagsFromScopeToEvent as pt,
+  _INTERNAL_insertFlagToScope as gt,
+  _INTERNAL_addFeatureFlagToActiveSpan as mt,
+  growthbookIntegration as ht,
+  suppressTracing as yt,
 } from "@sentry/core";
 export {
   MULTIPLEXED_TRANSPORT_EXTRA_KEY,
@@ -211,37 +213,37 @@ export {
   zodErrorsIntegration,
 } from "@sentry/core";
 import {
-  getNativeImplementation as ht,
-  clearCachedImplementation as yt,
-  addClickKeypressInstrumentationHandler as _t,
-  addXhrInstrumentationHandler as vt,
-  addHistoryInstrumentationHandler as bt,
-  SENTRY_XHR_DATA_KEY as St,
-  getBodyString as wt,
-  getFetchRequestArgBody as Pt,
-  addPerformanceInstrumentationHandler as kt,
-  resourceTimingToSpanAttributes as Tt,
-  parseXhrResponseHeaders as Et,
-  addPerformanceEntries as xt,
-  registerInpInteractionListener as Rt,
-  startTrackingWebVitals as It,
-  startTrackingINP as Ct,
-  startTrackingElementTiming as Lt,
-  startTrackingLongAnimationFrames as Ot,
-  startTrackingLongTasks as At,
-  startTrackingInteractions as $t,
+  getNativeImplementation as _t,
+  clearCachedImplementation as vt,
+  addClickKeypressInstrumentationHandler as bt,
+  addXhrInstrumentationHandler as St,
+  addHistoryInstrumentationHandler as wt,
+  SENTRY_XHR_DATA_KEY as kt,
+  getBodyString as Pt,
+  getFetchRequestArgBody as Tt,
+  addPerformanceInstrumentationHandler as Et,
+  resourceTimingToSpanAttributes as It,
+  parseXhrResponseHeaders as xt,
+  addPerformanceEntries as Rt,
+  registerInpInteractionListener as Ct,
+  startTrackingWebVitals as Lt,
+  startTrackingINP as Ot,
+  startTrackingElementTiming as At,
+  startTrackingLongAnimationFrames as $t,
+  startTrackingLongTasks as Dt,
+  startTrackingInteractions as qt,
 } from "@sentry-internal/browser-utils";
 export { getReplay, replayIntegration } from "@sentry-internal/replay";
 export { replayCanvasIntegration } from "@sentry-internal/replay-canvas";
-const qt = r;
-let Dt = 0;
-function Mt() {
-  return Dt > 0;
+const Mt = r;
+let Nt = 0;
+function Ft() {
+  return Nt > 0;
 }
-function Nt() {
-  Dt++;
+function Ht() {
+  Nt++;
   setTimeout(() => {
-    Dt--;
+    Nt--;
   });
 }
 /**
@@ -252,7 +254,7 @@ function Nt() {
  * has a correct `this` context.
  * @returns The wrapped function.
  * @hidden
- */ function Ht(e, t = {}) {
+ */ function jt(e, t = {}) {
   function n(e) {
     return typeof e === "function";
   }
@@ -266,10 +268,10 @@ function Nt() {
   }
   const r = function (...n) {
     try {
-      const r = n.map((e) => Ht(e, t));
+      const r = n.map((e) => jt(e, t));
       return e.apply(this, r);
     } catch (e) {
-      Nt();
+      Ht();
       s((r) => {
         r.addEventProcessor((e) => {
           if (t.mechanism) {
@@ -301,15 +303,15 @@ function Nt() {
   } catch {}
   return r;
 }
-function Ft() {
-  const e = f();
-  const { referrer: t } = qt.document || {};
-  const { userAgent: n } = qt.navigator || {};
+function Ut() {
+  const e = d();
+  const { referrer: t } = Mt.document || {};
+  const { userAgent: n } = Mt.navigator || {};
   const r = { ...(t && { Referer: t }), ...(n && { "User-Agent": n }) };
   const o = { url: e, headers: r };
   return o;
 }
-const jt = {
+const Bt = {
   replayIntegration: "replay",
   replayCanvasIntegration: "replay-canvas",
   feedbackIntegration: "feedback",
@@ -332,15 +334,15 @@ const jt = {
   instrumentLangGraph: "instrumentlanggraph",
   createLangChainCallbackHandler: "createlangchaincallbackhandler",
 };
-const Ut = qt;
-async function Bt(e, t) {
-  const n = jt[e];
-  const r = (Ut.Sentry = Ut.Sentry || {});
+const Wt = Mt;
+async function zt(e, t) {
+  const n = Bt[e];
+  const r = (Wt.Sentry = Wt.Sentry || {});
   if (!n) throw new Error(`Cannot lazy load integration: ${e}`);
   const o = r[e];
   if (typeof o === "function" && !("_isShim" in o)) return o;
-  const s = zt(n);
-  const i = qt.document.createElement("script");
+  const s = Gt(n);
+  const i = Mt.document.createElement("script");
   i.src = s;
   i.crossOrigin = "anonymous";
   i.referrerPolicy = "strict-origin";
@@ -349,8 +351,8 @@ async function Bt(e, t) {
     i.addEventListener("load", () => e());
     i.addEventListener("error", t);
   });
-  const c = qt.document.currentScript;
-  const l = qt.document.body || qt.document.head || c?.parentElement;
+  const c = Mt.document.currentScript;
+  const l = Mt.document.body || Mt.document.head || c?.parentElement;
   if (!l)
     throw new Error(
       `Could not find parent element to insert lazy-loaded ${e} script`,
@@ -366,85 +368,85 @@ async function Bt(e, t) {
     throw new Error(`Could not load integration: ${e}`);
   return u;
 }
-function zt(e) {
-  const t = d();
+function Gt(e) {
+  const t = f();
   const n = t?.getOptions()?.cdnBaseUrl || "https://browser.sentry-cdn.com";
   return new URL(`/${p}/${e}.min.js`, n).toString();
 }
-const Wt = e({ lazyLoadIntegration: Bt });
-const Gt = e({
+const Xt = e({ lazyLoadIntegration: zt });
+const Kt = e({
   getModalIntegration: () => n,
   getScreenshotIntegration: () => t,
 });
-function Xt(e, t) {
-  const n = Jt(e, t);
-  const r = { type: tn(t), value: nn(t) };
+function Yt(e, t) {
+  const n = Qt(e, t);
+  const r = { type: rn(t), value: on(t) };
   n.length && (r.stacktrace = { frames: n });
   r.type === void 0 &&
     r.value === "" &&
     (r.value = "Unrecoverable error caught");
   return r;
 }
-function Kt(e, t, n, r) {
-  const o = d();
+function Jt(e, t, n, r) {
+  const o = f();
   const s = o?.getOptions().normalizeDepth;
-  const i = un(t);
+  const i = fn(t);
   const a = { __serialized__: g(t, s) };
-  if (i) return { exception: { values: [Xt(e, i)] }, extra: a };
+  if (i) return { exception: { values: [Yt(e, i)] }, extra: a };
   const c = {
     exception: {
       values: [
         {
           type: m(t) ? t.constructor.name : r ? "UnhandledRejection" : "Error",
-          value: cn(t, { isUnhandledRejection: r }),
+          value: un(t, { isUnhandledRejection: r }),
         },
       ],
     },
     extra: a,
   };
   if (n) {
-    const t = Jt(e, n);
+    const t = Qt(e, n);
     t.length && (c.exception.values[0].stacktrace = { frames: t });
   }
   return c;
 }
-function Yt(e, t) {
-  return { exception: { values: [Xt(e, t)] } };
+function Vt(e, t) {
+  return { exception: { values: [Yt(e, t)] } };
 }
-function Jt(e, t) {
+function Qt(e, t) {
   const n = t.stacktrace || t.stack || "";
-  const r = Qt(t);
-  const o = Zt(t);
+  const r = en(t);
+  const o = tn(t);
   try {
     return e(n, r, o);
   } catch {}
   return [];
 }
-const Vt = /Minified React error #\d+;/i;
-function Qt(e) {
-  return e && Vt.test(e.message) ? 1 : 0;
+const Zt = /Minified React error #\d+;/i;
+function en(e) {
+  return e && Zt.test(e.message) ? 1 : 0;
 }
-function Zt(e) {
+function tn(e) {
   return typeof e.framesToPop === "number" ? e.framesToPop : 0;
 }
-function en(e) {
+function nn(e) {
   return (
     typeof WebAssembly !== "undefined" &&
     typeof WebAssembly.Exception !== "undefined" &&
     e instanceof WebAssembly.Exception
   );
 }
-function tn(e) {
+function rn(e) {
   const t = e?.name;
-  if (!t && en(e)) {
+  if (!t && nn(e)) {
     const t = e.message && Array.isArray(e.message) && e.message.length == 2;
     return t ? e.message[0] : "WebAssembly.Exception";
   }
   return t;
 }
-function nn(e) {
+function on(e) {
   const t = e?.message;
-  return en(e)
+  return nn(e)
     ? Array.isArray(e.message) && e.message.length == 2
       ? e.message[1]
       : "wasm exception"
@@ -454,60 +456,60 @@ function nn(e) {
         : h(e)
       : "No error message";
 }
-function rn(e, t, n, r) {
+function sn(e, t, n, r) {
   const o = n?.syntheticException || void 0;
-  const s = sn(e, t, o, r);
+  const s = cn(e, t, o, r);
   a(s);
   s.level = "error";
   n?.event_id && (s.event_id = n.event_id);
   return y(s);
 }
-function on(e, t, n = "info", r, o) {
+function an(e, t, n = "info", r, o) {
   const s = r?.syntheticException || void 0;
-  const i = an(e, t, s, o);
+  const i = ln(e, t, s, o);
   i.level = n;
   r?.event_id && (i.event_id = r.event_id);
   return y(i);
 }
-function sn(e, t, n, r, o) {
+function cn(e, t, n, r, o) {
   let s;
   if (_(t) && t.error) {
     const n = t;
-    return Yt(e, n.error);
+    return Vt(e, n.error);
   }
   if (v(t) || b(t)) {
     const o = t;
-    if ("stack" in t) s = Yt(e, t);
+    if ("stack" in t) s = Vt(e, t);
     else {
       const t = o.name || (v(o) ? "DOMError" : "DOMException");
       const a = o.message ? `${t}: ${o.message}` : t;
-      s = an(e, a, n, r);
+      s = ln(e, a, n, r);
       i(s, a);
     }
     "code" in o && (s.tags = { ...s.tags, "DOMException.code": `${o.code}` });
     return s;
   }
-  if (S(t)) return Yt(e, t);
+  if (S(t)) return Vt(e, t);
   if (w(t) || m(t)) {
     const r = t;
-    s = Kt(e, r, n, o);
+    s = Jt(e, r, n, o);
     a(s, { synthetic: true });
     return s;
   }
-  s = an(e, t, n, r);
+  s = ln(e, t, n, r);
   i(s, `${t}`, void 0);
   a(s, { synthetic: true });
   return s;
 }
-function an(e, t, n, r) {
+function ln(e, t, n, r) {
   const o = {};
   if (r && n) {
-    const r = Jt(e, n);
+    const r = Qt(e, n);
     r.length &&
       (o.exception = { values: [{ value: t, stacktrace: { frames: r } }] });
     a(o, { synthetic: true });
   }
-  if (P(t)) {
+  if (k(t)) {
     const { __sentry_template_string__: e, __sentry_template_values__: n } = t;
     o.logentry = { message: e, params: n };
     return o;
@@ -515,24 +517,24 @@ function an(e, t, n, r) {
   o.message = t;
   return o;
 }
-function cn(e, { isUnhandledRejection: t }) {
-  const n = k(e);
+function un(e, { isUnhandledRejection: t }) {
+  const n = P(e);
   const r = t ? "promise rejection" : "exception";
   if (_(e))
     return `Event \`ErrorEvent\` captured as ${r} with message \`${e.message}\``;
   if (m(e)) {
-    const t = ln(e);
+    const t = dn(e);
     return `Event \`${t}\` (type=${e.type}) captured as ${r}`;
   }
   return `Object captured as ${r} with keys: ${n}`;
 }
-function ln(e) {
+function dn(e) {
   try {
     const t = Object.getPrototypeOf(e);
     return t ? t.constructor.name : void 0;
   } catch {}
 }
-function un(e) {
+function fn(e) {
   for (const t in e)
     if (Object.prototype.hasOwnProperty.call(e, t)) {
       const n = e[t];
@@ -546,9 +548,9 @@ class BrowserClient extends T {
    * @param options Configuration options for this SDK.
    */
   constructor(e) {
-    const t = fn(e);
-    const n = qt.SENTRY_SDK_SOURCE || E();
-    x(t, "browser", ["browser"], n);
+    const t = pn(e);
+    const n = Mt.SENTRY_SDK_SOURCE || E();
+    I(t, "browser", ["browser"], n);
     t._metadata?.sdk &&
       (t._metadata.sdk.settings = {
         infer_ip: t.sendDefaultPii ? "auto" : "never",
@@ -563,22 +565,22 @@ class BrowserClient extends T {
       enableMetrics: a,
     } = this._options;
     const c = a ?? i?.enableMetrics ?? true;
-    qt.document &&
+    Mt.document &&
       (o || s || c) &&
-      qt.document.addEventListener("visibilitychange", () => {
-        if (qt.document.visibilityState === "hidden") {
+      Mt.document.addEventListener("visibilitychange", () => {
+        if (Mt.document.visibilityState === "hidden") {
           o && this._flushOutcomes();
-          s && R(this);
-          c && I(this);
+          s && x(this);
+          c && R(this);
         }
       });
     r && this.on("beforeSendSession", C);
   }
   eventFromException(e, t) {
-    return rn(this._options.stackParser, e, t, this._options.attachStacktrace);
+    return sn(this._options.stackParser, e, t, this._options.attachStacktrace);
   }
   eventFromMessage(e, t = "info", n) {
-    return on(
+    return an(
       this._options.stackParser,
       e,
       t,
@@ -591,19 +593,19 @@ class BrowserClient extends T {
     return super._prepareEvent(e, t, n, r);
   }
 }
-function fn(e) {
+function pn(e) {
   return {
     release:
       typeof __SENTRY_RELEASE__ === "string"
         ? __SENTRY_RELEASE__
-        : qt.SENTRY_RELEASE?.id,
+        : Mt.SENTRY_RELEASE?.id,
     sendClientReports: true,
     parentSpanIsAlwaysRootSpan: true,
     ...e,
   };
 }
-const dn = 40;
-function pn(e, t = ht("fetch")) {
+const gn = 40;
+function mn(e, t = _t("fetch")) {
   let n = 0;
   let r = 0;
   async function o(o) {
@@ -628,45 +630,45 @@ function pn(e, t = ht("fetch")) {
         },
       };
     } catch (e) {
-      yt("fetch");
+      vt("fetch");
       throw e;
     } finally {
       n -= s;
       r--;
     }
   }
-  return L(e, o, O(e.bufferSize || dn));
+  return L(e, o, O(e.bufferSize || gn));
 }
-const gn = typeof __SENTRY_DEBUG__ === "undefined" || __SENTRY_DEBUG__;
-function mn() {
-  const e = d();
+const hn = typeof __SENTRY_DEBUG__ === "undefined" || __SENTRY_DEBUG__;
+function yn() {
+  const e = f();
   if (!e) {
-    gn && A.warn("No Sentry client available, profiling is not started");
+    hn && A.warn("No Sentry client available, profiling is not started");
     return;
   }
   const t = e.getIntegrationByName("BrowserProfiling");
   t
     ? e.emit("startUIProfiler")
-    : gn && A.warn("BrowserProfiling integration is not available");
+    : hn && A.warn("BrowserProfiling integration is not available");
 }
-function hn() {
-  const e = d();
+function _n() {
+  const e = f();
   if (!e) {
-    gn && A.warn("No Sentry client available, profiling is not started");
+    hn && A.warn("No Sentry client available, profiling is not started");
     return;
   }
   const t = e.getIntegrationByName("BrowserProfiling");
   t
     ? e.emit("stopUIProfiler")
-    : gn && A.warn("ProfilingIntegration is not available");
+    : hn && A.warn("ProfilingIntegration is not available");
 }
-const yn = { startProfiler: mn, stopProfiler: hn };
-const _n = 10;
-const vn = 20;
-const bn = 30;
-const Sn = 40;
-const wn = 50;
-function Pn(e, t, n, r) {
+const vn = { startProfiler: yn, stopProfiler: _n };
+const bn = 10;
+const Sn = 20;
+const wn = 30;
+const kn = 40;
+const Pn = 50;
+function Tn(e, t, n, r) {
   const o = {
     filename: e,
     function: t === "<anonymous>" ? $ : t,
@@ -676,44 +678,44 @@ function Pn(e, t, n, r) {
   r !== void 0 && (o.colno = r);
   return o;
 }
-const kn = /^\s*at (\S+?)(?::(\d+))(?::(\d+))\s*$/i;
-const Tn =
+const En = /^\s*at (\S+?)(?::(\d+))(?::(\d+))\s*$/i;
+const In =
   /^\s*at (?:(.+?\)(?: \[.+\])?|.*?) ?\((?:address at )?)?(?:async )?((?:<anonymous>|[-a-z]+:|.*bundle|\/)?.*?)(?::(\d+))?(?::(\d+))?\)?\s*$/i;
-const En = /\((\S*)(?::(\d+))(?::(\d+))\)/;
-const xn = /at (.+?) ?\(data:(.+?),/;
-const Rn = (e) => {
-  const t = e.match(xn);
+const xn = /\((\S*)(?::(\d+))(?::(\d+))\)/;
+const Rn = /at (.+?) ?\(data:(.+?),/;
+const Cn = (e) => {
+  const t = e.match(Rn);
   if (t) return { filename: `<data:${t[2]}>`, function: t[1] };
-  const n = kn.exec(e);
+  const n = En.exec(e);
   if (n) {
     const [, e, t, r] = n;
-    return Pn(e, $, +t, +r);
+    return Tn(e, $, +t, +r);
   }
-  const r = Tn.exec(e);
+  const r = In.exec(e);
   if (r) {
     const e = r[2] && r[2].indexOf("eval") === 0;
     if (e) {
-      const e = En.exec(r[2]);
+      const e = xn.exec(r[2]);
       if (e) {
         r[2] = e[1];
         r[3] = e[2];
         r[4] = e[3];
       }
     }
-    const [t, n] = Wn(r[1] || $, r[2]);
-    return Pn(n, t, r[3] ? +r[3] : void 0, r[4] ? +r[4] : void 0);
+    const [t, n] = Xn(r[1] || $, r[2]);
+    return Tn(n, t, r[3] ? +r[3] : void 0, r[4] ? +r[4] : void 0);
   }
 };
-const In = [bn, Rn];
-const Cn =
+const Ln = [wn, Cn];
+const On =
   /^\s*(.*?)(?:\((.*?)\))?(?:^|@)?((?:[-a-z]+)?:\/.*?|\[native code\]|[^@]*(?:bundle|\d+\.js)|\/[\w\-. /=]+)(?::(\d+))?(?::(\d+))?\s*$/i;
-const Ln = /(\S+) line (\d+)(?: > eval line \d+)* > eval/i;
-const On = (e) => {
-  const t = Cn.exec(e);
+const An = /(\S+) line (\d+)(?: > eval line \d+)* > eval/i;
+const $n = (e) => {
+  const t = On.exec(e);
   if (t) {
     const e = t[3] && t[3].indexOf(" > eval") > -1;
     if (e) {
-      const e = Ln.exec(t[3]);
+      const e = An.exec(t[3]);
       if (e) {
         t[1] = t[1] || "eval";
         t[3] = e[1];
@@ -723,34 +725,34 @@ const On = (e) => {
     }
     let n = t[3];
     let r = t[1] || $;
-    [r, n] = Wn(r, n);
-    return Pn(n, r, t[4] ? +t[4] : void 0, t[5] ? +t[5] : void 0);
+    [r, n] = Xn(r, n);
+    return Tn(n, r, t[4] ? +t[4] : void 0, t[5] ? +t[5] : void 0);
   }
 };
-const An = [wn, On];
-const $n =
+const Dn = [Pn, $n];
+const qn =
   /^\s*at (?:((?:\[object object\])?.+) )?\(?((?:[-a-z]+):.*?):(\d+)(?::(\d+))?\)?\s*$/i;
-const qn = (e) => {
-  const t = $n.exec(e);
-  return t ? Pn(t[2], t[1] || $, +t[3], t[4] ? +t[4] : void 0) : void 0;
+const Mn = (e) => {
+  const t = qn.exec(e);
+  return t ? Tn(t[2], t[1] || $, +t[3], t[4] ? +t[4] : void 0) : void 0;
 };
-const Dn = [Sn, qn];
-const Mn = / line (\d+).*script (?:in )?(\S+)(?:: in function (\S+))?$/i;
-const Nn = (e) => {
-  const t = Mn.exec(e);
-  return t ? Pn(t[2], t[3] || $, +t[1]) : void 0;
-};
-const Hn = [_n, Nn];
-const Fn =
-  / line (\d+), column (\d+)\s*(?:in (?:<anonymous function: ([^>]+)>|([^)]+))\(.*\))? in (.*):\s*$/i;
-const jn = (e) => {
+const Nn = [kn, Mn];
+const Fn = / line (\d+).*script (?:in )?(\S+)(?:: in function (\S+))?$/i;
+const Hn = (e) => {
   const t = Fn.exec(e);
-  return t ? Pn(t[5], t[3] || t[4] || $, +t[1], +t[2]) : void 0;
+  return t ? Tn(t[2], t[3] || $, +t[1]) : void 0;
 };
-const Un = [vn, jn];
-const Bn = [In, An];
-const zn = q(...Bn);
-const Wn = (e, t) => {
+const jn = [bn, Hn];
+const Un =
+  / line (\d+), column (\d+)\s*(?:in (?:<anonymous function: ([^>]+)>|([^)]+))\(.*\))? in (.*):\s*$/i;
+const Bn = (e) => {
+  const t = Un.exec(e);
+  return t ? Tn(t[5], t[3] || t[4] || $, +t[1], +t[2]) : void 0;
+};
+const Wn = [Sn, Bn];
+const zn = [Ln, Dn];
+const Gn = D(...zn);
+const Xn = (e, t) => {
   const n = e.indexOf("safari-extension") !== -1;
   const r = e.indexOf("safari-web-extension") !== -1;
   return n || r
@@ -760,23 +762,23 @@ const Wn = (e, t) => {
       ]
     : [e, t];
 };
-function Gn(e, { metadata: t, tunnel: n, dsn: r }) {
+function Kn(e, { metadata: t, tunnel: n, dsn: r }) {
   const o = {
     event_id: e.event_id,
     sent_at: new Date().toISOString(),
     ...(t?.sdk && { sdk: { name: t.sdk.name, version: t.sdk.version } }),
-    ...(!!n && !!r && { dsn: D(r) }),
+    ...(!!n && !!r && { dsn: q(r) }),
   };
-  const s = Xn(e);
+  const s = Yn(e);
   return M(o, [s]);
 }
-function Xn(e) {
+function Yn(e) {
   const t = { type: "user_report" };
   return [t, e];
 }
-const Kn = 1024;
-const Yn = "Breadcrumbs";
-const Jn = (e = {}) => {
+const Jn = 1024;
+const Vn = "Breadcrumbs";
+const Qn = (e = {}) => {
   const t = {
     console: true,
     dom: true,
@@ -787,21 +789,21 @@ const Jn = (e = {}) => {
     ...e,
   };
   return {
-    name: Yn,
+    name: Vn,
     setup(e) {
-      t.console && N(er(e));
-      t.dom && _t(Zn(e, t.dom));
-      t.xhr && vt(tr(e));
-      t.fetch && H(nr(e));
-      t.history && bt(rr(e));
-      t.sentry && e.on("beforeSendEvent", Qn(e));
+      t.console && N(nr(e));
+      t.dom && bt(tr(e, t.dom));
+      t.xhr && St(rr(e));
+      t.fetch && F(or(e));
+      t.history && wt(sr(e));
+      t.sentry && e.on("beforeSendEvent", er(e));
     },
   };
 };
-const Vn = F(Jn);
-function Qn(e) {
+const Zn = H(Qn);
+function er(e) {
   return function (t) {
-    d() === e &&
+    f() === e &&
       j(
         {
           category:
@@ -814,9 +816,9 @@ function Qn(e) {
       );
   };
 }
-function Zn(e, t) {
+function tr(e, t) {
   return function (n) {
-    if (d() !== e) return;
+    if (f() !== e) return;
     let r;
     let o;
     let s = typeof t === "object" ? t.serializeAttribute : void 0;
@@ -824,19 +826,19 @@ function Zn(e, t) {
       typeof t === "object" && typeof t.maxStringLength === "number"
         ? t.maxStringLength
         : void 0;
-    if (i && i > Kn) {
-      gn &&
+    if (i && i > Jn) {
+      hn &&
         A.warn(
-          `\`dom.maxStringLength\` cannot exceed ${Kn}, but a value of ${i} was configured. Sentry will use ${Kn} instead.`,
+          `\`dom.maxStringLength\` cannot exceed ${Jn}, but a value of ${i} was configured. Sentry will use ${Jn} instead.`,
         );
-      i = Kn;
+      i = Jn;
     }
     typeof s === "string" && (s = [s]);
     try {
       const e = n.event;
-      const t = or(e) ? e.target : e;
+      const t = ir(e) ? e.target : e;
       r = B(t, { keyAttrs: s, maxStringLength: i });
-      o = z(t);
+      o = W(t);
     } catch {
       r = "<unknown>";
     }
@@ -846,40 +848,40 @@ function Zn(e, t) {
     j(a, { event: n.event, name: n.name, global: n.global });
   };
 }
-function er(e) {
+function nr(e) {
   return function (t) {
-    if (d() !== e) return;
+    if (f() !== e) return;
     const n = {
       category: "console",
       data: { arguments: t.args, logger: "console" },
       level: G(t.level),
-      message: W(t.args, " "),
+      message: z(t.args, " "),
     };
     if (t.level === "assert") {
       if (t.args[0] !== false) return;
-      n.message = `Assertion failed: ${W(t.args.slice(1), " ") || "console.assert"}`;
+      n.message = `Assertion failed: ${z(t.args.slice(1), " ") || "console.assert"}`;
       n.data.arguments = t.args.slice(1);
     }
     j(n, { input: t.args, level: t.level });
   };
 }
-function tr(e) {
+function rr(e) {
   return function (t) {
-    if (d() !== e) return;
+    if (f() !== e) return;
     const { startTimestamp: n, endTimestamp: r } = t;
-    const o = t.xhr[St];
+    const o = t.xhr[kt];
     if (!n || !r || !o) return;
     const { method: s, url: i, status_code: a, body: c } = o;
     const l = { method: s, url: i, status_code: a };
     const u = { xhr: t.xhr, input: c, startTimestamp: n, endTimestamp: r };
-    const f = { category: "xhr", data: l, type: "http", level: X(a) };
-    e.emit("beforeOutgoingRequestBreadcrumb", f, u);
-    j(f, u);
+    const d = { category: "xhr", data: l, type: "http", level: X(a) };
+    e.emit("beforeOutgoingRequestBreadcrumb", d, u);
+    j(d, u);
   };
 }
-function nr(e) {
+function or(e) {
   return function (t) {
-    if (d() !== e) return;
+    if (f() !== e) return;
     const { startTimestamp: n, endTimestamp: r } = t;
     if (
       r &&
@@ -921,12 +923,12 @@ function nr(e) {
     }
   };
 }
-function rr(e) {
+function sr(e) {
   return function (t) {
-    if (d() !== e) return;
+    if (f() !== e) return;
     let n = t.from;
     let r = t.to;
-    const o = K(qt.location.href);
+    const o = K(Mt.location.href);
     let s = n ? K(n) : void 0;
     const i = K(r);
     s?.path || (s = o);
@@ -935,10 +937,10 @@ function rr(e) {
     j({ category: "navigation", data: { from: n, to: r } });
   };
 }
-function or(e) {
+function ir(e) {
   return !!e && !!e.target;
 }
-const sr = [
+const ar = [
   "EventTarget",
   "Window",
   "Node",
@@ -971,8 +973,8 @@ const sr = [
   "XMLHttpRequestEventTarget",
   "XMLHttpRequestUpload",
 ];
-const ir = "BrowserApiErrors";
-const ar = (e = {}) => {
+const cr = "BrowserApiErrors";
+const lr = (e = {}) => {
   const t = {
     XMLHttpRequest: true,
     eventTarget: true,
@@ -983,27 +985,27 @@ const ar = (e = {}) => {
     ...e,
   };
   return {
-    name: ir,
+    name: cr,
     setupOnce() {
-      t.setTimeout && Y(qt, "setTimeout", lr);
-      t.setInterval && Y(qt, "setInterval", lr);
-      t.requestAnimationFrame && Y(qt, "requestAnimationFrame", ur);
+      t.setTimeout && Y(Mt, "setTimeout", dr);
+      t.setInterval && Y(Mt, "setInterval", dr);
+      t.requestAnimationFrame && Y(Mt, "requestAnimationFrame", fr);
       t.XMLHttpRequest &&
-        "XMLHttpRequest" in qt &&
-        Y(XMLHttpRequest.prototype, "send", fr);
+        "XMLHttpRequest" in Mt &&
+        Y(XMLHttpRequest.prototype, "send", pr);
       const e = t.eventTarget;
       if (e) {
-        const n = Array.isArray(e) ? e : sr;
-        n.forEach((e) => dr(e, t));
+        const n = Array.isArray(e) ? e : ar;
+        n.forEach((e) => gr(e, t));
       }
     },
   };
 };
-const cr = F(ar);
-function lr(e) {
+const ur = H(lr);
+function dr(e) {
   return function (...t) {
     const n = t[0];
-    t[0] = Ht(n, {
+    t[0] = jt(n, {
       mechanism: {
         handled: false,
         type: `auto.browser.browserapierrors.${J(e)}`,
@@ -1012,10 +1014,10 @@ function lr(e) {
     return e.apply(this, t);
   };
 }
-function ur(e) {
+function fr(e) {
   return function (t) {
     return e.apply(this, [
-      Ht(t, {
+      jt(t, {
         mechanism: {
           data: { handler: J(e) },
           handled: false,
@@ -1025,7 +1027,7 @@ function ur(e) {
     ]);
   };
 }
-function fr(e) {
+function pr(e) {
   return function (...t) {
     const n = this;
     const r = ["onload", "onerror", "onprogress", "onreadystatechange"];
@@ -1042,21 +1044,21 @@ function fr(e) {
           };
           const r = o(t);
           r && (n.mechanism.data.handler = J(r));
-          return Ht(t, n);
+          return jt(t, n);
         });
     });
     return e.apply(this, t);
   };
 }
-function dr(e, t) {
-  const n = qt;
+function gr(e, t) {
+  const n = Mt;
   const r = n[e]?.prototype;
   if (r?.hasOwnProperty?.("addEventListener")) {
     Y(r, "addEventListener", function (n) {
       return function (r, o, s) {
         try {
-          pr(o) &&
-            (o.handleEvent = Ht(o.handleEvent, {
+          mr(o) &&
+            (o.handleEvent = jt(o.handleEvent, {
               mechanism: {
                 data: { handler: J(o), target: e },
                 handled: false,
@@ -1064,10 +1066,10 @@ function dr(e, t) {
               },
             }));
         } catch {}
-        t.unregisterOriginalCallbacks && gr(this, r, o);
+        t.unregisterOriginalCallbacks && hr(this, r, o);
         return n.apply(this, [
           r,
-          Ht(o, {
+          jt(o, {
             mechanism: {
               data: { handler: J(o), target: e },
               handled: false,
@@ -1089,64 +1091,101 @@ function dr(e, t) {
     });
   }
 }
-function pr(e) {
+function mr(e) {
   return typeof e.handleEvent === "function";
 }
-function gr(e, t, n) {
+function hr(e, t, n) {
   e &&
     typeof e === "object" &&
     "removeEventListener" in e &&
     typeof e.removeEventListener === "function" &&
     e.removeEventListener(t, n);
 }
-const mr = F(() => ({
-  name: "BrowserSession",
-  setupOnce() {
-    if (typeof qt.document !== "undefined") {
+const yr = H((e = {}) => {
+  const t = e.lifecycle ?? "route";
+  return {
+    name: "BrowserSession",
+    setupOnce() {
+      if (typeof Mt.document === "undefined") {
+        hn &&
+          A.warn(
+            "Using the `browserSessionIntegration` in non-browser environments is not supported.",
+          );
+        return;
+      }
       V({ ignoreDuration: true });
       Q();
-      bt(({ from: e, to: t }) => {
-        if (e !== void 0 && e !== t) {
-          V({ ignoreDuration: true });
+      const e = Z();
+      let n = e.getUser();
+      e.addScopeListener((e) => {
+        const t = e.getUser();
+        if (n?.id !== t?.id || n?.ip_address !== t?.ip_address) {
           Q();
+          n = t;
         }
       });
-    } else
-      gn &&
-        A.warn(
-          "Using the `browserSessionIntegration` in non-browser environments is not supported.",
-        );
+      t === "route" &&
+        wt(({ from: e, to: t }) => {
+          if (e !== t) {
+            V({ ignoreDuration: true });
+            Q();
+          }
+        });
+    },
+  };
+});
+const _r = "CultureContext";
+const vr = () => ({
+  name: _r,
+  preprocessEvent(e) {
+    const t = Sr();
+    t &&
+      (e.contexts = {
+        ...e.contexts,
+        culture: { ...t, ...e.contexts?.culture },
+      });
   },
-}));
-const hr = "GlobalHandlers";
-const yr = (e = {}) => {
+});
+const br = H(vr);
+function Sr() {
+  try {
+    const e = Mt.Intl;
+    if (!e) return;
+    const t = e.DateTimeFormat().resolvedOptions();
+    return { locale: t.locale, timezone: t.timeZone, calendar: t.calendar };
+  } catch {
+    return;
+  }
+}
+const wr = "GlobalHandlers";
+const kr = (e = {}) => {
   const t = { onerror: true, onunhandledrejection: true, ...e };
   return {
-    name: hr,
+    name: wr,
     setupOnce() {
       Error.stackTraceLimit = 50;
     },
     setup(e) {
       if (t.onerror) {
-        vr(e);
-        kr("onerror");
+        Tr(e);
+        Cr("onerror");
       }
       if (t.onunhandledrejection) {
-        br(e);
-        kr("onunhandledrejection");
+        Er(e);
+        Cr("onunhandledrejection");
       }
     },
   };
 };
-const _r = F(yr);
-function vr(e) {
-  Z((t) => {
-    const { stackParser: n, attachStacktrace: r } = Tr();
-    if (d() !== e || Mt()) return;
+const Pr = H(kr);
+function Tr(e) {
+  ee((t) => {
+    const { stackParser: n, attachStacktrace: r } = Lr();
+    if (f() !== e || Ft()) return;
     const { msg: o, url: s, line: i, column: a, error: c } = t;
-    const l = Pr(sn(n, c || o, void 0, r, false), s, i, a);
+    const l = Rr(cn(n, c || o, void 0, r, false), s, i, a);
     l.level = "error";
-    ee(l, {
+    te(l, {
       originalException: c,
       mechanism: {
         handled: false,
@@ -1155,14 +1194,14 @@ function vr(e) {
     });
   });
 }
-function br(e) {
-  te((t) => {
-    const { stackParser: n, attachStacktrace: r } = Tr();
-    if (d() !== e || Mt()) return;
-    const o = Sr(t);
-    const s = ne(o) ? wr(o) : sn(n, o, void 0, r, true);
+function Er(e) {
+  ne((t) => {
+    const { stackParser: n, attachStacktrace: r } = Lr();
+    if (f() !== e || Ft()) return;
+    const o = Ir(t);
+    const s = re(o) ? xr(o) : cn(n, o, void 0, r, true);
     s.level = "error";
-    ee(s, {
+    te(s, {
       originalException: o,
       mechanism: {
         handled: false,
@@ -1171,8 +1210,8 @@ function br(e) {
     });
   });
 }
-function Sr(e) {
-  if (ne(e)) return e;
+function Ir(e) {
+  if (re(e)) return e;
   try {
     if ("reason" in e) return e.reason;
     if ("detail" in e && "reason" in e.detail) return e.detail.reason;
@@ -1184,7 +1223,7 @@ function Sr(e) {
  *
  * @param reason: The `reason` property of the promise rejection
  * @returns An Event object with an appropriate `exception` value
- */ function wr(e) {
+ */ function xr(e) {
   return {
     exception: {
       values: [
@@ -1196,7 +1235,7 @@ function Sr(e) {
     },
   };
 }
-function Pr(e, t, n, r) {
+function Rr(e, t, n, r) {
   const o = (e.exception = e.exception || {});
   const s = (o.values = o.values || []);
   const i = (s[0] = s[0] || {});
@@ -1204,73 +1243,66 @@ function Pr(e, t, n, r) {
   const c = (a.frames = a.frames || []);
   const l = r;
   const u = n;
-  const d = Er(t) ?? f();
+  const f = Or(t) ?? d();
   c.length === 0 &&
-    c.push({ colno: l, filename: d, function: $, in_app: true, lineno: u });
+    c.push({ colno: l, filename: f, function: $, in_app: true, lineno: u });
   return e;
 }
-function kr(e) {
-  gn && A.log(`Global Handler attached: ${e}`);
+function Cr(e) {
+  hn && A.log(`Global Handler attached: ${e}`);
 }
-function Tr() {
-  const e = d();
+function Lr() {
+  const e = f();
   const t = e?.getOptions() || {
     stackParser: () => [],
     attachStacktrace: false,
   };
   return t;
 }
-function Er(e) {
-  if (re(e) && e.length !== 0) {
-    if (e.startsWith("data:")) {
-      const t = e.match(/^data:([^;]+)/);
-      const n = t ? t[1] : "text/javascript";
-      const r = e.includes("base64,");
-      return `<data:${n}${r ? ",base64" : ""}>`;
-    }
-    return e;
-  }
+function Or(e) {
+  if (oe(e) && e.length !== 0)
+    return e.startsWith("data:") ? `<${se(e, false)}>` : e;
 }
-const xr = F(() => ({
+const Ar = H(() => ({
   name: "HttpContext",
   preprocessEvent(e) {
-    if (!qt.navigator && !qt.location && !qt.document) return;
-    const t = Ft();
+    if (!Mt.navigator && !Mt.location && !Mt.document) return;
+    const t = Ut();
     const n = { ...t.headers, ...e.request?.headers };
     e.request = { ...t, ...e.request, headers: n };
   },
 }));
-const Rr = "cause";
-const Ir = 5;
-const Cr = "LinkedErrors";
-const Lr = (e = {}) => {
-  const t = e.limit || Ir;
-  const n = e.key || Rr;
+const $r = "cause";
+const Dr = 5;
+const qr = "LinkedErrors";
+const Mr = (e = {}) => {
+  const t = e.limit || Dr;
+  const n = e.key || $r;
   return {
-    name: Cr,
+    name: qr,
     preprocessEvent(e, r, o) {
       const s = o.getOptions();
-      oe(Xt, s.stackParser, n, t, e, r);
+      ie(Yt, s.stackParser, n, t, e, r);
     },
   };
 };
-const Or = F(Lr);
-const Ar = "SpotlightBrowser";
-const $r = (e = {}) => {
+const Nr = H(Mr);
+const Fr = "SpotlightBrowser";
+const Hr = (e = {}) => {
   const t = e.sidecarUrl || "http://localhost:8969/stream";
   return {
-    name: Ar,
+    name: Fr,
     setup: () => {
-      gn && A.log("Using Sidecar URL", t);
+      hn && A.log("Using Sidecar URL", t);
     },
-    processEvent: (e) => (Mr(e) ? null : e),
+    processEvent: (e) => (Br(e) ? null : e),
     afterAllSetup: (e) => {
-      qr(e, t);
+      jr(e, t);
     },
   };
 };
-function qr(e, t) {
-  const n = ht("fetch");
+function jr(e, t) {
+  const n = _t("fetch");
   let r = 0;
   e.on("beforeEnvelope", (e) => {
     r > 3
@@ -1280,7 +1312,7 @@ function qr(e, t) {
         )
       : n(t, {
           method: "POST",
-          body: se(e),
+          body: ae(e),
           headers: { "Content-Type": "application/x-sentry-envelope" },
           mode: "cors",
         }).then(
@@ -1297,8 +1329,8 @@ function qr(e, t) {
         );
   });
 }
-const Dr = F($r);
-function Mr(e) {
+const Ur = H(Hr);
+function Br(e) {
   return Boolean(
     e.type === "transaction" &&
       e.spans &&
@@ -1307,10 +1339,10 @@ function Mr(e) {
       e.spans.some(({ description: e }) => e?.includes("#sentry-spotlight")),
   );
 }
-function Nr() {
-  if (Hr()) {
-    gn &&
-      ie(() => {
+function Wr() {
+  if (zr()) {
+    hn &&
+      ce(() => {
         console.error(
           "[Sentry] You cannot use Sentry.init() in a browser extension, see: https://docs.sentry.io/platforms/javascript/best-practices/browser-extensions/",
         );
@@ -1319,68 +1351,68 @@ function Nr() {
   }
   return false;
 }
-function Hr() {
-  if (typeof qt.window === "undefined") return false;
-  const e = qt;
+function zr() {
+  if (typeof Mt.window === "undefined") return false;
+  const e = Mt;
   if (e.nw) return false;
   const t = e.chrome || e.browser;
   if (!t?.runtime?.id) return false;
-  const n = f();
+  const n = d();
   const r = [
     "chrome-extension",
     "moz-extension",
     "ms-browser-extension",
     "safari-web-extension",
   ];
-  const o = qt === qt.top && r.some((e) => n.startsWith(`${e}://`));
+  const o = Mt === Mt.top && r.some((e) => n.startsWith(`${e}://`));
   return !o;
 }
-function Fr(e) {
-  return [ae(), ce(), cr(), Vn(), _r(), Or(), le(), xr(), mr()];
+function Gr(e) {
+  return [le(), ue(), de(), ur(), Zn(), Pr(), Nr(), fe(), Ar(), br(), yr()];
 }
-function jr(e = {}) {
-  const t = !e.skipBrowserExtensionCheck && Nr();
-  let n = e.defaultIntegrations == null ? Fr() : e.defaultIntegrations;
+function Xr(e = {}) {
+  const t = !e.skipBrowserExtensionCheck && Wr();
+  let n = e.defaultIntegrations == null ? Gr() : e.defaultIntegrations;
   const r = {
     ...e,
     enabled: !t && e.enabled,
-    stackParser: fe(e.stackParser || zn),
-    integrations: ue({ integrations: e.integrations, defaultIntegrations: n }),
-    transport: e.transport || pn,
+    stackParser: ge(e.stackParser || Gn),
+    integrations: pe({ integrations: e.integrations, defaultIntegrations: n }),
+    transport: e.transport || mn,
   };
-  return de(BrowserClient, r);
+  return me(BrowserClient, r);
 }
-function Ur() {}
-function Br(e) {
+function Kr() {}
+function Yr(e) {
   e();
 }
 /**
  * Present the user with a report dialog.
  *
  * @param options Everything is optional, we try to fetch all info need from the current scope.
- */ function zr(e = {}) {
-  const t = qt.document;
+ */ function Jr(e = {}) {
+  const t = Mt.document;
   const n = t?.head || t?.body;
   if (!n) {
-    gn && A.error("[showReportDialog] Global document not defined");
+    hn && A.error("[showReportDialog] Global document not defined");
     return;
   }
-  const r = pe();
-  const o = d();
+  const r = he();
+  const o = f();
   const s = o?.getDsn();
   if (!s) {
-    gn && A.error("[showReportDialog] DSN not configured");
+    hn && A.error("[showReportDialog] DSN not configured");
     return;
   }
   const i = {
     ...e,
     user: { ...r.getUser(), ...e.user },
-    eventId: e.eventId || ge(),
+    eventId: e.eventId || ye(),
   };
-  const a = qt.document.createElement("script");
+  const a = Mt.document.createElement("script");
   a.async = true;
   a.crossOrigin = "anonymous";
-  a.src = me(s, i);
+  a.src = _e(s, i);
   const { onLoad: c, onClose: l } = i;
   c && (a.onload = c);
   if (l) {
@@ -1389,20 +1421,20 @@ function Br(e) {
         try {
           l();
         } finally {
-          qt.removeEventListener("message", e);
+          Mt.removeEventListener("message", e);
         }
     };
-    qt.addEventListener("message", e);
+    Mt.addEventListener("message", e);
   }
   n.appendChild(a);
 }
-const Wr = r;
-const Gr = "ReportingObserver";
-const Xr = new WeakMap();
-const Kr = (e = {}) => {
+const Vr = r;
+const Qr = "ReportingObserver";
+const Zr = new WeakMap();
+const eo = (e = {}) => {
   const t = e.types || ["crash", "deprecation", "intervention"];
   function n(e) {
-    if (Xr.has(d()))
+    if (Zr.has(f()))
       for (const t of e)
         s((e) => {
           e.setExtra("url", t.url);
@@ -1420,53 +1452,53 @@ const Kr = (e = {}) => {
               r = e.message || r;
             }
           }
-          he(`${n}: ${r}`);
+          ve(`${n}: ${r}`);
         });
   }
   return {
-    name: Gr,
+    name: Qr,
     setupOnce() {
-      if (!ye()) return;
-      const e = new Wr.ReportingObserver(n, { buffered: true, types: t });
+      if (!be()) return;
+      const e = new Vr.ReportingObserver(n, { buffered: true, types: t });
       e.observe();
     },
     setup(e) {
-      Xr.set(e, true);
+      Zr.set(e, true);
     },
   };
 };
-const Yr = F(Kr);
-const Jr = "HttpClient";
-const Vr = (e = {}) => {
+const to = H(eo);
+const no = "HttpClient";
+const ro = (e = {}) => {
   const t = {
     failedRequestStatusCodes: [[500, 599]],
     failedRequestTargets: [/.*/],
     ...e,
   };
   return {
-    name: Jr,
+    name: no,
     setup(e) {
-      co(e, t);
-      lo(e, t);
+      mo(e, t);
+      ho(e, t);
     },
   };
 };
-const Qr = F(Vr);
+const oo = H(ro);
 /**
  * Interceptor function for fetch requests
  *
  * @param requestInfo The Fetch API request info
  * @param response The Fetch API response
  * @param requestInit The request init object
- */ function Zr(e, t, n, r, o) {
-  if (uo(e, n.status, n.url)) {
-    const e = po(t, r);
+ */ function so(e, t, n, r, o) {
+  if (yo(e, n.status, n.url)) {
+    const e = vo(t, r);
     let s, i, a, c;
-    if (go()) {
-      [s, a] = eo("Cookie", e);
-      [i, c] = eo("Set-Cookie", n);
+    if (bo()) {
+      [s, a] = io("Cookie", e);
+      [i, c] = io("Set-Cookie", n);
     }
-    const l = fo({
+    const l = _o({
       url: e.url,
       method: e.method,
       status: n.status,
@@ -1477,15 +1509,15 @@ const Qr = F(Vr);
       error: o,
       type: "fetch",
     });
-    ee(l);
+    te(l);
   }
 }
-function eo(e, t) {
-  const n = oo(t.headers);
+function io(e, t) {
+  const n = uo(t.headers);
   let r;
   try {
     const t = n[e] || n[e.toLowerCase()] || void 0;
-    t && (r = ro(t));
+    t && (r = lo(t));
   } catch {}
   return [n, r];
 }
@@ -1495,23 +1527,23 @@ function eo(e, t) {
  * @param xhr The XHR request
  * @param method The HTTP method
  * @param headers The HTTP headers
- */ function to(e, t, n, r, o) {
-  if (uo(e, t.status, t.responseURL)) {
+ */ function ao(e, t, n, r, o) {
+  if (yo(e, t.status, t.responseURL)) {
     let e, s, i;
-    if (go()) {
+    if (bo()) {
       try {
         const e =
           t.getResponseHeader("Set-Cookie") ||
           t.getResponseHeader("set-cookie") ||
           void 0;
-        e && (s = ro(e));
+        e && (s = lo(e));
       } catch {}
       try {
-        i = so(t);
+        i = fo(t);
       } catch {}
       e = r;
     }
-    const a = fo({
+    const a = _o({
       url: t.responseURL,
       method: n,
       status: t.status,
@@ -1521,7 +1553,7 @@ function eo(e, t) {
       error: o,
       type: "xhr",
     });
-    ee(a);
+    te(a);
   }
 }
 /**
@@ -1529,7 +1561,7 @@ function eo(e, t) {
  *
  * @param headers
  * @returns The response size in bytes or undefined
- */ function no(e) {
+ */ function co(e) {
   if (e) {
     const t = e["Content-Length"] || e["content-length"];
     if (t) return parseInt(t, 10);
@@ -1540,7 +1572,7 @@ function eo(e, t) {
  *
  * @param cookieString The cookie string to parse
  * @returns The parsed cookies
- */ function ro(e) {
+ */ function lo(e) {
   return e.split("; ").reduce((e, t) => {
     const [n, r] = t.split("=");
     n && r && (e[n] = r);
@@ -1552,7 +1584,7 @@ function eo(e, t) {
  *
  * @param headers The headers to extract
  * @returns The extracted headers as an object
- */ function oo(e) {
+ */ function uo(e) {
   const t = {};
   e.forEach((e, n) => {
     t[n] = e;
@@ -1564,7 +1596,7 @@ function eo(e, t) {
  *
  * @param xhr The XHR object to extract the response headers from
  * @returns The response headers as an object
- */ function so(e) {
+ */ function fo(e) {
   const t = e.getAllResponseHeaders();
   return t
     ? t.split("\r\n").reduce((e, t) => {
@@ -1579,7 +1611,7 @@ function eo(e, t) {
  *
  * @param target The target url to check
  * @returns true if the target url is in the given list of targets, false otherwise
- */ function io(e, t) {
+ */ function po(e, t) {
   return e.some((e) => (typeof e === "string" ? t.includes(e) : e.test(t)));
 }
 /**
@@ -1587,33 +1619,33 @@ function eo(e, t) {
  *
  * @param status The status code to check
  * @returns true if the status code is in the given range, false otherwise
- */ function ao(e, t) {
+ */ function go(e, t) {
   return e.some((e) =>
     typeof e === "number" ? e === t : t >= e[0] && t <= e[1],
   );
 }
-function co(e, t) {
-  _e() &&
-    H((n) => {
-      if (d() !== e) return;
+function mo(e, t) {
+  Se() &&
+    F((n) => {
+      if (f() !== e) return;
       const { response: r, args: o, error: s, virtualError: i } = n;
       const [a, c] = o;
-      r && Zr(t, a, r, c, s || i);
+      r && so(t, a, r, c, s || i);
     }, false);
 }
-function lo(e, t) {
+function ho(e, t) {
   "XMLHttpRequest" in r &&
-    vt((n) => {
-      if (d() !== e) return;
+    St((n) => {
+      if (f() !== e) return;
       const { error: r, virtualError: o } = n;
       const s = n.xhr;
-      const i = s[St];
+      const i = s[kt];
       if (!i) return;
       const { method: a, request_headers: c } = i;
       try {
-        to(t, s, a, c, r || o);
+        ao(t, s, a, c, r || o);
       } catch (e) {
-        gn &&
+        hn &&
           A.warn("Error while extracting response event form XHR response", e);
       }
     });
@@ -1623,11 +1655,11 @@ function lo(e, t) {
  *
  * @param status response status code
  * @param url response url
- */ function uo(e, t, n) {
+ */ function yo(e, t, n) {
   return (
-    ao(e.failedRequestStatusCodes, t) &&
-    io(e.failedRequestTargets, n) &&
-    !ve(n, d())
+    go(e.failedRequestStatusCodes, t) &&
+    po(e.failedRequestTargets, n) &&
+    !we(n, f())
   );
 }
 /**
@@ -1635,8 +1667,8 @@ function lo(e, t) {
  *
  * @param data response data
  * @returns event
- */ function fo(e) {
-  const t = d();
+ */ function _o(e) {
+  const t = f();
   const n = t && e.error && e.error instanceof Error ? e.error.stack : void 0;
   const r = n && t ? t.getOptions().stackParser(n, 0, 1) : void 0;
   const o = `HTTP Client Error with status code: ${e.status}`;
@@ -1658,38 +1690,38 @@ function lo(e, t) {
         status_code: e.status,
         headers: e.responseHeaders,
         cookies: e.responseCookies,
-        body_size: no(e.responseHeaders),
+        body_size: co(e.responseHeaders),
       },
     },
   };
   a(s, { type: `auto.http.client.${e.type}`, handled: false });
   return s;
 }
-function po(e, t) {
+function vo(e, t) {
   return (!t && e instanceof Request) || (e instanceof Request && e.bodyUsed)
     ? e
     : new Request(e, t);
 }
-function go() {
-  const e = d();
+function bo() {
+  const e = f();
   return !!e && Boolean(e.getOptions().sendDefaultPii);
 }
-const mo = r;
-const ho = 7;
-const yo = "ContextLines";
-const _o = (e = {}) => {
-  const t = e.frameContextLines != null ? e.frameContextLines : ho;
+const So = r;
+const wo = 7;
+const ko = "ContextLines";
+const Po = (e = {}) => {
+  const t = e.frameContextLines != null ? e.frameContextLines : wo;
   return {
-    name: yo,
+    name: ko,
     processEvent(e) {
-      return bo(e, t);
+      return Eo(e, t);
     },
   };
 };
-const vo = F(_o);
-function bo(e, t) {
-  const n = mo.document;
-  const r = mo.location && be(mo.location.href);
+const To = H(Po);
+function Eo(e, t) {
+  const n = So.document;
+  const r = So.location && ke(So.location.href);
   if (!n || !r) return e;
   const o = e.exception?.values;
   if (!o?.length) return e;
@@ -1698,43 +1730,43 @@ function bo(e, t) {
   const i = ["<!DOCTYPE html>", "<html>", ...s.split("\n"), "</html>"];
   o.forEach((e) => {
     const n = e.stacktrace;
-    n?.frames && (n.frames = n.frames.map((e) => So(e, i, r, t)));
+    n?.frames && (n.frames = n.frames.map((e) => Io(e, i, r, t)));
   });
   return e;
 }
-function So(e, t, n, r) {
+function Io(e, t, n, r) {
   if (e.filename !== n || !e.lineno || !t.length) return e;
-  Se(t, e, r);
+  Pe(t, e, r);
   return e;
 }
-const wo = "GraphQLClient";
-const Po = (e) => ({
-  name: wo,
+const xo = "GraphQLClient";
+const Ro = (e) => ({
+  name: xo,
   setup(t) {
-    ko(t, e);
-    To(t, e);
+    Co(t, e);
+    Lo(t, e);
   },
 });
-function ko(e, t) {
+function Co(e, t) {
   e.on("beforeOutgoingRequestSpan", (e, n) => {
-    const r = we(e);
+    const r = Te(e);
     const o = r.data || {};
-    const s = o[Pe];
+    const s = o[Ee];
     const i = s === "http.client";
     if (!i) return;
-    const a = o[ke] || o["http.url"];
-    const c = o[Te] || o["http.method"];
-    if (!re(a) || !re(c)) return;
+    const a = o[Ie] || o["http.url"];
+    const c = o[xe] || o["http.method"];
+    if (!oe(a) || !oe(c)) return;
     const { endpoints: l } = t;
-    const u = Ee(a, l);
-    const f = xo(n);
-    if (u && f) {
-      const t = Oo(f);
+    const u = Re(a, l);
+    const d = Ao(n);
+    if (u && d) {
+      const t = No(d);
       if (t) {
-        const n = Eo(t);
+        const n = Oo(t);
         e.updateName(`${c} ${a} (${n})`);
-        Co(t) && e.setAttribute("graphql.document", t.query);
-        if (Lo(t)) {
+        qo(t) && e.setAttribute("graphql.document", t.query);
+        if (Mo(t)) {
           e.setAttribute(
             "graphql.persisted_query.hash.sha256",
             t.extensions.persistedQuery.sha256Hash,
@@ -1748,7 +1780,7 @@ function ko(e, t) {
     }
   });
 }
-function To(e, t) {
+function Lo(e, t) {
   e.on("beforeOutgoingRequestBreadcrumb", (e, n) => {
     const { category: r, type: o, data: s } = e;
     const i = r === "fetch";
@@ -1757,15 +1789,15 @@ function To(e, t) {
     if (c && (i || a)) {
       const e = s?.url;
       const { endpoints: r } = t;
-      const o = Ee(e, r);
-      const i = xo(n);
+      const o = Re(e, r);
+      const i = Ao(n);
       if (o && s && i) {
-        const e = Oo(i);
+        const e = No(i);
         if (!s.graphql && e) {
-          const t = Eo(e);
+          const t = Oo(e);
           s["graphql.operation"] = t;
-          Co(e) && (s["graphql.document"] = e.query);
-          if (Lo(e)) {
+          qo(e) && (s["graphql.document"] = e.query);
+          if (Mo(e)) {
             s["graphql.persisted_query.hash.sha256"] =
               e.extensions.persistedQuery.sha256Hash;
             s["graphql.persisted_query.version"] =
@@ -1779,29 +1811,29 @@ function To(e, t) {
 /**
  * @param requestBody - GraphQL request
  * @returns A formatted version of the request: 'TYPE NAME' or 'TYPE' or 'persisted NAME'
- */ function Eo(e) {
-  if (Lo(e)) return `persisted ${e.operationName}`;
-  if (Co(e)) {
+ */ function Oo(e) {
+  if (Mo(e)) return `persisted ${e.operationName}`;
+  if (qo(e)) {
     const { query: t, operationName: n } = e;
-    const { operationName: r = n, operationType: o } = Ro(t);
+    const { operationName: r = n, operationType: o } = $o(t);
     const s = r ? `${o} ${r}` : `${o}`;
     return s;
   }
   return "unknown";
 }
-function xo(e) {
+function Ao(e) {
   const t = "xhr" in e;
   let n;
   if (t) {
-    const t = e.xhr[St];
-    n = t && wt(t.body)[0];
+    const t = e.xhr[kt];
+    n = t && Pt(t.body)[0];
   } else {
-    const t = Pt(e.input);
-    n = wt(t)[0];
+    const t = Tt(e.input);
+    n = Pt(t)[0];
   }
   return n;
 }
-function Ro(e) {
+function $o(e) {
   const t = /^(?:\s*)(query|mutation|subscription)(?:\s*)(\w+)(?:\s*)[{(]/;
   const n = /^(?:\s*)(query|mutation|subscription)(?:\s*)[{(]/;
   const r = e.match(t);
@@ -1811,18 +1843,18 @@ function Ro(e) {
     ? { operationType: o[1], operationName: void 0 }
     : { operationType: void 0, operationName: void 0 };
 }
-function Io(e) {
+function Do(e) {
   return typeof e === "object" && e !== null;
 }
-function Co(e) {
-  return Io(e) && typeof e.query === "string";
+function qo(e) {
+  return Do(e) && typeof e.query === "string";
 }
-function Lo(e) {
+function Mo(e) {
   return (
-    Io(e) &&
+    Do(e) &&
     typeof e.operationName === "string" &&
-    Io(e.extensions) &&
-    Io(e.extensions.persistedQuery) &&
+    Do(e.extensions) &&
+    Do(e.extensions.persistedQuery) &&
     typeof e.extensions.persistedQuery.sha256Hash === "string" &&
     typeof e.extensions.persistedQuery.version === "number"
   );
@@ -1832,27 +1864,27 @@ function Lo(e) {
  * Exported for tests only.
  * @param payload - A valid JSON string
  * @returns A POJO or undefined
- */ function Oo(e) {
+ */ function No(e) {
   try {
     const t = JSON.parse(e);
-    return Co(t) || Lo(t) ? t : void 0;
+    return qo(t) || Mo(t) ? t : void 0;
   } catch {
     return;
   }
 }
-const Ao = F(Po);
-function $o(e) {
+const Fo = H(Ro);
+function Ho(e) {
   return e.split(",").some((e) => e.trim().startsWith("sentry-"));
 }
-function qo(e) {
+function jo(e) {
   try {
-    const t = new URL(e, qt.location.origin);
+    const t = new URL(e, Mt.location.origin);
     return t.href;
   } catch {
     return;
   }
 }
-function Do(e) {
+function Uo(e) {
   return (
     e.entryType === "resource" &&
     "initiatorType" in e &&
@@ -1860,22 +1892,22 @@ function Do(e) {
     (e.initiatorType === "fetch" || e.initiatorType === "xmlhttprequest")
   );
 }
-function Mo(e) {
+function Bo(e) {
   try {
     return new Headers(e);
   } catch {
     return;
   }
 }
-const No = new WeakMap();
-const Ho = new Map();
-const Fo = {
+const Wo = new WeakMap();
+const zo = new Map();
+const Go = {
   traceFetch: true,
   traceXHR: true,
   enableHTTPTimings: true,
   trackFetchStreamPerformance: false,
 };
-function jo(e, t) {
+function Xo(e, t) {
   const {
     traceFetch: n,
     traceXHR: r,
@@ -1885,10 +1917,10 @@ function jo(e, t) {
     tracePropagationTargets: a,
     onRequestSpanStart: c,
     onRequestSpanEnd: l,
-  } = { ...Fo, ...t };
+  } = { ...Go, ...t };
   const u = typeof s === "function" ? s : (e) => true;
-  const f = (e) => Bo(e, a);
-  const d = {};
+  const d = (e) => Yo(e, a);
+  const f = {};
   const p = e.getOptions().propagateTraceparent;
   if (n) {
     e.addEventProcessor((e) => {
@@ -1896,45 +1928,48 @@ function jo(e, t) {
         e.spans &&
         e.spans.forEach((e) => {
           if (e.op === "http.client") {
-            const t = Ho.get(e.span_id);
+            const t = zo.get(e.span_id);
             if (t) {
               e.timestamp = t / 1e3;
-              Ho.delete(e.span_id);
+              zo.delete(e.span_id);
             }
           }
         });
       return e;
     });
     o &&
-      xe((e) => {
+      Ce((e) => {
         if (e.response) {
-          const t = No.get(e.response);
-          t && e.endTimestamp && Ho.set(t, e.endTimestamp);
+          const t = Wo.get(e.response);
+          t && e.endTimestamp && zo.set(t, e.endTimestamp);
         }
       });
-    H((e) => {
-      const t = Re(e, u, f, d, {
+    F((e) => {
+      const t = Le(e, u, d, f, {
         propagateTraceparent: p,
         onRequestSpanEnd: l,
       });
       e.response &&
         e.fetchData.__span &&
-        No.set(e.response, e.fetchData.__span);
+        Wo.set(e.response, e.fetchData.__span);
       if (t) {
-        const n = qo(e.fetchData.url);
+        const n = jo(e.fetchData.url);
         const r = n ? K(n).host : void 0;
-        t.setAttributes({ "http.url": n, "server.address": r });
-        i && Uo(t);
+        t.setAttributes({
+          "http.url": n ? se(n) : void 0,
+          "server.address": r,
+        });
+        i && Ko(t);
         c?.(t, { headers: e.headers });
       }
     });
   }
   r &&
-    vt((e) => {
-      const t = zo(e, u, f, d, p, l);
+    St((e) => {
+      const t = Jo(e, u, d, f, p, l);
       if (t) {
-        i && Uo(t);
-        c?.(t, { headers: Mo(e.xhr.__sentry_xhr_v3__?.request_headers) });
+        i && Ko(t);
+        c?.(t, { headers: Bo(e.xhr.__sentry_xhr_v3__?.request_headers) });
       }
     });
 }
@@ -1943,20 +1978,20 @@ function jo(e, t) {
  * so that when timings hit their per-browser limit they don't need to be removed.
  *
  * @param span A span that has yet to be finished, must contain `url` on data.
- */ function Uo(e) {
-  const { url: t } = we(e).data;
+ */ function Ko(e) {
+  const { url: t } = Te(e).data;
   if (!t || typeof t !== "string") return;
-  const n = kt("resource", ({ entries: r }) => {
+  const n = Et("resource", ({ entries: r }) => {
     r.forEach((r) => {
-      if (Do(r) && r.name.endsWith(t)) {
-        e.setAttributes(Tt(r));
+      if (Uo(r) && r.name.endsWith(t)) {
+        e.setAttributes(It(r));
         setTimeout(n);
       }
     });
   });
 }
-function Bo(e, t) {
-  const n = f();
+function Yo(e, t) {
+  const n = d();
   if (n) {
     let r;
     let o;
@@ -1967,72 +2002,74 @@ function Bo(e, t) {
       return false;
     }
     const s = r.origin === o;
-    return t ? Ee(r.toString(), t) || (s && Ee(r.pathname, t)) : s;
+    return t ? Re(r.toString(), t) || (s && Re(r.pathname, t)) : s;
   }
   {
     const n = !!e.match(/^\/(?!\/)/);
-    return t ? Ee(e, t) : n;
+    return t ? Re(e, t) : n;
   }
 }
 /**
  * Create and track xhr request spans
  *
  * @returns Span if a span was created, otherwise void.
- */ function zo(e, t, n, r, o, s) {
+ */ function Jo(e, t, n, r, o, s) {
   const i = e.xhr;
-  const a = i?.[St];
+  const a = i?.[kt];
   if (!i || i.__sentry_own_request__ || !a) return;
   const { url: c, method: l } = a;
-  const u = Ie() && t(c);
-  if (e.endTimestamp && u) {
+  const u = Oe() && t(c);
+  if (e.endTimestamp) {
     const t = i.__sentry_xhr_span_id__;
     if (!t) return;
     const n = r[t];
-    if (n && a.status_code !== void 0) {
-      Ce(n, a.status_code);
-      n.end();
-      s?.(n, { headers: Mo(Et(i)), error: e.error });
+    if (n) {
+      if (u && a.status_code !== void 0) {
+        Ae(n, a.status_code);
+        n.end();
+        s?.(n, { headers: Bo(xt(i)), error: e.error });
+      }
       delete r[t];
     }
     return;
   }
-  const f = qo(c);
-  const p = K(f || c);
-  const g = be(c);
-  const m = !!Le();
+  const d = jo(c);
+  const p = K(d || c);
+  const g = se(ke(c));
+  const m = !!$e();
   const h =
     u && m
-      ? Oe({
+      ? De({
           name: `${l} ${g}`,
           attributes: {
-            url: c,
+            url: se(c),
             type: "xhr",
             "http.method": l,
-            "http.url": f,
+            "http.url": d ? se(d) : void 0,
             "server.address": p?.host,
-            [Ae]: "auto.http.browser",
-            [Pe]: "http.client",
+            [qe]: "auto.http.browser",
+            [Ee]: "http.client",
             ...(p?.search && { "http.query": p?.search }),
             ...(p?.hash && { "http.fragment": p?.hash }),
           },
         })
-      : new $e();
+      : new Me();
   i.__sentry_xhr_span_id__ = h.spanContext().spanId;
   r[i.__sentry_xhr_span_id__] = h;
-  n(c) && Wo(i, Ie() && m ? h : void 0, o);
-  const y = d();
+  n(c) && Vo(i, Oe() && m ? h : void 0, o);
+  const y = f();
   y && y.emit("beforeOutgoingRequestSpan", h, e);
   return h;
 }
-function Wo(e, t, n) {
+function Vo(e, t, n) {
   const {
     "sentry-trace": r,
     baggage: o,
     traceparent: s,
-  } = qe({ span: t, propagateTraceparent: n });
-  r && Go(e, r, o, s);
+  } = Ne({ span: t, propagateTraceparent: n });
+  r && Qo(e, r, o, s);
 }
-function Go(e, t, n, r) {
+function Qo(e, t, n, r) {
   const o = e.__sentry_xhr_v3__?.request_headers;
   if (!o?.["sentry-trace"] && e.setRequestHeader)
     try {
@@ -2040,54 +2077,54 @@ function Go(e, t, n, r) {
       r && !o?.traceparent && e.setRequestHeader("traceparent", r);
       if (n) {
         const t = o?.baggage;
-        (t && $o(t)) || e.setRequestHeader("baggage", n);
+        (t && Ho(t)) || e.setRequestHeader("baggage", n);
       }
     } catch {}
 }
-function Xo() {
-  qt.document
-    ? qt.document.addEventListener("visibilitychange", () => {
-        const e = Le();
+function Zo() {
+  Mt.document
+    ? Mt.document.addEventListener("visibilitychange", () => {
+        const e = $e();
         if (!e) return;
-        const t = De(e);
-        if (qt.document.hidden && t) {
+        const t = Fe(e);
+        if (Mt.document.hidden && t) {
           const e = "cancelled";
-          const { op: n, status: r } = we(t);
-          gn &&
+          const { op: n, status: r } = Te(t);
+          hn &&
             A.log(
               `[Tracing] Transaction: ${e} -> since tab moved to the background, op: ${n}`,
             );
-          r || t.setStatus({ code: Me, message: e });
+          r || t.setStatus({ code: He, message: e });
           t.setAttribute("sentry.cancellation_reason", "document.hidden");
           t.end();
         }
       })
-    : gn &&
+    : hn &&
       A.warn(
         "[Tracing] Could not set up background tab detection due to lack of global document",
       );
 }
-const Ko = 3600;
-const Yo = "sentry_previous_trace";
-const Jo = "sentry.previous_trace";
+const es = 3600;
+const ts = "sentry_previous_trace";
+const ns = "sentry.previous_trace";
 /**
  * Takes care of linking traces and applying the (consistent) sampling behavoiour based on the passed options
  * @param options - options for linking traces and consistent trace sampling (@see BrowserTracingOptions)
  * @param client - Sentry client
- */ function Vo(e, { linkPreviousTrace: t, consistentTraceSampling: n }) {
+ */ function rs(e, { linkPreviousTrace: t, consistentTraceSampling: n }) {
   const r = t === "session-storage";
-  let o = r ? es() : void 0;
+  let o = r ? is() : void 0;
   e.on("spanStart", (e) => {
-    if (De(e) !== e) return;
-    const t = pe().getPropagationContext();
-    o = Qo(o, e, t);
-    r && Zo(o);
+    if (Fe(e) !== e) return;
+    const t = he().getPropagationContext();
+    o = os(o, e, t);
+    r && ss(o);
   });
   let s = true;
   n &&
     e.on("beforeSampling", (e) => {
       if (!o) return;
-      const t = pe();
+      const t = he();
       const n = t.getPropagationContext();
       if (s && n.parentSpanId) s = false;
       else {
@@ -2096,13 +2133,13 @@ const Jo = "sentry.previous_trace";
           dsc: {
             ...n.dsc,
             sample_rate: String(o.sampleRate),
-            sampled: String(ts(o.spanContext)),
+            sampled: String(as(o.spanContext)),
           },
           sampleRand: o.sampleRand,
         });
-        e.parentSampled = ts(o.spanContext);
+        e.parentSampled = as(o.spanContext);
         e.parentSampleRate = o.sampleRate;
-        e.spanAttributes = { ...e.spanAttributes, [Ne]: o.sampleRate };
+        e.spanAttributes = { ...e.spanAttributes, [je]: o.sampleRate };
       }
     });
 }
@@ -2112,11 +2149,11 @@ const Jo = "sentry.previous_trace";
  *
  * @returns the updated previous trace info (based on the current span/trace) to
  * be used on the next call
- */ function Qo(e, t, n) {
-  const r = we(t);
+ */ function os(e, t, n) {
+  const r = Te(t);
   function o() {
     try {
-      return Number(n.dsc?.sample_rate) ?? Number(r.data?.[He]);
+      return Number(n.dsc?.sample_rate) ?? Number(r.data?.[Ue]);
     } catch {
       return 0;
     }
@@ -2130,39 +2167,39 @@ const Jo = "sentry.previous_trace";
   if (!e) return s;
   const i = e.spanContext;
   if (i.traceId === r.trace_id) return e;
-  if (Date.now() / 1e3 - e.startTimestamp <= Ko) {
-    gn &&
+  if (Date.now() / 1e3 - e.startTimestamp <= es) {
+    hn &&
       A.log(
         `Adding previous_trace \`${JSON.stringify(i)}\` link to span \`${JSON.stringify({ op: r.op, ...t.spanContext() })}\``,
       );
-    t.addLink({ context: i, attributes: { [Fe]: "previous_trace" } });
-    t.setAttribute(Jo, `${i.traceId}-${i.spanId}-${ts(i) ? 1 : 0}`);
+    t.addLink({ context: i, attributes: { [Be]: "previous_trace" } });
+    t.setAttribute(ns, `${i.traceId}-${i.spanId}-${as(i) ? 1 : 0}`);
   }
   return s;
 }
 /**
  * Stores @param previousTraceInfo in sessionStorage.
- */ function Zo(e) {
+ */ function ss(e) {
   try {
-    qt.sessionStorage.setItem(Yo, JSON.stringify(e));
+    Mt.sessionStorage.setItem(ts, JSON.stringify(e));
   } catch (e) {
-    gn && A.warn("Could not store previous trace in sessionStorage", e);
+    hn && A.warn("Could not store previous trace in sessionStorage", e);
   }
 }
-function es() {
+function is() {
   try {
-    const e = qt.sessionStorage?.getItem(Yo);
+    const e = Mt.sessionStorage?.getItem(ts);
     return JSON.parse(e);
   } catch {
     return;
   }
 }
-function ts(e) {
+function as(e) {
   return e.traceFlags === 1;
 }
-const ns = "BrowserTracing";
-const rs = {
-  ...je,
+const cs = "BrowserTracing";
+const ls = {
+  ...We,
   instrumentNavigation: true,
   instrumentPageLoad: true,
   markBackgroundSpan: true,
@@ -2177,11 +2214,11 @@ const rs = {
   consistentTraceSampling: false,
   enableReportPageLoaded: false,
   _experiments: {},
-  ...Fo,
+  ...Go,
 };
-const os = (e = {}) => {
+const us = (e = {}) => {
   const t = { name: void 0, source: void 0 };
-  const n = qt.document;
+  const n = Mt.document;
   const {
     enableInp: o,
     enableElementTiming: s,
@@ -2202,134 +2239,134 @@ const os = (e = {}) => {
     trackFetchStreamPerformance: b,
     shouldCreateSpanForRequest: S,
     enableHTTPTimings: w,
-    ignoreResourceSpans: P,
-    ignorePerformanceApiSpans: k,
+    ignoreResourceSpans: k,
+    ignorePerformanceApiSpans: P,
     instrumentPageLoad: T,
     instrumentNavigation: E,
-    detectRedirects: x,
-    linkPreviousTrace: R,
-    consistentTraceSampling: I,
+    detectRedirects: I,
+    linkPreviousTrace: x,
+    consistentTraceSampling: R,
     enableReportPageLoaded: C,
     onRequestSpanStart: L,
     onRequestSpanEnd: O,
-  } = { ...rs, ...e };
+  } = { ...ls, ...e };
   let $;
-  let q;
   let D;
+  let q;
   function M(e, r, o = true) {
     const s = r.op === "pageload";
     const i = r.name;
     const a = p ? p(r) : r;
     const c = a.attributes || {};
     if (i !== a.name) {
-      c[Ue] = "custom";
+      c[ze] = "custom";
       a.attributes = c;
     }
     if (!o) {
-      const e = Be();
-      Oe({ ...a, startTime: e }).end(e);
+      const e = Ge();
+      De({ ...a, startTime: e }).end(e);
       return;
     }
     t.name = a.name;
-    t.source = c[Ue];
-    const f = ze(a, {
+    t.source = c[ze];
+    const d = Xe(a, {
       idleTimeout: g,
       finalTimeout: m,
       childSpanTimeout: h,
       disableAutoFinish: s,
       beforeSpanEnd: (t) => {
         $?.();
-        xt(t, {
+        Rt(t, {
           recordClsOnPageloadSpan: !l,
           recordLcpOnPageloadSpan: !u,
-          ignoreResourceSpans: P,
-          ignorePerformanceApiSpans: k,
+          ignoreResourceSpans: k,
+          ignorePerformanceApiSpans: P,
         });
-        fs(e, void 0);
-        const n = pe();
+        _s(e, void 0);
+        const n = he();
         const r = n.getPropagationContext();
         n.setPropagationContext({
           ...r,
-          traceId: f.spanContext().traceId,
-          sampled: Ge(f),
-          dsc: We(t),
+          traceId: d.spanContext().traceId,
+          sampled: Ye(d),
+          dsc: Ke(t),
         });
-        s && (D = void 0);
+        s && (q = void 0);
       },
       trimIdleSpanEndTimestamp: !C,
     });
-    s && C && (D = f);
-    fs(e, f);
-    function d() {
+    s && C && (q = d);
+    _s(e, d);
+    function f() {
       n &&
         ["interactive", "complete"].includes(n.readyState) &&
-        e.emit("idleSpanEnableAutoFinish", f);
+        e.emit("idleSpanEnableAutoFinish", d);
     }
     if (s && !C && n) {
       n.addEventListener("readystatechange", () => {
-        d();
+        f();
       });
-      d();
+      f();
     }
   }
   return {
-    name: ns,
+    name: cs,
     setup(e) {
-      Ye();
-      $ = It({
+      Qe();
+      $ = Lt({
         recordClsStandaloneSpans: l || false,
         recordLcpStandaloneSpans: u || false,
         client: e,
       });
-      o && Ct();
-      s && Lt();
+      o && Ot();
+      s && At();
       a &&
       r.PerformanceObserver &&
       PerformanceObserver.supportedEntryTypes &&
       PerformanceObserver.supportedEntryTypes.includes("long-animation-frame")
-        ? Ot()
-        : i && At();
-      c && $t();
-      if (x && n) {
+        ? $t()
+        : i && Dt();
+      c && qt();
+      if (I && n) {
         const e = () => {
-          q = Je();
+          D = Ze();
         };
         addEventListener("click", e, { capture: true });
         addEventListener("keydown", e, { capture: true, passive: true });
       }
       function t() {
-        const t = us(e);
-        if (t && !we(t).timestamp) {
-          gn &&
+        const t = ys(e);
+        if (t && !Te(t).timestamp) {
+          hn &&
             A.log(
-              `[Tracing] Finishing current active span with op: ${we(t).op}`,
+              `[Tracing] Finishing current active span with op: ${Te(t).op}`,
             );
-          t.setAttribute(Ve, "cancelled");
+          t.setAttribute(et, "cancelled");
           t.end();
         }
       }
       e.on("startNavigationSpan", (n, r) => {
-        if (d() !== e) return;
+        if (f() !== e) return;
         if (r?.isRedirect) {
-          gn &&
+          hn &&
             A.warn(
               "[Tracing] Detected redirect, navigation span will not be the root span, but a child span.",
             );
           M(e, { op: "navigation.redirect", ...n }, false);
           return;
         }
-        q = void 0;
+        D = void 0;
         t();
-        Qe().setPropagationContext({
-          traceId: et(),
+        Z().setPropagationContext({
+          traceId: nt(),
           sampleRand: Math.random(),
-          propagationSpanId: Ie() ? void 0 : Ze(),
+          propagationSpanId: Oe() ? void 0 : tt(),
         });
-        const o = pe();
+        const o = he();
         o.setPropagationContext({
-          traceId: et(),
+          traceId: nt(),
           sampleRand: Math.random(),
-          propagationSpanId: Ie() ? void 0 : Ze(),
+          propagationSpanId: Oe() ? void 0 : tt(),
         });
         o.setSDKProcessingMetadata({ normalizedRequest: void 0 });
         M(e, {
@@ -2340,61 +2377,61 @@ const os = (e = {}) => {
         });
       });
       e.on("startPageLoadSpan", (n, r = {}) => {
-        if (d() !== e) return;
+        if (f() !== e) return;
         t();
-        const o = r.sentryTrace || as("sentry-trace");
-        const s = r.baggage || as("baggage");
-        const i = tt(o, s);
-        const a = pe();
+        const o = r.sentryTrace || ps("sentry-trace") || gs("sentry-trace");
+        const s = r.baggage || ps("baggage") || gs("baggage");
+        const i = rt(o, s);
+        const a = he();
         a.setPropagationContext(i);
-        Ie() || (a.getPropagationContext().propagationSpanId = Ze());
-        a.setSDKProcessingMetadata({ normalizedRequest: Ft() });
+        Oe() || (a.getPropagationContext().propagationSpanId = tt());
+        a.setSDKProcessingMetadata({ normalizedRequest: Ut() });
         M(e, { op: "pageload", ...n });
       });
       e.on("endPageloadSpan", () => {
-        if (C && D) {
-          D.setAttribute(Ve, "reportPageLoaded");
-          D.end();
+        if (C && q) {
+          q.setAttribute(et, "reportPageLoaded");
+          q.end();
         }
       });
     },
     afterAllSetup(e) {
-      let n = f();
-      R !== "off" &&
-        Vo(e, { linkPreviousTrace: R, consistentTraceSampling: I });
-      if (qt.location) {
+      let n = d();
+      x !== "off" &&
+        rs(e, { linkPreviousTrace: x, consistentTraceSampling: R });
+      if (Mt.location) {
         if (T) {
-          const t = Xe();
-          ss(e, {
-            name: qt.location.pathname,
+          const t = Je();
+          ds(e, {
+            name: Mt.location.pathname,
             startTime: t ? t / 1e3 : void 0,
-            attributes: { [Ue]: "url", [Ae]: "auto.pageload.browser" },
+            attributes: { [ze]: "url", [qe]: "auto.pageload.browser" },
           });
         }
         E &&
-          bt(({ to: t, from: r }) => {
+          wt(({ to: t, from: r }) => {
             if (r === void 0 && n?.indexOf(t) !== -1) {
               n = void 0;
               return;
             }
             n = void 0;
-            const o = Ke(t);
-            const s = us(e);
-            const i = s && x && ps(s, q);
-            is(
+            const o = Ve(t);
+            const s = ys(e);
+            const i = s && I && bs(s, D);
+            fs(
               e,
               {
-                name: o?.pathname || qt.location.pathname,
-                attributes: { [Ue]: "url", [Ae]: "auto.navigation.browser" },
+                name: o?.pathname || Mt.location.pathname,
+                attributes: { [ze]: "url", [qe]: "auto.navigation.browser" },
               },
               { url: t, isRedirect: i },
             );
           });
       }
-      y && Xo();
-      c && cs(e, g, m, h, t);
-      o && Rt();
-      jo(e, {
+      y && Zo();
+      c && ms(e, g, m, h, t);
+      o && Ct();
+      Xo(e, {
         traceFetch: _,
         traceXHR: v,
         trackFetchStreamPerformance: b,
@@ -2407,39 +2444,44 @@ const os = (e = {}) => {
     },
   };
 };
-function ss(e, t, n) {
+function ds(e, t, n) {
   e.emit("startPageLoadSpan", t, n);
-  pe().setTransactionName(t.name);
-  const r = us(e);
+  he().setTransactionName(t.name);
+  const r = ys(e);
   r && e.emit("afterStartPageLoadSpan", r);
   return r;
 }
-function is(e, t, n) {
+function fs(e, t, n) {
   const { url: r, isRedirect: o } = n || {};
   e.emit("beforeStartNavigationSpan", t, { isRedirect: o });
   e.emit("startNavigationSpan", t, { isRedirect: o });
-  const s = pe();
+  const s = he();
   s.setTransactionName(t.name);
   r &&
     !o &&
-    s.setSDKProcessingMetadata({ normalizedRequest: { ...Ft(), url: r } });
-  return us(e);
+    s.setSDKProcessingMetadata({ normalizedRequest: { ...Ut(), url: r } });
+  return ys(e);
 }
-function as(e) {
-  const t = qt.document;
+function ps(e) {
+  const t = Mt.document;
   const n = t?.querySelector(`meta[name=${e}]`);
   return n?.getAttribute("content") || void 0;
 }
-function cs(e, t, n, r, o) {
-  const s = qt.document;
+function gs(e) {
+  const t = Mt.performance?.getEntriesByType?.("navigation")[0];
+  const n = t?.serverTiming?.find((t) => t.name === e);
+  return n?.description;
+}
+function ms(e, t, n, r, o) {
+  const s = Mt.document;
   let i;
   const a = () => {
     const s = "ui.action.click";
-    const a = us(e);
+    const a = ys(e);
     if (a) {
-      const e = we(a).op;
+      const e = Te(a).op;
       if (["navigation", "pageload"].includes(e)) {
-        gn &&
+        hn &&
           A.warn(
             `[Tracing] Did not create ${s} span because a pageload or navigation span is in progress.`,
           );
@@ -2447,35 +2489,35 @@ function cs(e, t, n, r, o) {
       }
     }
     if (i) {
-      i.setAttribute(Ve, "interactionInterrupted");
+      i.setAttribute(et, "interactionInterrupted");
       i.end();
       i = void 0;
     }
     o.name
-      ? (i = ze(
-          { name: o.name, op: s, attributes: { [Ue]: o.source || "url" } },
+      ? (i = Xe(
+          { name: o.name, op: s, attributes: { [ze]: o.source || "url" } },
           { idleTimeout: t, finalTimeout: n, childSpanTimeout: r },
         ))
-      : gn &&
+      : hn &&
         A.warn(
           `[Tracing] Did not create ${s} transaction because _latestRouteName is missing.`,
         );
   };
   s && addEventListener("click", a, { capture: true });
 }
-const ls = "_sentry_idleSpan";
-function us(e) {
-  return e[ls];
+const hs = "_sentry_idleSpan";
+function ys(e) {
+  return e[hs];
 }
-function fs(e, t) {
-  u(e, ls, t);
+function _s(e, t) {
+  u(e, hs, t);
 }
-const ds = 1.5;
-function ps(e, t) {
-  const n = we(e);
-  const r = Be();
+const vs = 1.5;
+function bs(e, t) {
+  const n = Te(e);
+  const r = Ge();
   const o = n.start_timestamp;
-  return !(r - o > ds) && !(t && r - t <= ds);
+  return !(r - o > vs) && !(t && r - t <= vs);
 }
 /**
  * Manually report the end of the page load, resulting in the SDK ending the pageload span.
@@ -2484,7 +2526,7 @@ function ps(e, t) {
  * {@link BrowserTracingOptions.idleTimeout} and {@link BrowserTracingOptions.childSpanTimeout}.
  *
  * @param client - The client to use. If not provided, the global client will be used.
- */ function gs(e = d()) {
+ */ function Ss(e = f()) {
   e?.emit("endPageloadSpan");
 }
 /**
@@ -2522,123 +2564,123 @@ function ps(e, t) {
  * ```
  *
  * @param span - the span to set active
- */ function ms(e) {
-  const t = Le();
+ */ function ws(e) {
+  const t = $e();
   if (t === e) return;
-  const n = pe();
+  const n = he();
   e.end = new Proxy(e.end, {
     apply(e, r, o) {
-      nt(n, t);
+      ot(n, t);
       return Reflect.apply(e, r, o);
     },
   });
-  nt(n, e);
+  ot(n, e);
 }
-function hs(e) {
+function ks(e) {
   return new Promise((t, n) => {
     e.oncomplete = e.onsuccess = () => t(e.result);
     e.onabort = e.onerror = () => n(e.error);
   });
 }
-function ys(e, t) {
+function Ps(e, t) {
   const n = indexedDB.open(e);
   n.onupgradeneeded = () => n.result.createObjectStore(t);
-  const r = hs(n);
+  const r = ks(n);
   return (e) => r.then((n) => e(n.transaction(t, "readwrite").objectStore(t)));
 }
-function _s(e) {
-  return hs(e.getAllKeys());
+function Ts(e) {
+  return ks(e.getAllKeys());
 }
-function vs(e, t, n) {
+function Es(e, t, n) {
   return e((e) =>
-    _s(e).then((r) => {
+    Ts(e).then((r) => {
       if (!(r.length >= n)) {
         e.put(t, Math.max(...r, 0) + 1);
-        return hs(e.transaction);
+        return ks(e.transaction);
       }
     }),
   );
 }
-function bs(e, t, n) {
+function Is(e, t, n) {
   return e((e) =>
-    _s(e).then((r) => {
+    Ts(e).then((r) => {
       if (!(r.length >= n)) {
         e.put(t, Math.min(...r, 0) - 1);
-        return hs(e.transaction);
+        return ks(e.transaction);
       }
     }),
   );
 }
-function Ss(e) {
+function xs(e) {
   return e((e) =>
-    _s(e).then((t) => {
+    Ts(e).then((t) => {
       const n = t[0];
       if (n != null)
-        return hs(e.get(n)).then((t) => {
+        return ks(e.get(n)).then((t) => {
           e.delete(n);
-          return hs(e.transaction).then(() => t);
+          return ks(e.transaction).then(() => t);
         });
     }),
   );
 }
-function ws(e) {
+function Rs(e) {
   let t;
   function n() {
     t == void 0 &&
-      (t = ys(e.dbName || "sentry-offline", e.storeName || "queue"));
+      (t = Ps(e.dbName || "sentry-offline", e.storeName || "queue"));
     return t;
   }
   return {
     push: async (t) => {
       try {
-        const r = await se(t);
-        await vs(n(), r, e.maxQueueSize || 30);
+        const r = await ae(t);
+        await Es(n(), r, e.maxQueueSize || 30);
       } catch {}
     },
     unshift: async (t) => {
       try {
-        const r = await se(t);
-        await bs(n(), r, e.maxQueueSize || 30);
+        const r = await ae(t);
+        await Is(n(), r, e.maxQueueSize || 30);
       } catch {}
     },
     shift: async () => {
       try {
-        const e = await Ss(n());
-        if (e) return rt(e);
+        const e = await xs(n());
+        if (e) return st(e);
       } catch {}
     },
   };
 }
-function Ps(e) {
+function Cs(e) {
   return (t) => {
-    const n = e({ ...t, createStore: ws });
-    qt.addEventListener("online", async (e) => {
+    const n = e({ ...t, createStore: Rs });
+    Mt.addEventListener("online", async (e) => {
       await n.flush();
     });
     return n;
   };
 }
-function ks(e = pn) {
-  return Ps(ot(e));
+function Ls(e = mn) {
+  return Cs(it(e));
 }
-const Ts = 1e6;
-const Es =
+const Os = 1e6;
+const As =
   "window" in r && r.window === r && typeof importScripts === "undefined";
-const xs = String(0);
-const Rs = Es ? "main" : "worker";
-const Is = qt.navigator;
-let Cs = "";
-let Ls = "";
-let Os = "";
-let As = Is?.userAgent || "";
-let $s = "";
-const qs = Is?.language || Is?.languages?.[0] || "";
-function Ds(e) {
+const $s = String(0);
+const Ds = As ? "main" : "worker";
+const qs = Mt.navigator;
+let Ms = "";
+let Ns = "";
+let Fs = "";
+let Hs = qs?.userAgent || "";
+let js = "";
+const Us = qs?.language || qs?.languages?.[0] || "";
+function Bs(e) {
   return typeof e === "object" && e !== null && "getHighEntropyValues" in e;
 }
-const Ms = Is?.userAgentData;
-Ds(Ms) &&
-  Ms.getHighEntropyValues([
+const Ws = qs?.userAgentData;
+Bs(Ws) &&
+  Ws.getHighEntropyValues([
     "architecture",
     "model",
     "platform",
@@ -2646,27 +2688,27 @@ Ds(Ms) &&
     "fullVersionList",
   ])
     .then((e) => {
-      Cs = e.platform || "";
-      Os = e.architecture || "";
-      $s = e.model || "";
-      Ls = e.platformVersion || "";
+      Ms = e.platform || "";
+      Fs = e.architecture || "";
+      js = e.model || "";
+      Ns = e.platformVersion || "";
       if (e.fullVersionList?.length) {
         const t = e.fullVersionList[e.fullVersionList.length - 1];
-        As = `${t.brand} ${t.version}`;
+        Hs = `${t.brand} ${t.version}`;
       }
     })
     .catch((e) => {});
-function Ns(e) {
+function zs(e) {
   return !("thread_metadata" in e);
 }
-function Hs(e) {
-  return Ns(e) ? Gs(e) : e;
+function Gs(e) {
+  return zs(e) ? Zs(e) : e;
 }
-function Fs(e) {
+function Xs(e) {
   const t = e.contexts?.trace?.trace_id;
   typeof t === "string" &&
     t.length !== 32 &&
-    gn &&
+    hn &&
     A.log(`[Profiling] Invalid traceId: ${t} on profiled event`);
   return typeof t !== "string" ? "" : t;
 }
@@ -2678,7 +2720,7 @@ function Fs(e) {
  * @param metadata
  * @param tunnel
  * @returns {EventEnvelope | null}
- */ function js(e, t, n, r) {
+ */ function Ks(e, t, n, r) {
   if (r.type !== "transaction")
     throw new TypeError(
       "Profiling events may only be attached to transactions, this should never occur.",
@@ -2687,38 +2729,38 @@ function Fs(e) {
     throw new TypeError(
       `Cannot construct profiling event envelope without a valid profile. Got ${n} instead.`,
     );
-  const o = Fs(r);
-  const s = Hs(n);
+  const o = Xs(r);
+  const s = Gs(n);
   const i =
     t ||
     (typeof r.start_timestamp === "number"
       ? r.start_timestamp * 1e3
-      : Je() * 1e3);
-  const a = typeof r.timestamp === "number" ? r.timestamp * 1e3 : Je() * 1e3;
+      : Ze() * 1e3);
+  const a = typeof r.timestamp === "number" ? r.timestamp * 1e3 : Ze() * 1e3;
   const c = {
     event_id: e,
     timestamp: new Date(i).toISOString(),
     platform: "javascript",
     version: "1",
     release: r.release || "",
-    environment: r.environment || it,
-    runtime: { name: "javascript", version: qt.navigator.userAgent },
-    os: { name: Cs, version: Ls, build_number: As },
+    environment: r.environment || ct,
+    runtime: { name: "javascript", version: Mt.navigator.userAgent },
+    os: { name: Ms, version: Ns, build_number: Hs },
     device: {
-      locale: qs,
-      model: $s,
-      manufacturer: As,
-      architecture: Os,
+      locale: Us,
+      model: js,
+      manufacturer: Hs,
+      architecture: Fs,
       is_emulator: false,
     },
-    debug_meta: { images: Ys(n.resources) },
+    debug_meta: { images: ni(n.resources) },
     profile: s,
     transactions: [
       {
         name: r.transaction || "",
-        id: r.event_id || st(),
+        id: r.event_id || at(),
         trace_id: o,
-        active_thread_id: xs,
+        active_thread_id: $s,
         relative_start_ns: "0",
         relative_end_ns: (1e6 * (a - i)).toFixed(0),
       },
@@ -2726,30 +2768,30 @@ function Fs(e) {
   };
   return c;
 }
-function Us(e, t, n) {
+function Ys(e, t, n) {
   if (e == null)
     throw new TypeError(
       `Cannot construct profiling event envelope without a valid profile. Got ${e} instead.`,
     );
-  const r = zs(e);
+  const r = Vs(e);
   const o = t.getOptions();
   const s = t.getSdkMetadata?.()?.sdk;
   return {
-    chunk_id: st(),
+    chunk_id: at(),
     client_sdk: {
       name: s?.name ?? "sentry.javascript.browser",
       version: s?.version ?? "0.0.0",
     },
-    profiler_id: n || st(),
+    profiler_id: n || at(),
     platform: "javascript",
     version: "2",
     release: o.release ?? "",
     environment: o.environment ?? "production",
-    debug_meta: { images: Ys(e.resources) },
+    debug_meta: { images: ni(e.resources) },
     profile: r,
   };
 }
-function Bs(e) {
+function Js(e) {
   try {
     if (!e || typeof e !== "object")
       return { reason: "chunk is not an object" };
@@ -2771,7 +2813,7 @@ function Bs(e) {
     return { reason: `unknown validation error: ${e}` };
   }
 }
-function zs(e) {
+function Vs(e) {
   const t = [];
   for (let n = 0; n < e.frames.length; n++) {
     const r = e.frames[n];
@@ -2796,7 +2838,7 @@ function zs(e) {
     }
     n[t] = o;
   }
-  const r = Xe();
+  const r = Je();
   const o =
     typeof performance.timeOrigin === "number"
       ? performance.timeOrigin
@@ -2807,31 +2849,31 @@ function zs(e) {
     const n = e.samples[t];
     if (!n) continue;
     const r = (o + (n.timestamp - s)) / 1e3;
-    i[t] = { stack_id: n.stackId ?? 0, thread_id: xs, timestamp: r };
+    i[t] = { stack_id: n.stackId ?? 0, thread_id: $s, timestamp: r };
   }
   return {
     frames: t,
     stacks: n,
     samples: i,
-    thread_metadata: { [xs]: { name: Rs } },
+    thread_metadata: { [$s]: { name: Ds } },
   };
 }
-function Ws(e) {
-  return we(e).op === "pageload";
+function Qs(e) {
+  return Te(e).op === "pageload";
 }
-function Gs(e) {
+function Zs(e) {
   let t;
   let n = 0;
   const r = {
     samples: [],
     stacks: [],
     frames: [],
-    thread_metadata: { [xs]: { name: Rs } },
+    thread_metadata: { [$s]: { name: Ds } },
   };
   const o = e.samples[0];
   if (!o) return r;
   const s = o.timestamp;
-  const i = Xe();
+  const i = Je();
   const a =
     typeof performance.timeOrigin === "number"
       ? performance.timeOrigin
@@ -2845,9 +2887,9 @@ function Gs(e) {
         n++;
       }
       r.samples[i] = {
-        elapsed_since_start_ns: ((o.timestamp + c - s) * Ts).toFixed(0),
+        elapsed_since_start_ns: ((o.timestamp + c - s) * Os).toFixed(0),
         stack_id: t,
-        thread_id: xs,
+        thread_id: $s,
       };
       return;
     }
@@ -2870,9 +2912,9 @@ function Gs(e) {
       a = a.parentId === void 0 ? void 0 : e.stacks[a.parentId];
     }
     const u = {
-      elapsed_since_start_ns: ((o.timestamp + c - s) * Ts).toFixed(0),
+      elapsed_since_start_ns: ((o.timestamp + c - s) * Os).toFixed(0),
       stack_id: n,
-      thread_id: xs,
+      thread_id: $s,
     };
     r.stacks[n] = l;
     r.samples[i] = u;
@@ -2883,7 +2925,7 @@ function Gs(e) {
 /**
  * Adds items to envelope if they are not already present - mutates the envelope.
  * @param envelope
- */ function Xs(e, t) {
+ */ function ei(e, t) {
   if (!t.length) return e;
   for (const n of t) e[1].push([{ type: "profile" }, n]);
   return e;
@@ -2892,9 +2934,9 @@ function Gs(e) {
  * Finds transactions with profile_id context in the envelope
  * @param envelope
  * @returns
- */ function Ks(e) {
+ */ function ti(e) {
   const t = [];
-  at(e, (e, n) => {
+  lt(e, (e, n) => {
     if (n === "transaction")
       for (let n = 1; n < e.length; n++) {
         const r = e[n];
@@ -2903,18 +2945,18 @@ function Gs(e) {
   });
   return t;
 }
-function Ys(e) {
-  const t = d();
+function ni(e) {
+  const t = f();
   const n = t?.getOptions();
   const r = n?.stackParser;
-  return r ? ct(r, e) : [];
+  return r ? ut(r, e) : [];
 }
-function Js(e) {
+function ri(e) {
   if (
     (typeof e !== "number" && typeof e !== "boolean") ||
     (typeof e === "number" && isNaN(e))
   ) {
-    gn &&
+    hn &&
       A.warn(
         `[Profiling] Invalid sample rate. Sample rate must be a boolean or a number between 0 and 1. Got ${JSON.stringify(e)} of type ${JSON.stringify(typeof e)}.`,
       );
@@ -2922,7 +2964,7 @@ function Js(e) {
   }
   if (e === true || e === false) return true;
   if (e < 0 || e > 1) {
-    gn &&
+    hn &&
       A.warn(
         `[Profiling] Invalid sample rate. Sample rate must be between 0 and 1. Got ${e}.`,
       );
@@ -2930,80 +2972,80 @@ function Js(e) {
   }
   return true;
 }
-function Vs(e) {
+function oi(e) {
   if (e.samples.length < 2) {
-    gn &&
+    hn &&
       A.log(
         "[Profiling] Discarding profile because it contains less than 2 samples",
       );
     return false;
   }
   if (!e.frames.length) {
-    gn && A.log("[Profiling] Discarding profile because it contains no frames");
+    hn && A.log("[Profiling] Discarding profile because it contains no frames");
     return false;
   }
   return true;
 }
-let Qs = false;
-const Zs = 3e4;
+let si = false;
+const ii = 3e4;
 /**
  * Check if profiler constructor is available.
  * @param maybeProfiler
- */ function ei(e) {
+ */ function ai(e) {
   return typeof e === "function";
 }
-function ti() {
-  const e = qt.Profiler;
-  if (!ei(e)) {
-    gn &&
+function ci() {
+  const e = Mt.Profiler;
+  if (!ai(e)) {
+    hn &&
       A.log(
         "[Profiling] Profiling is not supported by this browser, Profiler interface missing on window object.",
       );
     return;
   }
   const t = 10;
-  const n = Math.floor(Zs / t);
+  const n = Math.floor(ii / t);
   try {
     return new e({ sampleInterval: t, maxBufferSize: n });
   } catch (e) {
-    if (gn) {
+    if (hn) {
       A.log(
         "[Profiling] Failed to initialize the Profiling constructor, this is likely due to a missing 'Document-Policy': 'js-profiling' header.",
       );
       A.log("[Profiling] Disabling profiling for current user session.");
     }
-    Qs = true;
+    si = true;
   }
 }
-function ni(e) {
-  if (Qs) {
-    gn &&
+function li(e) {
+  if (si) {
+    hn &&
       A.log(
         "[Profiling] Profiling has been disabled for the duration of the current user session.",
       );
     return false;
   }
   if (!e.isRecording()) {
-    gn &&
+    hn &&
       A.log(
         "[Profiling] Discarding profile because root span was not sampled.",
       );
     return false;
   }
-  const t = d();
+  const t = f();
   const n = t?.getOptions();
   if (!n) {
-    gn && A.log("[Profiling] Profiling disabled, no options found.");
+    hn && A.log("[Profiling] Profiling disabled, no options found.");
     return false;
   }
   const r = n.profilesSampleRate;
-  if (!Js(r)) {
-    gn &&
+  if (!ri(r)) {
+    hn &&
       A.warn("[Profiling] Discarding profile because of invalid sample rate.");
     return false;
   }
   if (!r) {
-    gn &&
+    hn &&
       A.log(
         "[Profiling] Discarding profile because a negative sampling decision was inherited or profileSampleRate is set to 0",
       );
@@ -3011,7 +3053,7 @@ function ni(e) {
   }
   const o = r === true || Math.random() < r;
   if (!o) {
-    gn &&
+    hn &&
       A.log(
         `[Profiling] Discarding profile because it's not included in the random sample (sampling rate = ${Number(r)})`,
       );
@@ -3019,31 +3061,31 @@ function ni(e) {
   }
   return true;
 }
-function ri(e) {
-  if (Qs) {
-    gn &&
+function ui(e) {
+  if (si) {
+    hn &&
       A.log(
         "[Profiling] Profiling has been disabled for the duration of the current user session as the JS Profiler could not be started.",
       );
     return false;
   }
   if (e.profileLifecycle !== "trace" && e.profileLifecycle !== "manual") {
-    gn &&
+    hn &&
       A.warn(
         "[Profiling] Session not sampled. Invalid `profileLifecycle` option.",
       );
     return false;
   }
   const t = e.profileSessionSampleRate;
-  if (!Js(t)) {
-    gn &&
+  if (!ri(t)) {
+    hn &&
       A.warn(
         "[Profiling] Discarding profile because of invalid profileSessionSampleRate.",
       );
     return false;
   }
   if (!t) {
-    gn &&
+    hn &&
       A.log(
         "[Profiling] Discarding profile because profileSessionSampleRate is not defined or set to 0",
       );
@@ -3051,57 +3093,57 @@ function ri(e) {
   }
   return Math.random() <= t;
 }
-function oi(e) {
+function di(e) {
   return typeof e.profilesSampleRate !== "undefined";
 }
 /**
  * Creates a profiling envelope item, if the profile does not pass validation, returns null.
  * @param event
  * @returns {Profile | null}
- */ function si(e, t, n, r) {
-  return Vs(n) ? js(e, t, n, r) : null;
+ */ function fi(e, t, n, r) {
+  return oi(n) ? Ks(e, t, n, r) : null;
 }
-const ii = new Map();
-function ai() {
-  return ii.size;
+const pi = new Map();
+function gi() {
+  return pi.size;
 }
-function ci(e) {
-  const t = ii.get(e);
-  t && ii.delete(e);
+function mi(e) {
+  const t = pi.get(e);
+  t && pi.delete(e);
   return t;
 }
-function li(e, t) {
-  ii.set(e, t);
-  if (ii.size > 30) {
-    const e = ii.keys().next().value;
-    e !== void 0 && ii.delete(e);
+function hi(e, t) {
+  pi.set(e, t);
+  if (pi.size > 30) {
+    const e = pi.keys().next().value;
+    e !== void 0 && pi.delete(e);
   }
 }
-function ui(e) {
+function yi(e) {
   if (!e?.contexts?.profile) return e;
   if (!e.contexts) return e;
   e.contexts.trace = {
     ...(e.contexts?.trace ?? {}),
     data: {
       ...(e.contexts?.trace?.data ?? {}),
-      "thread.id": xs,
-      "thread.name": Rs,
+      "thread.id": $s,
+      "thread.name": Ds,
     },
   };
   e.spans?.forEach((e) => {
-    e.data = { ...(e.data || {}), "thread.id": xs, "thread.name": Rs };
+    e.data = { ...(e.data || {}), "thread.id": $s, "thread.name": Ds };
   });
   return e;
 }
-function fi(e) {
+function _i(e) {
   let t;
-  Ws(e) && (t = Je() * 1e3);
-  const n = ti();
+  Qs(e) && (t = Ze() * 1e3);
+  const n = ci();
   if (!n) return;
-  gn && A.log(`[Profiling] started profiling span: ${we(e).description}`);
-  const r = st();
+  hn && A.log(`[Profiling] started profiling span: ${Te(e).description}`);
+  const r = at();
   let o = null;
-  pe().setContext("profile", { profile_id: r, start_timestamp: t });
+  he().setContext("profile", { profile_id: r, start_timestamp: t });
   async function s() {
     if (e && n) {
       if (!o)
@@ -3109,42 +3151,42 @@ function fi(e) {
           .stop()
           .then((t) => {
             if (i) {
-              qt.clearTimeout(i);
+              Mt.clearTimeout(i);
               i = void 0;
             }
-            gn &&
+            hn &&
               A.log(
-                `[Profiling] stopped profiling of span: ${we(e).description}`,
+                `[Profiling] stopped profiling of span: ${Te(e).description}`,
               );
             if (t) {
               o = t;
-              li(r, t);
+              hi(r, t);
             } else
-              gn &&
+              hn &&
                 A.log(
-                  `[Profiling] profiler returned null profile for: ${we(e).description}`,
+                  `[Profiling] profiler returned null profile for: ${Te(e).description}`,
                   "this may indicate an overlapping span or a call to stopProfiling with a profile title that was never started",
                 );
           })
           .catch((e) => {
-            gn && A.log("[Profiling] error while stopping profiler:", e);
+            hn && A.log("[Profiling] error while stopping profiler:", e);
           });
-      gn &&
+      hn &&
         A.log(
           "[Profiling] profile for:",
-          we(e).description,
+          Te(e).description,
           "already exists, returning early",
         );
     }
   }
-  let i = qt.setTimeout(() => {
-    gn &&
+  let i = Mt.setTimeout(() => {
+    hn &&
       A.log(
         "[Profiling] max profile duration elapsed, stopping profiling for:",
-        we(e).description,
+        Te(e).description,
       );
     s();
-  }, Zs);
+  }, ii);
   const a = e.end.bind(e);
   function c() {
     if (!e) return a();
@@ -3160,8 +3202,8 @@ function fi(e) {
   }
   e.end = c;
 }
-const di = 6e4;
-const pi = 3e5;
+const vi = 6e4;
+const bi = 3e5;
 class UIProfiler {
   constructor() {
     this._client = void 0;
@@ -3176,14 +3218,14 @@ class UIProfiler {
   }
   initialize(e) {
     const t = e.getOptions().profileLifecycle;
-    const n = ri(e.getOptions());
-    gn && A.log(`[Profiling] Initializing profiler (lifecycle='${t}').`);
+    const n = ui(e.getOptions());
+    hn && A.log(`[Profiling] Initializing profiler (lifecycle='${t}').`);
     n ||
-      (gn &&
+      (hn &&
         A.log(
           "[Profiling] Session not sampled. Skipping lifecycle profiler initialization.",
         ));
-    this._profilerId = st();
+    this._profilerId = at();
     this._client = e;
     this._sessionSampled = n;
     this._lifecycleMode = t;
@@ -3192,17 +3234,17 @@ class UIProfiler {
   start() {
     this._lifecycleMode !== "trace"
       ? this._isRunning
-        ? gn &&
+        ? hn &&
           A.warn(
             "[Profiling] Profile session is already running, `uiProfiler.start()` is a no-op.",
           )
         : this._sessionSampled
           ? this._beginProfiling()
-          : gn &&
+          : hn &&
             A.warn(
               "[Profiling] Session is not sampled, `uiProfiler.start()` is a no-op.",
             )
-      : gn &&
+      : hn &&
         A.warn(
           '[Profiling] `profileLifecycle` is set to "trace". Calls to `uiProfiler.start()` are ignored in trace mode.',
         );
@@ -3211,11 +3253,11 @@ class UIProfiler {
     this._lifecycleMode !== "trace"
       ? this._isRunning
         ? this._endProfiling()
-        : gn &&
+        : hn &&
           A.warn(
             "[Profiling] Profiler is not running, `uiProfiler.stop()` is a no-op.",
           )
-      : gn &&
+      : hn &&
         A.warn(
           '[Profiling] `profileLifecycle` is set to "trace". Calls to `uiProfiler.stop()` are ignored in trace mode.',
         );
@@ -3227,7 +3269,7 @@ class UIProfiler {
     this._registerTraceRootSpan(t);
     const n = this._activeRootSpanIds.size;
     if (n === 1) {
-      gn &&
+      hn &&
         A.log(
           "[Profiling] Detected already active root span during setup. Active root spans now:",
           n,
@@ -3238,16 +3280,16 @@ class UIProfiler {
   _beginProfiling() {
     if (!this._isRunning) {
       this._isRunning = true;
-      gn &&
+      hn &&
         A.log(
           "[Profiling] Started profiling with profiler ID:",
           this._profilerId,
         );
-      lt().setContext("profile", { profiler_id: this._profilerId });
+      dt().setContext("profile", { profiler_id: this._profilerId });
       this._startProfilerInstance();
       if (this._profiler) this._startPeriodicChunking();
       else {
-        gn && A.log("[Profiling] Failed to start JS Profiler; stopping.");
+        hn && A.log("[Profiling] Failed to start JS Profiler; stopping.");
         this._resetProfilerInfo();
       }
     }
@@ -3261,27 +3303,27 @@ class UIProfiler {
       }
       this._clearAllRootSpanTimeouts();
       this._collectCurrentChunk().catch((e) => {
-        gn &&
+        hn &&
           A.error(
             "[Profiling] Failed to collect current profile chunk on `stop()`:",
             e,
           );
       });
-      this._lifecycleMode === "manual" && lt().setContext("profile", {});
+      this._lifecycleMode === "manual" && dt().setContext("profile", {});
     }
   }
   _setupTraceLifecycleListeners(e) {
     e.on("spanStart", (e) => {
       if (!this._sessionSampled) {
-        gn &&
+        hn &&
           A.log(
             "[Profiling] Span not profiled because of negative sampling decision for user session.",
           );
         return;
       }
-      if (e !== De(e)) return;
+      if (e !== Fe(e)) return;
       if (!e.isRecording()) {
-        gn &&
+        hn &&
           A.log(
             "[Profiling] Discarding profile because root span was not sampled.",
           );
@@ -3292,7 +3334,7 @@ class UIProfiler {
       this._registerTraceRootSpan(t);
       const n = this._activeRootSpanIds.size;
       if (n === 1) {
-        gn &&
+        hn &&
           A.log(
             `[Profiling] Root span ${t} started. Profiling active while there are active root spans (count=${n}).`,
           );
@@ -3305,13 +3347,13 @@ class UIProfiler {
       if (!t || !this._activeRootSpanIds.has(t)) return;
       this._activeRootSpanIds.delete(t);
       const n = this._activeRootSpanIds.size;
-      gn &&
+      hn &&
         A.log(
           `[Profiling] Root span with ID ${t} ended. Will continue profiling for as long as there are active root spans (currently: ${n}).`,
         );
       if (n === 0) {
         this._collectCurrentChunk().catch((e) => {
-          gn &&
+          hn &&
             A.error(
               "[Profiling] Failed to collect current profile chunk on last `spanEnd`:",
               e,
@@ -3323,7 +3365,7 @@ class UIProfiler {
   }
   _resetProfilerInfo() {
     this._isRunning = false;
-    lt().setContext("profile", {});
+    dt().setContext("profile", {});
   }
   _clearAllRootSpanTimeouts() {
     this._rootSpanTimeouts.forEach((e) => clearTimeout(e));
@@ -3331,21 +3373,21 @@ class UIProfiler {
   }
   _registerTraceRootSpan(e) {
     this._activeRootSpanIds.add(e);
-    const t = setTimeout(() => this._onRootSpanTimeout(e), pi);
+    const t = setTimeout(() => this._onRootSpanTimeout(e), bi);
     this._rootSpanTimeouts.set(e, t);
   }
   _startProfilerInstance() {
     if (this._profiler?.stopped === false) return;
-    const e = ti();
+    const e = ci();
     e
       ? (this._profiler = e)
-      : gn && A.log("[Profiling] Failed to start JS Profiler.");
+      : hn && A.log("[Profiling] Failed to start JS Profiler.");
   }
   _startPeriodicChunking() {
     this._isRunning &&
       (this._chunkTimer = setTimeout(() => {
         this._collectCurrentChunk().catch((e) => {
-          gn &&
+          hn &&
             A.error(
               "[Profiling] Failed to collect current profile chunk during periodic chunking:",
               e,
@@ -3359,13 +3401,13 @@ class UIProfiler {
           }
           this._startPeriodicChunking();
         }
-      }, di));
+      }, vi));
   }
   _onRootSpanTimeout(e) {
     if (this._rootSpanTimeouts.has(e)) {
       this._rootSpanTimeouts.delete(e);
       if (this._activeRootSpanIds.has(e)) {
-        gn &&
+        hn &&
           A.log(
             `[Profiling] Reached 5-minute timeout for root span ${e}. You likely started a manual root span that never called \`.end()\`.`,
           );
@@ -3380,10 +3422,10 @@ class UIProfiler {
     if (e)
       try {
         const t = await e.stop();
-        const n = Us(t, this._client, this._profilerId);
-        const r = Bs(n);
+        const n = Ys(t, this._client, this._profilerId);
+        const r = Js(n);
         if ("reason" in r) {
-          gn &&
+          hn &&
             A.log(
               "[Profiling] Discarding invalid profile chunk (this is probably a bug in the SDK):",
               r.reason,
@@ -3391,59 +3433,59 @@ class UIProfiler {
           return;
         }
         this._sendProfileChunk(n);
-        gn && A.log("[Profiling] Collected browser profile chunk.");
+        hn && A.log("[Profiling] Collected browser profile chunk.");
       } catch (e) {
-        gn &&
+        hn &&
           A.log("[Profiling] Error while stopping JS Profiler for chunk:", e);
       }
   }
   _sendProfileChunk(e) {
     const t = this._client;
-    const n = ut(t.getSdkMetadata?.());
+    const n = ft(t.getSdkMetadata?.());
     const r = t.getDsn();
     const o = t.getOptions().tunnel;
     const s = M(
       {
-        event_id: st(),
+        event_id: at(),
         sent_at: new Date().toISOString(),
         ...(n && { sdk: n }),
-        ...(!!o && r && { dsn: D(r) }),
+        ...(!!o && r && { dsn: q(r) }),
       },
-      [[{ type: "profile_chunk" }, e]],
+      [[{ type: "profile_chunk", platform: "javascript" }, e]],
     );
     t.sendEnvelope(s).then(null, (e) => {
-      gn && A.error("Error while sending profile chunk envelope:", e);
+      hn && A.error("Error while sending profile chunk envelope:", e);
     });
   }
 }
-const gi = "BrowserProfiling";
-const mi = () => ({
-  name: gi,
+const Si = "BrowserProfiling";
+const wi = () => ({
+  name: Si,
   setup(e) {
     const t = e.getOptions();
     const n = new UIProfiler();
-    oi(t) || t.profileLifecycle || (t.profileLifecycle = "manual");
-    if (oi(t) && !t.profilesSampleRate) {
-      gn &&
+    di(t) || t.profileLifecycle || (t.profileLifecycle = "manual");
+    if (di(t) && !t.profilesSampleRate) {
+      hn &&
         A.log("[Profiling] Profiling disabled, no profiling options found.");
       return;
     }
-    const r = Le();
-    const o = r && De(r);
-    oi(t) &&
+    const r = $e();
+    const o = r && Fe(r);
+    di(t) &&
       t.profileSessionSampleRate !== void 0 &&
-      gn &&
+      hn &&
       A.warn(
         "[Profiling] Both legacy profiling (`profilesSampleRate`) and UI profiling settings are defined. `profileSessionSampleRate` has no effect when legacy profiling is enabled.",
       );
-    if (oi(t)) {
-      o && Ws(o) && ni(o) && fi(o);
+    if (di(t)) {
+      o && Qs(o) && li(o) && _i(o);
       e.on("spanStart", (e) => {
-        e === De(e) && ni(e) && fi(e);
+        e === Fe(e) && li(e) && _i(e);
       });
       e.on("beforeEnvelope", (e) => {
-        if (!ai()) return;
-        const t = Ks(e);
+        if (!gi()) return;
+        const t = ti(e);
         if (!t.length) return;
         const n = [];
         for (const e of t) {
@@ -3451,30 +3493,30 @@ const mi = () => ({
           const r = t?.profile?.profile_id;
           const o = t?.profile?.start_timestamp;
           if (typeof r !== "string") {
-            gn &&
+            hn &&
               A.log(
                 "[Profiling] cannot find profile for a span without a profile context",
               );
             continue;
           }
           if (!r) {
-            gn &&
+            hn &&
               A.log(
                 "[Profiling] cannot find profile for a span without a profile context",
               );
             continue;
           }
           t?.profile && delete t.profile;
-          const s = ci(r);
+          const s = mi(r);
           if (!s) {
-            gn &&
+            hn &&
               A.log(`[Profiling] Could not retrieve profile for span: ${r}`);
             continue;
           }
-          const i = si(r, o, s, e);
+          const i = fi(r, o, s, e);
           i && n.push(i);
         }
-        Xs(e, n);
+        ei(e, n);
       });
     } else {
       const r = t.profileLifecycle;
@@ -3482,8 +3524,8 @@ const mi = () => ({
       e.on("stopUIProfiler", () => n.stop());
       if (r === "manual") n.initialize(e);
       else if (r === "trace") {
-        if (!Ie(t)) {
-          gn &&
+        if (!Oe(t)) {
+          hn &&
             A.warn(
               "[Profiling] `profileLifecycle` is 'trace' but tracing is disabled. Set a `tracesSampleRate` or `tracesSampler` to enable span tracing.",
             );
@@ -3491,60 +3533,60 @@ const mi = () => ({
         }
         n.initialize(e);
         o && n.notifyRootSpanActive(o);
-        qt.setTimeout(() => {
-          const e = Le();
-          const t = e && De(e);
+        Mt.setTimeout(() => {
+          const e = $e();
+          const t = e && Fe(e);
           t && n.notifyRootSpanActive(t);
         }, 0);
       }
     }
   },
   processEvent(e) {
-    return ui(e);
+    return yi(e);
   },
 });
-const hi = F(mi);
-const yi = F(() => ({
+const ki = H(wi);
+const Pi = H(() => ({
   name: "LaunchDarkly",
   processEvent(e, t, n) {
-    return ft(e);
+    return pt(e);
   },
 }));
-function _i() {
+function Ti() {
   return {
     name: "sentry-flag-auditor",
     type: "flag-used",
     synchronous: true,
     method: (e, t, n) => {
-      dt(e, t.value);
-      pt(e, t.value);
+      gt(e, t.value);
+      mt(e, t.value);
     },
   };
 }
-const vi = F(() => ({
+const Ei = H(() => ({
   name: "OpenFeature",
   processEvent(e, t, n) {
-    return ft(e);
+    return pt(e);
   },
 }));
 class OpenFeatureIntegrationHook {
   after(e, t) {
-    dt(t.flagKey, t.value);
-    pt(t.flagKey, t.value);
+    gt(t.flagKey, t.value);
+    mt(t.flagKey, t.value);
   }
   error(e, t, n) {
-    dt(e.flagKey, e.defaultValue);
-    pt(e.flagKey, e.defaultValue);
+    gt(e.flagKey, e.defaultValue);
+    mt(e.flagKey, e.defaultValue);
   }
 }
-const bi = F(({ featureFlagClientClass: e }) => ({
+const Ii = H(({ featureFlagClientClass: e }) => ({
   name: "Unleash",
   setupOnce() {
     const t = e.prototype;
-    Y(t, "isEnabled", Si);
+    Y(t, "isEnabled", xi);
   },
   processEvent(e, t, n) {
-    return ft(e);
+    return pt(e);
   },
 }));
 /**
@@ -3555,36 +3597,36 @@ const bi = F(({ featureFlagClientClass: e }) => ({
  *
  * @param original - The original method.
  * @returns Wrapped method. Results should match the original.
- */ function Si(e) {
+ */ function xi(e) {
   return function (...t) {
     const n = t[0];
     const r = e.apply(this, t);
     if (typeof n === "string" && typeof r === "boolean") {
-      dt(n, r);
-      pt(n, r);
+      gt(n, r);
+      mt(n, r);
     } else
-      gn &&
+      hn &&
         A.error(
           `[Feature Flags] UnleashClient.isEnabled does not match expected signature. arg0: ${n} (${typeof n}), result: ${r} (${typeof r})`,
         );
     return r;
   };
 }
-const wi = ({ growthbookClass: e }) => gt({ growthbookClass: e });
-const Pi = F(({ featureFlagClient: e }) => ({
+const Ri = ({ growthbookClass: e }) => ht({ growthbookClass: e });
+const Ci = H(({ featureFlagClient: e }) => ({
   name: "Statsig",
   setup(t) {
     e.on("gate_evaluation", (e) => {
-      dt(e.gate.name, e.gate.value);
-      pt(e.gate.name, e.gate.value);
+      gt(e.gate.name, e.gate.value);
+      mt(e.gate.name, e.gate.value);
     });
   },
   processEvent(e, t, n) {
-    return ft(e);
+    return pt(e);
   },
 }));
-async function ki() {
-  const e = d();
+async function Li() {
+  const e = f();
   if (!e) return "no-client-active";
   if (!e.getDsn()) return "no-dsn-configured";
   const t = e.getOptions().tunnel;
@@ -3592,7 +3634,7 @@ async function ki() {
     "https://o447951.ingest.sentry.io/api/4509632503087104/envelope/?sentry_version=7&sentry_key=c1dfb07d783ad5325c245c1fd3725390&sentry_client=sentry.javascript.browser%2F1.33.7";
   const r = t || n;
   try {
-    await mt(() =>
+    await yt(() =>
       fetch(r, {
         body: "{}",
         method: "POST",
@@ -3604,7 +3646,7 @@ async function ki() {
     return "sentry-unreachable";
   }
 }
-const Ti = "WebWorker";
+const Oi = "WebWorker";
 /**
  * Use this integration to set up Sentry with web workers.
  *
@@ -3677,61 +3719,72 @@ const Ti = "WebWorker";
  *
  * @param options {WebWorkerIntegrationOptions} Integration options:
  *   - `worker`: The worker instance.
- */ const Ei = F(({ worker: e }) => ({
-  name: Ti,
+ */ const Ai = H(({ worker: e }) => ({
+  name: Oi,
   setupOnce: () => {
-    (Array.isArray(e) ? e : [e]).forEach((e) => xi(e));
+    (Array.isArray(e) ? e : [e]).forEach((e) => $i(e));
   },
-  addWorker: (e) => xi(e),
+  addWorker: (e) => $i(e),
 }));
-function xi(e) {
+function $i(e) {
   e.addEventListener("message", (e) => {
-    if (Ci(e.data)) {
+    if (Mi(e.data)) {
       e.stopImmediatePropagation();
       if (e.data._sentryDebugIds) {
-        gn && A.log("Sentry debugId web worker message received", e.data);
-        qt._sentryDebugIds = {
+        hn && A.log("Sentry debugId web worker message received", e.data);
+        Mt._sentryDebugIds = {
           ...e.data._sentryDebugIds,
-          ...qt._sentryDebugIds,
+          ...Mt._sentryDebugIds,
         };
       }
       if (e.data._sentryModuleMetadata) {
-        gn &&
+        hn &&
           A.log("Sentry module metadata web worker message received", e.data);
-        qt._sentryModuleMetadata = {
+        Mt._sentryModuleMetadata = {
           ...e.data._sentryModuleMetadata,
-          ...qt._sentryModuleMetadata,
+          ...Mt._sentryModuleMetadata,
         };
       }
+      if (e.data._sentryWasmImages) {
+        hn && A.log("Sentry WASM images web worker message received", e.data);
+        const t = Mt._sentryWasmImages || [];
+        const n = e.data._sentryWasmImages.filter(
+          (e) =>
+            w(e) &&
+            typeof e.code_file === "string" &&
+            !t.some((t) => t.code_file === e.code_file),
+        );
+        Mt._sentryWasmImages = [...t, ...n];
+      }
       if (e.data._sentryWorkerError) {
-        gn &&
+        hn &&
           A.log(
             "Sentry worker rejection message received",
             e.data._sentryWorkerError,
           );
-        Ri(e.data._sentryWorkerError);
+        Di(e.data._sentryWorkerError);
       }
     }
   });
 }
-function Ri(e) {
-  const t = d();
+function Di(e) {
+  const t = f();
   if (!t) return;
   const n = t.getOptions().stackParser;
   const r = t.getOptions().attachStacktrace;
   const o = e.reason;
-  const s = ne(o) ? wr(o) : sn(n, o, void 0, r, true);
+  const s = re(o) ? xr(o) : cn(n, o, void 0, r, true);
   s.level = "error";
   e.filename &&
     (s.contexts = { ...s.contexts, worker: { filename: e.filename } });
-  ee(s, {
+  te(s, {
     originalException: o,
     mechanism: {
       handled: false,
       type: "auto.browser.web_worker.onunhandledrejection",
     },
   });
-  gn && A.log("Captured worker unhandled rejection", o);
+  hn && A.log("Captured worker unhandled rejection", o);
 }
 /**
  * Use this function to register the worker with the Sentry SDK.
@@ -3757,88 +3810,97 @@ function Ri(e) {
  * ```
  * @param options {RegisterWebWorkerOptions} Integration options:
  *   - `self`: The worker instance you're calling this function from (self).
- */ function Ii({ self: e }) {
+ */ function qi({ self: e }) {
   e.postMessage({
     _sentryMessage: true,
     _sentryDebugIds: e._sentryDebugIds ?? void 0,
     _sentryModuleMetadata: e._sentryModuleMetadata ?? void 0,
   });
   e.addEventListener("unhandledrejection", (t) => {
-    const n = Sr(t);
+    const n = Ir(t);
     const r = { reason: n, filename: e.location?.href };
     e.postMessage({ _sentryMessage: true, _sentryWorkerError: r });
-    gn && A.log("[Sentry Worker] Forwarding unhandled rejection to parent", r);
+    hn && A.log("[Sentry Worker] Forwarding unhandled rejection to parent", r);
   });
-  gn &&
+  hn &&
     A.log(
       "[Sentry Worker] Registered worker with unhandled rejection handling",
     );
 }
-function Ci(e) {
+function Mi(e) {
   if (!w(e) || e._sentryMessage !== true) return false;
   const t = "_sentryDebugIds" in e;
   const n = "_sentryModuleMetadata" in e;
   const r = "_sentryWorkerError" in e;
+  const o = "_sentryWasmImages" in e;
   return (
-    !!(t || n || r) &&
+    !!(t || n || r || o) &&
     !(t && !w(e._sentryDebugIds) && e._sentryDebugIds !== void 0) &&
     !(n && !w(e._sentryModuleMetadata) && e._sentryModuleMetadata !== void 0) &&
-    !(r && !w(e._sentryWorkerError))
+    !(r && !w(e._sentryWorkerError)) &&
+    !!(
+      !o ||
+      (Array.isArray(e._sentryWasmImages) &&
+        e._sentryWasmImages.every(
+          (e) => w(e) && typeof e.code_file === "string",
+        ))
+    )
   );
 }
 export {
   BrowserClient,
   OpenFeatureIntegrationHook,
-  qt as WINDOW,
-  Vn as breadcrumbsIntegration,
-  cr as browserApiErrorsIntegration,
-  hi as browserProfilingIntegration,
-  mr as browserSessionIntegration,
-  os as browserTracingIntegration,
-  _i as buildLaunchDarklyFlagUsedHandler,
-  In as chromeStackLineParser,
-  vo as contextLinesIntegration,
-  Gn as createUserFeedbackEnvelope,
-  Fo as defaultRequestInstrumentationOptions,
-  Bn as defaultStackLineParsers,
-  zn as defaultStackParser,
-  ki as diagnoseSdkConnectivity,
-  rn as eventFromException,
-  on as eventFromMessage,
-  Xt as exceptionFromError,
-  Wt as feedbackAsyncIntegration,
-  Gt as feedbackIntegration,
-  Gt as feedbackSyncIntegration,
-  Ur as forceLoad,
-  An as geckoStackLineParser,
-  Fr as getDefaultIntegrations,
-  _r as globalHandlersIntegration,
-  Ao as graphqlClientIntegration,
-  wi as growthbookIntegration,
-  Qr as httpClientIntegration,
-  xr as httpContextIntegration,
-  jr as init,
-  jo as instrumentOutgoingRequests,
-  yi as launchDarklyIntegration,
-  Bt as lazyLoadIntegration,
-  Or as linkedErrorsIntegration,
-  ks as makeBrowserOfflineTransport,
-  pn as makeFetchTransport,
-  Br as onLoad,
-  vi as openFeatureIntegration,
-  Hn as opera10StackLineParser,
-  Un as opera11StackLineParser,
-  Ii as registerWebWorker,
-  gs as reportPageLoaded,
-  Yr as reportingObserverIntegration,
-  ms as setActiveSpanInBrowser,
-  zr as showReportDialog,
-  Dr as spotlightBrowserIntegration,
-  is as startBrowserTracingNavigationSpan,
-  ss as startBrowserTracingPageLoadSpan,
-  Pi as statsigIntegration,
-  yn as uiProfiler,
-  bi as unleashIntegration,
-  Ei as webWorkerIntegration,
-  Dn as winjsStackLineParser,
+  Mt as WINDOW,
+  Zn as breadcrumbsIntegration,
+  ur as browserApiErrorsIntegration,
+  ki as browserProfilingIntegration,
+  yr as browserSessionIntegration,
+  us as browserTracingIntegration,
+  Ti as buildLaunchDarklyFlagUsedHandler,
+  Ln as chromeStackLineParser,
+  To as contextLinesIntegration,
+  Kn as createUserFeedbackEnvelope,
+  br as cultureContextIntegration,
+  Go as defaultRequestInstrumentationOptions,
+  zn as defaultStackLineParsers,
+  Gn as defaultStackParser,
+  Li as diagnoseSdkConnectivity,
+  sn as eventFromException,
+  an as eventFromMessage,
+  Yt as exceptionFromError,
+  Xt as feedbackAsyncIntegration,
+  Kt as feedbackIntegration,
+  Kt as feedbackSyncIntegration,
+  Kr as forceLoad,
+  Dn as geckoStackLineParser,
+  Gr as getDefaultIntegrations,
+  Pr as globalHandlersIntegration,
+  Fo as graphqlClientIntegration,
+  Ri as growthbookIntegration,
+  oo as httpClientIntegration,
+  Ar as httpContextIntegration,
+  Xr as init,
+  Xo as instrumentOutgoingRequests,
+  Pi as launchDarklyIntegration,
+  zt as lazyLoadIntegration,
+  Nr as linkedErrorsIntegration,
+  Ls as makeBrowserOfflineTransport,
+  mn as makeFetchTransport,
+  Yr as onLoad,
+  Ei as openFeatureIntegration,
+  jn as opera10StackLineParser,
+  Wn as opera11StackLineParser,
+  qi as registerWebWorker,
+  Ss as reportPageLoaded,
+  to as reportingObserverIntegration,
+  ws as setActiveSpanInBrowser,
+  Jr as showReportDialog,
+  Ur as spotlightBrowserIntegration,
+  fs as startBrowserTracingNavigationSpan,
+  ds as startBrowserTracingPageLoadSpan,
+  Ci as statsigIntegration,
+  vn as uiProfiler,
+  Ii as unleashIntegration,
+  Ai as webWorkerIntegration,
+  Nn as winjsStackLineParser,
 };

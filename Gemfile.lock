@@ -1,7 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    action_text-trix (2.1.16)
+    action_text-trix (2.1.17)
       railties
     actioncable (8.1.2)
       actionpack (= 8.1.2)
@@ -129,7 +129,7 @@ GEM
     cmdparse (3.0.7)
     cmdstan (0.5.2)
       csv
-    code-ruby (1.9.12)
+    code-ruby (2.0.1)
       activesupport
       base64
       bigdecimal
@@ -359,7 +359,7 @@ GEM
       net-ssh (>= 5.0.0, < 8.0.0)
     net-smtp (0.5.1)
       net-protocol
-    net-ssh (7.3.0)
+    net-ssh (7.3.1)
     nio4r (2.7.5)
     nokogiri (1.19.1)
       mini_portile2 (~> 2.8.2)
@@ -395,7 +395,7 @@ GEM
     pg (1.6.3-arm64-darwin)
     pg (1.6.3-x86_64-darwin)
     pg (1.6.3-x86_64-linux)
-    phonelib (0.10.16)
+    phonelib (0.10.17)
     pp (0.6.3)
       prettyprint
     prettier_print (1.2.1)
@@ -517,7 +517,7 @@ GEM
       rubocop-ast (>= 1.49.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 4.0)
-    rubocop-ast (1.49.0)
+    rubocop-ast (1.49.1)
       parser (>= 3.3.7.2)
       prism (~> 1.7)
     rubocop-capybara (2.22.1)
@@ -605,11 +605,11 @@ GEM
     tailwindcss-rails (4.4.0)
       railties (>= 7.0.0)
       tailwindcss-ruby (~> 4.0)
-    tailwindcss-ruby (4.2.0)
-    tailwindcss-ruby (4.2.0-aarch64-linux-gnu)
-    tailwindcss-ruby (4.2.0-arm64-darwin)
-    tailwindcss-ruby (4.2.0-x86_64-darwin)
-    tailwindcss-ruby (4.2.0-x86_64-linux-gnu)
+    tailwindcss-ruby (4.2.1)
+    tailwindcss-ruby (4.2.1-aarch64-linux-gnu)
+    tailwindcss-ruby (4.2.1-arm64-darwin)
+    tailwindcss-ruby (4.2.1-x86_64-darwin)
+    tailwindcss-ruby (4.2.1-x86_64-linux-gnu)
     temple (0.10.4)
     terminal-table (4.0.0)
       unicode-display_width (>= 1.1.1, < 4)
@@ -622,7 +622,7 @@ GEM
     tilt (2.7.0)
     time (0.4.2)
       date
-    timeout (0.6.0)
+    timeout (0.6.1)
     track_open_instances (0.1.15)
     tsort (0.2.0)
     turbo-rails (2.0.23)

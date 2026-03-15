@@ -1,4 +1,4 @@
-// @codemirror/language@6.12.1 downloaded from https://ga.jspm.io/npm:@codemirror/language@6.12.1/dist/index.js
+// @codemirror/language@6.12.2 downloaded from https://ga.jspm.io/npm:@codemirror/language@6.12.2/dist/index.js
 
 import {
   NodeProp as t,
@@ -14,8 +14,8 @@ import {
   EditorState as l,
   StateEffect as h,
   StateField as u,
-  countColumn as f,
-  RangeSet as c,
+  countColumn as c,
+  RangeSet as f,
   combineConfig as d,
   RangeSetBuilder as p,
   Prec as g,
@@ -705,7 +705,7 @@ class IndentContext {
     return s;
   }
   countColumn(t, e = t.length) {
-    return f(t, this.state.tabSize, e);
+    return c(t, this.state.tabSize, e);
   }
   lineIndent(t, e = 1) {
     let { text: n, from: r } = this.lineAt(t, e);
@@ -878,8 +878,8 @@ function ut() {
     return l.length ? [t, { changes: l, sequential: true }] : t;
   });
 }
-const ft = a.define();
-const ct = new t();
+const ct = a.define();
+const ft = new t();
 function dt(t) {
   let e = t.firstChild,
     n = t.lastChild;
@@ -896,7 +896,7 @@ function pt(t, e, n) {
     let s = o.node;
     if (s.to <= n || s.from > n) continue;
     if (i && s.from < e) break;
-    let a = s.type.prop(ct);
+    let a = s.type.prop(ft);
     if (a && (s.to < r.length - 50 || r.length == t.doc.length || !gt(s))) {
       let r = a(s, t);
       r && r.from <= n && r.from >= e && r.to > n && (i = r);
@@ -909,7 +909,7 @@ function gt(t) {
   return e && e.to == t.to && e.type.isError;
 }
 function mt(t, e, n) {
-  for (let r of t.facet(ft)) {
+  for (let r of t.facet(ct)) {
     let s = r(t, e, n);
     if (s) return s;
   }
@@ -989,7 +989,7 @@ function yt(t, e, n = e) {
     : t;
 }
 function St(t) {
-  return t.field(bt, false) || c.empty;
+  return t.field(bt, false) || f.empty;
 }
 function Ct(t, e, n) {
   var r;
@@ -1205,7 +1205,7 @@ function zt(t = {}) {
         var e;
         return (
           ((e = t.plugin(s)) === null || e === void 0 ? void 0 : e.markers) ||
-          c.empty
+          f.empty
         );
       },
       initialSpacer() {
@@ -1408,34 +1408,46 @@ function ne(t) {
   t.end && e.push(n.range(t.end.from, t.end.to));
   return e;
 }
-const re = u.define({
-  create() {
-    return w.none;
-  },
-  update(t, e) {
-    if (!e.docChanged && !e.selection) return t;
-    let n = [];
-    let r = e.state.facet(Zt);
-    for (let t of e.state.selection.ranges) {
-      if (!t.empty) continue;
-      let s =
-        he(e.state, t.head, -1, r) ||
-        (t.head > 0 && he(e.state, t.head - 1, 1, r)) ||
-        (r.afterCursor &&
-          (he(e.state, t.head, 1, r) ||
-            (t.head < e.state.doc.length && he(e.state, t.head + 1, -1, r))));
-      s && (n = n.concat(r.renderMatch(s, e.state)));
-    }
-    return w.set(n, true);
-  },
-  provide: (t) => v.decorations.from(t),
-});
-const se = [re, Qt];
-function ie(t = {}) {
-  return [Zt.of(t), se];
+function re(t) {
+  let e = [];
+  let n = t.facet(Zt);
+  for (let r of t.selection.ranges) {
+    if (!r.empty) continue;
+    let s =
+      ue(t, r.head, -1, n) ||
+      (r.head > 0 && ue(t, r.head - 1, 1, n)) ||
+      (n.afterCursor &&
+        (ue(t, r.head, 1, n) ||
+          (r.head < t.doc.length && ue(t, r.head + 1, -1, n))));
+    s && (e = e.concat(n.renderMatch(s, t)));
+  }
+  return w.set(e, true);
 }
-const oe = new t();
-function ae(e, n, r) {
+const se = m.fromClass(
+  class {
+    constructor(t) {
+      this.paused = false;
+      this.decorations = re(t.state);
+    }
+    update(t) {
+      if (t.docChanged || t.selectionSet || this.paused)
+        if (t.view.composing) {
+          this.decorations = this.decorations.map(t.changes);
+          this.paused = true;
+        } else {
+          this.decorations = re(t.state);
+          this.paused = false;
+        }
+    }
+  },
+  { decorations: (t) => t.decorations },
+);
+const ie = [se, Qt];
+function oe(t = {}) {
+  return [Zt.of(t), ie];
+}
+const ae = new t();
+function le(e, n, r) {
   let s = e.prop(n < 0 ? t.openedBy : t.closedBy);
   if (s) return s;
   if (e.name.length == 1) {
@@ -1444,26 +1456,26 @@ function ae(e, n, r) {
   }
   return null;
 }
-function le(t) {
-  let e = t.type.prop(oe);
+function he(t) {
+  let e = t.type.prop(ae);
   return e ? e(t.node) : t;
 }
-function he(t, e, n, r = {}) {
+function ue(t, e, n, r = {}) {
   let s = r.maxScanDistance || Xt,
     i = r.brackets || Yt;
   let o = N(t),
     a = o.resolveInner(e, n);
   for (let r = a; r; r = r.parent) {
-    let s = ae(r.type, n, i);
+    let s = le(r.type, n, i);
     if (s && r.from < r.to) {
-      let o = le(r);
+      let o = he(r);
       if (o && (n > 0 ? e >= o.from && e < o.to : e > o.from && e <= o.to))
-        return ue(t, e, n, r, o, s, i);
+        return ce(t, e, n, r, o, s, i);
     }
   }
   return fe(t, e, n, o, a.type, s, i);
 }
-function ue(t, e, n, r, s, i, o) {
+function ce(t, e, n, r, s, i, o) {
   let a = r.parent,
     l = { from: s.from, to: s.to };
   let h = 0,
@@ -1472,17 +1484,17 @@ function ue(t, e, n, r, s, i, o) {
     do {
       if (n < 0 ? u.to <= r.from : u.from >= r.to) {
         if (h == 0 && i.indexOf(u.type.name) > -1 && u.from < u.to) {
-          let t = le(u);
+          let t = he(u);
           return {
             start: l,
             end: t ? { from: t.from, to: t.to } : void 0,
             matched: true,
           };
         }
-        if (ae(u.type, n, o)) h++;
-        else if (ae(u.type, -n, o)) {
+        if (le(u.type, n, o)) h++;
+        else if (le(u.type, -n, o)) {
           if (h == 0) {
-            let t = le(u);
+            let t = he(u);
             return {
               start: l,
               end: t && t.from < t.to ? { from: t.from, to: t.to } : void 0,
@@ -1501,7 +1513,7 @@ function fe(t, e, n, r, s, i, o) {
   if (l < 0 || (l % 2 == 0) != n > 0) return null;
   let h = { from: n < 0 ? e - 1 : e, to: n > 0 ? e + 1 : e };
   let u = t.doc.iterRange(e, n > 0 ? t.doc.length : 0),
-    f = 0;
+    c = 0;
   for (let t = 0; !u.next().done && t <= i; ) {
     let i = u.value;
     n < 0 && (t += i.length);
@@ -1513,22 +1525,22 @@ function fe(t, e, n, r, s, i, o) {
     ) {
       let e = o.indexOf(i[t]);
       if (!(e < 0 || r.resolveInner(a + t, 1).type != s))
-        if ((e % 2 == 0) == n > 0) f++;
+        if ((e % 2 == 0) == n > 0) c++;
         else {
-          if (f == 1)
+          if (c == 1)
             return {
               start: h,
               end: { from: a + t, to: a + t + 1 },
               matched: e >> 1 == l >> 1,
             };
-          f--;
+          c--;
         }
     }
     n > 0 && (t += i.length);
   }
   return u.done ? { start: h, matched: false } : null;
 }
-function ce(t, e, n, r = 0, s = 0) {
+function de(t, e, n, r = 0, s = 0) {
   if (e == null) {
     e = t.search(/[^\s\u00a0]/);
     e == -1 && (e = t.length);
@@ -1597,7 +1609,7 @@ class StringStream {
   }
   column() {
     if (this.lastColumnPos < this.start) {
-      this.lastColumnValue = ce(
+      this.lastColumnValue = de(
         this.string,
         this.start,
         this.tabSize,
@@ -1612,7 +1624,7 @@ class StringStream {
     var t;
     return (t = this.overrideIndent) !== null && t !== void 0
       ? t
-      : ce(this.string, null, this.tabSize);
+      : de(this.string, null, this.tabSize);
   }
   match(t, e, n) {
     if (typeof t == "string") {
@@ -1635,20 +1647,20 @@ class StringStream {
     return this.string.slice(this.start, this.pos);
   }
 }
-function de(t) {
+function pe(t) {
   return {
     name: t.name || "",
     token: t.token,
     blankLine: t.blankLine || (() => {}),
     startState: t.startState || (() => true),
-    copyState: t.copyState || pe,
+    copyState: t.copyState || ge,
     indent: t.indent || (() => null),
     languageData: t.languageData || {},
-    tokenTable: t.tokenTable || xe,
+    tokenTable: t.tokenTable || be,
     mergeTokens: t.mergeTokens !== false,
   };
 }
-function pe(t) {
+function ge(t) {
   if (typeof t != "object") return t;
   let e = {};
   for (let n in t) {
@@ -1657,23 +1669,23 @@ function pe(t) {
   }
   return e;
 }
-const ge = new WeakMap();
+const me = new WeakMap();
 class StreamLanguage extends Language {
   constructor(e) {
     let n = O(e.languageData);
     let r,
-      i = de(e);
+      i = pe(e);
     let o = new (class extends s {
       createParse(t, e, n) {
         return new Parse(r, t, e, n);
       }
     })();
     super(n, o, [], e.name);
-    this.topNode = Ie(n, this);
+    this.topNode = De(n, this);
     r = this;
     this.streamParser = i;
     this.stateAfter = new t({ perNode: true });
-    this.tokenTable = e.tokenTable ? new TokenTable(i.tokenTable) : Te;
+    this.tokenTable = e.tokenTable ? new TokenTable(i.tokenTable) : Ae;
   }
   static define(t) {
     return new StreamLanguage(t);
@@ -1682,12 +1694,12 @@ class StreamLanguage extends Language {
     let e;
     let { overrideIndentation: n } = t.options;
     if (n) {
-      e = ge.get(t.state);
+      e = me.get(t.state);
       e != null && e < t.pos - 1e4 && (e = void 0);
     }
     let r,
       s,
-      i = me(
+      i = ke(
         this,
         t.node.tree,
         t.node.from,
@@ -1713,31 +1725,31 @@ class StreamLanguage extends Language {
           t.unit,
           r < 0 ? void 0 : r,
         );
-        while (o.pos < i - e.from) we(this.streamParser.token, o, s);
+        while (o.pos < i - e.from) xe(this.streamParser.token, o, s);
       } else this.streamParser.blankLine(s, t.unit);
       if (i == t.pos) break;
       r = e.to + 1;
     }
     let o = t.lineAt(t.pos);
-    n && e == null && ge.set(t.state, o.from);
+    n && e == null && me.set(t.state, o.from);
     return this.streamParser.indent(s, /^\s*(.*)/.exec(o.text)[1], t);
   }
   get allowsNesting() {
     return false;
   }
 }
-function me(t, n, r, s, i) {
+function ke(t, n, r, s, i) {
   let o = r >= s && r + n.length <= i && n.prop(t.stateAfter);
   if (o) return { state: t.streamParser.copyState(o), pos: r + n.length };
   for (let o = n.children.length - 1; o >= 0; o--) {
     let a = n.children[o],
       l = r + n.positions[o];
-    let h = a instanceof e && l < i && me(t, a, l, s, i);
+    let h = a instanceof e && l < i && ke(t, a, l, s, i);
     if (h) return h;
   }
   return null;
 }
-function ke(t, n, r, s, i) {
+function ve(t, n, r, s, i) {
   if (i && r <= 0 && s >= n.length) return n;
   i || r != 0 || n.type != t.topNode || (i = true);
   for (let o = n.children.length - 1; o >= 0; o--) {
@@ -1745,7 +1757,7 @@ function ke(t, n, r, s, i) {
       l = n.positions[o],
       h = n.children[o];
     if (l < s && h instanceof e) {
-      if (!(a = ke(t, h, r - l, s - l, i))) break;
+      if (!(a = ve(t, h, r - l, s - l, i))) break;
       return i
         ? new e(
             n.type,
@@ -1758,16 +1770,16 @@ function ke(t, n, r, s, i) {
   }
   return null;
 }
-function ve(t, n, r, s, i) {
+function we(t, n, r, s, i) {
   for (let e of n) {
     let n = e.from + (e.openStart ? 25 : 0),
       i = e.to - (e.openEnd ? 25 : 0);
     let o,
-      a = n <= r && i > r && me(t, e.tree, 0 - e.offset, r, i);
+      a = n <= r && i > r && ke(t, e.tree, 0 - e.offset, r, i);
     if (
       a &&
       a.pos <= s &&
-      (o = ke(t, e.tree, r + e.offset, a.pos + e.offset, false))
+      (o = ve(t, e.tree, r + e.offset, a.pos + e.offset, false))
     )
       return { state: a.state, tree: o };
   }
@@ -1788,7 +1800,7 @@ class Parse {
     this.to = r[r.length - 1].to;
     let s = ParseContext.get(),
       i = r[0].from;
-    let { state: o, tree: a } = ve(
+    let { state: o, tree: a } = we(
       t,
       n,
       i,
@@ -1897,7 +1909,7 @@ class Parse {
     if (i.eol()) s.blankLine(this.state, i.indentUnit);
     else
       while (!i.eol()) {
-        let t = we(s.token, i, this.state);
+        let t = xe(s.token, i, this.state);
         t &&
           (r = this.emitToken(
             this.lang.tokenTable.resolve(t),
@@ -1916,7 +1928,7 @@ class Parse {
       buffer: this.chunk,
       start: this.chunkStart,
       length: this.parsedPos - this.chunkStart,
-      nodeSet: ye,
+      nodeSet: Se,
       topID: 0,
       maxBufferLength: 512,
       reused: this.chunkReused,
@@ -1939,7 +1951,7 @@ class Parse {
     ).balance();
   }
 }
-function we(t, e, n) {
+function xe(t, e, n) {
   e.start = e.pos;
   for (let r = 0; r < 10; r++) {
     let r = t(e, n);
@@ -1947,12 +1959,12 @@ function we(t, e, n) {
   }
   throw new Error("Stream parser failed to advance stream.");
 }
-const xe = Object.create(null);
-const be = [i.none];
-const ye = new o(be);
-const Se = [];
-const Ce = Object.create(null);
+const be = Object.create(null);
+const ye = [i.none];
+const Se = new o(ye);
+const Ce = [];
 const Pe = Object.create(null);
+const Te = Object.create(null);
 for (let [t, e] of [
   ["variable", "variableName"],
   ["variable-2", "variableName.special"],
@@ -1967,24 +1979,24 @@ for (let [t, e] of [
   ["header", "heading"],
   ["property", "propertyName"],
 ])
-  Pe[t] = Le(xe, e);
+  Te[t] = Ie(be, e);
 class TokenTable {
   constructor(t) {
     this.extra = t;
-    this.table = Object.assign(Object.create(null), Pe);
+    this.table = Object.assign(Object.create(null), Te);
   }
   resolve(t) {
-    return t ? this.table[t] || (this.table[t] = Le(this.extra, t)) : 0;
+    return t ? this.table[t] || (this.table[t] = Ie(this.extra, t)) : 0;
   }
 }
-const Te = new TokenTable(xe);
-function Ae(t, e) {
-  if (!(Se.indexOf(t) > -1)) {
-    Se.push(t);
+const Ae = new TokenTable(be);
+function Le(t, e) {
+  if (!(Ce.indexOf(t) > -1)) {
+    Ce.push(t);
     console.warn(e);
   }
 }
-function Le(t, e) {
+function Ie(t, e) {
   let n = [];
   for (let r of e.split(" ")) {
     let e = [];
@@ -1994,78 +2006,78 @@ function Le(t, e) {
         ? typeof r == "function"
           ? e.length
             ? (e = e.map(r))
-            : Ae(n, `Modifier ${n} used at start of tag`)
+            : Le(n, `Modifier ${n} used at start of tag`)
           : e.length
-            ? Ae(n, `Tag ${n} used as modifier`)
+            ? Le(n, `Tag ${n} used as modifier`)
             : (e = Array.isArray(r) ? r : [r])
-        : Ae(n, `Unknown highlighting tag ${n}`);
+        : Le(n, `Unknown highlighting tag ${n}`);
     }
     for (let t of e) n.push(t);
   }
   if (!n.length) return 0;
   let r = e.replace(/ /g, "_"),
     s = r + " " + n.map((t) => t.id);
-  let o = Ce[s];
+  let o = Pe[s];
   if (o) return o.id;
-  let a = (Ce[s] = i.define({
-    id: be.length,
+  let a = (Pe[s] = i.define({
+    id: ye.length,
     name: r,
     props: [A({ [r]: n })],
   }));
-  be.push(a);
+  ye.push(a);
   return a.id;
 }
-function Ie(t, e) {
+function De(t, e) {
   let n = i.define({
-    id: be.length,
+    id: ye.length,
     name: "Document",
     props: [D.add(() => t), X.add(() => (t) => e.getIndent(t))],
     top: true,
   });
-  be.push(n);
+  ye.push(n);
   return n;
 }
-function De(t) {
+function Oe(t) {
   return (
     t.length <= 4096 &&
     /[\u0590-\u05f4\u0600-\u06ff\u0700-\u08ac\ufb50-\ufdff]/.test(t)
   );
 }
-function Oe(t) {
-  for (let e = t.iter(); !e.next().done; ) if (De(e.value)) return true;
+function Be(t) {
+  for (let e = t.iter(); !e.next().done; ) if (Oe(e.value)) return true;
   return false;
 }
-function Be(t) {
+function Me(t) {
   let e = false;
   t.iterChanges((t, n, r, s, i) => {
-    !e && Oe(i) && (e = true);
+    !e && Be(i) && (e = true);
   });
   return e;
 }
-const Me = a.define({ combine: (t) => t.some((t) => t) });
-function Ne(t = {}) {
-  let e = [Re];
-  t.alwaysIsolate && e.push(Me.of(true));
+const Ne = a.define({ combine: (t) => t.some((t) => t) });
+function Re(t = {}) {
+  let e = [Ee];
+  t.alwaysIsolate && e.push(Ne.of(true));
   return e;
 }
-const Re = m.fromClass(
+const Ee = m.fromClass(
   class {
     constructor(t) {
       this.always =
-        t.state.facet(Me) ||
+        t.state.facet(Ne) ||
         t.textDirection != S.LTR ||
         t.state.facet(v.perLineTextDirection);
-      this.hasRTL = !this.always && Oe(t.state.doc);
+      this.hasRTL = !this.always && Be(t.state.doc);
       this.tree = N(t.state);
       this.decorations =
-        this.always || this.hasRTL ? Ee(t, this.tree, this.always) : w.none;
+        this.always || this.hasRTL ? Fe(t, this.tree, this.always) : w.none;
     }
     update(t) {
       let e =
-        t.state.facet(Me) ||
+        t.state.facet(Ne) ||
         t.view.textDirection != S.LTR ||
         t.state.facet(v.perLineTextDirection);
-      e || this.hasRTL || !Be(t.changes) || (this.hasRTL = true);
+      e || this.hasRTL || !Me(t.changes) || (this.hasRTL = true);
       if (!e && !this.hasRTL) return;
       let n = N(t.state);
       if (
@@ -2076,7 +2088,7 @@ const Re = m.fromClass(
       ) {
         this.tree = n;
         this.always = e;
-        this.decorations = Ee(t.view, n, e);
+        this.decorations = Fe(t.view, n, e);
       }
     }
   },
@@ -2095,22 +2107,22 @@ const Re = m.fromClass(
     },
   },
 );
-function Ee(e, n, r) {
+function Fe(e, n, r) {
   let s = new p();
   let i = e.visibleRanges;
-  r || (i = Fe(i, e.state.doc));
+  r || (i = We(i, e.state.doc));
   for (let { from: e, to: r } of i)
     n.iterate({
       enter: (e) => {
         let n = e.type.prop(t.isolate);
-        n && s.add(e.from, e.to, We[n]);
+        n && s.add(e.from, e.to, Ue[n]);
       },
       from: e,
       to: r,
     });
   return s.finish();
 }
-function Fe(t, e) {
+function We(t, e) {
   let n = e.iter(),
     r = 0,
     s = [],
@@ -2128,7 +2140,7 @@ function Fe(t, e) {
       let t = r,
         e = r + n.value.length;
       !n.lineBreak &&
-        De(n.value) &&
+        Oe(n.value) &&
         (i && i.to > t - 10
           ? (i.to = Math.min(o, e))
           : s.push((i = { from: t, to: Math.min(o, e) })));
@@ -2139,7 +2151,7 @@ function Fe(t, e) {
   }
   return s;
 }
-const We = {
+const Ue = {
   rtl: w.mark({
     class: "cm-iso",
     inclusive: true,
@@ -2171,9 +2183,9 @@ export {
   StreamLanguage,
   StringStream,
   TreeIndentContext,
-  Ne as bidiIsolates,
-  ie as bracketMatching,
-  oe as bracketMatchingHandle,
+  Re as bidiIsolates,
+  oe as bracketMatching,
+  ae as bracketMatchingHandle,
   Ft as codeFolding,
   lt as continuedIndent,
   Kt as defaultHighlightStyle,
@@ -2187,8 +2199,8 @@ export {
   zt as foldGutter,
   dt as foldInside,
   Nt as foldKeymap,
-  ct as foldNodeProp,
-  ft as foldService,
+  ft as foldNodeProp,
+  ct as foldService,
   bt as foldState,
   mt as foldable,
   St as foldedRanges,
@@ -2204,7 +2216,7 @@ export {
   G as indentUnit,
   $ as language,
   D as languageDataProp,
-  he as matchBrackets,
+  ue as matchBrackets,
   B as sublanguageProp,
   Gt as syntaxHighlighting,
   W as syntaxParserRunning,

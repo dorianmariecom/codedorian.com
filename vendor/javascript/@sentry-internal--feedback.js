@@ -1,4 +1,4 @@
-// @sentry-internal/feedback@10.34.0 downloaded from https://ga.jspm.io/npm:@sentry-internal/feedback@10.34.0/build/npm/esm/index.js
+// @sentry-internal/feedback@10.40.0 downloaded from https://ga.jspm.io/npm:@sentry-internal/feedback@10.40.0/build/npm/esm/index.js
 
 import {
   GLOBAL_OBJ as e,
@@ -13,8 +13,8 @@ import {
   getGlobalScope as c,
 } from "@sentry/core";
 const u = e;
-const _ = u.document;
-const d = u.navigator;
+const d = u.document;
+const _ = u.navigator;
 const f = "Report a Bug";
 const h = "Cancel";
 const p = "Send Bug Report";
@@ -30,8 +30,8 @@ const C = "Thank you for your report!";
 const S = "(required)";
 const E = "Add a screenshot";
 const L = "Remove screenshot";
-const F = "Highlight";
-const T = "Hide";
+const T = "Highlight";
+const F = "Hide";
 const H = "Remove";
 const N = "widget";
 const M = "api";
@@ -67,12 +67,12 @@ const D = typeof __SENTRY_DEBUG__ === "undefined" || __SENTRY_DEBUG__;
 function B() {
   return (
     !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      d.userAgent,
+      _.userAgent,
     ) &&
     !(
-      /Macintosh/i.test(d.userAgent) &&
-      d.maxTouchPoints &&
-      d.maxTouchPoints > 1
+      /Macintosh/i.test(_.userAgent) &&
+      _.maxTouchPoints &&
+      _.maxTouchPoints > 1
     ) &&
     !!isSecureContext
   );
@@ -107,7 +107,7 @@ function $(e, n) {
   };
 }
 function A(e) {
-  const n = _.createElement("style");
+  const n = d.createElement("style");
   n.textContent =
     '\n.widget__actor {\n  position: fixed;\n  z-index: var(--z-index);\n  margin: var(--page-margin);\n  inset: var(--actor-inset);\n\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  padding: 16px;\n\n  font-family: inherit;\n  font-size: var(--font-size);\n  font-weight: 600;\n  line-height: 1.14em;\n  text-decoration: none;\n\n  background: var(--actor-background, var(--background));\n  border-radius: var(--actor-border-radius, 1.7em/50%);\n  border: var(--actor-border, var(--border));\n  box-shadow: var(--actor-box-shadow, var(--box-shadow));\n  color: var(--actor-color, var(--foreground));\n  fill: var(--actor-color, var(--foreground));\n  cursor: pointer;\n  opacity: 1;\n  transition: transform 0.2s ease-in-out;\n  transform: translate(0, 0) scale(1);\n}\n.widget__actor[aria-hidden="true"] {\n  opacity: 0;\n  pointer-events: none;\n  visibility: hidden;\n  transform: translate(0, 16px) scale(0.98);\n}\n\n.widget__actor:hover {\n  background: var(--actor-hover-background, var(--background));\n  filter: var(--interactive-filter);\n}\n\n.widget__actor svg {\n  width: 1.14em;\n  height: 1.14em;\n}\n\n@media (max-width: 600px) {\n  .widget__actor span {\n    display: none;\n  }\n}\n';
   e && n.setAttribute("nonce", e);
@@ -145,15 +145,15 @@ function z() {
   return n;
 }
 function V({ triggerLabel: e, triggerAriaLabel: n, shadow: t, styleNonce: o }) {
-  const r = _.createElement("button");
+  const r = d.createElement("button");
   r.type = "button";
   r.className = "widget__actor";
   r.ariaHidden = "false";
   r.ariaLabel = n || e || f;
   r.appendChild(z());
   if (e) {
-    const n = _.createElement("span");
-    n.appendChild(_.createTextNode(e));
+    const n = d.createElement("span");
+    n.appendChild(d.createTextNode(e));
     r.appendChild(n);
   }
   const i = A(o);
@@ -204,7 +204,7 @@ function Z(e) {
   return `\n  --foreground: ${e.foreground};\n  --background: ${e.background};\n  --accent-foreground: ${e.accentForeground};\n  --accent-background: ${e.accentBackground};\n  --success-color: ${e.successColor};\n  --error-color: ${e.errorColor};\n  --border: ${e.border};\n  --box-shadow: ${e.boxShadow};\n  --outline: ${e.outline};\n  --interactive-filter: ${e.interactiveFilter};\n  `;
 }
 function Y({ colorScheme: e, themeDark: n, themeLight: t, styleNonce: o }) {
-  const r = _.createElement("style");
+  const r = d.createElement("style");
   r.textContent = `\n:host {\n  --font-family: system-ui, 'Helvetica Neue', Arial, sans-serif;\n  --font-size: 14px;\n  --z-index: 100000;\n\n  --page-margin: 16px;\n  --inset: auto 0 0 auto;\n  --actor-inset: var(--inset);\n\n  font-family: var(--font-family);\n  font-size: var(--font-size);\n\n  ${e !== "system" ? `color-scheme: only ${e};` : ""}\n\n  ${Z(e === "dark" ? { ...j, ...n } : { ...O, ...t })}\n}\n\n${e === "system" ? `\n@media (prefers-color-scheme: dark) {\n  :host {\n    color-scheme: only dark;\n\n    ${Z({ ...j, ...n })}\n  }\n}` : ""}\n`;
   o && r.setAttribute("nonce", o);
   return r;
@@ -220,7 +220,7 @@ const G = ({
     showBranding: s = true,
     isEmailRequired: c = false,
     isNameRequired: u = false,
-    showEmail: d = true,
+    showEmail: _ = true,
     showName: N = true,
     enableScreenshot: M = true,
     useSentryUser: P = { email: "email", name: "username" },
@@ -246,11 +246,11 @@ const G = ({
     successMessageText: ie = C,
     triggerLabel: ae = f,
     triggerAriaLabel: le = "",
-    highlightToolText: se = F,
-    hideToolText: ce = T,
+    highlightToolText: se = T,
+    hideToolText: ce = F,
     removeHighlightText: ue = H,
-    onFormOpen: _e,
-    onFormClose: de,
+    onFormOpen: de,
+    onFormClose: _e,
     onSubmitSuccess: fe,
     onSubmitError: he,
     onFormSubmitted: pe,
@@ -261,7 +261,7 @@ const G = ({
       showBranding: s,
       isEmailRequired: c,
       isNameRequired: u,
-      showEmail: d,
+      showEmail: _,
       showName: N,
       enableScreenshot: M,
       useSentryUser: P,
@@ -290,25 +290,27 @@ const G = ({
       highlightToolText: se,
       hideToolText: ce,
       removeHighlightText: ue,
-      onFormClose: de,
-      onFormOpen: _e,
+      onFormClose: _e,
+      onFormOpen: de,
       onSubmitError: he,
       onSubmitSuccess: fe,
       onFormSubmitted: pe,
     };
     let ge = null;
-    let be = [];
-    const ve = (e) => {
+    let be = null;
+    let ve = [];
+    const ye = (e) => {
       if (!ge) {
-        const n = _.createElement("div");
+        const n = d.createElement("div");
         n.id = String(e.id);
-        _.body.appendChild(n);
+        d.body.appendChild(n);
         ge = n.attachShadow({ mode: "open" });
-        ge.appendChild(Y(e));
+        be = Y(e);
+        ge.appendChild(be);
       }
       return ge;
     };
-    const ye = async (o) => {
+    const xe = async (o) => {
       const r = o.enableScreenshot && B();
       let l;
       let s;
@@ -353,15 +355,15 @@ const G = ({
         },
         screenshotIntegration: s,
         sendFeedback: R,
-        shadow: ve(o),
+        shadow: ye(o),
       });
       return c;
     };
-    const xe = (e, n = {}) => {
+    const we = (e, n = {}) => {
       const t = $(me, n);
       const o =
         typeof e === "string"
-          ? _.querySelector(e)
+          ? d.querySelector(e)
           : typeof e.addEventListener === "function"
             ? e
             : null;
@@ -372,7 +374,7 @@ const G = ({
       let r = null;
       const i = async () => {
         r ||
-          (r = await ye({
+          (r = await xe({
             ...t,
             onFormSubmitted: () => {
               r?.removeFromDom();
@@ -384,24 +386,24 @@ const G = ({
       };
       o.addEventListener("click", i);
       const l = () => {
-        be = be.filter((e) => e !== l);
+        ve = ve.filter((e) => e !== l);
         r?.removeFromDom();
         r = null;
         o.removeEventListener("click", i);
       };
-      be.push(l);
+      ve.push(l);
       return l;
     };
-    const we = (e = {}) => {
+    const ke = (e = {}) => {
       const n = $(me, e);
-      const t = ve(n);
+      const t = ye(n);
       const o = V({
         triggerLabel: n.triggerLabel,
         triggerAriaLabel: n.triggerAriaLabel,
         shadow: t,
         styleNonce: q,
       });
-      xe(o.el, {
+      we(o.el, {
         ...n,
         onFormOpen() {
           o.hide();
@@ -420,26 +422,35 @@ const G = ({
       setupOnce() {
         l() &&
           me.autoInject &&
-          (_.readyState === "loading"
-            ? _.addEventListener("DOMContentLoaded", () => we().appendToDom())
-            : we().appendToDom());
+          (d.readyState === "loading"
+            ? d.addEventListener("DOMContentLoaded", () => ke().appendToDom())
+            : ke().appendToDom());
       },
-      attachTo: xe,
+      attachTo: we,
       createWidget(e = {}) {
-        const n = we($(me, e));
+        const n = ke($(me, e));
         n.appendToDom();
         return n;
       },
       async createForm(e = {}) {
-        return ye($(me, e));
+        return xe($(me, e));
+      },
+      setTheme(e) {
+        me.colorScheme = e;
+        if (ge) {
+          const e = Y(me);
+          be ? ge.replaceChild(e, be) : ge.prepend(e);
+          be = e;
+        }
       },
       remove() {
         if (ge) {
           ge.parentElement?.remove();
           ge = null;
+          be = null;
         }
-        be.forEach((e) => e());
-        be = [];
+        ve.forEach((e) => e());
+        ve = [];
       },
     };
   };
@@ -481,9 +492,9 @@ function ue(e, n, t) {
     "function" == typeof e && null != e.defaultProps)
   )
     for (i in e.defaultProps) void 0 === a[i] && (a[i] = e.defaultProps[i]);
-  return _e(e, a, o, r, null);
+  return de(e, a, o, r, null);
 }
-function _e(e, n, t, o, r) {
+function de(e, n, t, o, r) {
   var i = {
     type: e,
     props: n,
@@ -502,7 +513,7 @@ function _e(e, n, t, o, r) {
   };
   return null == r && null != K.vnode && K.vnode(i), i;
 }
-function de(e) {
+function _e(e) {
   return e.children;
 }
 function fe(e, n) {
@@ -568,31 +579,31 @@ function be() {
       ((t = ee.length),
       (n = pe(e, o, r) || n),
       0 === t || ee.length > t
-        ? (Fe(o, n, r), (r.length = o.length = 0), (n = void 0), ee.sort(oe))
+        ? (Te(o, n, r), (r.length = o.length = 0), (n = void 0), ee.sort(oe))
         : n && K.__c && K.__c(n, ie));
-  n && Fe(o, n, r), (be.__r = 0);
+  n && Te(o, n, r), (be.__r = 0);
 }
 function ve(e, n, t, o, r, i, a, l, s, c, u) {
-  var _,
-    d,
+  var d,
+    _,
     f,
     h,
     p,
     m = (o && o.__k) || ie,
     g = n.length;
-  for (t.__d = s, ye(t, n, m), s = t.__d, _ = 0; _ < g; _++)
-    null != (f = t.__k[_]) &&
+  for (t.__d = s, ye(t, n, m), s = t.__d, d = 0; d < g; d++)
+    null != (f = t.__k[d]) &&
       "boolean" != typeof f &&
       "function" != typeof f &&
-      ((d = -1 === f.__i ? re : m[f.__i] || re),
-      (f.__i = _),
-      Le(e, f, d, r, i, a, l, s, c, u),
+      ((_ = -1 === f.__i ? re : m[f.__i] || re),
+      (f.__i = d),
+      Le(e, f, _, r, i, a, l, s, c, u),
       (h = f.__e),
       f.ref &&
-        d.ref != f.ref &&
-        (d.ref && He(d.ref, null, f), u.push(f.ref, f.__c || h, f)),
+        _.ref != f.ref &&
+        (_.ref && He(_.ref, null, f), u.push(f.ref, f.__c || h, f)),
       null == p && null != h && (p = h),
-      65536 & f.__u || d.__k === f.__k
+      65536 & f.__u || _.__k === f.__k
         ? (s = xe(f, s, e))
         : "function" == typeof f.type && void 0 !== f.__d
           ? (s = f.__d)
@@ -610,7 +621,7 @@ function ye(e, n, t) {
     s = n.length,
     c = t.length,
     u = c,
-    _ = 0;
+    d = 0;
   for (e.__k = [], o = 0; o < s; o++)
     null !=
     (r = e.__k[o] =
@@ -620,29 +631,29 @@ function ye(e, n, t) {
             "number" == typeof r ||
             "bigint" == typeof r ||
             r.constructor == String
-          ? _e(null, r, null, null, r)
+          ? de(null, r, null, null, r)
           : le(r)
-            ? _e(de, { children: r }, null, null, null)
+            ? de(_e, { children: r }, null, null, null)
             : void 0 === r.constructor && r.__b > 0
-              ? _e(r.type, r.props, r.key, r.ref ? r.ref : null, r.__v)
+              ? de(r.type, r.props, r.key, r.ref ? r.ref : null, r.__v)
               : r)
       ? ((r.__ = e),
         (r.__b = e.__b + 1),
-        (l = we(r, t, (a = o + _), u)),
+        (l = we(r, t, (a = o + d), u)),
         (r.__i = l),
         (i = null),
         -1 !== l && (u--, (i = t[l]) && (i.__u |= 131072)),
         null == i || null === i.__v
-          ? (-1 == l && _--, "function" != typeof r.type && (r.__u |= 65536))
+          ? (-1 == l && d--, "function" != typeof r.type && (r.__u |= 65536))
           : l !== a &&
             (l === a + 1
-              ? _++
+              ? d++
               : l > a
                 ? u > s - a
-                  ? (_ += l - a)
-                  : _--
-                : (_ = l < a && l == a - 1 ? l - a : 0),
-            l !== o + _ && (r.__u |= 65536)))
+                  ? (d += l - a)
+                  : d--
+                : (d = l < a && l == a - 1 ? l - a : 0),
+            l !== o + d && (r.__u |= 65536)))
       : (i = t[o]) &&
         null == i.key &&
         i.__e &&
@@ -755,8 +766,8 @@ function Ee(e) {
 }
 function Le(e, n, t, o, r, i, a, l, s, c) {
   var u,
-    _,
     d,
+    _,
     f,
     h,
     p,
@@ -780,102 +791,102 @@ function Le(e, n, t, o, r, i, a, l, s, c) {
         (b = (u = S.contextType) && o[u.__c]),
         (v = u ? (b ? b.props.value : u.__) : o),
         t.__c
-          ? (m = (_ = n.__c = t.__c).__ = _.__E)
+          ? (m = (d = n.__c = t.__c).__ = d.__E)
           : ("prototype" in S && S.prototype.render
-              ? (n.__c = _ = new S(g, v))
-              : ((n.__c = _ = new fe(g, v)),
-                (_.constructor = S),
-                (_.render = Me)),
-            b && b.sub(_),
-            (_.props = g),
-            _.state || (_.state = {}),
-            (_.context = v),
-            (_.__n = o),
-            (d = _.__d = !0),
-            (_.__h = []),
-            (_._sb = [])),
-        null == _.__s && (_.__s = _.state),
+              ? (n.__c = d = new S(g, v))
+              : ((n.__c = d = new fe(g, v)),
+                (d.constructor = S),
+                (d.render = Me)),
+            b && b.sub(d),
+            (d.props = g),
+            d.state || (d.state = {}),
+            (d.context = v),
+            (d.__n = o),
+            (_ = d.__d = !0),
+            (d.__h = []),
+            (d._sb = [])),
+        null == d.__s && (d.__s = d.state),
         null != S.getDerivedStateFromProps &&
-          (_.__s == _.state && (_.__s = se({}, _.__s)),
-          se(_.__s, S.getDerivedStateFromProps(g, _.__s))),
-        (f = _.props),
-        (h = _.state),
-        (_.__v = n),
-        d)
+          (d.__s == d.state && (d.__s = se({}, d.__s)),
+          se(d.__s, S.getDerivedStateFromProps(g, d.__s))),
+        (f = d.props),
+        (h = d.state),
+        (d.__v = n),
+        _)
       )
         null == S.getDerivedStateFromProps &&
-          null != _.componentWillMount &&
-          _.componentWillMount(),
-          null != _.componentDidMount && _.__h.push(_.componentDidMount);
+          null != d.componentWillMount &&
+          d.componentWillMount(),
+          null != d.componentDidMount && d.__h.push(d.componentDidMount);
       else {
         if (
           (null == S.getDerivedStateFromProps &&
             g !== f &&
-            null != _.componentWillReceiveProps &&
-            _.componentWillReceiveProps(g, v),
-          !_.__e &&
-            ((null != _.shouldComponentUpdate &&
-              !1 === _.shouldComponentUpdate(g, _.__s, v)) ||
+            null != d.componentWillReceiveProps &&
+            d.componentWillReceiveProps(g, v),
+          !d.__e &&
+            ((null != d.shouldComponentUpdate &&
+              !1 === d.shouldComponentUpdate(g, d.__s, v)) ||
               n.__v === t.__v))
         ) {
           for (
-            n.__v !== t.__v && ((_.props = g), (_.state = _.__s), (_.__d = !1)),
+            n.__v !== t.__v && ((d.props = g), (d.state = d.__s), (d.__d = !1)),
               n.__e = t.__e,
               n.__k = t.__k,
               n.__k.forEach(function (e) {
                 e && (e.__ = n);
               }),
               y = 0;
-            y < _._sb.length;
+            y < d._sb.length;
             y++
           )
-            _.__h.push(_._sb[y]);
-          (_._sb = []), _.__h.length && a.push(_);
+            d.__h.push(d._sb[y]);
+          (d._sb = []), d.__h.length && a.push(d);
           break e;
         }
-        null != _.componentWillUpdate && _.componentWillUpdate(g, _.__s, v),
-          null != _.componentDidUpdate &&
-            _.__h.push(function () {
-              _.componentDidUpdate(f, h, p);
+        null != d.componentWillUpdate && d.componentWillUpdate(g, d.__s, v),
+          null != d.componentDidUpdate &&
+            d.__h.push(function () {
+              d.componentDidUpdate(f, h, p);
             });
       }
       if (
-        ((_.context = v),
-        (_.props = g),
-        (_.__P = e),
-        (_.__e = !1),
+        ((d.context = v),
+        (d.props = g),
+        (d.__P = e),
+        (d.__e = !1),
         (x = K.__r),
         (w = 0),
         "prototype" in S && S.prototype.render)
       ) {
         for (
-          _.state = _.__s,
-            _.__d = !1,
+          d.state = d.__s,
+            d.__d = !1,
             x && x(n),
-            u = _.render(_.props, _.state, _.context),
+            u = d.render(d.props, d.state, d.context),
             k = 0;
-          k < _._sb.length;
+          k < d._sb.length;
           k++
         )
-          _.__h.push(_._sb[k]);
-        _._sb = [];
+          d.__h.push(d._sb[k]);
+        d._sb = [];
       } else
         do {
-          (_.__d = !1),
+          (d.__d = !1),
             x && x(n),
-            (u = _.render(_.props, _.state, _.context)),
-            (_.state = _.__s);
-        } while (_.__d && ++w < 25);
-      (_.state = _.__s),
-        null != _.getChildContext && (o = se(se({}, o), _.getChildContext())),
-        d ||
-          null == _.getSnapshotBeforeUpdate ||
-          (p = _.getSnapshotBeforeUpdate(f, h)),
+            (u = d.render(d.props, d.state, d.context)),
+            (d.state = d.__s);
+        } while (d.__d && ++w < 25);
+      (d.state = d.__s),
+        null != d.getChildContext && (o = se(se({}, o), d.getChildContext())),
+        _ ||
+          null == d.getSnapshotBeforeUpdate ||
+          (p = d.getSnapshotBeforeUpdate(f, h)),
         ve(
           e,
           le(
             (C =
-              null != u && u.type === de && null == u.key
+              null != u && u.type === _e && null == u.key
                 ? u.props.children
                 : u),
           )
@@ -891,10 +902,10 @@ function Le(e, n, t, o, r, i, a, l, s, c) {
           s,
           c,
         ),
-        (_.base = n.__e),
+        (d.base = n.__e),
         (n.__u &= -161),
-        _.__h.length && a.push(_),
-        m && (_.__E = _.__ = null);
+        d.__h.length && a.push(d),
+        m && (d.__E = d.__ = null);
     } catch (e) {
       (n.__v = null),
         s || null != i
@@ -905,10 +916,10 @@ function Le(e, n, t, o, r, i, a, l, s, c) {
   else
     null == i && n.__v === t.__v
       ? ((n.__k = t.__k), (n.__e = t.__e))
-      : (n.__e = Te(t.__e, n, t, o, r, i, a, s, c));
+      : (n.__e = Fe(t.__e, n, t, o, r, i, a, s, c));
   (u = K.diffed) && u(n);
 }
-function Fe(e, n, t) {
+function Te(e, n, t) {
   for (var o = 0; o < t.length; o++) He(t[o], t[++o], t[++o]);
   K.__c && K.__c(n, e),
     e.some(function (n) {
@@ -923,11 +934,11 @@ function Fe(e, n, t) {
       }
     });
 }
-function Te(e, n, t, o, r, i, a, l, s) {
+function Fe(e, n, t, o, r, i, a, l, s) {
   var c,
     u,
-    _,
     d,
+    _,
     f,
     h,
     p,
@@ -961,12 +972,12 @@ function Te(e, n, t, o, r, i, a, l, s) {
       (f = m[c]),
         "children" == c ||
           ("dangerouslySetInnerHTML" == c
-            ? (_ = f)
+            ? (d = f)
             : "key" === c || c in g || Ce(e, c, null, f, r));
     for (c in g)
       (f = g[c]),
         "children" == c
-          ? (d = f)
+          ? (_ = f)
           : "dangerouslySetInnerHTML" == c
             ? (u = f)
             : "value" == c
@@ -979,14 +990,14 @@ function Te(e, n, t, o, r, i, a, l, s) {
                   Ce(e, c, f, m[c], r);
     if (u)
       l ||
-        (_ && (u.__html === _.__html || u.__html === e.innerHTML)) ||
+        (d && (u.__html === d.__html || u.__html === e.innerHTML)) ||
         (e.innerHTML = u.__html),
         (n.__k = []);
     else if (
-      (_ && (e.innerHTML = ""),
+      (d && (e.innerHTML = ""),
       ve(
         e,
-        le(d) ? d : [d],
+        le(_) ? _ : [_],
         n,
         t,
         o,
@@ -1050,7 +1061,7 @@ function Pe(e, n, t) {
     (a = []),
     Le(
       n,
-      (e = n.__k = ue(de, null, [e])),
+      (e = n.__k = ue(_e, null, [e])),
       r || re,
       re,
       void 0 !== n.ownerSVGElement,
@@ -1061,7 +1072,7 @@ function Pe(e, n, t) {
       a,
     ),
     (e.__d = void 0),
-    Fe(i, e, a);
+    Te(i, e, a);
 }
 (J = ie.slice),
   (K = {
@@ -1098,7 +1109,7 @@ function Pe(e, n, t) {
   (fe.prototype.forceUpdate = function (e) {
     this.__v && ((this.__e = true), e && this.__h.push(e), ge(this));
   }),
-  (fe.prototype.render = de),
+  (fe.prototype.render = _e),
   (ee = []),
   (te =
     "function" == typeof Promise
@@ -1270,7 +1281,7 @@ function sn() {
   for (var e; (e = qe.shift()); )
     if (e.__P && e.__H)
       try {
-        e.__H.__h.forEach(_n), e.__H.__h.forEach(dn), (e.__H.__h = []);
+        e.__H.__h.forEach(dn), e.__H.__h.forEach(_n), (e.__H.__h = []);
       } catch (n) {
         (e.__H.__h = []), Ie.__e(n, e.__v);
       }
@@ -1291,7 +1302,7 @@ function sn() {
           n.__.forEach(function (e) {
             e.__N && (e.__ = e.__N), (e.__V = Ue), (e.__N = e.i = void 0);
           }))
-        : (n.__h.forEach(_n), n.__h.forEach(dn), (n.__h = []), (Re = 0))),
+        : (n.__h.forEach(dn), n.__h.forEach(_n), (n.__h = []), (Re = 0))),
       (Be = De);
   }),
   (Ie.diffed = function (e) {
@@ -1313,9 +1324,9 @@ function sn() {
   (Ie.__c = function (e, n) {
     n.some(function (e) {
       try {
-        e.__h.forEach(_n),
+        e.__h.forEach(dn),
           (e.__h = e.__h.filter(function (e) {
-            return !e.__ || dn(e);
+            return !e.__ || _n(e);
           }));
       } catch (t) {
         n.some(function (e) {
@@ -1335,7 +1346,7 @@ function sn() {
       t.__H &&
       (t.__H.__.forEach(function (e) {
         try {
-          _n(e);
+          dn(e);
         } catch (e) {
           n = e;
         }
@@ -1352,12 +1363,12 @@ function un(e) {
     o = setTimeout(t, 100);
   cn && (n = requestAnimationFrame(t));
 }
-function _n(e) {
+function dn(e) {
   var n = De,
     t = e.__c;
   "function" == typeof t && ((e.__c = void 0), t()), (De = n);
 }
-function dn(e) {
+function _n(e) {
   var n = De;
   (e.__c = e.__()), (De = n);
 }
@@ -1394,7 +1405,7 @@ const pn = Object.defineProperty(
 );
 const mn = "http://www.w3.org/2000/svg";
 function gn() {
-  const e = (e) => _.createElementNS(mn, e);
+  const e = (e) => d.createElementNS(mn, e);
   const n = q(e("svg"), {
     width: "32",
     height: "30",
@@ -1450,8 +1461,8 @@ function xn({
   screenshotInput: u,
 }) {
   const {
-    tags: _,
-    addScreenshotButtonLabel: d,
+    tags: d,
+    addScreenshotButtonLabel: _,
     removeScreenshotButtonLabel: f,
     cancelButtonLabel: h,
     emailLabel: p,
@@ -1466,8 +1477,8 @@ function xn({
     isRequiredLabel: C,
   } = e;
   const [S, E] = Ge(false);
-  const [L, F] = Ge(null);
-  const [T, H] = Ge(false);
+  const [L, T] = Ge(null);
+  const [F, H] = Ge(false);
   const M = u?.input;
   const [P, R] = Ge(null);
   const B = tn((e) => {
@@ -1484,8 +1495,8 @@ function xn({
         nameLabel: x,
       });
       n.length > 0
-        ? F(`Please enter in the following required fields: ${n.join(", ")}`)
-        : F(null);
+        ? T(`Please enter in the following required fields: ${n.join(", ")}`)
+        : T(null);
       return n.length === 0;
     },
     [p, g, b, v, x],
@@ -1497,7 +1508,7 @@ function xn({
         e.preventDefault();
         if (!(e.target instanceof HTMLFormElement)) return;
         const n = new FormData(e.target);
-        const t = await (u && T ? u.value() : void 0);
+        const t = await (u && F ? u.value() : void 0);
         const o = {
           name: yn(n, "name"),
           email: yn(n, "email"),
@@ -1512,26 +1523,26 @@ function xn({
               email: o.email,
               message: o.message,
               source: N,
-              tags: _,
+              tags: d,
             },
             { attachments: o.attachments },
           );
           i(o, e);
         } catch (e) {
           D && a.error(e);
-          F(e);
+          T(e);
           l(e);
         }
       } finally {
         E(false);
       }
     },
-    [u && T, i, l],
+    [u && F, i, l],
   );
   return ue(
     "form",
     { class: "form", onSubmit: A },
-    M && T ? ue(M, { onError: B }) : null,
+    M && F ? ue(M, { onError: B }) : null,
     ue(
       "fieldset",
       { class: "form__right", "data-sentry-feedback": true, disabled: S },
@@ -1610,7 +1621,7 @@ function xn({
                     H((e) => !e);
                   },
                 },
-                T ? f : d,
+                F ? f : _,
               ),
               P
                 ? ue("div", { class: "form__error-container" }, P.message)
@@ -1706,7 +1717,7 @@ function Ln({ open: e, onFormSubmitted: n, ...t }) {
     [n],
   );
   return ue(
-    de,
+    _e,
     null,
     i
       ? ue(
@@ -1740,9 +1751,9 @@ function Ln({ open: e, onFormSubmitted: n, ...t }) {
         ),
   );
 }
-const Fn =
-  "\n.dialog {\n  position: fixed;\n  z-index: var(--z-index);\n  margin: 0;\n  inset: 0;\n\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  padding: 0;\n  height: 100vh;\n  width: 100vw;\n\n  color: var(--dialog-color, var(--foreground));\n  fill: var(--dialog-color, var(--foreground));\n  line-height: 1.75em;\n\n  background-color: rgba(0, 0, 0, 0.05);\n  border: none;\n  inset: 0;\n  opacity: 1;\n  transition: opacity 0.2s ease-in-out;\n}\n\n.dialog__position {\n  position: fixed;\n  z-index: var(--z-index);\n  inset: var(--dialog-inset);\n  padding: var(--page-margin);\n  display: flex;\n  max-height: calc(100vh - (2 * var(--page-margin)));\n}\n@media (max-width: 600px) {\n  .dialog__position {\n    inset: var(--page-margin);\n    padding: 0;\n  }\n}\n\n.dialog__position:has(.editor) {\n  inset: var(--page-margin);\n  padding: 0;\n}\n\n.dialog:not([open]) {\n  opacity: 0;\n  pointer-events: none;\n  visibility: hidden;\n}\n.dialog:not([open]) .dialog__content {\n  transform: translate(0, -16px) scale(0.98);\n}\n\n.dialog__content {\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n  padding: var(--dialog-padding, 24px);\n  max-width: 100%;\n  width: 100%;\n  max-height: 100%;\n  overflow: auto;\n\n  background: var(--dialog-background, var(--background));\n  border-radius: var(--dialog-border-radius, 20px);\n  border: var(--dialog-border, var(--border));\n  box-shadow: var(--dialog-box-shadow, var(--box-shadow));\n  transform: translate(0, 0) scale(1);\n  transition: transform 0.2s ease-in-out;\n}\n\n";
 const Tn =
+  "\n.dialog {\n  position: fixed;\n  z-index: var(--z-index);\n  margin: 0;\n  inset: 0;\n\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  padding: 0;\n  height: 100vh;\n  width: 100vw;\n\n  color: var(--dialog-color, var(--foreground));\n  fill: var(--dialog-color, var(--foreground));\n  line-height: 1.75em;\n\n  background-color: rgba(0, 0, 0, 0.05);\n  border: none;\n  inset: 0;\n  opacity: 1;\n  transition: opacity 0.2s ease-in-out;\n}\n\n.dialog__position {\n  position: fixed;\n  z-index: var(--z-index);\n  inset: var(--dialog-inset);\n  padding: var(--page-margin);\n  display: flex;\n  max-height: calc(100vh - (2 * var(--page-margin)));\n}\n@media (max-width: 600px) {\n  .dialog__position {\n    inset: var(--page-margin);\n    padding: 0;\n  }\n}\n\n.dialog__position:has(.editor) {\n  inset: var(--page-margin);\n  padding: 0;\n}\n\n.dialog:not([open]) {\n  opacity: 0;\n  pointer-events: none;\n  visibility: hidden;\n}\n.dialog:not([open]) .dialog__content {\n  transform: translate(0, -16px) scale(0.98);\n}\n\n.dialog__content {\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n  padding: var(--dialog-padding, 24px);\n  max-width: 100%;\n  width: 100%;\n  max-height: 100%;\n  overflow: auto;\n\n  background: var(--dialog-background, var(--background));\n  border-radius: var(--dialog-border-radius, 20px);\n  border: var(--dialog-border, var(--border));\n  box-shadow: var(--dialog-box-shadow, var(--box-shadow));\n  transform: translate(0, 0) scale(1);\n  transition: transform 0.2s ease-in-out;\n}\n\n";
+const Fn =
   "\n.dialog__header {\n  display: flex;\n  gap: 4px;\n  justify-content: space-between;\n  font-weight: var(--dialog-header-weight, 600);\n  margin: 0;\n}\n.dialog__title {\n  align-self: center;\n  width: var(--form-width, 272px);\n}\n\n@media (max-width: 600px) {\n  .dialog__title {\n    width: auto;\n  }\n}\n\n.dialog__position:has(.editor) .dialog__title {\n  width: auto;\n}\n\n\n.brand-link {\n  display: inline-flex;\n}\n.brand-link:focus-visible {\n  outline: var(--outline);\n}\n";
 const Hn =
   "\n.form {\n  display: flex;\n  overflow: auto;\n  flex-direction: row;\n  gap: 16px;\n  flex: 1 0;\n}\n\n.form fieldset {\n  border: none;\n  margin: 0;\n  padding: 0;\n}\n\n.form__right {\n  flex: 0 0 auto;\n  display: flex;\n  overflow: auto;\n  flex-direction: column;\n  justify-content: space-between;\n  gap: 20px;\n  width: var(--form-width, 100%);\n}\n\n.dialog__position:has(.editor) .form__right {\n  width: var(--form-width, 272px);\n}\n\n.form__top {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n\n.form__error-container {\n  color: var(--error-color);\n  fill: var(--error-color);\n}\n\n.form__label {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n  margin: 0px;\n}\n\n.form__label__text {\n  display: flex;\n  gap: 4px;\n  align-items: center;\n}\n\n.form__label__text--required {\n  font-size: 0.85em;\n}\n\n.form__input {\n  font-family: inherit;\n  line-height: inherit;\n  background: transparent;\n  box-sizing: border-box;\n  border: var(--input-border, var(--border));\n  border-radius: var(--input-border-radius, 6px);\n  color: var(--input-color, inherit);\n  fill: var(--input-color, inherit);\n  font-size: var(--input-font-size, inherit);\n  font-weight: var(--input-font-weight, 500);\n  padding: 6px 12px;\n}\n\n.form__input::placeholder {\n  opacity: 0.65;\n  color: var(--input-placeholder-color, inherit);\n  filter: var(--interactive-filter);\n}\n\n.form__input:focus-visible {\n  outline: var(--input-focus-outline, var(--outline));\n}\n\n.form__input--textarea {\n  font-family: inherit;\n  resize: vertical;\n}\n\n.error {\n  color: var(--error-color);\n  fill: var(--error-color);\n}\n";
@@ -1751,8 +1762,8 @@ const Nn =
 const Mn =
   "\n.success__position {\n  position: fixed;\n  inset: var(--dialog-inset);\n  padding: var(--page-margin);\n  z-index: var(--z-index);\n}\n.success__content {\n  background: var(--success-background, var(--background));\n  border: var(--success-border, var(--border));\n  border-radius: var(--success-border-radius, 1.7em/50%);\n  box-shadow: var(--success-box-shadow, var(--box-shadow));\n  font-weight: var(--success-font-weight, 600);\n  color: var(--success-color);\n  fill: var(--success-color);\n  padding: 12px 24px;\n  line-height: 1.75em;\n\n  display: grid;\n  align-items: center;\n  grid-auto-flow: column;\n  gap: 6px;\n  cursor: default;\n}\n\n.success__icon {\n  display: flex;\n}\n";
 function Pn(e) {
-  const n = _.createElement("style");
-  n.textContent = `\n:host {\n  --dialog-inset: var(--inset);\n}\n\n${Fn}\n${Tn}\n${Hn}\n${Nn}\n${Mn}\n`;
+  const n = d.createElement("style");
+  n.textContent = `\n:host {\n  --dialog-inset: var(--inset);\n}\n\n${Tn}\n${Fn}\n${Hn}\n${Nn}\n${Mn}\n`;
   e && n.setAttribute("nonce", e);
   return n;
 }
@@ -1774,10 +1785,10 @@ const Dn = () => ({
     const i = r;
     const a = e.useSentryUser;
     const l = Rn();
-    const s = _.createElement("div");
+    const s = d.createElement("div");
     const c = Pn(e.styleNonce);
     let u = "";
-    const d = {
+    const _ = {
       get el() {
         return s;
       },
@@ -1790,21 +1801,21 @@ const Dn = () => ({
       removeFromDom() {
         s.remove();
         c.remove();
-        _.body.style.overflow = u;
+        d.body.style.overflow = u;
       },
       open() {
         h(true);
         e.onFormOpen?.();
         n()?.emit("openFeedbackWidget");
-        u = _.body.style.overflow;
-        _.body.style.overflow = "hidden";
+        u = d.body.style.overflow;
+        d.body.style.overflow = "hidden";
       },
       close() {
         h(false);
-        _.body.style.overflow = u;
+        d.body.style.overflow = u;
       },
     };
-    const f = t?.createInput({ h: ue, hooks: pn, dialog: d, options: e });
+    const f = t?.createInput({ h: ue, hooks: pn, dialog: _, options: e });
     const h = (n) => {
       Pe(
         ue(Ln, {
@@ -1834,7 +1845,7 @@ const Dn = () => ({
         s,
       );
     };
-    return d;
+    return _;
   },
 });
 function Bn({ h: e }) {
@@ -1865,7 +1876,7 @@ function Bn({ h: e }) {
   };
 }
 function $n(e) {
-  const n = _.createElement("style");
+  const n = d.createElement("style");
   const t = "#1A141F";
   const o = "#302735";
   n.textContent = `\n.editor {\n  display: flex;\n  flex-grow: 1;\n  flex-direction: column;\n}\n\n.editor__image-container {\n  justify-items: center;\n  padding: 15px;\n  position: relative;\n  height: 100%;\n  border-radius: var(--menu-border-radius, 6px);\n\n  background-color: ${t};\n  background-image: repeating-linear-gradient(\n      -145deg,\n      transparent,\n      transparent 8px,\n      ${t} 8px,\n      ${t} 11px\n    ),\n    repeating-linear-gradient(\n      -45deg,\n      transparent,\n      transparent 15px,\n      ${o} 15px,\n      ${o} 16px\n    );\n}\n\n.editor__canvas-container {\n  width: 100%;\n  height: 100%;\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.editor__canvas-container > * {\n  object-fit: contain;\n  position: absolute;\n}\n\n.editor__tool-container {\n  padding-top: 8px;\n  display: flex;\n  justify-content: center;\n}\n\n.editor__tool-bar {\n  display: flex;\n  gap: 8px;\n}\n\n.editor__tool {\n  display: flex;\n  padding: 8px 12px;\n  justify-content: center;\n  align-items: center;\n  border: var(--button-border, var(--border));\n  border-radius: var(--button-border-radius, 6px);\n  background: var(--button-background, var(--background));\n  color: var(--button-color, var(--foreground));\n}\n\n.editor__tool--active {\n  background: var(--button-primary-background, var(--accent-background));\n  color: var(--button-primary-color, var(--accent-foreground));\n}\n\n.editor__rect {\n  position: absolute;\n  z-index: 2;\n}\n\n.editor__rect button {\n  opacity: 0;\n  position: absolute;\n  top: -12px;\n  right: -12px;\n  cursor: pointer;\n  padding: 0;\n  z-index: 3;\n  border: none;\n  background: none;\n}\n\n.editor__rect:hover button {\n  opacity: 1;\n}\n`;
@@ -1934,7 +1945,7 @@ function qn({ hooks: e }) {
     e.useEffect(() => {
       const e = async () => {
         t();
-        const e = await d.mediaDevices.getDisplayMedia({
+        const e = await _.mediaDevices.getDisplayMedia({
           video: { width: u.innerWidth * a, height: u.innerHeight * a },
           audio: false,
           monitorTypeSurfaces: "exclude",
@@ -1942,7 +1953,7 @@ function qn({ hooks: e }) {
           selfBrowserSurface: "include",
           surfaceSwitching: "exclude",
         });
-        const n = _.createElement("video");
+        const n = d.createElement("video");
         await new Promise((t, r) => {
           n.srcObject = e;
           n.onloadedmetadata = () => {
@@ -2000,16 +2011,16 @@ function Wn({ h: e, hooks: n, outputBuffer: t, dialog: o, options: r }) {
   const l = Bn({ h: e });
   const s = { __html: $n(r.styleNonce).innerText };
   const c = o.el.style;
-  const d = ({ screenshot: o }) => {
+  const _ = ({ screenshot: o }) => {
     const [i, c] = n.useState("highlight");
-    const [d, f] = n.useState([]);
+    const [_, f] = n.useState([]);
     const h = n.useRef(null);
     const p = n.useRef(null);
     const m = n.useRef(null);
     const g = n.useRef(null);
     const [b, v] = n.useState(1);
     const y = n.useMemo(() => {
-      const e = _.getElementById(r.id);
+      const e = d.getElementById(r.id);
       if (!e) return "white";
       const n = getComputedStyle(e);
       return (
@@ -2056,19 +2067,19 @@ function Wn({ h: e, hooks: n, outputBuffer: t, dialog: o, options: r }) {
       In(m.current, { alpha: true }, (e, n) => {
         n.clearRect(0, 0, e.width, e.height);
       });
-      Vn(m.current, y, d);
-    }, [d, y]);
+      Vn(m.current, y, _);
+    }, [_, y]);
     n.useEffect(() => {
       x(t, o.dpi);
       zn(t, o.canvas);
-      In(_.createElement("canvas"), { alpha: true }, (e, n) => {
+      In(d.createElement("canvas"), { alpha: true }, (e, n) => {
         n.scale(o.dpi, o.dpi);
         e.width = o.canvas.width;
         e.height = o.canvas.height;
-        Vn(e, y, d);
+        Vn(e, y, _);
         zn(t, e);
       });
-    }, [d, o, y]);
+    }, [_, o, y]);
     const w = (e) => {
       if (!i || !g.current) return;
       const n = g.current.getBoundingClientRect();
@@ -2088,16 +2099,16 @@ function Wn({ h: e, hooks: n, outputBuffer: t, dialog: o, options: r }) {
         In(m.current, { alpha: true }, (e, n) => {
           n.clearRect(0, 0, e.width, e.height);
         });
-        Vn(m.current, y, [...d, o(t, e)]);
+        Vn(m.current, y, [..._, o(t, e)]);
       };
       const a = (e) => {
         const n = o(t, e);
         n.w * b >= 1 && n.h * b >= 1 && f((e) => [...e, n]);
-        _.removeEventListener("mousemove", r);
-        _.removeEventListener("mouseup", a);
+        d.removeEventListener("mousemove", r);
+        d.removeEventListener("mouseup", a);
       };
-      _.addEventListener("mousemove", r);
-      _.addEventListener("mouseup", a);
+      d.addEventListener("mousemove", r);
+      d.addEventListener("mouseup", a);
     };
     const k = n.useCallback(
       (e) => (n) => {
@@ -2133,7 +2144,7 @@ function Wn({ h: e, hooks: n, outputBuffer: t, dialog: o, options: r }) {
           e(
             "div",
             { ref: g, onMouseDown: w, style: C },
-            d.map((n, t) =>
+            _.map((n, t) =>
               e(
                 "div",
                 {
@@ -2172,7 +2183,7 @@ function Wn({ h: e, hooks: n, outputBuffer: t, dialog: o, options: r }) {
         c.display = "none";
       }, []),
       onScreenshot: n.useCallback((e, n) => {
-        In(_.createElement("canvas"), { alpha: false }, (t, o) => {
+        In(d.createElement("canvas"), { alpha: false }, (t, o) => {
           o.scale(n, n);
           t.width = e.videoWidth;
           t.height = e.videoHeight;
@@ -2190,14 +2201,14 @@ function Wn({ h: e, hooks: n, outputBuffer: t, dialog: o, options: r }) {
         o(e);
       }, []),
     });
-    return r ? e(d, { screenshot: r }) : e("div", null);
+    return r ? e(_, { screenshot: r }) : e("div", null);
   };
 }
 const On = () => ({
   name: "FeedbackScreenshot",
   setupOnce() {},
   createInput: ({ h: e, hooks: n, dialog: t, options: o }) => {
-    const r = _.createElement("canvas");
+    const r = d.createElement("canvas");
     return {
       input: Wn({ h: e, hooks: n, outputBuffer: r, dialog: t, options: o }),
       value: async () => {
