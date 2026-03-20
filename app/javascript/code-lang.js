@@ -18,8 +18,12 @@ const KEYWORDS = new Set([
 const OPERATOR_WORDS = new Set(["and", "or", "not"]);
 const ATOMS = new Set(["true", "false", "nothing"]);
 
+const IDENTIFIER_START = String.raw`[_\p{L}]`;
+const IDENTIFIER_CONTINUE = String.raw`[_\p{L}\p{M}\p{N}]`;
+const IDENTIFIER_SOURCE = `${IDENTIFIER_START}${IDENTIFIER_CONTINUE}*[!?]?`;
 const SYMBOL = /^:[^\s,=:{}\[\]().'"|&<>*][^\s,=:{}\[\]().'"|&<>*]*/;
-const IDENTIFIER = /^[A-Za-z_][A-Za-z0-9_]*[!?]?/;
+const LABEL = new RegExp(`^${IDENTIFIER_SOURCE}(?=\\s*:)`, "u");
+const IDENTIFIER = new RegExp(`^${IDENTIFIER_SOURCE}`, "u");
 const HEX_NUMBER = /^0[xX][0-9A-Fa-f](?:_?[0-9A-Fa-f])*/;
 const OCTAL_NUMBER = /^0[oO][0-7](?:_?[0-7])*/;
 const BINARY_NUMBER = /^0[bB][01](?:_?[01])*/;
@@ -162,9 +166,15 @@ const codeLanguage = StreamLanguage.define({
       return "atom";
     }
 
+    if (stream.match(LABEL)) {
+      const value = stream.current();
+      state.pendingProperty = false;
+      return /^\p{Lu}/u.test(value) ? "typeName" : "propertyName";
+    }
+
     if (stream.match(IDENTIFIER)) {
       const value = stream.current();
-      const startsWithUppercase = /^[A-Z]/.test(value);
+      const startsWithUppercase = /^\p{Lu}/u.test(value);
 
       if (OPERATOR_WORDS.has(value)) {
         state.pendingProperty = false;

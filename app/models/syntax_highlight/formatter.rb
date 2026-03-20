@@ -94,7 +94,10 @@ module SyntaxHighlight
       ATOMS = %w[true false nothing].to_set.freeze
 
       SYMBOL = /:[^\s,=:{}\[\]().'"|&<>*][^\s,=:{}\[\]().'"|&<>*]*/
-      IDENTIFIER = /[A-Za-z_][A-Za-z0-9_]*[!?]?/
+      IDENTIFIER_START = /[_\p{L}]/
+      IDENTIFIER_CONTINUE = /[_\p{L}\p{M}\p{N}]/
+      IDENTIFIER = /#{IDENTIFIER_START}#{IDENTIFIER_CONTINUE}*[!?]?/
+      LABEL = /#{IDENTIFIER}(?=\s*:)/
       HEX_NUMBER = /0[xX][0-9A-Fa-f](?:_?[0-9A-Fa-f])*/
       OCTAL_NUMBER = /0[oO][0-7](?:_?[0-7])*/
       BINARY_NUMBER = /0[bB][01](?:_?[01])*/
@@ -133,6 +136,8 @@ module SyntaxHighlight
 
           if (value = @scanner.scan(SYMBOL))
             emit("atom", value)
+          elsif (value = @scanner.scan(LABEL))
+            emit(label_token(value), value)
           elsif (value = @scanner.scan(IDENTIFIER))
             emit(identifier_token(value), value)
           elsif (value = @scanner.scan(OPERATORS))
@@ -149,9 +154,15 @@ module SyntaxHighlight
         return "operator" if OPERATOR_WORDS.include?(value)
         return "keyword" if KEYWORDS.include?(value)
         return "atom" if ATOMS.include?(value)
-        return "typeName" if value.match?(/\A[A-Z]/)
+        return "typeName" if value.match?(/\A\p{Lu}/)
 
         "variableName"
+      end
+
+      def label_token(value)
+        return "typeName" if value.match?(/\A\p{Lu}/)
+
+        "propertyName"
       end
 
       def operator_token(value)

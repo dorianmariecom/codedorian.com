@@ -27,6 +27,34 @@ module SyntaxHighlight
       )
     end
 
+    test "formats code labels and unicode identifiers" do
+      input = <<~CODE
+        {
+          end: chloé,
+          Chloé: :chloé
+        }
+      CODE
+
+      highlighted = SyntaxHighlight::Formatter.format(input, language: :code)
+
+      assert_includes(
+        highlighted,
+        %(<span class="syntax-propertyName">end</span>)
+      )
+      assert_includes(
+        highlighted,
+        %(<span class="syntax-variableName">chloé</span>)
+      )
+      assert_includes(
+        highlighted,
+        %(<span class="syntax-typeName">Chloé</span>)
+      )
+      assert_includes(
+        highlighted,
+        %(<span class="syntax-atom">:chloé</span>)
+      )
+    end
+
     test "formats json input and distinguishes keys from values" do
       input = <<~JSON
         {
