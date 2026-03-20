@@ -52,7 +52,7 @@ var T = {
   ie_version: ie ? ne.documentMode || 6 : ae ? +ae[1] : re ? +re[1] : 0,
   gecko: se,
   gecko_version: se
-    ? +/* @__PURE__ */ (/Firefox\/(\d+)/.exec(w.userAgent) || [0, 0])[1]
+    ? +(/* @__PURE__ */ (/Firefox\/(\d+)/.exec(w.userAgent) || [0, 0])[1])
     : 0,
   chrome: !!ce,
   chrome_version: ce ? +ce[1] : 0,
@@ -60,13 +60,15 @@ var T = {
   android: /* @__PURE__ */ /Android\b/.test(w.userAgent),
   webkit: le,
   webkit_version: le
-    ? +/* @__PURE__ */ (/\bAppleWebKit\/(\d+)/.exec(w.userAgent) || [0, 0])[1]
+    ? +(/* @__PURE__ */ (/\bAppleWebKit\/(\d+)/.exec(w.userAgent) || [0, 0])[1])
     : 0,
   safari: ue,
   safari_version: ue
-    ? +/* @__PURE__ */ (/\bVersion\/(\d+(\.\d+)?)/.exec(w.userAgent) || [
-        0, 0,
-      ])[1]
+    ? +(
+        /* @__PURE__ */ (/\bVersion\/(\d+(\.\d+)?)/.exec(w.userAgent) || [
+          0, 0,
+        ])[1]
+      )
     : 0,
   tabSize:
     ne.documentElement.style.tabSize == null ? `-moz-tab-size` : `tab-size`,

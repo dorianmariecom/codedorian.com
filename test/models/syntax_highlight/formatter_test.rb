@@ -49,10 +49,7 @@ module SyntaxHighlight
         highlighted,
         %(<span class="syntax-typeName">Chloé</span>)
       )
-      assert_includes(
-        highlighted,
-        %(<span class="syntax-atom">:chloé</span>)
-      )
+      assert_includes(highlighted, %(<span class="syntax-atom">:chloé</span>))
     end
 
     test "formats json input and distinguishes keys from values" do

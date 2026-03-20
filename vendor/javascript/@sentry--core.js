@@ -123,13 +123,11 @@ function A(t) {
     e.pop();
     k.test(E(e).function || "") && e.pop();
   }
-  return e
-    .slice(0, b)
-    .map((t) => ({
-      ...t,
-      filename: t.filename || E(e).filename,
-      function: t.function || v,
-    }));
+  return e.slice(0, b).map((t) => ({
+    ...t,
+    filename: t.filename || E(e).filename,
+    function: t.function || v,
+  }));
 }
 function E(t) {
   return t[t.length - 1] || {};
