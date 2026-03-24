@@ -64,21 +64,11 @@
 <% if can?(:update, @session) || can?(:destroy, @session) %>
   <div class="p">
     <% if can?(:update, @session) %>
-      <%= link_to(t("sessions.show.edit"), edit_url, class: :link) %>
+      <%= link_to(t(".edit"), edit_url, class: :link) %>
     <% end %>
     <% if can?(:destroy, @session) %>
-      <%= render(
-        "shared/confirm",
-        url: destroy_url,
-        text: t("sessions.show.destroy"),
-        class: :link
-      ) %>
-      <%= render(
-        "shared/confirm",
-        url: delete_url,
-        text: t("sessions.show.delete"),
-        class: :link
-      ) %>
+      <%= render("shared/confirm", url: destroy_url, text: t(".destroy"), class: :link) %>
+      <%= render("shared/confirm", url: delete_url, text: t(".delete"), class: :link) %>
     <% end %>
   </div>
 <% end %>

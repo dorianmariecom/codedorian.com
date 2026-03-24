@@ -32,8 +32,13 @@ class User < ApplicationRecord
   scope(:not_verified, -> { where(verified: false) })
   scope(:admin, -> { where(admin: true) })
   scope(:not_admin, -> { where(admin: false) })
+  scope(:simple, -> { where(interface: "simple") })
+  scope(:advanced, -> { where(interface: "advanced") })
+
+  INTERFACES = %i[simple advanced].freeze
 
   validates(:locale, inclusion: { in: LOCALES_STRINGS }, allow_blank: true)
+  validates(:interface, inclusion: { in: INTERFACES })
 
   after_save :update_description
   after_touch :update_description
@@ -223,8 +228,28 @@ class User < ApplicationRecord
     !admin?
   end
 
+  def interface
+    super&.to_sym || :simple
+  end
+
+  def interface=(value)
+    super(value.to_s.presence || "simple")
+  end
+
+  def simple?
+    interface == :simple
+  end
+
+  def advanced?
+    interface == :advanced
+  end
+
   def translated_locale
     t("locales.#{locale.presence || "none"}")
+  end
+
+  def translated_interface
+    t("interfaces.#{interface}")
   end
 
   def to_s
@@ -250,6 +275,7 @@ class User < ApplicationRecord
       id: id,
       admin?: admin?,
       verified?: verified?,
+      interface: interface,
       locale: locale,
       translated_locale: translated_locale,
       description: description,

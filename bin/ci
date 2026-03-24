@@ -16,7 +16,7 @@ run bin/eager_load
 run bin/rubocop
 run bin/brakeman --run-all-checks
 run bin/importmap audit
-run bin/bundler-audit check --update --quiet
+run bin/bundler-audit check --update
 run npm audit
 run bin/secrets
 run bin/rails test

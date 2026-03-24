@@ -23,6 +23,14 @@ class ApplicationPolicy
       current_user? && current_user.admin?
     end
 
+    def simple?
+      current_user? && current_user.simple?
+    end
+
+    def advanced?
+      current_user? && current_user.advanced?
+    end
+
     def current_user?
       !!current_user
     end
@@ -91,6 +99,14 @@ class ApplicationPolicy
 
   def admin?
     current_user? && current_user.admin?
+  end
+
+  def simple?
+    current_user? && current_user.simple?
+  end
+
+  def advanced?
+    current_user? && current_user.advanced?
   end
 
   def current_user?

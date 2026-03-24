@@ -72,21 +72,11 @@
 <% if can?(:update, @version) || can?(:destroy, @version) %>
   <div class="p">
     <% if can?(:update, @version) %>
-      <%= link_to(t("versions.show.edit"), edit_url, class: :link) %>
+      <%= link_to(t(".edit"), edit_url, class: :link) %>
     <% end %>
     <% if can?(:destroy, @version) %>
-      <%= render(
-        "shared/confirm",
-        url: destroy_url,
-        text: t("versions.show.destroy"),
-        class: :link
-      ) %>
-      <%= render(
-        "shared/confirm",
-        url: delete_url,
-        text: t("versions.show.delete"),
-        class: :link
-      ) %>
+      <%= render("shared/confirm", url: destroy_url, text: t(".destroy"), class: :link) %>
+      <%= render("shared/confirm", url: delete_url, text: t(".delete"), class: :link) %>
     <% end %>
   </div>
 <% end %>

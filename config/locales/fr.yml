@@ -230,6 +230,7 @@ fr:
         verified: vérifié ?
       user:
         admin: admin ?
+        interface: interface
         locale: langage
         verified: vérifié ?
       version:
@@ -2240,6 +2241,7 @@ fr:
       english: anglais
       form: formulaire
       french: français
+      home: accueil
       log_in: se connecter
       messages: messages
       programs: programmes
@@ -2317,7 +2319,6 @@ fr:
       title: nouveau message
     show:
       body: corps
-      content: contenu
       created_at: créé à
       delete: supprimer le message
       description: voir les détails du message et les destinataires.
@@ -3070,6 +3071,7 @@ fr:
       description: télécharger l'application codedorian pour ios et android.
       title: télécharger
     home:
+      account: compte
       description: programmer des messages, notifications et programmes avec code.
       form: formulaire
       log_in: se connecter
@@ -3581,6 +3583,9 @@ fr:
       new: nouvel utilisateur
       title: utilisateurs
     model:
+      interfaces:
+        advanced: avancée
+        simple: simple
       locales:
         en: anglais
         fr: français
@@ -3595,7 +3600,6 @@ fr:
       address: adresse
       admin: admin
       created_at: créé à
-      delete: supprimer l'utilisateur
       description: description
       destroy: détruire l'utilisateur
       device: appareil
@@ -3604,10 +3608,12 @@ fr:
       handle: identifiant
       id: identifiant
       impersonate: imiter
+      interface: interface
       jobs: tâches
       locale: langue
       log_out: se déconnecter
       logs: logs
+      messages: messages
       name: nom
       new_job: nouvelle tâche
       new_log: nouveau log

@@ -12,7 +12,29 @@ module MenuHelper
   def menu(platform:)
     ios = platform == :ios
 
+    return simple_menu(ios: ios) if simple?
+
     [
+      {
+        title: t("helpers.menu.home"),
+        image: ios ? "house.fill" : :home,
+        path: root_path
+      },
+      {
+        title: t("helpers.menu.form"),
+        image: ios ? :checklist : :assignment,
+        path: form_path
+      },
+      {
+        title: t("helpers.menu.programs"),
+        image: ios ? :laptopcomputer : :computer,
+        path: polymorphic_path([current_user_or_guest, :programs])
+      },
+      {
+        title: t("helpers.menu.messages"),
+        image: ios ? "message.fill" : :chat,
+        path: polymorphic_path([current_user_or_guest, :messages])
+      },
       (
         if registered?
           {
@@ -40,26 +62,6 @@ module MenuHelper
           }
         end
       ),
-      {
-        title: t("helpers.menu.home"),
-        image: ios ? "house.fill" : :home,
-        path: root_path
-      },
-      {
-        title: t("helpers.menu.form"),
-        image: ios ? :checklist : :assignment,
-        path: form_path
-      },
-      {
-        title: t("helpers.menu.programs"),
-        image: ios ? :laptopcomputer : :computer,
-        path: polymorphic_path([current_user_or_guest, :programs])
-      },
-      {
-        title: t("helpers.menu.messages"),
-        image: ios ? "message.fill" : :chat,
-        path: polymorphic_path([current_user_or_guest, :messages])
-      },
       { title: t("helpers.menu.about"), image: :info, path: about_path },
       (
         if admin?
@@ -89,5 +91,79 @@ module MenuHelper
         end
       )
     ].compact
+  end
+
+  private
+
+  def simple_menu(ios:)
+    items =
+      if registered?
+        [
+          {
+            title: t("helpers.menu.home"),
+            image: ios ? "house.fill" : :home,
+            path: root_path
+          },
+          {
+            title: t("helpers.menu.form"),
+            image: ios ? :checklist : :assignment,
+            path: form_path
+          },
+          {
+            title: t("helpers.menu.messages"),
+            image: ios ? "message.fill" : :chat,
+            path: polymorphic_path([current_user, :messages])
+          },
+          {
+            title: t("helpers.menu.account"),
+            image: ios ? "person.crop.circle.fill" : :account_circle,
+            path: polymorphic_path(current_user)
+          },
+          { title: t("helpers.menu.about"), image: :info, path: about_path }
+        ]
+      else
+        [
+          {
+            title: t("helpers.menu.home"),
+            image: ios ? "house.fill" : :home,
+            path: root_path
+          },
+          {
+            title: t("helpers.menu.form"),
+            image: ios ? :checklist : :assignment,
+            path: form_path
+          },
+          {
+            title: t("helpers.menu.register"),
+            image: ios ? "person.badge.plus" : :person_add,
+            path: new_user_path
+          },
+          {
+            title: t("helpers.menu.log_in"),
+            image: ios ? "person.crop.circle.fill" : :login,
+            path: new_login_path
+          },
+          { title: t("helpers.menu.about"), image: :info, path: about_path }
+        ]
+      end
+
+    items << language_menu_item(ios: ios)
+    items.compact
+  end
+
+  def language_menu_item(ios:)
+    if fr?
+      {
+        title: t("helpers.menu.english"),
+        image: ios ? :flag : :language_us,
+        path: url_for(locale: :en)
+      }
+    else
+      {
+        title: t("helpers.menu.french"),
+        image: ios ? :flag : :language_french,
+        path: url_for(locale: :fr)
+      }
+    end
   end
 end

@@ -230,6 +230,7 @@ en:
         verified: verified?
       user:
         admin: admin?
+        interface: interface
         locale: language
         verified: verified?
       version:
@@ -2239,6 +2240,7 @@ en:
       english: english
       form: form
       french: french
+      home: home
       log_in: log in
       messages: messages
       programs: programs
@@ -2316,7 +2318,6 @@ en:
       title: new message
     show:
       body: body
-      content: content
       created_at: created at
       delete: delete message
       description: view message details and recipients.
@@ -3065,6 +3066,7 @@ en:
       description: download the codedorian app for ios and android.
       title: download
     home:
+      account: account
       description: schedule messages, notifications, and programs with code.
       form: form
       log_in: log in
@@ -3575,6 +3577,9 @@ en:
       new: new user
       title: users
     model:
+      interfaces:
+        advanced: advanced
+        simple: simple
       locales:
         en: english
         fr: french
@@ -3589,7 +3594,6 @@ en:
       address: address
       admin: admin
       created_at: created at
-      delete: delete user
       description: description
       destroy: destroy user
       device: device
@@ -3598,10 +3602,12 @@ en:
       handle: handle
       id: id
       impersonate: impersonate
+      interface: interface
       jobs: jobs
       locale: language
       log_out: log out
       logs: logs
+      messages: messages
       name: name
       new_job: new job
       new_log: new log

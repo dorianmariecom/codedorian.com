@@ -2,130 +2,142 @@
 
 <%= turbo_stream_from(@message) %>
 
-<% if @message.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @message.id %></div>
-  </div>
-<% end %>
-
-<% if @message.from_user.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".from_user") %></div>
-    <%= render("shared/user", user: @message.from_user) %>
-  </div>
-<% end %>
-
-<% if @message.to_user.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".to_user") %></div>
-    <%= render("shared/user", user: @message.to_user) %>
-  </div>
-<% end %>
-
-<% if @message.subject.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".subject") %></div>
-    <%= @message.subject %>
-  </div>
-<% end %>
-
-<% if @message.body.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".body") %></div>
-    <%= @message.body %>
-  </div>
-<% end %>
-
-<% if @message.updated_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@message.updated_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
-
-<% if @message.created_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@message.created_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
-
-<div class="p p--flex">
-  <%= link_to(t(".edit"), edit_url, class: :link) %>
-  <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
-  <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
-</div>
-
-<% if can?(:index, Job) %>
-  <% jobs =
-    policy_scope(Job)
-      .where_message(@message)
-      .order(created_at: :desc)
-      .page(params[:page]) %>
-
-  <div class="p font-bold">
-    <%= link_to(t(".jobs"), [*jobs_nested, :jobs], class: :link) %>
-  </div>
-
-  <% if can?(:create, Job) %>
+<% if simple? %>
+  <% if @message.subject.present? %>
     <div class="p">
-      <%= link_to(t(".new_job"), [:new, *jobs_nested, :job], class: "button") %>
+      <div class="font-bold"><%= @message.subject %></div>
     </div>
   <% end %>
 
-  <%= render_collection(
-    partial: "jobs/job",
-    collection: jobs,
-    as: :job,
-    locals: {
-      nested: jobs_nested
-    }
-  ) %>
-<% end %>
-
-<% if can?(:index, Version) %>
-  <div class="p font-bold">
-    <%= link_to(t(".versions"), [*nested, @message, :versions], class: :link) %>
-  </div>
-
-  <% if can?(:create, Version) %>
+  <% if @message.body.present? %>
+    <div class="p"><%= @message.body %></div>
+  <% end %>
+<% else %>
+  <% if @message.id.present? %>
     <div class="p">
-      <%= link_to(t(".new_version"), [:new, *nested, @message, :version], class: "button") %>
+      <div class="text-gray-600"><%= t(".id") %></div>
+      <div class="font-bold"><%= @message.id %></div>
     </div>
   <% end %>
 
-  <%= render_collection(
-    partial: "versions/version",
-    collection: @versions,
-    as: :version,
-    locals: {
-      nested: [*nested, @message]
-    }
-  ) %>
-<% end %>
-
-<% if can?(:index, Log) %>
-  <div class="p font-bold">
-    <%= link_to(t(".logs"), [*nested, @message, :logs], class: :link) %>
-  </div>
-
-  <% if can?(:create, Log) %>
+  <% if @message.from_user.present? %>
     <div class="p">
-      <%= link_to(t(".new_log"), [:new, *nested, @message, :log], class: "button") %>
+      <div class="text-gray-600"><%= t(".from_user") %></div>
+      <%= render("shared/user", user: @message.from_user) %>
     </div>
   <% end %>
 
-  <%= render_collection(
-    partial: "logs/log",
-    collection: @logs,
-    as: :log,
-    locals: {
-      nested: [*nested, @message]
-    }
-  ) %>
+  <% if @message.to_user.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".to_user") %></div>
+      <%= render("shared/user", user: @message.to_user) %>
+    </div>
+  <% end %>
+
+  <% if @message.subject.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".subject") %></div>
+      <%= @message.subject %>
+    </div>
+  <% end %>
+
+  <% if @message.body.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".body") %></div>
+      <%= @message.body %>
+    </div>
+  <% end %>
+
+  <% if @message.updated_at.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".updated_at") %></div>
+      <div class="font-bold">
+        <%= local_time(@message.updated_at, format: :default) %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if @message.created_at.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".created_at") %></div>
+      <div class="font-bold">
+        <%= local_time(@message.created_at, format: :default) %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="p p--flex">
+    <%= link_to(t(".edit"), edit_url, class: :link) %>
+    <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+    <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
+  </div>
+
+  <% if can?(:index, Job) %>
+    <% jobs =
+      policy_scope(Job)
+        .where_message(@message)
+        .order(created_at: :desc)
+        .page(params[:page]) %>
+
+    <div class="p font-bold">
+      <%= link_to(t(".jobs"), [*jobs_nested, :jobs], class: :link) %>
+    </div>
+
+    <% if can?(:create, Job) %>
+      <div class="p">
+        <%= link_to(t(".new_job"), [:new, *jobs_nested, :job], class: "button") %>
+      </div>
+    <% end %>
+
+    <%= render_collection(
+      partial: "jobs/job",
+      collection: jobs,
+      as: :job,
+      locals: {
+        nested: jobs_nested
+      }
+    ) %>
+  <% end %>
+
+  <% if can?(:index, Version) %>
+    <div class="p font-bold">
+      <%= link_to(t(".versions"), [*nested, @message, :versions], class: :link) %>
+    </div>
+
+    <% if can?(:create, Version) %>
+      <div class="p">
+        <%= link_to(t(".new_version"), [:new, *nested, @message, :version], class: "button") %>
+      </div>
+    <% end %>
+
+    <%= render_collection(
+      partial: "versions/version",
+      collection: @versions,
+      as: :version,
+      locals: {
+        nested: [*nested, @message]
+      }
+    ) %>
+  <% end %>
+
+  <% if can?(:index, Log) %>
+    <div class="p font-bold">
+      <%= link_to(t(".logs"), [*nested, @message, :logs], class: :link) %>
+    </div>
+
+    <% if can?(:create, Log) %>
+      <div class="p">
+        <%= link_to(t(".new_log"), [:new, *nested, @message, :log], class: "button") %>
+      </div>
+    <% end %>
+
+    <%= render_collection(
+      partial: "logs/log",
+      collection: @logs,
+      as: :log,
+      locals: {
+        nested: [*nested, @message]
+      }
+    ) %>
+  <% end %>
 <% end %>

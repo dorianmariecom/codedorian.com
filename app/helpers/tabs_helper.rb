@@ -12,6 +12,8 @@ module TabsHelper
   def tabs(device: :ios)
     ios = device == :ios
 
+    return simple_tabs(ios: ios) if simple?
+
     [
       {
         title: t("helpers.tabs.home"),
@@ -72,5 +74,53 @@ module TabsHelper
         end
       )
     ].compact
+  end
+
+  private
+
+  def simple_tabs(ios:)
+    if registered?
+      [
+        {
+          title: t("helpers.tabs.messages"),
+          image: ios ? "message.fill" : :chat,
+          path: polymorphic_path([current_user, :messages]),
+          default: false
+        },
+        {
+          title: t("helpers.tabs.account"),
+          image: ios ? "person.crop.circle.fill" : :account_circle,
+          path: polymorphic_path(current_user),
+          default: false
+        },
+        {
+          title: t("helpers.tabs.form"),
+          image: ios ? :checklist : :assignment,
+          path: form_path,
+          default: true
+        }
+      ]
+    else
+      [
+        {
+          title: t("helpers.tabs.register"),
+          image: ios ? "person.badge.plus" : :person_add,
+          path: new_user_path,
+          default: false
+        },
+        {
+          title: t("helpers.tabs.log_in"),
+          image: ios ? "person.crop.circle.fill" : :login,
+          path: new_login_path,
+          default: false
+        },
+        {
+          title: t("helpers.tabs.form"),
+          image: ios ? :checklist : :assignment,
+          path: form_path,
+          default: true
+        }
+      ]
+    end
   end
 end

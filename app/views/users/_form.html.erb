@@ -27,6 +27,21 @@
   </div>
 
   <div class="p">
+    <%= f.label(:interface, class: :label) %>
+    <%= f.select(
+      :interface,
+      interface_options(interface: f.object.interface),
+      {},
+      required: true,
+      class: :input,
+      data: {
+        form_type: :other
+      },
+      autocomplete: :off
+    ) %>
+  </div>
+
+  <div class="p">
     <%= f.submit(
       submit,
       class: "button",

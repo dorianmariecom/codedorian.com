@@ -18,6 +18,9 @@ class Guest < ApplicationRecord
   def tokens = []
 
   def admin? = false
+  def interface = :simple
+  def simple? = true
+  def advanced? = false
 
   def to_s = t("to_s", id: id)
   def to_param = :me

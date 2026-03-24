@@ -36,6 +36,8 @@ class ApplicationController < ActionController::Base
   helper_method(:current_time_zone)
   helper_method(:current_persisted_time_zone)
   helper_method(:admin?)
+  helper_method(:simple?)
+  helper_method(:advanced?)
   helper_method(:can?)
   helper_method(:error_message_for)
   helper_method(:current_version)
@@ -143,6 +145,14 @@ class ApplicationController < ActionController::Base
 
   def admin?
     current_user_or_guest.admin?
+  end
+
+  def simple?
+    current_user_or_guest.simple?
+  end
+
+  def advanced?
+    current_user_or_guest.advanced?
   end
 
   def set_current_user

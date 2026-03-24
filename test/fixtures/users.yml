@@ -3,6 +3,7 @@ admin:
   admin: true
   created_at: '2025-01-10 09:12:00'
   description: Site owner account for curated programs and support replies.
+  interface: advanced
   locale: en
   updated_at: '2025-03-01 14:25:00'
   verified: true
@@ -10,6 +11,7 @@ other_user:
   admin: false
   created_at: '2025-02-02 16:40:00'
   description: Beta user scheduling a morning digest.
+  interface: simple
   locale: fr
   updated_at: '2025-03-02 08:12:00'
   verified: true

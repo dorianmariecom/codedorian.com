@@ -170,9 +170,9 @@ class UsersController < ApplicationController
     return {} if params[:user].blank?
 
     if admin?
-      params.expect(user: %i[admin verified locale])
+      params.expect(user: %i[admin verified interface locale])
     else
-      params.expect(user: [:locale])
+      params.expect(user: %i[interface locale])
     end
   end
 end

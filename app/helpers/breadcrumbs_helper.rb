@@ -2,6 +2,8 @@
 
 module BreadcrumbsHelper
   def render_breadcrumbs
+    return if simple?
+
     content_tag(:div, class: "p p--flex") do
       safe_join(
         @breadcrumbs.map do |breadcrumb|

@@ -10,7 +10,7 @@ class MessagePolicy < ApplicationPolicy
   end
 
   def index?
-    true
+    current_user? || admin?
   end
 
   def show?
@@ -30,19 +30,19 @@ class MessagePolicy < ApplicationPolicy
   end
 
   def create?
-    true
+    admin? && advanced?
   end
 
   def update?
-    from_current_user? || to_current_user? || admin?
+    admin? || (advanced? && (from_current_user? || to_current_user?))
   end
 
   def destroy?
-    from_current_user? || to_current_user? || admin?
+    admin? || (advanced? && (from_current_user? || to_current_user?))
   end
 
   def destroy_all?
-    true
+    admin? && advanced?
   end
 
   private

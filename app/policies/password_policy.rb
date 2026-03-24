@@ -8,7 +8,7 @@ class PasswordPolicy < ApplicationPolicy
   end
 
   def index?
-    true
+    admin? && advanced?
   end
 
   def check?
@@ -16,22 +16,22 @@ class PasswordPolicy < ApplicationPolicy
   end
 
   def show?
-    owner? || admin?
+    (admin? || owner?) && advanced?
   end
 
   def create?
-    true
+    admin? && advanced?
   end
 
   def update?
-    owner? || admin?
+    (admin? || owner?) && advanced?
   end
 
   def destroy?
-    owner? || admin?
+    (admin? || owner?) && advanced?
   end
 
   def destroy_all?
-    true
+    admin? && advanced?
   end
 end

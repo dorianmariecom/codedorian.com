@@ -234,6 +234,18 @@ module ApplicationHelper
     end
   end
 
+  def interface_options(interface: nil)
+    selected_interface = (interface.presence || :simple).to_sym
+
+    User::INTERFACES.map do |available_interface|
+      [
+        I18n.t("users.model.interfaces.#{available_interface}"),
+        available_interface,
+        { selected: available_interface == selected_interface }
+      ]
+    end
+  end
+
   def default_country_code
     PhoneNumber::DEFAULT_COUNTRY_CODE
   end
