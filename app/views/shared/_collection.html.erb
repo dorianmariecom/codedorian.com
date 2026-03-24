@@ -7,10 +7,6 @@
 <div class="p text-gray-600"><%= page_entries_info(collection) %></div>
 
 <% if content %>
-  <% if collection.total_pages > 1 %>
-    <div class="p p--flex"><%= paginate(collection) %></div>
-  <% end %>
-
   <%= render(partial:, collection:, as:, **extras) %>
 
   <% if collection.total_pages > 1 %>
