@@ -93,7 +93,7 @@ GEM
     base64 (0.3.0)
     bcrypt (3.1.22)
     bcrypt_pbkdf (1.1.2)
-    bigdecimal (4.0.1)
+    bigdecimal (4.1.0)
     blazer (3.3.0)
       activerecord (>= 7.1)
       chartkick (>= 5)
@@ -129,7 +129,7 @@ GEM
     cmdparse (3.0.7)
     cmdstan (0.5.2)
       csv
-    code-ruby (3.0.4)
+    code-ruby (3.0.5)
       activesupport
       base64
       bigdecimal
