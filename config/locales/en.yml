@@ -2693,6 +2693,9 @@ en:
     format:
       alert: 'format failed: %{message}'
       notice: program formatted
+    format_all:
+      alert: 'format all failed: %{message}'
+      notice: programs formatted
     index:
       data:
         one: 1 datum
@@ -2705,6 +2708,7 @@ en:
         one: 1 example
         other: "%{count} examples"
         zero: 0 examples
+      format_all: format all
       new: new program
       program_executions:
         one: 1 program execution

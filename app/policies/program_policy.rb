@@ -47,6 +47,10 @@ class ProgramPolicy < ApplicationPolicy
     admin? && advanced?
   end
 
+  def format_all?
+    admin? && advanced?
+  end
+
   def unschedule_all?
     admin? && advanced?
   end

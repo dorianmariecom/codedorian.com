@@ -2697,6 +2697,9 @@ fr:
     format:
       alert: 'formatage échoué : %{message}'
       notice: programme formaté
+    format_all:
+      alert: 'formatage total échoué : %{message}'
+      notice: programmes formatés
     index:
       data:
         one: 1 donnée
@@ -2709,6 +2712,7 @@ fr:
         one: 1 exemple
         other: "%{count} exemples"
         zero: 0 exemples
+      format_all: formater tout
       new: nouveau programme
       program_executions:
         one: 1 exécution de programme

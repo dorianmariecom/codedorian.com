@@ -124,6 +124,16 @@ class ProgramsController < ApplicationController
     )
   end
 
+  def format_all
+    authorize(Program)
+
+    scope.format_all
+
+    redirect_back_or_to(index_url, notice: t(".notice"))
+  rescue Code::Error => e
+    redirect_back_or_to(index_url, alert: t(".alert", message: e.message))
+  end
+
   def schedule_all
     authorize(Program)
 

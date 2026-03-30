@@ -37,6 +37,12 @@
     <div class="p p--flex">
       <%= render(
         "shared/confirm",
+        url: [:format_all, *index_url],
+        text: t(".format_all"),
+        method: :post
+      ) %>
+      <%= render(
+        "shared/confirm",
         url: [:schedule_all, *index_url],
         text: t(".schedule_all"),
         method: :patch

@@ -146,6 +146,7 @@ Rails.application.routes.draw do
 
         define_delete_destroy.call
         define_logs_versions.call
+        define_all_post.call(:format, :programs)
         define_all_patch.call(:schedule, :programs)
         define_all_patch.call(:unschedule, :programs)
         define_all_delete.call(:destroy, :programs)
