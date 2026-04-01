@@ -57,6 +57,6 @@ pin "json-lang", integrity: true
 pin "local-time", integrity: true # @3.0.3
 pin "style-mod", integrity: true # @4.1.3
 pin "thememirror", integrity: true # @2.0.1
-pin "trix", integrity: true # @2.1.17
+pin "trix", integrity: true # @2.1.18
 pin "w3c-keyname", integrity: true # @2.2.8
 pin_all_from "app/javascript/controllers", under: "controllers", integrity: true

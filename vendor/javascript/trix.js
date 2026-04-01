@@ -1,6 +1,6 @@
-// trix@2.1.17 downloaded from https://ga.jspm.io/npm:trix@2.1.17/dist/trix.esm.min.js
+// trix@2.1.18 downloaded from https://ga.jspm.io/npm:trix@2.1.18/dist/trix.esm.min.js
 
-var e = `2.1.17`;
+var e = `2.1.18`;
 const t = `[data-trix-attachment]`,
   n = {
     preview: { presentation: `gallery`, caption: { name: !0, size: !0 } },
@@ -3082,7 +3082,11 @@ Y(qi, `permittedAttributes`, [`caption`, `presentation`]),
   Ui.registerType(`attachment`, qi);
 class Hi extends Ui {
   static fromJSON(e) {
-    return new this(e.string, e.attributes);
+    let t = { ...e.attributes };
+    return (
+      t.href && !gn.isValidAttribute(`a`, `href`, t.href) && delete t.href,
+      new this(e.string, t)
+    );
   }
   constructor(e) {
     super(...arguments),
@@ -9406,4 +9410,3 @@ Object.assign(aa, Wr),
         customElements.define(`trix-editor`, so);
   }, 0);
 export { aa as default };
-//# sourceMappingURL=trix.esm.min.js.map
