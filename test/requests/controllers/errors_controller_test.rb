@@ -16,4 +16,10 @@ class ErrorsControllerTest < ActionDispatch::IntegrationTest
   end
 
   smoke_actions_for "errors"
+
+  test "internal server error ignores flat search params" do
+    get("/500", params: { search: "secret" })
+
+    assert_response(:internal_server_error)
+  end
 end

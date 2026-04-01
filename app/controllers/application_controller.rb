@@ -342,7 +342,11 @@ class ApplicationController < ActionController::Base
   end
 
   def q
-    params.dig(:search, :q).presence
+    search = params[:search]
+    return if search.blank?
+    return if search.is_a?(String)
+
+    search[:q].presence || search["q"].presence
   end
 
   def search_params
