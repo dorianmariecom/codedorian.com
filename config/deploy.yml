@@ -23,7 +23,6 @@ env:
   - RAILS_MASTER_KEY
 image: dorianmariecom/codedorian.com
 proxy:
-  app_port: 3000
   ssl: true
 registry:
   password:
