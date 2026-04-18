@@ -8,7 +8,7 @@ class ProgramPolicy < ApplicationPolicy
   end
 
   def index?
-    admin? && advanced?
+    admin? || advanced?
   end
 
   def show?
@@ -16,7 +16,10 @@ class ProgramPolicy < ApplicationPolicy
   end
 
   def create?
-    admin? && advanced?
+    return false unless advanced?
+    return true if admin?
+
+    current_user? && (!user? || owner?)
   end
 
   def update?
@@ -44,18 +47,18 @@ class ProgramPolicy < ApplicationPolicy
   end
 
   def schedule_all?
-    admin? && advanced?
+    admin? || advanced?
   end
 
   def format_all?
-    admin? && advanced?
+    admin? || advanced?
   end
 
   def unschedule_all?
-    admin? && advanced?
+    admin? || advanced?
   end
 
   def destroy_all?
-    admin? && advanced?
+    admin? || advanced?
   end
 end

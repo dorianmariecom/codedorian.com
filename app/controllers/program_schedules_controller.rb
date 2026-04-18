@@ -34,7 +34,16 @@ class ProgramSchedulesController < ApplicationController
   end
 
   def create
-    @program_schedule = authorize(scope.new(program_schedule_params))
+    @program_schedule =
+      authorize(
+        scope.new(
+          if @program.present?
+            program_schedule_params.except(:program_id).merge(program: @program)
+          else
+            program_schedule_params
+          end
+        )
+      )
 
     if @program_schedule.save(context: :controller)
       log_in(@program_schedule.user)
@@ -186,6 +195,10 @@ class ProgramSchedulesController < ApplicationController
   end
 
   def program_schedule_params
-    params.expect(program_schedule: %i[starts_at interval])
+    if admin?
+      params.expect(program_schedule: %i[program_id starts_at interval])
+    else
+      params.expect(program_schedule: %i[program_id starts_at interval])
+    end
   end
 end

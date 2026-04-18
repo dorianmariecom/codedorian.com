@@ -34,7 +34,16 @@ class ProgramExecutionsController < ApplicationController
   end
 
   def create
-    @program_execution = authorize(scope.new(program_execution_params))
+    @program_execution =
+      authorize(
+        scope.new(
+          if @program.present?
+            program_execution_params.except(:program_id).merge(program: @program)
+          else
+            program_execution_params
+          end
+        )
+      )
 
     if @program_execution.save(context: :controller)
       log_in(@program_execution.user)
@@ -206,7 +215,14 @@ class ProgramExecutionsController < ApplicationController
       )
     else
       params.expect(
-        program_execution: %i[input output result error error_class]
+        program_execution: %i[
+          program_id
+          input
+          output
+          result
+          error
+          error_class
+        ]
       )
     end
   end

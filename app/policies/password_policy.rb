@@ -8,7 +8,7 @@ class PasswordPolicy < ApplicationPolicy
   end
 
   def index?
-    admin? && advanced?
+    (admin? || current_user?) && advanced?
   end
 
   def check?
@@ -20,7 +20,10 @@ class PasswordPolicy < ApplicationPolicy
   end
 
   def create?
-    admin? && advanced?
+    return false unless advanced?
+    return true if admin?
+
+    current_user? && (!user? || owner?)
   end
 
   def update?

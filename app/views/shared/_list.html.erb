@@ -1,6 +1,7 @@
 <% user = local_assigns.fetch(:user) %>
 <% model = local_assigns.fetch(:model) %>
 <% content = local_assigns.fetch(:content, true) %>
+<% create = local_assigns.fetch(:create, true) %>
 <% singular = model.model_singular %>
 <% plural = model.model_plural %>
 <% if can?(:index, model) %>
@@ -16,7 +17,7 @@
     <%= link_to(t(".#{plural}"), [user, plural.to_sym], class: :link) %>
   </div>
 
-  <% if can?(:create, model) %>
+  <% if create && can?(:create, model) %>
     <div class="p">
       <%= link_to(t(".new_#{singular}"), [:new, user, singular.to_sym], class: "button") %>
     </div>

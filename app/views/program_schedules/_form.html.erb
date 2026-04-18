@@ -1,4 +1,21 @@
 <%= form_for(show_url) do |f| %>
+  <% if @program.blank? %>
+    <div class="p">
+      <%= f.label(:program_id, class: :label) %>
+      <%= f.select(
+        :program_id,
+        program_options(program_id: f.object.program_id),
+        {},
+        required: true,
+        class: :input,
+        autocomplete: :off,
+        data: {
+          form_type: :other
+        }
+      ) %>
+    </div>
+  <% end %>
+
   <div class="p">
     <%= f.label(:starts_at, class: :label) %>
     <%= f.datetime_field(

@@ -8,15 +8,17 @@ class DevicePolicy < ApplicationPolicy
   end
 
   def index?
-    admin? && advanced?
+    admin? || current_user?
   end
 
   def show?
-    (admin? || owner?) && advanced?
+    admin? || owner?
   end
 
   def create?
-    admin? && advanced?
+    return true if admin?
+
+    current_user? && (!user? || owner?)
   end
 
   def update?

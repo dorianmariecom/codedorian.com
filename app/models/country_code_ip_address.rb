@@ -23,7 +23,8 @@ class CountryCodeIpAddress < ApplicationRecord
     response = Net::HTTP.get_response(uri)
     json = JSON.parse(response.body)
     country_code = json["country"].presence || PhoneNumber::DEFAULT_COUNTRY_CODE
-    update!(country_code: country_code)
+    self.country_code = country_code
+    save!
   end
 
   def ip_address_sample

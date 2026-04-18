@@ -1,11 +1,12 @@
 <%= form_for(show_url) do |f| %>
-  <% if admin? %>
+  <% if @program.blank? %>
     <div class="p">
       <%= f.label(:program_id, class: :label) %>
       <%= f.select(
         :program_id,
         program_options(program_id: f.object.program_id),
         {},
+        required: true,
         class: :input,
         autocomplete: :off,
         data: {
@@ -13,7 +14,9 @@
         }
       ) %>
     </div>
+  <% end %>
 
+  <% if admin? %>
     <div class="p">
       <%= f.label(:status, class: :label) %>
       <%= f.select(
