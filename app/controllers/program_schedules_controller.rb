@@ -195,10 +195,6 @@ class ProgramSchedulesController < ApplicationController
   end
 
   def program_schedule_params
-    if admin?
-      params.expect(program_schedule: %i[program_id starts_at interval])
-    else
-      params.expect(program_schedule: %i[program_id starts_at interval])
-    end
+    params.expect(program_schedule: %i[program_id starts_at interval])
   end
 end

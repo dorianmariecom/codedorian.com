@@ -85,7 +85,7 @@ module TabsHelper
           title: t("helpers.tabs.messages"),
           image: ios ? "message.fill" : :chat,
           path: polymorphic_path([current_user, :messages]),
-          default: false
+          default: true
         },
         {
           title: t("helpers.tabs.account"),
@@ -97,7 +97,7 @@ module TabsHelper
           title: t("helpers.tabs.form"),
           image: ios ? :checklist : :assignment,
           path: form_path,
-          default: true
+          default: false
         }
       ]
     else

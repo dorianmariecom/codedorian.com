@@ -28,7 +28,10 @@ class ProgramExecutionsControllerTest < ActionDispatch::IntegrationTest
 
     assert_difference("ProgramExecution.count", 1) do
       post(
-        user_program_program_executions_path(@other_user, programs(:other_program)),
+        user_program_program_executions_path(
+          @other_user,
+          programs(:other_program)
+        ),
         params: {
           program_execution: {
             input: "puts('hello')",

@@ -55,6 +55,8 @@ class ProgramsControllerTest < ActionDispatch::IntegrationTest
       )
     end
 
-    assert_redirected_to(user_program_path(@other_user, Program.order(:id).last))
+    assert_redirected_to(
+      user_program_path(@other_user, Program.order(:id).last)
+    )
   end
 end

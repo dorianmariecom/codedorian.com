@@ -38,7 +38,9 @@ class ProgramExecutionsController < ApplicationController
       authorize(
         scope.new(
           if @program.present?
-            program_execution_params.except(:program_id).merge(program: @program)
+            program_execution_params.except(:program_id).merge(
+              program: @program
+            )
           else
             program_execution_params
           end
@@ -215,14 +217,7 @@ class ProgramExecutionsController < ApplicationController
       )
     else
       params.expect(
-        program_execution: %i[
-          program_id
-          input
-          output
-          result
-          error
-          error_class
-        ]
+        program_execution: %i[program_id input output result error error_class]
       )
     end
   end

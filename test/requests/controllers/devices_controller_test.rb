@@ -91,8 +91,14 @@ class DevicesControllerTest < ActionDispatch::IntegrationTest
 
     assert_response(:success)
     assert_select("a[href='#{new_user_device_path(@other_user)}']", count: 0)
-    assert_select("form[action='#{destroy_all_user_devices_path(@other_user)}']", count: 0)
-    assert_select("form[action='#{delete_all_user_devices_path(@other_user)}']", count: 0)
+    assert_select(
+      "form[action='#{destroy_all_user_devices_path(@other_user)}']",
+      count: 0
+    )
+    assert_select(
+      "form[action='#{delete_all_user_devices_path(@other_user)}']",
+      count: 0
+    )
   end
 
   smoke_actions_for "devices"

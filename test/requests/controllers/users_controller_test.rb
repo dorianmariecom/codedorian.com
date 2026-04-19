@@ -45,16 +45,12 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       user_programs_path(@other_user),
       user_program_executions_path(@other_user),
       user_program_schedules_path(@other_user)
-    ].each do |path|
-      assert_select("a[href='#{path}']")
-    end
+    ].each { |path| assert_select("a[href='#{path}']") }
 
     [
       new_user_program_execution_path(@other_user),
       new_user_program_schedule_path(@other_user)
-    ].each do |path|
-      assert_select("a[href='#{path}']")
-    end
+    ].each { |path| assert_select("a[href='#{path}']") }
   end
 
   test "simple non admin user show page lists devices" do
