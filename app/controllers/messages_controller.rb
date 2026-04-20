@@ -12,7 +12,11 @@ class MessagesController < ApplicationController
   def index
     authorize(Message)
 
-    @messages = scope.page(params[:page]).order(created_at: :desc)
+    @messages =
+      scope
+        .includes(:rich_text_subject, :rich_text_body)
+        .page(params[:page])
+        .order(created_at: :desc)
   end
 
   def show
