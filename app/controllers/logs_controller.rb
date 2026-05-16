@@ -128,7 +128,7 @@ class LogsController < ApplicationController
       if params[:guest_id] == "me"
         guests_scope.find(current_guest&.id)
       else
-        guests_scope.find(params[:guest_id])
+        guests_scope.find(params.expect(:guest_id))
       end
 
     set_context(guest: @guest)
@@ -143,7 +143,7 @@ class LogsController < ApplicationController
       if params[:user_id] == "me"
         users_scope.find(current_user&.id)
       else
-        users_scope.find(params[:user_id])
+        users_scope.find(params.expect(:user_id))
       end
 
     set_context(user: @user)
@@ -154,7 +154,7 @@ class LogsController < ApplicationController
   def load_program
     return if params[:program_id].blank?
 
-    @program = programs_scope.find(params[:program_id])
+    @program = programs_scope.find(params.expect(:program_id))
 
     set_context(program: @program)
     add_breadcrumb(key: "programs.index", path: [@user, :programs])
@@ -165,7 +165,7 @@ class LogsController < ApplicationController
     return if params[:program_execution_id].blank?
 
     @program_execution =
-      program_executions_scope.find(params[:program_execution_id])
+      program_executions_scope.find(params.expect(:program_execution_id))
 
     set_context(program_execution: @program_execution)
     add_breadcrumb(
@@ -182,7 +182,7 @@ class LogsController < ApplicationController
     return if params[:program_schedule_id].blank?
 
     @program_schedule =
-      program_schedules_scope.find(params[:program_schedule_id])
+      program_schedules_scope.find(params.expect(:program_schedule_id))
 
     set_context(program_schedule: @program_schedule)
     add_breadcrumb(
@@ -198,7 +198,7 @@ class LogsController < ApplicationController
   def load_job
     return if params[:job_id].blank?
 
-    @job = jobs_scope.find(params[:job_id])
+    @job = jobs_scope.find(params.expect(:job_id))
 
     set_context(job: @job)
     add_breadcrumb(text: @job, path: [*nested, @job].uniq)
@@ -207,7 +207,7 @@ class LogsController < ApplicationController
   def load_job_context
     return if params[:job_context_id].blank?
 
-    @job_context = job_contexts_scope.find(params[:job_context_id])
+    @job_context = job_contexts_scope.find(params.expect(:job_context_id))
 
     set_context(job_context: @job_context)
     add_breadcrumb(text: @job_context, path: [*nested, @job_context].uniq)
@@ -216,7 +216,7 @@ class LogsController < ApplicationController
   def load_job_process
     return if params[:job_process_id].blank?
 
-    @job_process = job_processes_scope.find(params[:job_process_id])
+    @job_process = job_processes_scope.find(params.expect(:job_process_id))
 
     set_context(job_process: @job_process)
     add_breadcrumb(text: @job_process, path: [*nested, @job_process].uniq)
@@ -225,7 +225,7 @@ class LogsController < ApplicationController
   def load_job_pause
     return if params[:job_pause_id].blank?
 
-    @job_pause = job_pauses_scope.find(params[:job_pause_id])
+    @job_pause = job_pauses_scope.find(params.expect(:job_pause_id))
 
     set_context(job_pause: @job_pause)
     add_breadcrumb(text: @job_pause, path: [*nested, @job_pause].uniq)
@@ -234,7 +234,7 @@ class LogsController < ApplicationController
   def load_job_semaphore
     return if params[:job_semaphore_id].blank?
 
-    @job_semaphore = job_semaphores_scope.find(params[:job_semaphore_id])
+    @job_semaphore = job_semaphores_scope.find(params.expect(:job_semaphore_id))
 
     set_context(job_semaphore: @job_semaphore)
     add_breadcrumb(text: @job_semaphore, path: [*nested, @job_semaphore].uniq)
@@ -244,7 +244,7 @@ class LogsController < ApplicationController
     return if params[:job_ready_execution_id].blank?
 
     @job_ready_execution =
-      job_ready_executions_scope.find(params[:job_ready_execution_id])
+      job_ready_executions_scope.find(params.expect(:job_ready_execution_id))
 
     set_context(job_ready_execution: @job_ready_execution)
     add_breadcrumb(
@@ -257,7 +257,7 @@ class LogsController < ApplicationController
     return if params[:job_failed_execution_id].blank?
 
     @job_failed_execution =
-      job_failed_executions_scope.find(params[:job_failed_execution_id])
+      job_failed_executions_scope.find(params.expect(:job_failed_execution_id))
 
     set_context(job_failed_execution: @job_failed_execution)
     add_breadcrumb(
@@ -270,7 +270,9 @@ class LogsController < ApplicationController
     return if params[:job_scheduled_execution_id].blank?
 
     @job_scheduled_execution =
-      job_scheduled_executions_scope.find(params[:job_scheduled_execution_id])
+      job_scheduled_executions_scope.find(
+        params.expect(:job_scheduled_execution_id)
+      )
 
     set_context(job_scheduled_execution: @job_scheduled_execution)
     add_breadcrumb(
@@ -283,7 +285,9 @@ class LogsController < ApplicationController
     return if params[:job_blocked_execution_id].blank?
 
     @job_blocked_execution =
-      job_blocked_executions_scope.find(params[:job_blocked_execution_id])
+      job_blocked_executions_scope.find(
+        params.expect(:job_blocked_execution_id)
+      )
 
     set_context(job_blocked_execution: @job_blocked_execution)
     add_breadcrumb(
@@ -296,7 +300,9 @@ class LogsController < ApplicationController
     return if params[:job_claimed_execution_id].blank?
 
     @job_claimed_execution =
-      job_claimed_executions_scope.find(params[:job_claimed_execution_id])
+      job_claimed_executions_scope.find(
+        params.expect(:job_claimed_execution_id)
+      )
 
     set_context(job_claimed_execution: @job_claimed_execution)
     add_breadcrumb(
@@ -309,7 +315,9 @@ class LogsController < ApplicationController
     return if params[:job_recurring_execution_id].blank?
 
     @job_recurring_execution =
-      job_recurring_executions_scope.find(params[:job_recurring_execution_id])
+      job_recurring_executions_scope.find(
+        params.expect(:job_recurring_execution_id)
+      )
 
     set_context(job_recurring_execution: @job_recurring_execution)
     add_breadcrumb(
@@ -322,7 +330,7 @@ class LogsController < ApplicationController
     return if params[:job_recurring_task_id].blank?
 
     @job_recurring_task =
-      job_recurring_tasks_scope.find(params[:job_recurring_task_id])
+      job_recurring_tasks_scope.find(params.expect(:job_recurring_task_id))
 
     set_context(job_recurring_task: @job_recurring_task)
     add_breadcrumb(
@@ -334,7 +342,7 @@ class LogsController < ApplicationController
   def load_error
     return if params[:error_id].blank?
 
-    @error = errors_scope.find(params[:error_id])
+    @error = errors_scope.find(params.expect(:error_id))
 
     set_context(error: @error)
     add_breadcrumb(text: @error, path: [*nested, @error].uniq)
@@ -344,7 +352,7 @@ class LogsController < ApplicationController
     return if params[:error_occurrence_id].blank?
 
     @error_occurrence =
-      error_occurrences_scope.find(params[:error_occurrence_id])
+      error_occurrences_scope.find(params.expect(:error_occurrence_id))
 
     set_context(error_occurrence: @error_occurrence)
     add_breadcrumb(
@@ -356,7 +364,7 @@ class LogsController < ApplicationController
   def load_address
     return if params[:address_id].blank?
 
-    @address = addresses_scope.find(params[:address_id])
+    @address = addresses_scope.find(params.expect(:address_id))
 
     set_context(address: @address)
     add_breadcrumb(text: @address, path: [*nested, @address].uniq)
@@ -366,7 +374,7 @@ class LogsController < ApplicationController
     return if params[:configuration_id].blank?
 
     @configuration =
-      configurations_scope.find_by!(name: params[:configuration_id])
+      configurations_scope.find_by!(name: params.expect(:configuration_id))
 
     set_context(configuration: @configuration)
     add_breadcrumb(text: @configuration, path: [*nested, @configuration].uniq)
@@ -376,7 +384,9 @@ class LogsController < ApplicationController
     return if params[:country_code_ip_address_id].blank?
 
     @country_code_ip_address =
-      country_code_ip_addresses_scope.find(params[:country_code_ip_address_id])
+      country_code_ip_addresses_scope.find(
+        params.expect(:country_code_ip_address_id)
+      )
 
     set_context(country_code_ip_address: @country_code_ip_address)
     add_breadcrumb(
@@ -388,7 +398,7 @@ class LogsController < ApplicationController
   def load_datum
     return if params[:datum_id].blank?
 
-    @datum = data_scope.find(params[:datum_id])
+    @datum = data_scope.find(params.expect(:datum_id))
 
     set_context(datum: @datum)
     add_breadcrumb(text: @datum, path: [*nested, @datum].uniq)
@@ -397,7 +407,7 @@ class LogsController < ApplicationController
   def load_device
     return if params[:device_id].blank?
 
-    @device = devices_scope.find(params[:device_id])
+    @device = devices_scope.find(params.expect(:device_id))
 
     set_context(device: @device)
     add_breadcrumb(text: @device, path: [*nested, @device].uniq)
@@ -406,7 +416,8 @@ class LogsController < ApplicationController
   def load_email_address
     return if params[:email_address_id].blank?
 
-    @email_address = email_addresses_scope.find(params[:email_address_id])
+    @email_address =
+      email_addresses_scope.find(params.expect(:email_address_id))
 
     set_context(email_address: @email_address)
     add_breadcrumb(text: @email_address, path: [*nested, @email_address].uniq)
@@ -415,7 +426,7 @@ class LogsController < ApplicationController
   def load_example
     return if params[:example_id].blank?
 
-    @example = examples_scope.find(params[:example_id])
+    @example = examples_scope.find(params.expect(:example_id))
 
     set_context(example: @example)
     add_breadcrumb(text: @example, path: [*nested, @example].uniq)
@@ -425,7 +436,7 @@ class LogsController < ApplicationController
     return if params[:example_schedule_id].blank?
 
     @example_schedule =
-      example_schedules_scope.find(params[:example_schedule_id])
+      example_schedules_scope.find(params.expect(:example_schedule_id))
 
     set_context(example_schedule: @example_schedule)
     add_breadcrumb(
@@ -437,7 +448,8 @@ class LogsController < ApplicationController
   def load_form_delivery
     return if params[:form_delivery_id].blank?
 
-    @form_delivery = form_deliveries_scope.find(params[:form_delivery_id])
+    @form_delivery =
+      form_deliveries_scope.find(params.expect(:form_delivery_id))
 
     set_context(form_delivery: @form_delivery)
     add_breadcrumb(text: @form_delivery, path: [*nested, @form_delivery].uniq)
@@ -446,7 +458,7 @@ class LogsController < ApplicationController
   def load_form_program
     return if params[:form_program_id].blank?
 
-    @form_program = form_programs_scope.find(params[:form_program_id])
+    @form_program = form_programs_scope.find(params.expect(:form_program_id))
 
     set_context(form_program: @form_program)
     add_breadcrumb(text: @form_program, path: [*nested, @form_program].uniq)
@@ -455,7 +467,7 @@ class LogsController < ApplicationController
   def load_form_schedule
     return if params[:form_schedule_id].blank?
 
-    @form_schedule = form_schedules_scope.find(params[:form_schedule_id])
+    @form_schedule = form_schedules_scope.find(params.expect(:form_schedule_id))
 
     set_context(form_schedule: @form_schedule)
     add_breadcrumb(text: @form_schedule, path: [*nested, @form_schedule].uniq)
@@ -464,7 +476,7 @@ class LogsController < ApplicationController
   def load_submission
     return if params[:submission_id].blank?
 
-    @submission = submissions_scope.find(params[:submission_id])
+    @submission = submissions_scope.find(params.expect(:submission_id))
 
     set_context(submission: @submission)
     add_breadcrumb(text: @submission, path: [*nested, @submission].uniq)
@@ -474,7 +486,7 @@ class LogsController < ApplicationController
     return if params[:submission_section_id].blank?
 
     @submission_section =
-      submission_sections_scope.find(params[:submission_section_id])
+      submission_sections_scope.find(params.expect(:submission_section_id))
 
     set_context(submission_section: @submission_section)
     add_breadcrumb(
@@ -487,7 +499,7 @@ class LogsController < ApplicationController
     return if params[:submission_program_id].blank?
 
     @submission_program =
-      submission_programs_scope.find(params[:submission_program_id])
+      submission_programs_scope.find(params.expect(:submission_program_id))
 
     set_context(submission_program: @submission_program)
     add_breadcrumb(
@@ -500,7 +512,7 @@ class LogsController < ApplicationController
     return if params[:submission_schedule_id].blank?
 
     @submission_schedule =
-      submission_schedules_scope.find(params[:submission_schedule_id])
+      submission_schedules_scope.find(params.expect(:submission_schedule_id))
 
     set_context(submission_schedule: @submission_schedule)
     add_breadcrumb(
@@ -513,7 +525,7 @@ class LogsController < ApplicationController
     return if params[:submission_delivery_id].blank?
 
     @submission_delivery =
-      submission_deliveries_scope.find(params[:submission_delivery_id])
+      submission_deliveries_scope.find(params.expect(:submission_delivery_id))
 
     set_context(submission_delivery: @submission_delivery)
     add_breadcrumb(
@@ -525,7 +537,7 @@ class LogsController < ApplicationController
   def load_handle
     return if params[:handle_id].blank?
 
-    @handle = handles_scope.find(params[:handle_id])
+    @handle = handles_scope.find(params.expect(:handle_id))
 
     set_context(handle: @handle)
     add_breadcrumb(text: @handle, path: [*nested, @handle].uniq)
@@ -534,7 +546,7 @@ class LogsController < ApplicationController
   def load_message
     return if params[:message_id].blank?
 
-    @message = messages_scope.find(params[:message_id])
+    @message = messages_scope.find(params.expect(:message_id))
 
     set_context(message: @message)
     add_breadcrumb(text: @message, path: [*nested, @message].uniq)
@@ -543,7 +555,7 @@ class LogsController < ApplicationController
   def load_name
     return if params[:name_id].blank?
 
-    @name = names_scope.find(params[:name_id])
+    @name = names_scope.find(params.expect(:name_id))
 
     set_context(name: @name)
     add_breadcrumb(text: @name, path: [*nested, @name].uniq)
@@ -552,7 +564,7 @@ class LogsController < ApplicationController
   def load_password
     return if params[:password_id].blank?
 
-    @password = passwords_scope.find(params[:password_id])
+    @password = passwords_scope.find(params.expect(:password_id))
 
     set_context(password: @password)
     add_breadcrumb(text: @password, path: [*nested, @password].uniq)
@@ -561,7 +573,7 @@ class LogsController < ApplicationController
   def load_phone_number
     return if params[:phone_number_id].blank?
 
-    @phone_number = phone_numbers_scope.find(params[:phone_number_id])
+    @phone_number = phone_numbers_scope.find(params.expect(:phone_number_id))
 
     set_context(phone_number: @phone_number)
     add_breadcrumb(text: @phone_number, path: [*nested, @phone_number].uniq)
@@ -570,7 +582,7 @@ class LogsController < ApplicationController
   def load_session
     return if params[:session_id].blank?
 
-    @session = sessions_scope.find(params[:session_id])
+    @session = sessions_scope.find(params.expect(:session_id))
 
     set_context(session: @session)
     add_breadcrumb(text: @session, path: [*nested, @session].uniq)
@@ -579,7 +591,7 @@ class LogsController < ApplicationController
   def load_time_zone
     return if params[:time_zone_id].blank?
 
-    @time_zone = time_zones_scope.find(params[:time_zone_id])
+    @time_zone = time_zones_scope.find(params.expect(:time_zone_id))
 
     set_context(time_zone: @time_zone)
     add_breadcrumb(text: @time_zone, path: [*nested, @time_zone].uniq)
@@ -588,7 +600,7 @@ class LogsController < ApplicationController
   def load_token
     return if params[:token_id].blank?
 
-    @token = tokens_scope.find(params[:token_id])
+    @token = tokens_scope.find(params.expect(:token_id))
 
     set_context(token: @token)
     add_breadcrumb(text: @token, path: [*nested, @token].uniq)

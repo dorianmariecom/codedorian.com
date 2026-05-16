@@ -27,6 +27,10 @@ class ProgramExecution < ApplicationRecord
 
   def self.search_fields
     {
+      status: {
+        node: -> { arel_table[:status] },
+        type: :string
+      },
       input: {
         node: -> { arel_table[:input] },
         type: :string

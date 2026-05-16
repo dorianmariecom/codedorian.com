@@ -282,7 +282,7 @@ class ApplicationController < ActionController::Base
   end
 
   def locale_param
-    params[:locale].presence_in(LOCALES_STRINGS)
+    params.fetch(:locale, nil).presence_in(LOCALES_STRINGS)
   end
 
   def default_url_options

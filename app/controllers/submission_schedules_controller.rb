@@ -91,7 +91,7 @@ class SubmissionSchedulesController < ApplicationController
   def load_submission
     return if params[:submission_id].blank?
 
-    @submission = submissions_scope.find(params[:submission_id])
+    @submission = submissions_scope.find(params.expect(:submission_id))
 
     set_context(submission: @submission)
     add_breadcrumb(key: "submissions.index", path: :submissions)
@@ -102,7 +102,7 @@ class SubmissionSchedulesController < ApplicationController
     return if params[:submission_section_id].blank?
 
     @submission_section =
-      submission_sections_scope.find(params[:submission_section_id])
+      submission_sections_scope.find(params.expect(:submission_section_id))
 
     set_context(submission_section: @submission_section)
     add_breadcrumb(

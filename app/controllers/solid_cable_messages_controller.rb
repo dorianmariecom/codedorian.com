@@ -96,7 +96,7 @@ class SolidCableMessagesController < ApplicationController
       if params[:guest_id] == "me"
         policy_scope(Guest).find(current_guest&.id)
       else
-        policy_scope(Guest).find(params[:guest_id])
+        policy_scope(Guest).find(params.expect(:guest_id))
       end
 
     set_context(guest: @guest)
@@ -111,7 +111,7 @@ class SolidCableMessagesController < ApplicationController
       if params[:user_id] == "me"
         policy_scope(User).find(current_user&.id)
       else
-        policy_scope(User).find(params[:user_id])
+        policy_scope(User).find(params.expect(:user_id))
       end
 
     set_context(user: @user)

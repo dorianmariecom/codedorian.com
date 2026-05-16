@@ -146,7 +146,7 @@ class JobsController < ApplicationController
       if params[:guest_id] == "me"
         policy_scope(Guest).find(current_guest&.id)
       else
-        policy_scope(Guest).find(params[:guest_id])
+        policy_scope(Guest).find(params.expect(:guest_id))
       end
 
     set_context(guest: @guest)
@@ -161,7 +161,7 @@ class JobsController < ApplicationController
       if params[:user_id] == "me"
         policy_scope(User).find(current_user&.id)
       else
-        policy_scope(User).find(params[:user_id])
+        policy_scope(User).find(params.expect(:user_id))
       end
 
     set_context(user: @user)
@@ -172,7 +172,7 @@ class JobsController < ApplicationController
   def load_program
     return if params[:program_id].blank?
 
-    @program = programs_scope.find(params[:program_id])
+    @program = programs_scope.find(params.expect(:program_id))
 
     set_context(program: @program)
     add_breadcrumb(key: "programs.index", path: [@user, :programs])

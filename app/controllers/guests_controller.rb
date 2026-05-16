@@ -93,7 +93,7 @@ class GuestsController < ApplicationController
       if params[:id] == "me" || params[:guest_id] == "me"
         authorize(scope.find(current_guest&.id))
       else
-        authorize(scope.find(params[:guest_id].presence || params[:id]))
+        authorize(scope.find(params.fetch(:guest_id, nil).presence || params[:id]))
       end
 
     set_context(guest: @guest)

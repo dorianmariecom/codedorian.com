@@ -93,7 +93,7 @@ class ExampleSchedulesController < ApplicationController
   def load_example
     return if params[:example_id].blank?
 
-    @example = examples_scope.find(params[:example_id])
+    @example = examples_scope.find(params.expect(:example_id))
 
     set_context(example: @example)
     add_breadcrumb(key: "examples.index", path: [@user, :examples])

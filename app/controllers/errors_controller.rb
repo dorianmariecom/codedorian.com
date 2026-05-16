@@ -171,7 +171,7 @@ class ErrorsController < ApplicationController
       if params[:user_id] == "me"
         policy_scope(User).find(current_user&.id)
       else
-        policy_scope(User).find(params[:user_id])
+        policy_scope(User).find(params.expect(:user_id))
       end
 
     set_context(user: @user)
@@ -186,7 +186,7 @@ class ErrorsController < ApplicationController
       if params[:guest_id] == "me"
         policy_scope(Guest).find(current_guest&.id)
       else
-        policy_scope(Guest).find(params[:guest_id])
+        policy_scope(Guest).find(params.expect(:guest_id))
       end
 
     set_context(guest: @guest)
@@ -466,7 +466,7 @@ class ErrorsController < ApplicationController
   def load_program
     return if params[:program_id].blank?
 
-    @program = programs_scope.find(params[:program_id])
+    @program = programs_scope.find(params.expect(:program_id))
 
     set_context(program: @program)
     add_breadcrumb(key: "programs.index", path: [@user, :programs])
@@ -477,7 +477,7 @@ class ErrorsController < ApplicationController
     return if params[:program_schedule_id].blank?
 
     @program_schedule =
-      program_schedules_scope.find(params[:program_schedule_id])
+      program_schedules_scope.find(params.expect(:program_schedule_id))
 
     set_context(program_schedule: @program_schedule)
     add_breadcrumb(
@@ -493,7 +493,7 @@ class ErrorsController < ApplicationController
   def load_address
     return if params[:address_id].blank?
 
-    @address = addresses_scope.find(params[:address_id])
+    @address = addresses_scope.find(params.expect(:address_id))
 
     set_context(address: @address)
     add_breadcrumb(key: "addresses.index", path: [@user, :addresses])
@@ -503,7 +503,7 @@ class ErrorsController < ApplicationController
   def load_datum
     return if params[:datum_id].blank?
 
-    @datum = data_scope.find(params[:datum_id])
+    @datum = data_scope.find(params.expect(:datum_id))
 
     set_context(datum: @datum)
     add_breadcrumb(key: "data.index", path: [@user, :data])
@@ -513,7 +513,7 @@ class ErrorsController < ApplicationController
   def load_device
     return if params[:device_id].blank?
 
-    @device = devices_scope.find(params[:device_id])
+    @device = devices_scope.find(params.expect(:device_id))
 
     set_context(device: @device)
     add_breadcrumb(key: "devices.index", path: [@user, :devices])
@@ -523,7 +523,8 @@ class ErrorsController < ApplicationController
   def load_email_address
     return if params[:email_address_id].blank?
 
-    @email_address = email_addresses_scope.find(params[:email_address_id])
+    @email_address =
+      email_addresses_scope.find(params.expect(:email_address_id))
 
     set_context(email_address: @email_address)
     add_breadcrumb(
@@ -536,7 +537,7 @@ class ErrorsController < ApplicationController
   def load_handle
     return if params[:handle_id].blank?
 
-    @handle = handles_scope.find(params[:handle_id])
+    @handle = handles_scope.find(params.expect(:handle_id))
 
     set_context(handle: @handle)
     add_breadcrumb(key: "handles.index", path: [@user, :handles])
@@ -546,7 +547,7 @@ class ErrorsController < ApplicationController
   def load_message
     return if params[:message_id].blank?
 
-    @message = messages_scope.find(params[:message_id])
+    @message = messages_scope.find(params.expect(:message_id))
 
     set_context(message: @message)
     add_breadcrumb(key: "messages.index", path: [@user, :messages])
@@ -556,7 +557,7 @@ class ErrorsController < ApplicationController
   def load_name
     return if params[:name_id].blank?
 
-    @name = names_scope.find(params[:name_id])
+    @name = names_scope.find(params.expect(:name_id))
 
     set_context(name: @name)
     add_breadcrumb(key: "names.index", path: [@user, :names])
@@ -566,7 +567,7 @@ class ErrorsController < ApplicationController
   def load_phone_number
     return if params[:phone_number_id].blank?
 
-    @phone_number = phone_numbers_scope.find(params[:phone_number_id])
+    @phone_number = phone_numbers_scope.find(params.expect(:phone_number_id))
 
     set_context(phone_number: @phone_number)
     add_breadcrumb(key: "phone_numbers.index", path: [@user, :phone_numbers])
@@ -576,7 +577,7 @@ class ErrorsController < ApplicationController
   def load_time_zone
     return if params[:time_zone_id].blank?
 
-    @time_zone = time_zones_scope.find(params[:time_zone_id])
+    @time_zone = time_zones_scope.find(params.expect(:time_zone_id))
 
     set_context(time_zone: @time_zone)
     add_breadcrumb(key: "time_zones.index", path: [@user, :time_zones])
@@ -586,7 +587,7 @@ class ErrorsController < ApplicationController
   def load_token
     return if params[:token_id].blank?
 
-    @token = tokens_scope.find(params[:token_id])
+    @token = tokens_scope.find(params.expect(:token_id))
 
     set_context(token: @token)
     add_breadcrumb(key: "tokens.index", path: [@user, :tokens])
