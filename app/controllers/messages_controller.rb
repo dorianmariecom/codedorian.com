@@ -12,7 +12,7 @@ class MessagesController < ApplicationController
   def index
     authorize(Message)
 
-    @messages = scope.page(params[:page]).order(created_at: :desc)
+    @messages = scope.with_all_rich_text.page(params[:page]).order(created_at: :desc)
   end
 
   def show
