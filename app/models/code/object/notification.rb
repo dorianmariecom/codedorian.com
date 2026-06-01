@@ -3,6 +3,44 @@
 class Code
   class Object
     class Notification < Dictionary
+      CLASS_DOCUMENTATION = {
+        name: "Notification",
+        description: "sends push notifications through iOS or Android.",
+        examples: [
+          'Notification.create(subject: "Hello", body: "world")',
+          'Notification.create!(subject: "Update", body: "sync complete")',
+          'Notification.create(path: "/inbox", sound: "default")'
+        ]
+      }.freeze
+      CLASS_FUNCTIONS = {
+        "create" => {
+          name: "create",
+          description: "sends a non-raising notification and returns true/false.",
+          examples: [
+            'Notification.create(subject: "Hello", body: "world")',
+            'Notification.create(path: "/inbox")',
+            'Notification.create()'
+          ]
+        },
+        "create!" => {
+          name: "create!",
+          description: "sends a notification and raises on failure.",
+          examples: [
+            'Notification.create!(subject: "Hello", body: "world")',
+            'Notification.create!(path: "/inbox", thread_id: "app")',
+            'Notification.create!(subject: "Update")'
+          ]
+        }
+      }.freeze
+
+      def self.function_documentation(scope)
+        case scope
+        when :class then CLASS_FUNCTIONS
+        else
+          {}
+        end
+      end
+
       def self.call(**args)
         code_operator = args.fetch(:operator, nil).to_code
         code_arguments = args.fetch(:arguments, []).to_code

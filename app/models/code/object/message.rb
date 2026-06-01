@@ -3,6 +3,44 @@
 class Code
   class Object
     class Message < Dictionary
+      CLASS_DOCUMENTATION = {
+        name: "Message",
+        description: "creates and reads direct user messages.",
+        examples: [
+          'Message.create(from: Current.user, to: User.find("admin"), subject: "hello", body: "...")',
+          "Message.create!",
+          "Message.create(subject: \"\")"
+        ]
+      }.freeze
+      CLASS_FUNCTIONS = {
+        "create" => {
+          name: "create",
+          description: "creates a message and returns it.",
+          examples: [
+            'Message.create(from: Current.user, to: User.find("admin"))',
+            'Message.create(subject: "hello", body: "world")',
+            'Message.create()'
+          ]
+        },
+        "create!" => {
+          name: "create!",
+          description: "creates a message and raises when validation fails.",
+          examples: [
+            'Message.create!(from: Current.user, to: User.find("admin"))',
+            'Message.create!(subject: "hello", body: "world")',
+            'Message.create!()'
+          ]
+        }
+      }.freeze
+
+      def self.function_documentation(scope)
+        case scope
+        when :class then CLASS_FUNCTIONS
+        else
+          {}
+        end
+      end
+
       def self.call(**args)
         code_operator = args.fetch(:operator, nil).to_code
         code_arguments = args.fetch(:arguments, []).to_code
