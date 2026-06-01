@@ -6,45 +6,51 @@ class Code
       CLASS_DOCUMENTATION = {
         name: "Schedule",
         description: "finds and inspects schedules in code.",
-        examples: [
-          'Schedule.find(123)',
-          'Schedule.intervals',
-          'Schedule.find!("7f8...").id'
+        examples: %w[
+          Schedule.find(123)
+          Schedule.intervals
+          Schedule.find!("7f8...").id
         ]
       }.freeze
       CLASS_FUNCTIONS = {
         "find" => {
           name: "find",
           description: "returns a schedule by id.",
-          examples: [
-            'Schedule.find(123)',
-            'Schedule.find!(123)',
-            'Schedule.find("missing")'
+          examples: %w[
+            Schedule.find(123)
+            Schedule.find!(123)
+            Schedule.find("missing")
           ]
         },
         "find!" => {
           name: "find!",
           description: "returns a schedule by id or raises when not found.",
-          examples: ['Schedule.find!(123)', 'Schedule.find!("abc")']
+          examples: %w[Schedule.find!(123) Schedule.find!("abc")]
         },
         "intervals" => {
           name: "intervals",
           description: "returns the available schedule intervals.",
-          examples: ['Schedule.intervals', 'Schedule.intervals.keys', 'Schedule.intervals[:daily]']
+          examples: [
+            "Schedule.intervals",
+            "Schedule.intervals.keys",
+            "Schedule.intervals[:daily]"
+          ]
         }
       }.freeze
       INSTANCE_FUNCTIONS = {
         "id" => {
           name: "id",
           description: "returns the schedule id as an integer.",
-          examples: ['Schedule.find!(123).id', 'Schedule.find!(123).intervals']
+          examples: %w[Schedule.find!(123).id Schedule.find!(123).intervals]
         }
       }.freeze
 
       def self.function_documentation(scope)
         case scope
-        when :instance then INSTANCE_FUNCTIONS
-        when :class then CLASS_FUNCTIONS
+        when :instance
+          INSTANCE_FUNCTIONS
+        when :class
+          CLASS_FUNCTIONS
         else
           {}
         end

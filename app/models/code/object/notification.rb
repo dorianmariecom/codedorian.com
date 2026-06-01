@@ -15,11 +15,12 @@ class Code
       CLASS_FUNCTIONS = {
         "create" => {
           name: "create",
-          description: "sends a non-raising notification and returns true/false.",
+          description:
+            "sends a non-raising notification and returns true/false.",
           examples: [
             'Notification.create(subject: "Hello", body: "world")',
             'Notification.create(path: "/inbox")',
-            'Notification.create()'
+            "Notification.create()"
           ]
         },
         "create!" => {
@@ -35,7 +36,8 @@ class Code
 
       def self.function_documentation(scope)
         case scope
-        when :class then CLASS_FUNCTIONS
+        when :class
+          CLASS_FUNCTIONS
         else
           {}
         end

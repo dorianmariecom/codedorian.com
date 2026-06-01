@@ -6,49 +6,54 @@ class Code
       INSTANCE_FUNCTIONS = {
         "user" => {
           name: "user",
-          description: "returns the current signed-in user as a Code user object, or nothing.",
-          examples: ["Current.user", "Current.user.id", "Current.user.programs.first.id"]
+          description:
+            "returns the current signed-in user as a Code user object, or nothing.",
+          examples: %w[
+            Current.user
+            Current.user.id
+            Current.user.programs.first.id
+          ]
         },
         "user!" => {
           name: "user!",
-          description: "returns the current user and raises when not signed in.",
-          examples: ["Current.user!", "Current.user!.id"]
+          description:
+            "returns the current user and raises when not signed in.",
+          examples: %w[Current.user! Current.user!.id]
         },
         "programs" => {
           name: "programs",
           description: "returns programs for the current user.",
-          examples: ["Current.programs", "Current.programs.size"]
+          examples: %w[Current.programs Current.programs.size]
         },
         "locale" => {
           name: "locale",
           description: "returns the current locale.",
-          examples: ["Current.locale", 'Current.locale == :fr']
+          examples: ["Current.locale", "Current.locale == :fr"]
         },
         "locale=" => {
           name: "locale=",
           description: "sets the current locale for the current context.",
-          examples: ['Current.locale = "fr"', 'Current.locale = :en']
+          examples: ['Current.locale = "fr"', "Current.locale = :en"]
         },
         "time_zone" => {
           name: "time_zone",
           description: "returns the current time zone.",
-          examples: ["Current.time_zone", "Current.time_zone.offset"]
+          examples: %w[Current.time_zone Current.time_zone.offset]
         },
         "time_zone=" => {
           name: "time_zone=",
           description: "sets the current time zone for the current context.",
-          examples: ['Current.time_zone = "UTC"', 'Current.time_zone = "Europe/Paris"']
+          examples: [
+            'Current.time_zone = "UTC"',
+            'Current.time_zone = "Europe/Paris"'
+          ]
         }
       }.freeze
 
       CLASS_DOCUMENTATION = {
         name: "Current",
         description: "reads and updates execution context values in code.",
-        examples: [
-          "Current.user",
-          'Current.locale = "fr"',
-          "Current.time_zone"
-        ]
+        examples: ["Current.user", 'Current.locale = "fr"', "Current.time_zone"]
       }.freeze
 
       def self.function_documentation(scope)

@@ -6,29 +6,29 @@ class Code
       CLASS_DOCUMENTATION = {
         name: "Program",
         description: "finds and inspects programs in code.",
-        examples: [
-          'Program.find("welcome")',
-          'Program.find(123)',
-          'Program.find!("welcome").id'
+        examples: %w[
+          Program.find("welcome")
+          Program.find(123)
+          Program.find!("welcome").id
         ]
       }.freeze
       CLASS_FUNCTIONS = {
         "find" => {
           name: "find",
           description: "returns the first matching program by name or id.",
-          examples: [
-            'Program.find("welcome")',
-            'Program.find(123)',
-            'Program.find("missing")'
+          examples: %w[
+            Program.find("welcome")
+            Program.find(123)
+            Program.find("missing")
           ]
         },
         "find!" => {
           name: "find!",
           description: "returns the matching program or raises when not found.",
-          examples: [
-            'Program.find!("welcome")',
-            'Program.find!(123)',
-            'Program.find!("missing")'
+          examples: %w[
+            Program.find!("welcome")
+            Program.find!(123)
+            Program.find!("missing")
           ]
         }
       }.freeze
@@ -36,14 +36,19 @@ class Code
         "id" => {
           name: "id",
           description: "returns the program id as an integer.",
-          examples: ['Program.find!("welcome").id', 'Current.user.programs.first.id']
+          examples: %w[
+            Program.find!("welcome").id
+            Current.user.programs.first.id
+          ]
         }
       }.freeze
 
       def self.function_documentation(scope)
         case scope
-        when :instance then INSTANCE_FUNCTIONS
-        when :class then CLASS_FUNCTIONS
+        when :instance
+          INSTANCE_FUNCTIONS
+        when :class
+          CLASS_FUNCTIONS
         else
           {}
         end

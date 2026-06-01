@@ -16,38 +16,53 @@ class Code
         "find" => {
           name: "find",
           description: "finds the first datum for a key.",
-          examples: ['Datum.find("theme")', 'Datum.find(:locale)', 'Datum.find(nothing)']
+          examples: %w[
+            Datum.find("theme")
+            Datum.find(:locale)
+            Datum.find(nothing)
+          ]
         },
         "find!" => {
           name: "find!",
-          description: "finds the first datum for a key or raises when missing.",
-          examples: ['Datum.find!("theme")', 'Datum.find!(:locale)', 'Datum.find!("missing")']
+          description:
+            "finds the first datum for a key or raises when missing.",
+          examples: %w[
+            Datum.find!("theme")
+            Datum.find!(:locale)
+            Datum.find!("missing")
+          ]
         },
         "value" => {
           name: "value",
           description: "returns the datum value for a key or nothing.",
-          examples: ['Datum.value("theme")', 'Datum.value("missing")']
+          examples: %w[Datum.value("theme") Datum.value("missing")]
         },
         "value!" => {
           name: "value!",
-          description: "returns the datum value for a key and raises when missing.",
-          examples: ['Datum.value!("theme")', 'Datum.value!(:locale)', 'Datum.value!("missing")']
+          description:
+            "returns the datum value for a key and raises when missing.",
+          examples: %w[
+            Datum.value!("theme")
+            Datum.value!(:locale)
+            Datum.value!("missing")
+          ]
         },
         "create" => {
           name: "create",
           description: "creates a datum for the current user and returns it.",
           examples: [
             'Datum.create(key: "theme", value: "dark")',
-            'Datum.create()',
+            "Datum.create()",
             'Datum.create(key: "theme", value: {})'
           ]
         },
         "create!" => {
           name: "create!",
-          description: "creates a datum for the current user and raises on validation errors.",
+          description:
+            "creates a datum for the current user and raises on validation errors.",
           examples: [
             'Datum.create!(key: "theme", value: "dark")',
-            'Datum.create!()',
+            "Datum.create!()",
             'Datum.create!(code: "x")'
           ]
         }
@@ -55,8 +70,12 @@ class Code
       INSTANCE_FUNCTIONS = {
         "destroy" => {
           name: "destroy",
-          description: "destroys the current datum and returns the deleted value.",
-          examples: ['Datum.find!("theme").destroy', 'Datum.find!("missing").nothing?']
+          description:
+            "destroys the current datum and returns the deleted value.",
+          examples: %w[
+            Datum.find!("theme").destroy
+            Datum.find!("missing").nothing?
+          ]
         },
         "destroy!" => {
           name: "destroy!",
@@ -74,14 +93,19 @@ class Code
         "update!" => {
           name: "update!",
           description: "updates the current datum value and raises on failure.",
-          examples: ['Datum.find!("theme").update!(value: "light")', 'Datum.find!("theme").update!(value: nothing)']
+          examples: [
+            'Datum.find!("theme").update!(value: "light")',
+            'Datum.find!("theme").update!(value: nothing)'
+          ]
         }
       }.freeze
 
       def self.function_documentation(scope)
         case scope
-        when :instance then INSTANCE_FUNCTIONS
-        when :class then CLASS_FUNCTIONS
+        when :instance
+          INSTANCE_FUNCTIONS
+        when :class
+          CLASS_FUNCTIONS
         else
           {}
         end

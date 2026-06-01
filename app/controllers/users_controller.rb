@@ -127,7 +127,9 @@ class UsersController < ApplicationController
       if params[:id] == "me" || params[:user_id] == "me"
         authorize(scope.find(current_user&.id))
       else
-        authorize(scope.find(params.fetch(:user_id, nil).presence || params[:id]))
+        authorize(
+          scope.find(params.fetch(:user_id, nil).presence || params[:id])
+        )
       end
 
     set_context(user: @user)

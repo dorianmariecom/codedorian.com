@@ -19,7 +19,7 @@ class Code
           examples: [
             'Message.create(from: Current.user, to: User.find("admin"))',
             'Message.create(subject: "hello", body: "world")',
-            'Message.create()'
+            "Message.create()"
           ]
         },
         "create!" => {
@@ -28,14 +28,15 @@ class Code
           examples: [
             'Message.create!(from: Current.user, to: User.find("admin"))',
             'Message.create!(subject: "hello", body: "world")',
-            'Message.create!()'
+            "Message.create!()"
           ]
         }
       }.freeze
 
       def self.function_documentation(scope)
         case scope
-        when :class then CLASS_FUNCTIONS
+        when :class
+          CLASS_FUNCTIONS
         else
           {}
         end

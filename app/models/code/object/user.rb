@@ -6,36 +6,42 @@ class Code
       CLASS_DOCUMENTATION = {
         name: "User",
         description: "accesses users by id or handle from code.",
-        examples: [
-          'User.find("darian")',
-          'User.find("123")',
-          'User.find!("darian").id'
+        examples: %w[
+          User.find("darian")
+          User.find("123")
+          User.find!("darian").id
         ]
       }.freeze
       CLASS_FUNCTIONS = {
         "find" => {
           name: "find",
           description: "returns the first matching user by handle or id.",
-          examples: ['User.find("darian")', 'User.find("123")', 'User.find(nothing)']
+          examples: %w[User.find("darian") User.find("123") User.find(nothing)]
         },
         "find!" => {
           name: "find!",
           description: "returns the matching user or raises when not found.",
-          examples: ['User.find!("darian")', 'User.find!("123")', 'User.find!(nothing)']
+          examples: %w[
+            User.find!("darian")
+            User.find!("123")
+            User.find!(nothing)
+          ]
         }
       }.freeze
       INSTANCE_FUNCTIONS = {
         "id" => {
           name: "id",
           description: "returns the user id as an integer.",
-          examples: ["Current.user.id", 'User.find!("dorian").id']
+          examples: %w[Current.user.id User.find!("dorian").id]
         }
       }.freeze
 
       def self.function_documentation(scope)
         case scope
-        when :instance then INSTANCE_FUNCTIONS
-        when :class then CLASS_FUNCTIONS
+        when :instance
+          INSTANCE_FUNCTIONS
+        when :class
+          CLASS_FUNCTIONS
         else
           {}
         end
