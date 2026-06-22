@@ -463,14 +463,6 @@ fr:
       edit: modifier
       index: entrées solid cache
       new: nouvelle
-    static:
-      about: à propos
-      admin: admin
-      download: télécharger
-      home: accueil
-      privacy: politique de confidentialité
-      terms: termes et conditions
-      up: fonctionne
     submission_deliveries:
       edit: modifier
       index: livraisons de soumission
@@ -2960,175 +2952,6 @@ fr:
       value_base64: valeur base64
     update:
       notice: entrée solid cache modifiée
-  static:
-    about:
-      about_html: |
-        <p>
-          codedorian.com est le projet logiciel et l'infrastructure de
-           <a href="https://dorianmarie.com">dorian marié</a>.
-          c'est l'endroit où je construis, execute et livre des programmes
-          sur mesure pour de vraies personnes.
-        </p>
-        <p>
-          le site est a la fois un produit et un systeme de travail :
-          les utilisateurs peuvent recevoir des programmes, des messages et des mises a jour,
-          et je peux gerer la logique, les plannings et la livraison derriere.
-        </p>
-        <p>
-          aujourd'hui, codedorian.com alimente environ 90 programmes pour environ 30 utilisateurs.
-          ce chiffre compte parce que ce n'est pas une demo ni un site vitrine ;
-          c'est un outil actif utilise pour soutenir de vrais usages et de vrais resultats.
-        </p>
-      description: en savoir plus sur codedorian et le projet de dorian marié.
-      download: télécharger
-      localhost: localhost
-      privacy: politique de confidentialité
-      source_html: |
-        <p>
-          <a href="https://github.com/dorianmariecom/codedorian.com">
-            source de codedorian.com
-          </a>
-        </p>
-        <p>
-          <a href="https://github.com/dorianmariecom/code-ruby">
-            source de code-ruby
-          </a>
-        </p>
-        <p>
-          <a href="https://github.com/dorianmariecom/language-ruby">
-            source de language-ruby
-          </a>
-        </p>
-      terms: termes et conditions
-      title: à propos
-      version: 'version: '
-    admin:
-      addresses: adresses
-      configurations: configurations
-      country_code_ip_addresses: code pays adresse ip
-      data: données
-      description: tableau de bord d'administration codedorian.
-      devices: appareils
-      email_addresses: adresses e-mail
-      error_occurrences: occurences d'erreur
-      errors: erreurs
-      example_schedules: horaires d'exemples
-      examples: exemples
-      feedbacks: retours
-      form_deliveries: livraisons de formulaire
-      form_programs: programmes de formulaire
-      form_schedules: horaires de formulaire
-      guests: invités
-      handles: identifiants
-      job_blocked_executions: exécutions de tâches bloquées
-      job_claimed_executions: exécutions de tâches revendiquées
-      job_contexts: contextes de tâches
-      job_failed_executions: exécutions de tâches échouées
-      job_pauses: pauses de tâches
-      job_processes: processus de tâches
-      job_ready_executions: exécutions de tâches prêtes
-      job_recurring_executions: exécutions récurrentes de tâches
-      job_recurring_tasks: tâches récurrentes
-      job_scheduled_executions: exécutions de tâches programmées
-      job_semaphores: sémaphores de tâches
-      jobs: tâches
-      logs: logs
-      messages: messages
-      names: noms
-      passwords: mots de passe
-      phone_numbers: numéros de téléphone
-      program_executions: exécutions de programmes
-      program_schedules: horaires de programmes
-      programs: programmes
-      sessions: sessions
-      solid_cable_messages: messages solid cable
-      solid_cache_entries: entrées solid cache
-      submission_deliveries: livraisons de soumission
-      submission_programs: programmes de soumission
-      submission_schedules: horaires de soumission
-      submission_sections: sections de soumission
-      submissions: soumissions
-      time_zones: fuseaux horaires
-      title: admin
-      tokens: jetons
-      users: utilisateurs
-      versions: versions
-    download:
-      description: télécharger l'application codedorian pour ios et android.
-      title: télécharger
-    home:
-      account: compte
-      description: programmer des messages, notifications et programmes avec code.
-      form: formulaire
-      log_in: se connecter
-      messages: messages
-      programs: programmes
-      quotes:
-      - author: dorian
-        content: très utile pour automatiser
-      - author: mamie
-        content: |
-          ça me va très bien
-          ça me renseigne bien sur le programme
-      - author: marie-odile
-        content: |
-          ça me plaît beaucoup même énormément
-          les phrases sont jolies, apaisantes et positives
-      - author: vincent
-        content: |
-          code fonctionne très bien au niveau des blagues reddit et google
-          grande facilité d’utilisation
-          une très bonne présentation
-          l’utilisation est simplifiée pour l’utilisateur
-          utilisation intuitive
-          prise en main immédiate et adaptée pour tout type de public
-          facilité d'utilisation optimale.
-      - author: anthony
-        content: |
-          vous voulez programmer des messages
-          reçevoir des notifications sur des thèmees qui vous intéressent
-          cette app est nickel pour ça
-          facile à utiliser
-          tous les programmes sont enregistrés et facilement accessibles
-      - author: maman
-        content: |
-          j’aime beaucoup mes programmes
-          questions / réponses et les journées mondiales qui me renseignent
-          et me donnent l’opportunité de partager ce savoir
-      - author: laurie
-        content: 'le système de notification est top
-
-          '
-      register: s'inscrire
-      title: code
-    privacy:
-      description: consulter la politique de confidentialité de codedorian.
-      privacy_html: |
-        <p>bienvenue sur codedorian.com (« nous », « notre », « nos »). votre vie privée est importante pour nous. cette politique de confidentialité explique comment nous collectons, utilisons et protégeons vos informations lorsque vous utilisez notre site web.</p>
-        <p> nous pouvons collecter des informations personnelles (telles que votre nom, votre adresse e-mail et vos coordonnées) et des informations non personnelles (telles que le type de navigateur et l'adresse ip) lorsque vous utilisez notre site web.</p>
-        <p> nous utilisons vos informations pour fournir, améliorer et personnaliser nos services, communiquer avec vous et assurer la sécurité de notre site web.</p>
-        <p> nous pouvons utiliser des cookies et des technologies de suivi similaires pour améliorer votre expérience. vous pouvez contrôler les paramètres des cookies via votre navigateur.</p>
-        <p> nous pouvons utiliser des services tiers pour l'analyse, le traitement des paiements ou d'autres fonctionnalités. ces tiers ont leurs propres politiques de confidentialité régissant leur utilisation de vos informations.</p>
-        <p> nous prenons des mesures raisonnables pour protéger vos informations personnelles contre tout accès, divulgation ou perte non autorisés.</p>
-        <p> vous avez le droit d'accéder, de mettre à jour ou de demander la suppression de vos informations personnelles. contactez-nous pour obtenir de l'aide.</p>
-        <p> nous pouvons mettre à jour cette politique de confidentialité à tout moment. votre utilisation continue de notre site web signifie votre acceptation de tout changement.</p>
-        <p> si vous avez des questions sur cette politique de confidentialité, veuillez nous contacter à <a href="mailto:dorian@dorianmarie.com">dorian@dorianmarie.com</a> .</p>
-      title: politique de confidentialité
-    terms:
-      description: consulter les termes et conditions de codedorian.
-      terms_html: |
-        <p>bienvenue sur codedorian.com (« nous », « notre », « nos »). en accédant ou en utilisant notre site web, vous acceptez d'être lié par ces termes et conditions. si vous n'êtes pas d'accord, veuillez ne pas utiliser notre site web.</p>
-        <p> vous acceptez d'utiliser ce site web uniquement à des fins légales et d'une manière qui ne porte pas atteinte aux droits d'autrui ni ne restreint leur utilisation du site.</p>
-        <p> tout le contenu de ce site web, y compris les textes, les graphiques et les logos, appartient à [nom du site web] ou nous est concédé sous licence. vous ne pouvez pas copier, reproduire ou distribuer aucun contenu sans notre autorisation.</p>
-        <p> nous fournissons ce site web « tel quel » sans garantie d'aucune sorte. nous ne sommes pas responsables de toute perte ou dommage résultant de votre utilisation du site web.</p>
-        <p> notre site web peut contenir des liens vers des sites tiers. nous ne sommes pas responsables du contenu ou des politiques de confidentialité de ces sites externes.</p>
-        <p> nous pouvons mettre à jour ces termes et conditions à tout moment. votre utilisation continue du site web signifie votre acceptation des conditions mises à jour.</p>
-        <p> pour toute question concernant ces conditions, veuillez nous contacter à <a href="mailto:dorian@dorianmarie.com">dorian@dorianmarie.com</a> .</p>
-      title: termes et conditions
-    up:
-      body: fonctionne
-      description: page d'etat codedorian.
-      title: "/up"
   submission_deliveries:
     create:
       notice: livraison de soumission créée
@@ -3141,7 +2964,7 @@ fr:
     edit:
       description: mettre à jour une livraison de soumission.
       submit: mettre à jour la livraison de soumission
-      title: modifier la livraison de soumission
+   AA   title: modifier la livraison de soumission
     index:
       delete_all: supprimer tout
       description: gérer les livraisons de soumission.

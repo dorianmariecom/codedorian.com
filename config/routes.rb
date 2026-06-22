@@ -138,6 +138,15 @@ Rails.application.routes.draw do
         define_errors.call
       end
 
+      resources(:pages) do
+        define_delete_destroy.call
+        define_logs_versions.call
+        define_all_delete.call(:destroy, :pages)
+        define_all_delete.call(:delete, :pages)
+
+        define_errors.call
+      end
+
       resources(:programs) do
         post(:evaluate)
         post(:format)
@@ -535,22 +544,9 @@ Rails.application.routes.draw do
       define_all_delete.call(:delete, :solid_cache_entries)
     end
 
-    get(:up, to: "static#up")
-    get(:about, to: "static#about")
-    get(:terms, to: "static#terms")
-    get(:privacy, to: "static#privacy")
-    get(:icons, to: "static#icons")
-    get(:ios, to: "static#ios")
-    get(:android, to: "static#android")
-    get(:download, to: "static#download")
-    get(:admin, to: "static#admin")
-
     match("/404", to: "errors#not_found", via: :all)
     match("/422", to: "errors#unprocessable_entity", via: :all)
     match("/500", to: "errors#internal_server_error", via: :all)
-
-    root(to: "static#home")
-
-    match("*path", to: "errors#not_found", via: :all)
+    match("*path", to: "pages#show", via: :all)
   end
 end

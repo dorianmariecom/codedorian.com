@@ -448,9 +448,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_breadcrumbs
-    @breadcrumbs = [
-      { text: t("breadcrumbs.static.home"), path: main_app.root_path }
-    ]
+    @breadcrumbs = []
   end
 
   def add_breadcrumb(
