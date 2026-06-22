@@ -98,10 +98,7 @@ class UsersController < ApplicationController
 
     log_out(@user)
 
-    redirect_to(
-      root_path,
-      notice: t(".notice", default: t("#{controller_name}.destroy.notice"))
-    )
+    redirect_to(root_path, notice: t(".notice"))
   end
 
   def destroy_all

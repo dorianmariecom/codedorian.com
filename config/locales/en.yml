@@ -248,6 +248,8 @@ en:
   addresses:
     create:
       notice: address created
+    delete:
+      notice: address deleted
     delete_all:
       notice: addresses deleted
     destroy:
@@ -427,6 +429,10 @@ en:
       edit: edit
       index: names
       new: new
+    pages:
+      edit: edit
+      index: pages
+      new: new
     passwords:
       edit: edit
       index: passwords
@@ -501,6 +507,8 @@ en:
   configurations:
     create:
       notice: configuration created
+    delete:
+      notice: configuration deleted
     delete_all:
       notice: configurations deleted
     destroy:
@@ -543,6 +551,8 @@ en:
   country_code_ip_addresses:
     create:
       notice: country code ip address created
+    delete:
+      notice: country code ip address deleted
     delete_all:
       notice: country code ip addresses deleted
     destroy:
@@ -595,6 +605,8 @@ en:
   data:
     create:
       notice: datum created
+    delete:
+      notice: datum deleted
     delete_all:
       notice: data deleted
     destroy:
@@ -689,6 +701,8 @@ en:
   devices:
     create:
       notice: device created
+    delete:
+      notice: device deleted
     delete_all:
       notice: devices deleted
     destroy:
@@ -735,6 +749,8 @@ en:
   email_addresses:
     create:
       notice: email address created
+    delete:
+      notice: email address deleted
     delete_all:
       notice: email addresses deleted
     destroy:
@@ -782,6 +798,8 @@ en:
   error_occurrences:
     create:
       notice: error occurrence created
+    delete:
+      notice: error occurrence deleted
     delete_all:
       notice: error occurrences deleted
     destroy:
@@ -828,6 +846,8 @@ en:
   errors:
     create:
       notice: error created
+    delete:
+      notice: error deleted
     delete_all:
       notice: errors deleted
     destroy:
@@ -891,6 +911,8 @@ en:
   example_schedules:
     create:
       notice: example schedule created
+    delete:
+      notice: example schedule deleted
     delete_all:
       notice: example schedules deleted
     destroy:
@@ -1014,6 +1036,8 @@ en:
   examples:
     create:
       notice: example created
+    delete:
+      notice: example deleted
     delete_all:
       notice: examples deleted
     destroy:
@@ -1123,6 +1147,8 @@ en:
   form_deliveries:
     create:
       notice: form delivery created
+    delete:
+      notice: form delivery deleted
     delete_all:
       notice: form deliveries deleted
     destroy:
@@ -1182,6 +1208,8 @@ en:
   form_programs:
     create:
       notice: form program created
+    delete:
+      notice: form program deleted
     delete_all:
       notice: form programs deleted
     destroy:
@@ -1225,6 +1253,8 @@ en:
   form_schedules:
     create:
       notice: form schedule created
+    delete:
+      notice: form schedule deleted
     delete_all:
       notice: form schedules deleted
     destroy:
@@ -1359,6 +1389,8 @@ en:
   guests:
     create:
       notice: guest created
+    delete:
+      notice: guest deleted
     delete_all:
       notice: guests deleted
     destroy:
@@ -1400,6 +1432,8 @@ en:
   handles:
     create:
       notice: handle created
+    delete:
+      notice: handle deleted
     delete_all:
       notice: handles deleted
     destroy:
@@ -1480,6 +1514,8 @@ en:
   job_blocked_executions:
     create:
       notice: job blocked execution created
+    delete:
+      notice: job blocked execution deleted
     delete_all:
       notice: job blocked executions deleted
     destroy:
@@ -1525,6 +1561,8 @@ en:
   job_claimed_executions:
     create:
       notice: job claimed execution created
+    delete:
+      notice: job claimed execution deleted
     delete_all:
       notice: job claimed executions deleted
     destroy:
@@ -1567,6 +1605,8 @@ en:
   job_contexts:
     create:
       notice: job context created
+    delete:
+      notice: job context deleted
     delete_all:
       notice: job contexts deleted
     destroy:
@@ -1610,6 +1650,8 @@ en:
   job_failed_executions:
     create:
       notice: job failed execution created
+    delete:
+      notice: job failed execution deleted
     delete_all:
       notice: job failed executions deleted
     destroy:
@@ -1653,6 +1695,8 @@ en:
   job_pauses:
     create:
       notice: job pause created
+    delete:
+      notice: job pause deleted
     delete_all:
       notice: job pauses deleted
     destroy:
@@ -1693,6 +1737,8 @@ en:
   job_processes:
     create:
       notice: job process created
+    delete:
+      notice: job process deleted
     delete_all:
       notice: job processes deleted
     destroy:
@@ -1740,6 +1786,8 @@ en:
   job_ready_executions:
     create:
       notice: job ready execution created
+    delete:
+      notice: job ready execution deleted
     delete_all:
       notice: job ready executions deleted
     destroy:
@@ -1783,6 +1831,8 @@ en:
   job_recurring_executions:
     create:
       notice: job recurring execution created
+    delete:
+      notice: job recurring execution deleted
     delete_all:
       notice: job recurring executions deleted
     destroy:
@@ -1826,6 +1876,8 @@ en:
   job_recurring_tasks:
     create:
       notice: job recurring task created
+    delete:
+      notice: job recurring task deleted
     delete_all:
       notice: job recurring tasks deleted
     destroy:
@@ -1874,6 +1926,8 @@ en:
   job_scheduled_executions:
     create:
       notice: job scheduled execution created
+    delete:
+      notice: job scheduled execution deleted
     delete_all:
       notice: job scheduled executions deleted
     destroy:
@@ -1918,6 +1972,8 @@ en:
   job_semaphores:
     create:
       notice: job semaphore created
+    delete:
+      notice: job semaphore deleted
     delete_all:
       notice: job semaphores deleted
     destroy:
@@ -2222,6 +2278,8 @@ en:
   logs:
     create:
       notice: log created
+    delete:
+      notice: log deleted
     delete_all:
       notice: logs deleted
     destroy:
@@ -2268,6 +2326,8 @@ en:
       description: view the rendered content of this message.
     create:
       notice: message created
+    delete:
+      notice: message deleted
     delete_all:
       notice: messages deleted
     destroy:
@@ -2315,6 +2375,8 @@ en:
   names:
     create:
       notice: name created
+    delete:
+      notice: name deleted
     delete_all:
       notice: names deleted
     destroy:
@@ -2375,6 +2437,8 @@ en:
   passwords:
     create:
       notice: password created
+    delete:
+      notice: password deleted
     delete_all:
       notice: passwords deleted
     destroy:
@@ -2424,6 +2488,8 @@ en:
   phone_numbers:
     create:
       notice: phone number created
+    delete:
+      notice: phone number deleted
     delete_all:
       notice: phone numbers deleted
     destroy:
@@ -2471,6 +2537,8 @@ en:
   program_executions:
     create:
       notice: program execution created
+    delete:
+      notice: program execution deleted
     delete_all:
       notice: program executions deleted
     destroy:
@@ -2528,6 +2596,8 @@ en:
   program_schedules:
     create:
       notice: program schedule created
+    delete:
+      notice: program schedule deleted
     delete_all:
       notice: program schedules deleted
     destroy:
@@ -2652,6 +2722,8 @@ en:
   programs:
     create:
       notice: program created
+    delete:
+      notice: program deleted
     delete_all:
       notice: programs deleted
     destroy:
@@ -2951,6 +3023,8 @@ en:
   submission_deliveries:
     create:
       notice: submission delivery created
+    delete:
+      notice: submission delivery deleted
     delete_all:
       notice: submission deliveries deleted
     destroy:
@@ -2998,6 +3072,8 @@ en:
   submission_programs:
     create:
       notice: submission program created
+    delete:
+      notice: submission program deleted
     delete_all:
       notice: submission programs deleted
     destroy:
@@ -3047,6 +3123,8 @@ en:
   submission_schedules:
     create:
       notice: submission schedule created
+    delete:
+      notice: submission schedule deleted
     delete_all:
       notice: submission schedules deleted
     destroy:
@@ -3167,6 +3245,8 @@ en:
   submission_sections:
     create:
       notice: submission section created
+    delete:
+      notice: submission section deleted
     delete_all:
       notice: submission sections deleted
     destroy:
@@ -3221,6 +3301,8 @@ en:
   submissions:
     create:
       notice: submission created
+    delete:
+      notice: submission deleted
     delete_all:
       notice: submissions deleted
     destroy:
@@ -3278,6 +3360,8 @@ en:
   time_zones:
     create:
       notice: time zone created
+    delete:
+      notice: time zone deleted
     delete_all:
       notice: time zones deleted
     destroy:
@@ -3323,6 +3407,8 @@ en:
   tokens:
     create:
       notice: token created
+    delete:
+      notice: token deleted
     delete_all:
       notice: tokens deleted
     destroy:
@@ -3368,6 +3454,8 @@ en:
   users:
     create:
       notice: user created
+    delete:
+      notice: user deleted
     delete_all:
       notice: users deleted
     destroy:
@@ -3433,6 +3521,8 @@ en:
   versions:
     create:
       notice: version created
+    delete:
+      notice: version deleted
     delete_all:
       notice: versions deleted
     destroy:

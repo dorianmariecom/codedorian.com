@@ -1,19 +1,15 @@
 # frozen_string_literal: true
 
-class DevicesController < ApplicationController
+class PagesController < ApplicationController
   before_action(:load_guest)
   before_action(:load_user)
-  before_action { add_breadcrumb(key: "devices.index", path: index_url) }
-  before_action(:load_device, only: %i[show edit update destroy delete])
-  before_action(:current_user!, only: :create)
-  skip_before_action(:verify_captcha, only: :create)
-
-  rate_limit to: 100, within: 5.minutes, only: :create
+  before_action { add_breadcrumb(key: "pages.index", path: index_url) }
+  before_action(:load_page, only: %i[show edit update destroy delete])
 
   def index
-    authorize(Device)
+    authorize(Page)
 
-    @devices = scope.page(params[:page]).order(created_at: :asc)
+    @pages = scope.page(params[:page]).order(key: :asc, value: :asc)
   end
 
   def show
@@ -22,8 +18,7 @@ class DevicesController < ApplicationController
   end
 
   def new
-    @device =
-      authorize(scope.new(user: @user, primary: user_or_guest.devices.none?))
+    @page = authorize(scope.new(user: @user))
 
     add_breadcrumb
   end
@@ -33,60 +28,45 @@ class DevicesController < ApplicationController
   end
 
   def create
-    @device = authorize(scope.new(device_params))
+    @page = authorize(scope.new(page_params))
 
-    if @device.save(context: :controller)
-      log_in(@device.user)
-      @user = @device.user
-      respond_to do |format|
-        format.html { redirect_to(show_url, notice: t(".notice")) }
-        format.json { render(json: { message: t(".notice") }) }
-      end
+    if @page.save(context: :controller)
+      log_in(@page.user)
+      @user = @page.user
+      redirect_to(show_url, notice: t(".notice"))
     else
-      respond_to do |format|
-        format.html do
-          flash.now.alert = @device.alert
-          render(:new, status: :unprocessable_content)
-        end
-        format.json do
-          render(
-            json: {
-              message: @device.alert
-            },
-            status: :unprocessable_content
-          )
-        end
-      end
+      flash.now.alert = @page.alert
+      render(:new, status: :unprocessable_content)
     end
   end
 
   def update
-    @device.assign_attributes(device_params)
+    @page.assign_attributes(page_params)
 
-    if @device.save(context: :controller)
-      log_in(@device.user)
-      @user = @device.user
+    if @page.save(context: :controller)
+      log_in(@page.user)
+      @user = @page.user
       redirect_to(show_url, notice: t(".notice"))
     else
-      flash.now.alert = @device.alert
+      flash.now.alert = @page.alert
       render(:edit, status: :unprocessable_content)
     end
   end
 
   def destroy
-    @device.destroy!
+    @page.destroy!
 
     redirect_to(index_url, notice: t(".notice"))
   end
 
   def delete
-    @device.delete
+    @page.delete
 
     redirect_to(index_url, notice: t(".notice"))
   end
 
   def destroy_all
-    authorize(Device)
+    authorize(Page)
 
     scope.destroy_all
 
@@ -94,7 +74,7 @@ class DevicesController < ApplicationController
   end
 
   def delete_all
-    authorize(Device)
+    authorize(Page)
 
     scope.delete_all
 
@@ -133,12 +113,8 @@ class DevicesController < ApplicationController
     add_breadcrumb(text: @user, path: @user)
   end
 
-  def user_or_guest
-    @user || Guest.new
-  end
-
   def scope
-    scope = searched_policy_scope(Device)
+    scope = searched_policy_scope(Page)
     scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope
@@ -146,22 +122,22 @@ class DevicesController < ApplicationController
 
   def versions_scope
     scope = policy_scope(Version)
-    scope = scope.where_device(@device) if @device
+    scope = scope.where_page(@page) if @page
     scope
   end
 
   def logs_scope
     scope = policy_scope(Log)
-    scope = scope.where_device(@device) if @device
+    scope = scope.where_page(@page) if @page
     scope
   end
 
   def model_class
-    Device
+    Page
   end
 
   def model_instance
-    @device
+    @page
   end
 
   def nested(user: @user, guest: @guest)
@@ -173,20 +149,33 @@ class DevicesController < ApplicationController
   end
 
   def id
-    params[:device_id].presence || params[:id]
+    params[:page_id].presence || params[:id]
   end
 
-  def load_device
-    @device = authorize(scope.find(id))
-    set_context(device: @device)
-    add_breadcrumb(text: @device, path: show_url)
+  def load_page
+    @page = authorize(scope.find(id))
+    set_context(page: @page)
+    add_breadcrumb(text: @page, path: show_url)
   end
 
-  def device_params
+  def page_params
     if admin?
-      params.expect(device: %i[user_id platform token primary verified])
+      params.expect(
+        page: %i[
+          user_id
+          parent_id
+          path
+          title_en
+          title_fr
+          description_en
+          description_fr
+          body_en
+          body_fr
+          authorization
+        ]
+      )
     else
-      params.expect(device: %i[platform token primary])
+      {}
     end
   end
 end

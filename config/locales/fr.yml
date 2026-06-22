@@ -248,6 +248,8 @@ fr:
   addresses:
     create:
       notice: adresse créée
+    delete:
+      notice: adresse supprimée
     delete_all:
       notice: adresses supprimées
     destroy:
@@ -428,6 +430,10 @@ fr:
       edit: modifier
       index: noms
       new: nouveau
+    pages:
+      edit: modifier
+      index: pages
+      new: nouvelle
     passwords:
       edit: modifier
       index: mots de passe
@@ -502,6 +508,8 @@ fr:
   configurations:
     create:
       notice: configuration créée
+    delete:
+      notice: configuration supprimée
     delete_all:
       notice: configurations supprimées
     destroy:
@@ -544,6 +552,8 @@ fr:
   country_code_ip_addresses:
     create:
       notice: code pays adresse ip créée
+    delete:
+      notice: code pays adresse ip supprimée
     delete_all:
       notice: codes pays adresses ip supprimés
     destroy:
@@ -596,6 +606,8 @@ fr:
   data:
     create:
       notice: donnée créée
+    delete:
+      notice: donnée supprimée
     delete_all:
       notice: données supprimées
     destroy:
@@ -690,6 +702,8 @@ fr:
   devices:
     create:
       notice: appareil créé
+    delete:
+      notice: appareil supprimé
     delete_all:
       notice: appareils supprimés
     destroy:
@@ -736,6 +750,8 @@ fr:
   email_addresses:
     create:
       notice: adresse e-mail créée
+    delete:
+      notice: adresse e-mail supprimée
     delete_all:
       notice: adresses e-mail supprimées
     destroy:
@@ -783,6 +799,8 @@ fr:
   error_occurrences:
     create:
       notice: occurence d'erreur créée
+    delete:
+      notice: occurence d'erreur supprimée
     delete_all:
       notice: occurences d'erreur supprimées
     destroy:
@@ -829,6 +847,8 @@ fr:
   errors:
     create:
       notice: erreur créée
+    delete:
+      notice: erreur supprimée
     delete_all:
       notice: erreurs supprimées
     destroy:
@@ -892,6 +912,8 @@ fr:
   example_schedules:
     create:
       notice: horaire de l'exemple créée
+    delete:
+      notice: horaire de l'exemple supprimée
     delete_all:
       notice: horaires d'exemples supprimées
     destroy:
@@ -1015,6 +1037,8 @@ fr:
   examples:
     create:
       notice: exemple créé
+    delete:
+      notice: exemple supprimé
     delete_all:
       notice: exemples supprimés
     destroy:
@@ -1124,6 +1148,8 @@ fr:
   form_deliveries:
     create:
       notice: livraison de formulaire créée
+    delete:
+      notice: livraison de formulaire supprimée
     delete_all:
       notice: livraisons de formulaire supprimées
     destroy:
@@ -1183,6 +1209,8 @@ fr:
   form_programs:
     create:
       notice: programme de formulaire créé
+    delete:
+      notice: programme de formulaire supprimé
     delete_all:
       notice: programmes de formulaire supprimés
     destroy:
@@ -1226,6 +1254,8 @@ fr:
   form_schedules:
     create:
       notice: horaire de formulaire créée
+    delete:
+      notice: horaire de formulaire supprimée
     delete_all:
       notice: horaires de formulaire supprimées
     destroy:
@@ -1360,6 +1390,8 @@ fr:
   guests:
     create:
       notice: invité créé
+    delete:
+      notice: invité supprimé
     delete_all:
       notice: invités supprimés
     destroy:
@@ -1401,6 +1433,8 @@ fr:
   handles:
     create:
       notice: identifiant créée
+    delete:
+      notice: identifiant supprimée
     delete_all:
       notice: identifiants supprimés
     destroy:
@@ -1481,6 +1515,8 @@ fr:
   job_blocked_executions:
     create:
       notice: exécution de tâche bloquée créée
+    delete:
+      notice: exécution de tâche bloquée supprimée
     delete_all:
       notice: exécutions de tâches bloquées supprimées
     destroy:
@@ -1526,6 +1562,8 @@ fr:
   job_claimed_executions:
     create:
       notice: exécution de tâche revendiquée créée
+    delete:
+      notice: exécution de tâche revendiquée supprimée
     delete_all:
       notice: exécutions de tâches revendiquées supprimées
     destroy:
@@ -1568,6 +1606,8 @@ fr:
   job_contexts:
     create:
       notice: contexte de tâche créé
+    delete:
+      notice: contexte de tâche supprimé
     delete_all:
       notice: contextes de tâches supprimés
     destroy:
@@ -1611,6 +1651,8 @@ fr:
   job_failed_executions:
     create:
       notice: exécution de tâche échouée créée
+    delete:
+      notice: exécution de tâche échouée supprimée
     delete_all:
       notice: exécutions de tâches échouées supprimées
     destroy:
@@ -1654,6 +1696,8 @@ fr:
   job_pauses:
     create:
       notice: pause de tâche créée
+    delete:
+      notice: pause de tâche supprimée
     delete_all:
       notice: pauses de tâches supprimées
     destroy:
@@ -1694,6 +1738,8 @@ fr:
   job_processes:
     create:
       notice: processus de tâche créé
+    delete:
+      notice: processus de tâche supprimé
     delete_all:
       notice: processus de tâches supprimés
     destroy:
@@ -1741,6 +1787,8 @@ fr:
   job_ready_executions:
     create:
       notice: exécution de tâche prête créée
+    delete:
+      notice: exécution de tâche prête supprimée
     delete_all:
       notice: exécutions de tâches prêtes supprimées
     destroy:
@@ -1784,6 +1832,8 @@ fr:
   job_recurring_executions:
     create:
       notice: exécution récurrente de tâche créée
+    delete:
+      notice: exécution récurrente de tâche supprimée
     delete_all:
       notice: exécutions récurrentes de tâches supprimées
     destroy:
@@ -1827,6 +1877,8 @@ fr:
   job_recurring_tasks:
     create:
       notice: tâche récurrente créée
+    delete:
+      notice: tâche récurrente supprimée
     delete_all:
       notice: tâches récurrentes supprimées
     destroy:
@@ -1875,6 +1927,8 @@ fr:
   job_scheduled_executions:
     create:
       notice: exécution de tâche programmée créée
+    delete:
+      notice: exécution de tâche programmée supprimée
     delete_all:
       notice: exécutions de tâches programmées supprimées
     destroy:
@@ -1919,6 +1973,8 @@ fr:
   job_semaphores:
     create:
       notice: sémaphore de tâche créé
+    delete:
+      notice: sémaphore de tâche supprimé
     delete_all:
       notice: sémaphores de tâche supprimés
     destroy:
@@ -2223,6 +2279,8 @@ fr:
   logs:
     create:
       notice: log créé
+    delete:
+      notice: log supprimé
     delete_all:
       notice: logs supprimés
     destroy:
@@ -2269,6 +2327,8 @@ fr:
       description: voir le contenu rendu du message.
     create:
       notice: message créé
+    delete:
+      notice: message supprimé
     delete_all:
       notice: messages supprimés
     destroy:
@@ -2319,6 +2379,8 @@ fr:
   names:
     create:
       notice: nom créé
+    delete:
+      notice: nom supprimé
     delete_all:
       notice: noms supprimés
     destroy:
@@ -2379,6 +2441,8 @@ fr:
   passwords:
     create:
       notice: mot de passe créé
+    delete:
+      notice: mot de passe supprimé
     delete_all:
       notice: mots de passe supprimés
     destroy:
@@ -2428,6 +2492,8 @@ fr:
   phone_numbers:
     create:
       notice: numéro de téléphone créé
+    delete:
+      notice: numéro de téléphone supprimé
     delete_all:
       notice: numéros de téléphone supprimés
     destroy:
@@ -2475,6 +2541,8 @@ fr:
   program_executions:
     create:
       notice: exécution du programme créée
+    delete:
+      notice: exécution du programme supprimée
     delete_all:
       notice: exécutions de programmes supprimées
     destroy:
@@ -2532,6 +2600,8 @@ fr:
   program_schedules:
     create:
       notice: horaire de programmes créée
+    delete:
+      notice: horaire des programmes supprimée
     delete_all:
       notice: horaires de programmes supprimés
     destroy:
@@ -2656,6 +2726,8 @@ fr:
   programs:
     create:
       notice: programme créé
+    delete:
+      notice: programme supprimé
     delete_all:
       notice: programmes supprimés
     destroy:
@@ -2955,6 +3027,8 @@ fr:
   submission_deliveries:
     create:
       notice: livraison de soumission créée
+    delete:
+      notice: livraison de soumission supprimée
     delete_all:
       notice: livraisons de soumission supprimées
     destroy:
@@ -2964,7 +3038,7 @@ fr:
     edit:
       description: mettre à jour une livraison de soumission.
       submit: mettre à jour la livraison de soumission
-   AA   title: modifier la livraison de soumission
+      title: modifier la livraison de soumission
     index:
       delete_all: supprimer tout
       description: gérer les livraisons de soumission.
@@ -3002,6 +3076,8 @@ fr:
   submission_programs:
     create:
       notice: programme de soumission créé
+    delete:
+      notice: programme de soumission supprimé
     delete_all:
       notice: programmes de soumission supprimés
     destroy:
@@ -3052,6 +3128,8 @@ fr:
   submission_schedules:
     create:
       notice: horaire de soumission créé
+    delete:
+      notice: horaire de soumission supprimé
     delete_all:
       notice: horaires de soumission supprimés
     destroy:
@@ -3172,6 +3250,8 @@ fr:
   submission_sections:
     create:
       notice: section de soumission créée
+    delete:
+      notice: section de soumission supprimée
     delete_all:
       notice: sections de soumission supprimées
     destroy:
@@ -3226,6 +3306,8 @@ fr:
   submissions:
     create:
       notice: soumission créée
+    delete:
+      notice: soumission supprimée
     delete_all:
       notice: soumissions supprimées
     destroy:
@@ -3283,6 +3365,8 @@ fr:
   time_zones:
     create:
       notice: fuseau horaire créé
+    delete:
+      notice: fuseau horaire supprimé
     delete_all:
       notice: fuseaux horaires supprimés
     destroy:
@@ -3328,6 +3412,8 @@ fr:
   tokens:
     create:
       notice: jeton créé
+    delete:
+      notice: jeton supprimé
     delete_all:
       notice: jetons supprimés
     destroy:
@@ -3373,6 +3459,8 @@ fr:
   users:
     create:
       notice: utilisateur créé
+    delete:
+      notice: utilisateur supprimé
     delete_all:
       notice: utilisateurs supprimés
     destroy:
@@ -3438,6 +3526,8 @@ fr:
   versions:
     create:
       notice: version créée
+    delete:
+      notice: version supprimée
     delete_all:
       notice: versions supprimées
     destroy:

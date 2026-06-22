@@ -64,10 +64,7 @@ class JobFailedExecutionsController < ApplicationController
   def delete
     @job_failed_execution.delete
 
-    redirect_to(
-      index_url,
-      notice: t(".notice", default: t("#{controller_name}.destroy.notice"))
-    )
+    redirect_to(index_url, notice: t(".notice"))
   end
 
   def destroy_all

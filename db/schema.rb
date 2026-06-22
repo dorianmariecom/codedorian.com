@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_24_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_22_140530) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -307,6 +307,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_24_120000) do
     t.index %w[user_id verified primary],
             name: "index_names_on_user_id_and_verified_and_primary"
     t.index ["user_id"], name: "index_names_on_user_id"
+  end
+
+  create_table "pages", force: :cascade do |t|
+    t.text "authorization"
+    t.datetime "created_at", null: false
+    t.bigint "parent_id"
+    t.string "path", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["parent_id"], name: "index_pages_on_parent_id"
+    t.index ["path"], name: "index_pages_on_path"
+    t.index ["user_id"], name: "index_pages_on_user_id"
   end
 
   create_table "passwords", force: :cascade do |t|
@@ -801,6 +813,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_24_120000) do
   add_foreign_key "messages", "users", column: "from_user_id"
   add_foreign_key "messages", "users", column: "to_user_id"
   add_foreign_key "names", "users"
+  add_foreign_key "pages", "pages", column: "parent_id"
+  add_foreign_key "pages", "users"
   add_foreign_key "passwords", "users"
   add_foreign_key "phone_numbers", "users"
   add_foreign_key "program_executions", "programs"
