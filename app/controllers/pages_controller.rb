@@ -178,8 +178,10 @@ class PagesController < ApplicationController
   end
 
   memoize def page_displayed?
-    id.blank? || scope.find_by(path: "/#{params[:path]}") ||
-      cannot?(:update, @page)
+    return true if request.path == root_path
+    return true if params.key?(:path)
+    return true if cannot?(:update, @page)
+    false
   end
 
   def page_params
