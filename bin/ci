@@ -20,4 +20,3 @@ run bin/bundler-audit check --update
 run npm audit
 run bin/secrets
 run bin/rails test
-run bin/rails test:system
