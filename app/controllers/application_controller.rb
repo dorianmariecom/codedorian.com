@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+  include(Memoized)
   include(CanConcern)
   include(LogConcern)
   include(PerformLaterConcern)

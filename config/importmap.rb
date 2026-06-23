@@ -26,7 +26,7 @@ pin "@marijn/find-cluster-break",
     integrity: true # @1.0.2
 pin "@rails/actioncable", to: "@rails--actioncable.js", integrity: true # @8.1.200
 pin "@rails/actioncable/src", to: "@rails--actioncable--src.js", integrity: true # @8.1.200
-pin "@rails/actiontext", to: "@rails--actiontext.js", integrity: true # @8.1.200
+pin "@rails/activestorage", to: "activestorage.esm.js"
 pin "@sentry-internal/browser-utils",
     to: "@sentry-internal--browser-utils.js",
     integrity: true # @10.40.0
@@ -54,9 +54,9 @@ pin "intl-tel-input/build/js/utils.js",
     to: "intl-tel-input--build--js--utils.js.js",
     integrity: true # @25.14.1
 pin "json-lang", integrity: true
+pin "lexxy", to: "lexxy.js"
 pin "local-time", integrity: true # @3.0.3
 pin "style-mod", integrity: true # @4.1.3
 pin "thememirror", integrity: true # @2.0.1
-pin "trix", integrity: true # @2.1.18
 pin "w3c-keyname", integrity: true # @2.2.8
 pin_all_from "app/javascript/controllers", under: "controllers", integrity: true

@@ -1,7 +1,9 @@
 <%= turbo_stream_from(@messages) %>
 
 <% unless simple? %>
-  <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
+  <% if can?(:create, Message) %>
+    <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
+  <% end %>
 
   <%= render("shared/search") %>
 <% end %>

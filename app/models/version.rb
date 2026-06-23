@@ -10,8 +10,6 @@ class Version < PaperTrail::Version
     datum
     device
     email_address
-    example
-    example_schedule
     form_delivery
     form_program
     form_schedule
@@ -21,6 +19,7 @@ class Version < PaperTrail::Version
     log
     message
     name
+    page
     password
     phone_number
     program

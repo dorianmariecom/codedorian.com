@@ -10,7 +10,7 @@ class CreatePages < ActiveRecord::Migration[8.1]
 
       t.timestamps
 
-      t.index(:path)
+      t.index(:path, unique: true)
     end
   end
 end

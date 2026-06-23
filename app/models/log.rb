@@ -12,8 +12,6 @@ class Log < ApplicationRecord
     email_address
     error
     error_occurrence
-    example
-    example_schedule
     form_delivery
     form_program
     form_schedule
@@ -34,6 +32,7 @@ class Log < ApplicationRecord
     log
     message
     name
+    page
     password
     phone_number
     program

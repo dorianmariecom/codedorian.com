@@ -3,18 +3,33 @@
 class PagesController < ApplicationController
   before_action(:load_guest)
   before_action(:load_user)
-  before_action { add_breadcrumb(key: "pages.index", path: index_url) }
+  before_action(except: :show) do
+    add_breadcrumb(key: "pages.index", path: index_url)
+  end
   before_action(:load_page, only: %i[show edit update destroy delete])
+
+  helper_method(:page_displayed?)
 
   def index
     authorize(Page)
 
-    @pages = scope.page(params[:page]).order(key: :asc, value: :asc)
+    @pages = scope.page(params[:page]).order(path: :asc, id: :asc)
   end
 
   def show
-    @versions = versions_scope.order(created_at: :desc).page(params[:page])
-    @logs = logs_scope.order(created_at: :desc).page(params[:page])
+    if !@page.authorized?
+      raise(ActiveRecord::RecordNotFound)
+    elsif page_displayed?
+      @page.ancestors.each do |page|
+        add_breadcrumb(text: page, path: page.path)
+      end
+    else
+      add_breadcrumb(key: "pages.index", path: index_url)
+      add_breadcrumb(text: @page, path: show_url)
+
+      @versions = versions_scope.order(created_at: :desc).page(params[:page])
+      @logs = logs_scope.order(created_at: :desc).page(params[:page])
+    end
   end
 
   def new
@@ -153,9 +168,18 @@ class PagesController < ApplicationController
   end
 
   def load_page
-    @page = authorize(scope.find(id))
+    @page =
+      authorize(
+        scope.find_by(id: id) ||
+          scope.find_by!(path: "/#{params.fetch(:path, nil)}")
+      )
     set_context(page: @page)
-    add_breadcrumb(text: @page, path: show_url)
+    add_breadcrumb(text: @page, path: show_url) if action_name != "show"
+  end
+
+  memoize def page_displayed?
+    id.blank? || scope.find_by(path: "/#{params[:path]}") ||
+      cannot?(:update, @page)
   end
 
   def page_params

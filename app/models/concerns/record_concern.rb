@@ -4,12 +4,14 @@ module RecordConcern
   extend ActiveSupport::Concern
 
   included do
+    include(Memoized)
     include(ActionView::RecordIdentifier)
     include(Pundit::Authorization)
     include(CanConcern)
     include(PerformLaterConcern)
     include(Search)
 
+    extend(Memoized)
     extend(Pundit::Authorization)
     extend(CanConcern)
 
@@ -77,6 +79,14 @@ module RecordConcern
 
   def t(key, ...)
     I18n.t("#{model_plural}.model.#{key}", ...)
+  end
+
+  def fr?
+    I18n.locale == :fr
+  end
+
+  def en?
+    I18n.locale = :en
   end
 
   def url_helpers

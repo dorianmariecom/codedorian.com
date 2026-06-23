@@ -1,7 +1,6 @@
 import "@hotwired/turbo-rails";
-import "@rails/actiontext";
 import "controllers";
-import "trix";
+import "lexxy";
 import LocalTime from "local-time";
 import consumer from "consumer";
 import * as Sentry from "@sentry/browser";
@@ -32,10 +31,6 @@ LocalTime.config.locale = window.LOCALE;
 LocalTime.config.useFormat24 = window.LOCALE === "fr";
 
 LocalTime.start();
-
-Object.entries(window.translations.trix).forEach(([key, value]) => {
-  Trix.config.lang[key] = value;
-});
 
 document.addEventListener("turbo:morph", () => {
   LocalTime.run();

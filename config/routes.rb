@@ -368,27 +368,6 @@ Rails.application.routes.draw do
       define_all_delete.call(:delete, :versions)
     end
 
-    resources(:examples) do
-      define_delete_destroy.call
-      define_logs_versions.call
-      define_all_delete.call(:destroy, :examples)
-      define_all_delete.call(:delete, :examples)
-
-      resources(:example_schedules) do
-        define_delete_destroy.call
-        define_logs_versions.call
-        define_all_delete.call(:destroy, :example_schedules)
-        define_all_delete.call(:delete, :example_schedules)
-      end
-    end
-
-    resources(:example_schedules) do
-      define_delete_destroy.call
-      define_logs_versions.call
-      define_all_delete.call(:destroy, :example_schedules)
-      define_all_delete.call(:delete, :example_schedules)
-    end
-
     resources(:form_programs) do
       define_delete_destroy.call
       define_logs_versions.call
@@ -547,7 +526,7 @@ Rails.application.routes.draw do
     match("/404", to: "errors#not_found", via: :all)
     match("/422", to: "errors#unprocessable_entity", via: :all)
     match("/500", to: "errors#internal_server_error", via: :all)
-    match("*path", to: "pages#show", via: :all)
     root(to: "pages#show")
+    get("*path", to: "pages#show", constraints: { path: %r{(?!rails/).*} })
   end
 end

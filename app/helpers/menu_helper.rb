@@ -26,6 +26,11 @@ module MenuHelper
         path: form_path
       },
       {
+        title: t("helpers.menu.documentation"),
+        image: ios ? :document : :article,
+        path: documentation_path
+      },
+      {
         title: t("helpers.menu.programs"),
         image: ios ? :laptopcomputer : :computer,
         path: polymorphic_path([current_user_or_guest, :programs])

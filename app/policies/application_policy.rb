@@ -2,6 +2,7 @@
 
 class ApplicationPolicy
   class Scope
+    include(Memoized)
     include(Pundit::Authorization)
     include(CanConcern)
 
@@ -46,6 +47,7 @@ class ApplicationPolicy
 
   include(Pundit::Authorization)
   include(CanConcern)
+  include(Memoized)
 
   attr_reader :current_user, :current_guest, :record
 

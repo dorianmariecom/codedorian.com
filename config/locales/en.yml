@@ -39,17 +39,6 @@ en:
         context: context
         error: error
         error_id: error
-      example:
-        description: description
-        input: input
-        locale: locale
-        name: name
-        position: position
-        title: title
-      example_schedule:
-        example_id: example
-        interval: interval
-        starts_at: starts at
       feedback:
         guest_id: guest
         ip: ip
@@ -153,6 +142,17 @@ en:
         primary: primary?
         user_id: user
         verified: verified?
+      page:
+        authorization: authorization
+        body_en: body en
+        body_fr: body fr
+        description_en: description en
+        description_fr: description fr
+        parent_id: parent
+        path: path
+        title_en: title en
+        title_fr: title fr
+        user_id: user
       password:
         hint: hint
         password: password
@@ -332,14 +332,6 @@ en:
       new: new
       not_found: not found
       unprocessable_entity: unprocessable entity
-    example_schedules:
-      edit: edit
-      index: example schedules
-      new: new
-    examples:
-      edit: edit
-      index: examples
-      new: new
     feedbacks:
       edit: edit
       index: feedbacks
@@ -908,183 +900,6 @@ en:
       title: unprocessable entity
     update:
       notice: error updated
-  example_schedules:
-    create:
-      notice: example schedule created
-    delete:
-      notice: example schedule deleted
-    delete_all:
-      notice: example schedules deleted
-    destroy:
-      notice: example schedule deleted
-    destroy_all:
-      notice: example schedules destroyed
-    edit:
-      description: adjust timing and recurrence for an example schedule.
-      submit: update example schedule
-      title: edit example schedule
-    example_schedule:
-      schedule_html: starts %{local_time}, repeats every %{interval}
-      schedule_once_html: starts %{local_time}, doesn't repeat
-    index:
-      delete_all: delete all
-      description: manage schedules for examples and automation runs.
-      destroy_all: destroy all
-      new: new example schedule
-      title: example schedules
-    model:
-      days:
-        one: 1 day
-        other: "%{count} days"
-        zero: 0 days
-      fifth_friday: fifth friday
-      fifth_monday: fifth monday
-      fifth_saturday: fifth saturday
-      fifth_sunday: fifth sunday
-      fifth_thursday: fifth thursday
-      fifth_tuesday: fifth tuesday
-      fifth_wednesday: fifth wednesday
-      first_friday: first friday
-      first_monday: first monday
-      first_saturday: first saturday
-      first_sunday: first sunday
-      first_thursday: first thursday
-      first_tuesday: first tuesday
-      first_wednesday: first wednesday
-      fourth_friday: fourth friday
-      fourth_monday: fourth monday
-      fourth_saturday: fourth saturday
-      fourth_sunday: fourth sunday
-      fourth_thursday: fourth thursday
-      fourth_tuesday: fourth tuesday
-      fourth_wednesday: fourth wednesday
-      hours:
-        one: 1 hour
-        other: "%{count} hours"
-        zero: 0 hours
-      last_friday: last friday
-      last_monday: last monday
-      last_saturday: last saturday
-      last_sunday: last sunday
-      last_thursday: last thursday
-      last_tuesday: last tuesday
-      last_wednesday: last wednesday
-      minutes:
-        one: 1 minute
-        other: "%{count} minutes"
-        zero: 0 minutes
-      months:
-        one: 1 month
-        other: "%{count} months"
-        zero: 0 months
-      once: once
-      second_friday: second friday
-      second_monday: second monday
-      second_saturday: second saturday
-      second_sunday: second sunday
-      second_thursday: second thursday
-      second_tuesday: second tuesday
-      second_wednesday: second wednesday
-      seconds:
-        one: 1 second
-        other: "%{count} seconds"
-        zero: 0 seconds
-      third_friday: third friday
-      third_monday: third monday
-      third_saturday: third saturday
-      third_sunday: third sunday
-      third_thursday: third thursday
-      third_tuesday: third tuesday
-      third_wednesday: third wednesday
-      to_s: example_schedule#%{id}
-      weeks:
-        one: 1 week
-        other: "%{count} weeks"
-        zero: 0 weeks
-      years:
-        one: 1 year
-        other: "%{count} years"
-        zero: 0 years
-    nested:
-      add: add example schedule
-    nested_form:
-      example_schedule: example schedule
-      remove: remove example schedule
-    new:
-      description: create a schedule for an example.
-      submit: create example schedule
-      title: new example schedule
-    show:
-      created_at: created at
-      delete: delete example schedule
-      description: view example schedule timing and settings.
-      destroy: destroy example schedule
-      edit: edit example schedule
-      example: example
-      id: id
-      interval: interval
-      logs: logs
-      new_log: new log
-      new_version: new version
-      schedule_html: starts %{local_time}, repeats every %{interval}
-      schedule_once_html: starts %{local_time}, doesn't repeat
-      starts_at: starts at
-      updated_at: updated at
-      versions: versions
-    update:
-      notice: schedule updated
-  examples:
-    create:
-      notice: example created
-    delete:
-      notice: example deleted
-    delete_all:
-      notice: examples deleted
-    destroy:
-      notice: example deleted
-    destroy_all:
-      notice: examples destroyed
-    edit:
-      description: update an example's content and localization.
-      submit: update example
-      title: edit example
-    index:
-      delete_all: delete all
-      description: browse example messages and templates.
-      destroy_all: destroy all
-      example_schedules:
-        one: 1 example schedule
-        other: "%{count} example schedules"
-        zero: 0 example schedules
-      new: new example
-      title: examples
-    model:
-      to_s: example#%{id}
-    new:
-      description: create a new example with title and description.
-      submit: create example
-      title: new example
-    show:
-      created_at: created at
-      delete: delete example
-      description: description
-      destroy: destroy example
-      edit: edit example
-      example_schedules: example schedules
-      id: id
-      input: input
-      locale: locale
-      logs: logs
-      name: name
-      new_example_schedule: new example schedule
-      new_log: new log
-      new_version: new version
-      position: position
-      title: title
-      updated_at: updated at
-      versions: versions
-    update:
-      notice: example updated
   feedback_mailer:
     feedback_email:
       feedback_message: feedback message
@@ -1487,6 +1302,7 @@ en:
       about: about
       account: account
       admin: admin
+      documentation: documentation
       english: english
       form: form
       french: french
@@ -1505,6 +1321,7 @@ en:
           zero: 0 found
     tabs:
       account: account
+      documentation: documentation
       form: form
       home: home
       log_in: log in
@@ -2224,33 +2041,6 @@ en:
           too_short: is too short
         time_zone:
           not_present: must be present
-        trix:
-          GB: gb
-          KB: kb
-          MB: mb
-          PB: pb
-          TB: tb
-          attachFiles: attach files
-          bold: bold
-          bullets: bullets
-          byte: byte
-          bytes: bytes
-          captionPlaceholder: add a caption…
-          code: code
-          heading1: heading
-          indent: increase level
-          italic: italic
-          link: link
-          numbers: numbers
-          outdent: decrease level
-          quote: quote
-          redo: redo
-          remove: remove
-          strike: strikethrough
-          undo: undo
-          unlink: unlink
-          url: url
-          urlPlaceholder: enter a url…
         validation:
           not_email:
             feminine: must be an email address
@@ -2267,6 +2057,7 @@ en:
       about: about
       account: account
       admin: admin
+      documentation: documentation
       english: english
       form: form
       french: french
@@ -2423,6 +2214,58 @@ en:
       versions: versions
     update:
       notice: name updated
+  pages:
+    create:
+      notice: page created
+    delete:
+      notice: page deleted
+    delete_all:
+      notice: pages deleted
+    destroy:
+      notice: page deleted
+    destroy_all:
+      notice: pages destroyed
+    edit:
+      description: update page content and metadata.
+      submit: update page
+      title: edit page
+    index:
+      delete_all: delete all
+      description: manage public pages.
+      destroy_all: destroy all
+      new: new page
+      title: pages
+    model:
+      to_s: page#%{id}
+    new:
+      description: create a public page.
+      submit: create page
+      title: new page
+    show:
+      authorization: authorization
+      body_en: body en
+      body_fr: body fr
+      created_at: created at
+      delete: delete page
+      description: description
+      description_en: description en
+      description_fr: description fr
+      destroy: destroy page
+      edit: edit page
+      id: id
+      logs: logs
+      new_log: new log
+      new_version: new version
+      parent: parent
+      path: path
+      title: title
+      title_en: title en
+      title_fr: title fr
+      updated_at: updated at
+      user: user
+      versions: versions
+    update:
+      notice: page updated
   password_validator:
     model:
       sequence:
@@ -2750,10 +2593,6 @@ en:
       delete_all: delete all
       description: browse programs and their automation runs.
       destroy_all: destroy all
-      examples:
-        one: 1 example
-        other: "%{count} examples"
-        zero: 0 examples
       format_all: format all
       new: new program
       program_executions:
@@ -2884,7 +2723,6 @@ en:
       email_address: email address
       error: error
       error_occurrence: error occurrence
-      example: example
       guest: guest
       handle: handle
       job: job

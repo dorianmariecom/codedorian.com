@@ -1,6 +1,8 @@
 <%= turbo_stream_from(@solid_cache_entries) %>
 
-<div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
+<% if can?(:create, SolidCacheEntry) %>
+  <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
+<% end %>
 
 <%= render("shared/search") %>
 

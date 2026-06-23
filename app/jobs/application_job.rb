@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ApplicationJob < ActiveJob::Base
+  include(Memoized)
   include(CanConcern)
   include(LogConcern)
   include(PerformLaterConcern)

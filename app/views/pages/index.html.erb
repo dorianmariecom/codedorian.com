@@ -1,22 +1,18 @@
-<%= turbo_stream_from(@job_scheduled_executions) %>
+<%= turbo_stream_from(@pages) %>
 
-<% if can?(:create, JobScheduledExecution) %>
+<% if can?(:create, Page) %>
   <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
 <% end %>
 
 <%= render("shared/search") %>
 
 <turbo-frame id="search" target="_top">
-  <% if @job_scheduled_executions.any? %>
+  <% if @pages.any? && can?(:destroy_all, Page) %>
     <div class="p p--flex">
       <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
       <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
     </div>
   <% end %>
 
-  <%= render_collection(
-    partial: "job_scheduled_executions/job_scheduled_execution",
-    collection: @job_scheduled_executions,
-    as: :job_scheduled_execution
-  ) %>
+  <%= render_collection(partial: "pages/page", collection: @pages, as: :page) %>
 </turbo-frame>

@@ -1,0 +1,155 @@
+<% content_for(:title, @page.title) %>
+<% content_for(:description, @page.description) %>
+
+<%= turbo_stream_from(@page) %>
+
+<% if page_displayed? %>
+  <div class="p">
+    <div class="font-bold"><%= @page.title %></div>
+  </div>
+
+  <div class="p"><%= @page.body %></div>
+<% else %>
+  <% if @page.id.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".id") %></div>
+      <div class="font-bold"><%= @page.id %></div>
+    </div>
+  <% end %>
+
+  <% if @page.user.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".user") %></div>
+      <%= render("shared/user", user: @page.user) %>
+    </div>
+  <% end %>
+
+  <% if @page.parent.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".parent") %></div>
+      <%= link_to(@page.parent, [*nested, @page.parent], class: :link) %>
+    </div>
+  <% end %>
+
+  <% if @page.path.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".path") %></div>
+      <div class="font-bold"><%= @page.path %></div>
+    </div>
+  <% end %>
+
+  <% if @page.title_en.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".title_en") %></div>
+      <%= @page.title_en %>
+    </div>
+  <% end %>
+
+  <% if @page.title_fr.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".title_fr") %></div>
+      <%= @page.title_fr %>
+    </div>
+  <% end %>
+
+  <% if @page.description_en.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".description_en") %></div>
+      <%= @page.description_en %>
+    </div>
+  <% end %>
+
+  <% if @page.description_fr.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".description_fr") %></div>
+      <%= @page.description_fr %>
+    </div>
+  <% end %>
+
+  <% if @page.body_en.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".body_en") %></div>
+      <%= @page.body_en %>
+    </div>
+  <% end %>
+
+  <% if @page.body_fr.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".body_fr") %></div>
+      <%= @page.body_fr %>
+    </div>
+  <% end %>
+
+  <% if @page.authorization.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".authorization") %></div>
+      <%= code_highlight(@page.authorization) %>
+    </div>
+  <% end %>
+
+  <% if @page.updated_at.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".updated_at") %></div>
+      <div class="font-bold">
+        <%= local_time(@page.updated_at, format: :default) %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if @page.created_at.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".created_at") %></div>
+      <div class="font-bold">
+        <%= local_time(@page.created_at, format: :default) %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="p p--flex">
+    <%= link_to(t(".edit"), edit_url, class: :link) %>
+    <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+    <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
+  </div>
+
+  <% if can?(:index, Version) %>
+    <div class="p font-bold">
+      <%= link_to(t(".versions"), [*nested, @page, :versions], class: :link) %>
+    </div>
+
+    <% if can?(:create, Version) %>
+      <div class="p">
+        <%= link_to(t(".new_version"), [:new, *nested, @page, :version], class: "button") %>
+      </div>
+    <% end %>
+
+    <%= render_collection(
+      partial: "versions/version",
+      collection: @versions,
+      as: :version,
+      locals: {
+        nested: [*nested, @page]
+      }
+    ) %>
+  <% end %>
+
+  <% if can?(:index, Log) %>
+    <div class="p font-bold">
+      <%= link_to(t(".logs"), [*nested, @page, :logs], class: :link) %>
+    </div>
+
+    <% if can?(:create, Log) %>
+      <div class="p">
+        <%= link_to(t(".new_log"), [:new, *nested, @page, :log], class: "button") %>
+      </div>
+    <% end %>
+
+    <%= render_collection(
+      partial: "logs/log",
+      collection: @logs,
+      as: :log,
+      locals: {
+        nested: [*nested, @page]
+      }
+    ) %>
+  <% end %>
+<% end %>

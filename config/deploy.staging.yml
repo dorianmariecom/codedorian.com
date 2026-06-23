@@ -8,3 +8,5 @@ proxy:
   - staging.codedorian.fr
   - staging.codedorian.net
   - staging.codedorian.org
+volumes:
+- code_staging_storage:/rails/storage

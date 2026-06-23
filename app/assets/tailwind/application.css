@@ -184,60 +184,8 @@ button {
   }
 }
 
-.content,
-trix-editor,
-.trix-content {
-  p {
-    @apply mb-4;
-  }
-
-  a {
-    @apply underline;
-    @apply bg-white hover:bg-gray-100 focus:bg-gray-200;
-    @apply border border-black;
-    @apply focus:border-black focus:outline-black;
-    @apply text-black;
-    @apply px-4 py-2 rounded inline-block;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-bold mb-4;
-  }
-
-  blockquote {
-    @apply border-l border-black pl-2 mb-4;
-  }
-
-  pre {
-    @apply whitespace-pre font-mono rounded overflow-auto;
-    @apply border-black border p-2 w-fit bg-white!;
-    @apply mb-4;
-
-    span {
-      @apply text-black!;
-    }
-  }
-
-  ul {
-    @apply list-disc ml-4;
-  }
-}
-
-trix-editor {
-  @apply min-h-24;
-}
-
-trix-toolbar {
-  @apply max-w-sm whitespace-normal;
-
-  .trix-button {
-    @apply border border-black px-2 py-1 mb-2;
-  }
+lexxy-editor {
+  @apply min-h-24 p-0! max-w-96!;
 }
 
 .grecaptcha-badge {

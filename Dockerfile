@@ -15,7 +15,7 @@ ENV BUNDLER_VERSION=2.7.1 \
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
       ca-certificates curl libpq5 libyaml-0-2 libvips \
-      tini && \
+      ffmpeg poppler-utils tini && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /rails

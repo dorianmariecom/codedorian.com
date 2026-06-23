@@ -1,6 +1,8 @@
 <%= turbo_stream_from(@email_addresses) %>
 
-<div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
+<% if can?(:create, EmailAddress) %>
+  <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
+<% end %>
 
 <%= render("shared/search") %>
 

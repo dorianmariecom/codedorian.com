@@ -72,6 +72,18 @@ module ApplicationHelper
     end
   end
 
+  def about_path
+    "/about"
+  end
+
+  def admin_path
+    "/admin"
+  end
+
+  def documentation_path
+    "/documentation"
+  end
+
   private
 
   def highlight(input, language:, **options)
@@ -115,12 +127,6 @@ module ApplicationHelper
         option_time_zone,
         { selected: option_time_zone == time_zone }
       ]
-    end
-  end
-
-  def example_schedule_interval_options(interval: nil)
-    ExampleSchedule.interval_options.map do |label, value|
-      [label, value, { selected: value == interval }]
     end
   end
 

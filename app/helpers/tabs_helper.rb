@@ -16,9 +16,9 @@ module TabsHelper
 
     [
       {
-        title: t("helpers.tabs.home"),
-        image: ios ? "house.fill" : :home,
-        path: root_path,
+        title: t("helpers.tabs.programs"),
+        image: ios ? "laptopcomputer" : :computer,
+        path: polymorphic_path([current_user_or_guest, :programs]),
         default: true
       },
       {
@@ -28,9 +28,9 @@ module TabsHelper
         default: false
       },
       {
-        title: t("helpers.tabs.programs"),
-        image: ios ? "laptopcomputer" : :computer,
-        path: polymorphic_path([current_user_or_guest, :programs]),
+        title: t("helpers.tabs.documentation"),
+        image: ios ? :document : :article,
+        path: documentation_path,
         default: false
       },
       (

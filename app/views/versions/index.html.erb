@@ -1,6 +1,8 @@
 <%= turbo_stream_from(@versions) %>
 
-<div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
+<% if can?(:create, Version) %>
+  <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
+<% end %>
 
 <%= render("shared/search") %>
 

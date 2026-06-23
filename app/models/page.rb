@@ -12,9 +12,14 @@ class Page < ApplicationRecord
   has_rich_text(:body_fr)
 
   scope(:where_user, ->(user) { where(user: user) })
+
+  validates(:path, presence: true, uniqueness: true)
   validate { can!(:update, user) }
 
   before_validation { self.user ||= Current.user! }
+  before_validation do
+    self.path = "/#{path.to_s.strip}".squeeze("/") if path.present?
+  end
 
   def self.search_fields
     pages = arel_table
@@ -47,6 +52,18 @@ class Page < ApplicationRecord
     body_fr_rich_texts, body_fr_join = define_rich_text_join.call(:body_fr)
 
     {
+      path: {
+        node: -> { arel_table[:path] },
+        type: :string
+      },
+      authorization: {
+        node: -> { arel_table[:authorization] },
+        type: :string
+      },
+      parent_id: {
+        node: -> { arel_table[:parent_id] },
+        type: :integer
+      },
       title_en: {
         node: -> { title_en_rich_texts[:body] },
         relation: ->(scope) { scope.joins(title_en_join) },
@@ -82,6 +99,32 @@ class Page < ApplicationRecord
     }
   end
 
+  def authorized?
+    return true if authorization.blank?
+
+    Code.evaluate(authorization).truthy?
+  end
+
+  def ancestors
+    parent&.ancestors.to_a + [self]
+  end
+
+  def title
+    fr? ? title_fr : title_en
+  end
+
+  def description
+    fr? ? description_fr : description_en
+  end
+
+  def body
+    fr? ? body_fr : body_en
+  end
+
+  def title_sample
+    Truncate.strip(title&.to_plain_text)
+  end
+
   def title_en_sample
     Truncate.strip(title_en&.to_plain_text)
   end
@@ -90,12 +133,20 @@ class Page < ApplicationRecord
     Truncate.strip(title_fr&.to_plain_text)
   end
 
+  def description_sample
+    Truncate.strip(description&.to_plain_text)
+  end
+
   def description_en_sample
     Truncate.strip(description_en&.to_plain_text)
   end
 
   def description_fr_sample
     Truncate.strip(description_fr&.to_plain_text)
+  end
+
+  def body_sample
+    Truncate.strip(body&.to_plain_text)
   end
 
   def body_en_sample
@@ -111,9 +162,7 @@ class Page < ApplicationRecord
   end
 
   def to_s
-    path_sample.presence || title_en_sample.presence ||
-      title_fr_sample.presence || description_en_sample.presence ||
-      description_fr_sample.presence || body_en_sample.presence ||
-      body_fr_sample.presence || t("to_s", id: id)
+    title_sample.presence || description_sample.presence ||
+      body_sample.presence || t("to_s", id: id)
   end
 end

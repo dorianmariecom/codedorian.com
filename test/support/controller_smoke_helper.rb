@@ -130,10 +130,6 @@ module ControllerSmokeHelper
       test_case.error_occurrences(:error_occurrence).id
     when :feedback_id
       test_case.feedbacks(:feedback).id
-    when :example_id
-      test_case.examples(:example).id
-    when :example_schedule_id
-      test_case.example_schedules(:example_schedule).id
     when :form_program_id
       test_case.form_programs(:form_program).id
     when :form_schedule_id
@@ -182,6 +178,8 @@ module ControllerSmokeHelper
       test_case.messages(:message).id
     when :name_id
       test_case.names(:name).id
+    when :page_id
+      test_case.pages(:page).id
     when :password_id
       test_case.passwords(:password).id
     when :phone_number_id
@@ -231,10 +229,6 @@ module ControllerSmokeHelper
       test_case.feedbacks(:feedback).id
     when "error_occurrences"
       test_case.error_occurrences(:error_occurrence).id
-    when "examples"
-      test_case.examples(:example).id
-    when "example_schedules"
-      test_case.example_schedules(:example_schedule).id
     when "form_deliveries"
       test_case.form_deliveries(:form_delivery).id
     when "form_programs"
@@ -285,6 +279,8 @@ module ControllerSmokeHelper
       test_case.messages(:message).id
     when "names"
       test_case.names(:name).id
+    when "pages"
+      test_case.pages(:page).id
     when "passwords"
       test_case.passwords(:password).id
     when "phone_numbers"

@@ -16,7 +16,6 @@ class ProgramsController < ApplicationController
     @program_schedules = program_schedules_scope
     @program_executions = program_executions_scope
     @data = data_scope
-    @examples = examples_scope
   end
 
   def show
@@ -229,10 +228,6 @@ class ProgramsController < ApplicationController
     scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
     scope
-  end
-
-  def examples_scope
-    policy_scope(Example)
   end
 
   def logs_scope

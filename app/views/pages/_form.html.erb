@@ -1,0 +1,143 @@
+<%= form_for(show_url) do |f| %>
+  <% if admin? %>
+    <div class="p">
+      <%= f.label(:user_id, class: :label) %>
+      <%= f.select(
+        :user_id,
+        user_options(user_id: f.object.user_id),
+        {},
+        class: :input,
+        autocomplete: :off,
+        data: {
+          form_type: :other
+        }
+      ) %>
+    </div>
+  <% end %>
+
+  <div class="p">
+    <%= f.label(:parent_id, class: :label) %>
+    <%= f.select(
+      :parent_id,
+      (
+        [nil] + policy_scope(Page).where.not(id: f.object.id).order(:path, :id).to_a
+      ).map do |page|
+        [page&.to_s, page&.id, { selected: f.object.parent_id == page&.id }]
+      end,
+      {},
+      class: :input,
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:path, class: :label) %>
+    <%= f.text_field(
+      :path,
+      class: :input,
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+    <div class="text-gray-600">/<%= Faker::Internet.slug %></div>
+  </div>
+
+  <div class="p" data-turbo-permanent>
+    <%= f.label(:title_en, class: :label) %>
+    <%= f.rich_textarea(
+      :title_en,
+      class: "input lexxy-content",
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+  </div>
+
+  <div class="p" data-turbo-permanent>
+    <%= f.label(:title_fr, class: :label) %>
+    <%= f.rich_textarea(
+      :title_fr,
+      class: "input lexxy-content",
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+  </div>
+
+  <div class="p" data-turbo-permanent>
+    <%= f.label(:description_en, class: :label) %>
+    <%= f.rich_textarea(
+      :description_en,
+      class: "input lexxy-content",
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+  </div>
+
+  <div class="p" data-turbo-permanent>
+    <%= f.label(:description_fr, class: :label) %>
+    <%= f.rich_textarea(
+      :description_fr,
+      class: "input lexxy-content",
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+  </div>
+
+  <div class="p" data-turbo-permanent>
+    <%= f.label(:body_en, class: :label) %>
+    <%= f.rich_textarea(
+      :body_en,
+      class: "input lexxy-content",
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+  </div>
+
+  <div class="p" data-turbo-permanent>
+    <%= f.label(:body_fr, class: :label) %>
+    <%= f.rich_textarea(
+      :body_fr,
+      class: "input lexxy-content",
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:authorization, class: :label) %>
+    <%= f.text_area(
+      :authorization,
+      class: :input,
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.submit(
+      submit,
+      class: "button",
+      data: {
+        controller: "bridge--button",
+        bridge__button_title_value: submit
+      }
+    ) %>
+  </div>
+<% end %>
