@@ -1,5 +1,3 @@
-// @codemirror/state@6.6.0 downloaded from https://ga.jspm.io/npm:@codemirror/state@6.6.0/dist/index.js
-
 import { findClusterBreak as e } from "@marijn/find-cluster-break";
 class Text {
   lineAt(e) {
@@ -62,7 +60,7 @@ class Text {
     let n;
     if (e == null) n = this.iter();
     else {
-      t ??= this.lines + 1;
+      t == null && (t = this.lines + 1);
       let r = this.line(e).from;
       n = this.iterRange(
         r,
@@ -189,7 +187,7 @@ class TextNode extends Text {
       let o = this.children[i],
         s = a + o.length;
       if (e <= s && t >= a) {
-        let i = r & ((a <= e ? 1 : 0) | (s >= t ? 2 : 0));
+        let i = r & ((a <= e) | (s >= t ? 2 : 0));
         a >= e && s <= t && !i ? n.push(o) : o.decompose(e - a, t - a, n, i);
       }
       a = s + 1;
@@ -499,7 +497,7 @@ var f = /* @__PURE__ */ (function (e) {
     (e[(e.TrackAfter = 3)] = `TrackAfter`),
     e
   );
-})((f ||= {}));
+})(f || (f = {}));
 class ChangeDesc {
   constructor(e) {
     this.sections = e;
@@ -926,8 +924,8 @@ class SectionIter {
   }
 }
 class SelectionRange {
-  constructor(e, t, n) {
-    (this.from = e), (this.to = t), (this.flags = n);
+  constructor(e, t, n, r) {
+    (this.from = e), (this.to = t), (this.flags = n), (this.goalColumn = r);
   }
   get anchor() {
     return this.flags & 32 ? this.to : this.from;
@@ -941,13 +939,12 @@ class SelectionRange {
   get assoc() {
     return this.flags & 8 ? -1 : this.flags & 16 ? 1 : 0;
   }
+  get undirectional() {
+    return (this.flags & 64) > 0;
+  }
   get bidiLevel() {
     let e = this.flags & 7;
     return e == 7 ? null : e;
-  }
-  get goalColumn() {
-    let e = this.flags >> 6;
-    return e == 16777215 ? void 0 : e;
   }
   map(e, t = -1) {
     let n, r;
@@ -957,7 +954,7 @@ class SelectionRange {
         : ((n = e.mapPos(this.from, 1)), (r = e.mapPos(this.to, -1))),
       n == this.from && r == this.to
         ? this
-        : new SelectionRange(n, r, this.flags)
+        : new SelectionRange(n, r, this.flags, this.goalColumn)
     );
   }
   extend(e, t = e, n = 0) {
@@ -982,8 +979,8 @@ class SelectionRange {
       throw RangeError(`Invalid JSON representation for SelectionRange`);
     return EditorSelection.range(e.anchor, e.head);
   }
-  static create(e, t, n) {
-    return new SelectionRange(e, t, n);
+  static create(e, t, n, r) {
+    return new SelectionRange(e, t, n, r);
   }
 }
 class EditorSelection {
@@ -1054,19 +1051,22 @@ class EditorSelection {
     return SelectionRange.create(
       e,
       e,
-      (t == 0 ? 0 : t < 0 ? 8 : 16) |
-        (n == null ? 7 : Math.min(6, n)) |
-        ((r ?? 16777215) << 6),
+      (t == 0 ? 0 : t < 0 ? 8 : 16) | (n == null ? 7 : Math.min(6, n)),
+      r,
     );
   }
   static range(e, t, n, r, i) {
-    let a = ((n ?? 16777215) << 6) | (r == null ? 7 : Math.min(6, r));
+    let a = r == null ? 7 : Math.min(6, r);
     return (
       !i && e != t && (i = t < e ? 1 : -1),
+      i && (a |= i < 0 ? 8 : 16),
       t < e
-        ? SelectionRange.create(t, e, 48 | a)
-        : SelectionRange.create(e, t, (i ? (i < 0 ? 8 : 16) : 0) | a)
+        ? SelectionRange.create(t, e, a | 32, n)
+        : SelectionRange.create(e, t, a, n)
     );
+  }
+  static undirectionalRange(e, t) {
+    return SelectionRange.create(e, t, 64, void 0);
   }
   static normalized(e, t = 0) {
     let n = e[t];
@@ -1129,7 +1129,7 @@ class Facet {
     return new FacetProvider(e, this, 2, t);
   }
   from(e, t) {
-    return (t ||= (e) => e), this.compute([e], (n) => t(n.field(e)));
+    return t || (t = (e) => e), this.compute([e], (n) => t(n.field(e)));
   }
 }
 function b(e, t) {
@@ -1158,7 +1158,7 @@ class FacetProvider {
         ? (s = !0)
         : n == `selection`
           ? (c = !0)
-          : ((t = e[n.id]) ?? 1) & 1 || l.push(e[n.id]);
+          : ((t = e[n.id]) == null ? 1 : t) & 1 || l.push(e[n.id]);
     return {
       create(e) {
         return (e.values[a] = n(e)), 1;
@@ -1262,7 +1262,8 @@ class StateField {
     return e.provide && (t.provides = e.provide(t)), t;
   }
   create(e) {
-    return (e.facet(C).find((e) => e.field == this)?.create || this.createF)(e);
+    let t = e.facet(C).find((e) => e.field == this);
+    return ((t == null ? void 0 : t.create) || this.createF)(e);
   }
   slot(e) {
     let t = e[this.id] >> 1;
@@ -1356,7 +1357,7 @@ class Configuration {
       s = [],
       c = [];
     for (let e of r) (o[e.id] = c.length << 1), c.push((t) => e.slot(t));
-    let l = n?.config.facets;
+    let l = n == null ? void 0 : n.config.facets;
     for (let e in i) {
       let t = i[e],
         r = t[0].facet,
@@ -1513,7 +1514,7 @@ class Transaction {
     return new Transaction(e, t, n, r, i, a);
   }
   get newDoc() {
-    return (this._doc ||= this.changes.apply(this.startState.doc));
+    return this._doc || (this._doc = this.changes.apply(this.startState.doc));
   }
   get newSelection() {
     return this.selection || this.startState.selection.map(this.changes);
@@ -1571,7 +1572,11 @@ function I(e, t, n) {
         (o = e.changes.compose(i))),
     {
       changes: o,
-      selection: t.selection ? t.selection.map(a) : (r = e.selection)?.map(i),
+      selection: t.selection
+        ? t.selection.map(a)
+        : (r = e.selection) == null
+          ? void 0
+          : r.map(i),
       effects: StateEffect.mapEffects(e.effects, i).concat(
         StateEffect.mapEffects(t.effects, a),
       ),
@@ -1691,13 +1696,13 @@ var U = /* @__PURE__ */ (function (e) {
     (e[(e.Other = 2)] = `Other`),
     e
   );
-})((U ||= {}));
+})(U || (U = {}));
 const re =
   /[\u00df\u0587\u0590-\u05f4\u0600-\u06ff\u3040-\u309f\u30a0-\u30ff\u3400-\u4db5\u4e00-\u9fcc\uac00-\ud7af]/;
 let W;
 try {
   W = /* @__PURE__ */ RegExp(`[\\p{Alphabetic}\\p{Number}_]`, `u`);
-} catch {}
+} catch (e) {}
 function ie(e) {
   if (W) return W.test(e);
   for (let t = 0; t < e.length; t++) {
@@ -1746,10 +1751,10 @@ class EditorState {
       { base: n, compartments: r } = t;
     for (let i of e.effects)
       i.is(Compartment.reconfigure)
-        ? ((t &&=
+        ? (t &&
             ((r = /* @__PURE__ */ new Map()),
             t.compartments.forEach((e, t) => r.set(t, e)),
-            null)),
+            (t = null)),
           r.set(i.value.compartment, i.value.extension))
         : i.is(StateEffect.reconfigure)
           ? ((t = null), (n = i.value))
@@ -2173,7 +2178,7 @@ class RangeSet {
       n.empty && n.length == 0 && Y(c, 0, l, 0, 0, r);
   }
   static eq(e, t, n = 0, r) {
-    r ??= 999999999;
+    r == null && (r = 999999999);
     let i = e.filter((e) => !e.isEmpty && t.indexOf(e) < 0),
       a = t.filter((t) => !t.isEmpty && e.indexOf(t) < 0);
     if (i.length != a.length) return !1;
@@ -2269,7 +2274,7 @@ class RangeSetBuilder {
   }
   add(e, t, n) {
     this.addInner(e, t, n) ||
-      (this.nextLayer ||= new RangeSetBuilder()).add(e, t, n);
+      (this.nextLayer || (this.nextLayer = new RangeSetBuilder())).add(e, t, n);
   }
   addInner(e, t, n) {
     let r = e - this.lastTo || n.startSide - this.last.endSide;
@@ -2331,7 +2336,7 @@ function q(e, t, n) {
       let a = r.get(e.chunk[t]);
       a != null &&
         (n ? n.mapPos(a) : a) == e.chunkPos[t] &&
-        !n?.touchesRange(a, a + e.chunk[t].length) &&
+        !(n != null && n.touchesRange(a, a + e.chunk[t].length)) &&
         i.add(e.chunk[t]);
     }
   return i;
@@ -2384,9 +2389,10 @@ class LayerCursor {
         break;
       } else {
         let e = this.layer.chunkPos[this.chunkIndex],
-          t = this.layer.chunk[this.chunkIndex];
+          t = this.layer.chunk[this.chunkIndex],
+          n = e + t.from[this.rangeIndex];
         if (
-          ((this.from = e + t.from[this.rangeIndex]),
+          ((this.from = n),
           (this.to = e + t.to[this.rangeIndex]),
           (this.value = t.value[this.rangeIndex]),
           this.setRangeIndex(this.rangeIndex + 1),
@@ -2699,3 +2705,4 @@ export {
   le as findColumn,
   l as fromCodePoint,
 };
+//# sourceMappingURL=index.js.map

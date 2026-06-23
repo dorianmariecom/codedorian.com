@@ -181,6 +181,7 @@ class PagesController < ApplicationController
     return true if request.path == root_path
     return true if params.key?(:path)
     return true if cannot?(:update, @page)
+
     false
   end
 

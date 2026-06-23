@@ -1,5 +1,3 @@
-// @codemirror/commands@6.10.3 downloaded from https://ga.jspm.io/npm:@codemirror/commands@6.10.3/dist/index.js
-
 import {
   Annotation as e,
   Facet as t,
@@ -73,12 +71,9 @@ function pe(e, { open: t, close: n }, r, i) {
     ? {
         open: {
           pos: r + f + t.length,
-          margin: /\s/.test(u.charAt(f + t.length)) ? 1 : 0,
+          margin: +!!/\s/.test(u.charAt(f + t.length)),
         },
-        close: {
-          pos: i - p - n.length,
-          margin: /\s/.test(d.charAt(m - 1)) ? 1 : 0,
-        },
+        close: { pos: i - p - n.length, margin: +!!/\s/.test(d.charAt(m - 1)) },
       }
     : null;
 }
@@ -305,9 +300,9 @@ class HistEvent {
   toJSON() {
     var e, t, n;
     return {
-      changes: (e = this.changes)?.toJSON(),
-      mapped: (t = this.mapped)?.toJSON(),
-      startSelection: (n = this.startSelection)?.toJSON(),
+      changes: (e = this.changes) == null ? void 0 : e.toJSON(),
+      mapped: (t = this.mapped) == null ? void 0 : t.toJSON(),
+      startSelection: (n = this.startSelection) == null ? void 0 : n.toJSON(),
       selectionsAfter: this.selectionsAfter.map((e) => e.toJSON()),
     };
   }
@@ -695,8 +690,10 @@ function it(e) {
   if (t) {
     for (let t of e.state.facet(p.scrollMargins)) {
       let i = t(e);
-      i?.top && (n = Math.max(i?.top, n)),
-        i?.bottom && (r = Math.max(i?.bottom, r));
+      i != null && i.top && (n = Math.max(i == null ? void 0 : i.top, n)),
+        i != null &&
+          i.bottom &&
+          (r = Math.max(i == null ? void 0 : i.bottom, r));
     }
     i = e.scrollDOM.clientHeight - n - r;
   } else i = (e.dom.ownerDocument.defaultView || window).innerHeight;
@@ -768,59 +765,74 @@ function ft(e, t, n) {
 }
 const pt = ({ state: e, dispatch: t }) => ft(e, t, !1),
   mt = ({ state: e, dispatch: t }) => ft(e, t, !0);
-function U(e, t) {
-  let n = k(e.state.selection, (e) => {
-    let n = t(e);
+function U(e, t, n) {
+  let r = k(e.state.selection, (e) => {
+    e.undirectional &&
+      e.head >= e.anchor != t &&
+      (e = s.range(e.head, e.anchor));
+    let r = n(e);
     return s.range(
       e.anchor,
-      n.head,
-      n.goalColumn,
-      n.bidiLevel || void 0,
-      n.assoc,
+      r.head,
+      r.goalColumn,
+      r.bidiLevel || void 0,
+      r.assoc,
     );
   });
-  return n.eq(e.state.selection) ? !1 : (e.dispatch(A(e.state, n)), !0);
+  return r.eq(e.state.selection) ? !1 : (e.dispatch(A(e.state, r)), !0);
 }
 function W(e, t) {
-  return U(e, (n) => e.moveByChar(n, t));
+  return U(e, t, (n) => e.moveByChar(n, t));
 }
 const G = (e) => W(e, !P(e)),
   K = (e) => W(e, P(e)),
   ht = (e) => W(e, !0),
   gt = (e) => W(e, !1),
-  _t = (e) => U(e, (t) => ze(e.state, t, !0)),
-  vt = (e) => U(e, (t) => ze(e.state, t, !1));
+  _t = (e) => U(e, !0, (t) => ze(e.state, t, !0)),
+  vt = (e) => U(e, !1, (t) => ze(e.state, t, !1));
 function q(e, t) {
-  return U(e, (n) => e.moveByGroup(n, t));
+  return U(e, t, (n) => e.moveByGroup(n, t));
 }
 const yt = (e) => q(e, !P(e)),
   bt = (e) => q(e, P(e)),
   xt = (e) => q(e, !0),
   St = (e) => q(e, !1),
-  Ct = (e) => U(e, (t) => e.moveByChar(t, !0, (n) => qe(e, t.head, n)));
+  Ct = (e) => U(e, !0, (t) => e.moveByChar(t, !0, (n) => qe(e, t.head, n)));
 function wt(e, t) {
-  return U(e, (n) => Xe(e, n, t));
+  return U(e, t, (n) => Xe(e, n, t));
 }
 const Tt = (e) => wt(e, !0),
   Et = (e) => wt(e, !1),
-  Dt = (e) => U(e, (t) => L(e.state, t, !P(e))),
-  Ot = (e) => U(e, (t) => L(e.state, t, P(e)));
+  Dt = (e) => {
+    let t = !P(e);
+    return U(e, t, (n) => L(e.state, n, t));
+  },
+  Ot = (e) => {
+    let t = P(e);
+    return U(e, t, (n) => L(e.state, n, t));
+  };
 function kt(e, t) {
-  return U(e, (n) => e.moveVertically(n, t));
+  return U(e, t, (n) => e.moveVertically(n, t));
 }
 const At = (e) => kt(e, !1),
   jt = (e) => kt(e, !0);
 function Mt(e, t) {
-  return U(e, (n) => e.moveVertically(n, t, it(e).height));
+  return U(e, t, (n) => e.moveVertically(n, t, it(e).height));
 }
 const Nt = (e) => Mt(e, !1),
   Pt = (e) => Mt(e, !0),
-  Ft = (e) => U(e, (t) => H(e, t, !0)),
-  It = (e) => U(e, (t) => H(e, t, !1)),
-  Lt = (e) => U(e, (t) => H(e, t, !P(e))),
-  Rt = (e) => U(e, (t) => H(e, t, P(e))),
-  zt = (e) => U(e, (t) => s.cursor(e.lineBlockAt(t.head).from)),
-  Bt = (e) => U(e, (t) => s.cursor(e.lineBlockAt(t.head).to)),
+  Ft = (e) => U(e, !0, (t) => H(e, t, !0)),
+  It = (e) => U(e, !1, (t) => H(e, t, !1)),
+  Lt = (e) => {
+    let t = !P(e);
+    return U(e, t, (n) => H(e, n, t));
+  },
+  Rt = (e) => {
+    let t = P(e);
+    return U(e, t, (n) => H(e, n, t));
+  },
+  zt = (e) => U(e, !1, (t) => s.cursor(e.lineBlockAt(t.head).from)),
+  Bt = (e) => U(e, !0, (t) => s.cursor(e.lineBlockAt(t.head).to)),
   Vt = ({ state: e, dispatch: t }) => (t(A(e, { anchor: 0 })), !0),
   Ht = ({ state: e, dispatch: t }) => (t(A(e, { anchor: e.doc.length })), !0),
   Ut = ({ state: e, dispatch: t }) => (
@@ -1228,7 +1240,7 @@ function wn(e) {
       let c = new ee(t, { simulateBreak: r, simulateDoubleBreak: !!o }),
         l = te(c, r);
       for (
-        l ??= d(/^\s*/.exec(t.doc.lineAt(r).text)[0], t.tabSize);
+        l == null && (l = d(/^\s*/.exec(t.doc.lineAt(r).text)[0], t.tabSize));
         i < a.to && /\s/.test(a.text[i - a.from]);
 
       )
@@ -1272,7 +1284,12 @@ function Tn(e, t) {
 const En = ({ state: e, dispatch: t }) => {
     if (e.readOnly) return !1;
     let n = Object.create(null),
-      r = new ee(e, { overrideIndentation: (e) => n[e] ?? -1 }),
+      r = new ee(e, {
+        overrideIndentation: (e) => {
+          let t = n[e];
+          return t == null ? -1 : t;
+        },
+      }),
       i = Tn(e, (t, i, a) => {
         let o = te(r, t.from);
         if (o == null) return;
@@ -1533,3 +1550,4 @@ export {
   we as undoDepth,
   xe as undoSelection,
 };
+//# sourceMappingURL=index.js.map

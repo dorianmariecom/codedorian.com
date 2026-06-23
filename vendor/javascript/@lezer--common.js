@@ -1,83 +1,80 @@
-// @lezer/common@1.5.1 downloaded from https://ga.jspm.io/npm:@lezer/common@1.5.1/dist/index.js
+// @lezer/common@1.5.2 downloaded from https://ga.jspm.io/npm:@lezer/common@1.5.2/dist/index.js
 
 const e = 1024;
 let t = 0;
 class Range {
   constructor(e, t) {
-    this.from = e;
-    this.to = t;
+    (this.from = e), (this.to = t);
   }
 }
 class NodeProp {
   constructor(e = {}) {
-    this.id = t++;
-    this.perNode = !!e.perNode;
-    this.deserialize =
-      e.deserialize ||
-      (() => {
-        throw new Error("This node type doesn't define a deserialize function");
-      });
-    this.combine = e.combine || null;
+    (this.id = t++),
+      (this.perNode = !!e.perNode),
+      (this.deserialize =
+        e.deserialize ||
+        (() => {
+          throw Error(`This node type doesn't define a deserialize function`);
+        })),
+      (this.combine = e.combine || null);
   }
   add(e) {
     if (this.perNode)
-      throw new RangeError("Can't add per-node props to node types");
-    typeof e != "function" && (e = NodeType.match(e));
-    return (t) => {
-      let r = e(t);
-      return r === void 0 ? null : [this, r];
-    };
+      throw RangeError(`Can't add per-node props to node types`);
+    return (
+      typeof e != `function` && (e = NodeType.match(e)),
+      (t) => {
+        let n = e(t);
+        return n === void 0 ? null : [this, n];
+      }
+    );
   }
 }
-NodeProp.closedBy = new NodeProp({ deserialize: (e) => e.split(" ") });
-NodeProp.openedBy = new NodeProp({ deserialize: (e) => e.split(" ") });
-NodeProp.group = new NodeProp({ deserialize: (e) => e.split(" ") });
-NodeProp.isolate = new NodeProp({
-  deserialize: (e) => {
-    if (e && e != "rtl" && e != "ltr" && e != "auto")
-      throw new RangeError("Invalid value for isolate: " + e);
-    return e || "auto";
-  },
-});
-NodeProp.contextHash = new NodeProp({ perNode: true });
-NodeProp.lookAhead = new NodeProp({ perNode: true });
-NodeProp.mounted = new NodeProp({ perNode: true });
+(NodeProp.closedBy = new NodeProp({ deserialize: (e) => e.split(` `) })),
+  (NodeProp.openedBy = new NodeProp({ deserialize: (e) => e.split(` `) })),
+  (NodeProp.group = new NodeProp({ deserialize: (e) => e.split(` `) })),
+  (NodeProp.isolate = new NodeProp({
+    deserialize: (e) => {
+      if (e && e != `rtl` && e != `ltr` && e != `auto`)
+        throw RangeError(`Invalid value for isolate: ` + e);
+      return e || `auto`;
+    },
+  })),
+  (NodeProp.contextHash = new NodeProp({ perNode: !0 })),
+  (NodeProp.lookAhead = new NodeProp({ perNode: !0 })),
+  (NodeProp.mounted = new NodeProp({ perNode: !0 }));
 class MountedTree {
-  constructor(e, t, r, n = false) {
-    this.tree = e;
-    this.overlay = t;
-    this.parser = r;
-    this.bracketed = n;
+  constructor(e, t, n, r = !1) {
+    (this.tree = e),
+      (this.overlay = t),
+      (this.parser = n),
+      (this.bracketed = r);
   }
   static get(e) {
     return e && e.props && e.props[NodeProp.mounted.id];
   }
 }
-const r = Object.create(null);
+const n = Object.create(null);
 class NodeType {
-  constructor(e, t, r, n = 0) {
-    this.name = e;
-    this.props = t;
-    this.id = r;
-    this.flags = n;
+  constructor(e, t, n, r = 0) {
+    (this.name = e), (this.props = t), (this.id = n), (this.flags = r);
   }
   static define(e) {
-    let t = e.props && e.props.length ? Object.create(null) : r;
-    let n =
-      (e.top ? 1 : 0) |
-      (e.skipped ? 2 : 0) |
-      (e.error ? 4 : 0) |
-      (e.name == null ? 8 : 0);
-    let i = new NodeType(e.name || "", t, e.id, n);
-    if (e.props)
-      for (let r of e.props) {
-        Array.isArray(r) || (r = r(i));
-        if (r) {
-          if (r[0].perNode)
-            throw new RangeError("Can't store a per-node prop on a node type");
-          t[r[0].id] = r[1];
+    let t = e.props && e.props.length ? Object.create(null) : n,
+      r =
+        (e.top ? 1 : 0) |
+        (e.skipped ? 2 : 0) |
+        (e.error ? 4 : 0) |
+        (e.name == null ? 8 : 0),
+      i = new NodeType(e.name || ``, t, e.id, r);
+    if (e.props) {
+      for (let n of e.props)
+        if ((Array.isArray(n) || (n = n(i)), n)) {
+          if (n[0].perNode)
+            throw RangeError(`Can't store a per-node prop on a node type`);
+          t[n[0].id] = n[1];
         }
-      }
+    }
     return i;
   }
   prop(e) {
@@ -96,141 +93,132 @@ class NodeType {
     return (this.flags & 8) > 0;
   }
   is(e) {
-    if (typeof e == "string") {
-      if (this.name == e) return true;
+    if (typeof e == `string`) {
+      if (this.name == e) return !0;
       let t = this.prop(NodeProp.group);
-      return !!t && t.indexOf(e) > -1;
+      return t ? t.indexOf(e) > -1 : !1;
     }
     return this.id == e;
   }
   static match(e) {
     let t = Object.create(null);
-    for (let r in e) for (let n of r.split(" ")) t[n] = e[r];
+    for (let n in e) for (let r of n.split(` `)) t[r] = e[n];
     return (e) => {
       for (
-        let r = e.prop(NodeProp.group), n = -1;
-        n < (r ? r.length : 0);
-        n++
+        let n = e.prop(NodeProp.group), r = -1;
+        r < (n ? n.length : 0);
+        r++
       ) {
-        let i = t[n < 0 ? e.name : r[n]];
+        let i = t[r < 0 ? e.name : n[r]];
         if (i) return i;
       }
     };
   }
 }
-NodeType.none = new NodeType("", Object.create(null), 0, 8);
+NodeType.none = new NodeType(``, Object.create(null), 0, 8);
 class NodeSet {
   constructor(e) {
     this.types = e;
     for (let t = 0; t < e.length; t++)
       if (e[t].id != t)
-        throw new RangeError(
-          "Node type ids should correspond to array positions when creating a node set",
+        throw RangeError(
+          `Node type ids should correspond to array positions when creating a node set`,
         );
   }
   extend(...e) {
     let t = [];
-    for (let r of this.types) {
-      let n = null;
+    for (let n of this.types) {
+      let r = null;
       for (let t of e) {
-        let e = t(r);
+        let e = t(n);
         if (e) {
-          n || (n = Object.assign({}, r.props));
+          r ||= Object.assign({}, n.props);
           let t = e[1],
             i = e[0];
-          i.combine && i.id in n && (t = i.combine(n[i.id], t));
-          n[i.id] = t;
+          i.combine && i.id in r && (t = i.combine(r[i.id], t)), (r[i.id] = t);
         }
       }
-      t.push(n ? new NodeType(r.name, n, r.id, r.flags) : r);
+      t.push(r ? new NodeType(n.name, r, n.id, n.flags) : n);
     }
     return new NodeSet(t);
   }
 }
-const n = new WeakMap(),
-  i = new WeakMap();
-var s;
+const r = /* @__PURE__ */ new WeakMap(),
+  i = /* @__PURE__ */ new WeakMap();
+var a;
 (function (e) {
-  e[(e.ExcludeBuffers = 1)] = "ExcludeBuffers";
-  e[(e.IncludeAnonymous = 2)] = "IncludeAnonymous";
-  e[(e.IgnoreMounts = 4)] = "IgnoreMounts";
-  e[(e.IgnoreOverlays = 8)] = "IgnoreOverlays";
-  e[(e.EnterBracketed = 16)] = "EnterBracketed";
-})(s || (s = {}));
+  (e[(e.ExcludeBuffers = 1)] = `ExcludeBuffers`),
+    (e[(e.IncludeAnonymous = 2)] = `IncludeAnonymous`),
+    (e[(e.IgnoreMounts = 4)] = `IgnoreMounts`),
+    (e[(e.IgnoreOverlays = 8)] = `IgnoreOverlays`),
+    (e[(e.EnterBracketed = 16)] = `EnterBracketed`);
+})((a ||= {}));
 class Tree {
-  constructor(e, t, r, n, i) {
-    this.type = e;
-    this.children = t;
-    this.positions = r;
-    this.length = n;
-    this.props = null;
-    if (i && i.length) {
+  constructor(e, t, n, r, i) {
+    if (
+      ((this.type = e),
+      (this.children = t),
+      (this.positions = n),
+      (this.length = r),
+      (this.props = null),
+      i && i.length)
+    ) {
       this.props = Object.create(null);
-      for (let [e, t] of i) this.props[typeof e == "number" ? e : e.id] = t;
+      for (let [e, t] of i) this.props[typeof e == `number` ? e : e.id] = t;
     }
   }
   toString() {
     let e = MountedTree.get(this);
     if (e && !e.overlay) return e.tree.toString();
-    let t = "";
+    let t = ``;
     for (let e of this.children) {
-      let r = e.toString();
-      if (r) {
-        t && (t += ",");
-        t += r;
-      }
+      let n = e.toString();
+      n && (t && (t += `,`), (t += n));
     }
     return this.type.name
       ? (/\W/.test(this.type.name) && !this.type.isError
           ? JSON.stringify(this.type.name)
-          : this.type.name) + (t.length ? "(" + t + ")" : "")
+          : this.type.name) + (t.length ? `(` + t + `)` : ``)
       : t;
   }
   cursor(e = 0) {
     return new TreeCursor(this.topNode, e);
   }
-  cursorAt(e, t = 0, r = 0) {
-    let i = n.get(this) || this.topNode;
-    let s = new TreeCursor(i);
-    s.moveTo(e, t);
-    n.set(this, s._tree);
-    return s;
+  cursorAt(e, t = 0, n = 0) {
+    let i = new TreeCursor(r.get(this) || this.topNode);
+    return i.moveTo(e, t), r.set(this, i._tree), i;
   }
   get topNode() {
     return new TreeNode(this, 0, 0, null);
   }
   resolve(e, t = 0) {
-    let r = l(n.get(this) || this.topNode, e, t, false);
-    n.set(this, r);
-    return r;
+    let n = s(r.get(this) || this.topNode, e, t, !1);
+    return r.set(this, n), n;
   }
   resolveInner(e, t = 0) {
-    let r = l(i.get(this) || this.topNode, e, t, true);
-    i.set(this, r);
-    return r;
+    let n = s(i.get(this) || this.topNode, e, t, !0);
+    return i.set(this, n), n;
   }
   resolveStack(e, t = 0) {
-    return a(this, e, t);
+    return d(this, e, t);
   }
   iterate(e) {
-    let { enter: t, leave: r, from: n = 0, to: i = this.length } = e;
-    let o = e.mode || 0,
-      l = (o & s.IncludeAnonymous) > 0;
-    for (let e = this.cursor(o | s.IncludeAnonymous); ; ) {
-      let s = false;
+    let { enter: t, leave: n, from: r = 0, to: i = this.length } = e,
+      o = e.mode || 0,
+      s = (o & a.IncludeAnonymous) > 0;
+    for (let e = this.cursor(o | a.IncludeAnonymous); ; ) {
+      let a = !1;
       if (
         e.from <= i &&
-        e.to >= n &&
-        ((!l && e.type.isAnonymous) || t(e) !== false)
+        e.to >= r &&
+        ((!s && e.type.isAnonymous) || t(e) !== !1)
       ) {
         if (e.firstChild()) continue;
-        s = true;
+        a = !0;
       }
-      for (;;) {
-        s && r && (l || !e.type.isAnonymous) && r(e);
-        if (e.nextSibling()) break;
+      for (; a && n && (s || !e.type.isAnonymous) && n(e), !e.nextSibling(); ) {
         if (!e.parent()) return;
-        s = true;
+        a = !0;
       }
     }
   }
@@ -249,7 +237,7 @@ class Tree {
   balance(e = {}) {
     return this.children.length <= 8
       ? this
-      : m(
+      : g(
           NodeType.none,
           this.children,
           this.positions,
@@ -257,8 +245,8 @@ class Tree {
           this.children.length,
           0,
           this.length,
-          (e, t, r) => new Tree(this.type, e, t, r, this.propValues),
-          e.makeTree || ((e, t, r) => new Tree(NodeType.none, e, t, r)),
+          (e, t, n) => new Tree(this.type, e, t, n, this.propValues),
+          e.makeTree || ((e, t, n) => new Tree(NodeType.none, e, t, n)),
         );
   }
   static build(e) {
@@ -268,8 +256,7 @@ class Tree {
 Tree.empty = new Tree(NodeType.none, [], [], 0);
 class FlatBufferCursor {
   constructor(e, t) {
-    this.buffer = e;
-    this.index = t;
+    (this.buffer = e), (this.index = t);
   }
   get id() {
     return this.buffer[this.index - 4];
@@ -294,134 +281,125 @@ class FlatBufferCursor {
   }
 }
 class TreeBuffer {
-  constructor(e, t, r) {
-    this.buffer = e;
-    this.length = t;
-    this.set = r;
+  constructor(e, t, n) {
+    (this.buffer = e), (this.length = t), (this.set = n);
   }
   get type() {
     return NodeType.none;
   }
   toString() {
     let e = [];
-    for (let t = 0; t < this.buffer.length; ) {
-      e.push(this.childString(t));
-      t = this.buffer[t + 3];
-    }
-    return e.join(",");
+    for (let t = 0; t < this.buffer.length; )
+      e.push(this.childString(t)), (t = this.buffer[t + 3]);
+    return e.join(`,`);
   }
   childString(e) {
     let t = this.buffer[e],
-      r = this.buffer[e + 3];
-    let n = this.set.types[t],
-      i = n.name;
-    /\W/.test(i) && !n.isError && (i = JSON.stringify(i));
-    e += 4;
-    if (r == e) return i;
-    let s = [];
-    while (e < r) {
-      s.push(this.childString(e));
-      e = this.buffer[e + 3];
-    }
-    return i + "(" + s.join(",") + ")";
+      n = this.buffer[e + 3],
+      r = this.set.types[t],
+      i = r.name;
+    if (
+      (/\W/.test(i) && !r.isError && (i = JSON.stringify(i)), (e += 4), n == e)
+    )
+      return i;
+    let a = [];
+    for (; e < n; ) a.push(this.childString(e)), (e = this.buffer[e + 3]);
+    return i + `(` + a.join(`,`) + `)`;
   }
-  findChild(e, t, r, n, i) {
-    let { buffer: s } = this,
-      l = -1;
-    for (let f = e; f != t; f = s[f + 3])
-      if (o(i, n, s[f + 1], s[f + 2])) {
-        l = f;
-        if (r > 0) break;
-      }
-    return l;
+  findChild(e, t, n, r, i) {
+    let { buffer: a } = this,
+      s = -1;
+    for (
+      let c = e;
+      c != t && !(o(i, r, a[c + 1], a[c + 2]) && ((s = c), n > 0));
+      c = a[c + 3]
+    );
+    return s;
   }
-  slice(e, t, r) {
-    let n = this.buffer;
-    let i = new Uint16Array(t - e),
-      s = 0;
-    for (let o = e, l = 0; o < t; ) {
-      i[l++] = n[o++];
-      i[l++] = n[o++] - r;
-      let t = (i[l++] = n[o++] - r);
-      i[l++] = n[o++] - e;
-      s = Math.max(s, t);
+  slice(e, t, n) {
+    let r = this.buffer,
+      i = new Uint16Array(t - e),
+      a = 0;
+    for (let o = e, s = 0; o < t; ) {
+      (i[s++] = r[o++]), (i[s++] = r[o++] - n);
+      let t = (i[s++] = r[o++] - n);
+      (i[s++] = r[o++] - e), (a = Math.max(a, t));
     }
-    return new TreeBuffer(i, s, this.set);
+    return new TreeBuffer(i, a, this.set);
   }
 }
-function o(e, t, r, n) {
+function o(e, t, n, r) {
   switch (e) {
     case -2:
-      return r < t;
+      return n < t;
     case -1:
-      return n >= t && r < t;
+      return r >= t && n < t;
     case 0:
-      return r < t && n > t;
+      return n < t && r > t;
     case 1:
-      return r <= t && n > t;
+      return n <= t && r > t;
     case 2:
-      return n > t;
+      return r > t;
     case 4:
-      return true;
+      return !0;
   }
 }
-function l(e, t, r, n) {
-  var i;
-  while (
+function s(e, t, n, r) {
+  for (
+    var i;
     e.from == e.to ||
-    (r < 1 ? e.from >= t : e.from > t) ||
-    (r > -1 ? e.to <= t : e.to < t)
+    (n < 1 ? e.from >= t : e.from > t) ||
+    (n > -1 ? e.to <= t : e.to < t);
+
   ) {
-    let t = !n && e instanceof TreeNode && e.index < 0 ? null : e.parent;
+    let t = !r && e instanceof TreeNode && e.index < 0 ? null : e.parent;
     if (!t) return e;
     e = t;
   }
-  let o = n ? 0 : s.IgnoreOverlays;
-  if (n)
-    for (let n = e, s = n.parent; s; n = s, s = n.parent)
-      n instanceof TreeNode &&
-        n.index < 0 &&
-        ((i = s.enter(t, r, o)) === null || i === void 0 ? void 0 : i.from) !=
-          n.from &&
-        (e = s);
+  let o = r ? 0 : a.IgnoreOverlays;
+  if (r)
+    for (let r = e, a = r.parent; a; r = a, a = r.parent)
+      r instanceof TreeNode &&
+        r.index < 0 &&
+        (i = a.enter(t, n, o))?.from != r.from &&
+        (e = a);
   for (;;) {
-    let n = e.enter(t, r, o);
-    if (!n) return e;
-    e = n;
+    let r = e.enter(t, n, o);
+    if (!r) return e;
+    e = r;
   }
 }
 class BaseNode {
   cursor(e = 0) {
     return new TreeCursor(this, e);
   }
-  getChild(e, t = null, r = null) {
-    let n = f(this, e, t, r);
-    return n.length ? n[0] : null;
+  getChild(e, t = null, n = null) {
+    let r = c(this, e, t, n);
+    return r.length ? r[0] : null;
   }
-  getChildren(e, t = null, r = null) {
-    return f(this, e, t, r);
+  getChildren(e, t = null, n = null) {
+    return c(this, e, t, n);
   }
   resolve(e, t = 0) {
-    return l(this, e, t, false);
+    return s(this, e, t, !1);
   }
   resolveInner(e, t = 0) {
-    return l(this, e, t, true);
+    return s(this, e, t, !0);
   }
   matchContext(e) {
-    return h(this.parent, e);
+    return l(this.parent, e);
   }
   enterUnfinishedNodesBefore(e) {
     let t = this.childBefore(e),
-      r = this;
-    while (t) {
+      n = this;
+    for (; t; ) {
       let e = t.lastChild;
       if (!e || e.to != t.to) break;
-      if (e.type.isError && e.from == e.to) {
-        r = t;
-        t = e.prevSibling;
-      } else t = e;
+      e.type.isError && e.from == e.to
+        ? ((n = t), (t = e.prevSibling))
+        : (t = e);
     }
-    return r;
+    return n;
   }
   get node() {
     return this;
@@ -431,12 +409,12 @@ class BaseNode {
   }
 }
 class TreeNode extends BaseNode {
-  constructor(e, t, r, n) {
-    super();
-    this._tree = e;
-    this.from = t;
-    this.index = r;
-    this._parent = n;
+  constructor(e, t, n, r) {
+    super(),
+      (this._tree = e),
+      (this.from = t),
+      (this.index = n),
+      (this._parent = r);
   }
   get type() {
     return this._tree.type;
@@ -447,50 +425,58 @@ class TreeNode extends BaseNode {
   get to() {
     return this.from + this._tree.length;
   }
-  nextChild(e, t, r, n, i = 0) {
-    for (let l = this; ; ) {
+  nextChild(e, t, n, r, i = 0) {
+    for (let s = this; ; ) {
       for (
-        let { children: f, positions: h } = l._tree, u = t > 0 ? f.length : -1;
+        let { children: c, positions: l } = s._tree, u = t > 0 ? c.length : -1;
         e != u;
         e += t
       ) {
-        let u,
-          a = f[e],
-          p = h[e] + l.from;
+        let u = c[e],
+          d = l[e] + s.from,
+          p;
         if (
-          (i & s.EnterBracketed &&
-            a instanceof Tree &&
-            (u = MountedTree.get(a)) &&
-            !u.overlay &&
-            u.bracketed &&
-            r >= p &&
-            r <= p + a.length) ||
-          o(n, r, p, p + a.length)
-        )
-          if (a instanceof TreeBuffer) {
-            if (i & s.ExcludeBuffers) continue;
-            let o = a.findChild(0, a.buffer.length, t, r - p, n);
+          !(
+            !(
+              i & a.EnterBracketed &&
+              u instanceof Tree &&
+              (p = MountedTree.get(u)) &&
+              !p.overlay &&
+              p.bracketed &&
+              n >= d &&
+              n <= d + u.length
+            ) && !o(r, n, d, d + u.length)
+          )
+        ) {
+          if (u instanceof TreeBuffer) {
+            if (i & a.ExcludeBuffers) continue;
+            let o = u.findChild(0, u.buffer.length, t, n - d, r);
             if (o > -1)
-              return new BufferNode(new BufferContext(l, a, e, p), null, o);
-          } else if (i & s.IncludeAnonymous || !a.type.isAnonymous || d(a)) {
+              return new BufferNode(new BufferContext(s, u, e, d), null, o);
+          } else if (i & a.IncludeAnonymous || !u.type.isAnonymous || f(u)) {
             let o;
-            if (!(i & s.IgnoreMounts) && (o = MountedTree.get(a)) && !o.overlay)
-              return new TreeNode(o.tree, p, e, l);
-            let f = new TreeNode(a, p, e, l);
-            return i & s.IncludeAnonymous || !f.type.isAnonymous
-              ? f
-              : f.nextChild(t < 0 ? a.children.length - 1 : 0, t, r, n, i);
+            if (!(i & a.IgnoreMounts) && (o = MountedTree.get(u)) && !o.overlay)
+              return new TreeNode(o.tree, d, e, s);
+            let c = new TreeNode(u, d, e, s);
+            return i & a.IncludeAnonymous || !c.type.isAnonymous
+              ? c
+              : c.nextChild(t < 0 ? u.children.length - 1 : 0, t, n, r, i);
           }
+        }
       }
-      if (i & s.IncludeAnonymous || !l.type.isAnonymous) return null;
-      e =
-        l.index >= 0
-          ? l.index + t
-          : t < 0
-            ? -1
-            : l._parent._tree.children.length;
-      l = l._parent;
-      if (!l) return null;
+      if (
+        i & a.IncludeAnonymous ||
+        !s.type.isAnonymous ||
+        ((e =
+          s.index >= 0
+            ? s.index + t
+            : t < 0
+              ? -1
+              : s._parent._tree.children.length),
+        (s = s._parent),
+        !s)
+      )
+        return null;
     }
   }
   get firstChild() {
@@ -508,24 +494,24 @@ class TreeNode extends BaseNode {
   prop(e) {
     return this._tree.prop(e);
   }
-  enter(e, t, r = 0) {
-    let n;
+  enter(e, t, n = 0) {
+    let r;
     if (
-      !(r & s.IgnoreOverlays) &&
-      (n = MountedTree.get(this._tree)) &&
-      n.overlay
+      !(n & a.IgnoreOverlays) &&
+      (r = MountedTree.get(this._tree)) &&
+      r.overlay
     ) {
       let i = e - this.from,
-        o = r & s.EnterBracketed && n.bracketed;
-      for (let { from: e, to: r } of n.overlay)
-        if ((t > 0 || o ? e <= i : e < i) && (t < 0 || o ? r >= i : r > i))
-          return new TreeNode(n.tree, n.overlay[0].from + this.from, -1, this);
+        o = n & a.EnterBracketed && r.bracketed;
+      for (let { from: e, to: n } of r.overlay)
+        if ((t > 0 || o ? e <= i : e < i) && (t < 0 || o ? n >= i : n > i))
+          return new TreeNode(r.tree, r.overlay[0].from + this.from, -1, this);
     }
-    return this.nextChild(0, 1, e, t, r);
+    return this.nextChild(0, 1, e, t, n);
   }
   nextSignificantParent() {
     let e = this;
-    while (e.type.isAnonymous && e._parent) e = e._parent;
+    for (; e.type.isAnonymous && e._parent; ) e = e._parent;
     return e;
   }
   get parent() {
@@ -551,37 +537,32 @@ class TreeNode extends BaseNode {
     return this._tree.toString();
   }
 }
-function f(e, t, r, n) {
+function c(e, t, n, r) {
   let i = e.cursor(),
-    s = [];
-  if (!i.firstChild()) return s;
-  if (r != null)
-    for (let e = false; !e; ) {
-      e = i.type.is(r);
-      if (!i.nextSibling()) return s;
-    }
+    a = [];
+  if (!i.firstChild()) return a;
+  if (n != null) {
+    for (let e = !1; !e; ) if (((e = i.type.is(n)), !i.nextSibling())) return a;
+  }
   for (;;) {
-    if (n != null && i.type.is(n)) return s;
-    i.type.is(t) && s.push(i.node);
-    if (!i.nextSibling()) return n == null ? s : [];
+    if (r != null && i.type.is(r)) return a;
+    if ((i.type.is(t) && a.push(i.node), !i.nextSibling()))
+      return r == null ? a : [];
   }
 }
-function h(e, t, r = t.length - 1) {
-  for (let n = e; r >= 0; n = n.parent) {
-    if (!n) return false;
-    if (!n.type.isAnonymous) {
-      if (t[r] && t[r] != n.name) return false;
-      r--;
+function l(e, t, n = t.length - 1) {
+  for (let r = e; n >= 0; r = r.parent) {
+    if (!r) return !1;
+    if (!r.type.isAnonymous) {
+      if (t[n] && t[n] != r.name) return !1;
+      n--;
     }
   }
-  return true;
+  return !0;
 }
 class BufferContext {
-  constructor(e, t, r, n) {
-    this.parent = e;
-    this.buffer = t;
-    this.index = r;
-    this.start = n;
+  constructor(e, t, n, r) {
+    (this.parent = e), (this.buffer = t), (this.index = n), (this.start = r);
   }
 }
 class BufferNode extends BaseNode {
@@ -594,22 +575,22 @@ class BufferNode extends BaseNode {
   get to() {
     return this.context.start + this.context.buffer.buffer[this.index + 2];
   }
-  constructor(e, t, r) {
-    super();
-    this.context = e;
-    this._parent = t;
-    this.index = r;
-    this.type = e.buffer.set.types[e.buffer.buffer[r]];
+  constructor(e, t, n) {
+    super(),
+      (this.context = e),
+      (this._parent = t),
+      (this.index = n),
+      (this.type = e.buffer.set.types[e.buffer.buffer[n]]);
   }
-  child(e, t, r) {
-    let { buffer: n } = this.context;
-    let i = n.findChild(
-      this.index + 4,
-      n.buffer[this.index + 3],
-      e,
-      t - this.context.start,
-      r,
-    );
+  child(e, t, n) {
+    let { buffer: r } = this.context,
+      i = r.findChild(
+        this.index + 4,
+        r.buffer[this.index + 3],
+        e,
+        t - this.context.start,
+        n,
+      );
     return i < 0 ? null : new BufferNode(this.context, this, i);
   }
   get firstChild() {
@@ -627,16 +608,16 @@ class BufferNode extends BaseNode {
   prop(e) {
     return this.type.prop(e);
   }
-  enter(e, t, r = 0) {
-    if (r & s.ExcludeBuffers) return null;
-    let { buffer: n } = this.context;
-    let i = n.findChild(
-      this.index + 4,
-      n.buffer[this.index + 3],
-      t > 0 ? 1 : -1,
-      e - this.context.start,
-      t,
-    );
+  enter(e, t, n = 0) {
+    if (n & a.ExcludeBuffers) return null;
+    let { buffer: r } = this.context,
+      i = r.findChild(
+        this.index + 4,
+        r.buffer[this.index + 3],
+        t > 0 ? 1 : -1,
+        e - this.context.start,
+        t,
+      );
     return i < 0 ? null : new BufferNode(this.context, this, i);
   }
   get parent() {
@@ -648,16 +629,16 @@ class BufferNode extends BaseNode {
       : this.context.parent.nextChild(this.context.index + e, e, 0, 4);
   }
   get nextSibling() {
-    let { buffer: e } = this.context;
-    let t = e.buffer[this.index + 3];
+    let { buffer: e } = this.context,
+      t = e.buffer[this.index + 3];
     return t <
       (this._parent ? e.buffer[this._parent.index + 3] : e.buffer.length)
       ? new BufferNode(this.context, this._parent, t)
       : this.externalSibling(1);
   }
   get prevSibling() {
-    let { buffer: e } = this.context;
-    let t = this._parent ? this._parent.index + 4 : 0;
+    let { buffer: e } = this.context,
+      t = this._parent ? this._parent.index + 4 : 0;
     return this.index == t
       ? this.externalSibling(-1)
       : new BufferNode(
@@ -671,14 +652,13 @@ class BufferNode extends BaseNode {
   }
   toTree() {
     let e = [],
-      t = [];
-    let { buffer: r } = this.context;
-    let n = this.index + 4,
-      i = r.buffer[this.index + 3];
-    if (i > n) {
-      let s = r.buffer[this.index + 1];
-      e.push(r.slice(n, i, s));
-      t.push(0);
+      t = [],
+      { buffer: n } = this.context,
+      r = this.index + 4,
+      i = n.buffer[this.index + 3];
+    if (i > r) {
+      let a = n.buffer[this.index + 1];
+      e.push(n.slice(r, i, a)), t.push(0);
     }
     return new Tree(this.type, e, t, this.to - this.from);
   }
@@ -689,121 +669,115 @@ class BufferNode extends BaseNode {
 function u(e) {
   if (!e.length) return null;
   let t = 0,
-    r = e[0];
-  for (let n = 1; n < e.length; n++) {
-    let i = e[n];
-    if (i.from > r.from || i.to < r.to) {
-      r = i;
-      t = n;
-    }
+    n = e[0];
+  for (let r = 1; r < e.length; r++) {
+    let i = e[r];
+    (i.from > n.from || i.to < n.to) && ((n = i), (t = r));
   }
-  let n = r instanceof TreeNode && r.index < 0 ? null : r.parent;
-  let i = e.slice();
-  n ? (i[t] = n) : i.splice(t, 1);
-  return new StackIterator(i, r);
+  let r = n instanceof TreeNode && n.index < 0 ? null : n.parent,
+    i = e.slice();
+  return r ? (i[t] = r) : i.splice(t, 1), new StackIterator(i, n);
 }
 class StackIterator {
   constructor(e, t) {
-    this.heads = e;
-    this.node = t;
+    (this.heads = e), (this.node = t);
   }
   get next() {
     return u(this.heads);
   }
 }
-function a(e, t, r) {
-  let n = e.resolveInner(t, r),
+function d(e, t, n) {
+  let r = e.resolveInner(t, n),
     i = null;
-  for (let e = n instanceof TreeNode ? n : n.context.parent; e; e = e.parent)
+  for (let e = r instanceof TreeNode ? r : r.context.parent; e; e = e.parent)
     if (e.index < 0) {
-      let s = e.parent;
-      (i || (i = [n])).push(s.resolve(t, r));
-      e = s;
+      let a = e.parent;
+      (i ||= [r]).push(a.resolve(t, n)), (e = a);
     } else {
-      let s = MountedTree.get(e.tree);
+      let a = MountedTree.get(e.tree);
       if (
-        s &&
-        s.overlay &&
-        s.overlay[0].from <= t &&
-        s.overlay[s.overlay.length - 1].to >= t
+        a &&
+        a.overlay &&
+        a.overlay[0].from <= t &&
+        a.overlay[a.overlay.length - 1].to >= t
       ) {
-        let o = new TreeNode(s.tree, s.overlay[0].from + e.from, -1, e);
-        (i || (i = [n])).push(l(o, t, r, false));
+        let o = new TreeNode(a.tree, a.overlay[0].from + e.from, -1, e);
+        (i ||= [r]).push(s(o, t, n, !1));
       }
     }
-  return i ? u(i) : n;
+  return i ? u(i) : r;
 }
 class TreeCursor {
   get name() {
     return this.type.name;
   }
   constructor(e, t = 0) {
-    this.buffer = null;
-    this.stack = [];
-    this.index = 0;
-    this.bufferNode = null;
-    this.mode = t & ~s.EnterBracketed;
-    if (e instanceof TreeNode) this.yieldNode(e);
+    if (
+      ((this.buffer = null),
+      (this.stack = []),
+      (this.index = 0),
+      (this.bufferNode = null),
+      (this.mode = t & ~a.EnterBracketed),
+      e instanceof TreeNode)
+    )
+      this.yieldNode(e);
     else {
-      this._tree = e.context.parent;
-      this.buffer = e.context;
+      (this._tree = e.context.parent), (this.buffer = e.context);
       for (let t = e._parent; t; t = t._parent) this.stack.unshift(t.index);
-      this.bufferNode = e;
-      this.yieldBuf(e.index);
+      (this.bufferNode = e), this.yieldBuf(e.index);
     }
   }
   yieldNode(e) {
-    if (!e) return false;
-    this._tree = e;
-    this.type = e.type;
-    this.from = e.from;
-    this.to = e.to;
-    return true;
+    return e
+      ? ((this._tree = e),
+        (this.type = e.type),
+        (this.from = e.from),
+        (this.to = e.to),
+        !0)
+      : !1;
   }
   yieldBuf(e, t) {
     this.index = e;
-    let { start: r, buffer: n } = this.buffer;
-    this.type = t || n.set.types[n.buffer[e]];
-    this.from = r + n.buffer[e + 1];
-    this.to = r + n.buffer[e + 2];
-    return true;
+    let { start: n, buffer: r } = this.buffer;
+    return (
+      (this.type = t || r.set.types[r.buffer[e]]),
+      (this.from = n + r.buffer[e + 1]),
+      (this.to = n + r.buffer[e + 2]),
+      !0
+    );
   }
   yield(e) {
-    if (!e) return false;
-    if (e instanceof TreeNode) {
-      this.buffer = null;
-      return this.yieldNode(e);
-    }
-    this.buffer = e.context;
-    return this.yieldBuf(e.index, e.type);
+    return e
+      ? e instanceof TreeNode
+        ? ((this.buffer = null), this.yieldNode(e))
+        : ((this.buffer = e.context), this.yieldBuf(e.index, e.type))
+      : !1;
   }
   toString() {
     return this.buffer
       ? this.buffer.buffer.childString(this.index)
       : this._tree.toString();
   }
-  enterChild(e, t, r) {
+  enterChild(e, t, n) {
     if (!this.buffer)
       return this.yield(
         this._tree.nextChild(
           e < 0 ? this._tree._tree.children.length - 1 : 0,
           e,
           t,
-          r,
+          n,
           this.mode,
         ),
       );
-    let { buffer: n } = this.buffer;
-    let i = n.findChild(
-      this.index + 4,
-      n.buffer[this.index + 3],
-      e,
-      t - this.buffer.start,
-      r,
-    );
-    if (i < 0) return false;
-    this.stack.push(this.index);
-    return this.yieldBuf(i);
+    let { buffer: r } = this.buffer,
+      i = r.findChild(
+        this.index + 4,
+        r.buffer[this.index + 3],
+        e,
+        t - this.buffer.start,
+        n,
+      );
+    return i < 0 ? !1 : (this.stack.push(this.index), this.yieldBuf(i));
   }
   firstChild() {
     return this.enterChild(1, 0, 4);
@@ -817,57 +791,62 @@ class TreeCursor {
   childBefore(e) {
     return this.enterChild(-1, e, -2);
   }
-  enter(e, t, r = this.mode) {
+  enter(e, t, n = this.mode) {
     return this.buffer
-      ? !(r & s.ExcludeBuffers) && this.enterChild(1, e, t)
-      : this.yield(this._tree.enter(e, t, r));
+      ? n & a.ExcludeBuffers
+        ? !1
+        : this.enterChild(1, e, t)
+      : this.yield(this._tree.enter(e, t, n));
   }
   parent() {
     if (!this.buffer)
       return this.yieldNode(
-        this.mode & s.IncludeAnonymous ? this._tree._parent : this._tree.parent,
+        this.mode & a.IncludeAnonymous ? this._tree._parent : this._tree.parent,
       );
     if (this.stack.length) return this.yieldBuf(this.stack.pop());
     let e =
-      this.mode & s.IncludeAnonymous
+      this.mode & a.IncludeAnonymous
         ? this.buffer.parent
         : this.buffer.parent.nextSignificantParent();
-    this.buffer = null;
-    return this.yieldNode(e);
+    return (this.buffer = null), this.yieldNode(e);
   }
   sibling(e) {
     if (!this.buffer)
-      return (
-        !!this._tree._parent &&
-        this.yield(
-          this._tree.index < 0
-            ? null
-            : this._tree._parent.nextChild(
-                this._tree.index + e,
-                e,
-                0,
-                4,
-                this.mode,
-              ),
-        )
-      );
+      return this._tree._parent
+        ? this.yield(
+            this._tree.index < 0
+              ? null
+              : this._tree._parent.nextChild(
+                  this._tree.index + e,
+                  e,
+                  0,
+                  4,
+                  this.mode,
+                ),
+          )
+        : !1;
     let { buffer: t } = this.buffer,
-      r = this.stack.length - 1;
+      n = this.stack.length - 1;
     if (e < 0) {
-      let e = r < 0 ? 0 : this.stack[r] + 4;
+      let e = n < 0 ? 0 : this.stack[n] + 4;
       if (this.index != e)
         return this.yieldBuf(t.findChild(e, this.index, -1, 0, 4));
     } else {
       let e = t.buffer[this.index + 3];
-      if (e < (r < 0 ? t.buffer.length : t.buffer[this.stack[r] + 3]))
+      if (e < (n < 0 ? t.buffer.length : t.buffer[this.stack[n] + 3]))
         return this.yieldBuf(e);
     }
-    return (
-      r < 0 &&
-      this.yield(
-        this.buffer.parent.nextChild(this.buffer.index + e, e, 0, 4, this.mode),
-      )
-    );
+    return n < 0
+      ? this.yield(
+          this.buffer.parent.nextChild(
+            this.buffer.index + e,
+            e,
+            0,
+            4,
+            this.mode,
+          ),
+        )
+      : !1;
   }
   nextSibling() {
     return this.sibling(1);
@@ -877,74 +856,75 @@ class TreeCursor {
   }
   atLastNode(e) {
     let t,
-      r,
-      { buffer: n } = this;
-    if (n) {
+      n,
+      { buffer: r } = this;
+    if (r) {
       if (e > 0) {
-        if (this.index < n.buffer.buffer.length) return false;
+        if (this.index < r.buffer.buffer.length) return !1;
       } else
         for (let e = 0; e < this.index; e++)
-          if (n.buffer.buffer[e + 3] < this.index) return false;
-      ({ index: t, parent: r } = n);
-    } else ({ index: t, _parent: r } = this._tree);
-    for (; r; { index: t, _parent: r } = r)
+          if (r.buffer.buffer[e + 3] < this.index) return !1;
+      ({ index: t, parent: n } = r);
+    } else ({ index: t, _parent: n } = this._tree);
+    for (; n; { index: t, _parent: n } = n)
       if (t > -1)
         for (
-          let n = t + e, i = e < 0 ? -1 : r._tree.children.length;
-          n != i;
-          n += e
+          let r = t + e, i = e < 0 ? -1 : n._tree.children.length;
+          r != i;
+          r += e
         ) {
-          let e = r._tree.children[n];
+          let e = n._tree.children[r];
           if (
-            this.mode & s.IncludeAnonymous ||
+            this.mode & a.IncludeAnonymous ||
             e instanceof TreeBuffer ||
             !e.type.isAnonymous ||
-            d(e)
+            f(e)
           )
-            return false;
+            return !1;
         }
-    return true;
+    return !0;
   }
   move(e, t) {
-    if (t && this.enterChild(e, 0, 4)) return true;
+    if (t && this.enterChild(e, 0, 4)) return !0;
     for (;;) {
-      if (this.sibling(e)) return true;
-      if (this.atLastNode(e) || !this.parent()) return false;
+      if (this.sibling(e)) return !0;
+      if (this.atLastNode(e) || !this.parent()) return !1;
     }
   }
-  next(e = true) {
+  next(e = !0) {
     return this.move(1, e);
   }
-  prev(e = true) {
+  prev(e = !0) {
     return this.move(-1, e);
   }
   moveTo(e, t = 0) {
-    while (
-      this.from == this.to ||
-      (t < 1 ? this.from >= e : this.from > e) ||
-      (t > -1 ? this.to <= e : this.to < e)
-    )
-      if (!this.parent()) break;
-    while (this.enterChild(1, e, t));
+    for (
+      ;
+      (this.from == this.to ||
+        (t < 1 ? this.from >= e : this.from > e) ||
+        (t > -1 ? this.to <= e : this.to < e)) &&
+      this.parent();
+
+    );
+    for (; this.enterChild(1, e, t); );
     return this;
   }
   get node() {
     if (!this.buffer) return this._tree;
     let e = this.bufferNode,
       t = null,
-      r = 0;
+      n = 0;
     if (e && e.context == this.buffer)
-      e: for (let n = this.index, i = this.stack.length; i >= 0; ) {
-        for (let s = e; s; s = s._parent)
-          if (s.index == n) {
-            if (n == this.index) return s;
-            t = s;
-            r = i + 1;
-            break e;
+      scan: for (let r = this.index, i = this.stack.length; i >= 0; ) {
+        for (let a = e; a; a = a._parent)
+          if (a.index == r) {
+            if (r == this.index) return a;
+            (t = a), (n = i + 1);
+            break scan;
           }
-        n = this.stack[--i];
+        r = this.stack[--i];
       }
-    for (let e = r; e < this.stack.length; e++)
+    for (let e = n; e < this.stack.length; e++)
       t = new BufferNode(this.buffer, t, this.stack[e]);
     return (this.bufferNode = new BufferNode(this.buffer, t, this.index));
   }
@@ -952,313 +932,269 @@ class TreeCursor {
     return this.buffer ? null : this._tree._tree;
   }
   iterate(e, t) {
-    for (let r = 0; ; ) {
-      let n = false;
-      if (this.type.isAnonymous || e(this) !== false) {
+    for (let n = 0; ; ) {
+      let r = !1;
+      if (this.type.isAnonymous || e(this) !== !1) {
         if (this.firstChild()) {
-          r++;
+          n++;
           continue;
         }
-        this.type.isAnonymous || (n = true);
+        this.type.isAnonymous || (r = !0);
       }
       for (;;) {
-        n && t && t(this);
-        n = this.type.isAnonymous;
-        if (!r) return;
+        if ((r && t && t(this), (r = this.type.isAnonymous), !n)) return;
         if (this.nextSibling()) break;
-        this.parent();
-        r--;
-        n = true;
+        this.parent(), n--, (r = !0);
       }
     }
   }
   matchContext(e) {
-    if (!this.buffer) return h(this.node.parent, e);
+    if (!this.buffer) return l(this.node.parent, e);
     let { buffer: t } = this.buffer,
-      { types: r } = t.set;
-    for (let n = e.length - 1, i = this.stack.length - 1; n >= 0; i--) {
-      if (i < 0) return h(this._tree, e, n);
-      let s = r[t.buffer[this.stack[i]]];
-      if (!s.isAnonymous) {
-        if (e[n] && e[n] != s.name) return false;
-        n--;
+      { types: n } = t.set;
+    for (let r = e.length - 1, i = this.stack.length - 1; r >= 0; i--) {
+      if (i < 0) return l(this._tree, e, r);
+      let a = n[t.buffer[this.stack[i]]];
+      if (!a.isAnonymous) {
+        if (e[r] && e[r] != a.name) return !1;
+        r--;
       }
     }
-    return true;
+    return !0;
   }
 }
-function d(e) {
+function f(e) {
   return e.children.some(
-    (e) => e instanceof TreeBuffer || !e.type.isAnonymous || d(e),
+    (e) => e instanceof TreeBuffer || !e.type.isAnonymous || f(e),
   );
 }
 function p(t) {
-  var r;
+  var n;
   let {
-    buffer: n,
-    nodeSet: i,
-    maxBufferLength: s = e,
-    reused: o = [],
-    minRepeatType: l = i.types.length,
-  } = t;
-  let f = Array.isArray(n) ? new FlatBufferCursor(n, n.length) : n;
-  let h = i.types;
-  let u = 0,
-    a = 0;
-  function d(e, t, r, n, w, N) {
-    let { id: T, start: v, end: k, size: C } = f;
-    let _ = a,
-      B = u;
-    if (C < 0) {
-      f.next();
-      if (C == -1) {
-        let t = o[T];
-        r.push(t);
-        n.push(v - e);
+      buffer: r,
+      nodeSet: i,
+      maxBufferLength: a = e,
+      reused: o = [],
+      minRepeatType: s = i.types.length,
+    } = t,
+    c = Array.isArray(r) ? new FlatBufferCursor(r, r.length) : r,
+    l = i.types,
+    u = 0,
+    d = 0;
+  function f(e, t, n, r, b, x) {
+    let { id: S, start: C, end: w, size: T } = c,
+      E = d,
+      D = u;
+    if (T < 0)
+      if ((c.next(), T == -1)) {
+        let t = o[S];
+        n.push(t), r.push(C - e);
         return;
-      }
-      if (C == -3) {
-        u = T;
+      } else if (T == -3) {
+        u = S;
         return;
-      }
-      if (C == -4) {
-        a = T;
+      } else if (T == -4) {
+        d = S;
         return;
-      }
-      throw new RangeError(`Unrecognized record size: ${C}`);
-    }
-    let A,
-      S,
-      P = h[T];
-    let I = v - e;
-    if (k - v <= s && (S = y(f.pos - t, w))) {
-      let t = new Uint16Array(S.size - S.skip);
-      let r = f.pos - S.size,
-        n = t.length;
-      while (f.pos > r) n = x(S.start, t, n);
-      A = new TreeBuffer(t, k - S.start, i);
-      I = S.start - e;
+      } else throw RangeError(`Unrecognized record size: ${T}`);
+    let O = l[S],
+      k,
+      A,
+      j = C - e;
+    if (w - C <= a && (A = v(c.pos - t, b))) {
+      let t = new Uint16Array(A.size - A.skip),
+        n = c.pos - A.size,
+        r = t.length;
+      for (; c.pos > n; ) r = y(A.start, t, r);
+      (k = new TreeBuffer(t, w - A.start, i)), (j = A.start - e);
     } else {
-      let e = f.pos - C;
-      f.next();
+      let e = c.pos - T;
+      c.next();
       let t = [],
-        r = [];
-      let n = T >= l ? T : -1;
-      let i = 0,
-        o = k;
-      while (f.pos > e)
-        if (n >= 0 && f.id == n && f.size >= 0) {
-          if (f.end <= o - s) {
-            g(t, r, v, i, f.end, o, n, _, B);
-            i = t.length;
-            o = f.end;
-          }
-          f.next();
-        } else N > 2500 ? p(v, e, t, r) : d(v, e, t, r, n, N + 1);
-      n >= 0 && i > 0 && i < t.length && g(t, r, v, i, v, o, n, _, B);
-      t.reverse();
-      r.reverse();
-      if (n > -1 && i > 0) {
-        let e = c(P, B);
-        A = m(P, t, r, 0, t.length, 0, k - v, e, e);
-      } else A = b(P, t, r, k - v, _ - k, B);
+        n = [],
+        r = S >= s ? S : -1,
+        i = 0,
+        o = w;
+      for (; c.pos > e; )
+        r >= 0 && c.id == r && c.size >= 0
+          ? (c.end <= o - a &&
+              (h(t, n, C, i, c.end, o, r, E, D), (i = t.length), (o = c.end)),
+            c.next())
+          : x > 2500
+            ? p(C, e, t, n)
+            : f(C, e, t, n, r, x + 1);
+      if (
+        (r >= 0 && i > 0 && i < t.length && h(t, n, C, i, C, o, r, E, D),
+        t.reverse(),
+        n.reverse(),
+        r > -1 && i > 0)
+      ) {
+        let e = m(O, D);
+        k = g(O, t, n, 0, t.length, 0, w - C, e, e);
+      } else k = _(O, t, n, w - C, E - w, D);
     }
-    r.push(A);
-    n.push(I);
+    n.push(k), r.push(j);
   }
-  function p(e, t, r, n) {
-    let o = [];
-    let l = 0,
-      h = -1;
-    while (f.pos > t) {
-      let { id: e, start: t, end: r, size: n } = f;
-      if (n > 4) f.next();
-      else {
-        if (h > -1 && t < h) break;
-        h < 0 && (h = r - s);
-        o.push(e, t, r);
-        l++;
-        f.next();
-      }
+  function p(e, t, n, r) {
+    let o = [],
+      s = 0,
+      l = -1;
+    for (; c.pos > t; ) {
+      let { id: e, start: t, end: n, size: r } = c;
+      if (r > 4) c.next();
+      else if (l > -1 && t < l) break;
+      else l < 0 && (l = n - a), o.push(e, t, n), s++, c.next();
     }
-    if (l) {
-      let t = new Uint16Array(l * 4);
-      let s = o[o.length - 2];
-      for (let e = o.length - 3, r = 0; e >= 0; e -= 3) {
-        t[r++] = o[e];
-        t[r++] = o[e + 1] - s;
-        t[r++] = o[e + 2] - s;
-        t[r++] = r;
-      }
-      r.push(new TreeBuffer(t, o[2] - s, i));
-      n.push(s - e);
+    if (s) {
+      let t = new Uint16Array(s * 4),
+        a = o[o.length - 2];
+      for (let e = o.length - 3, n = 0; e >= 0; e -= 3)
+        (t[n++] = o[e]),
+          (t[n++] = o[e + 1] - a),
+          (t[n++] = o[e + 2] - a),
+          (t[n++] = n);
+      n.push(new TreeBuffer(t, o[2] - a, i)), r.push(a - e);
     }
   }
-  function c(e, t) {
-    return (r, n, i) => {
-      let s,
-        o,
-        l = 0,
-        f = r.length - 1;
-      if (f >= 0 && (s = r[f]) instanceof Tree) {
-        if (!f && s.type == e && s.length == i) return s;
-        (o = s.prop(NodeProp.lookAhead)) && (l = n[f] + s.length + o);
+  function m(e, t) {
+    return (n, r, i) => {
+      let a = 0,
+        o = n.length - 1,
+        s,
+        c;
+      if (o >= 0 && (s = n[o]) instanceof Tree) {
+        if (!o && s.type == e && s.length == i) return s;
+        (c = s.prop(NodeProp.lookAhead)) && (a = r[o] + s.length + c);
       }
-      return b(e, r, n, i, l, t);
+      return _(e, n, r, i, a, t);
     };
   }
-  function g(e, t, r, n, s, o, l, f, h) {
+  function h(e, t, n, r, a, o, s, c, l) {
     let u = [],
-      a = [];
-    while (e.length > n) {
-      u.push(e.pop());
-      a.push(t.pop() + r - s);
-    }
-    e.push(b(i.types[l], u, a, o - s, f - o, h));
-    t.push(s - r);
+      d = [];
+    for (; e.length > r; ) u.push(e.pop()), d.push(t.pop() + n - a);
+    e.push(_(i.types[s], u, d, o - a, c - o, l)), t.push(a - n);
   }
-  function b(e, t, r, n, i, s, o) {
-    if (s) {
-      let e = [NodeProp.contextHash, s];
+  function _(e, t, n, r, i, a, o) {
+    if (a) {
+      let e = [NodeProp.contextHash, a];
       o = o ? [e].concat(o) : [e];
     }
     if (i > 25) {
       let e = [NodeProp.lookAhead, i];
       o = o ? [e].concat(o) : [e];
     }
-    return new Tree(e, t, r, n, o);
+    return new Tree(e, t, n, r, o);
   }
-  function y(e, t) {
-    let r = f.fork();
-    let n = 0,
+  function v(e, t) {
+    let n = c.fork(),
+      r = 0,
       i = 0,
       o = 0,
-      h = r.end - s;
-    let u = { size: 0, start: 0, skip: 0 };
-    e: for (let s = r.pos - e; r.pos > s; ) {
-      let e = r.size;
-      if (r.id == t && e >= 0) {
-        u.size = n;
-        u.start = i;
-        u.skip = o;
-        o += 4;
-        n += 4;
-        r.next();
+      l = n.end - a,
+      u = { size: 0, start: 0, skip: 0 };
+    scan: for (let a = n.pos - e; n.pos > a; ) {
+      let e = n.size;
+      if (n.id == t && e >= 0) {
+        (u.size = r), (u.start = i), (u.skip = o), (o += 4), (r += 4), n.next();
         continue;
       }
-      let f = r.pos - e;
-      if (e < 0 || f < s || r.start < h) break;
-      let a = r.id >= l ? 4 : 0;
-      let d = r.start;
-      r.next();
-      while (r.pos > f) {
-        if (r.size < 0) {
-          if (r.size != -3 && r.size != -4) break e;
-          a += 4;
-        } else r.id >= l && (a += 4);
-        r.next();
+      let c = n.pos - e;
+      if (e < 0 || c < a || n.start < l) break;
+      let d = n.id >= s ? 4 : 0,
+        f = n.start;
+      for (n.next(); n.pos > c; ) {
+        if (n.size < 0)
+          if (n.size == -3 || n.size == -4) d += 4;
+          else break scan;
+        else n.id >= s && (d += 4);
+        n.next();
       }
-      i = d;
-      n += e;
-      o += a;
+      (i = f), (r += e), (o += d);
     }
-    if (t < 0 || n == e) {
-      u.size = n;
-      u.start = i;
-      u.skip = o;
-    }
-    return u.size > 4 ? u : void 0;
+    return (
+      (t < 0 || r == e) && ((u.size = r), (u.start = i), (u.skip = o)),
+      u.size > 4 ? u : void 0
+    );
   }
-  function x(e, t, r) {
-    let { id: n, start: i, end: s, size: o } = f;
-    f.next();
-    if (o >= 0 && n < l) {
-      let l = r;
+  function y(e, t, n) {
+    let { id: r, start: i, end: a, size: o } = c;
+    if ((c.next(), o >= 0 && r < s)) {
+      let s = n;
       if (o > 4) {
-        let n = f.pos - (o - 4);
-        while (f.pos > n) r = x(e, t, r);
+        let r = c.pos - (o - 4);
+        for (; c.pos > r; ) n = y(e, t, n);
       }
-      t[--r] = l;
-      t[--r] = s - e;
-      t[--r] = i - e;
-      t[--r] = n;
-    } else o == -3 ? (u = n) : o == -4 && (a = n);
-    return r;
+      (t[--n] = s), (t[--n] = a - e), (t[--n] = i - e), (t[--n] = r);
+    } else o == -3 ? (u = r) : o == -4 && (d = r);
+    return n;
   }
-  let w = [],
-    N = [];
-  while (f.pos > 0) d(t.start || 0, t.bufferStart || 0, w, N, -1, 0);
-  let T =
-    (r = t.length) !== null && r !== void 0
-      ? r
-      : w.length
-        ? N[0] + w[0].length
-        : 0;
-  return new Tree(h[t.topID], w.reverse(), N.reverse(), T);
+  let b = [],
+    x = [];
+  for (; c.pos > 0; ) f(t.start || 0, t.bufferStart || 0, b, x, -1, 0);
+  let S = (n = t.length) ?? (b.length ? x[0] + b[0].length : 0);
+  return new Tree(l[t.topID], b.reverse(), x.reverse(), S);
 }
-const c = new WeakMap();
-function g(e, t) {
+const m = /* @__PURE__ */ new WeakMap();
+function h(e, t) {
   if (!e.isAnonymous || t instanceof TreeBuffer || t.type != e) return 1;
-  let r = c.get(t);
-  if (r == null) {
-    r = 1;
-    for (let n of t.children) {
-      if (n.type != e || !(n instanceof Tree)) {
-        r = 1;
+  let n = m.get(t);
+  if (n == null) {
+    n = 1;
+    for (let r of t.children) {
+      if (r.type != e || !(r instanceof Tree)) {
+        n = 1;
         break;
       }
-      r += g(e, n);
+      n += h(e, r);
     }
-    c.set(t, r);
+    m.set(t, n);
   }
-  return r;
+  return n;
 }
-function m(e, t, r, n, i, s, o, l, f) {
-  let h = 0;
-  for (let r = n; r < i; r++) h += g(e, t[r]);
-  let u = Math.ceil((h * 1.5) / 8);
-  let a = [],
-    d = [];
-  function p(t, r, n, i, o) {
-    for (let l = n; l < i; ) {
-      let n = l,
-        h = r[l],
-        c = g(e, t[l]);
-      l++;
-      for (; l < i; l++) {
-        let r = g(e, t[l]);
-        if (c + r >= u) break;
-        c += r;
+function g(e, t, n, r, i, a, o, s, c) {
+  let l = 0;
+  for (let n = r; n < i; n++) l += h(e, t[n]);
+  let u = Math.ceil((l * 1.5) / 8),
+    d = [],
+    f = [];
+  function p(t, n, r, i, o) {
+    for (let s = r; s < i; ) {
+      let r = s,
+        l = n[s],
+        m = h(e, t[s]);
+      for (s++; s < i; s++) {
+        let n = h(e, t[s]);
+        if (m + n >= u) break;
+        m += n;
       }
-      if (l == n + 1) {
-        if (c > u) {
-          let e = t[n];
-          p(e.children, e.positions, 0, e.children.length, r[n] + o);
+      if (s == r + 1) {
+        if (m > u) {
+          let e = t[r];
+          p(e.children, e.positions, 0, e.children.length, n[r] + o);
           continue;
         }
-        a.push(t[n]);
+        d.push(t[r]);
       } else {
-        let i = r[l - 1] + t[l - 1].length - h;
-        a.push(m(e, t, r, n, l, h, i, null, f));
+        let i = n[s - 1] + t[s - 1].length - l;
+        d.push(g(e, t, n, r, s, l, i, null, c));
       }
-      d.push(h + o - s);
+      f.push(l + o - a);
     }
   }
-  p(t, r, n, i, 0);
-  return (l || f)(a, d, o);
+  return p(t, n, r, i, 0), (s || c)(d, f, o);
 }
 class NodeWeakMap {
   constructor() {
-    this.map = new WeakMap();
+    this.map = /* @__PURE__ */ new WeakMap();
   }
-  setBuffer(e, t, r) {
-    let n = this.map.get(e);
-    n || this.map.set(e, (n = new Map()));
-    n.set(t, r);
+  setBuffer(e, t, n) {
+    let r = this.map.get(e);
+    r || this.map.set(e, (r = /* @__PURE__ */ new Map())), r.set(t, n);
   }
   getBuffer(e, t) {
-    let r = this.map.get(e);
-    return r && r.get(t);
+    let n = this.map.get(e);
+    return n && n.get(t);
   }
   set(e, t) {
     e instanceof BufferNode
@@ -1284,12 +1220,12 @@ class NodeWeakMap {
   }
 }
 class TreeFragment {
-  constructor(e, t, r, n, i = false, s = false) {
-    this.from = e;
-    this.to = t;
-    this.tree = r;
-    this.offset = n;
-    this.open = (i ? 1 : 0) | (s ? 2 : 0);
+  constructor(e, t, n, r, i = !1, a = !1) {
+    (this.from = e),
+      (this.to = t),
+      (this.tree = n),
+      (this.offset = r),
+      (this.open = (i ? 1 : 0) | (a ? 2 : 0));
   }
   get openStart() {
     return (this.open & 1) > 0;
@@ -1297,55 +1233,55 @@ class TreeFragment {
   get openEnd() {
     return (this.open & 2) > 0;
   }
-  static addTree(e, t = [], r = false) {
-    let n = [new TreeFragment(0, e.length, e, 0, false, r)];
-    for (let r of t) r.to > e.length && n.push(r);
-    return n;
+  static addTree(e, t = [], n = !1) {
+    let r = [new TreeFragment(0, e.length, e, 0, !1, n)];
+    for (let n of t) n.to > e.length && r.push(n);
+    return r;
   }
-  static applyChanges(e, t, r = 128) {
+  static applyChanges(e, t, n = 128) {
     if (!t.length) return e;
-    let n = [];
-    let i = 1,
-      s = e.length ? e[0] : null;
-    for (let o = 0, l = 0, f = 0; ; o++) {
-      let h = o < t.length ? t[o] : null;
-      let u = h ? h.fromA : 1e9;
-      if (u - l >= r)
-        while (s && s.from < u) {
-          let t = s;
-          if (l >= t.from || u <= t.to || f) {
-            let e = Math.max(t.from, l) - f,
-              r = Math.min(t.to, u) - f;
+    let r = [],
+      i = 1,
+      a = e.length ? e[0] : null;
+    for (let o = 0, s = 0, c = 0; ; o++) {
+      let l = o < t.length ? t[o] : null,
+        u = l ? l.fromA : 1e9;
+      if (u - s >= n)
+        for (; a && a.from < u; ) {
+          let t = a;
+          if (s >= t.from || u <= t.to || c) {
+            let e = Math.max(t.from, s) - c,
+              n = Math.min(t.to, u) - c;
             t =
-              e >= r
+              e >= n
                 ? null
-                : new TreeFragment(e, r, t.tree, t.offset + f, o > 0, !!h);
+                : new TreeFragment(e, n, t.tree, t.offset + c, o > 0, !!l);
           }
-          t && n.push(t);
-          if (s.to > u) break;
-          s = i < e.length ? e[i++] : null;
+          if ((t && r.push(t), a.to > u)) break;
+          a = i < e.length ? e[i++] : null;
         }
-      if (!h) break;
-      l = h.toA;
-      f = h.toA - h.toB;
+      if (!l) break;
+      (s = l.toA), (c = l.toA - l.toB);
     }
-    return n;
+    return r;
   }
 }
 class Parser {
-  startParse(e, t, r) {
-    typeof e == "string" && (e = new StringInput(e));
-    r = r
-      ? r.length
-        ? r.map((e) => new Range(e.from, e.to))
-        : [new Range(0, 0)]
-      : [new Range(0, e.length)];
-    return this.createParse(e, t || [], r);
+  startParse(e, t, n) {
+    return (
+      typeof e == `string` && (e = new StringInput(e)),
+      (n = n
+        ? n.length
+          ? n.map((e) => new Range(e.from, e.to))
+          : [new Range(0, 0)]
+        : [new Range(0, e.length)]),
+      this.createParse(e, t || [], n)
+    );
   }
-  parse(e, t, r) {
-    let n = this.startParse(e, t, r);
+  parse(e, t, n) {
+    let r = this.startParse(e, t, n);
     for (;;) {
-      let e = n.advance();
+      let e = r.advance();
       if (e) return e;
     }
   }
@@ -1361,92 +1297,94 @@ class StringInput {
     return this.string.slice(e);
   }
   get lineChunks() {
-    return false;
+    return !1;
   }
   read(e, t) {
     return this.string.slice(e, t);
   }
 }
-function b(e) {
-  return (t, r, n, i) => new MixedParse(t, e, r, n, i);
+function _(e) {
+  return (t, n, r, i) => new MixedParse(t, e, n, r, i);
 }
 class InnerParse {
-  constructor(e, t, r, n, i, s) {
-    this.parser = e;
-    this.parse = t;
-    this.overlay = r;
-    this.bracketed = n;
-    this.target = i;
-    this.from = s;
+  constructor(e, t, n, r, i, a) {
+    (this.parser = e),
+      (this.parse = t),
+      (this.overlay = n),
+      (this.bracketed = r),
+      (this.target = i),
+      (this.from = a);
   }
 }
-function y(e) {
+function v(e) {
   if (!e.length || e.some((e) => e.from >= e.to))
-    throw new RangeError(
-      "Invalid inner parse ranges given: " + JSON.stringify(e),
-    );
+    throw RangeError(`Invalid inner parse ranges given: ` + JSON.stringify(e));
 }
 class ActiveOverlay {
-  constructor(e, t, r, n, i, s, o, l) {
-    this.parser = e;
-    this.predicate = t;
-    this.mounts = r;
-    this.index = n;
-    this.start = i;
-    this.bracketed = s;
-    this.target = o;
-    this.prev = l;
-    this.depth = 0;
-    this.ranges = [];
+  constructor(e, t, n, r, i, a, o, s) {
+    (this.parser = e),
+      (this.predicate = t),
+      (this.mounts = n),
+      (this.index = r),
+      (this.start = i),
+      (this.bracketed = a),
+      (this.target = o),
+      (this.prev = s),
+      (this.depth = 0),
+      (this.ranges = []);
   }
 }
-const x = new NodeProp({ perNode: true });
+const y = new NodeProp({ perNode: !0 });
 class MixedParse {
-  constructor(e, t, r, n, i) {
-    this.nest = t;
-    this.input = r;
-    this.fragments = n;
-    this.ranges = i;
-    this.inner = [];
-    this.innerDone = 0;
-    this.baseTree = null;
-    this.stoppedAt = null;
-    this.baseParse = e;
+  constructor(e, t, n, r, i) {
+    (this.nest = t),
+      (this.input = n),
+      (this.fragments = r),
+      (this.ranges = i),
+      (this.inner = []),
+      (this.innerDone = 0),
+      (this.baseTree = null),
+      (this.stoppedAt = null),
+      (this.baseParse = e);
   }
   advance() {
     if (this.baseParse) {
       let e = this.baseParse.advance();
       if (!e) return null;
-      this.baseParse = null;
-      this.baseTree = e;
-      this.startInner();
-      if (this.stoppedAt != null)
+      if (
+        ((this.baseParse = null),
+        (this.baseTree = e),
+        this.startInner(),
+        this.stoppedAt != null)
+      )
         for (let e of this.inner) e.parse.stopAt(this.stoppedAt);
     }
     if (this.innerDone == this.inner.length) {
       let e = this.baseTree;
-      this.stoppedAt != null &&
-        (e = new Tree(
-          e.type,
-          e.children,
-          e.positions,
-          e.length,
-          e.propValues.concat([[x, this.stoppedAt]]),
-        ));
-      return e;
+      return (
+        this.stoppedAt != null &&
+          (e = new Tree(
+            e.type,
+            e.children,
+            e.positions,
+            e.length,
+            e.propValues.concat([[y, this.stoppedAt]]),
+          )),
+        e
+      );
     }
     let e = this.inner[this.innerDone],
       t = e.parse.advance();
     if (t) {
       this.innerDone++;
-      let r = Object.assign(Object.create(null), e.target.props);
-      r[NodeProp.mounted.id] = new MountedTree(
+      let n = Object.assign(Object.create(null), e.target.props);
+      (n[NodeProp.mounted.id] = new MountedTree(
         t,
         e.overlay,
         e.parser,
         e.bracketed,
-      );
-      e.target.props = r;
+      )),
+        (e.target.props = n);
     }
     return null;
   }
@@ -1459,117 +1397,110 @@ class MixedParse {
     return e;
   }
   stopAt(e) {
-    this.stoppedAt = e;
-    if (this.baseParse) this.baseParse.stopAt(e);
+    if (((this.stoppedAt = e), this.baseParse)) this.baseParse.stopAt(e);
     else
       for (let t = this.innerDone; t < this.inner.length; t++)
         this.inner[t].parse.stopAt(e);
   }
   startInner() {
-    let e = new FragmentCursor(this.fragments);
-    let t = null;
-    let r = null;
-    let n = new TreeCursor(
-      new TreeNode(this.baseTree, this.ranges[0].from, 0, null),
-      s.IncludeAnonymous | s.IgnoreMounts,
-    );
-    e: for (let i, s; ; ) {
-      let o,
-        l = true;
-      if (this.stoppedAt != null && n.from >= this.stoppedAt) l = false;
-      else if (e.hasNode(n)) {
+    let e = new FragmentCursor(this.fragments),
+      t = null,
+      n = null,
+      r = new TreeCursor(
+        new TreeNode(this.baseTree, this.ranges[0].from, 0, null),
+        a.IncludeAnonymous | a.IgnoreMounts,
+      );
+    scan: for (let i, a; ; ) {
+      let o = !0,
+        s;
+      if (this.stoppedAt != null && r.from >= this.stoppedAt) o = !1;
+      else if (e.hasNode(r)) {
         if (t) {
           let e = t.mounts.find(
             (e) =>
-              e.frag.from <= n.from && e.frag.to >= n.to && e.mount.overlay,
+              e.frag.from <= r.from && e.frag.to >= r.to && e.mount.overlay,
           );
           if (e)
-            for (let r of e.mount.overlay) {
-              let i = r.from + e.pos,
-                s = r.to + e.pos;
-              i >= n.from &&
-                s <= n.to &&
-                !t.ranges.some((e) => e.from < s && e.to > i) &&
-                t.ranges.push({ from: i, to: s });
+            for (let n of e.mount.overlay) {
+              let i = n.from + e.pos,
+                a = n.to + e.pos;
+              i >= r.from &&
+                a <= r.to &&
+                !t.ranges.some((e) => e.from < a && e.to > i) &&
+                t.ranges.push({ from: i, to: a });
             }
         }
-        l = false;
-      } else if (r && (s = w(r.ranges, n.from, n.to))) l = s != 2;
+        o = !1;
+      } else if (n && (a = b(n.ranges, r.from, r.to))) o = a != 2;
       else if (
-        !n.type.isAnonymous &&
-        (i = this.nest(n, this.input)) &&
-        (n.from < n.to || !i.overlay)
+        !r.type.isAnonymous &&
+        (i = this.nest(r, this.input)) &&
+        (r.from < r.to || !i.overlay)
       ) {
-        if (!n.tree) {
-          T(n);
-          t && t.depth++;
-          r && r.depth++;
-        }
-        let s = e.findMounts(n.from, i.parser);
-        if (typeof i.overlay == "function")
+        r.tree || (S(r), t && t.depth++, n && n.depth++);
+        let a = e.findMounts(r.from, i.parser);
+        if (typeof i.overlay == `function`)
           t = new ActiveOverlay(
             i.parser,
             i.overlay,
-            s,
+            a,
             this.inner.length,
-            n.from,
+            r.from,
             !!i.bracketed,
-            n.tree,
+            r.tree,
             t,
           );
         else {
-          let e = v(
+          let e = C(
             this.ranges,
-            i.overlay || (n.from < n.to ? [new Range(n.from, n.to)] : []),
+            i.overlay || (r.from < r.to ? [new Range(r.from, r.to)] : []),
           );
-          e.length && y(e);
-          (!e.length && i.overlay) ||
-            this.inner.push(
-              new InnerParse(
-                i.parser,
-                e.length
-                  ? i.parser.startParse(this.input, C(s, e), e)
-                  : i.parser.startParse(""),
-                i.overlay
-                  ? i.overlay.map(
-                      (e) => new Range(e.from - n.from, e.to - n.from),
-                    )
-                  : null,
-                !!i.bracketed,
-                n.tree,
-                e.length ? e[0].from : n.from,
+          e.length && v(e),
+            (e.length || !i.overlay) &&
+              this.inner.push(
+                new InnerParse(
+                  i.parser,
+                  e.length
+                    ? i.parser.startParse(this.input, T(a, e), e)
+                    : i.parser.startParse(``),
+                  i.overlay
+                    ? i.overlay.map(
+                        (e) => new Range(e.from - r.from, e.to - r.from),
+                      )
+                    : null,
+                  !!i.bracketed,
+                  r.tree,
+                  e.length ? e[0].from : r.from,
+                ),
               ),
-            );
-          i.overlay
-            ? e.length && (r = { ranges: e, depth: 0, prev: r })
-            : (l = false);
+            i.overlay
+              ? e.length && (n = { ranges: e, depth: 0, prev: n })
+              : (o = !1);
         }
-      } else if (t && (o = t.predicate(n))) {
-        o === true && (o = new Range(n.from, n.to));
-        if (o.from < o.to) {
-          let e = t.ranges.length - 1;
-          e >= 0 && t.ranges[e].to == o.from
-            ? (t.ranges[e] = { from: t.ranges[e].from, to: o.to })
-            : t.ranges.push(o);
-        }
+      } else if (
+        t &&
+        (s = t.predicate(r)) &&
+        (s === !0 && (s = new Range(r.from, r.to)), s.from < s.to)
+      ) {
+        let e = t.ranges.length - 1;
+        e >= 0 && t.ranges[e].to == s.from
+          ? (t.ranges[e] = { from: t.ranges[e].from, to: s.to })
+          : t.ranges.push(s);
       }
-      if (l && n.firstChild()) {
-        t && t.depth++;
-        r && r.depth++;
-      } else
-        for (;;) {
-          if (n.nextSibling()) break;
-          if (!n.parent()) break e;
+      if (o && r.firstChild()) t && t.depth++, n && n.depth++;
+      else
+        for (; !r.nextSibling(); ) {
+          if (!r.parent()) break scan;
           if (t && !--t.depth) {
-            let e = v(this.ranges, t.ranges);
-            if (e.length) {
-              y(e);
+            let e = C(this.ranges, t.ranges);
+            e.length &&
+              (v(e),
               this.inner.splice(
                 t.index,
                 0,
                 new InnerParse(
                   t.parser,
-                  t.parser.startParse(this.input, C(t.mounts, e), e),
+                  t.parser.startParse(this.input, T(t.mounts, e), e),
                   t.ranges.map(
                     (e) => new Range(e.from - t.start, e.to - t.start),
                   ),
@@ -1577,115 +1508,105 @@ class MixedParse {
                   t.target,
                   e[0].from,
                 ),
-              );
-            }
-            t = t.prev;
+              )),
+              (t = t.prev);
           }
-          r && !--r.depth && (r = r.prev);
+          n && !--n.depth && (n = n.prev);
         }
     }
   }
 }
-function w(e, t, r) {
-  for (let n of e) {
-    if (n.from >= r) break;
-    if (n.to > t) return n.from <= t && n.to >= r ? 2 : 1;
+function b(e, t, n) {
+  for (let r of e) {
+    if (r.from >= n) break;
+    if (r.to > t) return r.from <= t && r.to >= n ? 2 : 1;
   }
   return 0;
 }
-function N(e, t, r, n, i, s) {
-  if (t < r) {
+function x(e, t, n, r, i, a) {
+  if (t < n) {
     let o = e.buffer[t + 1];
-    n.push(e.slice(t, r, o));
-    i.push(o - s);
+    r.push(e.slice(t, n, o)), i.push(o - a);
   }
 }
-function T(e) {
+function S(e) {
   let { node: t } = e,
-    r = [];
-  let n = t.context.buffer;
-  do {
-    r.push(e.index);
-    e.parent();
-  } while (!e.tree);
+    n = [],
+    r = t.context.buffer;
+  do n.push(e.index), e.parent();
+  while (!e.tree);
   let i = e.tree,
-    s = i.children.indexOf(n);
-  let o = i.children[s],
-    l = o.buffer,
-    f = [s];
-  function h(e, n, i, s, u, a) {
-    let d = r[a];
-    let p = [],
-      c = [];
-    N(o, e, d, p, c, s);
-    let g = l[d + 1],
-      m = l[d + 2];
-    f.push(p.length);
-    let b = a
-      ? h(d + 4, l[d + 3], o.set.types[l[d]], g, m - g, a - 1)
+    a = i.children.indexOf(r),
+    o = i.children[a],
+    s = o.buffer,
+    c = [a];
+  function l(e, r, i, a, u, d) {
+    let f = n[d],
+      p = [],
+      m = [];
+    x(o, e, f, p, m, a);
+    let h = s[f + 1],
+      g = s[f + 2];
+    c.push(p.length);
+    let _ = d
+      ? l(f + 4, s[f + 3], o.set.types[s[f]], h, g - h, d - 1)
       : t.toTree();
-    p.push(b);
-    c.push(g - s);
-    N(o, l[d + 3], n, p, c, s);
-    return new Tree(i, p, c, u);
+    return (
+      p.push(_), m.push(h - a), x(o, s[f + 3], r, p, m, a), new Tree(i, p, m, u)
+    );
   }
-  i.children[s] = h(0, l.length, NodeType.none, 0, o.length, r.length - 1);
-  for (let t of f) {
-    let r = e.tree.children[t],
-      n = e.tree.positions[t];
-    e.yield(new TreeNode(r, n + e.from, t, e._tree));
+  i.children[a] = l(0, s.length, NodeType.none, 0, o.length, n.length - 1);
+  for (let t of c) {
+    let n = e.tree.children[t],
+      r = e.tree.positions[t];
+    e.yield(new TreeNode(n, r + e.from, t, e._tree));
   }
 }
 class StructureCursor {
   constructor(e, t) {
-    this.offset = t;
-    this.done = false;
-    this.cursor = e.cursor(s.IncludeAnonymous | s.IgnoreMounts);
+    (this.offset = t),
+      (this.done = !1),
+      (this.cursor = e.cursor(a.IncludeAnonymous | a.IgnoreMounts));
   }
   moveTo(e) {
     let { cursor: t } = this,
-      r = e - this.offset;
-    while (!this.done && t.from < r)
-      (t.to >= e && t.enter(r, 1, s.IgnoreOverlays | s.ExcludeBuffers)) ||
-        t.next(false) ||
-        (this.done = true);
+      n = e - this.offset;
+    for (; !this.done && t.from < n; )
+      if (!(t.to >= e && t.enter(n, 1, a.IgnoreOverlays | a.ExcludeBuffers)))
+        if (t.to <= e) t.next(!1) || (this.done = !0);
+        else break;
   }
   hasNode(e) {
-    this.moveTo(e.from);
     if (
+      (this.moveTo(e.from),
       !this.done &&
-      this.cursor.from + this.offset == e.from &&
-      this.cursor.tree
+        this.cursor.from + this.offset == e.from &&
+        this.cursor.tree)
     )
       for (let t = this.cursor.tree; ; ) {
-        if (t == e.tree) return true;
+        if (t == e.tree) return !0;
         if (
-          !(
-            t.children.length &&
-            t.positions[0] == 0 &&
-            t.children[0] instanceof Tree
-          )
+          t.children.length &&
+          t.positions[0] == 0 &&
+          t.children[0] instanceof Tree
         )
-          break;
-        t = t.children[0];
+          t = t.children[0];
+        else break;
       }
-    return false;
+    return !1;
   }
 }
 class FragmentCursor {
   constructor(e) {
     var t;
-    this.fragments = e;
-    this.curTo = 0;
-    this.fragI = 0;
-    if (e.length) {
-      let r = (this.curFrag = e[0]);
-      this.curTo = (t = r.tree.prop(x)) !== null && t !== void 0 ? t : r.to;
-      this.inner = new StructureCursor(r.tree, -r.offset);
+    if (((this.fragments = e), (this.curTo = 0), (this.fragI = 0), e.length)) {
+      let n = (this.curFrag = e[0]);
+      (this.curTo = (t = n.tree.prop(y)) ?? n.to),
+        (this.inner = new StructureCursor(n.tree, -n.offset));
     } else this.curFrag = this.inner = null;
   }
   hasNode(e) {
-    while (this.curFrag && e.from >= this.curTo) this.nextFrag();
+    for (; this.curFrag && e.from >= this.curTo; ) this.nextFrag();
     return (
       this.curFrag &&
       this.curFrag.from <= e.from &&
@@ -1695,130 +1616,126 @@ class FragmentCursor {
   }
   nextFrag() {
     var e;
-    this.fragI++;
-    if (this.fragI == this.fragments.length) this.curFrag = this.inner = null;
+    if ((this.fragI++, this.fragI == this.fragments.length))
+      this.curFrag = this.inner = null;
     else {
       let t = (this.curFrag = this.fragments[this.fragI]);
-      this.curTo = (e = t.tree.prop(x)) !== null && e !== void 0 ? e : t.to;
-      this.inner = new StructureCursor(t.tree, -t.offset);
+      (this.curTo = (e = t.tree.prop(y)) ?? t.to),
+        (this.inner = new StructureCursor(t.tree, -t.offset));
     }
   }
   findMounts(e, t) {
-    var r;
-    let n = [];
+    var n;
+    let r = [];
     if (this.inner) {
       this.inner.cursor.moveTo(e, 1);
       for (let e = this.inner.cursor.node; e; e = e.parent) {
-        let i =
-          (r = e.tree) === null || r === void 0
-            ? void 0
-            : r.prop(NodeProp.mounted);
+        let i = (n = e.tree)?.prop(NodeProp.mounted);
         if (i && i.parser == t)
           for (let t = this.fragI; t < this.fragments.length; t++) {
-            let r = this.fragments[t];
-            if (r.from >= e.to) break;
-            r.tree == this.curFrag.tree &&
-              n.push({ frag: r, pos: e.from - r.offset, mount: i });
+            let n = this.fragments[t];
+            if (n.from >= e.to) break;
+            n.tree == this.curFrag.tree &&
+              r.push({ frag: n, pos: e.from - n.offset, mount: i });
           }
       }
     }
-    return n;
+    return r;
   }
-}
-function v(e, t) {
-  let r = null,
-    n = t;
-  for (let i = 1, s = 0; i < e.length; i++) {
-    let o = e[i - 1].to,
-      l = e[i].from;
-    for (; s < n.length; s++) {
-      let e = n[s];
-      if (e.from >= l) break;
-      if (!(e.to <= o)) {
-        r || (n = r = t.slice());
-        if (e.from < o) {
-          r[s] = new Range(e.from, o);
-          e.to > l && r.splice(s + 1, 0, new Range(l, e.to));
-        } else e.to > l ? (r[s--] = new Range(l, e.to)) : r.splice(s--, 1);
-      }
-    }
-  }
-  return n;
-}
-function k(e, t, r, n) {
-  let i = 0,
-    s = 0,
-    o = false,
-    l = false,
-    f = -1e9;
-  let h = [];
-  for (;;) {
-    let u = i == e.length ? 1e9 : o ? e[i].to : e[i].from;
-    let a = s == t.length ? 1e9 : l ? t[s].to : t[s].from;
-    if (o != l) {
-      let e = Math.max(f, r),
-        t = Math.min(u, a, n);
-      e < t && h.push(new Range(e, t));
-    }
-    f = Math.min(u, a);
-    if (f == 1e9) break;
-    if (u == f)
-      if (o) {
-        o = false;
-        i++;
-      } else o = true;
-    if (a == f)
-      if (l) {
-        l = false;
-        s++;
-      } else l = true;
-  }
-  return h;
 }
 function C(e, t) {
-  let r = [];
-  for (let { pos: n, mount: i, frag: s } of e) {
-    let e = n + (i.overlay ? i.overlay[0].from : 0),
-      o = e + i.tree.length;
-    let l = Math.max(s.from, e),
-      f = Math.min(s.to, o);
-    if (i.overlay) {
-      let o = i.overlay.map((e) => new Range(e.from + n, e.to + n));
-      let h = k(t, o, l, f);
-      for (let t = 0, n = l; ; t++) {
-        let o = t == h.length,
-          l = o ? f : h[t].from;
-        l > n &&
-          r.push(
-            new TreeFragment(
-              n,
-              l,
-              i.tree,
-              -e,
-              s.from >= n || s.openStart,
-              s.to <= l || s.openEnd,
-            ),
-          );
-        if (o) break;
-        n = h[t].to;
-      }
-    } else
-      r.push(
-        new TreeFragment(
-          l,
-          f,
-          i.tree,
-          -e,
-          s.from >= e || s.openStart,
-          s.to <= o || s.openEnd,
-        ),
-      );
+  let n = null,
+    r = t;
+  for (let i = 1, a = 0; i < e.length; i++) {
+    let o = e[i - 1].to,
+      s = e[i].from;
+    for (; a < r.length; a++) {
+      let e = r[a];
+      if (e.from >= s) break;
+      e.to <= o ||
+        (n || (r = n = t.slice()),
+        e.from < o
+          ? ((n[a] = new Range(e.from, o)),
+            e.to > s && n.splice(a + 1, 0, new Range(s, e.to)))
+          : e.to > s
+            ? (n[a--] = new Range(s, e.to))
+            : n.splice(a--, 1));
+    }
   }
   return r;
 }
+function w(e, t, n, r) {
+  let i = 0,
+    a = 0,
+    o = !1,
+    s = !1,
+    c = -1e9,
+    l = [];
+  for (;;) {
+    let u = i == e.length ? 1e9 : o ? e[i].to : e[i].from,
+      d = a == t.length ? 1e9 : s ? t[a].to : t[a].from;
+    if (o != s) {
+      let e = Math.max(c, n),
+        t = Math.min(u, d, r);
+      e < t && l.push(new Range(e, t));
+    }
+    if (((c = Math.min(u, d)), c == 1e9)) break;
+    u == c && (o ? ((o = !1), i++) : (o = !0)),
+      d == c && (s ? ((s = !1), a++) : (s = !0));
+  }
+  return l;
+}
+function T(e, t) {
+  let n = [];
+  for (let { pos: r, mount: i, frag: a } of e) {
+    let e = r + (i.overlay ? i.overlay[0].from : 0),
+      o = e + i.tree.length,
+      s = Math.max(a.from, e),
+      c = Math.min(a.to, o);
+    if (i.overlay) {
+      let o = w(
+        t,
+        i.overlay.map((e) => new Range(e.from + r, e.to + r)),
+        s,
+        c,
+      );
+      for (let t = 0, r = s; ; t++) {
+        let s = t == o.length,
+          l = s ? c : o[t].from;
+        if (
+          (l > r &&
+            n.push(
+              new TreeFragment(
+                r,
+                l,
+                i.tree,
+                -e,
+                a.from >= r || a.openStart,
+                a.to <= l || a.openEnd,
+              ),
+            ),
+          s)
+        )
+          break;
+        r = o[t].to;
+      }
+    } else
+      n.push(
+        new TreeFragment(
+          s,
+          c,
+          i.tree,
+          -e,
+          a.from >= e || a.openStart,
+          a.to <= o || a.openEnd,
+        ),
+      );
+  }
+  return n;
+}
 export {
   e as DefaultBufferLength,
-  s as IterMode,
+  a as IterMode,
   MountedTree,
   NodeProp,
   NodeSet,
@@ -1829,5 +1746,5 @@ export {
   TreeBuffer,
   TreeCursor,
   TreeFragment,
-  b as parseMixed,
+  _ as parseMixed,
 };

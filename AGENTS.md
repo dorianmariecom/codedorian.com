@@ -4,7 +4,7 @@
 
 - This is a large Rails 8 application behind `codedorian.com`, not a simple marketing site.
 - The app combines a public-facing website, an authenticated account area, an admin-style CRUD interface, a programmable "code/program" feature, a form/submission pipeline, and mobile app integration through Hotwire Native.
-- The stack is Ruby `3.4.5`, PostgreSQL, Tailwind, Turbo, Stimulus, Importmap, Solid Queue, Solid Cable, Solid Cache, Pundit, PaperTrail, Sentry, Blazer, Recaptcha, and Rpush.
+- The stack is Ruby `4.0.5`, PostgreSQL, Tailwind, Turbo, Stimulus, Importmap, Solid Queue, Solid Cable, Solid Cache, Pundit, PaperTrail, Sentry, Blazer, Recaptcha, and Rpush.
 - The repository is broad: about `66` models, `52` controllers, `52` policies, `7` jobs, `336` view files, `26` Stimulus controllers, `60` tests, and `48` fixtures.
 
 ## Major Domains

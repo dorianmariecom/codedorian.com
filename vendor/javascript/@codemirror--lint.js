@@ -1,373 +1,357 @@
-// @codemirror/lint@6.9.5 downloaded from https://ga.jspm.io/npm:@codemirror/lint@6.9.5/dist/index.js
+// @codemirror/lint@6.9.7 downloaded from https://ga.jspm.io/npm:@codemirror/lint@6.9.7/dist/index.js
 
 import {
   Decoration as e,
-  EditorView as t,
-  hoverTooltip as i,
-  showPanel as n,
-  getPanel as o,
-  ViewPlugin as s,
-  logException as l,
-  WidgetType as r,
-  GutterMarker as a,
-  gutter as c,
-  showTooltip as d,
+  showPanel as t,
+  EditorView as n,
+  getPanel as r,
+  activateHover as i,
+  ViewPlugin as a,
+  logException as o,
+  WidgetType as s,
+  GutterMarker as c,
+  gutter as l,
+  showTooltip as u,
+  hoverTooltip as d,
 } from "@codemirror/view";
 import {
-  Facet as f,
-  RangeSetBuilder as u,
-  StateEffect as m,
-  StateField as h,
+  RangeSetBuilder as f,
+  StateEffect as p,
+  StateField as m,
+  Facet as h,
   combineConfig as g,
-  RangeSet as p,
+  RangeSet as _,
 } from "@codemirror/state";
 import v from "crelt";
 class SelectedDiagnostic {
-  constructor(e, t, i) {
-    this.from = e;
-    this.to = t;
-    this.diagnostic = i;
+  constructor(e, t, n) {
+    (this.from = e), (this.to = t), (this.diagnostic = n);
   }
 }
 class LintState {
-  constructor(e, t, i) {
-    this.diagnostics = e;
-    this.panel = t;
-    this.selected = i;
+  constructor(e, t, n) {
+    (this.diagnostics = e), (this.panel = t), (this.selected = n);
   }
-  static init(t, i, n) {
-    let o = n.facet($).markerFilter;
-    o && (t = o(t, n));
-    let s = t.slice().sort((e, t) => e.from - t.from || e.to - t.to);
-    let l = new u(),
-      r = [],
-      a = 0;
-    let c = n.doc.iter(),
-      d = 0,
-      f = n.doc.length;
+  static init(t, n, r) {
+    let i = r.facet(P).markerFilter;
+    i && (t = i(t, r));
+    let a = t.slice().sort((e, t) => e.from - t.from || e.to - t.to),
+      o = new f(),
+      s = [],
+      c = 0,
+      l = r.doc.iter(),
+      u = 0,
+      d = r.doc.length;
     for (let t = 0; ; ) {
-      let i = t == s.length ? null : s[t];
-      if (!i && !r.length) break;
-      let n, o;
-      if (r.length) {
-        n = a;
-        o = r.reduce(
-          (e, t) => Math.min(e, t.to),
-          i && i.from > n ? i.from : 1e8,
-        );
-      } else {
-        n = i.from;
-        if (n > f) break;
-        o = i.to;
-        r.push(i);
-        t++;
+      let n = t == a.length ? null : a[t];
+      if (!n && !s.length) break;
+      let r, i;
+      if (s.length)
+        (r = c),
+          (i = s.reduce(
+            (e, t) => Math.min(e, t.to),
+            n && n.from > r ? n.from : 1e8,
+          ));
+      else {
+        if (((r = n.from), r > d)) break;
+        (i = n.to), s.push(n), t++;
       }
-      while (t < s.length) {
-        let e = s[t];
-        if (e.from != n || !(e.to > e.from || e.to == n)) {
-          o = Math.min(e.from, o);
+      for (; t < a.length; ) {
+        let e = a[t];
+        if (e.from == r && (e.to > e.from || e.to == r))
+          s.push(e), t++, (i = Math.min(e.to, i));
+        else {
+          i = Math.min(e.from, i);
           break;
         }
-        r.push(e);
-        t++;
-        o = Math.min(e.to, o);
       }
-      o = Math.min(o, f);
-      let u = false;
-      if (r.some((e) => e.from == n && (e.to == o || o == f))) {
-        u = n == o;
-        if (!u && o - n < 10) {
-          let e = n - (d + c.value.length);
-          if (e > 0) {
-            c.next(e);
-            d = n;
+      i = Math.min(i, d);
+      let f = !1;
+      if (
+        s.some((e) => e.from == r && (e.to == i || i == d)) &&
+        ((f = r == i), !f && i - r < 10)
+      ) {
+        let e = r - (u + l.value.length);
+        e > 0 && (l.next(e), (u = r));
+        for (let e = r; ; ) {
+          if (e >= i) {
+            f = !0;
+            break;
           }
-          for (let e = n; ; ) {
-            if (e >= o) {
-              u = true;
-              break;
-            }
-            if (!c.lineBreak && d + c.value.length > e) break;
-            e = d + c.value.length;
-            d += c.value.length;
-            c.next();
-          }
+          if (!l.lineBreak && u + l.value.length > e) break;
+          (e = u + l.value.length), (u += l.value.length), l.next();
         }
       }
-      let m = Z(r);
-      if (u)
-        l.add(
-          n,
-          n,
-          e.widget({ widget: new DiagnosticWidget(m), diagnostics: r.slice() }),
+      let p = U(s);
+      if (f)
+        o.add(
+          r,
+          r,
+          e.widget({ widget: new DiagnosticWidget(p), diagnostics: s.slice() }),
         );
       else {
-        let t = r.reduce(
-          (e, t) => (t.markClass ? e + " " + t.markClass : e),
-          "",
+        let t = s.reduce(
+          (e, t) => (t.markClass ? e + ` ` + t.markClass : e),
+          ``,
         );
-        l.add(
-          n,
-          o,
+        o.add(
+          r,
+          i,
           e.mark({
-            class: "cm-lintRange cm-lintRange-" + m + t,
-            diagnostics: r.slice(),
-            inclusiveEnd: r.some((e) => e.to > o),
+            class: `cm-lintRange cm-lintRange-` + p + t,
+            diagnostics: s.slice(),
+            inclusiveEnd: s.some((e) => e.to > i),
           }),
         );
       }
-      a = o;
-      if (a == f) break;
-      for (let e = 0; e < r.length; e++) r[e].to <= a && r.splice(e--, 1);
+      if (((c = i), c == d)) break;
+      for (let e = 0; e < s.length; e++) s[e].to <= c && s.splice(e--, 1);
     }
-    let m = l.finish();
-    return new LintState(m, i, w(m));
+    let p = o.finish();
+    return new LintState(p, n, y(p));
   }
 }
-function w(e, t = null, i = 0) {
-  let n = null;
-  e.between(i, 1e9, (e, i, { spec: o }) => {
-    if (!(t && o.diagnostics.indexOf(t) < 0))
-      if (n) {
-        if (o.diagnostics.indexOf(n.diagnostic) < 0) return false;
-        n = new SelectedDiagnostic(n.from, i, n.diagnostic);
-      } else n = new SelectedDiagnostic(e, i, t || o.diagnostics[0]);
-  });
-  return n;
+function y(e, t = null, n = 0) {
+  let r = null;
+  return (
+    e.between(n, 1e9, (e, n, { spec: i }) => {
+      if (!(t && i.diagnostics.indexOf(t) < 0))
+        if (!r) r = new SelectedDiagnostic(e, n, t || i.diagnostics[0]);
+        else if (i.diagnostics.indexOf(r.diagnostic) < 0) return !1;
+        else r = new SelectedDiagnostic(r.from, n, r.diagnostic);
+    }),
+    r
+  );
 }
 function b(e, t) {
-  let i = t.pos,
-    n = t.end || i;
-  let o = e.state.facet($).hideOn(e, i, n);
-  if (o != null) return o;
-  let s = e.startState.doc.lineAt(t.pos);
+  let n = t.pos,
+    r = t.end || n,
+    i = e.state.facet(P).hideOn(e, n, r);
+  if (i != null) return i;
+  let a = e.startState.doc.lineAt(t.pos);
   return !!(
-    e.effects.some((e) => e.is(y)) ||
-    e.changes.touchesRange(s.from, Math.max(s.to, n))
+    e.effects.some((e) => e.is(C)) ||
+    e.changes.touchesRange(a.from, Math.max(a.to, r))
+  );
+}
+function x(e, t) {
+  return e.field(E, !1) ? t : t.concat(p.appendConfig.of(Q));
+}
+function S(e, t) {
+  return { effects: x(e, [C.of(t)]) };
+}
+const C = /* @__PURE__ */ p.define(),
+  w = /* @__PURE__ */ p.define(),
+  T = /* @__PURE__ */ p.define(),
+  E = /* @__PURE__ */ m.define({
+    create() {
+      return new LintState(e.none, null, null);
+    },
+    update(e, t) {
+      if (t.docChanged && e.diagnostics.size) {
+        let n = e.diagnostics.map(t.changes),
+          r = null,
+          i = e.panel;
+        if (e.selected) {
+          let i = t.changes.mapPos(e.selected.from, 1);
+          r = y(n, e.selected.diagnostic, i) || y(n, null, i);
+        }
+        !n.size && i && t.state.facet(P).autoPanel && (i = null),
+          (e = new LintState(n, i, r));
+      }
+      for (let n of t.effects)
+        if (n.is(C)) {
+          let r = t.state.facet(P).autoPanel
+            ? n.value.length
+              ? LintPanel.open
+              : null
+            : e.panel;
+          e = LintState.init(n.value, r, t.state);
+        } else
+          n.is(w)
+            ? (e = new LintState(
+                e.diagnostics,
+                n.value ? LintPanel.open : null,
+                e.selected,
+              ))
+            : n.is(T) && (e = new LintState(e.diagnostics, e.panel, n.value));
+      return e;
+    },
+    provide: (e) => [
+      t.from(e, (e) => e.panel),
+      n.decorations.from(e, (e) => e.diagnostics),
+    ],
+  });
+function D(e) {
+  let t = e.field(E, !1);
+  return t ? t.diagnostics.size : 0;
+}
+const ee = /* @__PURE__ */ e.mark({
+  class: `cm-lintRange cm-lintRange-active`,
+});
+function O(e, t, n) {
+  let { diagnostics: r } = e.state.field(E),
+    i,
+    a = -1,
+    o = -1;
+  r.between(t - +(n < 0), t + +(n > 0), (e, r, { spec: s }) => {
+    if (t >= e && t <= r && (e == r || ((t > e || n > 0) && (t < r || n < 0))))
+      return (i = s.diagnostics), (a = e), (o = r), !1;
+  });
+  let s = e.state.facet(P).tooltipFilter;
+  return (
+    i && s && (i = s(i, e.state)),
+    i
+      ? {
+          pos: a,
+          end: o,
+          above: !0,
+          create() {
+            return { dom: k(e, i) };
+          },
+        }
+      : null
   );
 }
 function k(e, t) {
-  return e.field(S, false) ? t : t.concat(m.appendConfig.of(ie));
-}
-function x(e, t) {
-  return { effects: k(e, [y.of(t)]) };
-}
-const y = m.define();
-const C = m.define();
-const L = m.define();
-const S = h.define({
-  create() {
-    return new LintState(e.none, null, null);
-  },
-  update(e, t) {
-    if (t.docChanged && e.diagnostics.size) {
-      let i = e.diagnostics.map(t.changes),
-        n = null,
-        o = e.panel;
-      if (e.selected) {
-        let o = t.changes.mapPos(e.selected.from, 1);
-        n = w(i, e.selected.diagnostic, o) || w(i, null, o);
-      }
-      !i.size && o && t.state.facet($).autoPanel && (o = null);
-      e = new LintState(i, o, n);
-    }
-    for (let i of t.effects)
-      if (i.is(y)) {
-        let n = t.state.facet($).autoPanel
-          ? i.value.length
-            ? LintPanel.open
-            : null
-          : e.panel;
-        e = LintState.init(i.value, n, t.state);
-      } else
-        i.is(C)
-          ? (e = new LintState(
-              e.diagnostics,
-              i.value ? LintPanel.open : null,
-              e.selected,
-            ))
-          : i.is(L) && (e = new LintState(e.diagnostics, e.panel, i.value));
-    return e;
-  },
-  provide: (e) => [
-    n.from(e, (e) => e.panel),
-    t.decorations.from(e, (e) => e.diagnostics),
-  ],
-});
-function T(e) {
-  let t = e.field(S, false);
-  return t ? t.diagnostics.size : 0;
-}
-const R = e.mark({ class: "cm-lintRange cm-lintRange-active" });
-function P(e, t, i) {
-  let { diagnostics: n } = e.state.field(S);
-  let o,
-    s = -1,
-    l = -1;
-  n.between(t - (i < 0 ? 1 : 0), t + (i > 0 ? 1 : 0), (e, n, { spec: r }) => {
-    if (
-      t >= e &&
-      t <= n &&
-      (e == n || ((t > e || i > 0) && (t < n || i < 0)))
-    ) {
-      o = r.diagnostics;
-      s = e;
-      l = n;
-      return false;
-    }
-  });
-  let r = e.state.facet($).tooltipFilter;
-  o && r && (o = r(o, e.state));
-  return o
-    ? {
-        pos: s,
-        end: l,
-        above: e.state.doc.lineAt(s).to < l,
-        create() {
-          return { dom: M(e, o) };
-        },
-      }
-    : null;
-}
-function M(e, t) {
   return v(
-    "ul",
-    { class: "cm-tooltip-lint" },
-    t.map((t) => q(e, t, false)),
+    `ul`,
+    { class: `cm-tooltip-lint` },
+    t.map((t) => R(e, t, !1)),
   );
 }
-const I = (e) => {
-  let t = e.state.field(S, false);
-  (t && t.panel) || e.dispatch({ effects: k(e.state, [C.of(true)]) });
-  let i = o(e, LintPanel.open);
-  i && i.dom.querySelector(".cm-panel-lint ul").focus();
-  return true;
-};
 const A = (e) => {
-  let t = e.state.field(S, false);
-  if (!t || !t.panel) return false;
-  e.dispatch({ effects: C.of(false) });
-  return true;
-};
-const D = (e) => {
-  let t = e.state.field(S, false);
-  if (!t) return false;
-  let i = e.state.selection.main,
-    n = w(t.diagnostics, null, i.to + 1);
-  if (!n) {
-    n = w(t.diagnostics, null, 0);
-    if (!n || (n.from == i.from && n.to == i.to)) return false;
-  }
-  e.dispatch({
-    selection: { anchor: n.from, head: n.to },
-    scrollIntoView: true,
-  });
-  return true;
-};
-const B = (e) => {
-  let { state: t } = e,
-    i = t.field(S, false);
-  if (!i) return false;
-  let n = t.selection.main;
-  let o, s, l, r;
-  i.diagnostics.between(0, t.doc.length, (e, t) => {
-    if (t < n.to && (o == null || o < e)) {
-      o = e;
-      s = t;
-    }
-    if (l == null || e > l) {
-      l = e;
-      r = t;
-    }
-  });
-  if (l == null || (o == null && l == n.from)) return false;
-  e.dispatch({
-    selection: {
-      anchor: o !== null && o !== void 0 ? o : l,
-      head: s !== null && s !== void 0 ? s : r,
-    },
-    scrollIntoView: true,
-  });
-  return true;
-};
-const O = [
-  { key: "Mod-Shift-m", run: I, preventDefault: true },
-  { key: "F8", run: D },
-];
-const F = s.fromClass(
-  class {
-    constructor(e) {
-      this.view = e;
-      this.timeout = -1;
-      this.set = true;
-      let { delay: t } = e.state.facet($);
-      this.lintTime = Date.now() + t;
-      this.run = this.run.bind(this);
-      this.timeout = setTimeout(this.run, t);
-    }
-    run() {
-      clearTimeout(this.timeout);
-      let e = Date.now();
-      if (e < this.lintTime - 10)
-        this.timeout = setTimeout(this.run, this.lintTime - e);
-      else {
-        this.set = false;
-        let { state: e } = this.view,
-          { sources: t } = e.facet($);
-        t.length &&
-          z(
-            t.map((e) => Promise.resolve(e(this.view))),
-            (t) => {
-              this.view.state.doc == e.doc &&
-                this.view.dispatch(
-                  x(
-                    this.view.state,
-                    t.reduce((e, t) => e.concat(t)),
-                  ),
-                );
-            },
-            (e) => {
-              l(this.view.state, e);
-            },
-          );
+    let t = e.state.field(E, !1);
+    (!t || !t.panel) && e.dispatch({ effects: x(e.state, [w.of(!0)]) });
+    let n = r(e, LintPanel.open);
+    return n && n.dom.querySelector(`.cm-panel-lint ul`).focus(), !0;
+  },
+  j = (e) => {
+    let t = e.state.field(E, !1);
+    return !t || !t.panel ? !1 : (e.dispatch({ effects: w.of(!1) }), !0);
+  },
+  M = (e) => {
+    let t = e.state.field(E, !1);
+    if (!t) return !1;
+    let n = e.state.selection.main,
+      r = y(t.diagnostics, null, n.to + 1);
+    return !r &&
+      ((r = y(t.diagnostics, null, 0)),
+      !r || (r.from == n.from && r.to == n.to))
+      ? !1
+      : (e.dispatch({
+          selection: { anchor: r.from, head: r.to },
+          scrollIntoView: !0,
+        }),
+        i(e, r.from, 1, {
+          tooltip: Z,
+          until: (e) =>
+            e.docChanged ||
+            e.newSelection.main.head < r.from ||
+            e.newSelection.main.head > r.to,
+        }),
+        !0);
+  },
+  te = (e) => {
+    var t;
+    let { state: n } = e,
+      r = n.field(E, !1);
+    if (!r) return !1;
+    let a = n.selection.main,
+      o,
+      s,
+      c,
+      l;
+    if (
+      (r.diagnostics.between(0, n.doc.length, (e, t) => {
+        t < a.to && (o == null || o < e) && ((o = e), (s = t)),
+          (c == null || e > c) && ((c = e), (l = t));
+      }),
+      c == null || (o == null && c == a.from))
+    )
+      return !1;
+    let u = o == null ? c : o,
+      d = (t = s == null ? l : s) == null ? u : t;
+    return (
+      e.dispatch({ selection: { anchor: u, head: d }, scrollIntoView: !0 }),
+      i(e, u, 1, {
+        tooltip: Z,
+        until: (e) =>
+          e.docChanged ||
+          e.newSelection.main.head < u ||
+          e.newSelection.main.head > d,
+      }),
+      !0
+    );
+  },
+  ne = [
+    { key: `Mod-Shift-m`, run: A, preventDefault: !0 },
+    { key: `F8`, run: M },
+  ],
+  N = /* @__PURE__ */ a.fromClass(
+    class {
+      constructor(e) {
+        (this.view = e), (this.timeout = -1), (this.set = !0);
+        let { delay: t } = e.state.facet(P);
+        (this.lintTime = Date.now() + t),
+          (this.run = this.run.bind(this)),
+          (this.timeout = setTimeout(this.run, t));
       }
-    }
-    update(e) {
-      let t = e.state.facet($);
-      if (
-        e.docChanged ||
-        t != e.startState.facet($) ||
-        (t.needsRefresh && t.needsRefresh(e))
-      ) {
-        this.lintTime = Date.now() + t.delay;
-        if (!this.set) {
-          this.set = true;
-          this.timeout = setTimeout(this.run, t.delay);
+      run() {
+        clearTimeout(this.timeout);
+        let e = Date.now();
+        if (e < this.lintTime - 10)
+          this.timeout = setTimeout(this.run, this.lintTime - e);
+        else {
+          this.set = !1;
+          let { state: e } = this.view,
+            { sources: t } = e.facet(P);
+          t.length &&
+            re(
+              t.map((e) => Promise.resolve(e(this.view))),
+              (t) => {
+                this.view.state.doc == e.doc &&
+                  this.view.dispatch(
+                    S(
+                      this.view.state,
+                      t.reduce((e, t) => e.concat(t)),
+                    ),
+                  );
+              },
+              (e) => {
+                o(this.view.state, e);
+              },
+            );
         }
       }
-    }
-    force() {
-      if (this.set) {
-        this.lintTime = Date.now();
-        this.run();
+      update(e) {
+        let t = e.state.facet(P);
+        (e.docChanged ||
+          t != e.startState.facet(P) ||
+          (t.needsRefresh && t.needsRefresh(e))) &&
+          ((this.lintTime = Date.now() + t.delay),
+          this.set ||
+            ((this.set = !0), (this.timeout = setTimeout(this.run, t.delay))));
       }
-    }
-    destroy() {
-      clearTimeout(this.timeout);
-    }
-  },
-);
-function z(e, t, i) {
-  let n = [],
-    o = -1;
-  for (let s of e)
-    s.then((i) => {
-      n.push(i);
-      clearTimeout(o);
-      n.length == e.length ? t(n) : (o = setTimeout(() => t(n), 200));
-    }, i);
+      force() {
+        this.set && ((this.lintTime = Date.now()), this.run());
+      }
+      destroy() {
+        clearTimeout(this.timeout);
+      }
+    },
+  );
+function re(e, t, n) {
+  let r = [],
+    i = -1;
+  for (let a of e)
+    a.then((n) => {
+      r.push(n),
+        clearTimeout(i),
+        r.length == e.length ? t(r) : (i = setTimeout(() => t(r), 200));
+    }, n);
 }
-const $ = f.define({
+const P = /* @__PURE__ */ h.define({
   combine(e) {
     return {
       sources: e.map((e) => e.source).filter((e) => e != null),
@@ -382,582 +366,558 @@ const $ = f.define({
         },
         {
           delay: Math.max,
-          markerFilter: E,
-          tooltipFilter: E,
-          needsRefresh: (e, t) => (e ? (t ? (i) => e(i) || t(i) : e) : t),
+          markerFilter: F,
+          tooltipFilter: F,
+          needsRefresh: (e, t) => (e ? (t ? (n) => e(n) || t(n) : e) : t),
           hideOn: (e, t) =>
-            e ? (t ? (i, n, o) => e(i, n, o) || t(i, n, o) : e) : t,
+            e ? (t ? (n, r, i) => e(n, r, i) || t(n, r, i) : e) : t,
           autoPanel: (e, t) => e || t,
         },
       ),
     };
   },
 });
-function E(e, t) {
-  return e ? (t ? (i, n) => t(e(i, n), n) : e) : t;
+function F(e, t) {
+  return e ? (t ? (n, r) => t(e(n, r), r) : e) : t;
 }
-function H(e, t = {}) {
-  return [$.of({ source: e, config: t }), F, ie];
+function I(e, t = {}) {
+  return [P.of({ source: e, config: t }), N, Q];
 }
-function N(e) {
-  let t = e.plugin(F);
+function ie(e) {
+  let t = e.plugin(N);
   t && t.force();
 }
-function j(e) {
+function L(e) {
   let t = [];
   if (e)
-    e: for (let { name: i } of e) {
-      for (let e = 0; e < i.length; e++) {
-        let n = i[e];
+    actions: for (let { name: n } of e) {
+      for (let e = 0; e < n.length; e++) {
+        let r = n[e];
         if (
-          /[a-zA-Z]/.test(n) &&
-          !t.some((e) => e.toLowerCase() == n.toLowerCase())
+          /[a-zA-Z]/.test(r) &&
+          !t.some((e) => e.toLowerCase() == r.toLowerCase())
         ) {
-          t.push(n);
-          continue e;
+          t.push(r);
+          continue actions;
         }
       }
-      t.push("");
+      t.push(``);
     }
   return t;
 }
-function q(e, t, i) {
-  var n;
-  let o = i ? j(t.actions) : [];
+function R(e, t, n) {
+  var r;
+  let i = n ? L(t.actions) : [];
   return v(
-    "li",
-    { class: "cm-diagnostic cm-diagnostic-" + t.severity },
+    `li`,
+    { class: `cm-diagnostic cm-diagnostic-` + t.severity },
     v(
-      "span",
-      { class: "cm-diagnosticText" },
+      `span`,
+      { class: `cm-diagnosticText` },
       t.renderMessage ? t.renderMessage(e) : t.message,
     ),
-    (n = t.actions) === null || n === void 0
+    (r = t.actions) == null
       ? void 0
-      : n.map((i, n) => {
-          let s = false,
-            l = (n) => {
-              n.preventDefault();
-              if (s) return;
-              s = true;
-              let o = w(e.state.field(S).diagnostics, t);
-              o && i.apply(e, o.from, o.to);
-            };
-          let { name: r } = i,
-            a = o[n] ? r.indexOf(o[n]) : -1;
-          let c =
-            a < 0
-              ? r
-              : [r.slice(0, a), v("u", r.slice(a, a + 1)), r.slice(a + 1)];
-          let d = i.markClass ? " " + i.markClass : "";
-          return v(
-            "button",
-            {
-              type: "button",
-              class: "cm-diagnosticAction" + d,
-              onclick: l,
-              onmousedown: l,
-              "aria-label": ` Action: ${r}${a < 0 ? "" : ` (access key "${o[n]})"`}.`,
+      : r.map((n, r) => {
+          let a = !1,
+            o = (r) => {
+              if ((r.preventDefault(), a)) return;
+              a = !0;
+              let i = y(e.state.field(E).diagnostics, t);
+              i && n.apply(e, i.from, i.to);
             },
-            c,
+            { name: s } = n,
+            c = i[r] ? s.indexOf(i[r]) : -1,
+            l =
+              c < 0
+                ? s
+                : [s.slice(0, c), v(`u`, s.slice(c, c + 1)), s.slice(c + 1)];
+          return v(
+            `button`,
+            {
+              type: `button`,
+              class:
+                `cm-diagnosticAction` + (n.markClass ? ` ` + n.markClass : ``),
+              onclick: o,
+              onmousedown: o,
+              "aria-label": ` Action: ${s}${c < 0 ? `` : ` (access key "${i[r]})"`}.`,
+            },
+            l,
           );
         }),
-    t.source && v("div", { class: "cm-diagnosticSource" }, t.source),
+    t.source && v(`div`, { class: `cm-diagnosticSource` }, t.source),
   );
 }
-class DiagnosticWidget extends r {
+class DiagnosticWidget extends s {
   constructor(e) {
-    super();
-    this.sev = e;
+    super(), (this.sev = e);
   }
   eq(e) {
     return e.sev == this.sev;
   }
   toDOM() {
-    return v("span", { class: "cm-lintPoint cm-lintPoint-" + this.sev });
+    return v(`span`, { class: `cm-lintPoint cm-lintPoint-` + this.sev });
   }
 }
 class PanelItem {
   constructor(e, t) {
-    this.diagnostic = t;
-    this.id = "item_" + Math.floor(Math.random() * 4294967295).toString(16);
-    this.dom = q(e, t, true);
-    this.dom.id = this.id;
-    this.dom.setAttribute("role", "option");
+    (this.diagnostic = t),
+      (this.id = `item_` + Math.floor(Math.random() * 4294967295).toString(16)),
+      (this.dom = R(e, t, !0)),
+      (this.dom.id = this.id),
+      this.dom.setAttribute(`role`, `option`);
   }
 }
 class LintPanel {
   constructor(e) {
-    this.view = e;
-    this.items = [];
+    (this.view = e), (this.items = []);
     let t = (t) => {
-      if (!(t.ctrlKey || t.altKey || t.metaKey)) {
-        if (t.keyCode == 27) {
-          A(this.view);
-          this.view.focus();
-        } else if (t.keyCode == 38 || t.keyCode == 33)
-          this.moveSelection(
-            (this.selectedIndex - 1 + this.items.length) % this.items.length,
-          );
-        else if (t.keyCode == 40 || t.keyCode == 34)
-          this.moveSelection((this.selectedIndex + 1) % this.items.length);
-        else if (t.keyCode == 36) this.moveSelection(0);
-        else if (t.keyCode == 35) this.moveSelection(this.items.length - 1);
-        else if (t.keyCode == 13) this.view.focus();
-        else {
-          if (!(t.keyCode >= 65 && t.keyCode <= 90 && this.selectedIndex >= 0))
-            return;
-          {
-            let { diagnostic: i } = this.items[this.selectedIndex],
-              n = j(i.actions);
-            for (let o = 0; o < n.length; o++)
-              if (n[o].toUpperCase().charCodeAt(0) == t.keyCode) {
-                let t = w(this.view.state.field(S).diagnostics, i);
-                t && i.actions[o].apply(e, t.from, t.to);
+        if (!(t.ctrlKey || t.altKey || t.metaKey)) {
+          if (t.keyCode == 27) j(this.view), this.view.focus();
+          else if (t.keyCode == 38 || t.keyCode == 33)
+            this.moveSelection(
+              (this.selectedIndex - 1 + this.items.length) % this.items.length,
+            );
+          else if (t.keyCode == 40 || t.keyCode == 34)
+            this.moveSelection((this.selectedIndex + 1) % this.items.length);
+          else if (t.keyCode == 36) this.moveSelection(0);
+          else if (t.keyCode == 35) this.moveSelection(this.items.length - 1);
+          else if (t.keyCode == 13) this.view.focus();
+          else if (
+            t.keyCode >= 65 &&
+            t.keyCode <= 90 &&
+            this.selectedIndex >= 0
+          ) {
+            let { diagnostic: n } = this.items[this.selectedIndex],
+              r = L(n.actions);
+            for (let i = 0; i < r.length; i++)
+              if (r[i].toUpperCase().charCodeAt(0) == t.keyCode) {
+                let t = y(this.view.state.field(E).diagnostics, n);
+                t && n.actions[i].apply(e, t.from, t.to);
               }
-          }
+          } else return;
+          t.preventDefault();
         }
-        t.preventDefault();
-      }
-    };
-    let i = (e) => {
-      for (let t = 0; t < this.items.length; t++)
-        this.items[t].dom.contains(e.target) && this.moveSelection(t);
-    };
-    this.list = v("ul", {
+      },
+      n = (e) => {
+        for (let t = 0; t < this.items.length; t++)
+          this.items[t].dom.contains(e.target) && this.moveSelection(t);
+      };
+    (this.list = v(`ul`, {
       tabIndex: 0,
-      role: "listbox",
-      "aria-label": this.view.state.phrase("Diagnostics"),
+      role: `listbox`,
+      "aria-label": this.view.state.phrase(`Diagnostics`),
       onkeydown: t,
-      onclick: i,
-    });
-    this.dom = v(
-      "div",
-      { class: "cm-panel-lint" },
-      this.list,
-      v(
-        "button",
-        {
-          type: "button",
-          name: "close",
-          "aria-label": this.view.state.phrase("close"),
-          onclick: () => A(this.view),
-        },
-        "×",
-      ),
-    );
-    this.update();
+      onclick: n,
+    })),
+      (this.dom = v(
+        `div`,
+        { class: `cm-panel-lint` },
+        this.list,
+        v(
+          `button`,
+          {
+            type: `button`,
+            name: `close`,
+            "aria-label": this.view.state.phrase(`close`),
+            onclick: () => j(this.view),
+          },
+          `×`,
+        ),
+      )),
+      this.update();
   }
   get selectedIndex() {
-    let e = this.view.state.field(S).selected;
+    let e = this.view.state.field(E).selected;
     if (!e) return -1;
     for (let t = 0; t < this.items.length; t++)
       if (this.items[t].diagnostic == e.diagnostic) return t;
     return -1;
   }
   update() {
-    let { diagnostics: e, selected: t } = this.view.state.field(S);
-    let i = 0,
-      n = false,
-      o = null;
-    let s = new Set();
-    e.between(0, this.view.state.doc.length, (e, l, { spec: r }) => {
-      for (let e of r.diagnostics) {
-        if (s.has(e)) continue;
-        s.add(e);
-        let l,
-          r = -1;
-        for (let t = i; t < this.items.length; t++)
-          if (this.items[t].diagnostic == e) {
-            r = t;
-            break;
-          }
-        if (r < 0) {
-          l = new PanelItem(this.view, e);
-          this.items.splice(i, 0, l);
-          n = true;
-        } else {
-          l = this.items[r];
-          if (r > i) {
-            this.items.splice(i, r - i);
-            n = true;
-          }
+    let { diagnostics: e, selected: t } = this.view.state.field(E),
+      n = 0,
+      r = !1,
+      i = null,
+      a = /* @__PURE__ */ new Set();
+    for (
+      e.between(0, this.view.state.doc.length, (e, o, { spec: s }) => {
+        for (let e of s.diagnostics) {
+          if (a.has(e)) continue;
+          a.add(e);
+          let o = -1,
+            s;
+          for (let t = n; t < this.items.length; t++)
+            if (this.items[t].diagnostic == e) {
+              o = t;
+              break;
+            }
+          o < 0
+            ? ((s = new PanelItem(this.view, e)),
+              this.items.splice(n, 0, s),
+              (r = !0))
+            : ((s = this.items[o]),
+              o > n && (this.items.splice(n, o - n), (r = !0))),
+            t && s.diagnostic == t.diagnostic
+              ? s.dom.hasAttribute(`aria-selected`) ||
+                (s.dom.setAttribute(`aria-selected`, `true`), (i = s))
+              : s.dom.hasAttribute(`aria-selected`) &&
+                s.dom.removeAttribute(`aria-selected`),
+            n++;
         }
-        if (t && l.diagnostic == t.diagnostic) {
-          if (!l.dom.hasAttribute("aria-selected")) {
-            l.dom.setAttribute("aria-selected", "true");
-            o = l;
-          }
-        } else
-          l.dom.hasAttribute("aria-selected") &&
-            l.dom.removeAttribute("aria-selected");
-        i++;
-      }
-    });
-    while (
-      i < this.items.length &&
-      !(this.items.length == 1 && this.items[0].diagnostic.from < 0)
-    ) {
-      n = true;
-      this.items.pop();
-    }
-    if (this.items.length == 0) {
-      this.items.push(
+      });
+      n < this.items.length &&
+      !(this.items.length == 1 && this.items[0].diagnostic.from < 0);
+
+    )
+      (r = !0), this.items.pop();
+    this.items.length == 0 &&
+      (this.items.push(
         new PanelItem(this.view, {
           from: -1,
           to: -1,
-          severity: "info",
-          message: this.view.state.phrase("No diagnostics"),
+          severity: `info`,
+          message: this.view.state.phrase(`No diagnostics`),
         }),
-      );
-      n = true;
-    }
-    if (o) {
-      this.list.setAttribute("aria-activedescendant", o.id);
-      this.view.requestMeasure({
-        key: this,
-        read: () => ({
-          sel: o.dom.getBoundingClientRect(),
-          panel: this.list.getBoundingClientRect(),
-        }),
-        write: ({ sel: e, panel: t }) => {
-          let i = t.height / this.list.offsetHeight;
-          e.top < t.top
-            ? (this.list.scrollTop -= (t.top - e.top) / i)
-            : e.bottom > t.bottom &&
-              (this.list.scrollTop += (e.bottom - t.bottom) / i);
-        },
-      });
-    } else
-      this.selectedIndex < 0 &&
-        this.list.removeAttribute("aria-activedescendant");
-    n && this.sync();
+      ),
+      (r = !0)),
+      i
+        ? (this.list.setAttribute(`aria-activedescendant`, i.id),
+          this.view.requestMeasure({
+            key: this,
+            read: () => ({
+              sel: i.dom.getBoundingClientRect(),
+              panel: this.list.getBoundingClientRect(),
+            }),
+            write: ({ sel: e, panel: t }) => {
+              let n = t.height / this.list.offsetHeight;
+              e.top < t.top
+                ? (this.list.scrollTop -= (t.top - e.top) / n)
+                : e.bottom > t.bottom &&
+                  (this.list.scrollTop += (e.bottom - t.bottom) / n);
+            },
+          }))
+        : this.selectedIndex < 0 &&
+          this.list.removeAttribute(`aria-activedescendant`),
+      r && this.sync();
   }
   sync() {
     let e = this.list.firstChild;
     function t() {
       let t = e;
-      e = t.nextSibling;
-      t.remove();
+      (e = t.nextSibling), t.remove();
     }
-    for (let i of this.items)
-      if (i.dom.parentNode == this.list) {
-        while (e != i.dom) t();
-        e = i.dom.nextSibling;
-      } else this.list.insertBefore(i.dom, e);
-    while (e) t();
+    for (let n of this.items)
+      if (n.dom.parentNode == this.list) {
+        for (; e != n.dom; ) t();
+        e = n.dom.nextSibling;
+      } else this.list.insertBefore(n.dom, e);
+    for (; e; ) t();
   }
   moveSelection(e) {
     if (this.selectedIndex < 0) return;
-    let t = this.view.state.field(S);
-    let i = w(t.diagnostics, this.items[e].diagnostic);
-    i &&
+    let t = y(this.view.state.field(E).diagnostics, this.items[e].diagnostic);
+    t &&
       this.view.dispatch({
-        selection: { anchor: i.from, head: i.to },
-        scrollIntoView: true,
-        effects: L.of(i),
+        selection: { anchor: t.from, head: t.to },
+        scrollIntoView: !0,
+        effects: T.of(t),
       });
   }
   static open(e) {
     return new LintPanel(e);
   }
 }
-function G(e, t = 'viewBox="0 0 40 40"') {
+function z(e, t = `viewBox="0 0 40 40"`) {
   return `url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" ${t}>${encodeURIComponent(e)}</svg>')`;
 }
-function K(e) {
-  return G(
+function B(e) {
+  return z(
     `<path d="m0 2.5 l2 -1.5 l1 0 l2 1.5 l1 0" stroke="${e}" fill="none" stroke-width=".7"/>`,
-    'width="6" height="3"',
+    `width="6" height="3"`,
   );
 }
-const V = t.baseTheme({
+const V = /* @__PURE__ */ n.baseTheme({
   ".cm-diagnostic": {
-    padding: "3px 6px 3px 8px",
-    marginLeft: "-1px",
-    display: "block",
-    whiteSpace: "pre-wrap",
+    padding: `3px 6px 3px 8px`,
+    marginLeft: `-1px`,
+    display: `block`,
+    whiteSpace: `pre-wrap`,
   },
-  ".cm-diagnostic-error": { borderLeft: "5px solid #d11" },
-  ".cm-diagnostic-warning": { borderLeft: "5px solid orange" },
-  ".cm-diagnostic-info": { borderLeft: "5px solid #999" },
-  ".cm-diagnostic-hint": { borderLeft: "5px solid #66d" },
+  ".cm-diagnostic-error": { borderLeft: `5px solid #d11` },
+  ".cm-diagnostic-warning": { borderLeft: `5px solid orange` },
+  ".cm-diagnostic-info": { borderLeft: `5px solid #999` },
+  ".cm-diagnostic-hint": { borderLeft: `5px solid #66d` },
   ".cm-diagnosticAction": {
-    font: "inherit",
-    border: "none",
-    padding: "2px 4px",
-    backgroundColor: "#444",
-    color: "white",
-    borderRadius: "3px",
-    marginLeft: "8px",
-    cursor: "pointer",
+    font: `inherit`,
+    border: `none`,
+    padding: `2px 4px`,
+    backgroundColor: `#444`,
+    color: `white`,
+    borderRadius: `3px`,
+    marginLeft: `8px`,
+    cursor: `pointer`,
   },
-  ".cm-diagnosticSource": { fontSize: "70%", opacity: 0.7 },
+  ".cm-diagnosticSource": { fontSize: `70%`, opacity: 0.7 },
   ".cm-lintRange": {
-    backgroundPosition: "left bottom",
-    backgroundRepeat: "repeat-x",
-    paddingBottom: "0.7px",
+    backgroundPosition: `left bottom`,
+    backgroundRepeat: `repeat-x`,
+    paddingBottom: `0.7px`,
   },
-  ".cm-lintRange-error": { backgroundImage: K("#d11") },
-  ".cm-lintRange-warning": { backgroundImage: K("orange") },
-  ".cm-lintRange-info": { backgroundImage: K("#999") },
-  ".cm-lintRange-hint": { backgroundImage: K("#66d") },
-  ".cm-lintRange-active": { backgroundColor: "#ffdd9980" },
+  ".cm-lintRange-error": { backgroundImage: /* @__PURE__ */ B(`#f11`) },
+  ".cm-lintRange-warning": { backgroundImage: /* @__PURE__ */ B(`orange`) },
+  ".cm-lintRange-info": { backgroundImage: /* @__PURE__ */ B(`#999`) },
+  ".cm-lintRange-hint": { backgroundImage: /* @__PURE__ */ B(`#66d`) },
+  ".cm-lintRange-active": { backgroundColor: `#ffdd9980` },
   ".cm-tooltip-lint": { padding: 0, margin: 0 },
   ".cm-lintPoint": {
-    position: "relative",
+    position: `relative`,
     "&:after": {
-      content: '""',
-      position: "absolute",
+      content: `""`,
+      position: `absolute`,
       bottom: 0,
-      left: "-2px",
-      borderLeft: "3px solid transparent",
-      borderRight: "3px solid transparent",
-      borderBottom: "4px solid #d11",
+      left: `-2px`,
+      borderLeft: `3px solid transparent`,
+      borderRight: `3px solid transparent`,
+      borderBottom: `4px solid #d11`,
     },
   },
-  ".cm-lintPoint-warning": { "&:after": { borderBottomColor: "orange" } },
-  ".cm-lintPoint-info": { "&:after": { borderBottomColor: "#999" } },
-  ".cm-lintPoint-hint": { "&:after": { borderBottomColor: "#66d" } },
+  ".cm-lintPoint-warning": { "&:after": { borderBottomColor: `orange` } },
+  ".cm-lintPoint-info": { "&:after": { borderBottomColor: `#999` } },
+  ".cm-lintPoint-hint": { "&:after": { borderBottomColor: `#66d` } },
   ".cm-panel.cm-panel-lint": {
-    position: "relative",
+    position: `relative`,
     "& ul": {
-      maxHeight: "100px",
-      overflowY: "auto",
+      maxHeight: `100px`,
+      overflowY: `auto`,
       "& [aria-selected]": {
-        backgroundColor: "#ddd",
-        "& u": { textDecoration: "underline" },
+        backgroundColor: `#ddd`,
+        "& u": { textDecoration: `underline` },
       },
       "&:focus [aria-selected]": {
-        background_fallback: "#bdf",
-        backgroundColor: "Highlight",
-        color_fallback: "white",
-        color: "HighlightText",
+        background_fallback: `#bdf`,
+        backgroundColor: `Highlight`,
+        color_fallback: `white`,
+        color: `HighlightText`,
       },
-      "& u": { textDecoration: "none" },
+      "& u": { textDecoration: `none` },
       padding: 0,
       margin: 0,
     },
     "& [name=close]": {
-      position: "absolute",
-      top: "0",
-      right: "2px",
-      background: "inherit",
-      border: "none",
-      font: "inherit",
+      position: `absolute`,
+      top: `0`,
+      right: `2px`,
+      background: `inherit`,
+      border: `none`,
+      font: `inherit`,
       padding: 0,
       margin: 0,
     },
   },
-  "&dark .cm-lintRange-active": { backgroundColor: "#86714a80" },
+  "&dark .cm-lintRange-active": { backgroundColor: `#86714a80` },
   "&dark .cm-panel.cm-panel-lint ul": {
-    "& [aria-selected]": { backgroundColor: "#2e343e" },
+    "& [aria-selected]": { backgroundColor: `#2e343e` },
   },
 });
-function Y(e) {
-  return e == "error" ? 4 : e == "warning" ? 3 : e == "info" ? 2 : 1;
+function H(e) {
+  return e == `error` ? 4 : e == `warning` ? 3 : e == `info` ? 2 : 1;
 }
-function Z(e) {
-  let t = "hint",
-    i = 1;
-  for (let n of e) {
-    let e = Y(n.severity);
-    if (e > i) {
-      i = e;
-      t = n.severity;
-    }
+function U(e) {
+  let t = `hint`,
+    n = 1;
+  for (let r of e) {
+    let e = H(r.severity);
+    e > n && ((n = e), (t = r.severity));
   }
   return t;
 }
-class LintGutterMarker extends a {
+class LintGutterMarker extends c {
   constructor(e) {
-    super();
-    this.diagnostics = e;
-    this.severity = Z(e);
+    super(), (this.diagnostics = e), (this.severity = U(e));
   }
   toDOM(e) {
-    let t = document.createElement("div");
-    t.className = "cm-lint-marker cm-lint-marker-" + this.severity;
-    let i = this.diagnostics;
-    let n = e.state.facet(ne).tooltipFilter;
-    n && (i = n(i, e.state));
-    i.length && (t.onmouseover = () => U(e, t, i));
-    return t;
-  }
-}
-function _(e, t) {
-  let i = (n) => {
-    let o = t.getBoundingClientRect();
-    if (
-      !(
-        n.clientX > o.left - 10 &&
-        n.clientX < o.right + 10 &&
-        n.clientY > o.top - 10 &&
-        n.clientY < o.bottom + 10
-      )
-    ) {
-      for (let e = n.target; e; e = e.parentNode)
-        if (e.nodeType == 1 && e.classList.contains("cm-tooltip-lint")) return;
-      window.removeEventListener("mousemove", i);
-      e.state.field(ee) && e.dispatch({ effects: Q.of(null) });
-    }
-  };
-  window.addEventListener("mousemove", i);
-}
-function U(e, t, i) {
-  function n() {
-    let n = e.elementAtHeight(
-      t.getBoundingClientRect().top + 5 - e.documentTop,
+    let t = document.createElement(`div`);
+    t.className = `cm-lint-marker cm-lint-marker-` + this.severity;
+    let n = this.diagnostics,
+      r = e.state.facet($).tooltipFilter;
+    return (
+      r && (n = r(n, e.state)),
+      n.length && (t.onmouseover = () => G(e, t, n)),
+      t
     );
-    const o = e.coordsAtPos(n.from);
-    o &&
-      e.dispatch({
-        effects: Q.of({
-          pos: n.from,
-          above: false,
-          clip: false,
-          create() {
-            return { dom: M(e, i), getCoords: () => t.getBoundingClientRect() };
-          },
-        }),
-      });
-    t.onmouseout = t.onmousemove = null;
-    _(e, t);
   }
-  let { hoverTime: o } = e.state.facet(ne);
-  let s = setTimeout(n, o);
-  t.onmouseout = () => {
-    clearTimeout(s);
-    t.onmouseout = t.onmousemove = null;
-  };
-  t.onmousemove = () => {
-    clearTimeout(s);
-    s = setTimeout(n, o);
-  };
 }
 function W(e, t) {
-  let i = Object.create(null);
-  for (let n of t) {
-    let t = e.lineAt(n.from);
-    (i[t.from] || (i[t.from] = [])).push(n);
-  }
-  let n = [];
-  for (let e in i) n.push(new LintGutterMarker(i[e]).range(+e));
-  return p.of(n, true);
+  let n = (r) => {
+    let i = t.getBoundingClientRect();
+    if (
+      !(
+        r.clientX > i.left - 10 &&
+        r.clientX < i.right + 10 &&
+        r.clientY > i.top - 10 &&
+        r.clientY < i.bottom + 10
+      )
+    ) {
+      for (let e = r.target; e; e = e.parentNode)
+        if (e.nodeType == 1 && e.classList.contains(`cm-tooltip-lint`)) return;
+      window.removeEventListener(`mousemove`, n),
+        e.state.field(X) && e.dispatch({ effects: Y.of(null) });
+    }
+  };
+  window.addEventListener(`mousemove`, n);
 }
-const X = c({
-  class: "cm-gutter-lint",
-  markers: (e) => e.state.field(J),
-  widgetMarker: (e, t, i) => {
-    let n = [];
-    e.state.field(J).between(i.from, i.to, (e, t, o) => {
-      e > i.from && e < i.to && n.push(...o.diagnostics);
-    });
-    return n.length ? new LintGutterMarker(n) : null;
-  },
-});
-const J = h.define({
-  create() {
-    return p.empty;
-  },
-  update(e, t) {
-    e = e.map(t.changes);
-    let i = t.state.facet(ne).markerFilter;
-    for (let n of t.effects)
-      if (n.is(y)) {
-        let o = n.value;
-        i && (o = i(o || [], t.state));
-        e = W(t.state.doc, o.slice(0));
-      }
-    return e;
-  },
-});
-const Q = m.define();
-const ee = h.define({
-  create() {
-    return null;
-  },
-  update(e, t) {
-    e &&
-      t.docChanged &&
-      (e = b(t, e) ? null : { ...e, pos: t.changes.mapPos(e.pos) });
-    return t.effects.reduce((e, t) => (t.is(Q) ? t.value : e), e);
-  },
-  provide: (e) => d.from(e),
-});
-const te = t.baseTheme({
-  ".cm-gutter-lint": {
-    width: "1.4em",
-    "& .cm-gutterElement": { padding: ".2em" },
-  },
-  ".cm-lint-marker": { width: "1em", height: "1em" },
-  ".cm-lint-marker-info": {
-    content: G(
-      '<path fill="#aaf" stroke="#77e" stroke-width="6" stroke-linejoin="round" d="M5 5L35 5L35 35L5 35Z"/>',
-    ),
-  },
-  ".cm-lint-marker-warning": {
-    content: G(
-      '<path fill="#fe8" stroke="#fd7" stroke-width="6" stroke-linejoin="round" d="M20 6L37 35L3 35Z"/>',
-    ),
-  },
-  ".cm-lint-marker-error": {
-    content: G(
-      '<circle cx="20" cy="20" r="15" fill="#f87" stroke="#f43" stroke-width="6"/>',
-    ),
-  },
-});
-const ie = [
-  S,
-  t.decorations.compute([S], (t) => {
-    let { selected: i, panel: n } = t.field(S);
-    return i && n && i.from != i.to ? e.set([R.range(i.from, i.to)]) : e.none;
+function G(e, t, n) {
+  function r() {
+    let r = e.elementAtHeight(
+      t.getBoundingClientRect().top + 5 - e.documentTop,
+    );
+    e.coordsAtPos(r.from) &&
+      e.dispatch({
+        effects: Y.of({
+          pos: r.from,
+          above: !1,
+          clip: !1,
+          create() {
+            return { dom: k(e, n), getCoords: () => t.getBoundingClientRect() };
+          },
+        }),
+      }),
+      (t.onmouseout = t.onmousemove = null),
+      W(e, t);
+  }
+  let { hoverTime: i } = e.state.facet($),
+    a = setTimeout(r, i);
+  (t.onmouseout = () => {
+    clearTimeout(a), (t.onmouseout = t.onmousemove = null);
   }),
-  i(P, { hideOn: b }),
-  V,
-];
-const ne = f.define({
-  combine(e) {
-    return g(e, { hoverTime: 300, markerFilter: null, tooltipFilter: null });
-  },
-});
+    (t.onmousemove = () => {
+      clearTimeout(a), (a = setTimeout(r, i));
+    });
+}
+function K(e, t) {
+  let n = Object.create(null);
+  for (let r of t) {
+    let t = e.lineAt(r.from);
+    (n[t.from] || (n[t.from] = [])).push(r);
+  }
+  let r = [];
+  for (let e in n) r.push(new LintGutterMarker(n[e]).range(+e));
+  return _.of(r, !0);
+}
+const q = /* @__PURE__ */ l({
+    class: `cm-gutter-lint`,
+    markers: (e) => e.state.field(J),
+    widgetMarker: (e, t, n) => {
+      let r = [];
+      return (
+        e.state.field(J).between(n.from, n.to, (e, t, i) => {
+          e > n.from && e < n.to && r.push(...i.diagnostics);
+        }),
+        r.length ? new LintGutterMarker(r) : null
+      );
+    },
+  }),
+  J = /* @__PURE__ */ m.define({
+    create() {
+      return _.empty;
+    },
+    update(e, t) {
+      e = e.map(t.changes);
+      let n = t.state.facet($).markerFilter;
+      for (let r of t.effects)
+        if (r.is(C)) {
+          let i = r.value;
+          n && (i = n(i || [], t.state)), (e = K(t.state.doc, i.slice(0)));
+        }
+      return e;
+    },
+  }),
+  Y = /* @__PURE__ */ p.define(),
+  X = /* @__PURE__ */ m.define({
+    create() {
+      return null;
+    },
+    update(e, t) {
+      return (
+        e &&
+          t.docChanged &&
+          (e = b(t, e) ? null : { ...e, pos: t.changes.mapPos(e.pos) }),
+        t.effects.reduce((e, t) => (t.is(Y) ? t.value : e), e)
+      );
+    },
+    provide: (e) => u.from(e),
+  }),
+  ae = /* @__PURE__ */ n.baseTheme({
+    ".cm-gutter-lint": {
+      width: `1.4em`,
+      "& .cm-gutterElement": { padding: `.2em` },
+    },
+    ".cm-lint-marker": { width: `1em`, height: `1em` },
+    ".cm-lint-marker-info": {
+      content: /* @__PURE__ */ z(
+        `<path fill="#aaf" stroke="#77e" stroke-width="6" stroke-linejoin="round" d="M5 5L35 5L35 35L5 35Z"/>`,
+      ),
+    },
+    ".cm-lint-marker-warning": {
+      content: /* @__PURE__ */ z(
+        `<path fill="#fe8" stroke="#fd7" stroke-width="6" stroke-linejoin="round" d="M20 6L37 35L3 35Z"/>`,
+      ),
+    },
+    ".cm-lint-marker-error": {
+      content: /* @__PURE__ */ z(
+        `<circle cx="20" cy="20" r="15" fill="#f87" stroke="#f43" stroke-width="6"/>`,
+      ),
+    },
+  }),
+  Z = /* @__PURE__ */ d(O, { hideOn: b }),
+  Q = [
+    E,
+    /* @__PURE__ */ n.decorations.compute([E], (t) => {
+      let { selected: n, panel: r } = t.field(E);
+      return !n || !r || n.from == n.to
+        ? e.none
+        : e.set([ee.range(n.from, n.to)]);
+    }),
+    Z,
+    V,
+  ],
+  $ = /* @__PURE__ */ h.define({
+    combine(e) {
+      return g(e, { hoverTime: 300, markerFilter: null, tooltipFilter: null });
+    },
+  });
 function oe(e = {}) {
-  return [ne.of(e), J, X, te, ee];
+  return [$.of(e), J, q, ae, X];
 }
 function se(e, t) {
-  let i = e.field(S, false);
-  if (i && i.diagnostics.size) {
+  let n = e.field(E, !1);
+  if (n && n.diagnostics.size) {
     let e = [],
-      n = [],
-      o = -1;
-    for (let s = p.iter([i.diagnostics]); ; s.next()) {
-      for (let i = 0; i < e.length; i++)
-        if (!s.value || s.value.spec.diagnostics.indexOf(e[i]) < 0) {
-          t(e[i], n[i], o);
-          e.splice(i, 1);
-          n.splice(i--, 1);
-        }
-      if (!s.value) break;
-      for (let t of s.value.spec.diagnostics)
-        if (e.indexOf(t) < 0) {
-          e.push(t);
-          n.push(s.from);
-        }
-      o = s.to;
+      r = [],
+      i = -1;
+    for (let a = _.iter([n.diagnostics]); ; a.next()) {
+      for (let n = 0; n < e.length; n++)
+        (!a.value || a.value.spec.diagnostics.indexOf(e[n]) < 0) &&
+          (t(e[n], r[n], i), e.splice(n, 1), r.splice(n--, 1));
+      if (!a.value) break;
+      for (let t of a.value.spec.diagnostics)
+        e.indexOf(t) < 0 && (e.push(t), r.push(a.from));
+      i = a.to;
     }
   }
 }
 export {
-  A as closeLintPanel,
-  T as diagnosticCount,
+  j as closeLintPanel,
+  D as diagnosticCount,
   se as forEachDiagnostic,
-  N as forceLinting,
+  ie as forceLinting,
   oe as lintGutter,
-  O as lintKeymap,
-  H as linter,
-  D as nextDiagnostic,
-  I as openLintPanel,
-  B as previousDiagnostic,
-  x as setDiagnostics,
-  y as setDiagnosticsEffect,
+  ne as lintKeymap,
+  I as linter,
+  M as nextDiagnostic,
+  A as openLintPanel,
+  te as previousDiagnostic,
+  S as setDiagnostics,
+  C as setDiagnosticsEffect,
 };
