@@ -14,12 +14,12 @@ module ApplicationHelper
     )
   end
 
-  def code_highlight(input, **options)
-    highlight(input, language: :code, **options)
+  def code_highlight(input, **)
+    highlight(input, language: :code, **)
   end
 
-  def json_highlight(input, **options)
-    highlight(input, language: :json, **options)
+  def json_highlight(input, **)
+    highlight(input, language: :json, **)
   end
 
   def title

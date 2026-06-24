@@ -5,14 +5,20 @@ AllCops:
   - "**/vendor/**/*"
   - "**/db/schema.rb"
   NewCops: enable
-  TargetRubyVersion: 3.0
+  TargetRubyVersion: 4.0
 Layout/ClosingHeredocIndentation:
+  Enabled: false
+Layout/ElseAlignment:
+  Enabled: false
+Layout/EndAlignment:
   Enabled: false
 Layout/FirstArgumentIndentation:
   Enabled: false
 Layout/HashAlignment:
   Enabled: false
 Layout/HeredocIndentation:
+  Enabled: false
+Layout/IndentationWidth:
   Enabled: false
 Layout/LineEndStringConcatenationIndentation:
   Enabled: false
@@ -21,6 +27,8 @@ Layout/LineLength:
 Layout/MultilineMethodCallIndentation:
   Enabled: false
 Layout/MultilineOperationIndentation:
+  Enabled: false
+Layout/SpaceAroundKeyword:
   Enabled: false
 Layout/SpaceInsideHashLiteralBraces:
   Enabled: false
@@ -47,6 +55,8 @@ Metrics/AbcSize:
 Metrics/BlockLength:
   Enabled: false
 Metrics/ClassLength:
+  Enabled: false
+Metrics/CollectionLiteralLength:
   Enabled: false
 Metrics/CyclomaticComplexity:
   Enabled: false
@@ -96,6 +106,8 @@ Security/Eval:
   Enabled: false
 Style/CaseEquality:
   Enabled: false
+Style/DocumentDynamicEvalDefinition:
+  Enabled: false
 Style/Documentation:
   Enabled: false
 Style/DoubleNegation:
@@ -104,10 +116,10 @@ Style/EmptyMethod:
   Enabled: false
 Style/IfUnlessModifier:
   Enabled: false
+Style/ItAssignment:
+  Enabled: false
 Style/Lambda:
   Enabled: false
-Style/MethodCallWithArgsParentheses:
-  Enabled: true
 Style/MultilineBlockChain:
   Enabled: false
 Style/NestedTernaryOperator:
