@@ -71,16 +71,12 @@ class Current < ActiveSupport::CurrentAttributes
     ANDROID_APP_NAMES.fetch(env.to_sym, DEFAULT_ANDROID_APP_NAME)
   end
 
-  def request?
-    !!request
-  end
-
   def host
-    request? ? request.host : ENV.fetch("HOST", DEFAULT_HOST)
+    ENV.fetch("HOST", nil).presence || DEFAULT_HOST
   end
 
   def hosts
-    request? ? [host] : default_hosts
+    [host]
   end
 
   def default_hosts
@@ -88,7 +84,7 @@ class Current < ActiveSupport::CurrentAttributes
   end
 
   def base_url
-    request? ? request.base_url : ENV.fetch("BASE_URL", DEFAULT_BASE_URL)
+    ENV.fetch("BASE_URL", nil).presence || DEFAULT_BASE_URL
   end
 
   def public_suffix

@@ -47,27 +47,18 @@ module ApplicationHelper
   def meta_canonical_url
     return unless request
 
-    host = ENV.fetch("HOST", nil)
-    return if host.blank?
-
-    host, port = host.split(":")
-
-    uri = URI.parse(request.original_url)
-    uri.scheme = request.scheme
-    uri.host = host
-    uri.port = port
+    uri = URI.parse(Current.base_url)
+    uri.path = request.path
     uri.query = nil
     uri.fragment = nil
     uri.to_s
   end
 
   def alternate_locale_urls
-    return [] unless request
-
     I18n.available_locales.map do |locale|
       [
         locale,
-        url_for(locale: locale, only_path: false, host: ENV.fetch("HOST", nil))
+        url_for(locale: locale, only_path: false)
       ]
     end
   end

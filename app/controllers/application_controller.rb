@@ -18,6 +18,7 @@ class ApplicationController < ActionController::Base
   before_action(:set_current_commit)
   before_action(:set_current_time_zone)
   before_action(:set_current_locale)
+  before_action(:redirect_to_canonical_base_url)
   before_action(:set_paper_trail_whodunnit)
   before_action(:set_breadcrumbs)
   before_action(:verify_captcha)
@@ -288,6 +289,16 @@ class ApplicationController < ActionController::Base
 
   def default_url_options
     super.merge(locale: locale_param)
+  end
+
+  def redirect_to_canonical_base_url
+    return if request.base_url == Current.base_url
+
+    redirect_to(
+      Current.base_url,
+      status: :moved_permanently,
+      allow_other_host: true
+    )
   end
 
   def recaptcha_site_key
