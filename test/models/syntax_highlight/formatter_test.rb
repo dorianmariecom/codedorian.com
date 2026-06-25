@@ -52,6 +52,27 @@ module SyntaxHighlight
       assert_includes(highlighted, %(<span class="syntax-atom">:chloé</span>))
     end
 
+    test "formats parser operators" do
+      input = "a !== b => c ? d : 1e2.3"
+
+      highlighted = SyntaxHighlight::Formatter.format(input, language: :code)
+
+      assert_includes(highlighted, %(<span class="syntax-operator">!==</span>))
+      assert_includes(highlighted, %(<span class="syntax-operator">=&gt;</span>))
+      assert_includes(
+        highlighted,
+        %(<span class="syntax-punctuation">?</span>)
+      )
+      assert_includes(
+        highlighted,
+        %(<span class="syntax-punctuation">:</span>)
+      )
+      assert_includes(
+        highlighted,
+        %(<span class="syntax-number">1e2.3</span>)
+      )
+    end
+
     test "formats json input and distinguishes keys from values" do
       input = <<~JSON
         {

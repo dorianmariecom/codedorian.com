@@ -1,8 +1,8 @@
 import { Controller } from "@hotwired/stimulus";
-import { highlightCode } from "lexxy";
+import { highlightLexxyCode } from "lexxy-code";
 
 export default class extends Controller {
   connect() {
-    highlightCode(this.element);
+    highlightLexxyCode(this.element);
   }
 }

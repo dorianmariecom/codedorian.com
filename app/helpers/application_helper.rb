@@ -279,8 +279,7 @@ module ApplicationHelper
     content_tag(
       :div,
       data: {
-        controller: :recaptcha,
-        action: "turbo:load@window->recaptcha#connect"
+        controller: :recaptcha
       }
     ) do
       safe_join(

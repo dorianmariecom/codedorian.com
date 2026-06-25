@@ -28,11 +28,12 @@ const HEX_NUMBER = /^0[xX][0-9A-Fa-f](?:_?[0-9A-Fa-f])*/;
 const OCTAL_NUMBER = /^0[oO][0-7](?:_?[0-7])*/;
 const BINARY_NUMBER = /^0[bB][01](?:_?[01])*/;
 const FLOAT_NUMBER =
-  /^[0-9](?:_?[0-9])*\.[0-9](?:_?[0-9])*(?:[eE][0-9](?:_?[0-9])*)?/;
-const INTEGER_NUMBER = /^[0-9](?:_?[0-9])*(?:[eE][0-9](?:_?[0-9])*)?/;
+  /^[0-9](?:_?[0-9])*\.[0-9](?:_?[0-9])*(?:[eE][0-9](?:_?[0-9])*(?:\.[0-9](?:_?[0-9])*)?)?/;
+const INTEGER_NUMBER =
+  /^[0-9](?:_?[0-9])*(?:[eE][0-9](?:_?[0-9])*(?:\.[0-9](?:_?[0-9])*)?)?/;
 const OPERATORS =
-  /^(?:\|\|=|&&=|>>=|<<=|\+=|-=|\*=|\/=|%=|&=|\|=|\^=|===|==|!=|<=>|=~|~=|!~|>=|<=|>>|<<|\*\*|\.\.\.|\.\.|::|&\.|\|\||&&|[+\-*\/%&|^~!<>?:=.×÷])/;
-const DELIMITERS = /^[(){}\[\],]/;
+  /^(?:\|\|=|&&=|>>=|<<=|\+=|-=|\*=|\/=|%=|&=|\|=|\^=|===|!==|==|!=|<=>|=~|~=|!~|>=|<=|=>|>>|<<|\*\*|\.\.\.|\.\.|::|&\.|\|\||&&|[+\-*\/%&|^~!<>=.×÷])/;
+const DELIMITERS = /^[(){}\[\],?:]/;
 
 const codeLanguage = StreamLanguage.define({
   startState() {
@@ -42,6 +43,7 @@ const codeLanguage = StreamLanguage.define({
       interpolationDepth: 0,
       interpolationQuote: null,
       pendingProperty: false,
+      previousSignificant: null,
     };
   },
 
@@ -158,17 +160,20 @@ const codeLanguage = StreamLanguage.define({
       stream.match(INTEGER_NUMBER)
     ) {
       state.pendingProperty = false;
+      state.previousSignificant = stream.current();
       return "number";
     }
 
     if (stream.match(SYMBOL)) {
       state.pendingProperty = false;
+      state.previousSignificant = stream.current();
       return "atom";
     }
 
-    if (stream.match(LABEL)) {
+    if (labelStart(state) && stream.match(LABEL)) {
       const value = stream.current();
       state.pendingProperty = false;
+      state.previousSignificant = value;
       return /^\p{Lu}/u.test(value) ? "typeName" : "propertyName";
     }
 
@@ -178,25 +183,30 @@ const codeLanguage = StreamLanguage.define({
 
       if (OPERATOR_WORDS.has(value)) {
         state.pendingProperty = false;
+        state.previousSignificant = value;
         return "operator";
       }
 
       if (KEYWORDS.has(value)) {
         state.pendingProperty = false;
+        state.previousSignificant = value;
         return "keyword";
       }
 
       if (ATOMS.has(value)) {
         state.pendingProperty = false;
+        state.previousSignificant = value;
         return "atom";
       }
 
       if (state.pendingProperty) {
         state.pendingProperty = false;
+        state.previousSignificant = value;
         return startsWithUppercase ? "typeName" : "propertyName";
       }
 
       state.pendingProperty = false;
+      state.previousSignificant = value;
       if (startsWithUppercase) {
         return "typeName";
       }
@@ -208,6 +218,7 @@ const codeLanguage = StreamLanguage.define({
       const operator = stream.current();
       state.pendingProperty =
         operator === "." || operator === "&." || operator === "::";
+      state.previousSignificant = operator;
 
       if (state.pendingProperty) {
         return "punctuation";
@@ -217,8 +228,10 @@ const codeLanguage = StreamLanguage.define({
     }
 
     if (stream.match(DELIMITERS)) {
+      const delimiter = stream.current();
       state.pendingProperty = false;
-      return stream.current() === "," ? "separator" : "bracket";
+      state.previousSignificant = delimiter;
+      return delimiterToken(delimiter);
     }
 
     state.pendingProperty = false;
@@ -233,5 +246,16 @@ const codeLanguage = StreamLanguage.define({
     },
   },
 });
+
+function labelStart(state) {
+  return [null, "(", "{", "[", ",", "|"].includes(state.previousSignificant);
+}
+
+function delimiterToken(value) {
+  if (value === ",") return "separator";
+  if (value === "?" || value === ":") return "punctuation";
+
+  return "bracket";
+}
 
 export default codeLanguage;

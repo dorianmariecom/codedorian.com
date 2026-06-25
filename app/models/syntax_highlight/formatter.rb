@@ -101,11 +101,12 @@ module SyntaxHighlight
       OCTAL_NUMBER = /0[oO][0-7](?:_?[0-7])*/
       BINARY_NUMBER = /0[bB][01](?:_?[01])*/
       FLOAT_NUMBER =
-        /[0-9](?:_?[0-9])*\.[0-9](?:_?[0-9])*(?:[eE][0-9](?:_?[0-9])*)?/
-      INTEGER_NUMBER = /[0-9](?:_?[0-9])*(?:[eE][0-9](?:_?[0-9])*)?/
+        /[0-9](?:_?[0-9])*\.[0-9](?:_?[0-9])*(?:[eE][0-9](?:_?[0-9])*(?:\.[0-9](?:_?[0-9])*)?)?/
+      INTEGER_NUMBER =
+        /[0-9](?:_?[0-9])*(?:[eE][0-9](?:_?[0-9])*(?:\.[0-9](?:_?[0-9])*)?)?/
       OPERATORS =
-        %r{(?:\|\|=|&&=|>>=|<<=|\+=|-=|\*=|/=|%=|&=|\|=|\^=|===|==|!=|<=>|=~|~=|!~|>=|<=|>>|<<|\*\*|\.\.\.|\.\.|::|&\.|\|\||&&|[+\-*/%&|^~!<>?:=.×÷])}
-      DELIMITERS = /[(){}\[\],]/
+        %r{(?:\|\|=|&&=|>>=|<<=|\+=|-=|\*=|/=|%=|&=|\|=|\^=|===|!==|==|!=|<=>|=~|~=|!~|>=|<=|=>|>>|<<|\*\*|\.\.\.|\.\.|::|&\.|\|\||&&|[+\-*/%&|^~!<>=.×÷])}
+      DELIMITERS = /[(){}\[\],?:]/
 
       private
 
@@ -135,18 +136,28 @@ module SyntaxHighlight
 
           if (value = @scanner.scan(SYMBOL))
             emit("atom", value)
-          elsif (value = @scanner.scan(LABEL))
+          elsif label_start? && (value = @scanner.scan(LABEL))
             emit(label_token(value), value)
           elsif (value = @scanner.scan(IDENTIFIER))
             emit(identifier_token(value), value)
           elsif (value = @scanner.scan(OPERATORS))
             emit(operator_token(value), value)
           elsif (value = @scanner.scan(DELIMITERS))
-            emit(value == "," ? "separator" : "bracket", value)
+            emit(delimiter_token(value), value)
           else
             text(@scanner.getch)
           end
         end
+      end
+
+      def label_start?
+        previous =
+          @tokens.reverse.find do |type, _value|
+            type && type != "comment"
+          end
+        return true unless previous
+
+        ["(", "{", "[", ",", "|"].include?(previous[1])
       end
 
       def identifier_token(value)
@@ -168,6 +179,13 @@ module SyntaxHighlight
         return "punctuation" if %w[. &. ::].include?(value)
 
         "operator"
+      end
+
+      def delimiter_token(value)
+        return "separator" if value == ","
+        return "punctuation" if %w[? :].include?(value)
+
+        "bracket"
       end
     end
 

@@ -1,6 +1,6 @@
 import "@hotwired/turbo-rails";
+import "lexxy-code";
 import "controllers";
-import "lexxy";
 import LocalTime from "local-time";
 import consumer from "consumer";
 import * as Sentry from "@sentry/browser";

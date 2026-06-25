@@ -188,6 +188,10 @@ lexxy-editor {
   @apply min-h-24 p-0! max-w-96!;
 }
 
+lexxy-code-language-picker {
+  @apply hidden!;
+}
+
 .grecaptcha-badge {
   @apply hidden;
 }

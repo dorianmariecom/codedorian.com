@@ -28,23 +28,6 @@ Rails.application.config.content_security_policy do |policy|
     http://*.ingest.de.sentry.io
   ]
 
-  hubspot_sources = %w[
-    https://*.hs-analytics.net
-    http://*.hs-analytics.net
-    https://*.hs-banner.com
-    http://*.hs-banner.com
-    https://*.hs-scripts.com
-    http://*.hs-scripts.com
-    https://*.hscollectedforms.net
-    http://*.hscollectedforms.net
-    https://*.hsforms.com
-    http://*.hsforms.com
-    https://*.hubapi.com
-    http://*.hubapi.com
-    https://*.hubspot.com
-    http://*.hubspot.com
-  ]
-
   policy.default_src(
     :self,
     :blob,
@@ -59,7 +42,6 @@ Rails.application.config.content_security_policy do |policy|
     "http://proxy.dorianmarie.com",
     *google_maps_sources,
     *google_sources,
-    *hubspot_sources,
     *sentry_sources
   )
 end
