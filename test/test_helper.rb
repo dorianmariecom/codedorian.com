@@ -101,6 +101,16 @@ module ActionDispatch
     include Rails.application.routes.url_helpers
     include ActionDispatch::TestProcess
 
+    setup do
+      uri = URI.parse(Current.base_url)
+      host!(
+        [uri.host, uri.port == uri.default_port ? nil : uri.port]
+          .compact
+          .join(":")
+      )
+      https!(uri.scheme == "https")
+    end
+
     def default_url_options
       { locale: I18n.locale }
     end
