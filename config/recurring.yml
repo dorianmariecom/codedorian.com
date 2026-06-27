@@ -15,7 +15,8 @@ cleaning:
   class: CleaningJob
   queue: default
   schedule: every second
-scheduling:
-  class: SchedulingJob
-  queue: scheduling
-  schedule: every second
+production:
+  scheduling:
+    class: SchedulingJob
+    queue: scheduling
+    schedule: every second
