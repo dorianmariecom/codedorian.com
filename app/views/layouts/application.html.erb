@@ -39,7 +39,9 @@
   </head>
   <body
     class="min-h-dvh flex flex-col p-8 border-t-4 <%= Current.border_env %>"
+    data-controller="runnable-code"
     data-hotwire-native="<%= hotwire_native_app? %>"
+    data-runnable-code-create-url-value="<%= program_runs_path(format: :json) %>"
   >
     <script>
       window.CODE_ENV = "<%= Current.env %>";

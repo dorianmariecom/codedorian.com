@@ -250,6 +250,10 @@ async function executeRecaptcha(action) {
   );
 }
 
+export function recaptchaToken(action) {
+  return enqueueRecaptcha(action);
+}
+
 function enqueueRecaptcha(action) {
   const execution = recaptchaExecutionQueue.then(
     () => executeRecaptcha(action),

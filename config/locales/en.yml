@@ -1956,6 +1956,14 @@ en:
         address:
           not_present: must be present
           not_valid: must be valid
+        runnable_code:
+          close: close
+          error: error
+          output: output
+          result: result
+          run: run
+          running: running
+          status: status
         local_time:
           date:
             abbrDayNames:
@@ -2651,6 +2659,9 @@ en:
       notice: programs unscheduled
     update:
       notice: program updated
+  program_runs:
+    create:
+      name: code block
   session:
     create:
       notice: logged in

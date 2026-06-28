@@ -511,6 +511,8 @@ Rails.application.routes.draw do
 
     resource(:form)
 
+    resources(:program_runs, only: %i[create show])
+
     resources(:feedbacks) do
       define_delete_destroy.call
       define_all_delete.call(:destroy, :feedbacks)

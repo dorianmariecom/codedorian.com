@@ -30,6 +30,16 @@ button {
   @apply cursor-pointer;
 }
 
+pre,
+.code {
+  @apply cursor-pointer;
+}
+
+[data-runnable-code-skip] pre,
+[data-runnable-code-skip] .code {
+  @apply cursor-default;
+}
+
 .list-none::-webkit-details-marker {
   display: none;
 }

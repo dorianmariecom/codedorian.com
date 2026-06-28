@@ -1957,6 +1957,14 @@ fr:
         address:
           not_present: doit être présent
           not_valid: doit être valide
+        runnable_code:
+          close: fermer
+          error: erreur
+          output: sortie
+          result: résultat
+          run: exécuter
+          running: en cours
+          status: statut
         local_time:
           date:
             abbrDayNames:
@@ -2655,6 +2663,9 @@ fr:
       notice: programmes deprogrammés
     update:
       notice: programme mis à jour
+  program_runs:
+    create:
+      name: bloc de code
   session:
     create:
       notice: connecté

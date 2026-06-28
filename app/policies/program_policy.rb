@@ -23,7 +23,7 @@ class ProgramPolicy < ApplicationPolicy
   end
 
   def update?
-    (admin? || owner?) && advanced?
+    admin? || owner?
   end
 
   def evaluate?
