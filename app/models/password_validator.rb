@@ -52,7 +52,7 @@ class PasswordValidator
   end
 
   def messages
-    result.match_sequence.map { |sequence| interpret(sequence) }
+    result.sequence.map { |sequence| interpret(sequence) }
   end
 
   def interpret(sequence)
