@@ -288,7 +288,7 @@ class ApplicationController < ActionController::Base
   end
 
   def default_url_options
-    super.merge(locale: locale_param)
+    super.merge(locale: I18n.locale)
   end
 
   def redirect_to_canonical_base_url

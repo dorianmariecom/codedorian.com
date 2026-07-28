@@ -6,9 +6,10 @@ module ApplicationHelper
 
   def link_context
     {
-      "current_url" => url_for,
+      "current_url" => url_for(locale: I18n.locale),
       "fr_url" => url_for(locale: :fr),
-      "en_url" => url_for(locale: :en)
+      "en_url" => url_for(locale: :en),
+      "locale_prefix" => params[:locale].present? ? "/#{params[:locale]}" : ""
     }
   end
 
