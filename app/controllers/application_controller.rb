@@ -292,6 +292,7 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect_to_canonical_base_url
+    return if request.path == "/up"
     return if request.base_url == Current.base_url
 
     redirect_to(
