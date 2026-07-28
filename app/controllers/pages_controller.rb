@@ -178,6 +178,7 @@ class PagesController < ApplicationController
   end
 
   memoize def page_displayed?
+    return true if request.path == root_path(locale: nil)
     return true if request.path == root_path
     return true if params.key?(:path)
     return true if cannot?(:update, @page)
