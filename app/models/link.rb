@@ -61,14 +61,10 @@ class Link < ApplicationRecord
     return true if visibility_input.blank?
 
     evaluate(visibility_input, context).truthy?
-  rescue Code::Error
-    false
   end
 
   def path(context:)
     evaluate(path_input, context).to_s
-  rescue Code::Error
-    ""
   end
 
   def image(platform)

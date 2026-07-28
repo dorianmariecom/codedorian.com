@@ -69,6 +69,15 @@ class Code
         when "find!"
           sig(args) { String }
           code_find!(code_value)
+        else
+          super
+        end
+      end
+
+      def call(**args)
+        code_operator = args.fetch(:operator, nil).to_code
+
+        case code_operator.to_s
         when "simple?"
           sig(args)
           Boolean.new(code_get("interface").to_s == "simple")

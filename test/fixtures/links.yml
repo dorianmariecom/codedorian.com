@@ -6,3 +6,11 @@ link:
   title_en: home
   title_fr: accueil
   position: 0
+
+login:
+  kind: navigation
+  verb: get
+  path_input: '"/session/new"'
+  title_en: log in
+  title_fr: se connecter
+  position: 1

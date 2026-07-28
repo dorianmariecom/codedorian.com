@@ -7,6 +7,7 @@ class CreateLinks < ActiveRecord::Migration[8.1]
       t.text(:title_en)
       t.text(:title_fr)
       t.text(:path_input, null: false)
+      t.string(:verb, null: false, default: "get")
       t.text(:visibility_input)
       t.string(:image_ios)
       t.string(:image_android)
