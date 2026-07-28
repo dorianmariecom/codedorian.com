@@ -4,6 +4,14 @@ module ApplicationHelper
   DEFAULT_ACTION = "unknown-action"
   DEFAULT_METHOD = "unknown-method"
 
+  def link_context
+    {
+      "current_url" => url_for,
+      "fr_url" => url_for(locale: :fr),
+      "en_url" => url_for(locale: :en)
+    }
+  end
+
   def syntax_highlight(input, language: :code)
     return if input.blank?
 

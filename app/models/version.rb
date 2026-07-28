@@ -15,6 +15,7 @@ class Version < PaperTrail::Version
     form_schedule
     guest
     handle
+    link
     job_context
     log
     message

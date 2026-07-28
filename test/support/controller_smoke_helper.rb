@@ -174,6 +174,8 @@ module ControllerSmokeHelper
       test_case.job_semaphores(:job_semaphore).id
     when :log_id
       test_case.logs(:log).id
+    when :link_id
+      test_case.links(:link).id
     when :message_id
       test_case.messages(:message).id
     when :name_id
@@ -275,6 +277,8 @@ module ControllerSmokeHelper
       test_case.jobs(:job).id
     when "logs"
       test_case.logs(:log).id
+    when "links"
+      test_case.links(:link).id
     when "messages"
       test_case.messages(:message).id
     when "names"

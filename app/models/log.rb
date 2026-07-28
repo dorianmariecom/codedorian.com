@@ -29,6 +29,7 @@ class Log < ApplicationRecord
     job_recurring_task
     job_scheduled_execution
     job_semaphore
+    link
     log
     message
     name

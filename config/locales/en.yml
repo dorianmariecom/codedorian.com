@@ -10,6 +10,16 @@ en:
       configuration:
         content: content
         name: name
+      link:
+        default: default?
+        image_android: android image
+        image_ios: ios image
+        kind: kind
+        path_input: path code
+        position: position
+        title_en: english title
+        title_fr: french title
+        visibility_input: visibility code
       country_code_ip_address:
         country_code: country_code
         ip_address: ip address
@@ -304,6 +314,10 @@ en:
     configurations:
       edit: edit
       index: configurations
+      new: new
+    links:
+      edit: edit
+      index: links
       new: new
     country_code_ip_addresses:
       edit: edit
@@ -2250,7 +2264,7 @@ en:
       submit: create page
       title: new page
     show:
-      authorization: authorization
+      authorization_input: authorization
       body_en: body en
       body_fr: body fr
       created_at: created at
@@ -3422,3 +3436,51 @@ en:
       next: next
       previous: previous
       truncate: "…"
+  links:
+    create:
+      notice: link created
+    delete:
+      notice: link deleted
+    delete_all:
+      notice: links deleted
+    destroy:
+      notice: link deleted
+    destroy_all:
+      notice: links destroyed
+    edit:
+      description: update a link.
+      submit: update link
+      title: edit link
+    index:
+      delete_all: delete all
+      description: manage navigation, menu, and tab links.
+      destroy_all: destroy all
+      new: new link
+      title: links
+    model:
+      to_s: link#%{id}
+    new:
+      description: create a link.
+      submit: create link
+      title: new link
+    show:
+      created_at: created at
+      default: default?
+      delete: delete link
+      description: view link details and history.
+      destroy: destroy link
+      edit: edit link
+      image_android: android image
+      image_ios: ios image
+      kind: kind
+      verb: verb
+      logs: logs
+      new_log: new log
+      new_version: new version
+      path_input: path code
+      position: position
+      title_en: english title
+      title_fr: french title
+      updated_at: updated at
+      versions: versions
+      visibility_input: visibility code

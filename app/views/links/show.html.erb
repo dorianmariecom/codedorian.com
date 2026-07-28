@@ -1,0 +1,89 @@
+<% content_for(:title, @link) %>
+
+<%= turbo_stream_from(@link) %>
+
+<% if @link.kind.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".kind") %></div>
+    <div class="font-bold"><%= @link.kind %></div>
+  </div>
+<% end %>
+
+<% if @link.verb.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".verb") %></div>
+    <div class="font-bold"><%= @link.verb %></div>
+  </div>
+<% end %>
+
+<% if @link.title_en.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".title_en") %></div>
+    <div class="font-bold"><%= @link.title_en %></div>
+  </div>
+<% end %>
+
+<% if @link.title_fr.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".title_fr") %></div>
+    <div class="font-bold"><%= @link.title_fr %></div>
+  </div>
+<% end %>
+
+<% if @link.path_input.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".path_input") %></div>
+    <div class="font-bold"><%= @link.path_input %></div>
+  </div>
+<% end %>
+
+<% if @link.visibility_input.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".visibility_input") %></div>
+    <div class="font-bold"><%= @link.visibility_input %></div>
+  </div>
+<% end %>
+
+<% if @link.image_ios.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".image_ios") %></div>
+    <div class="font-bold"><%= @link.image_ios %></div>
+  </div>
+<% end %>
+
+<% if @link.image_android.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".image_android") %></div>
+    <div class="font-bold"><%= @link.image_android %></div>
+  </div>
+<% end %>
+
+<% if @link.position.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".position") %></div>
+    <div class="font-bold"><%= @link.position %></div>
+  </div>
+<% end %>
+
+<% if @link.default.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".default") %></div>
+    <div class="font-bold"><%= @link.default %></div>
+  </div>
+<% end %>
+
+<div class="p p--flex">
+  <%= link_to(t(".edit"), edit_url, class: :link) %>
+  <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+  <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
+</div>
+
+<% if can?(:index, Version) %>
+  <div class="p font-bold"><%= link_to(t(".versions"), [@link, :versions], class: :link) %></div>
+  <%= render_collection(partial: "versions/version", collection: @versions, as: :version, locals: { nested: [@link] }) %>
+<% end %>
+
+<% if can?(:index, Log) %>
+  <div class="p font-bold"><%= link_to(t(".logs"), [@link, :logs], class: :link) %></div>
+  <%= render_collection(partial: "logs/log", collection: @logs, as: :log, locals: { nested: [@link] }) %>
+<% end %>

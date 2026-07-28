@@ -1,0 +1,55 @@
+<%= form_for(show_url) do |f| %>
+  <div class="p">
+    <%= f.label(:verb, class: :label) %>
+    <%= f.select(:verb, Link::VERBS.map { |verb| [verb, verb] }, {}, class: :input, autocomplete: :off, data: { form_type: :other }) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:kind, class: :label) %>
+    <%= f.select(:kind, Link::KINDS.map { |kind| [kind, kind] }, {}, class: :input, autocomplete: :off, data: { form_type: :other }) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:title_en, class: :label) %>
+    <%= f.text_field(:title_en, class: :input, autocomplete: :off, data: { form_type: :other }) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:title_fr, class: :label) %>
+    <%= f.text_field(:title_fr, class: :input, autocomplete: :off, data: { form_type: :other }) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:path_input, class: :label) %>
+    <%= f.text_area(:path_input, class: :input, autocomplete: :off, data: { form_type: :other }) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:visibility_input, class: :label) %>
+    <%= f.text_area(:visibility_input, class: :input, autocomplete: :off, data: { form_type: :other }) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:image_ios, class: :label) %>
+    <%= f.text_field(:image_ios, class: :input, autocomplete: :off, data: { form_type: :other }) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:image_android, class: :label) %>
+    <%= f.text_field(:image_android, class: :input, autocomplete: :off, data: { form_type: :other }) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:position, class: :label) %>
+    <%= f.number_field(:position, class: :input, autocomplete: :off, data: { form_type: :other }) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:default, class: :label) %>
+    <%= f.check_box(:default, data: { form_type: :other }) %>
+  </div>
+
+  <div class="p">
+    <%= f.submit(submit, class: "button", data: { controller: "bridge--button", bridge__button_title_value: submit }) %>
+  </div>
+<% end %>

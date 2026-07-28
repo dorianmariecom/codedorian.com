@@ -26,4 +26,8 @@ class JobScheduledExecutionPolicy < ApplicationPolicy
   def destroy?
     admin?
   end
+
+  def destroy_all?
+    admin?
+  end
 end

@@ -9,10 +9,14 @@
 <% end %>
 
 <turbo-frame id="search" target="_top">
-  <% if @messages.any? && !simple? %>
+  <% if @messages.any? && (can?(:destroy_all, Message) || can?(:delete_all, Message)) && !simple? %>
     <div class="p p--flex">
+      <% if can?(:destroy_all, Message) %>
       <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
+      <% end %>
+      <% if can?(:delete_all, Message) %>
       <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
+      <% end %>
     </div>
   <% end %>
 

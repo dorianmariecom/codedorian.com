@@ -57,8 +57,8 @@ class Page < ApplicationRecord
         node: -> { arel_table[:path] },
         type: :string
       },
-      authorization: {
-        node: -> { arel_table[:authorization] },
+      authorization_input: {
+        node: -> { arel_table[:authorization_input] },
         type: :string
       },
       parent_id: {
@@ -101,9 +101,9 @@ class Page < ApplicationRecord
   end
 
   def authorized?
-    return true if authorization.blank?
+    return true if authorization_input.blank?
 
-    Code.evaluate(authorization).truthy?
+    Code.evaluate(authorization_input).truthy?
   end
 
   def ancestors

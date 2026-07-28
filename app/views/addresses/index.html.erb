@@ -7,10 +7,14 @@
 <%= render("shared/search") %>
 
 <turbo-frame id="search" target="_top">
-  <% if @addresses.any? %>
+  <% if @addresses.any? && (can?(:destroy_all, Address) || can?(:delete_all, Address)) %>
     <div class="p p--flex">
+      <% if can?(:destroy_all, Address) %>
       <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
+      <% end %>
+      <% if can?(:delete_all, Address) %>
       <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
+      <% end %>
     </div>
   <% end %>
 

@@ -127,8 +127,12 @@
         text: t(".discard_all"),
         method: :post
       ) %>
+      <% if can?(:destroy_all, Job) %>
       <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
+      <% end %>
+      <% if can?(:delete_all, Job) %>
       <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
+      <% end %>
     </div>
   <% end %>
 

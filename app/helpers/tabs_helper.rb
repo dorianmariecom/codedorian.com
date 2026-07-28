@@ -10,117 +10,27 @@ module TabsHelper
   end
 
   def tabs(device: :ios)
-    ios = device == :ios
+    platform = device == :ios ? :ios : :android
+    context = link_context
 
-    return simple_tabs(ios: ios) if simple?
+    items = Link.tabs.ordered.filter_map do |link|
+      next unless link.visible?(context: context)
 
-    [
+      path = link.path(context: context)
+      next if path.blank?
+
       {
-        title: t("helpers.tabs.programs"),
-        image: ios ? "laptopcomputer" : :computer,
-        path: polymorphic_path([current_user_or_guest, :programs]),
-        default: true
-      },
-      {
-        title: t("helpers.tabs.form"),
-        image: ios ? :checklist : :assignment,
-        path: form_path,
-        default: false
-      },
-      {
-        title: t("helpers.tabs.documentation"),
-        image: ios ? :document : :article,
-        path: documentation_path,
-        default: false
-      },
-      (
-        if registered?
-          {
-            title: t("helpers.tabs.messages"),
-            image: ios ? "message.fill" : :chat,
-            path: polymorphic_path([current_user, :messages]),
-            default: false
-          }
-        end
-      ),
-      (
-        if registered?
-          {
-            title: t("helpers.tabs.account"),
-            image: ios ? "person.crop.circle.fill" : :account_circle,
-            path: polymorphic_path(current_user),
-            default: false
-          }
-        end
-      ),
-      (
-        if guest?
-          {
-            title: t("helpers.tabs.register"),
-            image: ios ? "person.badge.plus" : :person_add,
-            path: new_user_path,
-            default: false
-          }
-        end
-      ),
-      (
-        if guest?
-          {
-            title: t("helpers.tabs.log_in"),
-            image: ios ? "person.crop.circle.fill" : :login,
-            path: new_login_path,
-            default: false
-          }
-        end
-      )
-    ].compact
-  end
-
-  private
-
-  def simple_tabs(ios:)
-    if registered?
-      [
-        {
-          title: t("helpers.tabs.messages"),
-          image: ios ? "message.fill" : :chat,
-          path: polymorphic_path([current_user, :messages]),
-          default: true
-        },
-        {
-          title: t("helpers.tabs.account"),
-          image: ios ? "person.crop.circle.fill" : :account_circle,
-          path: polymorphic_path(current_user),
-          default: false
-        },
-        {
-          title: t("helpers.tabs.form"),
-          image: ios ? :checklist : :assignment,
-          path: form_path,
-          default: false
-        }
-      ]
-    else
-      [
-        {
-          title: t("helpers.tabs.register"),
-          image: ios ? "person.badge.plus" : :person_add,
-          path: new_user_path,
-          default: false
-        },
-        {
-          title: t("helpers.tabs.log_in"),
-          image: ios ? "person.crop.circle.fill" : :login,
-          path: new_login_path,
-          default: false
-        },
-        {
-          title: t("helpers.tabs.form"),
-          image: ios ? :checklist : :assignment,
-          path: form_path,
-          default: true
-        }
-      ]
+        title: link.title,
+        image: link.image(platform),
+        path: path,
+        default: link.default
+      }
     end
+
+    unless items.any? { |item| item[:default] }
+      items.first[:default] = true if items.first
+    end
+
+    items
   end
 end

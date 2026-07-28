@@ -1,41 +1,9 @@
 <div class="p p--flex">
-  <% if simple? %>
-    <%= link_to(t(".home"), :root, class: :link) %>
-    <%= link_to(t(".form"), :form, class: :link) %>
-
-    <% if registered? %>
-      <%= link_to(t(".messages"), [current_user, :messages], class: :link) %>
-      <%= link_to(t(".account"), current_user, class: :link) %>
-      <%= link_to(t(".about"), :about, class: :link) %>
+  <% navigation_links.each do |title, path, verb| %>
+    <% if verb != "get" %>
+      <%= button_to(title, path, method: verb, class: :link, form: { class: "inline-block" }) %>
     <% else %>
-      <%= link_to(t(".register"), %i[new user], class: :link) %>
-      <%= link_to(t(".log_in"), %i[new login], class: :link) %>
-      <%= link_to(t(".about"), :about, class: :link) %>
+      <%= link_to(title, path, class: :link) %>
     <% end %>
-  <% else %>
-    <%= link_to(t(".home"), :root, class: :link) %>
-    <%= link_to(t(".form"), :form, class: :link) %>
-    <%= link_to(t(".documentation"), :documentation, class: :link) %>
-    <%= link_to(t(".programs"), [current_user_or_guest, :programs], class: :link) %>
-    <%= link_to(t(".messages"), [current_user_or_guest, :messages], class: :link) %>
-
-    <% if registered? %>
-      <%= link_to(t(".account"), current_user, class: :link) %>
-    <% else %>
-      <%= link_to(t(".register"), %i[new user], class: :link) %>
-      <%= link_to(t(".log_in"), %i[new login], class: :link) %>
-    <% end %>
-
-    <%= link_to(t(".about"), :about, class: :link) %>
-
-    <% if admin? %>
-      <%= link_to(t(".admin"), :admin, class: :link) %>
-    <% end %>
-  <% end %>
-
-  <% if fr? %>
-    <%= link_to(t(".english"), url_for(locale: :en), class: :link) %>
-  <% else %>
-    <%= link_to(t(".french"), url_for(locale: :fr), class: :link) %>
   <% end %>
 </div>

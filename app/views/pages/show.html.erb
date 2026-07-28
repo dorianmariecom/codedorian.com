@@ -80,10 +80,10 @@
     </div>
   <% end %>
 
-  <% if @page.authorization.present? %>
+  <% if @page.authorization_input.present? %>
     <div class="p">
-      <div class="text-gray-600"><%= t(".authorization") %></div>
-      <%= code_highlight(@page.authorization) %>
+      <div class="text-gray-600"><%= t(".authorization_input") %></div>
+      <%= code_highlight(@page.authorization_input) %>
     </div>
   <% end %>
 

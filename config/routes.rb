@@ -348,6 +348,13 @@ Rails.application.routes.draw do
       define_all_delete.call(:delete, :configurations)
     end
 
+    resources(:links) do
+      define_delete_destroy.call
+      define_logs_versions.call
+      define_all_delete.call(:destroy, :links)
+      define_all_delete.call(:delete, :links)
+    end
+
     resources(:solid_cable_messages) do
       define_delete_destroy.call
       define_all_delete.call(:destroy, :solid_cable_messages)

@@ -33,6 +33,16 @@ class Code
           name: "id",
           description: "returns the user id as an integer.",
           examples: %w[Current.user.id User.find!("dorian").id]
+        },
+        "simple?" => {
+          name: "simple?",
+          description: "returns whether the user uses the simple interface.",
+          examples: ["Current.user.simple?"]
+        },
+        "advanced?" => {
+          name: "advanced?",
+          description: "returns whether the user uses the advanced interface.",
+          examples: ["Current.user.advanced?"]
         }
       }.freeze
 
@@ -59,6 +69,12 @@ class Code
         when "find!"
           sig(args) { String }
           code_find!(code_value)
+        when "simple?"
+          sig(args)
+          Boolean.new(code_get("interface").to_s == "simple")
+        when "advanced?"
+          sig(args)
+          Boolean.new(code_get("interface").to_s == "advanced")
         else
           super
         end

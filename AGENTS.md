@@ -86,7 +86,7 @@
 
 ## File Map
 
-- `app/controllers/`: broad CRUD/admin surface plus public entry points such as `StaticController`, `FormsController`, `SessionController`, and `SessionsController`.
+- `app/controllers/`: broad CRUD/admin surface plus public entry points such as `FormsController`, `SessionController`, and `SessionsController`.
 - `app/models/`: domain models, job wrappers, `Current`, concerns, code object adapters, and formatting helpers.
 - `app/policies/`: one policy per resource, mirroring the controller surface.
 - `app/views/`: a large partial-driven ERB UI, including nested forms and shared resource pages.

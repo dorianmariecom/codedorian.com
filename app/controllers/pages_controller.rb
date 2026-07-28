@@ -198,7 +198,7 @@ class PagesController < ApplicationController
           description_fr
           body_en
           body_fr
-          authorization
+          authorization_input
         ]
       )
     else

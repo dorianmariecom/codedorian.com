@@ -10,6 +10,16 @@ fr:
       configuration:
         content: contenu
         name: nom
+      link:
+        default: par défaut ?
+        image_android: image android
+        image_ios: image ios
+        kind: type
+        path_input: code du chemin
+        position: position
+        title_en: titre anglais
+        title_fr: titre français
+        visibility_input: code de visibilité
       country_code_ip_address:
         country_code: code pays
         ip_address: adresse ip
@@ -306,6 +316,10 @@ fr:
       edit: modifier
       index: configurations
       new: nouvelle
+    links:
+      edit: modifier
+      index: liens
+      new: nouveau
     country_code_ip_addresses:
       edit: modifier
       index: code pay adresse ip
@@ -2254,7 +2268,7 @@ fr:
       submit: créer la page
       title: nouvelle page
     show:
-      authorization: autorisation
+      authorization_input: autorisation
       body_en: corps anglais
       body_fr: corps français
       created_at: créé à
@@ -3427,3 +3441,51 @@ fr:
       next: suivant
       previous: précédent
       truncate: "…"
+  links:
+    create:
+      notice: lien créé
+    delete:
+      notice: lien supprimé
+    delete_all:
+      notice: liens supprimés
+    destroy:
+      notice: lien supprimé
+    destroy_all:
+      notice: liens détruits
+    edit:
+      description: mettre à jour un lien.
+      submit: mettre à jour le lien
+      title: modifier le lien
+    index:
+      delete_all: supprimer tout
+      description: gérer les liens de navigation, de menu et d'onglets.
+      destroy_all: détruire tout
+      new: nouveau lien
+      title: liens
+    model:
+      to_s: lien#%{id}
+    new:
+      description: créer un lien.
+      submit: créer un lien
+      title: nouveau lien
+    show:
+      created_at: créé à
+      default: par défaut ?
+      delete: supprimer le lien
+      description: voir les détails et l'historique du lien.
+      destroy: détruire le lien
+      edit: modifier le lien
+      image_android: image android
+      image_ios: image ios
+      kind: type
+      verb: verbe
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
+      path_input: code du chemin
+      position: position
+      title_en: titre anglais
+      title_fr: titre français
+      updated_at: mis à jour à
+      versions: versions
+      visibility_input: code de visibilité
