@@ -12,11 +12,11 @@ class SchedulingJob < ContextJob
         perform_later(
           SchedulingProgramJob,
           arguments: {
-            program: program
+            program_id: program.id
           },
           context: {
-            user: program.user,
-            program: program
+            user_id: program.user_id,
+            program_id: program.id
           },
           current: {
             user: program.user,
