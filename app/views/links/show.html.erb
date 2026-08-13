@@ -79,11 +79,29 @@
 </div>
 
 <% if can?(:index, Version) %>
-  <div class="p font-bold"><%= link_to(t(".versions"), [@link, :versions], class: :link) %></div>
-  <%= render_collection(partial: "versions/version", collection: @versions, as: :version, locals: { nested: [@link] }) %>
+  <div class="p font-bold">
+    <%= link_to(t(".versions"), { controller: :versions, action: :index, link_id: @link&.id }, class: :link) %>
+  </div>
+  <%= render_collection(
+    partial: "versions/version",
+    collection: @versions,
+    as: :version,
+    locals: {
+      nested: [@link]
+    }
+  ) %>
 <% end %>
 
 <% if can?(:index, Log) %>
-  <div class="p font-bold"><%= link_to(t(".logs"), [@link, :logs], class: :link) %></div>
-  <%= render_collection(partial: "logs/log", collection: @logs, as: :log, locals: { nested: [@link] }) %>
+  <div class="p font-bold">
+    <%= link_to(t(".logs"), { controller: :logs, action: :index, link_id: @link&.id }, class: :link) %>
+  </div>
+  <%= render_collection(
+    partial: "logs/log",
+    collection: @logs,
+    as: :log,
+    locals: {
+      nested: [@link]
+    }
+  ) %>
 <% end %>

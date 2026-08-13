@@ -12,10 +12,10 @@
   <% if @feedbacks.any? && (can?(:destroy_all, Feedback) || can?(:delete_all, Feedback)) %>
     <div class="p p--flex">
       <% if can?(:destroy_all, Feedback) %>
-      <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
+        <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
       <% end %>
       <% if can?(:delete_all, Feedback) %>
-      <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
+        <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
       <% end %>
     </div>
   <% end %>

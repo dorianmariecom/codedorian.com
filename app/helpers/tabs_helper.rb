@@ -13,22 +13,23 @@ module TabsHelper
     platform = device == :ios ? :ios : :android
     context = link_context
 
-    items = Link.tabs.ordered.filter_map do |link|
-      next unless link.visible?(context: context)
+    items =
+      Link.tabs.ordered.filter_map do |link|
+        next unless link.visible?(context: context)
 
-      path = link.path(context: context)
-      next if path.blank?
+        path = link.path(context: context)
+        next if path.blank?
 
-      {
-        title: link.title,
-        image: link.image(platform),
-        path: path,
-        default: link.default
-      }
-    end
+        {
+          title: link.title,
+          image: link.image(platform),
+          path: path,
+          default: link.default
+        }
+      end
 
-    unless items.any? { |item| item[:default] }
-      items.first[:default] = true if items.first
+    if items.none? { |item| item[:default] } && items.first
+      items.first[:default] = true
     end
 
     items

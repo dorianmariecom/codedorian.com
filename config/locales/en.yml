@@ -10,16 +10,6 @@ en:
       configuration:
         content: content
         name: name
-      link:
-        default: default?
-        image_android: android image
-        image_ios: ios image
-        kind: kind
-        path_input: path code
-        position: position
-        title_en: english title
-        title_fr: french title
-        visibility_input: visibility code
       country_code_ip_address:
         country_code: country_code
         ip_address: ip address
@@ -141,6 +131,16 @@ en:
         expires_at: expires at
         key: key
         value: value
+      link:
+        default: default?
+        image_android: android image
+        image_ios: ios image
+        kind: kind
+        path_input: path code
+        position: position
+        title_en: english title
+        title_fr: french title
+        visibility_input: visibility code
       message:
         body: body
         from_user_id: from user
@@ -175,6 +175,18 @@ en:
         primary: primary?
         user_id: user
         verified: verified?
+      plan:
+        body_en: english body
+        body_fr: french body
+        description_en: english description
+        description_fr: french description
+        name_en: english name
+        name_fr: french name
+        service_id: service
+      plan_schedule:
+        interval: interval
+        plan_id: plan
+        starts_at: starts at
       program:
         input: input
         name: name
@@ -193,6 +205,36 @@ en:
         interval: interval
         program_id: program
         starts_at: starts at
+      service:
+        body_en: english body
+        body_fr: french body
+        description_en: english description
+        description_fr: french description
+        name_en: english name
+        name_fr: french name
+        user_id: user
+      step:
+        body_en: english body
+        body_fr: french body
+        description_en: english description
+        description_fr: french description
+        input: input
+        name_en: english name
+        name_fr: french name
+        offset_seconds: offset seconds
+        position: position
+        service_id: service
+      step_execution:
+        error: error
+        error_backtrace: error backtrace
+        error_class: error class
+        error_message: error message
+        input: input
+        output: output
+        result: result
+        status: status
+        step_id: step
+        subscription_execution_id: subscription execution
       submission:
         email_address: email address
         family_name: family name
@@ -228,6 +270,13 @@ en:
         locale: locale
         name: name
         submission_id: submission
+      subscription:
+        plan_id: plan
+        status: status
+        user_id: user
+      subscription_execution:
+        status: status
+        subscription_id: subscription
       time_zone:
         primary: primary?
         time_zone: time zone
@@ -314,10 +363,6 @@ en:
     configurations:
       edit: edit
       index: configurations
-      new: new
-    links:
-      edit: edit
-      index: links
       new: new
     country_code_ip_addresses:
       edit: edit
@@ -420,6 +465,10 @@ en:
       edit: edit
       index: jobs
       new: new
+    links:
+      edit: edit
+      index: links
+      new: new
     logs:
       edit: edit
       index: logs
@@ -447,6 +496,14 @@ en:
       edit: edit
       index: phone numbers
       new: new
+    plan_schedules:
+      edit: edit
+      index: plan schedules
+      new: new
+    plans:
+      edit: edit
+      index: plans
+      new: new
     program_executions:
       edit: edit
       index: program executions
@@ -458,6 +515,10 @@ en:
     programs:
       edit: edit
       index: programs
+      new: new
+    services:
+      edit: edit
+      index: services
       new: new
     session:
       create: log in
@@ -473,6 +534,14 @@ en:
     solid_cache_entries:
       edit: edit
       index: solid cache entries
+      new: new
+    step_executions:
+      edit: edit
+      index: step executions
+      new: new
+    steps:
+      edit: edit
+      index: steps
       new: new
     submission_deliveries:
       edit: edit
@@ -493,6 +562,14 @@ en:
     submissions:
       edit: edit
       index: submissions
+      new: new
+    subscription_executions:
+      edit: edit
+      index: subscription executions
+      new: new
+    subscriptions:
+      edit: edit
+      index: subscriptions
       new: new
     time_zones:
       edit: edit
@@ -1970,14 +2047,6 @@ en:
         address:
           not_present: must be present
           not_valid: must be valid
-        runnable_code:
-          close: close
-          error: error
-          output: output
-          result: result
-          run: run
-          running: running
-          status: status
         local_time:
           date:
             abbrDayNames:
@@ -2061,6 +2130,14 @@ en:
           not_valid: must be valid
           too_long: is too long
           too_short: is too short
+        runnable_code:
+          close: close
+          error: error
+          output: output
+          result: result
+          run: run
+          running: running
+          status: status
         time_zone:
           not_present: must be present
         validation:
@@ -2088,6 +2165,54 @@ en:
       messages: messages
       programs: programs
       register: register
+  links:
+    create:
+      notice: link created
+    delete:
+      notice: link deleted
+    delete_all:
+      notice: links deleted
+    destroy:
+      notice: link deleted
+    destroy_all:
+      notice: links destroyed
+    edit:
+      description: update a link.
+      submit: update link
+      title: edit link
+    index:
+      delete_all: delete all
+      description: manage navigation, menu, and tab links.
+      destroy_all: destroy all
+      new: new link
+      title: links
+    model:
+      to_s: link#%{id}
+    new:
+      description: create a link.
+      submit: create link
+      title: new link
+    show:
+      created_at: created at
+      default: default?
+      delete: delete link
+      description: view link details and history.
+      destroy: destroy link
+      edit: edit link
+      image_android: android image
+      image_ios: ios image
+      kind: kind
+      logs: logs
+      new_log: new log
+      new_version: new version
+      path_input: path code
+      position: position
+      title_en: english title
+      title_fr: french title
+      updated_at: updated at
+      verb: verb
+      versions: versions
+      visibility_input: visibility code
   logs:
     create:
       notice: log created
@@ -2164,7 +2289,8 @@ en:
       submit: create message
       title: new message
     show:
-      body: body
+      body_en: english body
+      body_fr: french body
       created_at: created at
       delete: delete message
       description: view message details and recipients.
@@ -2269,7 +2395,7 @@ en:
       body_fr: body fr
       created_at: created at
       delete: delete page
-      description: description
+      description: view page content and metadata.
       description_en: description en
       description_fr: description fr
       destroy: destroy page
@@ -2399,6 +2525,103 @@ en:
       versions: versions
     update:
       notice: phone number updated
+  plan_schedules:
+    create:
+      notice: plan schedule created
+    delete:
+      notice: plan schedule deleted
+    delete_all:
+      notice: plan schedules deleted
+    destroy:
+      notice: plan schedule destroyed
+    destroy_all:
+      notice: plan schedules destroyed
+    edit:
+      submit: update plan schedule
+      title: edit plan schedule
+    index:
+      delete_all: delete all
+      destroy_all: destroy all
+      new: new plan schedule
+      title: plan schedules
+    model:
+      to_s: plan_schedule#%{id}
+    nested:
+      add: add plan schedule
+    nested_form:
+      plan_schedule: plan schedule
+      remove: remove plan schedule
+    new:
+      submit: create plan schedule
+      title: new plan schedule
+    show:
+      created_at: created at
+      delete: delete plan schedule
+      destroy: destroy plan schedule
+      edit: edit plan schedule
+      id: id
+      interval: interval
+      logs: logs
+      plan_id: plan
+      starts_at: starts at
+      updated_at: updated at
+      versions: versions
+    update:
+      notice: plan schedule updated
+  plans:
+    create:
+      notice: plan created
+    delete:
+      notice: plan deleted
+    delete_all:
+      notice: plans deleted
+    destroy:
+      notice: plan destroyed
+    destroy_all:
+      notice: plans destroyed
+    edit:
+      submit: update plan
+      title: edit plan
+    index:
+      delete_all: delete all
+      destroy_all: destroy all
+      new: new plan
+      plan_schedules:
+        one: "%{count} plan schedule"
+        other: "%{count} plan schedules"
+        zero: "%{count} plan schedules"
+      subscriptions:
+        one: "%{count} subscription"
+        other: "%{count} subscriptions"
+        zero: "%{count} subscriptions"
+      title: plans
+    model:
+      to_s: plan#%{id}
+    new:
+      submit: create plan
+      title: new plan
+    show:
+      body_en: english body
+      body_fr: french body
+      created_at: created at
+      delete: delete plan
+      description_en: english description
+      description_fr: french description
+      destroy: destroy plan
+      edit: edit plan
+      id: id
+      logs: logs
+      name_en: english name
+      name_fr: french name
+      new_plan_schedule: new plan schedule
+      new_subscription: new subscription
+      plan_schedules: plan schedules
+      service_id: service
+      subscriptions: subscriptions
+      updated_at: updated at
+      versions: versions
+    update:
+      notice: plan updated
   program_executions:
     create:
       notice: program execution created
@@ -2458,6 +2681,9 @@ en:
       versions: versions
     update:
       notice: program execution updated
+  program_runs:
+    create:
+      name: code block
   program_schedules:
     create:
       notice: program schedule created
@@ -2572,7 +2798,9 @@ en:
       edit: edit program schedule
       id: id
       interval: interval
+      jobs: jobs
       logs: logs
+      new_job: new job
       new_log: new log
       new_version: new version
       program: program
@@ -2673,9 +2901,70 @@ en:
       notice: programs unscheduled
     update:
       notice: program updated
-  program_runs:
+  services:
     create:
-      name: code block
+      notice: service created
+    delete:
+      notice: service deleted
+    delete_all:
+      notice: services deleted
+    destroy:
+      notice: service destroyed
+    destroy_all:
+      notice: services destroyed
+    edit:
+      submit: update service
+      title: edit service
+    index:
+      delete_all: delete all
+      destroy_all: destroy all
+      new: new service
+      plans:
+        one: "%{count} plan"
+        other: "%{count} plans"
+        zero: "%{count} plans"
+      steps:
+        one: "%{count} step"
+        other: "%{count} steps"
+        zero: "%{count} steps"
+      subscriptions:
+        one: "%{count} subscription"
+        other: "%{count} subscriptions"
+        zero: "%{count} subscriptions"
+      title: services
+    model:
+      to_s: service#%{id}
+    new:
+      submit: create service
+      title: new service
+    show:
+      body_en: english body
+      body_fr: french body
+      created_at: created at
+      delete: delete service
+      description_en: english description
+      description_fr: french description
+      destroy: destroy service
+      edit: edit service
+      id: id
+      logs: logs
+      name_en: english name
+      name_fr: french name
+      new_plan: new plan
+      new_step: new step
+      new_step_execution: new step execution
+      new_subscription: new subscription
+      new_subscription_execution: new subscription execution
+      plans: plans
+      step_executions: step executions
+      steps: steps
+      subscription_executions: subscription executions
+      subscriptions: subscriptions
+      updated_at: updated at
+      user_id: user
+      versions: versions
+    update:
+      notice: service updated
   session:
     create:
       notice: logged in
@@ -2883,6 +3172,107 @@ en:
       value_base64: value base64
     update:
       notice: solid cache entry updated
+  step_executions:
+    create:
+      notice: step execution created
+    delete:
+      notice: step execution deleted
+    delete_all:
+      notice: step executions deleted
+    destroy:
+      notice: step execution destroyed
+    destroy_all:
+      notice: step executions destroyed
+    edit:
+      submit: update step execution
+      title: edit step execution
+    index:
+      delete_all: delete all
+      destroy_all: destroy all
+      new: new step execution
+      title: step executions
+    model:
+      statuses:
+        done: done
+        errored: errored
+        in_progress: in progress
+        initialized: initialized
+      to_s: step_execution#%{id}
+    new:
+      submit: create step execution
+      title: new step execution
+    show:
+      created_at: created at
+      delete: delete step execution
+      destroy: destroy step execution
+      edit: edit step execution
+      error: error
+      error_backtrace: error backtrace
+      error_class: error class
+      error_message: error message
+      id: id
+      input: input
+      logs: logs
+      output: output
+      result: result
+      status: status
+      step_id: step
+      subscription_execution_id: subscription execution
+      updated_at: updated at
+      versions: versions
+    update:
+      notice: step execution updated
+  steps:
+    create:
+      notice: step created
+    delete:
+      notice: step deleted
+    delete_all:
+      notice: steps deleted
+    destroy:
+      notice: step destroyed
+    destroy_all:
+      notice: steps destroyed
+    edit:
+      submit: update step
+      title: edit step
+    index:
+      delete_all: delete all
+      destroy_all: destroy all
+      new: new step
+      step_executions:
+        one: "%{count} step execution"
+        other: "%{count} step executions"
+        zero: "%{count} step executions"
+      title: steps
+    model:
+      to_s: step#%{id}
+    new:
+      submit: create step
+      title: new step
+    show:
+      body_en: english body
+      body_fr: french body
+      created_at: created at
+      delete: delete step
+      description_en: english description
+      description_fr: french description
+      destroy: destroy step
+      edit: edit step
+      id: id
+      input: input
+      logs: logs
+      name_en: english name
+      name_fr: french name
+      new_step_execution: new step execution
+      offset_seconds: offset seconds
+      position: position
+      service_id: service
+      step_executions: step executions
+      updated_at: updated at
+      versions: versions
+    update:
+      notice: step updated
   submission_deliveries:
     create:
       notice: submission delivery created
@@ -3215,6 +3605,113 @@ en:
       versions: versions
     update:
       notice: submission updated
+  subscription_executions:
+    create:
+      notice: subscription execution created
+    delete:
+      notice: subscription execution deleted
+    delete_all:
+      notice: subscription executions deleted
+    destroy:
+      notice: subscription execution destroyed
+    destroy_all:
+      notice: subscription executions destroyed
+    edit:
+      submit: update subscription execution
+      title: edit subscription execution
+    index:
+      delete_all: delete all
+      destroy_all: destroy all
+      new: new subscription execution
+      step_executions:
+        one: "%{count} step execution"
+        other: "%{count} step executions"
+        zero: "%{count} step executions"
+      title: subscription executions
+    model:
+      statuses:
+        done: done
+        errored: errored
+        in_progress: in progress
+        initialized: initialized
+      to_s: subscription_execution#%{id}
+    new:
+      submit: create subscription execution
+      title: new subscription execution
+    show:
+      created_at: created at
+      delete: delete subscription execution
+      destroy: destroy subscription execution
+      edit: edit subscription execution
+      id: id
+      logs: logs
+      new_step_execution: new step execution
+      status: status
+      step_executions: step executions
+      subscription_id: subscription
+      updated_at: updated at
+      versions: versions
+    update:
+      notice: subscription execution updated
+  subscriptions:
+    activate:
+      notice: subscription activated
+    create:
+      notice: subscription created
+    deactivate:
+      notice: subscription deactivated
+    delete:
+      notice: subscription deleted
+    delete_all:
+      notice: subscriptions deleted
+    destroy:
+      notice: subscription destroyed
+    destroy_all:
+      notice: subscriptions destroyed
+    edit:
+      submit: update subscription
+      title: edit subscription
+    evaluate:
+      notice: subscription evaluation enqueued
+    index:
+      delete_all: delete all
+      destroy_all: destroy all
+      new: new subscription
+      subscription_executions:
+        one: "%{count} subscription execution"
+        other: "%{count} subscription executions"
+        zero: "%{count} subscription executions"
+      title: subscriptions
+    model:
+      statuses:
+        active: active
+        inactive: inactive
+      to_s: subscription#%{id}
+    new:
+      submit: create subscription
+      title: new subscription
+    show:
+      activate: activate
+      created_at: created at
+      deactivate: deactivate
+      delete: delete subscription
+      destroy: destroy subscription
+      edit: edit subscription
+      evaluate: evaluate
+      id: id
+      logs: logs
+      new_subscription_execution: new subscription execution
+      next_at: next at
+      plan_id: plan
+      previous_at: previous at
+      starts_at: starts at
+      status: status
+      subscription_executions: subscription executions
+      updated_at: updated at
+      user_id: user
+      versions: versions
+    update:
+      notice: subscription updated
   time:
     formats:
       default: "%A %d %B %Y at %H:%M:%S"
@@ -3436,51 +3933,3 @@ en:
       next: next
       previous: previous
       truncate: "…"
-  links:
-    create:
-      notice: link created
-    delete:
-      notice: link deleted
-    delete_all:
-      notice: links deleted
-    destroy:
-      notice: link deleted
-    destroy_all:
-      notice: links destroyed
-    edit:
-      description: update a link.
-      submit: update link
-      title: edit link
-    index:
-      delete_all: delete all
-      description: manage navigation, menu, and tab links.
-      destroy_all: destroy all
-      new: new link
-      title: links
-    model:
-      to_s: link#%{id}
-    new:
-      description: create a link.
-      submit: create link
-      title: new link
-    show:
-      created_at: created at
-      default: default?
-      delete: delete link
-      description: view link details and history.
-      destroy: destroy link
-      edit: edit link
-      image_android: android image
-      image_ios: ios image
-      kind: kind
-      verb: verb
-      logs: logs
-      new_log: new log
-      new_version: new version
-      path_input: path code
-      position: position
-      title_en: english title
-      title_fr: french title
-      updated_at: updated at
-      versions: versions
-      visibility_input: visibility code

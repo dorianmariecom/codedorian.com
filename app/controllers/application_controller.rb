@@ -429,35 +429,83 @@ class ApplicationController < ActionController::Base
   end
 
   def index_url(...)
-    [*nested(...), resources_name, **search_params]
+    parents = nested(...).compact
+    identity = parents.first if parents.first.is_a?(User) || parents.first.is_a?(Guest)
+    query = (parents - [identity]).to_h do |parent|
+      ["#{parent.model_name.singular_route_key}_id", parent.to_param]
+    end
+
+    [identity, resources_name, **query, **search_params].compact
   end
 
   def destroy_all_url(...)
-    [:destroy_all, *index_url(...)]
+    parents = nested(...).compact
+    identity = parents.first if parents.first.is_a?(User) || parents.first.is_a?(Guest)
+    query = (parents - [identity]).to_h do |parent|
+      ["#{parent.model_name.singular_route_key}_id", parent.to_param]
+    end
+
+    [:destroy_all, identity, resources_name, **query, **search_params].compact
   end
 
   def delete_all_url(...)
-    [:delete_all, *index_url(...)]
+    parents = nested(...).compact
+    identity = parents.first if parents.first.is_a?(User) || parents.first.is_a?(Guest)
+    query = (parents - [identity]).to_h do |parent|
+      ["#{parent.model_name.singular_route_key}_id", parent.to_param]
+    end
+
+    [:delete_all, identity, resources_name, **query, **search_params].compact
   end
 
   def show_url(...)
-    [*nested(...), model_instance]
+    parents = nested(...).compact
+    identity = parents.first if parents.first.is_a?(User) || parents.first.is_a?(Guest)
+    query = (parents - [identity]).to_h do |parent|
+      ["#{parent.model_name.singular_route_key}_id", parent.to_param]
+    end
+
+    [identity, model_instance, **query].compact
   end
 
   def new_url(...)
-    [:new, *nested(...), resource_name]
+    parents = nested(...).compact
+    identity = parents.first if parents.first.is_a?(User) || parents.first.is_a?(Guest)
+    query = (parents - [identity]).to_h do |parent|
+      ["#{parent.model_name.singular_route_key}_id", parent.to_param]
+    end
+
+    [:new, identity, resource_name, **query].compact
   end
 
   def edit_url(...)
-    [:edit, *show_url(...)]
+    parents = nested(...).compact
+    identity = parents.first if parents.first.is_a?(User) || parents.first.is_a?(Guest)
+    query = (parents - [identity]).to_h do |parent|
+      ["#{parent.model_name.singular_route_key}_id", parent.to_param]
+    end
+
+    [:edit, identity, model_instance, **query].compact
   end
 
   def delete_url(...)
-    [*show_url(...), :delete]
+    parents = nested(...).compact
+    identity = parents.first if parents.first.is_a?(User) || parents.first.is_a?(Guest)
+    query = (parents - [identity]).to_h do |parent|
+      ["#{parent.model_name.singular_route_key}_id", parent.to_param]
+    end
+
+    [identity, model_instance, :delete, **query].compact
   end
 
   def destroy_url(...)
-    [*show_url(...), :destroy]
+    parents = nested(...).compact
+    identity = parents.first if parents.first.is_a?(User) || parents.first.is_a?(Guest)
+    query = (parents - [identity]).to_h do |parent|
+      ["#{parent.model_name.singular_route_key}_id", parent.to_param]
+    end
+
+    [identity, model_instance, :destroy, **query].compact
   end
 
   def set_breadcrumbs

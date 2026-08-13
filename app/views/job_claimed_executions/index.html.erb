@@ -7,13 +7,17 @@
 <%= render("shared/search") %>
 
 <turbo-frame id="search" target="_top">
-  <% if @job_claimed_executions.any? && (can?(:destroy_all, JobClaimedExecution) || can?(:delete_all, JobClaimedExecution)) %>
+  <% if @job_claimed_executions.any? &&
+    (
+      can?(:destroy_all, JobClaimedExecution) ||
+        can?(:delete_all, JobClaimedExecution)
+    ) %>
     <div class="p p--flex">
       <% if can?(:destroy_all, JobClaimedExecution) %>
-      <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
+        <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
       <% end %>
       <% if can?(:delete_all, JobClaimedExecution) %>
-      <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
+        <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
       <% end %>
     </div>
   <% end %>

@@ -65,10 +65,7 @@ module ApplicationHelper
 
   def alternate_locale_urls
     I18n.available_locales.map do |locale|
-      [
-        locale,
-        url_for(locale: locale, only_path: false)
-      ]
+      [locale, url_for(locale: locale, only_path: false)]
     end
   end
 
@@ -285,12 +282,7 @@ module ApplicationHelper
   end
 
   def recaptcha_tag(action:)
-    content_tag(
-      :div,
-      data: {
-        controller: :recaptcha
-      }
-    ) do
+    content_tag(:div, data: { controller: :recaptcha }) do
       safe_join(
         [
           hidden_field_tag(

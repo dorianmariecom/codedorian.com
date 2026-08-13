@@ -151,10 +151,7 @@ module SyntaxHighlight
       end
 
       def label_start?
-        previous =
-          @tokens.reverse.find do |type, _value|
-            type && type != "comment"
-          end
+        previous = @tokens.rfind { |type, _value| type && type != "comment" }
         return true unless previous
 
         ["(", "{", "[", ",", "|"].include?(previous[1])

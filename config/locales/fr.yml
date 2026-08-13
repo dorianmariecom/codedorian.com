@@ -10,16 +10,6 @@ fr:
       configuration:
         content: contenu
         name: nom
-      link:
-        default: par défaut ?
-        image_android: image android
-        image_ios: image ios
-        kind: type
-        path_input: code du chemin
-        position: position
-        title_en: titre anglais
-        title_fr: titre français
-        visibility_input: code de visibilité
       country_code_ip_address:
         country_code: code pays
         ip_address: adresse ip
@@ -141,6 +131,16 @@ fr:
         expires_at: expire à
         key: clé
         value: valeur
+      link:
+        default: par défaut ?
+        image_android: image android
+        image_ios: image ios
+        kind: type
+        path_input: code du chemin
+        position: position
+        title_en: titre anglais
+        title_fr: titre français
+        visibility_input: code de visibilité
       message:
         body: corps
         from_user_id: de l'utilisateur
@@ -175,6 +175,18 @@ fr:
         primary: principal ?
         user_id: utilisateur
         verified: vérifié ?
+      plan:
+        body_en: corps anglais
+        body_fr: corps français
+        description_en: description anglaise
+        description_fr: description française
+        name_en: nom anglais
+        name_fr: nom français
+        service_id: service
+      plan_schedule:
+        interval: intervalle
+        plan_id: offre
+        starts_at: commence à
       program:
         input: entrée
         name: nom
@@ -193,6 +205,36 @@ fr:
         interval: intervalle
         program_id: programme
         starts_at: commence à
+      service:
+        body_en: corps anglais
+        body_fr: corps français
+        description_en: description anglaise
+        description_fr: description française
+        name_en: nom anglais
+        name_fr: nom français
+        user_id: utilisateur
+      step:
+        body_en: corps anglais
+        body_fr: corps français
+        description_en: description anglaise
+        description_fr: description française
+        input: entrée
+        name_en: nom anglais
+        name_fr: nom français
+        offset_seconds: décalage en secondes
+        position: position
+        service_id: service
+      step_execution:
+        error: erreur
+        error_backtrace: trace d'erreur
+        error_class: classe d'erreur
+        error_message: message d'erreur
+        input: entrée
+        output: sortie
+        result: résultat
+        status: statut
+        step_id: étape
+        subscription_execution_id: exécution d'abonnement
       submission:
         email_address: adresse e-mail
         family_name: nom de famille
@@ -228,6 +270,13 @@ fr:
         locale: langage
         name: nom
         submission_id: soumission
+      subscription:
+        plan_id: offre
+        status: statut
+        user_id: utilisateur
+      subscription_execution:
+        status: statut
+        subscription_id: abonnement
       time_zone:
         primary: principal ?
         time_zone: fuseau horaire
@@ -316,10 +365,6 @@ fr:
       edit: modifier
       index: configurations
       new: nouvelle
-    links:
-      edit: modifier
-      index: liens
-      new: nouveau
     country_code_ip_addresses:
       edit: modifier
       index: code pay adresse ip
@@ -421,6 +466,10 @@ fr:
       edit: modifier
       index: tâches
       new: nouveau
+    links:
+      edit: modifier
+      index: liens
+      new: nouveau
     logs:
       edit: modifier
       index: logs
@@ -448,6 +497,14 @@ fr:
       edit: modifier
       index: numéros de téléphone
       new: nouveau
+    plan_schedules:
+      edit: modifier
+      index: planifications des offres
+      new: nouvelle
+    plans:
+      edit: modifier
+      index: offres
+      new: nouvelle
     program_executions:
       edit: modifier
       index: exécutions de programmes
@@ -459,6 +516,10 @@ fr:
     programs:
       edit: modifier
       index: programmes
+      new: nouveau
+    services:
+      edit: modifier
+      index: services
       new: nouveau
     session:
       create: connexion
@@ -474,6 +535,14 @@ fr:
     solid_cache_entries:
       edit: modifier
       index: entrées solid cache
+      new: nouvelle
+    step_executions:
+      edit: modifier
+      index: exécutions d'étape
+      new: nouvelle
+    steps:
+      edit: modifier
+      index: étapes
       new: nouvelle
     submission_deliveries:
       edit: modifier
@@ -495,6 +564,14 @@ fr:
       edit: modifier
       index: soumissions
       new: nouvelle
+    subscription_executions:
+      edit: modifier
+      index: exécutions d'abonnement
+      new: nouvelle
+    subscriptions:
+      edit: modifier
+      index: abonnements
+      new: nouveau
     time_zones:
       edit: modifier
       index: fuseaux horaires
@@ -1971,14 +2048,6 @@ fr:
         address:
           not_present: doit être présent
           not_valid: doit être valide
-        runnable_code:
-          close: fermer
-          error: erreur
-          output: sortie
-          result: résultat
-          run: exécuter
-          running: en cours
-          status: statut
         local_time:
           date:
             abbrDayNames:
@@ -2062,6 +2131,14 @@ fr:
           not_valid: doit être valide
           too_long: est trop long
           too_short: est trop court
+        runnable_code:
+          close: fermer
+          error: erreur
+          output: sortie
+          result: résultat
+          run: exécuter
+          running: en cours
+          status: statut
         time_zone:
           not_present: doit être présent
         validation:
@@ -2089,6 +2166,54 @@ fr:
       messages: messages
       programs: programmes
       register: s'inscrire
+  links:
+    create:
+      notice: lien créé
+    delete:
+      notice: lien supprimé
+    delete_all:
+      notice: liens supprimés
+    destroy:
+      notice: lien supprimé
+    destroy_all:
+      notice: liens détruits
+    edit:
+      description: mettre à jour un lien.
+      submit: mettre à jour le lien
+      title: modifier le lien
+    index:
+      delete_all: supprimer tout
+      description: gérer les liens de navigation, de menu et d'onglets.
+      destroy_all: détruire tout
+      new: nouveau lien
+      title: liens
+    model:
+      to_s: lien#%{id}
+    new:
+      description: créer un lien.
+      submit: créer un lien
+      title: nouveau lien
+    show:
+      created_at: créé à
+      default: par défaut ?
+      delete: supprimer le lien
+      description: voir les détails et l'historique du lien.
+      destroy: détruire le lien
+      edit: modifier le lien
+      image_android: image android
+      image_ios: image ios
+      kind: type
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
+      path_input: code du chemin
+      position: position
+      title_en: titre anglais
+      title_fr: titre français
+      updated_at: mis à jour à
+      verb: verbe
+      versions: versions
+      visibility_input: code de visibilité
   logs:
     create:
       notice: log créé
@@ -2165,7 +2290,8 @@ fr:
       submit: créer un message
       title: nouveau message
     show:
-      body: corps
+      body_en: corps anglais
+      body_fr: corps français
       created_at: créé à
       delete: supprimer le message
       description: voir les détails du message et les destinataires.
@@ -2273,7 +2399,7 @@ fr:
       body_fr: corps français
       created_at: créé à
       delete: supprimer la page
-      description: description
+      description: voir le contenu et les métadonnées de la page.
       description_en: description anglaise
       description_fr: description française
       destroy: détruire la page
@@ -2403,6 +2529,103 @@ fr:
       versions: versions
     update:
       notice: numéro de téléphone mis à jour
+  plan_schedules:
+    create:
+      notice: planification créée
+    delete:
+      notice: planification supprimée
+    delete_all:
+      notice: planifications supprimées
+    destroy:
+      notice: planification détruite
+    destroy_all:
+      notice: planifications détruites
+    edit:
+      submit: mettre à jour la planification
+      title: modifier la planification
+    index:
+      delete_all: tout supprimer
+      destroy_all: tout détruire
+      new: nouvelle planification
+      title: planifications des offres
+    model:
+      to_s: plan_schedule#%{id}
+    nested:
+      add: ajouter une planification
+    nested_form:
+      plan_schedule: planification
+      remove: supprimer la planification
+    new:
+      submit: créer la planification
+      title: nouvelle planification
+    show:
+      created_at: créé à
+      delete: supprimer
+      destroy: détruire
+      edit: modifier
+      id: id
+      interval: intervalle
+      logs: logs
+      plan_id: offre
+      starts_at: commence à
+      updated_at: mis à jour à
+      versions: versions
+    update:
+      notice: planification mise à jour
+  plans:
+    create:
+      notice: offre créée
+    delete:
+      notice: offre supprimée
+    delete_all:
+      notice: offres supprimées
+    destroy:
+      notice: offre détruite
+    destroy_all:
+      notice: offres détruites
+    edit:
+      submit: mettre à jour l'offre
+      title: modifier l'offre
+    index:
+      delete_all: tout supprimer
+      destroy_all: tout détruire
+      new: nouvelle offre
+      plan_schedules:
+        one: "%{count} planification d'offre"
+        other: "%{count} planifications d'offres"
+        zero: "%{count} planifications d'offres"
+      subscriptions:
+        one: "%{count} abonnement"
+        other: "%{count} abonnements"
+        zero: "%{count} abonnements"
+      title: offres
+    model:
+      to_s: plan#%{id}
+    new:
+      submit: créer l'offre
+      title: nouvelle offre
+    show:
+      body_en: corps anglais
+      body_fr: corps français
+      created_at: créé à
+      delete: supprimer l'offre
+      description_en: description anglaise
+      description_fr: description française
+      destroy: détruire l'offre
+      edit: modifier l'offre
+      id: id
+      logs: logs
+      name_en: nom anglais
+      name_fr: nom français
+      new_plan_schedule: nouvelle planification
+      new_subscription: nouvel abonnement
+      plan_schedules: planifications des offres
+      service_id: service
+      subscriptions: abonnements
+      updated_at: mis à jour à
+      versions: versions
+    update:
+      notice: offre mise à jour
   program_executions:
     create:
       notice: exécution du programme créée
@@ -2462,6 +2685,9 @@ fr:
       versions: versions
     update:
       notice: exécution du programme mise à jour
+  program_runs:
+    create:
+      name: bloc de code
   program_schedules:
     create:
       notice: horaire de programmes créée
@@ -2576,7 +2802,9 @@ fr:
       edit: modifier la horaire des programmes
       id: identifiant
       interval: intervalle
+      jobs: tâches
       logs: logs
+      new_job: nouvelle tâche
       new_log: nouveau log
       new_version: nouvelle version
       program: programme
@@ -2677,9 +2905,70 @@ fr:
       notice: programmes deprogrammés
     update:
       notice: programme mis à jour
-  program_runs:
+  services:
     create:
-      name: bloc de code
+      notice: service créé
+    delete:
+      notice: service supprimé
+    delete_all:
+      notice: services supprimés
+    destroy:
+      notice: service détruit
+    destroy_all:
+      notice: services détruits
+    edit:
+      submit: mettre à jour le service
+      title: modifier le service
+    index:
+      delete_all: tout supprimer
+      destroy_all: tout détruire
+      new: nouveau service
+      plans:
+        one: "%{count} offre"
+        other: "%{count} offres"
+        zero: "%{count} offres"
+      steps:
+        one: "%{count} étape"
+        other: "%{count} étapes"
+        zero: "%{count} étapes"
+      subscriptions:
+        one: "%{count} abonnement"
+        other: "%{count} abonnements"
+        zero: "%{count} abonnements"
+      title: services
+    model:
+      to_s: service#%{id}
+    new:
+      submit: créer le service
+      title: nouveau service
+    show:
+      body_en: corps anglais
+      body_fr: corps français
+      created_at: créé à
+      delete: supprimer le service
+      description_en: description anglaise
+      description_fr: description française
+      destroy: détruire le service
+      edit: modifier le service
+      id: id
+      logs: logs
+      name_en: nom anglais
+      name_fr: nom français
+      new_plan: nouvelle offre
+      new_step: nouvelle étape
+      new_step_execution: nouvelle exécution d'étape
+      new_subscription: nouvel abonnement
+      new_subscription_execution: nouvelle exécution d'abonnement
+      plans: offres
+      step_executions: exécutions d'étape
+      steps: étapes
+      subscription_executions: exécutions d'abonnement
+      subscriptions: abonnements
+      updated_at: mis à jour à
+      user_id: utilisateur
+      versions: versions
+    update:
+      notice: service mis à jour
   session:
     create:
       notice: connecté
@@ -2887,6 +3176,107 @@ fr:
       value_base64: valeur base64
     update:
       notice: entrée solid cache modifiée
+  step_executions:
+    create:
+      notice: exécution d'étape créée
+    delete:
+      notice: exécution d'étape supprimée
+    delete_all:
+      notice: exécutions d'étape supprimées
+    destroy:
+      notice: exécution d'étape détruite
+    destroy_all:
+      notice: exécutions d'étape détruites
+    edit:
+      submit: mettre à jour l'exécution
+      title: modifier l'exécution
+    index:
+      delete_all: tout supprimer
+      destroy_all: tout détruire
+      new: nouvelle exécution
+      title: exécutions d'étape
+    model:
+      statuses:
+        done: terminé
+        errored: en erreur
+        in_progress: en cours
+        initialized: initialisé
+      to_s: step_execution#%{id}
+    new:
+      submit: créer l'exécution
+      title: nouvelle exécution
+    show:
+      created_at: créé à
+      delete: supprimer
+      destroy: détruire
+      edit: modifier
+      error: erreur
+      error_backtrace: trace d'erreur
+      error_class: classe d'erreur
+      error_message: message d'erreur
+      id: id
+      input: entrée
+      logs: logs
+      output: sortie
+      result: résultat
+      status: statut
+      step_id: étape
+      subscription_execution_id: exécution d'abonnement
+      updated_at: mis à jour à
+      versions: versions
+    update:
+      notice: exécution d'étape mise à jour
+  steps:
+    create:
+      notice: étape créée
+    delete:
+      notice: étape supprimée
+    delete_all:
+      notice: étapes supprimées
+    destroy:
+      notice: étape détruite
+    destroy_all:
+      notice: étapes détruites
+    edit:
+      submit: mettre à jour l'étape
+      title: modifier l'étape
+    index:
+      delete_all: tout supprimer
+      destroy_all: tout détruire
+      new: nouvelle étape
+      step_executions:
+        one: "%{count} exécution d'étape"
+        other: "%{count} exécutions d'étape"
+        zero: "%{count} exécutions d'étape"
+      title: étapes
+    model:
+      to_s: step#%{id}
+    new:
+      submit: créer l'étape
+      title: nouvelle étape
+    show:
+      body_en: corps anglais
+      body_fr: corps français
+      created_at: créé à
+      delete: supprimer l'étape
+      description_en: description anglaise
+      description_fr: description française
+      destroy: détruire l'étape
+      edit: modifier l'étape
+      id: id
+      input: entrée
+      logs: logs
+      name_en: nom anglais
+      name_fr: nom français
+      new_step_execution: nouvelle exécution d'étape
+      offset_seconds: décalage en secondes
+      position: position
+      service_id: service
+      step_executions: exécutions d'étape
+      updated_at: mis à jour à
+      versions: versions
+    update:
+      notice: étape mise à jour
   submission_deliveries:
     create:
       notice: livraison de soumission créée
@@ -3220,6 +3610,113 @@ fr:
       versions: versions
     update:
       notice: soumission mise à jour
+  subscription_executions:
+    create:
+      notice: exécution d'abonnement créée
+    delete:
+      notice: exécution d'abonnement supprimée
+    delete_all:
+      notice: exécutions d'abonnement supprimées
+    destroy:
+      notice: exécution d'abonnement détruite
+    destroy_all:
+      notice: exécutions d'abonnement détruites
+    edit:
+      submit: mettre à jour l'exécution
+      title: modifier l'exécution
+    index:
+      delete_all: tout supprimer
+      destroy_all: tout détruire
+      new: nouvelle exécution
+      step_executions:
+        one: "%{count} exécution d'étape"
+        other: "%{count} exécutions d'étape"
+        zero: "%{count} exécutions d'étape"
+      title: exécutions d'abonnement
+    model:
+      statuses:
+        done: terminé
+        errored: en erreur
+        in_progress: en cours
+        initialized: initialisé
+      to_s: subscription_execution#%{id}
+    new:
+      submit: créer l'exécution
+      title: nouvelle exécution
+    show:
+      created_at: créé à
+      delete: supprimer
+      destroy: détruire
+      edit: modifier
+      id: id
+      logs: logs
+      new_step_execution: nouvelle exécution d'étape
+      status: statut
+      step_executions: exécutions d'étape
+      subscription_id: abonnement
+      updated_at: mis à jour à
+      versions: versions
+    update:
+      notice: exécution d'abonnement mise à jour
+  subscriptions:
+    activate:
+      notice: abonnement activé
+    create:
+      notice: abonnement créé
+    deactivate:
+      notice: abonnement désactivé
+    delete:
+      notice: abonnement supprimé
+    delete_all:
+      notice: abonnements supprimés
+    destroy:
+      notice: abonnement détruit
+    destroy_all:
+      notice: abonnements détruits
+    edit:
+      submit: mettre à jour l'abonnement
+      title: modifier l'abonnement
+    evaluate:
+      notice: évaluation de l'abonnement mise en file d'attente
+    index:
+      delete_all: tout supprimer
+      destroy_all: tout détruire
+      new: nouvel abonnement
+      subscription_executions:
+        one: "%{count} exécution d'abonnement"
+        other: "%{count} exécutions d'abonnement"
+        zero: "%{count} exécutions d'abonnement"
+      title: abonnements
+    model:
+      statuses:
+        active: actif
+        inactive: inactif
+      to_s: subscription#%{id}
+    new:
+      submit: créer l'abonnement
+      title: nouvel abonnement
+    show:
+      activate: activer
+      created_at: créé à
+      deactivate: désactiver
+      delete: supprimer
+      destroy: détruire
+      edit: modifier
+      evaluate: évaluer
+      id: id
+      logs: logs
+      new_subscription_execution: nouvelle exécution d'abonnement
+      next_at: prochain à
+      plan_id: offre
+      previous_at: précédent à
+      starts_at: commence à
+      status: statut
+      subscription_executions: exécutions d'abonnement
+      updated_at: mis à jour à
+      user_id: utilisateur
+      versions: versions
+    update:
+      notice: abonnement mis à jour
   time:
     formats:
       default: "%A %d %B %Y à %H:%M:%S"
@@ -3441,51 +3938,3 @@ fr:
       next: suivant
       previous: précédent
       truncate: "…"
-  links:
-    create:
-      notice: lien créé
-    delete:
-      notice: lien supprimé
-    delete_all:
-      notice: liens supprimés
-    destroy:
-      notice: lien supprimé
-    destroy_all:
-      notice: liens détruits
-    edit:
-      description: mettre à jour un lien.
-      submit: mettre à jour le lien
-      title: modifier le lien
-    index:
-      delete_all: supprimer tout
-      description: gérer les liens de navigation, de menu et d'onglets.
-      destroy_all: détruire tout
-      new: nouveau lien
-      title: liens
-    model:
-      to_s: lien#%{id}
-    new:
-      description: créer un lien.
-      submit: créer un lien
-      title: nouveau lien
-    show:
-      created_at: créé à
-      default: par défaut ?
-      delete: supprimer le lien
-      description: voir les détails et l'historique du lien.
-      destroy: détruire le lien
-      edit: modifier le lien
-      image_android: image android
-      image_ios: image ios
-      kind: type
-      verb: verbe
-      logs: logs
-      new_log: nouveau log
-      new_version: nouvelle version
-      path_input: code du chemin
-      position: position
-      title_en: titre anglais
-      title_fr: titre français
-      updated_at: mis à jour à
-      versions: versions
-      visibility_input: code de visibilité

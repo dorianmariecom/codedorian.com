@@ -4,533 +4,124 @@ Rails.application.routes.draw do
   mount(Blazer::Engine, at: :blazer)
   mount(ActionCable.server => "/cable")
 
-  define_all_delete =
-    lambda do |action, controller|
-      delete(
-        "/#{action}_all",
-        to: "#{controller}##{action}_all",
-        on: :collection
-      )
-    end
+  concern :deletable do
+    delete(:delete)
+    delete(:destroy)
+    delete(:delete_all, on: :collection)
+    delete(:destroy_all, on: :collection)
+  end
 
-  define_all_post =
-    lambda do |action, controller|
-      post("/#{action}_all", to: "#{controller}##{action}_all", on: :collection)
-    end
-
-  define_all_patch =
-    lambda do |action, controller|
-      patch(
-        "/#{action}_all",
-        to: "#{controller}##{action}_all",
-        on: :collection
-      )
-    end
-
-  define_delete_destroy =
+  define_surface =
     lambda do
-      delete(:delete)
-      delete(:destroy)
-    end
-
-  define_logs_versions =
-    lambda do
-      resources(:logs) do
-        define_delete_destroy.call
-        define_all_delete.call(:destroy, :logs)
-        define_all_delete.call(:delete, :logs)
+      resources(:programs, concerns: :deletable) do
+        post(:evaluate, on: :member)
+        post(:format, on: :member)
+        post(:schedule, on: :member)
+        post(:unschedule, on: :member)
+        post(:format_all, on: :collection)
+        patch(:schedule_all, on: :collection)
+        patch(:unschedule_all, on: :collection)
       end
 
-      resources(:versions) do
-        define_delete_destroy.call
-        define_all_delete.call(:destroy, :versions)
-        define_all_delete.call(:delete, :versions)
-      end
-    end
-
-  define_errors =
-    lambda do
-      resources(:errors) do
-        define_delete_destroy.call
-        define_logs_versions.call
-        define_all_delete.call(:destroy, :errors)
-        define_all_delete.call(:delete, :errors)
-
-        resources(:error_occurrences) do
-          define_delete_destroy.call
-          define_logs_versions.call
-          define_all_delete.call(:destroy, :error_occurrences)
-          define_all_delete.call(:delete, :error_occurrences)
-        end
+      resources(:jobs, concerns: :deletable) do
+        post(:discard)
+        post(:retry)
+        post(:discard_all, on: :collection)
+        post(:retry_all, on: :collection)
       end
 
-      resources(:error_occurrences) do
-        define_delete_destroy.call
-        define_logs_versions.call
-        define_all_delete.call(:destroy, :error_occurrences)
-        define_all_delete.call(:delete, :error_occurrences)
+      resources(:passwords, concerns: :deletable) do
+        post(:check, on: :collection)
       end
-    end
 
-  define_job_resources =
-    lambda do |resource|
-      resources(resource) do
-        define_delete_destroy.call
-        define_logs_versions.call
-        define_all_delete.call(:destroy, resource)
-        define_all_delete.call(:delete, resource)
-
-        define_errors.call
+      resources(:messages, concerns: :deletable) do
+        get(:content)
+        get(:subject)
+        get(:body)
       end
-    end
 
-  define_job_execution_resources =
-    lambda do
       %i[
+        addresses
+        data
+        devices
+        email_addresses
+        error_occurrences
+        errors
+        handles
         job_blocked_executions
         job_claimed_executions
         job_contexts
         job_failed_executions
-        job_ready_executions
-        job_recurring_executions
-        job_scheduled_executions
-      ].each { |resource| define_job_resources.call(resource) }
-    end
-
-  define_job_admin_resources =
-    lambda do
-      %i[
         job_pauses
         job_processes
+        job_ready_executions
+        job_recurring_executions
         job_recurring_tasks
+        job_scheduled_executions
         job_semaphores
-      ].each { |resource| define_job_resources.call(resource) }
-    end
+        logs
+        names
+        pages
+        phone_numbers
+        plan_schedules
+        plans
+        program_executions
+        program_schedules
+        services
+        sessions
+        solid_cable_messages
+        step_executions
+        steps
+        subscription_executions
+        time_zones
+        tokens
+        versions
+      ].each { |resource| resources(resource, concerns: :deletable) }
 
-  define_jobs =
-    lambda do
-      resources(:jobs) do
-        define_delete_destroy.call
-        define_logs_versions.call
-        post(:discard)
-        post(:retry)
-
-        define_all_delete.call(:destroy, :jobs)
-        define_all_delete.call(:delete, :jobs)
-        define_all_post.call(:discard, :jobs)
-        define_all_post.call(:retry, :jobs)
-
-        define_job_execution_resources.call
-        define_errors.call
+      resources(:subscriptions, concerns: :deletable) do
+        post(:activate, on: :member)
+        post(:deactivate, on: :member)
+        post(:evaluate, on: :member)
       end
-
-      define_job_execution_resources.call
-    end
-
-  define =
-    lambda do
-      resources(:data) do
-        define_delete_destroy.call
-        define_logs_versions.call
-        define_all_delete.call(:destroy, :data)
-        define_all_delete.call(:delete, :data)
-
-        define_errors.call
-      end
-
-      resources(:pages) do
-        define_delete_destroy.call
-        define_logs_versions.call
-        define_all_delete.call(:destroy, :pages)
-        define_all_delete.call(:delete, :pages)
-
-        define_errors.call
-      end
-
-      resources(:programs) do
-        post(:evaluate)
-        post(:format)
-        post(:schedule)
-        post(:unschedule)
-
-        define_delete_destroy.call
-        define_logs_versions.call
-        define_all_post.call(:format, :programs)
-        define_all_patch.call(:schedule, :programs)
-        define_all_patch.call(:unschedule, :programs)
-        define_all_delete.call(:destroy, :programs)
-        define_all_delete.call(:delete, :programs)
-
-        resources(:program_executions) do
-          define_delete_destroy.call
-          define_logs_versions.call
-          define_all_delete.call(:destroy, :program_executions)
-          define_all_delete.call(:delete, :program_executions)
-
-          define_errors.call
-        end
-
-        resources(:program_schedules) do
-          define_delete_destroy.call
-          define_logs_versions.call
-          define_all_delete.call(:destroy, :program_schedules)
-          define_all_delete.call(:delete, :program_schedules)
-
-          define_errors.call
-        end
-
-        define_errors.call
-        define_jobs.call
-      end
-
-      resources(:email_addresses) do
-        define_delete_destroy.call
-        define_logs_versions.call
-        define_all_delete.call(:destroy, :email_addresses)
-        define_all_delete.call(:delete, :email_addresses)
-
-        define_errors.call
-      end
-
-      resources(:phone_numbers) do
-        define_delete_destroy.call
-        define_logs_versions.call
-        define_all_delete.call(:destroy, :phone_numbers)
-        define_all_delete.call(:delete, :phone_numbers)
-
-        define_errors.call
-      end
-
-      resources(:program_executions) do
-        define_delete_destroy.call
-        define_logs_versions.call
-        define_all_delete.call(:destroy, :program_executions)
-        define_all_delete.call(:delete, :program_executions)
-
-        define_errors.call
-      end
-
-      resources(:time_zones) do
-        define_delete_destroy.call
-        define_logs_versions.call
-        define_all_delete.call(:destroy, :time_zones)
-        define_all_delete.call(:delete, :time_zones)
-
-        define_errors.call
-      end
-
-      resources(:passwords) do
-        post(:check, on: :collection)
-
-        define_delete_destroy.call
-        define_logs_versions.call
-        define_all_delete.call(:destroy, :passwords)
-        define_all_delete.call(:delete, :passwords)
-
-        define_errors.call
-      end
-
-      resources(:program_schedules) do
-        define_delete_destroy.call
-        define_logs_versions.call
-        define_all_delete.call(:destroy, :program_schedules)
-        define_all_delete.call(:delete, :program_schedules)
-
-        define_errors.call
-      end
-
-      resources(:devices) do
-        define_delete_destroy.call
-        define_logs_versions.call
-        define_all_delete.call(:destroy, :devices)
-        define_all_delete.call(:delete, :devices)
-
-        define_errors.call
-      end
-
-      resources(:messages) do
-        get(:content)
-        get(:subject)
-        get(:body)
-
-        define_delete_destroy.call
-        define_logs_versions.call
-        define_all_delete.call(:destroy, :messages)
-        define_all_delete.call(:delete, :messages)
-
-        define_errors.call
-      end
-
-      resources(:handles) do
-        define_delete_destroy.call
-        define_logs_versions.call
-        define_all_delete.call(:destroy, :handles)
-        define_all_delete.call(:delete, :handles)
-
-        define_errors.call
-      end
-
-      resources(:addresses) do
-        define_delete_destroy.call
-        define_logs_versions.call
-        define_all_delete.call(:destroy, :addresses)
-        define_all_delete.call(:delete, :addresses)
-
-        define_errors.call
-      end
-
-      resources(:guests) do
-        define_delete_destroy.call
-        define_logs_versions.call
-        define_all_delete.call(:destroy, :guests)
-        define_all_delete.call(:delete, :guests)
-
-        define_errors.call
-      end
-
-      resources(:names) do
-        define_delete_destroy.call
-        define_logs_versions.call
-        define_all_delete.call(:destroy, :names)
-        define_all_delete.call(:delete, :names)
-
-        define_errors.call
-      end
-
-      resources(:tokens) do
-        define_delete_destroy.call
-        define_logs_versions.call
-        define_all_delete.call(:destroy, :tokens)
-        define_all_delete.call(:delete, :tokens)
-
-        define_errors.call
-      end
-
-      resources(:sessions) do
-        define_delete_destroy.call
-        define_logs_versions.call
-        define_all_delete.call(:destroy, :sessions)
-        define_all_delete.call(:delete, :sessions)
-      end
-
-      define_job_execution_resources.call
-      define_job_admin_resources.call
-      define_errors.call
-      define_jobs.call
-      define_logs_versions.call
     end
 
   scope("(:locale)", locale: /en|fr|/) do
-    resources(:guests) do
-      define_delete_destroy.call
-      define_all_delete.call(:destroy, :guests)
-      define_all_delete.call(:delete, :guests)
-
-      define.call
-    end
-
-    resources(:users) do
+    resources(:users, concerns: :deletable) do
       post(:impersonate)
-
-      define_delete_destroy.call
-      define_all_delete.call(:destroy, :users)
-      define_all_delete.call(:delete, :users)
-
-      define.call
+      define_surface.call
     end
+    resources(:guests, concerns: :deletable) { define_surface.call }
 
-    define.call
+    define_surface.call
 
-    resources(:configurations) do
-      define_delete_destroy.call
-      define_logs_versions.call
-      define_all_delete.call(:destroy, :configurations)
-      define_all_delete.call(:delete, :configurations)
-    end
-
-    resources(:links) do
-      define_delete_destroy.call
-      define_logs_versions.call
-      define_all_delete.call(:destroy, :links)
-      define_all_delete.call(:delete, :links)
-    end
-
-    resources(:solid_cable_messages) do
-      define_delete_destroy.call
-      define_all_delete.call(:destroy, :solid_cable_messages)
-      define_all_delete.call(:delete, :solid_cable_messages)
-    end
-
-    resources(:logs) do
-      define_delete_destroy.call
-      define_logs_versions.call
-      define_all_delete.call(:destroy, :logs)
-      define_all_delete.call(:delete, :logs)
-    end
-
-    resources(:versions) do
-      define_delete_destroy.call
-      define_logs_versions.call
-      define_all_delete.call(:destroy, :versions)
-      define_all_delete.call(:delete, :versions)
-    end
-
-    resources(:form_programs) do
-      define_delete_destroy.call
-      define_logs_versions.call
-      define_all_delete.call(:destroy, :form_programs)
-      define_all_delete.call(:delete, :form_programs)
-    end
-
-    resources(:form_schedules) do
-      define_delete_destroy.call
-      define_logs_versions.call
-      define_all_delete.call(:destroy, :form_schedules)
-      define_all_delete.call(:delete, :form_schedules)
-    end
-
-    resources(:form_deliveries) do
-      define_delete_destroy.call
-      define_logs_versions.call
-      define_all_delete.call(:destroy, :form_deliveries)
-      define_all_delete.call(:delete, :form_deliveries)
-    end
-
-    resources(:submissions) do
-      define_delete_destroy.call
-      define_logs_versions.call
-      define_all_delete.call(:destroy, :submissions)
-      define_all_delete.call(:delete, :submissions)
-
-      resources(:submission_programs) do
-        define_delete_destroy.call
-        define_logs_versions.call
-        define_all_delete.call(:destroy, :submission_programs)
-        define_all_delete.call(:delete, :submission_programs)
-      end
-
-      resources(:submission_schedules) do
-        define_delete_destroy.call
-        define_logs_versions.call
-        define_all_delete.call(:destroy, :submission_schedules)
-        define_all_delete.call(:delete, :submission_schedules)
-      end
-
-      resources(:submission_deliveries) do
-        define_delete_destroy.call
-        define_logs_versions.call
-        define_all_delete.call(:destroy, :submission_deliveries)
-        define_all_delete.call(:delete, :submission_deliveries)
-      end
-
-      resources(:submission_sections) do
-        define_delete_destroy.call
-        define_logs_versions.call
-        define_all_delete.call(:destroy, :submission_sections)
-        define_all_delete.call(:delete, :submission_sections)
-
-        resources(:submission_programs) do
-          define_delete_destroy.call
-          define_logs_versions.call
-          define_all_delete.call(:destroy, :submission_programs)
-          define_all_delete.call(:delete, :submission_programs)
-        end
-
-        resources(:submission_schedules) do
-          define_delete_destroy.call
-          define_logs_versions.call
-          define_all_delete.call(:destroy, :submission_schedules)
-          define_all_delete.call(:delete, :submission_schedules)
-        end
-
-        resources(:submission_deliveries) do
-          define_delete_destroy.call
-          define_logs_versions.call
-          define_all_delete.call(:destroy, :submission_deliveries)
-          define_all_delete.call(:delete, :submission_deliveries)
-        end
-      end
-    end
-
-    resources(:submission_sections) do
-      define_delete_destroy.call
-      define_logs_versions.call
-      define_all_delete.call(:destroy, :submission_sections)
-      define_all_delete.call(:delete, :submission_sections)
-
-      resources(:submission_programs) do
-        define_delete_destroy.call
-        define_logs_versions.call
-        define_all_delete.call(:destroy, :submission_programs)
-        define_all_delete.call(:delete, :submission_programs)
-      end
-
-      resources(:submission_schedules) do
-        define_delete_destroy.call
-        define_logs_versions.call
-        define_all_delete.call(:destroy, :submission_schedules)
-        define_all_delete.call(:delete, :submission_schedules)
-      end
-
-      resources(:submission_deliveries) do
-        define_delete_destroy.call
-        define_logs_versions.call
-        define_all_delete.call(:destroy, :submission_deliveries)
-        define_all_delete.call(:delete, :submission_deliveries)
-      end
-    end
-
-    resources(:submission_programs) do
-      define_delete_destroy.call
-      define_logs_versions.call
-      define_all_delete.call(:destroy, :submission_programs)
-      define_all_delete.call(:delete, :submission_programs)
-    end
-
-    resources(:submission_schedules) do
-      define_delete_destroy.call
-      define_logs_versions.call
-      define_all_delete.call(:destroy, :submission_schedules)
-      define_all_delete.call(:delete, :submission_schedules)
-    end
-
-    resources(:submission_deliveries) do
-      define_delete_destroy.call
-      define_logs_versions.call
-      define_all_delete.call(:destroy, :submission_deliveries)
-      define_all_delete.call(:delete, :submission_deliveries)
-    end
-
-    resources(:country_code_ip_addresses) do
+    resources(:country_code_ip_addresses, concerns: :deletable) do
       post(:lookup)
-
-      define_delete_destroy.call
-      define_logs_versions.call
-      define_all_delete.call(:destroy, :country_code_ip_addresses)
-      define_all_delete.call(:delete, :country_code_ip_addresses)
     end
+
+    %i[
+      configurations
+      feedbacks
+      form_deliveries
+      form_programs
+      form_schedules
+      links
+      solid_cache_entries
+      submission_deliveries
+      submission_programs
+      submission_schedules
+      submission_sections
+      submissions
+    ].each { |resource| resources(resource, concerns: :deletable) }
 
     patch(:time_zone, to: "users#update_time_zone")
 
     resource(:session, controller: :session, as: :login) do
-      define_delete_destroy.call
+      delete(:delete)
+      delete(:destroy)
     end
 
     resource(:form)
-
     resources(:program_runs, only: %i[create show])
-
-    resources(:feedbacks) do
-      define_delete_destroy.call
-      define_all_delete.call(:destroy, :feedbacks)
-      define_all_delete.call(:delete, :feedbacks)
-    end
-
-    resources(:solid_cache_entries) do
-      define_delete_destroy.call
-      define_all_delete.call(:destroy, :solid_cache_entries)
-      define_all_delete.call(:delete, :solid_cache_entries)
-    end
 
     match("/404", to: "errors#not_found", via: :all)
     match("/422", to: "errors#unprocessable_entity", via: :all)

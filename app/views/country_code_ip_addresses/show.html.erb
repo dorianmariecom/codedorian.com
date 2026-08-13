@@ -59,14 +59,14 @@
 
 <% if can?(:index, Version) %>
   <div class="p font-bold">
-    <%= link_to(t(".versions"), [@country_code_ip_address, :versions], class: :link) %>
+    <%= link_to(t(".versions"), { controller: :versions, action: :index, country_code_ip_address_id: @country_code_ip_address&.id }, class: :link) %>
   </div>
 
   <% if can?(:create, Version) %>
     <div class="p">
       <%= link_to(
         t(".new_version"),
-        [:new, @country_code_ip_address, :version],
+        { controller: :versions, action: :new, country_code_ip_address_id: @country_code_ip_address&.id },
         class: "button"
       ) %>
     </div>
@@ -84,12 +84,12 @@
 
 <% if can?(:index, Log) %>
   <div class="p font-bold">
-    <%= link_to(t(".logs"), [@country_code_ip_address, :logs], class: :link) %>
+    <%= link_to(t(".logs"), { controller: :logs, action: :index, country_code_ip_address_id: @country_code_ip_address&.id }, class: :link) %>
   </div>
 
   <% if can?(:create, Log) %>
     <div class="p">
-      <%= link_to(t(".new_log"), [:new, @country_code_ip_address, :log], class: "button") %>
+      <%= link_to(t(".new_log"), { controller: :logs, action: :new, country_code_ip_address_id: @country_code_ip_address&.id }, class: "button") %>
     </div>
   <% end %>
 

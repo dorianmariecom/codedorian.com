@@ -1,0 +1,28 @@
+<div
+  class="plan-schedule border-l border-black pl-5"
+  data-new-record="<%= f.object.new_record? %>"
+>
+  <%= f.hidden_field(:id, autocomplete: :off, data: { form_type: :other }) %>
+  <%= f.hidden_field(:_destroy, autocomplete: :off, data: { form_type: :other }) %>
+
+  <h2 class="font-bold p"><%= t(".plan_schedule") %></h2>
+
+  <div class="p">
+    <%= f.label(:starts_at, class: :label) %>
+    <%= f.datetime_field(:starts_at, required: true, class: :input, autocomplete: :off, data: { form_type: :other }) %>
+    <div class="text-gray-600">
+      <%= local_time(Time.zone.now, format: :default) %>
+    </div>
+  </div>
+
+  <div class="p">
+    <%= f.label(:interval, class: :label) %>
+    <%= f.select(:interval, PlanSchedule.interval_options, {}, required: true, class: :input, autocomplete: :off, data: { form_type: :other }) %>
+  </div>
+
+  <div class="p">
+    <button class="link" data-action="nested#remove">
+      <%= t(".remove") %>
+    </button>
+  </div>
+</div>

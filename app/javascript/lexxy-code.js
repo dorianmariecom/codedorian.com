@@ -4,7 +4,8 @@ const CODE_LANGUAGE = "code";
 const CODE_LANGUAGE_LABEL = "Code";
 const CODE_NODE_TYPE = "code";
 const CODE_PRE_SELECTOR = "pre";
-const CODE_ELEMENT_SELECTOR = "code[data-language], code[data-highlight-language]";
+const CODE_ELEMENT_SELECTOR =
+  "code[data-language], code[data-highlight-language]";
 const CODE_PICKER_SELECTOR = 'select[name="lexxy-code-language"]';
 const CODE_PICKER_ELEMENT_SELECTOR = "lexxy-code-language-picker";
 const CODE_LANGUAGE_OPTION_SELECTOR = `option[value="${CODE_LANGUAGE}"]`;
@@ -23,10 +24,7 @@ const IDENTIFIER = new RegExp(
   `${IDENTIFIER_LOOKBEHIND_SOURCE}${IDENTIFIER_SOURCE}`,
   "u",
 );
-const PROPERTY = new RegExp(
-  `((?:\\.|&\\.|::)\\s*)${IDENTIFIER_SOURCE}`,
-  "u",
-);
+const PROPERTY = new RegExp(`((?:\\.|&\\.|::)\\s*)${IDENTIFIER_SOURCE}`, "u");
 const LABEL = new RegExp(`${IDENTIFIER_SOURCE}(?=\\s*:)`, "u");
 const TYPE_NAME = new RegExp(
   `${IDENTIFIER_LOOKBEHIND_SOURCE}\\p{Lu}${IDENTIFIER_CONTINUE}*[!?]?`,
@@ -246,12 +244,9 @@ function installLexxyCodeLanguageConstraints() {
     requestAnimationFrame(() => configureLanguagePicker(editor));
   });
 
-  document.addEventListener(
-    "lexxy:code-language-picker-open",
-    (event) => {
-      event.preventDefault();
-    },
-  );
+  document.addEventListener("lexxy:code-language-picker-open", (event) => {
+    event.preventDefault();
+  });
 
   for (const eventName of ["pointerdown", "mousedown", "click"]) {
     document.addEventListener(eventName, preventLanguagePickerOpen, true);
@@ -265,7 +260,9 @@ function installLexxyCodeLanguageConstraints() {
 }
 
 function configureExistingLanguagePickers(root = document) {
-  for (const pickerRoot of root.querySelectorAll(CODE_PICKER_ELEMENT_SELECTOR)) {
+  for (const pickerRoot of root.querySelectorAll(
+    CODE_PICKER_ELEMENT_SELECTOR,
+  )) {
     configureLanguagePicker(pickerRoot);
   }
 }
@@ -340,7 +337,10 @@ function normalizeEditorState(editorElement) {
   );
 }
 
-function normalizeRenderedCodeLanguages(root, { resetHighlighted = false } = {}) {
+function normalizeRenderedCodeLanguages(
+  root,
+  { resetHighlighted = false } = {},
+) {
   let changed = false;
   const normalizedCodeElements = new Set();
 
@@ -374,7 +374,9 @@ function normalizeRenderedCodeLanguages(root, { resetHighlighted = false } = {})
 function normalizeCodeLanguages(html) {
   const template = document.createElement("template");
   template.innerHTML = html;
-  return normalizeRenderedCodeLanguages(template.content) ? template.innerHTML : html;
+  return normalizeRenderedCodeLanguages(template.content)
+    ? template.innerHTML
+    : html;
 }
 
 function forceCodeLanguage(
@@ -396,16 +398,16 @@ function forceCodeLanguage(
     changed = true;
   }
 
-  for (const option of element.querySelectorAll(CODE_LANGUAGE_OPTION_SELECTOR)) {
+  for (const option of element.querySelectorAll(
+    CODE_LANGUAGE_OPTION_SELECTOR,
+  )) {
     if (!option.selected) {
       option.selected = true;
       changed = true;
     }
   }
 
-  const className = element.className
-    .replace(CODE_LANGUAGE_PATTERN, "")
-    .trim();
+  const className = element.className.replace(CODE_LANGUAGE_PATTERN, "").trim();
   if (className !== element.className) {
     element.className = className;
     changed = true;

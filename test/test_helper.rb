@@ -104,9 +104,9 @@ module ActionDispatch
     setup do
       uri = URI.parse(Current.base_url)
       host!(
-        [uri.host, uri.port == uri.default_port ? nil : uri.port]
-          .compact
-          .join(":")
+        [uri.host, uri.port == uri.default_port ? nil : uri.port].compact.join(
+          ":"
+        )
       )
       https!(uri.scheme == "https")
     end

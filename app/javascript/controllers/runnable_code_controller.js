@@ -195,9 +195,9 @@ export default class extends Controller {
       this.codeRow(t("result"), data.result),
       this.codeRow(
         t("error"),
-        [data.error_class, data.error_message, data.error].filter(Boolean).join(
-          "\n",
-        ),
+        [data.error_class, data.error_message, data.error]
+          .filter(Boolean)
+          .join("\n"),
       ),
     );
   }

@@ -45,7 +45,7 @@ function S(e) {
 const le = /* @__PURE__ */ new e();
 class Language {
   constructor(e, t, n = [], r = ``) {
-    (this.data = e),
+    ((this.data = e),
       (this.name = r),
       c.prototype.hasOwnProperty(`tree`) ||
         Object.defineProperty(c.prototype, `tree`, {
@@ -72,7 +72,7 @@ class Language {
           }
           return a;
         }),
-      ].concat(n));
+      ].concat(n)));
   }
   isActiveAt(e, t, n = -1) {
     return ue(e, t, n).type.prop(x) == this.data;
@@ -105,7 +105,7 @@ class Language {
           i instanceof t && a(i, n.positions[e] + r);
         }
       };
-    return a(C(n), 0), i;
+    return (a(C(n), 0), i);
   }
   get allowsNesting() {
     return !0;
@@ -122,7 +122,7 @@ function ue(e, t, r) {
 }
 class LRLanguage extends Language {
   constructor(e, t, n) {
-    super(e, t, [], n), (this.parser = t);
+    (super(e, t, [], n), (this.parser = t));
   }
   static define(e) {
     let t = S(e.languageData);
@@ -150,7 +150,7 @@ function de(e, t, n = 50) {
   let a = i.viewport;
   i.updateViewport({ from: 0, to: t });
   let o = i.isDone(t) || i.work(n, t) ? i.tree : null;
-  return i.updateViewport(a), o;
+  return (i.updateViewport(a), o);
 }
 function fe(e, t = e.doc.length) {
   var n;
@@ -158,7 +158,7 @@ function fe(e, t = e.doc.length) {
 }
 function pe(e, t = e.viewport.to, n = 100) {
   let r = de(e.state, t, n);
-  return r != C(e.state) && e.dispatch({}), !!r;
+  return (r != C(e.state) && e.dispatch({}), !!r);
 }
 function me(e) {
   var t;
@@ -166,10 +166,10 @@ function me(e) {
 }
 class DocInput {
   constructor(e) {
-    (this.doc = e),
+    ((this.doc = e),
       (this.cursorPos = 0),
       (this.string = ``),
-      (this.cursor = e.iter());
+      (this.cursor = e.iter()));
   }
   get length() {
     return this.doc.length;
@@ -182,7 +182,7 @@ class DocInput {
     );
   }
   chunk(e) {
-    return this.syncTo(e), this.string;
+    return (this.syncTo(e), this.string);
   }
   get lineChunks() {
     return !0;
@@ -197,7 +197,7 @@ class DocInput {
 let w = null;
 class ParseContext {
   constructor(e, t, n = [], r, i, a, o, s) {
-    (this.parser = e),
+    ((this.parser = e),
       (this.state = t),
       (this.fragments = n),
       (this.tree = r),
@@ -206,7 +206,7 @@ class ParseContext {
       (this.skipped = o),
       (this.scheduleOn = s),
       (this.parse = null),
-      (this.tempSkipped = []);
+      (this.tempSkipped = []));
   }
   static create(e, n, r) {
     return new ParseContext(e, n, [], t.empty, 0, r, [], null);
@@ -232,7 +232,6 @@ class ParseContext {
                   n < this.state.doc.length &&
                   this.parse.stopAt(n);
               ;
-
             ) {
               let i = this.parse.advance();
               if (i)
@@ -341,7 +340,7 @@ class ParseContext {
                   ? Promise.all([n.scheduleOn, e])
                   : e);
             }
-            return (this.parsedPos = s), new t(a.none, [], [], s - o);
+            return ((this.parsedPos = s), new t(a.none, [], [], s - o));
           },
           stoppedAt: null,
           stopAt() {},
@@ -363,7 +362,7 @@ function he(e, t, n) {
 }
 class LanguageState {
   constructor(e) {
-    (this.context = e), (this.tree = e.tree);
+    ((this.context = e), (this.tree = e.tree));
   }
   apply(e) {
     if (!e.docChanged && this.tree == this.context.tree) return this;
@@ -372,12 +371,12 @@ class LanguageState {
         this.context.treeLen == e.startState.doc.length
           ? void 0
           : Math.max(e.changes.mapPos(this.context.treeLen), t.viewport.to);
-    return t.work(20, n) || t.takeTree(), new LanguageState(t);
+    return (t.work(20, n) || t.takeTree(), new LanguageState(t));
   }
   static init(e) {
     let t = Math.min(3e3, e.doc.length),
       n = ParseContext.create(e.facet(E).parser, e, { from: 0, to: t });
-    return n.work(20, t) || n.takeTree(), new LanguageState(n);
+    return (n.work(20, t) || n.takeTree(), new LanguageState(n));
   }
 }
 Language.state = /* @__PURE__ */ u.define({
@@ -408,23 +407,23 @@ const T =
   _e = /* @__PURE__ */ h.fromClass(
     class ParseWorker {
       constructor(e) {
-        (this.view = e),
+        ((this.view = e),
           (this.working = null),
           (this.workScheduled = 0),
           (this.chunkEnd = -1),
           (this.chunkBudget = -1),
           (this.work = this.work.bind(this)),
-          this.scheduleWork();
+          this.scheduleWork());
       }
       update(e) {
         let t = this.view.state.field(Language.state).context;
-        (t.updateViewport(e.view.viewport) ||
+        ((t.updateViewport(e.view.viewport) ||
           this.view.viewport.to > t.treeLen) &&
           this.scheduleWork(),
           (e.docChanged || e.selectionSet) &&
             (this.view.hasFocus && (this.chunkBudget += 50),
             this.scheduleWork()),
-          this.checkAsyncSchedule(t);
+          this.checkAsyncSchedule(t));
       }
       scheduleWork() {
         if (this.working) return;
@@ -461,14 +460,14 @@ const T =
             () => (T && T()) || Date.now() > a,
             r + (o ? 0 : 1e5),
           );
-        (this.chunkBudget -= Date.now() - t),
+        ((this.chunkBudget -= Date.now() - t),
           (s || this.chunkBudget <= 0) &&
             (i.context.takeTree(),
             this.view.dispatch({
               effects: Language.setState.of(new LanguageState(i.context)),
             })),
           this.chunkBudget > 0 && !(s && !o) && this.scheduleWork(),
-          this.checkAsyncSchedule(i.context);
+          this.checkAsyncSchedule(i.context));
       }
       checkAsyncSchedule(e) {
         e.scheduleOn &&=
@@ -509,18 +508,18 @@ const T =
   });
 class LanguageSupport {
   constructor(e, t = []) {
-    (this.language = e), (this.support = t), (this.extension = [e, t]);
+    ((this.language = e), (this.support = t), (this.extension = [e, t]));
   }
 }
 class LanguageDescription {
   constructor(e, t, n, r, i, a = void 0) {
-    (this.name = e),
+    ((this.name = e),
       (this.alias = t),
       (this.extensions = n),
       (this.filename = r),
       (this.loadFunc = i),
       (this.support = a),
-      (this.loading = null);
+      (this.loading = null));
   }
   load() {
     return (this.loading ||= this.loadFunc().then(
@@ -592,7 +591,7 @@ function k(e, t) {
     r = e.tabSize,
     i = e.facet(D)[0];
   if (i == `	`) {
-    for (; t >= r; ) (n += `	`), (t -= r);
+    for (; t >= r; ) ((n += `	`), (t -= r));
     i = ` `;
   }
   for (let e = 0; e < t; e++) n += i;
@@ -632,7 +631,7 @@ function ye(e, t, n) {
 }
 class IndentContext {
   constructor(e, t = {}) {
-    (this.state = e), (this.options = t), (this.unit = O(e));
+    ((this.state = e), (this.options = t), (this.unit = O(e)));
   }
   lineAt(e, t = 1) {
     let n = this.state.doc.lineAt(e),
@@ -657,7 +656,7 @@ class IndentContext {
       a = this.options.overrideIndentation
         ? this.options.overrideIndentation(r)
         : -1;
-    return a > -1 && (i += a - this.countColumn(n, n.search(/\S|$/))), i;
+    return (a > -1 && (i += a - this.countColumn(n, n.search(/\S|$/))), i);
   }
   countColumn(e, t = e.length) {
     return d(e, this.state.tabSize, t);
@@ -723,10 +722,10 @@ function we() {
 }
 class TreeIndentContext extends IndentContext {
   constructor(e, t, n) {
-    super(e.state, e.options),
+    (super(e.state, e.options),
       (this.base = e),
       (this.pos = t),
-      (this.context = n);
+      (this.context = n));
   }
   get node() {
     return this.context.node;
@@ -888,9 +887,9 @@ const I = /* @__PURE__ */ u.define({
     return _.none;
   },
   update(e, t) {
-    t.isUserEvent(`delete`) &&
+    (t.isUserEvent(`delete`) &&
       t.changes.iterChangedRanges((t, n) => (e = L(e, t, n))),
-      (e = e.map(t.changes));
+      (e = e.map(t.changes)));
     for (let n of t.effects)
       if (n.is(N) && !Be(e, n.value.from, n.value.to)) {
         let { preparePlaceholder: r } = t.state.facet(V),
@@ -905,7 +904,7 @@ const I = /* @__PURE__ */ u.define({
             filterFrom: n.value.from,
             filterTo: n.value.to,
           }));
-    return t.selection && (e = L(e, t.selection.main.head)), e;
+    return (t.selection && (e = L(e, t.selection.main.head)), e);
   },
   provide: (e) => g.decorations.from(e),
   toJSON(e, t) {
@@ -974,7 +973,8 @@ function z(e, t) {
 const Ve = (e) => {
     for (let t of F(e)) {
       let n = M(e.state, t.from, t.to);
-      if (n) return e.dispatch({ effects: z(e.state, [N.of(n), B(e, n)]) }), !0;
+      if (n)
+        return (e.dispatch({ effects: z(e.state, [N.of(n), B(e, n)]) }), !0);
     }
     return !1;
   },
@@ -985,7 +985,7 @@ const Ve = (e) => {
       let r = R(e.state, n.from, n.to);
       r && t.push(P.of(r), B(e, r, !1));
     }
-    return t.length && e.dispatch({ effects: t }), t.length > 0;
+    return (t.length && e.dispatch({ effects: t }), t.length > 0);
   };
 function B(e, t, n = !0) {
   let r = e.state.doc.lineAt(t.from).number,
@@ -1000,9 +1000,9 @@ const Ue = (e) => {
     for (let r = 0; r < t.doc.length; ) {
       let i = e.lineBlockAt(r),
         a = M(t, i.from, i.to);
-      a && n.push(N.of(a)), (r = (a ? e.lineBlockAt(a.to) : i).to + 1);
+      (a && n.push(N.of(a)), (r = (a ? e.lineBlockAt(a.to) : i).to + 1));
     }
-    return n.length && e.dispatch({ effects: z(e.state, n) }), !!n.length;
+    return (n.length && e.dispatch({ effects: z(e.state, n) }), !!n.length);
   },
   We = (e) => {
     let t = e.state.field(I, !1);
@@ -1034,7 +1034,7 @@ const Ke = (e) => {
         r && t.push(N.of(r), B(e, r));
       }
     }
-    return t.length > 0 && e.dispatch({ effects: z(e.state, t) }), !!t.length;
+    return (t.length > 0 && e.dispatch({ effects: z(e.state, t) }), !!t.length);
   },
   qe = [
     { key: `Ctrl-Shift-[`, mac: `Cmd-Alt-[`, run: Ve },
@@ -1050,7 +1050,7 @@ const Ke = (e) => {
   });
 function H(e) {
   let t = [I, $e];
-  return e && t.push(V.of(e)), t;
+  return (e && t.push(V.of(e)), t);
 }
 function Ye(e, t) {
   let { state: n } = e,
@@ -1058,7 +1058,7 @@ function Ye(e, t) {
     i = (t) => {
       let n = e.lineBlockAt(e.posAtDOM(t.target)),
         r = R(e.state, n.from, n.to);
-      r && e.dispatch({ effects: P.of(r) }), t.preventDefault();
+      (r && e.dispatch({ effects: P.of(r) }), t.preventDefault());
     };
   if (r.placeholderDOM) return r.placeholderDOM(e, i, t);
   let a = document.createElement(`span`);
@@ -1080,7 +1080,7 @@ const Xe = /* @__PURE__ */ _.replace({
 });
 class PreparedFoldWidget extends v {
   constructor(e) {
-    super(), (this.value = e);
+    (super(), (this.value = e));
   }
   eq(e) {
     return this.value == e.value;
@@ -1098,7 +1098,7 @@ const Ze = {
 };
 class FoldMarker extends ne {
   constructor(e, t) {
-    super(), (this.config = e), (this.open = t);
+    (super(), (this.config = e), (this.open = t));
   }
   eq(e) {
     return this.config == e.config && this.open == e.open;
@@ -1122,7 +1122,8 @@ function Qe(e = {}) {
     i = h.fromClass(
       class {
         constructor(e) {
-          (this.from = e.viewport.from), (this.markers = this.buildMarkers(e));
+          ((this.from = e.viewport.from),
+            (this.markers = this.buildMarkers(e)));
         }
         update(e) {
           (e.docChanged ||
@@ -1164,7 +1165,7 @@ function Qe(e = {}) {
         click: (e, t, n) => {
           if (a.click && a.click(e, t, n)) return !0;
           let r = R(e.state, t.from, t.to);
-          if (r) return e.dispatch({ effects: P.of(r) }), !0;
+          if (r) return (e.dispatch({ effects: P.of(r) }), !0);
           let i = M(e.state, t.from, t.to);
           return i ? (e.dispatch({ effects: N.of(i) }), !0) : !1;
         },
@@ -1191,11 +1192,11 @@ class HighlightStyle {
     let n;
     function r(e) {
       let t = se.newName();
-      return ((n ||= Object.create(null))[`.` + t] = e), t;
+      return (((n ||= Object.create(null))[`.` + t] = e), t);
     }
     let i = typeof t.all == `string` ? t.all : t.all ? r(t.all) : void 0,
       a = t.scope;
-    (this.scope =
+    ((this.scope =
       a instanceof Language
         ? (e) => e.prop(x) == a.data
         : a
@@ -1209,7 +1210,7 @@ class HighlightStyle {
         { all: i },
       ).style),
       (this.module = n ? new se(n) : null),
-      (this.themeType = t.themeType);
+      (this.themeType = t.themeType));
   }
   static define(e, t) {
     return new HighlightStyle(e, t || {});
@@ -1257,10 +1258,10 @@ function nt(e, t, n) {
 }
 class TreeHighlighter {
   constructor(e) {
-    (this.markCache = Object.create(null)),
+    ((this.markCache = Object.create(null)),
       (this.tree = C(e.state)),
       (this.decorations = this.buildDeco(e, W(e.state))),
-      (this.decoratedTo = e.viewport.to);
+      (this.decoratedTo = e.viewport.to));
   }
   update(e) {
     let t = C(e.state),
@@ -1377,7 +1378,7 @@ const pt = [
   /* @__PURE__ */ h.fromClass(
     class {
       constructor(e) {
-        (this.paused = !1), (this.decorations = ft(e.state));
+        ((this.paused = !1), (this.decorations = ft(e.state)));
       }
       update(e) {
         (e.docChanged || e.selectionSet || this.paused) &&
@@ -1494,14 +1495,14 @@ function vt(e, t, n, r = 0, i = 0) {
 }
 class StringStream {
   constructor(e, t, n, r) {
-    (this.string = e),
+    ((this.string = e),
       (this.tabSize = t),
       (this.indentUnit = n),
       (this.overrideIndent = r),
       (this.pos = 0),
       (this.start = 0),
       (this.lastColumnPos = 0),
-      (this.lastColumnValue = 0);
+      (this.lastColumnValue = 0));
   }
   eol() {
     return this.pos >= this.string.length;
@@ -1525,7 +1526,7 @@ class StringStream {
           : t && (e instanceof RegExp ? e.test(t) : e(t))),
       n)
     )
-      return ++this.pos, t;
+      return (++this.pos, t);
   }
   eatWhile(e) {
     let t = this.pos;
@@ -1542,7 +1543,7 @@ class StringStream {
   }
   skipTo(e) {
     let t = this.string.indexOf(e, this.pos);
-    if (t > -1) return (this.pos = t), !0;
+    if (t > -1) return ((this.pos = t), !0);
   }
   backUp(e) {
     this.pos -= e;
@@ -1615,12 +1616,12 @@ class StreamLanguage extends Language {
           return new Parse(a, e, t, n);
         }
       })();
-    super(n, o, [], t.name),
+    (super(n, o, [], t.name),
       (this.topNode = At(n, this)),
       (a = this),
       (this.streamParser = r),
       (this.stateAfter = new e({ perNode: !0 })),
-      (this.tokenTable = t.tokenTable ? new TokenTable(r.tokenTable) : Ot);
+      (this.tokenTable = t.tokenTable ? new TokenTable(r.tokenTable) : Ot));
   }
   static define(e) {
     return new StreamLanguage(e);
@@ -1714,7 +1715,7 @@ function Ct(e, n, r, i, a) {
 }
 class Parse {
   constructor(e, t, n, r) {
-    (this.lang = e),
+    ((this.lang = e),
       (this.input = t),
       (this.fragments = n),
       (this.ranges = r),
@@ -1724,20 +1725,20 @@ class Parse {
       (this.chunk = []),
       (this.chunkReused = void 0),
       (this.rangeIndex = 0),
-      (this.to = r[r.length - 1].to);
+      (this.to = r[r.length - 1].to));
     let i = ParseContext.get(),
       a = r[0].from,
       { state: o, tree: s } = Ct(e, n, a, this.to, i?.state);
-    (this.state = o), (this.parsedPos = this.chunkStart = a + s.length);
+    ((this.state = o), (this.parsedPos = this.chunkStart = a + s.length));
     for (let e = 0; e < s.children.length; e++)
-      this.chunks.push(s.children[e]), this.chunkPos.push(s.positions[e]);
-    i &&
+      (this.chunks.push(s.children[e]), this.chunkPos.push(s.positions[e]));
+    (i &&
       this.parsedPos < i.viewport.from - 1e5 &&
       r.some((e) => e.from <= i.viewport.from && e.to >= i.viewport.from) &&
       ((this.state = this.lang.streamParser.startState(O(i.state))),
       i.skipUntilInView(this.parsedPos, i.viewport.from),
       (this.parsedPos = i.viewport.from)),
-      this.moveRangeIndex();
+      this.moveRangeIndex());
   }
   advance() {
     let e = ParseContext.get(),
@@ -1783,7 +1784,7 @@ class Parse {
         break;
       let i = this.ranges[e].from,
         a = this.lineAfter(i);
-      (t += a), (n = i + a.length);
+      ((t += a), (n = i + a.length));
     }
     return { line: t, end: n };
   }
@@ -1804,9 +1805,9 @@ class Parse {
   emitToken(e, t, n, r) {
     let i = 4;
     if (this.ranges.length > 1) {
-      (r = this.skipGapsTo(t, r, 1)), (t += r);
+      ((r = this.skipGapsTo(t, r, 1)), (t += r));
       let e = this.chunk.length;
-      (r = this.skipGapsTo(n, r, -1)), (n += r), (i += this.chunk.length - e);
+      ((r = this.skipGapsTo(n, r, -1)), (n += r), (i += this.chunk.length - e));
     }
     let a = this.chunk.length - 4;
     return (
@@ -1841,9 +1842,9 @@ class Parse {
         )
           break;
       }
-    (this.parsedPos = n),
+    ((this.parsedPos = n),
       this.moveRangeIndex(),
-      this.parsedPos < this.to && this.parsedPos++;
+      this.parsedPos < this.to && this.parsedPos++);
   }
   finishChunk() {
     let e = t.build({
@@ -1855,14 +1856,14 @@ class Parse {
       maxBufferLength: 512,
       reused: this.chunkReused,
     });
-    (e = new t(e.type, e.children, e.positions, e.length, [
+    ((e = new t(e.type, e.children, e.positions, e.length, [
       [this.lang.stateAfter, this.lang.streamParser.copyState(this.state)],
     ])),
       this.chunks.push(e),
       this.chunkPos.push(this.chunkStart - this.ranges[0].from),
       (this.chunk = []),
       (this.chunkReused = void 0),
-      (this.chunkStart = this.parsedPos);
+      (this.chunkStart = this.parsedPos));
   }
   finish() {
     return new t(
@@ -1904,7 +1905,7 @@ for (let [e, t] of [
   Dt[e] = /* @__PURE__ */ kt(Y, t);
 class TokenTable {
   constructor(e) {
-    (this.extra = e), (this.table = Object.assign(Object.create(null), Dt));
+    ((this.extra = e), (this.table = Object.assign(Object.create(null), Dt)));
   }
   resolve(e) {
     return e ? this.table[e] || (this.table[e] = kt(this.extra, e)) : 0;
@@ -1938,7 +1939,7 @@ function kt(e, t) {
     o = Z[i];
   if (o) return o.id;
   let s = (Z[i] = a.define({ id: X.length, name: r, props: [oe({ [r]: n })] }));
-  return X.push(s), s.id;
+  return (X.push(s), s.id);
 }
 function At(e, t) {
   let n = a.define({
@@ -1947,7 +1948,7 @@ function At(e, t) {
     props: [x.add(() => e), j.add(() => (e) => t.getIndent(e))],
     top: !0,
   });
-  return X.push(n), n;
+  return (X.push(n), n);
 }
 function jt(e) {
   return (
@@ -1971,19 +1972,19 @@ function Nt(e) {
 const $ = /* @__PURE__ */ s.define({ combine: (e) => e.some((e) => e) });
 function Pt(e = {}) {
   let t = [Ft];
-  return e.alwaysIsolate && t.push($.of(!0)), t;
+  return (e.alwaysIsolate && t.push($.of(!0)), t);
 }
 const Ft = /* @__PURE__ */ h.fromClass(
   class {
     constructor(e) {
-      (this.always =
+      ((this.always =
         e.state.facet($) ||
         e.textDirection != y.LTR ||
         e.state.facet(g.perLineTextDirection)),
         (this.hasRTL = !this.always && Mt(e.state.doc)),
         (this.tree = C(e.state)),
         (this.decorations =
-          this.always || this.hasRTL ? It(e, this.tree, this.always) : _.none);
+          this.always || this.hasRTL ? It(e, this.tree, this.always) : _.none));
     }
     update(e) {
       let t =
@@ -2040,7 +2041,6 @@ function Lt(e, t) {
       for (
         r + n.value.length < t && (n.next(t - (r + n.value.length)), (r = t));
         ;
-
       ) {
         let e = r,
           t = r + n.value.length;
@@ -2053,7 +2053,7 @@ function Lt(e, t) {
           t >= o)
         )
           break;
-        (r = t), n.next();
+        ((r = t), n.next());
       }
   return i;
 }

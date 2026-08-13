@@ -1,0 +1,88 @@
+<% content_for(:title, @step) %>
+<% content_for(:description, @step.to_s) %>
+<%= turbo_stream_from(@step) %>
+
+<% if @step.id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".id") %></div>
+    <div class="font-bold"><%= @step.id %></div>
+  </div>
+<% end %>
+
+<% if @step.service_id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".service_id") %></div>
+    <% association = @step.service %>
+    <div class="font-bold"><%= link_to_if(can?(:show, association), association, association, class: :link) %></div>
+  </div>
+<% end %>
+
+<% %i[name_en name_fr description_en description_fr body_en body_fr].each do |attribute| %>
+  <% if @step.public_send(attribute).present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".#{attribute}") %></div>
+      <%= @step.public_send(attribute) %>
+    </div>
+  <% end %>
+<% end %>
+
+<% if @step.position.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".position") %></div>
+    <div class="font-bold"><%= @step.position %></div>
+  </div>
+<% end %>
+
+<% if @step.input.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".input") %></div>
+    <%= link_to(edit_url, class: "block") do %>
+      <%= code_highlight(@step.input) %>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @step.offset_seconds.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".offset_seconds") %></div>
+    <div class="font-bold"><%= @step.offset_seconds %></div>
+  </div>
+<% end %>
+
+<% if @step.updated_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".updated_at") %></div>
+    <div class="font-bold"><%= local_time(@step.updated_at, format: :default) %></div>
+  </div>
+<% end %>
+
+<% if @step.created_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".created_at") %></div>
+    <div class="font-bold"><%= local_time(@step.created_at, format: :default) %></div>
+  </div>
+<% end %>
+
+<div class="p p--flex">
+  <%= link_to(t(".edit"), edit_url, class: :link) %>
+  <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+  <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
+</div>
+
+<div class="p font-bold"><%= link_to(t(".step_executions"), step_executions_path, class: :link) %></div>
+<% if can?(:create, StepExecution) %>
+  <div class="p">
+    <%= link_to(t(".new_step_execution"), new_step_execution_path(step_execution: { step_id: @step.id }), class: "button") %>
+  </div>
+<% end %>
+<%= render_collection(partial: "step_executions/step_execution", collection: @step_executions, as: :step_execution) %>
+
+<% if can?(:index, Version) %>
+  <div class="p font-bold"><%= t(".versions") %></div>
+  <%= render_collection(partial: "versions/version", collection: @versions, as: :version, locals: { nested: [] }) %>
+<% end %>
+
+<% if can?(:index, Log) %>
+  <div class="p font-bold"><%= t(".logs") %></div>
+  <%= render_collection(partial: "logs/log", collection: @logs, as: :log, locals: { nested: [] }) %>
+<% end %>

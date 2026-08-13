@@ -8,7 +8,7 @@
   <div class="p p--flex">
     <%= link_to(
       t(".program_executions", count: @program_executions.size),
-      [@user || @guest, :program_executions],
+      { controller: :program_executions, action: :index, user_id: @user&.id, guest_id: @guest&.id },
       class: :link
     ) %>
   </div>
@@ -18,7 +18,7 @@
   <div class="p p--flex">
     <%= link_to(
       t(".program_schedules", count: @program_schedules.size),
-      [@user || @guest, :program_schedules],
+      { controller: :program_schedules, action: :index, user_id: @user&.id, guest_id: @guest&.id },
       class: :link
     ) %>
   </div>
@@ -52,10 +52,10 @@
         method: :patch
       ) %>
       <% if can?(:destroy_all, Program) %>
-      <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
+        <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
       <% end %>
       <% if can?(:delete_all, Program) %>
-      <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
+        <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
       <% end %>
     </div>
   <% end %>

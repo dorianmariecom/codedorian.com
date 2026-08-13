@@ -10,10 +10,10 @@
   <% if @devices.any? && (can?(:destroy_all, Device) || can?(:delete_all, Device)) %>
     <div class="p p--flex">
       <% if can?(:destroy_all, Device) %>
-      <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
+        <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
       <% end %>
       <% if can?(:delete_all, Device) %>
-      <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
+        <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
       <% end %>
     </div>
   <% end %>

@@ -20,7 +20,7 @@ class ConfigurationPolicy < ApplicationPolicy
   end
 
   def update?
-    admin? || new_record?
+    admin?
   end
 
   def destroy?

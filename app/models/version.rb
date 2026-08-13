@@ -26,6 +26,13 @@ class Version < PaperTrail::Version
     program
     program_execution
     program_schedule
+    service
+    step
+    plan
+    plan_schedule
+    subscription
+    subscription_execution
+    step_execution
     submission
     submission_delivery
     submission_program

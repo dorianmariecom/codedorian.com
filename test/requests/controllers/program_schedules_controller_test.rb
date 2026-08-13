@@ -28,9 +28,9 @@ class ProgramSchedulesControllerTest < ActionDispatch::IntegrationTest
 
     assert_difference("ProgramSchedule.count", 1) do
       post(
-        user_program_program_schedules_path(
+        user_program_schedules_path(
           @other_user,
-          programs(:other_program)
+          program_id: programs(:other_program)
         ),
         params: {
           program_schedule: {
@@ -42,10 +42,10 @@ class ProgramSchedulesControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to(
-      user_program_program_schedule_path(
+      user_program_schedule_path(
         @other_user,
-        programs(:other_program),
-        ProgramSchedule.order(:id).last
+        ProgramSchedule.order(:id).last,
+        program_id: programs(:other_program)
       )
     )
   end
@@ -88,7 +88,7 @@ class ProgramSchedulesControllerTest < ActionDispatch::IntegrationTest
 
     assert_no_difference("ProgramSchedule.count") do
       post(
-        user_program_program_schedules_path(@admin, programs(:program)),
+        user_program_schedules_path(@admin, program_id: programs(:program)),
         params: {
           program_schedule: {
             starts_at: Time.zone.parse("2026-04-19 09:00:00"),

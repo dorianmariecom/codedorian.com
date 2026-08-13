@@ -30,7 +30,7 @@ class Text {
   slice(e, t = this.length) {
     [e, t] = i(this, e, t);
     let n = [];
-    return this.decompose(e, t, n, 0), TextNode.from(n, t - e);
+    return (this.decompose(e, t, n, 0), TextNode.from(n, t - e));
   }
   eq(e) {
     if (e == this) return !0;
@@ -77,7 +77,7 @@ class Text {
   }
   toJSON() {
     let e = [];
-    return this.flatten(e), e;
+    return (this.flatten(e), e);
   }
   constructor() {}
   static of(e) {
@@ -92,7 +92,7 @@ class Text {
 }
 class TextLeaf extends Text {
   constructor(e, n = t(e)) {
-    super(), (this.text = e), (this.length = n);
+    (super(), (this.text = e), (this.length = n));
   }
   get lines() {
     return this.text.length;
@@ -105,7 +105,7 @@ class TextLeaf extends Text {
       let a = this.text[i],
         o = r + a.length;
       if ((t ? n : o) >= e) return new Line(r, o, n, a);
-      (r = o + 1), n++;
+      ((r = o + 1), n++);
     }
   }
   decompose(e, t, i, a) {
@@ -146,9 +146,9 @@ class TextLeaf extends Text {
     for (let i = 0, a = 0; i <= t && a < this.text.length; a++) {
       let o = this.text[a],
         s = i + o.length;
-      i > e && a && (r += n),
+      (i > e && a && (r += n),
         e < s && t > i && (r += o.slice(Math.max(0, e - i), t - i)),
-        (i = s + 1);
+        (i = s + 1));
     }
     return r;
   }
@@ -162,15 +162,15 @@ class TextLeaf extends Text {
     let n = [],
       r = -1;
     for (let i of e)
-      n.push(i),
+      (n.push(i),
         (r += i.length + 1),
-        n.length == 32 && (t.push(new TextLeaf(n, r)), (n = []), (r = -1));
-    return r > -1 && t.push(new TextLeaf(n, r)), t;
+        n.length == 32 && (t.push(new TextLeaf(n, r)), (n = []), (r = -1)));
+    return (r > -1 && t.push(new TextLeaf(n, r)), t);
   }
 }
 class TextNode extends Text {
   constructor(e, t) {
-    super(), (this.children = e), (this.length = t), (this.lines = 0);
+    (super(), (this.children = e), (this.length = t), (this.lines = 0));
     for (let t of e) this.lines += t.lines;
   }
   lineInner(e, t, n, r) {
@@ -179,7 +179,7 @@ class TextNode extends Text {
         o = r + a.length,
         s = n + a.lines - 1;
       if ((t ? s : o) >= e) return a.lineInner(e, t, n, r);
-      (r = o + 1), (n = s + 1);
+      ((r = o + 1), (n = s + 1));
     }
   }
   decompose(e, t, n, r) {
@@ -204,7 +204,8 @@ class TextNode extends Text {
           if (s.lines < c >> 4 && s.lines > c >> 6) {
             let i = this.children.slice();
             return (
-              (i[r] = s), new TextNode(i, this.length - (t - e) + n.length)
+              (i[r] = s),
+              new TextNode(i, this.length - (t - e) + n.length)
             );
           }
           return super.replace(i, o, s);
@@ -224,9 +225,9 @@ class TextNode extends Text {
     for (let i = 0, a = 0; i < this.children.length && a <= t; i++) {
       let o = this.children[i],
         s = a + o.length;
-      a > e && i && (r += n),
+      (a > e && i && (r += n),
         e < s && t > a && (r += o.sliceString(e - a, t - a, n)),
-        (a = s + 1);
+        (a = s + 1));
     }
     return r;
   }
@@ -291,7 +292,7 @@ class TextNode extends Text {
         (s = l.length = 0));
     }
     for (let t of e) u(t);
-    return d(), o.length == 1 ? o[0] : new TextNode(o, t);
+    return (d(), o.length == 1 ? o[0] : new TextNode(o, t));
   }
 }
 Text.empty = /* @__PURE__ */ new TextLeaf([``], 0);
@@ -304,11 +305,11 @@ function n(e, t, n = 0, r = 1e9) {
   for (let i = 0, a = 0, o = !0; a < e.length && i <= r; a++) {
     let s = e[a],
       c = i + s.length;
-    c >= n &&
+    (c >= n &&
       (c > r && (s = s.slice(0, r - i)),
       i < n && (s = s.slice(n - i)),
       o ? ((t[t.length - 1] += s), (o = !1)) : t.push(s)),
-      (i = c + 1);
+      (i = c + 1));
   }
   return t;
 }
@@ -317,7 +318,7 @@ function r(e, t, r) {
 }
 class RawTextCursor {
   constructor(e, t = 1) {
-    (this.dir = t),
+    ((this.dir = t),
       (this.done = !1),
       (this.lineBreak = !1),
       (this.value = ``),
@@ -326,7 +327,7 @@ class RawTextCursor {
         t > 0
           ? 1
           : (e instanceof TextLeaf ? e.text.length : e.children.length) << 1,
-      ]);
+      ]));
   }
   nextInner(e, t) {
     for (this.done = this.lineBreak = !1; ; ) {
@@ -336,8 +337,8 @@ class RawTextCursor {
         a = i >> 1,
         o = r instanceof TextLeaf ? r.text.length : r.children.length;
       if (a == (t > 0 ? o : 0)) {
-        if (n == 0) return (this.done = !0), (this.value = ``), this;
-        t > 0 && this.offsets[n - 1]++, this.nodes.pop(), this.offsets.pop();
+        if (n == 0) return ((this.done = !0), (this.value = ``), this);
+        (t > 0 && this.offsets[n - 1]++, this.nodes.pop(), this.offsets.pop());
       } else if ((i & 1) == (t > 0 ? 0 : 1)) {
         if (((this.offsets[n] += t), e == 0))
           return (
@@ -380,19 +381,19 @@ class RawTextCursor {
 }
 class PartialTextCursor {
   constructor(e, t, n) {
-    (this.value = ``),
+    ((this.value = ``),
       (this.done = !1),
       (this.cursor = new RawTextCursor(e, t > n ? -1 : 1)),
       (this.pos = t > n ? e.length : 0),
       (this.from = Math.min(t, n)),
-      (this.to = Math.max(t, n));
+      (this.to = Math.max(t, n)));
   }
   nextInner(e, t) {
     if (t < 0 ? this.pos <= this.from : this.pos >= this.to)
-      return (this.value = ``), (this.done = !0), this;
+      return ((this.value = ``), (this.done = !0), this);
     e += Math.max(0, t < 0 ? this.pos - this.to : this.from - this.pos);
     let n = t < 0 ? this.pos - this.from : this.to - this.pos;
-    e > n && (e = n), (n -= e);
+    (e > n && (e = n), (n -= e));
     let { value: r } = this.cursor.next(e);
     return (
       (this.pos += (r.length + e) * t),
@@ -416,10 +417,10 @@ class PartialTextCursor {
 }
 class LineCursor {
   constructor(e) {
-    (this.inner = e),
+    ((this.inner = e),
       (this.afterBreak = !0),
       (this.value = ``),
-      (this.done = !1);
+      (this.done = !1));
   }
   next(e = 0) {
     let { done: t, lineBreak: n, value: r } = this.inner.next(e);
@@ -452,7 +453,7 @@ typeof Symbol < `u` &&
       }));
 class Line {
   constructor(e, t, n, r) {
-    (this.from = e), (this.to = t), (this.number = n), (this.text = r);
+    ((this.from = e), (this.to = t), (this.number = n), (this.text = r));
   }
   get length() {
     return this.to - this.from;
@@ -525,7 +526,7 @@ class ChangeDesc {
     for (let t = 0, n = 0, r = 0; t < this.sections.length; ) {
       let i = this.sections[t++],
         a = this.sections[t++];
-      a < 0 ? (e(n, r, i), (r += i)) : (r += a), (n += i);
+      (a < 0 ? (e(n, r, i), (r += i)) : (r += a), (n += i));
     }
   }
   iterChangedRanges(e, t = !1) {
@@ -614,7 +615,7 @@ class ChangeDesc {
 }
 class ChangeSet extends ChangeDesc {
   constructor(e, t) {
-    super(e), (this.inserted = t);
+    (super(e), (this.inserted = t));
   }
   apply(e) {
     if (this.length != e.length)
@@ -622,7 +623,8 @@ class ChangeSet extends ChangeDesc {
         `Applying change set to a document with the wrong length`,
       );
     return (
-      h(this, (t, n, r, i, a) => (e = e.replace(r, r + (n - t), a)), !1), e
+      h(this, (t, n, r, i, a) => (e = e.replace(r, r + (n - t), a)), !1),
+      e
     );
   }
   mapDesc(e, t = !1) {
@@ -635,7 +637,7 @@ class ChangeSet extends ChangeDesc {
       let a = t[r],
         o = t[r + 1];
       if (o >= 0) {
-        (t[r] = o), (t[r + 1] = a);
+        ((t[r] = o), (t[r + 1] = a));
         let s = r >> 1;
         for (; n.length < s; ) n.push(Text.empty);
         n.push(a ? e.slice(i, i + a) : Text.empty);
@@ -668,16 +670,16 @@ class ChangeSet extends ChangeDesc {
         let e = Math.min(i.len, s - o);
         p(r, e, -1);
         let a = i.ins == -1 ? -1 : i.off == 0 ? i.ins : 0;
-        p(t, e, a), a > 0 && m(n, t, i.text), i.forward(e), (o += e);
+        (p(t, e, a), a > 0 && m(n, t, i.text), i.forward(e), (o += e));
       }
       let c = e[a++];
       for (; o < c; ) {
         if (i.done) break done;
         let e = Math.min(i.len, c - o);
-        p(t, e, -1),
+        (p(t, e, -1),
           p(r, e, i.ins == -1 ? -1 : i.off == 0 ? i.ins : 0),
           i.forward(e),
-          (o += e);
+          (o += e));
       }
     }
     return { changes: new ChangeSet(t, n), filtered: ChangeDesc.create(r) };
@@ -704,7 +706,7 @@ class ChangeSet extends ChangeDesc {
       if (!e && !r.length) return;
       a < t && p(r, t - a, -1);
       let n = new ChangeSet(r, i);
-      (o = o ? o.compose(n.map(o)) : n), (r = []), (i = []), (a = 0);
+      ((o = o ? o.compose(n.map(o)) : n), (r = []), (i = []), (a = 0));
     }
     function c(e) {
       if (Array.isArray(e)) for (let t of e) c(t);
@@ -713,7 +715,7 @@ class ChangeSet extends ChangeDesc {
           throw RangeError(
             `Mismatched change set length (got ${e.length}, expected ${t})`,
           );
-        s(), (o = o ? o.compose(e.map(o)) : e);
+        (s(), (o = o ? o.compose(e.map(o)) : e));
       } else {
         let { from: o, to: c = o, insert: l } = e;
         if (o > c || o < 0 || c > t)
@@ -727,14 +729,14 @@ class ChangeSet extends ChangeDesc {
             : Text.empty,
           f = u.length;
         if (o == c && f == 0) return;
-        o < a && s(),
+        (o < a && s(),
           o > a && p(r, o - a, -1),
           p(r, c - o, f),
           m(i, r, u),
-          (a = c);
+          (a = c));
       }
     }
-    return c(e), s(!o), o;
+    return (c(e), s(!o), o);
   }
   static empty(e) {
     return new ChangeSet(e ? [e, -1] : [], []);
@@ -756,7 +758,7 @@ class ChangeSet extends ChangeDesc {
       else if (i.length == 1) t.push(i[0], 0);
       else {
         for (; n.length < r; ) n.push(Text.empty);
-        (n[r] = Text.of(i.slice(1))), t.push(i[0], n[r].length);
+        ((n[r] = Text.of(i.slice(1))), t.push(i[0], n[r].length));
       }
     }
     return new ChangeSet(t, n);
@@ -790,7 +792,7 @@ function h(e, t, n) {
   for (let i = 0, a = 0, o = 0; o < e.sections.length; ) {
     let s = e.sections[o++],
       c = e.sections[o++];
-    if (c < 0) (i += s), (a += s);
+    if (c < 0) ((i += s), (a += s));
     else {
       let l = i,
         u = a,
@@ -801,10 +803,9 @@ function h(e, t, n) {
           (u += c),
           c && r && (d = d.append(r[(o - 2) >> 1])),
           !(n || o == e.sections.length || e.sections[o + 1] < 0);
-
       )
-        (s = e.sections[o++]), (c = e.sections[o++]);
-      t(i, l, a, u, d), (i = l), (a = u);
+        ((s = e.sections[o++]), (c = e.sections[o++]));
+      (t(i, l, a, u, d), (i = l), (a = u));
     }
   }
 }
@@ -818,7 +819,7 @@ function g(e, t, n, r = !1) {
       throw Error(`Mismatched change set lengths`);
     if (o.ins == -1 && s.ins == -1) {
       let e = Math.min(o.len, s.len);
-      p(i, e, -1), o.forward(e), s.forward(e);
+      (p(i, e, -1), o.forward(e), s.forward(e));
     } else if (
       s.ins >= 0 &&
       (o.ins < 0 ||
@@ -828,12 +829,12 @@ function g(e, t, n, r = !1) {
       let t = s.len;
       for (p(i, s.ins, -1); t; ) {
         let n = Math.min(o.len, t);
-        o.ins >= 0 &&
+        (o.ins >= 0 &&
           e < o.i &&
           o.len <= n &&
           (p(i, 0, o.ins), a && m(a, i, o.text), (e = o.i)),
           o.forward(n),
-          (t -= n);
+          (t -= n));
       }
       s.next();
     } else if (o.ins >= 0) {
@@ -842,13 +843,13 @@ function g(e, t, n, r = !1) {
       for (; n; )
         if (s.ins == -1) {
           let e = Math.min(n, s.len);
-          (t += e), (n -= e), s.forward(e);
-        } else if (s.ins == 0 && s.len < n) (n -= s.len), s.next();
+          ((t += e), (n -= e), s.forward(e));
+        } else if (s.ins == 0 && s.len < n) ((n -= s.len), s.next());
         else break;
-      p(i, t, e < o.i ? o.ins : 0),
+      (p(i, t, e < o.i ? o.ins : 0),
         a && e < o.i && m(a, i, o.text),
         (e = o.i),
-        o.forward(o.len - n);
+        o.forward(o.len - n));
     } else if (o.done && s.done)
       return a ? ChangeSet.createSet(i, a) : ChangeDesc.create(i);
     else throw Error(`Mismatched change set lengths`);
@@ -862,37 +863,37 @@ function _(e, t, n = !1) {
   for (let e = !1; ; ) {
     if (a.done && o.done)
       return i ? ChangeSet.createSet(r, i) : ChangeDesc.create(r);
-    if (a.ins == 0) p(r, a.len, 0, e), a.next();
+    if (a.ins == 0) (p(r, a.len, 0, e), a.next());
     else if (o.len == 0 && !o.done)
-      p(r, 0, o.ins, e), i && m(i, r, o.text), o.next();
+      (p(r, 0, o.ins, e), i && m(i, r, o.text), o.next());
     else if (a.done || o.done) throw Error(`Mismatched change set lengths`);
     else {
       let t = Math.min(a.len2, o.len),
         n = r.length;
       if (a.ins == -1) {
         let n = o.ins == -1 ? -1 : o.off ? 0 : o.ins;
-        p(r, t, n, e), i && n && m(i, r, o.text);
+        (p(r, t, n, e), i && n && m(i, r, o.text));
       } else
         o.ins == -1
           ? (p(r, a.off ? 0 : a.len, t, e), i && m(i, r, a.textBit(t)))
           : (p(r, a.off ? 0 : a.len, o.off ? 0 : o.ins, e),
             i && !o.off && m(i, r, o.text));
-      (e = (a.ins > t || (o.ins >= 0 && o.len > t)) && (e || r.length > n)),
+      ((e = (a.ins > t || (o.ins >= 0 && o.len > t)) && (e || r.length > n)),
         a.forward2(t),
-        o.forward(t);
+        o.forward(t));
     }
   }
 }
 class SectionIter {
   constructor(e) {
-    (this.set = e), (this.i = 0), this.next();
+    ((this.set = e), (this.i = 0), this.next());
   }
   next() {
     let { sections: e } = this.set;
-    this.i < e.length
+    (this.i < e.length
       ? ((this.len = e[this.i++]), (this.ins = e[this.i++]))
       : ((this.len = 0), (this.ins = -2)),
-      (this.off = 0);
+      (this.off = 0));
   }
   get done() {
     return this.ins == -2;
@@ -925,7 +926,7 @@ class SectionIter {
 }
 class SelectionRange {
   constructor(e, t, n, r) {
-    (this.from = e), (this.to = t), (this.flags = n), (this.goalColumn = r);
+    ((this.from = e), (this.to = t), (this.flags = n), (this.goalColumn = r));
   }
   get anchor() {
     return this.flags & 32 ? this.to : this.from;
@@ -985,7 +986,7 @@ class SelectionRange {
 }
 class EditorSelection {
   constructor(e, t) {
-    (this.ranges = e), (this.mainIndex = t);
+    ((this.ranges = e), (this.mainIndex = t));
   }
   map(e, t = -1) {
     return e.empty
@@ -1016,7 +1017,7 @@ class EditorSelection {
   }
   replaceRange(e, t = this.mainIndex) {
     let n = this.ranges.slice();
-    return (n[t] = e), EditorSelection.create(n, this.mainIndex);
+    return ((n[t] = e), EditorSelection.create(n, this.mainIndex));
   }
   toJSON() {
     return { ranges: this.ranges.map((e) => e.toJSON()), main: this.mainIndex };
@@ -1070,21 +1071,21 @@ class EditorSelection {
   }
   static normalized(e, t = 0) {
     let n = e[t];
-    e.sort((e, t) => e.from - t.from), (t = e.indexOf(n));
+    (e.sort((e, t) => e.from - t.from), (t = e.indexOf(n)));
     for (let n = 1; n < e.length; n++) {
       let r = e[n],
         i = e[n - 1];
       if (r.empty ? r.from <= i.to : r.from < i.to) {
         let a = i.from,
           o = Math.max(r.to, i.to);
-        n <= t && t--,
+        (n <= t && t--,
           e.splice(
             --n,
             2,
             r.anchor > r.head
               ? EditorSelection.range(o, a)
               : EditorSelection.range(a, o),
-          );
+          ));
       }
     }
     return new EditorSelection(e, t);
@@ -1097,13 +1098,13 @@ function v(e, t) {
 let y = 0;
 class Facet {
   constructor(e, t, n, r, i) {
-    (this.combine = e),
+    ((this.combine = e),
       (this.compareInput = t),
       (this.compare = n),
       (this.isStatic = r),
       (this.id = y++),
       (this.default = e([])),
-      (this.extensions = typeof i == `function` ? i(this) : i);
+      (this.extensions = typeof i == `function` ? i(this) : i));
   }
   get reader() {
     return this;
@@ -1129,7 +1130,7 @@ class Facet {
     return new FacetProvider(e, this, 2, t);
   }
   from(e, t) {
-    return t || (t = (e) => e), this.compute([e], (n) => t(n.field(e)));
+    return (t || (t = (e) => e), this.compute([e], (n) => t(n.field(e))));
   }
 }
 function b(e, t) {
@@ -1137,11 +1138,11 @@ function b(e, t) {
 }
 class FacetProvider {
   constructor(e, t, n, r) {
-    (this.dependencies = e),
+    ((this.dependencies = e),
       (this.facet = t),
       (this.type = n),
       (this.value = r),
-      (this.id = y++);
+      (this.id = y++));
   }
   dynamicSlot(e) {
     var t;
@@ -1161,7 +1162,7 @@ class FacetProvider {
           : ((t = e[n.id]) == null ? 1 : t) & 1 || l.push(e[n.id]);
     return {
       create(e) {
-        return (e.values[a] = n(e)), 1;
+        return ((e.values[a] = n(e)), 1);
       },
       update(e, t) {
         if (
@@ -1171,7 +1172,7 @@ class FacetProvider {
         ) {
           let t = n(e);
           if (o ? !x(t, e.values[a], r) : !r(t, e.values[a]))
-            return (e.values[a] = t), 1;
+            return ((e.values[a] = t), 1);
         }
         return 0;
       },
@@ -1190,9 +1191,9 @@ class FacetProvider {
             ) ||
             (o ? x((s = n(e)), i, r) : r((s = n(e)), i))
           )
-            return (e.values[a] = i), 0;
+            return ((e.values[a] = i), 0);
         } else s = n(e);
-        return (e.values[a] = s), 1;
+        return ((e.values[a] = s), 1);
       },
     };
   }
@@ -1224,7 +1225,7 @@ function ee(e, t, n) {
   return {
     create(e) {
       for (let t of r) E(e, t);
-      return (e.values[o] = s(e)), 1;
+      return ((e.values[o] = s(e)), 1);
     },
     update(e, n) {
       if (!S(e, a)) return 0;
@@ -1235,7 +1236,7 @@ function ee(e, t, n) {
       let a = S(e, r),
         c = i.config.facets[t.id],
         l = i.facet(t);
-      if (c && !a && b(n, c)) return (e.values[o] = l), 0;
+      if (c && !a && b(n, c)) return ((e.values[o] = l), 0);
       let u = s(e);
       return t.compare(u, l) ? ((e.values[o] = l), 0) : ((e.values[o] = u), 1);
     },
@@ -1244,12 +1245,12 @@ function ee(e, t, n) {
 const C = /* @__PURE__ */ Facet.define({ static: !0 });
 class StateField {
   constructor(e, t, n, r, i) {
-    (this.id = e),
+    ((this.id = e),
       (this.createF = t),
       (this.updateF = n),
       (this.compareF = r),
       (this.spec = i),
-      (this.provides = void 0);
+      (this.provides = void 0));
   }
   static define(e) {
     let t = new StateField(
@@ -1259,7 +1260,7 @@ class StateField {
       e.compare || ((e, t) => e === t),
       e,
     );
-    return e.provide && (t.provides = e.provide(t)), t;
+    return (e.provide && (t.provides = e.provide(t)), t);
   }
   create(e) {
     let t = e.facet(C).find((e) => e.field == this);
@@ -1307,7 +1308,7 @@ const te = {
 };
 class PrecExtension {
   constructor(e, t) {
-    (this.inner = e), (this.prec = t);
+    ((this.inner = e), (this.prec = t));
   }
 }
 class Compartment {
@@ -1323,7 +1324,7 @@ class Compartment {
 }
 class CompartmentInstance {
   constructor(e, t) {
-    (this.compartment = e), (this.inner = t);
+    ((this.compartment = e), (this.inner = t));
   }
 }
 class Configuration {
@@ -1337,7 +1338,6 @@ class Configuration {
         this.facets = a,
         this.statusTemplate = [];
       this.statusTemplate.length < n.length;
-
     )
       this.statusTemplate.push(0);
   }
@@ -1356,7 +1356,7 @@ class Configuration {
     let o = Object.create(null),
       s = [],
       c = [];
-    for (let e of r) (o[e.id] = c.length << 1), c.push((t) => e.slot(t));
+    for (let e of r) ((o[e.id] = c.length << 1), c.push((t) => e.slot(t)));
     let l = n == null ? void 0 : n.config.facets;
     for (let e in i) {
       let t = i[e],
@@ -1373,7 +1373,7 @@ class Configuration {
           e.type == 0
             ? ((o[e.id] = (s.length << 1) | 1), s.push(e.value))
             : ((o[e.id] = c.length << 1), c.push((t) => e.dynamicSlot(t)));
-        (o[r.id] = c.length << 1), c.push((e) => ee(e, r, t));
+        ((o[r.id] = c.length << 1), c.push((e) => ee(e, r, t)));
       }
     }
     return new Configuration(
@@ -1394,20 +1394,20 @@ function ne(e, t, n) {
     if (s != null) {
       if (s <= o) return;
       let t = r[s].indexOf(e);
-      t > -1 && r[s].splice(t, 1),
-        e instanceof CompartmentInstance && n.delete(e.compartment);
+      (t > -1 && r[s].splice(t, 1),
+        e instanceof CompartmentInstance && n.delete(e.compartment));
     }
     if ((i.set(e, o), Array.isArray(e))) for (let t of e) a(t, o);
     else if (e instanceof CompartmentInstance) {
       if (n.has(e.compartment))
         throw RangeError(`Duplicate use of compartment in extensions`);
       let r = t.get(e.compartment) || e.inner;
-      n.set(e.compartment, r), a(r, o);
+      (n.set(e.compartment, r), a(r, o));
     } else if (e instanceof PrecExtension) a(e.inner, e.prec);
     else if (e instanceof StateField)
-      r[o].push(e), e.provides && a(e.provides, o);
+      (r[o].push(e), e.provides && a(e.provides, o));
     else if (e instanceof FacetProvider)
-      r[o].push(e), e.facet.extensions && a(e.facet.extensions, w.default);
+      (r[o].push(e), e.facet.extensions && a(e.facet.extensions, w.default));
     else {
       let t = e.extension;
       if (!t)
@@ -1417,7 +1417,7 @@ function ne(e, t, n) {
       a(t, o);
     }
   }
-  return a(e, w.default), r.reduce((e, t) => e.concat(t));
+  return (a(e, w.default), r.reduce((e, t) => e.concat(t)));
 }
 function E(e, t) {
   if (t & 1) return 2;
@@ -1447,7 +1447,7 @@ const O = /* @__PURE__ */ Facet.define(),
   P = /* @__PURE__ */ Facet.define({ combine: (e) => (e.length ? e[0] : !1) });
 class Annotation {
   constructor(e, t) {
-    (this.type = e), (this.value = t);
+    ((this.type = e), (this.value = t));
   }
   static define() {
     return new AnnotationType();
@@ -1468,7 +1468,7 @@ class StateEffectType {
 }
 class StateEffect {
   constructor(e, t) {
-    (this.type = e), (this.value = t);
+    ((this.type = e), (this.value = t));
   }
   map(e) {
     let t = this.type.map(this.value, e);
@@ -1494,11 +1494,11 @@ class StateEffect {
     return n;
   }
 }
-(StateEffect.reconfigure = /* @__PURE__ */ StateEffect.define()),
-  (StateEffect.appendConfig = /* @__PURE__ */ StateEffect.define());
+((StateEffect.reconfigure = /* @__PURE__ */ StateEffect.define()),
+  (StateEffect.appendConfig = /* @__PURE__ */ StateEffect.define()));
 class Transaction {
   constructor(e, t, n, r, i, a) {
-    (this.startState = e),
+    ((this.startState = e),
       (this.changes = t),
       (this.selection = n),
       (this.effects = r),
@@ -1508,7 +1508,7 @@ class Transaction {
       (this._state = null),
       n && v(n, t.newLength),
       i.some((e) => e.type == Transaction.time) ||
-        (this.annotations = i.concat(Transaction.time.of(Date.now())));
+        (this.annotations = i.concat(Transaction.time.of(Date.now()))));
   }
   static create(e, t, n, r, i, a) {
     return new Transaction(e, t, n, r, i, a);
@@ -1520,7 +1520,7 @@ class Transaction {
     return this.selection || this.startState.selection.map(this.changes);
   }
   get state() {
-    return this._state || this.startState.applyTransaction(this), this._state;
+    return (this._state || this.startState.applyTransaction(this), this._state);
   }
   annotation(e) {
     for (let t of this.annotations) if (t.type == e) return t.value;
@@ -1542,17 +1542,17 @@ class Transaction {
     );
   }
 }
-(Transaction.time = /* @__PURE__ */ Annotation.define()),
+((Transaction.time = /* @__PURE__ */ Annotation.define()),
   (Transaction.userEvent = /* @__PURE__ */ Annotation.define()),
   (Transaction.addToHistory = /* @__PURE__ */ Annotation.define()),
-  (Transaction.remote = /* @__PURE__ */ Annotation.define());
+  (Transaction.remote = /* @__PURE__ */ Annotation.define()));
 function F(e, t) {
   let n = [];
   for (let r = 0, i = 0; ; ) {
     let a, o;
     if (r < e.length && (i == t.length || t[i] >= e[r]))
-      (a = e[r++]), (o = e[r++]);
-    else if (i < t.length) (a = t[i++]), (o = t[i++]);
+      ((a = e[r++]), (o = e[r++]));
+    else if (i < t.length) ((a = t[i++]), (o = t[i++]));
     else return n;
     !n.length || n[n.length - 1] < a
       ? n.push(a, o)
@@ -1640,10 +1640,10 @@ function z(e) {
   if (n !== !0) {
     let r, i;
     if (n === !1)
-      (i = e.changes.invertedDesc), (r = ChangeSet.empty(t.doc.length));
+      ((i = e.changes.invertedDesc), (r = ChangeSet.empty(t.doc.length)));
     else {
       let t = e.changes.filter(n);
-      (r = t.changes), (i = t.filtered.mapDesc(t.changes).invertedDesc);
+      ((r = t.changes), (i = t.filtered.mapDesc(t.changes).invertedDesc));
     }
     e = Transaction.create(
       t,
@@ -1725,13 +1725,13 @@ function ae(e) {
 }
 class EditorState {
   constructor(e, t, n, r, i, a) {
-    (this.config = e),
+    ((this.config = e),
       (this.doc = t),
       (this.selection = n),
       (this.values = r),
       (this.status = e.statusTemplate.slice()),
       (this.computeSlot = i),
-      a && (a._state = this);
+      a && (a._state = this));
     for (let e = 0; e < this.config.dynamicSlots.length; e++) E(this, e << 1);
     this.computeSlot = null;
   }
@@ -1741,7 +1741,7 @@ class EditorState {
       if (t) throw RangeError(`Field is not present in this state`);
       return;
     }
-    return E(this, n), D(this, n);
+    return (E(this, n), D(this, n));
   }
   update(...e) {
     return R(this, e, !0);
@@ -1796,11 +1796,11 @@ class EditorState {
         c = s.map(r);
       for (let e = 0; e < n; e++) i[e] = i[e].map(c);
       let l = r.mapDesc(s, !0);
-      i.push(o.range.map(l)),
+      (i.push(o.range.map(l)),
         (r = r.compose(c)),
         (a = StateEffect.mapEffects(a, c).concat(
           StateEffect.mapEffects(H(o.effects), l),
-        ));
+        )));
     }
     return {
       changes: r,
@@ -1941,7 +1941,7 @@ class EditorState {
     return o == s ? null : EditorSelection.range(o + n, s + n);
   }
 }
-(EditorState.allowMultipleSelections = k),
+((EditorState.allowMultipleSelections = k),
   (EditorState.tabSize = /* @__PURE__ */ Facet.define({
     combine: (e) => (e.length ? e[0] : 4),
   })),
@@ -1958,7 +1958,7 @@ class EditorState {
   (EditorState.changeFilter = j),
   (EditorState.transactionFilter = M),
   (EditorState.transactionExtender = N),
-  (Compartment.reconfigure = /* @__PURE__ */ StateEffect.define());
+  (Compartment.reconfigure = /* @__PURE__ */ StateEffect.define()));
 function oe(e, t, n = {}) {
   let r = {};
   for (let t of e)
@@ -1981,15 +1981,15 @@ class RangeValue {
     return Range.create(e, t, this);
   }
 }
-(RangeValue.prototype.startSide = RangeValue.prototype.endSide = 0),
+((RangeValue.prototype.startSide = RangeValue.prototype.endSide = 0),
   (RangeValue.prototype.point = !1),
-  (RangeValue.prototype.mapMode = f.TrackDel);
+  (RangeValue.prototype.mapMode = f.TrackDel));
 function G(e, t) {
   return e == t || (e.constructor == t.constructor && e.eq(t));
 }
 class Range {
   constructor(e, t, n) {
-    (this.from = e), (this.to = t), (this.value = n);
+    ((this.from = e), (this.to = t), (this.value = n));
   }
   static create(e, t, n) {
     return new Range(e, t, n);
@@ -2000,7 +2000,7 @@ function K(e, t) {
 }
 class Chunk {
   constructor(e, t, n, r) {
-    (this.from = e), (this.to = t), (this.value = n), (this.maxPoint = r);
+    ((this.from = e), (this.to = t), (this.value = n), (this.maxPoint = r));
   }
   get length() {
     return this.to[this.to.length - 1];
@@ -2062,10 +2062,10 @@ class Chunk {
 }
 class RangeSet {
   constructor(e, t, n, r) {
-    (this.chunkPos = e),
+    ((this.chunkPos = e),
       (this.chunk = t),
       (this.nextLayer = n),
-      (this.maxPoint = r);
+      (this.maxPoint = r));
   }
   static create(e, t, n, r) {
     return new RangeSet(e, t, n, r);
@@ -2139,7 +2139,7 @@ class RangeSet {
         o = this.chunk[i],
         s = e.touchesRange(a, a + o.length);
       if (s === !1)
-        (r = Math.max(r, o.maxPoint)), t.push(o), n.push(e.mapPos(a));
+        ((r = Math.max(r, o.maxPoint)), t.push(o), n.push(e.mapPos(a)));
       else if (s === !0) {
         let { mapped: i, pos: s } = o.map(a, e);
         i && ((r = Math.max(r, i.maxPoint)), t.push(i), n.push(s));
@@ -2174,8 +2174,8 @@ class RangeSet {
       s = q(a, o, n),
       c = new SpanCursor(a, s, i),
       l = new SpanCursor(o, s, i);
-    n.iterGaps((e, t, n) => Y(c, e, l, t, n, r)),
-      n.empty && n.length == 0 && Y(c, 0, l, 0, 0, r);
+    (n.iterGaps((e, t, n) => Y(c, e, l, t, n, r)),
+      n.empty && n.length == 0 && Y(c, 0, l, 0, 0, r));
   }
   static eq(e, t, n = 0, r) {
     r == null && (r = 999999999);
@@ -2194,7 +2194,7 @@ class RangeSet {
       )
         return !1;
       if (s.to > r) return !0;
-      s.next(), c.next();
+      (s.next(), c.next());
     }
   }
   static spans(e, t, n, r, i = -1) {
@@ -2211,11 +2211,11 @@ class RangeSet {
               : a.point.startSide < 0
                 ? n.length
                 : Math.min(n.length, s);
-        r.point(o, e, a.point, n, i, a.pointRank),
-          (s = Math.min(a.openEnd(e), n.length));
+        (r.point(o, e, a.point, n, i, a.pointRank),
+          (s = Math.min(a.openEnd(e), n.length)));
       } else e > o && (r.span(o, e, a.active, s), (s = a.openEnd(e)));
       if (a.to > n) return s + (a.point && a.to > n ? 1 : 0);
-      (o = a.to), a.next();
+      ((o = a.to), a.next());
     }
   }
   static of(e, t = !1) {
@@ -2251,15 +2251,15 @@ function se(e) {
 RangeSet.empty.nextLayer = RangeSet.empty;
 class RangeSetBuilder {
   finishChunk(e) {
-    this.chunks.push(new Chunk(this.from, this.to, this.value, this.maxPoint)),
+    (this.chunks.push(new Chunk(this.from, this.to, this.value, this.maxPoint)),
       this.chunkPos.push(this.chunkStart),
       (this.chunkStart = -1),
       (this.setMaxPoint = Math.max(this.setMaxPoint, this.maxPoint)),
       (this.maxPoint = -1),
-      e && ((this.from = []), (this.to = []), (this.value = []));
+      e && ((this.from = []), (this.to = []), (this.value = [])));
   }
   constructor() {
-    (this.chunks = []),
+    ((this.chunks = []),
       (this.chunkPos = []),
       (this.chunkStart = -1),
       (this.last = null),
@@ -2270,7 +2270,7 @@ class RangeSetBuilder {
       (this.value = []),
       (this.maxPoint = -1),
       (this.setMaxPoint = -1),
-      (this.nextLayer = null);
+      (this.nextLayer = null));
   }
   add(e, t, n) {
     this.addInner(e, t, n) ||
@@ -2298,10 +2298,10 @@ class RangeSetBuilder {
   addChunk(e, t) {
     if ((e - this.lastTo || t.value[0].startSide - this.last.endSide) < 0)
       return !1;
-    this.from.length && this.finishChunk(!0),
+    (this.from.length && this.finishChunk(!0),
       (this.setMaxPoint = Math.max(this.setMaxPoint, t.maxPoint)),
       this.chunks.push(t),
-      this.chunkPos.push(e);
+      this.chunkPos.push(e));
     let n = t.value.length - 1;
     return (
       (this.last = t.value[n]),
@@ -2322,7 +2322,7 @@ class RangeSetBuilder {
       this.nextLayer ? this.nextLayer.finishInner(e) : e,
       this.setMaxPoint,
     );
-    return (this.from = null), t;
+    return ((this.from = null), t);
   }
 }
 function q(e, t, n) {
@@ -2343,7 +2343,7 @@ function q(e, t, n) {
 }
 class LayerCursor {
   constructor(e, t, n, r = 0) {
-    (this.layer = e), (this.skip = t), (this.minPoint = n), (this.rank = r);
+    ((this.layer = e), (this.skip = t), (this.minPoint = n), (this.rank = r));
   }
   get startSide() {
     return this.value ? this.value.startSide : 0;
@@ -2353,7 +2353,9 @@ class LayerCursor {
   }
   goto(e, t = -1e9) {
     return (
-      (this.chunkIndex = this.rangeIndex = 0), this.gotoInner(e, t, !1), this
+      (this.chunkIndex = this.rangeIndex = 0),
+      this.gotoInner(e, t, !1),
+      this
     );
   }
   gotoInner(e, t, n) {
@@ -2367,7 +2369,7 @@ class LayerCursor {
         )
       )
         break;
-      this.chunkIndex++, (n = !1);
+      (this.chunkIndex++, (n = !1));
     }
     if (this.chunkIndex < this.layer.chunk.length) {
       let r = this.layer.chunk[this.chunkIndex].findIndex(
@@ -2385,7 +2387,7 @@ class LayerCursor {
   next() {
     for (;;)
       if (this.chunkIndex == this.layer.chunk.length) {
-        (this.from = this.to = 1e9), (this.value = null);
+        ((this.from = this.to = 1e9), (this.value = null));
         break;
       } else {
         let e = this.layer.chunkPos[this.chunkIndex],
@@ -2409,14 +2411,13 @@ class LayerCursor {
           ;
           this.chunkIndex < this.layer.chunk.length &&
           this.skip.has(this.layer.chunk[this.chunkIndex]);
-
         )
           this.chunkIndex++;
       this.rangeIndex = 0;
     } else this.rangeIndex = e;
   }
   nextChunk() {
-    this.chunkIndex++, (this.rangeIndex = 0), this.next();
+    (this.chunkIndex++, (this.rangeIndex = 0), this.next());
   }
   compare(e) {
     return (
@@ -2445,7 +2446,7 @@ class HeapCursor {
   goto(e, t = -1e9) {
     for (let n of this.heap) n.goto(e, t);
     for (let e = this.heap.length >> 1; e >= 0; e--) J(this.heap, e);
-    return this.next(), this;
+    return (this.next(), this);
   }
   forward(e, t) {
     for (let n of this.heap) n.forward(e, t);
@@ -2454,15 +2455,15 @@ class HeapCursor {
   }
   next() {
     if (this.heap.length == 0)
-      (this.from = this.to = 1e9), (this.value = null), (this.rank = -1);
+      ((this.from = this.to = 1e9), (this.value = null), (this.rank = -1));
     else {
       let e = this.heap[0];
-      (this.from = e.from),
+      ((this.from = e.from),
         (this.to = e.to),
         (this.value = e.value),
         (this.rank = e.rank),
         e.value && e.next(),
-        J(this.heap, 0);
+        J(this.heap, 0));
     }
   }
 }
@@ -2476,12 +2477,12 @@ function J(e, t) {
       n.compare(i) < 0)
     )
       break;
-    (e[r] = n), (e[t] = i), (t = r);
+    ((e[r] = n), (e[t] = i), (t = r));
   }
 }
 class SpanCursor {
   constructor(e, t, n) {
-    (this.minPoint = n),
+    ((this.minPoint = n),
       (this.active = []),
       (this.activeTo = []),
       (this.activeRank = []),
@@ -2492,7 +2493,7 @@ class SpanCursor {
       (this.to = -1e9),
       (this.endSide = 0),
       (this.openStart = -1),
-      (this.cursor = HeapCursor.from(e, t, n));
+      (this.cursor = HeapCursor.from(e, t, n)));
   }
   goto(e, t = -1e9) {
     return (
@@ -2512,16 +2513,15 @@ class SpanCursor {
       this.minActive > -1 &&
       (this.activeTo[this.minActive] - e ||
         this.active[this.minActive].endSide - t) < 0;
-
     )
       this.removeActive(this.minActive);
     this.cursor.forward(e, t);
   }
   removeActive(e) {
-    Z(this.active, e),
+    (Z(this.active, e),
       Z(this.activeTo, e),
       Z(this.activeRank, e),
-      (this.minActive = $(this.active, this.activeTo));
+      (this.minActive = $(this.active, this.activeTo)));
   }
   addActive(e) {
     let t = 0,
@@ -2530,14 +2530,13 @@ class SpanCursor {
       ;
       t < this.activeRank.length &&
       (i - this.activeRank[t] || r - this.activeTo[t]) > 0;
-
     )
       t++;
-    Q(this.active, t, n),
+    (Q(this.active, t, n),
       Q(this.activeTo, t, r),
       Q(this.activeRank, t, i),
       e && Q(e, t, this.cursor.from),
-      (this.minActive = $(this.active, this.activeTo));
+      (this.minActive = $(this.active, this.activeTo)));
   }
   next() {
     let e = this.to,
@@ -2552,19 +2551,20 @@ class SpanCursor {
           this.active[r].endSide - this.cursor.startSide) < 0
       ) {
         if (this.activeTo[r] > e) {
-          (this.to = this.activeTo[r]), (this.endSide = this.active[r].endSide);
+          ((this.to = this.activeTo[r]),
+            (this.endSide = this.active[r].endSide));
           break;
         }
-        this.removeActive(r), n && Z(n, r);
+        (this.removeActive(r), n && Z(n, r));
       } else if (!this.cursor.value) {
         this.to = this.endSide = 1e9;
         break;
       } else if (this.cursor.from > e) {
-        (this.to = this.cursor.from), (this.endSide = this.cursor.startSide);
+        ((this.to = this.cursor.from), (this.endSide = this.cursor.startSide));
         break;
       } else {
         let e = this.cursor.value;
-        if (!e.point) this.addActive(n), this.cursor.next();
+        if (!e.point) (this.addActive(n), this.cursor.next());
         else if (
           t &&
           this.cursor.to == this.to &&
@@ -2572,13 +2572,13 @@ class SpanCursor {
         )
           this.cursor.next();
         else {
-          (this.point = e),
+          ((this.point = e),
             (this.pointFrom = this.cursor.from),
             (this.pointRank = this.cursor.rank),
             (this.to = this.cursor.to),
             (this.endSide = e.endSide),
             this.cursor.next(),
-            this.forward(this.to, this.endSide);
+            this.forward(this.to, this.endSide));
           break;
         }
       }
@@ -2610,7 +2610,7 @@ class SpanCursor {
   }
 }
 function Y(e, t, n, r, i, a) {
-  e.goto(t), n.goto(r);
+  (e.goto(t), n.goto(r));
   let o = r + i,
     s = r,
     c = r - t,
@@ -2636,7 +2636,7 @@ function Y(e, t, n, r, i, a) {
       u > o)
     )
       break;
-    (s = u), i <= 0 && e.next(), i >= 0 && n.next();
+    ((s = u), i <= 0 && e.next(), i >= 0 && n.next());
   }
 }
 function X(e, t) {
@@ -2670,7 +2670,7 @@ function le(e, t, n, r) {
   for (let r = 0, i = 0; ; ) {
     if (i >= t) return r;
     if (r == e.length) break;
-    (i += e.charCodeAt(r) == 9 ? n - (i % n) : 1), (r = a(e, r));
+    ((i += e.charCodeAt(r) == 9 ? n - (i % n) : 1), (r = a(e, r)));
   }
   return r === !0 ? -1 : e.length;
 }

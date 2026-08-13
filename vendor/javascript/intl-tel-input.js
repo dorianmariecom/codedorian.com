@@ -438,10 +438,10 @@ var n = new Set(t.map((e) => e.iso2)),
   },
   F = (e, t) => {
     let n = `an array of iso2 country code strings`;
-    if (!Array.isArray(t)) return P(e, n, t), !1;
+    if (!Array.isArray(t)) return (P(e, n, t), !1);
     let i = [];
     for (let a of t) {
-      if (typeof a != `string`) return P(e, n, t), !1;
+      if (typeof a != `string`) return (P(e, n, t), !1);
       r(a.toLowerCase())
         ? i.push(a)
         : N(`Invalid iso2 code in '${e}': '${a}'. Skipping.`);
@@ -601,12 +601,12 @@ var n = new Set(t.map((e) => e.iso2)),
             let e = !0;
             for (let t of i)
               if (typeof t != `string` || !v.includes(t)) {
-                P(
+                (P(
                   `allowedNumberTypes`,
                   `an array of valid number types (${v.join(`, `)})`,
                   t,
                 ),
-                  (e = !1);
+                  (e = !1));
                 break;
               }
             e && (t[n] = i);
@@ -617,16 +617,16 @@ var n = new Set(t.map((e) => e.iso2)),
     return t;
   },
   ae = (e) => {
-    e.initialCountry && (e.initialCountry = e.initialCountry.toLowerCase()),
+    (e.initialCountry && (e.initialCountry = e.initialCountry.toLowerCase()),
       e.onlyCountries?.length &&
         (e.onlyCountries = e.onlyCountries.map((e) => e.toLowerCase())),
       e.excludeCountries?.length &&
         (e.excludeCountries = e.excludeCountries.map((e) => e.toLowerCase())),
       e.countryOrder &&
-        (e.countryOrder = e.countryOrder.map((e) => e.toLowerCase()));
+        (e.countryOrder = e.countryOrder.map((e) => e.toLowerCase())));
   },
   oe = (e) => {
-    e.countrySelectorMode === w.AUTO && (e.countrySelectorMode = te()),
+    (e.countrySelectorMode === w.AUTO && (e.countrySelectorMode = te()),
       e.dropdownAlwaysOpen && (e.countrySelectorMode = w.DROPDOWN),
       e.countrySelectorMode === w.FULLSCREEN
         ? (e.matchDropdownWidth = !1)
@@ -640,7 +640,7 @@ var n = new Set(t.map((e) => e.iso2)),
         !e.separateDialCode &&
         e.numberDisplayFormat === x.NATIONAL &&
         (e.numberDisplayFormat = x.INTERNATIONAL),
-      (e.uiTranslations = { ...ee, ...e.uiTranslations });
+      (e.uiTranslations = { ...ee, ...e.uiTranslations }));
   },
   I = (e) => e.replace(/\D/g, ``),
   L = (e = ``) =>
@@ -912,13 +912,13 @@ var n = new Set(t.map((e) => e.iso2)),
     telInputEl;
     hadInitialPlaceholder;
     constructor(e, t, n) {
-      (e.dataset[T.INSTANCE_ID] = n.toString()),
+      ((e.dataset[T.INSTANCE_ID] = n.toString()),
         (this.telInputEl = e),
         (this.#options = t),
         (this.#id = n),
         (this.hadInitialPlaceholder = !!e.getAttribute(`placeholder`)),
         (this.#isRTL = !!this.telInputEl.closest(`[dir=rtl]`)),
-        (this.#originalPaddingLeft = this.telInputEl.style.paddingLeft);
+        (this.#originalPaddingLeft = this.telInputEl.style.paddingLeft));
     }
     static validateInput(e) {
       let t = e?.tagName;
@@ -937,7 +937,7 @@ var n = new Set(t.map((e) => e.iso2)),
       }
     }
     buildMarkup(e, t) {
-      (this.#countries = e),
+      ((this.#countries = e),
         (this.#searchTokens = t),
         this.telInputEl.classList.add(`iti__tel-input`),
         this.telInputEl.hasAttribute(`type`) ||
@@ -945,14 +945,14 @@ var n = new Set(t.map((e) => e.iso2)),
         this.telInputEl.hasAttribute(`autocomplete`) ||
           this.telInputEl.setAttribute(`autocomplete`, `tel`),
         this.telInputEl.hasAttribute(`inputmode`) ||
-          this.telInputEl.setAttribute(`inputmode`, `tel`);
+          this.telInputEl.setAttribute(`inputmode`, `tel`));
       let n = this.#createWrapperAndInsert();
-      this.#buildCountryContainer(n),
+      (this.#buildCountryContainer(n),
         n.appendChild(this.telInputEl),
         this.#updateInputPaddingAndReveal(),
         this.#observeSelectedCountryResize(),
         this.#buildHiddenInputs(n),
-        this.ensureDropdownWidthSet();
+        this.ensureDropdownWidthSet());
     }
     #createWrapperAndInsert() {
       let {
@@ -984,7 +984,7 @@ var n = new Set(t.map((e) => e.iso2)),
         } = this.#options,
         i = t !== w.OFF;
       if (!i && !r && !n) return;
-      (this.#countryContainerEl = z(
+      ((this.#countryContainerEl = z(
         `div`,
         { class: `iti__country-container ${o.V_HIDE}` },
         e,
@@ -1008,13 +1008,13 @@ var n = new Set(t.map((e) => e.iso2)),
               `div`,
               { class: `iti__selected-country` },
               this.#countryContainerEl,
-            ));
+            )));
       let a = z(
         `div`,
         { class: `iti__selected-country-primary` },
         this.#selectedCountryEl,
       );
-      (this.#selectedFlagEl = z(`div`, { class: o.FLAG }, a)),
+      ((this.#selectedFlagEl = z(`div`, { class: o.FLAG }, a)),
         i &&
           (this.#arrowEl = z(
             `div`,
@@ -1027,7 +1027,7 @@ var n = new Set(t.map((e) => e.iso2)),
             { class: `iti__selected-dial-code` },
             this.#selectedCountryEl,
           )),
-        i && this.#buildCountrySelector();
+        i && this.#buildCountrySelector());
     }
     ensureDropdownWidthSet() {
       let { matchDropdownWidth: e, countrySelectorMode: t } = this.#options;
@@ -1070,10 +1070,10 @@ var n = new Set(t.map((e) => e.iso2)),
         !a)
       ) {
         let { height: t, width: r } = this.#getHiddenInlineDropdownSize();
-        (this.#inlineDropdownHeight = t),
+        ((this.#inlineDropdownHeight = t),
           n &&
             ((this.#countrySelectorEl.style.height = `${t}px`),
-            !e && r > 0 && (this.#countrySelectorEl.style.width = `${r}px`));
+            !e && r > 0 && (this.#countrySelectorEl.style.width = `${r}px`)));
       }
       if (s) {
         let e = R({
@@ -1083,9 +1083,9 @@ var n = new Set(t.map((e) => e.iso2)),
           "iti--inline-country-selector": !a,
           [i]: !!i,
         });
-        (this.#detachedCountrySelectorEl = z(`div`, { class: e })),
+        ((this.#detachedCountrySelectorEl = z(`div`, { class: e })),
           this.#detachedCountrySelectorEl.appendChild(this.#countrySelectorEl),
-          a || this.#setupCssAnchorPositioning();
+          a || this.#setupCssAnchorPositioning());
       } else this.#countryContainerEl.appendChild(this.#countrySelectorEl);
     }
     #getDetachedParent() {
@@ -1099,7 +1099,7 @@ var n = new Set(t.map((e) => e.iso2)),
           { class: `iti__search-input-wrapper` },
           this.#countrySelectorEl,
         );
-      (this.#searchIconEl = z(
+      ((this.#searchIconEl = z(
         `span`,
         { class: `iti__search-icon`, [E.HIDDEN]: `true` },
         n,
@@ -1142,7 +1142,7 @@ var n = new Set(t.map((e) => e.iso2)),
           { class: `iti__no-results ${o.HIDE}`, [E.HIDDEN]: `true` },
           this.#countrySelectorEl,
         )),
-        (this.#noResultsMessageEl.textContent = e.searchEmptyState ?? null);
+        (this.#noResultsMessageEl.textContent = e.searchEmptyState ?? null));
     }
     #updateInputPaddingAndReveal() {
       this.#countryContainerEl &&
@@ -1188,17 +1188,17 @@ var n = new Set(t.map((e) => e.iso2)),
             role: `option`,
             [E.SELECTED]: `false`,
           });
-        (i.dataset[T.DIAL_CODE] = n.dialCode),
+        ((i.dataset[T.DIAL_CODE] = n.dialCode),
           (i.dataset[T.ISO2] = n.iso2),
           this.#listItemByIso2.set(n.iso2, i),
           this.#options.showFlags &&
-            z(`div`, { class: `${o.FLAG} iti__${n.iso2}` }, i);
+            z(`div`, { class: `${o.FLAG} iti__${n.iso2}` }, i));
         let a = z(`span`, { class: `iti__country-name` }, i);
         a.textContent = `${n.name} `;
         let s = z(`span`, { class: `iti__dial-code` }, a);
-        this.#isRTL && s.setAttribute(`dir`, `ltr`),
+        (this.#isRTL && s.setAttribute(`dir`, `ltr`),
           (s.textContent = `(+${n.dialCode})`),
-          e.appendChild(i);
+          e.appendChild(i));
       }
       this.#countryListEl.appendChild(e);
     }
@@ -1235,21 +1235,21 @@ var n = new Set(t.map((e) => e.iso2)),
       if (!this.telInputEl.parentNode) return 0;
       let e = _UI.#getBody(),
         t = this.telInputEl.parentNode.cloneNode(!1);
-      (t.style.visibility = `hidden`), e.appendChild(t);
+      ((t.style.visibility = `hidden`), e.appendChild(t));
       let n = this.#countryContainerEl.cloneNode();
       t.appendChild(n);
       let r = this.#selectedCountryEl.cloneNode(!0);
       n.appendChild(r);
       let i = r.offsetWidth;
-      return e.removeChild(t), i;
+      return (e.removeChild(t), i);
     }
     #getHiddenInlineDropdownSize() {
       let e = _UI.#getBody();
       this.#countrySelectorEl.classList.remove(o.HIDE);
       let t = z(`div`, { class: `iti iti--inline-country-selector` });
-      t.appendChild(this.#countrySelectorEl),
+      (t.appendChild(this.#countrySelectorEl),
         (t.style.visibility = `hidden`),
-        e.appendChild(t);
+        e.appendChild(t));
       let n = this.#countrySelectorEl.offsetHeight,
         r = this.#countrySelectorEl.offsetWidth;
       return (
@@ -1274,27 +1274,27 @@ var n = new Set(t.map((e) => e.iso2)),
       this.#showFilteredCountries(t);
     }
     prefillSearchWithPlus() {
-      (this.#searchInputEl.value = `+`),
+      ((this.#searchInputEl.value = `+`),
         this.#searchInputEl.focus(),
-        this.#filterCountriesByQuery(``);
+        this.#filterCountriesByQuery(``));
     }
     #applySearchFilter() {
       let e = this.#searchInputEl.value.trim();
-      this.#filterCountriesByQuery(e),
+      (this.#filterCountriesByQuery(e),
         this.#searchInputEl.value
           ? this.#searchClearButtonEl.classList.remove(o.HIDE)
-          : this.#searchClearButtonEl.classList.add(o.HIDE);
+          : this.#searchClearButtonEl.classList.add(o.HIDE));
     }
     #handleSearchChange() {
-      this.#searchDebounceTimer && clearTimeout(this.#searchDebounceTimer),
+      (this.#searchDebounceTimer && clearTimeout(this.#searchDebounceTimer),
         (this.#searchDebounceTimer = setTimeout(() => {
-          this.#applySearchFilter(), (this.#searchDebounceTimer = null);
-        }, u.SEARCH_DEBOUNCE_MS));
+          (this.#applySearchFilter(), (this.#searchDebounceTimer = null));
+        }, u.SEARCH_DEBOUNCE_MS)));
     }
     #handleSearchClear() {
-      (this.#searchInputEl.value = ``),
+      ((this.#searchInputEl.value = ``),
         this.#searchInputEl.focus(),
-        this.#applySearchFilter();
+        this.#applySearchFilter());
     }
     #scrollCountryListToItem(e) {
       let t = this.#countryListEl,
@@ -1311,8 +1311,8 @@ var n = new Set(t.map((e) => e.iso2)),
           let t = e.getAttribute(`id`) || ``;
           this.#searchInputEl.setAttribute(E.ACTIVE_DESCENDANT, t);
         }
-        t && this.#scrollCountryListToItem(e),
-          (this.#highlightedListItemEl = e);
+        (t && this.#scrollCountryListToItem(e),
+          (this.#highlightedListItemEl = e));
       } else this.#highlightedListItemEl = null;
     }
     bindHiddenInputSubmitListener(e, t, n) {
@@ -1322,16 +1322,16 @@ var n = new Set(t.map((e) => e.iso2)),
         r.addEventListener(
           `submit`,
           () => {
-            this.#hiddenInputPhoneEl && (this.#hiddenInputPhoneEl.value = t()),
+            (this.#hiddenInputPhoneEl && (this.#hiddenInputPhoneEl.value = t()),
               this.#hiddenInputCountryEl &&
-                (this.#hiddenInputCountryEl.value = n());
+                (this.#hiddenInputCountryEl.value = n()));
           },
           { signal: e },
         );
     }
     bindAllInitialCountrySelectorListeners(e, t, n) {
       let r = this.telInputEl.closest(`label`);
-      r &&
+      (r &&
         r.addEventListener(
           `click`,
           (e) => {
@@ -1355,13 +1355,13 @@ var n = new Set(t.map((e) => e.iso2)),
           `keydown`,
           (e) => {
             let r = [s.ARROW_UP, s.ARROW_DOWN, s.SPACE, s.ENTER];
-            !this.isCountrySelectorOpen() &&
+            (!this.isCountrySelectorOpen() &&
               r.includes(e.key) &&
               (e.preventDefault(), e.stopPropagation(), t()),
-              e.key === s.TAB && n();
+              e.key === s.TAB && n());
           },
           { signal: e },
-        );
+        ));
     }
     openCountrySelector(e, t) {
       let { countrySearch: n, dropdownAlwaysOpen: r } = this.#options;
@@ -1378,10 +1378,10 @@ var n = new Set(t.map((e) => e.iso2)),
           ? (this.#countrySelectorEl.style.top = `${t}px`)
           : (this.#countrySelectorEl.style.bottom = `${t}px`);
       }
-      this.#countrySelectorEl.classList.remove(o.HIDE),
-        this.#selectedCountryEl.setAttribute(E.EXPANDED, `true`);
+      (this.#countrySelectorEl.classList.remove(o.HIDE),
+        this.#selectedCountryEl.setAttribute(E.EXPANDED, `true`));
       let i = this.#selectedListItemEl ?? this.#countryListEl.firstElementChild;
-      i && this.#highlightListItem(i),
+      (i && this.#highlightListItem(i),
         n && !r && this.#searchInputEl.focus(),
         this.#options.countrySelectorMode === w.FULLSCREEN &&
           this.#detachedCountrySelectorEl &&
@@ -1389,18 +1389,18 @@ var n = new Set(t.map((e) => e.iso2)),
           window.visualViewport.addEventListener(
             `resize`,
             () => {
-              this.#adjustFullscreenPopupToViewport(),
+              (this.#adjustFullscreenPopupToViewport(),
                 this.#highlightedListItemEl &&
-                  this.#scrollCountryListToItem(this.#highlightedListItemEl);
+                  this.#scrollCountryListToItem(this.#highlightedListItemEl));
             },
             { signal: this.#countrySelectorAbortController.signal },
           ),
         this.#arrowEl.classList.add(o.ARROW_UP),
-        this.#bindCountrySelectorOpenListeners(e, t);
+        this.#bindCountrySelectorOpenListeners(e, t));
     }
     #bindCountrySelectorOpenListeners(e, t) {
       let n = this.#countrySelectorAbortController.signal;
-      this.#bindListItemHover(n),
+      (this.#bindListItemHover(n),
         this.#bindListItemClick(n, e),
         this.#options.dropdownAlwaysOpen || this.#bindOutsideClickToClose(n, t),
         this.#bindCountrySelectorKeydownListener(n, e, t),
@@ -1412,7 +1412,7 @@ var n = new Set(t.map((e) => e.iso2)),
             signal: n,
             capture: !0,
             passive: !0,
-          });
+          }));
     }
     #bindListItemHover(e) {
       this.#countryListEl.addEventListener(
@@ -1449,7 +1449,7 @@ var n = new Set(t.map((e) => e.iso2)),
       let r = ``,
         i = null,
         a = (e) => {
-          [s.ARROW_UP, s.ARROW_DOWN, s.ENTER, s.ESC].includes(e.key) &&
+          ([s.ARROW_UP, s.ARROW_DOWN, s.ENTER, s.ESC].includes(e.key) &&
             (e.preventDefault(),
             e.stopPropagation(),
             e.key === s.ARROW_UP || e.key === s.ARROW_DOWN
@@ -1465,13 +1465,13 @@ var n = new Set(t.map((e) => e.iso2)),
               this.#searchForCountry(r),
               (i = setTimeout(() => {
                 r = ``;
-              }, u.HIDDEN_SEARCH_RESET_MS)));
+              }, u.HIDDEN_SEARCH_RESET_MS))));
         };
-      this.#selectedCountryEl?.addEventListener(`keydown`, a, { signal: e }),
-        this.#countrySelectorEl?.addEventListener(`keydown`, a, { signal: e });
+      (this.#selectedCountryEl?.addEventListener(`keydown`, a, { signal: e }),
+        this.#countrySelectorEl?.addEventListener(`keydown`, a, { signal: e }));
     }
     #bindSearchInputListener(e) {
-      this.#searchInputEl.addEventListener(
+      (this.#searchInputEl.addEventListener(
         `input`,
         () => this.#handleSearchChange(),
         { signal: e },
@@ -1480,7 +1480,7 @@ var n = new Set(t.map((e) => e.iso2)),
           `click`,
           () => this.#handleSearchClear(),
           { signal: e },
-        );
+        ));
     }
     #searchForCountry(e) {
       let t = U(this.#countries, this.#searchTokens, e);
@@ -1494,13 +1494,13 @@ var n = new Set(t.map((e) => e.iso2)),
         e === s.ARROW_UP
           ? this.#highlightedListItemEl?.previousElementSibling
           : this.#highlightedListItemEl?.nextElementSibling;
-      !t &&
+      (!t &&
         this.#countryListEl.childElementCount > 1 &&
         (t =
           e === s.ARROW_UP
             ? this.#countryListEl.lastElementChild
             : this.#countryListEl.firstElementChild),
-        t && this.#highlightListItem(t);
+        t && this.#highlightListItem(t));
     }
     #updateSelectedListItem(e) {
       if (
@@ -1534,18 +1534,18 @@ var n = new Set(t.map((e) => e.iso2)),
           (this.#countryListEl.appendChild(e),
           t && (this.#highlightListItem(e, !1), (t = !1)));
       }
-      t
+      (t
         ? (this.#highlightListItem(null),
           this.#noResultsMessageEl &&
             this.#noResultsMessageEl.classList.remove(o.HIDE))
         : this.#noResultsMessageEl &&
           this.#noResultsMessageEl.classList.add(o.HIDE),
         (this.#countryListEl.scrollTop = 0),
-        this.#updateSearchResultsA11yText();
+        this.#updateSearchResultsA11yText());
     }
     closeCountrySelector() {
       let { countrySearch: e } = this.#options;
-      this.#countrySelectorAbortController.abort(),
+      (this.#countrySelectorAbortController.abort(),
         (this.#countrySelectorAbortController = null),
         this.#countrySelectorEl.classList.add(o.HIDE),
         this.#selectedCountryEl.setAttribute(E.EXPANDED, `false`),
@@ -1564,7 +1564,7 @@ var n = new Set(t.map((e) => e.iso2)),
             (this.#detachedCountrySelectorEl.style.paddingLeft = ``),
             (this.#detachedCountrySelectorEl.style.paddingRight = ``))
           : ((this.#countrySelectorEl.style.top = ``),
-            (this.#countrySelectorEl.style.bottom = ``));
+            (this.#countrySelectorEl.style.bottom = ``)));
     }
     #shouldPositionDropdownBelowInput() {
       if (this.#options.dropdownAlwaysOpen) return !0;
@@ -1579,24 +1579,25 @@ var n = new Set(t.map((e) => e.iso2)),
       if (e) {
         if (window.innerWidth >= d.NARROW_VIEWPORT_WIDTH) {
           let e = this.telInputEl.getBoundingClientRect();
-          (this.#detachedCountrySelectorEl.style.paddingLeft = `${e.left}px`),
-            (this.#detachedCountrySelectorEl.style.paddingRight = `${window.innerWidth - e.right}px`);
+          ((this.#detachedCountrySelectorEl.style.paddingLeft = `${e.left}px`),
+            (this.#detachedCountrySelectorEl.style.paddingRight = `${window.innerWidth - e.right}px`));
         }
       } else if (!G) {
         let e = this.telInputEl.getBoundingClientRect();
-        (this.#detachedCountrySelectorEl.style.left = `${e.left}px`),
+        ((this.#detachedCountrySelectorEl.style.left = `${e.left}px`),
           this.#shouldPositionDropdownBelowInput()
             ? (this.#detachedCountrySelectorEl.style.top = `${e.bottom + d.DROPDOWN_MARGIN}px`)
             : ((this.#detachedCountrySelectorEl.style.top = `unset`),
-              (this.#detachedCountrySelectorEl.style.bottom = `${window.innerHeight - e.top + d.DROPDOWN_MARGIN}px`));
+              (this.#detachedCountrySelectorEl.style.bottom = `${window.innerHeight - e.top + d.DROPDOWN_MARGIN}px`)));
       }
       t.appendChild(this.#detachedCountrySelectorEl);
     }
     #setupCssAnchorPositioning() {
       let e = `--iti-anchor-${this.#id}`,
         t = getComputedStyle(this.telInputEl).anchorName;
-      (this.telInputEl.style.anchorName = t && t !== `none` ? `${t}, ${e}` : e),
-        (this.#detachedCountrySelectorEl.style.positionAnchor = e);
+      ((this.telInputEl.style.anchorName =
+        t && t !== `none` ? `${t}, ${e}` : e),
+        (this.#detachedCountrySelectorEl.style.positionAnchor = e));
     }
     #adjustFullscreenPopupToViewport() {
       let e = window.visualViewport;
@@ -1627,18 +1628,18 @@ var n = new Set(t.map((e) => e.iso2)),
       return this.#selectedFlagEl.classList.contains(o.LOADING);
     }
     setDisabled(e) {
-      (this.telInputEl.disabled = e),
+      ((this.telInputEl.disabled = e),
         this.#selectedCountryEl &&
           (e
             ? this.#selectedCountryEl.setAttribute(`disabled`, `true`)
-            : this.#selectedCountryEl.removeAttribute(`disabled`));
+            : this.#selectedCountryEl.removeAttribute(`disabled`)));
     }
     setReadonly(e) {
-      (this.telInputEl.readOnly = e),
+      ((this.telInputEl.readOnly = e),
         this.#selectedCountryEl &&
           (e
             ? this.#selectedCountryEl.setAttribute(`disabled`, `true`)
-            : this.#selectedCountryEl.removeAttribute(`disabled`));
+            : this.#selectedCountryEl.removeAttribute(`disabled`)));
     }
     setSelectedCountry(e) {
       let {
@@ -1658,7 +1659,7 @@ var n = new Set(t.map((e) => e.iso2)),
           t,
           r,
           l = null;
-        c
+        (c
           ? ((r = a),
             (t = i.selectedCountryAriaLabel
               .replace("${countryName}", a)
@@ -1670,21 +1671,22 @@ var n = new Set(t.map((e) => e.iso2)),
           this.#selectedCountryEl.setAttribute(E.LABEL, t),
           l
             ? this.#selectedFlagEl.replaceChildren(l)
-            : this.#selectedFlagEl.replaceChildren();
+            : this.#selectedFlagEl.replaceChildren());
       }
       if (r) {
         let e = s ? `+${s}` : ``;
-        (this.#selectedDialCodeEl.textContent = e), this.#updateInputPadding();
+        ((this.#selectedDialCodeEl.textContent = e),
+          this.#updateInputPadding());
       }
     }
     destroy() {
-      (this.telInputEl.iti = void 0),
+      ((this.telInputEl.iti = void 0),
         delete this.telInputEl.dataset[T.INSTANCE_ID],
         this.#resizeObserver?.disconnect(),
-        (this.telInputEl.style.paddingLeft = this.#originalPaddingLeft);
+        (this.telInputEl.style.paddingLeft = this.#originalPaddingLeft));
       let e = this.telInputEl.parentNode;
-      e && (e.before(this.telInputEl), e.remove()),
-        this.#listItemByIso2.clear();
+      (e && (e.before(this.telInputEl), e.remove()),
+        this.#listItemByIso2.clear());
     }
   },
   pe = (e) => {
@@ -1709,7 +1711,7 @@ var n = new Set(t.map((e) => e.iso2)),
           ? new Intl.DisplayNames(n, { type: `region` })
           : null;
     } catch (e) {
-      console.error(e), (o = null);
+      (console.error(e), (o = null));
     }
     for (let t of e)
       t.name = r[t.iso2] || a?.[t.iso2] || o?.of(t.iso2.toUpperCase()) || ``;
@@ -1720,7 +1722,7 @@ var n = new Set(t.map((e) => e.iso2)),
       r = {},
       i = (e, t) => {
         if (!e || !t) return;
-        t.length > n && (n = t.length), Object.hasOwn(r, t) || (r[t] = []);
+        (t.length > n && (n = t.length), Object.hasOwn(r, t) || (r[t] = []));
         let i = r[t];
         i.includes(e) || i.push(e);
       },
@@ -1737,7 +1739,7 @@ var n = new Set(t.map((e) => e.iso2)),
           for (let r = 1; r < n.length; r++) {
             let a = n.substring(0, r),
               o = e.dialCode + a;
-            i(t, o), i(e.iso2, o);
+            (i(t, o), i(e.iso2, o));
           }
           i(e.iso2, e.dialCode + n);
         }
@@ -1832,7 +1834,7 @@ var n = new Set(t.map((e) => e.iso2)),
     let e, t;
     return {
       promise: new Promise((n, r) => {
-        (e = n), (t = r);
+        ((e = n), (t = r));
       }),
       resolve: e,
       reject: t,
@@ -1861,9 +1863,9 @@ var n = new Set(t.map((e) => e.iso2)),
     #autoCountryDeferred;
     #utilsDeferred;
     constructor(e, t = {}) {
-      (this.id = xe++), K.validateInput(e);
+      ((this.id = xe++), K.validateInput(e));
       let n = ie(t);
-      (this.#options = { ...k, ...n }),
+      ((this.#options = { ...k, ...n }),
         ae(this.#options),
         oe(this.#options),
         (this.#ui = new K(e, this.#options, this.id)),
@@ -1871,19 +1873,19 @@ var n = new Set(t.map((e) => e.iso2)),
           typeof navigator < `u` && /Android/i.test(navigator.userAgent)),
         (this.#numerals = new W(e.value)),
         (this.promise = this.#createInitPromise(this.#options)),
-        (this.#countries = pe(this.#options));
+        (this.#countries = pe(this.#options)));
       let {
         dialCodes: r,
         dialCodeMaxLength: i,
         dialCodeToIso2Map: a,
       } = he(this.#countries);
-      (this.#dialCodes = r),
+      ((this.#dialCodes = r),
         (this.#dialCodeMaxLength = i),
         (this.#dialCodeToIso2Map = a),
         (this.#countryByIso2 = new Map(
           this.#countries.map((e) => [e.iso2, e]),
         )),
-        this.#init();
+        this.#init());
     }
     #getTelInputValue() {
       let e = this.#ui.telInputEl.value.trim();
@@ -1906,18 +1908,18 @@ var n = new Set(t.map((e) => e.iso2)),
       );
     }
     #init() {
-      (this.#abortController = new AbortController()),
+      ((this.#abortController = new AbortController()),
         this.#processCountryData(),
         this.#ui.buildMarkup(this.#countries, this.#searchTokens),
         this.#setInitialState(),
         this.#initListeners(),
         this.#startAsyncLoads(),
-        this.#options.dropdownAlwaysOpen && this.openCountrySelector();
+        this.#options.dropdownAlwaysOpen && this.openCountrySelector());
     }
     #processCountryData() {
-      me(this.#countries, this.#options),
+      (me(this.#countries, this.#options),
         ge(this.#countries, this.#options),
-        (this.#searchTokens = de(this.#countries));
+        (this.#searchTokens = de(this.#countries)));
     }
     #setInitialState(e = !1) {
       let t = this.#ui.telInputEl.getAttribute(`value`),
@@ -1931,7 +1933,7 @@ var n = new Set(t.map((e) => e.iso2)),
         d = u && $.autoCountry ? $.autoCountry : c,
         f = u && !e && !$.autoCountry,
         p = r(d);
-      o
+      (o
         ? s
           ? p
             ? this.#updateSelectedCountry(d)
@@ -1941,10 +1943,10 @@ var n = new Set(t.map((e) => e.iso2)),
         : p
           ? this.#updateSelectedCountry(d)
           : f || this.#updateSelectedCountry(``),
-        a && this.#updateValueFromNumber(a);
+        a && this.#updateValueFromNumber(a));
     }
     #initListeners() {
-      this.#bindAllTelInputListeners(),
+      (this.#bindAllTelInputListeners(),
         this.#options.countrySelectorMode !== w.OFF &&
           this.#ui.bindAllInitialCountrySelectorListeners(
             this.#abortController.signal,
@@ -1955,7 +1957,7 @@ var n = new Set(t.map((e) => e.iso2)),
           this.#abortController.signal,
           () => this.getNumber(),
           () => this.#selectedCountry?.iso2 || ``,
-        );
+        ));
     }
     #startAsyncLoads() {
       if (this.#utilsDeferred) {
@@ -2003,46 +2005,46 @@ var n = new Set(t.map((e) => e.iso2)),
             ]),
             n = typeof t == `string` ? t.toLowerCase() : ``;
           if (!r(n)) {
-            ($.startedLoadingAutoCountry = !1),
-              _Iti.forEachInstance(`handleAutoCountryFailure`);
+            (($.startedLoadingAutoCountry = !1),
+              _Iti.forEachInstance(`handleAutoCountryFailure`));
             return;
           }
-          ($.autoCountry = n),
-            setTimeout(() => _Iti.forEachInstance(`handleAutoCountryLoaded`));
+          (($.autoCountry = n),
+            setTimeout(() => _Iti.forEachInstance(`handleAutoCountryLoaded`)));
         } catch {
-          ($.startedLoadingAutoCountry = !1),
-            _Iti.forEachInstance(`handleAutoCountryFailure`);
+          (($.startedLoadingAutoCountry = !1),
+            _Iti.forEachInstance(`handleAutoCountryFailure`));
         } finally {
           e !== void 0 && clearTimeout(e);
         }
       }
     }
     #openCountrySelectorWithPlus() {
-      this.openCountrySelector(), this.#ui.prefillSearchWithPlus();
+      (this.openCountrySelector(), this.#ui.prefillSearchWithPlus());
     }
     #removeJustTypedChar(e) {
       let t = this.#ui.telInputEl.selectionStart || 0,
         n = e.substring(0, t - 1),
         r = e.substring(t);
-      return this.#setTelInputValue(n + r), t - 1;
+      return (this.#setTelInputValue(n + r), t - 1);
     }
     #bindAllTelInputListeners() {
-      this.#bindInputListener(),
+      (this.#bindInputListener(),
         this.#bindKeydownListener(),
-        this.#bindStrictPasteListener();
+        this.#bindStrictPasteListener());
     }
     #handleAndroidPlusKey(e) {
-      this.#removeJustTypedChar(e), this.#openCountrySelectorWithPlus();
+      (this.#removeJustTypedChar(e), this.#openCountrySelectorWithPlus());
     }
     #handleAndroidStrictReject(e, t) {
       let n = this.#removeJustTypedChar(e);
-      this.#ui.telInputEl.setSelectionRange(n, n),
+      (this.#ui.telInputEl.setSelectionRange(n, n),
         this.#ui.playStrictRejectAnimation(),
         this.#dispatchEvent(a.STRICT_REJECT, {
           source: `key`,
           rejectedInput: t,
           reason: `invalid`,
-        });
+        }));
     }
     #formatAsYouType(e, t) {
       let n = this.#ui.telInputEl.selectionStart || 0,
@@ -2055,7 +2057,7 @@ var n = new Set(t.map((e) => e.iso2)),
           this.#options.separateDialCode,
         ),
         a = ye(r, i, n, t);
-      this.#setTelInputValue(i), this.#ui.telInputEl.setSelectionRange(a, a);
+      (this.#setTelInputValue(i), this.#ui.telInputEl.setSelectionRange(a, a));
     }
     #stripTypedDialCode(e) {
       if (e.startsWith(`+`) && this.#selectedCountry && this.#getDialCode(e)) {
@@ -2064,12 +2066,12 @@ var n = new Set(t.map((e) => e.iso2)),
       }
     }
     #bindInputListener() {
-      (this.#userOverrideFormatting = l.ALPHA_UNICODE.test(
+      ((this.#userOverrideFormatting = l.ALPHA_UNICODE.test(
         this.#getTelInputValue(),
       )),
         this.#ui.telInputEl.addEventListener(`input`, this.#handleInputEvent, {
           signal: this.#abortController.signal,
-        });
+        }));
     }
     #handleInputEvent = (e) => {
       let {
@@ -2101,7 +2103,7 @@ var n = new Set(t.map((e) => e.iso2)),
         if (this.#handleStrictPasteInputEvent()) return;
         u = this.#getTelInputValue();
       }
-      this.#updateCountryFromNumber(u) &&
+      (this.#updateCountryFromNumber(u) &&
         (this.#dispatchCountryChangeEvent(),
         this.#dispatchEvent(a.INPUT, { isCountryChange: !0 })),
         (!f && e?.data && l.NON_PLUS_NUMERIC.test(e.data)) || (d && u && !t)
@@ -2112,7 +2114,7 @@ var n = new Set(t.map((e) => e.iso2)),
           !s?.isSetNumber &&
           this.#numerals.isAscii() &&
           this.#formatAsYouType(u, e?.inputType === c.DELETE_FORWARD),
-        r && this.#stripTypedDialCode(u);
+        r && this.#stripTypedDialCode(u));
     };
     #bindKeydownListener() {
       let { strictMode: e, separateDialCode: t } = this.#options;
@@ -2133,7 +2135,7 @@ var n = new Set(t.map((e) => e.iso2)),
       if (!e.key || e.key.length !== 1 || e.altKey || e.ctrlKey || e.metaKey)
         return;
       if (n && r !== w.OFF && i && e.key === `+`) {
-        e.preventDefault(), this.#openCountrySelectorWithPlus();
+        (e.preventDefault(), this.#openCountrySelectorWithPlus());
         return;
       }
       if (!t) return;
@@ -2220,7 +2222,7 @@ var n = new Set(t.map((e) => e.iso2)),
       if (v.length > 5 && $.utils) {
         let e = $.utils.getCoreNumber(v, u);
         for (; e.length === 0 && v.length > 0; )
-          (v = v.slice(0, -1)), (e = $.utils.getCoreNumber(v, u));
+          ((v = v.slice(0, -1)), (e = $.utils.getCoreNumber(v, u)));
         if (!e)
           return (
             this.#ui.playStrictRejectAnimation(),
@@ -2235,7 +2237,7 @@ var n = new Set(t.map((e) => e.iso2)),
         if (this.#maxCoreNumberLength && e.length > this.#maxCoreNumberLength)
           if (o === r.length) {
             let t = e.length - this.#maxCoreNumberLength;
-            (v = v.slice(0, v.length - t)), (y = `max-length`);
+            ((v = v.slice(0, v.length - t)), (y = `max-length`));
           } else
             return (
               this.#ui.playStrictRejectAnimation(),
@@ -2265,8 +2267,11 @@ var n = new Set(t.map((e) => e.iso2)),
       );
     }
     #restoreValueBeforeStrictPaste(e) {
-      this.#setTelInputValue(e.value),
-        this.#ui.telInputEl.setSelectionRange(e.selectionStart, e.selectionEnd);
+      (this.#setTelInputValue(e.value),
+        this.#ui.telInputEl.setSelectionRange(
+          e.selectionStart,
+          e.selectionEnd,
+        ));
     }
     #truncateToMaxLength(e) {
       let t = Number(this.#ui.telInputEl.getAttribute(`maxlength`));
@@ -2292,10 +2297,10 @@ var n = new Set(t.map((e) => e.iso2)),
           a = !r.startsWith(`+`) && !n,
           o = (t === x.NATIONAL && !i) || a,
           s;
-        (s = o ? x.NATIONAL : t === x.E164 && !i ? x.E164 : x.INTERNATIONAL),
-          (r = $.utils.formatNumber(r, this.#selectedCountry?.iso2, s));
+        ((s = o ? x.NATIONAL : t === x.E164 && !i ? x.E164 : x.INTERNATIONAL),
+          (r = $.utils.formatNumber(r, this.#selectedCountry?.iso2, s)));
       }
-      (r = this.#prepareNumberForInput(r)), this.#setTelInputValue(r);
+      ((r = this.#prepareNumberForInput(r)), this.#setTelInputValue(r));
     }
     #updateCountryFromNumber(e) {
       let t = this.#resolveCountryChangeFromNumber(e);
@@ -2377,10 +2382,10 @@ var n = new Set(t.map((e) => e.iso2)),
       }
       let i = $.utils.getExampleNumber(r, t, x.E164),
         a = i;
-      for (; $.utils.isValidNumber(i, r, n); ) (a = i), (i += `0`);
+      for (; $.utils.isValidNumber(i, r, n); ) ((a = i), (i += `0`));
       let o = $.utils.getCoreNumber(a, r);
-      (this.#maxCoreNumberLength = o.length),
-        r === `by` && (this.#maxCoreNumberLength = o.length + 1);
+      ((this.#maxCoreNumberLength = o.length),
+        r === `by` && (this.#maxCoreNumberLength = o.length + 1));
     }
     #updatePlaceholder() {
       let {
@@ -2396,9 +2401,9 @@ var n = new Set(t.map((e) => e.iso2)),
       let a = this.#selectedCountry
         ? $.utils.getExampleNumber(this.#selectedCountry.iso2, t, n)
         : ``;
-      (a = this.#prepareNumberForInput(a)),
+      ((a = this.#prepareNumberForInput(a)),
         typeof r == `function` && (a = r(a, this.#selectedCountry)),
-        this.#ui.telInputEl.setAttribute(`placeholder`, a);
+        this.#ui.telInputEl.setAttribute(`placeholder`, a));
     }
     #selectListItem(e) {
       if (!e) return;
@@ -2408,11 +2413,11 @@ var n = new Set(t.map((e) => e.iso2)),
       let r = e.dataset[T.DIAL_CODE];
       this.#updateDialCode(r);
       let i = this.#getTelInputValue();
-      this.#updateValueFromNumber(i),
+      (this.#updateValueFromNumber(i),
         this.#ui.telInputEl.focus(),
         n &&
           (this.#dispatchCountryChangeEvent(),
-          this.#dispatchEvent(a.INPUT, { isCountryChange: !0 }));
+          this.#dispatchEvent(a.INPUT, { isCountryChange: !0 })));
     }
     closeCountrySelector() {
       this.#closeCountrySelectorInternal();
@@ -2429,7 +2434,7 @@ var n = new Set(t.map((e) => e.iso2)),
       let n = `+${e}`,
         r = this.#getDialCode(t),
         i;
-      (i = r ? t.replace(r, n) : n), this.#setTelInputValue(i);
+      ((i = r ? t.replace(r, n) : n), this.#setTelInputValue(i));
     }
     #getDialCode(e, t) {
       if (!e.startsWith(`+`)) return ``;
@@ -2481,20 +2486,20 @@ var n = new Set(t.map((e) => e.iso2)),
       }
       let e = document.activeElement === this.#ui.telInputEl,
         t = !!this.#getTelInputValue();
-      this.#ui.isLoading() && !(e && t)
+      (this.#ui.isLoading() && !(e && t)
         ? this.setSelectedCountry($.autoCountry)
         : (this.#fallbackCountryIso2 = $.autoCountry),
         this.#ui.setLoading(!1),
-        this.#autoCountryDeferred.resolve();
+        this.#autoCountryDeferred.resolve());
     }
     #handleAutoCountryFailure() {
       if (!this.#isActive) {
         this.#autoCountryDeferred?.reject();
         return;
       }
-      this.#setInitialState(!0),
+      (this.#setInitialState(!0),
         this.#ui.setLoading(!1),
-        this.#autoCountryDeferred?.reject();
+        this.#autoCountryDeferred?.reject());
     }
     #handleUtilsLoaded() {
       if (!this.#isActive) {
@@ -2507,10 +2512,10 @@ var n = new Set(t.map((e) => e.iso2)),
       }
       let e = this.#getTelInputValue(),
         t = document.activeElement === this.#ui.telInputEl;
-      e && !t && this.#updateValueFromNumber(e),
+      (e && !t && this.#updateValueFromNumber(e),
         this.#selectedCountry &&
           (this.#updatePlaceholder(), this.#updateMaxCoreNumberLength()),
-        this.#utilsDeferred?.resolve();
+        this.#utilsDeferred?.resolve());
     }
     #handleUtilsFailure(e) {
       if (!this.#isActive) {
@@ -2617,20 +2622,20 @@ var n = new Set(t.map((e) => e.iso2)),
       if (!r(t)) throw Error(`Invalid iso2 code: '${t}'`);
       let n = this.#selectedCountry?.iso2;
       if (!((e && t !== n) || (!e && n))) return;
-      this.#updateSelectedCountry(t),
-        this.#updateDialCode(this.#selectedCountry?.dialCode || ``);
+      (this.#updateSelectedCountry(t),
+        this.#updateDialCode(this.#selectedCountry?.dialCode || ``));
       let i = this.#getTelInputValue();
-      this.#updateValueFromNumber(i),
+      (this.#updateValueFromNumber(i),
         this.#dispatchCountryChangeEvent(),
-        this.#dispatchEvent(a.INPUT, { isCountryChange: !0 });
+        this.#dispatchEvent(a.INPUT, { isCountryChange: !0 }));
     }
     setNumber(e) {
       if (!this.#isActive) return;
       let t = this.#numerals.normalise(e),
         n = this.#updateCountryFromNumber(t);
-      this.#updateValueFromNumber(t),
+      (this.#updateValueFromNumber(t),
         n && this.#dispatchCountryChangeEvent(),
-        this.#dispatchEvent(a.INPUT, { isSetNumber: !0 });
+        this.#dispatchEvent(a.INPUT, { isSetNumber: !0 }));
     }
     setPlaceholderNumberType(e) {
       this.#isActive &&
@@ -2677,7 +2682,7 @@ var n = new Set(t.map((e) => e.iso2)),
         throw TypeError(
           `The loader function passed to attachUtils did not resolve to a module object with utils as its default export.`,
         );
-      return ($.utils = t), Q.forEachInstance(`handleUtilsLoaded`), !0;
+      return (($.utils = t), Q.forEachInstance(`handleUtilsLoaded`), !0);
     } catch (e) {
       throw (Q.forEachInstance(`handleUtilsFailure`, e), e);
     }
@@ -2685,7 +2690,7 @@ var n = new Set(t.map((e) => e.iso2)),
   $ = Object.assign(
     (e, t) => {
       let n = new Q(e, t);
-      return $.instances.set(String(n.id), n), (e.iti = n), n;
+      return ($.instances.set(String(n.id), n), (e.iti = n), n);
     },
     {
       defaults: k,

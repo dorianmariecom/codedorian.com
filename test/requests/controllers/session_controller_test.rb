@@ -33,9 +33,9 @@ class SessionControllerTest < ActionDispatch::IntegrationTest
 
     https!(uri.scheme == "https")
     host!(
-      [uri.host, (uri.port unless uri.port == uri.default_port)]
-        .compact
-        .join(":")
+      [uri.host, (uri.port unless uri.port == uri.default_port)].compact.join(
+        ":"
+      )
     )
   end
 end

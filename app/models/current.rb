@@ -52,6 +52,9 @@ class Current < ActiveSupport::CurrentAttributes
   attribute(:time_zone)
   attribute(:request)
   attribute(:program)
+  attribute(:subscription)
+  attribute(:subscription_execution)
+  attribute(:step_execution)
   attribute(:context, default: -> { {} })
   attribute(:locale)
 

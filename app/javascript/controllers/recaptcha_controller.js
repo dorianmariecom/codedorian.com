@@ -30,10 +30,7 @@ export default class extends Controller {
 
     this._enableInputs();
     this.refresh();
-    this.interval = setInterval(
-      () => this.refresh(),
-      INTERVAL_MILLISECONDS,
-    );
+    this.interval = setInterval(() => this.refresh(), INTERVAL_MILLISECONDS);
   }
 
   disconnect() {
@@ -174,7 +171,9 @@ export default class extends Controller {
   }
 
   _hasFreshToken() {
-    const generatedAt = Number(this.responseTarget.dataset.recaptchaGeneratedAt);
+    const generatedAt = Number(
+      this.responseTarget.dataset.recaptchaGeneratedAt,
+    );
 
     return (
       this._hasToken() &&
@@ -302,10 +301,7 @@ function recaptchaReady() {
 
 function withTimeout(promise, milliseconds, message) {
   return new Promise((resolve, reject) => {
-    const timeout = setTimeout(
-      () => reject(new Error(message)),
-      milliseconds,
-    );
+    const timeout = setTimeout(() => reject(new Error(message)), milliseconds);
 
     promise.then(
       (value) => {

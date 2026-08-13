@@ -25,12 +25,12 @@ import {
 import v from "crelt";
 class SelectedDiagnostic {
   constructor(e, t, n) {
-    (this.from = e), (this.to = t), (this.diagnostic = n);
+    ((this.from = e), (this.to = t), (this.diagnostic = n));
   }
 }
 class LintState {
   constructor(e, t, n) {
-    (this.diagnostics = e), (this.panel = t), (this.selected = n);
+    ((this.diagnostics = e), (this.panel = t), (this.selected = n));
   }
   static init(t, n, r) {
     let i = r.facet(P).markerFilter;
@@ -47,19 +47,19 @@ class LintState {
       if (!n && !s.length) break;
       let r, i;
       if (s.length)
-        (r = c),
+        ((r = c),
           (i = s.reduce(
             (e, t) => Math.min(e, t.to),
             n && n.from > r ? n.from : 1e8,
-          ));
+          )));
       else {
         if (((r = n.from), r > d)) break;
-        (i = n.to), s.push(n), t++;
+        ((i = n.to), s.push(n), t++);
       }
       for (; t < a.length; ) {
         let e = a[t];
         if (e.from == r && (e.to > e.from || e.to == r))
-          s.push(e), t++, (i = Math.min(e.to, i));
+          (s.push(e), t++, (i = Math.min(e.to, i)));
         else {
           i = Math.min(e.from, i);
           break;
@@ -79,7 +79,7 @@ class LintState {
             break;
           }
           if (!l.lineBreak && u + l.value.length > e) break;
-          (e = u + l.value.length), (u += l.value.length), l.next();
+          ((e = u + l.value.length), (u += l.value.length), l.next());
         }
       }
       let p = U(s);
@@ -156,8 +156,8 @@ const C = /* @__PURE__ */ p.define(),
           let i = t.changes.mapPos(e.selected.from, 1);
           r = y(n, e.selected.diagnostic, i) || y(n, null, i);
         }
-        !n.size && i && t.state.facet(P).autoPanel && (i = null),
-          (e = new LintState(n, i, r));
+        (!n.size && i && t.state.facet(P).autoPanel && (i = null),
+          (e = new LintState(n, i, r)));
       }
       for (let n of t.effects)
         if (n.is(C)) {
@@ -196,7 +196,7 @@ function O(e, t, n) {
     o = -1;
   r.between(t - +(n < 0), t + +(n > 0), (e, r, { spec: s }) => {
     if (t >= e && t <= r && (e == r || ((t > e || n > 0) && (t < r || n < 0))))
-      return (i = s.diagnostics), (a = e), (o = r), !1;
+      return ((i = s.diagnostics), (a = e), (o = r), !1);
   });
   let s = e.state.facet(P).tooltipFilter;
   return (
@@ -224,7 +224,7 @@ const A = (e) => {
     let t = e.state.field(E, !1);
     (!t || !t.panel) && e.dispatch({ effects: x(e.state, [w.of(!0)]) });
     let n = r(e, LintPanel.open);
-    return n && n.dom.querySelector(`.cm-panel-lint ul`).focus(), !0;
+    return (n && n.dom.querySelector(`.cm-panel-lint ul`).focus(), !0);
   },
   j = (e) => {
     let t = e.state.field(E, !1);
@@ -264,8 +264,8 @@ const A = (e) => {
       l;
     if (
       (r.diagnostics.between(0, n.doc.length, (e, t) => {
-        t < a.to && (o == null || o < e) && ((o = e), (s = t)),
-          (c == null || e > c) && ((c = e), (l = t));
+        (t < a.to && (o == null || o < e) && ((o = e), (s = t)),
+          (c == null || e > c) && ((c = e), (l = t)));
       }),
       c == null || (o == null && c == a.from))
     )
@@ -291,11 +291,11 @@ const A = (e) => {
   N = /* @__PURE__ */ a.fromClass(
     class {
       constructor(e) {
-        (this.view = e), (this.timeout = -1), (this.set = !0);
+        ((this.view = e), (this.timeout = -1), (this.set = !0));
         let { delay: t } = e.state.facet(P);
-        (this.lintTime = Date.now() + t),
+        ((this.lintTime = Date.now() + t),
           (this.run = this.run.bind(this)),
-          (this.timeout = setTimeout(this.run, t));
+          (this.timeout = setTimeout(this.run, t)));
       }
       run() {
         clearTimeout(this.timeout);
@@ -346,9 +346,9 @@ function re(e, t, n) {
     i = -1;
   for (let a of e)
     a.then((n) => {
-      r.push(n),
+      (r.push(n),
         clearTimeout(i),
-        r.length == e.length ? t(r) : (i = setTimeout(() => t(r), 200));
+        r.length == e.length ? t(r) : (i = setTimeout(() => t(r), 200)));
     }, n);
 }
 const P = /* @__PURE__ */ h.define({
@@ -450,7 +450,7 @@ function R(e, t, n) {
 }
 class DiagnosticWidget extends s {
   constructor(e) {
-    super(), (this.sev = e);
+    (super(), (this.sev = e));
   }
   eq(e) {
     return e.sev == this.sev;
@@ -461,19 +461,19 @@ class DiagnosticWidget extends s {
 }
 class PanelItem {
   constructor(e, t) {
-    (this.diagnostic = t),
+    ((this.diagnostic = t),
       (this.id = `item_` + Math.floor(Math.random() * 4294967295).toString(16)),
       (this.dom = R(e, t, !0)),
       (this.dom.id = this.id),
-      this.dom.setAttribute(`role`, `option`);
+      this.dom.setAttribute(`role`, `option`));
   }
 }
 class LintPanel {
   constructor(e) {
-    (this.view = e), (this.items = []);
+    ((this.view = e), (this.items = []));
     let t = (t) => {
         if (!(t.ctrlKey || t.altKey || t.metaKey)) {
-          if (t.keyCode == 27) j(this.view), this.view.focus();
+          if (t.keyCode == 27) (j(this.view), this.view.focus());
           else if (t.keyCode == 38 || t.keyCode == 33)
             this.moveSelection(
               (this.selectedIndex - 1 + this.items.length) % this.items.length,
@@ -503,7 +503,7 @@ class LintPanel {
         for (let t = 0; t < this.items.length; t++)
           this.items[t].dom.contains(e.target) && this.moveSelection(t);
       };
-    (this.list = v(`ul`, {
+    ((this.list = v(`ul`, {
       tabIndex: 0,
       role: `listbox`,
       "aria-label": this.view.state.phrase(`Diagnostics`),
@@ -525,7 +525,7 @@ class LintPanel {
           `×`,
         ),
       )),
-      this.update();
+      this.update());
   }
   get selectedIndex() {
     let e = this.view.state.field(E).selected;
@@ -552,7 +552,7 @@ class LintPanel {
               o = t;
               break;
             }
-          o < 0
+          (o < 0
             ? ((s = new PanelItem(this.view, e)),
               this.items.splice(n, 0, s),
               (r = !0))
@@ -563,15 +563,14 @@ class LintPanel {
                 (s.dom.setAttribute(`aria-selected`, `true`), (i = s))
               : s.dom.hasAttribute(`aria-selected`) &&
                 s.dom.removeAttribute(`aria-selected`),
-            n++;
+            n++);
         }
       });
       n < this.items.length &&
       !(this.items.length == 1 && this.items[0].diagnostic.from < 0);
-
     )
-      (r = !0), this.items.pop();
-    this.items.length == 0 &&
+      ((r = !0), this.items.pop());
+    (this.items.length == 0 &&
       (this.items.push(
         new PanelItem(this.view, {
           from: -1,
@@ -599,13 +598,13 @@ class LintPanel {
           }))
         : this.selectedIndex < 0 &&
           this.list.removeAttribute(`aria-activedescendant`),
-      r && this.sync();
+      r && this.sync());
   }
   sync() {
     let e = this.list.firstChild;
     function t() {
       let t = e;
-      (e = t.nextSibling), t.remove();
+      ((e = t.nextSibling), t.remove());
     }
     for (let n of this.items)
       if (n.dom.parentNode == this.list) {
@@ -734,7 +733,7 @@ function U(e) {
 }
 class LintGutterMarker extends c {
   constructor(e) {
-    super(), (this.diagnostics = e), (this.severity = U(e));
+    (super(), (this.diagnostics = e), (this.severity = U(e)));
   }
   toDOM(e) {
     let t = document.createElement(`div`);
@@ -761,8 +760,8 @@ function W(e, t) {
     ) {
       for (let e = r.target; e; e = e.parentNode)
         if (e.nodeType == 1 && e.classList.contains(`cm-tooltip-lint`)) return;
-      window.removeEventListener(`mousemove`, n),
-        e.state.field(X) && e.dispatch({ effects: Y.of(null) });
+      (window.removeEventListener(`mousemove`, n),
+        e.state.field(X) && e.dispatch({ effects: Y.of(null) }));
     }
   };
   window.addEventListener(`mousemove`, n);
@@ -772,7 +771,7 @@ function G(e, t, n) {
     let r = e.elementAtHeight(
       t.getBoundingClientRect().top + 5 - e.documentTop,
     );
-    e.coordsAtPos(r.from) &&
+    (e.coordsAtPos(r.from) &&
       e.dispatch({
         effects: Y.of({
           pos: r.from,
@@ -784,16 +783,16 @@ function G(e, t, n) {
         }),
       }),
       (t.onmouseout = t.onmousemove = null),
-      W(e, t);
+      W(e, t));
   }
   let { hoverTime: i } = e.state.facet($),
     a = setTimeout(r, i);
-  (t.onmouseout = () => {
-    clearTimeout(a), (t.onmouseout = t.onmousemove = null);
+  ((t.onmouseout = () => {
+    (clearTimeout(a), (t.onmouseout = t.onmousemove = null));
   }),
     (t.onmousemove = () => {
-      clearTimeout(a), (a = setTimeout(r, i));
-    });
+      (clearTimeout(a), (a = setTimeout(r, i)));
+    }));
 }
 function K(e, t) {
   let n = Object.create(null);
@@ -828,7 +827,7 @@ const q = /* @__PURE__ */ l({
       for (let r of t.effects)
         if (r.is(C)) {
           let i = r.value;
-          n && (i = n(i || [], t.state)), (e = K(t.state.doc, i.slice(0)));
+          (n && (i = n(i || [], t.state)), (e = K(t.state.doc, i.slice(0))));
         }
       return e;
     },

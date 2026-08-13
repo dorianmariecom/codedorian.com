@@ -3,7 +3,13 @@
 class Page < ApplicationRecord
   belongs_to(:user, default: -> { Current.user! }, touch: true)
   belongs_to(:parent, class_name: "Page", optional: true, touch: true)
-  has_many(:children, class_name: "Page", foreign_key: :parent_id, dependent: :destroy)
+  has_many(
+    :children,
+    class_name: "Page",
+    foreign_key: :parent_id,
+    inverse_of: :parent,
+    dependent: :destroy
+  )
 
   has_rich_text(:title_en)
   has_rich_text(:title_fr)

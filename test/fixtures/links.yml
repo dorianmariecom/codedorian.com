@@ -1,16 +1,15 @@
 ---
 link:
   kind: navigation
-  verb: get
   path_input: '"/"'
+  position: 0
   title_en: home
   title_fr: accueil
-  position: 0
-
+  verb: get
 login:
   kind: navigation
-  verb: get
   path_input: '"/session/new"'
+  position: 1
   title_en: log in
   title_fr: se connecter
-  position: 1
+  verb: get

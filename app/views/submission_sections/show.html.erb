@@ -78,7 +78,7 @@
 <div class="p font-bold">
   <%= link_to(
     t(".submission_programs"),
-    [*nested, @submission_section, :submission_programs],
+    { controller: :submission_programs, action: :index, submission_section_id: @submission_section&.id },
     class: :link
   ) %>
 </div>
@@ -87,7 +87,7 @@
   <div class="p">
     <%= link_to(
       t(".new_submission_program"),
-      [:new, *nested, @submission_section, :submission_program],
+      { controller: :submission_programs, action: :new, submission_section_id: @submission_section&.id },
       class: "button"
     ) %>
   </div>
@@ -105,7 +105,7 @@
 <div class="p font-bold">
   <%= link_to(
     t(".submission_schedules"),
-    [*nested, @submission_section, :submission_schedules],
+    { controller: :submission_schedules, action: :index, submission_section_id: @submission_section&.id },
     class: :link
   ) %>
 </div>
@@ -114,7 +114,7 @@
   <div class="p">
     <%= link_to(
       t(".new_submission_schedule"),
-      [:new, *nested, @submission_section, :submission_schedule],
+      { controller: :submission_schedules, action: :new, submission_section_id: @submission_section&.id },
       class: "button"
     ) %>
   </div>
@@ -132,7 +132,7 @@
 <div class="p font-bold">
   <%= link_to(
     t(".submission_deliveries"),
-    [*nested, @submission_section, :submission_deliveries],
+    { controller: :submission_deliveries, action: :index, submission_section_id: @submission_section&.id },
     class: :link
   ) %>
 </div>
@@ -141,7 +141,7 @@
   <div class="p">
     <%= link_to(
       t(".new_submission_delivery"),
-      [:new, *nested, @submission_section, :submission_delivery],
+      { controller: :submission_deliveries, action: :new, submission_section_id: @submission_section&.id },
       class: "button"
     ) %>
   </div>
@@ -158,14 +158,14 @@
 
 <% if can?(:index, Version) %>
   <div class="p font-bold">
-    <%= link_to(t(".versions"), [*nested, @submission_section, :versions], class: :link) %>
+    <%= link_to(t(".versions"), { controller: :versions, action: :index, submission_section_id: @submission_section&.id }, class: :link) %>
   </div>
 
   <% if can?(:create, Version) %>
     <div class="p">
       <%= link_to(
         t(".new_version"),
-        [:new, *nested, @submission_section, :version],
+        { controller: :versions, action: :new, submission_section_id: @submission_section&.id },
         class: "button"
       ) %>
     </div>
@@ -183,14 +183,14 @@
 
 <% if can?(:index, Log) %>
   <div class="p font-bold">
-    <%= link_to(t(".logs"), [*nested, @submission_section, :logs], class: :link) %>
+    <%= link_to(t(".logs"), { controller: :logs, action: :index, submission_section_id: @submission_section&.id }, class: :link) %>
   </div>
 
   <% if can?(:create, Log) %>
     <div class="p">
       <%= link_to(
         t(".new_log"),
-        [:new, *nested, @submission_section, :log],
+        { controller: :logs, action: :new, submission_section_id: @submission_section&.id },
         class: "button"
       ) %>
     </div>

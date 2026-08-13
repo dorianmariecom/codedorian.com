@@ -7,7 +7,8 @@ class LinksController < ApplicationController
   def index
     authorize(Link)
 
-    @links = scope.page(params[:page]).order(kind: :asc, position: :asc, id: :asc)
+    @links =
+      scope.page(params[:page]).order(kind: :asc, position: :asc, id: :asc)
   end
 
   def show
@@ -113,6 +114,23 @@ class LinksController < ApplicationController
   end
 
   def link_params
-    admin? ? params.expect(link: %i[kind verb title_en title_fr path_input visibility_input image_ios image_android position default]) : {}
+    if admin?
+      params.expect(
+        link: %i[
+          kind
+          verb
+          title_en
+          title_fr
+          path_input
+          visibility_input
+          image_ios
+          image_android
+          position
+          default
+        ]
+      )
+    else
+      {}
+    end
   end
 end

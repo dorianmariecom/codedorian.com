@@ -83,7 +83,7 @@ function fe(e, t) {
 const pe = /* @__PURE__ */ Object.create(null);
 function me(e, t, n) {
   if (e == t) return !0;
-  e || (e = pe), t || (t = pe);
+  (e || (e = pe), t || (t = pe));
   let r = Object.keys(e),
     i = Object.keys(t);
   if (
@@ -170,11 +170,11 @@ var E = /* @__PURE__ */ (function (e) {
 })(E || (E = {}));
 class Decoration extends e {
   constructor(e, t, n, r) {
-    super(),
+    (super(),
       (this.startSide = e),
       (this.endSide = t),
       (this.widget = n),
-      (this.spec = r);
+      (this.spec = r));
   }
   get heightRelevant() {
     return !1;
@@ -194,11 +194,11 @@ class Decoration extends e {
     let t = !!e.block,
       n,
       r;
-    if (e.isBlockGap) (n = -5e8), (r = 4e8);
+    if (e.isBlockGap) ((n = -5e8), (r = 4e8));
     else {
       let { start: i, end: a } = ve(e, t);
-      (n = (i ? (t ? -3e8 : -1) : 5e8) - 1),
-        (r = (a ? (t ? 2e8 : 1) : -6e8) + 1);
+      ((n = (i ? (t ? -3e8 : -1) : 5e8) - 1),
+        (r = (a ? (t ? 2e8 : 1) : -6e8) + 1));
     }
     return new PointDecoration(e, n, r, t, e.widget || null, !0);
   }
@@ -216,14 +216,14 @@ Decoration.none = t.empty;
 class MarkDecoration extends Decoration {
   constructor(e) {
     let { start: t, end: n } = ve(e);
-    super(t ? -1 : 5e8, n ? 1 : -6e8, null, e),
+    (super(t ? -1 : 5e8, n ? 1 : -6e8, null, e),
       (this.tagName = e.tagName || `span`),
       (this.attrs =
         e.class && e.attributes
           ? fe(e.attributes, { class: e.class })
           : e.class
             ? { class: e.class }
-            : e.attributes || pe);
+            : e.attributes || pe));
   }
   eq(e) {
     return (
@@ -255,14 +255,18 @@ class LineDecoration extends Decoration {
     return super.range(e, t);
   }
 }
-(LineDecoration.prototype.mapMode = n.TrackBefore),
-  (LineDecoration.prototype.point = !0);
+((LineDecoration.prototype.mapMode = n.TrackBefore),
+  (LineDecoration.prototype.point = !0));
 class PointDecoration extends Decoration {
   constructor(e, t, r, i, a, o) {
-    super(t, r, a, e),
+    (super(t, r, a, e),
       (this.block = i),
       (this.isReplace = o),
-      (this.mapMode = i ? (t <= 0 ? n.TrackBefore : n.TrackAfter) : n.TrackDel);
+      (this.mapMode = i
+        ? t <= 0
+          ? n.TrackBefore
+          : n.TrackAfter
+        : n.TrackDel));
   }
   get type() {
     return this.startSide == this.endSide
@@ -316,7 +320,7 @@ function D(e, t, n, r = 0) {
 }
 class BlockWrapper extends e {
   constructor(e, t, n) {
-    super(), (this.tagName = e), (this.attributes = t), (this.rank = n);
+    (super(), (this.tagName = e), (this.attributes = t), (this.rank = n));
   }
   eq(e) {
     return (
@@ -382,7 +386,7 @@ function Ce(e, t, n, r, i) {
       if (e.nodeName == `DIV`) return !1;
       let n = e.parentNode;
       if (!n || n.nodeType != 1) return !1;
-      (t = j(e) + (i < 0 ? 0 : 1)), (e = n);
+      ((t = j(e) + (i < 0 ? 0 : 1)), (e = n));
     } else if (e.nodeType == 1) {
       if (
         ((e = e.childNodes[t + (i < 0 ? -1 : 0)]),
@@ -440,13 +444,13 @@ function Ee(e, t, n, r, i, a, o, s) {
           continue;
         }
         let t = u.getBoundingClientRect();
-        ({ scaleX: p, scaleY: m } = Te(u, t)),
+        (({ scaleX: p, scaleY: m } = Te(u, t)),
           (e = {
             left: t.left,
             right: t.left + u.clientWidth * p,
             top: t.top,
             bottom: t.top + u.clientHeight * m,
-          });
+          }));
       }
       let h = 0,
         g = 0;
@@ -489,23 +493,23 @@ function Ee(e, t, n, r, i, a, o, s) {
             n = 0;
           if (g) {
             let e = u.scrollTop;
-            (u.scrollTop += g / m), (n = (u.scrollTop - e) * m);
+            ((u.scrollTop += g / m), (n = (u.scrollTop - e) * m));
           }
           if (h) {
             let t = u.scrollLeft;
-            (u.scrollLeft += h / p), (e = (u.scrollLeft - t) * p);
+            ((u.scrollLeft += h / p), (e = (u.scrollLeft - t) * p));
           }
-          (t = {
+          ((t = {
             left: t.left - e,
             top: t.top - n,
             right: t.right - e,
             bottom: t.bottom - n,
           }),
             e && Math.abs(e - h) < 1 && (r = `nearest`),
-            n && Math.abs(n - g) < 1 && (i = `nearest`);
+            n && Math.abs(n - g) < 1 && (i = `nearest`));
         }
       if (f) break;
-      (t.top < e.top ||
+      ((t.top < e.top ||
         t.bottom > e.bottom ||
         t.left < e.left ||
         t.right > e.right) &&
@@ -515,7 +519,7 @@ function Ee(e, t, n, r, i, a, o, s) {
           top: Math.max(t.top, e.top),
           bottom: Math.min(t.bottom, e.bottom),
         }),
-        (u = u.assignedSlot || u.parentNode);
+        (u = u.assignedSlot || u.parentNode));
     } else if (u.nodeType == 11) u = u.host;
     else break;
 }
@@ -525,19 +529,19 @@ function De(e, t = !0) {
     i = null;
   for (let a = e.parentNode; a && !(a == n.body || ((!t || r) && i)); )
     if (a.nodeType == 1)
-      !i && a.scrollHeight > a.clientHeight && (i = a),
+      (!i && a.scrollHeight > a.clientHeight && (i = a),
         t && !r && a.scrollWidth > a.clientWidth && (r = a),
-        (a = a.assignedSlot || a.parentNode);
+        (a = a.assignedSlot || a.parentNode));
     else if (a.nodeType == 11) a = a.host;
     else break;
   return { x: r, y: i };
 }
 class DOMSelectionState {
   constructor() {
-    (this.anchorNode = null),
+    ((this.anchorNode = null),
       (this.anchorOffset = 0),
       (this.focusNode = null),
-      (this.focusOffset = 0);
+      (this.focusOffset = 0));
   }
   eq(e) {
     return (
@@ -557,10 +561,10 @@ class DOMSelectionState {
     );
   }
   set(e, t, n, r) {
-    (this.anchorNode = e),
+    ((this.anchorNode = e),
       (this.anchorOffset = t),
       (this.focusNode = n),
-      (this.focusOffset = r);
+      (this.focusOffset = r));
   }
 }
 let P = null;
@@ -579,7 +583,7 @@ function Oe(e) {
       P == null
         ? {
             get preventScroll() {
-              return (P = { preventScroll: !0 }), !0;
+              return ((P = { preventScroll: !0 }), !0);
             },
           }
         : void 0,
@@ -591,15 +595,15 @@ function Oe(e) {
       let n = t[e++],
         r = t[e++],
         i = t[e++];
-      n.scrollTop != r && (n.scrollTop = r),
-        n.scrollLeft != i && (n.scrollLeft = i);
+      (n.scrollTop != r && (n.scrollTop = r),
+        n.scrollLeft != i && (n.scrollLeft = i));
     }
   }
 }
 let ke;
 function F(e, t, n = t) {
   let r = ke || (ke = document.createRange());
-  return r.setEnd(e, n), r.setStart(e, t), r;
+  return (r.setEnd(e, n), r.setStart(e, t), r);
 }
 function I(e, t, n, r) {
   let i = { key: t, code: t, keyCode: n, which: n, cancelable: !0 };
@@ -611,7 +615,7 @@ function I(e, t, n, r) {
       metaKey: i.metaKey,
     } = r);
   let a = new KeyboardEvent(`keydown`, i);
-  (a.synthetic = !0), e.dispatchEvent(a);
+  ((a.synthetic = !0), e.dispatchEvent(a));
   let o = new KeyboardEvent(`keyup`, i);
   return (
     (o.synthetic = !0),
@@ -636,7 +640,7 @@ function je(e, t) {
       let e = n.childNodes[r - 1];
       e.contentEditable == `false` ? r-- : ((n = e), (r = M(n)));
     } else if (n == e) return !0;
-    else (r = j(n)), (n = n.parentNode);
+    else ((r = j(n)), (n = n.parentNode));
 }
 function Me(e) {
   return e instanceof Window
@@ -649,8 +653,8 @@ function Ne(e, t) {
     if (n.nodeType == 3 && r > 0) return { node: n, offset: r };
     if (n.nodeType == 1 && r > 0) {
       if (n.contentEditable == `false`) return null;
-      (n = n.childNodes[r - 1]), (r = M(n));
-    } else if (n.parentNode && !Se(n)) (r = j(n)), (n = n.parentNode);
+      ((n = n.childNodes[r - 1]), (r = M(n)));
+    } else if (n.parentNode && !Se(n)) ((r = j(n)), (n = n.parentNode));
     else return null;
   }
 }
@@ -660,14 +664,14 @@ function Pe(e, t) {
       return { node: n, offset: r };
     if (n.nodeType == 1 && r < n.childNodes.length) {
       if (n.contentEditable == `false`) return null;
-      (n = n.childNodes[r]), (r = 0);
-    } else if (n.parentNode && !Se(n)) (r = j(n) + 1), (n = n.parentNode);
+      ((n = n.childNodes[r]), (r = 0));
+    } else if (n.parentNode && !Se(n)) ((r = j(n) + 1), (n = n.parentNode));
     else return null;
   }
 }
 class DOMPos {
   constructor(e, t, n = !0) {
-    (this.node = e), (this.offset = t), (this.precise = n);
+    ((this.node = e), (this.offset = t), (this.precise = n));
   }
   static before(e, t) {
     return new DOMPos(e.parentNode, j(e), t);
@@ -677,7 +681,7 @@ class DOMPos {
   }
 }
 var L = /* @__PURE__ */ (function (e) {
-  return (e[(e.LTR = 0)] = `LTR`), (e[(e.RTL = 1)] = `RTL`), e;
+  return ((e[(e.LTR = 0)] = `LTR`), (e[(e.RTL = 1)] = `RTL`), e);
 })(L || (L = {}));
 const R = L.LTR,
   Fe = L.RTL;
@@ -697,7 +701,7 @@ const Le = /* @__PURE__ */ Ie(
 for (let e of [`()`, `[]`, `{}`]) {
   let t = /* @__PURE__ */ e.charCodeAt(0),
     n = /* @__PURE__ */ e.charCodeAt(1);
-  (ze[t] = n), (ze[n] = -t);
+  ((ze[t] = n), (ze[n] = -t));
 }
 function Be(e) {
   return e <= 247
@@ -720,7 +724,7 @@ class BidiSpan {
     return this.level % 2 ? Fe : R;
   }
   constructor(e, t, n) {
-    (this.from = e), (this.to = t), (this.level = n);
+    ((this.from = e), (this.to = t), (this.level = n));
   }
   side(e, t) {
     return (this.dir == t) == e ? this.to : this.from;
@@ -766,10 +770,10 @@ function Ue(e, t, n, r, i) {
       c = a ? 256 : i;
     for (let t = o, n = c, r = c; t < s; t++) {
       let i = Be(e.charCodeAt(t));
-      i == 512 ? (i = n) : i == 8 && r == 4 && (i = 16),
+      (i == 512 ? (i = n) : i == 8 && r == 4 && (i = 16),
         (B[t] = i == 4 ? 2 : i),
         i & 7 && (r = i),
-        (n = i);
+        (n = i));
     }
     for (let e = o, t = c, r = c; e < s; e++) {
       let i = B[e];
@@ -782,7 +786,7 @@ function Ue(e, t, n, r, i) {
         for (let t = e; t < i; t++) B[t] = a;
         e = i - 1;
       } else i == 8 && r == 1 && (B[e] = 1);
-      (t = i), i & 7 && (r = i);
+      ((t = i), i & 7 && (r = i));
     }
   }
 }
@@ -798,11 +802,11 @@ function We(e, t, n, r, i) {
             if (z[e + 1] == -r) {
               let n = z[e + 2],
                 r = n & 2 ? i : n & 4 ? (n & 1 ? a : i) : 0;
-              r && (B[t] = B[z[e]] = r), (s = e);
+              (r && (B[t] = B[z[e]] = r), (s = e));
               break;
             }
         } else if (z.length == 189) break;
-        else (z[s++] = t), (z[s++] = n), (z[s++] = c);
+        else ((z[s++] = t), (z[s++] = n), (z[s++] = c));
       else if ((o = B[t]) == 2 || o == 1) {
         let e = o == i;
         c = +!e;
@@ -829,16 +833,16 @@ function Ge(e, t, n, r) {
         for (;;)
           if (o == s) {
             if (i == n.length) break;
-            (o = n[i++].to), (s = i < n.length ? n[i].from : t);
+            ((o = n[i++].to), (s = i < n.length ? n[i].from : t));
           } else if (B[o] == 256) o++;
           else break;
         let l = a == 1,
           u = l == ((o < t ? B[o] : r) == 1) ? (l ? 1 : 2) : r;
         for (let t = o, r = i, a = r ? n[r - 1].to : e; t > c; )
-          t == a && ((t = n[--r].from), (a = r ? n[r - 1].to : e)),
-            (B[--t] = u);
+          (t == a && ((t = n[--r].from), (a = r ? n[r - 1].to : e)),
+            (B[--t] = u));
         c = o;
-      } else (a = o), c++;
+      } else ((a = o), c++);
     }
   }
 }
@@ -866,7 +870,7 @@ function Ke(e, t, n, r, i, a, o) {
               else if (B[e] == s) break run;
               else break;
             }
-          l++,
+          (l++,
             d
               ? d.push(m)
               : (m.from > c && o.push(new BidiSpan(c, m.from, f)),
@@ -880,11 +884,11 @@ function Ke(e, t, n, r, i, a, o) {
                   o,
                 ),
                 (c = m.to)),
-            (p = m.to);
+            (p = m.to));
         } else if (p == n || (t ? B[p] != s : B[p] == s)) break;
         else p++;
-      d ? Ke(e, c, p, r + 1, i, d, o) : c < p && o.push(new BidiSpan(c, p, f)),
-        (c = p);
+      (d ? Ke(e, c, p, r + 1, i, d, o) : c < p && o.push(new BidiSpan(c, p, f)),
+        (c = p));
     }
   else
     for (let c = n, l = a.length; c > t; ) {
@@ -908,7 +912,7 @@ function Ke(e, t, n, r, i, a, o) {
               else if (B[e - 1] == s) break run;
               else break;
             }
-          d
+          (d
             ? d.push(m)
             : (m.to < c && o.push(new BidiSpan(m.to, c, f)),
               qe(
@@ -921,16 +925,19 @@ function Ke(e, t, n, r, i, a, o) {
                 o,
               ),
               (c = m.from)),
-            (p = m.from);
+            (p = m.from));
         } else if (p == t || (n ? B[p - 1] != s : B[p - 1] == s)) break;
         else p--;
-      d ? Ke(e, p, c, r + 1, i, d, o) : p < c && o.push(new BidiSpan(p, c, f)),
-        (c = p);
+      (d ? Ke(e, p, c, r + 1, i, d, o) : p < c && o.push(new BidiSpan(p, c, f)),
+        (c = p));
     }
 }
 function qe(e, t, n, r, i, a, o) {
   let s = t % 2 ? 2 : 1;
-  Ue(e, i, a, r, s), We(e, i, a, r, s), Ge(i, a, r, s), Ke(e, i, a, t, n, r, o);
+  (Ue(e, i, a, r, s),
+    We(e, i, a, r, s),
+    Ge(i, a, r, s),
+    Ke(e, i, a, t, n, r, o));
 }
 function Je(e, t, n) {
   if (!e) return [new BidiSpan(0, 0, +(t == Fe))];
@@ -938,7 +945,7 @@ function Je(e, t, n) {
   if (n.length) for (; e.length > B.length; ) B[B.length] = 256;
   let r = [],
     i = t == R ? 0 : 1;
-  return qe(e, i, i, n, 0, e.length, r), r;
+  return (qe(e, i, i, n, 0, e.length, r), r);
 }
 function Ye(e) {
   return [new BidiSpan(0, e, 0)];
@@ -953,11 +960,11 @@ function Ze(e, t, n, a, o) {
   if (c == d) {
     let e = (l += o ? 1 : -1);
     if (e < 0 || e >= t.length) return null;
-    (u = t[(l = e)]), (c = u.side(!o, n)), (d = u.side(o, n));
+    ((u = t[(l = e)]), (c = u.side(!o, n)), (d = u.side(o, n)));
   }
   let f = r(e.text, c, u.forward(o, n));
-  (f < u.from || f > u.to) && (f = d),
-    (Xe = e.text.slice(Math.min(c, f), Math.max(c, f)));
+  ((f < u.from || f > u.to) && (f = d),
+    (Xe = e.text.slice(Math.min(c, f), Math.max(c, f))));
   let p = l == (o ? t.length - 1 : 0) ? null : t[l + (o ? 1 : -1)];
   return p && f == d && p.level + +!o < u.level
     ? i.cursor(p.side(!o, n) + e.from, p.forward(o, n) ? 1 : -1, p.level)
@@ -985,12 +992,12 @@ const $e = /* @__PURE__ */ a.define(),
   ut = /* @__PURE__ */ a.define();
 class ScrollTarget {
   constructor(e, t, n, r, i, a = !1) {
-    (this.range = e),
+    ((this.range = e),
       (this.y = t),
       (this.x = n),
       (this.yMargin = r),
       (this.xMargin = i),
-      (this.isSnapshot = a);
+      (this.isSnapshot = a));
   }
   map(e) {
     return e.empty
@@ -1038,14 +1045,14 @@ const U = /* @__PURE__ */ a.define({
 });
 class ViewPlugin {
   constructor(e, t, n, r, i) {
-    (this.id = e),
+    ((this.id = e),
       (this.create = t),
       (this.domEventHandlers = n),
       (this.domEventObservers = r),
       (this.baseExtensions = i(this)),
       (this.extension = this.baseExtensions.concat(
         U.of({ plugin: this, arg: void 0 }),
-      ));
+      )));
   }
   of(e) {
     return this.baseExtensions.concat(U.of({ plugin: this, arg: e }));
@@ -1078,7 +1085,7 @@ class ViewPlugin {
 }
 class PluginInstance {
   constructor(e) {
-    (this.spec = e), (this.mustUpdate = null), (this.value = null);
+    ((this.spec = e), (this.mustUpdate = null), (this.value = null));
   }
   get plugin() {
     return this.spec && this.spec.plugin;
@@ -1089,7 +1096,7 @@ class PluginInstance {
         try {
           this.value = this.spec.plugin.create(e, this.spec.arg);
         } catch (t) {
-          V(e.state, t, `CodeMirror plugin crashed`), this.deactivate();
+          (V(e.state, t, `CodeMirror plugin crashed`), this.deactivate());
         }
     } else if (this.mustUpdate) {
       let e = this.mustUpdate;
@@ -1148,10 +1155,10 @@ function bt(e, n) {
               (a = c[c.length - 1]).to == o &&
               a.direction == t)
           )
-            (a.to = s), (c = a.inner);
+            ((a.to = s), (c = a.inner));
           else {
             let e = { from: o, to: s, direction: t, inner: [] };
-            c.push(e), (c = e.inner);
+            (c.push(e), (c = e.inner));
           }
         }
       },
@@ -1178,7 +1185,7 @@ function St(e) {
 const G = /* @__PURE__ */ a.define();
 class ChangedRange {
   constructor(e, t, n, r) {
-    (this.fromA = e), (this.toA = t), (this.fromB = n), (this.toB = r);
+    ((this.fromA = e), (this.toA = t), (this.fromB = n), (this.toB = r));
   }
   join(e) {
     return new ChangedRange(
@@ -1195,10 +1202,10 @@ class ChangedRange {
       let r = e[t - 1];
       if (!(r.fromA > n.toA)) {
         if (r.toA < n.fromA) break;
-        (n = n.join(r)), e.splice(t - 1, 1);
+        ((n = n.join(r)), e.splice(t - 1, 1));
       }
     }
-    return e.splice(t, 0, n), e;
+    return (e.splice(t, 0, n), e);
   }
   static extendWithRanges(e, t) {
     if (t.length == 0) return e;
@@ -1214,15 +1221,15 @@ class ChangedRange {
       for (;;)
         if (i < t.length && t[i] <= u) {
           let n = t[i + 1];
-          (i += 2), (u = Math.max(u, n));
+          ((i += 2), (u = Math.max(u, n)));
           for (let t = r; t < e.length && e[t].fromB <= u; t++)
             a = e[t].toA - e[t].toB;
           d = Math.max(d, n + a);
         } else if (r < e.length && e[r].fromB <= u) {
           let t = e[r++];
-          (u = Math.max(u, t.toB)),
+          ((u = Math.max(u, t.toB)),
             (d = Math.max(d, t.toA)),
-            (a = t.toA - t.toB);
+            (a = t.toA - t.toB));
         } else break;
       n.push(new ChangedRange(l, d, c, u));
     }
@@ -1231,18 +1238,18 @@ class ChangedRange {
 }
 class ViewUpdate {
   constructor(e, t, n) {
-    (this.view = e),
+    ((this.view = e),
       (this.state = t),
       (this.transactions = n),
       (this.flags = 0),
       (this.startState = e.state),
-      (this.changes = s.empty(this.startState.doc.length));
+      (this.changes = s.empty(this.startState.doc.length)));
     for (let e of n) this.changes = this.changes.compose(e.changes);
     let r = [];
-    this.changes.iterChangedRanges((e, t, n, i) =>
+    (this.changes.iterChangedRanges((e, t, n, i) =>
       r.push(new ChangedRange(e, t, n, i)),
     ),
-      (this.changedRanges = r);
+      (this.changedRanges = r));
   }
   static create(e, t, n) {
     return new ViewUpdate(e, t, n);
@@ -1275,11 +1282,11 @@ class ViewUpdate {
 const Ct = [];
 class Tile {
   constructor(e, t, n = 0) {
-    (this.dom = e),
+    ((this.dom = e),
       (this.length = t),
       (this.flags = n),
       (this.parent = null),
-      (e.cmTile = this);
+      (e.cmTile = this));
   }
   get breakAfter() {
     return this.flags & 1;
@@ -1326,7 +1333,7 @@ class Tile {
     this.parent = null;
   }
   setDOM(e) {
-    (this.dom = e), (e.cmTile = this);
+    ((this.dom = e), (e.cmTile = this));
   }
   get posAtStart() {
     return this.parent ? this.parent.posBefore(this) : 0;
@@ -1357,9 +1364,9 @@ class Tile {
     return new DOMPos(this.parent.dom, n + +!!r, e == 0 || e == this.length);
   }
   markDirty(e) {
-    (this.flags &= -3),
+    ((this.flags &= -3),
       e && (this.flags |= 4),
-      this.parent && this.parent.flags & 2 && this.parent.markDirty(!1);
+      this.parent && this.parent.flags & 2 && this.parent.markDirty(!1));
   }
   get overrideDOMText() {
     return null;
@@ -1374,7 +1381,7 @@ class Tile {
 }
 class CompositeTile extends Tile {
   constructor(e) {
-    super(e, 0), (this._children = []);
+    (super(e, 0), (this._children = []));
   }
   isComposite() {
     return !0;
@@ -1388,7 +1395,7 @@ class CompositeTile extends Tile {
       : null;
   }
   append(e) {
-    this.children.push(e), (e.parent = this);
+    (this.children.push(e), (e.parent = this));
   }
   sync(e) {
     if (this.flags & 2) return;
@@ -1417,11 +1424,11 @@ class CompositeTile extends Tile {
 }
 function wt(e) {
   let t = e.nextSibling;
-  return e.parentNode.removeChild(e), t;
+  return (e.parentNode.removeChild(e), t);
 }
 class DocTile extends CompositeTile {
   constructor(e, t) {
-    super(t), (this.view = e);
+    (super(t), (this.view = e));
   }
   owns(e) {
     for (; e; e = e.parent) if (e == this) return !0;
@@ -1442,10 +1449,10 @@ class DocTile extends CompositeTile {
     for (let t = [], n = this, r = 0, i = 0; ; )
       if (r == n.children.length) {
         if (!t.length) return;
-        (n = n.parent), n.breakAfter && i++, (r = t.pop());
+        ((n = n.parent), n.breakAfter && i++, (r = t.pop()));
       } else {
         let a = n.children[r++];
-        if (a instanceof BlockWrapperTile) t.push(r), (n = a), (r = 0);
+        if (a instanceof BlockWrapperTile) (t.push(r), (n = a), (r = 0));
         else {
           let t = i + a.length,
             n = e(a, i);
@@ -1467,12 +1474,12 @@ class DocTile extends CompositeTile {
             if (o.flags & 32) return !0;
             o.flags & 16 && (n = void 0);
           }
-          (s < e || (e == c && (t < -1 ? o.length : o.covers(1)))) &&
+          ((s < e || (e == c && (t < -1 ? o.length : o.covers(1)))) &&
             (!n || (!o.isWidget() && n.isWidget())) &&
             ((n = o), (r = e - s)),
             (c > e || (e == s && (t > 1 ? o.length : o.covers(-1)))) &&
               (!i || (!o.isWidget() && i.isWidget())) &&
-              ((i = o), (a = e - s));
+              ((i = o), (a = e - s)));
         }
       }),
       !n && !i)
@@ -1483,7 +1490,7 @@ class DocTile extends CompositeTile {
 }
 class BlockWrapperTile extends CompositeTile {
   constructor(e, t) {
-    super(e), (this.wrapper = t);
+    (super(e), (this.wrapper = t));
   }
   isBlock() {
     return !0;
@@ -1500,19 +1507,19 @@ class BlockWrapperTile extends CompositeTile {
   }
   static of(e, t) {
     let n = new BlockWrapperTile(t || document.createElement(e.tagName), e);
-    return t || (n.flags |= 4), n;
+    return (t || (n.flags |= 4), n);
   }
 }
 class LineTile extends CompositeTile {
   constructor(e, t) {
-    super(e), (this.attrs = t);
+    (super(e), (this.attrs = t));
   }
   isLine() {
     return !0;
   }
   static start(e, t, n) {
     let r = new LineTile(t || document.createElement(`div`), e);
-    return (!t || !n) && (r.flags |= 4), r;
+    return ((!t || !n) && (r.flags |= 4), r);
   }
   get domAttrs() {
     return this.attrs;
@@ -1526,7 +1533,7 @@ class LineTile extends CompositeTile {
       for (let l = 0, u = 0; l < e.children.length && u <= c; l++) {
         let d = e.children[l],
           f = u + d.length;
-        f >= c &&
+        (f >= c &&
           (d.isComposite()
             ? s(d, c - u)
             : (!a || (a.isHidden && (t > 0 || (n && Et(a, d))))) &&
@@ -1534,7 +1541,7 @@ class LineTile extends CompositeTile {
               ? ((a = d), (o = c - u))
               : (u < c || (d.flags & 16 && !d.isHidden)) &&
                 ((r = d), (i = c - u))),
-          (u = f);
+          (u = f));
       }
     }
     s(this, e);
@@ -1576,19 +1583,19 @@ function Et(e, t) {
 }
 class MarkTile extends CompositeTile {
   constructor(e, t) {
-    super(e), (this.mark = t);
+    (super(e), (this.mark = t));
   }
   get domAttrs() {
     return this.mark.attrs;
   }
   static of(e, t) {
     let n = new MarkTile(t || document.createElement(e.tagName), e);
-    return t || (n.flags |= 4), n;
+    return (t || (n.flags |= 4), n);
   }
 }
 class TextTile extends Tile {
   constructor(e, t) {
-    super(e, t.length), (this.text = t);
+    (super(e, t.length), (this.text = t));
   }
   sync(e) {
     this.flags & 2 ||
@@ -1627,12 +1634,12 @@ class TextTile extends Tile {
   }
   static of(e, t) {
     let n = new TextTile(t || document.createTextNode(e), e);
-    return t || (n.flags |= 2), n;
+    return (t || (n.flags |= 2), n);
   }
 }
 class WidgetTile extends Tile {
   constructor(e, t, n, r) {
-    super(e, t, r), (this.widget = n);
+    (super(e, t, r), (this.widget = n));
   }
   isWidget() {
     return !0;
@@ -1672,7 +1679,7 @@ class WidgetTile extends Tile {
     return e.view.state.doc.slice(t, t + this.length);
   }
   destroy() {
-    super.destroy(), this.widget.destroy(this.dom);
+    (super.destroy(), this.widget.destroy(this.dom));
   }
   static of(e, t, n, r, i) {
     return (
@@ -1684,9 +1691,9 @@ class WidgetTile extends Tile {
 class WidgetBufferTile extends Tile {
   constructor(e) {
     let t = document.createElement(`img`);
-    (t.className = `cm-widgetBuffer`),
+    ((t.className = `cm-widgetBuffer`),
       t.setAttribute(`aria-hidden`, `true`),
-      super(t, 0, e);
+      super(t, 0, e));
   }
   get isHidden() {
     return !0;
@@ -1700,30 +1707,30 @@ class WidgetBufferTile extends Tile {
 }
 class TilePointer {
   constructor(e) {
-    (this.index = 0),
+    ((this.index = 0),
       (this.beforeBreak = !1),
       (this.parents = []),
-      (this.tile = e);
+      (this.tile = e));
   }
   advance(e, t, n) {
     let { tile: r, index: i, beforeBreak: a, parents: o } = this;
     for (; e || t > 0; )
       if (!r.isComposite())
         if (i == r.length)
-          (a = !!r.breakAfter), ({ tile: r, index: i } = o.pop()), i++;
+          ((a = !!r.breakAfter), ({ tile: r, index: i } = o.pop()), i++);
         else if (e) {
           let t = Math.min(e, r.length - i);
-          n && n.skip(r, i, i + t), (e -= t), (i += t);
+          (n && n.skip(r, i, i + t), (e -= t), (i += t));
         } else break;
       else if (a) {
         if (!e) break;
-        n && n.break(), e--, (a = !1);
+        (n && n.break(), e--, (a = !1));
       } else if (i == r.children.length) {
         if (!e && !o.length) break;
-        n && n.leave(r),
+        (n && n.leave(r),
           (a = !!r.breakAfter),
           ({ tile: r, index: i } = o.pop()),
-          i++;
+          i++);
       } else {
         let s = r.children[i],
           c = s.breakAfter;
@@ -1735,7 +1742,7 @@ class TilePointer {
             (i = 0),
             n && s.isComposite() && n.enter(s));
       }
-    return (this.tile = r), (this.index = i), (this.beforeBreak = a), this;
+    return ((this.tile = r), (this.index = i), (this.beforeBreak = a), this);
   }
   get root() {
     return this.parents.length ? this.parents[0].tile : this.tile;
@@ -1743,12 +1750,12 @@ class TilePointer {
 }
 class OpenWrapper {
   constructor(e, t, n, r) {
-    (this.from = e), (this.to = t), (this.wrapper = n), (this.rank = r);
+    ((this.from = e), (this.to = t), (this.wrapper = n), (this.rank = r));
   }
 }
 class TileBuilder {
   constructor(e, t, n) {
-    (this.cache = e),
+    ((this.cache = e),
       (this.root = t),
       (this.blockWrappers = n),
       (this.curLine = null),
@@ -1756,7 +1763,7 @@ class TileBuilder {
       (this.afterWidget = null),
       (this.pos = 0),
       (this.wrappers = []),
-      (this.wrapperPos = 0);
+      (this.wrapperPos = 0));
   }
   addText(e, t, n, r) {
     var i;
@@ -1778,7 +1785,7 @@ class TileBuilder {
             (i = this.cache.find(TextTile)) == null ? void 0 : i.dom,
           ),
       );
-    (this.pos += e.length), (this.afterWidget = null);
+    ((this.pos += e.length), (this.afterWidget = null));
   }
   addComposition(e, t) {
     let n = this.curLine;
@@ -1790,21 +1797,21 @@ class TileBuilder {
       let n = t.marks[e],
         i = r.lastChild;
       if (i instanceof MarkTile && i.mark.eq(n.mark))
-        i.dom != n.dom && i.setDOM(Nt(n.dom)), (r = i);
+        (i.dom != n.dom && i.setDOM(Nt(n.dom)), (r = i));
       else {
         if (this.cache.reused.get(n)) {
           let e = Tile.get(n.dom);
           e && e.setDOM(Nt(n.dom));
         }
         let e = MarkTile.of(n.mark, n.dom);
-        r.append(e), (r = e);
+        (r.append(e), (r = e));
       }
       this.cache.reused.set(n, 2);
     }
     let i = Tile.get(e.text);
     i && this.cache.reused.set(i, 2);
     let a = new TextTile(e.text, e.text.nodeValue);
-    (a.flags |= 8), (this.pos = e.range.toB), r.append(a);
+    ((a.flags |= 8), (this.pos = e.range.toB), r.append(a));
   }
   addInlineWidget(e, t, n) {
     let r =
@@ -1813,26 +1820,26 @@ class TileBuilder {
       (this.afterWidget.flags & 48) == (e.flags & 48);
     r || this.flushBuffer();
     let i = this.ensureMarks(t, n);
-    !r && !(e.flags & 16) && i.append(this.getBuffer(1)),
+    (!r && !(e.flags & 16) && i.append(this.getBuffer(1)),
       i.append(e),
       (this.pos += e.length),
-      (this.afterWidget = e);
+      (this.afterWidget = e));
   }
   addMark(e, t, n) {
-    this.flushBuffer(),
+    (this.flushBuffer(),
       this.ensureMarks(t, n).append(e),
       (this.pos += e.length),
-      (this.afterWidget = null);
+      (this.afterWidget = null));
   }
   addBlockWidget(e) {
-    this.getBlockPos().append(e),
+    (this.getBlockPos().append(e),
       (this.pos += e.length),
       (this.lastBlock = e),
-      this.endLine();
+      this.endLine());
   }
   continueWidget(e) {
     let t = this.afterWidget || this.lastBlock;
-    (t.length += e), (this.pos += e);
+    ((t.length += e), (this.pos += e));
   }
   addLineStart(e, t) {
     var n;
@@ -1845,13 +1852,13 @@ class TileBuilder {
     this.getBlockPos().append((this.lastBlock = this.curLine = r));
   }
   addLine(e) {
-    this.getBlockPos().append(e),
+    (this.getBlockPos().append(e),
       (this.pos += e.length),
       (this.lastBlock = e),
-      this.endLine();
+      this.endLine());
   }
   addBreak() {
-    (this.lastBlock.flags |= 1), this.endLine(), this.pos++;
+    ((this.lastBlock.flags |= 1), this.endLine(), this.pos++);
   }
   addLineStartIfNotCovered(e) {
     this.blockPosCovered() || this.addLineStart(e);
@@ -1866,7 +1873,7 @@ class TileBuilder {
       let a = e[i],
         o;
       if (t > 0 && (o = r.lastChild) && o instanceof MarkTile && o.mark.eq(a))
-        (r = o), t--;
+        ((r = o), t--);
       else {
         let e = MarkTile.of(
           a,
@@ -1874,7 +1881,7 @@ class TileBuilder {
             ? void 0
             : n.dom,
         );
-        r.append(e), (r = e), (t = 0);
+        (r.append(e), (r = e), (t = 0));
       }
     }
     return r;
@@ -1883,7 +1890,7 @@ class TileBuilder {
     if (this.curLine) {
       this.flushBuffer();
       let e = this.curLine.lastChild;
-      (!e ||
+      ((!e ||
         !Ot(this.curLine, !1) ||
         (e.dom.nodeName != `BR` &&
           e.isWidget() &&
@@ -1892,7 +1899,7 @@ class TileBuilder {
           this.cache.findWidget(Pt, 0, 32) ||
             new WidgetTile(Pt.toDOM(), 0, Pt, 32),
         ),
-        (this.curLine = this.afterWidget = null);
+        (this.curLine = this.afterWidget = null));
     }
   }
   updateBlockWrappers() {
@@ -1910,7 +1917,6 @@ class TileBuilder {
           r > 0 &&
           (this.wrappers[r - 1].rank - n.rank ||
             this.wrappers[r - 1].to - n.to) < 0;
-
         )
           r--;
         this.wrappers.splice(r, 0, n);
@@ -1938,7 +1944,7 @@ class TileBuilder {
             ? void 0
             : e.dom,
         );
-        t.append(r), (t = r);
+        (t.append(r), (t = r));
       }
     }
     return t;
@@ -1950,7 +1956,7 @@ class TileBuilder {
   getBuffer(e) {
     let t = 2 | (e < 0 ? 16 : 32),
       n = this.cache.find(WidgetBufferTile, void 0, 1);
-    return n && (n.flags = t), n || new WidgetBufferTile(t);
+    return (n && (n.flags = t), n || new WidgetBufferTile(t));
   }
   flushBuffer() {
     this.afterWidget &&
@@ -1961,10 +1967,10 @@ class TileBuilder {
 }
 class TextStream {
   constructor(e) {
-    (this.skipCount = 0),
+    ((this.skipCount = 0),
       (this.text = ``),
       (this.textOff = 0),
-      (this.cursor = e.iter());
+      (this.cursor = e.iter()));
   }
   skip(e) {
     this.textOff + e <= this.text.length
@@ -1988,7 +1994,7 @@ class TextStream {
     }
     let t = Math.min(this.text.length, this.textOff + e),
       n = this.text.slice(this.textOff, t);
-    return (this.textOff = t), n;
+    return ((this.textOff = t), n);
   }
 }
 const Dt = [
@@ -2003,10 +2009,10 @@ const Dt = [
 for (let e = 0; e < Dt.length; e++) Dt[e].bucket = e;
 class TileCache {
   constructor(e) {
-    (this.view = e),
+    ((this.view = e),
       (this.buckets = Dt.map(() => [])),
       (this.index = Dt.map(() => 0)),
-      (this.reused = /* @__PURE__ */ new Map());
+      (this.reused = /* @__PURE__ */ new Map()));
   }
   add(e) {
     let t = e.constructor.bucket,
@@ -2024,7 +2030,10 @@ class TileCache {
         s = i[o];
       if ((!t || t(s)) && !this.reused.has(s))
         return (
-          i.splice(o, 1), o < a && this.index[r]--, this.reused.set(s, n), s
+          i.splice(o, 1),
+          o < a && this.index[r]--,
+          this.reused.set(s, n),
+          s
         );
     }
     return null;
@@ -2035,7 +2044,7 @@ class TileCache {
       for (let i = 0, a = 0; ; i++) {
         if (i == r.length) {
           if (a) return null;
-          (a = 1), (i = 0);
+          ((a = 1), (i = 0));
         }
         let o = r[i];
         if (
@@ -2056,10 +2065,10 @@ class TileCache {
       }
   }
   reuse(e) {
-    return this.reused.set(e, 1), e;
+    return (this.reused.set(e, 1), e);
   }
   maybeReuse(e, t = 2) {
-    if (!this.reused.has(e)) return this.reused.set(e, t), e.dom;
+    if (!this.reused.has(e)) return (this.reused.set(e, t), e.dom);
   }
   clear() {
     for (let e = 0; e < this.buckets.length; e++)
@@ -2068,7 +2077,7 @@ class TileCache {
 }
 class TileUpdate {
   constructor(e, n, r, i, a) {
-    (this.view = e),
+    ((this.view = e),
       (this.decorations = i),
       (this.disallowBlockEffectsFor = a),
       (this.openWidget = !1),
@@ -2089,7 +2098,7 @@ class TileUpdate {
         enter: (e) => this.cache.add(e),
         leave: () => {},
         break: () => {},
-      });
+      }));
   }
   run(e, t) {
     let n = t && this.getCompositionContext(t.text);
@@ -2098,10 +2107,10 @@ class TileUpdate {
         s = o ? o.fromA : this.old.root.length;
       if (s > r) {
         let e = s - r;
-        this.preserve(e, !a, !o), (r = s), (i += e);
+        (this.preserve(e, !a, !o), (r = s), (i += e));
       }
       if (!o) break;
-      t && o.fromA <= t.range.fromA && o.toA >= t.range.toA
+      (t && o.fromA <= t.range.fromA && o.toA >= t.range.toA
         ? (this.forward(
             o.fromA,
             t.range.fromA,
@@ -2116,14 +2125,14 @@ class TileUpdate {
           this.emit(t.range.toB, o.toB))
         : (this.forward(o.fromA, o.toA), this.emit(i, o.toB)),
         (i = o.toB),
-        (r = o.toA);
+        (r = o.toA));
     }
-    return this.builder.curLine && this.builder.endLine(), this.builder.root;
+    return (this.builder.curLine && this.builder.endLine(), this.builder.root);
   }
   preserve(e, t, n) {
     let r = Mt(this.old),
       i = this.openMarks;
-    this.old.advance(e, n ? 1 : -1, {
+    (this.old.advance(e, n ? 1 : -1, {
       skip: (e, t, n) => {
         if (e.isWidget())
           if (this.openWidget) this.builder.continueWidget(n - t);
@@ -2145,28 +2154,30 @@ class TileUpdate {
                 (i = r.length));
           }
         else if (e.isText())
-          this.builder.ensureLine(null),
+          (this.builder.ensureLine(null),
             !t && n == e.length && !this.cache.reused.has(e)
               ? this.builder.addText(e.text, r, i, this.cache.reuse(e))
               : (this.cache.add(e),
                 this.builder.addText(e.text.slice(t, n), r, i)),
-            (i = r.length);
+            (i = r.length));
         else if (e.isLine())
-          (e.flags &= -2), this.cache.reused.set(e, 1), this.builder.addLine(e);
+          ((e.flags &= -2),
+            this.cache.reused.set(e, 1),
+            this.builder.addLine(e));
         else if (e instanceof WidgetBufferTile) this.cache.add(e);
         else if (e instanceof MarkTile)
-          this.builder.ensureLine(null),
+          (this.builder.ensureLine(null),
             this.builder.addMark(e, r, i),
             this.cache.reused.set(e, 1),
-            (i = r.length);
+            (i = r.length));
         else return !1;
         this.openWidget = !1;
       },
       enter: (e) => {
-        e.isLine()
+        (e.isLine()
           ? this.builder.addLineStart(e.attrs, this.cache.maybeReuse(e))
           : (this.cache.add(e), e instanceof MarkTile && r.unshift(e.mark)),
-          (this.openWidget = !1);
+          (this.openWidget = !1));
       },
       leave: (e) => {
         e.isLine()
@@ -2174,10 +2185,10 @@ class TileUpdate {
           : e instanceof MarkTile && (r.shift(), (i = Math.min(i, r.length)));
       },
       break: () => {
-        this.builder.addBreak(), (this.openWidget = !1);
+        (this.builder.addBreak(), (this.openWidget = !1));
       },
     }),
-      this.text.skip(e);
+      this.text.skip(e));
   }
   emit(e, n) {
     let r = null,
@@ -2216,18 +2227,18 @@ class TileUpdate {
         span: (e, t, n, a) => {
           for (let o = e; o < t; ) {
             let s = this.text.next(Math.min(512, t - o));
-            s == null
+            (s == null
               ? (i.addLineStartIfNotCovered(r), i.addBreak(), o++)
               : (i.ensureLine(r),
                 i.addText(s, n, o == e ? a : n.length),
                 (o += s.length)),
-              (r = null);
+              (r = null));
           }
         },
       });
-    i.addLineStartIfNotCovered(r),
+    (i.addLineStartIfNotCovered(r),
       (this.openWidget = o > a),
-      (this.openMarks = o);
+      (this.openMarks = o));
   }
   forward(e, t, n = 1) {
     t - e <= 10
@@ -2277,7 +2288,7 @@ function kt(e) {
     : e.startSide > 0
       ? 32
       : 16;
-  return e.block && (t |= 256), t;
+  return (e.block && (t |= 256), t);
 }
 const At = { class: `cm-line` };
 function jt(e, t) {
@@ -2300,11 +2311,11 @@ function Mt(e) {
 }
 function Nt(e) {
   let t = Tile.get(e);
-  return t && t.setDOM(e.cloneNode()), e;
+  return (t && t.setDOM(e.cloneNode()), e);
 }
 class NullWidget extends WidgetType {
   constructor(e) {
-    super(), (this.tag = e);
+    (super(), (this.tag = e));
   }
   eq(e) {
     return e.tag == this.tag;
@@ -2319,8 +2330,8 @@ class NullWidget extends WidgetType {
     return !0;
   }
 }
-(NullWidget.inline = /* @__PURE__ */ new NullWidget(`span`)),
-  (NullWidget.block = /* @__PURE__ */ new NullWidget(`div`));
+((NullWidget.inline = /* @__PURE__ */ new NullWidget(`span`)),
+  (NullWidget.block = /* @__PURE__ */ new NullWidget(`div`)));
 const Pt = /* @__PURE__ */ new (class extends WidgetType {
   toDOM() {
     return document.createElement(`br`);
@@ -2334,7 +2345,7 @@ const Pt = /* @__PURE__ */ new (class extends WidgetType {
 })();
 class DocView {
   constructor(e) {
-    (this.view = e),
+    ((this.view = e),
       (this.decorations = []),
       (this.blockWrappers = []),
       (this.dynamicDecorationMap = [!1]),
@@ -2351,12 +2362,12 @@ class DocView {
       (this.lastUpdate = Date.now()),
       this.updateDeco(),
       (this.tile = new DocTile(e, e.contentDOM)),
-      this.updateInner([new ChangedRange(0, 0, 0, e.state.doc.length)], null);
+      this.updateInner([new ChangedRange(0, 0, 0, e.state.doc.length)], null));
   }
   update(e) {
     var t;
     let n = e.changedRanges;
-    this.minWidth > 0 &&
+    (this.minWidth > 0 &&
       n.length &&
       (n.every(
         ({ fromA: e, toA: t }) => t < this.minWidthFrom || e > this.minWidthTo,
@@ -2364,7 +2375,7 @@ class DocView {
         ? ((this.minWidthFrom = e.changes.mapPos(this.minWidthFrom, 1)),
           (this.minWidthTo = e.changes.mapPos(this.minWidthTo, 1)))
         : (this.minWidth = this.minWidthFrom = this.minWidthTo = 0)),
-      this.updateEditContextFormatting(e);
+      this.updateEditContextFormatting(e));
     let r = -1;
     this.view.inputState.composing >= 0 &&
       !this.view.observer.editContext &&
@@ -2383,12 +2394,14 @@ class DocView {
         e.changes.mapPos(r, 1),
       ).addToSet(n.slice());
     }
-    (this.hasComposition = i ? { from: i.range.fromB, to: i.range.toB } : null),
+    ((this.hasComposition = i
+      ? { from: i.range.fromB, to: i.range.toB }
+      : null),
       (T.ie || T.chrome) &&
         !i &&
         e &&
         e.state.doc.lines != e.startState.doc.lines &&
-        (this.forceSelection = !0);
+        (this.forceSelection = !0));
     let a = this.decorations,
       o = this.blockWrappers;
     this.updateDeco();
@@ -2420,26 +2433,26 @@ class DocView {
             this.decorations,
             this.dynamicDecorationMap,
           );
-        t && Tile.get(t.text) && r.cache.reused.set(Tile.get(t.text), 2),
+        (t && Tile.get(t.text) && r.cache.reused.set(Tile.get(t.text), 2),
           (this.tile = r.run(e, t)),
-          Ft(n, r.cache.reused);
+          Ft(n, r.cache.reused));
       }
-      (this.tile.dom.style.height =
+      ((this.tile.dom.style.height =
         this.view.viewState.contentHeight / this.view.scaleY + `px`),
         (this.tile.dom.style.flexBasis = this.minWidth
           ? this.minWidth + `px`
-          : ``);
+          : ``));
       let r =
         T.chrome || T.ios
           ? { node: n.selectionRange.focusNode, written: !1 }
           : void 0;
-      this.tile.sync(r),
+      (this.tile.sync(r),
         r &&
           (r.written ||
             n.selectionRange.focusNode != r.node ||
             !this.tile.dom.contains(r.node)) &&
           (this.forceSelection = !0),
-        (this.tile.dom.style.height = ``);
+        (this.tile.dom.style.height = ``));
     });
     let r = [];
     if (
@@ -2481,14 +2494,14 @@ class DocView {
       T.gecko && s.empty && !this.hasComposition && It(c))
     ) {
       let e = document.createTextNode(``);
-      this.view.observer.ignore(() =>
+      (this.view.observer.ignore(() =>
         c.node.insertBefore(e, c.node.childNodes[c.offset] || null),
       ),
         (c = l = new DOMPos(e, 0)),
-        (o = !0);
+        (o = !0));
     }
     let u = this.view.observer.selectionRange;
-    (o ||
+    ((o ||
       !u.focusNode ||
       ((!A(c.node, c.offset, u.anchorNode, u.anchorOffset) ||
         !A(l.node, l.offset, u.focusNode, u.focusOffset)) &&
@@ -2509,10 +2522,10 @@ class DocView {
                 t && (c = new DOMPos(t.node, t.offset));
               }
             }
-            e.collapse(c.node, c.offset),
+            (e.collapse(c.node, c.offset),
               s.bidiLevel != null &&
                 e.caretBidiLevel !== void 0 &&
-                (e.caretBidiLevel = s.bidiLevel);
+                (e.caretBidiLevel = s.bidiLevel));
           } else if (e.extend) {
             e.collapse(c.node, c.offset);
             try {
@@ -2520,11 +2533,11 @@ class DocView {
             } catch (e) {}
           } else {
             let t = document.createRange();
-            s.anchor > s.head && ([c, l] = [l, c]),
+            (s.anchor > s.head && ([c, l] = [l, c]),
               t.setEnd(l.node, l.offset),
               t.setStart(c.node, c.offset),
               e.removeAllRanges(),
-              e.addRange(t);
+              e.addRange(t));
           }
         a && this.view.root.activeElement == n && (n.blur(), r && r.focus());
       }),
@@ -2534,7 +2547,7 @@ class DocView {
         : new DOMPos(u.anchorNode, u.anchorOffset)),
       (this.impreciseHead = l.precise
         ? null
-        : new DOMPos(u.focusNode, u.focusOffset));
+        : new DOMPos(u.focusNode, u.focusOffset)));
   }
   suppressWidgetCursorChange(e, t) {
     return (
@@ -2559,9 +2572,9 @@ class DocView {
       c = this.coordsAt(t.head, 1);
     if (!s || !c || s.bottom > c.top) return;
     let l = this.domAtPos(t.head + t.assoc, t.assoc);
-    n.collapse(l.node, l.offset),
+    (n.collapse(l.node, l.offset),
       n.modify(`move`, t.assoc < 0 ? `forward` : `backward`, `lineboundary`),
-      e.observer.readSelectionRange();
+      e.observer.readSelectionRange());
     let u = e.observer.selectionRange;
     e.docView.posFromDOM(u.anchorNode, u.anchorOffset) != t.from &&
       n.collapse(r, i);
@@ -2581,10 +2594,10 @@ class DocView {
         for (;;) {
           let t = e.parentNode;
           if (t == n.dom) break;
-          r == 0 &&
+          (r == 0 &&
             t.firstChild != t.lastChild &&
             (r = e == t.firstChild ? -1 : 1),
-            (e = t);
+            (e = t));
         }
         i = r < 0 ? e : e.nextSibling;
       }
@@ -2698,11 +2711,11 @@ class DocView {
                 (this.minWidthTo = p));
             }
           }
-          d && f == e.children.length - 1 && (c += d.bottom - m.bottom),
-            (u = p + r.breakAfter);
+          (d && f == e.children.length - 1 && (c += d.bottom - m.bottom),
+            (u = p + r.breakAfter));
         }
       };
-    return l(this.tile, 0, null), t;
+    return (l(this.tile, 0, null), t);
   }
   textDirectionAt(e) {
     let { tile: t } = this.tile.resolveBlock(e, 1);
@@ -2717,7 +2730,7 @@ class DocView {
           if (!r.isText() || /[^ -~]/.test(r.text)) return;
           let e = k(r.dom);
           if (e.length != 1) return;
-          (t += e[0].width), (n = e[0].height);
+          ((t += e[0].width), (n = e[0].height));
         }
         if (t)
           return {
@@ -2740,10 +2753,10 @@ class DocView {
       this.view.observer.ignore(() => {
         this.tile.dom.appendChild(t);
         let e = k(t.firstChild)[0];
-        (n = t.getBoundingClientRect().height),
+        ((n = t.getBoundingClientRect().height),
           (r = e && e.width ? e.width / 27 : 7),
           (i = e && e.height ? e.height : n),
-          t.remove();
+          t.remove());
       }),
       { lineHeight: n, charWidth: r, textHeight: i }
     );
@@ -2783,7 +2796,7 @@ class DocView {
       r = !1,
       i = this.view.state.facet(vt).map((e, t) => {
         let n = typeof e == `function`;
-        return n && (r = !0), n ? e(this.view) : e;
+        return (n && (r = !0), n ? e(this.view) : e);
       });
     for (
       i.length && ((this.dynamicDecorationMap[e++] = r), n.push(t.join(i))),
@@ -2794,7 +2807,6 @@ class DocView {
           this.view.viewState.lineGapDeco,
         ];
       e < this.decorations.length;
-
     )
       this.dynamicDecorationMap[e++] = !1;
     this.blockWrappers = this.view.state
@@ -2805,8 +2817,8 @@ class DocView {
     var t;
     if (e.isSnapshot) {
       let t = this.view.viewState.lineBlockAt(e.range.head);
-      (this.view.scrollDOM.scrollTop = t.top - e.yMargin),
-        (this.view.scrollDOM.scrollLeft = e.xMargin);
+      ((this.view.scrollDOM.scrollTop = t.top - e.yMargin),
+        (this.view.scrollDOM.scrollLeft = e.xMargin));
       return;
     }
     for (let t of this.view.state.facet(ut))
@@ -2938,7 +2950,7 @@ let Bt = class DecorationComparator {
 };
 function Vt(e, n, r) {
   let i = new Bt();
-  return t.compare(e, n, r, i), i.changes;
+  return (t.compare(e, n, r, i), i.changes);
 }
 class WrapperComparator {
   constructor() {
@@ -2954,7 +2966,7 @@ class WrapperComparator {
 }
 function Ht(e, n, r) {
   let i = new WrapperComparator();
-  return t.compare(e, n, r, i), i.changes;
+  return (t.compare(e, n, r, i), i.changes);
 }
 function Ut(e, t) {
   for (let n = e; n && n != t; n = n.assignedSlot || n.parentNode)
@@ -2973,17 +2985,17 @@ function Wt(e, t) {
 }
 class BlockGapWidget extends WidgetType {
   constructor(e) {
-    super(), (this.height = e);
+    (super(), (this.height = e));
   }
   toDOM() {
     let e = document.createElement(`div`);
-    return (e.className = `cm-gap`), this.updateDOM(e), e;
+    return ((e.className = `cm-gap`), this.updateDOM(e), e);
   }
   eq(e) {
     return e.height == this.height;
   }
   updateDOM(e) {
-    return (e.style.height = this.height + `px`), !0;
+    return ((e.style.height = this.height + `px`), !0);
   }
   get editable() {
     return !0;
@@ -3071,11 +3083,11 @@ function Yt(e, t, n, r) {
       l = Xe;
     if (!t) {
       if (i.number == (n ? e.state.doc.lines : 1)) return s;
-      (l = `
+      ((l = `
 `),
         (i = e.state.doc.line(i.number + (n ? 1 : -1))),
         (a = e.bidiSpans(i)),
-        (t = e.visualLineSide(i, !n));
+        (t = e.visualLineSide(i, !n)));
     }
     if (!c) {
       if (!r) return t;
@@ -3089,7 +3101,7 @@ function Xt(e, t, n) {
     i = r(n);
   return (e) => {
     let t = r(e);
-    return i == u.Space && (i = t), i == t;
+    return (i == u.Space && (i = t), i == t);
   };
 }
 function Zt(e, t, n, r) {
@@ -3104,12 +3116,12 @@ function Zt(e, t, n, r) {
       t.assoc || ((t.empty ? n : t.head == t.from) ? 1 : -1),
     ),
     d = e.documentTop;
-  if (u) s == null && (s = u.left - l.left), (c = o < 0 ? u.top : u.bottom);
+  if (u) (s == null && (s = u.left - l.left), (c = o < 0 ? u.top : u.bottom));
   else {
     let t = e.viewState.lineBlockAt(a);
-    s == null &&
+    (s == null &&
       (s = Math.min(l.right - l.left, e.defaultCharacterWidth * (a - t.from))),
-      (c = (o < 0 ? t.top : t.bottom) + d);
+      (c = (o < 0 ? t.top : t.bottom) + d));
   }
   let f = l.left + s,
     p = e.viewState.heightOracle.textHeight >> 1,
@@ -3130,7 +3142,7 @@ function K(e, t, n) {
       i.between(t - 1, t + 1, (e, i, a) => {
         if (t > e && t < i) {
           let a = r || n || (t - e < i - t ? -1 : 1);
-          (t = a < 0 ? e : i), (r = a);
+          ((t = a < 0 ? e : i), (r = a));
         }
       });
     if (!r) return t;
@@ -3166,7 +3178,7 @@ function $t(e, t, n) {
 }
 class PosAssoc {
   constructor(e, t) {
-    (this.pos = e), (this.assoc = t);
+    ((this.pos = e), (this.assoc = t));
   }
 }
 function en(e, t, n, r) {
@@ -3206,12 +3218,12 @@ function en(e, t, n, r) {
 }
 class InlineCoordsScan {
   constructor(e, t, n, r) {
-    (this.view = e),
+    ((this.view = e),
       (this.x = t),
       (this.y = n),
       (this.baseDir = r),
       (this.line = null),
-      (this.spans = null);
+      (this.spans = null));
   }
   bidiSpansAt(e) {
     return (
@@ -3256,7 +3268,7 @@ class InlineCoordsScan {
             f = e;
             break adjust;
           }
-          e++, e == i && (e = r);
+          (e++, e == i && (e = r));
         }
         break search;
       }
@@ -3268,8 +3280,9 @@ class InlineCoordsScan {
             a = 0;
           if (!(n.width == 0 && p.length > 1)) {
             if (n.bottom < this.y)
-              (!s || s.bottom < n.bottom) && (s = n), (a = 1);
-            else if (n.top > this.y) (!c || c.top > n.top) && (c = n), (a = -1);
+              ((!s || s.bottom < n.bottom) && (s = n), (a = 1));
+            else if (n.top > this.y)
+              ((!c || c.top > n.top) && (c = n), (a = -1));
             else {
               let e =
                   n.left > this.x
@@ -3278,8 +3291,8 @@ class InlineCoordsScan {
                       ? this.x - n.right
                       : 0,
                 t = Math.abs(e);
-              t < u && ((l = f), (u = t), (d = n)),
-                e && (a = e < 0 == (this.baseDir == L.LTR) ? -1 : 1);
+              (t < u && ((l = f), (u = t), (d = n)),
+                e && (a = e < 0 == (this.baseDir == L.LTR) ? -1 : 1));
             }
             a == -1 && (!o || this.baseDirAt(e[f], 1))
               ? (i = f)
@@ -3290,14 +3303,14 @@ class InlineCoordsScan {
     if (!d) {
       if (!c && !s) return { i: e[0], after: !1 };
       let n = s && (!c || this.y - s.bottom < c.top - this.y) ? s : c;
-      return (this.y = (n.top + n.bottom) / 2), this.scan(e, t, !0);
+      return ((this.y = (n.top + n.bottom) / 2), this.scan(e, t, !0));
     }
     if (u && !n) {
       let { top: n, bottom: r } = d;
       if (s && s.bottom > (n + n + r) / 3)
-        return (this.y = s.bottom - 1), this.scan(e, t, !0);
+        return ((this.y = s.bottom - 1), this.scan(e, t, !0));
       if (c && c.top < (n + r + r) / 3)
-        return (this.y = c.top + 1), this.scan(e, t, !0);
+        return ((this.y = c.top + 1), this.scan(e, t, !0));
     }
     let f = (o ? this.dirAt(e[l], 1) : this.baseDir) == L.LTR;
     return { i: l, after: this.x > (d.left + d.right) / 2 == f };
@@ -3346,10 +3359,10 @@ class InlineCoordsScan {
 const tn = `￿`;
 class DOMReader {
   constructor(e, t) {
-    (this.points = e),
+    ((this.points = e),
       (this.view = t),
       (this.text = ``),
-      (this.lineSeparator = t.state.facet(d.lineSeparator));
+      (this.lineSeparator = t.state.facet(d.lineSeparator)));
   }
   append(e) {
     this.text += e;
@@ -3375,7 +3388,7 @@ class DOMReader {
         break;
       }
       let o = Tile.get(a);
-      (i && o
+      ((i && o
         ? i.breakAfter
         : (i ? i.breakAfter : Se(r)) ||
           (Se(a) &&
@@ -3383,9 +3396,9 @@ class DOMReader {
             this.text.length > e)) &&
         !rn(a, t) &&
         this.lineBreak(),
-        (r = a);
+        (r = a));
     }
-    return this.findPointBefore(n, t), this;
+    return (this.findPointBefore(n, t), this);
   }
   readTextNode(e) {
     let t = e.nodeValue;
@@ -3438,7 +3451,7 @@ function nn(e, t, n) {
   for (;;) {
     if (!t || n < M(t)) return !1;
     if (t == e) return !0;
-    (n = j(t) + 1), (t = t.parentNode);
+    ((n = j(t) + 1), (t = t.parentNode));
   }
 }
 function rn(e, t) {
@@ -3457,24 +3470,24 @@ function rn(e, t) {
 }
 class DOMPoint {
   constructor(e, t) {
-    (this.node = e), (this.offset = t), (this.pos = -1);
+    ((this.node = e), (this.offset = t), (this.pos = -1));
   }
 }
 class DOMChange {
   constructor(e, t, n, r) {
-    (this.typeOver = r),
+    ((this.typeOver = r),
       (this.bounds = null),
       (this.text = ``),
-      (this.domChanged = t > -1);
+      (this.domChanged = t > -1));
     let { impreciseHead: a, impreciseAnchor: o } = e.docView,
       s = e.state.selection;
     if (e.state.readOnly && t > -1) this.newSel = null;
     else if (t > -1 && (this.bounds = an(e.docView.tile, t, n, 0))) {
       let t = a || o ? [] : un(e),
         n = new DOMReader(t, e);
-      n.readRange(this.bounds.startDOM, this.bounds.endDOM),
+      (n.readRange(this.bounds.startDOM, this.bounds.endDOM),
         (this.text = n.text),
-        (this.newSel = dn(t, this.bounds.from));
+        (this.newSel = dn(t, this.bounds.from)));
     } else {
       let t = e.observer.selectionRange,
         n =
@@ -3513,8 +3526,8 @@ class DOMChange {
       ) {
         let t = e.coordsAtPos(n, -1),
           r = 0;
-        t && (r = e.inputState.lastTouchY <= t.bottom ? -1 : 1),
-          (this.newSel = i.create([i.cursor(n, r)]));
+        (t && (r = e.inputState.lastTouchY <= t.bottom ? -1 : 1),
+          (this.newSel = i.create([i.cursor(n, r)])));
       } else this.newSel = i.single(r, n);
     }
   }
@@ -3533,10 +3546,10 @@ function an(e, t, n, r) {
         (d >= t && i == -1 && ((i = c), (a = l)),
         l > n && r.dom.parentNode == e.dom)
       ) {
-        (o = c), (s = u);
+        ((o = c), (s = u));
         break;
       }
-      (u = d), (l = d + r.breakAfter);
+      ((u = d), (l = d + r.breakAfter));
     }
     return {
       from: a,
@@ -3765,17 +3778,17 @@ function ln(e, t, n, r) {
   let o = e.length,
     s = t.length;
   for (; o > 0 && s > 0 && e.charCodeAt(o - 1) == t.charCodeAt(s - 1); )
-    o--, s--;
+    (o--, s--);
   if (r == `end`) {
     let e = Math.max(0, a - Math.min(o, s));
     n -= o + e - a;
   }
   if (o < a && e.length < t.length) {
     let e = n <= a && n >= o ? a - n : 0;
-    (a -= e), (s = a + (s - o)), (o = a);
+    ((a -= e), (s = a + (s - o)), (o = a));
   } else if (s < a) {
     let e = n <= a && n >= s ? a - n : 0;
-    (a -= e), (o = a + (o - s)), (s = a);
+    ((a -= e), (o = a + (o - s)), (s = a));
   }
   return { from: a, toA: o, toB: s };
 }
@@ -3806,10 +3819,10 @@ function fn(e, t) {
 }
 class InputState {
   setSelectionOrigin(e) {
-    (this.lastSelectionOrigin = e), (this.lastSelectionTime = Date.now());
+    ((this.lastSelectionOrigin = e), (this.lastSelectionTime = Date.now()));
   }
   constructor(e) {
-    (this.view = e),
+    ((this.view = e),
       (this.lastKeyCode = 0),
       (this.lastKeyTime = 0),
       (this.lastTouchTime = 0),
@@ -3838,7 +3851,7 @@ class InputState {
       (this.handleEvent = this.handleEvent.bind(this)),
       (this.notifiedFocused = e.hasFocus),
       T.safari && e.contentDOM.addEventListener(`input`, () => null),
-      T.gecko && Kn(e.contentDOM.ownerDocument);
+      T.gecko && Kn(e.contentDOM.ownerDocument));
   }
   handleEvent(e) {
     !Tn(this.view, e) ||
@@ -3869,10 +3882,10 @@ class InputState {
       if (e != `scroll`) {
         let i = !t[e].handlers.length,
           a = n[e];
-        a &&
+        (a &&
           i != !a.handlers.length &&
           (r.removeEventListener(e, this.handleEvent), (a = null)),
-          a || r.addEventListener(e, this.handleEvent, { passive: i });
+          a || r.addEventListener(e, this.handleEvent, { passive: i }));
       }
     for (let e in n)
       e != `scroll` && !t[e] && r.removeEventListener(e, this.handleEvent);
@@ -3897,7 +3910,7 @@ class InputState {
         !e.synthetic &&
         (e.keyCode == 13 || e.keyCode == 8))
     )
-      return this.view.observer.delayAndroidKey(e.key, e.keyCode), !0;
+      return (this.view.observer.delayAndroidKey(e.key, e.keyCode), !0);
     if (
       T.ios &&
       !e.synthetic &&
@@ -3923,7 +3936,7 @@ class InputState {
         !0
       );
     }
-    return e.keyCode != 229 && this.view.observer.forceFlush(), !1;
+    return (e.keyCode != 229 && this.view.observer.forceFlush(), !1);
   }
   flushIOSKey(e) {
     let t = this.pendingIOSKey;
@@ -3949,16 +3962,16 @@ class InputState {
           : !1;
   }
   startMouseSelection(e) {
-    this.mouseSelection && this.mouseSelection.destroy(),
-      (this.mouseSelection = e);
+    (this.mouseSelection && this.mouseSelection.destroy(),
+      (this.mouseSelection = e));
   }
   update(e) {
-    this.view.observer.update(e),
+    (this.view.observer.update(e),
       this.mouseSelection && this.mouseSelection.update(e),
       this.draggedContent &&
         e.docChanged &&
         (this.draggedContent = this.draggedContent.map(e.changes)),
-      e.transactions.length && (this.lastKeyCode = this.lastSelectionTime = 0);
+      e.transactions.length && (this.lastKeyCode = this.lastSelectionTime = 0));
   }
   destroy() {
     this.mouseSelection && this.mouseSelection.destroy();
@@ -4024,7 +4037,7 @@ function xn(e, t) {
 }
 class MouseSelection {
   constructor(e, t, n, r) {
-    (this.view = e),
+    ((this.view = e),
       (this.startEvent = t),
       (this.style = n),
       (this.mustSelect = r),
@@ -4032,13 +4045,13 @@ class MouseSelection {
       (this.scrolling = -1),
       (this.lastEvent = t),
       (this.scrollParents = De(e.contentDOM)),
-      (this.atoms = e.state.facet(W).map((t) => t(e)));
+      (this.atoms = e.state.facet(W).map((t) => t(e))));
     let i = e.contentDOM.ownerDocument;
-    i.addEventListener(`mousemove`, (this.move = this.move.bind(this))),
+    (i.addEventListener(`mousemove`, (this.move = this.move.bind(this))),
       i.addEventListener(`mouseup`, (this.up = this.up.bind(this))),
       (this.extend = t.shiftKey),
       (this.multiple = e.state.facet(d.allowMultipleSelections) && Sn(e, t)),
-      (this.dragging = wn(e, t) && Fn(t) == 1 ? null : !1);
+      (this.dragging = wn(e, t) && Fn(t) == 1 ? null : !1));
   }
   start(e) {
     this.dragging === !1 && this.select(e);
@@ -4054,58 +4067,58 @@ class MouseSelection {
       i = 0,
       a = this.view.win.innerWidth,
       o = this.view.win.innerHeight;
-    this.scrollParents.x &&
+    (this.scrollParents.x &&
       ({ left: r, right: a } = this.scrollParents.x.getBoundingClientRect()),
       this.scrollParents.y &&
-        ({ top: i, bottom: o } = this.scrollParents.y.getBoundingClientRect());
+        ({ top: i, bottom: o } = this.scrollParents.y.getBoundingClientRect()));
     let s = St(this.view);
-    e.clientX - s.left <= r + 6
+    (e.clientX - s.left <= r + 6
       ? (t = -bn(r - e.clientX))
       : e.clientX + s.right >= a - 6 && (t = bn(e.clientX - a)),
       e.clientY - s.top <= i + 6
         ? (n = -bn(i - e.clientY))
         : e.clientY + s.bottom >= o - 6 && (n = bn(e.clientY - o)),
-      this.setScrollSpeed(t, n);
+      this.setScrollSpeed(t, n));
   }
   up(e) {
-    this.dragging == null && this.select(this.lastEvent),
+    (this.dragging == null && this.select(this.lastEvent),
       this.dragging || e.preventDefault(),
-      this.destroy();
+      this.destroy());
   }
   destroy() {
     this.setScrollSpeed(0, 0);
     let e = this.view.contentDOM.ownerDocument;
-    e.removeEventListener(`mousemove`, this.move),
+    (e.removeEventListener(`mousemove`, this.move),
       e.removeEventListener(`mouseup`, this.up),
       (this.view.inputState.mouseSelection =
         this.view.inputState.draggedContent =
-          null);
+          null));
   }
   setScrollSpeed(e, t) {
-    (this.scrollSpeed = { x: e, y: t }),
+    ((this.scrollSpeed = { x: e, y: t }),
       e || t
         ? this.scrolling < 0 &&
           (this.scrolling = setInterval(() => this.scroll(), 50))
         : this.scrolling > -1 &&
-          (clearInterval(this.scrolling), (this.scrolling = -1));
+          (clearInterval(this.scrolling), (this.scrolling = -1)));
   }
   scroll() {
     let { x: e, y: t } = this.scrollSpeed;
-    e &&
+    (e &&
       this.scrollParents.x &&
       ((this.scrollParents.x.scrollLeft += e), (e = 0)),
       t &&
         this.scrollParents.y &&
         ((this.scrollParents.y.scrollTop += t), (t = 0)),
       (e || t) && this.view.win.scrollBy(e, t),
-      this.dragging === !1 && this.select(this.lastEvent);
+      this.dragging === !1 && this.select(this.lastEvent));
   }
   select(e) {
     let { view: t } = this,
       n = Qt(this.atoms, this.style.get(e, this.extend, this.multiple));
-    (this.mustSelect || !n.eq(t.state.selection, this.dragging === !1)) &&
+    ((this.mustSelect || !n.eq(t.state.selection, this.dragging === !1)) &&
       this.view.dispatch({ selection: n, userEvent: `select.pointer` }),
-      (this.mustSelect = !1);
+      (this.mustSelect = !1));
   }
   update(e) {
     e.transactions.some((e) => e.isUserEvent(`input.type`))
@@ -4162,11 +4175,11 @@ function Dn(e) {
   let t = e.dom.parentNode;
   if (!t) return;
   let n = t.appendChild(document.createElement(`textarea`));
-  (n.style.cssText = `position: fixed; left: -10000px; top: 10px`),
+  ((n.style.cssText = `position: fixed; left: -10000px; top: 10px`),
     n.focus(),
     setTimeout(() => {
-      e.focus(), n.remove(), kn(e, n.value);
-    }, 50);
+      (e.focus(), n.remove(), kn(e, n.value));
+    }, 50));
 }
 function On(e, t, n) {
   for (let r of e.facet(t)) n = r(n, e);
@@ -4207,9 +4220,9 @@ function kn(e, t) {
       : n.replaceSelection(o);
   e.dispatch(r, { userEvent: `input.paste`, scrollIntoView: !0 });
 }
-(J.scroll = (e) => {
-  (e.inputState.lastScrollTop = e.scrollDOM.scrollTop),
-    (e.inputState.lastScrollLeft = e.scrollDOM.scrollLeft);
+((J.scroll = (e) => {
+  ((e.inputState.lastScrollTop = e.scrollDOM.scrollTop),
+    (e.inputState.lastScrollLeft = e.scrollDOM.scrollLeft));
 }),
   (J.wheel = J.mousewheel =
     (e) => {
@@ -4225,9 +4238,9 @@ function kn(e, t) {
   (J.touchstart = (e, t) => {
     let n = e.inputState,
       r = t.targetTouches[0];
-    (n.lastTouchTime = Date.now()),
+    ((n.lastTouchTime = Date.now()),
       r && ((n.lastTouchX = r.clientX), (n.lastTouchY = r.clientY)),
-      n.setSelectionOrigin(`select.pointer`);
+      n.setSelectionOrigin(`select.pointer`));
   }),
   (J.touchmove = (e) => {
     e.inputState.setSelectionOrigin(`select.pointer`);
@@ -4239,18 +4252,18 @@ function kn(e, t) {
     for (let r of e.state.facet(tt)) if (((n = r(e, t)), n)) break;
     if ((!n && t.button == 0 && (n = In(e, t)), n)) {
       let r = !e.hasFocus;
-      e.inputState.startMouseSelection(new MouseSelection(e, t, n, r)),
+      (e.inputState.startMouseSelection(new MouseSelection(e, t, n, r)),
         r &&
           e.observer.ignore(() => {
             Oe(e.contentDOM);
             let t = e.root.activeElement;
             t && !t.contains(e.contentDOM) && t.blur();
-          });
+          }));
       let i = e.inputState.mouseSelection;
-      if (i) return i.start(t), i.dragging === !1;
+      if (i) return (i.start(t), i.dragging === !1);
     } else e.inputState.setSelectionOrigin(`select.pointer`);
     return !1;
-  });
+  }));
 function An(e, t, n, r) {
   if (r == 1) return i.cursor(t, n);
   if (r == 2) return Gt(e.state, t, n);
@@ -4260,7 +4273,8 @@ function An(e, t, n, r) {
       o = r ? r.posAtStart : a.from,
       s = r ? r.posAtEnd : a.to;
     return (
-      s < e.state.doc.length && s == a.to && s++, i.undirectionalRange(o, s)
+      s < e.state.doc.length && s == a.to && s++,
+      i.undirectionalRange(o, s)
     );
   }
 }
@@ -4324,7 +4338,7 @@ function Ln(e, t) {
   }
   return null;
 }
-(q.dragstart = (e, t) => {
+((q.dragstart = (e, t) => {
   let {
     selection: { main: n },
   } = e.state;
@@ -4349,7 +4363,7 @@ function Ln(e, t) {
     !1
   );
 }),
-  (q.dragend = (e) => ((e.inputState.draggedContent = null), !1));
+  (q.dragend = (e) => ((e.inputState.draggedContent = null), !1)));
 function Rn(e, t, n, r) {
   if (((n = On(e.state, ot, n)), !n)) return;
   let i = e.posAtCoords({ x: t.clientX, y: t.clientY }, !1),
@@ -4357,15 +4371,15 @@ function Rn(e, t, n, r) {
     o = r && a && Cn(e, t) ? { from: a.from, to: a.to } : null,
     s = { from: i, insert: n },
     c = e.state.changes(o ? [o, s] : s);
-  e.focus(),
+  (e.focus(),
     e.dispatch({
       changes: c,
       selection: { anchor: c.mapPos(i, -1), head: c.mapPos(i, 1) },
       userEvent: o ? `move.drop` : `input.drop`,
     }),
-    (e.inputState.draggedContent = null);
+    (e.inputState.draggedContent = null));
 }
-(q.drop = (e, t) => {
+((q.drop = (e, t) => {
   if (!t.dataTransfer) return !1;
   if (e.state.readOnly) return !0;
   let n = t.dataTransfer.files;
@@ -4378,16 +4392,16 @@ function Rn(e, t, n, r) {
       };
     for (let e = 0; e < n.length; e++) {
       let t = new FileReader();
-      (t.onerror = a),
+      ((t.onerror = a),
         (t.onload = () => {
-          /[\x00-\x08\x0e-\x1f]{2}/.test(t.result) || (r[e] = t.result), a();
+          (/[\x00-\x08\x0e-\x1f]{2}/.test(t.result) || (r[e] = t.result), a());
         }),
-        t.readAsText(n[e]);
+        t.readAsText(n[e]));
     }
     return !0;
   } else {
     let n = t.dataTransfer.getData(`Text`);
-    if (n) return Rn(e, t, n, !0), !0;
+    if (n) return (Rn(e, t, n, !0), !0);
   }
   return !1;
 }),
@@ -4398,19 +4412,19 @@ function Rn(e, t, n, r) {
     return n
       ? (kn(e, n.getData(`text/plain`) || n.getData(`text/uri-list`)), !0)
       : (Dn(e), !1);
-  });
+  }));
 function zn(e, t) {
   let n = e.dom.parentNode;
   if (!n) return;
   let r = n.appendChild(document.createElement(`textarea`));
-  (r.style.cssText = `position: fixed; left: -10000px; top: 10px`),
+  ((r.style.cssText = `position: fixed; left: -10000px; top: 10px`),
     (r.value = t),
     r.focus(),
     (r.selectionEnd = t.length),
     (r.selectionStart = 0),
     setTimeout(() => {
-      r.remove(), e.focus();
-    }, 50);
+      (r.remove(), e.focus());
+    }, 50));
 }
 function Bn(e) {
   let t = [],
@@ -4422,10 +4436,10 @@ function Bn(e) {
     let i = -1;
     for (let { from: r } of e.selection.ranges) {
       let a = e.doc.lineAt(r);
-      a.number > i &&
+      (a.number > i &&
         (t.push(a.text),
         n.push({ from: a.from, to: Math.min(e.doc.length, a.to + 1) })),
-        (i = a.number);
+        (i = a.number));
     }
     r = !0;
   }
@@ -4436,10 +4450,10 @@ q.copy = q.cut = (e, t) => {
   if (!O(e.contentDOM, e.observer.selectionRange)) return !1;
   let { text: n, ranges: r, linewise: i } = Bn(e.state);
   if (!n && !i) return !1;
-  (Vn = i ? n : null),
+  ((Vn = i ? n : null),
     t.type == `cut` &&
       !e.state.readOnly &&
-      e.dispatch({ changes: r, scrollIntoView: !0, userEvent: `delete.cut` });
+      e.dispatch({ changes: r, scrollIntoView: !0, userEvent: `delete.cut` }));
   let a = En ? null : t.clipboardData;
   return a ? (a.clearData(), a.setData(`text/plain`, n), !0) : (zn(e, n), !1);
 };
@@ -4461,16 +4475,16 @@ function Wn(e) {
     }
   }, 10);
 }
-(J.focus = (e) => {
-  (e.inputState.lastFocusTime = Date.now()),
+((J.focus = (e) => {
+  ((e.inputState.lastFocusTime = Date.now()),
     !e.scrollDOM.scrollTop &&
       (e.inputState.lastScrollTop || e.inputState.lastScrollLeft) &&
       ((e.scrollDOM.scrollTop = e.inputState.lastScrollTop),
       (e.scrollDOM.scrollLeft = e.inputState.lastScrollLeft)),
-    Wn(e);
+    Wn(e));
 }),
   (J.blur = (e) => {
-    e.observer.clearSelectionRange(), Wn(e);
+    (e.observer.clearSelectionRange(), Wn(e));
   }),
   (J.compositionstart = J.compositionupdate =
     (e) => {
@@ -4552,7 +4566,7 @@ function Wn(e) {
         setTimeout(() => J.compositionend(e, t), 20),
       !1
     );
-  });
+  }));
 const Gn = /* @__PURE__ */ new Set();
 function Kn(e) {
   Gn.has(e) ||
@@ -4567,13 +4581,13 @@ function Jn() {
 }
 class HeightOracle {
   constructor(e) {
-    (this.lineWrapping = e),
+    ((this.lineWrapping = e),
       (this.doc = c.empty),
       (this.heightSamples = {}),
       (this.lineHeight = 14),
       (this.charWidth = 7),
       (this.textHeight = 14),
-      (this.lineLength = 30);
+      (this.lineLength = 30));
   }
   heightForGap(e, t) {
     let n = this.doc.lineAt(t).number - this.doc.lineAt(e).number + 1;
@@ -4597,7 +4611,7 @@ class HeightOracle {
       : this.lineHeight;
   }
   setDoc(e) {
-    return (this.doc = e), this;
+    return ((this.doc = e), this);
   }
   mustRefreshForWrapping(e) {
     return qn.indexOf(e) > -1 != this.lineWrapping;
@@ -4635,7 +4649,7 @@ class HeightOracle {
 }
 class MeasuredHeights {
   constructor(e, t) {
-    (this.from = e), (this.heights = t), (this.index = 0);
+    ((this.from = e), (this.heights = t), (this.index = 0));
   }
   get more() {
     return this.index < this.heights.length;
@@ -4643,11 +4657,11 @@ class MeasuredHeights {
 }
 class BlockInfo {
   constructor(e, t, n, r, i) {
-    (this.from = e),
+    ((this.from = e),
       (this.length = t),
       (this.top = n),
       (this.height = r),
-      (this._content = i);
+      (this._content = i));
   }
   get type() {
     return typeof this._content == `number`
@@ -4694,7 +4708,7 @@ var X = /* @__PURE__ */ (function (e) {
 const Yn = 0.001;
 class HeightMap {
   constructor(e, t, n = 2) {
-    (this.length = e), (this.height = t), (this.flags = n);
+    ((this.length = e), (this.height = t), (this.flags = n));
   }
   get outdated() {
     return (this.flags & 2) > 0;
@@ -4723,11 +4737,11 @@ class HeightMap {
         d = i.lineAt(s, X.ByPosNoHeight, n.setDoc(t), 0, 0),
         f = d.to >= c ? d : i.lineAt(c, X.ByPosNoHeight, n, 0, 0);
       for (u += f.to - c, c = f.to; o > 0 && d.from <= r[o - 1].toA; )
-        (s = r[o - 1].fromA),
+        ((s = r[o - 1].fromA),
           (l = r[o - 1].fromB),
           o--,
-          s < d.from && (d = i.lineAt(s, X.ByPosNoHeight, n, 0, 0));
-      (l += d.from - s), (s = d.from);
+          s < d.from && (d = i.lineAt(s, X.ByPosNoHeight, n, 0, 0)));
+      ((l += d.from - s), (s = d.from));
       let p = NodeBuilder.build(n.setDoc(a), e, l, u);
       i = Xn(i, i.replace(s, c, p));
     }
@@ -4746,18 +4760,18 @@ class HeightMap {
       if (t == n)
         if (r > i * 2) {
           let i = e[t - 1];
-          i.break
+          (i.break
             ? e.splice(--t, 1, i.left, null, i.right)
             : e.splice(--t, 1, i.left, i.right),
             (n += 1 + i.break),
-            (r -= i.size);
+            (r -= i.size));
         } else if (i > r * 2) {
           let t = e[n];
-          t.break
+          (t.break
             ? e.splice(n, 1, t.left, null, t.right)
             : e.splice(n, 1, t.left, t.right),
             (n += 2 + t.break),
-            (i -= t.size);
+            (i -= t.size));
         } else break;
       else if (r < i) {
         let n = e[t++];
@@ -4784,7 +4798,7 @@ HeightMap.prototype.size = 1;
 const Zn = /* @__PURE__ */ Decoration.replace({});
 class HeightMapBlock extends HeightMap {
   constructor(e, t, n) {
-    super(e, t), (this.deco = n), (this.spaceAbove = 0);
+    (super(e, t), (this.deco = n), (this.spaceAbove = 0));
   }
   mainBlock(e, t) {
     return new BlockInfo(
@@ -4809,10 +4823,10 @@ class HeightMapBlock extends HeightMap {
   }
   setMeasuredHeight(e) {
     let t = e.heights[e.index++];
-    t < 0
+    (t < 0
       ? ((this.spaceAbove = -t), (t = e.heights[e.index++]))
       : (this.spaceAbove = 0),
-      this.setHeight(t);
+      this.setHeight(t));
   }
   updateHeight(e, t = 0, n = !1, r) {
     return (
@@ -4827,11 +4841,11 @@ class HeightMapBlock extends HeightMap {
 }
 class HeightMapText extends HeightMapBlock {
   constructor(e, t, n) {
-    super(e, t, null),
+    (super(e, t, null),
       (this.collapsed = 0),
       (this.widgetHeight = 0),
       (this.breaks = 0),
-      (this.spaceAbove = n);
+      (this.spaceAbove = n));
   }
   mainBlock(e, t) {
     return new BlockInfo(
@@ -4888,8 +4902,8 @@ class HeightMapGap extends HeightMap {
       o = 0;
     if (e.lineWrapping) {
       let t = Math.min(this.height, e.lineHeight * i);
-      (a = t / i),
-        this.length > i + 1 && (o = (this.height - t) / (this.length - i - 1));
+      ((a = t / i),
+        this.length > i + 1 && (o = (this.height - t) / (this.length - i - 1)));
     } else a = this.height / i;
     return { firstLine: n, lastLine: r, perLine: a, perChar: o };
   }
@@ -4938,7 +4952,7 @@ class HeightMapGap extends HeightMap {
     );
   }
   forEachLine(e, t, n, r, i, a) {
-    (e = Math.max(e, i)), (t = Math.min(t, i + this.length));
+    ((e = Math.max(e, i)), (t = Math.min(t, i + this.length)));
     let { firstLine: o, perLine: s, perChar: c } = this.heightMetrics(n, i);
     for (let l = e, u = r; l <= t; ) {
       let t = n.doc.lineAt(l);
@@ -4947,7 +4961,7 @@ class HeightMapGap extends HeightMap {
         u += s * n + c * (e - i - n);
       }
       let r = s + c * t.length;
-      a(new BlockInfo(t.from, t.length, u, r, 0)), (u += r), (l = t.to + 1);
+      (a(new BlockInfo(t.from, t.length, u, r, 0)), (u += r), (l = t.to + 1));
     }
   }
   replace(e, t, n) {
@@ -4982,16 +4996,15 @@ class HeightMapGap extends HeightMap {
         r.from > t &&
         n.push(new HeightMapGap(r.from - t - 1).updateHeight(e, t));
         a <= i && r.more;
-
       ) {
         let t = e.doc.lineAt(a).length;
         n.length && n.push(null);
         let i = r.heights[r.index++],
           s = 0;
-        i < 0 && ((s = -i), (i = r.heights[r.index++])),
-          o == -1 ? (o = i) : Math.abs(i - o) >= Yn && (o = -2);
+        (i < 0 && ((s = -i), (i = r.heights[r.index++])),
+          o == -1 ? (o = i) : Math.abs(i - o) >= Yn && (o = -2));
         let c = new HeightMapText(t, i, s);
-        (c.outdated = !1), n.push(c), (a += t + 1);
+        ((c.outdated = !1), n.push(c), (a += t + 1));
       }
       a <= i && n.push(null, new HeightMapGap(i - a).updateHeight(e, a));
       let s = HeightMap.of(n);
@@ -5014,14 +5027,14 @@ class HeightMapGap extends HeightMap {
 }
 class HeightMapBranch extends HeightMap {
   constructor(e, t, n) {
-    super(
+    (super(
       e.length + t + n.length,
       e.height + n.height,
       t | (e.outdated || n.outdated ? 2 : 0),
     ),
       (this.left = e),
       (this.right = n),
-      (this.size = e.size + n.size);
+      (this.size = e.size + n.size));
   }
   get break() {
     return this.flags & 1;
@@ -5049,13 +5062,13 @@ class HeightMapBranch extends HeightMap {
     let o = r + this.left.height,
       s = i + this.left.length + this.break;
     if (this.break)
-      e < s && this.left.forEachLine(e, t, n, r, i, a),
-        t >= s && this.right.forEachLine(e, t, n, o, s, a);
+      (e < s && this.left.forEachLine(e, t, n, r, i, a),
+        t >= s && this.right.forEachLine(e, t, n, o, s, a));
     else {
       let c = this.lineAt(s, X.ByPos, n, r, i);
-      e < c.from && this.left.forEachLine(e, c.from - 1, n, r, i, a),
+      (e < c.from && this.left.forEachLine(e, c.from - 1, n, r, i, a),
         c.to >= e && c.from <= t && a(c),
-        t > c.to && this.right.forEachLine(c.to + 1, t, n, o, s, a);
+        t > c.to && this.right.forEachLine(c.to + 1, t, n, o, s, a));
     }
   }
   replace(e, t, n) {
@@ -5069,24 +5082,24 @@ class HeightMapBranch extends HeightMap {
     for (let e of n) i.push(e);
     if ((e > 0 && Qn(i, a - 1), t < this.length)) {
       let e = i.length;
-      this.decomposeRight(t, i), Qn(i, e);
+      (this.decomposeRight(t, i), Qn(i, e));
     }
     return HeightMap.of(i);
   }
   decomposeLeft(e, t) {
     let n = this.left.length;
     if (e <= n) return this.left.decomposeLeft(e, t);
-    t.push(this.left),
+    (t.push(this.left),
       this.break && (n++, e >= n && t.push(null)),
-      e > n && this.right.decomposeLeft(e - n, t);
+      e > n && this.right.decomposeLeft(e - n, t));
   }
   decomposeRight(e, t) {
     let n = this.left.length,
       r = n + this.break;
     if (e >= r) return this.right.decomposeRight(e - r, t);
-    e < n && this.left.decomposeRight(e, t),
+    (e < n && this.left.decomposeRight(e, t),
       this.break && e < r && t.push(null),
-      t.push(this.right);
+      t.push(this.right));
   }
   balanced(e, t) {
     return e.size > 2 * t.size || t.size > 2 * e.size
@@ -5131,13 +5144,13 @@ function Qn(e, t) {
 const $n = 5;
 class NodeBuilder {
   constructor(e, t) {
-    (this.pos = e),
+    ((this.pos = e),
       (this.oracle = t),
       (this.nodes = []),
       (this.lineStart = -1),
       (this.lineEnd = -1),
       (this.covering = null),
-      (this.writtenTo = e);
+      (this.writtenTo = e));
   }
   get isCovered() {
     return this.covering && this.nodes[this.nodes.length - 1] == this.covering;
@@ -5146,13 +5159,13 @@ class NodeBuilder {
     if (this.lineStart > -1) {
       let e = Math.min(t, this.lineEnd),
         n = this.nodes[this.nodes.length - 1];
-      n instanceof HeightMapText
+      (n instanceof HeightMapText
         ? (n.length += e - this.pos)
         : (e > this.pos || !this.isCovered) &&
           this.nodes.push(new HeightMapText(e - this.pos, -1, 0)),
         (this.writtenTo = e),
         t > e &&
-          (this.nodes.push(null), this.writtenTo++, (this.lineStart = -1));
+          (this.nodes.push(null), this.writtenTo++, (this.lineStart = -1)));
     }
     this.pos = t;
   }
@@ -5173,7 +5186,7 @@ class NodeBuilder {
   enterLine() {
     if (this.lineStart > -1) return;
     let { from: e, to: t } = this.oracle.doc.lineAt(this.pos);
-    (this.lineStart = e),
+    ((this.lineStart = e),
       (this.lineEnd = t),
       this.writtenTo < e &&
         ((this.writtenTo < e - 1 ||
@@ -5181,34 +5194,34 @@ class NodeBuilder {
           this.nodes.push(this.blankContent(this.writtenTo, e - 1)),
         this.nodes.push(null)),
       this.pos > e && this.nodes.push(new HeightMapText(this.pos - e, -1, 0)),
-      (this.writtenTo = this.pos);
+      (this.writtenTo = this.pos));
   }
   blankContent(e, t) {
     let n = new HeightMapGap(t - e);
-    return this.oracle.doc.lineAt(e).to == t && (n.flags |= 4), n;
+    return (this.oracle.doc.lineAt(e).to == t && (n.flags |= 4), n);
   }
   ensureLine() {
     this.enterLine();
     let e = this.nodes.length ? this.nodes[this.nodes.length - 1] : null;
     if (e instanceof HeightMapText) return e;
     let t = new HeightMapText(0, -1, 0);
-    return this.nodes.push(t), t;
+    return (this.nodes.push(t), t);
   }
   addBlock(e) {
     this.enterLine();
     let t = e.deco;
-    t && t.startSide > 0 && !this.isCovered && this.ensureLine(),
+    (t && t.startSide > 0 && !this.isCovered && this.ensureLine(),
       this.nodes.push(e),
       (this.writtenTo = this.pos += e.length),
-      t && t.endSide > 0 && (this.covering = e);
+      t && t.endSide > 0 && (this.covering = e));
   }
   addLineDeco(e, t, n) {
     let r = this.ensureLine();
-    (r.length += n),
+    ((r.length += n),
       (r.collapsed += n),
       (r.widgetHeight = Math.max(r.widgetHeight, e)),
       (r.breaks += t),
-      (this.writtenTo = this.pos += n);
+      (this.writtenTo = this.pos += n));
   }
   finish(e) {
     let t = this.nodes.length == 0 ? null : this.nodes[this.nodes.length - 1];
@@ -5218,18 +5231,18 @@ class NodeBuilder {
         this.nodes.push(this.blankContent(this.writtenTo, this.pos));
     let n = e;
     for (let e of this.nodes)
-      e instanceof HeightMapText && e.updateHeight(this.oracle, n),
-        (n += e ? e.length : 1);
+      (e instanceof HeightMapText && e.updateHeight(this.oracle, n),
+        (n += e ? e.length : 1));
     return this.nodes;
   }
   static build(e, n, r, i) {
     let a = new NodeBuilder(r, e);
-    return t.spans(n, r, i, a, 0), a.finish(r);
+    return (t.spans(n, r, i, a, 0), a.finish(r));
   }
 }
 function er(e, n, r) {
   let i = new DecorationComparator();
-  return t.compare(e, n, r, i, 0), i.changes;
+  return (t.compare(e, n, r, i, 0), i.changes);
 }
 class DecorationComparator {
   constructor() {
@@ -5258,10 +5271,10 @@ function tr(e, t) {
         r.overflow != `visible`
       ) {
         let r = n.getBoundingClientRect();
-        (a = Math.max(a, r.left)),
+        ((a = Math.max(a, r.left)),
           (o = Math.min(o, r.right)),
           (s = Math.max(s, r.top)),
-          (c = Math.min(t == e.parentNode ? i.innerHeight : c, r.bottom));
+          (c = Math.min(t == e.parentNode ? i.innerHeight : c, r.bottom)));
       }
       t =
         r.position == `absolute` || r.position == `fixed`
@@ -5297,7 +5310,7 @@ function rr(e, t) {
 }
 class LineGap {
   constructor(e, t, n, r) {
-    (this.from = e), (this.to = t), (this.size = n), (this.displaySize = r);
+    ((this.from = e), (this.to = t), (this.size = n), (this.displaySize = r));
   }
   static same(e, t) {
     if (e.length != t.length) return !1;
@@ -5319,7 +5332,7 @@ class LineGap {
 }
 class LineGapWidget extends WidgetType {
   constructor(e, t) {
-    super(), (this.size = e), (this.vertical = t);
+    (super(), (this.size = e), (this.vertical = t));
   }
   eq(e) {
     return e.size == this.size && e.vertical == this.vertical;
@@ -5341,7 +5354,7 @@ class LineGapWidget extends WidgetType {
 }
 class ViewState {
   constructor(e, t) {
-    (this.view = e),
+    ((this.view = e),
       (this.state = t),
       (this.pixelViewport = {
         left: 0,
@@ -5368,31 +5381,31 @@ class ViewState {
       (this.mustMeasureContent = !0),
       (this.defaultTextDirection = L.LTR),
       (this.visibleRanges = []),
-      (this.mustEnforceCursorAssoc = !1);
+      (this.mustEnforceCursorAssoc = !1));
     let n = t
       .facet(ht)
       .some((e) => typeof e != `function` && e.class == `cm-lineWrapping`);
-    (this.heightOracle = new HeightOracle(n)),
+    ((this.heightOracle = new HeightOracle(n)),
       (this.stateDeco = lr(t)),
       (this.heightMap = HeightMap.empty().applyChanges(
         this.stateDeco,
         c.empty,
         this.heightOracle.setDoc(t.doc),
         [new ChangedRange(0, 0, 0, t.doc.length)],
-      ));
+      )));
     for (
       let e = 0;
       e < 2 &&
       ((this.viewport = this.getViewport(0, null)), this.updateForViewport());
       e++
     );
-    this.updateViewportLines(),
+    (this.updateViewportLines(),
       (this.lineGaps = this.ensureLineGaps([])),
       (this.lineGapDeco = Decoration.set(
         this.lineGaps.map((e) => e.draw(this, !1)),
       )),
       (this.scrollParent = e.scrollDOM),
-      this.computeVisibleRanges();
+      this.computeVisibleRanges());
   }
   updateForViewport() {
     let e = [this.viewport],
@@ -5405,7 +5418,8 @@ class ViewState {
       }
     }
     return (
-      (this.viewports = e.sort((e, t) => e.from - t.from)), this.updateScaler()
+      (this.viewports = e.sort((e, t) => e.from - t.from)),
+      this.updateScaler()
     );
   }
   updateScaler() {
@@ -5419,7 +5433,7 @@ class ViewState {
     );
   }
   updateViewportLines() {
-    (this.viewportLines = []),
+    ((this.viewportLines = []),
       this.heightMap.forEachLine(
         this.viewport.from,
         this.viewport.to,
@@ -5429,7 +5443,7 @@ class ViewState {
         (e) => {
           this.viewportLines.push(ur(e, this.scaler));
         },
-      );
+      ));
   }
   update(e, t = null) {
     this.state = e.state;
@@ -5442,7 +5456,7 @@ class ViewState {
       ),
       a = this.heightMap.height,
       o = this.scrolledToBottom ? null : this.scrollAnchorAt(this.scrollOffset);
-    Jn(),
+    (Jn(),
       (this.heightMap = this.heightMap.applyChanges(
         this.stateDeco,
         e.startState.doc,
@@ -5453,7 +5467,7 @@ class ViewState {
       o
         ? ((this.scrollAnchorPos = e.changes.mapPos(o.from, -1)),
           (this.scrollAnchorHeight = o.top))
-        : ((this.scrollAnchorPos = -1), (this.scrollAnchorHeight = a));
+        : ((this.scrollAnchorPos = -1), (this.scrollAnchorHeight = a)));
     let c = i.length
       ? this.mapViewport(this.viewport, e.changes)
       : this.viewport;
@@ -5461,7 +5475,7 @@ class ViewState {
       !this.viewportIsAppropriate(c)) &&
       (c = this.getViewport(0, t));
     let l = c.from != this.viewport.from || c.to != this.viewport.to;
-    (this.viewport = c),
+    ((this.viewport = c),
       (e.flags |= this.updateForViewport()),
       (l || !e.changes.empty || e.flags & 2) && this.updateViewportLines(),
       (this.lineGaps.length || this.viewport.to - this.viewport.from > 4e3) &&
@@ -5476,7 +5490,7 @@ class ViewState {
         e.state.selection.main.empty &&
         e.state.selection.main.assoc &&
         !e.state.facet(lt) &&
-        (this.mustEnforceCursorAssoc = !0);
+        (this.mustEnforceCursorAssoc = !0));
   }
   measure() {
     let { view: e } = this,
@@ -5490,7 +5504,7 @@ class ViewState {
         this.mustMeasureContent === `refresh`,
       o = t.getBoundingClientRect(),
       s = a || this.mustMeasureContent || this.contentDOMHeight != o.height;
-    (this.contentDOMHeight = o.height), (this.mustMeasureContent = !1);
+    ((this.contentDOMHeight = o.height), (this.mustMeasureContent = !1));
     let l = 0,
       u = 0;
     if (o.width && o.height) {
@@ -5501,21 +5515,21 @@ class ViewState {
     }
     let d = (parseInt(n.paddingTop) || 0) * this.scaleY,
       f = (parseInt(n.paddingBottom) || 0) * this.scaleY;
-    (this.paddingTop != d || this.paddingBottom != f) &&
+    ((this.paddingTop != d || this.paddingBottom != f) &&
       ((this.paddingTop = d), (this.paddingBottom = f), (l |= 18)),
       this.editorWidth != e.scrollDOM.clientWidth &&
         (r.lineWrapping && (s = !0),
         (this.editorWidth = e.scrollDOM.clientWidth),
-        (l |= 16));
+        (l |= 16)));
     let p = De(this.view.contentDOM, !1).y;
     p != this.scrollParent &&
       ((this.scrollParent = p),
       (this.scrollAnchorHeight = -1),
       (this.scrollOffset = 0));
     let m = this.getScrollOffset();
-    this.scrollOffset != m &&
+    (this.scrollOffset != m &&
       ((this.scrollAnchorHeight = -1), (this.scrollOffset = m)),
-      (this.scrolledToBottom = Me(this.scrollParent || e.win));
+      (this.scrolledToBottom = Me(this.scrollParent || e.win)));
     let h = (this.printing ? rr : tr)(t, this.paddingTop),
       g = h.top - this.pixelViewport.top,
       _ = h.bottom - this.pixelViewport.bottom;
@@ -5548,13 +5562,13 @@ class ViewState {
           charWidth: o,
           textHeight: s,
         } = e.docView.measureTextSize();
-        (a = n > 0 && r.refresh(i, n, o, s, Math.max(5, y / o), t)),
-          a && ((e.docView.minWidth = 0), (l |= 16));
+        ((a = n > 0 && r.refresh(i, n, o, s, Math.max(5, y / o), t)),
+          a && ((e.docView.minWidth = 0), (l |= 16)));
       }
-      g > 0 && _ > 0
+      (g > 0 && _ > 0
         ? (u = Math.max(g, _))
         : g < 0 && _ < 0 && (u = Math.min(g, _)),
-        Jn();
+        Jn());
       for (let n of this.viewports) {
         let i =
           n.from == this.viewport.from
@@ -5616,7 +5630,7 @@ class ViewState {
           ),
           a = r.lineAt(e, X.ByPos, i, 0, 0),
           o;
-        (o =
+        ((o =
           t.y == `center`
             ? (a.top + a.bottom) / 2 - n / 2
             : t.y == `start` || (t.y == `nearest` && e < s.from)
@@ -5625,7 +5639,7 @@ class ViewState {
           (s = new Viewport(
             r.lineAt(o - 1e3 / 2, X.ByHeight, i, 0, 0).from,
             r.lineAt(o + n + 1e3 / 2, X.ByHeight, i, 0, 0).to,
-          ));
+          )));
       }
     }
     return s;
@@ -5680,7 +5694,7 @@ class ViewState {
         d.empty || f.push(d.to);
         for (let e of f)
           if (e > r && e < o) {
-            c(r, e - 10, l, u), c(e + 10, o, l, u);
+            (c(r, e - 10, l, u), c(e + 10, o, l, u));
             return;
           }
         let p = sr(
@@ -5722,11 +5736,11 @@ class ViewState {
           if (a != null) {
             let r = or(i, a),
               s = ((this.visibleBottom - this.visibleTop) / 2 + e) / t.height;
-            (n = r - s), (o = r + s);
+            ((n = r - s), (o = r + s));
           } else
-            (n = (this.visibleTop - t.top - e) / t.height),
-              (o = (this.visibleBottom - t.top + e) / t.height);
-          (s = ar(i, n)), (l = ar(i, o));
+            ((n = (this.visibleTop - t.top - e) / t.height),
+              (o = (this.visibleBottom - t.top + e) / t.height));
+          ((s = ar(i, n)), (l = ar(i, o)));
         } else {
           let n = i.total * this.heightOracle.charWidth,
             o = r * this.heightOracle.charWidth,
@@ -5746,11 +5760,11 @@ class ViewState {
           if (a != null) {
             let e = or(i, a),
               t = ((d - u) / 2 + o) / n;
-            (f = e - t), (p = e + t);
-          } else (f = (u - o) / n), (p = (d + o) / n);
-          (s = ar(i, f)), (l = ar(i, p));
+            ((f = e - t), (p = e + t));
+          } else ((f = (u - o) / n), (p = (d + o) / n));
+          ((s = ar(i, f)), (l = ar(i, p)));
         }
-        s > t.from && c(t.from, s, t, i), l < t.to && c(l, t.to, t, i);
+        (s > t.from && c(t.from, s, t, i), l < t.to && c(l, t.to, t, i));
       };
     for (let e of this.viewportLines)
       Array.isArray(e.type) ? e.type.forEach(l) : l(e);
@@ -5796,7 +5810,7 @@ class ViewState {
           (e && e.mapPos(n.from, -1) == a.from && e.mapPos(n.to, 1) == a.to) ||
             (i |= 8));
       }
-    return (this.visibleRanges = r), i;
+    return ((this.visibleRanges = r), i);
   }
   lineBlockAt(e) {
     return (
@@ -5857,7 +5871,7 @@ class ViewState {
 }
 class Viewport {
   constructor(e, t) {
-    (this.from = e), (this.to = t);
+    ((this.from = e), (this.to = t));
   }
 }
 function ir(e, n, r) {
@@ -5872,7 +5886,7 @@ function ir(e, n, r) {
       {
         span() {},
         point(e, t) {
-          e > a && (i.push({ from: a, to: e }), (o += e - a)), (a = t);
+          (e > a && (i.push({ from: a, to: e }), (o += e - a)), (a = t));
         },
       },
       20,
@@ -5921,14 +5935,14 @@ const cr = {
 function lr(e) {
   let n = e.facet(gt).filter((e) => typeof e != `function`),
     r = e.facet(vt).filter((e) => typeof e != `function`);
-  return r.length && n.push(t.join(r)), n;
+  return (r.length && n.push(t.join(r)), n);
 }
 class BigScaler {
   constructor(e, t, n) {
     let r = 0,
       i = 0,
       a = 0;
-    (this.viewports = n.map(({ from: n, to: i }) => {
+    ((this.viewports = n.map(({ from: n, to: i }) => {
       let a = t.lineAt(n, X.ByPos, e, 0, 0).top,
         o = t.lineAt(i, X.ByPos, e, 0, 0).bottom;
       return (
@@ -5936,18 +5950,18 @@ class BigScaler {
         { from: n, to: i, top: a, bottom: o, domTop: 0, domBottom: 0 }
       );
     })),
-      (this.scale = (7e6 - r) / (t.height - r));
+      (this.scale = (7e6 - r) / (t.height - r)));
     for (let e of this.viewports)
-      (e.domTop = a + (e.top - i) * this.scale),
+      ((e.domTop = a + (e.top - i) * this.scale),
         (a = e.domBottom = e.domTop + (e.bottom - e.top)),
-        (i = e.bottom);
+        (i = e.bottom));
   }
   toDOM(e) {
     for (let t = 0, n = 0, r = 0; ; t++) {
       let i = t < this.viewports.length ? this.viewports[t] : null;
       if (!i || e < i.top) return r + (e - n) * this.scale;
       if (e <= i.bottom) return i.domTop + (e - i.top);
-      (n = i.bottom), (r = i.domBottom);
+      ((n = i.bottom), (r = i.domBottom));
     }
   }
   fromDOM(e) {
@@ -5955,7 +5969,7 @@ class BigScaler {
       let i = t < this.viewports.length ? this.viewports[t] : null;
       if (!i || e < i.domTop) return n + (e - r) / this.scale;
       if (e <= i.domBottom) return i.top + (e - i.domTop);
-      (n = i.bottom), (r = i.domBottom);
+      ((n = i.bottom), (r = i.domBottom));
     }
   }
   eq(e) {
@@ -6229,7 +6243,7 @@ const vr = /* @__PURE__ */ _r(
   br = T.ie && T.ie_version <= 11;
 class DOMObserver {
   constructor(e) {
-    (this.view = e),
+    ((this.view = e),
       (this.active = !1),
       (this.editContext = null),
       (this.selectionRange = new DOMSelectionState()),
@@ -6270,12 +6284,12 @@ class DOMObserver {
           (e.contentDOM.editContext = this.editContext.editContext)),
       br &&
         (this.onCharData = (e) => {
-          this.queue.push({
+          (this.queue.push({
             target: e.target,
             type: `characterData`,
             oldValue: e.prevValue,
           }),
-            this.flushSoon();
+            this.flushSoon());
         }),
       (this.onSelectionChange = this.onSelectionChange.bind(this)),
       (this.onResize = this.onResize.bind(this)),
@@ -6294,7 +6308,7 @@ class DOMObserver {
       typeof IntersectionObserver == `function` &&
         ((this.intersection = new IntersectionObserver(
           (e) => {
-            this.parentCheck < 0 &&
+            (this.parentCheck < 0 &&
               (this.parentCheck = setTimeout(
                 this.listenForScroll.bind(this),
                 1e3,
@@ -6303,7 +6317,7 @@ class DOMObserver {
                 e[e.length - 1].intersectionRatio > 0 != this.intersecting &&
                 ((this.intersecting = !this.intersecting),
                 this.intersecting != this.view.inView &&
-                  this.onScrollChanged(document.createEvent(`Event`)));
+                  this.onScrollChanged(document.createEvent(`Event`))));
           },
           { threshold: [0, 0.001] },
         )),
@@ -6314,21 +6328,21 @@ class DOMObserver {
             this.onScrollChanged(document.createEvent(`Event`));
         }, {}))),
       this.listenForScroll(),
-      this.readSelectionRange();
+      this.readSelectionRange());
   }
   onScrollChanged(e) {
-    this.view.inputState.runHandlers(`scroll`, e),
-      this.intersecting && this.view.measure();
+    (this.view.inputState.runHandlers(`scroll`, e),
+      this.intersecting && this.view.measure());
   }
   onScroll(e) {
-    this.intersecting && this.flush(!1),
+    (this.intersecting && this.flush(!1),
       this.editContext && this.view.requestMeasure(this.editContext.measureReq),
-      this.onScrollChanged(e);
+      this.onScrollChanged(e));
   }
   onResize() {
     this.resizeTimeout < 0 &&
       (this.resizeTimeout = setTimeout(() => {
-        (this.resizeTimeout = -1), this.view.requestMeasure();
+        ((this.resizeTimeout = -1), this.view.requestMeasure());
       }, 50));
   }
   onPrint(e) {
@@ -6336,7 +6350,7 @@ class DOMObserver {
       ((this.view.viewState.printing = !0),
       this.view.measure(),
       setTimeout(() => {
-        (this.view.viewState.printing = !1), this.view.requestMeasure();
+        ((this.view.viewState.printing = !1), this.view.requestMeasure());
       }, 500));
   }
   updateGaps(e) {
@@ -6393,8 +6407,8 @@ class DOMObserver {
         !0);
   }
   setSelectionRange(e, t) {
-    this.selectionRange.set(e.node, e.offset, t.node, t.offset),
-      (this.selectionChanged = !1);
+    (this.selectionRange.set(e.node, e.offset, t.node, t.offset),
+      (this.selectionChanged = !1));
   }
   clearSelectionRange() {
     this.selectionRange.set(null, 0, null, 0);
@@ -6405,11 +6419,11 @@ class DOMObserver {
       t = null;
     for (let n = this.dom; n; )
       if (n.nodeType == 1)
-        !t && e < this.scrollTargets.length && this.scrollTargets[e] == n
+        (!t && e < this.scrollTargets.length && this.scrollTargets[e] == n
           ? e++
           : t || (t = this.scrollTargets.slice(0, e)),
           t && t.push(n),
-          (n = n.assignedSlot || n.parentNode);
+          (n = n.assignedSlot || n.parentNode));
       else if (n.nodeType == 11) n = n.host;
       else break;
     if (
@@ -6427,9 +6441,9 @@ class DOMObserver {
   ignore(e) {
     if (!this.active) return e();
     try {
-      return this.stop(), e();
+      return (this.stop(), e());
     } finally {
-      this.start(), this.clear();
+      (this.start(), this.clear());
     }
   }
   start() {
@@ -6450,9 +6464,9 @@ class DOMObserver {
         ));
   }
   clear() {
-    this.processRecords(),
+    (this.processRecords(),
       (this.queue.length = 0),
-      (this.selectionChanged = !1);
+      (this.selectionChanged = !1));
   }
   delayAndroidKey(e, t) {
     var n;
@@ -6477,21 +6491,21 @@ class DOMObserver {
       });
   }
   clearDelayedAndroidKey() {
-    this.win.cancelAnimationFrame(this.flushingAndroidKey),
+    (this.win.cancelAnimationFrame(this.flushingAndroidKey),
       (this.delayedAndroidKey = null),
-      (this.flushingAndroidKey = -1);
+      (this.flushingAndroidKey = -1));
   }
   flushSoon() {
     this.delayedFlush < 0 &&
       (this.delayedFlush = this.view.win.requestAnimationFrame(() => {
-        (this.delayedFlush = -1), this.flush();
+        ((this.delayedFlush = -1), this.flush());
       }));
   }
   forceFlush() {
-    this.delayedFlush >= 0 &&
+    (this.delayedFlush >= 0 &&
       (this.view.win.cancelAnimationFrame(this.delayedFlush),
       (this.delayedFlush = -1)),
-      this.flush();
+      this.flush());
   }
   pendingRecords() {
     for (let e of this.observer.takeRecords()) this.queue.push(e);
@@ -6517,9 +6531,9 @@ class DOMObserver {
     let { from: e, to: t, typeOver: n } = this.processRecords(),
       r = this.selectionChanged && O(this.dom, this.selectionRange);
     if (e < 0 && !r) return null;
-    e > -1 && (this.lastChange = Date.now()),
+    (e > -1 && (this.lastChange = Date.now()),
       (this.view.inputState.lastFocusTime = 0),
-      (this.selectionChanged = !1);
+      (this.selectionChanged = !1));
     let i = new DOMChange(this.view, e, t, n);
     return (
       (this.view.docView.domChanged = {
@@ -6532,7 +6546,7 @@ class DOMObserver {
     if (this.delayedFlush >= 0 || this.delayedAndroidKey) return !1;
     e && this.readSelectionRange();
     let t = this.readChange();
-    if (!t) return this.view.requestMeasure(), !1;
+    if (!t) return (this.view.requestMeasure(), !1);
     let n = this.view.state,
       r = on(this.view, t);
     return (
@@ -6569,24 +6583,27 @@ class DOMObserver {
       this.addWindowListeners(this.win));
   }
   addWindowListeners(e) {
-    e.addEventListener(`resize`, this.onResize),
+    (e.addEventListener(`resize`, this.onResize),
       this.printQuery
         ? this.printQuery.addEventListener
           ? this.printQuery.addEventListener(`change`, this.onPrint)
           : this.printQuery.addListener(this.onPrint)
         : e.addEventListener(`beforeprint`, this.onPrint),
       e.addEventListener(`scroll`, this.onScroll),
-      e.document.addEventListener(`selectionchange`, this.onSelectionChange);
+      e.document.addEventListener(`selectionchange`, this.onSelectionChange));
   }
   removeWindowListeners(e) {
-    e.removeEventListener(`scroll`, this.onScroll),
+    (e.removeEventListener(`scroll`, this.onScroll),
       e.removeEventListener(`resize`, this.onResize),
       this.printQuery
         ? this.printQuery.removeEventListener
           ? this.printQuery.removeEventListener(`change`, this.onPrint)
           : this.printQuery.removeListener(this.onPrint)
         : e.removeEventListener(`beforeprint`, this.onPrint),
-      e.document.removeEventListener(`selectionchange`, this.onSelectionChange);
+      e.document.removeEventListener(
+        `selectionchange`,
+        this.onSelectionChange,
+      ));
   }
   update(e) {
     this.editContext &&
@@ -6598,19 +6615,20 @@ class DOMObserver {
   }
   destroy() {
     var e, t, n;
-    this.stop(),
+    (this.stop(),
       (e = this.intersection) == null || e.disconnect(),
       (t = this.gapIntersection) == null || t.disconnect(),
-      (n = this.resizeScroll) == null || n.disconnect();
+      (n = this.resizeScroll) == null || n.disconnect());
     for (let e of this.scrollTargets)
       e.removeEventListener(`scroll`, this.onScroll);
-    this.removeWindowListeners(this.win),
+    (this.removeWindowListeners(this.win),
       clearTimeout(this.parentCheck),
       clearTimeout(this.resizeTimeout),
       this.win.cancelAnimationFrame(this.delayedFlush),
       this.win.cancelAnimationFrame(this.flushingAndroidKey),
       this.editContext &&
-        ((this.view.contentDOM.editContext = null), this.editContext.destroy());
+        ((this.view.contentDOM.editContext = null),
+        this.editContext.destroy()));
   }
 }
 function xr(e, t, n) {
@@ -6640,9 +6658,9 @@ function Cr(e, t) {
   }
   let n = null;
   function r(e) {
-    e.preventDefault(),
+    (e.preventDefault(),
       e.stopImmediatePropagation(),
-      (n = e.getTargetRanges()[0]);
+      (n = e.getTargetRanges()[0]));
   }
   return (
     e.contentDOM.addEventListener(`beforeinput`, r, !0),
@@ -6653,12 +6671,12 @@ function Cr(e, t) {
 }
 class EditContextManager {
   constructor(e) {
-    (this.from = 0),
+    ((this.from = 0),
       (this.to = 0),
       (this.pendingContextChange = null),
       (this.handlers = Object.create(null)),
       (this.composing = null),
-      this.resetRange(e.state);
+      this.resetRange(e.state));
     let t = (this.editContext = new window.EditContext({
       text: e.state.doc.sliceString(this.from, this.to),
       selectionStart: this.toContextPos(
@@ -6666,7 +6684,7 @@ class EditContextManager {
       ),
       selectionEnd: this.toContextPos(e.state.selection.main.head),
     }));
-    (this.handlers.textupdate = (n) => {
+    ((this.handlers.textupdate = (n) => {
       let r = e.state.selection.main,
         { anchor: a, head: o } = r,
         s = this.toEditorPos(n.updateRangeStart),
@@ -6723,7 +6741,7 @@ class EditContextManager {
           ),
         );
       }
-      this.pendingContextChange &&
+      (this.pendingContextChange &&
         (this.revertPending(e.state), this.setSelection(e.state)),
         f.from < f.to &&
           !f.insert.length &&
@@ -6734,7 +6752,7 @@ class EditContextManager {
               Math.min(t.text.length, n.updateRangeStart + 1),
             ),
           ) &&
-          this.handlers.compositionend(n);
+          this.handlers.compositionend(n));
     }),
       (this.handlers.characterboundsupdate = (n) => {
         let r = [],
@@ -6746,12 +6764,12 @@ class EditContextManager {
           t++
         ) {
           let n = e.coordsForChar(t);
-          (i =
+          ((i =
             (n &&
               new DOMRect(n.left, n.top, n.right - n.left, n.bottom - n.top)) ||
             i ||
             new DOMRect()),
-            r.push(i);
+            r.push(i));
         }
         t.updateCharacterBounds(n.rangeStart, r);
       }),
@@ -6783,9 +6801,9 @@ class EditContextManager {
           this.composing)
         ) {
           let { drifted: t } = this.composing;
-          (this.composing = null), t && this.reset(e.state);
+          ((this.composing = null), t && this.reset(e.state));
         }
-      });
+      }));
     for (let e in this.handlers) t.addEventListener(e, this.handlers[e]);
     this.measureReq = {
       read: (e) => {
@@ -6808,11 +6826,11 @@ class EditContextManager {
         let l = c.length - (a - i);
         if (r && a >= r.to)
           if (r.from == i && r.to == a && r.insert.eq(c)) {
-            (r = this.pendingContextChange = null), (t += l), (this.to += l);
+            ((r = this.pendingContextChange = null), (t += l), (this.to += l));
             return;
-          } else (r = null), this.revertPending(e.state);
+          } else ((r = null), this.revertPending(e.state));
         if (((i += t), (a += t), a <= this.from))
-          (this.from += l), (this.to += l);
+          ((this.from += l), (this.to += l));
         else if (i < this.to) {
           if (
             i < this.from ||
@@ -6822,12 +6840,12 @@ class EditContextManager {
             n = !0;
             return;
           }
-          this.editContext.updateText(
+          (this.editContext.updateText(
             this.toContextPos(i),
             this.toContextPos(a),
             c.toString(),
           ),
-            (this.to += l);
+            (this.to += l));
         }
         t += l;
       }),
@@ -6838,7 +6856,7 @@ class EditContextManager {
   update(e) {
     let t = this.pendingContextChange,
       n = e.startState.selection.main;
-    this.composing &&
+    (this.composing &&
     (this.composing.drifted ||
       (!e.changes.touchesRange(n.from, n.to) &&
         e.transactions.some(
@@ -6854,30 +6872,30 @@ class EditContextManager {
         ? ((this.pendingContextChange = null), this.reset(e.state))
         : (e.docChanged || e.selectionSet || t) && this.setSelection(e.state),
       (e.geometryChanged || e.docChanged || e.selectionSet) &&
-        e.view.requestMeasure(this.measureReq);
+        e.view.requestMeasure(this.measureReq));
   }
   resetRange(e) {
     let { head: t } = e.selection.main;
-    (this.from = Math.max(0, t - 1e4)),
-      (this.to = Math.min(e.doc.length, t + 1e4));
+    ((this.from = Math.max(0, t - 1e4)),
+      (this.to = Math.min(e.doc.length, t + 1e4)));
   }
   reset(e) {
-    this.resetRange(e),
+    (this.resetRange(e),
       this.editContext.updateText(
         0,
         this.editContext.text.length,
         e.doc.sliceString(this.from, this.to),
       ),
-      this.setSelection(e);
+      this.setSelection(e));
   }
   revertPending(e) {
     let t = this.pendingContextChange;
-    (this.pendingContextChange = null),
+    ((this.pendingContextChange = null),
       this.editContext.updateText(
         this.toContextPos(t.from),
         this.toContextPos(t.from + t.insert.length),
         e.doc.sliceString(t.from, t.to),
-      );
+      ));
   }
   setSelection(e) {
     let { main: t } = e.selection,
@@ -6936,7 +6954,7 @@ class EditorView {
   }
   constructor(e = {}) {
     var t;
-    (this.plugins = []),
+    ((this.plugins = []),
       (this.pluginMap = /* @__PURE__ */ new Map()),
       (this.editorAttrs = {}),
       (this.contentAttrs = {}),
@@ -6956,9 +6974,9 @@ class EditorView {
       (this.dom = document.createElement(`div`)),
       this.dom.appendChild(this.announceDOM),
       this.dom.appendChild(this.scrollDOM),
-      e.parent && e.parent.appendChild(this.dom);
+      e.parent && e.parent.appendChild(this.dom));
     let { dispatch: n } = e;
-    (this.dispatchTransactions =
+    ((this.dispatchTransactions =
       e.dispatchTransactions ||
       (n && ((e) => e.forEach((e) => n(e, this)))) ||
       ((e) => this.update(e))),
@@ -6970,9 +6988,9 @@ class EditorView {
         (this.viewState.scrollTarget = e.scrollTo.value.clip(
           this.viewState.state,
         )),
-      (this.plugins = this.state.facet(U).map((e) => new PluginInstance(e)));
+      (this.plugins = this.state.facet(U).map((e) => new PluginInstance(e))));
     for (let e of this.plugins) e.update(this);
-    (this.observer = new DOMObserver(this)),
+    ((this.observer = new DOMObserver(this)),
       (this.inputState = new InputState(this)),
       this.inputState.ensureHandlers(this.plugins),
       (this.docView = new DocView(this)),
@@ -6983,9 +7001,9 @@ class EditorView {
       (t = document.fonts) != null &&
         t.ready &&
         document.fonts.ready.then(() => {
-          (this.viewState.mustMeasureContent = `refresh`),
-            this.requestMeasure();
-        });
+          ((this.viewState.mustMeasureContent = `refresh`),
+            this.requestMeasure());
+        }));
   }
   dispatch(...e) {
     let t =
@@ -7036,7 +7054,7 @@ class EditorView {
       a.facet(d.phrases) != this.state.facet(d.phrases))
     )
       return this.setState(a);
-    (r = ViewUpdate.create(this, a, e)), (r.flags |= s);
+    ((r = ViewUpdate.create(this, a, e)), (r.flags |= s));
     let f = this.viewState.scrollTarget;
     try {
       this.updateState = 2;
@@ -7054,7 +7072,7 @@ class EditorView {
         }
         for (let e of t.effects) e.is(dt) && (f = e.value.clip(this.state));
       }
-      this.viewState.update(r, f),
+      (this.viewState.update(r, f),
         (this.bidiCache = CachedOrder.update(this.bidiCache, r.changes)),
         r.empty || (this.updatePlugins(r), this.inputState.update(r)),
         (t = this.docView.update(r)),
@@ -7064,7 +7082,7 @@ class EditorView {
         this.docView.updateSelection(
           t,
           e.some((e) => e.isUserEvent(`select.pointer`)),
-        );
+        ));
     } finally {
       this.updateState = 0;
     }
@@ -7088,8 +7106,8 @@ class EditorView {
         }
     (c || u) &&
       Promise.resolve().then(() => {
-        c && this.state == c.startState && this.dispatch(c),
-          u && !on(this, u) && l.force && I(this.contentDOM, l.key, l.keyCode);
+        (c && this.state == c.startState && this.dispatch(c),
+          u && !on(this, u) && l.force && I(this.contentDOM, l.key, l.keyCode));
       });
   }
   setState(e) {
@@ -7105,20 +7123,20 @@ class EditorView {
     let t = this.hasFocus;
     try {
       for (let e of this.plugins) e.destroy(this);
-      (this.viewState = new ViewState(this, e)),
+      ((this.viewState = new ViewState(this, e)),
         (this.plugins = e.facet(U).map((e) => new PluginInstance(e))),
-        this.pluginMap.clear();
+        this.pluginMap.clear());
       for (let e of this.plugins) e.update(this);
-      this.docView.destroy(),
+      (this.docView.destroy(),
         (this.docView = new DocView(this)),
         this.inputState.ensureHandlers(this.plugins),
         this.mountStyles(),
         this.updateAttrs(),
-        (this.bidiCache = []);
+        (this.bidiCache = []));
     } finally {
       this.updateState = 0;
     }
-    t && this.focus(), this.requestMeasure();
+    (t && this.focus(), this.requestMeasure());
   }
   updatePlugins(e) {
     let t = e.startState.facet(U),
@@ -7130,11 +7148,11 @@ class EditorView {
         if (n < 0) r.push(new PluginInstance(i));
         else {
           let t = this.plugins[n];
-          (t.mustUpdate = e), r.push(t);
+          ((t.mustUpdate = e), r.push(t));
         }
       }
       for (let t of this.plugins) t.mustUpdate != e && t.destroy(this);
-      (this.plugins = r), this.pluginMap.clear();
+      ((this.plugins = r), this.pluginMap.clear());
     } else for (let t of this.plugins) t.mustUpdate = e;
     for (let e = 0; e < this.plugins.length; e++) this.plugins[e].update(this);
     t != n && this.inputState.ensureHandlers(this.plugins);
@@ -7157,24 +7175,24 @@ class EditorView {
         this.win.cancelAnimationFrame(this.measureScheduled),
       this.observer.delayedAndroidKey)
     ) {
-      (this.measureScheduled = -1), this.requestMeasure();
+      ((this.measureScheduled = -1), this.requestMeasure());
       return;
     }
-    (this.measureScheduled = 0), e && this.observer.forceFlush();
+    ((this.measureScheduled = 0), e && this.observer.forceFlush());
     let t = null,
       n = this.viewState.scrollParent,
       r = this.viewState.getScrollOffset(),
       { scrollAnchorPos: i, scrollAnchorHeight: a } = this.viewState;
-    Math.abs(r - this.viewState.scrollOffset) > 1 && (a = -1),
-      (this.viewState.scrollAnchorHeight = -1);
+    (Math.abs(r - this.viewState.scrollOffset) > 1 && (a = -1),
+      (this.viewState.scrollAnchorHeight = -1));
     try {
       for (let e = 0; ; e++) {
         if (a < 0)
           if (Me(n || this.win))
-            (i = -1), (a = this.viewState.heightMap.height);
+            ((i = -1), (a = this.viewState.heightMap.height));
           else {
             let e = this.viewState.scrollAnchorAt(r);
-            (i = e.from), (a = e.top);
+            ((i = e.from), (a = e.top));
           }
         this.updateState = 1;
         let o = this.viewState.measure();
@@ -7198,12 +7216,12 @@ class EditorView {
             try {
               return e.read(this);
             } catch (e) {
-              return V(this.state, e), Tr;
+              return (V(this.state, e), Tr);
             }
           }),
           l = ViewUpdate.create(this, this.state, []),
           u = !1;
-        (l.flags |= o),
+        ((l.flags |= o),
           t ? (t.flags |= o) : (t = l),
           (this.updateState = 2),
           l.empty ||
@@ -7211,7 +7229,7 @@ class EditorView {
             this.inputState.update(l),
             this.updateAttrs(),
             (u = this.docView.update(l)),
-            u && this.docViewUpdate());
+            u && this.docViewUpdate()));
         for (let e = 0; e < s.length; e++)
           if (c[e] != Tr)
             try {
@@ -7226,9 +7244,9 @@ class EditorView {
         ) {
           if (this.viewState.editorHeight)
             if (this.viewState.scrollTarget) {
-              this.docView.scrollIntoView(this.viewState.scrollTarget),
+              (this.docView.scrollIntoView(this.viewState.scrollTarget),
                 (this.viewState.scrollTarget = null),
-                (a = -1);
+                (a = -1));
               continue;
             } else {
               let e =
@@ -7247,9 +7265,9 @@ class EditorView {
                   ) >
                     Date.now() - 100)
               ) {
-                (r += e),
+                ((r += e),
                   n ? (n.scrollTop += e) : this.win.scrollBy(0, e),
-                  (a = -1);
+                  (a = -1));
                 continue;
               }
             }
@@ -7257,7 +7275,7 @@ class EditorView {
         }
       }
     } finally {
-      (this.updateState = 0), (this.measureScheduled = -1);
+      ((this.updateState = 0), (this.measureScheduled = -1));
     }
     if (t && !t.empty) for (let e of this.state.facet(rt)) e(t);
   }
@@ -7285,20 +7303,20 @@ class EditorView {
         role: `textbox`,
         "aria-multiline": `true`,
       };
-    this.state.readOnly && (t[`aria-readonly`] = `true`), Er(this, ht, t);
+    (this.state.readOnly && (t[`aria-readonly`] = `true`), Er(this, ht, t));
     let n = this.observer.ignore(() => {
       let n = ge(this.contentDOM, this.contentAttrs, t),
         r = ge(this.dom, this.editorAttrs, e);
       return n || r;
     });
-    return (this.editorAttrs = e), (this.contentAttrs = t), n;
+    return ((this.editorAttrs = e), (this.contentAttrs = t), n);
   }
   showAnnouncements(e) {
     let t = !0;
     for (let n of e)
       for (let e of n.effects)
         if (e.is(EditorView.announce)) {
-          t && (this.announceDOM.textContent = ``), (t = !1);
+          (t && (this.announceDOM.textContent = ``), (t = !1));
           let n = this.announceDOM.appendChild(document.createElement(`div`));
           n.textContent = e.value;
         }
@@ -7365,10 +7383,10 @@ class EditorView {
     return this.viewState.scaleY;
   }
   elementAtHeight(e) {
-    return this.readMeasured(), this.viewState.elementAtHeight(e);
+    return (this.readMeasured(), this.viewState.elementAtHeight(e));
   }
   lineBlockAtHeight(e) {
-    return this.readMeasured(), this.viewState.lineBlockAtHeight(e);
+    return (this.readMeasured(), this.viewState.lineBlockAtHeight(e));
   }
   get viewportLineBlocks() {
     return this.viewState.viewportLines;
@@ -7413,7 +7431,7 @@ class EditorView {
     return n && n.pos;
   }
   posAndSideAtCoords(e, t = !0) {
-    return this.readMeasured(), en(this, e, t);
+    return (this.readMeasured(), en(this, e, t));
   }
   coordsAtPos(e, t = 1) {
     this.readMeasured();
@@ -7425,7 +7443,7 @@ class EditorView {
     return N(n, (a.dir == L.LTR) == t > 0);
   }
   coordsForChar(e) {
-    return this.readMeasured(), this.docView.coordsForChar(e);
+    return (this.readMeasured(), this.docView.coordsForChar(e));
   }
   get defaultCharacterWidth() {
     return this.viewState.heightOracle.charWidth;
@@ -7459,7 +7477,7 @@ class EditorView {
         return r.order;
     n || (n = bt(this, e));
     let r = Je(e.text, t, n);
-    return this.bidiCache.push(new CachedOrder(e.from, e.to, t, n, !0, r)), r;
+    return (this.bidiCache.push(new CachedOrder(e.from, e.to, t, n, !0, r)), r);
   }
   get hasFocus() {
     var e;
@@ -7473,7 +7491,7 @@ class EditorView {
   }
   focus() {
     this.observer.ignore(() => {
-      Oe(this.contentDOM), this.docView.updateSelection();
+      (Oe(this.contentDOM), this.docView.updateSelection());
     });
   }
   setRoot(e) {
@@ -7487,14 +7505,14 @@ class EditorView {
   destroy() {
     this.root.activeElement == this.contentDOM && this.contentDOM.blur();
     for (let e of this.plugins) e.destroy(this);
-    (this.plugins = []),
+    ((this.plugins = []),
       this.inputState.destroy(),
       this.docView.destroy(),
       this.dom.remove(),
       this.observer.destroy(),
       this.measureScheduled > -1 &&
         this.win.cancelAnimationFrame(this.measureScheduled),
-      (this.destroyed = !0);
+      (this.destroyed = !0));
   }
   static scrollIntoView(e, t = {}) {
     var n, r, a, o;
@@ -7533,7 +7551,7 @@ class EditorView {
   static theme(e, t) {
     let n = x.newName(),
       r = [dr.of(n), G.of(_r(`.${n}`, e))];
-    return t && t.dark && r.push(fr.of(!0)), r;
+    return (t && t.dark && r.push(fr.of(!0)), r);
   }
   static baseTheme(e) {
     return m.lowest(G.of(_r(`.` + pr, e, gr)));
@@ -7547,7 +7565,7 @@ class EditorView {
     );
   }
 }
-(EditorView.styleModule = G),
+((EditorView.styleModule = G),
   (EditorView.inputHandler = it),
   (EditorView.clipboardInputFilter = ot),
   (EditorView.clipboardOutputFilter = st),
@@ -7584,17 +7602,17 @@ class EditorView {
   (EditorView.lineWrapping = /* @__PURE__ */ EditorView.contentAttributes.of({
     class: `cm-lineWrapping`,
   })),
-  (EditorView.announce = /* @__PURE__ */ o.define());
+  (EditorView.announce = /* @__PURE__ */ o.define()));
 const wr = 4096,
   Tr = {};
 class CachedOrder {
   constructor(e, t, n, r, i, a) {
-    (this.from = e),
+    ((this.from = e),
       (this.to = t),
       (this.dir = n),
       (this.isolates = r),
       (this.fresh = i),
-      (this.order = a);
+      (this.order = a));
   }
   static update(e, t) {
     if (t.empty && !e.some((e) => e.fresh)) return e;
@@ -7670,7 +7688,7 @@ const Ar = /* @__PURE__ */ m.default(
 function Nr(e) {
   let t = e.facet(jr),
     n = Mr.get(t);
-  return n || Mr.set(t, (n = Ir(t.reduce((e, t) => e.concat(t), [])))), n;
+  return (n || Mr.set(t, (n = Ir(t.reduce((e, t) => e.concat(t), [])))), n);
 }
 function Pr(e, t, n) {
   return Rr(Nr(e.state), t, e, n);
@@ -7696,7 +7714,7 @@ function Ir(e, t = Dr) {
         d = r.split(/ (?!$)/).map((e) => Or(e, t));
       for (let t = 1; t < d.length; t++) {
         let n = d.slice(0, t).join(` `);
-        i(n, !0),
+        (i(n, !0),
           u[n] ||
             (u[n] = {
               preventDefault: !0,
@@ -7712,7 +7730,7 @@ function Ir(e, t = Dr) {
                   );
                 },
               ],
-            });
+            }));
       }
       let f = d.join(` `);
       i(f, !1);
@@ -7726,9 +7744,9 @@ function Ir(e, t = Dr) {
               ? void 0
               : l.slice()) || [],
         });
-      a && p.run.push(a),
+      (a && p.run.push(a),
         o && (p.preventDefault = !0),
-        s && (p.stopPropagation = !0);
+        s && (p.stopPropagation = !0));
     };
   for (let r of e) {
     let e = r.scope ? r.scope.split(` `) : [`editor`];
@@ -7743,9 +7761,9 @@ function Ir(e, t = Dr) {
     let i = r[t] || r.key;
     if (i)
       for (let t of e)
-        a(t, i, r.run, r.preventDefault, r.stopPropagation),
+        (a(t, i, r.run, r.preventDefault, r.stopPropagation),
           r.shift &&
-            a(t, `Shift-` + i, r.shift, r.preventDefault, r.stopPropagation);
+            a(t, `Shift-` + i, r.shift, r.preventDefault, r.stopPropagation));
   }
   return n;
 }
@@ -7767,7 +7785,7 @@ function Rr(e, t, n, r) {
       if (e) {
         for (let t of e.run)
           if (!u.has(t) && (u.add(t), t(n)))
-            return e.stopPropagation && (l = !0), !0;
+            return (e.stopPropagation && (l = !0), !0);
         e.preventDefault && (e.stopPropagation && (l = !0), (c = !0));
       }
       return !1;
@@ -7801,24 +7819,24 @@ function Rr(e, t, n, r) {
 }
 class RectangleMarker {
   constructor(e, t, n, r, i) {
-    (this.className = e),
+    ((this.className = e),
       (this.left = t),
       (this.top = n),
       (this.width = r),
-      (this.height = i);
+      (this.height = i));
   }
   draw() {
     let e = document.createElement(`div`);
-    return (e.className = this.className), this.adjust(e), e;
+    return ((e.className = this.className), this.adjust(e), e);
   }
   update(e, t) {
     return t.className == this.className ? (this.adjust(e), !0) : !1;
   }
   adjust(e) {
-    (e.style.left = this.left + `px`),
+    ((e.style.left = this.left + `px`),
       (e.style.top = this.top + `px`),
       this.width != null && (e.style.width = this.width + `px`),
-      (e.style.height = this.height + `px`);
+      (e.style.height = this.height + `px`));
   }
   eq(e) {
     return (
@@ -7974,7 +7992,7 @@ function Hr(e, t) {
 }
 class LayerView {
   constructor(e, t) {
-    (this.view = e),
+    ((this.view = e),
       (this.layer = t),
       (this.drawn = []),
       (this.scaleX = 1),
@@ -7991,12 +8009,12 @@ class LayerView {
       this.dom.setAttribute(`aria-hidden`, `true`),
       this.setOrder(e.state),
       e.requestMeasure(this.measureReq),
-      t.mount && t.mount(this.dom, e);
+      t.mount && t.mount(this.dom, e));
   }
   update(e) {
-    e.startState.facet(Ur) != e.state.facet(Ur) && this.setOrder(e.state),
+    (e.startState.facet(Ur) != e.state.facet(Ur) && this.setOrder(e.state),
       (this.layer.update(e, this.dom) || e.geometryChanged) &&
-        (this.scale(), e.view.requestMeasure(this.measureReq));
+        (this.scale(), e.view.requestMeasure(this.measureReq)));
   }
   docViewUpdate(e) {
     this.layer.updateOnDocViewUpdate !== !1 &&
@@ -8035,16 +8053,16 @@ class LayerView {
           : this.dom.insertBefore(r.draw(), t);
       for (; t; ) {
         let e = t.nextSibling;
-        t.remove(), (t = e);
+        (t.remove(), (t = e));
       }
-      (this.drawn = e),
+      ((this.drawn = e),
         T.webkit &&
-          (this.dom.style.display = this.dom.firstChild ? `` : `none`);
+          (this.dom.style.display = this.dom.firstChild ? `` : `none`));
     }
   }
   destroy() {
-    this.layer.destroy && this.layer.destroy(this.dom, this.view),
-      this.dom.remove();
+    (this.layer.destroy && this.layer.destroy(this.dom, this.view),
+      this.dom.remove());
   }
 }
 const Ur = /* @__PURE__ */ a.define();
@@ -8098,7 +8116,7 @@ const Jr = /* @__PURE__ */ Wr({
       (t.style.animationName =
         t.style.animationName == `cm-blink` ? `cm-blink2` : `cm-blink`);
     let n = qr(e);
-    return n && Yr(e.state, t), e.docChanged || e.selectionSet || n;
+    return (n && Yr(e.state, t), e.docChanged || e.selectionSet || n);
   },
   mount(e, t) {
     Yr(t.state, e);
@@ -8180,12 +8198,12 @@ const Xr = /* @__PURE__ */ Wr({
   ei = /* @__PURE__ */ ViewPlugin.fromClass(
     class {
       constructor(e) {
-        (this.view = e),
+        ((this.view = e),
           (this.cursor = null),
           (this.measureReq = {
             read: this.readPos.bind(this),
             write: this.drawCursor.bind(this),
-          });
+          }));
       }
       update(e) {
         var t;
@@ -8268,11 +8286,11 @@ function ri(e, t) {
     return n;
   let r = [];
   for (let { from: i, to: a } of n)
-    (i = Math.max(e.state.doc.lineAt(i).from, i - t)),
+    ((i = Math.max(e.state.doc.lineAt(i).from, i - t)),
       (a = Math.min(e.state.doc.lineAt(a).to, a + t)),
       r.length && r[r.length - 1].to >= i
         ? (r[r.length - 1].to = a)
-        : r.push({ from: i, to: a });
+        : r.push({ from: i, to: a }));
   return r;
 }
 class MatchDecorator {
@@ -8300,7 +8318,7 @@ class MatchDecorator {
       throw RangeError(
         `Either 'decorate' or 'decoration' should be provided to MatchDecorator`,
       );
-    (this.boundary = i), (this.maxLength = a);
+    ((this.boundary = i), (this.maxLength = a));
   }
   createDeco(e) {
     let t = new y(),
@@ -8354,7 +8372,6 @@ class MatchDecorator {
           for (
             this.regexp.lastIndex = s - n.from;
             (u = this.regexp.exec(n.text)) && u.index < c - n.from;
-
           )
             this.addMatch(u, e, u.index + n.from, d);
         else
@@ -8435,11 +8452,11 @@ function fi() {
     (di = ViewPlugin.fromClass(
       class {
         constructor(e) {
-          (this.view = e),
+          ((this.view = e),
             (this.decorations = Decoration.none),
             (this.decorationCache = Object.create(null)),
             (this.decorator = this.makeDecorator(e.state.facet(li))),
-            (this.decorations = this.decorator.createDeco(e));
+            (this.decorations = this.decorator.createDeco(e)));
         }
         makeDecorator(e) {
           return new MatchDecorator({
@@ -8489,7 +8506,7 @@ function mi(e) {
 }
 class SpecialCharWidget extends WidgetType {
   constructor(e, t) {
-    super(), (this.options = e), (this.code = t);
+    (super(), (this.options = e), (this.code = t));
   }
   eq(e) {
     return e.code == this.code;
@@ -8517,7 +8534,7 @@ class SpecialCharWidget extends WidgetType {
 }
 class TabWidget extends WidgetType {
   constructor(e) {
-    super(), (this.width = e);
+    (super(), (this.width = e));
   }
   eq(e) {
     return e.width == this.width;
@@ -8538,7 +8555,7 @@ class TabWidget extends WidgetType {
 const hi = /* @__PURE__ */ ViewPlugin.fromClass(
   class {
     constructor() {
-      (this.height = 1e3), (this.attrs = { style: `padding-bottom: 1000px` });
+      ((this.height = 1e3), (this.attrs = { style: `padding-bottom: 1000px` }));
     }
     update(e) {
       let { view: t } = e,
@@ -8589,7 +8606,7 @@ const vi = /* @__PURE__ */ Decoration.line({ class: `cm-activeLine` }),
   );
 class Placeholder extends WidgetType {
   constructor(e) {
-    super(), (this.content = e);
+    (super(), (this.content = e));
   }
   toDOM(e) {
     let t = document.createElement(`span`);
@@ -8625,7 +8642,7 @@ function bi(e) {
   let t = ViewPlugin.fromClass(
     class {
       constructor(t) {
-        (this.view = t),
+        ((this.view = t),
           (this.placeholder = e
             ? Decoration.set([
                 Decoration.widget({
@@ -8633,7 +8650,7 @@ function bi(e) {
                   side: 1,
                 }).range(0),
               ])
-            : Decoration.none);
+            : Decoration.none));
       }
       get decorations() {
         return this.view.state.doc.length ? Decoration.none : this.placeholder;
@@ -8697,12 +8714,12 @@ function Ti(e, t) {
           if (e.docChanged) {
             let t = e.changes.mapPos(e.startState.doc.line(n.line).from),
               i = e.state.doc.lineAt(t);
-            (n = {
+            ((n = {
               line: i.number,
               col: n.col,
               off: Math.min(n.off, i.length),
             }),
-              (r = r.map(e.changes));
+              (r = r.map(e.changes)));
           }
         },
         get(t, a, o) {
@@ -8735,7 +8752,7 @@ function ki(e = {}) {
     r = ViewPlugin.fromClass(
       class {
         constructor(e) {
-          (this.view = e), (this.isDown = !1);
+          ((this.view = e), (this.isDown = !1));
         }
         set(e) {
           this.isDown != e && ((this.isDown = e), this.view.update([]));
@@ -8766,11 +8783,11 @@ function ki(e = {}) {
 const Ai = `-10000px`;
 class TooltipViewManager {
   constructor(e, t, n, r) {
-    (this.facet = t),
+    ((this.facet = t),
       (this.createTooltipView = n),
       (this.removeTooltipView = r),
       (this.input = e.state.facet(t)),
-      (this.tooltips = this.input.filter((e) => e));
+      (this.tooltips = this.input.filter((e) => e)));
     let i = null;
     this.tooltipViews = this.tooltips.map((e) => (i = n(e, i)));
   }
@@ -8793,11 +8810,11 @@ class TooltipViewManager {
           t && t.create == r.create && (s = e);
         }
         if (s < 0)
-          (a[n] = this.createTooltipView(r, n ? a[n - 1] : null)),
-            o && (o[n] = !!r.above);
+          ((a[n] = this.createTooltipView(r, n ? a[n - 1] : null)),
+            o && (o[n] = !!r.above));
         else {
           let r = (a[n] = this.tooltipViews[s]);
-          o && (o[n] = t[s]), r.update && r.update(e);
+          (o && (o[n] = t[s]), r.update && r.update(e));
         }
       }
     }
@@ -8841,14 +8858,14 @@ const Ni = /* @__PURE__ */ a.define({
   Fi = /* @__PURE__ */ ViewPlugin.fromClass(
     class {
       constructor(e) {
-        (this.view = e),
+        ((this.view = e),
           (this.above = []),
           (this.inView = !0),
           (this.madeAbsolute = !1),
           (this.lastTransaction = 0),
-          (this.measureTimeout = -1);
+          (this.measureTimeout = -1));
         let t = e.state.facet(Ni);
-        (this.position = t.position),
+        ((this.position = t.position),
           (this.parent = t.parent),
           (this.classes = e.themeClasses),
           this.createContainer(),
@@ -8866,8 +8883,8 @@ const Ni = /* @__PURE__ */ a.define({
             zi,
             (e, t) => this.createTooltip(e, t),
             (e) => {
-              this.resizeObserver && this.resizeObserver.unobserve(e.dom),
-                e.dom.remove();
+              (this.resizeObserver && this.resizeObserver.unobserve(e.dom),
+                e.dom.remove());
             },
           )),
           (this.above = this.manager.tooltips.map((e) => !!e.above)),
@@ -8888,7 +8905,7 @@ const Ni = /* @__PURE__ */ a.define({
             `resize`,
             (this.measureSoon = this.measureSoon.bind(this)),
           ),
-          this.maybeMeasure();
+          this.maybeMeasure());
       }
       createContainer() {
         this.parent
@@ -8908,7 +8925,7 @@ const Ni = /* @__PURE__ */ a.define({
       measureSoon() {
         this.measureTimeout < 0 &&
           (this.measureTimeout = setTimeout(() => {
-            (this.measureTimeout = -1), this.maybeMeasure();
+            ((this.measureTimeout = -1), this.maybeMeasure());
           }, 50));
       }
       update(e) {
@@ -8924,9 +8941,9 @@ const Ni = /* @__PURE__ */ a.define({
           n = !0;
         }
         if (r.parent != this.parent) {
-          this.parent && this.container.remove(),
+          (this.parent && this.container.remove(),
             (this.parent = r.parent),
-            this.createContainer();
+            this.createContainer());
           for (let e of this.manager.tooltipViews)
             this.container.appendChild(e.dom);
           n = !0;
@@ -8944,7 +8961,7 @@ const Ni = /* @__PURE__ */ a.define({
           e.arrow && !n.dom.querySelector(`.cm-tooltip > .cm-tooltip-arrow`))
         ) {
           let e = document.createElement(`div`);
-          (e.className = `cm-tooltip-arrow`), n.dom.appendChild(e);
+          ((e.className = `cm-tooltip-arrow`), n.dom.appendChild(e));
         }
         return (
           (n.dom.style.position = this.position),
@@ -8960,11 +8977,11 @@ const Ni = /* @__PURE__ */ a.define({
         var e, t, n;
         this.view.win.removeEventListener(`resize`, this.measureSoon);
         for (let t of this.manager.tooltipViews)
-          t.dom.remove(), (e = t.destroy) == null || e.call(t);
-        this.parent && this.container.remove(),
+          (t.dom.remove(), (e = t.destroy) == null || e.call(t));
+        (this.parent && this.container.remove(),
           (t = this.resizeObserver) == null || t.disconnect(),
           (n = this.intersectionObserver) == null || n.disconnect(),
-          clearTimeout(this.measureTimeout);
+          clearTimeout(this.measureTimeout));
       }
       readMeasure() {
         let e = 1,
@@ -9018,7 +9035,7 @@ const Ni = /* @__PURE__ */ a.define({
       writeMeasure(e) {
         var t;
         if (e.makeAbsolute) {
-          (this.madeAbsolute = !0), (this.position = `absolute`);
+          ((this.madeAbsolute = !0), (this.position = `absolute`));
           for (let e of this.manager.tooltipViews)
             e.dom.style.position = `absolute`;
         }
@@ -9074,7 +9091,7 @@ const Ni = /* @__PURE__ */ a.define({
               u.style.top = Ai;
               continue;
             }
-            Pi.set(l, g), (u.style.height = (g = x) / a + `px`);
+            (Pi.set(l, g), (u.style.height = (g = x) / a + `px`));
           } else u.style.height && (u.style.height = ``);
           let S = b ? d.top - g - m - _.y : d.bottom + m + _.y,
             ee = y + h;
@@ -9095,11 +9112,11 @@ const Ni = /* @__PURE__ */ a.define({
             let e = d.left + (v ? _.x : -_.x) - (y + 14 - 7);
             p.style.left = e / i + `px`;
           }
-          l.overlap !== !0 &&
+          (l.overlap !== !0 &&
             o.push({ left: y, top: S, right: ee, bottom: S + g }),
             u.classList.toggle(`cm-tooltip-above`, b),
             u.classList.toggle(`cm-tooltip-below`, !b),
-            l.positioned && l.positioned(e.space);
+            l.positioned && l.positioned(e.space));
         }
       }
       maybeMeasure() {
@@ -9177,7 +9194,7 @@ class HoverTooltipHost {
     return new HoverTooltipHost(e);
   }
   constructor(e) {
-    (this.view = e),
+    ((this.view = e),
       (this.mounted = !1),
       (this.dom = document.createElement(`div`)),
       this.dom.classList.add(`cm-tooltip-hover`),
@@ -9186,7 +9203,7 @@ class HoverTooltipHost {
         Bi,
         (e, t) => this.createHostedView(e, t),
         (e) => e.dom.remove(),
-      ));
+      )));
   }
   createHostedView(e, t) {
     let n = e.create(this.view);
@@ -9256,7 +9273,7 @@ const Vi = /* @__PURE__ */ zi.compute([Bi], (e) => {
   Hi = /* @__PURE__ */ a.define();
 class HoverPlugin {
   constructor(e, t, n, r, i, a) {
-    (this.view = e),
+    ((this.view = e),
       (this.source = t),
       (this.field = n),
       (this.locked = r),
@@ -9274,7 +9291,7 @@ class HoverPlugin {
       e.dom.addEventListener(
         `mousemove`,
         (this.mousemove = this.mousemove.bind(this)),
-      );
+      ));
   }
   update(e) {
     this.pending &&
@@ -9324,8 +9341,8 @@ class HoverPlugin {
       a = (t) => {
         if (t && !(Array.isArray(t) && !t.length)) {
           let n = Array.isArray(t) ? t : [t];
-          r && this.locked.set(n, r),
-            e.dispatch({ effects: this.setHover.of(n) });
+          (r && this.locked.set(n, r),
+            e.dispatch({ effects: this.setHover.of(n) }));
         }
       };
     if (i && `then` in i) {
@@ -9349,14 +9366,14 @@ class HoverPlugin {
   }
   mousemove(e) {
     var t, n;
-    (this.lastMove = {
+    ((this.lastMove = {
       x: e.clientX,
       y: e.clientY,
       target: e.target,
       time: Date.now(),
     }),
       this.hoverTimeout < 0 &&
-        (this.hoverTimeout = setTimeout(this.checkHover, this.hoverTime));
+        (this.hoverTimeout = setTimeout(this.checkHover, this.hoverTime)));
     let { active: r, tooltip: i } = this;
     if (
       (r.length && !this.locked.has(r) && i && !Wi(i.dom, e)) ||
@@ -9372,7 +9389,7 @@ class HoverPlugin {
     }
   }
   mouseleave(e) {
-    clearTimeout(this.hoverTimeout), (this.hoverTimeout = -1);
+    (clearTimeout(this.hoverTimeout), (this.hoverTimeout = -1));
     let { active: t } = this;
     if (t.length && !this.locked.has(t)) {
       let { tooltip: t } = this;
@@ -9393,10 +9410,10 @@ class HoverPlugin {
     e.addEventListener(`mouseleave`, t);
   }
   destroy() {
-    clearTimeout(this.hoverTimeout),
+    (clearTimeout(this.hoverTimeout),
       clearTimeout(this.restartTimeout),
       this.view.dom.removeEventListener(`mouseleave`, this.mouseleave),
-      this.view.dom.removeEventListener(`mousemove`, this.mousemove);
+      this.view.dom.removeEventListener(`mousemove`, this.mousemove));
   }
 }
 const Ui = 4;
@@ -9405,7 +9422,7 @@ function Wi(e, t) {
     o;
   if ((o = e.querySelector(`.cm-tooltip-arrow`))) {
     let e = o.getBoundingClientRect();
-    (i = Math.min(e.top, i)), (a = Math.max(e.bottom, a));
+    ((i = Math.min(e.top, i)), (a = Math.max(e.bottom, a)));
   }
   return (
     t.clientX >= n - 4 &&
@@ -9443,17 +9460,17 @@ function Ki(e, t = {}) {
             let e = o.changes.mapPos(r.pos, -1, n.TrackDel);
             if (e != null) {
               let n = Object.assign(Object.create(null), r);
-              (n.pos = e),
+              ((n.pos = e),
                 n.end != null && (n.end = o.changes.mapPos(n.end)),
-                t.push(n);
+                t.push(n));
             }
           }
           e = t;
         }
         for (let t of o.effects)
-          t.is(r) && ((e = t.value), (s = void 0)),
-            ((t.is(Xi) && !t.value) || t.value == a) && (e = []);
-        return e.length && s && i.set(e, s), e;
+          (t.is(r) && ((e = t.value), (s = void 0)),
+            ((t.is(Xi) && !t.value) || t.value == a) && (e = []));
+        return (e.length && s && i.set(e, s), e);
       },
       provide: (e) => Bi.from(e),
     }),
@@ -9496,7 +9513,7 @@ function $i(e) {
 const ea = /* @__PURE__ */ a.define({
   combine(e) {
     let t, n;
-    for (let r of e) (t = t || r.topContainer), (n = n || r.bottomContainer);
+    for (let r of e) ((t = t || r.topContainer), (n = n || r.bottomContainer));
     return { topContainer: t, bottomContainer: n };
   },
 });
@@ -9511,27 +9528,27 @@ function na(e, t) {
 const ra = /* @__PURE__ */ ViewPlugin.fromClass(
   class {
     constructor(e) {
-      (this.input = e.state.facet(aa)),
+      ((this.input = e.state.facet(aa)),
         (this.specs = this.input.filter((e) => e)),
-        (this.panels = this.specs.map((t) => t(e)));
+        (this.panels = this.specs.map((t) => t(e))));
       let t = e.state.facet(ea);
-      (this.top = new PanelGroup(e, !0, t.topContainer)),
+      ((this.top = new PanelGroup(e, !0, t.topContainer)),
         (this.bottom = new PanelGroup(e, !1, t.bottomContainer)),
         this.top.sync(this.panels.filter((e) => e.top)),
-        this.bottom.sync(this.panels.filter((e) => !e.top));
+        this.bottom.sync(this.panels.filter((e) => !e.top)));
       for (let e of this.panels)
-        e.dom.classList.add(`cm-panel`), e.mount && e.mount();
+        (e.dom.classList.add(`cm-panel`), e.mount && e.mount());
     }
     update(e) {
       let t = e.state.facet(ea);
-      this.top.container != t.topContainer &&
+      (this.top.container != t.topContainer &&
         (this.top.sync([]),
         (this.top = new PanelGroup(e.view, !0, t.topContainer))),
         this.bottom.container != t.bottomContainer &&
           (this.bottom.sync([]),
           (this.bottom = new PanelGroup(e.view, !1, t.bottomContainer))),
         this.top.syncClasses(),
-        this.bottom.syncClasses();
+        this.bottom.syncClasses());
       let n = e.state.facet(aa);
       if (n != this.input) {
         let t = n.filter((e) => e),
@@ -9542,21 +9559,22 @@ const ra = /* @__PURE__ */ ViewPlugin.fromClass(
         for (let n of t) {
           let t = this.specs.indexOf(n),
             s;
-          t < 0
+          (t < 0
             ? ((s = n(e.view)), o.push(s))
             : ((s = this.panels[t]), s.update && s.update(e)),
             r.push(s),
-            (s.top ? i : a).push(s);
+            (s.top ? i : a).push(s));
         }
-        (this.specs = t),
+        ((this.specs = t),
           (this.panels = r),
           this.top.sync(i),
-          this.bottom.sync(a);
-        for (let e of o) e.dom.classList.add(`cm-panel`), e.mount && e.mount();
+          this.bottom.sync(a));
+        for (let e of o)
+          (e.dom.classList.add(`cm-panel`), e.mount && e.mount());
       } else for (let t of this.panels) t.update && t.update(e);
     }
     destroy() {
-      this.top.sync([]), this.bottom.sync([]);
+      (this.top.sync([]), this.bottom.sync([]));
     }
   },
   {
@@ -9571,17 +9589,17 @@ const ra = /* @__PURE__ */ ViewPlugin.fromClass(
 );
 class PanelGroup {
   constructor(e, t, n) {
-    (this.view = e),
+    ((this.view = e),
       (this.top = t),
       (this.container = n),
       (this.dom = void 0),
       (this.classes = ``),
       (this.panels = []),
-      this.syncClasses();
+      this.syncClasses());
   }
   sync(e) {
     for (let t of this.panels) t.destroy && e.indexOf(t) < 0 && t.destroy();
-    (this.panels = e), this.syncDOM();
+    ((this.panels = e), this.syncDOM());
   }
   syncDOM() {
     if (this.panels.length == 0) {
@@ -9589,11 +9607,11 @@ class PanelGroup {
       return;
     }
     if (!this.dom) {
-      (this.dom = document.createElement(`div`)),
+      ((this.dom = document.createElement(`div`)),
         (this.dom.className = this.top
           ? `cm-panels cm-panels-top`
           : `cm-panels cm-panels-bottom`),
-        (this.dom.style[this.top ? `top` : `bottom`] = `0`);
+        (this.dom.style[this.top ? `top` : `bottom`] = `0`));
       let e = this.container || this.view.dom;
       e.insertBefore(this.dom, this.top ? e.firstChild : null);
     }
@@ -9630,7 +9648,7 @@ class PanelGroup {
 }
 function ia(e) {
   let t = e.nextSibling;
-  return e.remove(), t;
+  return (e.remove(), t);
 }
 const aa = /* @__PURE__ */ a.define({ enables: ra });
 function oa(e, t) {
@@ -9681,31 +9699,31 @@ function da(e, t, n) {
   if (!r) {
     if (((r = C(`form`)), t.input)) {
       let e = C(`input`, t.input);
-      /^(text|password|number|email|tel|url)$/.test(e.type) &&
+      (/^(text|password|number|email|tel|url)$/.test(e.type) &&
         e.classList.add(`cm-textfield`),
         e.name || (e.name = `input`),
-        r.appendChild(C(`label`, (t.label || ``) + `: `, e));
+        r.appendChild(C(`label`, (t.label || ``) + `: `, e)));
     } else r.appendChild(document.createTextNode(t.label || ``));
-    r.appendChild(document.createTextNode(` `)),
+    (r.appendChild(document.createTextNode(` `)),
       r.appendChild(
         C(
           `button`,
           { class: `cm-button`, type: `submit` },
           t.submitLabel || `OK`,
         ),
-      );
+      ));
   }
   let i = r.nodeName == `FORM` ? [r] : r.querySelectorAll(`form`);
   for (let e = 0; e < i.length; e++) {
     let t = i[e];
-    t.addEventListener(`keydown`, (e) => {
+    (t.addEventListener(`keydown`, (e) => {
       e.keyCode == 27
         ? (e.preventDefault(), o(null))
         : e.keyCode == 13 && (e.preventDefault(), o(t));
     }),
       t.addEventListener(`submit`, (e) => {
-        e.preventDefault(), o(t);
-      });
+        (e.preventDefault(), o(t));
+      }));
   }
   let a = C(
     `div`,
@@ -9721,9 +9739,9 @@ function da(e, t, n) {
       [`×`],
     ),
   );
-  t.class && (a.className = t.class), a.classList.add(`cm-dialog`);
+  (t.class && (a.className = t.class), a.classList.add(`cm-dialog`));
   function o(t) {
-    a.contains(a.ownerDocument.activeElement) && e.focus(), n(t);
+    (a.contains(a.ownerDocument.activeElement) && e.focus(), n(t));
   }
   return {
     dom: a,
@@ -9731,11 +9749,11 @@ function da(e, t, n) {
     mount: () => {
       if (t.focus) {
         let e;
-        (e =
+        ((e =
           typeof t.focus == `string`
             ? r.querySelector(t.focus)
             : r.querySelector(`input`) || r.querySelector(`button`)),
-          e && `select` in e ? e.select() : e && `focus` in e && e.focus();
+          e && `select` in e ? e.select() : e && `focus` in e && e.focus());
       }
     },
   };
@@ -9749,11 +9767,11 @@ class GutterMarker extends e {
   }
   destroy(e) {}
 }
-(GutterMarker.prototype.elementClass = ``),
+((GutterMarker.prototype.elementClass = ``),
   (GutterMarker.prototype.toDOM = void 0),
   (GutterMarker.prototype.mapMode = n.TrackBefore),
   (GutterMarker.prototype.startSide = GutterMarker.prototype.endSide = -1),
-  (GutterMarker.prototype.point = !0);
+  (GutterMarker.prototype.point = !0));
 const fa = /* @__PURE__ */ a.define(),
   pa = /* @__PURE__ */ a.define(),
   ma = {
@@ -9776,12 +9794,12 @@ function ga(e) {
 const _a = /* @__PURE__ */ a.define({ combine: (e) => e.some((e) => e) });
 function va(e) {
   let t = [ya];
-  return e && e.fixed === !1 && t.push(_a.of(!0)), t;
+  return (e && e.fixed === !1 && t.push(_a.of(!0)), t);
 }
 const ya = /* @__PURE__ */ ViewPlugin.fromClass(
   class {
     constructor(e) {
-      (this.view = e),
+      ((this.view = e),
         (this.domAfter = null),
         (this.prevViewport = e.viewport),
         (this.dom = document.createElement(`div`)),
@@ -9792,14 +9810,14 @@ const ya = /* @__PURE__ */ ViewPlugin.fromClass(
         (this.gutters = e.state
           .facet(ha)
           .map((t) => new SingleGutterView(e, t))),
-        (this.fixed = !e.state.facet(_a));
+        (this.fixed = !e.state.facet(_a)));
       for (let e of this.gutters)
         e.config.side == `after`
           ? this.getDOMAfter().appendChild(e.dom)
           : this.dom.appendChild(e.dom);
-      this.fixed && (this.dom.style.position = `sticky`),
+      (this.fixed && (this.dom.style.position = `sticky`),
         this.syncGutters(!1),
-        e.scrollDOM.insertBefore(this.dom, e.contentDOM);
+        e.scrollDOM.insertBefore(this.dom, e.contentDOM));
     }
     getDOMAfter() {
       return (
@@ -9823,15 +9841,15 @@ const ya = /* @__PURE__ */ ViewPlugin.fromClass(
       }
       if (e.geometryChanged) {
         let e = this.view.contentHeight / this.view.scaleY + `px`;
-        (this.dom.style.minHeight = e),
-          this.domAfter && (this.domAfter.style.minHeight = e);
+        ((this.dom.style.minHeight = e),
+          this.domAfter && (this.domAfter.style.minHeight = e));
       }
-      this.view.state.facet(_a) != !this.fixed &&
+      (this.view.state.facet(_a) != !this.fixed &&
         ((this.fixed = !this.fixed),
         (this.dom.style.position = this.fixed ? `sticky` : ``),
         this.domAfter &&
           (this.domAfter.style.position = this.fixed ? `sticky` : ``)),
-        (this.prevViewport = e.view.viewport);
+        (this.prevViewport = e.view.viewport));
     }
     syncGutters(e) {
       let n = this.dom.nextSibling;
@@ -9888,7 +9906,7 @@ const ya = /* @__PURE__ */ ViewPlugin.fromClass(
             : (this.gutters[r].update(e), t.push(this.gutters[r]));
         }
         for (let e of this.gutters)
-          e.dom.remove(), t.indexOf(e) < 0 && e.destroy();
+          (e.dom.remove(), t.indexOf(e) < 0 && e.destroy());
         for (let e of t)
           e.config.side == `after`
             ? this.getDOMAfter().appendChild(e.dom)
@@ -9899,7 +9917,7 @@ const ya = /* @__PURE__ */ ViewPlugin.fromClass(
     }
     destroy() {
       for (let e of this.gutters) e.destroy();
-      this.dom.remove(), this.domAfter && this.domAfter.remove();
+      (this.dom.remove(), this.domAfter && this.domAfter.remove());
     }
   },
   {
@@ -9919,14 +9937,14 @@ function ba(e) {
   return Array.isArray(e) ? e : [e];
 }
 function xa(e, t, n) {
-  for (; e.value && e.from <= n; ) e.from == n && t.push(e.value), e.next();
+  for (; e.value && e.from <= n; ) (e.from == n && t.push(e.value), e.next());
 }
 class UpdateContext {
   constructor(e, n, r) {
-    (this.gutter = e),
+    ((this.gutter = e),
       (this.height = r),
       (this.i = 0),
-      (this.cursor = t.iter(e.markers, n.from));
+      (this.cursor = t.iter(e.markers, n.from)));
   }
   addElement(e, t, n) {
     let { gutter: r } = this,
@@ -9934,13 +9952,13 @@ class UpdateContext {
       a = t.height / e.scaleY;
     if (this.i == r.elements.length) {
       let t = new GutterElement(e, a, i, n);
-      r.elements.push(t), r.dom.appendChild(t.dom);
+      (r.elements.push(t), r.dom.appendChild(t.dom));
     } else r.elements[this.i].update(e, a, i, n);
-    (this.height = t.bottom), this.i++;
+    ((this.height = t.bottom), this.i++);
   }
   line(e, t, n) {
     let r = [];
-    xa(this.cursor, r, t.from), n.length && (r = r.concat(n));
+    (xa(this.cursor, r, t.from), n.length && (r = r.concat(n)));
     let i = this.gutter.config.lineMarker(e, t, r);
     i && r.unshift(i);
     let a = this.gutter;
@@ -9960,19 +9978,19 @@ class UpdateContext {
     let e = this.gutter;
     for (; e.elements.length > this.i; ) {
       let t = e.elements.pop();
-      e.dom.removeChild(t.dom), t.destroy();
+      (e.dom.removeChild(t.dom), t.destroy());
     }
   }
 }
 class SingleGutterView {
   constructor(e, t) {
-    (this.view = e),
+    ((this.view = e),
       (this.config = t),
       (this.elements = []),
       (this.spacer = null),
       (this.dom = document.createElement(`div`)),
       (this.dom.className =
-        `cm-gutter` + (this.config.class ? ` ` + this.config.class : ``));
+        `cm-gutter` + (this.config.class ? ` ` + this.config.class : ``)));
     for (let n in t.domEventHandlers)
       this.dom.addEventListener(n, (r) => {
         let i = r.target,
@@ -9985,11 +10003,11 @@ class SingleGutterView {
         let o = e.lineBlockAtHeight(a - e.documentTop);
         t.domEventHandlers[n](e, o, r) && r.preventDefault();
       });
-    (this.markers = ba(t.markers(e))),
+    ((this.markers = ba(t.markers(e))),
       t.initialSpacer &&
         ((this.spacer = new GutterElement(e, 0, 0, [t.initialSpacer(e)])),
         this.dom.appendChild(this.spacer.dom),
-        (this.spacer.dom.style.cssText += `visibility: hidden; pointer-events: none`));
+        (this.spacer.dom.style.cssText += `visibility: hidden; pointer-events: none`)));
   }
   update(e) {
     let n = this.markers;
@@ -10012,18 +10030,19 @@ class SingleGutterView {
 }
 class GutterElement {
   constructor(e, t, n, r) {
-    (this.height = -1),
+    ((this.height = -1),
       (this.above = 0),
       (this.markers = []),
       (this.dom = document.createElement(`div`)),
       (this.dom.className = `cm-gutterElement`),
-      this.update(e, t, n, r);
+      this.update(e, t, n, r));
   }
   update(e, t, n, r) {
-    this.height != t && ((this.height = t), (this.dom.style.height = t + `px`)),
+    (this.height != t &&
+      ((this.height = t), (this.dom.style.height = t + `px`)),
       this.above != n &&
         (this.dom.style.marginTop = (this.above = n) ? n + `px` : ``),
-      Sa(this.markers, r) || this.setMarkers(e, r);
+      Sa(this.markers, r) || this.setMarkers(e, r));
   }
   setMarkers(e, t) {
     let n = `cm-gutterElement`,
@@ -10037,7 +10056,7 @@ class GutterElement {
         e && (n += ` ` + e);
         for (let e = a; e < this.markers.length; e++)
           if (this.markers[e].compare(s)) {
-            (o = e), (c = !0);
+            ((o = e), (c = !0));
             break;
           }
       } else o = this.markers.length;
@@ -10046,15 +10065,15 @@ class GutterElement {
         if (e.toDOM) {
           e.destroy(r);
           let t = r.nextSibling;
-          r.remove(), (r = t);
+          (r.remove(), (r = t));
         }
       }
       if (!s) break;
-      s.toDOM &&
+      (s.toDOM &&
         (c ? (r = r.nextSibling) : this.dom.insertBefore(s.toDOM(e), r)),
-        c && a++;
+        c && a++);
     }
-    (this.dom.className = n), (this.markers = t);
+    ((this.dom.className = n), (this.markers = t));
   }
   destroy() {
     this.setMarkers(null, []);
@@ -10088,7 +10107,7 @@ const Ca = /* @__PURE__ */ a.define(),
   });
 class NumberMarker extends GutterMarker {
   constructor(e) {
-    super(), (this.number = e);
+    (super(), (this.number = e));
   }
   eq(e) {
     return this.number == e.number;
@@ -10139,7 +10158,7 @@ function Oa(e) {
 }
 const ka = /* @__PURE__ */ new (class extends GutterMarker {
     constructor() {
-      super(...arguments), (this.elementClass = `cm-activeLineGutter`);
+      (super(...arguments), (this.elementClass = `cm-activeLineGutter`));
     }
   })(),
   Aa = /* @__PURE__ */ fa.compute([`selection`], (e) => {

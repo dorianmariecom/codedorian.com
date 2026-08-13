@@ -1,0 +1,17 @@
+<% content_for(:description, t(".title")) %>
+<%= turbo_stream_from(@plan_schedules) %>
+
+<div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
+<%= render("shared/search") %>
+
+<turbo-frame id="search" target="_top">
+  <% if @plan_schedules.any? %>
+    <div class="p p--flex">
+      <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
+      <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
+    </div>
+  <% end %>
+
+  <%= render_collection(partial: "plan_schedules/plan_schedule", collection: @plan_schedules, as: :plan_schedule) %>
+</turbo-frame>
+

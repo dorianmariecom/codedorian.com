@@ -65,14 +65,14 @@
 
 <% if can?(:index, Log) %>
   <div class="p font-bold">
-    <%= link_to(t(".logs"), [*nested, @job_failed_execution, :logs], class: :link) %>
+    <%= link_to(t(".logs"), { controller: :logs, action: :index, job_failed_execution_id: @job_failed_execution&.id }, class: :link) %>
   </div>
 
   <% if can?(:create, Log) %>
     <div class="p">
       <%= link_to(
         t(".new_log"),
-        [:new, *nested, @job_failed_execution, :log],
+        { controller: :logs, action: :new, job_failed_execution_id: @job_failed_execution&.id },
         class: "button"
       ) %>
     </div>

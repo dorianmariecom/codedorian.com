@@ -1,0 +1,21 @@
+<%= form_for(show_url) do |f| %>
+  <div class="p">
+    <%= f.label(:plan_id, class: :label) %>
+      <%= f.select(:plan_id, policy_scope(Plan).order(:id).map { |record| [record.to_s, record.id] }, {}, required: true, class: :input, autocomplete: :off, data: { form_type: :other }) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:starts_at, class: :label) %>
+      <%= f.datetime_field(:starts_at, required: true, class: :input) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:interval, class: :label) %>
+      <%= f.select(:interval, PlanSchedule.interval_options, {}, required: true, class: :input) %>
+  </div>
+
+  <div class="p">
+    <%= f.submit(submit, class: "button", data: { controller: "bridge--button", bridge__button_title_value: submit }) %>
+  </div>
+<% end %>
+

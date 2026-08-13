@@ -15,7 +15,7 @@ const a = {
       : (this.controller = new a.Controller());
   },
 };
-(a.config.useFormat24 = !1),
+((a.config.useFormat24 = !1),
   (a.config.i18n = {
     en: {
       date: {
@@ -88,7 +88,7 @@ const a = {
   }),
   (a.config.locale = "en"),
   (a.config.defaultLocale = "en"),
-  (a.config.timerInterval = 6e4);
+  (a.config.timerInterval = 6e4));
 const s = !isNaN(Date.parse("2011-01-01T12:00:00-05:00"));
 a.parseDate = (a) => (
   (a = a.toString()),
@@ -121,7 +121,7 @@ a.elementMatchesSelector = (() => {
 })();
 const { config: i } = a,
   { i18n: o } = i;
-(a.getI18nValue = (s = "", n = { locale: i.locale }) => {
+((a.getI18nValue = (s = "", n = { locale: i.locale }) => {
   const { locale: c } = n,
     u = (function (a, s) {
       let n = a;
@@ -145,7 +145,7 @@ const { config: i } = a,
       o = o.replace(`{${a}}`, s);
     }
     return o;
-  });
+  }));
 const { getI18nValue: c, translate: u } = a,
   l = "function" == typeof Intl?.DateTimeFormat,
   d = {
@@ -160,7 +160,7 @@ const { getI18nValue: c, translate: u } = a,
     "Singapore Standard Time": "SGT",
     "Western Indonesia Time": "WIB",
   };
-(a.knownEdgeCaseTimeZones = d),
+((a.knownEdgeCaseTimeZones = d),
   (a.strftime = (() => {
     const t = (a, s) => {
       const n = a.getDay(),
@@ -266,12 +266,12 @@ const { getI18nValue: c, translate: u } = a,
       return this.fromDate(new Date());
     }
     constructor(a, s, n) {
-      (this.date = new Date(Date.UTC(a, s - 1))),
+      ((this.date = new Date(Date.UTC(a, s - 1))),
         this.date.setUTCDate(n),
         (this.year = this.date.getUTCFullYear()),
         (this.month = this.date.getUTCMonth() + 1),
         (this.day = this.date.getUTCDate()),
-        (this.value = this.date.getTime());
+        (this.value = this.date.getTime()));
     }
     equals(a) {
       return a?.value === this.value;
@@ -294,11 +294,11 @@ const { getI18nValue: c, translate: u } = a,
     daysPassed() {
       return this.constructor.today().daysSince(this);
     }
-  });
+  }));
 const { strftime: m, translate: h, getI18nValue: g, config: f } = a;
 a.RelativeTime = class {
   constructor(s) {
-    (this.date = s), (this.calendarDate = a.CalendarDate.fromDate(this.date));
+    ((this.date = s), (this.calendarDate = a.CalendarDate.fromDate(this.date)));
   }
   toString() {
     let a, s;
@@ -367,10 +367,10 @@ a.RelativeTime = class {
 const { elementMatchesSelector: p } = a;
 a.PageObserver = class {
   constructor(a, s) {
-    (this.selector = a),
+    ((this.selector = a),
       (this.callback = s),
       (this.processMutations = this.processMutations.bind(this)),
-      (this.processInsertion = this.processInsertion.bind(this));
+      (this.processInsertion = this.processInsertion.bind(this)));
   }
   start() {
     this.started ||
@@ -389,7 +389,7 @@ a.PageObserver = class {
     );
   }
   observeWithMutationEvent() {
-    return addEventListener("DOMNodeInserted", this.processInsertion, !1), !0;
+    return (addEventListener("DOMNodeInserted", this.processInsertion, !1), !0);
   }
   findSignificantElements(a) {
     const s = [];
@@ -422,8 +422,8 @@ const { parseDate: y, strftime: S, getI18nValue: M, config: E } = a,
   b = (s) => new a.RelativeTime(s);
 a.Controller = class {
   constructor() {
-    (this.processElements = this.processElements.bind(this)),
-      (this.pageObserver = new a.PageObserver(v, this.processElements));
+    ((this.processElements = this.processElements.bind(this)),
+      (this.pageObserver = new a.PageObserver(v, this.processElements)));
   }
   start() {
     this.started ||
@@ -455,15 +455,15 @@ a.Controller = class {
           n = S(o, M(`datetime.formats.${s}`));
         a.setAttribute("title", n);
       }
-      ((a) => {
+      (((a) => {
         a.setAttribute("data-processed-at", new Date().toISOString());
       })(a),
         (a.textContent = (() => {
           switch (n) {
             case "time":
-              return T(a), S(o, i);
+              return (T(a), S(o, i));
             case "date":
-              return T(a), b(o).toDateString();
+              return (T(a), b(o).toDateString());
             case "time-ago":
               return b(o).toString();
             case "time-or-date":
@@ -473,7 +473,7 @@ a.Controller = class {
             case "weekday-or-date":
               return b(o).toWeekdayString() || b(o).toDateString();
           }
-        })());
+        })()));
     }
   }
 };
@@ -481,7 +481,7 @@ let w = !1;
 function D() {
   a.getController().start();
 }
-(a.start = () => {
+((a.start = () => {
   var s;
   w
     ? a.run()
@@ -497,5 +497,5 @@ function D() {
             : setTimeout(s, 17)));
 }),
   (a.processing = () => a.getController().started),
-  window.LocalTime === a && a.start();
+  window.LocalTime === a && a.start());
 export { a as default };

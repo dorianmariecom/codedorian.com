@@ -9,13 +9,17 @@
 <%= render("shared/search") %>
 
 <turbo-frame id="search" target="_top">
-  <% if @submission_programs.any? && (can?(:destroy_all, SubmissionProgram) || can?(:delete_all, SubmissionProgram)) %>
+  <% if @submission_programs.any? &&
+    (
+      can?(:destroy_all, SubmissionProgram) ||
+        can?(:delete_all, SubmissionProgram)
+    ) %>
     <div class="p p--flex">
       <% if can?(:destroy_all, SubmissionProgram) %>
-      <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
+        <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
       <% end %>
       <% if can?(:delete_all, SubmissionProgram) %>
-      <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
+        <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
       <% end %>
     </div>
   <% end %>

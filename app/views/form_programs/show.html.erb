@@ -80,14 +80,14 @@
 
 <% if can?(:index, Version) %>
   <div class="p font-bold">
-    <%= link_to(t(".versions"), [*nested, @form_program, :versions], class: :link) %>
+    <%= link_to(t(".versions"), { controller: :versions, action: :index, form_program_id: @form_program&.id }, class: :link) %>
   </div>
 
   <% if can?(:create, Version) %>
     <div class="p">
       <%= link_to(
         t(".new_version"),
-        [:new, *nested, @form_program, :version],
+        { controller: :versions, action: :new, form_program_id: @form_program&.id },
         class: "button"
       ) %>
     </div>
@@ -105,12 +105,12 @@
 
 <% if can?(:index, Log) %>
   <div class="p font-bold">
-    <%= link_to(t(".logs"), [*nested, @form_program, :logs], class: :link) %>
+    <%= link_to(t(".logs"), { controller: :logs, action: :index, form_program_id: @form_program&.id }, class: :link) %>
   </div>
 
   <% if can?(:create, Log) %>
     <div class="p">
-      <%= link_to(t(".new_log"), [:new, *nested, @form_program, :log], class: "button") %>
+      <%= link_to(t(".new_log"), { controller: :logs, action: :new, form_program_id: @form_program&.id }, class: "button") %>
     </div>
   <% end %>
 

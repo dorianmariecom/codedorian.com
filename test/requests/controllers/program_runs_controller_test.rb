@@ -60,10 +60,7 @@ class ProgramRunsControllerTest < ActionDispatch::IntegrationTest
     json = response.parsed_body
     assert_equal("done", json.fetch("status"))
     assert_equal(true, json.fetch("finished"))
-    assert_equal(
-      Program.last.program_execution.result,
-      json.fetch("result")
-    )
+    assert_equal(Program.last.program_execution.result, json.fetch("result"))
   end
 
   test "show uses policy scope" do

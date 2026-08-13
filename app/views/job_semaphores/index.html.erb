@@ -7,13 +7,14 @@
 <%= render("shared/search") %>
 
 <turbo-frame id="search" target="_top">
-  <% if @job_semaphores.any? && (can?(:destroy_all, JobSemaphore) || can?(:delete_all, JobSemaphore)) %>
+  <% if @job_semaphores.any? &&
+    (can?(:destroy_all, JobSemaphore) || can?(:delete_all, JobSemaphore)) %>
     <div class="p p--flex">
       <% if can?(:destroy_all, JobSemaphore) %>
-      <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
+        <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
       <% end %>
       <% if can?(:delete_all, JobSemaphore) %>
-      <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
+        <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
       <% end %>
     </div>
   <% end %>

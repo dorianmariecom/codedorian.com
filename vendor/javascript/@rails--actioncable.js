@@ -13,9 +13,9 @@ const n = () => /* @__PURE__ */ new Date().getTime(),
   r = (e) => (n() - e) / 1e3;
 class ConnectionMonitor {
   constructor(e) {
-    (this.visibilityDidChange = this.visibilityDidChange.bind(this)),
+    ((this.visibilityDidChange = this.visibilityDidChange.bind(this)),
       (this.connection = e),
-      (this.reconnectAttempts = 0);
+      (this.reconnectAttempts = 0));
   }
   start() {
     this.isRunning() ||
@@ -41,22 +41,23 @@ class ConnectionMonitor {
     this.pingedAt = n();
   }
   recordConnect() {
-    (this.reconnectAttempts = 0),
+    ((this.reconnectAttempts = 0),
       delete this.disconnectedAt,
-      t.log(`ConnectionMonitor recorded connect`);
+      t.log(`ConnectionMonitor recorded connect`));
   }
   recordDisconnect() {
-    (this.disconnectedAt = n()), t.log(`ConnectionMonitor recorded disconnect`);
+    ((this.disconnectedAt = n()),
+      t.log(`ConnectionMonitor recorded disconnect`));
   }
   startPolling() {
-    this.stopPolling(), this.poll();
+    (this.stopPolling(), this.poll());
   }
   stopPolling() {
     clearTimeout(this.pollTimeout);
   }
   poll() {
     this.pollTimeout = setTimeout(() => {
-      this.reconnectIfStale(), this.poll();
+      (this.reconnectIfStale(), this.poll());
     }, this.getPollInterval());
   }
   getPollInterval() {
@@ -100,8 +101,8 @@ class ConnectionMonitor {
       }, 200);
   }
 }
-(ConnectionMonitor.staleThreshold = 6),
-  (ConnectionMonitor.reconnectionBackoffRate = 0.15);
+((ConnectionMonitor.staleThreshold = 6),
+  (ConnectionMonitor.reconnectionBackoffRate = 0.15));
 var i = {
   message_types: {
     welcome: `welcome`,
@@ -124,11 +125,11 @@ const { message_types: a, protocols: o } = i,
   c = [].indexOf;
 class Connection {
   constructor(e) {
-    (this.open = this.open.bind(this)),
+    ((this.open = this.open.bind(this)),
       (this.consumer = e),
       (this.subscriptions = this.consumer.subscriptions),
       (this.monitor = new ConnectionMonitor(this)),
-      (this.disconnected = !0);
+      (this.disconnected = !0));
   }
   send(e) {
     return this.isOpen() ? (this.webSocket.send(JSON.stringify(e)), !0) : !1;
@@ -169,8 +170,8 @@ class Connection {
       } catch (e) {
         t.log(`Failed to reopen WebSocket`, e);
       } finally {
-        t.log(`Reopening WebSocket in ${this.constructor.reopenDelay}ms`),
-          setTimeout(this.open, this.constructor.reopenDelay);
+        (t.log(`Reopening WebSocket in ${this.constructor.reopenDelay}ms`),
+          setTimeout(this.open, this.constructor.reopenDelay));
       }
     else return this.open();
   }
@@ -210,7 +211,7 @@ class Connection {
     for (let e in this.events) this.webSocket[`on${e}`] = function () {};
   }
 }
-(Connection.reopenDelay = 500),
+((Connection.reopenDelay = 500),
   (Connection.prototype.events = {
     message(e) {
       if (!this.isProtocolSupported()) return;
@@ -275,17 +276,17 @@ class Connection {
     error() {
       t.log(`WebSocket onerror event`);
     },
-  });
+  }));
 const l = function (e, t) {
   if (t != null) for (let n in t) e[n] = t[n];
   return e;
 };
 class Subscription {
   constructor(e, t = {}, n) {
-    (this.consumer = e), (this.identifier = JSON.stringify(t)), l(this, n);
+    ((this.consumer = e), (this.identifier = JSON.stringify(t)), l(this, n));
   }
   perform(e, t = {}) {
-    return (t.action = e), this.send(t);
+    return ((t.action = e), this.send(t));
   }
   send(e) {
     return this.consumer.send({
@@ -300,23 +301,23 @@ class Subscription {
 }
 class SubscriptionGuarantor {
   constructor(e) {
-    (this.subscriptions = e), (this.pendingSubscriptions = []);
+    ((this.subscriptions = e), (this.pendingSubscriptions = []));
   }
   guarantee(e) {
-    this.pendingSubscriptions.indexOf(e) == -1
+    (this.pendingSubscriptions.indexOf(e) == -1
       ? (t.log(`SubscriptionGuarantor guaranteeing ${e.identifier}`),
         this.pendingSubscriptions.push(e))
       : t.log(`SubscriptionGuarantor already guaranteeing ${e.identifier}`),
-      this.startGuaranteeing();
+      this.startGuaranteeing());
   }
   forget(e) {
-    t.log(`SubscriptionGuarantor forgetting ${e.identifier}`),
+    (t.log(`SubscriptionGuarantor forgetting ${e.identifier}`),
       (this.pendingSubscriptions = this.pendingSubscriptions.filter(
         (t) => t !== e,
-      ));
+      )));
   }
   startGuaranteeing() {
-    this.stopGuaranteeing(), this.retrySubscribing();
+    (this.stopGuaranteeing(), this.retrySubscribing());
   }
   stopGuaranteeing() {
     clearTimeout(this.retryTimeout);
@@ -326,17 +327,17 @@ class SubscriptionGuarantor {
       this.subscriptions &&
         typeof this.subscriptions.subscribe == `function` &&
         this.pendingSubscriptions.map((e) => {
-          t.log(`SubscriptionGuarantor resubscribing ${e.identifier}`),
-            this.subscriptions.subscribe(e);
+          (t.log(`SubscriptionGuarantor resubscribing ${e.identifier}`),
+            this.subscriptions.subscribe(e));
         });
     }, 500);
   }
 }
 class Subscriptions {
   constructor(e) {
-    (this.consumer = e),
+    ((this.consumer = e),
       (this.guarantor = new SubscriptionGuarantor(this)),
-      (this.subscriptions = []);
+      (this.subscriptions = []));
   }
   create(e, t) {
     let n = e,
@@ -392,8 +393,8 @@ class Subscriptions {
     this.sendCommand(e, `subscribe`) && this.guarantor.guarantee(e);
   }
   confirmSubscription(e) {
-    t.log(`Subscription confirmed ${e}`),
-      this.findAll(e).map((e) => this.guarantor.forget(e));
+    (t.log(`Subscription confirmed ${e}`),
+      this.findAll(e).map((e) => this.guarantor.forget(e)));
   }
   sendCommand(e, t) {
     let { identifier: n } = e;
@@ -402,10 +403,10 @@ class Subscriptions {
 }
 class Consumer {
   constructor(e) {
-    (this._url = e),
+    ((this._url = e),
       (this.subscriptions = new Subscriptions(this)),
       (this.connection = new Connection(this)),
-      (this.subprotocols = []);
+      (this.subprotocols = []));
   }
   get url() {
     return u(this._url);

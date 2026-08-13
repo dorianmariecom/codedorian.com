@@ -37,6 +37,10 @@ class Job < SolidQueue::Job
     program
     program_execution
     program_schedule
+    step
+    step_execution
+    subscription
+    subscription_execution
     time_zone
     token
     user

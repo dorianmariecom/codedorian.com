@@ -26,5 +26,4 @@ module MenuHelper
       }
     end
   end
-
 end

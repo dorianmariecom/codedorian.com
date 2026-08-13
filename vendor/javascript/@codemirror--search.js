@@ -31,7 +31,7 @@ const v =
     : (e) => e;
 class SearchCursor {
   constructor(e, t, n = 0, r = e.length, i, a) {
-    (this.test = a),
+    ((this.test = a),
       (this.value = { from: 0, to: 0, precise: !1 }),
       (this.done = !1),
       (this.matches = []),
@@ -40,7 +40,7 @@ class SearchCursor {
       (this.iter = e.iterRange(n, r)),
       (this.bufferStart = n),
       (this.normalize = i ? (e) => i(v(e)) : v),
-      (this.query = this.normalize(t));
+      (this.query = this.normalize(t)));
   }
   peek() {
     if (this.bufferPos == this.buffer.length) {
@@ -50,7 +50,7 @@ class SearchCursor {
         this.iter.done)
       )
         return -1;
-      (this.bufferPos = 0), (this.buffer = this.iter.value);
+      ((this.bufferPos = 0), (this.buffer = this.iter.value));
     }
     return s(this.buffer, this.bufferPos);
   }
@@ -61,7 +61,7 @@ class SearchCursor {
   nextOverlapping() {
     for (;;) {
       let e = this.peek();
-      if (e < 0) return (this.done = !0), this;
+      if (e < 0) return ((this.done = !0), this);
       let t = c(e),
         n = this.bufferStart + this.bufferPos;
       this.bufferPos += l(e);
@@ -76,7 +76,7 @@ class SearchCursor {
               this.bufferPos + this.bufferStart,
               e == r.length - 1,
             );
-          if (o) return (this.value = o), this;
+          if (o) return ((this.value = o), this);
           if (e == r.length - 1) break;
           a && e < t.length && t.charCodeAt(e) == n ? i++ : (a = !1);
         }
@@ -87,11 +87,11 @@ class SearchCursor {
     for (let t = 0; t < this.matches.length; ) {
       let n = this.matches[t],
         o = !1;
-      this.query.charCodeAt(n.index) == e &&
+      (this.query.charCodeAt(n.index) == e &&
         (n.index == this.query.length - 1
           ? (a = { from: n.from, to: r, precise: i && n.precise })
           : (n.index++, (o = !0))),
-        o ? t++ : this.matches.splice(t, 1);
+        o ? t++ : this.matches.splice(t, 1));
     }
     return (
       this.query.charCodeAt(0) == e &&
@@ -128,26 +128,26 @@ class RegExpCursor {
       /\\[sWDnr]|\n|\r|\[\^/.test(t))
     )
       return new MultilineRegExpCursor(e, t, n, r, i);
-    (this.re = new RegExp(t, b + (n != null && n.ignoreCase ? `i` : ``))),
+    ((this.re = new RegExp(t, b + (n != null && n.ignoreCase ? `i` : ``))),
       (this.test = n == null ? void 0 : n.test),
-      (this.iter = e.iter());
+      (this.iter = e.iter()));
     let a = e.lineAt(r);
-    (this.curLineStart = a.from),
+    ((this.curLineStart = a.from),
       (this.matchPos = C(e, r)),
-      this.getLine(this.curLineStart);
+      this.getLine(this.curLineStart));
   }
   getLine(e) {
-    this.iter.next(e),
+    (this.iter.next(e),
       this.iter.lineBreak
         ? (this.curLine = ``)
         : ((this.curLine = this.iter.value),
           this.curLineStart + this.curLine.length > this.to &&
             (this.curLine = this.curLine.slice(0, this.to - this.curLineStart)),
-          this.iter.next());
+          this.iter.next()));
   }
   nextLine() {
-    (this.curLineStart = this.curLineStart + this.curLine.length + 1),
-      this.curLineStart > this.to ? (this.curLine = ``) : this.getLine(0);
+    ((this.curLineStart = this.curLineStart + this.curLine.length + 1),
+      this.curLineStart > this.to ? (this.curLine = ``) : this.getLine(0));
   }
   next() {
     for (let e = this.matchPos - this.curLineStart; ; ) {
@@ -161,18 +161,21 @@ class RegExpCursor {
           n == this.curLineStart + this.curLine.length && this.nextLine(),
           (n < r || n > this.value.to) && (!this.test || this.test(n, r, t)))
         )
-          return (this.value = { from: n, to: r, precise: !0, match: t }), this;
+          return (
+            (this.value = { from: n, to: r, precise: !0, match: t }),
+            this
+          );
         e = this.matchPos - this.curLineStart;
       } else if (this.curLineStart + this.curLine.length < this.to)
-        this.nextLine(), (e = 0);
-      else return (this.done = !0), this;
+        (this.nextLine(), (e = 0));
+      else return ((this.done = !0), this);
     }
   }
 }
 const x = /* @__PURE__ */ new WeakMap();
 class FlattenedDoc {
   constructor(e, t) {
-    (this.from = e), (this.text = t);
+    ((this.from = e), (this.text = t));
   }
   get to() {
     return this.from + this.text.length;
@@ -181,7 +184,7 @@ class FlattenedDoc {
     let r = x.get(e);
     if (!r || r.from >= n || r.to <= t) {
       let r = new FlattenedDoc(t, e.sliceString(t, n));
-      return x.set(e, r), r;
+      return (x.set(e, r), r);
     }
     if (r.from == t && r.to == n) return r;
     let { text: i, from: a } = r;
@@ -195,14 +198,14 @@ class FlattenedDoc {
 }
 class MultilineRegExpCursor {
   constructor(e, t, n, r, i) {
-    (this.text = e),
+    ((this.text = e),
       (this.to = i),
       (this.done = !1),
       (this.value = y),
       (this.matchPos = C(e, r)),
       (this.re = new RegExp(t, b + (n != null && n.ignoreCase ? `i` : ``))),
       (this.test = n == null ? void 0 : n.test),
-      (this.flat = FlattenedDoc.get(e, r, this.chunkEnd(r + 5e3)));
+      (this.flat = FlattenedDoc.get(e, r, this.chunkEnd(r + 5e3))));
   }
   chunkEnd(e) {
     return e >= this.to ? this.to : this.text.lineAt(e).to;
@@ -231,7 +234,7 @@ class MultilineRegExpCursor {
             this
           );
       }
-      if (this.flat.to == this.to) return (this.done = !0), this;
+      if (this.flat.to == this.to) return ((this.done = !0), this);
       this.flat = FlattenedDoc.get(
         this.text,
         this.flat.from,
@@ -249,7 +252,7 @@ typeof Symbol < `u` &&
     });
 function S(e) {
   try {
-    return new RegExp(e, b), !0;
+    return (new RegExp(e, b), !0);
   } catch (e) {
     return !1;
   }
@@ -261,7 +264,6 @@ function C(e, t) {
   for (
     ;
     t < n.to && (r = n.text.charCodeAt(t - n.from)) >= 56320 && r < 57344;
-
   )
     t++;
   return t;
@@ -288,8 +290,8 @@ const w = (n) => {
           p = c ? +c : o.number;
         if (c && d) {
           let e = p / 100;
-          s && (e = e * (s == `-` ? -1 : 1) + o.number / r.doc.lines),
-            (p = Math.round(r.doc.lines * e));
+          (s && (e = e * (s == `-` ? -1 : 1) + o.number / r.doc.lines),
+            (p = Math.round(r.doc.lines * e)));
         } else c && s && (p = p * (s == `-` ? -1 : 1) + o.number);
         let m = r.doc.line(Math.max(1, Math.min(r.doc.lines, p))),
           h = u.cursor(m.from + Math.max(0, Math.min(f, m.length)));
@@ -318,7 +320,7 @@ const w = (n) => {
   });
 function ie(e) {
   let t = [ce, se];
-  return e && t.push(T.of(e)), t;
+  return (e && t.push(T.of(e)), t);
 }
 const ae = /* @__PURE__ */ n.mark({ class: `cm-selectionMatch` }),
   E = /* @__PURE__ */ n.mark({
@@ -354,7 +356,7 @@ const se = /* @__PURE__ */ r.fromClass(
           if (!t.highlightWordAroundCursor) return n.none;
           let e = r.wordAt(a.head);
           if (!e) return n.none;
-          (s = r.charCategorizer(a.head)), (o = r.sliceDoc(e.from, e.to));
+          ((s = r.charCategorizer(a.head)), (o = r.sliceDoc(e.from, e.to)));
         } else {
           let e = a.to - a.from;
           if (e < t.minSelectionLength || e > 200) return n.none;
@@ -406,13 +408,13 @@ function ue(e, t) {
   for (let n = !1, i = new SearchCursor(e.doc, t, r[r.length - 1].to); ; )
     if ((i.next(), i.done)) {
       if (n) return null;
-      (i = new SearchCursor(
+      ((i = new SearchCursor(
         e.doc,
         t,
         0,
         Math.max(0, r[r.length - 1].from - 1),
       )),
-        (n = !0);
+        (n = !0));
     } else {
       if (n && r.some((e) => e.from == i.value.from)) continue;
       if (a) {
@@ -457,7 +459,7 @@ function de(e) {
 }
 class SearchQuery {
   constructor(e) {
-    (this.search = e.search),
+    ((this.search = e.search),
       (this.caseSensitive = !!e.caseSensitive),
       (this.literal = !!e.literal),
       (this.regexp = !!e.regexp),
@@ -465,7 +467,7 @@ class SearchQuery {
       (this.valid = !!this.search && (!this.regexp || S(this.search))),
       (this.unquoted = this.unquote(this.search)),
       (this.wholeWord = !!e.wholeWord),
-      (this.test = e.test);
+      (this.test = e.test));
   }
   unquote(e) {
     return this.literal
@@ -635,7 +637,8 @@ class RegExpQuery extends QueryType {
   nextMatch(e, t, n) {
     let r = j(this.spec, e, n, e.doc.length).next();
     return (
-      r.done && (r = j(this.spec, e, 0, t).next()), r.done ? null : r.value
+      r.done && (r = j(this.spec, e, 0, t).next()),
+      r.done ? null : r.value
     );
   }
   prevMatchInRange(e, t, n) {
@@ -711,7 +714,7 @@ function _e(e) {
 }
 class SearchState {
   constructor(e, t) {
-    (this.query = e), (this.panel = t);
+    ((this.query = e), (this.panel = t));
   }
 }
 const ve = /* @__PURE__ */ n.mark({ class: `cm-searchMatch` }),
@@ -721,7 +724,8 @@ const ve = /* @__PURE__ */ n.mark({ class: `cm-searchMatch` }),
   be = /* @__PURE__ */ r.fromClass(
     class {
       constructor(e) {
-        (this.view = e), (this.decorations = this.highlight(e.state.field(I)));
+        ((this.view = e),
+          (this.decorations = this.highlight(e.state.field(I))));
       }
       update(e) {
         let t = e.state.field(I);
@@ -807,8 +811,8 @@ const R = /* @__PURE__ */ L((e, { query: t }) => {
       o = 0;
     for (let t = new SearchCursor(e.doc, e.sliceDoc(r, i)); !t.next().done; ) {
       if (a.length > 1e3) return !1;
-      t.value.from == r && (o = a.length),
-        a.push(u.range(t.value.from, t.value.to));
+      (t.value.from == r && (o = a.length),
+        a.push(u.range(t.value.from, t.value.to)));
     }
     return (
       t(
@@ -910,7 +914,7 @@ const J = (e) => {
       let n = K(e);
       if (n && n != e.root.activeElement) {
         let r = G(e.state, t.query.spec);
-        r.valid && e.dispatch({ effects: P.of(r) }), n.focus(), n.select();
+        (r.valid && e.dispatch({ effects: P.of(r) }), n.focus(), n.select());
       }
     } else
       e.dispatch({
@@ -956,7 +960,7 @@ class SearchPanel {
   constructor(e) {
     this.view = e;
     let t = (this.query = e.state.field(I).query.spec);
-    (this.commit = this.commit.bind(this)),
+    ((this.commit = this.commit.bind(this)),
       (this.searchField = _(`input`, {
         value: t.search,
         placeholder: X(e, `Find`),
@@ -998,7 +1002,7 @@ class SearchPanel {
         form: ``,
         checked: t.wholeWord,
         onchange: this.commit,
-      }));
+      })));
     function n(e, t, n) {
       return _(
         `button`,
@@ -1064,12 +1068,12 @@ class SearchPanel {
         e.is(P) && !e.value.eq(this.query) && this.setQuery(e.value);
   }
   setQuery(e) {
-    (this.query = e),
+    ((this.query = e),
       (this.searchField.value = e.search),
       (this.replaceField.value = e.replace),
       (this.caseField.checked = e.caseSensitive),
       (this.reField.checked = e.regexp),
-      (this.wordField.checked = e.wholeWord);
+      (this.wordField.checked = e.wholeWord));
   }
   mount() {
     this.searchField.select();

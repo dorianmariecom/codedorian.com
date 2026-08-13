@@ -87,7 +87,7 @@
     <%= render(
       "shared/confirm",
       text: t(".unschedule"),
-      url: [*show_url, :unschedule],
+      url: [:unschedule, *show_url],
       method: :post
     ) %>
   </div>
@@ -96,7 +96,7 @@
     <%= render(
       "shared/confirm",
       text: t(".schedule"),
-      url: [*show_url, :schedule],
+      url: [:schedule, *show_url],
       method: :post
     ) %>
   </div>
@@ -106,7 +106,7 @@
   <%= render(
     "shared/confirm",
     text: t(".format"),
-    url: [*show_url, :format],
+    url: [:format, *show_url],
     method: :post,
     class: "button"
   ) %>
@@ -116,7 +116,7 @@
   <%= render(
     "shared/confirm",
     text: t(".evaluate"),
-    url: [*show_url, :evaluate],
+    url: [:evaluate, *show_url],
     method: :post,
     class: "button"
   ) %>
@@ -136,12 +136,12 @@
       .page(params[:page]) %>
 
   <div class="p font-bold">
-    <%= link_to(t(".jobs"), [*jobs_nested, :jobs], class: :link) %>
+    <%= link_to(t(".jobs"), { controller: :jobs, action: :index, user_id: @user&.id, guest_id: @guest&.id, program_id: @program.id }, class: :link) %>
   </div>
 
   <% if can?(:create, Job) %>
     <div class="p">
-      <%= link_to(t(".new_job"), [:new, *jobs_nested, :job], class: "button") %>
+      <%= link_to(t(".new_job"), { controller: :jobs, action: :new, user_id: @user&.id, guest_id: @guest&.id, program_id: @program.id }, class: "button") %>
     </div>
   <% end %>
 
@@ -158,7 +158,7 @@
 <div class="p font-bold">
   <%= link_to(
     t(".program_schedules"),
-    [@user, @program, :program_schedules],
+    { controller: :program_schedules, action: :index, user_id: @user&.id, program_id: @program.id },
     class: :link
   ) %>
 </div>
@@ -167,7 +167,7 @@
   <div class="p">
     <%= link_to(
       t(".new_program_schedule"),
-      [:new, @user, @program, :program_schedule],
+      { controller: :program_schedules, action: :new, user_id: @user&.id, program_id: @program.id },
       class: "button"
     ) %>
   </div>
@@ -185,7 +185,7 @@
 <div class="p font-bold">
   <%= link_to(
     t(".program_executions"),
-    [@user, @program, :program_executions],
+    { controller: :program_executions, action: :index, user_id: @user&.id, program_id: @program.id },
     class: :link
   ) %>
 </div>
@@ -194,7 +194,7 @@
   <div class="p">
     <%= link_to(
       t(".new_program_execution"),
-      [:new, @user, @program, :program_execution],
+      { controller: :program_executions, action: :new, user_id: @user&.id, program_id: @program.id },
       class: "button"
     ) %>
   </div>
@@ -211,12 +211,12 @@
 
 <% if can?(:index, Version) %>
   <div class="p font-bold">
-    <%= link_to(t(".versions"), [@user, @program, :versions], class: :link) %>
+    <%= link_to(t(".versions"), { controller: :versions, action: :index, user_id: @user&.id, program_id: @program.id }, class: :link) %>
   </div>
 
   <% if can?(:create, Version) %>
     <div class="p">
-      <%= link_to(t(".new_version"), [:new, @user, @program, :version], class: "button") %>
+      <%= link_to(t(".new_version"), { controller: :versions, action: :new, user_id: @user&.id, program_id: @program.id }, class: "button") %>
     </div>
   <% end %>
 
@@ -232,12 +232,12 @@
 
 <% if can?(:index, Log) %>
   <div class="p font-bold">
-    <%= link_to(t(".logs"), [@user, @program, :logs], class: :link) %>
+    <%= link_to(t(".logs"), { controller: :logs, action: :index, user_id: @user&.id, program_id: @program.id }, class: :link) %>
   </div>
 
   <% if can?(:create, Log) %>
     <div class="p">
-      <%= link_to(t(".new_log"), [:new, @user, @program, :log], class: "button") %>
+      <%= link_to(t(".new_log"), { controller: :logs, action: :new, user_id: @user&.id, program_id: @program.id }, class: "button") %>
     </div>
   <% end %>
 

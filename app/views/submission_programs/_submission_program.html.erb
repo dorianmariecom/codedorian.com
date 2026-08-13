@@ -1,5 +1,7 @@
 <div class="p">
-  <%= link_to([*nested, submission_program], class: :link) do %>
+  <% parents = nested.compact %>
+  <% query = parents.to_h { |parent| ["#{parent.model_name.singular_route_key}_id", parent.to_param] } %>
+  <%= link_to([submission_program, **query], class: :link) do %>
     <%= submission_program %>
   <% end %>
 </div>

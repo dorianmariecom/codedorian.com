@@ -1,0 +1,114 @@
+<% content_for(:title, @step_execution) %>
+<% content_for(:description, @step_execution.to_s) %>
+<%= turbo_stream_from(@step_execution) %>
+
+<% if @step_execution.id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".id") %></div>
+    <div class="font-bold"><%= @step_execution.id %></div>
+  </div>
+<% end %>
+
+<% if @step_execution.subscription_execution_id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".subscription_execution_id") %></div>
+    <% association = @step_execution.subscription_execution %>
+    <div class="font-bold"><%= link_to_if(can?(:show, association), association, association, class: :link) %></div>
+  </div>
+<% end %>
+
+<% if @step_execution.step_id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".step_id") %></div>
+    <% association = @step_execution.step %>
+    <div class="font-bold"><%= link_to_if(can?(:show, association), association, association, class: :link) %></div>
+  </div>
+<% end %>
+
+<% if @step_execution.status.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".status") %></div>
+    <div class="font-bold"><%= @step_execution.translated_status %></div>
+  </div>
+<% end %>
+
+<% if @step_execution.input.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".input") %></div>
+    <%= link_to(edit_url, class: "block") do %>
+      <%= code_highlight(@step_execution.input) %>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @step_execution.output.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".output") %></div>
+    <%= code_highlight(@step_execution.output) %>
+  </div>
+<% end %>
+
+<% if @step_execution.error.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".error") %></div>
+    <%= code_highlight(@step_execution.error) %>
+  </div>
+<% end %>
+
+<% if @step_execution.error_class.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".error_class") %></div>
+    <div class="font-bold"><%= @step_execution.error_class %></div>
+  </div>
+<% end %>
+
+<% if @step_execution.error_message.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".error_message") %></div>
+    <%= code_highlight(@step_execution.error_message) %>
+  </div>
+<% end %>
+
+<% if @step_execution.error_backtrace.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".error_backtrace") %></div>
+    <%= code_highlight(@step_execution.error_backtrace) %>
+  </div>
+<% end %>
+
+<% if @step_execution.result.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".result") %></div>
+    <%= code_highlight(@step_execution.result) %>
+  </div>
+<% end %>
+
+<% if @step_execution.updated_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".updated_at") %></div>
+    <div class="font-bold"><%= local_time(@step_execution.updated_at, format: :default) %></div>
+  </div>
+<% end %>
+
+<% if @step_execution.created_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".created_at") %></div>
+    <div class="font-bold"><%= local_time(@step_execution.created_at, format: :default) %></div>
+  </div>
+<% end %>
+
+<div class="p p--flex">
+  <%= link_to(t(".edit"), edit_url, class: :link) %>
+  <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+  <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
+</div>
+
+<% if can?(:index, Version) %>
+  <div class="p font-bold"><%= t(".versions") %></div>
+  <%= render_collection(partial: "versions/version", collection: @versions, as: :version, locals: { nested: [] }) %>
+<% end %>
+
+<% if can?(:index, Log) %>
+  <div class="p font-bold"><%= t(".logs") %></div>
+  <%= render_collection(partial: "logs/log", collection: @logs, as: :log, locals: { nested: [] }) %>
+<% end %>

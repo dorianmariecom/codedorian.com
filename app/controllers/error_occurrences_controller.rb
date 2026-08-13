@@ -21,7 +21,10 @@ class ErrorOccurrencesController < ApplicationController
   before_action do
     add_breadcrumb(key: "error_occurrences.index", path: index_url)
   end
-  before_action(:load_error_occurrence, only: %i[show destroy delete])
+  before_action(
+    :load_error_occurrence,
+    only: %i[show edit update destroy delete]
+  )
 
   def index
     authorize(ErrorOccurrence)

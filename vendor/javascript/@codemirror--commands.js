@@ -139,7 +139,7 @@ function S(e, t, n = t.selection.ranges) {
         let e = /^\s*/.exec(c.text)[0].length,
           t = e == c.length,
           n = c.text.slice(e, e + s.length) == s ? e : -1;
-        e < c.text.length && e < o && (o = e),
+        (e < c.text.length && e < o && (o = e),
           r.push({
             line: c,
             comment: n,
@@ -147,7 +147,7 @@ function S(e, t, n = t.selection.ranges) {
             indent: e,
             empty: t,
             single: !1,
-          });
+          }));
       }
       n = c.to + 1;
     }
@@ -168,7 +168,7 @@ function S(e, t, n = t.selection.ranges) {
       if (n >= 0) {
         let r = t.from + n,
           a = r + i.length;
-        t.text[a - t.from] == ` ` && a++, e.push({ from: r, to: a });
+        (t.text[a - t.from] == ` ` && a++, e.push({ from: r, to: a }));
       }
     return { changes: e };
   }
@@ -282,11 +282,11 @@ const we = /* @__PURE__ */ Ce(0),
   Te = /* @__PURE__ */ Ce(1);
 class HistEvent {
   constructor(e, t, n, r, i) {
-    (this.changes = e),
+    ((this.changes = e),
       (this.effects = t),
       (this.mapped = n),
       (this.startSelection = r),
-      (this.selectionsAfter = i);
+      (this.selectionsAfter = i));
   }
   setSelAfter(e) {
     return new HistEvent(
@@ -338,7 +338,7 @@ class HistEvent {
 function D(e, t, n, r) {
   let i = t + 1 > n + 20 ? t - n - 1 : 0,
     a = e.slice(i, t);
-  return a.push(r), a;
+  return (a.push(r), a);
 }
 function Ee(e, t) {
   let n = [],
@@ -393,8 +393,8 @@ function Me(e, t) {
     let i = Ne(e[n - 1], t, r);
     if ((i.changes && !i.changes.empty) || i.effects.length) {
       let t = e.slice(0, n);
-      return (t[n - 1] = i), t;
-    } else (t = i.mapped), n--, (r = i.selectionsAfter);
+      return ((t[n - 1] = i), t);
+    } else ((t = i.mapped), n--, (r = i.selectionsAfter));
   }
   return r.length ? [HistEvent.selection(r)] : O;
 }
@@ -418,10 +418,10 @@ function Ne(e, t, n) {
 const Pe = /^(input\.type|delete)($|\.)/;
 class HistoryState {
   constructor(e, t, n = 0, r = void 0) {
-    (this.done = e),
+    ((this.done = e),
       (this.undone = t),
       (this.prevTime = n),
-      (this.prevUserEvent = r);
+      (this.prevUserEvent = r));
   }
   isolate() {
     return this.prevTime ? new HistoryState(this.done, this.undone) : this;
@@ -619,7 +619,7 @@ function Xe(e, t, n) {
             return !1;
           l = !0;
         }
-      return o++, !0;
+      return (o++, !0);
     },
     p = e.moveByChar(t, n, (e) => (f(e), f));
   if (Ye && i == u.Word && p.from == t.from + o * (n ? 1 : -1)) {
@@ -690,10 +690,10 @@ function it(e) {
   if (t) {
     for (let t of e.state.facet(p.scrollMargins)) {
       let i = t(e);
-      i != null && i.top && (n = Math.max(i == null ? void 0 : i.top, n)),
+      (i != null && i.top && (n = Math.max(i == null ? void 0 : i.top, n)),
         i != null &&
           i.bottom &&
-          (r = Math.max(i == null ? void 0 : i.bottom, r));
+          (r = Math.max(i == null ? void 0 : i.bottom, r)));
     }
     i = e.scrollDOM.clientHeight - n - r;
   } else i = (e.dom.ownerDocument.defaultView || window).innerHeight;
@@ -722,7 +722,7 @@ function at(e, t) {
       t.bottom < c &&
       (a = p.scrollIntoView(i.main.head, { y: `start`, yMargin: t.top - s }));
   }
-  return e.dispatch(A(r, i), { effects: a }), !0;
+  return (e.dispatch(A(r, i), { effects: a }), !0);
 }
 const B = (e) => at(e, !1),
   V = (e) => at(e, !0);
@@ -836,10 +836,12 @@ const Nt = (e) => Mt(e, !1),
   Vt = ({ state: e, dispatch: t }) => (t(A(e, { anchor: 0 })), !0),
   Ht = ({ state: e, dispatch: t }) => (t(A(e, { anchor: e.doc.length })), !0),
   Ut = ({ state: e, dispatch: t }) => (
-    t(A(e, { anchor: e.selection.main.anchor, head: 0 })), !0
+    t(A(e, { anchor: e.selection.main.anchor, head: 0 })),
+    !0
   ),
   J = ({ state: e, dispatch: t }) => (
-    t(A(e, { anchor: e.selection.main.anchor, head: e.doc.length })), !0
+    t(A(e, { anchor: e.selection.main.anchor, head: e.doc.length })),
+    !0
   ),
   Wt = ({ state: e, dispatch: t }) => (
     t(
@@ -854,7 +856,7 @@ const Nt = (e) => Mt(e, !1),
     let n = Q(e).map(({ from: t, to: n }) =>
       s.range(t, Math.min(n + 1, e.doc.length)),
     );
-    return t(e.update({ selection: s.create(n), userEvent: `select` })), !0;
+    return (t(e.update({ selection: s.create(n), userEvent: `select` })), !0);
   },
   Kt = ({ state: e, dispatch: t }) => {
     let n = k(e.selection, (t) => {
@@ -917,12 +919,12 @@ function Y(e, t) {
       let { from: i, to: a } = r;
       if (i == a) {
         let o = t(r);
-        o < i
+        (o < i
           ? ((n = `delete.backward`), (o = X(e, o, !1)))
           : o > i && ((n = `delete.forward`), (o = X(e, o, !0))),
           (i = Math.min(i, o)),
-          (a = Math.max(a, o));
-      } else (i = X(e, i, !1)), (a = X(e, a, !0));
+          (a = Math.max(a, o)));
+      } else ((i = X(e, i, !1)), (a = X(e, a, !0)));
       return i == a
         ? { range: r }
         : {
@@ -971,12 +973,12 @@ const Zt = (e, t, n) =>
         for (let t = 0; t < e && s[s.length - 1 - t] == ` `; t++) i--;
         c = i;
       } else
-        (c = l(o.text, i - o.from, t, t) + o.from),
+        ((c = l(o.text, i - o.from, t, t) + o.from),
           c == i && o.number != (t ? a.doc.lines : 1)
             ? (c += t ? 1 : -1)
             : !t &&
               /[\ufe00-\ufe0f]/.test(o.text.slice(c - o.from, i - o.from)) &&
-              (c = l(o.text, c - o.from, !1, !1) + o.from);
+              (c = l(o.text, c - o.from, !1, !1) + o.from));
       return c;
     }),
   Z = (e) => Zt(e, !1, !0),
@@ -997,7 +999,7 @@ const Zt = (e, t, n) =>
           c = a.text.slice(Math.min(r, s) - a.from, Math.max(r, s) - a.from),
           u = o(c);
         if (e != null && u != e) break;
-        (c != ` ` || r != n.head) && (e = u), (r = s);
+        ((c != ` ` || r != n.head) && (e = u), (r = s));
       }
       return r;
     }),
@@ -1046,7 +1048,7 @@ const Zt = (e, t, n) =>
       changes: { from: e.from, to: e.to, insert: f.of([``, ``]) },
       range: s.cursor(e.from),
     }));
-    return t(e.update(n, { scrollIntoView: !0, userEvent: `input` })), !0;
+    return (t(e.update(n, { scrollIntoView: !0, userEvent: `input` })), !0);
   },
   dn = ({ state: e, dispatch: t }) => {
     if (e.readOnly) return !1;
@@ -1082,7 +1084,7 @@ function Q(e) {
       n >= i.number)
     ) {
       let e = t[t.length - 1];
-      (e.to = a.to), e.ranges.push(r);
+      ((e.to = a.to), e.ranges.push(r));
     } else t.push({ from: i.from, to: a.to, ranges: [r] });
     n = a.number + 1;
   }
@@ -1161,7 +1163,8 @@ const gn = ({ state: e, dispatch: t }) => hn(e, t, !1),
       n = t.changes(
         Q(t).map(
           ({ from: e, to: n }) => (
-            e > 0 ? e-- : n < t.doc.length && n++, { from: e, to: n }
+            e > 0 ? e-- : n < t.doc.length && n++,
+            { from: e, to: n }
           ),
         ),
       ),
@@ -1242,7 +1245,6 @@ function wn(e) {
       for (
         l == null && (l = d(/^\s*/.exec(t.doc.lineAt(r).text)[0], t.tabSize));
         i < a.to && /\s/.test(a.text[i - a.from]);
-
       )
         i++;
       o
@@ -1260,7 +1262,7 @@ function wn(e) {
         }
       );
     });
-    return n(t.update(r, { scrollIntoView: !0, userEvent: `input` })), !0;
+    return (n(t.update(r, { scrollIntoView: !0, userEvent: `input` })), !0);
   };
 }
 function Tn(e, t) {
@@ -1269,10 +1271,10 @@ function Tn(e, t) {
     let i = [];
     for (let a = r.from; a <= r.to; ) {
       let o = e.doc.lineAt(a);
-      o.number > n &&
+      (o.number > n &&
         (r.empty || r.to > o.from) &&
         (t(o, i, r), (n = o.number)),
-        (a = o.to + 1);
+        (a = o.to + 1));
     }
     let a = e.changes(i);
     return {
@@ -1300,7 +1302,7 @@ const En = ({ state: e, dispatch: t }) => {
           ((n[t.from] = o),
           i.push({ from: t.from, to: t.from + s.length, insert: c }));
       });
-    return i.changes.empty || t(e.update(i, { userEvent: `indent` })), !0;
+    return (i.changes.empty || t(e.update(i, { userEvent: `indent` })), !0);
   },
   $ = ({ state: e, dispatch: t }) =>
     e.readOnly
@@ -1330,7 +1332,6 @@ const En = ({ state: e, dispatch: t }) => {
                 a < r.length &&
                 a < o.length &&
                 r.charCodeAt(a) == o.charCodeAt(a);
-
               )
                 a++;
               n.push({

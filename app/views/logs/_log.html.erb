@@ -1,1 +1,4 @@
-<div class="p"><%= link_to(log, [*nested, log], class: :link) %></div>
+<% parents = nested.compact %>
+<% identity = parents.first if parents.first.is_a?(User) || parents.first.is_a?(Guest) %>
+<% query = (parents - [identity]).to_h { |parent| ["#{parent.model_name.singular_route_key}_id", parent.to_param] } %>
+<div class="p"><%= link_to(log, [identity, log, **query].compact, class: :link) %></div>

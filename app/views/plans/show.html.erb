@@ -1,0 +1,73 @@
+<% content_for(:title, @plan) %>
+<% content_for(:description, @plan.to_s) %>
+<%= turbo_stream_from(@plan) %>
+
+<% if @plan.id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".id") %></div>
+    <div class="font-bold"><%= @plan.id %></div>
+  </div>
+<% end %>
+
+<% if @plan.service_id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".service_id") %></div>
+    <% association = @plan.service %>
+    <div class="font-bold"><%= link_to_if(can?(:show, association), association, association, class: :link) %></div>
+  </div>
+<% end %>
+
+<% %i[name_en name_fr description_en description_fr body_en body_fr].each do |attribute| %>
+  <% if @plan.public_send(attribute).present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".#{attribute}") %></div>
+      <%= @plan.public_send(attribute) %>
+    </div>
+  <% end %>
+<% end %>
+
+<% if @plan.updated_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".updated_at") %></div>
+    <div class="font-bold"><%= local_time(@plan.updated_at, format: :default) %></div>
+  </div>
+<% end %>
+
+<% if @plan.created_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".created_at") %></div>
+    <div class="font-bold"><%= local_time(@plan.created_at, format: :default) %></div>
+  </div>
+<% end %>
+
+<div class="p p--flex">
+  <%= link_to(t(".edit"), edit_url, class: :link) %>
+  <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+  <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
+</div>
+
+<div class="p font-bold"><%= link_to(t(".plan_schedules"), plan_schedules_path, class: :link) %></div>
+<% if can?(:create, PlanSchedule) %>
+  <div class="p">
+    <%= link_to(t(".new_plan_schedule"), new_plan_schedule_path(plan_schedule: { plan_id: @plan.id }), class: "button") %>
+  </div>
+<% end %>
+<%= render_collection(partial: "plan_schedules/plan_schedule", collection: @plan_schedules, as: :plan_schedule) %>
+
+<div class="p font-bold"><%= link_to(t(".subscriptions"), subscriptions_path, class: :link) %></div>
+<% if can?(:create, Subscription) %>
+  <div class="p">
+    <%= link_to(t(".new_subscription"), new_subscription_path(subscription: { plan_id: @plan.id }), class: "button") %>
+  </div>
+<% end %>
+<%= render_collection(partial: "subscriptions/subscription", collection: @subscriptions, as: :subscription) %>
+
+<% if can?(:index, Version) %>
+  <div class="p font-bold"><%= t(".versions") %></div>
+  <%= render_collection(partial: "versions/version", collection: @versions, as: :version, locals: { nested: [] }) %>
+<% end %>
+
+<% if can?(:index, Log) %>
+  <div class="p font-bold"><%= t(".logs") %></div>
+  <%= render_collection(partial: "logs/log", collection: @logs, as: :log, locals: { nested: [] }) %>
+<% end %>

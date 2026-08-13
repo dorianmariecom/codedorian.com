@@ -1,0 +1,4 @@
+<% content_for(:description, t(".title")) %>
+<%= turbo_stream_from(@step_execution) %>
+<%= render("step_executions/form", submit: t(".submit")) %>
+

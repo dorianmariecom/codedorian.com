@@ -10,10 +10,10 @@
   <% if @names.any? && (can?(:destroy_all, Name) || can?(:delete_all, Name)) %>
     <div class="p p--flex">
       <% if can?(:destroy_all, Name) %>
-      <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
+        <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
       <% end %>
       <% if can?(:delete_all, Name) %>
-      <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
+        <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
       <% end %>
     </div>
   <% end %>

@@ -1,0 +1,4 @@
+<% content_for(:description, t(".title")) %>
+<%= turbo_stream_from(@subscription) %>
+<%= render("subscriptions/form", submit: t(".submit")) %>
+

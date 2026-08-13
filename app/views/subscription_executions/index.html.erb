@@ -1,0 +1,20 @@
+<% content_for(:description, t(".title")) %>
+<%= turbo_stream_from(@subscription_executions) %>
+
+<% if @step_executions.any? %>
+  <div class="p"><%= link_to(t(".step_executions", count: @step_executions.size), step_executions_path, class: :link) %></div>
+<% end %>
+
+<div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
+<%= render("shared/search") %>
+
+<turbo-frame id="search" target="_top">
+  <% if @subscription_executions.any? %>
+    <div class="p p--flex">
+      <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
+      <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
+    </div>
+  <% end %>
+
+  <%= render_collection(partial: "subscription_executions/subscription_execution", collection: @subscription_executions, as: :subscription_execution) %>
+</turbo-frame>

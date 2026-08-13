@@ -76,12 +76,12 @@
       .page(params[:page]) %>
 
   <div class="p font-bold">
-    <%= link_to(t(".jobs"), [*jobs_nested, :jobs], class: :link) %>
+    <%= link_to(t(".jobs"), { controller: :jobs, action: :index }, class: :link) %>
   </div>
 
   <% if can?(:create, Job) %>
     <div class="p">
-      <%= link_to(t(".new_job"), [:new, *jobs_nested, :job], class: "button") %>
+      <%= link_to(t(".new_job"), { controller: :jobs, action: :new }, class: "button") %>
     </div>
   <% end %>
 
@@ -97,14 +97,14 @@
 
 <% if can?(:index, Version) %>
   <div class="p font-bold">
-    <%= link_to(t(".versions"), [*nested, @password, :versions], class: :link) %>
+    <%= link_to(t(".versions"), { controller: :versions, action: :index, password_id: @password&.id }, class: :link) %>
   </div>
 
   <% if can?(:create, Version) %>
     <div class="p">
       <%= link_to(
         t(".new_version"),
-        [:new, *nested, @password, :version],
+        { controller: :versions, action: :new, password_id: @password&.id },
         class: "button"
       ) %>
     </div>
@@ -122,12 +122,12 @@
 
 <% if can?(:index, Log) %>
   <div class="p font-bold">
-    <%= link_to(t(".logs"), [*nested, @password, :logs], class: :link) %>
+    <%= link_to(t(".logs"), { controller: :logs, action: :index, password_id: @password&.id }, class: :link) %>
   </div>
 
   <% if can?(:create, Log) %>
     <div class="p">
-      <%= link_to(t(".new_log"), [:new, *nested, @password, :log], class: "button") %>
+      <%= link_to(t(".new_log"), { controller: :logs, action: :new, password_id: @password&.id }, class: "button") %>
     </div>
   <% end %>
 

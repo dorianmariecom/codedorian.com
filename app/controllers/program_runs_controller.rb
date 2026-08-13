@@ -9,10 +9,7 @@ class ProgramRunsController < ApplicationController
 
   def create
     @program =
-      policy_scope(Program).new(
-        input: params.expect(:input),
-        name: t(".name")
-      )
+      policy_scope(Program).new(input: params.expect(:input), name: t(".name"))
 
     unless @program.save
       render(json: { message: @program.alert }, status: :unprocessable_content)

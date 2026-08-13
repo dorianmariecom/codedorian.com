@@ -26,5 +26,31 @@ class SchedulingJob < ContextJob
           }
         )
       end
+
+    Subscription
+      .includes(
+        :plan_schedules,
+        :subscription_execution,
+        service: :steps,
+        user: :time_zones
+      )
+      .find_each do |subscription|
+        perform_later(
+          SchedulingSubscriptionJob,
+          arguments: {
+            subscription: subscription
+          },
+          context: {
+            user: subscription.user,
+            subscription: subscription
+          },
+          current: {
+            user: subscription.user,
+            subscription: subscription,
+            locale: subscription.user.locale,
+            time_zone: subscription.user.unverified_time_zone
+          }
+        )
+      end
   end
 end

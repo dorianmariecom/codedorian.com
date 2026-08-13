@@ -28,9 +28,9 @@ class ProgramExecutionsControllerTest < ActionDispatch::IntegrationTest
 
     assert_difference("ProgramExecution.count", 1) do
       post(
-        user_program_program_executions_path(
+        user_program_executions_path(
           @other_user,
-          programs(:other_program)
+          program_id: programs(:other_program)
         ),
         params: {
           program_execution: {
@@ -45,10 +45,10 @@ class ProgramExecutionsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to(
-      user_program_program_execution_path(
+      user_program_execution_path(
         @other_user,
-        programs(:other_program),
-        ProgramExecution.order(:id).last
+        ProgramExecution.order(:id).last,
+        program_id: programs(:other_program)
       )
     )
   end
@@ -94,7 +94,7 @@ class ProgramExecutionsControllerTest < ActionDispatch::IntegrationTest
 
     assert_no_difference("ProgramExecution.count") do
       post(
-        user_program_program_executions_path(@admin, programs(:program)),
+        user_program_executions_path(@admin, program_id: programs(:program)),
         params: {
           program_execution: {
             input: "puts('hello')",

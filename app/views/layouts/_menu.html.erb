@@ -1,7 +1,15 @@
 <div class="p p--flex">
   <% navigation_links.each do |title, path, verb| %>
     <% if verb != "get" %>
-      <%= button_to(title, path, method: verb, class: :link, form: { class: "inline-block" }) %>
+      <%= button_to(
+        title,
+        path,
+        method: verb,
+        class: :link,
+        form: {
+          class: "inline-block"
+        }
+      ) %>
     <% else %>
       <%= link_to(title, path, class: :link) %>
     <% end %>

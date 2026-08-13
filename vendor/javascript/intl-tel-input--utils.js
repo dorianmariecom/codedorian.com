@@ -12,7 +12,7 @@ var e = {};
   }
   function n(e, t) {
     function n() {}
-    (n.prototype = t.prototype),
+    ((n.prototype = t.prototype),
       (e.na = t.prototype),
       (e.prototype = new n()),
       (e.prototype.constructor = e),
@@ -24,7 +24,7 @@ var e = {};
         )
           i[a - 2] = arguments[a];
         return t.prototype[n].apply(e, i);
-      });
+      }));
   }
   function r(e) {
     let t = [],
@@ -42,7 +42,7 @@ var e = {};
       }
     },
     i = {};
-  new ca(`about:invalid#zClosurez`), new ca(`about:blank`);
+  (new ca(`about:invalid#zClosurez`), new ca(`about:blank`));
   let a = {};
   class fa {
     constructor() {
@@ -119,9 +119,9 @@ var e = {};
     );
   }
   function u() {
-    (this.h = {}), (this.j = this.m().g), (this.g = this.l = null);
+    ((this.h = {}), (this.j = this.m().g), (this.g = this.l = null));
   }
-  (u.prototype.has = function (e) {
+  ((u.prototype.has = function (e) {
     return d(this, e.g);
   }),
     (u.prototype.get = function (e, t) {
@@ -153,7 +153,7 @@ var e = {};
         }
       }
       return !0;
-    });
+    }));
   function ce(e, t) {
     for (var n = se(e.m()), r = 0; r < n.length; r++) {
       var i = n[r],
@@ -165,14 +165,14 @@ var e = {};
           i = f(t, a) || [];
           for (var s = 0; s < i.length; s++) le(e, a, o ? i[s].clone() : i[s]);
         } else
-          (i = f(t, a)),
-            o ? ((o = f(e, a)) ? ce(o, i) : g(e, a, i.clone())) : g(e, a, i);
+          ((i = f(t, a)),
+            o ? ((o = f(e, a)) ? ce(o, i) : g(e, a, i.clone())) : g(e, a, i));
       }
     }
   }
   u.prototype.clone = function () {
     var e = new this.constructor();
-    return e != this && ((e.h = {}), e.g && (e.g = {}), ce(e, this)), e;
+    return (e != this && ((e.h = {}), e.g && (e.g = {}), ce(e, this)), e);
   };
   function d(e, t) {
     return e.h[t] != null;
@@ -219,10 +219,10 @@ var e = {};
     return e.j[t].l ? (d(e, t) ? e.h[t].length : 0) : +!!d(e, t);
   }
   function g(e, t, n) {
-    (e.h[t] = n), e.g && (e.g[t] = n);
+    ((e.h[t] = n), e.g && (e.g[t] = n));
   }
   function le(e, t, n) {
-    e.h[t] || (e.h[t] = []), e.h[t].push(n), e.g && delete e.g[t];
+    (e.h[t] || (e.h[t] = []), e.h[t].push(n), e.g && delete e.g[t]);
   }
   function _(e, t) {
     var n = [],
@@ -231,7 +231,7 @@ var e = {};
     return new oe(e, n);
   }
   function v() {}
-  (v.prototype.g = function (e) {
+  ((v.prototype.g = function (e) {
     throw (new e.h(), Error(`Unimplemented`));
   }),
     (v.prototype.h = function (e, t) {
@@ -251,25 +251,25 @@ var e = {};
       )
         return Number(t);
       return t;
-    });
+    }));
   var ue = /^-?[0-9]+$/;
   function y() {}
-  n(y, v),
+  (n(y, v),
     (y.prototype.g = function (e, t) {
-      return (e = new e.h()), (e.l = this), (e.h = t), (e.g = {}), e;
-    });
+      return ((e = new e.h()), (e.l = this), (e.h = t), (e.g = {}), e);
+    }));
   function b() {}
-  n(b, y),
+  (n(b, y),
     (b.prototype.h = function (e, t) {
       return e.h == 8 ? !!t : v.prototype.h.apply(this, arguments);
     }),
     (b.prototype.g = function (e, t) {
       return b.na.g.call(this, e, t);
-    });
+    }));
   function x(e, t) {
     e != null && this.g.apply(this, arguments);
   }
-  (x.prototype.h = ``),
+  ((x.prototype.h = ``),
     (x.prototype.set = function (e) {
       this.h = `` + e;
     }),
@@ -277,7 +277,7 @@ var e = {};
       if (((this.h += String(e)), t != null))
         for (let e = 1; e < arguments.length; e++) this.h += arguments[e];
       return this;
-    });
+    }));
   function S(e) {
     e.h = ``;
   }
@@ -302,7 +302,7 @@ var e = {};
   }
   n(E, u);
   var pe = null;
-  (C.prototype.m = function () {
+  ((C.prototype.m = function () {
     var e = de;
     return (
       e ||
@@ -415,14 +415,14 @@ var e = {};
         e
       );
     }),
-    (E.m = E.prototype.m);
+    (E.m = E.prototype.m));
   function D() {
     u.call(this);
   }
   n(D, u);
   var me = null,
     he = { sa: 0, ra: 1, qa: 5, pa: 10, oa: 20 };
-  (D.prototype.m = function () {
+  ((D.prototype.m = function () {
     var e = me;
     return (
       e ||
@@ -452,7 +452,7 @@ var e = {};
     );
   }),
     (D.ctor = D),
-    (D.ctor.m = D.prototype.m);
+    (D.ctor.m = D.prototype.m));
   var O = {
       1: `US AG AI AS BB BM BS CA DM DO GD GU JM KN KY LC MP MS PR SX TC TT VC VG VI`.split(
         ` `,
@@ -16525,10 +16525,10 @@ var e = {};
   function k() {
     this.g = {};
   }
-  (k.h = void 0),
+  ((k.h = void 0),
     (k.g = function () {
       return k.h ? k.h : (k.h = new k());
-    });
+    }));
   var A = {
       0: `0`,
       1: `1`,
@@ -16700,14 +16700,14 @@ var e = {};
   }
   function Pe(e) {
     var t = Ne(e.toString());
-    S(e), e.g(t);
+    (S(e), e.g(t));
   }
   function Fe(e) {
     return e != null && (h(e, 9) != 1 || T(e)[0] != -1);
   }
   function N(e, t) {
     for (var n = new x(), r, i = e.length, a = 0; a < i; ++a)
-      (r = e.charAt(a)), (r = t[r.toUpperCase()]), r != null && n.g(r);
+      ((r = e.charAt(a)), (r = t[r.toUpperCase()]), r != null && n.g(r));
     return n.toString();
   }
   function Ie(e) {
@@ -16720,7 +16720,7 @@ var e = {};
     if (p(e, 2) == 0 && d(e, 5)) {
       var n = m(e, 5);
       if (n.length > 0 && d(e, 1) && p(e, 6) == 20 && t == 0)
-        return (e = m(e, 1)), L(e, t, n, ``);
+        return ((e = m(e, 1)), L(e, t, n, ``));
       if (n.length > 0 || !d(e, 1)) return n;
     }
     n = m(e, 1);
@@ -16828,7 +16828,7 @@ var e = {};
   }
   function Le(e, t) {
     var n = ze(e, t);
-    return (e = F(e, m(t, 1), n)), e == null ? -1 : ((t = I(t)), z(t, e));
+    return ((e = F(e, m(t, 1), n)), e == null ? -1 : ((t = I(t)), z(t, e)));
   }
   function z(e, t) {
     return V(e, p(t, 1))
@@ -16863,7 +16863,7 @@ var e = {};
     var n = e.g[t];
     if (n == null) {
       if (((n = ge[t]), n == null)) return null;
-      (n = new b().g(E.m(), n)), (e.g[t] = n);
+      ((n = new b().g(E.m(), n)), (e.g[t] = n));
     }
     return n;
   }
@@ -16908,7 +16908,7 @@ var e = {};
     return e;
   }
   function H(e) {
-    return (e = O[e]), e == null ? `ZZ` : e[0];
+    return ((e = O[e]), e == null ? `ZZ` : e[0]);
   }
   function Be(e, t) {
     if (((e = B(e, t)), e == null)) throw Error(`Invalid region code: ` + t);
@@ -16919,13 +16919,13 @@ var e = {};
       a = h(i, 9) == 0 ? T(p(n, 1)) : T(i);
     if (((i = f(i, 10) || []), r == 2))
       if (Fe(R(n, 0)))
-        (e = R(n, 1)),
+        ((e = R(n, 1)),
           Fe(e) &&
             ((a = a.concat(h(e, 9) == 0 ? T(p(n, 1)) : T(e))),
             a.sort(),
             i.length == 0
               ? (i = f(e, 10) || [])
-              : ((i = i.concat(f(e, 10) || [])), i.sort()));
+              : ((i = i.concat(f(e, 10) || [])), i.sort())));
       else return U(e, t, n, 1);
     return a[0] == -1
       ? 5
@@ -16945,23 +16945,23 @@ var e = {};
   }
   function W(e, t, n) {
     var r = I(t);
-    return (t = m(t, 1)), t in O ? ((t = F(e, t, H(t))), U(e, r, t, n)) : 1;
+    return ((t = m(t, 1)), t in O ? ((t = F(e, t, H(t))), U(e, r, t, n)) : 1);
   }
   function Ve(e, t) {
     if (((e = e.toString()), e.length == 0 || e.charAt(0) == `0`)) return 0;
     for (var n, r = e.length, i = 1; i <= 3 && i <= r; ++i)
       if (((n = parseInt(e.substring(0, i), 10)), n in O))
-        return t.g(e.substring(i)), n;
+        return (t.g(e.substring(i)), n);
     return 0;
   }
   function He(e, t, n, r, i, a) {
     if (t.length == 0) return 0;
     t = new x(t);
     var o;
-    n != null && (o = p(n, 11)), o == null && (o = `NonMatch`);
+    (n != null && (o = p(n, 11)), o == null && (o = `NonMatch`));
     var s = t.toString();
     if (s.length == 0) o = 20;
-    else if (j.test(s)) (s = s.replace(j, ``)), S(t), t.g(Ne(s)), (o = 1);
+    else if (j.test(s)) ((s = s.replace(j, ``)), S(t), t.g(Ne(s)), (o = 1));
     else {
       if (((s = new RegExp(o)), Pe(t), (o = t.toString()), o.search(s) == 0)) {
         s = o.match(s)[0].length;
@@ -16974,7 +16974,7 @@ var e = {};
     }
     if ((i && g(a, 6, o), o != 20)) {
       if (t.h.length <= 2) throw Error(`Phone number too short after IDD`);
-      if (((e = Ve(t, r)), e != 0)) return g(a, 1, e), e;
+      if (((e = Ve(t, r)), e != 0)) return (g(a, 1, e), e);
       throw Error(`Invalid country calling code`);
     }
     return n != null &&
@@ -17003,15 +17003,15 @@ var e = {};
     ) {
       var o = RegExp,
         s = p(t, 1);
-      (s = m(s, 2)), (o = new o(s)), (s = K(o, r));
+      ((s = m(s, 2)), (o = new o(s)), (s = K(o, r)));
       var c = i.length - 1;
-      (t = p(t, 16)),
+      ((t = p(t, 16)),
         t == null || t.length == 0 || i[c] == null || i[c].length == 0
           ? (!s || K(o, r.substring(i[0].length))) &&
             (n != null && c > 0 && i[c] != null && n.g(i[1]),
             e.set(r.substring(i[0].length)))
           : ((r = r.replace(a, t)),
-            (!s || K(o, r)) && (n != null && c > 0 && n.g(i[1]), e.set(r)));
+            (!s || K(o, r)) && (n != null && c > 0 && n.g(i[1]), e.set(r))));
     }
   }
   function G(e, t, n) {
@@ -17066,7 +17066,7 @@ var e = {};
       ((a = i.toString()), !(P(n) || (a != null && a.length > 0 && j.test(a))))
     )
       throw Error(`Invalid country calling code`);
-    (a = new D()), r && g(a, 5, t);
+    ((a = new D()), r && g(a, 5, t));
     a: {
       if (
         ((t = i.toString()),
@@ -17076,17 +17076,17 @@ var e = {};
         s = t.match(Oe);
         for (var c = s.length, l = 1; l < c; ++l)
           if (s[l] != null && s[l].length > 0) {
-            S(i), i.g(t.substring(0, o)), (t = s[l]);
+            (S(i), i.g(t.substring(0, o)), (t = s[l]));
             break a;
           }
       }
       t = ``;
     }
-    t.length > 0 && g(a, 3, t),
+    (t.length > 0 && g(a, 3, t),
       (o = B(e, n)),
       (t = new x()),
       (s = 0),
-      (c = i.toString());
+      (c = i.toString()));
     try {
       s = He(e, c, o, t, r, a);
     } catch (n) {
@@ -17124,7 +17124,7 @@ var e = {};
       for (g(a, 4, !0), e = 1; e < r.length - 1 && r.charAt(e) == `0`; ) e++;
       e != 1 && g(a, 8, e);
     }
-    return g(a, 2, parseInt(r, 10)), a;
+    return (g(a, 2, parseInt(r, 10)), a);
   }
   function K(e, t) {
     return !!(
@@ -17134,7 +17134,7 @@ var e = {};
     );
   }
   function Ge(e) {
-    (this.ga = RegExp(` `)),
+    ((this.ga = RegExp(` `)),
       (this.ka = ``),
       (this.$ = new x()),
       (this.ea = ``),
@@ -17150,7 +17150,7 @@ var e = {};
       (this.g = new x()),
       (this.j = []),
       (this.la = e),
-      (this.l = Ye(this, this.la));
+      (this.l = Ye(this, this.la)));
   }
   var Ke = new E();
   g(Ke, 11, `NA`);
@@ -17160,7 +17160,7 @@ var e = {};
     Je = /[- ]/;
   function Ye(e, t) {
     var n = e.ha;
-    return (t = P(t) ? Be(n, t) : 0), (e = B(e.ha, H(t))), e == null ? Ke : e;
+    return ((t = P(t) ? Be(n, t) : 0), (e = B(e.ha, H(t))), e == null ? Ke : e);
   }
   function Xe(e) {
     for (var t = e.j.length, n = 0; n < t; ++n) {
@@ -17182,7 +17182,7 @@ var e = {};
         c.length > 0 ? (a.$.g(c), (a = !0)) : (a = !1),
         a)
       )
-        return (e.ea = i), (e.ia = Je.test(p(r, 4))), (e.ba = 0), !0;
+        return ((e.ea = i), (e.ia = Je.test(p(r, 4))), (e.ba = 0), !0);
     }
     return (e.v = !1);
   }
@@ -17221,7 +17221,7 @@ var e = {};
             e.h.g(t.substring(0, n))),
           e.o != Y(e))
         )
-          return e.h.g(` `), $e(e);
+          return (e.h.g(` `), $e(e));
       }
       return e.u.toString();
     }
@@ -17232,7 +17232,7 @@ var e = {};
         return e.u.toString();
       case 3:
         if (nt(e)) e.fa = !0;
-        else return (e.o = Y(e)), J(e);
+        else return ((e.o = Y(e)), J(e));
       default:
         return e.fa
           ? (rt(e) && (e.fa = !1), e.h.toString() + e.g.toString())
@@ -17248,7 +17248,13 @@ var e = {};
   }
   function $e(e) {
     return (
-      (e.v = !0), (e.fa = !1), (e.j = []), (e.ba = 0), S(e.$), (e.ea = ``), J(e)
+      (e.v = !0),
+      (e.fa = !1),
+      (e.j = []),
+      (e.ba = 0),
+      S(e.$),
+      (e.ea = ``),
+      J(e)
     );
   }
   function et(e) {
@@ -17292,7 +17298,9 @@ var e = {};
             e.j.push(a));
       }
       return (
-        Ze(e, t), (t = et(e)), t.length > 0 ? t : Xe(e) ? tt(e) : e.u.toString()
+        Ze(e, t),
+        (t = et(e)),
+        t.length > 0 ? t : Xe(e) ? tt(e) : e.u.toString()
       );
     }
     return q(e, t);
@@ -17311,8 +17319,8 @@ var e = {};
       n = 0;
     if (p(e.l, 10) != 1) var r = !1;
     else
-      (r = e.g.toString()),
-        (r = r.charAt(0) == `1` && r.charAt(1) != `0` && r.charAt(1) != `1`);
+      ((r = e.g.toString()),
+        (r = r.charAt(0) == `1` && r.charAt(1) != `0` && r.charAt(1) != `1`));
     return (
       r
         ? ((n = 1), e.h.g(`1`).g(` `), (e.aa = !0))
@@ -17371,19 +17379,19 @@ var e = {};
         t.substring(0, e.ba + 1)
       );
     }
-    return e.j.length == 1 && (e.v = !1), (e.ea = ``), e.u.toString();
+    return (e.j.length == 1 && (e.v = !1), (e.ea = ``), e.u.toString());
   }
   let X = {};
   [`E164`, `INTERNATIONAL`, `NATIONAL`, `RFC3966`].forEach((e, t) => {
     X[e] = t;
   });
   let Z = {};
-  `FIXED_LINE MOBILE FIXED_LINE_OR_MOBILE TOLL_FREE PREMIUM_RATE SHARED_COST VOIP PERSONAL_NUMBER PAGER UAN VOICEMAIL UNKNOWN`
+  (`FIXED_LINE MOBILE FIXED_LINE_OR_MOBILE TOLL_FREE PREMIUM_RATE SHARED_COST VOIP PERSONAL_NUMBER PAGER UAN VOICEMAIL UNKNOWN`
     .split(` `)
     .forEach((e, t) => {
       Z[e] = t;
     }),
-    (Z.UNKNOWN = -1);
+    (Z.UNKNOWN = -1));
   let Q = {};
   `IS_POSSIBLE INVALID_COUNTRY_CODE TOO_SHORT TOO_LONG IS_POSSIBLE_LOCAL_ONLY INVALID_LENGTH`
     .split(` `)
@@ -17409,14 +17417,14 @@ var e = {};
       e.concat(t)
     );
   };
-  t(`utils`, {}),
+  (t(`utils`, {}),
     t(`utils.formatNumberAsYouType`, (e, t) => {
       try {
         let n = e.replace(/[^+0-9]/g, ``),
           r = new Ge(t);
         t = ``;
         for (let e = 0; e < n.length; e++)
-          (r.ka = Qe(r, n.charAt(e))), (t = r.ka);
+          ((r.ka = Qe(r, n.charAt(e))), (t = r.ka));
         return t;
       } catch {
         return e;
@@ -17522,7 +17530,7 @@ var e = {};
       } catch {
         return ``;
       }
-    });
+    }));
 }).call(e);
 var t = e.utils;
 export { t as default };

@@ -40,6 +40,13 @@ class Log < ApplicationRecord
     program_execution
     program_schedule
     session
+    service
+    step
+    plan
+    plan_schedule
+    subscription
+    subscription_execution
+    step_execution
     submission
     submission_delivery
     submission_program
