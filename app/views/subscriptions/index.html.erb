@@ -2,7 +2,13 @@
 <%= turbo_stream_from(@subscriptions) %>
 
 <% if @subscription_executions.any? %>
-  <div class="p"><%= link_to(t(".subscription_executions", count: @subscription_executions.size), subscription_executions_path, class: :link) %></div>
+  <div class="p">
+    <%= link_to(
+      t(".subscription_executions", count: @subscription_executions.size),
+      subscription_executions_path,
+      class: :link
+    ) %>
+  </div>
 <% end %>
 
 <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
@@ -16,5 +22,9 @@
     </div>
   <% end %>
 
-  <%= render_collection(partial: "subscriptions/subscription", collection: @subscriptions, as: :subscription) %>
+  <%= render_collection(
+    partial: "subscriptions/subscription",
+    collection: @subscriptions,
+    as: :subscription
+  ) %>
 </turbo-frame>

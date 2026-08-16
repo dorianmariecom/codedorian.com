@@ -82,4 +82,17 @@ class EmailAddress < ApplicationRecord
   def to_s
     email_address.presence || t("to_s", id: id)
   end
+
+  def to_code
+    Code::Object::EmailAddress.new(
+      id: id,
+      created_at: created_at,
+      email_address: email_address,
+      primary: primary,
+      updated_at: updated_at,
+      user_id: user_id,
+      verification_code: verification_code,
+      verified: verified
+    )
+  end
 end

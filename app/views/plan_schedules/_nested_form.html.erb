@@ -9,7 +9,15 @@
 
   <div class="p">
     <%= f.label(:starts_at, class: :label) %>
-    <%= f.datetime_field(:starts_at, required: true, class: :input, autocomplete: :off, data: { form_type: :other }) %>
+    <%= f.datetime_field(
+      :starts_at,
+      required: true,
+      class: :input,
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
     <div class="text-gray-600">
       <%= local_time(Time.zone.now, format: :default) %>
     </div>
@@ -17,7 +25,17 @@
 
   <div class="p">
     <%= f.label(:interval, class: :label) %>
-    <%= f.select(:interval, PlanSchedule.interval_options, {}, required: true, class: :input, autocomplete: :off, data: { form_type: :other }) %>
+    <%= f.select(
+      :interval,
+      PlanSchedule.interval_options,
+      {},
+      required: true,
+      class: :input,
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
   </div>
 
   <div class="p">

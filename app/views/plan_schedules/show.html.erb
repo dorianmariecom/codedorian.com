@@ -13,14 +13,18 @@
   <div class="p">
     <div class="text-gray-600"><%= t(".plan_id") %></div>
     <% association = @plan_schedule.plan %>
-    <div class="font-bold"><%= link_to_if(can?(:show, association), association, association, class: :link) %></div>
+    <div class="font-bold">
+      <%= link_to_if(can?(:show, association), association, association, class: :link) %>
+    </div>
   </div>
 <% end %>
 
 <% if @plan_schedule.starts_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".starts_at") %></div>
-    <div class="font-bold"><%= local_time(@plan_schedule.starts_at, format: :default) %></div>
+    <div class="font-bold">
+      <%= local_time(@plan_schedule.starts_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 
@@ -34,14 +38,18 @@
 <% if @plan_schedule.updated_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold"><%= local_time(@plan_schedule.updated_at, format: :default) %></div>
+    <div class="font-bold">
+      <%= local_time(@plan_schedule.updated_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 
 <% if @plan_schedule.created_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold"><%= local_time(@plan_schedule.created_at, format: :default) %></div>
+    <div class="font-bold">
+      <%= local_time(@plan_schedule.created_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 
@@ -53,10 +61,24 @@
 
 <% if can?(:index, Version) %>
   <div class="p font-bold"><%= t(".versions") %></div>
-  <%= render_collection(partial: "versions/version", collection: @versions, as: :version, locals: { nested: [] }) %>
+  <%= render_collection(
+    partial: "versions/version",
+    collection: @versions,
+    as: :version,
+    locals: {
+      nested: []
+    }
+  ) %>
 <% end %>
 
 <% if can?(:index, Log) %>
   <div class="p font-bold"><%= t(".logs") %></div>
-  <%= render_collection(partial: "logs/log", collection: @logs, as: :log, locals: { nested: [] }) %>
+  <%= render_collection(
+    partial: "logs/log",
+    collection: @logs,
+    as: :log,
+    locals: {
+      nested: []
+    }
+  ) %>
 <% end %>

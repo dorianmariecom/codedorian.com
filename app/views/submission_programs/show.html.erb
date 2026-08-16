@@ -112,14 +112,26 @@
 
 <% if can?(:index, Version) %>
   <div class="p font-bold">
-    <%= link_to(t(".versions"), { controller: :versions, action: :index, submission_program_id: @submission_program&.id }, class: :link) %>
+    <%= link_to(
+      t(".versions"),
+      {
+        controller: :versions,
+        action: :index,
+        submission_program_id: @submission_program&.id
+      },
+      class: :link
+    ) %>
   </div>
 
   <% if can?(:create, Version) %>
     <div class="p">
       <%= link_to(
         t(".new_version"),
-        { controller: :versions, action: :new, submission_program_id: @submission_program&.id },
+        {
+          controller: :versions,
+          action: :new,
+          submission_program_id: @submission_program&.id
+        },
         class: "button"
       ) %>
     </div>
@@ -137,14 +149,26 @@
 
 <% if can?(:index, Log) %>
   <div class="p font-bold">
-    <%= link_to(t(".logs"), { controller: :logs, action: :index, submission_program_id: @submission_program&.id }, class: :link) %>
+    <%= link_to(
+      t(".logs"),
+      {
+        controller: :logs,
+        action: :index,
+        submission_program_id: @submission_program&.id
+      },
+      class: :link
+    ) %>
   </div>
 
   <% if can?(:create, Log) %>
     <div class="p">
       <%= link_to(
         t(".new_log"),
-        { controller: :logs, action: :new, submission_program_id: @submission_program&.id },
+        {
+          controller: :logs,
+          action: :new,
+          submission_program_id: @submission_program&.id
+        },
         class: "button"
       ) %>
     </div>

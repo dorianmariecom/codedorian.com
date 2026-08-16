@@ -11,15 +11,32 @@ class StepsController < ApplicationController
   end
 
   def show
-    @step_executions = policy_scope(StepExecution).where(step: @step).order(created_at: :desc).page(params[:page])
-    @versions = policy_scope(Version).where(item: @step).order(created_at: :desc).page(params[:page])
-    @logs = policy_scope(Log).where_step(@step).order(created_at: :desc).page(params[:page])
+    @step_executions =
+      policy_scope(StepExecution)
+        .where(step: @step)
+        .order(created_at: :desc)
+        .page(params[:page])
+    @versions =
+      policy_scope(Version)
+        .where(item: @step)
+        .order(created_at: :desc)
+        .page(params[:page])
+    @logs =
+      policy_scope(Log)
+        .where_step(@step)
+        .order(created_at: :desc)
+        .page(params[:page])
   end
 
   def new
-    @step = authorize(
-      scope.new(params.fetch(:step, ActionController::Parameters.new).permit(:service_id))
-    )
+    @step =
+      authorize(
+        scope.new(
+          params.fetch(:step, ActionController::Parameters.new).permit(
+            :service_id
+          )
+        )
+      )
     add_breadcrumb
   end
 
@@ -84,6 +101,19 @@ class StepsController < ApplicationController
   end
 
   def step_params
-    params.expect(step: %i[service_id name_en name_fr description_en description_fr body_en body_fr position input offset_seconds])
+    params.expect(
+      step: %i[
+        service_id
+        name_en
+        name_fr
+        description_en
+        description_fr
+        body_en
+        body_fr
+        position
+        input
+        offset_seconds
+      ]
+    )
   end
 end

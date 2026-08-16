@@ -12,16 +12,37 @@ class PlansController < ApplicationController
   end
 
   def show
-    @plan_schedules = policy_scope(PlanSchedule).where(plan: @plan).order(created_at: :desc).page(params[:page])
-    @subscriptions = policy_scope(Subscription).where(plan: @plan).order(created_at: :desc).page(params[:page])
-    @versions = policy_scope(Version).where(item: @plan).order(created_at: :desc).page(params[:page])
-    @logs = policy_scope(Log).where_plan(@plan).order(created_at: :desc).page(params[:page])
+    @plan_schedules =
+      policy_scope(PlanSchedule)
+        .where(plan: @plan)
+        .order(created_at: :desc)
+        .page(params[:page])
+    @subscriptions =
+      policy_scope(Subscription)
+        .where(plan: @plan)
+        .order(created_at: :desc)
+        .page(params[:page])
+    @versions =
+      policy_scope(Version)
+        .where(item: @plan)
+        .order(created_at: :desc)
+        .page(params[:page])
+    @logs =
+      policy_scope(Log)
+        .where_plan(@plan)
+        .order(created_at: :desc)
+        .page(params[:page])
   end
 
   def new
-    @plan = authorize(
-      scope.new(params.fetch(:plan, ActionController::Parameters.new).permit(:service_id))
-    )
+    @plan =
+      authorize(
+        scope.new(
+          params.fetch(:plan, ActionController::Parameters.new).permit(
+            :service_id
+          )
+        )
+      )
     add_breadcrumb
   end
 

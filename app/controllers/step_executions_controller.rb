@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 class StepExecutionsController < ApplicationController
-  before_action { add_breadcrumb(key: "step_executions.index", path: index_url) }
+  before_action do
+    add_breadcrumb(key: "step_executions.index", path: index_url)
+  end
   before_action :load_step_execution, only: %i[show edit update destroy delete]
 
   def index
@@ -10,18 +12,28 @@ class StepExecutionsController < ApplicationController
   end
 
   def show
-    @versions = policy_scope(Version).where(item: @step_execution).order(created_at: :desc).page(params[:page])
-    @logs = policy_scope(Log).where_step_execution(@step_execution).order(created_at: :desc).page(params[:page])
+    @versions =
+      policy_scope(Version)
+        .where(item: @step_execution)
+        .order(created_at: :desc)
+        .page(params[:page])
+    @logs =
+      policy_scope(Log)
+        .where_step_execution(@step_execution)
+        .order(created_at: :desc)
+        .page(params[:page])
   end
 
   def new
-    @step_execution = authorize(
-      scope.new(
-        params
-          .fetch(:step_execution, ActionController::Parameters.new)
-          .permit(:subscription_execution_id, :step_id)
+    @step_execution =
+      authorize(
+        scope.new(
+          params.fetch(
+            :step_execution,
+            ActionController::Parameters.new
+          ).permit(:subscription_execution_id, :step_id)
+        )
       )
-    )
     add_breadcrumb
   end
 
@@ -86,6 +98,19 @@ class StepExecutionsController < ApplicationController
   end
 
   def step_execution_params
-    params.expect(step_execution: %i[subscription_execution_id step_id status input output error error_class error_message error_backtrace result])
+    params.expect(
+      step_execution: %i[
+        subscription_execution_id
+        step_id
+        status
+        input
+        output
+        error
+        error_class
+        error_message
+        error_backtrace
+        result
+      ]
+    )
   end
 end

@@ -2,7 +2,10 @@
 
 class Service < ApplicationRecord
   belongs_to :user, default: -> { Current.user! }, touch: true
-  has_many :steps, -> { order(:position) }, dependent: :destroy, inverse_of: :service
+  has_many :steps,
+           -> { order(:position) },
+           dependent: :destroy,
+           inverse_of: :service
   has_many :plans, dependent: :destroy
   has_many :subscriptions, through: :plans
   has_many :subscription_executions, through: :subscriptions
@@ -18,9 +21,21 @@ class Service < ApplicationRecord
   before_validation { self.user ||= Current.user! }
   validate { can!(:update, user) }
 
-  def self.search_fields = { **base_search_fields, **User.associated_search_fields }
+  def self.search_fields
+    { **base_search_fields, **User.associated_search_fields }
+  end
+
   def name = fr? ? name_fr : name_en
   def description = fr? ? description_fr : description_en
   def body = fr? ? body_fr : body_en
   def to_s = Truncate.strip(name&.to_plain_text).presence || t("to_s", id: id)
+
+  def to_code
+    Code::Object::Service.new(
+      id: id,
+      created_at: created_at,
+      updated_at: updated_at,
+      user_id: user_id
+    )
+  end
 end

@@ -2,14 +2,14 @@
 
 class Code
   class Object
-    class Schedule < Dictionary
+    class ProgramSchedule < Dictionary
       CLASS_DOCUMENTATION = {
-        name: "Schedule",
-        description: "finds and inspects schedules in code.",
+        name: "ProgramSchedule",
+        description: "finds and inspects program schedules in code.",
         examples: %w[
-          Schedule.find(123)
-          Schedule.intervals
-          Schedule.find!("7f8...").id
+          ProgramSchedule.find(123)
+          ProgramSchedule.intervals
+          ProgramSchedule.find!("7f8...").id
         ]
       }.freeze
       CLASS_FUNCTIONS = {
@@ -17,23 +17,23 @@ class Code
           name: "find",
           description: "returns a schedule by id.",
           examples: %w[
-            Schedule.find(123)
-            Schedule.find!(123)
-            Schedule.find("missing")
+            ProgramSchedule.find(123)
+            ProgramSchedule.find!(123)
+            ProgramSchedule.find("missing")
           ]
         },
         "find!" => {
           name: "find!",
           description: "returns a schedule by id or raises when not found.",
-          examples: %w[Schedule.find!(123) Schedule.find!("abc")]
+          examples: %w[ProgramSchedule.find!(123) ProgramSchedule.find!("abc")]
         },
         "intervals" => {
           name: "intervals",
           description: "returns the available schedule intervals.",
           examples: [
-            "Schedule.intervals",
-            "Schedule.intervals.keys",
-            "Schedule.intervals[:daily]"
+            "ProgramSchedule.intervals",
+            "ProgramSchedule.intervals.keys",
+            "ProgramSchedule.intervals[:daily]"
           ]
         }
       }.freeze
@@ -41,7 +41,10 @@ class Code
         "id" => {
           name: "id",
           description: "returns the schedule id as an integer.",
-          examples: %w[Schedule.find!(123).id Schedule.find!(123).intervals]
+          examples: %w[
+            ProgramSchedule.find!(123).id
+            ProgramSchedule.find!(123).intervals
+          ]
         }
       }.freeze
 
@@ -93,11 +96,11 @@ class Code
       end
 
       def self.code_intervals
-        ::Schedule::INTERVALS.to_code
+        ::ScheduleConcern::INTERVALS.to_code
       end
 
       def self.scope
-        policy_scope(::Schedule).where(user: ::Current.user)
+        policy_scope(::ProgramSchedule)
       end
 
       def id
@@ -113,8 +116,26 @@ class Code
       end
 
       def scope
-        policy_scope(::Schedule).where(user: ::Current.user)
+        policy_scope(::ProgramSchedule)
       end
+
+      def call(**args)
+        code_operator = args.fetch(:operator, nil).to_code
+
+        case code_operator.to_s
+        when "program"
+          sig(args)
+          code_program
+        when "user"
+          sig(args)
+          code_user
+        else
+          super
+        end
+      end
+
+      def code_program = policy_scope(::Program).find(program!.program.id).to_code
+      def code_user = policy_scope(::User).find(program!.user.id).to_code
 
       include(::Pundit::Authorization)
       extend(::Pundit::Authorization)

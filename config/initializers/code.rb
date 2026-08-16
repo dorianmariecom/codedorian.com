@@ -49,12 +49,12 @@ class Code
           else
             Class.new(Program)
           end
-        when "Schedule"
+        when "ProgramSchedule"
           sig(args) { Object.repeat }
           if code_arguments.any?
-            Schedule.new(*code_arguments.raw)
+            ProgramSchedule.new(*code_arguments.raw)
           else
-            Class.new(Schedule)
+            Class.new(ProgramSchedule)
           end
         else
           original_call(**args)

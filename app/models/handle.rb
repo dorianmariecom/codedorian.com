@@ -69,4 +69,16 @@ class Handle < ApplicationRecord
   def to_s
     handle.presence || t("to_s", id: id)
   end
+
+  def to_code
+    Code::Object::Handle.new(
+      id: id,
+      created_at: created_at,
+      handle: handle,
+      primary: primary,
+      updated_at: updated_at,
+      user_id: user_id,
+      verified: verified
+    )
+  end
 end

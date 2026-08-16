@@ -13,7 +13,9 @@
   <div class="p">
     <div class="text-gray-600"><%= t(".user_id") %></div>
     <% association = @service.user %>
-    <div class="font-bold"><%= link_to_if(can?(:show, association), association, association, class: :link) %></div>
+    <div class="font-bold">
+      <%= link_to_if(can?(:show, association), association, association, class: :link) %>
+    </div>
   </div>
 <% end %>
 
@@ -29,14 +31,18 @@
 <% if @service.updated_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold"><%= local_time(@service.updated_at, format: :default) %></div>
+    <div class="font-bold">
+      <%= local_time(@service.updated_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 
 <% if @service.created_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold"><%= local_time(@service.created_at, format: :default) %></div>
+    <div class="font-bold">
+      <%= local_time(@service.created_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 
@@ -46,29 +52,47 @@
   <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
 </div>
 
-<div class="p font-bold"><%= link_to(t(".steps"), steps_path, class: :link) %></div>
+<div class="p font-bold">
+  <%= link_to(t(".steps"), steps_path, class: :link) %>
+</div>
 <% if can?(:create, Step) %>
   <div class="p">
-    <%= link_to(t(".new_step"), new_step_path(step: { service_id: @service.id }), class: "button") %>
+    <%= link_to(
+      t(".new_step"),
+      new_step_path(step: { service_id: @service.id }),
+      class: "button"
+    ) %>
   </div>
 <% end %>
 <%= render_collection(partial: "steps/step", collection: @steps, as: :step) %>
 
-<div class="p font-bold"><%= link_to(t(".plans"), plans_path, class: :link) %></div>
+<div class="p font-bold">
+  <%= link_to(t(".plans"), plans_path, class: :link) %>
+</div>
 <% if can?(:create, Plan) %>
   <div class="p">
-    <%= link_to(t(".new_plan"), new_plan_path(plan: { service_id: @service.id }), class: "button") %>
+    <%= link_to(
+      t(".new_plan"),
+      new_plan_path(plan: { service_id: @service.id }),
+      class: "button"
+    ) %>
   </div>
 <% end %>
 <%= render_collection(partial: "plans/plan", collection: @plans, as: :plan) %>
 
-<div class="p font-bold"><%= link_to(t(".subscriptions"), subscriptions_path, class: :link) %></div>
+<div class="p font-bold">
+  <%= link_to(t(".subscriptions"), subscriptions_path, class: :link) %>
+</div>
 <% if can?(:create, Subscription) %>
   <div class="p">
     <%= link_to(t(".new_subscription"), new_subscription_path, class: "button") %>
   </div>
 <% end %>
-<%= render_collection(partial: "subscriptions/subscription", collection: @subscriptions, as: :subscription) %>
+<%= render_collection(
+  partial: "subscriptions/subscription",
+  collection: @subscriptions,
+  as: :subscription
+) %>
 
 <div class="p font-bold">
   <%= link_to(
@@ -97,11 +121,7 @@
 </div>
 <% if can?(:create, StepExecution) %>
   <div class="p">
-    <%= link_to(
-      t(".new_step_execution"),
-      new_step_execution_path,
-      class: "button"
-    ) %>
+    <%= link_to(t(".new_step_execution"), new_step_execution_path, class: "button") %>
   </div>
 <% end %>
 <%= render_collection(
@@ -112,10 +132,24 @@
 
 <% if can?(:index, Version) %>
   <div class="p font-bold"><%= t(".versions") %></div>
-  <%= render_collection(partial: "versions/version", collection: @versions, as: :version, locals: { nested: [] }) %>
+  <%= render_collection(
+    partial: "versions/version",
+    collection: @versions,
+    as: :version,
+    locals: {
+      nested: []
+    }
+  ) %>
 <% end %>
 
 <% if can?(:index, Log) %>
   <div class="p font-bold"><%= t(".logs") %></div>
-  <%= render_collection(partial: "logs/log", collection: @logs, as: :log, locals: { nested: [] }) %>
+  <%= render_collection(
+    partial: "logs/log",
+    collection: @logs,
+    as: :log,
+    locals: {
+      nested: []
+    }
+  ) %>
 <% end %>

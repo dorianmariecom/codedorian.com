@@ -144,7 +144,7 @@ class Code
         code_to = Current.code_user if code_to.nothing?
 
         ::ApplicationRecord.transaction do
-          code_to.user.devices.each do |device|
+          policy_scope(code_to.user.devices).each do |device|
             if device.ios?
               ios_apps.each do |app|
                 ::Rpush::Apnsp8::Notification.create!(
@@ -216,7 +216,7 @@ class Code
         code_to = Current.code_user if code_to.nothing?
 
         ::ApplicationRecord.transaction do
-          code_to.user.devices.each do |device|
+          policy_scope(code_to.user.devices).each do |device|
             if device.ios?
               ios_apps.each do |app|
                 ::Rpush::Apnsp8::Notification.create!(

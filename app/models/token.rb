@@ -81,4 +81,16 @@ class Token < ApplicationRecord
   def to_s
     token.presence || t("to_s", id: id)
   end
+
+  def to_code
+    Code::Object::Token.new(
+      id: id,
+      created_at: created_at,
+      primary: primary,
+      token: token,
+      updated_at: updated_at,
+      user_id: user_id,
+      verified: verified
+    )
+  end
 end

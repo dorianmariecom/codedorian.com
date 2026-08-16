@@ -7,11 +7,23 @@ class SubscriptionExecution < ApplicationRecord
   has_one :plan, through: :subscription
   has_one :service, through: :plan
   has_many :step_executions, dependent: :destroy
-  scope :where_user, ->(user) { joins(:subscription).where(subscriptions: { user_id: user }) }
+  scope :where_user,
+        ->(user) do
+          joins(:subscription).where(subscriptions: { user_id: user })
+        end
   validates :status, inclusion: { in: STATUSES }
   validate { can!(:update, subscription) }
 
-  def self.search_fields = { status: { node: -> { arel_table[:status] }, type: :string }, **base_search_fields }
+  def self.search_fields
+    {
+      status: {
+        node: -> { arel_table[:status] },
+        type: :string
+      },
+      **base_search_fields
+    }
+  end
+
   def done? = status == "done"
   def done! = update!(status: :done)
   def errored? = status == "errored"
@@ -29,4 +41,13 @@ class SubscriptionExecution < ApplicationRecord
   def in_progress? = status == "in_progress"
   def translated_status = t("statuses.#{status}")
   def to_s = translated_status.presence || t("to_s", id: id)
+  def to_code
+    Code::Object::SubscriptionExecution.new(
+      id: id,
+      created_at: created_at,
+      status: status,
+      subscription_id: subscription_id,
+      updated_at: updated_at
+    )
+  end
 end

@@ -55,36 +55,33 @@ class Program < ApplicationRecord
     ApplicationRecord.transaction { find_each(&:format!) }
   end
 
-  def evaluate!
-    Current.with(user: user, program: self) do
-      program_execution = program_executions.create!(status: :in_progress)
-      context = Code::Object::Context.new
-      output = StringIO.new
-      error = StringIO.new
-      result =
-        Code.evaluate(
-          input,
-          context: context,
-          output: output,
-          error: error,
-          timeout: TIMEOUT
-        )
-      program_execution.update!(
-        input: input,
-        result: result.inspect,
-        output: output.string,
-        error: error.string,
-        status: :done
+  def evaluate!(program_execution:)
+    context = Code::Object::Context.new
+    output = StringIO.new
+    error = StringIO.new
+    result =
+      Code.evaluate(
+        input,
+        context: context,
+        output: output,
+        error: error,
+        timeout: TIMEOUT
       )
-    rescue Code::Error => e
-      program_execution.update!(
-        input: input,
-        status: :errored,
-        error_class: e.class,
-        error_message: e.message,
-        error_backtrace: e.backtrace.join("\n")
-      )
-    end
+    program_execution.update!(
+      input: input,
+      result: result.inspect,
+      output: output.string,
+      error: error.string,
+      status: :done
+    )
+  rescue Code::Error => e
+    program_execution.update!(
+      input: input,
+      status: :errored,
+      error_class: e.class,
+      error_message: e.message,
+      error_backtrace: e.backtrace.join("\n")
+    )
   end
 
   def format!
@@ -169,13 +166,16 @@ class Program < ApplicationRecord
   def to_code
     Code::Object::Program.new(
       id: id,
-      name: name,
-      input: input,
-      updated_at: updated_at,
       created_at: created_at,
-      schedules: program_schedules
+      input: input,
+      name: name,
+      scheduled: scheduled,
+      updated_at: updated_at,
+      user_id: user_id
     )
   end
+
+  def schedules = program_schedules
 
   def to_s
     name_sample.presence || input_sample.presence || t("to_s", id: id)

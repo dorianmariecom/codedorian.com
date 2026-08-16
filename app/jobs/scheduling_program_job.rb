@@ -8,10 +8,14 @@ class SchedulingProgramJob < ContextJob
   def perform_with_context(program:)
     return unless program.scheduled_now?
 
+    program_execution =
+      program.program_executions.create!(status: :in_progress)
+
     perform_later(
       ProgramEvaluateJob,
       arguments: {
-        program: program
+        program: program,
+        program_execution: program_execution
       },
       priority: program.duration_in_seconds,
       context: {
@@ -21,6 +25,7 @@ class SchedulingProgramJob < ContextJob
       current: {
         user: program.user,
         program: program,
+        program_execution: program_execution,
         locale: program.user.locale,
         time_zone: program.user.unverified_time_zone
       }

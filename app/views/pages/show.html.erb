@@ -113,12 +113,32 @@
 
   <% if can?(:index, Version) %>
     <div class="p font-bold">
-      <%= link_to(t(".versions"), { controller: :versions, action: :index, user_id: @user&.id, guest_id: @guest&.id, page_id: @page.id }, class: :link) %>
+      <%= link_to(
+        t(".versions"),
+        {
+          controller: :versions,
+          action: :index,
+          user_id: @user&.id,
+          guest_id: @guest&.id,
+          page_id: @page.id
+        },
+        class: :link
+      ) %>
     </div>
 
     <% if can?(:create, Version) %>
       <div class="p">
-        <%= link_to(t(".new_version"), { controller: :versions, action: :new, user_id: @user&.id, guest_id: @guest&.id, page_id: @page.id }, class: "button") %>
+        <%= link_to(
+          t(".new_version"),
+          {
+            controller: :versions,
+            action: :new,
+            user_id: @user&.id,
+            guest_id: @guest&.id,
+            page_id: @page.id
+          },
+          class: "button"
+        ) %>
       </div>
     <% end %>
 
@@ -134,12 +154,32 @@
 
   <% if can?(:index, Log) %>
     <div class="p font-bold">
-      <%= link_to(t(".logs"), { controller: :logs, action: :index, user_id: @user&.id, guest_id: @guest&.id, page_id: @page.id }, class: :link) %>
+      <%= link_to(
+        t(".logs"),
+        {
+          controller: :logs,
+          action: :index,
+          user_id: @user&.id,
+          guest_id: @guest&.id,
+          page_id: @page.id
+        },
+        class: :link
+      ) %>
     </div>
 
     <% if can?(:create, Log) %>
       <div class="p">
-        <%= link_to(t(".new_log"), { controller: :logs, action: :new, user_id: @user&.id, guest_id: @guest&.id, page_id: @page.id }, class: "button") %>
+        <%= link_to(
+          t(".new_log"),
+          {
+            controller: :logs,
+            action: :new,
+            user_id: @user&.id,
+            guest_id: @guest&.id,
+            page_id: @page.id
+          },
+          class: "button"
+        ) %>
       </div>
     <% end %>
 

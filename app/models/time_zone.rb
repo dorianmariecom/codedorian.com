@@ -75,4 +75,16 @@ class TimeZone < ApplicationRecord
   def to_s
     time_zone.presence || t("to_s", id: id)
   end
+
+  def to_code
+    Code::Object::TimeZone.new(
+      id: id,
+      created_at: created_at,
+      primary: primary,
+      time_zone: time_zone,
+      updated_at: updated_at,
+      user_id: user_id,
+      verified: verified
+    )
+  end
 end

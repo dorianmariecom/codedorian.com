@@ -8,7 +8,9 @@ class SubscriptionEvaluateJob < ContextJob
     on_conflict: :discard
   )
 
-  def perform_with_context(subscription:)
-    subscription.evaluate!
+  def perform_with_context(subscription:, subscription_execution:)
+    subscription.evaluate!(execution: subscription_execution) do |step_execution|
+      Current.set(step_execution: step_execution) { step_execution.evaluate! }
+    end
   end
 end

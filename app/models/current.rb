@@ -52,11 +52,42 @@ class Current < ActiveSupport::CurrentAttributes
   attribute(:time_zone)
   attribute(:request)
   attribute(:program)
+  attribute(:program_execution)
+  attribute(:program_schedule)
+  attribute(:plan_schedule)
   attribute(:subscription)
+  attribute(:service)
+  attribute(:step)
+  attribute(:plan)
   attribute(:subscription_execution)
   attribute(:step_execution)
   attribute(:context, default: -> { {} })
   attribute(:locale)
+
+  def program
+    super || program_execution&.program || program_schedule&.program
+  end
+
+  def subscription
+    super || subscription_execution&.subscription ||
+      step_execution&.subscription
+  end
+
+  def subscription_execution
+    super || step_execution&.subscription_execution
+  end
+
+  def service
+    super || step&.service || plan&.service || subscription&.service
+  end
+
+  def step
+    super || step_execution&.step
+  end
+
+  def plan
+    super || subscription&.plan
+  end
 
   def ios_environments
     Config.rpush.ios.environments

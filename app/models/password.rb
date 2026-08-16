@@ -81,4 +81,17 @@ class Password < ApplicationRecord
   def to_s
     hint.presence || t("to_s", id: id)
   end
+
+  def to_code
+    Code::Object::Password.new(
+      id: id,
+      created_at: created_at,
+      hint: hint,
+      password_digest: password_digest,
+      primary: primary,
+      updated_at: updated_at,
+      user_id: user_id,
+      verified: verified
+    )
+  end
 end

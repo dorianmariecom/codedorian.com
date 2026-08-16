@@ -2,13 +2,23 @@
 <%= turbo_stream_from(@services) %>
 
 <% if @steps.any? %>
-  <div class="p"><%= link_to(t(".steps", count: @steps.size), steps_path, class: :link) %></div>
+  <div class="p">
+    <%= link_to(t(".steps", count: @steps.size), steps_path, class: :link) %>
+  </div>
 <% end %>
 <% if @plans.any? %>
-  <div class="p"><%= link_to(t(".plans", count: @plans.size), plans_path, class: :link) %></div>
+  <div class="p">
+    <%= link_to(t(".plans", count: @plans.size), plans_path, class: :link) %>
+  </div>
 <% end %>
 <% if @subscriptions.any? %>
-  <div class="p"><%= link_to(t(".subscriptions", count: @subscriptions.size), subscriptions_path, class: :link) %></div>
+  <div class="p">
+    <%= link_to(
+      t(".subscriptions", count: @subscriptions.size),
+      subscriptions_path,
+      class: :link
+    ) %>
+  </div>
 <% end %>
 
 <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
@@ -22,5 +32,9 @@
     </div>
   <% end %>
 
-  <%= render_collection(partial: "services/service", collection: @services, as: :service) %>
+  <%= render_collection(
+    partial: "services/service",
+    collection: @services,
+    as: :service
+  ) %>
 </turbo-frame>

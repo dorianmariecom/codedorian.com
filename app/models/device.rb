@@ -93,4 +93,17 @@ class Device < ApplicationRecord
   def to_s
     platform.presence || t("to_s", id: id)
   end
+
+  def to_code
+    Code::Object::Device.new(
+      id: id,
+      created_at: created_at,
+      platform: platform,
+      primary: primary,
+      token: token,
+      updated_at: updated_at,
+      user_id: user_id,
+      verified: verified
+    )
+  end
 end

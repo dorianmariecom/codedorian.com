@@ -86,4 +86,17 @@ class Name < ApplicationRecord
   def to_s
     full_name.presence || t("to_s", id: id)
   end
+
+  def to_code
+    Code::Object::Name.new(
+      id: id,
+      created_at: created_at,
+      family_name: family_name,
+      given_name: given_name,
+      primary: primary,
+      updated_at: updated_at,
+      user_id: user_id,
+      verified: verified
+    )
+  end
 end

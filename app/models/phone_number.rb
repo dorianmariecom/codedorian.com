@@ -88,4 +88,17 @@ class PhoneNumber < ApplicationRecord
   def to_s
     formatted.presence || t("to_s", id: id)
   end
+
+  def to_code
+    Code::Object::PhoneNumber.new(
+      id: id,
+      created_at: created_at,
+      phone_number: phone_number,
+      primary: primary,
+      updated_at: updated_at,
+      user_id: user_id,
+      verification_code: verification_code,
+      verified: verified
+    )
+  end
 end

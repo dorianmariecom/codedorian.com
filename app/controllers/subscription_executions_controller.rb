@@ -1,29 +1,47 @@
 # frozen_string_literal: true
 
 class SubscriptionExecutionsController < ApplicationController
-  before_action { add_breadcrumb(key: "subscription_executions.index", path: index_url) }
-  before_action :load_subscription_execution, only: %i[show edit update destroy delete]
+  before_action do
+    add_breadcrumb(key: "subscription_executions.index", path: index_url)
+  end
+  before_action :load_subscription_execution,
+                only: %i[show edit update destroy delete]
 
   def index
     authorize(SubscriptionExecution)
-    @subscription_executions = scope.page(params[:page]).order(created_at: :desc)
+    @subscription_executions =
+      scope.page(params[:page]).order(created_at: :desc)
     @step_executions = policy_scope(StepExecution)
   end
 
   def show
-    @step_executions = policy_scope(StepExecution).where(subscription_execution: @subscription_execution).order(created_at: :desc).page(params[:page])
-    @versions = policy_scope(Version).where(item: @subscription_execution).order(created_at: :desc).page(params[:page])
-    @logs = policy_scope(Log).where_subscription_execution(@subscription_execution).order(created_at: :desc).page(params[:page])
+    @step_executions =
+      policy_scope(StepExecution)
+        .where(subscription_execution: @subscription_execution)
+        .order(created_at: :desc)
+        .page(params[:page])
+    @versions =
+      policy_scope(Version)
+        .where(item: @subscription_execution)
+        .order(created_at: :desc)
+        .page(params[:page])
+    @logs =
+      policy_scope(Log)
+        .where_subscription_execution(@subscription_execution)
+        .order(created_at: :desc)
+        .page(params[:page])
   end
 
   def new
-    @subscription_execution = authorize(
-      scope.new(
-        params
-          .fetch(:subscription_execution, ActionController::Parameters.new)
-          .permit(:subscription_id)
+    @subscription_execution =
+      authorize(
+        scope.new(
+          params.fetch(
+            :subscription_execution,
+            ActionController::Parameters.new
+          ).permit(:subscription_id)
+        )
       )
-    )
     add_breadcrumb
   end
 
@@ -32,7 +50,8 @@ class SubscriptionExecutionsController < ApplicationController
   end
 
   def create
-    @subscription_execution = authorize(scope.new(subscription_execution_params))
+    @subscription_execution =
+      authorize(scope.new(subscription_execution_params))
     if @subscription_execution.save(context: :controller)
       redirect_to(show_url, notice: t(".notice"))
     else

@@ -95,6 +95,27 @@ class Code
         raise(::Code::Error, "program not found")
       end
 
+      def call(**args)
+        code_operator = args.fetch(:operator, nil).to_code
+
+        case code_operator.to_s
+        when "user"
+          sig(args)
+          code_user
+        when "schedules", "program_schedules"
+          sig(args)
+          code_program_schedules
+        when "executions", "program_executions"
+          sig(args)
+          code_program_executions
+        when "execution", "program_execution"
+          sig(args)
+          code_program_execution
+        else
+          super
+        end
+      end
+
       def self.scope
         policy_scope(::Program).where(user: ::Current.user)
       end
@@ -110,6 +131,11 @@ class Code
       def program!
         scope.find(id)
       end
+
+      def code_user = policy_scope(::User).find(program!.user.id).to_code
+      def code_program_schedules = policy_scope(program!.program_schedules).to_code
+      def code_program_executions = policy_scope(program!.program_executions).to_code
+      def code_program_execution = policy_scope(program!.program_executions).first.to_code
 
       def scope
         policy_scope(::Program).where(user: ::Current.user)

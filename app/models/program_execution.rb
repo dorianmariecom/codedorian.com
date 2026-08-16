@@ -151,4 +151,21 @@ class ProgramExecution < ApplicationRecord
       error_sample.presence || output_sample.presence ||
       result_sample.presence || input_sample.presence || t("to_s", id: id)
   end
+
+  def to_code
+    Code::Object::ProgramExecution.new(
+      id: id,
+      created_at: created_at,
+      error: error,
+      error_backtrace: error_backtrace,
+      error_class: error_class,
+      error_message: error_message,
+      input: input,
+      output: output,
+      program_id: program_id,
+      result: result,
+      status: status,
+      updated_at: updated_at
+    )
+  end
 end

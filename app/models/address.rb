@@ -86,4 +86,17 @@ class Address < ApplicationRecord
   def to_s
     formatted_address.presence || address.presence || t("to_s", id: id)
   end
+
+  def to_code
+    Code::Object::Address.new(
+      id: id,
+      address: address,
+      autocomplete: autocomplete,
+      created_at: created_at,
+      primary: primary,
+      updated_at: updated_at,
+      user_id: user_id,
+      verified: verified
+    )
+  end
 end

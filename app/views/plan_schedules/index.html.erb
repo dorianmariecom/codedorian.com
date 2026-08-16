@@ -12,6 +12,9 @@
     </div>
   <% end %>
 
-  <%= render_collection(partial: "plan_schedules/plan_schedule", collection: @plan_schedules, as: :plan_schedule) %>
+  <%= render_collection(
+    partial: "plan_schedules/plan_schedule",
+    collection: @plan_schedules,
+    as: :plan_schedule
+  ) %>
 </turbo-frame>
-

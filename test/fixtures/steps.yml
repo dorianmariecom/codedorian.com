@@ -1,7 +1,8 @@
+---
 step:
-  service: service
-  position: 0
+  created_at: '2026-08-03 10:00:00'
   input: output("done")
   offset_seconds: 0
-  created_at: 2026-08-03 10:00:00
-  updated_at: 2026-08-03 10:00:00
+  position: 0
+  service: service
+  updated_at: '2026-08-03 10:00:00'

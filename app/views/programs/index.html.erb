@@ -8,7 +8,12 @@
   <div class="p p--flex">
     <%= link_to(
       t(".program_executions", count: @program_executions.size),
-      { controller: :program_executions, action: :index, user_id: @user&.id, guest_id: @guest&.id },
+      {
+        controller: :program_executions,
+        action: :index,
+        user_id: @user&.id,
+        guest_id: @guest&.id
+      },
       class: :link
     ) %>
   </div>
@@ -18,7 +23,12 @@
   <div class="p p--flex">
     <%= link_to(
       t(".program_schedules", count: @program_schedules.size),
-      { controller: :program_schedules, action: :index, user_id: @user&.id, guest_id: @guest&.id },
+      {
+        controller: :program_schedules,
+        action: :index,
+        user_id: @user&.id,
+        guest_id: @guest&.id
+      },
       class: :link
     ) %>
   </div>

@@ -2,9 +2,17 @@
 
 class SubscriptionsController < ApplicationController
   before_action { add_breadcrumb(key: "subscriptions.index", path: index_url) }
-  before_action :load_subscription, only: %i[
-    show edit update destroy delete activate deactivate evaluate
-  ]
+  before_action :load_subscription,
+                only: %i[
+                  show
+                  edit
+                  update
+                  destroy
+                  delete
+                  activate
+                  deactivate
+                  evaluate
+                ]
 
   def index
     authorize(Subscription)
@@ -13,15 +21,32 @@ class SubscriptionsController < ApplicationController
   end
 
   def show
-    @subscription_executions = policy_scope(SubscriptionExecution).where(subscription: @subscription).order(created_at: :desc).page(params[:page])
-    @versions = policy_scope(Version).where(item: @subscription).order(created_at: :desc).page(params[:page])
-    @logs = policy_scope(Log).where_subscription(@subscription).order(created_at: :desc).page(params[:page])
+    @subscription_executions =
+      policy_scope(SubscriptionExecution)
+        .where(subscription: @subscription)
+        .order(created_at: :desc)
+        .page(params[:page])
+    @versions =
+      policy_scope(Version)
+        .where(item: @subscription)
+        .order(created_at: :desc)
+        .page(params[:page])
+    @logs =
+      policy_scope(Log)
+        .where_subscription(@subscription)
+        .order(created_at: :desc)
+        .page(params[:page])
   end
 
   def evaluate
+    subscription_execution = @subscription.create_execution!
+
     perform_later(
       SubscriptionEvaluateJob,
-      arguments: { subscription: @subscription },
+      arguments: {
+        subscription: @subscription,
+        subscription_execution: subscription_execution
+      },
       context: {
         current_user: current_user,
         user: @subscription.user,
@@ -30,6 +55,7 @@ class SubscriptionsController < ApplicationController
       current: {
         user: current_user,
         subscription: @subscription,
+        subscription_execution: subscription_execution,
         locale: I18n.locale,
         time_zone: current_time_zone
       }
@@ -51,13 +77,14 @@ class SubscriptionsController < ApplicationController
   end
 
   def new
-    @subscription = authorize(
-      scope.new(
-        params
-          .fetch(:subscription, ActionController::Parameters.new)
-          .permit(:plan_id)
+    @subscription =
+      authorize(
+        scope.new(
+          params.fetch(:subscription, ActionController::Parameters.new).permit(
+            :plan_id
+          )
+        )
       )
-    )
     add_breadcrumb
   end
 

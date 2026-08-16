@@ -12,8 +12,12 @@ class User < ApplicationRecord
   has_many(:programs, dependent: :destroy)
   has_many(:services, dependent: :destroy)
   has_many(:subscriptions, dependent: :destroy)
-  has_many(:subscription_executions, through: :subscriptions)
-  has_many(:program_executions, through: :programs)
+  has_many(
+    :subscription_executions,
+    through: :subscriptions,
+    source: :subscription_executions
+  )
+  has_many(:program_executions, through: :programs, source: :program_executions)
   has_many(:time_zones, dependent: :destroy)
   has_many(:tokens, dependent: :destroy)
   has_many(
@@ -276,15 +280,16 @@ class User < ApplicationRecord
   def to_code
     Code::Object::User.new(
       id: id,
+      admin: admin,
       admin?: admin?,
-      verified?: verified?,
+      created_at: created_at,
+      description: description,
       interface: interface,
       locale: locale,
       translated_locale: translated_locale,
-      description: description,
       updated_at: updated_at,
-      created_at: created_at,
-      programs: programs.includes(:program_schedules)
+      verified: verified,
+      verified?: verified?
     )
   end
 end

@@ -13,13 +13,44 @@ class ServicesController < ApplicationController
   end
 
   def show
-    @steps = policy_scope(Step).where(service: @service).order(:position).page(params[:page])
-    @plans = policy_scope(Plan).where(service: @service).order(created_at: :desc).page(params[:page])
-    @subscriptions = policy_scope(Subscription).joins(:plan).where(plans: { service_id: @service.id }).order(created_at: :desc).page(params[:page])
-    @subscription_executions = policy_scope(SubscriptionExecution).joins(subscription: :plan).where(plans: { service_id: @service.id }).order(created_at: :desc).page(params[:page])
-    @step_executions = policy_scope(StepExecution).joins(subscription_execution: { subscription: :plan }).where(plans: { service_id: @service.id }).order(created_at: :desc).page(params[:page])
-    @versions = policy_scope(Version).where(item: @service).order(created_at: :desc).page(params[:page])
-    @logs = policy_scope(Log).where_service(@service).order(created_at: :desc).page(params[:page])
+    @steps =
+      policy_scope(Step)
+        .where(service: @service)
+        .order(:position)
+        .page(params[:page])
+    @plans =
+      policy_scope(Plan)
+        .where(service: @service)
+        .order(created_at: :desc)
+        .page(params[:page])
+    @subscriptions =
+      policy_scope(Subscription)
+        .joins(:plan)
+        .where(plans: { service_id: @service.id })
+        .order(created_at: :desc)
+        .page(params[:page])
+    @subscription_executions =
+      policy_scope(SubscriptionExecution)
+        .joins(subscription: :plan)
+        .where(plans: { service_id: @service.id })
+        .order(created_at: :desc)
+        .page(params[:page])
+    @step_executions =
+      policy_scope(StepExecution)
+        .joins(subscription_execution: { subscription: :plan })
+        .where(plans: { service_id: @service.id })
+        .order(created_at: :desc)
+        .page(params[:page])
+    @versions =
+      policy_scope(Version)
+        .where(item: @service)
+        .order(created_at: :desc)
+        .page(params[:page])
+    @logs =
+      policy_scope(Log)
+        .where_service(@service)
+        .order(created_at: :desc)
+        .page(params[:page])
   end
 
   def new
@@ -88,6 +119,16 @@ class ServicesController < ApplicationController
   end
 
   def service_params
-    params.expect(service: %i[user_id name_en name_fr description_en description_fr body_en body_fr])
+    params.expect(
+      service: %i[
+        user_id
+        name_en
+        name_fr
+        description_en
+        description_fr
+        body_en
+        body_fr
+      ]
+    )
   end
 end

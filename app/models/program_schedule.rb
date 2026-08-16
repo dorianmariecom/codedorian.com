@@ -26,12 +26,13 @@ class ProgramSchedule < ApplicationRecord
   end
 
   def to_code
-    Code::Object::Schedule.new(
+    Code::Object::ProgramSchedule.new(
       id: id,
-      starts_at: starts_at,
+      created_at: created_at,
       interval: interval,
-      translated_interval: translated_interval,
-      next_at: next_at
+      program_id: program_id,
+      starts_at: starts_at,
+      updated_at: updated_at
     )
   end
 

@@ -33,7 +33,9 @@ class SubscriptionSchedulingTest < ActiveJob::TestCase
         SchedulingSubscriptionJob.perform_now(
           subscription: @subscription,
           current: current_context,
-          context: { subscription: @subscription }
+          context: {
+            subscription: @subscription
+          }
         )
       end
     end
@@ -58,7 +60,9 @@ class SubscriptionSchedulingTest < ActiveJob::TestCase
       SchedulingSubscriptionJob.perform_now(
         subscription: @subscription,
         current: current_context,
-        context: { subscription: @subscription }
+        context: {
+          subscription: @subscription
+        }
       )
 
       step_job = enqueued_jobs.find { |job| job[:job] == StepEvaluateJob }
@@ -73,7 +77,9 @@ class SubscriptionSchedulingTest < ActiveJob::TestCase
       SchedulingSubscriptionJob.perform_now(
         subscription: @subscription,
         current: current_context,
-        context: { subscription: @subscription }
+        context: {
+          subscription: @subscription
+        }
       )
     end
   end
@@ -95,7 +101,9 @@ class SubscriptionSchedulingTest < ActiveJob::TestCase
         SchedulingSubscriptionJob.perform_now(
           subscription: @subscription,
           current: current_context,
-          context: { subscription: @subscription }
+          context: {
+            subscription: @subscription
+          }
         )
       end
     end
@@ -105,7 +113,9 @@ class SubscriptionSchedulingTest < ActiveJob::TestCase
         SchedulingSubscriptionJob.perform_now(
           subscription: @subscription,
           current: current_context,
-          context: { subscription: @subscription }
+          context: {
+            subscription: @subscription
+          }
         )
       end
       assert_nil(enqueued_jobs.last[:at])
@@ -138,21 +148,19 @@ class SubscriptionSchedulingTest < ActiveJob::TestCase
     end
 
     travel_to(scheduled_at) do
-      assert_enqueued_jobs(1, only: StepEvaluateJob) do
-        schedule_subscription
-      end
+      assert_enqueued_jobs(1, only: StepEvaluateJob) { schedule_subscription }
     end
 
     execution = @subscription.subscription_executions.order(:id).last
-    first, second, third = execution
-      .step_executions
-      .joins(:step)
-      .order("steps.position")
+    first, second, third =
+      execution.step_executions.joins(:step).order("steps.position")
 
     StepEvaluateJob.perform_now(
       step_execution: first,
       current: current_context,
-      context: { subscription: @subscription }
+      context: {
+        subscription: @subscription
+      }
     )
     clear_enqueued_jobs
 
@@ -167,7 +175,9 @@ class SubscriptionSchedulingTest < ActiveJob::TestCase
     StepEvaluateJob.perform_now(
       step_execution: second,
       current: current_context,
-      context: { subscription: @subscription }
+      context: {
+        subscription: @subscription
+      }
     )
     clear_enqueued_jobs
 
@@ -194,27 +204,35 @@ class SubscriptionSchedulingTest < ActiveJob::TestCase
         offset_seconds: 2.hours.to_i
       )
       other_service = Service.create!(user: @user)
-      other_step = Step.create!(
-        service: other_service,
-        position: 0,
-        input: 'output("wrong")'
-      )
+      other_step =
+        Step.create!(
+          service: other_service,
+          position: 0,
+          input: 'output("wrong")'
+        )
     end
+
+    execution = Current.with(user: @user) { @subscription.create_execution! }
 
     assert_enqueued_jobs(0, only: StepEvaluateJob) do
       SubscriptionEvaluateJob.perform_now(
         subscription: @subscription,
-        current: current_context,
-        context: { subscription: @subscription }
+        subscription_execution: execution,
+        current: current_context.merge(subscription_execution: execution),
+        context: {
+          subscription: @subscription
+        }
       )
     end
 
-    execution = @subscription.subscription_executions.order(:id).last
     assert_equal(
       @subscription.service.step_ids.sort,
       execution.step_executions.pluck(:step_id).sort
     )
-    assert_not_includes(execution.step_executions.pluck(:step_id), other_step.id)
+    assert_not_includes(
+      execution.step_executions.pluck(:step_id),
+      other_step.id
+    )
 
     assert_equal("errored", execution.reload.status)
     assert_equal(
@@ -251,7 +269,9 @@ class SubscriptionSchedulingTest < ActiveJob::TestCase
     SchedulingSubscriptionJob.perform_now(
       subscription: @subscription,
       current: current_context,
-      context: { subscription: @subscription }
+      context: {
+        subscription: @subscription
+      }
     )
   end
 end

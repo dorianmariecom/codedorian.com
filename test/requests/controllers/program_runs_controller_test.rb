@@ -15,18 +15,20 @@ class ProgramRunsControllerTest < ActionDispatch::IntegrationTest
   teardown { ActiveJob::Base.queue_adapter = @previous_queue_adapter }
 
   test "guest can create a program run" do
-    assert_difference("Program.count", 1) do
-      assert_difference("User.count", 1) do
-        assert_enqueued_jobs(1, only: ProgramEvaluateJob) do
-          post(
-            program_runs_path(format: :json),
-            params: {
-              input: "1 + 1",
-              "g-recaptcha-action": "post/program_runs",
-              "g-recaptcha-response": "token"
-            },
-            as: :json
-          )
+    assert_difference("ProgramExecution.count", 1) do
+      assert_difference("Program.count", 1) do
+        assert_difference("User.count", 1) do
+          assert_enqueued_jobs(1, only: ProgramEvaluateJob) do
+            post(
+              program_runs_path(format: :json),
+              params: {
+                input: "1 + 1",
+                "g-recaptcha-action": "post/program_runs",
+                "g-recaptcha-response": "token"
+              },
+              as: :json
+            )
+          end
         end
       end
     end
@@ -40,7 +42,7 @@ class ProgramRunsControllerTest < ActionDispatch::IntegrationTest
     get(user_path(Program.last.user))
     assert_response(:ok)
 
-    assert_equal("created", json.fetch("status"))
+    assert_equal("in_progress", json.fetch("status"))
     assert_equal(false, json.fetch("finished"))
     assert(json.fetch("status_url").present?)
     assert_match(
@@ -48,7 +50,7 @@ class ProgramRunsControllerTest < ActionDispatch::IntegrationTest
       json.fetch("status_url")
     )
 
-    assert_difference("ProgramExecution.count", 1) do
+    assert_no_difference("ProgramExecution.count") do
       perform_enqueued_jobs(only: ProgramEvaluateJob)
     end
     assert_predicate(Program.last.program_execution, :done?)

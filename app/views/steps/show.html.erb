@@ -13,7 +13,9 @@
   <div class="p">
     <div class="text-gray-600"><%= t(".service_id") %></div>
     <% association = @step.service %>
-    <div class="font-bold"><%= link_to_if(can?(:show, association), association, association, class: :link) %></div>
+    <div class="font-bold">
+      <%= link_to_if(can?(:show, association), association, association, class: :link) %>
+    </div>
   </div>
 <% end %>
 
@@ -52,14 +54,18 @@
 <% if @step.updated_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold"><%= local_time(@step.updated_at, format: :default) %></div>
+    <div class="font-bold">
+      <%= local_time(@step.updated_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 
 <% if @step.created_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold"><%= local_time(@step.created_at, format: :default) %></div>
+    <div class="font-bold">
+      <%= local_time(@step.created_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 
@@ -69,20 +75,44 @@
   <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
 </div>
 
-<div class="p font-bold"><%= link_to(t(".step_executions"), step_executions_path, class: :link) %></div>
+<div class="p font-bold">
+  <%= link_to(t(".step_executions"), step_executions_path, class: :link) %>
+</div>
 <% if can?(:create, StepExecution) %>
   <div class="p">
-    <%= link_to(t(".new_step_execution"), new_step_execution_path(step_execution: { step_id: @step.id }), class: "button") %>
+    <%= link_to(
+      t(".new_step_execution"),
+      new_step_execution_path(step_execution: { step_id: @step.id }),
+      class: "button"
+    ) %>
   </div>
 <% end %>
-<%= render_collection(partial: "step_executions/step_execution", collection: @step_executions, as: :step_execution) %>
+<%= render_collection(
+  partial: "step_executions/step_execution",
+  collection: @step_executions,
+  as: :step_execution
+) %>
 
 <% if can?(:index, Version) %>
   <div class="p font-bold"><%= t(".versions") %></div>
-  <%= render_collection(partial: "versions/version", collection: @versions, as: :version, locals: { nested: [] }) %>
+  <%= render_collection(
+    partial: "versions/version",
+    collection: @versions,
+    as: :version,
+    locals: {
+      nested: []
+    }
+  ) %>
 <% end %>
 
 <% if can?(:index, Log) %>
   <div class="p font-bold"><%= t(".logs") %></div>
-  <%= render_collection(partial: "logs/log", collection: @logs, as: :log, locals: { nested: [] }) %>
+  <%= render_collection(
+    partial: "logs/log",
+    collection: @logs,
+    as: :log,
+    locals: {
+      nested: []
+    }
+  ) %>
 <% end %>

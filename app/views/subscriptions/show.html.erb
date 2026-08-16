@@ -13,7 +13,9 @@
   <div class="p">
     <div class="text-gray-600"><%= t(".user_id") %></div>
     <% association = @subscription.user %>
-    <div class="font-bold"><%= link_to_if(can?(:show, association), association, association, class: :link) %></div>
+    <div class="font-bold">
+      <%= link_to_if(can?(:show, association), association, association, class: :link) %>
+    </div>
   </div>
 <% end %>
 
@@ -21,7 +23,9 @@
   <div class="p">
     <div class="text-gray-600"><%= t(".plan_id") %></div>
     <% association = @subscription.plan %>
-    <div class="font-bold"><%= link_to_if(can?(:show, association), association, association, class: :link) %></div>
+    <div class="font-bold">
+      <%= link_to_if(can?(:show, association), association, association, class: :link) %>
+    </div>
   </div>
 <% end %>
 
@@ -62,14 +66,18 @@
 <% if @subscription.updated_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold"><%= local_time(@subscription.updated_at, format: :default) %></div>
+    <div class="font-bold">
+      <%= local_time(@subscription.updated_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 
 <% if @subscription.created_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold"><%= local_time(@subscription.created_at, format: :default) %></div>
+    <div class="font-bold">
+      <%= local_time(@subscription.created_at, format: :default) %>
+    </div>
   </div>
 <% end %>
 
@@ -111,20 +119,52 @@
   <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
 </div>
 
-<div class="p font-bold"><%= link_to(t(".subscription_executions"), subscription_executions_path, class: :link) %></div>
+<div class="p font-bold">
+  <%= link_to(
+    t(".subscription_executions"),
+    subscription_executions_path,
+    class: :link
+  ) %>
+</div>
 <% if can?(:create, SubscriptionExecution) %>
   <div class="p">
-    <%= link_to(t(".new_subscription_execution"), new_subscription_execution_path(subscription_execution: { subscription_id: @subscription.id }), class: "button") %>
+    <%= link_to(
+      t(".new_subscription_execution"),
+      new_subscription_execution_path(
+        subscription_execution: {
+          subscription_id: @subscription.id
+        }
+      ),
+      class: "button"
+    ) %>
   </div>
 <% end %>
-<%= render_collection(partial: "subscription_executions/subscription_execution", collection: @subscription_executions, as: :subscription_execution) %>
+<%= render_collection(
+  partial: "subscription_executions/subscription_execution",
+  collection: @subscription_executions,
+  as: :subscription_execution
+) %>
 
 <% if can?(:index, Version) %>
   <div class="p font-bold"><%= t(".versions") %></div>
-  <%= render_collection(partial: "versions/version", collection: @versions, as: :version, locals: { nested: [] }) %>
+  <%= render_collection(
+    partial: "versions/version",
+    collection: @versions,
+    as: :version,
+    locals: {
+      nested: []
+    }
+  ) %>
 <% end %>
 
 <% if can?(:index, Log) %>
   <div class="p font-bold"><%= t(".logs") %></div>
-  <%= render_collection(partial: "logs/log", collection: @logs, as: :log, locals: { nested: [] }) %>
+  <%= render_collection(
+    partial: "logs/log",
+    collection: @logs,
+    as: :log,
+    locals: {
+      nested: []
+    }
+  ) %>
 <% end %>

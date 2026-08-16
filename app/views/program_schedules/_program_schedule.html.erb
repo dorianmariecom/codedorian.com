@@ -1,7 +1,11 @@
 <div class="p">
   <% parents = nested.compact %>
-  <% identity = parents.first if parents.first.is_a?(User) || parents.first.is_a?(Guest) %>
-  <% query = (parents - [identity]).to_h { |parent| ["#{parent.model_name.singular_route_key}_id", parent.to_param] } %>
+  <% identity = parents.first if parents.first.is_a?(User) ||
+    parents.first.is_a?(Guest) %>
+  <% query =
+    (parents - [identity]).to_h do |parent|
+      ["#{parent.model_name.singular_route_key}_id", parent.to_param]
+    end %>
   <%= link_to([identity, program_schedule, **query].compact, class: :link) do %>
     <% if program_schedule.once? %>
       <%= t(

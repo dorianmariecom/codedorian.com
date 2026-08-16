@@ -1,19 +1,36 @@
 <%= form_for(show_url) do |f| %>
   <div class="p">
     <%= f.label(:service_id, class: :label) %>
-      <%= f.select(:service_id, policy_scope(Service).order(:id).map { |record| [record.to_s, record.id] }, {}, required: true, class: :input, autocomplete: :off, data: { form_type: :other }) %>
+    <%= f.select(
+      :service_id,
+      policy_scope(Service).order(:id).map { |record| [record.to_s, record.id] },
+      {},
+      required: true,
+      class: :input,
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
   </div>
 
   <% %i[name_en name_fr description_en description_fr body_en body_fr].each do |attribute| %>
     <div class="p" data-turbo-permanent>
       <%= f.label(attribute, class: :label) %>
-      <%= f.rich_textarea(attribute, class: "input lexxy-content", autocomplete: :off, data: { form_type: :other }) %>
+      <%= f.rich_textarea(
+        attribute,
+        class: "input lexxy-content",
+        autocomplete: :off,
+        data: {
+          form_type: :other
+        }
+      ) %>
     </div>
   <% end %>
 
   <div class="p">
     <%= f.label(:position, class: :label) %>
-      <%= f.number_field(:position, required: true, class: :input) %>
+    <%= f.number_field(:position, required: true, class: :input) %>
   </div>
 
   <div class="p" data-controller="editor" data-editor-language-value="code">
@@ -33,10 +50,17 @@
 
   <div class="p">
     <%= f.label(:offset_seconds, class: :label) %>
-      <%= f.number_field(:offset_seconds, required: true, class: :input) %>
+    <%= f.number_field(:offset_seconds, required: true, class: :input) %>
   </div>
 
   <div class="p">
-    <%= f.submit(submit, class: "button", data: { controller: "bridge--button", bridge__button_title_value: submit }) %>
+    <%= f.submit(
+      submit,
+      class: "button",
+      data: {
+        controller: "bridge--button",
+        bridge__button_title_value: submit
+      }
+    ) %>
   </div>
 <% end %>

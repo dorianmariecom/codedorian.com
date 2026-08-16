@@ -31,10 +31,14 @@ class ProgramsController < ApplicationController
   end
 
   def evaluate
+    program_execution =
+      @program.program_executions.create!(status: :in_progress)
+
     perform_later(
       ProgramEvaluateJob,
       arguments: {
-        program: @program
+        program: @program,
+        program_execution: program_execution
       },
       context: {
         current_user: current_user,
@@ -44,6 +48,7 @@ class ProgramsController < ApplicationController
       current: {
         user: current_user,
         program: @program,
+        program_execution: program_execution,
         locale: I18n.locale,
         time_zone: current_time_zone
       }

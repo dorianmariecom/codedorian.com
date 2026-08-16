@@ -10,18 +10,27 @@ class PlanSchedulesController < ApplicationController
   end
 
   def show
-    @versions = policy_scope(Version).where(item: @plan_schedule).order(created_at: :desc).page(params[:page])
-    @logs = policy_scope(Log).where_plan_schedule(@plan_schedule).order(created_at: :desc).page(params[:page])
+    @versions =
+      policy_scope(Version)
+        .where(item: @plan_schedule)
+        .order(created_at: :desc)
+        .page(params[:page])
+    @logs =
+      policy_scope(Log)
+        .where_plan_schedule(@plan_schedule)
+        .order(created_at: :desc)
+        .page(params[:page])
   end
 
   def new
-    @plan_schedule = authorize(
-      scope.new(
-        params
-          .fetch(:plan_schedule, ActionController::Parameters.new)
-          .permit(:plan_id)
+    @plan_schedule =
+      authorize(
+        scope.new(
+          params.fetch(:plan_schedule, ActionController::Parameters.new).permit(
+            :plan_id
+          )
+        )
       )
-    )
     add_breadcrumb
   end
 

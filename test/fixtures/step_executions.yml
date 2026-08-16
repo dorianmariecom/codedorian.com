@@ -1,9 +1,10 @@
+---
 step_execution:
-  subscription_execution: subscription_execution
-  step: step
-  status: done
+  created_at: '2026-08-03 10:00:00'
   input: output("done")
   output: done
   result: nil
-  created_at: 2026-08-03 10:00:00
-  updated_at: 2026-08-03 10:00:00
+  status: done
+  step: step
+  subscription_execution: subscription_execution
+  updated_at: '2026-08-03 10:00:00'

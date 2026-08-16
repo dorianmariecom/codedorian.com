@@ -2,10 +2,22 @@
 <%= turbo_stream_from(@plans) %>
 
 <% if @plan_schedules.any? %>
-  <div class="p"><%= link_to(t(".plan_schedules", count: @plan_schedules.size), plan_schedules_path, class: :link) %></div>
+  <div class="p">
+    <%= link_to(
+      t(".plan_schedules", count: @plan_schedules.size),
+      plan_schedules_path,
+      class: :link
+    ) %>
+  </div>
 <% end %>
 <% if @subscriptions.any? %>
-  <div class="p"><%= link_to(t(".subscriptions", count: @subscriptions.size), subscriptions_path, class: :link) %></div>
+  <div class="p">
+    <%= link_to(
+      t(".subscriptions", count: @subscriptions.size),
+      subscriptions_path,
+      class: :link
+    ) %>
+  </div>
 <% end %>
 
 <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>

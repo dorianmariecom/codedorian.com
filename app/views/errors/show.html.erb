@@ -133,12 +133,25 @@
 
 <% if can?(:index, Log) %>
   <div class="p font-bold">
-    <%= link_to(t(".logs"), { controller: :logs, action: :index, user_id: @user&.id, error_id: @error&.id }, class: :link) %>
+    <%= link_to(
+      t(".logs"),
+      {
+        controller: :logs,
+        action: :index,
+        user_id: @user&.id,
+        error_id: @error&.id
+      },
+      class: :link
+    ) %>
   </div>
 
   <% if can?(:create, Log) %>
     <div class="p">
-      <%= link_to(t(".new_log"), { controller: :logs, action: :new, user_id: @user&.id, error_id: @error&.id }, class: "button") %>
+      <%= link_to(
+        t(".new_log"),
+        { controller: :logs, action: :new, user_id: @user&.id, error_id: @error&.id },
+        class: "button"
+      ) %>
     </div>
   <% end %>
 

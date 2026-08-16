@@ -33,13 +33,27 @@ class ServicesAdminCrudTest < ActionDispatch::IntegrationTest
       assert_response(:success)
 
       record = public_send(controller, fixture)
-      get(url_for(controller: controller, action: :show, id: record, only_path: true))
+      get(
+        url_for(
+          controller: controller,
+          action: :show,
+          id: record,
+          only_path: true
+        )
+      )
       assert_response(:success)
 
       get(url_for(controller: controller, action: :new, only_path: true))
       assert_response(:success)
 
-      get(url_for(controller: controller, action: :edit, id: record, only_path: true))
+      get(
+        url_for(
+          controller: controller,
+          action: :edit,
+          id: record,
+          only_path: true
+        )
+      )
       assert_response(:success)
     end
   end
@@ -86,7 +100,8 @@ class ServicesAdminCrudTest < ActionDispatch::IntegrationTest
   end
 
   test "creating a subscription defaults to the current user" do
-    plan = Current.with(user: @admin) { Plan.create!(service: services(:service)) }
+    plan =
+      Current.with(user: @admin) { Plan.create!(service: services(:service)) }
 
     assert_difference("@admin.subscriptions.count", 1) do
       post(
@@ -105,7 +120,7 @@ class ServicesAdminCrudTest < ActionDispatch::IntegrationTest
   end
 
   test "creating a plan with a plan schedule" do
-    assert_difference(["Plan.count", "PlanSchedule.count"], 1) do
+    assert_difference(%w[Plan.count PlanSchedule.count], 1) do
       post(
         plans_path,
         params: {
@@ -172,7 +187,9 @@ class ServicesAdminCrudTest < ActionDispatch::IntegrationTest
     assert_select(
       "a[href=?]",
       new_subscription_execution_path(
-        subscription_execution: { subscription_id: subscription.id }
+        subscription_execution: {
+          subscription_id: subscription.id
+        }
       )
     )
 
@@ -194,8 +211,7 @@ class ServicesAdminCrudTest < ActionDispatch::IntegrationTest
       plans: plans(:plan),
       plan_schedules: plan_schedules(:plan_schedule),
       subscriptions: subscriptions(:subscription),
-      subscription_executions:
-        subscription_executions(:subscription_execution),
+      subscription_executions: subscription_executions(:subscription_execution),
       step_executions: step_executions(:step_execution)
     }.each do |controller, record|
       get(
@@ -229,8 +245,14 @@ class ServicesAdminCrudTest < ActionDispatch::IntegrationTest
 
     get(subscription_path(subscription, locale: I18n.locale))
 
-    assert_select(".text-gray-600", text: I18n.t("subscriptions.show.starts_at"))
-    assert_select(".text-gray-600", text: I18n.t("subscriptions.show.previous_at"))
+    assert_select(
+      ".text-gray-600",
+      text: I18n.t("subscriptions.show.starts_at")
+    )
+    assert_select(
+      ".text-gray-600",
+      text: I18n.t("subscriptions.show.previous_at")
+    )
     assert_select(".text-gray-600", text: I18n.t("subscriptions.show.next_at"))
     assert_select("time", minimum: 3)
   end
@@ -251,19 +273,25 @@ class ServicesAdminCrudTest < ActionDispatch::IntegrationTest
     assert_redirected_to(subscription_path(subscription))
   end
 
-  test "subscription evaluation job creates a subscription execution" do
+  test "subscription evaluation job evaluates its subscription execution" do
     subscription = subscriptions(:subscription)
+    subscription_execution =
+      Current.with(user: @admin) { subscription.create_execution! }
 
-    assert_difference("subscription.subscription_executions.count", 1) do
+    assert_no_difference("subscription.subscription_executions.count") do
       SubscriptionEvaluateJob.perform_now(
         subscription: subscription,
+        subscription_execution: subscription_execution,
         current: {
           user: @admin,
           subscription: subscription,
+          subscription_execution: subscription_execution,
           locale: I18n.locale,
           time_zone: Time.zone.name
         },
-        context: { subscription: subscription }
+        context: {
+          subscription: subscription
+        }
       )
     end
 
@@ -361,18 +389,16 @@ class ServicesAdminCrudTest < ActionDispatch::IntegrationTest
 
   test "destroying all services destroys their dependent records" do
     assert_difference(
-      [
-        "Service.count",
-        "Plan.count",
-        "Subscription.count",
-        "SubscriptionExecution.count",
-        "Step.count",
-        "StepExecution.count"
+      %w[
+        Service.count
+        Plan.count
+        Subscription.count
+        SubscriptionExecution.count
+        Step.count
+        StepExecution.count
       ],
       -1
-    ) do
-      delete(destroy_all_services_path)
-    end
+    ) { delete(destroy_all_services_path) }
 
     assert_redirected_to(services_path)
   end
