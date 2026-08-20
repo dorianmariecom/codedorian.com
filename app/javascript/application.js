@@ -1,3 +1,4 @@
+import "polyfills";
 import "@hotwired/turbo-rails";
 import "lexxy-code";
 import "controllers";
@@ -12,15 +13,7 @@ if (window.RAILS_ENV === "production") {
     dsn: window.SENTRY_DSN,
     environment: window.SENTRY_ENVIRONMENT,
     release: window.SENTRY_RELEASE,
-    replaysOnErrorSampleRate: 1.0,
-    replaysSessionSampleRate: 0.1,
     sendDefaultPii: true,
-    integrations: [
-      Sentry.replayIntegration({
-        maskAllText: false,
-        blockAllMedia: false,
-      }),
-    ],
   });
 }
 

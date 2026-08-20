@@ -9,14 +9,18 @@ export default class extends Controller {
     const csrfToken = document.querySelector("[name='csrf-token']")?.content;
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-    const response = await fetch("/time_zone", {
-      method: "PATCH",
-      headers: {
-        "X-CSRF-Token": csrfToken,
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({ time_zone: timeZone }),
-    });
+    try {
+      await fetch("/time_zone", {
+        method: "PATCH",
+        headers: {
+          "X-CSRF-Token": csrfToken,
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ time_zone: timeZone }),
+      });
+    } catch {
+      // Updating the time zone is optional and should not interrupt the page.
+    }
   }
 }

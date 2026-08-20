@@ -42,6 +42,7 @@ pin "json-lang", integrity: true
 pin "lexxy", to: "lexxy.js"
 pin "lexxy-code", integrity: true
 pin "local-time", integrity: true # @3.0.3
+pin "polyfills", integrity: true
 pin "style-mod", integrity: true # @4.1.3
 pin "thememirror", integrity: true # @2.0.1
 pin "w3c-keyname", integrity: true # @2.2.8
