@@ -29,35 +29,6 @@ class Page < ApplicationRecord
   end
 
   def self.search_fields
-    pages = arel_table
-
-    define_rich_text_join = ->(attribute_name) do
-      table =
-        Arel::Table.new(:action_text_rich_texts).alias(
-          "#{attribute_name}_rich_texts"
-        )
-      join =
-        pages
-          .join(table, Arel::Nodes::OuterJoin)
-          .on(
-            table[:record_type]
-              .eq(name.to_s.classify)
-              .and(table[:record_id].eq(pages[:id]))
-              .and(table[:name].eq(attribute_name.to_s))
-          )
-          .join_sources
-      [table, join]
-    end
-
-    title_en_rich_texts, title_en_join = define_rich_text_join.call(:title_en)
-    title_fr_rich_texts, title_fr_join = define_rich_text_join.call(:title_fr)
-    description_en_rich_texts, description_en_join =
-      define_rich_text_join.call(:description_en)
-    description_fr_rich_texts, description_fr_join =
-      define_rich_text_join.call(:description_fr)
-    body_en_rich_texts, body_en_join = define_rich_text_join.call(:body_en)
-    body_fr_rich_texts, body_fr_join = define_rich_text_join.call(:body_fr)
-
     {
       path: {
         node: -> { arel_table[:path] },
@@ -70,36 +41,6 @@ class Page < ApplicationRecord
       parent_id: {
         node: -> { arel_table[:parent_id] },
         type: :integer
-      },
-      title_en: {
-        node: -> { title_en_rich_texts[:body] },
-        relation: ->(scope) { scope.joins(title_en_join) },
-        type: :string
-      },
-      title_fr: {
-        node: -> { title_fr_rich_texts[:body] },
-        relation: ->(scope) { scope.joins(title_fr_join) },
-        type: :string
-      },
-      description_en: {
-        node: -> { description_en_rich_texts[:body] },
-        relation: ->(scope) { scope.joins(description_en_join) },
-        type: :string
-      },
-      description_fr: {
-        node: -> { description_fr_rich_texts[:body] },
-        relation: ->(scope) { scope.joins(description_fr_join) },
-        type: :string
-      },
-      body_en: {
-        node: -> { body_en_rich_texts[:body] },
-        relation: ->(scope) { scope.joins(body_en_join) },
-        type: :string
-      },
-      body_fr: {
-        node: -> { body_fr_rich_texts[:body] },
-        relation: ->(scope) { scope.joins(body_fr_join) },
-        type: :string
       },
       **base_search_fields,
       **User.associated_search_fields

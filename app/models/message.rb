@@ -42,43 +42,10 @@ class Message < ApplicationRecord
   before_validation { self.to_user ||= Current.user! }
 
   def self.search_fields
-    messages = arel_table
-
-    define_rich_text_join = ->(attribute_name) do
-      table =
-        Arel::Table.new(:action_text_rich_texts).alias(
-          "#{attribute_name}_rich_texts"
-        )
-      join =
-        messages
-          .join(table, Arel::Nodes::OuterJoin)
-          .on(
-            table[:record_type]
-              .eq(name.to_s.classify)
-              .and(table[:record_id].eq(messages[:id]))
-              .and(table[:name].eq(attribute_name.to_s))
-          )
-          .join_sources
-      [table, join]
-    end
-
-    subject_rich_texts, subject_join = define_rich_text_join.call(:subject)
-    body_rich_texts, body_join = define_rich_text_join.call(:body)
-
     from_user_table = User.arel_table.alias(:from_users)
     to_user_table = User.arel_table.alias(:to_users)
 
     {
-      subject: {
-        node: -> { subject_rich_texts[:body] },
-        relation: ->(scope) { scope.joins(subject_join) },
-        type: :string
-      },
-      body: {
-        node: -> { body_rich_texts[:body] },
-        relation: ->(scope) { scope.joins(body_join) },
-        type: :string
-      },
       "from_user:id": {
         node: -> { from_user_table[:id] },
         relation: ->(scope) { scope.left_joins_from_users },

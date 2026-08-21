@@ -21,6 +21,7 @@ module RecordConcern
   class_methods do
     def base_search_fields
       {
+        **rich_text_search_fields,
         id: {
           node: -> { arel_table[:id] },
           type: :integer
@@ -34,6 +35,35 @@ module RecordConcern
           type: :datetime
         }
       }
+    end
+
+    def rich_text_search_fields
+      rich_text_association_names.to_h do |association_name|
+        attribute_name = association_name.to_s.delete_prefix("rich_text_")
+        rich_texts =
+          Arel::Table.new(:action_text_rich_texts).alias(
+            "#{table_name}_#{attribute_name}_rich_texts"
+          )
+        join =
+          arel_table
+            .join(rich_texts, Arel::Nodes::OuterJoin)
+            .on(
+              rich_texts[:record_type]
+                .eq(polymorphic_name)
+                .and(rich_texts[:record_id].eq(arel_table[:id]))
+                .and(rich_texts[:name].eq(attribute_name))
+            )
+            .join_sources
+
+        [
+          attribute_name.to_sym,
+          {
+            node: -> { rich_texts[:body] },
+            relation: ->(scope) { scope.joins(join) },
+            type: :string
+          }
+        ]
+      end
     end
 
     def current_user

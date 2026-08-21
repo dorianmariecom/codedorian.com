@@ -32,7 +32,17 @@ class ServicesAdminCrudTest < ActionDispatch::IntegrationTest
       get(url_for(controller: controller, action: :index, only_path: true))
       assert_response(:success)
 
-      record = public_send(controller, fixture)
+      record =
+        case fixture
+        when :service then services(:service)
+        when :step then steps(:step)
+        when :plan then plans(:plan)
+        when :plan_schedule then plan_schedules(:plan_schedule)
+        when :subscription then subscriptions(:subscription)
+        when :subscription_execution
+          subscription_executions(:subscription_execution)
+        when :step_execution then step_executions(:step_execution)
+        end
       get(
         url_for(
           controller: controller,

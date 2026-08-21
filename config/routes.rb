@@ -78,6 +78,14 @@ Rails.application.routes.draw do
         versions
       ].each { |resource| resources(resource, concerns: :deletable) }
 
+      resources(:services, concerns: :deletable) do
+        resources(:subscriptions, concerns: :deletable) do
+          post(:activate, on: :member)
+          post(:deactivate, on: :member)
+          post(:evaluate, on: :member)
+        end
+      end
+
       resources(:subscriptions, concerns: :deletable) do
         post(:activate, on: :member)
         post(:deactivate, on: :member)

@@ -13,6 +13,11 @@ class ServicesController < ApplicationController
   end
 
   def show
+    unless can?(:update, @service)
+      @plans = @service.plans.order(created_at: :desc)
+      return
+    end
+
     @steps =
       policy_scope(Step)
         .where(service: @service)

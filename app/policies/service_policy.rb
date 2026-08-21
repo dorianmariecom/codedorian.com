@@ -3,16 +3,16 @@
 class ServicePolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
-      admin? ? scope.all : scope.none
+      scope.all
     end
   end
 
   def index?
-    admin?
+    true
   end
 
   def show?
-    admin?
+    true
   end
 
   def create?

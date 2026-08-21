@@ -1,0 +1,16 @@
+<% if plan.name.present? %>
+  <div class="p font-bold"><%= plan.name %></div>
+<% end %>
+<% if plan.description.present? %>
+  <div class="p italic"><%= plan.description %></div>
+<% end %>
+<% if plan.body.present? %>
+  <div class="p"><%= plan.body %></div>
+<% end %>
+<div class="p">
+  <%= link_to(
+    t("services.show.subscribe"),
+    new_service_subscription_path(plan.service),
+    class: "button"
+  ) %>
+</div>

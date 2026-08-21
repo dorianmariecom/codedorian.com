@@ -2946,6 +2946,7 @@ fr:
       body_fr: corps français
       created_at: créé à
       delete: supprimer le service
+      description: en savoir plus sur ce service.
       description_en: description anglaise
       description_fr: description française
       destroy: détruire le service
@@ -2962,6 +2963,7 @@ fr:
       plans: offres
       step_executions: exécutions d'étape
       steps: étapes
+      subscribe: s'abonner
       subscription_executions: exécutions d'abonnement
       subscriptions: abonnements
       updated_at: mis à jour à

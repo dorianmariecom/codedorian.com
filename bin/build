@@ -2,7 +2,14 @@
 
 set -e
 
+builder=codedorian
+
+if ! docker buildx inspect "$builder" >/dev/null 2>&1; then
+    docker buildx create --name "$builder" --driver docker-container
+fi
+
 docker buildx build \
+    --builder="$builder" \
     --cache-from=type=registry,ref=dorianmariecom/codedorian.com:latest \
     --cache-to=type=registry,ref=dorianmariecom/codedorian.com:latest,mode=max \
     --platform=linux/arm64 \

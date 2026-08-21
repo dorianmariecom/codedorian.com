@@ -2942,6 +2942,7 @@ en:
       body_fr: french body
       created_at: created at
       delete: delete service
+      description: learn more about this service.
       description_en: english description
       description_fr: french description
       destroy: destroy service
@@ -2958,6 +2959,7 @@ en:
       plans: plans
       step_executions: step executions
       steps: steps
+      subscribe: subscribe
       subscription_executions: subscription executions
       subscriptions: subscriptions
       updated_at: updated at

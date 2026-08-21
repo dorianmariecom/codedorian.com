@@ -1,15 +1,15 @@
 <% content_for(:title, @service) %>
-<% content_for(:description, @service.to_s) %>
+<% content_for(:description, @service.description) %>
 <%= turbo_stream_from(@service) %>
 
-<% if @service.id.present? %>
+<% if can?(:update, @service) && @service.id.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".id") %></div>
     <div class="font-bold"><%= @service.id %></div>
   </div>
 <% end %>
 
-<% if @service.user_id.present? %>
+<% if can?(:update, @service) && @service.user_id.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".user_id") %></div>
     <% association = @service.user %>
@@ -19,16 +19,64 @@
   </div>
 <% end %>
 
-<% %i[name_en name_fr description_en description_fr body_en body_fr].each do |attribute| %>
-  <% if @service.public_send(attribute).present? %>
+<% if can?(:update, @service) %>
+  <% if @service.name_en.present? %>
     <div class="p">
-      <div class="text-gray-600"><%= t(".#{attribute}") %></div>
-      <%= @service.public_send(attribute) %>
+      <div class="text-gray-600"><%= t(".name_en") %></div>
+      <%= @service.name_en %>
     </div>
+  <% end %>
+  <% if @service.name_fr.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".name_fr") %></div>
+      <%= @service.name_fr %>
+    </div>
+  <% end %>
+  <% if @service.description_en.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".description_en") %></div>
+      <%= @service.description_en %>
+    </div>
+  <% end %>
+  <% if @service.description_fr.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".description_fr") %></div>
+      <%= @service.description_fr %>
+    </div>
+  <% end %>
+  <% if @service.body_en.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".body_en") %></div>
+      <%= @service.body_en %>
+    </div>
+  <% end %>
+  <% if @service.body_fr.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".body_fr") %></div>
+      <%= @service.body_fr %>
+    </div>
+  <% end %>
+<% else %>
+  <% if @service.name.present? %>
+    <div class="p font-bold"><%= @service.name %></div>
+  <% end %>
+  <% if @service.description.present? %>
+    <div class="p italic"><%= @service.description %></div>
+  <% end %>
+  <% if @service.body.present? %>
+    <div class="p"><%= @service.body %></div>
+  <% end %>
+  <% if @plans.any? %>
+    <div class="p font-bold"><%= t(".plans") %></div>
+    <%= render(
+      partial: "plans/public_plan",
+      collection: @plans,
+      as: :plan
+    ) %>
   <% end %>
 <% end %>
 
-<% if @service.updated_at.present? %>
+<% if can?(:update, @service) && @service.updated_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".updated_at") %></div>
     <div class="font-bold">
@@ -37,7 +85,7 @@
   </div>
 <% end %>
 
-<% if @service.created_at.present? %>
+<% if can?(:update, @service) && @service.created_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".created_at") %></div>
     <div class="font-bold">
@@ -46,12 +94,15 @@
   </div>
 <% end %>
 
-<div class="p p--flex">
-  <%= link_to(t(".edit"), edit_url, class: :link) %>
-  <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
-  <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
-</div>
+<% if can?(:update, @service) %>
+  <div class="p p--flex">
+    <%= link_to(t(".edit"), edit_url, class: :link) %>
+    <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+    <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
+  </div>
+<% end %>
 
+<% if can?(:update, @service) %>
 <div class="p font-bold">
   <%= link_to(t(".steps"), steps_path, class: :link) %>
 </div>
@@ -152,4 +203,5 @@
       nested: []
     }
   ) %>
+<% end %>
 <% end %>
