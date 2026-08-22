@@ -63,11 +63,13 @@ Rails.application.routes.draw do
         names
         pages
         phone_numbers
+        plan_fields
         plan_schedules
         plans
         program_executions
         program_schedules
         services
+        service_fields
         sessions
         solid_cable_messages
         step_executions

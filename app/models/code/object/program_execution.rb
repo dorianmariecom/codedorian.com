@@ -20,8 +20,14 @@ class Code
 
       def id = code_get("id").to_s.to_i
       def program_execution! = policy_scope(::ProgramExecution).find(id)
-      def code_program = policy_scope(::Program).find(program_execution!.program.id).to_code
-      def code_user = policy_scope(::User).find(program_execution!.user.id).to_code
+
+      def code_program
+  policy_scope(::Program).find(program_execution!.program.id).to_code
+      end
+
+      def code_user
+  policy_scope(::User).find(program_execution!.user.id).to_code
+      end
 
       include(::Pundit::Authorization)
 

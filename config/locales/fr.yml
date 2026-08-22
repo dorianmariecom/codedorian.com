@@ -497,6 +497,10 @@ fr:
       edit: modifier
       index: numéros de téléphone
       new: nouveau
+    plan_fields:
+      edit: modifier
+      index: champs d’offre
+      new: nouveau
     plan_schedules:
       edit: modifier
       index: planifications des offres
@@ -516,6 +520,10 @@ fr:
     programs:
       edit: modifier
       index: programmes
+      new: nouveau
+    service_fields:
+      edit: modifier
+      index: champs de service
       new: nouveau
     services:
       edit: modifier
@@ -2529,6 +2537,50 @@ fr:
       versions: versions
     update:
       notice: numéro de téléphone mis à jour
+  plan_fields:
+    create:
+      notice: champ d’offre créé
+    delete:
+      notice: champ d’offre supprimé
+    delete_all:
+      notice: champs d’offre supprimés
+    destroy:
+      notice: champ d’offre détruit
+    destroy_all:
+      notice: champs d’offre détruits
+    edit:
+      description: modifier un champ du schéma d’offre.
+      submit: modifier le champ d’offre
+      title: modifier le champ d’offre
+    index:
+      delete_all: tout supprimer
+      description: gérer les champs du schéma d’offre.
+      destroy_all: tout détruire
+      new: nouveau champ d’offre
+      title: champs d’offre
+    model:
+      to_s: champ_offre#%{id}
+    new:
+      description: créer un champ du schéma d’offre.
+      submit: créer le champ d’offre
+    show:
+      delete: supprimer le champ d’offre
+      destroy: détruire le champ d’offre
+      edit: modifier le champ d’offre
+      id: identifiant
+      key: clé
+      kind: type
+      logs: logs
+      name_en: nom anglais
+      name_fr: nom français
+      new_log: nouveau log
+      new_version: nouvelle version
+      plan_id: offre
+      position: position
+      required: requis
+      versions: versions
+    update:
+      notice: champ d’offre modifié
   plan_schedules:
     create:
       notice: planification créée
@@ -2617,8 +2669,12 @@ fr:
       logs: logs
       name_en: nom anglais
       name_fr: nom français
+      new_log: nouveau log
+      new_plan_field: nouveau champ d’offre
       new_plan_schedule: nouvelle planification
       new_subscription: nouvel abonnement
+      new_version: nouvelle version
+      plan_fields: champs d’offre
       plan_schedules: planifications des offres
       service_id: service
       subscriptions: abonnements
@@ -2905,6 +2961,50 @@ fr:
       notice: programmes deprogrammés
     update:
       notice: programme mis à jour
+  service_fields:
+    create:
+      notice: champ de service créé
+    delete:
+      notice: champ de service supprimé
+    delete_all:
+      notice: champs de service supprimés
+    destroy:
+      notice: champ de service détruit
+    destroy_all:
+      notice: champs de service détruits
+    edit:
+      description: modifier un champ du schéma de service.
+      submit: modifier le champ de service
+      title: modifier le champ de service
+    index:
+      delete_all: tout supprimer
+      description: gérer les champs du schéma de service.
+      destroy_all: tout détruire
+      new: nouveau champ de service
+      title: champs de service
+    model:
+      to_s: champ_service#%{id}
+    new:
+      description: créer un champ du schéma de service.
+      submit: créer le champ de service
+    show:
+      delete: supprimer le champ de service
+      destroy: détruire le champ de service
+      edit: modifier le champ de service
+      id: identifiant
+      key: clé
+      kind: type
+      logs: logs
+      name_en: nom anglais
+      name_fr: nom français
+      new_log: nouveau log
+      new_version: nouvelle version
+      position: position
+      required: requis
+      service_id: service
+      versions: versions
+    update:
+      notice: champ de service modifié
   services:
     create:
       notice: service créé
@@ -2955,12 +3055,16 @@ fr:
       logs: logs
       name_en: nom anglais
       name_fr: nom français
+      new_log: nouveau log
       new_plan: nouvelle offre
+      new_service_field: nouveau champ de service
       new_step: nouvelle étape
       new_step_execution: nouvelle exécution d'étape
       new_subscription: nouvel abonnement
       new_subscription_execution: nouvelle exécution d'abonnement
+      new_version: nouvelle version
       plans: offres
+      service_fields: champs de service
       step_executions: exécutions d'étape
       steps: étapes
       subscribe: s'abonner
@@ -3707,10 +3811,13 @@ fr:
       evaluate: évaluer
       id: id
       logs: logs
+      new_log: nouveau log
       new_subscription_execution: nouvelle exécution d'abonnement
+      new_version: nouvelle version
       next_at: prochain à
       plan_id: offre
       previous_at: précédent à
+      stale: obsolète
       starts_at: commence à
       status: statut
       subscription_executions: exécutions d'abonnement

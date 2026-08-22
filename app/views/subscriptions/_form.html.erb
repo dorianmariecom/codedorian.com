@@ -1,32 +1,108 @@
 <%= form_for(show_url) do |f| %>
-  <div class="p">
-    <%= f.label(:user_id, class: :label) %>
-    <%= f.select(
-      :user_id,
-      policy_scope(User).order(:id).map { |record| [record.to_s, record.id] },
-      { include_blank: true },
-      class: :input,
-      autocomplete: :off,
-      data: {
-        form_type: :other
-      }
-    ) %>
-  </div>
+  <% if admin? %>
+    <div class="p">
+      <%= f.label(:user_id, class: :label) %>
+      <%= f.select(
+        :user_id,
+        policy_scope(User).order(:id).map { |record| [record.to_s, record.id] },
+        { include_blank: true },
+        class: :input,
+        autocomplete: :off
+      ) %>
+    </div>
+    <div class="p">
+      <%= f.label(:plan_id, class: :label) %>
+      <%= f.select(
+        :plan_id,
+        policy_scope(Plan).order(:id).map { |record| [record.to_s, record.id] },
+        {},
+        required: true,
+        class: :input,
+        autocomplete: :off
+      ) %>
+    </div>
+  <% else %>
+    <%= f.hidden_field(:plan_id, autocomplete: :off) %>
+  <% end %>
 
-  <div class="p">
-    <%= f.label(:plan_id, class: :label) %>
-    <%= f.select(
-      :plan_id,
-      policy_scope(Plan).order(:id).map { |record| [record.to_s, record.id] },
-      {},
-      required: true,
-      class: :input,
-      autocomplete: :off,
-      data: {
-        form_type: :other
-      }
-    ) %>
-  </div>
+  <% values = f.object.subscription_values.index_by(&:key) %>
+  <% (f.object.plan&.fields || []).each do |field| %>
+    <% value = values[field.key] || f.object.subscription_values.build(key: field.key) %>
+    <%= f.fields_for(:subscription_values, value) do |value_f| %>
+      <%= value_f.hidden_field(:id, autocomplete: :off) %>
+      <%= value_f.hidden_field(:key, autocomplete: :off) %>
+      <div class="p">
+        <%= value_f.label(:value, field.name, class: :label) %>
+        <% if field.email_address? %>
+          <div
+            data-controller="validation"
+            data-validation-trim-value="true"
+            data-validation-gender-value="feminine"
+          >
+            <%= value_f.email_field(
+              :value,
+              required: field.required?,
+              class: :input,
+              autocomplete: field.autocomplete,
+              data: {
+                validation_target: :input,
+                action: "validation#input",
+                form_type: :other
+              }
+            ) %>
+            <div
+              class="text-red-600"
+              hidden
+              data-validation-target="error"
+            ></div>
+          </div>
+        <% elsif field.phone_number? %>
+          <div data-controller="phone-number">
+            <%= value_f.telephone_field(
+              :value,
+              required: field.required?,
+              class: :input,
+              autocomplete: field.autocomplete,
+              data: {
+                phone_number_target: :input,
+                action: "phone-number#input",
+                form_type: :other
+              }
+            ) %>
+            <div
+              class="text-red-600"
+              hidden
+              data-phone-number-target="error"
+            ></div>
+          </div>
+        <% elsif field.number? %>
+          <%= value_f.number_field(
+            :value,
+            step: :any,
+            required: field.required?,
+            class: :input,
+            autocomplete: field.autocomplete
+          ) %>
+        <% elsif field.boolean? %>
+          <%= value_f.check_box(:value, {}, "true", "false") %>
+        <% elsif field.date? %>
+          <%= value_f.date_field(
+            :value,
+            required: field.required?,
+            class: :input,
+            autocomplete: field.autocomplete
+          ) %>
+        <% else %>
+          <%= value_f.text_field(
+            :value,
+            required: field.required?,
+            class: :input,
+            autocomplete: field.autocomplete
+          ) %>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
 
   <div class="p">
     <%= f.label(:status, class: :label) %>

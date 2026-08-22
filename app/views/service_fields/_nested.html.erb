@@ -1,0 +1,14 @@
+<div data-controller="nested" data-nested-selector-value=".service-field">
+  <template data-nested-target="template">
+    <%= f.fields_for(:service_fields, ServiceField.new, child_index: "NEW_RECORD") do |service_field_f| %>
+      <%= render("service_fields/nested_form", f: service_field_f) %>
+    <% end %>
+  </template>
+  <%= f.fields_for(:service_fields) do |service_field_f| %>
+    <%= render("service_fields/nested_form", f: service_field_f) %>
+  <% end %>
+  <div data-nested-target="target"></div>
+  <div class="p">
+    <button class="link" data-action="nested#add"><%= t("plan_schedules.nested.add") %></button>
+  </div>
+</div>

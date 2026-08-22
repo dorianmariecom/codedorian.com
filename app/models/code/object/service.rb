@@ -16,6 +16,12 @@ class Code
         when "plans"
           sig(args)
           code_plans
+        when "fields"
+          sig(args)
+          code_fields
+        when "service_fields"
+          sig(args)
+          code_service_fields
         when "subscriptions"
           sig(args)
           code_subscriptions
@@ -35,8 +41,14 @@ class Code
       def code_user = policy_scope(::User).find(service!.user.id).to_code
       def code_steps = policy_scope(service!.steps).to_code
       def code_plans = policy_scope(service!.plans).to_code
+      def code_fields = service!.fields.index_by(&:key).to_code
+      def code_service_fields = policy_scope(service!.service_fields).to_code
       def code_subscriptions = policy_scope(service!.subscriptions).to_code
-      def code_subscription_executions = policy_scope(service!.subscription_executions).to_code
+
+      def code_subscription_executions
+        policy_scope(service!.subscription_executions).to_code
+      end
+
       def code_step_executions = policy_scope(service!.step_executions).to_code
 
       include(::Pundit::Authorization)

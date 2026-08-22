@@ -134,7 +134,10 @@ class Code
         end
       end
 
-      def code_program = policy_scope(::Program).find(program!.program.id).to_code
+      def code_program
+  policy_scope(::Program).find(program!.program.id).to_code
+      end
+
       def code_user = policy_scope(::User).find(program!.user.id).to_code
 
       include(::Pundit::Authorization)

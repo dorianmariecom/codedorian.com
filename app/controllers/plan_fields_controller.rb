@@ -1,0 +1,104 @@
+# frozen_string_literal: true
+
+class PlanFieldsController < ApplicationController
+  before_action { add_breadcrumb(key: "plan_fields.index", path: index_url) }
+  before_action :load_plan_field, only: %i[show edit update destroy delete]
+
+  def index
+    authorize(PlanField)
+    @plan_fields = scope.page(params[:page]).order(:plan_id, :position, :id)
+  end
+
+  def show
+    @versions =
+      policy_scope(Version)
+        .where(item: @plan_field)
+        .order(created_at: :desc)
+        .page(params[:page])
+    @logs =
+      policy_scope(Log)
+        .where_plan_field(@plan_field)
+        .order(created_at: :desc)
+        .page(params[:page])
+  end
+
+  def new
+    @plan_field =
+      authorize(
+        scope.new(
+          params.fetch(:plan_field, ActionController::Parameters.new).permit(
+            :plan_id
+          )
+        )
+      )
+    add_breadcrumb
+  end
+
+  def edit = add_breadcrumb
+
+  def create
+    @plan_field = authorize(scope.new(plan_field_params))
+    if @plan_field.save(context: :controller)
+      redirect_to(show_url, notice: t(".notice"))
+    else
+      flash.now.alert = @plan_field.alert
+      render(:new, status: :unprocessable_content)
+    end
+  end
+
+  def update
+    @plan_field.assign_attributes(plan_field_params)
+    if @plan_field.save(context: :controller)
+      redirect_to(show_url, notice: t(".notice"))
+    else
+      flash.now.alert = @plan_field.alert
+      render(:edit, status: :unprocessable_content)
+    end
+  end
+
+  def destroy
+    @plan_field.destroy!
+    redirect_to(index_url, notice: t(".notice"))
+  end
+
+  def delete
+    @plan_field.delete
+    redirect_to(index_url, notice: t(".notice"))
+  end
+
+  def destroy_all
+    authorize(PlanField)
+    scope.destroy_all
+    redirect_back_or_to(index_url, notice: t(".notice"))
+  end
+
+  def delete_all
+    authorize(PlanField)
+    scope.delete_all
+    redirect_back_or_to(index_url, notice: t(".notice"))
+  end
+
+  private
+
+  def scope = searched_policy_scope(PlanField)
+  def model_class = PlanField
+  def model_instance = @plan_field
+  def nested = []
+  def filters = []
+
+  def load_plan_field
+    @plan_field = authorize(scope.find(params.expect(:id)))
+    set_context(plan_field: @plan_field)
+    add_breadcrumb(text: @plan_field, path: show_url)
+  end
+
+  def plan_field_params
+    if admin?
+      params.expect(
+        plan_field: %i[plan_id key name_en name_fr kind required position]
+      )
+    else
+      params.expect(plan_field: %i[key name_en name_fr kind required position])
+    end
+  end
+end

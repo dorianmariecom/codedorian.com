@@ -34,7 +34,7 @@ class SessionController < ApplicationController
       render(:new, status: :unprocessable_content)
     else
       log_in(@user)
-      redirect_to(@user, notice: t(".notice"))
+      redirect_to(requested_redirect_path || @user, notice: t(".notice"))
     end
   end
 
@@ -54,5 +54,13 @@ class SessionController < ApplicationController
 
   def password_param
     params.dig(:session, :password)
+  end
+
+  def requested_redirect_path
+    path = params[:redirect_to].to_s
+    return if path.start_with?("//")
+    return unless path.start_with?("/")
+
+    path
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_06_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_21_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -345,6 +345,22 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_06_120000) do
     t.index ["user_id"], name: "index_phone_numbers_on_user_id"
   end
 
+  create_table "plan_fields", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "key", null: false
+    t.string "kind", null: false
+    t.bigint "plan_id", null: false
+    t.bigint "position", default: 0, null: false
+    t.boolean "required", default: false, null: false
+    t.datetime "updated_at", null: false
+    t.index %w[plan_id key],
+            name: "index_plan_fields_on_plan_id_and_key",
+            unique: true
+    t.index %w[plan_id position],
+            name: "index_plan_fields_on_plan_id_and_position"
+    t.index ["plan_id"], name: "index_plan_fields_on_plan_id"
+  end
+
   create_table "plan_schedules", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "interval"
@@ -466,6 +482,22 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_06_120000) do
     t.index %w[delivered failed processing deliver_after created_at],
             name: "index_rpush_notifications_multi",
             where: "((NOT delivered) AND (NOT failed))"
+  end
+
+  create_table "service_fields", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "key", null: false
+    t.string "kind", null: false
+    t.bigint "position", default: 0, null: false
+    t.boolean "required", default: false, null: false
+    t.bigint "service_id", null: false
+    t.datetime "updated_at", null: false
+    t.index %w[service_id key],
+            name: "index_service_fields_on_service_id_and_key",
+            unique: true
+    t.index %w[service_id position],
+            name: "index_service_fields_on_service_id_and_position"
+    t.index ["service_id"], name: "index_service_fields_on_service_id"
   end
 
   create_table "services", force: :cascade do |t|
@@ -808,6 +840,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_06_120000) do
             name: "index_subscription_executions_on_subscription_id"
   end
 
+  create_table "subscription_values", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "key", null: false
+    t.bigint "subscription_id", null: false
+    t.datetime "updated_at", null: false
+    t.text "value"
+    t.index %w[subscription_id key],
+            name: "index_subscription_values_on_subscription_id_and_key",
+            unique: true
+    t.index ["subscription_id"],
+            name: "index_subscription_values_on_subscription_id"
+  end
+
   create_table "subscriptions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.bigint "plan_id", null: false
@@ -893,10 +938,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_06_120000) do
   add_foreign_key "pages", "users"
   add_foreign_key "passwords", "users"
   add_foreign_key "phone_numbers", "users"
+  add_foreign_key "plan_fields", "plans"
   add_foreign_key "plan_schedules", "plans"
   add_foreign_key "plans", "services"
   add_foreign_key "program_executions", "programs"
   add_foreign_key "programs", "users"
+  add_foreign_key "service_fields", "services"
   add_foreign_key "services", "users"
   add_foreign_key "solid_errors_occurrences", "solid_errors", column: "error_id"
   add_foreign_key "solid_queue_blocked_executions",
@@ -927,6 +974,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_06_120000) do
   add_foreign_key "step_executions", "subscription_executions"
   add_foreign_key "steps", "services"
   add_foreign_key "subscription_executions", "subscriptions"
+  add_foreign_key "subscription_values", "subscriptions"
   add_foreign_key "subscriptions", "plans"
   add_foreign_key "subscriptions", "users"
   add_foreign_key "time_zones", "users"

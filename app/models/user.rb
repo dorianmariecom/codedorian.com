@@ -44,6 +44,10 @@ class User < ApplicationRecord
 
   INTERFACES = %i[simple advanced].freeze
 
+  accepts_nested_attributes_for(:email_addresses, allow_destroy: true)
+  accepts_nested_attributes_for(:phone_numbers, allow_destroy: true)
+  accepts_nested_attributes_for(:passwords, allow_destroy: true)
+
   validates(:locale, inclusion: { in: LOCALES_STRINGS }, allow_blank: true)
   validates(:interface, inclusion: { in: INTERFACES })
 
@@ -132,11 +136,24 @@ class User < ApplicationRecord
   end
 
   def email_address
-    email_addresses.verified.order(primary: :desc).first&.to_s
+    email_addresses.find_by(primary: true, verified: true)&.to_s ||
+      email_addresses.find_by(primary: true)&.to_s ||
+      email_addresses.order(:id).first&.to_s
   end
 
   def phone_number
-    phone_numbers.verified.order(primary: :desc).first&.to_s
+    phone_numbers.find_by(primary: true, verified: true)&.to_s ||
+      phone_numbers.find_by(primary: true)&.to_s ||
+      phone_numbers.order(:id).first&.to_s
+  end
+
+  def passwords_attributes=(attributes)
+    attributes =
+      attributes.to_h.reject do |_index, password_attributes|
+        password_attributes["password"].blank? &&
+          !ActiveModel::Type::Boolean.new.cast(password_attributes["_destroy"])
+      end
+    super
   end
 
   def time_zone

@@ -68,11 +68,7 @@
   <% end %>
   <% if @plans.any? %>
     <div class="p font-bold"><%= t(".plans") %></div>
-    <%= render(
-      partial: "plans/public_plan",
-      collection: @plans,
-      as: :plan
-    ) %>
+    <%= render(partial: "plans/public_plan", collection: @plans, as: :plan) %>
   <% end %>
 <% end %>
 
@@ -103,105 +99,141 @@
 <% end %>
 
 <% if can?(:update, @service) %>
-<div class="p font-bold">
-  <%= link_to(t(".steps"), steps_path, class: :link) %>
-</div>
-<% if can?(:create, Step) %>
-  <div class="p">
-    <%= link_to(
-      t(".new_step"),
-      new_step_path(step: { service_id: @service.id }),
-      class: "button"
+  <div class="p font-bold">
+    <%= link_to(t(".steps"), steps_path, class: :link) %>
+  </div>
+  <% if can?(:create, Step) %>
+    <div class="p">
+      <%= link_to(
+        t(".new_step"),
+        new_step_path(step: { service_id: @service.id }),
+        class: "button"
+      ) %>
+    </div>
+  <% end %>
+  <%= render_collection(partial: "steps/step", collection: @steps, as: :step) %>
+
+  <div class="p font-bold">
+    <%= link_to(t(".plans"), plans_path, class: :link) %>
+  </div>
+  <% if can?(:create, Plan) %>
+    <div class="p">
+      <%= link_to(
+        t(".new_plan"),
+        new_plan_path(plan: { service_id: @service.id }),
+        class: "button"
+      ) %>
+    </div>
+  <% end %>
+  <%= render_collection(partial: "plans/plan", collection: @plans, as: :plan) %>
+
+  <% if can?(:index, ServiceField) %>
+    <div class="p font-bold">
+      <%= link_to(t(".service_fields"), service_fields_path, class: :link) %>
+    </div>
+    <div class="p">
+      <%= link_to(
+        t(".new_service_field"),
+        new_service_field_path(service_field: { service_id: @service.id }),
+        class: "button"
+      ) %>
+    </div>
+    <%= render(
+      partial: "service_fields/service_field",
+      collection: @service.service_fields,
+      as: :service_field
     ) %>
-  </div>
-<% end %>
-<%= render_collection(partial: "steps/step", collection: @steps, as: :step) %>
+  <% end %>
 
-<div class="p font-bold">
-  <%= link_to(t(".plans"), plans_path, class: :link) %>
-</div>
-<% if can?(:create, Plan) %>
-  <div class="p">
-    <%= link_to(
-      t(".new_plan"),
-      new_plan_path(plan: { service_id: @service.id }),
-      class: "button"
-    ) %>
+  <div class="p font-bold">
+    <%= link_to(t(".subscriptions"), subscriptions_path, class: :link) %>
   </div>
-<% end %>
-<%= render_collection(partial: "plans/plan", collection: @plans, as: :plan) %>
-
-<div class="p font-bold">
-  <%= link_to(t(".subscriptions"), subscriptions_path, class: :link) %>
-</div>
-<% if can?(:create, Subscription) %>
-  <div class="p">
-    <%= link_to(t(".new_subscription"), new_subscription_path, class: "button") %>
-  </div>
-<% end %>
-<%= render_collection(
-  partial: "subscriptions/subscription",
-  collection: @subscriptions,
-  as: :subscription
-) %>
-
-<div class="p font-bold">
-  <%= link_to(
-    t(".subscription_executions"),
-    subscription_executions_path,
-    class: :link
-  ) %>
-</div>
-<% if can?(:create, SubscriptionExecution) %>
-  <div class="p">
-    <%= link_to(
-      t(".new_subscription_execution"),
-      new_subscription_execution_path,
-      class: "button"
-    ) %>
-  </div>
-<% end %>
-<%= render_collection(
-  partial: "subscription_executions/subscription_execution",
-  collection: @subscription_executions,
-  as: :subscription_execution
-) %>
-
-<div class="p font-bold">
-  <%= link_to(t(".step_executions"), step_executions_path, class: :link) %>
-</div>
-<% if can?(:create, StepExecution) %>
-  <div class="p">
-    <%= link_to(t(".new_step_execution"), new_step_execution_path, class: "button") %>
-  </div>
-<% end %>
-<%= render_collection(
-  partial: "step_executions/step_execution",
-  collection: @step_executions,
-  as: :step_execution
-) %>
-
-<% if can?(:index, Version) %>
-  <div class="p font-bold"><%= t(".versions") %></div>
+  <% if can?(:create, Subscription) %>
+    <div class="p">
+      <%= link_to(t(".new_subscription"), new_subscription_path, class: "button") %>
+    </div>
+  <% end %>
   <%= render_collection(
-    partial: "versions/version",
-    collection: @versions,
-    as: :version,
-    locals: {
-      nested: []
-    }
+    partial: "subscriptions/subscription",
+    collection: @subscriptions,
+    as: :subscription
   ) %>
-<% end %>
 
-<% if can?(:index, Log) %>
-  <div class="p font-bold"><%= t(".logs") %></div>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".subscription_executions"),
+      subscription_executions_path,
+      class: :link
+    ) %>
+  </div>
+  <% if can?(:create, SubscriptionExecution) %>
+    <div class="p">
+      <%= link_to(
+        t(".new_subscription_execution"),
+        new_subscription_execution_path,
+        class: "button"
+      ) %>
+    </div>
+  <% end %>
   <%= render_collection(
-    partial: "logs/log",
-    collection: @logs,
-    as: :log,
-    locals: {
-      nested: []
-    }
+    partial: "subscription_executions/subscription_execution",
+    collection: @subscription_executions,
+    as: :subscription_execution
   ) %>
-<% end %>
+
+  <div class="p font-bold">
+    <%= link_to(t(".step_executions"), step_executions_path, class: :link) %>
+  </div>
+  <% if can?(:create, StepExecution) %>
+    <div class="p">
+      <%= link_to(t(".new_step_execution"), new_step_execution_path, class: "button") %>
+    </div>
+  <% end %>
+  <%= render_collection(
+    partial: "step_executions/step_execution",
+    collection: @step_executions,
+    as: :step_execution
+  ) %>
+
+  <% if can?(:index, Version) %>
+    <div class="p font-bold"><%= t(".versions") %></div>
+    <% if can?(:create, Version) %>
+      <div class="p">
+        <%= link_to(
+          t(".new_version"),
+          { controller: :versions, action: :new, service_id: @service.id },
+          class: "button"
+        ) %>
+      </div>
+    <% end %>
+    <%= render_collection(
+      partial: "versions/version",
+      collection: @versions,
+      as: :version,
+      locals: {
+        nested: []
+      }
+    ) %>
+  <% end %>
+
+  <% if can?(:index, Log) %>
+    <div class="p font-bold"><%= t(".logs") %></div>
+    <% if can?(:create, Log) %>
+      <div class="p">
+        <%= link_to(
+          t(".new_log"),
+          { controller: :logs, action: :new, service_id: @service.id },
+          class: "button"
+        ) %>
+      </div>
+    <% end %>
+    <%= render_collection(
+      partial: "logs/log",
+      collection: @logs,
+      as: :log,
+      locals: {
+        nested: []
+      }
+    ) %>
+  <% end %>
 <% end %>

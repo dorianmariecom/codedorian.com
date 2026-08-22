@@ -65,7 +65,7 @@ class UsersController < ApplicationController
     Current.with(user: @user) do
       if @user.save(context: :controller)
         log_in(@user)
-        redirect_to(show_url, notice: t(".notice"))
+        redirect_to(requested_redirect_path || show_url, notice: t(".notice"))
       else
         flash.now.alert = @user.alert
         render(:new, status: :unprocessable_content)
@@ -169,9 +169,49 @@ class UsersController < ApplicationController
     return {} if params[:user].blank?
 
     if admin?
-      params.expect(user: %i[admin verified interface locale])
+      params.expect(
+        user: [
+          :admin,
+          :verified,
+          :interface,
+          :locale,
+          {
+            email_addresses_attributes: [
+              %i[id _destroy email_address primary verified]
+            ]
+          },
+          {
+            phone_numbers_attributes: [
+              %i[id _destroy phone_number primary verified]
+            ]
+          },
+          {
+            passwords_attributes: [
+              %i[id _destroy password hint primary verified]
+            ]
+          }
+        ]
+      )
     else
-      params.expect(user: %i[interface locale])
+      params.expect(
+        user: [
+          :interface,
+          :locale,
+          {
+            email_addresses_attributes: [%i[id _destroy email_address primary]]
+          },
+          { phone_numbers_attributes: [%i[id _destroy phone_number primary]] },
+          { passwords_attributes: [%i[id _destroy password hint primary]] }
+        ]
+      )
     end
+  end
+
+  def requested_redirect_path
+    path = params[:redirect_to].to_s
+    return if path.start_with?("//")
+    return unless path.start_with?("/")
+
+    path
   end
 end

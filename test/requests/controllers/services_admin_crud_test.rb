@@ -34,14 +34,20 @@ class ServicesAdminCrudTest < ActionDispatch::IntegrationTest
 
       record =
         case fixture
-        when :service then services(:service)
-        when :step then steps(:step)
-        when :plan then plans(:plan)
-        when :plan_schedule then plan_schedules(:plan_schedule)
-        when :subscription then subscriptions(:subscription)
+        when :service
+          services(:service)
+        when :step
+          steps(:step)
+        when :plan
+          plans(:plan)
+        when :plan_schedule
+          plan_schedules(:plan_schedule)
+        when :subscription
+          subscriptions(:subscription)
         when :subscription_execution
           subscription_executions(:subscription_execution)
-        when :step_execution then step_executions(:step_execution)
+        when :step_execution
+          step_executions(:step_execution)
         end
       get(
         url_for(

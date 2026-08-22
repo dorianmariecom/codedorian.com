@@ -1,0 +1,12 @@
+<div class="email-address border-l border-black pl-5" data-new-record="<%= f.object.new_record? %>">
+  <%= f.hidden_field(:id, autocomplete: :off) %>
+  <%= f.hidden_field(:_destroy, autocomplete: :off) %>
+  <div class="p" data-controller="validation" data-validation-trim-value="true" data-validation-gender-value="feminine">
+    <%= f.label(:email_address, class: :label, data: { validation_target: :label }) %>
+    <%= f.email_field(:email_address, class: :input, required: true, autocomplete: "email", data: { validation_target: :input, action: "validation#input", form_type: :other }) %>
+    <div class="text-red-600" hidden data-validation-target="error"></div>
+  </div>
+  <div class="p"><%= f.label(:primary, class: :label) %><%= f.check_box(:primary, autocomplete: :off) %></div>
+  <% if admin? %><div class="p"><%= f.label(:verified, class: :label) %><%= f.check_box(:verified, autocomplete: :off) %></div><% end %>
+  <div class="p"><button class="link" data-action="nested#remove"><%= t("plan_schedules.nested_form.remove") %></button></div>
+</div>

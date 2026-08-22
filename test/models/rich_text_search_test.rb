@@ -32,10 +32,8 @@ class RichTextSearchTest < ActiveSupport::TestCase
 
       records.each do |model, record|
         model.rich_text_association_names.each do |association_name|
-          attribute_name =
-            association_name.to_s.delete_prefix("rich_text_")
-          token =
-            "searchable-#{model.model_name.singular}-#{attribute_name}"
+          attribute_name = association_name.to_s.delete_prefix("rich_text_")
+          token = "searchable-#{model.model_name.singular}-#{attribute_name}"
 
           record.update!(attribute_name => "<p>#{token}</p>")
 

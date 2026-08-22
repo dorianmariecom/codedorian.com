@@ -1,0 +1,4 @@
+phone:
+  subscription: subscription
+  key: phone_number
+  value: "+33612345678"

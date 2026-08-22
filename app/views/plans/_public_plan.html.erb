@@ -8,9 +8,16 @@
   <div class="p"><%= plan.body %></div>
 <% end %>
 <div class="p">
+  <% destination =
+    new_service_subscription_path(
+      plan.service,
+      subscription: {
+        plan_id: plan.id
+      }
+    ) %>
   <%= link_to(
     t("services.show.subscribe"),
-    new_service_subscription_path(plan.service),
+    current_user? ? destination : new_user_path(redirect_to: destination),
     class: "button"
   ) %>
 </div>

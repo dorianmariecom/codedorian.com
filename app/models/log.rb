@@ -39,12 +39,15 @@ class Log < ApplicationRecord
     program
     program_execution
     program_schedule
+    plan_field
     session
     service
+    service_field
     step
     plan
     plan_schedule
     subscription
+    subscription_value
     subscription_execution
     step_execution
     submission

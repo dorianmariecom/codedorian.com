@@ -1,0 +1,47 @@
+<%= form_for(show_url) do |f| %>
+  <div class="p">
+    <%= f.label(:plan_id, class: :label) %>
+    <%= f.select(
+      :plan_id,
+      policy_scope(Plan).order(:id).map { |record| [record.to_s, record.id] },
+      {},
+      required: true,
+      class: :input,
+      autocomplete: :off
+    ) %>
+  </div>
+  <div class="p">
+    <%= f.label(:key, class: :label) %>
+    <%= f.text_field(:key, required: true, class: :input, autocomplete: :off) %>
+  </div>
+  <div class="p">
+    <%= f.label(:name_en, class: :label) %>
+    <%= f.rich_textarea(:name_en, class: "input lexxy-content", required: true, autocomplete: :off, data: { form_type: :other }) %>
+  </div>
+  <div class="p">
+    <%= f.label(:name_fr, class: :label) %>
+    <%= f.rich_textarea(:name_fr, class: "input lexxy-content", required: true, autocomplete: :off, data: { form_type: :other }) %>
+  </div>
+  <div class="p">
+    <%= f.label(:kind, class: :label) %>
+    <%= f.select(:kind, PlanField::KINDS, {}, required: true, class: :input, autocomplete: :off) %>
+  </div>
+  <div class="p">
+    <%= f.label(:required, class: :label) %>
+    <%= f.check_box(:required, autocomplete: :off, data: { form_type: :other }) %>
+  </div>
+  <div class="p">
+    <%= f.label(:position, class: :label) %>
+    <%= f.number_field(:position, required: true, min: 0, class: :input, autocomplete: :off) %>
+  </div>
+  <div class="p">
+    <%= f.submit(
+      submit,
+      class: "button",
+      data: {
+        controller: "bridge--button",
+        bridge__button_title_value: submit
+      }
+    ) %>
+  </div>
+<% end %>

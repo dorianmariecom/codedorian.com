@@ -22,6 +22,12 @@ class Code
         when "subscriptions"
           sig(args)
           code_subscriptions
+        when "fields"
+          sig(args)
+          code_fields
+        when "plan_fields"
+          sig(args)
+          code_plan_fields
         else
           super
         end
@@ -34,6 +40,8 @@ class Code
       def code_steps = policy_scope(plan!.steps).to_code
       def code_plan_schedules = policy_scope(plan!.plan_schedules).to_code
       def code_subscriptions = policy_scope(plan!.subscriptions).to_code
+      def code_fields = plan!.fields.index_by(&:key).to_code
+      def code_plan_fields = policy_scope(plan!.plan_fields).to_code
 
       include(::Pundit::Authorization)
 

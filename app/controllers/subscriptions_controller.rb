@@ -2,6 +2,8 @@
 
 class SubscriptionsController < ApplicationController
   before_action { add_breadcrumb(key: "subscriptions.index", path: index_url) }
+  before_action :load_service, only: %i[new create]
+  before_action :load_plan, only: %i[new create]
   before_action :load_subscription,
                 only: %i[
                   show
@@ -77,26 +79,27 @@ class SubscriptionsController < ApplicationController
   end
 
   def new
-    @subscription =
-      authorize(
-        scope.new(
-          params.fetch(:subscription, ActionController::Parameters.new).permit(
-            :plan_id
-          )
-        )
-      )
+    @subscription = authorize(scope.new(user: current_user))
+    @subscription.prepare_values
     add_breadcrumb
   end
 
   def edit
+    @subscription.prepare_values
     add_breadcrumb
   end
 
   def create
-    @subscription = authorize(scope.new(subscription_params))
+    @subscription =
+      if admin?
+        authorize(scope.new(subscription_params))
+      else
+        authorize(scope.new(subscription_params.merge(user: current_user)))
+      end
     if @subscription.save(context: :controller)
       redirect_to(show_url, notice: t(".notice"))
     else
+      @subscription.prepare_values
       flash.now.alert = @subscription.alert
       render(:new, status: :unprocessable_content)
     end
@@ -107,6 +110,7 @@ class SubscriptionsController < ApplicationController
     if @subscription.save(context: :controller)
       redirect_to(show_url, notice: t(".notice"))
     else
+      @subscription.prepare_values
       flash.now.alert = @subscription.alert
       render(:edit, status: :unprocessable_content)
     end
@@ -136,7 +140,12 @@ class SubscriptionsController < ApplicationController
 
   private
 
-  def scope = searched_policy_scope(Subscription)
+  def scope
+    records = searched_policy_scope(Subscription)
+    records = records.where(plan: @plan) if @plan
+    records
+  end
+
   def model_class = Subscription
   def model_instance = @subscription
   def nested = []
@@ -149,6 +158,42 @@ class SubscriptionsController < ApplicationController
   end
 
   def subscription_params
-    params.expect(subscription: %i[user_id plan_id status])
+    if admin?
+      params.expect(
+        subscription: [
+          :user_id,
+          :plan_id,
+          :status,
+          { subscription_values_attributes: [%i[id _destroy key value]] }
+        ]
+      )
+    else
+      params.expect(
+        subscription: [
+          :status,
+          { subscription_values_attributes: [%i[id _destroy key value]] }
+        ]
+      )
+    end
+  end
+
+  def load_service
+    return if params[:service_id].blank?
+
+    @service = policy_scope(Service).find(params.expect(:service_id))
+  end
+
+  def load_plan
+    return if params.dig(:subscription, :plan_id).blank?
+
+    plans =
+      (
+        if @service
+          policy_scope(Plan).where(service: @service)
+        else
+          policy_scope(Plan)
+        end
+      )
+    @plan = plans.find(params.dig(:subscription, :plan_id))
   end
 end

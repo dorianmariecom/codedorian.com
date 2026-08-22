@@ -125,14 +125,19 @@ class ServicesController < ApplicationController
 
   def service_params
     params.expect(
-      service: %i[
-        user_id
-        name_en
-        name_fr
-        description_en
-        description_fr
-        body_en
-        body_fr
+      service: [
+        :user_id,
+        :name_en,
+        :name_fr,
+        :description_en,
+        :description_fr,
+        :body_en,
+        :body_fr,
+        {
+          service_fields_attributes: [
+            %i[id _destroy key name_en name_fr kind required position]
+          ]
+        }
       ]
     )
   end

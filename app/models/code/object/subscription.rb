@@ -25,6 +25,12 @@ class Code
         when "schedules", "plan_schedules"
           sig(args)
           code_plan_schedules
+        when "values"
+          sig(args)
+          code_values
+        when "subscription_values"
+          sig(args)
+          code_subscription_values
         else
           super
         end
@@ -33,13 +39,35 @@ class Code
       def id = code_get("id").to_s.to_i
       def subscription! = policy_scope(::Subscription).find(id)
       def code_user = policy_scope(::User).find(subscription!.user.id).to_code
-      def code_service = policy_scope(::Service).find(subscription!.service.id).to_code
+
+      def code_service
+        policy_scope(::Service).find(subscription!.service.id).to_code
+      end
+
       def code_plan = policy_scope(::Plan).find(subscription!.plan.id).to_code
-      def code_subscription_executions = policy_scope(subscription!.subscription_executions).to_code
+
+      def code_subscription_executions
+        policy_scope(subscription!.subscription_executions).to_code
+      end
+
       def code_subscription_execution
         policy_scope(subscription!.subscription_executions).first.to_code
       end
-      def code_plan_schedules = policy_scope(subscription!.plan_schedules).to_code
+
+      def code_plan_schedules
+        policy_scope(subscription!.plan_schedules).to_code
+      end
+
+      def code_values
+        policy_scope(subscription!.subscription_values)
+          .index_by(&:key)
+          .transform_values(&:typed_value)
+          .to_code
+      end
+
+      def code_subscription_values
+        policy_scope(subscription!.subscription_values).to_code
+      end
 
       include(::Pundit::Authorization)
 

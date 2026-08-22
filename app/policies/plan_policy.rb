@@ -3,17 +3,13 @@
 class PlanPolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
-      admin? ? scope.all : scope.none
+      scope.all
     end
   end
 
-  def index?
-    admin?
-  end
+  def index? = true
 
-  def show?
-    admin?
-  end
+  def show? = true
 
   def create?
     admin?

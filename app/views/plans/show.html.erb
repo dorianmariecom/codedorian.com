@@ -52,6 +52,24 @@
   <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
 </div>
 
+<% if can?(:index, PlanField) %>
+  <div class="p font-bold">
+    <%= link_to(t(".plan_fields"), plan_fields_path, class: :link) %>
+  </div>
+  <div class="p">
+    <%= link_to(
+      t(".new_plan_field"),
+      new_plan_field_path(plan_field: { plan_id: @plan.id }),
+      class: "button"
+    ) %>
+  </div>
+  <%= render(
+    partial: "plan_fields/plan_field",
+    collection: @plan.plan_fields,
+    as: :plan_field
+  ) %>
+<% end %>
+
 <div class="p font-bold">
   <%= link_to(t(".plan_schedules"), plan_schedules_path, class: :link) %>
 </div>
@@ -90,6 +108,15 @@
 
 <% if can?(:index, Version) %>
   <div class="p font-bold"><%= t(".versions") %></div>
+  <% if can?(:create, Version) %>
+    <div class="p">
+      <%= link_to(
+        t(".new_version"),
+        { controller: :versions, action: :new, plan_id: @plan.id },
+        class: "button"
+      ) %>
+    </div>
+  <% end %>
   <%= render_collection(
     partial: "versions/version",
     collection: @versions,
@@ -102,6 +129,15 @@
 
 <% if can?(:index, Log) %>
   <div class="p font-bold"><%= t(".logs") %></div>
+  <% if can?(:create, Log) %>
+    <div class="p">
+      <%= link_to(
+        t(".new_log"),
+        { controller: :logs, action: :new, plan_id: @plan.id },
+        class: "button"
+      ) %>
+    </div>
+  <% end %>
   <%= render_collection(
     partial: "logs/log",
     collection: @logs,

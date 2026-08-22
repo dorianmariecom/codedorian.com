@@ -21,10 +21,13 @@ class ServiceModelsTest < ActiveSupport::TestCase
       services(:service),
       steps(:step),
       plans(:plan),
+      service_fields(:phone),
+      plan_fields(:phone),
       plan_schedules(:plan_schedule),
       subscriptions(:subscription),
       subscription_executions(:subscription_execution),
-      step_executions(:step_execution)
+      step_executions(:step_execution),
+      subscription_values(:phone)
     ]
 
     records.each do |record|
@@ -114,6 +117,53 @@ class ServiceModelsTest < ActiveSupport::TestCase
       assertions.each do |input, expected|
         assert_equal(expected, Code.evaluate(input).raw, input)
       end
+    end
+  end
+
+  test "code exposes keyed fields values and raw schema associations" do
+    subscription = subscriptions(:subscription)
+
+    Current.with(user: users(:admin), subscription: subscription) do
+      assertions = {
+        "Current.service.fields.phone_number.kind" => "phone_number",
+        "Current.service.service_fields.first.id" => service_fields(:phone).id,
+        "Current.plan.fields.phone_number.name_en" => "Mobile number",
+        "Current.plan.plan_fields.first.id" => plan_fields(:phone).id,
+        "Current.subscription.values.phone_number" => "+33612345678",
+        "Current.subscription.subscription_values.first.id" =>
+          subscription_values(:phone).id
+      }
+
+      assertions.each do |input, expected|
+        assert_equal(expected, Code.evaluate(input).raw, input)
+      end
+    end
+  end
+
+  test "subscriber code can read its effective schema and values" do
+    user = users(:other_user)
+    subscription = nil
+    Current.with(user: users(:admin)) do
+      subscription = user.subscriptions.create!(plan: plans(:plan))
+      subscription.subscription_values.create!(
+        key: "phone_number",
+        value: "+14155552671"
+      )
+    end
+
+    Current.with(user: user, subscription: subscription) do
+      assert_equal(
+        "phone_number",
+        Code.evaluate("Current.plan.fields.phone_number.kind").raw
+      )
+      assert_equal(
+        service_fields(:phone).id,
+        Code.evaluate("Current.service.service_fields.first.id").raw
+      )
+      assert_equal(
+        "+14155552671",
+        Code.evaluate("Current.subscription.values.phone_number").raw
+      )
     end
   end
 

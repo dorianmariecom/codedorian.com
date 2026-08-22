@@ -195,8 +195,15 @@ class Code
       def code_programs = policy_scope(user!.programs).to_code
       def code_services = policy_scope(user!.services).to_code
       def code_subscriptions = policy_scope(user!.subscriptions).to_code
-      def code_subscription_executions = policy_scope(user!.subscription_executions).to_code
-      def code_program_executions = policy_scope(user!.program_executions).to_code
+
+      def code_subscription_executions
+  policy_scope(user!.subscription_executions).to_code
+      end
+
+      def code_program_executions
+  policy_scope(user!.program_executions).to_code
+      end
+
       def code_time_zones = policy_scope(user!.time_zones).to_code
       def code_tokens = policy_scope(user!.tokens).to_code
       def code_sent_messages = policy_scope(user!.sent_messages).to_code

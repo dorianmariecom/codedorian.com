@@ -6,6 +6,13 @@ class Plan < ApplicationRecord
   has_many :steps, through: :service
   has_many :plan_schedules, dependent: :destroy
   accepts_nested_attributes_for :plan_schedules, allow_destroy: true
+  has_many :plan_fields,
+           -> { order(:position, :id) },
+           dependent: :destroy,
+           inverse_of: :plan
+  accepts_nested_attributes_for :plan_fields,
+                                allow_destroy: true,
+                                reject_if: :all_blank
   has_many :subscriptions, dependent: :destroy
   has_rich_text :name_en
   has_rich_text :name_fr
@@ -21,6 +28,15 @@ class Plan < ApplicationRecord
   def name = fr? ? name_fr : name_en
   def description = fr? ? description_fr : description_en
   def body = fr? ? body_fr : body_en
+
+  def fields
+    overrides = plan_fields.index_by(&:key)
+    inherited =
+      service.fields.map { |field| overrides.delete(field.key) || field }
+    inherited + overrides.values
+  end
+
+  def field_for(key) = fields.find { |field| field.key == key.to_s }
   def schedules = plan_schedules
   def to_s = Truncate.strip(name&.to_plain_text).presence || t("to_s", id: id)
 

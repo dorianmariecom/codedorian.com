@@ -116,7 +116,12 @@ class PlansController < ApplicationController
         :description_fr,
         :body_en,
         :body_fr,
-        { plan_schedules_attributes: [%i[id _destroy starts_at interval]] }
+        { plan_schedules_attributes: [%i[id _destroy starts_at interval]] },
+        {
+          plan_fields_attributes: [
+            %i[id _destroy key name_en name_fr kind required position]
+          ]
+        }
       ]
     )
   end

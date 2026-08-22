@@ -1,4 +1,5 @@
 <%= form_for(:session, url: login_path, data: { form_type: :login }) do |f| %>
+  <%= hidden_field_tag(:redirect_to, params[:redirect_to], autocomplete: :off) %>
   <div
     class="p"
     data-controller="validation"
@@ -70,4 +71,10 @@
   </div>
 <% end %>
 
-<div class="p"><%= link_to(t(".register"), new_user_path, class: :link) %></div>
+<div class="p">
+  <%= link_to(
+    t(".register"),
+    new_user_path(redirect_to: params[:redirect_to]),
+    class: :link
+  ) %>
+</div>

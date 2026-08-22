@@ -1,4 +1,5 @@
 <%= form_for(show_url) do |f| %>
+  <%= hidden_field_tag(:redirect_to, params[:redirect_to], autocomplete: :off) %>
   <% if admin? %>
     <div class="p">
       <%= f.label(:admin, class: :label) %>
@@ -25,6 +26,10 @@
       autocomplete: :off
     ) %>
   </div>
+
+  <%= render("email_addresses/nested", f: f) %>
+  <%= render("phone_numbers/nested", f: f) %>
+  <%= render("passwords/nested", f: f) %>
 
   <div class="p">
     <%= f.label(:interface, class: :label) %>

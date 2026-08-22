@@ -7,6 +7,11 @@ class Subscription < ApplicationRecord
   has_one :service, through: :plan
   has_many :plan_schedules, through: :plan
   has_many :subscription_executions, dependent: :destroy
+  has_many :subscription_values,
+           -> { order(:id) },
+           dependent: :destroy,
+           inverse_of: :subscription
+  accepts_nested_attributes_for :subscription_values, allow_destroy: true
   has_one :subscription_execution,
           -> { order(created_at: :desc) },
           dependent: :destroy,
@@ -140,6 +145,31 @@ class Subscription < ApplicationRecord
   end
 
   def inactive? = status == "inactive"
+  def values = subscription_values.index_by(&:key)
+
+  def prefill_for(field)
+    case field.kind
+    when "email_address"
+      user.email_address
+    when "phone_number"
+      user.phone_number
+    end
+  end
+
+  def prepare_values
+    return unless plan
+
+    existing = subscription_values.index_by(&:key)
+    plan.fields.each do |field|
+      next if existing.key?(field.key)
+
+      subscription_values.build(
+        key: field.key,
+        value: new_record? ? prefill_for(field) : nil
+      )
+    end
+  end
+
   def starts_at = plan_schedules.map(&:starts_at).min
   def previous_at = plan_schedules.map(&:previous_at).select(&:past?).max
   def next_at = plan_schedules.map(&:next_at).select(&:future?).min

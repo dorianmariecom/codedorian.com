@@ -215,15 +215,17 @@ class Code
       def self.code_program_execution
         return Nothing.new if ::Current.program_execution.nil?
 
-        policy_scope(::ProgramExecution)
-          .find(::Current.program_execution.id)
-          .to_code
+        policy_scope(::ProgramExecution).find(
+          ::Current.program_execution.id
+        ).to_code
       end
 
       def self.code_program_schedule
         return Nothing.new if ::Current.program_schedule.nil?
 
-        policy_scope(::ProgramSchedule).find(::Current.program_schedule.id).to_code
+        policy_scope(::ProgramSchedule).find(
+          ::Current.program_schedule.id
+        ).to_code
       end
 
       def self.code_subscription
@@ -235,9 +237,9 @@ class Code
       def self.code_subscription_execution
         return Nothing.new if ::Current.subscription_execution.nil?
 
-        policy_scope(::SubscriptionExecution)
-          .find(::Current.subscription_execution.id)
-          .to_code
+        policy_scope(::SubscriptionExecution).find(
+          ::Current.subscription_execution.id
+        ).to_code
       end
 
       def self.code_service

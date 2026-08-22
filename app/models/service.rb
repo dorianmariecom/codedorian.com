@@ -7,6 +7,13 @@ class Service < ApplicationRecord
            dependent: :destroy,
            inverse_of: :service
   has_many :plans, dependent: :destroy
+  has_many :service_fields,
+           -> { order(:position, :id) },
+           dependent: :destroy,
+           inverse_of: :service
+  accepts_nested_attributes_for :service_fields,
+                                allow_destroy: true,
+                                reject_if: :all_blank
   has_many :subscriptions, through: :plans
   has_many :subscription_executions, through: :subscriptions
   has_many :step_executions, through: :subscription_executions
@@ -28,6 +35,7 @@ class Service < ApplicationRecord
   def name = fr? ? name_fr : name_en
   def description = fr? ? description_fr : description_en
   def body = fr? ? body_fr : body_en
+  def fields = service_fields
   def to_s = Truncate.strip(name&.to_plain_text).presence || t("to_s", id: id)
 
   def to_code

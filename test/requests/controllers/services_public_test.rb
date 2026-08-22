@@ -57,9 +57,17 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
     assert_select("body", text: /Corps français de l’offre/)
     assert_select("body", text: /English plan/, count: 0)
     assert_select("a[href=?]", plan_path(plan), count: 0)
+    destination =
+      new_service_subscription_path(
+        service,
+        locale: :fr,
+        subscription: {
+          plan_id: plan.id
+        }
+      )
     assert_select(
       "a.button[href=?]",
-      new_service_subscription_path(service, locale: :fr),
+      new_user_path(locale: :fr, redirect_to: destination),
       text: "s'abonner"
     )
 
@@ -71,9 +79,17 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
     assert_select("body", text: /English plan body/)
     assert_select("body", text: /français de l’offre/, count: 0)
     assert_select("a[href=?]", plan_path(plan), count: 0)
+    destination =
+      new_service_subscription_path(
+        service,
+        locale: :en,
+        subscription: {
+          plan_id: plan.id
+        }
+      )
     assert_select(
       "a.button[href=?]",
-      new_service_subscription_path(service, locale: :en),
+      new_user_path(locale: :en, redirect_to: destination),
       text: "subscribe"
     )
   end

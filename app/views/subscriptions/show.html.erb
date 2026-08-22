@@ -36,6 +36,29 @@
   </div>
 <% end %>
 
+<% if admin? %>
+  <% @subscription.subscription_values.each do |subscription_value| %>
+    <% field = @subscription.plan.field_for(subscription_value.key) %>
+    <div class="p">
+      <div class="text-gray-600">
+        <%= field&.name || subscription_value.key %>
+        <%= " (#{t(".stale")})" if field.nil? %>
+      </div>
+      <div class="font-bold"><%= subscription_value.value %></div>
+    </div>
+  <% end %>
+<% else %>
+  <% @subscription.plan.fields.each do |field| %>
+    <% subscription_value = @subscription.values[field.key] %>
+    <% if subscription_value&.value.present? %>
+      <div class="p">
+        <div class="text-gray-600"><%= field.name %></div>
+        <div class="font-bold"><%= subscription_value.value %></div>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
+
 <% if @subscription.starts_at.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".starts_at") %></div>
@@ -114,39 +137,54 @@
 <% end %>
 
 <div class="p p--flex">
-  <%= link_to(t(".edit"), edit_url, class: :link) %>
-  <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
-  <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
+  <% if can?(:update, @subscription) %>
+    <%= link_to(t(".edit"), edit_url, class: :link) %>
+  <% end %>
+  <% if can?(:destroy, @subscription) %>
+    <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+    <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
+  <% end %>
 </div>
 
-<div class="p font-bold">
-  <%= link_to(
-    t(".subscription_executions"),
-    subscription_executions_path,
-    class: :link
-  ) %>
-</div>
-<% if can?(:create, SubscriptionExecution) %>
-  <div class="p">
+<% if can?(:index, SubscriptionExecution) %>
+  <div class="p font-bold">
     <%= link_to(
-      t(".new_subscription_execution"),
-      new_subscription_execution_path(
-        subscription_execution: {
-          subscription_id: @subscription.id
-        }
-      ),
-      class: "button"
+      t(".subscription_executions"),
+      subscription_executions_path,
+      class: :link
     ) %>
   </div>
+  <% if can?(:create, SubscriptionExecution) %>
+    <div class="p">
+      <%= link_to(
+        t(".new_subscription_execution"),
+        new_subscription_execution_path(
+          subscription_execution: {
+            subscription_id: @subscription.id
+          }
+        ),
+        class: "button"
+      ) %>
+    </div>
+  <% end %>
+  <%= render_collection(
+    partial: "subscription_executions/subscription_execution",
+    collection: @subscription_executions,
+    as: :subscription_execution
+  ) %>
 <% end %>
-<%= render_collection(
-  partial: "subscription_executions/subscription_execution",
-  collection: @subscription_executions,
-  as: :subscription_execution
-) %>
 
 <% if can?(:index, Version) %>
   <div class="p font-bold"><%= t(".versions") %></div>
+  <% if can?(:create, Version) %>
+    <div class="p">
+      <%= link_to(
+        t(".new_version"),
+        { controller: :versions, action: :new, subscription_id: @subscription.id },
+        class: "button"
+      ) %>
+    </div>
+  <% end %>
   <%= render_collection(
     partial: "versions/version",
     collection: @versions,
@@ -159,6 +197,15 @@
 
 <% if can?(:index, Log) %>
   <div class="p font-bold"><%= t(".logs") %></div>
+  <% if can?(:create, Log) %>
+    <div class="p">
+      <%= link_to(
+        t(".new_log"),
+        { controller: :logs, action: :new, subscription_id: @subscription.id },
+        class: "button"
+      ) %>
+    </div>
+  <% end %>
   <%= render_collection(
     partial: "logs/log",
     collection: @logs,

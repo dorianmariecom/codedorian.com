@@ -3,24 +3,22 @@
 class SubscriptionPolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
-      admin? ? scope.all : scope.none
+      scope.where(user: policy_scope(User))
     end
   end
 
   def index?
-    admin?
+    admin? || current_user?
   end
 
   def show?
-    admin?
+    admin? || owner?
   end
 
-  def create?
-    admin?
-  end
+  def create? = current_user?
 
   def update?
-    admin?
+    admin? || owner?
   end
 
   def activate?

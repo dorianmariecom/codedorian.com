@@ -496,6 +496,10 @@ en:
       edit: edit
       index: phone numbers
       new: new
+    plan_fields:
+      edit: edit
+      index: plan fields
+      new: new
     plan_schedules:
       edit: edit
       index: plan schedules
@@ -515,6 +519,10 @@ en:
     programs:
       edit: edit
       index: programs
+      new: new
+    service_fields:
+      edit: edit
+      index: service fields
       new: new
     services:
       edit: edit
@@ -2525,6 +2533,50 @@ en:
       versions: versions
     update:
       notice: phone number updated
+  plan_fields:
+    create:
+      notice: plan field created
+    delete:
+      notice: plan field deleted
+    delete_all:
+      notice: plan fields deleted
+    destroy:
+      notice: plan field destroyed
+    destroy_all:
+      notice: plan fields destroyed
+    edit:
+      description: update a plan schema field.
+      submit: update plan field
+      title: edit plan field
+    index:
+      delete_all: delete all
+      description: manage plan schema fields.
+      destroy_all: destroy all
+      new: new plan field
+      title: plan fields
+    model:
+      to_s: plan_field#%{id}
+    new:
+      description: create a plan schema field.
+      submit: create plan field
+    show:
+      delete: delete plan field
+      destroy: destroy plan field
+      edit: edit plan field
+      id: id
+      key: key
+      kind: kind
+      logs: logs
+      name_en: english name
+      name_fr: french name
+      new_log: new log
+      new_version: new version
+      plan_id: plan
+      position: position
+      required: required
+      versions: versions
+    update:
+      notice: plan field updated
   plan_schedules:
     create:
       notice: plan schedule created
@@ -2613,8 +2665,12 @@ en:
       logs: logs
       name_en: english name
       name_fr: french name
+      new_log: new log
+      new_plan_field: new plan field
       new_plan_schedule: new plan schedule
       new_subscription: new subscription
+      new_version: new version
+      plan_fields: plan fields
       plan_schedules: plan schedules
       service_id: service
       subscriptions: subscriptions
@@ -2901,6 +2957,50 @@ en:
       notice: programs unscheduled
     update:
       notice: program updated
+  service_fields:
+    create:
+      notice: service field created
+    delete:
+      notice: service field deleted
+    delete_all:
+      notice: service fields deleted
+    destroy:
+      notice: service field destroyed
+    destroy_all:
+      notice: service fields destroyed
+    edit:
+      description: update a service schema field.
+      submit: update service field
+      title: edit service field
+    index:
+      delete_all: delete all
+      description: manage service schema fields.
+      destroy_all: destroy all
+      new: new service field
+      title: service fields
+    model:
+      to_s: service_field#%{id}
+    new:
+      description: create a service schema field.
+      submit: create service field
+    show:
+      delete: delete service field
+      destroy: destroy service field
+      edit: edit service field
+      id: id
+      key: key
+      kind: kind
+      logs: logs
+      name_en: english name
+      name_fr: french name
+      new_log: new log
+      new_version: new version
+      position: position
+      required: required
+      service_id: service
+      versions: versions
+    update:
+      notice: service field updated
   services:
     create:
       notice: service created
@@ -2951,12 +3051,16 @@ en:
       logs: logs
       name_en: english name
       name_fr: french name
+      new_log: new log
       new_plan: new plan
+      new_service_field: new service field
       new_step: new step
       new_step_execution: new step execution
       new_subscription: new subscription
       new_subscription_execution: new subscription execution
+      new_version: new version
       plans: plans
+      service_fields: service fields
       step_executions: step executions
       steps: steps
       subscribe: subscribe
@@ -3702,10 +3806,13 @@ en:
       evaluate: evaluate
       id: id
       logs: logs
+      new_log: new log
       new_subscription_execution: new subscription execution
+      new_version: new version
       next_at: next at
       plan_id: plan
       previous_at: previous at
+      stale: stale
       starts_at: starts at
       status: status
       subscription_executions: subscription executions
