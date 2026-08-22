@@ -12,9 +12,6 @@ class Log < ApplicationRecord
     email_address
     error
     error_occurrence
-    form_delivery
-    form_program
-    form_schedule
     guest
     handle
     job
@@ -50,11 +47,6 @@ class Log < ApplicationRecord
     subscription_value
     subscription_execution
     step_execution
-    submission
-    submission_delivery
-    submission_program
-    submission_schedule
-    submission_section
     time_zone
     token
     user

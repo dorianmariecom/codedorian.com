@@ -42,8 +42,16 @@ export default class extends Controller {
     this.iti = null;
   }
 
-  async input() {
+  async input(event) {
     if (!this.iti) return;
+
+    if (
+      event &&
+      !event.isTrusted &&
+      !this.inputTarget.classList.contains("input--touched")
+    ) {
+      return;
+    }
 
     this.inputTarget.classList.add("input--touched");
 

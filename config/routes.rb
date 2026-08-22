@@ -108,20 +108,9 @@ Rails.application.routes.draw do
       post(:lookup)
     end
 
-    %i[
-      configurations
-      feedbacks
-      form_deliveries
-      form_programs
-      form_schedules
-      links
-      solid_cache_entries
-      submission_deliveries
-      submission_programs
-      submission_schedules
-      submission_sections
-      submissions
-    ].each { |resource| resources(resource, concerns: :deletable) }
+    %i[configurations links solid_cache_entries].each do |resource|
+      resources(resource, concerns: :deletable)
+    end
 
     patch(:time_zone, to: "users#update_time_zone")
 
@@ -130,7 +119,6 @@ Rails.application.routes.draw do
       delete(:destroy)
     end
 
-    resource(:form)
     resources(:program_runs, only: %i[create show])
 
     match("/404", to: "errors#not_found", via: :all)

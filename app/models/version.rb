@@ -10,9 +10,6 @@ class Version < PaperTrail::Version
     datum
     device
     email_address
-    form_delivery
-    form_program
-    form_schedule
     guest
     handle
     link
@@ -33,11 +30,6 @@ class Version < PaperTrail::Version
     subscription
     subscription_execution
     step_execution
-    submission
-    submission_delivery
-    submission_program
-    submission_schedule
-    submission_section
     time_zone
     token
     user

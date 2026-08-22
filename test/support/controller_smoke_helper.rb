@@ -128,24 +128,6 @@ module ControllerSmokeHelper
       test_case.errors(:error).id
     when :error_occurrence_id
       test_case.error_occurrences(:error_occurrence).id
-    when :feedback_id
-      test_case.feedbacks(:feedback).id
-    when :form_program_id
-      test_case.form_programs(:form_program).id
-    when :form_schedule_id
-      test_case.form_schedules(:form_schedule).id
-    when :form_delivery_id
-      test_case.form_deliveries(:form_delivery).id
-    when :submission_id
-      test_case.submissions(:submission).id
-    when :submission_section_id
-      test_case.submission_sections(:submission_section).id
-    when :submission_program_id
-      test_case.submission_programs(:submission_program).id
-    when :submission_schedule_id
-      test_case.submission_schedules(:submission_schedule).id
-    when :submission_delivery_id
-      test_case.submission_deliveries(:submission_delivery).id
     when :handle_id
       test_case.handles(:handle).id
     when :job_id
@@ -227,26 +209,8 @@ module ControllerSmokeHelper
       test_case.email_addresses(:admin_email).id
     when "errors"
       test_case.errors(:error).id
-    when "feedbacks"
-      test_case.feedbacks(:feedback).id
     when "error_occurrences"
       test_case.error_occurrences(:error_occurrence).id
-    when "form_deliveries"
-      test_case.form_deliveries(:form_delivery).id
-    when "form_programs"
-      test_case.form_programs(:form_program).id
-    when "form_schedules"
-      test_case.form_schedules(:form_schedule).id
-    when "submission_deliveries"
-      test_case.submission_deliveries(:submission_delivery).id
-    when "submission_programs"
-      test_case.submission_programs(:submission_program).id
-    when "submission_schedules"
-      test_case.submission_schedules(:submission_schedule).id
-    when "submission_sections"
-      test_case.submission_sections(:submission_section).id
-    when "submissions"
-      test_case.submissions(:submission).id
     when "guests"
       test_case.guests(:guest).id
     when "handles"
@@ -339,10 +303,6 @@ module ControllerSmokeHelper
       }
     when "passwords#check"
       { password: test_case.passwords(:password).hint }
-    when "feedbacks#create", "feedbacks#update"
-      { feedback: { message: "smoke feedback" } }
-    when "feedback_submissions#create"
-      { message: "smoke feedback submission" }
     else
       params
     end

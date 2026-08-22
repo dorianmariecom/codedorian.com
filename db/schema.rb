@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_21_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_22_210001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -186,50 +186,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_21_120000) do
     t.index %w[user_id verified primary],
             name: "index_email_addresses_on_user_id_and_verified_and_primary"
     t.index ["user_id"], name: "index_email_addresses_on_user_id"
-  end
-
-  create_table "feedbacks", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.bigint "guest_id"
-    t.string "ip"
-    t.string "locale"
-    t.text "message"
-    t.string "path"
-    t.datetime "updated_at", null: false
-    t.text "user_agent"
-    t.bigint "user_id"
-    t.index ["guest_id"], name: "index_feedbacks_on_guest_id"
-    t.index ["user_id"], name: "index_feedbacks_on_user_id"
-  end
-
-  create_table "form_deliveries", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.text "description"
-    t.text "label"
-    t.string "locale", default: "en", null: false
-    t.text "name"
-    t.bigint "position", default: 0, null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "form_programs", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.text "description"
-    t.text "label"
-    t.string "locale", default: "en", null: false
-    t.text "name"
-    t.bigint "position", default: 0, null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "form_schedules", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.text "description"
-    t.text "label"
-    t.string "locale", default: "en", null: false
-    t.text "name"
-    t.bigint "position", default: 0, null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "guests", force: :cascade do |t|
@@ -761,75 +717,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_21_120000) do
     t.index ["service_id"], name: "index_steps_on_service_id"
   end
 
-  create_table "submission_deliveries", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.text "description"
-    t.bigint "form_delivery_id"
-    t.text "label"
-    t.string "locale", default: "en", null: false
-    t.text "name"
-    t.bigint "submission_section_id", null: false
-    t.datetime "updated_at", null: false
-    t.text "value"
-    t.index ["form_delivery_id"],
-            name: "index_submission_deliveries_on_form_delivery_id"
-    t.index ["submission_section_id"],
-            name: "index_submission_deliveries_on_submission_section_id"
-  end
-
-  create_table "submission_programs", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.text "description"
-    t.bigint "form_program_id"
-    t.text "label"
-    t.string "locale", default: "en", null: false
-    t.text "name"
-    t.bigint "submission_section_id", null: false
-    t.datetime "updated_at", null: false
-    t.text "value"
-    t.index ["form_program_id"],
-            name: "index_submission_programs_on_form_program_id"
-    t.index ["submission_section_id"],
-            name: "index_submission_programs_on_submission_section_id"
-  end
-
-  create_table "submission_schedules", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.text "description"
-    t.bigint "form_schedule_id"
-    t.text "label"
-    t.string "locale", default: "en", null: false
-    t.text "name"
-    t.bigint "submission_section_id", null: false
-    t.datetime "updated_at", null: false
-    t.text "value"
-    t.index ["form_schedule_id"],
-            name: "index_submission_schedules_on_form_schedule_id"
-    t.index ["submission_section_id"],
-            name: "index_submission_schedules_on_submission_section_id"
-  end
-
-  create_table "submission_sections", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.text "description"
-    t.string "locale", default: "en", null: false
-    t.string "name"
-    t.bigint "submission_id", null: false
-    t.datetime "updated_at", null: false
-    t.index ["submission_id"],
-            name: "index_submission_sections_on_submission_id"
-  end
-
-  create_table "submissions", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.string "email_address"
-    t.string "family_name"
-    t.string "given_name"
-    t.string "locale", default: "en", null: false
-    t.string "phone_number"
-    t.datetime "updated_at", null: false
-  end
-
   create_table "subscription_executions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "status", default: "initialized", null: false
@@ -928,8 +815,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_21_120000) do
   add_foreign_key "data", "users"
   add_foreign_key "devices", "users"
   add_foreign_key "email_addresses", "users"
-  add_foreign_key "feedbacks", "guests"
-  add_foreign_key "feedbacks", "users"
   add_foreign_key "handles", "users"
   add_foreign_key "messages", "users", column: "from_user_id"
   add_foreign_key "messages", "users", column: "to_user_id"

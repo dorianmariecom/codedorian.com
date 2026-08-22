@@ -31,12 +31,17 @@ class Code
         ).to_code
       end
 
-      def code_plan =
+      def code_plan
         policy_scope(::Plan).find(subscription_value!.plan.id).to_code
-      def code_service =
+      end
+
+      def code_service
         policy_scope(::Service).find(subscription_value!.service.id).to_code
-      def code_user =
+      end
+
+      def code_user
         policy_scope(::User).find(subscription_value!.user.id).to_code
+      end
 
       include(::Pundit::Authorization)
 
