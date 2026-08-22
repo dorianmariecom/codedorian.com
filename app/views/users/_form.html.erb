@@ -27,10 +27,6 @@
     ) %>
   </div>
 
-  <%= render("email_addresses/nested", f: f) %>
-  <%= render("phone_numbers/nested", f: f) %>
-  <%= render("passwords/nested", f: f) %>
-
   <div class="p">
     <%= f.label(:interface, class: :label) %>
     <%= f.select(
@@ -45,6 +41,10 @@
       autocomplete: :off
     ) %>
   </div>
+
+  <%= render("email_addresses/nested", f: f) %>
+  <%= render("phone_numbers/nested", f: f) %>
+  <%= render("passwords/nested", f: f) %>
 
   <div class="p">
     <%= f.submit(

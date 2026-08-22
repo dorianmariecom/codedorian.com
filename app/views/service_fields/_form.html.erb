@@ -16,15 +16,38 @@
   </div>
   <div class="p">
     <%= f.label(:name_en, class: :label) %>
-    <%= f.rich_textarea(:name_en, class: "input lexxy-content", required: true, autocomplete: :off, data: { form_type: :other }) %>
+    <%= f.rich_textarea(
+      :name_en,
+      class: "input lexxy-content",
+      required: true,
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
   </div>
   <div class="p">
     <%= f.label(:name_fr, class: :label) %>
-    <%= f.rich_textarea(:name_fr, class: "input lexxy-content", required: true, autocomplete: :off, data: { form_type: :other }) %>
+    <%= f.rich_textarea(
+      :name_fr,
+      class: "input lexxy-content",
+      required: true,
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
   </div>
   <div class="p">
     <%= f.label(:kind, class: :label) %>
-    <%= f.select(:kind, ServiceField::KINDS, {}, required: true, class: :input, autocomplete: :off) %>
+    <%= f.select(
+      :kind,
+      ServiceField::KINDS,
+      {},
+      required: true,
+      class: :input,
+      autocomplete: :off
+    ) %>
   </div>
   <div class="p">
     <%= f.label(:required, class: :label) %>
@@ -32,7 +55,13 @@
   </div>
   <div class="p">
     <%= f.label(:position, class: :label) %>
-    <%= f.number_field(:position, required: true, min: 0, class: :input, autocomplete: :off) %>
+    <%= f.number_field(
+      :position,
+      required: true,
+      min: 0,
+      class: :input,
+      autocomplete: :off
+    ) %>
   </div>
   <div class="p">
     <%= f.submit(

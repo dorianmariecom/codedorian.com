@@ -1,6 +1,51 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
+  def plan_schedule_description(plan_schedule)
+    starts_at = plan_schedule.starts_at.in_time_zone
+    count = plan_schedule.interval.split.first
+    options = {
+      count: count.to_i,
+      date: l(starts_at.to_date, format: :long),
+      day: localized_month_day(starts_at.day),
+      interval: plan_schedule.translated_interval,
+      month: I18n.t("date.month_names")[starts_at.month],
+      time: l(starts_at, format: :schedule_time),
+      weekday: I18n.t("date.day_names")[starts_at.wday]
+    }
+
+    key =
+      case plan_schedule.interval
+      when "once"
+        :once
+      when / seconds?\z/
+        :seconds
+      when / minutes?\z/
+        :minutes
+      when / hours?\z/
+        :hours
+      when / days?\z/
+        :days
+      when / weeks?\z/
+        :weeks
+      when /\A(?:first|second|third|fourth|fifth|last) /
+        :monthly_weekday
+      when / months?\z/
+        :months
+      when / years?\z/
+        :years
+      else
+        raise ArgumentError,
+              "unsupported schedule interval: #{plan_schedule.interval}"
+      end
+
+    t("services.show.plan_schedules.#{key}", **options)
+  end
+
+  def localized_month_day(day)
+    I18n.locale == :fr ? (day == 1 ? "1er" : day.to_s) : day.ordinalize
+  end
+
   DEFAULT_ACTION = "unknown-action"
   DEFAULT_METHOD = "unknown-method"
 

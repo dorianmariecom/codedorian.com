@@ -9,35 +9,46 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
   end
 
   test "visitor registers with nested identity records then subscribes" do
-    destination = new_service_subscription_path(
-      locale: :fr,
-      service_id: @service.id,
-      subscription: { plan_id: @plan.id }
-    )
+    destination =
+      new_service_subscription_path(
+        locale: :fr,
+        service_id: @service.id,
+        subscription: {
+          plan_id: @plan.id
+        }
+      )
 
     counts = [User.count, EmailAddress.count, Password.count]
     post(
-        users_path,
-        headers: { "Accept-Language" => "fr" },
-        params: {
-          redirect_to: destination,
-          user: {
-            interface: "simple",
-            locale: "fr",
-            email_addresses_attributes: {
-              "0" => {
-                email_address: "schema@example.test",
-                primary: "1"
-              }
-            },
-            passwords_attributes: {
-              "0" => { password: "StrongPassword42!", primary: "1" }
+      users_path,
+      headers: {
+        "Accept-Language" => "fr"
+      },
+      params: {
+        redirect_to: destination,
+        user: {
+          interface: "simple",
+          locale: "fr",
+          email_addresses_attributes: {
+            "0" => {
+              email_address: "schema@example.test",
+              primary: "1"
+            }
+          },
+          passwords_attributes: {
+            "0" => {
+              password: "StrongPassword42!",
+              primary: "1"
             }
           }
         }
-      )
+      }
+    )
     assert_response(:redirect, response.body)
-    assert_equal(counts.map { |count| count + 1 }, [User.count, EmailAddress.count, Password.count])
+    assert_equal(
+      counts.map { |count| count + 1 },
+      [User.count, EmailAddress.count, Password.count]
+    )
 
     user = User.order(:id).last
     assert_equal(:simple, user.interface)
@@ -47,6 +58,13 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
     get(destination)
     assert_response(:success)
     assert_select("label", text: /Numéro de mobile|Mobile number/)
+    assert_select(
+      "input[type='hidden'][name$='[value]'][data-phone-number-target='hidden']"
+    )
+    assert_select(
+      "div.max-w-xs[data-controller='phone-number'] " \
+        "input[type='tel'][name$='[value_input]']"
+    )
 
     assert_difference(%w[Subscription.count SubscriptionValue.count], 1) do
       post(
@@ -76,7 +94,12 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
 
     patch(
       subscription_path(subscription),
-      params: { subscription: { plan_id: @plan.id, status: "inactive" } }
+      params: {
+        subscription: {
+          plan_id: @plan.id,
+          status: "inactive"
+        }
+      }
     )
     assert_redirected_to(subscription_path(subscription))
     assert(subscription.reload.inactive?)

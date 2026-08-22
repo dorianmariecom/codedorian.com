@@ -17,6 +17,26 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   smoke_actions_for "users"
 
+  test "invalid create renders validation errors without setting an unsaved current user" do
+    post(
+      users_path,
+      params: {
+        user: {
+          locale: :en,
+          interface: :simple,
+          email_addresses_attributes: {
+            "0" => {
+              email_address: "invalid",
+              primary: "1"
+            }
+          }
+        }
+      }
+    )
+
+    assert_response(:unprocessable_content)
+  end
+
   test "advanced non admin user show page lists linked resources" do
     @other_user.update!(interface: :advanced)
 

@@ -3,6 +3,44 @@
 require "test_helper"
 
 class ServicesPublicTest < ActionDispatch::IntegrationTest
+  test "guest sees a simple localized plan page with a subscribe button" do
+    plan = plans(:plan)
+    Current.with(user: users(:admin)) do
+      plan.update!(
+        name_en: "English plan name",
+        name_fr: "Nom français de l’offre",
+        description_en: "English plan description",
+        description_fr: "Description française de l’offre",
+        body_en: "English plan body",
+        body_fr: "Corps français de l’offre"
+      )
+    end
+
+    get(plan_path(plan, locale: :en))
+
+    assert_response(:success)
+    assert_select("div.p.font-bold", text: "English plan name")
+    assert_select("body", text: /English plan description/)
+    assert_select("body", text: /English plan body/)
+    assert_select("body", text: /Nom français/, count: 0)
+    assert_select("div.text-gray-600", count: 0)
+    assert_select("a[href=?]", edit_plan_path(plan), count: 0)
+
+    destination =
+      new_service_subscription_path(
+        plan.service,
+        locale: :en,
+        subscription: {
+          plan_id: plan.id
+        }
+      )
+    assert_select(
+      "a.button[href=?]",
+      new_user_path(locale: :en, redirect_to: destination),
+      text: "subscribe"
+    )
+  end
+
   test "guest sees only unlabeled service content for the requested locale" do
     service = services(:service)
     Current.with(user: users(:admin)) do
@@ -35,7 +73,7 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
     assert_select("div.text-gray-600", count: 0)
   end
 
-  test "guest sees localized plans without administrative plan links" do
+  test "guest sees localized plans with plan links and schedules" do
     service = services(:service)
     plan = plans(:plan)
     Current.with(user: users(:admin)) do
@@ -56,7 +94,8 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
     assert_select("div.italic", text: /Description française de l’offre/)
     assert_select("body", text: /Corps français de l’offre/)
     assert_select("body", text: /English plan/, count: 0)
-    assert_select("a[href=?]", plan_path(plan), count: 0)
+    assert_select("a[href=?]", plan_path(plan), text: /Nom français de l’offre/)
+    assert_select("body", text: /tous les jours à \d{1,2} h \d{2}/)
     destination =
       new_service_subscription_path(
         service,
@@ -78,7 +117,8 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
     assert_select("div.italic", text: /English plan description/)
     assert_select("body", text: /English plan body/)
     assert_select("body", text: /français de l’offre/, count: 0)
-    assert_select("a[href=?]", plan_path(plan), count: 0)
+    assert_select("a[href=?]", plan_path(plan), text: /English plan name/)
+    assert_select("body", text: /every day at \d{1,2}:\d{2}(?:am|pm)/)
     destination =
       new_service_subscription_path(
         service,

@@ -863,6 +863,10 @@ fr:
       title: adresses e-mail
     model:
       to_s: adresse_email#%{id}
+    nested:
+      add: ajouter une adresse e-mail
+    nested_form:
+      remove: supprimer l’adresse e-mail
     new:
       description: ajouter une adresse e-mail pour un utilisateur.
       submit: créer une adresse e-mail
@@ -1115,7 +1119,6 @@ fr:
       label: libellé
       locale: langue
       name: nom
-      phone_number: numéro de téléphone
       program: programme %{index}
       schedule: planning %{index}
       section: section %{index}
@@ -2463,6 +2466,10 @@ fr:
       title: mots de passe
     model:
       to_s: mot de passe#%{id}
+    nested:
+      add: ajouter un mot de passe
+    nested_form:
+      remove: supprimer le mot de passe
     new:
       description: créer un nouveau mot de passe.
       submit: créer un mot de passe
@@ -2513,6 +2520,10 @@ fr:
       title: numéros de téléphone
     model:
       to_s: numéro_de_téléphone#%{id}
+    nested:
+      add: ajouter un numéro de téléphone
+    nested_form:
+      remove: supprimer le numéro de téléphone
     new:
       description: ajouter un nouveau numéro de téléphone pour un utilisateur.
       submit: créer un numéro de téléphone
@@ -2674,6 +2685,7 @@ fr:
       new_plan_schedule: nouvelle planification
       new_subscription: nouvel abonnement
       new_version: nouvelle version
+      phone_number: numéro de téléphone
       plan_fields: champs d’offre
       plan_schedules: planifications des offres
       service_id: service
@@ -3063,6 +3075,37 @@ fr:
       new_subscription: nouvel abonnement
       new_subscription_execution: nouvelle exécution d'abonnement
       new_version: nouvelle version
+      plan_schedules:
+        days:
+          one: tous les jours à %{time}
+          other: tous les %{count} jours à %{time}
+          zero: tous les %{count} jours à %{time}
+        hours:
+          one: toutes les heures, à partir de %{time}
+          other: toutes les %{count} heures, à partir de %{time}
+          zero: toutes les %{count} heures, à partir de %{time}
+        minutes:
+          one: toutes les minutes, à partir de %{time}
+          other: toutes les %{count} minutes, à partir de %{time}
+          zero: toutes les %{count} minutes, à partir de %{time}
+        monthly_weekday: chaque %{interval} du mois à %{time}
+        months:
+          one: tous les mois le %{day} à %{time}
+          other: tous les %{count} mois le %{day} à %{time}
+          zero: tous les %{count} mois le %{day} à %{time}
+        once: une fois le %{date} à %{time}
+        seconds:
+          one: toutes les secondes, à partir de %{time}
+          other: toutes les %{count} secondes, à partir de %{time}
+          zero: toutes les %{count} secondes, à partir de %{time}
+        weeks:
+          one: chaque %{weekday} à %{time}
+          other: toutes les %{count} semaines le %{weekday} à %{time}
+          zero: toutes les %{count} semaines le %{weekday} à %{time}
+        years:
+          one: tous les ans le %{day} %{month} à %{time}
+          other: tous les %{count} ans le %{day} %{month} à %{time}
+          zero: tous les %{count} ans le %{day} %{month} à %{time}
       plans: offres
       service_fields: champs de service
       step_executions: exécutions d'étape
@@ -3830,6 +3873,7 @@ fr:
     formats:
       default: "%A %d %B %Y à %H:%M:%S"
       long: "%d %B %Y à %H:%M"
+      schedule_time: "%-H h %M"
       short: "%H:%M"
   time_zones:
     create:

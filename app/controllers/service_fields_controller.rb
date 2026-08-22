@@ -6,7 +6,8 @@ class ServiceFieldsController < ApplicationController
 
   def index
     authorize(ServiceField)
-    @service_fields = scope.page(params[:page]).order(:service_id, :position, :id)
+    @service_fields =
+      scope.page(params[:page]).order(:service_id, :position, :id)
   end
 
   def show
@@ -98,7 +99,9 @@ class ServiceFieldsController < ApplicationController
         service_field: %i[service_id key name_en name_fr kind required position]
       )
     else
-      params.expect(service_field: %i[key name_en name_fr kind required position])
+      params.expect(
+        service_field: %i[key name_en name_fr kind required position]
+      )
     end
   end
 end

@@ -8,5 +8,9 @@
     <%= render("email_addresses/nested_form", f: email_address_f) %>
   <% end %>
   <div data-nested-target="target"></div>
-  <div class="p"><button class="link" data-action="nested#add"><%= t("plan_schedules.nested.add") %></button></div>
+  <div class="p">
+    <button class="link" data-action="nested#add">
+      <%= t("email_addresses.nested.add") %>
+    </button>
+  </div>
 </div>

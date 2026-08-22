@@ -22,11 +22,11 @@ class Code
       def program_execution! = policy_scope(::ProgramExecution).find(id)
 
       def code_program
-  policy_scope(::Program).find(program_execution!.program.id).to_code
+        policy_scope(::Program).find(program_execution!.program.id).to_code
       end
 
       def code_user
-  policy_scope(::User).find(program_execution!.user.id).to_code
+        policy_scope(::User).find(program_execution!.user.id).to_code
       end
 
       include(::Pundit::Authorization)

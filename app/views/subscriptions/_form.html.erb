@@ -32,7 +32,12 @@
       <%= value_f.hidden_field(:id, autocomplete: :off) %>
       <%= value_f.hidden_field(:key, autocomplete: :off) %>
       <div class="p">
-        <%= value_f.label(:value, field.name, class: :label) %>
+        <%= value_f.label(
+          :value,
+          field.name,
+          class: :label,
+          data: field.phone_number? ? { phone_number_target: :label } : {}
+        ) %>
         <% if field.email_address? %>
           <div
             data-controller="validation"
@@ -57,9 +62,18 @@
             ></div>
           </div>
         <% elsif field.phone_number? %>
-          <div data-controller="phone-number">
-            <%= value_f.telephone_field(
+          <div class="max-w-xs" data-controller="phone-number">
+            <%= value_f.hidden_field(
               :value,
+              autocomplete: :off,
+              data: {
+                phone_number_target: :hidden,
+                form_type: :other
+              }
+            ) %>
+            <%= value_f.phone_field(
+              :value_input,
+              value: value_f.object.value,
               required: field.required?,
               class: :input,
               autocomplete: field.autocomplete,

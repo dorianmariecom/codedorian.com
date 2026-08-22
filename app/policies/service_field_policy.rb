@@ -3,11 +3,7 @@
 class ServiceFieldPolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
-      if admin?
-        scope.all
-      else
-        scope.where(service: policy_scope(Service))
-      end
+      admin? ? scope.all : scope.where(service: policy_scope(Service))
     end
   end
 

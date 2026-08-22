@@ -49,7 +49,7 @@ class Code
       def code_user = policy_scope(::User).find(step_execution!.user.id).to_code
 
       def code_service
-  policy_scope(::Service).find(step_execution!.service.id).to_code
+        policy_scope(::Service).find(step_execution!.service.id).to_code
       end
 
       def code_plan = policy_scope(::Plan).find(step_execution!.plan.id).to_code

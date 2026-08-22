@@ -135,15 +135,15 @@ class Code
       def code_user = policy_scope(::User).find(program!.user.id).to_code
 
       def code_program_schedules
-  policy_scope(program!.program_schedules).to_code
+        policy_scope(program!.program_schedules).to_code
       end
 
       def code_program_executions
-  policy_scope(program!.program_executions).to_code
+        policy_scope(program!.program_executions).to_code
       end
 
       def code_program_execution
-  policy_scope(program!.program_executions).first.to_code
+        policy_scope(program!.program_executions).first.to_code
       end
 
       def scope

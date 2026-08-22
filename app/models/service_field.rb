@@ -17,7 +17,10 @@ class ServiceField < ApplicationRecord
   validates :key, uniqueness: { scope: :service_id }
   validates :kind, inclusion: { in: KINDS }
   validates :position,
-            numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+            numericality: {
+              only_integer: true,
+              greater_than_or_equal_to: 0
+            }
   validate { can!(:update, service) }
 
   scope :where_user,
@@ -25,10 +28,22 @@ class ServiceField < ApplicationRecord
 
   def self.search_fields
     {
-      key: { node: -> { arel_table[:key] }, type: :string },
-      kind: { node: -> { arel_table[:kind] }, type: :string },
-      required: { node: -> { arel_table[:required] }, type: :boolean },
-      position: { node: -> { arel_table[:position] }, type: :integer },
+      key: {
+        node: -> { arel_table[:key] },
+        type: :string
+      },
+      kind: {
+        node: -> { arel_table[:kind] },
+        type: :string
+      },
+      required: {
+        node: -> { arel_table[:required] },
+        type: :boolean
+      },
+      position: {
+        node: -> { arel_table[:position] },
+        type: :integer
+      },
       **base_search_fields
     }
   end

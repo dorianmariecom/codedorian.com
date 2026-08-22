@@ -6,9 +6,17 @@
 <turbo-frame id="search" target="_top">
   <% if @plan_fields.any? %>
     <div class="p p--flex">
-      <% if can?(:destroy_all, PlanField) %><%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %><% end %>
-      <% if can?(:delete_all, PlanField) %><%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %><% end %>
+      <% if can?(:destroy_all, PlanField) %>
+        <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
+      <% end %>
+      <% if can?(:delete_all, PlanField) %>
+        <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
+      <% end %>
     </div>
   <% end %>
-  <%= render_collection(partial: "plan_fields/plan_field", collection: @plan_fields, as: :plan_field) %>
+  <%= render_collection(
+    partial: "plan_fields/plan_field",
+    collection: @plan_fields,
+    as: :plan_field
+  ) %>
 </turbo-frame>

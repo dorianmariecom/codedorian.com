@@ -1,19 +1,17 @@
-service_field_phone_name_en:
-  record: phone (ServiceField)
-  name: name_en
-  body: Phone number
-
-service_field_phone_name_fr:
-  record: phone (ServiceField)
-  name: name_fr
-  body: Numéro de téléphone
-
+---
 plan_field_phone_name_en:
-  record: phone (PlanField)
-  name: name_en
   body: Mobile number
-
-plan_field_phone_name_fr:
+  name: name_en
   record: phone (PlanField)
-  name: name_fr
+plan_field_phone_name_fr:
   body: Numéro de mobile
+  name: name_fr
+  record: phone (PlanField)
+service_field_phone_name_en:
+  body: Phone number
+  name: name_en
+  record: phone (ServiceField)
+service_field_phone_name_fr:
+  body: Numéro de téléphone
+  name: name_fr
+  record: phone (ServiceField)

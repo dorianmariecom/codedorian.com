@@ -18,8 +18,14 @@ class SubscriptionValue < ApplicationRecord
 
   def self.search_fields
     {
-      key: { node: -> { arel_table[:key] }, type: :string },
-      value: { node: -> { arel_table[:value] }, type: :string },
+      key: {
+        node: -> { arel_table[:key] },
+        type: :string
+      },
+      value: {
+        node: -> { arel_table[:value] },
+        type: :string
+      },
       **base_search_fields
     }
   end
@@ -30,9 +36,12 @@ class SubscriptionValue < ApplicationRecord
 
   def typed_value
     case field&.kind
-    when "number" then BigDecimal(value).to_f
-    when "boolean" then ActiveModel::Type::Boolean.new.cast(value)
-    else value
+    when "number"
+      BigDecimal(value).to_f
+    when "boolean"
+      ActiveModel::Type::Boolean.new.cast(value)
+    else
+      value
     end
   end
 

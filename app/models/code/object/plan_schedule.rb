@@ -26,7 +26,7 @@ class Code
       def code_plan = policy_scope(::Plan).find(plan_schedule!.plan.id).to_code
 
       def code_service
-  policy_scope(::Service).find(plan_schedule!.service.id).to_code
+        policy_scope(::Service).find(plan_schedule!.service.id).to_code
       end
 
       def code_user = policy_scope(::User).find(plan_schedule!.user.id).to_code

@@ -1,7 +1,16 @@
 <div data-controller="nested" data-nested-selector-value=".phone-number">
   <template data-nested-target="template">
-    <%= f.fields_for(:phone_numbers, PhoneNumber.new, child_index: "NEW_RECORD") do |phone_number_f| %><%= render("phone_numbers/nested_form", f: phone_number_f) %><% end %>
+    <%= f.fields_for(:phone_numbers, PhoneNumber.new, child_index: "NEW_RECORD") do |phone_number_f| %>
+      <%= render("phone_numbers/nested_form", f: phone_number_f) %>
+    <% end %>
   </template>
-  <%= f.fields_for(:phone_numbers) do |phone_number_f| %><%= render("phone_numbers/nested_form", f: phone_number_f) %><% end %>
-  <div data-nested-target="target"></div><div class="p"><button class="link" data-action="nested#add"><%= t("plan_schedules.nested.add") %></button></div>
+  <%= f.fields_for(:phone_numbers) do |phone_number_f| %>
+    <%= render("phone_numbers/nested_form", f: phone_number_f) %>
+  <% end %>
+  <div data-nested-target="target"></div>
+  <div class="p">
+    <button class="link" data-action="nested#add">
+      <%= t("phone_numbers.nested.add") %>
+    </button>
+  </div>
 </div>

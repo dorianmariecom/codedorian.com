@@ -862,6 +862,10 @@ en:
       title: email addresses
     model:
       to_s: email_address#%{id}
+    nested:
+      add: add email address
+    nested_form:
+      remove: remove email address
     new:
       description: add an email address for a user.
       submit: create email address
@@ -1114,7 +1118,6 @@ en:
       label: label
       locale: locale
       name: name
-      phone_number: phone number
       program: program %{index}
       schedule: schedule %{index}
       section: section %{index}
@@ -2459,6 +2462,10 @@ en:
       title: passwords
     model:
       to_s: password#%{id}
+    nested:
+      add: add password
+    nested_form:
+      remove: remove password
     new:
       description: create a new password record.
       submit: create password
@@ -2509,6 +2516,10 @@ en:
       title: phone numbers
     model:
       to_s: phone_number#%{id}
+    nested:
+      add: add phone number
+    nested_form:
+      remove: remove phone number
     new:
       description: add a new phone number for a user.
       submit: create phone number
@@ -2670,6 +2681,7 @@ en:
       new_plan_schedule: new plan schedule
       new_subscription: new subscription
       new_version: new version
+      phone_number: phone number
       plan_fields: plan fields
       plan_schedules: plan schedules
       service_id: service
@@ -3059,6 +3071,37 @@ en:
       new_subscription: new subscription
       new_subscription_execution: new subscription execution
       new_version: new version
+      plan_schedules:
+        days:
+          one: every day at %{time}
+          other: every %{count} days at %{time}
+          zero: every %{count} days at %{time}
+        hours:
+          one: every hour, starting at %{time}
+          other: every %{count} hours, starting at %{time}
+          zero: every %{count} hours, starting at %{time}
+        minutes:
+          one: every minute, starting at %{time}
+          other: every %{count} minutes, starting at %{time}
+          zero: every %{count} minutes, starting at %{time}
+        monthly_weekday: every %{interval} of the month at %{time}
+        months:
+          one: every month on the %{day} at %{time}
+          other: every %{count} months on the %{day} at %{time}
+          zero: every %{count} months on the %{day} at %{time}
+        once: once on %{date} at %{time}
+        seconds:
+          one: every second, starting at %{time}
+          other: every %{count} seconds, starting at %{time}
+          zero: every %{count} seconds, starting at %{time}
+        weeks:
+          one: every %{weekday} at %{time}
+          other: every %{count} weeks on %{weekday} at %{time}
+          zero: every %{count} weeks on %{weekday} at %{time}
+        years:
+          one: every year on %{month} %{day} at %{time}
+          other: every %{count} years on %{month} %{day} at %{time}
+          zero: every %{count} years on %{month} %{day} at %{time}
       plans: plans
       service_fields: service fields
       step_executions: step executions
@@ -3825,6 +3868,7 @@ en:
     formats:
       default: "%A %d %B %Y at %H:%M:%S"
       long: "%B %d, %Y at %H:%M"
+      schedule_time: "%-I:%M%P"
       short: "%H:%M"
   time_zones:
     create:

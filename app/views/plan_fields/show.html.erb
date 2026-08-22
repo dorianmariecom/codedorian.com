@@ -1,25 +1,105 @@
 <% content_for(:title, @plan_field) %>
 <% content_for(:description, @plan_field.name) %>
 <%= turbo_stream_from(@plan_field) %>
-<% if @plan_field.id.present? %><div class="p"><div class="text-gray-600"><%= t(".id") %></div><div class="font-bold"><%= @plan_field.id %></div></div><% end %>
-<% if @plan_field.plan_id.present? %><div class="p"><div class="text-gray-600"><%= t(".plan_id") %></div><div class="font-bold"><%= link_to_if(can?(:show, @plan_field.plan), @plan_field.plan, @plan_field.plan, class: :link) %></div></div><% end %>
-<% if @plan_field.key.present? %><div class="p"><div class="text-gray-600"><%= t(".key") %></div><div class="font-bold"><%= @plan_field.key %></div></div><% end %>
-<% if @plan_field.name_en.present? %><div class="p"><div class="text-gray-600"><%= t(".name_en") %></div><%= @plan_field.name_en %></div><% end %>
-<% if @plan_field.name_fr.present? %><div class="p"><div class="text-gray-600"><%= t(".name_fr") %></div><%= @plan_field.name_fr %></div><% end %>
-<% if @plan_field.kind.present? %><div class="p"><div class="text-gray-600"><%= t(".kind") %></div><div class="font-bold"><%= @plan_field.kind %></div></div><% end %>
-<div class="p"><div class="text-gray-600"><%= t(".required") %></div><div class="font-bold"><%= @plan_field.required? %></div></div>
-<% if @plan_field.position.present? %><div class="p"><div class="text-gray-600"><%= t(".position") %></div><div class="font-bold"><%= @plan_field.position %></div></div><% end %>
+<% if @plan_field.id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".id") %></div>
+    <div class="font-bold"><%= @plan_field.id %></div>
+  </div>
+<% end %>
+<% if @plan_field.plan_id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".plan_id") %></div>
+    <div class="font-bold">
+      <%= link_to_if(
+        can?(:show, @plan_field.plan),
+        @plan_field.plan,
+        @plan_field.plan,
+        class: :link
+      ) %>
+    </div>
+  </div>
+<% end %>
+<% if @plan_field.key.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".key") %></div>
+    <div class="font-bold"><%= @plan_field.key %></div>
+  </div>
+<% end %>
+<% if @plan_field.name_en.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".name_en") %></div>
+    <%= @plan_field.name_en %>
+  </div>
+<% end %>
+<% if @plan_field.name_fr.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".name_fr") %></div>
+    <%= @plan_field.name_fr %>
+  </div>
+<% end %>
+<% if @plan_field.kind.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".kind") %></div>
+    <div class="font-bold"><%= @plan_field.kind %></div>
+  </div>
+<% end %>
+<div class="p">
+  <div class="text-gray-600"><%= t(".required") %></div>
+  <div class="font-bold"><%= @plan_field.required? %></div>
+</div>
+<% if @plan_field.position.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".position") %></div>
+    <div class="font-bold"><%= @plan_field.position %></div>
+  </div>
+<% end %>
 <div class="p p--flex">
-  <% if can?(:update, @plan_field) %><%= link_to(t(".edit"), edit_url, class: :link) %><% end %>
-  <% if can?(:destroy, @plan_field) %><%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %><%= render("shared/confirm", text: t(".delete"), url: delete_url) %><% end %>
+  <% if can?(:update, @plan_field) %>
+    <%= link_to(t(".edit"), edit_url, class: :link) %>
+  <% end %>
+  <% if can?(:destroy, @plan_field) %>
+    <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+    <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
+  <% end %>
 </div>
 <% if can?(:index, Version) %>
   <div class="p font-bold"><%= t(".versions") %></div>
-  <% if can?(:create, Version) %><div class="p"><%= link_to(t(".new_version"), { controller: :versions, action: :new, plan_field_id: @plan_field.id }, class: "button") %></div><% end %>
-  <%= render_collection(partial: "versions/version", collection: @versions, as: :version, locals: { nested: [] }) %>
+  <% if can?(:create, Version) %>
+    <div class="p">
+      <%= link_to(
+        t(".new_version"),
+        { controller: :versions, action: :new, plan_field_id: @plan_field.id },
+        class: "button"
+      ) %>
+    </div>
+  <% end %>
+  <%= render_collection(
+    partial: "versions/version",
+    collection: @versions,
+    as: :version,
+    locals: {
+      nested: []
+    }
+  ) %>
 <% end %>
 <% if can?(:index, Log) %>
   <div class="p font-bold"><%= t(".logs") %></div>
-  <% if can?(:create, Log) %><div class="p"><%= link_to(t(".new_log"), { controller: :logs, action: :new, plan_field_id: @plan_field.id }, class: "button") %></div><% end %>
-  <%= render_collection(partial: "logs/log", collection: @logs, as: :log, locals: { nested: [] }) %>
+  <% if can?(:create, Log) %>
+    <div class="p">
+      <%= link_to(
+        t(".new_log"),
+        { controller: :logs, action: :new, plan_field_id: @plan_field.id },
+        class: "button"
+      ) %>
+    </div>
+  <% end %>
+  <%= render_collection(
+    partial: "logs/log",
+    collection: @logs,
+    as: :log,
+    locals: {
+      nested: []
+    }
+  ) %>
 <% end %>

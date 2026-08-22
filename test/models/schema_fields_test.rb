@@ -10,18 +10,22 @@ class SchemaFieldsTest < ActiveSupport::TestCase
 
     assert_equal(["phone_number"], plan.fields.map(&:key))
     assert_equal(plan_fields(:phone), plan.field_for(:phone_number))
-    assert_equal("Mobile number", plan.field_for(:phone_number).name_en.to_plain_text)
+    assert_equal(
+      "Mobile number",
+      plan.field_for(:phone_number).name_en.to_plain_text
+    )
   end
 
   test "schema fields validate keys kinds and bilingual names" do
     Current.with(user: @admin) do
-      field = services(:service).service_fields.new(
-        key: "Phone Number",
-        name_en: "Phone",
-        name_fr: "Téléphone",
-        kind: "unknown",
-        position: -1
-      )
+      field =
+        services(:service).service_fields.new(
+          key: "Phone Number",
+          name_en: "Phone",
+          name_fr: "Téléphone",
+          kind: "unknown",
+          position: -1
+        )
 
       assert_not(field.valid?)
       assert(field.errors[:key].present?)
@@ -42,17 +46,19 @@ class SchemaFieldsTest < ActiveSupport::TestCase
 
   test "subscription values reject malformed typed input" do
     Current.with(user: @admin) do
-      field = plans(:plan).plan_fields.create!(
-        key: "accepted",
-        name_en: "Accepted",
-        name_fr: "Accepté",
-        kind: "boolean",
-        position: 20
-      )
-      value = subscriptions(:subscription).subscription_values.new(
-        key: field.key,
-        value: "sometimes"
-      )
+      field =
+        plans(:plan).plan_fields.create!(
+          key: "accepted",
+          name_en: "Accepted",
+          name_fr: "Accepté",
+          kind: "boolean",
+          position: 20
+        )
+      value =
+        subscriptions(:subscription).subscription_values.new(
+          key: field.key,
+          value: "sometimes"
+        )
 
       assert_not(value.valid?)
       assert(value.errors[:value].present?)

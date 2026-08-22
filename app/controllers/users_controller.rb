@@ -51,6 +51,9 @@ class UsersController < ApplicationController
 
   def new
     @user = authorize(scope.new)
+    @user.email_addresses.build(primary: true)
+    @user.phone_numbers.build(primary: true)
+    @user.passwords.build(primary: true)
 
     add_breadcrumb
   end
@@ -62,14 +65,14 @@ class UsersController < ApplicationController
   def create
     @user = authorize(scope.new(user_params.merge(id: nil)))
 
-    Current.with(user: @user) do
-      if @user.save(context: :controller)
-        log_in(@user)
-        redirect_to(requested_redirect_path || show_url, notice: t(".notice"))
-      else
-        flash.now.alert = @user.alert
-        render(:new, status: :unprocessable_content)
-      end
+    saved = Current.with(user: @user) { @user.save(context: :controller) }
+
+    if saved
+      log_in(@user)
+      redirect_to(requested_redirect_path || show_url, notice: t(".notice"))
+    else
+      flash.now.alert = @user.alert
+      render(:new, status: :unprocessable_content)
     end
   end
 

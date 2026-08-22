@@ -1,8 +1,39 @@
-<div class="password border-l border-black pl-5" data-new-record="<%= f.object.new_record? %>">
-  <%= f.hidden_field(:id, autocomplete: :off) %><%= f.hidden_field(:_destroy, autocomplete: :off) %>
-  <div class="p"><%= f.label(:hint, class: :label) %><%= f.text_field(:hint, class: :input, autocomplete: :off) %></div>
-  <div class="p" data-controller="password"><%= f.label(:password, class: :label, data: { password_target: :label }) %><%= f.password_field(:password, class: :input, required: false, autocomplete: "new-password", data: { password_target: :input, action: "password#input" }) %><div class="text-red-600" hidden data-password-target="error"></div></div>
-  <div class="p"><%= f.label(:primary, class: :label) %><%= f.check_box(:primary, autocomplete: :off) %></div>
-  <% if admin? %><div class="p"><%= f.label(:verified, class: :label) %><%= f.check_box(:verified, autocomplete: :off) %></div><% end %>
-  <div class="p"><button class="link" data-action="nested#remove"><%= t("plan_schedules.nested_form.remove") %></button></div>
+<div
+  class="password border-l border-black pl-5"
+  data-new-record="<%= f.object.new_record? %>"
+>
+  <%= f.hidden_field(:id, autocomplete: :off) %>
+  <%= f.hidden_field(:_destroy, autocomplete: :off) %>
+  <div class="p">
+    <%= f.label(:hint, class: :label) %>
+    <%= f.text_field(:hint, class: :input, autocomplete: :off) %>
+  </div>
+  <div class="p" data-controller="password">
+    <%= f.label(:password, class: :label, data: { password_target: :label }) %>
+    <%= f.password_field(
+      :password,
+      class: :input,
+      required: false,
+      autocomplete: "new-password",
+      data: {
+        password_target: :input,
+        action: "password#input"
+      }
+    ) %><div class="text-red-600" hidden data-password-target="error"></div>
+  </div>
+  <div class="p">
+    <%= f.label(:primary, class: :label) %>
+    <%= f.check_box(:primary, autocomplete: :off) %>
+  </div>
+  <% if admin? %>
+    <div class="p">
+      <%= f.label(:verified, class: :label) %>
+      <%= f.check_box(:verified, autocomplete: :off) %>
+    </div>
+  <% end %>
+  <div class="p">
+    <button class="link" data-action="nested#remove">
+      <%= t("passwords.nested_form.remove") %>
+    </button>
+  </div>
 </div>

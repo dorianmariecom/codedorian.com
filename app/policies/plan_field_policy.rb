@@ -3,11 +3,7 @@
 class PlanFieldPolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
-      if admin?
-        scope.all
-      else
-        scope.where(plan: policy_scope(Plan))
-      end
+      admin? ? scope.all : scope.where(plan: policy_scope(Plan))
     end
   end
 

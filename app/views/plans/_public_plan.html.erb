@@ -1,11 +1,20 @@
 <% if plan.name.present? %>
-  <div class="p font-bold"><%= plan.name %></div>
+  <div class="p font-bold">
+    <% if local_assigns.fetch(:link_name, true) %>
+      <%= link_to(plan.name, plan, class: :link) %>
+    <% else %>
+      <%= plan.name %>
+    <% end %>
+  </div>
 <% end %>
 <% if plan.description.present? %>
   <div class="p italic"><%= plan.description %></div>
 <% end %>
 <% if plan.body.present? %>
   <div class="p"><%= plan.body %></div>
+<% end %>
+<% plan.plan_schedules.each do |plan_schedule| %>
+  <div class="p"><%= plan_schedule_description(plan_schedule) %></div>
 <% end %>
 <div class="p">
   <% destination =

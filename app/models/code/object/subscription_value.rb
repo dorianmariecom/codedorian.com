@@ -26,14 +26,17 @@ class Code
       def subscription_value! = policy_scope(::SubscriptionValue).find(id)
 
       def code_subscription
-        policy_scope(::Subscription)
-          .find(subscription_value!.subscription_id)
-          .to_code
+        policy_scope(::Subscription).find(
+          subscription_value!.subscription_id
+        ).to_code
       end
 
-      def code_plan = policy_scope(::Plan).find(subscription_value!.plan.id).to_code
-      def code_service = policy_scope(::Service).find(subscription_value!.service.id).to_code
-      def code_user = policy_scope(::User).find(subscription_value!.user.id).to_code
+      def code_plan =
+        policy_scope(::Plan).find(subscription_value!.plan.id).to_code
+      def code_service =
+        policy_scope(::Service).find(subscription_value!.service.id).to_code
+      def code_user =
+        policy_scope(::User).find(subscription_value!.user.id).to_code
 
       include(::Pundit::Authorization)
 

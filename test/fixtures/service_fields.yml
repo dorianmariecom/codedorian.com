@@ -1,6 +1,7 @@
+---
 phone:
-  service: service
   key: phone_number
   kind: phone_number
-  required: false
   position: 0
+  required: false
+  service: service

@@ -30,7 +30,7 @@ class Code
       def id = code_get("id").to_s.to_i
 
       def subscription_execution!
-  policy_scope(::SubscriptionExecution).find(id)
+        policy_scope(::SubscriptionExecution).find(id)
       end
 
       def code_subscription
@@ -40,19 +40,19 @@ class Code
       end
 
       def code_user
-  policy_scope(::User).find(subscription_execution!.user.id).to_code
+        policy_scope(::User).find(subscription_execution!.user.id).to_code
       end
 
       def code_service
-  policy_scope(::Service).find(subscription_execution!.service.id).to_code
+        policy_scope(::Service).find(subscription_execution!.service.id).to_code
       end
 
       def code_plan
-  policy_scope(::Plan).find(subscription_execution!.plan.id).to_code
+        policy_scope(::Plan).find(subscription_execution!.plan.id).to_code
       end
 
       def code_step_executions
-  policy_scope(subscription_execution!.step_executions).to_code
+        policy_scope(subscription_execution!.step_executions).to_code
       end
 
       include(::Pundit::Authorization)

@@ -1,6 +1,7 @@
+---
 phone:
-  plan: plan
   key: phone_number
   kind: phone_number
-  required: false
+  plan: plan
   position: 5
+  required: false
