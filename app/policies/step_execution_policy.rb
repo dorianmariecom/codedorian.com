@@ -3,16 +3,25 @@
 class StepExecutionPolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
-      admin? ? scope.all : scope.none
+      scope.where(
+        id:
+          scope
+            .joins(:subscription)
+            .where(
+              subscriptions: {
+                id: policy_scope(Subscription).select(:id)
+              }
+            )
+      )
     end
   end
 
   def index?
-    admin?
+    admin? || advanced?
   end
 
   def show?
-    admin?
+    admin? || (advanced? && owner?)
   end
 
   def create?

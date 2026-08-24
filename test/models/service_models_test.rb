@@ -267,20 +267,41 @@ class ServiceModelsTest < ActiveSupport::TestCase
     end
   end
 
-  test "a subscription is unique for a user and plan" do
+  test "a user can have multiple subscriptions for a plan" do
     Current.with(user: users(:admin)) do
       duplicate = subscriptions(:subscription).dup
-      assert_not(duplicate.valid?)
-      assert_predicate(duplicate.errors[:plan_id], :present?)
+      assert_predicate(duplicate, :valid?)
     end
   end
 
-  test "a subscription uses its service name as its string representation" do
+  test "a checkout snapshot keeps its price while its idempotency key exists" do
+    subscription = subscriptions(:subscription)
+    plan = subscription.plan
+
+    Current.with(user: subscription.user) do
+      plan.update!(
+        pricing_input: '{ amount_cents: 1000, amount_currency: "eur" }'
+      )
+      first_key = subscription.ensure_checkout_snapshot!
+      assert_equal(1_000, subscription.reload.amount_cents)
+
+      plan.update!(
+        pricing_input: '{ amount_cents: 2000, amount_currency: "usd" }'
+      )
+      assert_equal(first_key, subscription.ensure_checkout_snapshot!)
+    end
+
+    assert_equal(1_000, subscription.reload.amount_cents)
+    assert_equal("eur", subscription.amount_currency)
+  end
+
+  test "a subscription uses its service and plan as its string representation" do
     Current.with(user: users(:admin)) do
       services(:service).update!(name_en: "Named service")
     end
 
-    assert_equal("Named service", subscriptions(:subscription).to_s)
+    subscription = subscriptions(:subscription)
+    assert_equal("Named service - #{subscription.plan}", subscription.to_s)
   end
 
   test "a subscription derives its schedule times from its plan schedules" do

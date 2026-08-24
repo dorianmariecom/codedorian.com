@@ -210,6 +210,7 @@ class ApplicationController < ActionController::Base
     Current.guest = nil
     session[:user_id] = nil
     session[:time_zone] = nil
+    cookies.delete(:locale)
 
     reset_session if session[:previous_user_ids].blank?
 
@@ -274,6 +275,7 @@ class ApplicationController < ActionController::Base
   def set_current_locale
     Current.locale =
       locale_param.presence || current_user&.locale.presence ||
+        cookies[:locale].presence_in(LOCALES_STRINGS) ||
         browser_locale.presence || I18n.default_locale
 
     set_context(current_locale: Current.locale)

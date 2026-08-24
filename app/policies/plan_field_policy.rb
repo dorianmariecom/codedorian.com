@@ -3,12 +3,12 @@
 class PlanFieldPolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
-      admin? ? scope.all : scope.where(plan: policy_scope(Plan))
+      scope.where(plan: policy_scope(Plan))
     end
   end
 
-  def index? = admin?
-  def show? = admin?
+  def index? = admin? || advanced?
+  def show? = admin? || advanced?
   def create? = admin?
   def update? = admin?
   def destroy? = admin?

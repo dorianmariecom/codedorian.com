@@ -1,5 +1,6 @@
 ---
 plan:
   created_at: '2026-08-03 10:00:00'
+  pricing_input: '{ amount_cents: 1000, amount_currency: "eur" }'
   service: service
   updated_at: '2026-08-03 10:00:00'

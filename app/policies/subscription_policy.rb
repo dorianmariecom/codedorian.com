@@ -22,11 +22,11 @@ class SubscriptionPolicy < ApplicationPolicy
   end
 
   def activate?
-    update?
+    admin?
   end
 
   def deactivate?
-    update?
+    admin?
   end
 
   def evaluate?
@@ -34,8 +34,10 @@ class SubscriptionPolicy < ApplicationPolicy
   end
 
   def destroy?
-    admin?
+    admin? || owner?
   end
+
+  def delete? = admin?
 
   def destroy_all?
     admin?

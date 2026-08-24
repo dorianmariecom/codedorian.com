@@ -7,8 +7,8 @@ class SubscriptionValuePolicy < ApplicationPolicy
     end
   end
 
-  def index? = admin? || current_user?
-  def show? = admin? || owner?
+  def index? = admin? || advanced?
+  def show? = admin? || (advanced? && owner?)
   def create? = admin? || owner?
   def update? = admin? || owner?
   def destroy? = admin?

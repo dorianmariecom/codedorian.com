@@ -1,0 +1,169 @@
+<% content_for(:title, t(".title", subscription: @subscription)) %>
+<%= turbo_stream_from(@subscription) %>
+<div class="p">
+  <div class="text-gray-600"><%= t(".subscription") %></div>
+  <div class="font-bold">
+    <%= link_to(@subscription, @subscription, class: :link) %>
+  </div>
+</div>
+
+<% if admin? || advanced? %>
+  <% if @subscription.user.stripe_customer_id.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".stripe_customer_id") %></div>
+      <div class="font-bold"><%= @subscription.user.stripe_customer_id %></div>
+    </div>
+  <% end %>
+
+  <% if @subscription.stripe_subscription_id.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".stripe_subscription_id") %></div>
+      <div class="font-bold"><%= @subscription.stripe_subscription_id %></div>
+    </div>
+  <% end %>
+
+  <% if @subscription.stripe_checkout_session_id.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".stripe_checkout_session_id") %></div>
+      <div class="font-bold"><%= @subscription.stripe_checkout_session_id %></div>
+    </div>
+  <% end %>
+
+  <% if @subscription.current_period_start.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".current_period_start") %></div>
+      <div class="font-bold">
+        <%= local_time(@subscription.current_period_start) %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="p">
+    <div class="text-gray-600"><%= t(".cancel_at_period_end") %></div>
+    <div class="font-bold"><%= @subscription.cancel_at_period_end? %></div>
+  </div>
+<% end %>
+
+<% if @subscription.amount_cents.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".price") %></div>
+    <div class="font-bold">
+      <%= Money.new(@subscription.amount_cents, @subscription.amount_currency).format(
+        locale: I18n.locale
+      ) %> / <%= t(".month") %>
+    </div>
+  </div>
+<% end %>
+
+<div class="p">
+  <div class="text-gray-600"><%= t(".status") %></div>
+  <div class="font-bold">
+    <%= @subscription.stripe_status.presence || t(".unpaid") %>
+  </div>
+</div>
+
+<% if @subscription.current_period_end.present? %>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= @subscription.canceling? ? t(".ends_at") : t(".renews_at") %>
+    </div>
+    <div class="font-bold">
+      <%= local_time(@subscription.current_period_end) %>
+    </div>
+  </div>
+<% end %>
+
+<% if @billing_error.present? %>
+  <div class="p text-red-600"><%= @billing_error %></div>
+<% end %>
+
+<% if @checkout_client_secret.present? %>
+  <form
+    class="p max-w-xl"
+    data-controller="stripe-checkout"
+    data-action="submit->stripe-checkout#submit"
+    data-stripe-checkout-client-secret-value="<%= @checkout_client_secret %>"
+    data-stripe-checkout-publishable-key-value="<%= StripeBilling.publishable_key %>"
+  >
+    <div data-stripe-checkout-target="payment"></div>
+    <div class="mt-4" data-stripe-checkout-target="billingAddress"></div>
+    <div class="mt-4 text-red-600" hidden data-stripe-checkout-target="error"></div>
+    <button class="button mt-4" disabled data-stripe-checkout-target="submit">
+      <%= t(".pay") %>
+    </button>
+  </form>
+<% elsif @setup_client_secret.present? %>
+  <form
+    class="p max-w-xl"
+    data-controller="stripe-setup"
+    data-action="submit->stripe-setup#submit"
+    data-stripe-setup-client-secret-value="<%= @setup_client_secret %>"
+    data-stripe-setup-publishable-key-value="<%= StripeBilling.publishable_key %>"
+    data-stripe-setup-return-url-value="<%= @setup_return_url %>"
+  >
+    <div data-stripe-setup-target="payment"></div>
+    <div class="mt-4 text-red-600" hidden data-stripe-setup-target="error"></div>
+    <button class="button mt-4" disabled data-stripe-setup-target="submit">
+      <%= t(".save_payment_method") %>
+    </button>
+  </form>
+<% elsif !@subscription.billed? && !@checkout_pending %>
+  <div class="p">
+    <%= button_to(
+      t(".start_checkout"),
+      checkout_subscription_billing_path(@subscription),
+      class: :button
+    ) %>
+  </div>
+<% end %>
+
+<% if @subscription.billed? %>
+  <div class="p p--flex">
+    <%= button_to(
+      t(".update_payment_method"),
+      setup_payment_method_subscription_billing_path(@subscription),
+      class: :button
+    ) %>
+    <% if @subscription.canceling? %>
+      <%= button_to(
+        t(".resume"),
+        resume_subscription_billing_path(@subscription),
+        class: :button
+      ) %>
+    <% else %>
+      <%= button_to(
+        t(".cancel"),
+        cancel_subscription_billing_path(@subscription),
+        class: :button
+      ) %>
+    <% end %>
+    <% if @stripe_invoices.any? { |invoice| !invoice.paid? } %>
+      <%= button_to(
+        t(".retry_payment"),
+        retry_payment_subscription_billing_path(@subscription),
+        class: :button
+      ) %>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @stripe_invoices.any? %>
+  <h2 class="p font-bold"><%= t(".invoices") %></h2>
+  <% @stripe_invoices.each do |invoice| %>
+    <div class="p border-l-2 pl-4">
+      <div class="font-bold">
+        <%= invoice.number || invoice.stripe_invoice_id %>
+      </div>
+      <div>
+        <%= invoice.status %> —
+        <%= Money.new(invoice.amount_paid, invoice.currency).format(locale: I18n.locale) %>
+      </div>
+      <% if invoice.hosted_invoice_url.present? %>
+        <%= link_to(t(".view_invoice"), invoice.hosted_invoice_url, class: :link) %>
+      <% end %>
+      <% if invoice.invoice_pdf.present? %>
+        <%= link_to(t(".download_invoice"), invoice.invoice_pdf, class: :link) %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

@@ -28,4 +28,14 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
       I18n.t("pages.show.description")
     )
   end
+
+  test "an explicit locale on a get does not change the user's locale" do
+    page = pages(:page)
+    @admin.update!(locale: "en")
+
+    get(page_url(page, locale: :fr))
+
+    assert_response(:success)
+    assert_equal("en", @admin.reload.locale)
+  end
 end

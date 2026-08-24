@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_many(:programs, dependent: :destroy)
   has_many(:services, dependent: :destroy)
   has_many(:subscriptions, dependent: :destroy)
+  has_many(:stripe_invoices, through: :subscriptions)
   has_many(
     :subscription_executions,
     through: :subscriptions,
@@ -303,6 +304,7 @@ class User < ApplicationRecord
       description: description,
       interface: interface,
       locale: locale,
+      stripe_customer_id: stripe_customer_id,
       translated_locale: translated_locale,
       updated_at: updated_at,
       verified: verified,

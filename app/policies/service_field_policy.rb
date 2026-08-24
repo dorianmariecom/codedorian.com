@@ -3,12 +3,12 @@
 class ServiceFieldPolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
-      admin? ? scope.all : scope.where(service: policy_scope(Service))
+      scope.where(service: policy_scope(Service))
     end
   end
 
-  def index? = admin?
-  def show? = admin?
+  def index? = admin? || advanced?
+  def show? = admin? || advanced?
   def create? = admin?
   def update? = admin?
   def destroy? = admin?

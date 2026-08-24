@@ -83,7 +83,13 @@
   <% if @page.authorization_input.present? %>
     <div class="p">
       <div class="text-gray-600"><%= t(".authorization_input") %></div>
-      <%= code_highlight(@page.authorization_input) %>
+      <% if can?(:update, @page) %>
+        <%= link_to(edit_url, class: "block") do %>
+          <%= code_highlight(@page.authorization_input) %>
+        <% end %>
+      <% else %>
+        <%= code_highlight(@page.authorization_input) %>
+      <% end %>
     </div>
   <% end %>
 

@@ -14,7 +14,45 @@ class ServicesController < ApplicationController
 
   def show
     unless can?(:update, @service)
-      @plans = @service.plans.includes(:plan_schedules).order(created_at: :desc)
+      @plans =
+        @service.plans
+          .includes(:plan_schedules)
+          .order(created_at: :desc)
+          .page(params[:page])
+      @steps =
+        policy_scope(Step)
+          .where(service: @service)
+          .order(:position)
+          .page(params[:page])
+      @service_fields =
+        policy_scope(ServiceField)
+          .where(service: @service)
+          .order(:position, :id)
+          .page(params[:page])
+      @plan_fields =
+        policy_scope(PlanField)
+          .joins(:plan)
+          .where(plans: { service_id: @service.id })
+          .order(:plan_id, :position, :id)
+          .page(params[:page])
+      @subscriptions =
+        policy_scope(Subscription)
+          .joins(:plan)
+          .where(plans: { service_id: @service.id })
+          .order(created_at: :desc)
+          .page(params[:page])
+      @subscription_executions =
+        policy_scope(SubscriptionExecution)
+          .joins(subscription: :plan)
+          .where(plans: { service_id: @service.id })
+          .order(created_at: :desc)
+          .page(params[:page])
+      @step_executions =
+        policy_scope(StepExecution)
+          .joins(subscription_execution: { subscription: :plan })
+          .where(plans: { service_id: @service.id })
+          .order(created_at: :desc)
+          .page(params[:page])
       return
     end
 
@@ -27,6 +65,17 @@ class ServicesController < ApplicationController
       policy_scope(Plan)
         .where(service: @service)
         .order(created_at: :desc)
+        .page(params[:page])
+    @plan_fields =
+      policy_scope(PlanField)
+        .joins(:plan)
+        .where(plans: { service_id: @service.id })
+        .order(:plan_id, :position, :id)
+        .page(params[:page])
+    @service_fields =
+      policy_scope(ServiceField)
+        .where(service: @service)
+        .order(:position, :id)
         .page(params[:page])
     @subscriptions =
       policy_scope(Subscription)

@@ -3,6 +3,7 @@
 Rails.application.routes.draw do
   mount(Blazer::Engine, at: :blazer)
   mount(ActionCable.server => "/cable")
+  post("stripe/webhooks", to: "stripe_webhooks#create")
 
   concern :deletable do
     delete(:delete)
@@ -92,10 +93,26 @@ Rails.application.routes.draw do
         post(:activate, on: :member)
         post(:deactivate, on: :member)
         post(:evaluate, on: :member)
+        resource(:billing, only: :show, controller: :subscription_billings) do
+          post(:checkout)
+          post(:cancel)
+          post(:resume)
+          post(:retry_payment)
+          post(:setup_payment_method)
+        end
       end
+
+      resources(:subscription_values, concerns: :deletable)
     end
 
   scope("(:locale)", locale: /en|fr|/) do
+    post(
+      "locale/:selected_locale",
+      to: "locales#update",
+      as: :locale,
+      constraints: { selected_locale: /en|fr/ }
+    )
+
     resources(:users, concerns: :deletable) do
       post(:impersonate)
       define_surface.call
@@ -118,8 +135,6 @@ Rails.application.routes.draw do
       delete(:delete)
       delete(:destroy)
     end
-
-    resources(:program_runs, only: %i[create show])
 
     match("/404", to: "errors#not_found", via: :all)
     match("/422", to: "errors#unprocessable_entity", via: :all)

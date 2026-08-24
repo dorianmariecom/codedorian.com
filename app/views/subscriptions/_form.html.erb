@@ -118,10 +118,12 @@
     <% end %>
   <% end %>
 
-  <div class="p">
-    <%= f.label(:status, class: :label) %>
-    <%= f.select(:status, Subscription::STATUSES, {}, required: true, class: :input) %>
-  </div>
+  <% if admin? %>
+    <div class="p">
+      <%= f.label(:status, class: :label) %>
+      <%= f.select(:status, Subscription::STATUSES, {}, required: true, class: :input) %>
+    </div>
+  <% end %>
 
   <div class="p">
     <%= f.submit(

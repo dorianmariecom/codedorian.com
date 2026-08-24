@@ -38,7 +38,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "advanced non admin user show page lists linked resources" do
-    @other_user.update!(interface: :advanced)
+    Current.with(user: @admin) do
+      @other_user.update!(interface: :advanced, stripe_customer_id: "cus_other")
+    end
 
     delete(login_path)
     sign_in(
@@ -49,6 +51,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get(user_path(@other_user))
 
     assert_response(:success)
+    assert_select(".text-gray-600", text: I18n.t("users.show.stripe_customer_id"))
+    assert_select(".font-bold", text: "cus_other")
 
     [
       user_names_path(@other_user),

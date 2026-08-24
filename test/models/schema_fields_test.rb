@@ -16,6 +16,32 @@ class SchemaFieldsTest < ActiveSupport::TestCase
     )
   end
 
+  test "plan fields and service fields share position ordering" do
+    plan = plans(:plan)
+
+    Current.with(user: @admin) do
+      plan.service.service_fields.create!(
+        key: "username",
+        name_en: "Username",
+        name_fr: "Nom d'utilisateur",
+        kind: "text",
+        position: 1
+      )
+      plan.plan_fields.create!(
+        key: "mobile",
+        name_en: "Phone number",
+        name_fr: "Numéro de téléphone",
+        kind: "phone_number",
+        position: 0
+      )
+    end
+
+    assert_equal(
+      %w[mobile username phone_number],
+      plan.fields.map(&:key)
+    )
+  end
+
   test "schema fields validate keys kinds and bilingual names" do
     Current.with(user: @admin) do
       field =

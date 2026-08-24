@@ -171,10 +171,11 @@ Current.with(user: User.new(admin: true)) do
       "navigation",
       "french",
       "anglais",
-      "Current.locale == :fr ? en_url : fr_url",
+      "switch_locale_url",
       11,
       image_ios: "flag",
-      image_android: "language"
+      image_android: "language",
+      verb: "post"
     ),
     link.call(
       "menu",
@@ -288,10 +289,11 @@ Current.with(user: User.new(admin: true)) do
       "menu",
       "french",
       "anglais",
-      "Current.locale == :fr ? en_url : fr_url",
+      "switch_locale_url",
       11,
       image_ios: "flag",
-      image_android: "language"
+      image_android: "language",
+      verb: "post"
     ),
     link.call(
       "tabs",

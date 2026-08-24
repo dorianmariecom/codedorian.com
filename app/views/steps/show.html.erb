@@ -1,5 +1,5 @@
 <% content_for(:title, @step) %>
-<% content_for(:description, @step.to_s) %>
+<% content_for(:description, t(".description")) %>
 <%= turbo_stream_from(@step) %>
 
 <% if @step.id.present? %>
@@ -38,7 +38,11 @@
 <% if @step.input.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".input") %></div>
-    <%= link_to(edit_url, class: "block") do %>
+    <% if can?(:update, @step) %>
+      <%= link_to(edit_url, class: "block") do %>
+        <%= code_highlight(@step.input) %>
+      <% end %>
+    <% else %>
       <%= code_highlight(@step.input) %>
     <% end %>
   </div>
@@ -69,11 +73,13 @@
   </div>
 <% end %>
 
-<div class="p p--flex">
-  <%= link_to(t(".edit"), edit_url, class: :link) %>
-  <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
-  <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
-</div>
+<% if can?(:update, @step) %>
+  <div class="p p--flex">
+    <%= link_to(t(".edit"), edit_url, class: :link) %>
+    <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+    <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
+  </div>
+<% end %>
 
 <div class="p font-bold">
   <%= link_to(t(".step_executions"), step_executions_path, class: :link) %>

@@ -28,6 +28,12 @@ Rails.application.config.content_security_policy do |policy|
     http://*.ingest.de.sentry.io
   ]
 
+  stripe_sources = %w[
+    https://js.stripe.com
+    https://api.stripe.com
+    https://*.stripe.com
+  ]
+
   policy.default_src(
     :self,
     :blob,
@@ -42,7 +48,8 @@ Rails.application.config.content_security_policy do |policy|
     "http://proxy.dorianmarie.com",
     *google_maps_sources,
     *google_sources,
-    *sentry_sources
+    *sentry_sources,
+    *stripe_sources
   )
 end
 

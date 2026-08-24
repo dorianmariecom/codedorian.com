@@ -50,10 +50,16 @@ module ApplicationHelper
   DEFAULT_METHOD = "unknown-method"
 
   def link_context
+    switched_locale = I18n.locale == :fr ? :en : :fr
+
     {
       "current_url" => url_for(locale: I18n.locale),
       "fr_url" => url_for(locale: :fr),
       "en_url" => url_for(locale: :en),
+      "switch_locale_url" => locale_path(
+        selected_locale: switched_locale,
+        redirect_to: url_for(locale: switched_locale)
+      ),
       "locale_prefix" => params[:locale].present? ? "/#{params[:locale]}" : ""
     }
   end

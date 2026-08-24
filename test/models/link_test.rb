@@ -91,6 +91,20 @@ class LinkTest < ActiveSupport::TestCase
     )
   end
 
+  test "current user expressions use the latest authorization context" do
+    first_user = users(:admin)
+    second_user = users(:other_user)
+
+    Current.user = first_user
+    first_id = Code.evaluate("Current.user.id").to_s
+
+    Current.user = second_user
+    second_id = Code.evaluate("Current.user.id").to_s
+
+    assert_equal(first_user.id.to_s, first_id)
+    assert_equal(second_user.id.to_s, second_id)
+  end
+
   test "code errors in link expressions are not hidden" do
     assert_raises(Code::Error) do
       Link.new(visibility_input: "Current.user.unknown?").visible?(context: {})

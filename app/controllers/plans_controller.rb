@@ -12,6 +12,11 @@ class PlansController < ApplicationController
   end
 
   def show
+    @plan_fields =
+      policy_scope(PlanField)
+        .where(plan: @plan)
+        .order(:position, :id)
+        .page(params[:page])
     @plan_schedules =
       policy_scope(PlanSchedule)
         .where(plan: @plan)
@@ -20,6 +25,23 @@ class PlansController < ApplicationController
     @subscriptions =
       policy_scope(Subscription)
         .where(plan: @plan)
+        .order(created_at: :desc)
+        .page(params[:page])
+    @subscription_executions =
+      policy_scope(SubscriptionExecution)
+        .joins(:subscription)
+        .where(subscriptions: { plan_id: @plan.id })
+        .order(created_at: :desc)
+        .page(params[:page])
+    @steps =
+      policy_scope(Step)
+        .where(service: @plan.service)
+        .order(:position)
+        .page(params[:page])
+    @step_executions =
+      policy_scope(StepExecution)
+        .joins(subscription_execution: :subscription)
+        .where(subscriptions: { plan_id: @plan.id })
         .order(created_at: :desc)
         .page(params[:page])
     @versions =
@@ -116,6 +138,7 @@ class PlansController < ApplicationController
         :description_fr,
         :body_en,
         :body_fr,
+        :pricing_input,
         { plan_schedules_attributes: [%i[id _destroy starts_at interval]] },
         {
           plan_fields_attributes: [

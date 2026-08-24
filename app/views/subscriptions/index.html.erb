@@ -1,7 +1,7 @@
 <% content_for(:description, t(".title")) %>
 <%= turbo_stream_from(@subscriptions) %>
 
-<% if @subscription_executions.any? %>
+<% if @subscription_executions.any? && can?(:index, SubscriptionExecution) %>
   <div class="p">
     <%= link_to(
       t(".subscription_executions", count: @subscription_executions.size),
@@ -11,11 +11,10 @@
   </div>
 <% end %>
 
-<div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
 <%= render("shared/search") %>
 
 <turbo-frame id="search" target="_top">
-  <% if @subscriptions.any? %>
+  <% if @subscriptions.any? && can?(:destroy_all, Subscription) %>
     <div class="p p--flex">
       <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
       <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>

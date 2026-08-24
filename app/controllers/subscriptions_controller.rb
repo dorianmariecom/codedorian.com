@@ -23,9 +23,22 @@ class SubscriptionsController < ApplicationController
   end
 
   def show
+    @subscription_values =
+      policy_scope(SubscriptionValue)
+        .where(subscription: @subscription)
+        .order(:id)
+        .page(params[:page])
     @subscription_executions =
       policy_scope(SubscriptionExecution)
         .where(subscription: @subscription)
+        .order(created_at: :desc)
+        .page(params[:page])
+    @step_executions =
+      policy_scope(StepExecution)
+        .joins(:subscription_execution)
+        .where(
+          subscription_executions: { subscription_id: @subscription.id }
+        )
         .order(created_at: :desc)
         .page(params[:page])
     @versions =
@@ -79,7 +92,7 @@ class SubscriptionsController < ApplicationController
   end
 
   def new
-    @subscription = authorize(scope.new(user: current_user))
+    @subscription = authorize(scope.new(user: current_user, plan: @plan))
     @subscription.prepare_values
     add_breadcrumb
   end
@@ -90,19 +103,23 @@ class SubscriptionsController < ApplicationController
   end
 
   def create
-    @subscription =
-      if admin?
-        authorize(scope.new(subscription_params))
-      else
-        authorize(scope.new(subscription_params.merge(user: current_user)))
-      end
+    @subscription = authorize(scope.new(subscription_params))
+    @subscription.assign_attributes(@subscription.plan.price_for(@subscription))
     if @subscription.save(context: :controller)
-      redirect_to(show_url, notice: t(".notice"))
+      redirect_to(
+        subscription_billing_path(@subscription),
+        notice: t(".notice")
+      )
     else
       @subscription.prepare_values
       flash.now.alert = @subscription.alert
       render(:new, status: :unprocessable_content)
     end
+  rescue StripeBilling::PricingError => e
+    @subscription.errors.add(:base, e.message)
+    @subscription.prepare_values
+    flash.now.alert = @subscription.alert
+    render(:new, status: :unprocessable_content)
   end
 
   def update
@@ -117,8 +134,11 @@ class SubscriptionsController < ApplicationController
   end
 
   def destroy
+    StripeBilling.destroy!(@subscription)
     @subscription.destroy!
     redirect_to(index_url, notice: t(".notice"))
+  rescue Stripe::StripeError => e
+    redirect_to(show_url, alert: e.message)
   end
 
   def delete
@@ -152,9 +172,13 @@ class SubscriptionsController < ApplicationController
   def filters = []
 
   def load_subscription
-    @subscription = authorize(scope.find(params.expect(:id)))
+    @subscription = authorize(scope.find(id))
     set_context(subscription: @subscription)
     add_breadcrumb(text: @subscription, path: show_url)
+  end
+
+  def id
+    params[:subscription_id].presence || params[:id]
   end
 
   def subscription_params
@@ -170,7 +194,6 @@ class SubscriptionsController < ApplicationController
     else
       params.expect(
         subscription: [
-          :status,
           { subscription_values_attributes: [%i[id _destroy key value]] }
         ]
       )
@@ -184,7 +207,7 @@ class SubscriptionsController < ApplicationController
   end
 
   def load_plan
-    return if params.dig(:subscription, :plan_id).blank?
+    return if plan_id.blank?
 
     plans =
       (
@@ -194,6 +217,10 @@ class SubscriptionsController < ApplicationController
           policy_scope(Plan)
         end
       )
-    @plan = plans.find(params.dig(:subscription, :plan_id))
+    @plan = plans.find(plan_id)
+  end
+
+  def plan_id
+    params[:plan_id].presence || params.dig(:subscription, :plan_id)
   end
 end

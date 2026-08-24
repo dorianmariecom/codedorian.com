@@ -88,7 +88,13 @@
 <% if @program_execution.input.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".input") %></div>
-    <%= code_highlight(@program_execution.input) %>
+    <% if can?(:update, @program_execution) %>
+      <%= link_to(edit_url, class: "block") do %>
+        <%= code_highlight(@program_execution.input) %>
+      <% end %>
+    <% else %>
+      <%= code_highlight(@program_execution.input) %>
+    <% end %>
   </div>
 <% end %>
 

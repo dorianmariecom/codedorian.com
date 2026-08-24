@@ -168,4 +168,185 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
       assert_select("a[href=?]", association_path, count: 0)
     end
   end
+
+  test "advanced non admin user sees all service and plan attributes without actions" do
+    user = users(:other_user)
+    user.update!(interface: :advanced)
+    service = services(:service)
+    plan = plans(:plan)
+    subscription = nil
+    subscription_execution = nil
+    step_execution = nil
+    Current.with(user: users(:admin)) do
+      service.update!(
+        name_en: "English service name",
+        name_fr: "Nom français du service",
+        description_en: "English service description",
+        description_fr: "Description française du service",
+        body_en: "English service body",
+        body_fr: "Corps français du service"
+      )
+      plan.update!(
+        name_en: "English plan name",
+        name_fr: "Nom français de l’offre",
+        description_en: "English plan description",
+        description_fr: "Description française de l’offre",
+        body_en: "English plan body",
+        body_fr: "Corps français de l’offre"
+      )
+      subscription = Subscription.create!(user: user, plan: plan, status: :active)
+      SubscriptionValue.create!(
+        subscription: subscription,
+        key: "phone_number",
+        value: "+33600000000"
+      )
+      subscription_execution =
+        SubscriptionExecution.create!(
+          subscription: subscription,
+          status: :initialized
+        )
+      step_execution =
+        StepExecution.create!(
+          subscription_execution: subscription_execution,
+          step: steps(:step),
+          status: :initialized
+        )
+    end
+    sign_in(
+      email_addresses(:other_email).email_address,
+      passwords(:other_password).hint
+    )
+
+    get(service_path(service))
+
+    assert_response(:success)
+    %i[
+      id
+      user_id
+      name_en
+      name_fr
+      description_en
+      description_fr
+      body_en
+      body_fr
+      updated_at
+      created_at
+    ].each do |attribute|
+      assert_select(
+        "div.text-gray-600",
+        text: I18n.t("services.show.#{attribute}")
+      )
+    end
+    assert_select("a[href=?]", edit_service_path(service), count: 0)
+    assert_select("form[action=?]", service_destroy_path(service), count: 0)
+    assert_select("form[action=?]", service_delete_path(service), count: 0)
+    assert_select("a[href=?]", plans_path)
+    assert_select("a[href=?]", plan_path(plan))
+    assert_select(
+      "a[href=?]",
+      new_plan_path(plan: { service_id: service.id }),
+      count: 0
+    )
+    assert_select("a[href=?]", subscriptions_path)
+    assert_select("a[href=?]", subscription_path(subscription))
+    assert_select(
+      "a[href=?]",
+      subscription_path(subscriptions(:subscription)),
+      count: 0
+    )
+    assert_select("a[href=?]", new_subscription_path)
+    assert_select("a[href=?]", subscription_executions_path)
+    assert_select(
+      "a[href=?]",
+      subscription_execution_path(subscription_execution)
+    )
+    assert_select(
+      "a[href=?]",
+      subscription_execution_path(
+        subscription_executions(:subscription_execution)
+      ),
+      count: 0
+    )
+    assert_select("a[href=?]", new_subscription_execution_path, count: 0)
+    assert_select("a[href=?]", steps_path)
+    assert_select("a[href=?]", step_path(steps(:step)))
+    assert_select("a[href=?]", new_step_path, count: 0)
+    assert_select("a[href=?]", step_executions_path)
+    assert_select("a[href=?]", step_execution_path(step_execution))
+    assert_select(
+      "a[href=?]",
+      step_execution_path(step_executions(:step_execution)),
+      count: 0
+    )
+    assert_select("a[href=?]", new_step_execution_path, count: 0)
+    assert_select("a[href=?]", service_fields_path)
+    assert_select(
+      "a[href=?]",
+      service_field_path(service_fields(:phone))
+    )
+    assert_select("a[href=?]", new_service_field_path, count: 0)
+    assert_select("a[href=?]", plan_fields_path)
+    assert_select("a[href=?]", plan_field_path(plan_fields(:phone)))
+    assert_select("a[href=?]", new_plan_field_path, count: 0)
+
+    get(plan_path(plan))
+
+    assert_response(:success)
+    %i[
+      id
+      service_id
+      name_en
+      name_fr
+      description_en
+      description_fr
+      body_en
+      body_fr
+      pricing_input
+      updated_at
+      created_at
+    ].each do |attribute|
+      assert_select(
+        "div.text-gray-600",
+        text: I18n.t("plans.show.#{attribute}")
+      )
+    end
+    assert_select("a[href=?]", edit_plan_path(plan), count: 0)
+    assert_select("form[action=?]", plan_destroy_path(plan), count: 0)
+    assert_select("form[action=?]", plan_delete_path(plan), count: 0)
+    assert_select("a[href=?]", plan_fields_path)
+    assert_select("a[href=?]", plan_field_path(plan_fields(:phone)))
+    assert_select("a[href=?]", new_plan_field_path, count: 0)
+    assert_select("a[href=?]", subscriptions_path)
+    assert_select("a[href=?]", subscription_path(subscription))
+    assert_select(
+      "a[href=?]",
+      new_subscription_path(plan_id: plan.id)
+    )
+    assert_select("a[href=?]", subscription_executions_path)
+    assert_select(
+      "a[href=?]",
+      subscription_execution_path(subscription_execution)
+    )
+    assert_select("a[href=?]", steps_path)
+    assert_select("a[href=?]", step_path(steps(:step)))
+    assert_select("a[href=?]", step_executions_path)
+    assert_select("a[href=?]", step_execution_path(step_execution))
+
+    get(subscription_path(subscription))
+
+    assert_response(:success)
+    assert_select("a[href=?]", service_path(service))
+    assert_select(
+      ".p.font-bold",
+      text: I18n.t("subscriptions.show.subscription_values")
+    )
+    assert_select("body", text: /\+33600000000/)
+    assert_select("a[href=?]", step_executions_path)
+    assert_select("a[href=?]", step_execution_path(step_execution))
+    assert_select(
+      "a[href=?]",
+      step_execution_path(step_executions(:step_execution)),
+      count: 0
+    )
+  end
 end

@@ -33,10 +33,34 @@ class Plan < ApplicationRecord
     overrides = plan_fields.index_by(&:key)
     inherited =
       service.fields.map { |field| overrides.delete(field.key) || field }
-    inherited + overrides.values
+    (inherited + overrides.values).sort_by { |field| [field.position, field.key] }
   end
 
   def field_for(key) = fields.find { |field| field.key == key.to_s }
+
+  def price_for(subscription)
+    if pricing_input.blank?
+      raise StripeBilling::PricingError, t("pricing_missing")
+    end
+
+    value =
+      Current.with(
+        user: subscription.user,
+        subscription: subscription,
+        plan: self,
+        service: service
+      ) { Code.evaluate(pricing_input).as_json.stringify_keys }
+    amount_cents = Integer(value.fetch("amount_cents"), exception: false)
+    amount_currency = value.fetch("amount_currency", nil).to_s.downcase
+    unless amount_cents&.positive? && amount_currency.match?(/\A[a-z]{3}\z/)
+      raise StripeBilling::PricingError, t("pricing_invalid")
+    end
+
+    { amount_cents: amount_cents, amount_currency: amount_currency }
+  rescue KeyError, TypeError
+    raise StripeBilling::PricingError, t("pricing_invalid")
+  end
+
   def schedules = plan_schedules
   def to_s = Truncate.strip(name&.to_plain_text).presence || t("to_s", id: id)
 
@@ -44,6 +68,7 @@ class Plan < ApplicationRecord
     Code::Object::Plan.new(
       id: id,
       created_at: created_at,
+      pricing_input: pricing_input,
       service_id: service_id,
       updated_at: updated_at
     )

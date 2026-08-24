@@ -85,7 +85,10 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
     end
 
     subscription = user.subscriptions.order(:id).last
-    assert_redirected_to(subscription_path(subscription))
+    assert_redirected_to(subscription_billing_path(subscription))
+    assert_predicate(subscription, :inactive?)
+    assert_equal(1_000, subscription.amount_cents)
+    assert_equal("eur", subscription.amount_currency)
     assert_equal("+33611223344", subscription.values["phone_number"].value)
 
     get(subscription_path(subscription))
@@ -96,13 +99,26 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
       subscription_path(subscription),
       params: {
         subscription: {
-          plan_id: @plan.id,
-          status: "inactive"
+          subscription_values_attributes: {
+            "0" => {
+              id: subscription.values.fetch("phone_number").id,
+              key: "phone_number",
+              value: "+33611223345"
+            }
+          }
         }
       }
     )
     assert_redirected_to(subscription_path(subscription))
     assert(subscription.reload.inactive?)
+    assert_equal(
+      "+33611223345",
+      subscription.values.fetch("phone_number").value
+    )
+
+    post(activate_subscription_path(subscription))
+    assert_redirected_to(root_path)
+    assert_predicate(subscription.reload, :inactive?)
   end
 
   test "login preserves a safe redirect and ignores an unsafe redirect" do
@@ -130,5 +146,89 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
       }
     )
     assert_redirected_to(users(:other_user))
+  end
+
+  test "user can subscribe to the same plan multiple times" do
+    admin = users(:admin)
+    sign_in(
+      email_addresses(:admin_email).email_address,
+      passwords(:password).hint
+    )
+    assert(admin.subscriptions.exists?(plan: @plan))
+
+    assert_difference("admin.subscriptions.where(plan: @plan).count", 1) do
+      post(
+        service_subscriptions_path(@service),
+        params: {
+          subscription: {
+            plan_id: @plan.id,
+            status: "inactive",
+            subscription_values_attributes: {
+              "0" => {
+                key: "phone_number",
+                value: "+33 6 11 22 33 44"
+              }
+            }
+          }
+        }
+      )
+    end
+
+    subscription = admin.subscriptions.order(:id).last
+    assert_redirected_to(subscription_billing_path(subscription))
+  end
+
+  test "user can destroy their own subscription" do
+    user = users(:other_user)
+    subscription =
+      Current.with(user: user) do
+        Subscription.create!(user: user, plan: @plan, status: "inactive")
+      end
+    sign_in(
+      email_addresses(:other_email).email_address,
+      passwords(:other_password).hint
+    )
+
+    assert_difference("Subscription.count", -1) do
+      delete(subscription_destroy_path(subscription_id: subscription))
+    end
+
+    assert_redirected_to(subscriptions_path)
+  end
+
+  test "destroying a billed subscription cancels it in Stripe" do
+    admin = users(:admin)
+    subscription = subscriptions(:subscription)
+    Current.with(user: admin) do
+      subscription.update!(
+        stripe_subscription_id: "sub_test",
+        stripe_status: "active"
+      )
+    end
+    sign_in(
+      email_addresses(:admin_email).email_address,
+      passwords(:password).hint
+    )
+    cancellation =
+      stub_request(
+        :delete,
+        "https://api.stripe.com/v1/subscriptions/sub_test"
+      ).to_return(
+        status: 200,
+        body: {
+          id: "sub_test",
+          object: "subscription",
+          status: "canceled"
+        }.to_json,
+        headers: {
+          "Content-Type" => "application/json"
+        }
+      )
+
+    assert_difference("Subscription.count", -1) do
+      delete(subscription_destroy_path(subscription_id: subscription))
+    end
+
+    assert_requested(cancellation)
   end
 end

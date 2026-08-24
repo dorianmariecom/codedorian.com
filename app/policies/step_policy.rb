@@ -3,16 +3,16 @@
 class StepPolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
-      admin? ? scope.all : scope.none
+      admin? || advanced? ? scope.all : scope.none
     end
   end
 
   def index?
-    admin?
+    admin? || advanced?
   end
 
   def show?
-    admin?
+    admin? || advanced?
   end
 
   def create?

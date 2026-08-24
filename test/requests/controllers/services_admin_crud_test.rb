@@ -25,6 +25,7 @@ class ServicesAdminCrudTest < ActionDispatch::IntegrationTest
     plans: :plan,
     plan_schedules: :plan_schedule,
     subscriptions: :subscription,
+    subscription_values: :phone,
     subscription_executions: :subscription_execution,
     step_executions: :step_execution
   }.each do |controller, fixture|
@@ -44,6 +45,8 @@ class ServicesAdminCrudTest < ActionDispatch::IntegrationTest
           plan_schedules(:plan_schedule)
         when :subscription
           subscriptions(:subscription)
+        when :phone
+          subscription_values(:phone)
         when :subscription_execution
           subscription_executions(:subscription_execution)
         when :step_execution
@@ -115,16 +118,21 @@ class ServicesAdminCrudTest < ActionDispatch::IntegrationTest
     assert_equal("Corps français", service.body_fr.to_plain_text)
   end
 
-  test "creating a subscription defaults to the current user" do
+  test "creating a subscription for a user" do
     plan =
-      Current.with(user: @admin) { Plan.create!(service: services(:service)) }
+      Current.with(user: @admin) do
+        Plan.create!(
+          service: services(:service),
+          pricing_input: '{ amount_cents: 1000, amount_currency: "eur" }'
+        )
+      end
 
     assert_difference("@admin.subscriptions.count", 1) do
       post(
         subscriptions_path,
         params: {
           subscription: {
-            user_id: "",
+            user_id: @admin.id,
             plan_id: plan.id,
             status: "active"
           }
@@ -132,7 +140,9 @@ class ServicesAdminCrudTest < ActionDispatch::IntegrationTest
       )
     end
 
-    assert_redirected_to(subscription_path(Subscription.order(:id).last))
+    assert_redirected_to(
+      subscription_billing_path(Subscription.order(:id).last)
+    )
   end
 
   test "creating a plan with a plan schedule" do
@@ -190,7 +200,7 @@ class ServicesAdminCrudTest < ActionDispatch::IntegrationTest
     )
     assert_select(
       "a[href=?]",
-      new_subscription_path(subscription: { plan_id: plan.id })
+      new_subscription_path(plan_id: plan.id)
     )
 
     get(step_path(step))

@@ -16,6 +16,13 @@
   </div>
 <% end %>
 
+<% if (admin? || advanced?) && @user.stripe_customer_id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".stripe_customer_id") %></div>
+    <div class="font-bold"><%= @user.stripe_customer_id %></div>
+  </div>
+<% end %>
+
 <% if @user.locale.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".locale") %></div>

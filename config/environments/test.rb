@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.configure do
+  config.active_job.queue_adapter = :test
   config.action_controller.allow_forgery_protection = false
   config.action_controller.perform_caching = false
   config.action_controller.raise_on_missing_callback_actions = true

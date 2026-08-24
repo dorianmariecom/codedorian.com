@@ -575,6 +575,10 @@ en:
       edit: edit
       index: subscription executions
       new: new
+    subscription_values:
+      edit: edit
+      index: subscription values
+      new: new
     subscriptions:
       edit: edit
       index: subscriptions
@@ -2141,14 +2145,6 @@ en:
           not_valid: must be valid
           too_long: is too long
           too_short: is too short
-        runnable_code:
-          close: close
-          error: error
-          output: output
-          result: result
-          run: run
-          running: running
-          status: status
         time_zone:
           not_present: must be present
         validation:
@@ -2619,6 +2615,7 @@ en:
       title: new plan schedule
     show:
       created_at: created at
+      description: view plan schedule details.
       delete: delete plan schedule
       destroy: destroy plan schedule
       edit: edit plan schedule
@@ -2659,6 +2656,8 @@ en:
         zero: "%{count} subscriptions"
       title: plans
     model:
+      pricing_invalid: pricing must return amount_cents and amount_currency
+      pricing_missing: pricing is not configured
       to_s: plan#%{id}
     new:
       submit: create plan
@@ -2667,6 +2666,7 @@ en:
       body_en: english body
       body_fr: french body
       created_at: created at
+      description: view plan details.
       delete: delete plan
       description_en: english description
       description_fr: french description
@@ -2679,12 +2679,19 @@ en:
       new_log: new log
       new_plan_field: new plan field
       new_plan_schedule: new plan schedule
+      new_step: new step
+      new_step_execution: new step execution
       new_subscription: new subscription
+      new_subscription_execution: new subscription execution
       new_version: new version
       phone_number: phone number
       plan_fields: plan fields
       plan_schedules: plan schedules
+      pricing_input: pricing input
       service_id: service
+      step_executions: step executions
+      steps: steps
+      subscription_executions: subscription executions
       subscriptions: subscriptions
       updated_at: updated at
       versions: versions
@@ -2749,9 +2756,6 @@ en:
       versions: versions
     update:
       notice: program execution updated
-  program_runs:
-    create:
-      name: code block
   program_schedules:
     create:
       notice: program schedule created
@@ -3065,6 +3069,7 @@ en:
       name_fr: french name
       new_log: new log
       new_plan: new plan
+      new_plan_field: new plan field
       new_service_field: new service field
       new_step: new step
       new_step_execution: new step execution
@@ -3103,6 +3108,7 @@ en:
           other: every %{count} years on %{month} %{day} at %{time}
           zero: every %{count} years on %{month} %{day} at %{time}
       plans: plans
+      plan_fields: plan fields
       service_fields: service fields
       step_executions: step executions
       steps: steps
@@ -3352,6 +3358,7 @@ en:
       title: new step execution
     show:
       created_at: created at
+      description: view step execution details.
       delete: delete step execution
       destroy: destroy step execution
       edit: edit step execution
@@ -3403,6 +3410,7 @@ en:
       body_en: english body
       body_fr: french body
       created_at: created at
+      description: view step details.
       delete: delete step
       description_en: english description
       description_fr: french description
@@ -3754,6 +3762,43 @@ en:
       versions: versions
     update:
       notice: submission updated
+  subscription_billings:
+    cancel:
+      notice: subscription will end after the paid period
+    checkout:
+      notice: checkout ready
+    resume:
+      notice: subscription resumed
+    retry_payment:
+      notice: payment retry requested
+    setup_payment_method:
+      description: Update the subscription payment method.
+      notice: payment method updated
+    show:
+      cancel: cancel subscription
+      cancel_at_period_end: cancel at period end
+      current_period_start: current period starts at
+      description: Manage subscription payments and invoices.
+      download_invoice: download PDF
+      ends_at: ends at
+      invoices: invoices
+      month: month
+      pay: subscribe
+      price: price
+      renews_at: renews at
+      resume: resume subscription
+      retry_payment: retry payment
+      save_payment_method: save payment method
+      start_checkout: continue to payment
+      status: billing status
+      stripe_checkout_session_id: stripe checkout session id
+      stripe_customer_id: stripe customer id
+      stripe_subscription_id: stripe subscription id
+      subscription: subscription
+      title: billing for %{subscription}
+      unpaid: unpaid
+      update_payment_method: update payment method
+      view_invoice: view invoice
   subscription_executions:
     create:
       notice: subscription execution created
@@ -3789,6 +3834,7 @@ en:
       title: new subscription execution
     show:
       created_at: created at
+      description: view subscription execution details.
       delete: delete subscription execution
       destroy: destroy subscription execution
       edit: edit subscription execution
@@ -3841,7 +3887,9 @@ en:
       title: new subscription
     show:
       activate: activate
+      billing: billing
       created_at: created at
+      description: view subscription details.
       deactivate: deactivate
       delete: delete subscription
       destroy: destroy subscription
@@ -3851,19 +3899,60 @@ en:
       logs: logs
       new_log: new log
       new_subscription_execution: new subscription execution
+      new_subscription_value: new subscription value
       new_version: new version
       next_at: next at
       plan_id: plan
       previous_at: previous at
+      service: service
       stale: stale
       starts_at: starts at
       status: status
       subscription_executions: subscription executions
+      subscription_values: subscription values
+      step_executions: step executions
       updated_at: updated at
       user_id: user
       versions: versions
     update:
       notice: subscription updated
+  subscription_values:
+    create:
+      notice: subscription value created
+    delete:
+      notice: subscription value deleted
+    delete_all:
+      notice: subscription values deleted
+    destroy:
+      notice: subscription value destroyed
+    destroy_all:
+      notice: subscription values destroyed
+    edit:
+      description: edit a subscription value.
+      submit: update subscription value
+      title: edit subscription value
+    index:
+      delete_all: delete all
+      destroy_all: destroy all
+      new: new subscription value
+      title: subscription values
+    new:
+      description: create a subscription value.
+      submit: create subscription value
+      title: new subscription value
+    show:
+      created_at: created at
+      description: view subscription value details.
+      delete: delete subscription value
+      destroy: destroy subscription value
+      edit: edit subscription value
+      id: id
+      key: key
+      subscription_id: subscription
+      updated_at: updated at
+      value: value
+    update:
+      notice: subscription value updated
   time:
     formats:
       default: "%A %d %B %Y at %H:%M:%S"
@@ -4025,6 +4114,7 @@ en:
       new_version: new version
       password: password
       phone_number: phone number
+      stripe_customer_id: stripe customer id
       time_zone: time zone
       updated_at: updated at
       verified: verified?

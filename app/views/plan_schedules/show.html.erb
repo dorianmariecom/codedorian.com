@@ -1,5 +1,5 @@
 <% content_for(:title, @plan_schedule) %>
-<% content_for(:description, @plan_schedule.to_s) %>
+<% content_for(:description, t(".description")) %>
 <%= turbo_stream_from(@plan_schedule) %>
 
 <% if @plan_schedule.id.present? %>

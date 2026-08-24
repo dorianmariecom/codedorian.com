@@ -340,6 +340,9 @@ GEM
     minitest (6.0.6)
       drb (~> 2.0)
       prism (~> 1.5)
+    money (7.1.1)
+      bigdecimal
+      i18n (~> 1.9)
     msgpack (1.8.3)
     multi_json (1.21.1)
     net-http (0.9.1)
@@ -593,6 +596,9 @@ GEM
     stimulus-rails (1.3.4)
       railties (>= 6.0.0)
     stringio (3.2.0)
+    stripe (19.5.0)
+      bigdecimal
+      logger
     strscan (3.1.8)
     syntax_tree (6.3.0)
       prettier_print (>= 1.2.0)
@@ -698,6 +704,7 @@ DEPENDENCIES
   local_time
   memoized
   memory_profiler
+  money
   msgpack
   net-http
   open-uri
@@ -732,6 +739,7 @@ DEPENDENCIES
   solid_queue
   stackprof
   stimulus-rails
+  stripe
   tailwindcss-rails
   thruster
   turbo-rails

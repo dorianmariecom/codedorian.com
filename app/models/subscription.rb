@@ -7,6 +7,7 @@ class Subscription < ApplicationRecord
   has_one :service, through: :plan
   has_many :plan_schedules, through: :plan
   has_many :subscription_executions, dependent: :destroy
+  has_many :stripe_invoices, dependent: :nullify
   has_many :subscription_values,
            -> { order(:id) },
            dependent: :destroy,
@@ -19,7 +20,13 @@ class Subscription < ApplicationRecord
   scope :where_user, ->(user) { where(user: user) }
   before_validation { self.user ||= Current.user! }
   validates :status, inclusion: { in: STATUSES }
-  validates :plan_id, uniqueness: { scope: :user_id }
+  validates :amount_cents,
+            numericality: {
+              only_integer: true,
+              greater_than: 0
+            },
+            allow_nil: true
+  validates :amount_currency, format: { with: /\A[a-z]{3}\z/ }, allow_nil: true
   validate { can!(:update, user) }
 
   def self.search_fields
@@ -36,6 +43,37 @@ class Subscription < ApplicationRecord
   def activate! = update!(status: :active)
   def active? = status == "active"
   def deactivate! = update!(status: :inactive)
+  def billed? = stripe_subscription_id.present?
+  def canceling? = cancel_at_period_end?
+
+  def ensure_checkout_snapshot!
+    with_lock do
+      if stripe_checkout_idempotency_key.blank?
+        price = plan.price_for(self)
+        update!(
+          **price,
+          stripe_checkout_idempotency_key: SecureRandom.uuid
+        )
+      end
+      stripe_checkout_idempotency_key
+    end
+  end
+
+  def reset_checkout!
+    update!(
+      stripe_checkout_session_id: nil,
+      stripe_checkout_idempotency_key: nil
+    )
+  end
+
+  def billing_active!
+    update!(status: "active")
+  end
+
+  def billing_inactive!
+    update!(status: "inactive")
+  end
+
   def duration = plan_schedules.filter_map(&:duration).min || 0.seconds
   def duration_in_seconds = duration.to_i
 
@@ -174,14 +212,23 @@ class Subscription < ApplicationRecord
   def previous_at = plan_schedules.map(&:previous_at).select(&:past?).max
   def next_at = plan_schedules.map(&:next_at).select(&:future?).min
   def translated_status = t("statuses.#{status}")
-  def to_s = service.to_s
+  def to_s = "#{service.to_s} - #{plan.to_s}"
 
   def to_code
     Code::Object::Subscription.new(
+      amount_cents: amount_cents,
+      amount_currency: amount_currency,
+      cancel_at_period_end: cancel_at_period_end,
       id: id,
       created_at: created_at,
+      current_period_end: current_period_end,
+      current_period_start: current_period_start,
       plan_id: plan_id,
       status: status,
+      stripe_checkout_idempotency_key: stripe_checkout_idempotency_key,
+      stripe_checkout_session_id: stripe_checkout_session_id,
+      stripe_status: stripe_status,
+      stripe_subscription_id: stripe_subscription_id,
       updated_at: updated_at,
       user_id: user_id
     )

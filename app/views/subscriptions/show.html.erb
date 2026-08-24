@@ -1,5 +1,5 @@
 <% content_for(:title, @subscription) %>
-<% content_for(:description, @subscription.to_s) %>
+<% content_for(:description, t(".description")) %>
 <%= turbo_stream_from(@subscription) %>
 
 <% if @subscription.id.present? %>
@@ -29,6 +29,20 @@
   </div>
 <% end %>
 
+<% if @subscription.service.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".service") %></div>
+    <div class="font-bold">
+      <%= link_to_if(
+        can?(:show, @subscription.service),
+        @subscription.service,
+        @subscription.service,
+        class: :link
+      ) %>
+    </div>
+  </div>
+<% end %>
+
 <% if @subscription.status.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".status") %></div>
@@ -36,18 +50,11 @@
   </div>
 <% end %>
 
-<% if admin? %>
-  <% @subscription.subscription_values.each do |subscription_value| %>
-    <% field = @subscription.plan.field_for(subscription_value.key) %>
-    <div class="p">
-      <div class="text-gray-600">
-        <%= field&.name || subscription_value.key %>
-        <%= " (#{t(".stale")})" if field.nil? %>
-      </div>
-      <div class="font-bold"><%= subscription_value.value %></div>
-    </div>
-  <% end %>
-<% else %>
+<div class="p">
+  <%= link_to(t(".billing"), subscription_billing_path(@subscription), class: :link) %>
+</div>
+
+<% if !admin? && !advanced? %>
   <% @subscription.plan.fields.each do |field| %>
     <% subscription_value = @subscription.values[field.key] %>
     <% if subscription_value&.value.present? %>
@@ -142,6 +149,8 @@
   <% end %>
   <% if can?(:destroy, @subscription) %>
     <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+  <% end %>
+  <% if can?(:delete, @subscription) %>
     <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
   <% end %>
 </div>
@@ -171,6 +180,44 @@
     partial: "subscription_executions/subscription_execution",
     collection: @subscription_executions,
     as: :subscription_execution
+  ) %>
+<% end %>
+
+<% if can?(:index, StepExecution) %>
+  <div class="p font-bold">
+    <%= link_to(t(".step_executions"), step_executions_path, class: :link) %>
+  </div>
+  <%= render_collection(
+    partial: "step_executions/step_execution",
+    collection: @step_executions,
+    as: :step_execution
+  ) %>
+<% end %>
+
+<% if can?(:index, SubscriptionValue) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".subscription_values"),
+      subscription_values_path,
+      class: :link
+    ) %>
+  </div>
+  <% subscription_value = SubscriptionValue.new(subscription: @subscription) %>
+  <% if can?(:create, subscription_value) %>
+    <div class="p">
+      <%= link_to(
+        t(".new_subscription_value"),
+        new_subscription_value_path(
+          subscription_value: { subscription_id: @subscription.id }
+        ),
+        class: "button"
+      ) %>
+    </div>
+  <% end %>
+  <%= render_collection(
+    partial: "subscription_values/subscription_value",
+    collection: @subscription_values,
+    as: :subscription_value
   ) %>
 <% end %>
 
