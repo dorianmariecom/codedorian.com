@@ -113,16 +113,18 @@ class Subscription < ApplicationRecord
   def create_execution!
     execution = subscription_executions.create!(status: :in_progress)
 
-    service
-      .steps
-      .order(:position)
-      .each do |step|
-        execution.step_executions.create!(
-          step: step,
-          input: step.input,
-          status: :initialized
-        )
-      end
+    Current.with(user: service.user, subscription_execution: execution) do
+      service
+        .steps
+        .order(:position)
+        .each do |step|
+          execution.step_executions.create!(
+            step: step,
+            input: step.input,
+            status: :initialized
+          )
+        end
+    end
 
     execution.done! if execution.step_executions.none?
     execution
@@ -212,7 +214,7 @@ class Subscription < ApplicationRecord
   def previous_at = plan_schedules.map(&:previous_at).select(&:past?).max
   def next_at = plan_schedules.map(&:next_at).select(&:future?).min
   def translated_status = t("statuses.#{status}")
-  def to_s = "#{service.to_s} - #{plan.to_s}"
+  def to_s = "#{service} - #{plan}"
 
   def to_code
     Code::Object::Subscription.new(
@@ -238,6 +240,7 @@ class Subscription < ApplicationRecord
 
   def enqueue_step_execution!(execution, step_execution)
     step = step_execution.step
+    execution_user = service.user
     perform_later(
       StepEvaluateJob,
       arguments: {
@@ -245,19 +248,19 @@ class Subscription < ApplicationRecord
       },
       priority: step.position,
       context: {
-        user: user,
+        user: execution_user,
         subscription: self,
         subscription_execution: execution,
         step: step,
         step_execution: step_execution
       },
       current: {
-        user: user,
+        user: execution_user,
         subscription: self,
         subscription_execution: execution,
         step_execution: step_execution,
-        locale: user.locale,
-        time_zone: user.unverified_time_zone
+        locale: execution_user.locale,
+        time_zone: execution_user.unverified_time_zone
       }
     )
   end

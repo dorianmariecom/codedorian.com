@@ -140,6 +140,59 @@ class ServiceModelsTest < ActiveSupport::TestCase
     end
   end
 
+  test "service steps store fetched x followers in the service owner's datum" do
+    service = services(:service)
+    subscriber = users(:other_user)
+    subscription = nil
+    execution = nil
+
+    Current.with(user: users(:admin)) do
+      Datum.create!(
+        user: service.user,
+        key: "twitterapi_io_api_key",
+        value: "test-key"
+      )
+      Datum.create!(user: service.user, key: "x_followers", value: {})
+      subscription = subscriber.subscriptions.create!(plan: plans(:plan))
+      subscription.subscription_values.create!(
+        key: "x_username",
+        value: "DorianMarieCom"
+      )
+    end
+
+    Current.with(user: subscriber, subscription: subscription) do
+      execution = subscription.create_execution!
+    end
+
+    Current.with(
+      user: service.user,
+      subscription: subscription,
+      step_execution: execution.step_executions.first
+    ) do
+      assert_equal(service.user, Current.user)
+      step_execution = execution.step_executions.first
+      step_execution.update!(
+        input: <<~CODE
+          api_key = Datum.value!(:twitterapi_io_api_key)
+          datum = Datum.find!(:x_followers)
+          value = datum.value
+          value[:dorianmariecom] = [{ id: "123", userName: "follower" }]
+          datum.update!(value: value)
+          api_key
+        CODE
+      )
+      step_execution.evaluate!
+    end
+
+    assert_equal("done", execution.reload.status)
+    datum = Datum.find_by!(user: service.user, key: "x_followers")
+    assert_equal(
+      [{ "id" => "123", "userName" => "follower" }],
+      datum.value.fetch("dorianmariecom")
+    )
+    assert_nil(Datum.find_by(user: subscriber, key: "x_followers"))
+  end
+
   test "subscriber code can read its effective schema and values" do
     user = users(:other_user)
     subscription = nil
