@@ -3,6 +3,7 @@
 class SubscriptionsController < ApplicationController
   before_action { add_breadcrumb(key: "subscriptions.index", path: index_url) }
   before_action(:load_service)
+  before_action :load_plans, only: %i[new create]
   before_action(:load_plan)
   before_action :load_subscription,
                 only: %i[
@@ -388,15 +389,15 @@ class SubscriptionsController < ApplicationController
   def load_plan
     return if plan_id.blank?
 
-    plans =
-      (
-        if @service
-          policy_scope(Plan).where(service: @service)
-        else
-          policy_scope(Plan)
-        end
-      )
+    plans = @plans || policy_scope(Plan)
+    plans = plans.where(service: @service) if @service
     @plan = plans.find(plan_id)
+  end
+
+  def load_plans
+    @plans = policy_scope(Plan)
+    @plans = @plans.where(service: @service) if @service
+    @plans = @plans.order(:id)
   end
 
   def plan_id

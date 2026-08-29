@@ -1,2 +1,37 @@
 <% content_for(:description, t(".title")) %>
-<%= render("subscriptions/form", submit: t(".submit")) %>
+
+<% plan_selection_url =
+  @service ? new_service_subscription_path(@service) : new_subscription_path %>
+<%= form_with(
+  url: plan_selection_url,
+  method: :get,
+  data: {
+    controller: "search",
+    search_target: "form"
+  }
+) do %>
+  <div class="p">
+    <%= label_tag(
+      :subscription_plan_id,
+      Subscription.human_attribute_name(:plan_id),
+      class: :label
+    ) %>
+    <%= select_tag(
+      :plan_id,
+      options_from_collection_for_select(@plans, :id, :to_s, @plan&.id),
+      include_blank: true,
+      required: true,
+      id: :subscription_plan_id,
+      class: :input,
+      autocomplete: :off,
+      data: {
+        action: "search#search",
+        form_type: :other
+      }
+    ) %>
+  </div>
+<% end %>
+
+<% if @plan %>
+  <%= render("subscriptions/form", submit: t(".submit")) %>
+<% end %>

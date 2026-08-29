@@ -10,6 +10,9 @@
         autocomplete: :off
       ) %>
     </div>
+  <% end %>
+
+  <% if admin? && f.object.persisted? %>
     <div class="p">
       <%= f.label(:plan_id, class: :label) %>
       <%= f.select(
@@ -22,7 +25,11 @@
       ) %>
     </div>
   <% else %>
-    <%= f.hidden_field(:plan_id, autocomplete: :off) %>
+    <%= f.hidden_field(
+      :plan_id,
+      id: :subscription_selected_plan_id,
+      autocomplete: :off
+    ) %>
   <% end %>
 
   <% values = f.object.subscription_values.index_by(&:key) %>

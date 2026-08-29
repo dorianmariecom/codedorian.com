@@ -296,7 +296,7 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
       subscription_path(subscriptions(:subscription)),
       count: 0
     )
-    assert_select("a[href=?]", new_subscription_path)
+    assert_select("a[href=?]", new_service_subscription_path(service))
     assert_select(
       "a[href=?]",
       subscription_executions_path(service_id: service.id)

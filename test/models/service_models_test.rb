@@ -140,7 +140,7 @@ class ServiceModelsTest < ActiveSupport::TestCase
     end
   end
 
-  test "service steps store fetched x followers in the service owner's datum" do
+  test "service steps index fetched x followers by subscription id" do
     service = services(:service)
     subscriber = users(:other_user)
     subscription = nil
@@ -175,7 +175,8 @@ class ServiceModelsTest < ActiveSupport::TestCase
           api_key = Datum.value!(:twitterapi_io_api_key)
           datum = Datum.find!(:x_followers)
           value = datum.value
-          value[:dorianmariecom] = [{ id: "123", userName: "follower" }]
+          subscription_key = Current.subscription.id.to_string
+          value[subscription_key] = [{ id: "123", userName: "follower" }]
           datum.update!(value: value)
           api_key
         CODE
@@ -186,8 +187,9 @@ class ServiceModelsTest < ActiveSupport::TestCase
     datum = Datum.find_by!(user: service.user, key: "x_followers")
     assert_equal(
       [{ "id" => "123", "userName" => "follower" }],
-      datum.value.fetch("dorianmariecom")
+      datum.value.fetch(subscription.id.to_s)
     )
+    assert_not(datum.value.key?("dorianmariecom"))
     assert_nil(Datum.find_by(user: subscriber, key: "x_followers"))
   end
 

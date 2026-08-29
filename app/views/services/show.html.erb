@@ -183,7 +183,11 @@
   </div>
   <% if can?(:create, Subscription) %>
     <div class="p">
-      <%= link_to(t(".new_subscription"), new_subscription_path, class: "button") %>
+      <%= link_to(
+        t(".new_subscription"),
+        new_service_subscription_path(@service),
+        class: "button"
+      ) %>
     </div>
   <% end %>
   <%= render_collection(

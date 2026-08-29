@@ -212,7 +212,7 @@ class Subscription < ApplicationRecord
   def previous_at = plan_schedules.map(&:previous_at).select(&:past?).max
   def next_at = plan_schedules.map(&:next_at).select(&:future?).min
   def translated_status = t("statuses.#{status}")
-  def to_s = Utils.join(service, plan).presence || t("to_s", id:)
+  def to_s = Utils.join(plan).presence || t("to_s", id:)
 
   def to_code
     Code::Object::Subscription.new(

@@ -8,6 +8,77 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
     @service = @plan.service
   end
 
+  test "user chooses a plan before loading the subscription form" do
+    sign_in(
+      email_addresses(:other_email).email_address,
+      passwords(:other_password).hint
+    )
+
+    get(new_subscription_path)
+
+    assert_response(:success)
+    assert_select(
+      "form[method='get'][action=?][data-controller='search']",
+      new_subscription_path
+    )
+    assert_select(
+      "select#subscription_plan_id[name='plan_id']" \
+        "[data-action='search#search'] option[value=?]",
+      @plan.id.to_s,
+      text: @plan.to_s
+    )
+    assert_select("form[method='get'] input[type='submit']", count: 0)
+    assert_select("input#subscription_selected_plan_id", count: 0)
+    assert_select("input[type='tel'][name$='[value_input]']", count: 0)
+
+    get(new_subscription_path(plan_id: @plan.id))
+
+    assert_response(:success)
+    assert_select(
+      "select#subscription_plan_id[name='plan_id'] option[selected][value=?]",
+      @plan.id.to_s
+    )
+    assert_select(
+      "input#subscription_selected_plan_id[name='subscription[plan_id]']" \
+        "[value=?]",
+      @plan.id.to_s
+    )
+    assert_select("input[type='tel'][name$='[value_input]']")
+    assert_select(
+      "input[type='submit'][value=?]",
+      I18n.t("subscriptions.new.submit")
+    )
+  end
+
+  test "service subscription form only offers plans for that service" do
+    other_plan =
+      Current.with(user: users(:admin)) do
+        other_service = Service.create!
+        Plan.create!(service: other_service, slug: "other-service-plan")
+      end
+    sign_in(
+      email_addresses(:other_email).email_address,
+      passwords(:other_password).hint
+    )
+
+    get(new_service_subscription_path(@service))
+
+    assert_response(:success)
+    assert_select(
+      "form[method='get'][action=?]",
+      new_service_subscription_path(@service)
+    )
+    assert_select(
+      "select#subscription_plan_id option[value=?]",
+      @plan.id.to_s
+    )
+    assert_select(
+      "select#subscription_plan_id option[value=?]",
+      other_plan.id.to_s,
+      count: 0
+    )
+  end
+
   test "visitor registers with nested identity records then subscribes" do
     destination =
       new_service_subscription_path(

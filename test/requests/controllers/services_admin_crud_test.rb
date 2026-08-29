@@ -268,7 +268,7 @@ class ServicesAdminCrudTest < ActionDispatch::IntegrationTest
     assert_select("a[href=?]", new_step_execution_path)
     assert_select("a[href=?]", new_step_path(step: { service_id: service.id }))
     assert_select("a[href=?]", new_plan_path(plan: { service_id: service.id }))
-    assert_select("a[href=?]", new_subscription_path)
+    assert_select("a[href=?]", new_service_subscription_path(service))
 
     get(plan_path(plan))
     assert_select(
@@ -434,7 +434,10 @@ class ServicesAdminCrudTest < ActionDispatch::IntegrationTest
       new_plan_schedule_path(locale: I18n.locale) => {
         plan_schedule_plan_id: PlanSchedule.human_attribute_name(:plan_id)
       },
-      new_subscription_path(locale: I18n.locale) => {
+      new_subscription_path(
+        locale: I18n.locale,
+        plan_id: plans(:plan).id
+      ) => {
         subscription_user_id: Subscription.human_attribute_name(:user_id),
         subscription_plan_id: Subscription.human_attribute_name(:plan_id)
       },
