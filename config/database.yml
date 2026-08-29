@@ -2,9 +2,9 @@
 development:
   adapter: postgresql
   database: code_development
-  pool: <%= Integer(ENV.fetch("DATABASE_POOL", 200)) %>
+  pool: <%= Integer(ENV.fetch("DATABASE_POOL", 50)) %>
 production:
-  pool: <%= Integer(ENV.fetch("DATABASE_POOL", 200)) %>
+  pool: <%= Integer(ENV.fetch("DATABASE_POOL", 50)) %>
   url: <%= ENV.fetch("DATABASE_URL", "postgres:///code_production") %>
 staging:
   pool: <%= Integer(ENV.fetch("DATABASE_POOL", 200)) %>
@@ -12,4 +12,4 @@ staging:
 test:
   adapter: postgresql
   database: code_test
-  pool: <%= Integer(ENV.fetch("DATABASE_POOL", 200)) %>
+  pool: <%= Integer(ENV.fetch("DATABASE_POOL", 50)) %>
