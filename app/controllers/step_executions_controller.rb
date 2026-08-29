@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 class StepExecutionsController < ApplicationController
+  before_action(:load_service)
+  before_action(:load_plan)
+  before_action(:load_subscription)
+  before_action(:load_subscription_execution_context)
+  before_action(:load_step)
   before_action do
     add_breadcrumb(key: "step_executions.index", path: index_url)
   end
@@ -85,11 +90,89 @@ class StepExecutionsController < ApplicationController
 
   private
 
-  def scope = searched_policy_scope(StepExecution)
+  def scope
+    records = searched_policy_scope(StepExecution)
+    if @subscription_execution
+      records = records.where(subscription_execution: @subscription_execution)
+    end
+    records = records.where(step: @step) if @step
+    if @subscription
+      records =
+        records.joins(:subscription_execution).where(
+          subscription_executions: {
+            subscription_id: @subscription.id
+          }
+        )
+    end
+    if @plan
+      records =
+        records.joins(subscription_execution: :subscription).where(
+          subscriptions: {
+            plan_id: @plan.id
+          }
+        )
+    end
+    if @service
+      records =
+        records.joins(subscription_execution: { subscription: :plan }).where(
+          plans: {
+            service_id: @service.id
+          }
+        )
+    end
+    records
+  end
   def model_class = StepExecution
   def model_instance = @step_execution
   def nested = []
+  def index_context_records
+    [@service, @plan, @subscription, @subscription_execution, @step]
+  end
   def filters = []
+
+  def load_service
+    return if params[:service_id].blank?
+
+    @service = policy_scope(Service).find(params.expect(:service_id))
+    set_context(service: @service)
+  end
+
+  def load_plan
+    return if params[:plan_id].blank?
+
+    plans = policy_scope(Plan)
+    plans = plans.where(service: @service) if @service
+    @plan = plans.find(params.expect(:plan_id))
+    set_context(plan: @plan)
+  end
+
+  def load_subscription
+    return if params[:subscription_id].blank?
+
+    subscriptions = policy_scope(Subscription)
+    subscriptions = subscriptions.where(plan: @plan) if @plan
+    @subscription = subscriptions.find(params.expect(:subscription_id))
+    set_context(subscription: @subscription)
+  end
+
+  def load_subscription_execution_context
+    return if params[:subscription_execution_id].blank?
+
+    executions = policy_scope(SubscriptionExecution)
+    executions = executions.where(subscription: @subscription) if @subscription
+    @subscription_execution =
+      executions.find(params.expect(:subscription_execution_id))
+    set_context(subscription_execution: @subscription_execution)
+  end
+
+  def load_step
+    return if params[:step_id].blank?
+
+    steps = policy_scope(Step)
+    steps = steps.where(service: @service) if @service
+    @step = steps.find(params.expect(:step_id))
+    set_context(step: @step)
+  end
 
   def load_step_execution
     @step_execution = authorize(scope.find(params.expect(:id)))

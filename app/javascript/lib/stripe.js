@@ -4,7 +4,8 @@ const STRIPE_SCRIPT_SRC = "https://js.stripe.com/clover/stripe.js";
 let stripePromise;
 
 export function loadStripe() {
-  if (typeof window.Stripe === "function") return Promise.resolve(window.Stripe);
+  if (typeof window.Stripe === "function")
+    return Promise.resolve(window.Stripe);
   if (stripePromise) return stripePromise;
 
   stripePromise = new Promise((resolve, reject) => {

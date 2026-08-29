@@ -51,7 +51,10 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get(user_path(@other_user))
 
     assert_response(:success)
-    assert_select(".text-gray-600", text: I18n.t("users.show.stripe_customer_id"))
+    assert_select(
+      ".text-gray-600",
+      text: I18n.t("users.show.stripe_customer_id")
+    )
     assert_select(".font-bold", text: "cus_other")
 
     [

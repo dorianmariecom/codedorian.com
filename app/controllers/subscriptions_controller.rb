@@ -2,8 +2,8 @@
 
 class SubscriptionsController < ApplicationController
   before_action { add_breadcrumb(key: "subscriptions.index", path: index_url) }
-  before_action :load_service, only: %i[new create]
-  before_action :load_plan, only: %i[new create]
+  before_action(:load_service)
+  before_action(:load_plan)
   before_action :load_subscription,
                 only: %i[
                   show
@@ -36,9 +36,7 @@ class SubscriptionsController < ApplicationController
     @step_executions =
       policy_scope(StepExecution)
         .joins(:subscription_execution)
-        .where(
-          subscription_executions: { subscription_id: @subscription.id }
-        )
+        .where(subscription_executions: { subscription_id: @subscription.id })
         .order(created_at: :desc)
         .page(params[:page])
     @versions =
@@ -163,12 +161,16 @@ class SubscriptionsController < ApplicationController
   def scope
     records = searched_policy_scope(Subscription)
     records = records.where(plan: @plan) if @plan
+    if @service
+      records = records.joins(:plan).where(plans: { service_id: @service.id })
+    end
     records
   end
 
   def model_class = Subscription
   def model_instance = @subscription
   def nested = []
+  def index_context_records = [@service, @plan]
   def filters = []
 
   def load_subscription

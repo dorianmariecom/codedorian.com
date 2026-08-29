@@ -103,7 +103,7 @@
 
 <% if can?(:update, @service) || advanced? %>
   <div class="p font-bold">
-    <%= link_to(t(".steps"), steps_path, class: :link) %>
+    <%= link_to(t(".steps"), steps_path(service_id: @service.id), class: :link) %>
   </div>
   <% if can?(:create, Step) %>
     <div class="p">
@@ -117,7 +117,7 @@
   <%= render_collection(partial: "steps/step", collection: @steps, as: :step) %>
 
   <div class="p font-bold">
-    <%= link_to(t(".plans"), plans_path, class: :link) %>
+    <%= link_to(t(".plans"), plans_path(service_id: @service.id), class: :link) %>
   </div>
   <% if can?(:create, Plan) %>
     <div class="p">
@@ -132,15 +132,15 @@
 
   <% if can?(:index, PlanField) %>
     <div class="p font-bold">
-      <%= link_to(t(".plan_fields"), plan_fields_path, class: :link) %>
+      <%= link_to(
+        t(".plan_fields"),
+        plan_fields_path(service_id: @service.id),
+        class: :link
+      ) %>
     </div>
     <% if can?(:create, PlanField) %>
       <div class="p">
-        <%= link_to(
-          t(".new_plan_field"),
-          new_plan_field_path,
-          class: "button"
-        ) %>
+        <%= link_to(t(".new_plan_field"), new_plan_field_path, class: "button") %>
       </div>
     <% end %>
     <%= render_collection(
@@ -152,7 +152,11 @@
 
   <% if can?(:index, ServiceField) %>
     <div class="p font-bold">
-      <%= link_to(t(".service_fields"), service_fields_path, class: :link) %>
+      <%= link_to(
+        t(".service_fields"),
+        service_fields_path(service_id: @service.id),
+        class: :link
+      ) %>
     </div>
     <% if can?(:create, ServiceField) %>
       <div class="p">
@@ -171,7 +175,11 @@
   <% end %>
 
   <div class="p font-bold">
-    <%= link_to(t(".subscriptions"), subscriptions_path, class: :link) %>
+    <%= link_to(
+      t(".subscriptions"),
+      subscriptions_path(service_id: @service.id),
+      class: :link
+    ) %>
   </div>
   <% if can?(:create, Subscription) %>
     <div class="p">
@@ -187,7 +195,7 @@
   <div class="p font-bold">
     <%= link_to(
       t(".subscription_executions"),
-      subscription_executions_path,
+      subscription_executions_path(service_id: @service.id),
       class: :link
     ) %>
   </div>
@@ -207,7 +215,11 @@
   ) %>
 
   <div class="p font-bold">
-    <%= link_to(t(".step_executions"), step_executions_path, class: :link) %>
+    <%= link_to(
+      t(".step_executions"),
+      step_executions_path(service_id: @service.id),
+      class: :link
+    ) %>
   </div>
   <% if can?(:create, StepExecution) %>
     <div class="p">

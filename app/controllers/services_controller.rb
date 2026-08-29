@@ -15,7 +15,8 @@ class ServicesController < ApplicationController
   def show
     unless can?(:update, @service)
       @plans =
-        @service.plans
+        @service
+          .plans
           .includes(:plan_schedules)
           .order(created_at: :desc)
           .page(params[:page])

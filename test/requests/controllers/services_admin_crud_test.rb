@@ -93,6 +93,47 @@ class ServicesAdminCrudTest < ActionDispatch::IntegrationTest
     assert_redirected_to(service_path(Service.order(:id).last))
   end
 
+  test "association links and indexes preserve their parent context" do
+    subscription_execution = subscription_executions(:subscription_execution)
+    step_execution = step_executions(:step_execution)
+    other_execution = nil
+    other_step_execution = nil
+    Current.with(user: @admin) do
+      other_execution =
+        SubscriptionExecution.create!(
+          subscription: subscription_execution.subscription,
+          status: :done
+        )
+      other_step_execution =
+        StepExecution.create!(
+          subscription_execution: other_execution,
+          step: step_execution.step,
+          status: :done
+        )
+    end
+
+    get(subscription_execution_path(subscription_execution))
+
+    assert_response(:success)
+    filtered_path =
+      step_executions_path(subscription_execution_id: subscription_execution.id)
+    assert_select("a[href=?]", filtered_path)
+
+    get(filtered_path)
+
+    assert_response(:success)
+    assert_select(
+      "input[type=hidden][name=subscription_execution_id][value=?]",
+      subscription_execution.id.to_s
+    )
+    assert_select("a[href=?]", step_execution_path(step_execution))
+    assert_select(
+      "a[href=?]",
+      step_execution_path(other_step_execution),
+      count: 0
+    )
+  end
+
   test "creating a service accepts all translated content" do
     post(
       services_path,
@@ -198,10 +239,7 @@ class ServicesAdminCrudTest < ActionDispatch::IntegrationTest
       "a[href=?]",
       new_plan_schedule_path(plan_schedule: { plan_id: plan.id })
     )
-    assert_select(
-      "a[href=?]",
-      new_subscription_path(plan_id: plan.id)
-    )
+    assert_select("a[href=?]", new_subscription_path(plan_id: plan.id))
 
     get(step_path(step))
     assert_select(

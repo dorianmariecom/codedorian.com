@@ -164,7 +164,7 @@ class Subscription < ApplicationRecord
   end
 
   def evaluation_offset_seconds
-    service.steps.minimum(:offset_seconds) || 0
+    service.steps.order(:position).pick(:offset_seconds) || 0
   end
 
   def execution_for(occurrence)
@@ -176,12 +176,12 @@ class Subscription < ApplicationRecord
 
   def scheduled_at
     offset = evaluation_offset_seconds.seconds
-    plan_schedules
-      .flat_map { |schedule| [schedule.previous_at, schedule.next_at] }
-      .compact
-      .uniq
-      .select { |at| at + offset <= Time.zone.now }
-      .max
+    (
+      [initial_scheduled_at] +
+        plan_schedules.flat_map do |schedule|
+          [schedule.previous_at, schedule.next_at]
+        end
+    ).compact.uniq.select { |at| at + offset <= Time.zone.now }.max
   end
 
   def inactive? = status == "inactive"
@@ -237,6 +237,13 @@ class Subscription < ApplicationRecord
   end
 
   private
+
+  def initial_scheduled_at
+    first_plan_at = plan_schedules.minimum(:starts_at)
+    return if first_plan_at.present? && created_at < first_plan_at
+
+    created_at
+  end
 
   def enqueue_step_execution!(execution, step_execution)
     step = step_execution.step

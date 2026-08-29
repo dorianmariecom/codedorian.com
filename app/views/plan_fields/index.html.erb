@@ -1,6 +1,8 @@
 <%= turbo_stream_from(@plan_fields) %>
 <% if can?(:create, PlanField) %>
-  <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
+  <% if can?(:create, model_class) %>
+    <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
+  <% end %>
 <% end %>
 <%= render("shared/search") %>
 <turbo-frame id="search" target="_top">

@@ -1,7 +1,9 @@
 <%= turbo_stream_from(@job_ready_executions) %>
 
 <% if can?(:create, JobReadyExecution) %>
-  <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
+  <% if can?(:create, model_class) %>
+    <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
+  <% end %>
 <% end %>
 
 <%= render("shared/search") %>

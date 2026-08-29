@@ -155,7 +155,9 @@ class SubscriptionBillingsControllerTest < ActionDispatch::IntegrationTest
         status: "complete",
         subscription: nil
       }.to_json,
-      headers: { "Content-Type" => "application/json" }
+      headers: {
+        "Content-Type" => "application/json"
+      }
     )
 
     get(subscription_billing_path(@subscription))
@@ -185,7 +187,9 @@ class SubscriptionBillingsControllerTest < ActionDispatch::IntegrationTest
         status: "complete",
         subscription: "sub_complete"
       }.to_json,
-      headers: { "Content-Type" => "application/json" }
+      headers: {
+        "Content-Type" => "application/json"
+      }
     )
 
     get(subscription_billing_path(@subscription))
@@ -233,19 +237,18 @@ class SubscriptionBillingsControllerTest < ActionDispatch::IntegrationTest
         id: "seti_other",
         object: "setup_intent",
         customer: "cus_test",
-        metadata: { subscription_id: "different" },
+        metadata: {
+          subscription_id: "different"
+        },
         payment_method: "pm_test",
         status: "succeeded"
       }.to_json,
-      headers: { "Content-Type" => "application/json" }
+      headers: {
+        "Content-Type" => "application/json"
+      }
     )
 
-    get(
-      subscription_billing_path(
-        @subscription,
-        setup_intent: "seti_other"
-      )
-    )
+    get(subscription_billing_path(@subscription, setup_intent: "seti_other"))
 
     assert_response(:success)
     assert_includes(response.body, "Invalid SetupIntent")

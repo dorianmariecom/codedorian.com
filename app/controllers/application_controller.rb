@@ -58,6 +58,7 @@ class ApplicationController < ActionController::Base
   helper_method(:nested)
   helper_method(:jobs_nested)
   helper_method(:search_params)
+  helper_method(:index_context_params)
   helper_method(:resources_name)
   helper_method(:resource_name)
   helper_method(:model_class)
@@ -434,22 +435,27 @@ class ApplicationController < ActionController::Base
     parents = nested(...).compact
     identity = parents.first if parents.first.is_a?(User) ||
       parents.first.is_a?(Guest)
-    query =
-      (parents - [identity]).to_h do |parent|
-        ["#{parent.model_name.singular_route_key}_id", parent.to_param]
-      end
+    query = index_context_params(...)
 
     [identity, resources_name, **query, **search_params].compact
   end
+
+  def index_context_params(...)
+    index_context_records(...)
+      .compact
+      .reject { |parent| parent.is_a?(User) || parent.is_a?(Guest) }
+      .to_h do |parent|
+        ["#{parent.model_name.singular_route_key}_id", parent.to_param]
+      end
+  end
+
+  def index_context_records(...) = nested(...)
 
   def destroy_all_url(...)
     parents = nested(...).compact
     identity = parents.first if parents.first.is_a?(User) ||
       parents.first.is_a?(Guest)
-    query =
-      (parents - [identity]).to_h do |parent|
-        ["#{parent.model_name.singular_route_key}_id", parent.to_param]
-      end
+    query = index_context_params(...)
 
     [:destroy_all, identity, resources_name, **query, **search_params].compact
   end
@@ -458,10 +464,7 @@ class ApplicationController < ActionController::Base
     parents = nested(...).compact
     identity = parents.first if parents.first.is_a?(User) ||
       parents.first.is_a?(Guest)
-    query =
-      (parents - [identity]).to_h do |parent|
-        ["#{parent.model_name.singular_route_key}_id", parent.to_param]
-      end
+    query = index_context_params(...)
 
     [:delete_all, identity, resources_name, **query, **search_params].compact
   end
@@ -482,10 +485,7 @@ class ApplicationController < ActionController::Base
     parents = nested(...).compact
     identity = parents.first if parents.first.is_a?(User) ||
       parents.first.is_a?(Guest)
-    query =
-      (parents - [identity]).to_h do |parent|
-        ["#{parent.model_name.singular_route_key}_id", parent.to_param]
-      end
+    query = index_context_params(...)
 
     [:new, identity, resource_name, **query].compact
   end

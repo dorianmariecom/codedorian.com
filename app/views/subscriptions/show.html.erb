@@ -159,7 +159,7 @@
   <div class="p font-bold">
     <%= link_to(
       t(".subscription_executions"),
-      subscription_executions_path,
+      subscription_executions_path(subscription_id: @subscription.id),
       class: :link
     ) %>
   </div>
@@ -185,7 +185,11 @@
 
 <% if can?(:index, StepExecution) %>
   <div class="p font-bold">
-    <%= link_to(t(".step_executions"), step_executions_path, class: :link) %>
+    <%= link_to(
+      t(".step_executions"),
+      step_executions_path(subscription_id: @subscription.id),
+      class: :link
+    ) %>
   </div>
   <%= render_collection(
     partial: "step_executions/step_execution",
@@ -198,7 +202,7 @@
   <div class="p font-bold">
     <%= link_to(
       t(".subscription_values"),
-      subscription_values_path,
+      subscription_values_path(subscription_id: @subscription.id),
       class: :link
     ) %>
   </div>
@@ -208,7 +212,9 @@
       <%= link_to(
         t(".new_subscription_value"),
         new_subscription_value_path(
-          subscription_value: { subscription_id: @subscription.id }
+          subscription_value: {
+            subscription_id: @subscription.id
+          }
         ),
         class: "button"
       ) %>

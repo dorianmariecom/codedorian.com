@@ -38,17 +38,20 @@ class StripeEventProcessorTest < ActiveSupport::TestCase
 
     StripeEventProcessor.new(event).call
     stripe_invoice_record =
-      @subscription.stripe_invoices.find_by!(
-        stripe_invoice_id: "in_created_at"
-      )
+      @subscription.stripe_invoices.find_by!(stripe_invoice_id: "in_created_at")
     created_at = stripe_invoice_record.created_at
 
     travel(1.hour) do
       update_event = stripe_event("invoice.updated", "in_created_at_update")
       update_event.update!(
-        payload: update_event.payload.deep_merge(
-          "data" => { "object" => { "id" => "in_created_at" } }
-        )
+        payload:
+          update_event.payload.deep_merge(
+            "data" => {
+              "object" => {
+                "id" => "in_created_at"
+              }
+            }
+          )
       )
       StripeEventProcessor.new(update_event).call
     end

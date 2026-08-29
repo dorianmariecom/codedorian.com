@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ServiceFieldsController < ApplicationController
+  before_action(:load_service)
   before_action { add_breadcrumb(key: "service_fields.index", path: index_url) }
   before_action :load_service_field, only: %i[show edit update destroy delete]
 
@@ -81,11 +82,23 @@ class ServiceFieldsController < ApplicationController
 
   private
 
-  def scope = searched_policy_scope(ServiceField)
+  def scope
+    records = searched_policy_scope(ServiceField)
+    records = records.where(service: @service) if @service
+    records
+  end
   def model_class = ServiceField
   def model_instance = @service_field
   def nested = []
+  def index_context_records = [@service]
   def filters = []
+
+  def load_service
+    return if params[:service_id].blank?
+
+    @service = policy_scope(Service).find(params.expect(:service_id))
+    set_context(service: @service)
+  end
 
   def load_service_field
     @service_field = authorize(scope.find(params.expect(:id)))

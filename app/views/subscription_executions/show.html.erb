@@ -55,7 +55,11 @@
 <% end %>
 
 <div class="p font-bold">
-  <%= link_to(t(".step_executions"), step_executions_path, class: :link) %>
+  <%= link_to(
+    t(".step_executions"),
+    step_executions_path(subscription_execution_id: @subscription_execution.id),
+    class: :link
+  ) %>
 </div>
 <% if can?(:create, StepExecution) %>
   <div class="p">

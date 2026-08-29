@@ -4,7 +4,9 @@
       <%= f.label(:subscription_id, class: :label) %>
       <%= f.select(
         :subscription_id,
-        policy_scope(Subscription).order(:id).map { |record| [record.to_s, record.id] },
+        policy_scope(Subscription)
+          .order(:id)
+          .map { |record| [record.to_s, record.id] },
         {},
         required: true,
         class: :input,

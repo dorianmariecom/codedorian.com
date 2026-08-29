@@ -194,7 +194,8 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
         body_en: "English plan body",
         body_fr: "Corps français de l’offre"
       )
-      subscription = Subscription.create!(user: user, plan: plan, status: :active)
+      subscription =
+        Subscription.create!(user: user, plan: plan, status: :active)
       SubscriptionValue.create!(
         subscription: subscription,
         key: "phone_number",
@@ -240,14 +241,14 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
     assert_select("a[href=?]", edit_service_path(service), count: 0)
     assert_select("form[action=?]", service_destroy_path(service), count: 0)
     assert_select("form[action=?]", service_delete_path(service), count: 0)
-    assert_select("a[href=?]", plans_path)
+    assert_select("a[href=?]", plans_path(service_id: service.id))
     assert_select("a[href=?]", plan_path(plan))
     assert_select(
       "a[href=?]",
       new_plan_path(plan: { service_id: service.id }),
       count: 0
     )
-    assert_select("a[href=?]", subscriptions_path)
+    assert_select("a[href=?]", subscriptions_path(service_id: service.id))
     assert_select("a[href=?]", subscription_path(subscription))
     assert_select(
       "a[href=?]",
@@ -255,7 +256,10 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
       count: 0
     )
     assert_select("a[href=?]", new_subscription_path)
-    assert_select("a[href=?]", subscription_executions_path)
+    assert_select(
+      "a[href=?]",
+      subscription_executions_path(service_id: service.id)
+    )
     assert_select(
       "a[href=?]",
       subscription_execution_path(subscription_execution)
@@ -268,10 +272,10 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
       count: 0
     )
     assert_select("a[href=?]", new_subscription_execution_path, count: 0)
-    assert_select("a[href=?]", steps_path)
+    assert_select("a[href=?]", steps_path(service_id: service.id))
     assert_select("a[href=?]", step_path(steps(:step)))
     assert_select("a[href=?]", new_step_path, count: 0)
-    assert_select("a[href=?]", step_executions_path)
+    assert_select("a[href=?]", step_executions_path(service_id: service.id))
     assert_select("a[href=?]", step_execution_path(step_execution))
     assert_select(
       "a[href=?]",
@@ -279,13 +283,10 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
       count: 0
     )
     assert_select("a[href=?]", new_step_execution_path, count: 0)
-    assert_select("a[href=?]", service_fields_path)
-    assert_select(
-      "a[href=?]",
-      service_field_path(service_fields(:phone))
-    )
+    assert_select("a[href=?]", service_fields_path(service_id: service.id))
+    assert_select("a[href=?]", service_field_path(service_fields(:phone)))
     assert_select("a[href=?]", new_service_field_path, count: 0)
-    assert_select("a[href=?]", plan_fields_path)
+    assert_select("a[href=?]", plan_fields_path(service_id: service.id))
     assert_select("a[href=?]", plan_field_path(plan_fields(:phone)))
     assert_select("a[href=?]", new_plan_field_path, count: 0)
 
@@ -313,23 +314,20 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
     assert_select("a[href=?]", edit_plan_path(plan), count: 0)
     assert_select("form[action=?]", plan_destroy_path(plan), count: 0)
     assert_select("form[action=?]", plan_delete_path(plan), count: 0)
-    assert_select("a[href=?]", plan_fields_path)
+    assert_select("a[href=?]", plan_fields_path(plan_id: plan.id))
     assert_select("a[href=?]", plan_field_path(plan_fields(:phone)))
     assert_select("a[href=?]", new_plan_field_path, count: 0)
-    assert_select("a[href=?]", subscriptions_path)
+    assert_select("a[href=?]", subscriptions_path(plan_id: plan.id))
     assert_select("a[href=?]", subscription_path(subscription))
-    assert_select(
-      "a[href=?]",
-      new_subscription_path(plan_id: plan.id)
-    )
-    assert_select("a[href=?]", subscription_executions_path)
+    assert_select("a[href=?]", new_subscription_path(plan_id: plan.id))
+    assert_select("a[href=?]", subscription_executions_path(plan_id: plan.id))
     assert_select(
       "a[href=?]",
       subscription_execution_path(subscription_execution)
     )
-    assert_select("a[href=?]", steps_path)
+    assert_select("a[href=?]", steps_path(service_id: plan.service_id))
     assert_select("a[href=?]", step_path(steps(:step)))
-    assert_select("a[href=?]", step_executions_path)
+    assert_select("a[href=?]", step_executions_path(plan_id: plan.id))
     assert_select("a[href=?]", step_execution_path(step_execution))
 
     get(subscription_path(subscription))
@@ -341,12 +339,20 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
       text: I18n.t("subscriptions.show.subscription_values")
     )
     assert_select("body", text: /\+33600000000/)
-    assert_select("a[href=?]", step_executions_path)
+    assert_select(
+      "a[href=?]",
+      step_executions_path(subscription_id: subscription.id)
+    )
     assert_select("a[href=?]", step_execution_path(step_execution))
     assert_select(
       "a[href=?]",
       step_execution_path(step_executions(:step_execution)),
       count: 0
     )
+
+    get(step_executions_path)
+
+    assert_response(:success)
+    assert_select("a[href=?]", new_step_execution_path, count: 0)
   end
 end

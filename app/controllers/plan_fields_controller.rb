@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class PlanFieldsController < ApplicationController
+  before_action(:load_service)
+  before_action(:load_plan)
   before_action { add_breadcrumb(key: "plan_fields.index", path: index_url) }
   before_action :load_plan_field, only: %i[show edit update destroy delete]
 
@@ -80,11 +82,34 @@ class PlanFieldsController < ApplicationController
 
   private
 
-  def scope = searched_policy_scope(PlanField)
+  def scope
+    records = searched_policy_scope(PlanField)
+    records = records.where(plan: @plan) if @plan
+    records =
+      records.joins(:plan).where(plans: { service_id: @service.id }) if @service
+    records
+  end
   def model_class = PlanField
   def model_instance = @plan_field
   def nested = []
+  def index_context_records = [@service, @plan]
   def filters = []
+
+  def load_service
+    return if params[:service_id].blank?
+
+    @service = policy_scope(Service).find(params.expect(:service_id))
+    set_context(service: @service)
+  end
+
+  def load_plan
+    return if params[:plan_id].blank?
+
+    plans = policy_scope(Plan)
+    plans = plans.where(service: @service) if @service
+    @plan = plans.find(params.expect(:plan_id))
+    set_context(plan: @plan)
+  end
 
   def load_plan_field
     @plan_field = authorize(scope.find(params.expect(:id)))

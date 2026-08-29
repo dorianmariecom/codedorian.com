@@ -8,6 +8,9 @@
       data-turbo-action="advance"
       method="get"
     >
+      <% index_context_params.each do |key, value| %>
+        <%= hidden_field_tag(key, value) %>
+      <% end %>
       <%= hidden_field_tag(
         "search[q]",
         q,
@@ -27,6 +30,9 @@
       data-turbo-action="advance"
       method="get"
     >
+      <% index_context_params.each do |key, value| %>
+        <%= hidden_field_tag(key, value) %>
+      <% end %>
       <div class="p flex gap-4">
         <%= text_field_tag(
           "search[q]",

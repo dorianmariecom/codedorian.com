@@ -1,4 +1,4 @@
-- where_* in all controllers (index and show pages)
+- where\_\* in all controllers (index and show pages)
 - crud for all records for admins (stripe events, etc.)
-- *_sample for all fields
-- to_s with all the *_sample and id as fallback
+- \*\_sample for all fields
+- to_s with all the \*\_sample and id as fallback

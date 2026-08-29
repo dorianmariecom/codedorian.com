@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class SubscriptionValuesController < ApplicationController
+  before_action(:load_subscription)
   before_action do
     add_breadcrumb(key: "subscription_values.index", path: index_url)
   end
@@ -12,15 +13,17 @@ class SubscriptionValuesController < ApplicationController
     @subscription_values = scope.page(params[:page]).order(created_at: :desc)
   end
 
-  def show; end
+  def show
+  end
 
   def new
     @subscription_value =
       authorize(
         scope.new(
-          params
-            .fetch(:subscription_value, ActionController::Parameters.new)
-            .permit(:subscription_id)
+          params.fetch(
+            :subscription_value,
+            ActionController::Parameters.new
+          ).permit(:subscription_id)
         )
       )
     add_breadcrumb
@@ -72,11 +75,24 @@ class SubscriptionValuesController < ApplicationController
 
   private
 
-  def scope = searched_policy_scope(SubscriptionValue)
+  def scope
+    records = searched_policy_scope(SubscriptionValue)
+    records = records.where(subscription: @subscription) if @subscription
+    records
+  end
   def model_class = SubscriptionValue
   def model_instance = @subscription_value
   def nested = []
+  def index_context_records = [@subscription]
   def filters = []
+
+  def load_subscription
+    return if params[:subscription_id].blank?
+
+    @subscription =
+      policy_scope(Subscription).find(params.expect(:subscription_id))
+    set_context(subscription: @subscription)
+  end
 
   def load_subscription_value
     @subscription_value = authorize(scope.find(params.expect(:id)))

@@ -70,7 +70,7 @@
 
   <% if can?(:index, PlanField) %>
     <div class="p font-bold">
-      <%= link_to(t(".plan_fields"), plan_fields_path, class: :link) %>
+      <%= link_to(t(".plan_fields"), plan_fields_path(plan_id: @plan.id), class: :link) %>
     </div>
     <% if can?(:create, PlanField) %>
       <div class="p">
@@ -89,7 +89,11 @@
   <% end %>
 
   <div class="p font-bold">
-    <%= link_to(t(".plan_schedules"), plan_schedules_path, class: :link) %>
+    <%= link_to(
+      t(".plan_schedules"),
+      plan_schedules_path(plan_id: @plan.id),
+      class: :link
+    ) %>
   </div>
   <% if can?(:create, PlanSchedule) %>
     <div class="p">
@@ -107,7 +111,11 @@
   ) %>
 
   <div class="p font-bold">
-    <%= link_to(t(".subscriptions"), subscriptions_path, class: :link) %>
+    <%= link_to(
+      t(".subscriptions"),
+      subscriptions_path(plan_id: @plan.id),
+      class: :link
+    ) %>
   </div>
   <% if can?(:create, Subscription) %>
     <div class="p">
@@ -170,7 +178,7 @@
     <div class="p font-bold">
       <%= link_to(
         t(".subscription_executions"),
-        subscription_executions_path,
+        subscription_executions_path(plan_id: @plan.id),
         class: :link
       ) %>
     </div>
@@ -192,7 +200,7 @@
 
   <% if can?(:index, Step) %>
     <div class="p font-bold">
-      <%= link_to(t(".steps"), steps_path, class: :link) %>
+      <%= link_to(t(".steps"), steps_path(service_id: @plan.service_id), class: :link) %>
     </div>
     <% if can?(:create, Step) %>
       <div class="p">
@@ -208,15 +216,15 @@
 
   <% if can?(:index, StepExecution) %>
     <div class="p font-bold">
-      <%= link_to(t(".step_executions"), step_executions_path, class: :link) %>
+      <%= link_to(
+        t(".step_executions"),
+        step_executions_path(plan_id: @plan.id),
+        class: :link
+      ) %>
     </div>
     <% if can?(:create, StepExecution) %>
       <div class="p">
-        <%= link_to(
-          t(".new_step_execution"),
-          new_step_execution_path,
-          class: "button"
-        ) %>
+        <%= link_to(t(".new_step_execution"), new_step_execution_path, class: "button") %>
       </div>
     <% end %>
     <%= render_collection(

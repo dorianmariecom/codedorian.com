@@ -5,13 +5,11 @@ class StepExecutionPolicy < ApplicationPolicy
     def resolve
       scope.where(
         id:
-          scope
-            .joins(:subscription)
-            .where(
-              subscriptions: {
-                id: policy_scope(Subscription).select(:id)
-              }
-            )
+          scope.joins(:subscription).where(
+            subscriptions: {
+              id: policy_scope(Subscription).select(:id)
+            }
+          )
       )
     end
   end

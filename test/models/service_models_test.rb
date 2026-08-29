@@ -171,8 +171,7 @@ class ServiceModelsTest < ActiveSupport::TestCase
     ) do
       assert_equal(service.user, Current.user)
       step_execution = execution.step_executions.first
-      step_execution.update!(
-        input: <<~CODE
+      step_execution.update!(input: <<~CODE)
           api_key = Datum.value!(:twitterapi_io_api_key)
           datum = Datum.find!(:x_followers)
           value = datum.value
@@ -180,7 +179,6 @@ class ServiceModelsTest < ActiveSupport::TestCase
           datum.update!(value: value)
           api_key
         CODE
-      )
       step_execution.evaluate!
     end
 

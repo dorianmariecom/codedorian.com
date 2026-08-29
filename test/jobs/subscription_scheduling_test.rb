@@ -41,7 +41,7 @@ class SubscriptionSchedulingTest < ActiveJob::TestCase
     end
   end
 
-  test "the earliest step offset determines when evaluation becomes due" do
+  test "the first step offset determines when evaluation becomes due" do
     scheduled_at = Time.utc(2026, 8, 9, 12)
     Current.with(user: @user) do
       @subscription.subscription_executions.destroy_all
@@ -67,6 +67,70 @@ class SubscriptionSchedulingTest < ActiveJob::TestCase
 
       step_job = enqueued_jobs.find { |job| job[:job] == StepEvaluateJob }
       assert_nil(step_job[:at])
+    end
+  end
+
+  test "a new subscription starts now and negative offsets preserve step order" do
+    subscribed_at = Time.utc(2026, 8, 9, 12)
+    subscription = nil
+
+    travel_to(subscribed_at) do
+      Current.with(user: @user) do
+        @subscription.service.steps.first.update!(
+          input: "1 + 1",
+          offset_seconds: 0
+        )
+        @subscription.service.steps.create!(
+          position: 1,
+          input: "1 + 2",
+          offset_seconds: -1.hour.to_i
+        )
+        subscription =
+          Subscription.create!(
+            user: @user,
+            plan: @subscription.plan,
+            status: :active
+          )
+      end
+
+      assert_equal(subscribed_at, subscription.scheduled_at)
+      assert_enqueued_jobs(1, only: StepEvaluateJob) do
+        SchedulingSubscriptionJob.perform_now(
+          subscription: subscription,
+          current: current_context.merge(subscription: subscription),
+          context: {
+            subscription: subscription
+          }
+        )
+      end
+
+      execution = subscription.subscription_executions.last
+      first, second =
+        execution.step_executions.joins(:step).order("steps.position")
+
+      assert_equal(%w[initialized initialized], [first.status, second.status])
+
+      clear_enqueued_jobs
+      StepEvaluateJob.perform_now(
+        step_execution: first,
+        current: current_context.merge(subscription: subscription),
+        context: {
+          subscription: subscription
+        }
+      )
+
+      assert_enqueued_jobs(1, only: StepEvaluateJob) do
+        SchedulingSubscriptionJob.perform_now(
+          subscription: subscription,
+          current: current_context.merge(subscription: subscription),
+          context: {
+            subscription: subscription
+          }
+        )
+      end
+
+      assert_equal("done", first.reload.status)
+      assert_equal("initialized", second.reload.status)
     end
   end
 

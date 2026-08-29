@@ -82,7 +82,11 @@
 <% end %>
 
 <div class="p font-bold">
-  <%= link_to(t(".step_executions"), step_executions_path, class: :link) %>
+  <%= link_to(
+    t(".step_executions"),
+    step_executions_path(step_id: @step.id),
+    class: :link
+  ) %>
 </div>
 <% if can?(:create, StepExecution) %>
   <div class="p">

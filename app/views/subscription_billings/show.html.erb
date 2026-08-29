@@ -25,7 +25,9 @@
   <% if @subscription.stripe_checkout_session_id.present? %>
     <div class="p">
       <div class="text-gray-600"><%= t(".stripe_checkout_session_id") %></div>
-      <div class="font-bold"><%= @subscription.stripe_checkout_session_id %></div>
+      <div class="font-bold">
+        <%= @subscription.stripe_checkout_session_id %>
+      </div>
     </div>
   <% end %>
 
@@ -87,7 +89,11 @@
   >
     <div data-stripe-checkout-target="payment"></div>
     <div class="mt-4" data-stripe-checkout-target="billingAddress"></div>
-    <div class="mt-4 text-red-600" hidden data-stripe-checkout-target="error"></div>
+    <div
+      class="mt-4 text-red-600"
+      hidden
+      data-stripe-checkout-target="error"
+    ></div>
     <button class="button mt-4" disabled data-stripe-checkout-target="submit">
       <%= t(".pay") %>
     </button>
@@ -102,7 +108,11 @@
     data-stripe-setup-return-url-value="<%= @setup_return_url %>"
   >
     <div data-stripe-setup-target="payment"></div>
-    <div class="mt-4 text-red-600" hidden data-stripe-setup-target="error"></div>
+    <div
+      class="mt-4 text-red-600"
+      hidden
+      data-stripe-setup-target="error"
+    ></div>
     <button class="button mt-4" disabled data-stripe-setup-target="submit">
       <%= t(".save_payment_method") %>
     </button>

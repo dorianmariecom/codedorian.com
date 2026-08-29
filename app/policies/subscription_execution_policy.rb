@@ -3,9 +3,7 @@
 class SubscriptionExecutionPolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
-      scope
-        .joins(:subscription)
-        .where(subscription: policy_scope(Subscription))
+      scope.joins(:subscription).where(subscription: policy_scope(Subscription))
     end
   end
 

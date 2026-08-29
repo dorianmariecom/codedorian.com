@@ -36,10 +36,7 @@ class SchemaFieldsTest < ActiveSupport::TestCase
       )
     end
 
-    assert_equal(
-      %w[mobile username phone_number],
-      plan.fields.map(&:key)
-    )
+    assert_equal(%w[mobile username phone_number], plan.fields.map(&:key))
   end
 
   test "schema fields validate keys kinds and bilingual names" do

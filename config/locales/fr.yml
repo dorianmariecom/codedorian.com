@@ -2619,8 +2619,8 @@ fr:
       title: nouvelle planification
     show:
       created_at: créé à
-      description: consulter les détails de la planification.
       delete: supprimer la planification
+      description: consulter les détails de la planification.
       destroy: détruire la planification
       edit: modifier la planification
       id: id
@@ -2670,8 +2670,8 @@ fr:
       body_en: corps anglais
       body_fr: corps français
       created_at: créé à
-      description: consulter les détails de l'offre.
       delete: supprimer l'offre
+      description: consulter les détails de l'offre.
       description_en: description anglaise
       description_fr: description française
       destroy: détruire l'offre
@@ -3080,6 +3080,7 @@ fr:
       new_subscription: nouvel abonnement
       new_subscription_execution: nouvelle exécution d'abonnement
       new_version: nouvelle version
+      plan_fields: champs d’offre
       plan_schedules:
         days:
           one: tous les jours à %{time}
@@ -3112,7 +3113,6 @@ fr:
           other: tous les %{count} ans le %{day} %{month} à %{time}
           zero: tous les %{count} ans le %{day} %{month} à %{time}
       plans: offres
-      plan_fields: champs d’offre
       service_fields: champs de service
       step_executions: exécutions d'étape
       steps: étapes
@@ -3362,8 +3362,8 @@ fr:
       title: nouvelle exécution
     show:
       created_at: créé à
-      description: consulter les détails de l'exécution d'étape.
       delete: supprimer l'exécution d'étape
+      description: consulter les détails de l'exécution d'étape.
       destroy: détruire l'exécution d'étape
       edit: modifier l'exécution d'étape
       error: erreur
@@ -3414,8 +3414,8 @@ fr:
       body_en: corps anglais
       body_fr: corps français
       created_at: créé à
-      description: consulter les détails de l'étape.
       delete: supprimer l'étape
+      description: consulter les détails de l'étape.
       description_en: description anglaise
       description_fr: description française
       destroy: détruire l'étape
@@ -3839,8 +3839,8 @@ fr:
       title: nouvelle exécution
     show:
       created_at: créé à
-      description: consulter les détails de l'exécution d'abonnement.
       delete: supprimer l'exécution d'abonnement
+      description: consulter les détails de l'exécution d'abonnement.
       destroy: détruire l'exécution d'abonnement
       edit: modifier l'exécution d'abonnement
       id: id
@@ -3853,6 +3853,43 @@ fr:
       versions: versions
     update:
       notice: exécution d'abonnement mise à jour
+  subscription_values:
+    create:
+      notice: valeur d'abonnement créée
+    delete:
+      notice: valeur d'abonnement supprimée
+    delete_all:
+      notice: valeurs d'abonnement supprimées
+    destroy:
+      notice: valeur d'abonnement détruite
+    destroy_all:
+      notice: valeurs d'abonnement détruites
+    edit:
+      description: modifier une valeur d'abonnement.
+      submit: mettre à jour la valeur d'abonnement
+      title: modifier la valeur d'abonnement
+    index:
+      delete_all: tout supprimer
+      destroy_all: tout détruire
+      new: nouvelle valeur d'abonnement
+      title: valeurs d'abonnement
+    new:
+      description: créer une valeur d'abonnement.
+      submit: créer la valeur d'abonnement
+      title: nouvelle valeur d'abonnement
+    show:
+      created_at: créé à
+      delete: supprimer la valeur d'abonnement
+      description: consulter les détails de la valeur d'abonnement.
+      destroy: détruire la valeur d'abonnement
+      edit: modifier la valeur d'abonnement
+      id: identifiant
+      key: clé
+      subscription_id: abonnement
+      updated_at: mis à jour à
+      value: valeur
+    update:
+      notice: valeur d'abonnement mise à jour
   subscriptions:
     activate:
       notice: abonnement activé
@@ -3894,9 +3931,9 @@ fr:
       activate: activer
       billing: facturation
       created_at: créé à
-      description: consulter les détails de l'abonnement.
       deactivate: désactiver
       delete: supprimer l'abonnement
+      description: consulter les détails de l'abonnement.
       destroy: détruire l'abonnement
       edit: modifier l'abonnement
       evaluate: évaluer
@@ -3913,51 +3950,14 @@ fr:
       stale: obsolète
       starts_at: commence à
       status: statut
+      step_executions: exécutions d'étape
       subscription_executions: exécutions d'abonnement
       subscription_values: valeurs d'abonnement
-      step_executions: exécutions d'étape
       updated_at: mis à jour à
       user_id: utilisateur
       versions: versions
     update:
       notice: abonnement mis à jour
-  subscription_values:
-    create:
-      notice: valeur d'abonnement créée
-    delete:
-      notice: valeur d'abonnement supprimée
-    delete_all:
-      notice: valeurs d'abonnement supprimées
-    destroy:
-      notice: valeur d'abonnement détruite
-    destroy_all:
-      notice: valeurs d'abonnement détruites
-    edit:
-      description: modifier une valeur d'abonnement.
-      submit: mettre à jour la valeur d'abonnement
-      title: modifier la valeur d'abonnement
-    index:
-      delete_all: tout supprimer
-      destroy_all: tout détruire
-      new: nouvelle valeur d'abonnement
-      title: valeurs d'abonnement
-    new:
-      description: créer une valeur d'abonnement.
-      submit: créer la valeur d'abonnement
-      title: nouvelle valeur d'abonnement
-    show:
-      created_at: créé à
-      description: consulter les détails de la valeur d'abonnement.
-      delete: supprimer la valeur d'abonnement
-      destroy: détruire la valeur d'abonnement
-      edit: modifier la valeur d'abonnement
-      id: identifiant
-      key: clé
-      subscription_id: abonnement
-      updated_at: mis à jour à
-      value: valeur
-    update:
-      notice: valeur d'abonnement mise à jour
   time:
     formats:
       default: "%A %d %B %Y à %H:%M:%S"

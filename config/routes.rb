@@ -110,7 +110,9 @@ Rails.application.routes.draw do
       "locale/:selected_locale",
       to: "locales#update",
       as: :locale,
-      constraints: { selected_locale: /en|fr/ }
+      constraints: {
+        selected_locale: /en|fr/
+      }
     )
 
     resources(:users, concerns: :deletable) do

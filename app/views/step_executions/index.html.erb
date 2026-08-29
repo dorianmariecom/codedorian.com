@@ -1,7 +1,9 @@
 <% content_for(:description, t(".title")) %>
 <%= turbo_stream_from(@step_executions) %>
 
-<div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
+<% if can?(:create, model_class) %>
+  <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
+<% end %>
 <%= render("shared/search") %>
 
 <turbo-frame id="search" target="_top">

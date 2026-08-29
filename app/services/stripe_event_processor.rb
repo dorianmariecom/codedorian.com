@@ -159,8 +159,7 @@ class StripeEventProcessor
   end
 
   def invoice_subscription_id(invoice)
-    invoice[:subscription] ||
-      invoice.parent&.subscription_details&.subscription
+    invoice[:subscription] || invoice.parent&.subscription_details&.subscription
   end
 
   def find_subscription(object)

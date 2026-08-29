@@ -33,7 +33,9 @@ class Plan < ApplicationRecord
     overrides = plan_fields.index_by(&:key)
     inherited =
       service.fields.map { |field| overrides.delete(field.key) || field }
-    (inherited + overrides.values).sort_by { |field| [field.position, field.key] }
+    (inherited + overrides.values).sort_by do |field|
+      [field.position, field.key]
+    end
   end
 
   def field_for(key) = fields.find { |field| field.key == key.to_s }

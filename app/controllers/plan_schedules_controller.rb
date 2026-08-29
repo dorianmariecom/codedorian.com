@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class PlanSchedulesController < ApplicationController
+  before_action(:load_plan)
   before_action { add_breadcrumb(key: "plan_schedules.index", path: index_url) }
   before_action :load_plan_schedule, only: %i[show edit update destroy delete]
 
@@ -82,11 +83,23 @@ class PlanSchedulesController < ApplicationController
 
   private
 
-  def scope = searched_policy_scope(PlanSchedule)
+  def scope
+    records = searched_policy_scope(PlanSchedule)
+    records = records.where(plan: @plan) if @plan
+    records
+  end
   def model_class = PlanSchedule
   def model_instance = @plan_schedule
   def nested = []
+  def index_context_records = [@plan]
   def filters = []
+
+  def load_plan
+    return if params[:plan_id].blank?
+
+    @plan = policy_scope(Plan).find(params.expect(:plan_id))
+    set_context(plan: @plan)
+  end
 
   def load_plan_schedule
     @plan_schedule = authorize(scope.find(params.expect(:id)))
