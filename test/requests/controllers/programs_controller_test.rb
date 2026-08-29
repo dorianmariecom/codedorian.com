@@ -45,4 +45,14 @@ class ProgramsControllerTest < ActionDispatch::IntegrationTest
     post(schedule_user_program_path(@admin, program, locale: I18n.locale))
     assert_predicate(program.reload, :scheduled?)
   end
+
+  test "nested programs index only links to data from the top navigation" do
+    get(user_programs_path(@admin, locale: I18n.locale))
+
+    assert_response(:success)
+    assert_select(
+      "a[href='#{user_data_path(@admin, locale: I18n.locale)}']",
+      count: 1
+    )
+  end
 end

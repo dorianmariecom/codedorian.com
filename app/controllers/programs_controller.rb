@@ -15,7 +15,6 @@ class ProgramsController < ApplicationController
     @programs = scope.page(params[:page]).order(name: :asc)
     @program_schedules = program_schedules_scope
     @program_executions = program_executions_scope
-    @data = data_scope
 
     respond_to do |format|
       format.html
@@ -391,13 +390,6 @@ class ProgramsController < ApplicationController
   def versions_scope
     scope = policy_scope(Version)
     scope = scope.where_program(@program) if @program
-    scope
-  end
-
-  def data_scope
-    scope = policy_scope(Datum)
-    scope = scope.where_guest(@guest) if @guest
-    scope = scope.where_user(@user) if @user
     scope
   end
 

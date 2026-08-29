@@ -2914,10 +2914,6 @@ en:
       alert: 'format all failed: %{message}'
       notice: programs formatted
     index:
-      data:
-        one: 1 datum
-        other: "%{count} data"
-        zero: 0 data
       delete_all: delete all
       description: browse programs and their automation runs.
       destroy_all: destroy all

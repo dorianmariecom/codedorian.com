@@ -1,4 +1,34 @@
 ---
+data_menu:
+  image_android: storage
+  image_ios: externaldrive.fill
+  kind: menu
+  path_input: '"{locale_prefix}/users/{Current.user.id}/data"'
+  position: 3
+  title_en: data
+  title_fr: données
+  verb: get
+  visibility_input: Current.user&.advanced?
+data_navigation:
+  image_android: storage
+  image_ios: externaldrive.fill
+  kind: navigation
+  path_input: '"{locale_prefix}/users/{Current.user.id}/data"'
+  position: 3
+  title_en: data
+  title_fr: données
+  verb: get
+  visibility_input: Current.user&.advanced?
+data_tabs:
+  image_android: storage
+  image_ios: externaldrive.fill
+  kind: tabs
+  path_input: '"{locale_prefix}/users/{Current.user.id}/data"'
+  position: 1
+  title_en: data
+  title_fr: données
+  verb: get
+  visibility_input: Current.user&.advanced?
 link:
   kind: navigation
   path_input: '"/"'

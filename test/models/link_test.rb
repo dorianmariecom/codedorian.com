@@ -48,6 +48,24 @@ class LinkTest < ActiveSupport::TestCase
     assert(login_links.all? { |link| link.path_input == '"/session/new"' })
   end
 
+  test "data links target the current advanced user on every surface" do
+    Current.user = users(:other_user)
+    Current.user.update!(interface: :advanced)
+    data_links = Link.where(title_en: "data")
+
+    assert_equal(%w[menu navigation tabs], data_links.pluck(:kind).sort)
+    data_links.each do |link|
+      assert(link.visible?(context: {}))
+      assert_equal(
+        "/en/users/#{Current.user.id}/data",
+        link.path(context: { "locale_prefix" => "/en" })
+      )
+    end
+
+    Current.user.update!(interface: :simple)
+    assert(data_links.none? { |link| link.visible?(context: {}) })
+  end
+
   test "evaluates simple and advanced user interface predicates" do
     context = {}
 

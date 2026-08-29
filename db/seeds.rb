@@ -89,10 +89,20 @@ Current.with(user: User.new(admin: true)) do
     ),
     link.call(
       "navigation",
+      "data",
+      "données",
+      '"{locale_prefix}/users/{Current.user.id}/data"',
+      3,
+      visibility_input: "Current.user&.advanced?",
+      image_ios: "externaldrive.fill",
+      image_android: "storage"
+    ),
+    link.call(
+      "navigation",
       "documentation",
       "documentation",
       '"{locale_prefix}/documentation"',
-      3,
+      4,
       visibility_input: "Current.user&.advanced?",
       image_ios: "document",
       image_android: "article"
@@ -102,7 +112,7 @@ Current.with(user: User.new(admin: true)) do
       "messages",
       "messages",
       '"{locale_prefix}/users/{Current.user.id}/messages"',
-      4,
+      5,
       visibility_input: "Current.user.something?",
       image_ios: "message.fill",
       image_android: "chat"
@@ -112,7 +122,7 @@ Current.with(user: User.new(admin: true)) do
       "account",
       "compte",
       '"{locale_prefix}/users/{Current.user.id}"',
-      5,
+      6,
       visibility_input: "Current.user.something?",
       image_ios: "person.crop.circle.fill",
       image_android: "account_circle"
@@ -122,7 +132,7 @@ Current.with(user: User.new(admin: true)) do
       "register",
       "s'inscrire",
       '"{locale_prefix}/users/new"',
-      6,
+      7,
       visibility_input: "Current.user.nothing?",
       image_ios: "person.badge.plus",
       image_android: "person_add"
@@ -132,7 +142,7 @@ Current.with(user: User.new(admin: true)) do
       "log in",
       "se connecter",
       '"{locale_prefix}/session/new"',
-      7,
+      8,
       visibility_input: "Current.user.nothing?",
       image_ios: "person.crop.circle.fill",
       image_android: "login"
@@ -142,7 +152,7 @@ Current.with(user: User.new(admin: true)) do
       "log out",
       "se déconnecter",
       '"{locale_prefix}/session"',
-      8,
+      9,
       visibility_input: "Current.user.something?",
       image_ios: "rectangle.portrait.and.arrow.right",
       image_android: "logout",
@@ -153,7 +163,7 @@ Current.with(user: User.new(admin: true)) do
       "about",
       "à propos",
       '"{locale_prefix}/about"',
-      9,
+      10,
       image_ios: "info",
       image_android: "info"
     ),
@@ -162,7 +172,7 @@ Current.with(user: User.new(admin: true)) do
       "admin",
       "admin",
       '"{locale_prefix}/admin"',
-      10,
+      11,
       visibility_input: "Current.user&.admin?",
       image_ios: "suitcase",
       image_android: "work"
@@ -172,7 +182,7 @@ Current.with(user: User.new(admin: true)) do
       "french",
       "anglais",
       "switch_locale_url",
-      11,
+      12,
       image_ios: "flag",
       image_android: "language",
       verb: "post"
@@ -207,10 +217,20 @@ Current.with(user: User.new(admin: true)) do
     ),
     link.call(
       "menu",
+      "data",
+      "données",
+      '"{locale_prefix}/users/{Current.user.id}/data"',
+      3,
+      visibility_input: "Current.user&.advanced?",
+      image_ios: "externaldrive.fill",
+      image_android: "storage"
+    ),
+    link.call(
+      "menu",
       "documentation",
       "documentation",
       '"{locale_prefix}/documentation"',
-      3,
+      4,
       visibility_input: "Current.user&.advanced?",
       image_ios: "document",
       image_android: "article"
@@ -220,7 +240,7 @@ Current.with(user: User.new(admin: true)) do
       "messages",
       "messages",
       '"{locale_prefix}/users/{Current.user.id}/messages"',
-      4,
+      5,
       visibility_input: "Current.user.something?",
       image_ios: "message.fill",
       image_android: "chat"
@@ -230,7 +250,7 @@ Current.with(user: User.new(admin: true)) do
       "account",
       "compte",
       '"{locale_prefix}/users/{Current.user.id}"',
-      5,
+      6,
       visibility_input: "Current.user.something?",
       image_ios: "person.crop.circle.fill",
       image_android: "account_circle"
@@ -240,7 +260,7 @@ Current.with(user: User.new(admin: true)) do
       "register",
       "s'inscrire",
       '"{locale_prefix}/users/new"',
-      6,
+      7,
       visibility_input: "Current.user.nothing?",
       image_ios: "person.badge.plus",
       image_android: "person_add"
@@ -250,7 +270,7 @@ Current.with(user: User.new(admin: true)) do
       "log in",
       "se connecter",
       '"{locale_prefix}/session/new"',
-      7,
+      8,
       visibility_input: "Current.user.nothing?",
       image_ios: "person.crop.circle.fill",
       image_android: "login"
@@ -260,7 +280,7 @@ Current.with(user: User.new(admin: true)) do
       "log out",
       "se déconnecter",
       '"{locale_prefix}/session"',
-      8,
+      9,
       visibility_input: "Current.user.something?",
       image_ios: "rectangle.portrait.and.arrow.right",
       image_android: "logout",
@@ -271,7 +291,7 @@ Current.with(user: User.new(admin: true)) do
       "about",
       "à propos",
       '"{locale_prefix}/about"',
-      9,
+      10,
       image_ios: "info",
       image_android: "info"
     ),
@@ -280,7 +300,7 @@ Current.with(user: User.new(admin: true)) do
       "admin",
       "admin",
       '"{locale_prefix}/admin"',
-      10,
+      11,
       visibility_input: "Current.user&.admin?",
       image_ios: "suitcase",
       image_android: "work"
@@ -290,7 +310,7 @@ Current.with(user: User.new(admin: true)) do
       "french",
       "anglais",
       "switch_locale_url",
-      11,
+      12,
       image_ios: "flag",
       image_android: "language",
       verb: "post"
@@ -308,10 +328,20 @@ Current.with(user: User.new(admin: true)) do
     ),
     link.call(
       "tabs",
+      "data",
+      "données",
+      '"{locale_prefix}/users/{Current.user.id}/data"',
+      1,
+      visibility_input: "Current.user&.advanced?",
+      image_ios: "externaldrive.fill",
+      image_android: "storage"
+    ),
+    link.call(
+      "tabs",
       "messages",
       "messages",
       '"{locale_prefix}/users/{Current.user.id}/messages"',
-      1,
+      2,
       visibility_input: "Current.user.something?",
       image_ios: "message.fill",
       image_android: "chat"
@@ -321,7 +351,7 @@ Current.with(user: User.new(admin: true)) do
       "documentation",
       "documentation",
       '"{locale_prefix}/documentation"',
-      2,
+      3,
       visibility_input: "Current.user&.advanced?",
       image_ios: "document",
       image_android: "article"
@@ -331,7 +361,7 @@ Current.with(user: User.new(admin: true)) do
       "account",
       "compte",
       '"{locale_prefix}/users/{Current.user.id}"',
-      2,
+      3,
       visibility_input: "Current.user&.simple?",
       image_ios: "person.crop.circle.fill",
       image_android: "account_circle"
@@ -341,7 +371,7 @@ Current.with(user: User.new(admin: true)) do
       "form",
       "formulaire",
       '"{locale_prefix}/form"',
-      3,
+      4,
       image_ios: "checklist",
       image_android: "assignment"
     ),
@@ -350,7 +380,7 @@ Current.with(user: User.new(admin: true)) do
       "account",
       "compte",
       '"{locale_prefix}/users/{Current.user.id}"',
-      4,
+      5,
       visibility_input: "Current.user&.advanced?",
       image_ios: "person.crop.circle.fill",
       image_android: "account_circle"
@@ -360,7 +390,7 @@ Current.with(user: User.new(admin: true)) do
       "register",
       "s'inscrire",
       '"{locale_prefix}/users/new"',
-      5,
+      6,
       visibility_input: "Current.user.nothing?",
       image_ios: "person.badge.plus",
       image_android: "person_add"
@@ -370,7 +400,7 @@ Current.with(user: User.new(admin: true)) do
       "log in",
       "se connecter",
       '"{locale_prefix}/session/new"',
-      6,
+      7,
       visibility_input: "Current.user.nothing?",
       image_ios: "person.crop.circle.fill",
       image_android: "login"

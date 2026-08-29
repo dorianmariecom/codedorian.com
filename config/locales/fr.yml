@@ -2918,10 +2918,6 @@ fr:
       alert: 'formatage total échoué : %{message}'
       notice: programmes formatés
     index:
-      data:
-        one: 1 donnée
-        other: "%{count} données"
-        zero: 0 données
       delete_all: supprimer tout
       description: parcourir les programmes et leurs exécutions.
       destroy_all: détruire tout
