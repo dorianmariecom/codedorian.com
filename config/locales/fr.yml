@@ -10,6 +10,39 @@ fr:
       configuration:
         content: contenu
         name: nom
+      country:
+        abuse: abus
+        alpha2: iso alpha-2
+        alpha3: iso alpha-3
+        anonymous: anonyme ?
+        anycast: anycast ?
+        asn: asn
+        bogon: bogon ?
+        carrier: opérateur
+        city: ville
+        company: entreprise
+        continent: continent
+        continent_code: code continent
+        domains: domaines
+        hostname: nom d'hôte
+        hosting: hébergement ?
+        ip_address: adresse ip
+        latitude: latitude
+        longitude: longitude
+        mobile: mobile ?
+        name: nom
+        numeric_code: code numérique iso
+        organization: organisation
+        postal_code: code postal
+        primary: principal ?
+        privacy: confidentialité
+        raw_payload: données brutes
+        region: région
+        region_code: code région
+        satellite: satellite ?
+        time_zone: fuseau horaire
+        user_id: utilisateur
+        verified: vérifié ?
       country_code_ip_address:
         country_code: code pays
         ip_address: adresse ip
@@ -600,6 +633,10 @@ fr:
     time_zones:
       edit: modifier
       index: fuseaux horaires
+      new: nouveau
+    countries:
+      edit: modifier
+      index: pays
       new: nouveau
     tokens:
       edit: modifier
@@ -3239,6 +3276,7 @@ fr:
       user: utilisateur
     list:
       addresses: adresses
+      countries: pays
       data: données
       devices: appareils
       email_addresses: adresses e-mail
@@ -3249,6 +3287,7 @@ fr:
       messages: messages
       names: noms
       new_address: nouvelle adresse
+      new_country: nouveau pays
       new_datum: nouvelle donnée
       new_device: nouvel appareil
       new_email_address: nouvelle adresse e-mail
@@ -3280,6 +3319,78 @@ fr:
     search:
       placeholder: saisissez votre requête de recherche
       submit: recherche
+  countries:
+    create:
+      notice: pays créé
+    delete:
+      notice: pays supprimé
+    delete_all:
+      notice: pays supprimés
+    destroy:
+      notice: pays supprimé
+    destroy_all:
+      notice: pays détruits
+    edit:
+      description: mettre à jour un pays et ses données ip.
+      submit: mettre à jour le pays
+      title: modifier le pays
+    index:
+      delete_all: supprimer tout
+      description: gérer les pays et les données ip.
+      destroy_all: détruire tout
+      new: nouveau pays
+      title: pays
+    model:
+      to_s: pays#%{id}
+    new:
+      description: ajouter un pays pour un utilisateur.
+      submit: créer le pays
+      title: nouveau pays
+    show:
+      abuse: abus
+      alpha2: iso alpha-2
+      alpha3: iso alpha-3
+      anonymous: anonyme ?
+      anycast: anycast ?
+      asn: asn
+      bogon: bogon ?
+      carrier: opérateur
+      city: ville
+      company: entreprise
+      continent: continent
+      continent_code: code continent
+      created_at: créé à
+      delete: supprimer le pays
+      description: voir les détails du pays et de la recherche ip.
+      destroy: détruire le pays
+      domains: domaines
+      edit: modifier le pays
+      hostname: nom d'hôte
+      hosting: hébergement ?
+      id: identifiant
+      ip_address: adresse ip
+      latitude: latitude
+      logs: logs
+      longitude: longitude
+      mobile: mobile ?
+      name: nom
+      numeric_code: code numérique iso
+      organization: organisation
+      postal_code: code postal
+      primary: principal ?
+      privacy: confidentialité
+      raw_payload: données brutes
+      region: région
+      region_code: code région
+      satellite: satellite ?
+      time_zone: fuseau horaire
+      updated_at: mis à jour à
+      user: utilisateur
+      verified: vérifié ?
+      versions: versions
+      title: pays
+    update:
+      notice: pays mis à jour
   solid_cable_messages:
     create:
       notice: message solid cable créé

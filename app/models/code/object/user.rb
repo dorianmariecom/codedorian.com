@@ -81,6 +81,9 @@ class Code
         when "addresses"
           sig(args)
           code_addresses
+        when "countries"
+          sig(args)
+          code_countries
         when "data"
           sig(args)
           code_data
@@ -185,6 +188,7 @@ class Code
       end
 
       def code_addresses = policy_scope(user!.addresses).to_code
+      def code_countries = policy_scope(user!.countries).to_code
       def code_data = policy_scope(user!.data).to_code
       def code_devices = policy_scope(user!.devices).to_code
       def code_email_addresses = policy_scope(user!.email_addresses).to_code

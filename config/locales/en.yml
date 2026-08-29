@@ -10,6 +10,39 @@ en:
       configuration:
         content: content
         name: name
+      country:
+        abuse: abuse
+        alpha2: iso alpha-2
+        alpha3: iso alpha-3
+        anonymous: anonymous?
+        anycast: anycast?
+        asn: asn
+        bogon: bogon?
+        carrier: carrier
+        city: city
+        company: company
+        continent: continent
+        continent_code: continent code
+        domains: domains
+        hostname: hostname
+        hosting: hosting?
+        ip_address: ip address
+        latitude: latitude
+        longitude: longitude
+        mobile: mobile?
+        name: name
+        numeric_code: iso numeric code
+        organization: organization
+        postal_code: postal code
+        primary: primary?
+        privacy: privacy
+        raw_payload: raw payload
+        region: region
+        region_code: region code
+        satellite: satellite?
+        time_zone: time zone
+        user_id: user
+        verified: verified?
       country_code_ip_address:
         country_code: country_code
         ip_address: ip address
@@ -599,6 +632,10 @@ en:
     time_zones:
       edit: edit
       index: time zones
+      new: new
+    countries:
+      edit: edit
+      index: countries
       new: new
     tokens:
       edit: edit
@@ -3235,6 +3272,7 @@ en:
       user: user
     list:
       addresses: addresses
+      countries: countries
       data: data
       devices: devices
       email_addresses: email addresses
@@ -3245,6 +3283,7 @@ en:
       messages: messages
       names: names
       new_address: new address
+      new_country: new country
       new_datum: new datum
       new_device: new device
       new_email_address: new email address
@@ -3276,6 +3315,78 @@ en:
     search:
       placeholder: enter your search query
       submit: search
+  countries:
+    create:
+      notice: country created
+    delete:
+      notice: country deleted
+    delete_all:
+      notice: countries deleted
+    destroy:
+      notice: country deleted
+    destroy_all:
+      notice: countries destroyed
+    edit:
+      description: update a country and its ip lookup data.
+      submit: update country
+      title: edit country
+    index:
+      delete_all: delete all
+      description: manage countries and ip lookup data.
+      destroy_all: destroy all
+      new: new country
+      title: countries
+    model:
+      to_s: country#%{id}
+    new:
+      description: add a country for a user.
+      submit: create country
+      title: new country
+    show:
+      abuse: abuse
+      alpha2: iso alpha-2
+      alpha3: iso alpha-3
+      anonymous: anonymous?
+      anycast: anycast?
+      asn: asn
+      bogon: bogon?
+      carrier: carrier
+      city: city
+      company: company
+      continent: continent
+      continent_code: continent code
+      created_at: created at
+      delete: delete country
+      description: view country and ip lookup details.
+      destroy: destroy country
+      domains: domains
+      edit: edit country
+      hostname: hostname
+      hosting: hosting?
+      id: id
+      ip_address: ip address
+      latitude: latitude
+      logs: logs
+      longitude: longitude
+      mobile: mobile?
+      name: name
+      numeric_code: iso numeric code
+      organization: organization
+      postal_code: postal code
+      primary: primary?
+      privacy: privacy
+      raw_payload: raw payload
+      region: region
+      region_code: region code
+      satellite: satellite?
+      time_zone: time zone
+      updated_at: updated at
+      user: user
+      verified: verified?
+      versions: versions
+      title: country
+    update:
+      notice: country updated
   solid_cable_messages:
     create:
       notice: solid cable message created

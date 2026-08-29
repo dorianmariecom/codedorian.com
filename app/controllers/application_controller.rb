@@ -14,6 +14,7 @@ class ApplicationController < ActionController::Base
   before_action(:set_current_user)
   before_action(:set_current_guest)
   before_action(:set_current_request)
+  before_action(:set_current_country)
   before_action(:set_current_version)
   before_action(:set_current_commit)
   before_action(:set_current_time_zone)
@@ -36,6 +37,7 @@ class ApplicationController < ActionController::Base
   helper_method(:registered?)
   helper_method(:guest?)
   helper_method(:current_time_zone)
+  helper_method(:current_country)
   helper_method(:current_persisted_time_zone)
   helper_method(:admin?)
   helper_method(:simple?)
@@ -191,6 +193,36 @@ class ApplicationController < ActionController::Base
   def set_current_request
     Current.request = request
     set_context(current_request: request)
+  end
+
+  def set_current_country
+    return unless current_user? && request.ip.present?
+
+    lookup = CountryCodeIpAddress.find_or_create_by!(ip_address: request.ip)
+
+    if lookup.raw_payload.present?
+      Current.country =
+        Country.sync_from_ipinfo!(
+          user: current_user,
+          ip_address: request.ip,
+          payload: lookup.raw_payload
+        )
+    elsif lookup.lookup_enqueued_at.blank? ||
+        lookup.lookup_enqueued_at < 10.minutes.ago
+      lookup.update_columns(lookup_enqueued_at: Time.current)
+      perform_later(
+        CountryLookupJob,
+        arguments: { user: current_user, ip_address: request.ip },
+        current: { user: current_user },
+        context: { user: current_user, ip_address: request.ip }
+      )
+    end
+  rescue ActiveRecord::RecordNotUnique
+    retry
+  end
+
+  def current_country
+    Current.country || current_user&.unverified_country
   end
 
   def set_current_version

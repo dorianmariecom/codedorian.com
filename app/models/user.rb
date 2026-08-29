@@ -2,6 +2,7 @@
 
 class User < ApplicationRecord
   has_many(:addresses, dependent: :destroy)
+  has_many(:countries, dependent: :destroy)
   has_many(:data, dependent: :destroy)
   has_many(:devices, dependent: :destroy)
   has_many(:email_addresses, dependent: :destroy)
@@ -173,6 +174,14 @@ class User < ApplicationRecord
     @time_zone = time_zones.verified.order(primary: :desc).first&.time_zone
   end
 
+  def country
+    countries.verified.order(primary: :desc).first
+  end
+
+  def unverified_country
+    countries.order(primary: :desc).first
+  end
+
   def unverified_time_zone
     time_zones.order(primary: :desc).first&.time_zone
   end
@@ -192,6 +201,7 @@ class User < ApplicationRecord
   def verified!
     update!(verified: true)
     addresses.update!(verified: true)
+    countries.update!(verified: true)
     email_addresses.update!(verified: true)
     handles.update!(verified: true)
     names.update!(verified: true)
@@ -205,6 +215,7 @@ class User < ApplicationRecord
   def not_verified!
     update!(verified: false)
     addresses.update!(verified: false)
+    countries.update!(verified: false)
     email_addresses.update!(verified: false)
     handles.update!(verified: false)
     names.update!(verified: false)
@@ -217,6 +228,7 @@ class User < ApplicationRecord
 
   def primary!
     addresses.update!(primary: true)
+    countries.update!(primary: true)
     email_addresses.update!(primary: true)
     handles.update!(primary: true)
     names.update!(primary: true)
@@ -229,6 +241,7 @@ class User < ApplicationRecord
 
   def not_primary!
     addresses.update!(primary: false)
+    countries.update!(primary: false)
     email_addresses.update!(primary: false)
     handles.update!(primary: false)
     names.update!(primary: false)

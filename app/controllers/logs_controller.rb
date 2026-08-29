@@ -22,6 +22,7 @@ class LogsController < ApplicationController
   before_action(:load_error_occurrence)
   before_action(:load_address)
   before_action(:load_configuration)
+  before_action(:load_country)
   before_action(:load_country_code_ip_address)
   before_action(:load_datum)
   before_action(:load_device)
@@ -550,6 +551,14 @@ class LogsController < ApplicationController
     add_breadcrumb(text: @time_zone, path: [*nested, @time_zone].uniq)
   end
 
+  def load_country
+    return if params[:country_id].blank?
+
+    @country = countries_scope.find(params.expect(:country_id))
+    set_context(country: @country)
+    add_breadcrumb(text: @country, path: [*nested, @country].uniq)
+  end
+
   def load_token
     return if params[:token_id].blank?
 
@@ -592,6 +601,8 @@ class LogsController < ApplicationController
       scope = scope.where_device(@device)
     elsif @datum
       scope = scope.where_datum(@datum)
+    elsif @country
+      scope = scope.where_country(@country)
     elsif @country_code_ip_address
       scope = scope.where_country_code_ip_address(@country_code_ip_address)
     elsif @configuration
@@ -679,6 +690,7 @@ class LogsController < ApplicationController
     error_occurrence: @error_occurrence,
     address: @address,
     configuration: @configuration,
+    country: @country,
     country_code_ip_address: @country_code_ip_address,
     datum: @datum,
     device: @device,
@@ -730,6 +742,8 @@ class LogsController < ApplicationController
       chain << address
     elsif configuration
       chain << configuration
+    elsif country
+      chain << country
     elsif country_code_ip_address
       chain << country_code_ip_address
     elsif datum
@@ -1131,6 +1145,12 @@ class LogsController < ApplicationController
     scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
 
+    scope
+  end
+
+  def countries_scope
+    scope = policy_scope(Country)
+    scope = scope.where_user(@user) if @user
     scope
   end
 

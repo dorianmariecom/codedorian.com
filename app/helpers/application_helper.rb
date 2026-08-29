@@ -244,7 +244,7 @@ module ApplicationHelper
   end
 
   def default_country_code
-    PhoneNumber::DEFAULT_COUNTRY_CODE
+    current_country&.alpha2.presence || PhoneNumber::DEFAULT_COUNTRY_CODE
   end
 
   def json_regexp(regexp)

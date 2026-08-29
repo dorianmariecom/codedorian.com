@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class CountryCodeIpAddress < ApplicationRecord
+  class LookupError < StandardError; end
+
   validates :ip_address, uniqueness: true, presence: true
   validate { can!(:update, self) }
 
@@ -19,12 +21,29 @@ class CountryCodeIpAddress < ApplicationRecord
   end
 
   def lookup!
-    uri = URI.parse("http://ipinfo.io/#{ip_address}?token=#{token}")
-    response = Net::HTTP.get_response(uri)
+    uri = URI.parse("https://ipinfo.io/#{ip_address}")
+    uri.query = URI.encode_www_form(token: token)
+    request = Net::HTTP::Get.new(uri)
+    response =
+      Net::HTTP.start(
+        uri.hostname,
+        uri.port,
+        use_ssl: true,
+        open_timeout: 5,
+        read_timeout: 5
+      ) { |http| http.request(request) }
+    unless response.is_a?(Net::HTTPSuccess)
+      raise(LookupError, "IPinfo lookup failed with HTTP #{response.code}")
+    end
+
     json = JSON.parse(response.body)
-    country_code = json["country"].presence || PhoneNumber::DEFAULT_COUNTRY_CODE
-    self.country_code = country_code
-    save!
+    self.country_code =
+      json.dig("geo", "country_code").presence || json["country_code"].presence ||
+        json["country"].presence || PhoneNumber::DEFAULT_COUNTRY_CODE
+    self.raw_payload = json
+    self.looked_up_at = Time.current
+    self.lookup_enqueued_at = nil
+    save!(validate: false)
   end
 
   def ip_address_sample

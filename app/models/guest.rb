@@ -8,6 +8,7 @@ class Guest < ApplicationRecord
   def self.search_fields = base_search_fields
 
   def addresses = []
+  def countries = []
   def devices = []
   def email_addresses = []
   def handles = []

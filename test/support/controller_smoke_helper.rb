@@ -118,6 +118,8 @@ module ControllerSmokeHelper
       test_case.configurations(:configuration).name
     when :country_code_ip_address_id
       test_case.country_code_ip_addresses(:country_code_ip_address).id
+    when :country_id
+      test_case.countries(:country).id
     when :datum_id
       test_case.data(:datum).id
     when :device_id
@@ -205,6 +207,8 @@ module ControllerSmokeHelper
       test_case.configurations(:configuration).name
     when "country_code_ip_addresses"
       test_case.country_code_ip_addresses(:country_code_ip_address).id
+    when "countries"
+      test_case.countries(:country).id
     when "data"
       test_case.data(:datum).id
     when "devices"

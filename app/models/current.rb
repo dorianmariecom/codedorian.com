@@ -50,6 +50,7 @@ class Current < ActiveSupport::CurrentAttributes
   attribute(:user)
   attribute(:guest)
   attribute(:time_zone)
+  attribute(:country)
   attribute(:request)
   attribute(:program)
   attribute(:program_execution)

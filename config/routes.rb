@@ -43,6 +43,7 @@ Rails.application.routes.draw do
 
       %i[
         addresses
+        countries
         data
         devices
         email_addresses

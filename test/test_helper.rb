@@ -54,7 +54,7 @@ module ActiveSupport
     end
 
     def stub_ipinfo_requests
-      stub_request(:get, %r{\Ahttp://ipinfo\.io/}).to_return(
+      stub_request(:get, %r{\Ahttps?://ipinfo\.io/}).to_return(
         status: 200,
         body: { country: "US" }.to_json,
         headers: {

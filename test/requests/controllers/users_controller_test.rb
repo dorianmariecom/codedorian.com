@@ -63,6 +63,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       user_email_addresses_path(@other_user),
       user_phone_numbers_path(@other_user),
       user_addresses_path(@other_user),
+      user_countries_path(@other_user),
       user_passwords_path(@other_user),
       user_time_zones_path(@other_user),
       user_devices_path(@other_user),

@@ -1,0 +1,33 @@
+---
+country:
+  alpha2: US
+  alpha3: USA
+  city: Los Angeles
+  created_at: '2025-01-10 09:20:00'
+  ip_address: 203.0.113.10
+  name: United States
+  numeric_code: '840'
+  primary: true
+  raw_payload:
+    city: Los Angeles
+    country: US
+    ip: 203.0.113.10
+  updated_at: '2025-01-10 09:20:00'
+  user: admin
+  verified: true
+other_country:
+  alpha2: FR
+  alpha3: FRA
+  city: Paris
+  created_at: '2025-02-02 16:47:00'
+  ip_address: 203.0.113.11
+  name: France
+  numeric_code: '250'
+  primary: true
+  raw_payload:
+    city: Paris
+    country: FR
+    ip: 203.0.113.11
+  updated_at: '2025-02-02 16:47:00'
+  user: other_user
+  verified: true

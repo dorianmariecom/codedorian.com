@@ -6,6 +6,7 @@ class Version < PaperTrail::Version
   %i[
     address
     configuration
+    country
     country_code_ip_address
     datum
     device

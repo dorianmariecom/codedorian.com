@@ -9,6 +9,7 @@ class VersionsController < ApplicationController
   before_action(:load_job_context)
   before_action(:load_address)
   before_action(:load_configuration)
+  before_action(:load_country)
   before_action(:load_country_code_ip_address)
   before_action(:load_datum)
   before_action(:load_device)
@@ -390,6 +391,14 @@ class VersionsController < ApplicationController
     add_breadcrumb(text: @time_zone, path: [*nested, @time_zone].uniq)
   end
 
+  def load_country
+    return if params[:country_id].blank?
+
+    @country = countries_scope.find(params.expect(:country_id))
+    set_context(country: @country)
+    add_breadcrumb(text: @country, path: [*nested, @country].uniq)
+  end
+
   def load_token
     return if params[:token_id].blank?
 
@@ -432,6 +441,8 @@ class VersionsController < ApplicationController
       scope = scope.where_device(@device)
     elsif @datum
       scope = scope.where_datum(@datum)
+    elsif @country
+      scope = scope.where_country(@country)
     elsif @country_code_ip_address
       scope = scope.where_country_code_ip_address(@country_code_ip_address)
     elsif @configuration
@@ -472,6 +483,7 @@ class VersionsController < ApplicationController
     job_context: @job_context,
     address: @address,
     configuration: @configuration,
+    country: @country,
     country_code_ip_address: @country_code_ip_address,
     datum: @datum,
     device: @device,
@@ -512,6 +524,8 @@ class VersionsController < ApplicationController
       chain << configuration
     elsif country_code_ip_address
       chain << country_code_ip_address
+    elsif country
+      chain << country
     elsif datum
       chain << datum
     elsif device
@@ -693,6 +707,12 @@ class VersionsController < ApplicationController
     scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
 
+    scope
+  end
+
+  def countries_scope
+    scope = policy_scope(Country)
+    scope = scope.where_user(@user) if @user
     scope
   end
 
