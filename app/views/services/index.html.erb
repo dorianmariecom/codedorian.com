@@ -1,21 +1,57 @@
 <% content_for(:description, t(".title")) %>
 <%= turbo_stream_from(@services) %>
 
-<% if @steps.any? %>
+<% if can?(:index, Step) %>
   <div class="p">
-    <%= link_to(t(".steps", count: @steps.size), steps_path, class: :link) %>
+    <%= link_to(t(".steps", count: @steps.count), steps_path, class: :link) %>
   </div>
 <% end %>
-<% if @plans.any? %>
+<% if can?(:index, Plan) %>
   <div class="p">
-    <%= link_to(t(".plans", count: @plans.size), plans_path, class: :link) %>
+    <%= link_to(t(".plans", count: @plans.count), plans_path, class: :link) %>
   </div>
 <% end %>
-<% if @subscriptions.any? %>
+<% if can?(:index, PlanField) %>
   <div class="p">
     <%= link_to(
-      t(".subscriptions", count: @subscriptions.size),
+      t(".plan_fields", count: @plan_fields.count),
+      plan_fields_path,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, ServiceField) %>
+  <div class="p">
+    <%= link_to(
+      t(".service_fields", count: @service_fields.count),
+      service_fields_path,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, Subscription) %>
+  <div class="p">
+    <%= link_to(
+      t(".subscriptions", count: @subscriptions.count),
       subscriptions_path,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, SubscriptionExecution) %>
+  <div class="p">
+    <%= link_to(
+      t(".subscription_executions", count: @subscription_executions.count),
+      subscription_executions_path,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, StepExecution) %>
+  <div class="p">
+    <%= link_to(
+      t(".step_executions", count: @step_executions.count),
+      step_executions_path,
       class: :link
     ) %>
   </div>

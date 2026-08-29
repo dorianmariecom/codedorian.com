@@ -187,6 +187,40 @@ class ServicesAdminCrudTest < ActionDispatch::IntegrationTest
     )
   end
 
+  test "subscription exists before pricing is evaluated" do
+    plan =
+      Current.with(user: @admin) do
+        Plan.create!(
+          service: services(:service),
+          slug: "persisted-subscription-pricing-test",
+          pricing_input: <<~CODE.squish
+            {
+              amount_cents: Current.subscription.id,
+              amount_currency: "eur"
+            }
+          CODE
+        )
+      end
+
+    assert_difference("@admin.subscriptions.count", 1) do
+      post(
+        subscriptions_path,
+        params: {
+          subscription: {
+            user_id: @admin.id,
+            plan_id: plan.id,
+            status: "active"
+          }
+        }
+      )
+    end
+
+    subscription = @admin.subscriptions.order(:id).last
+    assert_redirected_to(subscription_billing_path(subscription))
+    assert_equal(subscription.id, subscription.amount_cents)
+    assert_equal("eur", subscription.amount_currency)
+  end
+
   test "creating a plan with a plan schedule" do
     assert_difference(%w[Plan.count PlanSchedule.count], 1) do
       post(

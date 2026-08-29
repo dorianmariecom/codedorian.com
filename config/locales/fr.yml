@@ -3045,6 +3045,18 @@ fr:
         one: "%{count} offre"
         other: "%{count} offres"
         zero: "%{count} offres"
+      plan_fields:
+        one: "%{count} champ d’offre"
+        other: "%{count} champs d’offre"
+        zero: "%{count} champs d’offre"
+      service_fields:
+        one: "%{count} champ de service"
+        other: "%{count} champs de service"
+        zero: "%{count} champs de service"
+      step_executions:
+        one: "%{count} exécution d'étape"
+        other: "%{count} exécutions d'étape"
+        zero: "%{count} exécutions d'étape"
       steps:
         one: "%{count} étape"
         other: "%{count} étapes"
@@ -3053,6 +3065,10 @@ fr:
         one: "%{count} abonnement"
         other: "%{count} abonnements"
         zero: "%{count} abonnements"
+      subscription_executions:
+        one: "%{count} exécution d'abonnement"
+        other: "%{count} exécutions d'abonnement"
+        zero: "%{count} exécutions d'abonnement"
       title: services
     model:
       to_s: service#%{id}

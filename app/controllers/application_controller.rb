@@ -344,7 +344,7 @@ class ApplicationController < ActionController::Base
   end
 
   def verify_captcha
-    return if request.get? || request.head?
+    return if request.get? || request.head? || admin?
 
     verify_recaptcha!(
       action: params["g-recaptcha-action"],

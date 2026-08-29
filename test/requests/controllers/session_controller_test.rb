@@ -26,6 +26,18 @@ class SessionControllerTest < ActionDispatch::IntegrationTest
     assert_match(/g-recaptcha-action/, response.body)
   end
 
+  test "admin requests skip captcha verification" do
+    WebMock.reset_executed_requests!
+
+    delete(login_path)
+
+    assert_redirected_to(root_path)
+    assert_not_requested(
+      :post,
+      %r{\Ahttps://recaptchaenterprise\.googleapis\.com/}
+    )
+  end
+
   test "logout deletes the locale cookie" do
     logged_out_session = open_session
     uri = URI.parse(Current.base_url)

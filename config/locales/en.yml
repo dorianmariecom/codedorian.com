@@ -3041,6 +3041,18 @@ en:
         one: "%{count} plan"
         other: "%{count} plans"
         zero: "%{count} plans"
+      plan_fields:
+        one: "%{count} plan field"
+        other: "%{count} plan fields"
+        zero: "%{count} plan fields"
+      service_fields:
+        one: "%{count} service field"
+        other: "%{count} service fields"
+        zero: "%{count} service fields"
+      step_executions:
+        one: "%{count} step execution"
+        other: "%{count} step executions"
+        zero: "%{count} step executions"
       steps:
         one: "%{count} step"
         other: "%{count} steps"
@@ -3049,6 +3061,10 @@ en:
         one: "%{count} subscription"
         other: "%{count} subscriptions"
         zero: "%{count} subscriptions"
+      subscription_executions:
+        one: "%{count} subscription execution"
+        other: "%{count} subscription executions"
+        zero: "%{count} subscription executions"
       title: services
     model:
       to_s: service#%{id}

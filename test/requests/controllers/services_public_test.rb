@@ -3,6 +3,43 @@
 require "test_helper"
 
 class ServicesPublicTest < ActionDispatch::IntegrationTest
+  test "services index links every resource an advanced user can index" do
+    user = users(:other_user)
+    user.update!(interface: :advanced)
+    sign_in(
+      email_addresses(:other_email).email_address,
+      passwords(:other_password).hint
+    )
+
+    get(services_path)
+
+    assert_response(:success)
+    [
+      steps_path,
+      plans_path,
+      plan_fields_path,
+      service_fields_path,
+      subscriptions_path,
+      subscription_executions_path,
+      step_executions_path
+    ].each { |resource_path| assert_select("a[href=?]", resource_path, count: 1) }
+  end
+
+  test "services index hides resources a guest cannot index" do
+    get(services_path)
+
+    assert_response(:success)
+    assert_select("a[href=?]", plans_path, count: 1)
+    [
+      steps_path,
+      plan_fields_path,
+      service_fields_path,
+      subscriptions_path,
+      subscription_executions_path,
+      step_executions_path
+    ].each { |resource_path| assert_select("a[href=?]", resource_path, count: 0) }
+  end
+
   test "guest sees a simple localized plan page with a subscribe button" do
     plan = plans(:plan)
     Current.with(user: users(:admin)) do

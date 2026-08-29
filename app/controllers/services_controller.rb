@@ -7,9 +7,13 @@ class ServicesController < ApplicationController
   def index
       authorize(Service)
       @services = scope.page(params[:page]).order(created_at: :desc)
-      @steps = policy_scope(Step)
       @plans = policy_scope(Plan)
+      @steps = policy_scope(Step)
+      @plan_fields = policy_scope(PlanField)
+      @service_fields = policy_scope(ServiceField)
       @subscriptions = policy_scope(Subscription)
+      @subscription_executions = policy_scope(SubscriptionExecution)
+      @step_executions = policy_scope(StepExecution)
 
       respond_to do |format|
         format.html

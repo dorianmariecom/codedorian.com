@@ -100,3 +100,5 @@
 - Keep commit messages short, lowercase, and imperative to match recent history.
 - For UI changes, include screenshots in the PR.
 - For behavior changes, explain which domain was touched: identity, program execution, forms, jobs, mobile bridge, or admin CRUD.
+
+Also read @AGENTS.local.md

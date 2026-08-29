@@ -202,8 +202,17 @@ class SubscriptionsController < ApplicationController
 
   def create
       @subscription = authorize(scope.new(subscription_params))
-      @subscription.assign_attributes(@subscription.plan.price_for(@subscription))
-      if @subscription.save(context: :controller)
+      created =
+        Subscription.transaction do
+          unless @subscription.save(context: :controller)
+            raise ActiveRecord::Rollback
+          end
+
+          @subscription.update!(@subscription.plan.price_for(@subscription))
+          true
+        end
+
+      if created
         respond_to do |format|
           format.html do
             redirect_to(
