@@ -181,8 +181,9 @@ en:
         description_en: english description
         description_fr: french description
         name_en: english name
-        name_fr: french name
-        service_id: service
+      name_fr: french name
+      slug: slug
+      service_id: service
       plan_schedule:
         interval: interval
         plan_id: plan
@@ -2689,6 +2690,7 @@ en:
       plan_schedules: plan schedules
       pricing_input: pricing input
       service_id: service
+      slug: slug
       step_executions: step executions
       steps: steps
       subscription_executions: subscription executions

@@ -8,71 +8,223 @@ class SessionsController < ApplicationController
   skip_after_action(:verify_policy_scoped)
 
   def index
-    authorize(Session)
+      authorize(Session)
 
-    @sessions = scope.page(params[:page]).order(created_at: :desc)
+      @sessions = scope.page(params[:page]).order(created_at: :desc)
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @sessions
+            }
+          )
+        end
+      end
   end
 
   def show
-    @logs = logs_scope.order(created_at: :desc).page(params[:page])
+      @logs = logs_scope.order(created_at: :desc).page(params[:page])
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @session
+            }
+          )
+        end
+      end
   end
 
   def new
-    @session = authorize(scope.new)
-    add_breadcrumb
+      @session = authorize(scope.new)
+      add_breadcrumb
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @session
+            }
+          )
+        end
+      end
   end
 
   def edit
-    add_breadcrumb
+      add_breadcrumb
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @session
+            }
+          )
+        end
+      end
   end
 
   def create
-    @session = authorize(scope.new)
-    @session.assign_attributes(session_params(@session))
+      @session = authorize(scope.new)
+      @session.assign_attributes(session_params(@session))
 
-    if @session.save(context: :controller)
-      redirect_to(show_url, notice: t(".notice"))
-    else
-      flash.now.alert = @session.alert
-      render(:new, status: :unprocessable_content)
-    end
+      if @session.save(context: :controller)
+        respond_to do |format|
+          format.html { redirect_to(show_url, notice: t(".notice")) }
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [t(".notice")],
+                data: @session
+              }
+            )
+          end
+        end
+      else
+        flash.now.alert = @session.alert
+        respond_to do |format|
+          format.html { render(:new, status: :unprocessable_content) }
+          format.json do
+            render(
+              json: {
+                status: :unprocessable_content,
+                messages: [@session.alert],
+                data: @session
+              },
+              status: :unprocessable_content
+            )
+          end
+        end
+      end
   end
 
   def update
-    @session.assign_attributes(session_params(@session))
+      @session.assign_attributes(session_params(@session))
 
-    if @session.save(context: :controller)
-      redirect_to(show_url, notice: t(".notice"))
-    else
-      flash.now.alert = @session.alert
-      render(:edit, status: :unprocessable_content)
-    end
+      if @session.save(context: :controller)
+        respond_to do |format|
+          format.html { redirect_to(show_url, notice: t(".notice")) }
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [t(".notice")],
+                data: @session
+              }
+            )
+          end
+        end
+      else
+        flash.now.alert = @session.alert
+        respond_to do |format|
+          format.html { render(:edit, status: :unprocessable_content) }
+          format.json do
+            render(
+              json: {
+                status: :unprocessable_content,
+                messages: [@session.alert],
+                data: @session
+              },
+              status: :unprocessable_content
+            )
+          end
+        end
+      end
   end
 
   def destroy
-    @session.destroy!
-    redirect_to(index_url, notice: t(".notice"))
+      @session.destroy!
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [t(".notice")],
+              data: @session
+            }
+          )
+        end
+      end
   end
 
   def delete
-    @session.delete
-    redirect_to(index_url, notice: t(".notice"))
+      @session.delete
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [t(".notice")],
+              data: @session
+            }
+          )
+        end
+      end
   end
 
   def destroy_all
-    authorize(Session)
+      authorize(Session)
 
-    scope.destroy_all
+      scope.destroy_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   end
 
   def delete_all
-    authorize(Session)
+      authorize(Session)
 
-    scope.delete_all
+      scope.delete_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   end
 
   def id

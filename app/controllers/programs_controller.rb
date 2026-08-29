@@ -10,161 +10,461 @@ class ProgramsController < ApplicationController
   )
 
   def index
-    authorize(Program)
+      authorize(Program)
 
-    @programs = scope.page(params[:page]).order(name: :asc)
-    @program_schedules = program_schedules_scope
-    @program_executions = program_executions_scope
-    @data = data_scope
+      @programs = scope.page(params[:page]).order(name: :asc)
+      @program_schedules = program_schedules_scope
+      @program_executions = program_executions_scope
+      @data = data_scope
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @programs
+            }
+          )
+        end
+      end
   end
 
   def show
-    @program_executions =
-      program_executions_scope.order(created_at: :desc).page(params[:page])
+      @program_executions =
+        program_executions_scope.order(created_at: :desc).page(params[:page])
 
-    @program_schedules =
-      program_schedules_scope.order(created_at: :asc).page(params[:page])
+      @program_schedules =
+        program_schedules_scope.order(created_at: :asc).page(params[:page])
 
-    @versions = versions_scope.order(created_at: :desc).page(params[:page])
+      @versions = versions_scope.order(created_at: :desc).page(params[:page])
 
-    @logs = logs_scope.order(created_at: :desc).page(params[:page])
+      @logs = logs_scope.order(created_at: :desc).page(params[:page])
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @program
+            }
+          )
+        end
+      end
   end
 
   def evaluate
-    program_execution =
-      @program.program_executions.create!(status: :in_progress)
+      program_execution =
+        @program.program_executions.create!(status: :in_progress)
 
-    perform_later(
-      ProgramEvaluateJob,
-      arguments: {
-        program: @program,
-        program_execution: program_execution
-      },
-      context: {
-        current_user: current_user,
-        user: @user,
-        program: @program
-      },
-      current: {
-        user: current_user,
-        program: @program,
-        program_execution: program_execution,
-        locale: I18n.locale,
-        time_zone: current_time_zone
-      }
-    )
+      perform_later(
+        ProgramEvaluateJob,
+        arguments: {
+          program: @program,
+          program_execution: program_execution
+        },
+        context: {
+          current_user: current_user,
+          user: @user,
+          program: @program
+        },
+        current: {
+          user: current_user,
+          program: @program,
+          program_execution: program_execution,
+          locale: I18n.locale,
+          time_zone: current_time_zone
+        }
+      )
 
-    redirect_back_or_to(show_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(show_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @program
+
+            }
+          )
+        end
+      end
   end
 
   def format
-    @program.format!
+      @program.format!
 
-    redirect_back_or_to(show_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(show_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @program
+
+            }
+          )
+        end
+      end
   rescue Code::Error => e
-    redirect_back_or_to(show_url, alert: t(".alert", message: e.message))
+      message = t(".alert", message: e.message)
+      respond_to do |format|
+        format.html { redirect_back_or_to(show_url, alert: message) }
+        format.json do
+          render(
+            json: {
+              status: :bad_request,
+              messages: [message],
+              data: @program
+            },
+            status: :bad_request
+          )
+        end
+      end
   end
 
   def schedule
-    @program.schedule!
+      @program.schedule!
 
-    redirect_back_or_to(show_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(show_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @program
+
+            }
+          )
+        end
+      end
   end
 
   def unschedule
-    @program.unschedule!
+      @program.unschedule!
 
-    redirect_back_or_to(show_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(show_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @program
+
+            }
+          )
+        end
+      end
   end
 
   def new
-    @program = authorize(scope.new(user: @user))
+      @program = authorize(scope.new(user: @user))
 
-    add_breadcrumb
+      add_breadcrumb
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @program
+            }
+          )
+        end
+      end
   end
 
   def edit
-    add_breadcrumb
+      add_breadcrumb
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @program
+            }
+          )
+        end
+      end
   end
 
   def create
-    @program = authorize(scope.new(program_params))
+      @program = authorize(scope.new(program_params))
 
-    if @program.save(context: :controller)
-      log_in(@program.user)
-      @user = @program.user
-      redirect_to(show_url, notice: t(".notice"))
-    else
-      flash.now.alert = @program.alert
-      render(:new, status: :unprocessable_content)
-    end
+      if @program.save(context: :controller)
+        log_in(@program.user)
+        @user = @program.user
+        respond_to do |format|
+          format.html { redirect_to(show_url, notice: t(".notice")) }
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [t(".notice")],
+                data: @program
+              }
+            )
+          end
+        end
+      else
+        flash.now.alert = @program.alert
+        respond_to do |format|
+          format.html { render(:new, status: :unprocessable_content) }
+          format.json do
+            render(
+              json: {
+                status: :unprocessable_content,
+                messages: [@program.alert],
+                data: @program
+              },
+              status: :unprocessable_content
+            )
+          end
+        end
+      end
   end
 
   def update
-    @program.assign_attributes(program_params)
+      @program.assign_attributes(program_params)
 
-    if @program.save(context: :controller)
-      log_in(@program.user)
-      @user = @program.user
-      redirect_to(show_url, notice: t(".notice"))
-    else
-      flash.now.alert = @program.alert
-      render(:edit, status: :unprocessable_content)
-    end
+      if @program.save(context: :controller)
+        log_in(@program.user)
+        @user = @program.user
+        respond_to do |format|
+          format.html { redirect_to(show_url, notice: t(".notice")) }
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [t(".notice")],
+                data: @program
+              }
+            )
+          end
+        end
+      else
+        flash.now.alert = @program.alert
+        respond_to do |format|
+          format.html { render(:edit, status: :unprocessable_content) }
+          format.json do
+            render(
+              json: {
+                status: :unprocessable_content,
+                messages: [@program.alert],
+                data: @program
+              },
+              status: :unprocessable_content
+            )
+          end
+        end
+      end
   end
 
   def destroy
-    @program.destroy!
+      @program.destroy!
 
-    redirect_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @program
+
+            }
+          )
+        end
+      end
   end
 
   def delete
-    @program.delete
+      @program.delete
 
-    redirect_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @program
+
+            }
+          )
+        end
+      end
   end
 
   def format_all
-    authorize(Program)
+      authorize(Program)
 
-    scope.format_all
+      scope.format_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   rescue Code::Error => e
-    redirect_back_or_to(index_url, alert: t(".alert", message: e.message))
+      message = t(".alert", message: e.message)
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, alert: message) }
+        format.json do
+          render(
+            json: {
+              status: :bad_request,
+              messages: [message],
+              data: nil
+            },
+            status: :bad_request
+          )
+        end
+      end
   end
 
   def schedule_all
-    authorize(Program)
+      authorize(Program)
 
-    scope.schedule_all
+      scope.schedule_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   end
 
   def unschedule_all
-    authorize(Program)
+      authorize(Program)
 
-    scope.unschedule_all
+      scope.unschedule_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   end
 
   def destroy_all
-    authorize(Program)
+      authorize(Program)
 
-    scope.destroy_all
+      scope.destroy_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   end
 
   def delete_all
-    authorize(Program)
+      authorize(Program)
 
-    scope.delete_all
+      scope.delete_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   end
 
   private

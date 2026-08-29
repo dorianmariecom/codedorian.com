@@ -9,81 +9,243 @@ class EmailAddressesController < ApplicationController
   before_action(:load_email_address, only: %i[show edit update destroy delete])
 
   def index
-    authorize(EmailAddress)
+      authorize(EmailAddress)
 
-    @email_addresses = scope.page(params[:page]).order(created_at: :asc)
+      @email_addresses = scope.page(params[:page]).order(created_at: :asc)
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @email_addresses
+            }
+          )
+        end
+      end
   end
 
   def show
-    @versions = versions_scope.order(created_at: :desc).page(params[:page])
-    @logs = logs_scope.order(created_at: :desc).page(params[:page])
+      @versions = versions_scope.order(created_at: :desc).page(params[:page])
+      @logs = logs_scope.order(created_at: :desc).page(params[:page])
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @email_address
+            }
+          )
+        end
+      end
   end
 
   def new
-    @email_address =
-      authorize(
-        scope.new(user: @user, primary: user_or_guest.email_addresses.none?)
-      )
+      @email_address =
+        authorize(
+          scope.new(user: @user, primary: user_or_guest.email_addresses.none?)
+        )
 
-    add_breadcrumb
+      add_breadcrumb
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @email_address
+            }
+          )
+        end
+      end
   end
 
   def edit
-    add_breadcrumb
+      add_breadcrumb
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @email_address
+            }
+          )
+        end
+      end
   end
 
   def create
-    @email_address = authorize(scope.new(email_address_params))
+      @email_address = authorize(scope.new(email_address_params))
 
-    if @email_address.save(context: :controller)
-      log_in(@email_address.user)
-      @user = @email_address.user
-      redirect_to(show_url, notice: t(".notice"))
-    else
-      flash.now.alert = @email_address.alert
-      render(:new, status: :unprocessable_content)
-    end
+      if @email_address.save(context: :controller)
+        log_in(@email_address.user)
+        @user = @email_address.user
+        respond_to do |format|
+          format.html { redirect_to(show_url, notice: t(".notice")) }
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [t(".notice")],
+                data: @email_address
+              }
+            )
+          end
+        end
+      else
+        flash.now.alert = @email_address.alert
+        respond_to do |format|
+          format.html { render(:new, status: :unprocessable_content) }
+          format.json do
+            render(
+              json: {
+                status: :unprocessable_content,
+                messages: [@email_address.alert],
+                data: @email_address
+              },
+              status: :unprocessable_content
+            )
+          end
+        end
+      end
   end
 
   def update
-    @email_address.assign_attributes(email_address_params)
+      @email_address.assign_attributes(email_address_params)
 
-    if @email_address.save(context: :controller)
-      log_in(@email_address.user)
-      @user = @email_address.user
-      redirect_to(show_url, notice: t(".notice"))
-    else
-      flash.now.alert = @email_address.alert
-      render(:edit, status: :unprocessable_content)
-    end
+      if @email_address.save(context: :controller)
+        log_in(@email_address.user)
+        @user = @email_address.user
+        respond_to do |format|
+          format.html { redirect_to(show_url, notice: t(".notice")) }
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [t(".notice")],
+                data: @email_address
+              }
+            )
+          end
+        end
+      else
+        flash.now.alert = @email_address.alert
+        respond_to do |format|
+          format.html { render(:edit, status: :unprocessable_content) }
+          format.json do
+            render(
+              json: {
+                status: :unprocessable_content,
+                messages: [@email_address.alert],
+                data: @email_address
+              },
+              status: :unprocessable_content
+            )
+          end
+        end
+      end
   end
 
   def destroy
-    @email_address.destroy!
+      @email_address.destroy!
 
-    redirect_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @email_address
+
+            }
+          )
+        end
+      end
   end
 
   def delete
-    @email_address.delete
+      @email_address.delete
 
-    redirect_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @email_address
+
+            }
+          )
+        end
+      end
   end
 
   def destroy_all
-    authorize(EmailAddress)
+      authorize(EmailAddress)
 
-    scope.destroy_all
+      scope.destroy_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   end
 
   def delete_all
-    authorize(EmailAddress)
+      authorize(EmailAddress)
 
-    scope.delete_all
+      scope.delete_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   end
 
   private

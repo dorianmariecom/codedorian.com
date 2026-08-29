@@ -6,85 +6,227 @@ class StepsController < ApplicationController
   before_action :load_step, only: %i[show edit update destroy delete]
 
   def index
-    authorize(Step)
-    @steps = scope.page(params[:page]).order(created_at: :desc)
-    @step_executions = policy_scope(StepExecution)
+      authorize(Step)
+      @steps = scope.page(params[:page]).order(created_at: :desc)
+      @step_executions = policy_scope(StepExecution)
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @steps
+            }
+          )
+        end
+      end
   end
 
   def show
-    @step_executions =
-      policy_scope(StepExecution)
-        .where(step: @step)
-        .order(created_at: :desc)
-        .page(params[:page])
-    @versions =
-      policy_scope(Version)
-        .where(item: @step)
-        .order(created_at: :desc)
-        .page(params[:page])
-    @logs =
-      policy_scope(Log)
-        .where_step(@step)
-        .order(created_at: :desc)
-        .page(params[:page])
+      @step_executions =
+        policy_scope(StepExecution)
+          .where(step: @step)
+          .order(created_at: :desc)
+          .page(params[:page])
+      @versions =
+        policy_scope(Version)
+          .where(item: @step)
+          .order(created_at: :desc)
+          .page(params[:page])
+      @logs =
+        policy_scope(Log)
+          .where_step(@step)
+          .order(created_at: :desc)
+          .page(params[:page])
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @step
+            }
+          )
+        end
+      end
   end
 
   def new
-    @step =
-      authorize(
-        scope.new(
-          params.fetch(:step, ActionController::Parameters.new).permit(
-            :service_id
+      @step =
+        authorize(
+          scope.new(
+            params.fetch(:step, ActionController::Parameters.new).permit(
+              :service_id
+            )
           )
         )
-      )
-    add_breadcrumb
+      add_breadcrumb
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @step
+            }
+          )
+        end
+      end
   end
 
   def edit
-    add_breadcrumb
+      add_breadcrumb
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @step
+            }
+          )
+        end
+      end
   end
 
   def create
-    @step = authorize(scope.new(step_params))
-    if @step.save(context: :controller)
-      redirect_to(show_url, notice: t(".notice"))
-    else
-      flash.now.alert = @step.alert
-      render(:new, status: :unprocessable_content)
-    end
+      @step = authorize(scope.new(step_params))
+      if @step.save(context: :controller)
+        respond_to do |format|
+          format.html { redirect_to(show_url, notice: t(".notice")) }
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [t(".notice")],
+                data: @step
+              }
+            )
+          end
+        end
+      else
+        flash.now.alert = @step.alert
+        respond_to do |format|
+          format.html { render(:new, status: :unprocessable_content) }
+          format.json do
+            render(
+              json: {
+                status: :unprocessable_content,
+                messages: [@step.alert],
+                data: @step
+              },
+              status: :unprocessable_content
+            )
+          end
+        end
+      end
   end
 
   def update
-    @step.assign_attributes(step_params)
-    if @step.save(context: :controller)
-      redirect_to(show_url, notice: t(".notice"))
-    else
-      flash.now.alert = @step.alert
-      render(:edit, status: :unprocessable_content)
-    end
+      @step.assign_attributes(step_params)
+      if @step.save(context: :controller)
+        respond_to do |format|
+          format.html { redirect_to(show_url, notice: t(".notice")) }
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [t(".notice")],
+                data: @step
+              }
+            )
+          end
+        end
+      else
+        flash.now.alert = @step.alert
+        respond_to do |format|
+          format.html { render(:edit, status: :unprocessable_content) }
+          format.json do
+            render(
+              json: {
+                status: :unprocessable_content,
+                messages: [@step.alert],
+                data: @step
+              },
+              status: :unprocessable_content
+            )
+          end
+        end
+      end
   end
 
   def destroy
-    @step.destroy!
-    redirect_to(index_url, notice: t(".notice"))
+      @step.destroy!
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [t(".notice")],
+              data: @step
+            }
+          )
+        end
+      end
   end
 
   def delete
-    @step.delete
-    redirect_to(index_url, notice: t(".notice"))
+      @step.delete
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [t(".notice")],
+              data: @step
+            }
+          )
+        end
+      end
   end
 
   def destroy_all
-    authorize(Step)
-    scope.destroy_all
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      authorize(Step)
+      scope.destroy_all
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [t(".notice")],
+              data: nil
+            }
+          )
+        end
+      end
   end
 
   def delete_all
-    authorize(Step)
-    scope.delete_all
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      authorize(Step)
+      scope.delete_all
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [t(".notice")],
+              data: nil
+            }
+          )
+        end
+      end
   end
 
   private
@@ -94,6 +236,7 @@ class StepsController < ApplicationController
     records = records.where(service: @service) if @service
     records
   end
+
   def model_class = Step
   def model_instance = @step
   def nested = []

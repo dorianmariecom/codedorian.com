@@ -164,6 +164,7 @@ class ServicesAdminCrudTest < ActionDispatch::IntegrationTest
       Current.with(user: @admin) do
         Plan.create!(
           service: services(:service),
+          slug: "subscription-test",
           pricing_input: '{ amount_cents: 1000, amount_currency: "eur" }'
         )
       end
@@ -193,6 +194,7 @@ class ServicesAdminCrudTest < ActionDispatch::IntegrationTest
         params: {
           plan: {
             service_id: services(:service).id,
+            slug: "scheduled",
             name_en: "Scheduled plan",
             plan_schedules_attributes: {
               "0" => {

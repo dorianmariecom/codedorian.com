@@ -23,76 +23,238 @@ class ErrorsController < ApplicationController
   skip_after_action(:verify_policy_scoped, only: EXCEPTIONS)
 
   def index
-    authorize(Error)
+      authorize(Error)
 
-    @errors = scope.page(params[:page]).order(created_at: :desc)
-    @error_occurrences = error_occurrences_scope
+      @errors = scope.page(params[:page]).order(created_at: :desc)
+      @error_occurrences = error_occurrences_scope
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @errors
+            }
+          )
+        end
+      end
   end
 
   def show
-    @error_occurrences =
-      error_occurrences_scope.page(params[:page]).order(created_at: :desc)
-    @logs = logs_scope.order(created_at: :desc).page(params[:page])
+      @error_occurrences =
+        error_occurrences_scope.page(params[:page]).order(created_at: :desc)
+      @logs = logs_scope.order(created_at: :desc).page(params[:page])
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @error
+            }
+          )
+        end
+      end
   end
 
   def new
-    @error = authorize(scope.new)
+      @error = authorize(scope.new)
 
-    add_breadcrumb
+      add_breadcrumb
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @error
+            }
+          )
+        end
+      end
   end
 
   def edit
-    add_breadcrumb
+      add_breadcrumb
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @error
+            }
+          )
+        end
+      end
   end
 
   def create
-    @error = authorize(scope.new(error_params))
+      @error = authorize(scope.new(error_params))
 
-    if @error.save(context: :controller)
-      redirect_to(show_url, notice: t(".notice"))
-    else
-      flash.now.alert = @error.alert
-      render(:new, status: :unprocessable_content)
-    end
+      if @error.save(context: :controller)
+        respond_to do |format|
+          format.html { redirect_to(show_url, notice: t(".notice")) }
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [t(".notice")],
+                data: @error
+              }
+            )
+          end
+        end
+      else
+        flash.now.alert = @error.alert
+        respond_to do |format|
+          format.html { render(:new, status: :unprocessable_content) }
+          format.json do
+            render(
+              json: {
+                status: :unprocessable_content,
+                messages: [@error.alert],
+                data: @error
+              },
+              status: :unprocessable_content
+            )
+          end
+        end
+      end
   end
 
   def update
-    @error.assign_attributes(error_params)
+      @error.assign_attributes(error_params)
 
-    if @error.save(context: :controller)
-      redirect_to(show_url, notice: t(".notice"))
-    else
-      flash.now.alert = @error.alert
-      render(:edit, status: :unprocessable_content)
-    end
+      if @error.save(context: :controller)
+        respond_to do |format|
+          format.html { redirect_to(show_url, notice: t(".notice")) }
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [t(".notice")],
+                data: @error
+              }
+            )
+          end
+        end
+      else
+        flash.now.alert = @error.alert
+        respond_to do |format|
+          format.html { render(:edit, status: :unprocessable_content) }
+          format.json do
+            render(
+              json: {
+                status: :unprocessable_content,
+                messages: [@error.alert],
+                data: @error
+              },
+              status: :unprocessable_content
+            )
+          end
+        end
+      end
   end
 
   def destroy
-    @error.destroy!
+      @error.destroy!
 
-    redirect_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @error
+
+            }
+          )
+        end
+      end
   end
 
   def delete
-    @error.delete
+      @error.delete
 
-    redirect_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @error
+
+            }
+          )
+        end
+      end
   end
 
   def destroy_all
-    authorize(Error)
+      authorize(Error)
 
-    scope.destroy_all
+      scope.destroy_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   end
 
   def delete_all
-    authorize(Error)
+      authorize(Error)
 
-    scope.delete_all
+      scope.delete_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   end
 
   def not_found
@@ -109,7 +271,12 @@ class ErrorsController < ApplicationController
     add_breadcrumb
 
     respond_to do |format|
-      format.json { render(json: { message: @message }, status: :not_found) }
+      format.json do
+        render(
+          json: { status: :not_found, messages: [@message], data: nil },
+          status: :not_found
+        )
+      end
       format.html { render(status: :not_found) }
       format.any { redirect_to(root_path, alert: @message) }
     end
@@ -130,7 +297,14 @@ class ErrorsController < ApplicationController
 
     respond_to do |format|
       format.json do
-        render(json: { message: @message }, status: :internal_server_error)
+        render(
+          json: {
+            status: :internal_server_error,
+            messages: [@message],
+            data: nil
+          },
+          status: :internal_server_error
+        )
       end
       format.html { render(status: :internal_server_error) }
       format.any { redirect_to(root_path, alert: @message) }
@@ -152,7 +326,14 @@ class ErrorsController < ApplicationController
 
     respond_to do |format|
       format.json do
-        render(json: { message: @message }, status: :unprocessable_content)
+        render(
+          json: {
+            status: :unprocessable_content,
+            messages: [@message],
+            data: nil
+          },
+          status: :unprocessable_content
+        )
       end
       format.html { render(status: :unprocessable_content) }
       format.any { redirect_to(root_path, alert: @message) }

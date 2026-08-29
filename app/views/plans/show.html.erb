@@ -20,6 +20,13 @@
     </div>
   <% end %>
 
+  <% if @plan.slug.present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".slug") %></div>
+      <div class="font-bold"><%= @plan.slug %></div>
+    </div>
+  <% end %>
+
   <% %i[name_en name_fr description_en description_fr body_en body_fr].each do |attribute| %>
     <% if @plan.public_send(attribute).present? %>
       <div class="p">

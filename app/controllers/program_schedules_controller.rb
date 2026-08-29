@@ -13,87 +13,249 @@ class ProgramSchedulesController < ApplicationController
   )
 
   def index
-    authorize(ProgramSchedule)
+      authorize(ProgramSchedule)
 
-    @program_schedules = scope.page(params[:page]).order(created_at: :asc)
+      @program_schedules = scope.page(params[:page]).order(created_at: :asc)
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @program_schedules
+            }
+          )
+        end
+      end
   end
 
   def show
-    @versions = versions_scope.order(created_at: :desc).page(params[:page])
-    @logs = logs_scope.order(created_at: :desc).page(params[:page])
+      @versions = versions_scope.order(created_at: :desc).page(params[:page])
+      @logs = logs_scope.order(created_at: :desc).page(params[:page])
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @program_schedule
+            }
+          )
+        end
+      end
   end
 
   def new
-    @program_schedule = authorize(scope.new(program: @program))
+      @program_schedule = authorize(scope.new(program: @program))
 
-    add_breadcrumb
+      add_breadcrumb
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @program_schedule
+            }
+          )
+        end
+      end
   end
 
   def edit
-    add_breadcrumb
+      add_breadcrumb
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @program_schedule
+            }
+          )
+        end
+      end
   end
 
   def create
-    @program_schedule =
-      authorize(
-        scope.new(
-          if @program.present?
-            program_schedule_params.except(:program_id).merge(program: @program)
-          else
-            program_schedule_params
-          end
+      @program_schedule =
+        authorize(
+          scope.new(
+            if @program.present?
+              program_schedule_params.except(:program_id).merge(program: @program)
+            else
+              program_schedule_params
+            end
+          )
         )
-      )
 
-    if @program_schedule.save(context: :controller)
-      log_in(@program_schedule.user)
-      @user = @program_schedule.user
-      redirect_to(show_url, notice: t(".notice"))
-    else
-      flash.now.alert = @program_schedule.alert
-      render(:new, status: :unprocessable_content)
-    end
+      if @program_schedule.save(context: :controller)
+        log_in(@program_schedule.user)
+        @user = @program_schedule.user
+        respond_to do |format|
+          format.html { redirect_to(show_url, notice: t(".notice")) }
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [t(".notice")],
+                data: @program_schedule
+              }
+            )
+          end
+        end
+      else
+        flash.now.alert = @program_schedule.alert
+        respond_to do |format|
+          format.html { render(:new, status: :unprocessable_content) }
+          format.json do
+            render(
+              json: {
+                status: :unprocessable_content,
+                messages: [@program_schedule.alert],
+                data: @program_schedule
+              },
+              status: :unprocessable_content
+            )
+          end
+        end
+      end
   end
 
   def update
-    @program_schedule.assign_attributes(program_schedule_params)
+      @program_schedule.assign_attributes(program_schedule_params)
 
-    if @program_schedule.save(context: :controller)
-      log_in(@program_schedule.user)
-      @user = @program_schedule.user
-      redirect_to(show_url, notice: t(".notice"))
-    else
-      flash.now.alert = @program_schedule.alert
-      render(:edit, status: :unprocessable_content)
-    end
+      if @program_schedule.save(context: :controller)
+        log_in(@program_schedule.user)
+        @user = @program_schedule.user
+        respond_to do |format|
+          format.html { redirect_to(show_url, notice: t(".notice")) }
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [t(".notice")],
+                data: @program_schedule
+              }
+            )
+          end
+        end
+      else
+        flash.now.alert = @program_schedule.alert
+        respond_to do |format|
+          format.html { render(:edit, status: :unprocessable_content) }
+          format.json do
+            render(
+              json: {
+                status: :unprocessable_content,
+                messages: [@program_schedule.alert],
+                data: @program_schedule
+              },
+              status: :unprocessable_content
+            )
+          end
+        end
+      end
   end
 
   def destroy
-    @program_schedule.destroy!
+      @program_schedule.destroy!
 
-    redirect_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @program_schedule
+
+            }
+          )
+        end
+      end
   end
 
   def delete
-    @program_schedule.delete
+      @program_schedule.delete
 
-    redirect_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @program_schedule
+
+            }
+          )
+        end
+      end
   end
 
   def destroy_all
-    authorize(ProgramSchedule)
+      authorize(ProgramSchedule)
 
-    scope.destroy_all
+      scope.destroy_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   end
 
   def delete_all
-    authorize(ProgramSchedule)
+      authorize(ProgramSchedule)
 
-    scope.delete_all
+      scope.delete_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   end
 
   private

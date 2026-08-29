@@ -14,7 +14,20 @@ class LocalesController < ApplicationController
       cookies[:locale] = locale
     end
 
-    redirect_to(requested_redirect_path || root_path(locale: locale))
+    respond_to do |format|
+      format.html do
+        redirect_to(requested_redirect_path || root_path(locale: locale))
+      end
+      format.json do
+        render(
+          json: {
+            status: :ok,
+            messages: [],
+            data: { locale: locale }
+          }
+        )
+      end
+    end
   end
 
   private

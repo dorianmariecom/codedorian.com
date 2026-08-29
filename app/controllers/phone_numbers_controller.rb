@@ -7,81 +7,243 @@ class PhoneNumbersController < ApplicationController
   before_action(:load_phone_number, only: %i[show edit update destroy delete])
 
   def index
-    authorize(PhoneNumber)
+      authorize(PhoneNumber)
 
-    @phone_numbers = scope.page(params[:page]).order(created_at: :asc)
+      @phone_numbers = scope.page(params[:page]).order(created_at: :asc)
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @phone_numbers
+            }
+          )
+        end
+      end
   end
 
   def show
-    @versions = versions_scope.order(created_at: :desc).page(params[:page])
-    @logs = logs_scope.order(created_at: :desc).page(params[:page])
+      @versions = versions_scope.order(created_at: :desc).page(params[:page])
+      @logs = logs_scope.order(created_at: :desc).page(params[:page])
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @phone_number
+            }
+          )
+        end
+      end
   end
 
   def new
-    @phone_number =
-      authorize(
-        scope.new(user: @user, primary: user_or_guest.phone_numbers.none?)
-      )
+      @phone_number =
+        authorize(
+          scope.new(user: @user, primary: user_or_guest.phone_numbers.none?)
+        )
 
-    add_breadcrumb
+      add_breadcrumb
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @phone_number
+            }
+          )
+        end
+      end
   end
 
   def edit
-    add_breadcrumb
+      add_breadcrumb
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @phone_number
+            }
+          )
+        end
+      end
   end
 
   def create
-    @phone_number = authorize(scope.new(phone_number_params))
+      @phone_number = authorize(scope.new(phone_number_params))
 
-    if @phone_number.save(context: :controller)
-      log_in(@phone_number.user)
-      @user = @phone_number.user
-      redirect_to(show_url, notice: t(".notice"))
-    else
-      flash.now.alert = @phone_number.alert
-      render(:new, status: :unprocessable_content)
-    end
+      if @phone_number.save(context: :controller)
+        log_in(@phone_number.user)
+        @user = @phone_number.user
+        respond_to do |format|
+          format.html { redirect_to(show_url, notice: t(".notice")) }
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [t(".notice")],
+                data: @phone_number
+              }
+            )
+          end
+        end
+      else
+        flash.now.alert = @phone_number.alert
+        respond_to do |format|
+          format.html { render(:new, status: :unprocessable_content) }
+          format.json do
+            render(
+              json: {
+                status: :unprocessable_content,
+                messages: [@phone_number.alert],
+                data: @phone_number
+              },
+              status: :unprocessable_content
+            )
+          end
+        end
+      end
   end
 
   def update
-    @phone_number.assign_attributes(phone_number_params)
+      @phone_number.assign_attributes(phone_number_params)
 
-    if @phone_number.save(context: :controller)
-      log_in(@phone_number.user)
-      @user = @phone_number.user
-      redirect_to(show_url, notice: t(".notice"))
-    else
-      flash.now.alert = @phone_number.alert
-      render(:edit, status: :unprocessable_content)
-    end
+      if @phone_number.save(context: :controller)
+        log_in(@phone_number.user)
+        @user = @phone_number.user
+        respond_to do |format|
+          format.html { redirect_to(show_url, notice: t(".notice")) }
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [t(".notice")],
+                data: @phone_number
+              }
+            )
+          end
+        end
+      else
+        flash.now.alert = @phone_number.alert
+        respond_to do |format|
+          format.html { render(:edit, status: :unprocessable_content) }
+          format.json do
+            render(
+              json: {
+                status: :unprocessable_content,
+                messages: [@phone_number.alert],
+                data: @phone_number
+              },
+              status: :unprocessable_content
+            )
+          end
+        end
+      end
   end
 
   def destroy
-    @phone_number.destroy!
+      @phone_number.destroy!
 
-    redirect_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @phone_number
+
+            }
+          )
+        end
+      end
   end
 
   def delete
-    @phone_number.delete
+      @phone_number.delete
 
-    redirect_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @phone_number
+
+            }
+          )
+        end
+      end
   end
 
   def destroy_all
-    authorize(PhoneNumber)
+      authorize(PhoneNumber)
 
-    scope.destroy_all
+      scope.destroy_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   end
 
   def delete_all
-    authorize(PhoneNumber)
+      authorize(PhoneNumber)
 
-    scope.delete_all
+      scope.delete_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   end
 
   private

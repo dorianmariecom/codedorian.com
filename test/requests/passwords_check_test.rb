@@ -7,9 +7,9 @@ class PasswordsCheckTest < ActionDispatch::IntegrationTest
     post(check_passwords_path, params: { password: "password" }, as: :json)
 
     assert_response(:success)
-    assert_equal(false, response.parsed_body["success"])
+    assert_equal(false, response.parsed_body.dig("data", "success"))
     assert_includes(
-      response.parsed_body["message"],
+      response.parsed_body["messages"].first,
       I18n.t("password_validator.model.sequence.dictionary")
     )
   end
@@ -24,6 +24,6 @@ class PasswordsCheckTest < ActionDispatch::IntegrationTest
     )
 
     assert_response(:success)
-    assert_equal(true, response.parsed_body["success"])
+    assert_equal(true, response.parsed_body.dig("data", "success"))
   end
 end

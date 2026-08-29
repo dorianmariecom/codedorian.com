@@ -10,87 +10,267 @@ class MessagesController < ApplicationController
   )
 
   def index
-    authorize(Message)
+      authorize(Message)
 
-    @messages = scope.page(params[:page]).order(created_at: :desc)
+      @messages = scope.page(params[:page]).order(created_at: :desc)
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @messages
+            }
+          )
+        end
+      end
   end
 
   def show
-    @versions = versions_scope.order(created_at: :desc).page(params[:page])
-    @logs = logs_scope.order(created_at: :desc).page(params[:page])
+      @versions = versions_scope.order(created_at: :desc).page(params[:page])
+      @logs = logs_scope.order(created_at: :desc).page(params[:page])
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @message
+            }
+          )
+        end
+      end
   end
 
   def subject
     add_breadcrumb
+    respond_to do |format|
+      format.html
+      format.json do
+        render(json: { status: :ok, messages: [], data: @message.subject })
+      end
+    end
   end
 
   def body
     add_breadcrumb
+    respond_to do |format|
+      format.html
+      format.json do
+        render(json: { status: :ok, messages: [], data: @message.body })
+      end
+    end
   end
 
   def content
     add_breadcrumb
+    respond_to do |format|
+      format.html
+      format.json do
+        render(json: { status: :ok, messages: [], data: @message.content })
+      end
+    end
   end
 
   def new
-    @message = authorize(scope.new(from_user: @user, to_user: @user))
-    add_breadcrumb
+      @message = authorize(scope.new(from_user: @user, to_user: @user))
+      add_breadcrumb
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @message
+            }
+          )
+        end
+      end
   end
 
   def edit
-    add_breadcrumb
+      add_breadcrumb
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @message
+            }
+          )
+        end
+      end
   end
 
   def create
-    @message = authorize(scope.new(message_params))
+      @message = authorize(scope.new(message_params))
 
-    if @message.save(context: :controller)
-      log_in(@message.from_user)
-      redirect_to(show_url, notice: t(".notice"))
-    else
-      flash.now.alert = @message.alert
-      render(:new, status: :unprocessable_content)
-    end
+      if @message.save(context: :controller)
+        log_in(@message.from_user)
+        respond_to do |format|
+          format.html { redirect_to(show_url, notice: t(".notice")) }
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [t(".notice")],
+                data: @message
+              }
+            )
+          end
+        end
+      else
+        flash.now.alert = @message.alert
+        respond_to do |format|
+          format.html { render(:new, status: :unprocessable_content) }
+          format.json do
+            render(
+              json: {
+                status: :unprocessable_content,
+                messages: [@message.alert],
+                data: @message
+              },
+              status: :unprocessable_content
+            )
+          end
+        end
+      end
   end
 
   def update
-    @message.assign_attributes(message_params)
+      @message.assign_attributes(message_params)
 
-    if @message.save(context: :controller)
-      log_in(@message.from_user)
-      redirect_to(show_url, notice: t(".notice"))
-    else
-      flash.now.alert = @message.alert
-      render(:edit, status: :unprocessable_content)
-    end
+      if @message.save(context: :controller)
+        log_in(@message.from_user)
+        respond_to do |format|
+          format.html { redirect_to(show_url, notice: t(".notice")) }
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [t(".notice")],
+                data: @message
+              }
+            )
+          end
+        end
+      else
+        flash.now.alert = @message.alert
+        respond_to do |format|
+          format.html { render(:edit, status: :unprocessable_content) }
+          format.json do
+            render(
+              json: {
+                status: :unprocessable_content,
+                messages: [@message.alert],
+                data: @message
+              },
+              status: :unprocessable_content
+            )
+          end
+        end
+      end
   end
 
   def destroy
-    @message.destroy!
+      @message.destroy!
 
-    redirect_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @message
+
+            }
+          )
+        end
+      end
   end
 
   def delete
-    @message.delete
+      @message.delete
 
-    redirect_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @message
+
+            }
+          )
+        end
+      end
   end
 
   def destroy_all
-    authorize(Message)
+      authorize(Message)
 
-    scope.destroy_all
+      scope.destroy_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   end
 
   def delete_all
-    authorize(Message)
+      authorize(Message)
 
-    scope.delete_all
+      scope.delete_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   end
 
   private

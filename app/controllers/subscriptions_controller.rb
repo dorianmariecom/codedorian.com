@@ -17,143 +17,359 @@ class SubscriptionsController < ApplicationController
                 ]
 
   def index
-    authorize(Subscription)
-    @subscriptions = scope.page(params[:page]).order(created_at: :desc)
-    @subscription_executions = policy_scope(SubscriptionExecution)
+      authorize(Subscription)
+      @subscriptions = scope.page(params[:page]).order(created_at: :desc)
+      @subscription_executions = policy_scope(SubscriptionExecution)
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @subscriptions
+            }
+          )
+        end
+      end
   end
 
   def show
-    @subscription_values =
-      policy_scope(SubscriptionValue)
-        .where(subscription: @subscription)
-        .order(:id)
-        .page(params[:page])
-    @subscription_executions =
-      policy_scope(SubscriptionExecution)
-        .where(subscription: @subscription)
-        .order(created_at: :desc)
-        .page(params[:page])
-    @step_executions =
-      policy_scope(StepExecution)
-        .joins(:subscription_execution)
-        .where(subscription_executions: { subscription_id: @subscription.id })
-        .order(created_at: :desc)
-        .page(params[:page])
-    @versions =
-      policy_scope(Version)
-        .where(item: @subscription)
-        .order(created_at: :desc)
-        .page(params[:page])
-    @logs =
-      policy_scope(Log)
-        .where_subscription(@subscription)
-        .order(created_at: :desc)
-        .page(params[:page])
+      @subscription_values =
+        policy_scope(SubscriptionValue)
+          .where(subscription: @subscription)
+          .order(:id)
+          .page(params[:page])
+      @subscription_executions =
+        policy_scope(SubscriptionExecution)
+          .where(subscription: @subscription)
+          .order(created_at: :desc)
+          .page(params[:page])
+      @step_executions =
+        policy_scope(StepExecution)
+          .joins(:subscription_execution)
+          .where(subscription_executions: { subscription_id: @subscription.id })
+          .order(created_at: :desc)
+          .page(params[:page])
+      @versions =
+        policy_scope(Version)
+          .where(item: @subscription)
+          .order(created_at: :desc)
+          .page(params[:page])
+      @logs =
+        policy_scope(Log)
+          .where_subscription(@subscription)
+          .order(created_at: :desc)
+          .page(params[:page])
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @subscription
+            }
+          )
+        end
+      end
   end
 
   def evaluate
-    subscription_execution = @subscription.create_execution!
+      subscription_execution = @subscription.create_execution!
 
-    perform_later(
-      SubscriptionEvaluateJob,
-      arguments: {
-        subscription: @subscription,
-        subscription_execution: subscription_execution
-      },
-      context: {
-        current_user: current_user,
-        user: @subscription.user,
-        subscription: @subscription
-      },
-      current: {
-        user: current_user,
-        subscription: @subscription,
-        subscription_execution: subscription_execution,
-        locale: I18n.locale,
-        time_zone: current_time_zone
-      }
-    )
+      perform_later(
+        SubscriptionEvaluateJob,
+        arguments: {
+          subscription: @subscription,
+          subscription_execution: subscription_execution
+        },
+        context: {
+          current_user: current_user,
+          user: @subscription.user,
+          subscription: @subscription
+        },
+        current: {
+          user: current_user,
+          subscription: @subscription,
+          subscription_execution: subscription_execution,
+          locale: I18n.locale,
+          time_zone: current_time_zone
+        }
+      )
 
-    redirect_back_or_to(show_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(show_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @subscription
+
+            }
+          )
+        end
+      end
   end
 
   def activate
-    @subscription.activate!
+      @subscription.activate!
 
-    redirect_back_or_to(show_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(show_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @subscription
+
+            }
+          )
+        end
+      end
   end
 
   def deactivate
-    @subscription.deactivate!
+      @subscription.deactivate!
 
-    redirect_back_or_to(show_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(show_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @subscription
+
+            }
+          )
+        end
+      end
   end
 
   def new
-    @subscription = authorize(scope.new(user: current_user, plan: @plan))
-    @subscription.prepare_values
-    add_breadcrumb
+      @subscription = authorize(scope.new(user: current_user, plan: @plan))
+      @subscription.prepare_values
+      add_breadcrumb
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @subscription
+            }
+          )
+        end
+      end
   end
 
   def edit
-    @subscription.prepare_values
-    add_breadcrumb
+      @subscription.prepare_values
+      add_breadcrumb
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @subscription
+            }
+          )
+        end
+      end
   end
 
   def create
-    @subscription = authorize(scope.new(subscription_params))
-    @subscription.assign_attributes(@subscription.plan.price_for(@subscription))
-    if @subscription.save(context: :controller)
-      redirect_to(
-        subscription_billing_path(@subscription),
-        notice: t(".notice")
-      )
-    else
+      @subscription = authorize(scope.new(subscription_params))
+      @subscription.assign_attributes(@subscription.plan.price_for(@subscription))
+      if @subscription.save(context: :controller)
+        respond_to do |format|
+          format.html do
+            redirect_to(
+              subscription_billing_path(@subscription),
+              notice: t(".notice")
+            )
+          end
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [t(".notice")],
+                data: @subscription
+              }
+            )
+          end
+        end
+      else
+        @subscription.prepare_values
+        flash.now.alert = @subscription.alert
+        respond_to do |format|
+          format.html { render(:new, status: :unprocessable_content) }
+          format.json do
+            render(
+              json: {
+                status: :unprocessable_content,
+                messages: [@subscription.alert],
+                data: @subscription
+              },
+              status: :unprocessable_content
+            )
+          end
+        end
+      end
+  rescue StripeBilling::PricingError => e
+      @subscription.errors.add(:base, e.message)
       @subscription.prepare_values
       flash.now.alert = @subscription.alert
-      render(:new, status: :unprocessable_content)
-    end
-  rescue StripeBilling::PricingError => e
-    @subscription.errors.add(:base, e.message)
-    @subscription.prepare_values
-    flash.now.alert = @subscription.alert
-    render(:new, status: :unprocessable_content)
+      respond_to do |format|
+        format.html { render(:new, status: :unprocessable_content) }
+        format.json do
+          render(
+            json: {
+              status: :unprocessable_content,
+              messages: [@subscription.alert],
+              data: @subscription
+            },
+            status: :unprocessable_content
+          )
+        end
+      end
   end
 
   def update
-    @subscription.assign_attributes(subscription_params)
-    if @subscription.save(context: :controller)
-      redirect_to(show_url, notice: t(".notice"))
-    else
-      @subscription.prepare_values
-      flash.now.alert = @subscription.alert
-      render(:edit, status: :unprocessable_content)
-    end
+      @subscription.assign_attributes(subscription_params)
+      if @subscription.save(context: :controller)
+        respond_to do |format|
+          format.html { redirect_to(show_url, notice: t(".notice")) }
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [t(".notice")],
+                data: @subscription
+              }
+            )
+          end
+        end
+      else
+        @subscription.prepare_values
+        flash.now.alert = @subscription.alert
+        respond_to do |format|
+          format.html { render(:edit, status: :unprocessable_content) }
+          format.json do
+            render(
+              json: {
+                status: :unprocessable_content,
+                messages: [@subscription.alert],
+                data: @subscription
+              },
+              status: :unprocessable_content
+            )
+          end
+        end
+      end
   end
 
   def destroy
-    StripeBilling.destroy!(@subscription)
-    @subscription.destroy!
-    redirect_to(index_url, notice: t(".notice"))
+      StripeBilling.destroy!(@subscription)
+      @subscription.destroy!
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [t(".notice")],
+              data: @subscription
+            }
+          )
+        end
+      end
   rescue Stripe::StripeError => e
-    redirect_to(show_url, alert: e.message)
+      respond_to do |format|
+        format.html { redirect_to(show_url, alert: e.message) }
+        format.json do
+          render(
+            json: {
+              status: :bad_request,
+              messages: [e.message],
+              data: @subscription
+            },
+            status: :bad_request
+          )
+        end
+      end
   end
 
   def delete
-    @subscription.delete
-    redirect_to(index_url, notice: t(".notice"))
+      @subscription.delete
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [t(".notice")],
+              data: @subscription
+            }
+          )
+        end
+      end
   end
 
   def destroy_all
-    authorize(Subscription)
-    scope.destroy_all
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      authorize(Subscription)
+      scope.destroy_all
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [t(".notice")],
+              data: nil
+            }
+          )
+        end
+      end
   end
 
   def delete_all
-    authorize(Subscription)
-    scope.delete_all
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      authorize(Subscription)
+      scope.delete_all
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [t(".notice")],
+              data: nil
+            }
+          )
+        end
+      end
   end
 
   private

@@ -27,73 +27,235 @@ class ErrorOccurrencesController < ApplicationController
   )
 
   def index
-    authorize(ErrorOccurrence)
+      authorize(ErrorOccurrence)
 
-    @error_occurrences = scope.page(params[:page]).order(created_at: :desc)
+      @error_occurrences = scope.page(params[:page]).order(created_at: :desc)
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @error_occurrences
+            }
+          )
+        end
+      end
   end
 
   def show
-    @logs = logs_scope.order(created_at: :desc).page(params[:page])
+      @logs = logs_scope.order(created_at: :desc).page(params[:page])
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @error_occurrence
+            }
+          )
+        end
+      end
   end
 
   def new
-    @error_occurrence = authorize(scope.new)
+      @error_occurrence = authorize(scope.new)
 
-    add_breadcrumb
+      add_breadcrumb
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @error_occurrence
+            }
+          )
+        end
+      end
   end
 
   def edit
-    add_breadcrumb
+      add_breadcrumb
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @error_occurrence
+            }
+          )
+        end
+      end
   end
 
   def create
-    @error_occurrence = authorize(scope.new(error_occurrence_params))
+      @error_occurrence = authorize(scope.new(error_occurrence_params))
 
-    if @error_occurrence.save(context: :controller)
-      redirect_to(show_url, notice: t(".notice"))
-    else
-      flash.now.alert = @error_occurrence.alert
-      render(:new, status: :unprocessable_content)
-    end
+      if @error_occurrence.save(context: :controller)
+        respond_to do |format|
+          format.html { redirect_to(show_url, notice: t(".notice")) }
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [t(".notice")],
+                data: @error_occurrence
+              }
+            )
+          end
+        end
+      else
+        flash.now.alert = @error_occurrence.alert
+        respond_to do |format|
+          format.html { render(:new, status: :unprocessable_content) }
+          format.json do
+            render(
+              json: {
+                status: :unprocessable_content,
+                messages: [@error_occurrence.alert],
+                data: @error_occurrence
+              },
+              status: :unprocessable_content
+            )
+          end
+        end
+      end
   end
 
   def update
-    @error_occurrence.assign_attributes(error_occurrence_params)
+      @error_occurrence.assign_attributes(error_occurrence_params)
 
-    if @error_occurrence.save(context: :controller)
-      redirect_to(show_url, notice: t(".notice"))
-    else
-      flash.now.alert = @error_occurrence.alert
-      render(:edit, status: :unprocessable_content)
-    end
+      if @error_occurrence.save(context: :controller)
+        respond_to do |format|
+          format.html { redirect_to(show_url, notice: t(".notice")) }
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [t(".notice")],
+                data: @error_occurrence
+              }
+            )
+          end
+        end
+      else
+        flash.now.alert = @error_occurrence.alert
+        respond_to do |format|
+          format.html { render(:edit, status: :unprocessable_content) }
+          format.json do
+            render(
+              json: {
+                status: :unprocessable_content,
+                messages: [@error_occurrence.alert],
+                data: @error_occurrence
+              },
+              status: :unprocessable_content
+            )
+          end
+        end
+      end
   end
 
   def destroy
-    @error_occurrence.destroy!
+      @error_occurrence.destroy!
 
-    redirect_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @error_occurrence
+
+            }
+          )
+        end
+      end
   end
 
   def delete
-    @error_occurrence.delete
+      @error_occurrence.delete
 
-    redirect_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @error_occurrence
+
+            }
+          )
+        end
+      end
   end
 
   def destroy_all
-    authorize(ErrorOccurrence)
+      authorize(ErrorOccurrence)
 
-    scope.destroy_all
+      scope.destroy_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   end
 
   def delete_all
-    authorize(ErrorOccurrence)
+      authorize(ErrorOccurrence)
 
-    scope.delete_all
+      scope.delete_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   end
 
   private

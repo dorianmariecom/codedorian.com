@@ -76,7 +76,9 @@ class ApplicationController < ActionController::Base
         format.json do
           render(
             json: {
-              message: error_message_for(error)
+              status: :bad_request,
+              messages: [error_message_for(error)],
+              data: nil
             },
             status: :bad_request
           )
@@ -120,7 +122,12 @@ class ApplicationController < ActionController::Base
     message = alert = t("application.current_user_required")
 
     respond_to do |format|
-      format.json { render(json: { message: message }, status: :unauthorized) }
+      format.json do
+        render(
+          json: { status: :unauthorized, messages: [message], data: nil },
+          status: :unauthorized
+        )
+      end
       format.any { redirect_to(main_app.root_path, alert: alert) }
     end
   end
@@ -133,7 +140,12 @@ class ApplicationController < ActionController::Base
     message = alert = t("application.current_admin_required")
 
     respond_to do |format|
-      format.json { render(json: { message: message }, status: :unauthorized) }
+      format.json do
+        render(
+          json: { status: :unauthorized, messages: [message], data: nil },
+          status: :unauthorized
+        )
+      end
       format.any { redirect_to(main_app.root_path, alert: alert) }
     end
   end
@@ -298,11 +310,25 @@ class ApplicationController < ActionController::Base
     return if request.path == "/up"
     return if request.base_url == Current.base_url
 
-    redirect_to(
-      Current.base_url,
-      status: :moved_permanently,
-      allow_other_host: true
-    )
+    respond_to do |format|
+      format.html do
+        redirect_to(
+          Current.base_url,
+          status: :moved_permanently,
+          allow_other_host: true
+        )
+      end
+      format.json do
+        render(
+          json: {
+            status: :moved_permanently,
+            messages: [],
+            data: { location: Current.base_url }
+          },
+          status: :moved_permanently
+        )
+      end
+    end
   end
 
   def recaptcha_site_key

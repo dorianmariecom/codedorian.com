@@ -5,73 +5,235 @@ class JobProcessesController < ApplicationController
   before_action(:load_job_process, only: %i[show edit update destroy delete])
 
   def index
-    authorize(JobProcess)
+      authorize(JobProcess)
 
-    @job_processes = scope.page(params[:page]).order(created_at: :desc)
+      @job_processes = scope.page(params[:page]).order(created_at: :desc)
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @job_processes
+            }
+          )
+        end
+      end
   end
 
   def show
-    @logs = logs_scope.order(created_at: :desc).page(params[:page])
+      @logs = logs_scope.order(created_at: :desc).page(params[:page])
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @job_process
+            }
+          )
+        end
+      end
   end
 
   def new
-    @job_process = authorize(scope.new)
+      @job_process = authorize(scope.new)
 
-    add_breadcrumb
+      add_breadcrumb
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @job_process
+            }
+          )
+        end
+      end
   end
 
   def edit
-    add_breadcrumb
+      add_breadcrumb
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @job_process
+            }
+          )
+        end
+      end
   end
 
   def create
-    @job_process = authorize(scope.new(job_process_params))
+      @job_process = authorize(scope.new(job_process_params))
 
-    if @job_process.save(context: :controller)
-      redirect_to(show_url, notice: t(".notice"))
-    else
-      flash.now.alert = @job_process.alert
-      render(:new, status: :unprocessable_content)
-    end
+      if @job_process.save(context: :controller)
+        respond_to do |format|
+          format.html { redirect_to(show_url, notice: t(".notice")) }
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [t(".notice")],
+                data: @job_process
+              }
+            )
+          end
+        end
+      else
+        flash.now.alert = @job_process.alert
+        respond_to do |format|
+          format.html { render(:new, status: :unprocessable_content) }
+          format.json do
+            render(
+              json: {
+                status: :unprocessable_content,
+                messages: [@job_process.alert],
+                data: @job_process
+              },
+              status: :unprocessable_content
+            )
+          end
+        end
+      end
   end
 
   def update
-    @job_process.assign_attributes(job_process_params)
+      @job_process.assign_attributes(job_process_params)
 
-    if @job_process.save(context: :controller)
-      redirect_to(show_url, notice: t(".notice"))
-    else
-      flash.now.alert = @job_process.alert
-      render(:edit, status: :unprocessable_content)
-    end
+      if @job_process.save(context: :controller)
+        respond_to do |format|
+          format.html { redirect_to(show_url, notice: t(".notice")) }
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [t(".notice")],
+                data: @job_process
+              }
+            )
+          end
+        end
+      else
+        flash.now.alert = @job_process.alert
+        respond_to do |format|
+          format.html { render(:edit, status: :unprocessable_content) }
+          format.json do
+            render(
+              json: {
+                status: :unprocessable_content,
+                messages: [@job_process.alert],
+                data: @job_process
+              },
+              status: :unprocessable_content
+            )
+          end
+        end
+      end
   end
 
   def destroy
-    @job_process.destroy!
+      @job_process.destroy!
 
-    redirect_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @job_process
+
+            }
+          )
+        end
+      end
   end
 
   def delete
-    @job_process.delete
+      @job_process.delete
 
-    redirect_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @job_process
+
+            }
+          )
+        end
+      end
   end
 
   def destroy_all
-    authorize(JobProcess)
+      authorize(JobProcess)
 
-    scope.destroy_all
+      scope.destroy_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   end
 
   def delete_all
-    authorize(JobProcess)
+      authorize(JobProcess)
 
-    scope.delete_all
+      scope.delete_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   end
 
   private

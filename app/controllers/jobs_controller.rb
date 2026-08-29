@@ -11,130 +11,356 @@ class JobsController < ApplicationController
   )
 
   def index
-    authorize(Job)
+      authorize(Job)
 
-    @jobs = scope.page(params[:page]).order(created_at: :desc)
-    @job_contexts = job_contexts_scope
-    @job_processes = job_processes_scope
-    @job_pauses = job_pauses_scope
-    @job_semaphores = job_semaphores_scope
-    @job_ready_executions = job_ready_executions_scope
-    @job_failed_executions = job_failed_executions_scope
-    @job_scheduled_executions = job_scheduled_executions_scope
-    @job_blocked_executions = job_blocked_executions_scope
-    @job_claimed_executions = job_claimed_executions_scope
-    @job_recurring_executions = job_recurring_executions_scope
-    @job_recurring_tasks = job_recurring_tasks_scope
+      @jobs = scope.page(params[:page]).order(created_at: :desc)
+      @job_contexts = job_contexts_scope
+      @job_processes = job_processes_scope
+      @job_pauses = job_pauses_scope
+      @job_semaphores = job_semaphores_scope
+      @job_ready_executions = job_ready_executions_scope
+      @job_failed_executions = job_failed_executions_scope
+      @job_scheduled_executions = job_scheduled_executions_scope
+      @job_blocked_executions = job_blocked_executions_scope
+      @job_claimed_executions = job_claimed_executions_scope
+      @job_recurring_executions = job_recurring_executions_scope
+      @job_recurring_tasks = job_recurring_tasks_scope
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @jobs
+            }
+          )
+        end
+      end
   end
 
   def show
-    @job_contexts =
-      job_contexts_scope.order(created_at: :desc).page(params[:page])
-    @job_ready_executions =
-      job_ready_executions_scope.order(created_at: :desc).page(params[:page])
-    @job_failed_executions =
-      job_failed_executions_scope.order(created_at: :desc).page(params[:page])
-    @job_scheduled_executions =
-      job_scheduled_executions_scope.order(created_at: :desc).page(
-        params[:page]
-      )
-    @job_blocked_executions =
-      job_blocked_executions_scope.order(created_at: :desc).page(params[:page])
-    @job_claimed_executions =
-      job_claimed_executions_scope.order(created_at: :desc).page(params[:page])
-    @job_recurring_executions =
-      job_recurring_executions_scope.order(created_at: :desc).page(
-        params[:page]
-      )
-    @logs = logs_scope.order(created_at: :desc).page(params[:page])
+      @job_contexts =
+        job_contexts_scope.order(created_at: :desc).page(params[:page])
+      @job_ready_executions =
+        job_ready_executions_scope.order(created_at: :desc).page(params[:page])
+      @job_failed_executions =
+        job_failed_executions_scope.order(created_at: :desc).page(params[:page])
+      @job_scheduled_executions =
+        job_scheduled_executions_scope.order(created_at: :desc).page(
+          params[:page]
+        )
+      @job_blocked_executions =
+        job_blocked_executions_scope.order(created_at: :desc).page(params[:page])
+      @job_claimed_executions =
+        job_claimed_executions_scope.order(created_at: :desc).page(params[:page])
+      @job_recurring_executions =
+        job_recurring_executions_scope.order(created_at: :desc).page(
+          params[:page]
+        )
+      @logs = logs_scope.order(created_at: :desc).page(params[:page])
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @job
+            }
+          )
+        end
+      end
   end
 
   def new
-    @job = authorize(scope.new)
+      @job = authorize(scope.new)
 
-    add_breadcrumb
+      add_breadcrumb
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @job
+            }
+          )
+        end
+      end
   end
 
   def edit
-    add_breadcrumb
+      add_breadcrumb
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @job
+            }
+          )
+        end
+      end
   end
 
   def create
-    @job = authorize(scope.new(job_params))
+      @job = authorize(scope.new(job_params))
 
-    if @job.save(context: :controller)
-      redirect_to(show_url, notice: t(".notice"))
-    else
-      flash.now.alert = @job.alert
-      render(:new, status: :unprocessable_content)
-    end
+      if @job.save(context: :controller)
+        respond_to do |format|
+          format.html { redirect_to(show_url, notice: t(".notice")) }
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [t(".notice")],
+                data: @job
+              }
+            )
+          end
+        end
+      else
+        flash.now.alert = @job.alert
+        respond_to do |format|
+          format.html { render(:new, status: :unprocessable_content) }
+          format.json do
+            render(
+              json: {
+                status: :unprocessable_content,
+                messages: [@job.alert],
+                data: @job
+              },
+              status: :unprocessable_content
+            )
+          end
+        end
+      end
   end
 
   def update
-    @job.assign_attributes(job_params)
+      @job.assign_attributes(job_params)
 
-    if @job.save(context: :controller)
-      redirect_to(show_url, notice: t(".notice"))
-    else
-      flash.now.alert = @job.alert
-      render(:edit, status: :unprocessable_content)
-    end
+      if @job.save(context: :controller)
+        respond_to do |format|
+          format.html { redirect_to(show_url, notice: t(".notice")) }
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [t(".notice")],
+                data: @job
+              }
+            )
+          end
+        end
+      else
+        flash.now.alert = @job.alert
+        respond_to do |format|
+          format.html { render(:edit, status: :unprocessable_content) }
+          format.json do
+            render(
+              json: {
+                status: :unprocessable_content,
+                messages: [@job.alert],
+                data: @job
+              },
+              status: :unprocessable_content
+            )
+          end
+        end
+      end
   end
 
   def retry
-    @job.retry!
+      @job.retry!
 
-    redirect_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @job
+
+            }
+          )
+        end
+      end
   end
 
   def discard
-    @job.discard!
+      @job.discard!
 
-    redirect_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @job
+
+            }
+          )
+        end
+      end
   end
 
   def delete
-    @job.delete
+      @job.delete
 
-    redirect_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @job
+
+            }
+          )
+        end
+      end
   end
 
   def destroy
-    @job.destroy!
+      @job.destroy!
 
-    redirect_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @job
+
+            }
+          )
+        end
+      end
   end
 
   def retry_all
-    authorize(Job)
+      authorize(Job)
 
-    scope.retry_all
+      scope.retry_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   end
 
   def discard_all
-    authorize(Job)
+      authorize(Job)
 
-    scope.discard_all
+      scope.discard_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   end
 
   def destroy_all
-    authorize(Job)
+      authorize(Job)
 
-    scope.destroy_all
+      scope.destroy_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   end
 
   def delete_all
-    authorize(Job)
+      authorize(Job)
 
-    scope.delete_all
+      scope.delete_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   end
 
   private

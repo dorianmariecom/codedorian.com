@@ -11,94 +11,243 @@ class DevicesController < ApplicationController
   rate_limit to: 100, within: 5.minutes, only: :create
 
   def index
-    authorize(Device)
+      authorize(Device)
 
-    @devices = scope.page(params[:page]).order(created_at: :asc)
-  end
+      @devices = scope.page(params[:page]).order(created_at: :asc)
 
-  def show
-    @versions = versions_scope.order(created_at: :desc).page(params[:page])
-    @logs = logs_scope.order(created_at: :desc).page(params[:page])
-  end
-
-  def new
-    @device =
-      authorize(scope.new(user: @user, primary: user_or_guest.devices.none?))
-
-    add_breadcrumb
-  end
-
-  def edit
-    add_breadcrumb
-  end
-
-  def create
-    @device = authorize(scope.new(device_params))
-
-    if @device.save(context: :controller)
-      log_in(@device.user)
-      @user = @device.user
       respond_to do |format|
-        format.html { redirect_to(show_url, notice: t(".notice")) }
-        format.json { render(json: { message: t(".notice") }) }
-      end
-    else
-      respond_to do |format|
-        format.html do
-          flash.now.alert = @device.alert
-          render(:new, status: :unprocessable_content)
-        end
+        format.html
         format.json do
           render(
             json: {
-              message: @device.alert
-            },
-            status: :unprocessable_content
+              status: :ok,
+              messages: [],
+              data: @devices
+            }
           )
         end
       end
-    end
+  end
+
+  def show
+      @versions = versions_scope.order(created_at: :desc).page(params[:page])
+      @logs = logs_scope.order(created_at: :desc).page(params[:page])
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @device
+            }
+          )
+        end
+      end
+  end
+
+  def new
+      @device =
+        authorize(scope.new(user: @user, primary: user_or_guest.devices.none?))
+
+      add_breadcrumb
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @device
+            }
+          )
+        end
+      end
+  end
+
+  def edit
+      add_breadcrumb
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @device
+            }
+          )
+        end
+      end
+  end
+
+  def create
+      @device = authorize(scope.new(device_params))
+
+      if @device.save(context: :controller)
+        log_in(@device.user)
+        @user = @device.user
+        respond_to do |format|
+          format.html { redirect_to(show_url, notice: t(".notice")) }
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [t(".notice")],
+                data: @device
+              }
+            )
+          end
+        end
+      else
+        respond_to do |format|
+          format.html do
+            flash.now.alert = @device.alert
+            render(:new, status: :unprocessable_content)
+          end
+          format.json do
+            render(
+              json: {
+                status: :unprocessable_content,
+                messages: [@device.alert],
+                data: @device
+              },
+              status: :unprocessable_content
+            )
+          end
+        end
+      end
   end
 
   def update
-    @device.assign_attributes(device_params)
+      @device.assign_attributes(device_params)
 
-    if @device.save(context: :controller)
-      log_in(@device.user)
-      @user = @device.user
-      redirect_to(show_url, notice: t(".notice"))
-    else
-      flash.now.alert = @device.alert
-      render(:edit, status: :unprocessable_content)
-    end
+      if @device.save(context: :controller)
+        log_in(@device.user)
+        @user = @device.user
+        respond_to do |format|
+          format.html { redirect_to(show_url, notice: t(".notice")) }
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [t(".notice")],
+                data: @device
+              }
+            )
+          end
+        end
+      else
+        flash.now.alert = @device.alert
+        respond_to do |format|
+          format.html { render(:edit, status: :unprocessable_content) }
+          format.json do
+            render(
+              json: {
+                status: :unprocessable_content,
+                messages: [@device.alert],
+                data: @device
+              },
+              status: :unprocessable_content
+            )
+          end
+        end
+      end
   end
 
   def destroy
-    @device.destroy!
+      @device.destroy!
 
-    redirect_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @device
+
+            }
+          )
+        end
+      end
   end
 
   def delete
-    @device.delete
+      @device.delete
 
-    redirect_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @device
+
+            }
+          )
+        end
+      end
   end
 
   def destroy_all
-    authorize(Device)
+      authorize(Device)
 
-    scope.destroy_all
+      scope.destroy_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   end
 
   def delete_all
-    authorize(Device)
+      authorize(Device)
 
-    scope.delete_all
+      scope.delete_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   end
 
   private

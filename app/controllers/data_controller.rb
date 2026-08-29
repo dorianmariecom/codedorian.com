@@ -7,78 +7,240 @@ class DataController < ApplicationController
   before_action(:load_datum, only: %i[show edit update destroy delete])
 
   def index
-    authorize(Datum)
+      authorize(Datum)
 
-    @data = scope.page(params[:page]).order(key: :asc, value: :asc)
+      @data = scope.page(params[:page]).order(key: :asc, value: :asc)
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @data
+            }
+          )
+        end
+      end
   end
 
   def show
-    @versions = versions_scope.order(created_at: :desc).page(params[:page])
-    @logs = logs_scope.order(created_at: :desc).page(params[:page])
+      @versions = versions_scope.order(created_at: :desc).page(params[:page])
+      @logs = logs_scope.order(created_at: :desc).page(params[:page])
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @datum
+            }
+          )
+        end
+      end
   end
 
   def new
-    @datum = authorize(scope.new(user: @user))
+      @datum = authorize(scope.new(user: @user))
 
-    add_breadcrumb
+      add_breadcrumb
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @datum
+            }
+          )
+        end
+      end
   end
 
   def edit
-    add_breadcrumb
+      add_breadcrumb
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @datum
+            }
+          )
+        end
+      end
   end
 
   def create
-    @datum = authorize(scope.new(datum_params))
+      @datum = authorize(scope.new(datum_params))
 
-    if @datum.save(context: :controller)
-      log_in(@datum.user)
-      @user = @datum.user
-      redirect_to(show_url, notice: t(".notice"))
-    else
-      flash.now.alert = @datum.alert
-      render(:new, status: :unprocessable_content)
-    end
+      if @datum.save(context: :controller)
+        log_in(@datum.user)
+        @user = @datum.user
+        respond_to do |format|
+          format.html { redirect_to(show_url, notice: t(".notice")) }
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [t(".notice")],
+                data: @datum
+              }
+            )
+          end
+        end
+      else
+        flash.now.alert = @datum.alert
+        respond_to do |format|
+          format.html { render(:new, status: :unprocessable_content) }
+          format.json do
+            render(
+              json: {
+                status: :unprocessable_content,
+                messages: [@datum.alert],
+                data: @datum
+              },
+              status: :unprocessable_content
+            )
+          end
+        end
+      end
   end
 
   def update
-    @datum.assign_attributes(datum_params)
+      @datum.assign_attributes(datum_params)
 
-    if @datum.save(context: :controller)
-      log_in(@datum.user)
-      @user = @datum.user
-      redirect_to(show_url, notice: t(".notice"))
-    else
-      flash.now.alert = @datum.alert
-      render(:edit, status: :unprocessable_content)
-    end
+      if @datum.save(context: :controller)
+        log_in(@datum.user)
+        @user = @datum.user
+        respond_to do |format|
+          format.html { redirect_to(show_url, notice: t(".notice")) }
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [t(".notice")],
+                data: @datum
+              }
+            )
+          end
+        end
+      else
+        flash.now.alert = @datum.alert
+        respond_to do |format|
+          format.html { render(:edit, status: :unprocessable_content) }
+          format.json do
+            render(
+              json: {
+                status: :unprocessable_content,
+                messages: [@datum.alert],
+                data: @datum
+              },
+              status: :unprocessable_content
+            )
+          end
+        end
+      end
   end
 
   def destroy
-    @datum.destroy!
+      @datum.destroy!
 
-    redirect_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @datum
+
+            }
+          )
+        end
+      end
   end
 
   def delete
-    @datum.delete
+      @datum.delete
 
-    redirect_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @datum
+
+            }
+          )
+        end
+      end
   end
 
   def destroy_all
-    authorize(Datum)
+      authorize(Datum)
 
-    scope.destroy_all
+      scope.destroy_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   end
 
   def delete_all
-    authorize(Datum)
+      authorize(Datum)
 
-    scope.delete_all
+      scope.delete_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   end
 
   private

@@ -303,6 +303,7 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
       body_en
       body_fr
       pricing_input
+      slug
       updated_at
       created_at
     ].each do |attribute|

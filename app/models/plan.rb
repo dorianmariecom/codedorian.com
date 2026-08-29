@@ -22,9 +22,21 @@ class Plan < ApplicationRecord
   has_rich_text :body_fr
   scope :where_user,
         ->(user) { joins(:service).where(services: { user_id: user }) }
+  normalizes :slug, with: ->(slug) { slug.to_s.strip.downcase }
+  validates :slug, presence: true
+  validates :slug, format: { with: /\A[a-z][a-z0-9-]*\z/ }
+  validates :slug, uniqueness: { scope: :service_id }
   validate { can!(:update, service) }
 
-  def self.search_fields = { **base_search_fields }
+  def self.search_fields
+    {
+      slug: {
+        node: -> { arel_table[:slug] },
+        type: :string
+      },
+      **base_search_fields
+    }
+  end
   def name = fr? ? name_fr : name_en
   def description = fr? ? description_fr : description_en
   def body = fr? ? body_fr : body_en
@@ -72,6 +84,7 @@ class Plan < ApplicationRecord
       created_at: created_at,
       pricing_input: pricing_input,
       service_id: service_id,
+      slug: slug,
       updated_at: updated_at
     )
   end

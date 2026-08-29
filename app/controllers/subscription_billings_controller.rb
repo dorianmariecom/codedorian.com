@@ -7,17 +7,55 @@ class SubscriptionBillingsController < ApplicationController
     authorize(@subscription, :show?)
     if params[:setup_intent].present?
       StripeBilling.apply_setup_intent!(@subscription, params[:setup_intent])
-      return(
-        redirect_to(
-          subscription_billing_path(@subscription),
-          notice: t("subscription_billings.setup_payment_method.notice")
-        )
-      )
+      message = t("subscription_billings.setup_payment_method.notice")
+      return respond_to do |format|
+        format.html do
+          redirect_to(subscription_billing_path(@subscription), notice: message)
+        end
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [message],
+              data: @subscription
+            }
+          )
+        end
+      end
     end
     load_billing
+
+    respond_to do |format|
+      format.html
+      format.json do
+        render(
+          json: {
+            status: :ok,
+            messages: [],
+            data: {
+              subscription: @subscription,
+              invoices: @stripe_invoices
+            }
+          }
+        )
+      end
+    end
   rescue Stripe::StripeError => e
     @billing_error = e.message
     load_billing
+    respond_to do |format|
+      format.html
+      format.json do
+        render(
+          json: {
+            status: :bad_request,
+            messages: [e.message],
+            data: @subscription
+          },
+          status: :bad_request
+        )
+      end
+    end
   end
 
   def checkout
@@ -27,27 +65,75 @@ class SubscriptionBillingsController < ApplicationController
         @subscription,
         return_url: subscription_billing_url(@subscription)
       )
-    redirect_to subscription_billing_path(@subscription), notice: t(".notice")
+    respond_to do |format|
+      format.html do
+        redirect_to(subscription_billing_path(@subscription), notice: t(".notice"))
+      end
+      format.json do
+        render(
+          json: {
+            status: :ok,
+            messages: [t(".notice")],
+            data: { subscription: @subscription, checkout_session: session }
+          }
+        )
+      end
+    end
   rescue Stripe::StripeError, StripeBilling::PricingError => e
-    redirect_to subscription_billing_path(@subscription), alert: e.message
+    respond_to do |format|
+      format.html do
+        redirect_to(subscription_billing_path(@subscription), alert: e.message)
+      end
+      format.json do
+        render(
+          json: {
+            status: :bad_request,
+            messages: [e.message],
+            data: @subscription
+          },
+          status: :bad_request
+        )
+      end
+    end
   end
 
   def cancel
     authorize(@subscription, :update?)
     StripeBilling.cancel!(@subscription)
-    redirect_to subscription_billing_path(@subscription), notice: t(".notice")
+    respond_to do |format|
+      format.html do
+        redirect_to(subscription_billing_path(@subscription), notice: t(".notice"))
+      end
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: @subscription })
+      end
+    end
   end
 
   def resume
     authorize(@subscription, :update?)
     StripeBilling.resume!(@subscription)
-    redirect_to subscription_billing_path(@subscription), notice: t(".notice")
+    respond_to do |format|
+      format.html do
+        redirect_to(subscription_billing_path(@subscription), notice: t(".notice"))
+      end
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: @subscription })
+      end
+    end
   end
 
   def retry_payment
     authorize(@subscription, :update?)
     StripeBilling.retry_latest_invoice!(@subscription)
-    redirect_to subscription_billing_path(@subscription), notice: t(".notice")
+    respond_to do |format|
+      format.html do
+        redirect_to(subscription_billing_path(@subscription), notice: t(".notice"))
+      end
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: @subscription })
+      end
+    end
   end
 
   def setup_payment_method
@@ -56,9 +142,39 @@ class SubscriptionBillingsController < ApplicationController
     @setup_client_secret = setup_intent.client_secret
     @setup_return_url = subscription_billing_url(@subscription)
     load_billing
-    render :show, status: :unprocessable_content
+    respond_to do |format|
+      format.html { render(:show, status: :unprocessable_content) }
+      format.json do
+        render(
+          json: {
+            status: :unprocessable_content,
+            messages: [],
+            data: {
+              subscription: @subscription,
+              setup_client_secret: @setup_client_secret,
+              setup_return_url: @setup_return_url
+            }
+          },
+          status: :unprocessable_content
+        )
+      end
+    end
   rescue Stripe::StripeError => e
-    redirect_to subscription_billing_path(@subscription), alert: e.message
+    respond_to do |format|
+      format.html do
+        redirect_to(subscription_billing_path(@subscription), alert: e.message)
+      end
+      format.json do
+        render(
+          json: {
+            status: :bad_request,
+            messages: [e.message],
+            data: @subscription
+          },
+          status: :bad_request
+        )
+      end
+    end
   end
 
   private

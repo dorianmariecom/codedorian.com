@@ -5,73 +5,235 @@ class JobPausesController < ApplicationController
   before_action(:load_job_pause, only: %i[show edit update destroy delete])
 
   def index
-    authorize(JobPause)
+      authorize(JobPause)
 
-    @job_pauses = scope.page(params[:page]).order(created_at: :desc)
+      @job_pauses = scope.page(params[:page]).order(created_at: :desc)
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @job_pauses
+            }
+          )
+        end
+      end
   end
 
   def show
-    @logs = logs_scope.order(created_at: :desc).page(params[:page])
+      @logs = logs_scope.order(created_at: :desc).page(params[:page])
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @job_pause
+            }
+          )
+        end
+      end
   end
 
   def new
-    @job_pause = authorize(scope.new)
+      @job_pause = authorize(scope.new)
 
-    add_breadcrumb
+      add_breadcrumb
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @job_pause
+            }
+          )
+        end
+      end
   end
 
   def edit
-    add_breadcrumb
+      add_breadcrumb
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @job_pause
+            }
+          )
+        end
+      end
   end
 
   def create
-    @job_pause = authorize(scope.new(job_pause_params))
+      @job_pause = authorize(scope.new(job_pause_params))
 
-    if @job_pause.save(context: :controller)
-      redirect_to(show_url, notice: t(".notice"))
-    else
-      flash.now.alert = @job_pause.alert
-      render(:new, status: :unprocessable_content)
-    end
+      if @job_pause.save(context: :controller)
+        respond_to do |format|
+          format.html { redirect_to(show_url, notice: t(".notice")) }
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [t(".notice")],
+                data: @job_pause
+              }
+            )
+          end
+        end
+      else
+        flash.now.alert = @job_pause.alert
+        respond_to do |format|
+          format.html { render(:new, status: :unprocessable_content) }
+          format.json do
+            render(
+              json: {
+                status: :unprocessable_content,
+                messages: [@job_pause.alert],
+                data: @job_pause
+              },
+              status: :unprocessable_content
+            )
+          end
+        end
+      end
   end
 
   def update
-    @job_pause.assign_attributes(job_pause_params)
+      @job_pause.assign_attributes(job_pause_params)
 
-    if @job_pause.save(context: :controller)
-      redirect_to(show_url, notice: t(".notice"))
-    else
-      flash.now.alert = @job_pause.alert
-      render(:edit, status: :unprocessable_content)
-    end
+      if @job_pause.save(context: :controller)
+        respond_to do |format|
+          format.html { redirect_to(show_url, notice: t(".notice")) }
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [t(".notice")],
+                data: @job_pause
+              }
+            )
+          end
+        end
+      else
+        flash.now.alert = @job_pause.alert
+        respond_to do |format|
+          format.html { render(:edit, status: :unprocessable_content) }
+          format.json do
+            render(
+              json: {
+                status: :unprocessable_content,
+                messages: [@job_pause.alert],
+                data: @job_pause
+              },
+              status: :unprocessable_content
+            )
+          end
+        end
+      end
   end
 
   def destroy
-    @job_pause.destroy!
+      @job_pause.destroy!
 
-    redirect_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @job_pause
+
+            }
+          )
+        end
+      end
   end
 
   def delete
-    @job_pause.delete
+      @job_pause.delete
 
-    redirect_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @job_pause
+
+            }
+          )
+        end
+      end
   end
 
   def destroy_all
-    authorize(JobPause)
+      authorize(JobPause)
 
-    scope.destroy_all
+      scope.destroy_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   end
 
   def delete_all
-    authorize(JobPause)
+      authorize(JobPause)
 
-    scope.delete_all
+      scope.delete_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   end
 
   private

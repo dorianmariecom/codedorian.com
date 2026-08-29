@@ -14,6 +14,17 @@
     ) %>
   </div>
 
+  <div class="p">
+    <%= f.label(:slug, class: :label) %>
+    <%= f.text_field(
+      :slug,
+      required: true,
+      class: :input,
+      autocomplete: :off,
+      data: { form_type: :other }
+    ) %>
+  </div>
+
   <% %i[name_en name_fr description_en description_fr body_en body_fr].each do |attribute| %>
     <div class="p" data-turbo-permanent>
       <%= f.label(attribute, class: :label) %>

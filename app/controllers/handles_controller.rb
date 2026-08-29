@@ -7,79 +7,241 @@ class HandlesController < ApplicationController
   before_action(:load_handle, only: %i[show edit update destroy delete])
 
   def index
-    authorize(Handle)
+      authorize(Handle)
 
-    @handles = scope.page(params[:page]).order(created_at: :asc)
+      @handles = scope.page(params[:page]).order(created_at: :asc)
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @handles
+            }
+          )
+        end
+      end
   end
 
   def show
-    @versions = versions_scope.order(created_at: :desc).page(params[:page])
-    @logs = logs_scope.order(created_at: :desc).page(params[:page])
+      @versions = versions_scope.order(created_at: :desc).page(params[:page])
+      @logs = logs_scope.order(created_at: :desc).page(params[:page])
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @handle
+            }
+          )
+        end
+      end
   end
 
   def new
-    @handle =
-      authorize(scope.new(user: @user, primary: user_or_guest.handles.none?))
+      @handle =
+        authorize(scope.new(user: @user, primary: user_or_guest.handles.none?))
 
-    add_breadcrumb
+      add_breadcrumb
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @handle
+            }
+          )
+        end
+      end
   end
 
   def edit
-    add_breadcrumb
+      add_breadcrumb
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [],
+              data: @handle
+            }
+          )
+        end
+      end
   end
 
   def create
-    @handle = authorize(scope.new(handle_params))
+      @handle = authorize(scope.new(handle_params))
 
-    if @handle.save(context: :controller)
-      log_in(@handle.user)
-      @user = @handle.user
-      redirect_to(show_url, notice: t(".notice"))
-    else
-      flash.now.alert = @handle.alert
-      render(:new, status: :unprocessable_content)
-    end
+      if @handle.save(context: :controller)
+        log_in(@handle.user)
+        @user = @handle.user
+        respond_to do |format|
+          format.html { redirect_to(show_url, notice: t(".notice")) }
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [t(".notice")],
+                data: @handle
+              }
+            )
+          end
+        end
+      else
+        flash.now.alert = @handle.alert
+        respond_to do |format|
+          format.html { render(:new, status: :unprocessable_content) }
+          format.json do
+            render(
+              json: {
+                status: :unprocessable_content,
+                messages: [@handle.alert],
+                data: @handle
+              },
+              status: :unprocessable_content
+            )
+          end
+        end
+      end
   end
 
   def update
-    @handle.assign_attributes(handle_params)
+      @handle.assign_attributes(handle_params)
 
-    if @handle.save(context: :controller)
-      log_in(@handle.user)
-      @user = @handle.user
-      redirect_to(show_url, notice: t(".notice"))
-    else
-      flash.now.alert = @handle.alert
-      render(:edit, status: :unprocessable_content)
-    end
+      if @handle.save(context: :controller)
+        log_in(@handle.user)
+        @user = @handle.user
+        respond_to do |format|
+          format.html { redirect_to(show_url, notice: t(".notice")) }
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [t(".notice")],
+                data: @handle
+              }
+            )
+          end
+        end
+      else
+        flash.now.alert = @handle.alert
+        respond_to do |format|
+          format.html { render(:edit, status: :unprocessable_content) }
+          format.json do
+            render(
+              json: {
+                status: :unprocessable_content,
+                messages: [@handle.alert],
+                data: @handle
+              },
+              status: :unprocessable_content
+            )
+          end
+        end
+      end
   end
 
   def destroy
-    @handle.destroy!
+      @handle.destroy!
 
-    redirect_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @handle
+
+            }
+          )
+        end
+      end
   end
 
   def delete
-    @handle.delete
+      @handle.delete
 
-    redirect_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: @handle
+
+            }
+          )
+        end
+      end
   end
 
   def destroy_all
-    authorize(Handle)
+      authorize(Handle)
 
-    scope.destroy_all
+      scope.destroy_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   end
 
   def delete_all
-    authorize(Handle)
+      authorize(Handle)
 
-    scope.delete_all
+      scope.delete_all
 
-    redirect_back_or_to(index_url, notice: t(".notice"))
+      respond_to do |format|
+        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+        format.json do
+          render(
+            json: {
+
+              status: :ok,
+
+              messages: [t(".notice")],
+
+              data: nil
+
+            }
+          )
+        end
+      end
   end
 
   private

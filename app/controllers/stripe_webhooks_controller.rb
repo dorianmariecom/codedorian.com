@@ -28,10 +28,13 @@ class StripeWebhooksController < ActionController::API
         )
       StripeEventProcessJob.perform_later(stripe_event)
     end
-    head :ok
+    render(json: { status: :ok, messages: [], data: nil })
   rescue ActiveRecord::RecordNotUnique
-    head :ok
+    render(json: { status: :ok, messages: [], data: nil })
   rescue KeyError, JSON::ParserError, Stripe::SignatureVerificationError
-    head :bad_request
+    render(
+      json: { status: :bad_request, messages: ["Invalid webhook"], data: nil },
+      status: :bad_request
+    )
   end
 end

@@ -9,6 +9,13 @@ class SessionController < ApplicationController
 
   def new
     add_breadcrumb
+
+    respond_to do |format|
+      format.html
+      format.json do
+        render(json: { status: :ok, messages: [], data: nil })
+      end
+    end
   end
 
   def create
@@ -27,25 +34,78 @@ class SessionController < ApplicationController
       end
 
     if @users.none?
-      flash.now.alert = t(".wrong_email_address")
-      render(:new, status: :unprocessable_content)
+      message = t(".wrong_email_address")
+      respond_to do |format|
+        format.html do
+          flash.now.alert = message
+          render(:new, status: :unprocessable_content)
+        end
+        format.json do
+          render(
+            json: {
+              status: :unprocessable_content,
+              messages: [message],
+              data: nil
+            },
+            status: :unprocessable_content
+          )
+        end
+      end
     elsif @user.nil?
-      flash.now.alert = t(".wrong_password")
-      render(:new, status: :unprocessable_content)
+      message = t(".wrong_password")
+      respond_to do |format|
+        format.html do
+          flash.now.alert = message
+          render(:new, status: :unprocessable_content)
+        end
+        format.json do
+          render(
+            json: {
+              status: :unprocessable_content,
+              messages: [message],
+              data: nil
+            },
+            status: :unprocessable_content
+          )
+        end
+      end
     else
       log_in(@user)
-      redirect_to(requested_redirect_path || @user, notice: t(".notice"))
+      respond_to do |format|
+        format.html do
+          redirect_to(requested_redirect_path || @user, notice: t(".notice"))
+        end
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [t(".notice")],
+              data: @user
+            }
+          )
+        end
+      end
     end
   end
 
   def destroy
     log_out(Current.user)
-    redirect_to(root_path, notice: t(".notice"))
+    respond_to do |format|
+      format.html { redirect_to(root_path, notice: t(".notice")) }
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: nil })
+      end
+    end
   end
 
   def delete
     log_out(Current.user)
-    redirect_to(root_path, notice: t(".notice"))
+    respond_to do |format|
+      format.html { redirect_to(root_path, notice: t(".notice")) }
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: nil })
+      end
+    end
   end
 
   def email_address_param
