@@ -18,6 +18,15 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
         }
       )
 
+    Current.with(user: users(:admin)) do
+      @plan.update!(
+        pricing_input: <<~CODE
+          phone_number = Current.subscription.values.phone_number
+          { amount_cents: 1000, amount_currency: "eur" }
+        CODE
+      )
+    end
+
     counts = [User.count, EmailAddress.count, Password.count]
     post(
       users_path,
