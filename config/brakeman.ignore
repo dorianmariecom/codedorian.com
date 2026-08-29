@@ -1,0 +1,9 @@
+{
+  "ignored_warnings": [
+    {
+      "fingerprint": "276e1fea4a77cf2fe0e76c7a7cdfe9d5237392d7f36795dcf06fd16c4cd674aa",
+      "note": "Current.base_url is server-controlled configuration, not request input."
+    }
+  ],
+  "updated": "2026-08-29 00:00:00 +0200"
+}

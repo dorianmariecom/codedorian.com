@@ -304,7 +304,6 @@ module ApplicationHelper
     end
   end
 
-  # rubocop:disable Rails/OutputSafety
   def insert_recaptcha_tag(form_html)
     form = Nokogiri.HTML(form_html)
 
@@ -315,6 +314,7 @@ module ApplicationHelper
     method = method.parameterize.gsub(%r{[^A-Z a-z/_]+}, "_")
     action = action.parameterize.gsub(%r{[^A-Z a-z/_]+}, "_")
 
+    # rubocop:disable-next Rails/OutputSafety
     form_html.sub(
       "</form>",
       safe_join(
@@ -322,7 +322,6 @@ module ApplicationHelper
       )
     ).html_safe
   end
-  # rubocop:enable Rails/OutputSafety
 
   def form_for(...)
     insert_recaptcha_tag(super)
