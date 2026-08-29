@@ -84,7 +84,7 @@ class Name < ApplicationRecord
   end
 
   def to_s
-    full_name.presence || t("to_s", id: id)
+    Utils.join(user, full_name).presence || t("to_s", id:)
   end
 
   def to_code

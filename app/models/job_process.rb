@@ -74,7 +74,10 @@ class JobProcess < SolidQueue::Process
   end
 
   def to_s
-    name_sample.presence || kind_sample.presence || hostname_sample.presence ||
-      pid_sample.presence || metadata_sample.presence || t("to_s", id: id)
+    label =
+      name_sample.presence || kind_sample.presence ||
+        hostname_sample.presence || pid_sample.presence ||
+        metadata_sample.presence
+    Utils.join(supervisor, label).presence || t("to_s", id:)
   end
 end

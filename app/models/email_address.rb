@@ -80,7 +80,7 @@ class EmailAddress < ApplicationRecord
   end
 
   def to_s
-    email_address.presence || t("to_s", id: id)
+    Utils.join(user, email_address).presence || t("to_s", id:)
   end
 
   def to_code

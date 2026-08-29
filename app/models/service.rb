@@ -36,7 +36,11 @@ class Service < ApplicationRecord
   def description = fr? ? description_fr : description_en
   def body = fr? ? body_fr : body_en
   def fields = service_fields
-  def to_s = Truncate.strip(name&.to_plain_text).presence || t("to_s", id: id)
+
+  def to_s
+    Utils.join(user, Truncate.strip(name&.to_plain_text)).presence ||
+      t("to_s", id:)
+  end
 
   def to_code
     Code::Object::Service.new(

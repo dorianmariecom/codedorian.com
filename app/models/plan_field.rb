@@ -81,5 +81,11 @@ class PlanField < ApplicationRecord
   def number? = kind == "number"
   def phone_number? = kind == "phone_number"
   def text? = kind == "text"
-  def to_s = Truncate.strip(name&.to_plain_text).presence || key
+
+  def to_s
+    Utils.join(
+      plan,
+      Truncate.strip(name&.to_plain_text).presence || key
+    ).presence || t("to_s", id:)
+  end
 end

@@ -3899,6 +3899,8 @@ fr:
       destroy_all: tout détruire
       new: nouvelle valeur d'abonnement
       title: valeurs d'abonnement
+    model:
+      to_s: valeur_abonnement#%{id}
     new:
       description: créer une valeur d'abonnement.
       submit: créer la valeur d'abonnement
@@ -4152,6 +4154,8 @@ fr:
       versions: versions
     update:
       notice: utilisateur mis à jour
+  utils:
+    join: " - "
   versions:
     create:
       notice: version créée

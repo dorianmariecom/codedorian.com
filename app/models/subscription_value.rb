@@ -32,7 +32,10 @@ class SubscriptionValue < ApplicationRecord
 
   def field = subscription.plan.field_for(key)
   def stale? = field.nil?
-  def to_s = "#{key}: #{value}"
+
+  def to_s
+    Utils.join(subscription, "#{key}: #{value}").presence || t("to_s", id:)
+  end
 
   def typed_value
     case field&.kind

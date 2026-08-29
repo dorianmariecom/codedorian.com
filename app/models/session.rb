@@ -69,7 +69,9 @@ class Session < ActiveRecord::SessionStore::Session
   end
 
   def to_s
-    data_sample.presence || session_id_sample.presence ||
-      user_id_sample.presence || guest_id_sample.presence || t("to_s", id: id)
+    label =
+      data_sample.presence || session_id_sample.presence ||
+        user_id_sample.presence || guest_id_sample.presence
+    Utils.join(user || guest, label).presence || t("to_s", id:)
   end
 end

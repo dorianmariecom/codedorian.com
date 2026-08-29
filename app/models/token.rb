@@ -79,7 +79,7 @@ class Token < ApplicationRecord
   end
 
   def to_s
-    token.presence || t("to_s", id: id)
+    Utils.join(user, token).presence || t("to_s", id:)
   end
 
   def to_code

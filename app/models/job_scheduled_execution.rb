@@ -80,7 +80,9 @@ class JobScheduledExecution < SolidQueue::ScheduledExecution
   end
 
   def to_s
-    queue_name_sample.presence || scheduled_at_sample.presence ||
-      priority_sample.presence || t("to_s", id: id)
+    label =
+      queue_name_sample.presence || scheduled_at_sample.presence ||
+        priority_sample.presence
+    Utils.join(job, label).presence || t("to_s", id:)
   end
 end

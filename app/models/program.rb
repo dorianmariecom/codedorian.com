@@ -178,6 +178,7 @@ class Program < ApplicationRecord
   def schedules = program_schedules
 
   def to_s
-    name_sample.presence || input_sample.presence || t("to_s", id: id)
+    Utils.join(user, name_sample.presence || input_sample).presence ||
+      t("to_s", id:)
   end
 end

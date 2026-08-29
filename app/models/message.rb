@@ -119,7 +119,11 @@ class Message < ApplicationRecord
   end
 
   def to_s
-    subject_sample.presence || body_sample.presence || t("to_s", id: id)
+    Utils.join(
+      from_user,
+      to_user,
+      subject_sample.presence || body_sample
+    ).presence || t("to_s", id:)
   end
 
   def to_code

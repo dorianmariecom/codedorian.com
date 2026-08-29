@@ -101,6 +101,7 @@ class Version < PaperTrail::Version
   end
 
   def to_s
-    sample_object_changes || sample_object || t("to_s", id: id)
+    Utils.join(item, sample_object_changes || sample_object).presence ||
+      t("to_s", id:)
   end
 end

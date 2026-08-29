@@ -67,7 +67,7 @@ class Handle < ApplicationRecord
   end
 
   def to_s
-    handle.presence || t("to_s", id: id)
+    Utils.join(user, handle).presence || t("to_s", id:)
   end
 
   def to_code

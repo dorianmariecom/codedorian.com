@@ -121,31 +121,35 @@ class User < ApplicationRecord
   end
 
   def name
-    names.verified.order(primary: :desc).first&.to_s
+    names.verified.order(primary: :desc).first&.full_name
   end
 
   def address
-    addresses.verified.order(primary: :desc).first&.to_s
+    record = addresses.verified.order(primary: :desc).first
+    record&.formatted_address.presence || record&.address.presence
   end
 
   def handle
-    handles.verified.order(primary: :desc).first&.to_s
+    handles.verified.order(primary: :desc).first&.handle
   end
 
   def password
-    passwords.verified.order(primary: :desc).first&.to_s
+    passwords.verified.order(primary: :desc).first&.hint
   end
 
   def email_address
-    email_addresses.find_by(primary: true, verified: true)&.to_s ||
-      email_addresses.find_by(primary: true)&.to_s ||
-      email_addresses.order(:id).first&.to_s
+    record =
+      email_addresses.find_by(primary: true, verified: true) ||
+        email_addresses.find_by(primary: true) ||
+        email_addresses.order(:id).first
+    record&.email_address
   end
 
   def phone_number
-    phone_numbers.find_by(primary: true, verified: true)&.to_s ||
-      phone_numbers.find_by(primary: true)&.to_s ||
-      phone_numbers.order(:id).first&.to_s
+    record =
+      phone_numbers.find_by(primary: true, verified: true) ||
+        phone_numbers.find_by(primary: true) || phone_numbers.order(:id).first
+    record&.formatted
   end
 
   def passwords_attributes=(attributes)
@@ -160,23 +164,23 @@ class User < ApplicationRecord
   def time_zone
     return @time_zone if defined?(@time_zone)
 
-    @time_zone = time_zones.verified.order(primary: :desc).first&.to_s
+    @time_zone = time_zones.verified.order(primary: :desc).first&.time_zone
   end
 
   def unverified_time_zone
-    time_zones.order(primary: :desc).first&.to_s
+    time_zones.order(primary: :desc).first&.time_zone
   end
 
   def device
-    devices.verified.order(primary: :desc).first&.to_s
+    devices.verified.order(primary: :desc).first&.platform
   end
 
   def unverified_device
-    devices.order(primary: :desc).first&.to_s
+    devices.order(primary: :desc).first&.platform
   end
 
   def token
-    tokens.verified.order(primary: :desc).first&.to_s
+    tokens.verified.order(primary: :desc).first&.token
   end
 
   def verified!

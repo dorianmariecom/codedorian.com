@@ -26,7 +26,10 @@ class PlanSchedule < ApplicationRecord
 
   def self.interval_options = ProgramSchedule.interval_options
   def translated_interval = ProgramSchedule.translated_interval(interval)
-  def to_s = translated_interval.presence || t("to_s", id: id)
+
+  def to_s
+    Utils.join(plan, translated_interval).presence || t("to_s", id:)
+  end
 
   def to_code
     Code::Object::PlanSchedule.new(

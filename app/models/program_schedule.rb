@@ -37,6 +37,6 @@ class ProgramSchedule < ApplicationRecord
   end
 
   def to_s
-    translated_interval.presence || t("to_s", id: id)
+    Utils.join(program, translated_interval).presence || t("to_s", id:)
   end
 end

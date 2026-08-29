@@ -41,7 +41,11 @@ class Step < ApplicationRecord
   def name = fr? ? name_fr : name_en
   def description = fr? ? description_fr : description_en
   def body = fr? ? body_fr : body_en
-  def to_s = Truncate.strip(name&.to_plain_text).presence || t("to_s", id: id)
+
+  def to_s
+    Utils.join(service, Truncate.strip(name&.to_plain_text)).presence ||
+      t("to_s", id:)
+  end
 
   def format!
     update!(input: Code.format(input))

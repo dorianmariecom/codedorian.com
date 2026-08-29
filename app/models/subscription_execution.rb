@@ -40,7 +40,10 @@ class SubscriptionExecution < ApplicationRecord
 
   def in_progress? = status == "in_progress"
   def translated_status = t("statuses.#{status}")
-  def to_s = translated_status.presence || t("to_s", id: id)
+
+  def to_s
+    Utils.join(subscription, translated_status).presence || t("to_s", id:)
+  end
 
   def to_code
     Code::Object::SubscriptionExecution.new(

@@ -352,7 +352,10 @@ class ServiceModelsTest < ActiveSupport::TestCase
     end
 
     subscription = subscriptions(:subscription)
-    assert_equal("Named service - #{subscription.plan}", subscription.to_s)
+    assert_equal(
+      Utils.join(subscription.service, subscription.plan),
+      subscription.to_s
+    )
   end
 
   test "a subscription derives its schedule times from its plan schedules" do

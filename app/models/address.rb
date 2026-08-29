@@ -84,7 +84,8 @@ class Address < ApplicationRecord
   end
 
   def to_s
-    formatted_address.presence || address.presence || t("to_s", id: id)
+    Utils.join(user, formatted_address.presence || address).presence ||
+      t("to_s", id:)
   end
 
   def to_code

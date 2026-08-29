@@ -91,7 +91,7 @@ class Device < ApplicationRecord
   end
 
   def to_s
-    platform.presence || t("to_s", id: id)
+    Utils.join(user, platform).presence || t("to_s", id:)
   end
 
   def to_code

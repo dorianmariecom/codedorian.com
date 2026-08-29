@@ -128,7 +128,9 @@ class ErrorOccurrence < SolidErrors::Occurrence
   end
 
   def to_s
-    app_backtrace_sample.presence || backtrace_sample.presence ||
-      context_sample.presence || I18n.t("to_s", id: id)
+    label =
+      app_backtrace_sample.presence || backtrace_sample.presence ||
+        context_sample.presence
+    Utils.join(error, label).presence || t("to_s", id:)
   end
 end

@@ -77,7 +77,11 @@ class Plan < ApplicationRecord
   end
 
   def schedules = plan_schedules
-  def to_s = Truncate.strip(name&.to_plain_text).presence || t("to_s", id: id)
+
+  def to_s
+    Utils.join(service, Truncate.strip(name&.to_plain_text)).presence ||
+      t("to_s", id:)
+  end
 
   def to_code
     Code::Object::Plan.new(

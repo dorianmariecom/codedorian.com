@@ -72,6 +72,7 @@ class JobReadyExecution < SolidQueue::ReadyExecution
   end
 
   def to_s
-    queue_name_sample.presence || priority_sample.presence || t("to_s", id: id)
+    Utils.join(job, queue_name_sample.presence || priority_sample).presence ||
+      t("to_s", id:)
   end
 end

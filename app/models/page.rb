@@ -110,7 +110,9 @@ class Page < ApplicationRecord
   end
 
   def to_s
-    title_sample.presence || description_sample.presence ||
-      body_sample.presence || t("to_s", id: id)
+    label =
+      title_sample.presence || description_sample.presence ||
+        body_sample.presence
+    Utils.join(parent || user, label).presence || t("to_s", id:)
   end
 end

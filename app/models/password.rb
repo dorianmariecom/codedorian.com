@@ -79,7 +79,7 @@ class Password < ApplicationRecord
   end
 
   def to_s
-    hint.presence || t("to_s", id: id)
+    Utils.join(user, hint).presence || t("to_s", id:)
   end
 
   def to_code

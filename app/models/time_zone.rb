@@ -73,7 +73,7 @@ class TimeZone < ApplicationRecord
   end
 
   def to_s
-    time_zone.presence || t("to_s", id: id)
+    Utils.join(user, time_zone).presence || t("to_s", id:)
   end
 
   def to_code

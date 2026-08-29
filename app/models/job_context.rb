@@ -60,6 +60,6 @@ class JobContext < ApplicationRecord
   end
 
   def to_s
-    context_sample.presence || t("to_s", id: id)
+    Utils.join(job, context_sample).presence || t("to_s", id:)
   end
 end

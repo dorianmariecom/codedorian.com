@@ -72,6 +72,7 @@ class JobRecurringExecution < SolidQueue::RecurringExecution
   end
 
   def to_s
-    task_key_sample.presence || run_at_sample.presence || t("to_s", id: id)
+    Utils.join(job, task_key_sample.presence || run_at_sample).presence ||
+      t("to_s", id:)
   end
 end

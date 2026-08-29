@@ -86,7 +86,7 @@ class PhoneNumber < ApplicationRecord
   end
 
   def to_s
-    formatted.presence || t("to_s", id: id)
+    Utils.join(user, formatted).presence || t("to_s", id:)
   end
 
   def to_code
