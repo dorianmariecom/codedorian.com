@@ -16,7 +16,7 @@ class ProgramExecution < ApplicationRecord
   scope(:where_user, ->(user) { joins(:user).where(users: { id: user }) })
   scope(:where_program, ->(program) { where(program: program) })
 
-  belongs_to(:program, touch: true)
+  belongs_to(:program)
 
   has_one(:user, through: :program)
 
