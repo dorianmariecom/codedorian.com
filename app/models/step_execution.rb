@@ -119,8 +119,9 @@ class StepExecution < ApplicationRecord
 
   def to_s
     Utils.join(
-      translated_status_sample.presence || step_sample.presence ||
-        subscription_execution_sample,
+      translated_status_sample,
+      step_sample,
+      subscription_execution_sample,
       id_sample
     ).presence ||
       t("to_s", id:)

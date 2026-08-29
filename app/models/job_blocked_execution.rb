@@ -95,7 +95,6 @@ class JobBlockedExecution < SolidQueue::BlockedExecution
     label =
       queue_name_sample.presence || concurrency_key_sample.presence ||
         priority_sample.presence || expires_at_sample.presence
-    Utils.join(label.presence || job_sample, id_sample).presence ||
-      t("to_s", id:)
+    Utils.join(label, job_sample, id_sample).presence || t("to_s", id:)
   end
 end

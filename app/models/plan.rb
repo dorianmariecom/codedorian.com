@@ -88,7 +88,7 @@ class Plan < ApplicationRecord
   end
 
   def to_s
-    Utils.join(name_sample.presence || service_sample, id_sample).presence ||
+    Utils.join(name_sample, service_sample, id_sample).presence ||
       t("to_s", id:)
   end
 

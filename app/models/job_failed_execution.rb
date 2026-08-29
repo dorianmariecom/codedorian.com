@@ -79,7 +79,6 @@ class JobFailedExecution < SolidQueue::FailedExecution
   end
 
   def to_s
-    Utils.join(error_sample.presence || job_sample, id_sample).presence ||
-      t("to_s", id:)
+    Utils.join(error_sample, job_sample, id_sample).presence || t("to_s", id:)
   end
 end

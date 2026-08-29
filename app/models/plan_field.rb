@@ -99,7 +99,8 @@ class PlanField < ApplicationRecord
 
   def to_s
     Utils.join(
-      name_sample.presence || key_sample.presence || plan_sample,
+      name_sample.presence || key_sample,
+      plan_sample,
       id_sample
     ).presence || t("to_s", id:)
   end

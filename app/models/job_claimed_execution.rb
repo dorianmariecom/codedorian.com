@@ -73,7 +73,8 @@ class JobClaimedExecution < SolidQueue::ClaimedExecution
 
   def to_s
     Utils.join(
-      process_sample.presence || process_id_sample.presence || job_sample,
+      process_sample.presence || process_id_sample,
+      job_sample,
       id_sample
     ).presence || t("to_s", id:)
   end

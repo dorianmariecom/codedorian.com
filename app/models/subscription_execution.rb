@@ -61,7 +61,8 @@ class SubscriptionExecution < ApplicationRecord
 
   def to_s
     Utils.join(
-      translated_status_sample.presence || subscription_sample,
+      translated_status_sample,
+      subscription_sample,
       id_sample
     ).presence || t("to_s", id:)
   end

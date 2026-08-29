@@ -156,8 +156,7 @@ class ProgramExecution < ApplicationRecord
         error_message_sample.presence || error_sample.presence ||
         error_backtrace_sample.presence || output_sample.presence ||
         result_sample.presence || input_sample.presence
-    Utils.join(label.presence || program_sample, id_sample).presence ||
-      t("to_s", id:)
+    Utils.join(label, program_sample, id_sample).presence || t("to_s", id:)
   end
 
   def to_code

@@ -55,8 +55,8 @@ class SubscriptionValue < ApplicationRecord
 
   def to_s
     Utils.join(
-      key_value_sample.presence || key_sample.presence ||
-        value_sample.presence || subscription_sample,
+      key_value_sample,
+      subscription_sample,
       id_sample
     ).presence || t("to_s", id:)
   end

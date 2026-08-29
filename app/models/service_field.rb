@@ -96,7 +96,8 @@ class ServiceField < ApplicationRecord
 
   def to_s
     Utils.join(
-      name_sample.presence || key_sample.presence || service_sample,
+      name_sample.presence || key_sample,
+      service_sample,
       id_sample
     ).presence || t("to_s", id:)
   end

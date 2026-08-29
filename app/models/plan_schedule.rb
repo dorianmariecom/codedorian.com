@@ -37,10 +37,8 @@ class PlanSchedule < ApplicationRecord
   end
 
   def to_s
-    Utils.join(
-      translated_interval_sample.presence || plan_sample,
-      id_sample
-    ).presence || t("to_s", id:)
+    Utils.join(translated_interval_sample, plan_sample, id_sample).presence ||
+      t("to_s", id:)
   end
 
   def to_code

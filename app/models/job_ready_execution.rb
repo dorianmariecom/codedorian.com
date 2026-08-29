@@ -77,7 +77,8 @@ class JobReadyExecution < SolidQueue::ReadyExecution
 
   def to_s
     Utils.join(
-      queue_name_sample.presence || priority_sample.presence || job_sample,
+      queue_name_sample.presence || priority_sample,
+      job_sample,
       id_sample
     ).presence ||
       t("to_s", id:)
