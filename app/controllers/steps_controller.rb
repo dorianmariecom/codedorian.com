@@ -19,12 +19,12 @@ class StepsController < ApplicationController
   def show
     @step_executions =
       policy_scope(StepExecution)
-        .where(step: @step)
+        .where_step(@step)
         .order(created_at: :desc)
         .page(params[:page])
     @versions =
       policy_scope(Version)
-        .where(item: @step)
+        .where_step(@step)
         .order(created_at: :desc)
         .page(params[:page])
     @logs =
@@ -180,7 +180,7 @@ class StepsController < ApplicationController
 
   def scope
     records = searched_policy_scope(Step)
-    records = records.where(service: @service) if @service
+    records = records.where_service(@service) if @service
     records
   end
 

@@ -20,39 +20,37 @@ class PlansController < ApplicationController
   def show
     @plan_fields =
       policy_scope(PlanField)
-        .where(plan: @plan)
+        .where_plan(@plan)
         .order(:position, :id)
         .page(params[:page])
     @plan_schedules =
       policy_scope(PlanSchedule)
-        .where(plan: @plan)
+        .where_plan(@plan)
         .order(created_at: :desc)
         .page(params[:page])
     @subscriptions =
       policy_scope(Subscription)
-        .where(plan: @plan)
+        .where_plan(@plan)
         .order(created_at: :desc)
         .page(params[:page])
     @subscription_executions =
       policy_scope(SubscriptionExecution)
-        .joins(:subscription)
-        .where(subscriptions: { plan_id: @plan.id })
+        .where_plan(@plan)
         .order(created_at: :desc)
         .page(params[:page])
     @steps =
       policy_scope(Step)
-        .where(service: @plan.service)
+        .where_service(@plan.service)
         .order(:position)
         .page(params[:page])
     @step_executions =
       policy_scope(StepExecution)
-        .joins(subscription_execution: :subscription)
-        .where(subscriptions: { plan_id: @plan.id })
+        .where_plan(@plan)
         .order(created_at: :desc)
         .page(params[:page])
     @versions =
       policy_scope(Version)
-        .where(item: @plan)
+        .where_plan(@plan)
         .order(created_at: :desc)
         .page(params[:page])
     @logs =
@@ -193,7 +191,7 @@ class PlansController < ApplicationController
 
   def scope
     records = searched_policy_scope(Plan)
-    records = records.where(service: @service) if @service
+    records = records.where_service(@service) if @service
     records
   end
 

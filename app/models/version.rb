@@ -20,16 +20,21 @@ class Version < PaperTrail::Version
     page
     password
     phone_number
+    plan_field
     program
     program_execution
     program_schedule
     service
+    service_field
     step
     plan
     plan_schedule
     subscription
     subscription_execution
+    subscription_value
     step_execution
+    stripe_event
+    stripe_invoice
     time_zone
     token
     user
@@ -92,16 +97,23 @@ class Version < PaperTrail::Version
     JSON.pretty_generate(object_changes)
   end
 
-  def sample_object_changes
+  def object_changes_sample
     Truncate.strip(object_changes.to_json)
   end
 
-  def sample_object
+  def object_sample
     Truncate.strip(object.to_json)
   end
 
+  def item_sample
+    Truncate.strip(item)
+  end
+
   def to_s
-    Utils.join(item, sample_object_changes || sample_object).presence ||
+    Utils.join(
+      object_changes_sample.presence || object_sample.presence || item_sample,
+      id_sample
+    ).presence ||
       t("to_s", id:)
   end
 end

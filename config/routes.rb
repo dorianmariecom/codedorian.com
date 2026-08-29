@@ -131,7 +131,13 @@ Rails.application.routes.draw do
       post(:lookup)
     end
 
-    %i[configurations links solid_cache_entries].each do |resource|
+    %i[
+      configurations
+      links
+      solid_cache_entries
+      stripe_events
+      stripe_invoices
+    ].each do |resource|
       resources(resource, concerns: :deletable)
     end
 

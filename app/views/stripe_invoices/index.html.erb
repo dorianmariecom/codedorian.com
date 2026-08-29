@@ -1,0 +1,27 @@
+<%= turbo_stream_from(@stripe_invoices) %>
+
+<% if can?(:create, StripeInvoice) %>
+  <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
+<% end %>
+
+<%= render("shared/search") %>
+
+<turbo-frame id="search" target="_top">
+  <% if @stripe_invoices.any? &&
+    (can?(:destroy_all, StripeInvoice) || can?(:delete_all, StripeInvoice)) %>
+    <div class="p p--flex">
+      <% if can?(:destroy_all, StripeInvoice) %>
+        <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
+      <% end %>
+      <% if can?(:delete_all, StripeInvoice) %>
+        <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "stripe_invoices/stripe_invoice",
+    collection: @stripe_invoices,
+    as: :stripe_invoice
+  ) %>
+</turbo-frame>

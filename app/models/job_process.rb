@@ -69,6 +69,10 @@ class JobProcess < SolidQueue::Process
     Truncate.strip(metadata.to_json)
   end
 
+  def supervisor_sample
+    Truncate.strip(supervisor)
+  end
+
   def metadata_json
     JSON.pretty_generate(metadata)
   end
@@ -78,6 +82,7 @@ class JobProcess < SolidQueue::Process
       name_sample.presence || kind_sample.presence ||
         hostname_sample.presence || pid_sample.presence ||
         metadata_sample.presence
-    Utils.join(supervisor, label).presence || t("to_s", id:)
+    Utils.join(label.presence || supervisor_sample, id_sample).presence ||
+      t("to_s", id:)
   end
 end

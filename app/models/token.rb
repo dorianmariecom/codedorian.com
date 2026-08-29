@@ -78,8 +78,17 @@ class Token < ApplicationRecord
     errors.add(:token, result.message.presence || :weak)
   end
 
+  def token_sample
+    Truncate.strip(token)
+  end
+
+  def user_sample
+    Truncate.strip(user)
+  end
+
   def to_s
-    Utils.join(user, token).presence || t("to_s", id:)
+    Utils.join(token_sample.presence || user_sample, id_sample).presence ||
+      t("to_s", id:)
   end
 
   def to_code

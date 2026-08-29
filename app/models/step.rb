@@ -16,6 +16,7 @@ class Step < ApplicationRecord
   has_rich_text :body_fr
   scope :where_user,
         ->(user) { joins(:service).where(services: { user_id: user }) }
+  scope :where_service, ->(service) { where(service: service) }
   validates :position, :offset_seconds, presence: true
   validates :position, uniqueness: { scope: :service_id }
   validate { can!(:update, service) }
@@ -42,8 +43,16 @@ class Step < ApplicationRecord
   def description = fr? ? description_fr : description_en
   def body = fr? ? body_fr : body_en
 
+  def name_sample
+    Truncate.strip(name&.to_plain_text)
+  end
+
+  def service_sample
+    Truncate.strip(service)
+  end
+
   def to_s
-    Utils.join(service, Truncate.strip(name&.to_plain_text)).presence ||
+    Utils.join(name_sample.presence || service_sample, id_sample).presence ||
       t("to_s", id:)
   end
 

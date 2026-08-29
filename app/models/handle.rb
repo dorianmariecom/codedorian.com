@@ -66,8 +66,17 @@ class Handle < ApplicationRecord
     update!(verified: false)
   end
 
+  def handle_sample
+    Truncate.strip(handle)
+  end
+
+  def user_sample
+    Truncate.strip(user)
+  end
+
   def to_s
-    Utils.join(user, handle).presence || t("to_s", id:)
+    Utils.join(handle_sample.presence || user_sample, id_sample).presence ||
+      t("to_s", id:)
   end
 
   def to_code

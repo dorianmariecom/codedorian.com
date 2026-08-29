@@ -18,6 +18,9 @@ class Subscription < ApplicationRecord
           dependent: :destroy,
           inverse_of: :subscription
   scope :where_user, ->(user) { where(user: user) }
+  scope :where_plan, ->(plan) { where(plan: plan) }
+  scope :where_service,
+        ->(service) { joins(:plan).where(plans: { service_id: service }) }
   before_validation { self.user ||= Current.user! }
   validates :status, inclusion: { in: STATUSES }
   validates :amount_cents,
@@ -212,7 +215,19 @@ class Subscription < ApplicationRecord
   def previous_at = plan_schedules.map(&:previous_at).select(&:past?).max
   def next_at = plan_schedules.map(&:next_at).select(&:future?).min
   def translated_status = t("statuses.#{status}")
-  def to_s = Utils.join(plan).presence || t("to_s", id:)
+
+  def plan_sample
+    Truncate.strip(plan)
+  end
+
+  def service_sample
+    Truncate.strip(service)
+  end
+
+  def to_s
+    Utils.join(service_sample, plan_sample, id_sample).presence ||
+      t("to_s", id:)
+  end
 
   def to_code
     Code::Object::Subscription.new(

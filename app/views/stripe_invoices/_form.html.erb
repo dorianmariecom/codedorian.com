@@ -1,0 +1,72 @@
+<%= form_for(show_url) do |f| %>
+  <div class="p">
+    <%= f.label(:subscription_id, class: :label) %>
+    <%= f.select(
+      :subscription_id,
+      policy_scope(Subscription)
+        .order(:id)
+        .map { |record| [record.to_s, record.id] },
+      { include_blank: true },
+      class: :input,
+      autocomplete: :off,
+      data: { form_type: :other }
+    ) %>
+  </div>
+
+  <% %i[
+    stripe_invoice_id
+    stripe_payment_intent_id
+    number
+    status
+    currency
+    hosted_invoice_url
+    invoice_pdf
+  ].each do |attribute| %>
+    <div class="p">
+      <%= f.label(attribute, class: :label) %>
+      <%= f.text_field(
+        attribute,
+        required: attribute.in?(%i[stripe_invoice_id currency]),
+        class: :input,
+        autocomplete: :off,
+        data: { form_type: :other }
+      ) %>
+    </div>
+  <% end %>
+
+  <% %i[amount_due amount_paid].each do |attribute| %>
+    <div class="p">
+      <%= f.label(attribute, class: :label) %>
+      <%= f.number_field(
+        attribute,
+        required: true,
+        class: :input,
+        autocomplete: :off,
+        data: { form_type: :other }
+      ) %>
+    </div>
+  <% end %>
+
+  <% %i[period_start period_end paid_at].each do |attribute| %>
+    <div class="p">
+      <%= f.label(attribute, class: :label) %>
+      <%= f.datetime_field(
+        attribute,
+        class: :input,
+        autocomplete: :off,
+        data: { form_type: :other }
+      ) %>
+    </div>
+  <% end %>
+
+  <div class="p">
+    <%= f.submit(
+      submit,
+      class: "button",
+      data: {
+        controller: "bridge--button",
+        bridge__button_title_value: submit
+      }
+    ) %>
+  </div>
+<% end %>

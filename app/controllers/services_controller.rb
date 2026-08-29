@@ -33,36 +33,32 @@ class ServicesController < ApplicationController
           .page(params[:page])
       @steps =
         policy_scope(Step)
-          .where(service: @service)
+          .where_service(@service)
           .order(:position)
           .page(params[:page])
       @service_fields =
         policy_scope(ServiceField)
-          .where(service: @service)
+          .where_service(@service)
           .order(:position, :id)
           .page(params[:page])
       @plan_fields =
         policy_scope(PlanField)
-          .joins(:plan)
-          .where(plans: { service_id: @service.id })
+          .where_service(@service)
           .order(:plan_id, :position, :id)
           .page(params[:page])
       @subscriptions =
         policy_scope(Subscription)
-          .joins(:plan)
-          .where(plans: { service_id: @service.id })
+          .where_service(@service)
           .order(created_at: :desc)
           .page(params[:page])
       @subscription_executions =
         policy_scope(SubscriptionExecution)
-          .joins(subscription: :plan)
-          .where(plans: { service_id: @service.id })
+          .where_service(@service)
           .order(created_at: :desc)
           .page(params[:page])
       @step_executions =
         policy_scope(StepExecution)
-          .joins(subscription_execution: { subscription: :plan })
-          .where(plans: { service_id: @service.id })
+          .where_service(@service)
           .order(created_at: :desc)
           .page(params[:page])
       return
@@ -70,46 +66,42 @@ class ServicesController < ApplicationController
 
     @steps =
       policy_scope(Step)
-        .where(service: @service)
+        .where_service(@service)
         .order(:position)
         .page(params[:page])
     @plans =
       policy_scope(Plan)
-        .where(service: @service)
+        .where_service(@service)
         .order(created_at: :desc)
         .page(params[:page])
     @plan_fields =
       policy_scope(PlanField)
-        .joins(:plan)
-        .where(plans: { service_id: @service.id })
+        .where_service(@service)
         .order(:plan_id, :position, :id)
         .page(params[:page])
     @service_fields =
       policy_scope(ServiceField)
-        .where(service: @service)
+        .where_service(@service)
         .order(:position, :id)
         .page(params[:page])
     @subscriptions =
       policy_scope(Subscription)
-        .joins(:plan)
-        .where(plans: { service_id: @service.id })
+        .where_service(@service)
         .order(created_at: :desc)
         .page(params[:page])
     @subscription_executions =
       policy_scope(SubscriptionExecution)
-        .joins(subscription: :plan)
-        .where(plans: { service_id: @service.id })
+        .where_service(@service)
         .order(created_at: :desc)
         .page(params[:page])
     @step_executions =
       policy_scope(StepExecution)
-        .joins(subscription_execution: { subscription: :plan })
-        .where(plans: { service_id: @service.id })
+        .where_service(@service)
         .order(created_at: :desc)
         .page(params[:page])
     @versions =
       policy_scope(Version)
-        .where(item: @service)
+        .where_service(@service)
         .order(created_at: :desc)
         .page(params[:page])
     @logs =

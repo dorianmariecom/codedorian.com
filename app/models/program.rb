@@ -163,6 +163,10 @@ class Program < ApplicationRecord
     Truncate.strip(name)
   end
 
+  def user_sample
+    Truncate.strip(user)
+  end
+
   def to_code
     Code::Object::Program.new(
       id: id,
@@ -178,7 +182,10 @@ class Program < ApplicationRecord
   def schedules = program_schedules
 
   def to_s
-    Utils.join(user, name_sample.presence || input_sample).presence ||
+    Utils.join(
+      name_sample.presence || input_sample.presence || user_sample,
+      id_sample
+    ).presence ||
       t("to_s", id:)
   end
 end

@@ -86,9 +86,11 @@ class JobRecurringTask < SolidQueue::RecurringTask
   end
 
   def to_s
-    key_sample.presence || class_name_sample.presence ||
-      schedule_sample.presence || queue_name_sample.presence ||
-      description_sample.presence || command_sample.presence ||
-      arguments_sample.presence || t("to_s", id: id)
+    label =
+      key_sample.presence || class_name_sample.presence ||
+        schedule_sample.presence || queue_name_sample.presence ||
+        description_sample.presence || command_sample.presence ||
+        arguments_sample.presence
+    Utils.join(label, id_sample).presence || t("to_s", id:)
   end
 end

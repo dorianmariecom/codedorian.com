@@ -33,23 +33,22 @@ class SubscriptionsController < ApplicationController
   def show
     @subscription_values =
       policy_scope(SubscriptionValue)
-        .where(subscription: @subscription)
+        .where_subscription(@subscription)
         .order(:id)
         .page(params[:page])
     @subscription_executions =
       policy_scope(SubscriptionExecution)
-        .where(subscription: @subscription)
+        .where_subscription(@subscription)
         .order(created_at: :desc)
         .page(params[:page])
     @step_executions =
       policy_scope(StepExecution)
-        .joins(:subscription_execution)
-        .where(subscription_executions: { subscription_id: @subscription.id })
+        .where_subscription(@subscription)
         .order(created_at: :desc)
         .page(params[:page])
     @versions =
       policy_scope(Version)
-        .where(item: @subscription)
+        .where_subscription(@subscription)
         .order(created_at: :desc)
         .page(params[:page])
     @logs =
@@ -338,10 +337,8 @@ class SubscriptionsController < ApplicationController
 
   def scope
     records = searched_policy_scope(Subscription)
-    records = records.where(plan: @plan) if @plan
-    if @service
-      records = records.joins(:plan).where(plans: { service_id: @service.id })
-    end
+    records = records.where_plan(@plan) if @plan
+    records = records.where_service(@service) if @service
     records
   end
 
@@ -390,13 +387,13 @@ class SubscriptionsController < ApplicationController
     return if plan_id.blank?
 
     plans = @plans || policy_scope(Plan)
-    plans = plans.where(service: @service) if @service
+    plans = plans.where_service(@service) if @service
     @plan = plans.find(plan_id)
   end
 
   def load_plans
     @plans = policy_scope(Plan)
-    @plans = @plans.where(service: @service) if @service
+    @plans = @plans.where_service(@service) if @service
     @plans = @plans.order(:id)
   end
 

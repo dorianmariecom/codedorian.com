@@ -556,6 +556,14 @@ en:
       edit: edit
       index: steps
       new: new
+    stripe_events:
+      edit: edit
+      index: Stripe events
+      new: new
+    stripe_invoices:
+      edit: edit
+      index: Stripe invoices
+      new: new
     submission_deliveries:
       edit: edit
       index: submission deliveries
@@ -3456,6 +3464,106 @@ en:
       versions: versions
     update:
       notice: step updated
+  stripe_events:
+    create:
+      notice: Stripe event created
+    delete:
+      notice: Stripe event deleted
+    delete_all:
+      notice: Stripe events deleted
+    destroy:
+      notice: Stripe event destroyed
+    destroy_all:
+      notice: Stripe events destroyed
+    edit:
+      description: update an archived Stripe webhook event.
+      submit: update Stripe event
+      title: edit Stripe event
+    index:
+      delete_all: delete all
+      description: review and manage archived Stripe webhook events.
+      destroy_all: destroy all
+      new: new Stripe event
+      title: Stripe events
+    model:
+      invalid_json: invalid JSON
+      to_s: Stripe event#%{id}
+    new:
+      description: create an archived Stripe webhook event.
+      submit: create Stripe event
+      title: new Stripe event
+    show:
+      created_at: created at
+      delete: delete Stripe event
+      description: view the Stripe event payload, processing state, and audit history.
+      destroy: destroy Stripe event
+      edit: edit Stripe event
+      event_type: event type
+      id: id
+      livemode: live mode?
+      logs: logs
+      payload: payload
+      processed_at: processed at
+      processing_error: processing error
+      status: status
+      stripe_created_at: created at Stripe
+      stripe_event_id: Stripe event id
+      updated_at: updated at
+      versions: versions
+    update:
+      notice: Stripe event updated
+  stripe_invoices:
+    create:
+      notice: Stripe invoice created
+    delete:
+      notice: Stripe invoice deleted
+    delete_all:
+      notice: Stripe invoices deleted
+    destroy:
+      notice: Stripe invoice destroyed
+    destroy_all:
+      notice: Stripe invoices destroyed
+    edit:
+      description: update a locally archived Stripe invoice.
+      submit: update Stripe invoice
+      title: edit Stripe invoice
+    index:
+      delete_all: delete all
+      description: review and manage locally archived Stripe invoices.
+      destroy_all: destroy all
+      new: new Stripe invoice
+      title: Stripe invoices
+    model:
+      to_s: Stripe invoice#%{id}
+    new:
+      description: create a locally archived Stripe invoice.
+      submit: create Stripe invoice
+      title: new Stripe invoice
+    show:
+      amount_due: amount due
+      amount_paid: amount paid
+      created_at: created at
+      currency: currency
+      delete: delete Stripe invoice
+      description: view Stripe invoice amounts, billing period, links, and audit history.
+      destroy: destroy Stripe invoice
+      edit: edit Stripe invoice
+      hosted_invoice_url: hosted invoice URL
+      id: id
+      invoice_pdf: invoice PDF
+      logs: logs
+      number: number
+      paid_at: paid at
+      period_end: period end
+      period_start: period start
+      status: status
+      stripe_invoice_id: Stripe invoice id
+      stripe_payment_intent_id: Stripe payment intent id
+      subscription: subscription
+      updated_at: updated at
+      versions: versions
+    update:
+      notice: Stripe invoice updated
   submission_deliveries:
     create:
       notice: submission delivery created

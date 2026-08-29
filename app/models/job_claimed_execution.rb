@@ -63,7 +63,18 @@ class JobClaimedExecution < SolidQueue::ClaimedExecution
     Truncate.strip(process_id)
   end
 
+  def process_sample
+    Truncate.strip(process)
+  end
+
+  def job_sample
+    Truncate.strip(job)
+  end
+
   def to_s
-    Utils.join(job, process || process_id_sample).presence || t("to_s", id:)
+    Utils.join(
+      process_sample.presence || process_id_sample.presence || job_sample,
+      id_sample
+    ).presence || t("to_s", id:)
   end
 end

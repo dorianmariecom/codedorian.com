@@ -11,6 +11,16 @@ class SubscriptionExecution < ApplicationRecord
         ->(user) do
           joins(:subscription).where(subscriptions: { user_id: user })
         end
+  scope :where_subscription,
+        ->(subscription) { where(subscription: subscription) }
+  scope :where_plan,
+        ->(plan) do
+          joins(:subscription).where(subscriptions: { plan_id: plan })
+        end
+  scope :where_service,
+        ->(service) do
+          joins(subscription: :plan).where(plans: { service_id: service })
+        end
   validates :status, inclusion: { in: STATUSES }
   validate { can!(:update, subscription) }
 
@@ -41,8 +51,19 @@ class SubscriptionExecution < ApplicationRecord
   def in_progress? = status == "in_progress"
   def translated_status = t("statuses.#{status}")
 
+  def translated_status_sample
+    Truncate.strip(translated_status)
+  end
+
+  def subscription_sample
+    Truncate.strip(subscription)
+  end
+
   def to_s
-    Utils.join(subscription, translated_status).presence || t("to_s", id:)
+    Utils.join(
+      translated_status_sample.presence || subscription_sample,
+      id_sample
+    ).presence || t("to_s", id:)
   end
 
   def to_code

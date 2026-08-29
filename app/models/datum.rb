@@ -46,6 +46,10 @@ class Datum < ApplicationRecord
     Truncate.strip(value.to_json)
   end
 
+  def user_sample
+    Truncate.strip(user)
+  end
+
   def to_code
     Code::Object::Datum.new(id: id, key: key, value: value)
   end
@@ -59,7 +63,10 @@ class Datum < ApplicationRecord
   end
 
   def to_s
-    Utils.join(user, key_sample.presence || value_sample).presence ||
+    Utils.join(
+      key_sample.presence || value_sample.presence || user_sample,
+      id_sample
+    ).presence ||
       t("to_s", id:)
   end
 end

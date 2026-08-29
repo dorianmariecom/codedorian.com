@@ -44,7 +44,9 @@ class CountryCodeIpAddress < ApplicationRecord
   end
 
   def to_s
-    ip_address_sample.presence || country_code_sample.presence ||
-      t("to_s", id: id)
+    Utils.join(
+      ip_address_sample.presence || country_code_sample,
+      id_sample
+    ).presence || t("to_s", id:)
   end
 end

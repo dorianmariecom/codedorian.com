@@ -8,6 +8,7 @@ class PlanSchedule < ApplicationRecord
   has_one :user, through: :service
   scope :where_user,
         ->(user) { joins(plan: :service).where(services: { user_id: user }) }
+  scope :where_plan, ->(plan) { where(plan: plan) }
   validate { can!(:update, plan) }
 
   def self.search_fields
@@ -27,8 +28,19 @@ class PlanSchedule < ApplicationRecord
   def self.interval_options = ProgramSchedule.interval_options
   def translated_interval = ProgramSchedule.translated_interval(interval)
 
+  def translated_interval_sample
+    Truncate.strip(translated_interval)
+  end
+
+  def plan_sample
+    Truncate.strip(plan)
+  end
+
   def to_s
-    Utils.join(plan, translated_interval).presence || t("to_s", id:)
+    Utils.join(
+      translated_interval_sample.presence || plan_sample,
+      id_sample
+    ).presence || t("to_s", id:)
   end
 
   def to_code

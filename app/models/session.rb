@@ -62,6 +62,14 @@ class Session < ActiveRecord::SessionStore::Session
     Truncate.strip(data.to_json)
   end
 
+  def user_sample
+    Truncate.strip(user)
+  end
+
+  def guest_sample
+    Truncate.strip(guest)
+  end
+
   def parse_and_validate_data
     self.data = JSON.parse(data.to_s)
   rescue JSON::ParserError
@@ -72,6 +80,9 @@ class Session < ActiveRecord::SessionStore::Session
     label =
       data_sample.presence || session_id_sample.presence ||
         user_id_sample.presence || guest_id_sample.presence
-    Utils.join(user || guest, label).presence || t("to_s", id:)
+    Utils.join(
+      label.presence || user_sample.presence || guest_sample,
+      id_sample
+    ).presence || t("to_s", id:)
   end
 end

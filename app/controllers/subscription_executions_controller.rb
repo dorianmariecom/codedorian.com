@@ -33,12 +33,12 @@ class SubscriptionExecutionsController < ApplicationController
   def show
     @step_executions =
       policy_scope(StepExecution)
-        .where(subscription_execution: @subscription_execution)
+        .where_subscription_execution(@subscription_execution)
         .order(created_at: :desc)
         .page(params[:page])
     @versions =
       policy_scope(Version)
-        .where(item: @subscription_execution)
+        .where_subscription_execution(@subscription_execution)
         .order(created_at: :desc)
         .page(params[:page])
     @logs =
@@ -229,19 +229,9 @@ class SubscriptionExecutionsController < ApplicationController
 
   def scope
     records = searched_policy_scope(SubscriptionExecution)
-    records = records.where(subscription: @subscription) if @subscription
-    if @plan
-      records =
-        records.joins(:subscription).where(subscriptions: { plan_id: @plan.id })
-    end
-    if @service
-      records =
-        records.joins(subscription: :plan).where(
-          plans: {
-            service_id: @service.id
-          }
-        )
-    end
+    records = records.where_subscription(@subscription) if @subscription
+    records = records.where_plan(@plan) if @plan
+    records = records.where_service(@service) if @service
     records
   end
 
@@ -262,7 +252,7 @@ class SubscriptionExecutionsController < ApplicationController
     return if params[:plan_id].blank?
 
     plans = policy_scope(Plan)
-    plans = plans.where(service: @service) if @service
+    plans = plans.where_service(@service) if @service
     @plan = plans.find(params.expect(:plan_id))
     set_context(plan: @plan)
   end
@@ -271,7 +261,7 @@ class SubscriptionExecutionsController < ApplicationController
     return if params[:subscription_id].blank?
 
     subscriptions = policy_scope(Subscription)
-    subscriptions = subscriptions.where(plan: @plan) if @plan
+    subscriptions = subscriptions.where_plan(@plan) if @plan
     @subscription = subscriptions.find(params.expect(:subscription_id))
     set_context(subscription: @subscription)
   end

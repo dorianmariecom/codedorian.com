@@ -557,6 +557,14 @@ fr:
       edit: modifier
       index: étapes
       new: nouvelle
+    stripe_events:
+      edit: modifier
+      index: événements Stripe
+      new: nouvel
+    stripe_invoices:
+      edit: modifier
+      index: factures Stripe
+      new: nouvelle
     submission_deliveries:
       edit: modifier
       index: livraisons de soumission
@@ -3460,6 +3468,106 @@ fr:
       versions: versions
     update:
       notice: étape mise à jour
+  stripe_events:
+    create:
+      notice: événement Stripe créé
+    delete:
+      notice: événement Stripe supprimé
+    delete_all:
+      notice: événements Stripe supprimés
+    destroy:
+      notice: événement Stripe détruit
+    destroy_all:
+      notice: événements Stripe détruits
+    edit:
+      description: mettre à jour un événement webhook Stripe archivé.
+      submit: mettre à jour l'événement Stripe
+      title: modifier l'événement Stripe
+    index:
+      delete_all: tout supprimer
+      description: consulter et gérer les événements webhook Stripe archivés.
+      destroy_all: tout détruire
+      new: nouvel événement Stripe
+      title: événements Stripe
+    model:
+      invalid_json: JSON invalide
+      to_s: événement Stripe n°%{id}
+    new:
+      description: créer un événement webhook Stripe archivé.
+      submit: créer l'événement Stripe
+      title: nouvel événement Stripe
+    show:
+      created_at: créé le
+      delete: supprimer l'événement Stripe
+      description: consulter la charge utile, le traitement et l'historique de l'événement Stripe.
+      destroy: détruire l'événement Stripe
+      edit: modifier l'événement Stripe
+      event_type: type d'événement
+      id: id
+      livemode: mode production ?
+      logs: journaux
+      payload: charge utile
+      processed_at: traité le
+      processing_error: erreur de traitement
+      status: statut
+      stripe_created_at: créé chez Stripe le
+      stripe_event_id: id de l'événement Stripe
+      updated_at: mis à jour le
+      versions: versions
+    update:
+      notice: événement Stripe mis à jour
+  stripe_invoices:
+    create:
+      notice: facture Stripe créée
+    delete:
+      notice: facture Stripe supprimée
+    delete_all:
+      notice: factures Stripe supprimées
+    destroy:
+      notice: facture Stripe détruite
+    destroy_all:
+      notice: factures Stripe détruites
+    edit:
+      description: mettre à jour une facture Stripe archivée localement.
+      submit: mettre à jour la facture Stripe
+      title: modifier la facture Stripe
+    index:
+      delete_all: tout supprimer
+      description: consulter et gérer les factures Stripe archivées localement.
+      destroy_all: tout détruire
+      new: nouvelle facture Stripe
+      title: factures Stripe
+    model:
+      to_s: facture Stripe n°%{id}
+    new:
+      description: créer une facture Stripe archivée localement.
+      submit: créer la facture Stripe
+      title: nouvelle facture Stripe
+    show:
+      amount_due: montant dû
+      amount_paid: montant payé
+      created_at: créée le
+      currency: devise
+      delete: supprimer la facture Stripe
+      description: consulter les montants, la période, les liens et l'historique de la facture Stripe.
+      destroy: détruire la facture Stripe
+      edit: modifier la facture Stripe
+      hosted_invoice_url: URL de la facture hébergée
+      id: id
+      invoice_pdf: PDF de la facture
+      logs: journaux
+      number: numéro
+      paid_at: payée le
+      period_end: fin de période
+      period_start: début de période
+      status: statut
+      stripe_invoice_id: id de la facture Stripe
+      stripe_payment_intent_id: id de l'intention de paiement Stripe
+      subscription: abonnement
+      updated_at: mise à jour le
+      versions: versions
+    update:
+      notice: facture Stripe mise à jour
   submission_deliveries:
     create:
       notice: livraison de soumission créée

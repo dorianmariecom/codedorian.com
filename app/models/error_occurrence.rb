@@ -127,10 +127,15 @@ class ErrorOccurrence < SolidErrors::Occurrence
     Truncate.strip(context.to_json)
   end
 
+  def error_sample
+    Truncate.strip(error)
+  end
+
   def to_s
     label =
       app_backtrace_sample.presence || backtrace_sample.presence ||
         context_sample.presence
-    Utils.join(error, label).presence || t("to_s", id:)
+    Utils.join(label.presence || error_sample, id_sample).presence ||
+      t("to_s", id:)
   end
 end

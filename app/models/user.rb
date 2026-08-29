@@ -42,6 +42,12 @@ class User < ApplicationRecord
   scope(:not_admin, -> { where(admin: false) })
   scope(:simple, -> { where(interface: "simple") })
   scope(:advanced, -> { where(interface: "advanced") })
+  scope :where_email_address,
+        ->(email_address) do
+          joins(:email_addresses).where(
+            email_addresses: { email_address: email_address }
+          )
+        end
 
   INTERFACES = %i[simple advanced].freeze
 
@@ -281,8 +287,12 @@ class User < ApplicationRecord
     t("interfaces.#{interface}")
   end
 
+  def description_sample
+    Truncate.strip(description)
+  end
+
   def to_s
-    description.presence || t("to_s", id: id)
+    Utils.join(description_sample, id_sample).presence || t("to_s", id:)
   end
 
   def calculated_description

@@ -15,6 +15,8 @@ class SubscriptionValue < ApplicationRecord
   validate { can!(:update, subscription) }
 
   scope :where_user, ->(user) { where(subscription: user.subscriptions) }
+  scope :where_subscription,
+        ->(subscription) { where(subscription: subscription) }
 
   def self.search_fields
     {
@@ -33,8 +35,30 @@ class SubscriptionValue < ApplicationRecord
   def field = subscription.plan.field_for(key)
   def stale? = field.nil?
 
+  def key_sample
+    Truncate.strip(key)
+  end
+
+  def value_sample
+    Truncate.strip(value)
+  end
+
+  def key_value_sample
+    return if key_sample.blank? && value_sample.blank?
+
+    Truncate.strip("#{key_sample}: #{value_sample}")
+  end
+
+  def subscription_sample
+    Truncate.strip(subscription)
+  end
+
   def to_s
-    Utils.join(subscription, "#{key}: #{value}").presence || t("to_s", id:)
+    Utils.join(
+      key_value_sample.presence || key_sample.presence ||
+        value_sample.presence || subscription_sample,
+      id_sample
+    ).presence || t("to_s", id:)
   end
 
   def typed_value

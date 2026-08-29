@@ -36,7 +36,18 @@ class ProgramSchedule < ApplicationRecord
     )
   end
 
+  def translated_interval_sample
+    Truncate.strip(translated_interval)
+  end
+
+  def program_sample
+    Truncate.strip(program)
+  end
+
   def to_s
-    Utils.join(program, translated_interval).presence || t("to_s", id:)
+    Utils.join(
+      translated_interval_sample.presence || program_sample,
+      id_sample
+    ).presence || t("to_s", id:)
   end
 end

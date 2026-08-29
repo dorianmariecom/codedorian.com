@@ -90,8 +90,17 @@ class Device < ApplicationRecord
     platform.presence
   end
 
+  def platform_sample
+    Truncate.strip(platform)
+  end
+
+  def user_sample
+    Truncate.strip(user)
+  end
+
   def to_s
-    Utils.join(user, platform).presence || t("to_s", id:)
+    Utils.join(platform_sample.presence || user_sample, id_sample).presence ||
+      t("to_s", id:)
   end
 
   def to_code

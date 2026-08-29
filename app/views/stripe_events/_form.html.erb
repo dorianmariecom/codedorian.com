@@ -1,0 +1,104 @@
+<%= form_for(show_url) do |f| %>
+  <% payload =
+    f.object.errors.include?(:payload) ? f.object.payload : f.object.payload_json %>
+
+  <div class="p">
+    <%= f.label(:stripe_event_id, class: :label) %>
+    <%= f.text_field(
+      :stripe_event_id,
+      required: true,
+      class: :input,
+      autocomplete: :off,
+      data: { form_type: :other }
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:event_type, class: :label) %>
+    <%= f.text_field(
+      :event_type,
+      required: true,
+      class: :input,
+      autocomplete: :off,
+      data: { form_type: :other }
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:status, class: :label) %>
+    <%= f.select(
+      :status,
+      StripeEvent::STATUSES,
+      {},
+      required: true,
+      class: :input,
+      autocomplete: :off,
+      data: { form_type: :other }
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:livemode, class: :label) %>
+    <%= f.check_box(
+      :livemode,
+      autocomplete: :off,
+      data: { form_type: :other }
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:stripe_created_at, class: :label) %>
+    <%= f.datetime_field(
+      :stripe_created_at,
+      required: true,
+      class: :input,
+      autocomplete: :off,
+      data: { form_type: :other }
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:processed_at, class: :label) %>
+    <%= f.datetime_field(
+      :processed_at,
+      class: :input,
+      autocomplete: :off,
+      data: { form_type: :other }
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:processing_error, class: :label) %>
+    <%= f.text_area(
+      :processing_error,
+      class: :input,
+      autocomplete: :off,
+      data: { form_type: :other }
+    ) %>
+  </div>
+
+  <div class="p" data-controller="editor" data-editor-language-value="json">
+    <%= f.label(:payload, class: :label) %>
+    <div class="border border-black rounded overflow-hidden">
+      <%= f.hidden_field(
+        :payload,
+        value: payload,
+        autocomplete: :off,
+        data: { editor_target: :input, form_type: :other }
+      ) %>
+      <div data-editor-target="editor"></div>
+    </div>
+    <div class="text-gray-600"><%= { id: "evt_example" }.to_json %></div>
+  </div>
+
+  <div class="p">
+    <%= f.submit(
+      submit,
+      class: "button",
+      data: {
+        controller: "bridge--button",
+        bridge__button_title_value: submit
+      }
+    ) %>
+  </div>
+<% end %>

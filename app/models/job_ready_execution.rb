@@ -71,8 +71,15 @@ class JobReadyExecution < SolidQueue::ReadyExecution
     Truncate.strip(priority)
   end
 
+  def job_sample
+    Truncate.strip(job)
+  end
+
   def to_s
-    Utils.join(job, queue_name_sample.presence || priority_sample).presence ||
+    Utils.join(
+      queue_name_sample.presence || priority_sample.presence || job_sample,
+      id_sample
+    ).presence ||
       t("to_s", id:)
   end
 end

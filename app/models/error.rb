@@ -77,7 +77,9 @@ class Error < SolidErrors::Error
   end
 
   def to_s
-    message_sample.presence || exception_class_sample.presence ||
-      I18n.t("to_s", id: id)
+    Utils.join(
+      message_sample.presence || exception_class_sample,
+      id_sample
+    ).presence || t("to_s", id:)
   end
 end

@@ -20,11 +20,9 @@ class SessionController < ApplicationController
     add_breadcrumb
 
     @users =
-      User.includes(:passwords, :email_addresses).where(
-        email_addresses: {
-          email_address: email_address_param
-        }
-      )
+      User
+        .includes(:passwords, :email_addresses)
+        .where_email_address(email_address_param)
 
     @user =
       @users.detect do |user|

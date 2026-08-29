@@ -79,10 +79,15 @@ class JobScheduledExecution < SolidQueue::ScheduledExecution
     Truncate.strip(priority)
   end
 
+  def job_sample
+    Truncate.strip(job)
+  end
+
   def to_s
     label =
       queue_name_sample.presence || scheduled_at_sample.presence ||
         priority_sample.presence
-    Utils.join(job, label).presence || t("to_s", id:)
+    Utils.join(label.presence || job_sample, id_sample).presence ||
+      t("to_s", id:)
   end
 end

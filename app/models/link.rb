@@ -72,7 +72,7 @@ class Link < ApplicationRecord
   end
 
   def to_s
-    title_sample.presence || t("to_s", id: id)
+    Utils.join(title_sample, id_sample).presence || t("to_s", id:)
   end
 
   private

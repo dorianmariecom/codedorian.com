@@ -71,8 +71,15 @@ class JobRecurringExecution < SolidQueue::RecurringExecution
     Truncate.strip(run_at)
   end
 
+  def job_sample
+    Truncate.strip(job)
+  end
+
   def to_s
-    Utils.join(job, task_key_sample.presence || run_at_sample).presence ||
+    Utils.join(
+      task_key_sample.presence || run_at_sample.presence || job_sample,
+      id_sample
+    ).presence ||
       t("to_s", id:)
   end
 end

@@ -21,7 +21,7 @@ class ServiceFieldsController < ApplicationController
   def show
     @versions =
       policy_scope(Version)
-        .where(item: @service_field)
+        .where_service_field(@service_field)
         .order(created_at: :desc)
         .page(params[:page])
     @logs =
@@ -191,7 +191,7 @@ class ServiceFieldsController < ApplicationController
 
   def scope
     records = searched_policy_scope(ServiceField)
-    records = records.where(service: @service) if @service
+    records = records.where_service(@service) if @service
     records
   end
 

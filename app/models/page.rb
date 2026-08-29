@@ -109,10 +109,24 @@ class Page < ApplicationRecord
     Truncate.strip(path)
   end
 
+  def parent_sample
+    Truncate.strip(parent)
+  end
+
+  def user_sample
+    Truncate.strip(user)
+  end
+
   def to_s
     label =
       title_sample.presence || description_sample.presence ||
-        body_sample.presence
-    Utils.join(parent || user, label).presence || t("to_s", id:)
+        body_sample.presence || title_en_sample.presence ||
+        title_fr_sample.presence || description_en_sample.presence ||
+        description_fr_sample.presence || body_en_sample.presence ||
+        body_fr_sample.presence || path_sample.presence
+    Utils.join(
+      label.presence || parent_sample.presence || user_sample,
+      id_sample
+    ).presence || t("to_s", id:)
   end
 end

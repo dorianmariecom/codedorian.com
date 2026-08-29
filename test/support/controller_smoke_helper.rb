@@ -184,6 +184,10 @@ module ControllerSmokeHelper
       test_case.solid_cache_entries(:solid_cache_entry).id
     when :solid_cable_message_id
       test_case.solid_cable_messages(:solid_cable_message).id
+    when :stripe_event_id
+      test_case.stripe_events(:stripe_event).id
+    when :stripe_invoice_id
+      test_case.stripe_invoices(:stripe_invoice).id
     when :version_id
       test_case.versions(:version).id
     when :path
@@ -267,6 +271,10 @@ module ControllerSmokeHelper
       test_case.tokens(:token).id
     when "solid_cable_messages"
       test_case.solid_cable_messages(:solid_cable_message).id
+    when "stripe_events"
+      test_case.stripe_events(:stripe_event).id
+    when "stripe_invoices"
+      test_case.stripe_invoices(:stripe_invoice).id
     when "users"
       test_case.users(:admin).id
     when "time_zones"

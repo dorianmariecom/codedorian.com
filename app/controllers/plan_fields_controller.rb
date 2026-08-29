@@ -21,7 +21,7 @@ class PlanFieldsController < ApplicationController
   def show
     @versions =
       policy_scope(Version)
-        .where(item: @plan_field)
+        .where_plan_field(@plan_field)
         .order(created_at: :desc)
         .page(params[:page])
     @logs =
@@ -191,10 +191,8 @@ class PlanFieldsController < ApplicationController
 
   def scope
     records = searched_policy_scope(PlanField)
-    records = records.where(plan: @plan) if @plan
-    if @service
-      records = records.joins(:plan).where(plans: { service_id: @service.id })
-    end
+    records = records.where_plan(@plan) if @plan
+    records = records.where_service(@service) if @service
     records
   end
 
@@ -215,7 +213,7 @@ class PlanFieldsController < ApplicationController
     return if params[:plan_id].blank?
 
     plans = policy_scope(Plan)
-    plans = plans.where(service: @service) if @service
+    plans = plans.where_service(@service) if @service
     @plan = plans.find(params.expect(:plan_id))
     set_context(plan: @plan)
   end

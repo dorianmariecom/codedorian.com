@@ -47,6 +47,8 @@ class Log < ApplicationRecord
     subscription_value
     subscription_execution
     step_execution
+    stripe_event
+    stripe_invoice
     time_zone
     token
     user
@@ -153,6 +155,9 @@ class Log < ApplicationRecord
   end
 
   def to_s
-    context_sample.presence || message_sample.presence || t("to_s", id: id)
+    Utils.join(
+      context_sample.presence || message_sample,
+      id_sample
+    ).presence || t("to_s", id:)
   end
 end

@@ -25,6 +25,7 @@ class ServiceField < ApplicationRecord
 
   scope :where_user,
         ->(user) { joins(:service).where(services: { user_id: user }) }
+  scope :where_service, ->(service) { where(service: service) }
 
   def self.search_fields
     {
@@ -81,10 +82,22 @@ class ServiceField < ApplicationRecord
   def phone_number? = kind == "phone_number"
   def text? = kind == "text"
 
+  def name_sample
+    Truncate.strip(name&.to_plain_text)
+  end
+
+  def key_sample
+    Truncate.strip(key)
+  end
+
+  def service_sample
+    Truncate.strip(service)
+  end
+
   def to_s
     Utils.join(
-      service,
-      Truncate.strip(name&.to_plain_text).presence || key
+      name_sample.presence || key_sample.presence || service_sample,
+      id_sample
     ).presence || t("to_s", id:)
   end
 end

@@ -365,14 +365,14 @@ class ServiceModelsTest < ActiveSupport::TestCase
     end
   end
 
-  test "a subscription uses its service and plan as its string representation" do
+  test "a subscription uses its first available string representation" do
     Current.with(user: users(:admin)) do
       services(:service).update!(name_en: "Named service")
     end
 
     subscription = subscriptions(:subscription)
     assert_equal(
-      Utils.join(subscription.service, subscription.plan),
+      subscription.service_sample,
       subscription.to_s
     )
   end

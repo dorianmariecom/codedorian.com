@@ -1,0 +1,82 @@
+<% content_for(:title, @stripe_invoice) %>
+<% content_for(:description, t(".description")) %>
+<%= turbo_stream_from(@stripe_invoice) %>
+
+<% if @stripe_invoice.subscription.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".subscription") %></div>
+    <div class="font-bold">
+      <%= link_to(@stripe_invoice.subscription, @stripe_invoice.subscription, class: :link) %>
+    </div>
+  </div>
+<% end %>
+
+<% %i[
+  id
+  stripe_invoice_id
+  stripe_payment_intent_id
+  number
+  status
+  currency
+  amount_due
+  amount_paid
+].each do |attribute| %>
+  <% if @stripe_invoice.public_send(attribute).present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".#{attribute}") %></div>
+      <div class="font-bold"><%= @stripe_invoice.public_send(attribute) %></div>
+    </div>
+  <% end %>
+<% end %>
+
+<% %i[period_start period_end paid_at updated_at created_at].each do |attribute| %>
+  <% if @stripe_invoice.public_send(attribute).present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".#{attribute}") %></div>
+      <div class="font-bold">
+        <%= local_time(@stripe_invoice.public_send(attribute), format: :default) %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+<% %i[hosted_invoice_url invoice_pdf].each do |attribute| %>
+  <% if @stripe_invoice.public_send(attribute).present? %>
+    <div class="p">
+      <div class="text-gray-600"><%= t(".#{attribute}") %></div>
+      <div class="font-bold">
+        <%= link_to(
+          @stripe_invoice.public_send(attribute),
+          @stripe_invoice.public_send(attribute),
+          class: :link
+        ) %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+<div class="p p--flex">
+  <%= link_to(t(".edit"), edit_url, class: :link) %>
+  <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+  <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
+</div>
+
+<% if can?(:index, Version) %>
+  <div class="p font-bold"><%= t(".versions") %></div>
+  <%= render_collection(
+    partial: "versions/version",
+    collection: @versions,
+    as: :version,
+    locals: { nested: [] }
+  ) %>
+<% end %>
+
+<% if can?(:index, Log) %>
+  <div class="p font-bold"><%= t(".logs") %></div>
+  <%= render_collection(
+    partial: "logs/log",
+    collection: @logs,
+    as: :log,
+    locals: { nested: [] }
+  ) %>
+<% end %>

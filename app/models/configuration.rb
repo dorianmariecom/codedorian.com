@@ -44,6 +44,7 @@ class Configuration < ApplicationRecord
   end
 
   def to_s
-    name_sample.presence || content_sample.presence || t("to_s", id: id)
+    Utils.join(name_sample.presence || content_sample, id_sample).presence ||
+      t("to_s", id:)
   end
 end

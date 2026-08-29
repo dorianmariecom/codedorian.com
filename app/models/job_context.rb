@@ -55,11 +55,16 @@ class JobContext < ApplicationRecord
     Truncate.strip(context.to_json)
   end
 
+  def job_sample
+    Truncate.strip(job)
+  end
+
   def context_json
     JSON.pretty_generate(context)
   end
 
   def to_s
-    Utils.join(job, context_sample).presence || t("to_s", id:)
+    Utils.join(context_sample.presence || job_sample, id_sample).presence ||
+      t("to_s", id:)
   end
 end

@@ -9,6 +9,29 @@ class StepExecution < ApplicationRecord
   has_one :plan, through: :subscription
   has_one :service, through: :plan
   has_one :user, through: :subscription
+  scope :where_subscription_execution,
+        ->(subscription_execution) do
+          where(subscription_execution: subscription_execution)
+        end
+  scope :where_step, ->(step) { where(step: step) }
+  scope :where_subscription,
+        ->(subscription) do
+          joins(:subscription_execution).where(
+            subscription_executions: { subscription_id: subscription }
+          )
+        end
+  scope :where_plan,
+        ->(plan) do
+          joins(subscription_execution: :subscription).where(
+            subscriptions: { plan_id: plan }
+          )
+        end
+  scope :where_service,
+        ->(service) do
+          joins(subscription_execution: { subscription: :plan }).where(
+            plans: { service_id: service }
+          )
+        end
   validates :status, inclusion: { in: STATUSES }
   validate { can!(:update, subscription_execution) }
   validate :step_belongs_to_service
@@ -82,8 +105,24 @@ class StepExecution < ApplicationRecord
   def translated_status = t("statuses.#{status}")
   def error_app_backtrace = Backtrace.app(error_backtrace)
 
+  def translated_status_sample
+    Truncate.strip(translated_status)
+  end
+
+  def step_sample
+    Truncate.strip(step)
+  end
+
+  def subscription_execution_sample
+    Truncate.strip(subscription_execution)
+  end
+
   def to_s
-    Utils.join(subscription_execution, step, translated_status).presence ||
+    Utils.join(
+      translated_status_sample.presence || step_sample.presence ||
+        subscription_execution_sample,
+      id_sample
+    ).presence ||
       t("to_s", id:)
   end
 

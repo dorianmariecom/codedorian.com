@@ -20,6 +20,6 @@ class JobPause < SolidQueue::Pause
   end
 
   def to_s
-    queue_name_sample.presence || t("to_s", id: id)
+    Utils.join(queue_name_sample, id_sample).presence || t("to_s", id:)
   end
 end

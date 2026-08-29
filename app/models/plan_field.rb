@@ -26,6 +26,9 @@ class PlanField < ApplicationRecord
 
   scope :where_user,
         ->(user) { joins(plan: :service).where(services: { user_id: user }) }
+  scope :where_plan, ->(plan) { where(plan: plan) }
+  scope :where_service,
+        ->(service) { joins(:plan).where(plans: { service_id: service }) }
 
   def self.search_fields
     {
@@ -82,10 +85,22 @@ class PlanField < ApplicationRecord
   def phone_number? = kind == "phone_number"
   def text? = kind == "text"
 
+  def name_sample
+    Truncate.strip(name&.to_plain_text)
+  end
+
+  def key_sample
+    Truncate.strip(key)
+  end
+
+  def plan_sample
+    Truncate.strip(plan)
+  end
+
   def to_s
     Utils.join(
-      plan,
-      Truncate.strip(name&.to_plain_text).presence || key
+      name_sample.presence || key_sample.presence || plan_sample,
+      id_sample
     ).presence || t("to_s", id:)
   end
 end

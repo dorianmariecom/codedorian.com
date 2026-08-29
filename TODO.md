@@ -1,5 +1,0 @@
-- where\_\* in all controllers (index and show pages)
-- crud for all records for admins (stripe events, etc.)
-- \*\_sample for all fields
-- to_s with all the \*\_sample and id as fallback
-- t("to_s", id:) in to_s at the end

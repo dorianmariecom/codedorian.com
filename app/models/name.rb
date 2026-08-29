@@ -83,8 +83,17 @@ class Name < ApplicationRecord
     full_name.presence
   end
 
+  def full_name_sample
+    Truncate.strip(full_name)
+  end
+
+  def user_sample
+    Truncate.strip(user)
+  end
+
   def to_s
-    Utils.join(user, full_name).presence || t("to_s", id:)
+    Utils.join(full_name_sample.presence || user_sample, id_sample).presence ||
+      t("to_s", id:)
   end
 
   def to_code

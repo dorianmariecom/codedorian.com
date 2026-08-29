@@ -85,8 +85,17 @@ class PhoneNumber < ApplicationRecord
     phonelib.international
   end
 
+  def formatted_sample
+    Truncate.strip(formatted)
+  end
+
+  def user_sample
+    Truncate.strip(user)
+  end
+
   def to_s
-    Utils.join(user, formatted).presence || t("to_s", id:)
+    Utils.join(formatted_sample.presence || user_sample, id_sample).presence ||
+      t("to_s", id:)
   end
 
   def to_code

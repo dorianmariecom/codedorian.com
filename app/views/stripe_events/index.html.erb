@@ -1,0 +1,27 @@
+<%= turbo_stream_from(@stripe_events) %>
+
+<% if can?(:create, StripeEvent) %>
+  <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
+<% end %>
+
+<%= render("shared/search") %>
+
+<turbo-frame id="search" target="_top">
+  <% if @stripe_events.any? &&
+    (can?(:destroy_all, StripeEvent) || can?(:delete_all, StripeEvent)) %>
+    <div class="p p--flex">
+      <% if can?(:destroy_all, StripeEvent) %>
+        <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
+      <% end %>
+      <% if can?(:delete_all, StripeEvent) %>
+        <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "stripe_events/stripe_event",
+    collection: @stripe_events,
+    as: :stripe_event
+  ) %>
+</turbo-frame>

@@ -55,7 +55,8 @@ class SolidCacheEntry < SolidCache::Entry
   end
 
   def to_s
-    key_sample.presence || value_sample.presence || t("to_s", id: id)
+    Utils.join(key_sample.presence || value_sample, id_sample).presence ||
+      t("to_s", id:)
   end
 
   private

@@ -183,7 +183,7 @@ class SubscriptionValuesController < ApplicationController
 
   def scope
     records = searched_policy_scope(SubscriptionValue)
-    records = records.where(subscription: @subscription) if @subscription
+    records = records.where_subscription(@subscription) if @subscription
     records
   end
 

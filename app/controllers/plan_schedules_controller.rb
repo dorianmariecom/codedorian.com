@@ -20,7 +20,7 @@ class PlanSchedulesController < ApplicationController
   def show
     @versions =
       policy_scope(Version)
-        .where(item: @plan_schedule)
+        .where_plan_schedule(@plan_schedule)
         .order(created_at: :desc)
         .page(params[:page])
     @logs =
@@ -191,7 +191,7 @@ class PlanSchedulesController < ApplicationController
 
   def scope
     records = searched_policy_scope(PlanSchedule)
-    records = records.where(plan: @plan) if @plan
+    records = records.where_plan(@plan) if @plan
     records
   end
 

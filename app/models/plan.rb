@@ -22,6 +22,7 @@ class Plan < ApplicationRecord
   has_rich_text :body_fr
   scope :where_user,
         ->(user) { joins(:service).where(services: { user_id: user }) }
+  scope :where_service, ->(service) { where(service: service) }
   normalizes :slug, with: ->(slug) { slug.to_s.strip.downcase }
   validates :slug, presence: true
   validates :slug, format: { with: /\A[a-z][a-z0-9-]*\z/ }
@@ -78,8 +79,16 @@ class Plan < ApplicationRecord
 
   def schedules = plan_schedules
 
+  def name_sample
+    Truncate.strip(name&.to_plain_text)
+  end
+
+  def service_sample
+    Truncate.strip(service)
+  end
+
   def to_s
-    Utils.join(service, Truncate.strip(name&.to_plain_text)).presence ||
+    Utils.join(name_sample.presence || service_sample, id_sample).presence ||
       t("to_s", id:)
   end
 

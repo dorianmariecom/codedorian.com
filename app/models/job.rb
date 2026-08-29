@@ -142,8 +142,9 @@ class Job < SolidQueue::Job
   end
 
   def to_s
-    class_name_sample.presence || queue_name_sample.presence ||
-      concurrency_key_sample.presence || arguments_sample.presence ||
-      t("to_s", id: id)
+    label =
+      class_name_sample.presence || queue_name_sample.presence ||
+        concurrency_key_sample.presence || arguments_sample.presence
+    Utils.join(label, id_sample).presence || t("to_s", id:)
   end
 end

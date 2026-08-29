@@ -118,11 +118,19 @@ class Message < ApplicationRecord
     Truncate.strip(body&.to_plain_text)
   end
 
+  def from_user_sample
+    Truncate.strip(from_user)
+  end
+
+  def to_user_sample
+    Truncate.strip(to_user)
+  end
+
   def to_s
     Utils.join(
-      from_user,
-      to_user,
-      subject_sample.presence || body_sample
+      subject_sample.presence || body_sample.presence ||
+        from_user_sample.presence || to_user_sample,
+      id_sample
     ).presence || t("to_s", id:)
   end
 

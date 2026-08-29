@@ -70,11 +70,16 @@ class JobFailedExecution < SolidQueue::FailedExecution
     Truncate.strip(error.to_json)
   end
 
+  def job_sample
+    Truncate.strip(job)
+  end
+
   def error_json
     JSON.pretty_generate(error)
   end
 
   def to_s
-    Utils.join(job, error_sample).presence || t("to_s", id:)
+    Utils.join(error_sample.presence || job_sample, id_sample).presence ||
+      t("to_s", id:)
   end
 end

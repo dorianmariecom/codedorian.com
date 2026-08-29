@@ -26,7 +26,7 @@ class StepExecutionsController < ApplicationController
   def show
     @versions =
       policy_scope(Version)
-        .where(item: @step_execution)
+        .where_step_execution(@step_execution)
         .order(created_at: :desc)
         .page(params[:page])
     @logs =
@@ -199,33 +199,12 @@ class StepExecutionsController < ApplicationController
   def scope
     records = searched_policy_scope(StepExecution)
     if @subscription_execution
-      records = records.where(subscription_execution: @subscription_execution)
+      records = records.where_subscription_execution(@subscription_execution)
     end
-    records = records.where(step: @step) if @step
-    if @subscription
-      records =
-        records.joins(:subscription_execution).where(
-          subscription_executions: {
-            subscription_id: @subscription.id
-          }
-        )
-    end
-    if @plan
-      records =
-        records.joins(subscription_execution: :subscription).where(
-          subscriptions: {
-            plan_id: @plan.id
-          }
-        )
-    end
-    if @service
-      records =
-        records.joins(subscription_execution: { subscription: :plan }).where(
-          plans: {
-            service_id: @service.id
-          }
-        )
-    end
+    records = records.where_step(@step) if @step
+    records = records.where_subscription(@subscription) if @subscription
+    records = records.where_plan(@plan) if @plan
+    records = records.where_service(@service) if @service
     records
   end
 
@@ -250,7 +229,7 @@ class StepExecutionsController < ApplicationController
     return if params[:plan_id].blank?
 
     plans = policy_scope(Plan)
-    plans = plans.where(service: @service) if @service
+    plans = plans.where_service(@service) if @service
     @plan = plans.find(params.expect(:plan_id))
     set_context(plan: @plan)
   end
@@ -259,7 +238,7 @@ class StepExecutionsController < ApplicationController
     return if params[:subscription_id].blank?
 
     subscriptions = policy_scope(Subscription)
-    subscriptions = subscriptions.where(plan: @plan) if @plan
+    subscriptions = subscriptions.where_plan(@plan) if @plan
     @subscription = subscriptions.find(params.expect(:subscription_id))
     set_context(subscription: @subscription)
   end
@@ -268,7 +247,9 @@ class StepExecutionsController < ApplicationController
     return if params[:subscription_execution_id].blank?
 
     executions = policy_scope(SubscriptionExecution)
-    executions = executions.where(subscription: @subscription) if @subscription
+    if @subscription
+      executions = executions.where_subscription(@subscription)
+    end
     @subscription_execution =
       executions.find(params.expect(:subscription_execution_id))
     set_context(subscription_execution: @subscription_execution)
@@ -278,7 +259,7 @@ class StepExecutionsController < ApplicationController
     return if params[:step_id].blank?
 
     steps = policy_scope(Step)
-    steps = steps.where(service: @service) if @service
+    steps = steps.where_service(@service) if @service
     @step = steps.find(params.expect(:step_id))
     set_context(step: @step)
   end

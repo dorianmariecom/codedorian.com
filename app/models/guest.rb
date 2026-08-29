@@ -22,6 +22,6 @@ class Guest < ApplicationRecord
   def simple? = true
   def advanced? = false
 
-  def to_s = t("to_s", id: id)
+  def to_s = Utils.join(id_sample).presence || t("to_s", id:)
   def to_param = :me
 end

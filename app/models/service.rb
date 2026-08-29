@@ -37,8 +37,16 @@ class Service < ApplicationRecord
   def body = fr? ? body_fr : body_en
   def fields = service_fields
 
+  def name_sample
+    Truncate.strip(name&.to_plain_text)
+  end
+
+  def user_sample
+    Truncate.strip(user)
+  end
+
   def to_s
-    Utils.join(user, Truncate.strip(name&.to_plain_text)).presence ||
+    Utils.join(name_sample.presence || user_sample, id_sample).presence ||
       t("to_s", id:)
   end
 

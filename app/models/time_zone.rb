@@ -72,8 +72,17 @@ class TimeZone < ApplicationRecord
     update!(verified: false)
   end
 
+  def time_zone_sample
+    Truncate.strip(time_zone)
+  end
+
+  def user_sample
+    Truncate.strip(user)
+  end
+
   def to_s
-    Utils.join(user, time_zone).presence || t("to_s", id:)
+    Utils.join(time_zone_sample.presence || user_sample, id_sample).presence ||
+      t("to_s", id:)
   end
 
   def to_code

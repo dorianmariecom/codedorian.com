@@ -111,6 +111,10 @@ module RecordConcern
     I18n.t("#{model_plural}.model.#{key}", ...)
   end
 
+  def id_sample
+    t("to_s", id:) if id.present? && Current.user&.admin?
+  end
+
   def fr?
     I18n.locale == :fr
   end

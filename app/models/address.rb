@@ -83,8 +83,24 @@ class Address < ApplicationRecord
     self.autocomplete = nil
   end
 
+  def formatted_address_sample
+    Truncate.strip(formatted_address)
+  end
+
+  def address_sample
+    Truncate.strip(address)
+  end
+
+  def user_sample
+    Truncate.strip(user)
+  end
+
   def to_s
-    Utils.join(user, formatted_address.presence || address).presence ||
+    Utils.join(
+      formatted_address_sample.presence || address_sample.presence ||
+        user_sample,
+      id_sample
+    ).presence ||
       t("to_s", id:)
   end
 
