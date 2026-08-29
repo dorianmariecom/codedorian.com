@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class Step < ApplicationRecord
+  def self.format_all
+    ApplicationRecord.transaction { find_each(&:format!) }
+  end
+
   belongs_to :service, touch: true
   has_one :user, through: :service
   has_many :step_executions, dependent: :destroy
@@ -38,6 +42,10 @@ class Step < ApplicationRecord
   def description = fr? ? description_fr : description_en
   def body = fr? ? body_fr : body_en
   def to_s = Truncate.strip(name&.to_plain_text).presence || t("to_s", id: id)
+
+  def format!
+    update!(input: Code.format(input))
+  end
 
   def to_code
     Code::Object::Step.new(

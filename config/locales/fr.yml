@@ -2606,6 +2606,7 @@ fr:
     index:
       delete_all: tout supprimer
       destroy_all: tout détruire
+      format_all: tout formater
       new: nouvelle planification
       title: planifications des offres
     model:
@@ -2749,6 +2750,7 @@ fr:
       error_message: message d'erreur
       id: identifiant
       input: entrée
+      format: formater
       jobs: tâches
       logs: logs
       new_job: nouvelle tâche
@@ -3401,6 +3403,12 @@ fr:
     update:
       notice: exécution d'étape mise à jour
   steps:
+    format:
+      alert: 'échec du formatage : %{message}'
+      notice: étape formatée
+    format_all:
+      alert: 'échec du formatage : %{message}'
+      notice: étapes formatées
     create:
       notice: étape créée
     delete:

@@ -74,12 +74,16 @@ Rails.application.routes.draw do
         sessions
         solid_cable_messages
         step_executions
-        steps
         subscription_executions
         time_zones
         tokens
         versions
       ].each { |resource| resources(resource, concerns: :deletable) }
+
+      resources(:steps, concerns: :deletable) do
+        post(:format, on: :member)
+        post(:format_all, on: :collection)
+      end
 
       resources(:services, concerns: :deletable) do
         resources(:subscriptions, concerns: :deletable) do

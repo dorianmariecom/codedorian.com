@@ -23,6 +23,14 @@ class StepPolicy < ApplicationPolicy
     admin?
   end
 
+  def format?
+    admin?
+  end
+
+  def format_all?
+    admin?
+  end
+
   def destroy?
     admin?
   end

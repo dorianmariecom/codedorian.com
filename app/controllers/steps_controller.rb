@@ -3,7 +3,7 @@
 class StepsController < ApplicationController
   before_action(:load_service)
   before_action { add_breadcrumb(key: "steps.index", path: index_url) }
-  before_action :load_step, only: %i[show edit update destroy delete]
+  before_action :load_step, only: %i[show edit update destroy delete format]
 
   def index
       authorize(Step)
@@ -161,6 +161,21 @@ class StepsController < ApplicationController
           end
         end
       end
+  end
+
+  def format
+    @step.format!
+    redirect_back_or_to(show_url, notice: t(".notice"))
+  rescue Code::Error => e
+    redirect_back_or_to(show_url, alert: t(".alert", message: e.message))
+  end
+
+  def format_all
+    authorize(Step)
+    scope.format_all
+    redirect_back_or_to(index_url, notice: t(".notice"))
+  rescue Code::Error => e
+    redirect_back_or_to(index_url, alert: t(".alert", message: e.message))
   end
 
   def destroy

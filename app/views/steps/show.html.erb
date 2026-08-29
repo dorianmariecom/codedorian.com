@@ -126,3 +126,13 @@
     }
   ) %>
 <% end %>
+<% if can?(:format, @step) %>
+  <div class="p">
+    <%= render(
+      "shared/confirm",
+      url: [:format, *show_url],
+      text: t(".format"),
+      method: :post
+    ) %>
+  </div>
+<% end %>

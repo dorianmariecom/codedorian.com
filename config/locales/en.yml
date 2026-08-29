@@ -2602,6 +2602,7 @@ en:
     index:
       delete_all: delete all
       destroy_all: destroy all
+      format_all: format all
       new: new plan schedule
       title: plan schedules
     model:
@@ -2745,6 +2746,7 @@ en:
       error_message: error message
       id: id
       input: input
+      format: format
       jobs: jobs
       logs: logs
       new_job: new job
@@ -3397,6 +3399,12 @@ en:
     update:
       notice: step execution updated
   steps:
+    format:
+      alert: 'format failed: %{message}'
+      notice: step formatted
+    format_all:
+      alert: 'format all failed: %{message}'
+      notice: steps formatted
     create:
       notice: step created
     delete:
