@@ -63,44 +63,34 @@ class StripeInvoicesController < ApplicationController
 
   def create
     @stripe_invoice = authorize(scope.new(stripe_invoice_params))
-
-    if @stripe_invoice.save(context: :controller)
-      render_saved
-    else
-      render_invalid(:new)
-    end
+    persist(:new, t(".notice"))
   end
 
   def update
     @stripe_invoice.assign_attributes(stripe_invoice_params)
-
-    if @stripe_invoice.save(context: :controller)
-      render_saved
-    else
-      render_invalid(:edit)
-    end
+    persist(:edit, t(".notice"))
   end
 
   def destroy
     @stripe_invoice.destroy!
-    render_deleted
+    respond_after_delete(t(".notice"))
   end
 
   def delete
     @stripe_invoice.delete
-    render_deleted
+    respond_after_delete(t(".notice"))
   end
 
   def destroy_all
     authorize(StripeInvoice)
     scope.destroy_all
-    render_all_deleted
+    respond_after_delete_all(t(".notice"))
   end
 
   def delete_all
     authorize(StripeInvoice)
     scope.delete_all
-    render_all_deleted
+    respond_after_delete_all(t(".notice"))
   end
 
   private
@@ -137,61 +127,5 @@ class StripeInvoicesController < ApplicationController
         invoice_pdf
       ]
     )
-  end
-
-  def render_saved
-    respond_to do |format|
-      format.html { redirect_to(show_url, notice: t(".notice")) }
-      format.json do
-        render(
-          json: {
-            status: :ok,
-            messages: [t(".notice")],
-            data: @stripe_invoice
-          }
-        )
-      end
-    end
-  end
-
-  def render_invalid(template)
-    flash.now.alert = @stripe_invoice.alert
-    respond_to do |format|
-      format.html { render(template, status: :unprocessable_content) }
-      format.json do
-        render(
-          json: {
-            status: :unprocessable_content,
-            messages: [@stripe_invoice.alert],
-            data: @stripe_invoice
-          },
-          status: :unprocessable_content
-        )
-      end
-    end
-  end
-
-  def render_deleted
-    respond_to do |format|
-      format.html { redirect_to(index_url, notice: t(".notice")) }
-      format.json do
-        render(
-          json: {
-            status: :ok,
-            messages: [t(".notice")],
-            data: @stripe_invoice
-          }
-        )
-      end
-    end
-  end
-
-  def render_all_deleted
-    respond_to do |format|
-      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: nil })
-      end
-    end
   end
 end

@@ -50,114 +50,42 @@ class NamesController < ApplicationController
 
   def create
     @name = authorize(scope.new(name_params))
-
-    if @name.save(context: :controller)
+    persist(:new, t(".notice")) do
       log_in(@name.user)
       @user = @name.user
-      respond_to do |format|
-        format.html { redirect_to(show_url, notice: t(".notice")) }
-        format.json do
-          render(json: { status: :ok, messages: [t(".notice")], data: @name })
-        end
-      end
-    else
-      flash.now.alert = @name.alert
-      respond_to do |format|
-        format.html { render(:new, status: :unprocessable_content) }
-        format.json do
-          render(
-            json: {
-              status: :unprocessable_content,
-              messages: [@name.alert],
-              data: @name
-            },
-            status: :unprocessable_content
-          )
-        end
-      end
     end
   end
 
   def update
     @name.assign_attributes(name_params)
-
-    if @name.save(context: :controller)
+    persist(:edit, t(".notice")) do
       log_in(@name.user)
       @user = @name.user
-      respond_to do |format|
-        format.html { redirect_to(show_url, notice: t(".notice")) }
-        format.json do
-          render(json: { status: :ok, messages: [t(".notice")], data: @name })
-        end
-      end
-    else
-      flash.now.alert = @name.alert
-      respond_to do |format|
-        format.html { render(:edit, status: :unprocessable_content) }
-        format.json do
-          render(
-            json: {
-              status: :unprocessable_content,
-              messages: [@name.alert],
-              data: @name
-            },
-            status: :unprocessable_content
-          )
-        end
-      end
     end
   end
 
   def destroy
     @name.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: @name })
-      end
-    end
+    respond_after_delete(t(".notice"))
   end
 
   def delete
     @name.delete
-
-    respond_to do |format|
-      format.html { redirect_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: @name })
-      end
-    end
+    respond_after_delete(t(".notice"))
   end
 
   def destroy_all
     authorize(Name)
 
     scope.destroy_all
-
-    respond_to do |format|
-      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: nil })
-      end
-    end
+    respond_after_delete_all(t(".notice"))
   end
 
   def delete_all
     authorize(Name)
 
     scope.delete_all
-
-    respond_to do |format|
-      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: nil })
-      end
-    end
+    respond_after_delete_all(t(".notice"))
   end
 
   private

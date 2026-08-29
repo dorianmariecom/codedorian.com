@@ -7,6 +7,8 @@ class ApplicationController < ActionController::Base
   include(PerformLaterConcern)
   include(Pundit::Authorization)
 
+  private(:log!, :perform_later, :unmemoize, :unmemoize_all)
+
   protect_from_forgery(with: :exception)
 
   skip_forgery_protection(if: :current_token?)
@@ -463,6 +465,67 @@ class ApplicationController < ActionController::Base
     return true if request.path.ends_with?("/edit")
 
     false
+  end
+
+  def persist(template, notice)
+    resource = model_instance
+
+    if resource.save(context: :controller)
+      yield(resource) if block_given?
+      respond_after_persist(notice)
+    else
+      respond_after_invalid(template)
+    end
+  end
+
+  def respond_after_persist(notice, redirect_url: show_url)
+    respond_to do |format|
+      format.html { redirect_to(redirect_url, notice: notice) }
+      format.json do
+        render(
+          json: { status: :ok, messages: [notice], data: model_instance }
+        )
+      end
+    end
+  end
+
+  def respond_after_invalid(template)
+    resource = model_instance
+    flash.now.alert = resource.alert
+
+    respond_to do |format|
+      format.html { render(template, status: :unprocessable_content) }
+      format.json do
+        render(
+          json: {
+            status: :unprocessable_content,
+            messages: [resource.alert],
+            data: resource
+          },
+          status: :unprocessable_content
+        )
+      end
+    end
+  end
+
+  def respond_after_delete(notice, redirect_url: index_url)
+    respond_to do |format|
+      format.html { redirect_to(redirect_url, notice: notice) }
+      format.json do
+        render(
+          json: { status: :ok, messages: [notice], data: model_instance }
+        )
+      end
+    end
+  end
+
+  def respond_after_delete_all(notice)
+    respond_to do |format|
+      format.html { redirect_back_or_to(index_url, notice: notice) }
+      format.json do
+        render(json: { status: :ok, messages: [notice], data: nil })
+      end
+    end
   end
 
   def model_class

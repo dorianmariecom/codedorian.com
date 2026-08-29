@@ -62,134 +62,36 @@ class SolidCableMessagesController < ApplicationController
 
   def create
     @solid_cable_message = authorize(scope.new(solid_cable_message_attributes))
-
-    if @solid_cable_message.save(context: :controller)
-      respond_to do |format|
-        format.html { redirect_to(show_url, notice: t(".notice")) }
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [t(".notice")],
-              data: @solid_cable_message
-            }
-          )
-        end
-      end
-    else
-      flash.now.alert = @solid_cable_message.alert
-      respond_to do |format|
-        format.html { render(:new, status: :unprocessable_content) }
-        format.json do
-          render(
-            json: {
-              status: :unprocessable_content,
-              messages: [@solid_cable_message.alert],
-              data: @solid_cable_message
-            },
-            status: :unprocessable_content
-          )
-        end
-      end
-    end
+    persist(:new, t(".notice"))
   end
 
   def update
     @solid_cable_message.assign_attributes(solid_cable_message_attributes)
-
-    if @solid_cable_message.save(context: :controller)
-      respond_to do |format|
-        format.html { redirect_to(show_url, notice: t(".notice")) }
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [t(".notice")],
-              data: @solid_cable_message
-            }
-          )
-        end
-      end
-    else
-      flash.now.alert = @solid_cable_message.alert
-      respond_to do |format|
-        format.html { render(:edit, status: :unprocessable_content) }
-        format.json do
-          render(
-            json: {
-              status: :unprocessable_content,
-              messages: [@solid_cable_message.alert],
-              data: @solid_cable_message
-            },
-            status: :unprocessable_content
-          )
-        end
-      end
-    end
+    persist(:edit, t(".notice"))
   end
 
   def destroy
     @solid_cable_message.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(
-          json: {
-            status: :ok,
-            messages: [t(".notice")],
-            data: @solid_cable_message
-          }
-        )
-      end
-    end
+    respond_after_delete(t(".notice"))
   end
 
   def delete
     @solid_cable_message.delete
-
-    respond_to do |format|
-      format.html { redirect_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(
-          json: {
-            status: :ok,
-            messages: [t(".notice")],
-            data: @solid_cable_message
-          }
-        )
-      end
-    end
+    respond_after_delete(t(".notice"))
   end
 
   def destroy_all
     authorize(SolidCableMessage)
 
     scope.destroy_all
-
-    respond_to do |format|
-      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: nil })
-      end
-    end
+    respond_after_delete_all(t(".notice"))
   end
 
   def delete_all
     authorize(SolidCableMessage)
 
     scope.delete_all
-
-    respond_to do |format|
-      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: nil })
-      end
-    end
+    respond_after_delete_all(t(".notice"))
   end
 
   private

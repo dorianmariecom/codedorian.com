@@ -170,58 +170,19 @@ class UsersController < ApplicationController
 
     if saved
       log_in(@user)
-      respond_to do |format|
-        format.html do
-          redirect_to(requested_redirect_path || show_url, notice: t(".notice"))
-        end
-        format.json do
-          render(json: { status: :ok, messages: [t(".notice")], data: @user })
-        end
-      end
+      respond_after_persist(
+        t(".notice"),
+        redirect_url: requested_redirect_path || show_url
+      )
     else
-      flash.now.alert = @user.alert
-      respond_to do |format|
-        format.html { render(:new, status: :unprocessable_content) }
-        format.json do
-          render(
-            json: {
-              status: :unprocessable_content,
-              messages: [@user.alert],
-              data: @user
-            },
-            status: :unprocessable_content
-          )
-        end
-      end
+      respond_after_invalid(:new)
     end
   end
 
   def update
     @user.assign_attributes(user_params)
-
-    if @user.save(context: :controller)
+    persist(:edit, t(".notice")) do
       log_in(@user)
-      respond_to do |format|
-        format.html { redirect_to(show_url, notice: t(".notice")) }
-        format.json do
-          render(json: { status: :ok, messages: [t(".notice")], data: @user })
-        end
-      end
-    else
-      flash.now.alert = @user.alert
-      respond_to do |format|
-        format.html { render(:edit, status: :unprocessable_content) }
-        format.json do
-          render(
-            json: {
-              status: :unprocessable_content,
-              messages: [@user.alert],
-              data: @user
-            },
-            status: :unprocessable_content
-          )
-        end
-      end
     end
   end
 
@@ -229,56 +190,28 @@ class UsersController < ApplicationController
     @user.destroy!
 
     log_out(@user)
-
-    respond_to do |format|
-      format.html { redirect_to(root_path, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: @user })
-      end
-    end
+    respond_after_delete(t(".notice"), redirect_url: root_path)
   end
 
   def delete
     @user.delete
 
     log_out(@user)
-
-    respond_to do |format|
-      format.html { redirect_to(root_path, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: @user })
-      end
-    end
+    respond_after_delete(t(".notice"), redirect_url: root_path)
   end
 
   def destroy_all
     authorize(User)
 
     scope.destroy_all
-
-    respond_to do |format|
-      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: nil })
-      end
-    end
+    respond_after_delete_all(t(".notice"))
   end
 
   def delete_all
     authorize(User)
 
     scope.delete_all
-
-    respond_to do |format|
-      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: nil })
-      end
-    end
+    respond_after_delete_all(t(".notice"))
   end
 
   private

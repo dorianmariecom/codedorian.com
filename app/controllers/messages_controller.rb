@@ -89,124 +89,40 @@ class MessagesController < ApplicationController
 
   def create
     @message = authorize(scope.new(message_params))
-
-    if @message.save(context: :controller)
+    persist(:new, t(".notice")) do
       log_in(@message.from_user)
-      respond_to do |format|
-        format.html { redirect_to(show_url, notice: t(".notice")) }
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [t(".notice")],
-              data: @message
-            }
-          )
-        end
-      end
-    else
-      flash.now.alert = @message.alert
-      respond_to do |format|
-        format.html { render(:new, status: :unprocessable_content) }
-        format.json do
-          render(
-            json: {
-              status: :unprocessable_content,
-              messages: [@message.alert],
-              data: @message
-            },
-            status: :unprocessable_content
-          )
-        end
-      end
     end
   end
 
   def update
     @message.assign_attributes(message_params)
-
-    if @message.save(context: :controller)
+    persist(:edit, t(".notice")) do
       log_in(@message.from_user)
-      respond_to do |format|
-        format.html { redirect_to(show_url, notice: t(".notice")) }
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [t(".notice")],
-              data: @message
-            }
-          )
-        end
-      end
-    else
-      flash.now.alert = @message.alert
-      respond_to do |format|
-        format.html { render(:edit, status: :unprocessable_content) }
-        format.json do
-          render(
-            json: {
-              status: :unprocessable_content,
-              messages: [@message.alert],
-              data: @message
-            },
-            status: :unprocessable_content
-          )
-        end
-      end
     end
   end
 
   def destroy
     @message.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: @message })
-      end
-    end
+    respond_after_delete(t(".notice"))
   end
 
   def delete
     @message.delete
-
-    respond_to do |format|
-      format.html { redirect_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: @message })
-      end
-    end
+    respond_after_delete(t(".notice"))
   end
 
   def destroy_all
     authorize(Message)
 
     scope.destroy_all
-
-    respond_to do |format|
-      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: nil })
-      end
-    end
+    respond_after_delete_all(t(".notice"))
   end
 
   def delete_all
     authorize(Message)
 
     scope.delete_all
-
-    respond_to do |format|
-      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: nil })
-      end
-    end
+    respond_after_delete_all(t(".notice"))
   end
 
   private

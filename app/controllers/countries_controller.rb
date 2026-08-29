@@ -46,12 +46,18 @@ class CountriesController < ApplicationController
 
   def create
     @country = authorize(scope.new(country_params))
-    persist(:new, t(".notice"))
+    persist(:new, t(".notice")) do
+      log_in(@country.user)
+      @user = @country.user
+    end
   end
 
   def update
     @country.assign_attributes(country_params)
-    persist(:edit, t(".notice"))
+    persist(:edit, t(".notice")) do
+      log_in(@country.user)
+      @user = @country.user
+    end
   end
 
   def destroy
@@ -77,52 +83,6 @@ class CountriesController < ApplicationController
   end
 
   private
-
-  def persist(template, notice)
-    if @country.save(context: :controller)
-      log_in(@country.user)
-      @user = @country.user
-      respond_to do |format|
-        format.html { redirect_to(show_url, notice: notice) }
-        format.json do
-          render(json: { status: :ok, messages: [notice], data: @country })
-        end
-      end
-    else
-      flash.now.alert = @country.alert
-      respond_to do |format|
-        format.html { render(template, status: :unprocessable_content) }
-        format.json do
-          render(
-            json: {
-              status: :unprocessable_content,
-              messages: [@country.alert],
-              data: @country
-            },
-            status: :unprocessable_content
-          )
-        end
-      end
-    end
-  end
-
-  def respond_after_delete(notice)
-    respond_to do |format|
-      format.html { redirect_to(index_url, notice: notice) }
-      format.json do
-        render(json: { status: :ok, messages: [notice], data: @country })
-      end
-    end
-  end
-
-  def respond_after_delete_all(notice)
-    respond_to do |format|
-      format.html { redirect_back_or_to(index_url, notice: notice) }
-      format.json do
-        render(json: { status: :ok, messages: [notice], data: nil })
-      end
-    end
-  end
 
   def load_user
     return if params[:user_id].blank?

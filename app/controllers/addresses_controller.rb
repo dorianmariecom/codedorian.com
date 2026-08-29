@@ -58,126 +58,42 @@ class AddressesController < ApplicationController
 
   def create
     @address = authorize(scope.new(address_params))
-
-    if @address.save(context: :controller)
+    persist(:new, t(".notice")) do
       log_in(@address.user)
       @user = @address.user
-      respond_to do |format|
-        format.html { redirect_to(show_url, notice: t(".notice")) }
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [t(".notice")],
-              data: @address
-            }
-          )
-        end
-      end
-    else
-      flash.now.alert = @address.alert
-      respond_to do |format|
-        format.html { render(:new, status: :unprocessable_content) }
-        format.json do
-          render(
-            json: {
-              status: :unprocessable_content,
-              messages: [@address.alert],
-              data: @address
-            },
-            status: :unprocessable_content
-          )
-        end
-      end
     end
   end
 
   def update
     @address.assign_attributes(address_params)
-
-    if @address.save(context: :controller)
+    persist(:edit, t(".notice")) do
       log_in(@address.user)
       @user = @address.user
-      respond_to do |format|
-        format.html { redirect_to(show_url, notice: t(".notice")) }
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [t(".notice")],
-              data: @address
-            }
-          )
-        end
-      end
-    else
-      flash.now.alert = @address.alert
-      respond_to do |format|
-        format.html { render(:edit, status: :unprocessable_content) }
-        format.json do
-          render(
-            json: {
-              status: :unprocessable_content,
-              messages: [@address.alert],
-              data: @address
-            },
-            status: :unprocessable_content
-          )
-        end
-      end
     end
   end
 
   def destroy
     @address.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: @address })
-      end
-    end
+    respond_after_delete(t(".notice"))
   end
 
   def delete
     @address.delete
-
-    respond_to do |format|
-      format.html { redirect_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: @address })
-      end
-    end
+    respond_after_delete(t(".notice"))
   end
 
   def destroy_all
     authorize(Address)
 
     scope.destroy_all
-
-    respond_to do |format|
-      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: nil })
-      end
-    end
+    respond_after_delete_all(t(".notice"))
   end
 
   def delete_all
     authorize(Address)
 
     scope.delete_all
-
-    respond_to do |format|
-      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: nil })
-      end
-    end
+    respond_after_delete_all(t(".notice"))
   end
 
   private

@@ -80,126 +80,42 @@ class PasswordsController < ApplicationController
 
   def create
     @password = authorize(scope.new(password_params))
-
-    if @password.save(context: :controller)
+    persist(:new, t(".notice")) do
       log_in(@password.user)
       @user = @password.user
-      respond_to do |format|
-        format.html { redirect_to(show_url, notice: t(".notice")) }
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [t(".notice")],
-              data: @password
-            }
-          )
-        end
-      end
-    else
-      flash.now.alert = @password.alert
-      respond_to do |format|
-        format.html { render(:new, status: :unprocessable_content) }
-        format.json do
-          render(
-            json: {
-              status: :unprocessable_content,
-              messages: [@password.alert],
-              data: @password
-            },
-            status: :unprocessable_content
-          )
-        end
-      end
     end
   end
 
   def update
     @password.assign_attributes(password_params)
-
-    if @password.save(context: :controller)
+    persist(:edit, t(".notice")) do
       log_in(@password.user)
       @user = @password.user
-      respond_to do |format|
-        format.html { redirect_to(show_url, notice: t(".notice")) }
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [t(".notice")],
-              data: @password
-            }
-          )
-        end
-      end
-    else
-      flash.now.alert = @password.alert
-      respond_to do |format|
-        format.html { render(:edit, status: :unprocessable_content) }
-        format.json do
-          render(
-            json: {
-              status: :unprocessable_content,
-              messages: [@password.alert],
-              data: @password
-            },
-            status: :unprocessable_content
-          )
-        end
-      end
     end
   end
 
   def destroy
     @password.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: @password })
-      end
-    end
+    respond_after_delete(t(".notice"))
   end
 
   def delete
     @password.delete
-
-    respond_to do |format|
-      format.html { redirect_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: @password })
-      end
-    end
+    respond_after_delete(t(".notice"))
   end
 
   def destroy_all
     authorize(Password)
 
     scope.destroy_all
-
-    respond_to do |format|
-      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: nil })
-      end
-    end
+    respond_after_delete_all(t(".notice"))
   end
 
   def delete_all
     authorize(Password)
 
     scope.delete_all
-
-    respond_to do |format|
-      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: nil })
-      end
-    end
+    respond_after_delete_all(t(".notice"))
   end
 
   private

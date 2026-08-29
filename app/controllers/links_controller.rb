@@ -48,110 +48,36 @@ class LinksController < ApplicationController
 
   def create
     @link = authorize(scope.new(link_params))
-
-    if @link.save(context: :controller)
-      respond_to do |format|
-        format.html { redirect_to(show_url, notice: t(".notice")) }
-        format.json do
-          render(json: { status: :ok, messages: [t(".notice")], data: @link })
-        end
-      end
-    else
-      flash.now.alert = @link.alert
-      respond_to do |format|
-        format.html { render(:new, status: :unprocessable_content) }
-        format.json do
-          render(
-            json: {
-              status: :unprocessable_content,
-              messages: [@link.alert],
-              data: @link
-            },
-            status: :unprocessable_content
-          )
-        end
-      end
-    end
+    persist(:new, t(".notice"))
   end
 
   def update
     @link.assign_attributes(link_params)
-
-    if @link.save(context: :controller)
-      respond_to do |format|
-        format.html { redirect_to(show_url, notice: t(".notice")) }
-        format.json do
-          render(json: { status: :ok, messages: [t(".notice")], data: @link })
-        end
-      end
-    else
-      flash.now.alert = @link.alert
-      respond_to do |format|
-        format.html { render(:edit, status: :unprocessable_content) }
-        format.json do
-          render(
-            json: {
-              status: :unprocessable_content,
-              messages: [@link.alert],
-              data: @link
-            },
-            status: :unprocessable_content
-          )
-        end
-      end
-    end
+    persist(:edit, t(".notice"))
   end
 
   def destroy
     @link.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: @link })
-      end
-    end
+    respond_after_delete(t(".notice"))
   end
 
   def delete
     @link.delete
-
-    respond_to do |format|
-      format.html { redirect_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: @link })
-      end
-    end
+    respond_after_delete(t(".notice"))
   end
 
   def destroy_all
     authorize(Link)
 
     scope.destroy_all
-
-    respond_to do |format|
-      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: nil })
-      end
-    end
+    respond_after_delete_all(t(".notice"))
   end
 
   def delete_all
     authorize(Link)
 
     scope.delete_all
-
-    respond_to do |format|
-      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: nil })
-      end
-    end
+    respond_after_delete_all(t(".notice"))
   end
 
   private

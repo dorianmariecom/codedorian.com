@@ -76,134 +76,36 @@ class ErrorOccurrencesController < ApplicationController
 
   def create
     @error_occurrence = authorize(scope.new(error_occurrence_params))
-
-    if @error_occurrence.save(context: :controller)
-      respond_to do |format|
-        format.html { redirect_to(show_url, notice: t(".notice")) }
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [t(".notice")],
-              data: @error_occurrence
-            }
-          )
-        end
-      end
-    else
-      flash.now.alert = @error_occurrence.alert
-      respond_to do |format|
-        format.html { render(:new, status: :unprocessable_content) }
-        format.json do
-          render(
-            json: {
-              status: :unprocessable_content,
-              messages: [@error_occurrence.alert],
-              data: @error_occurrence
-            },
-            status: :unprocessable_content
-          )
-        end
-      end
-    end
+    persist(:new, t(".notice"))
   end
 
   def update
     @error_occurrence.assign_attributes(error_occurrence_params)
-
-    if @error_occurrence.save(context: :controller)
-      respond_to do |format|
-        format.html { redirect_to(show_url, notice: t(".notice")) }
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [t(".notice")],
-              data: @error_occurrence
-            }
-          )
-        end
-      end
-    else
-      flash.now.alert = @error_occurrence.alert
-      respond_to do |format|
-        format.html { render(:edit, status: :unprocessable_content) }
-        format.json do
-          render(
-            json: {
-              status: :unprocessable_content,
-              messages: [@error_occurrence.alert],
-              data: @error_occurrence
-            },
-            status: :unprocessable_content
-          )
-        end
-      end
-    end
+    persist(:edit, t(".notice"))
   end
 
   def destroy
     @error_occurrence.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(
-          json: {
-            status: :ok,
-            messages: [t(".notice")],
-            data: @error_occurrence
-          }
-        )
-      end
-    end
+    respond_after_delete(t(".notice"))
   end
 
   def delete
     @error_occurrence.delete
-
-    respond_to do |format|
-      format.html { redirect_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(
-          json: {
-            status: :ok,
-            messages: [t(".notice")],
-            data: @error_occurrence
-          }
-        )
-      end
-    end
+    respond_after_delete(t(".notice"))
   end
 
   def destroy_all
     authorize(ErrorOccurrence)
 
     scope.destroy_all
-
-    respond_to do |format|
-      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: nil })
-      end
-    end
+    respond_after_delete_all(t(".notice"))
   end
 
   def delete_all
     authorize(ErrorOccurrence)
 
     scope.delete_all
-
-    respond_to do |format|
-      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: nil })
-      end
-    end
+    respond_after_delete_all(t(".notice"))
   end
 
   private

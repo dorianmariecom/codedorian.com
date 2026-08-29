@@ -57,134 +57,36 @@ class SolidCacheEntriesController < ApplicationController
 
   def create
     @solid_cache_entry = authorize(scope.new(solid_cache_entry_params))
-
-    if @solid_cache_entry.save(context: :controller)
-      respond_to do |format|
-        format.html { redirect_to(show_url, notice: t(".notice")) }
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [t(".notice")],
-              data: @solid_cache_entry
-            }
-          )
-        end
-      end
-    else
-      flash.now.alert = @solid_cache_entry.alert
-      respond_to do |format|
-        format.html { render(:new, status: :unprocessable_content) }
-        format.json do
-          render(
-            json: {
-              status: :unprocessable_content,
-              messages: [@solid_cache_entry.alert],
-              data: @solid_cache_entry
-            },
-            status: :unprocessable_content
-          )
-        end
-      end
-    end
+    persist(:new, t(".notice"))
   end
 
   def update
     @solid_cache_entry.assign_attributes(solid_cache_entry_params)
-
-    if @solid_cache_entry.save(context: :controller)
-      respond_to do |format|
-        format.html { redirect_to(show_url, notice: t(".notice")) }
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [t(".notice")],
-              data: @solid_cache_entry
-            }
-          )
-        end
-      end
-    else
-      flash.now.alert = @solid_cache_entry.alert
-      respond_to do |format|
-        format.html { render(:edit, status: :unprocessable_content) }
-        format.json do
-          render(
-            json: {
-              status: :unprocessable_content,
-              messages: [@solid_cache_entry.alert],
-              data: @solid_cache_entry
-            },
-            status: :unprocessable_content
-          )
-        end
-      end
-    end
+    persist(:edit, t(".notice"))
   end
 
   def destroy
     @solid_cache_entry.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(
-          json: {
-            status: :ok,
-            messages: [t(".notice")],
-            data: @solid_cache_entry
-          }
-        )
-      end
-    end
+    respond_after_delete(t(".notice"))
   end
 
   def delete
     @solid_cache_entry.delete
-
-    respond_to do |format|
-      format.html { redirect_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(
-          json: {
-            status: :ok,
-            messages: [t(".notice")],
-            data: @solid_cache_entry
-          }
-        )
-      end
-    end
+    respond_after_delete(t(".notice"))
   end
 
   def destroy_all
     authorize(SolidCacheEntry)
 
     scope.destroy_all
-
-    respond_to do |format|
-      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: nil })
-      end
-    end
+    respond_after_delete_all(t(".notice"))
   end
 
   def delete_all
     authorize(SolidCacheEntry)
 
     scope.delete_all
-
-    respond_to do |format|
-      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: nil })
-      end
-    end
+    respond_after_delete_all(t(".notice"))
   end
 
   private

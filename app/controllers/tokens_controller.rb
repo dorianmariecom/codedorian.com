@@ -49,114 +49,42 @@ class TokensController < ApplicationController
 
   def create
     @token = authorize(scope.new(token_params))
-
-    if @token.save(context: :controller)
+    persist(:new, t(".notice")) do
       log_in(@token.user)
       @user = @token.user
-      respond_to do |format|
-        format.html { redirect_to(show_url, notice: t(".notice")) }
-        format.json do
-          render(json: { status: :ok, messages: [t(".notice")], data: @token })
-        end
-      end
-    else
-      flash.now.alert = @token.alert
-      respond_to do |format|
-        format.html { render(:new, status: :unprocessable_content) }
-        format.json do
-          render(
-            json: {
-              status: :unprocessable_content,
-              messages: [@token.alert],
-              data: @token
-            },
-            status: :unprocessable_content
-          )
-        end
-      end
     end
   end
 
   def update
     @token.assign_attributes(token_params)
-
-    if @token.save(context: :controller)
+    persist(:edit, t(".notice")) do
       log_in(@token.user)
       @user = @token.user
-      respond_to do |format|
-        format.html { redirect_to(show_url, notice: t(".notice")) }
-        format.json do
-          render(json: { status: :ok, messages: [t(".notice")], data: @token })
-        end
-      end
-    else
-      flash.now.alert = @token.alert
-      respond_to do |format|
-        format.html { render(:edit, status: :unprocessable_content) }
-        format.json do
-          render(
-            json: {
-              status: :unprocessable_content,
-              messages: [@token.alert],
-              data: @token
-            },
-            status: :unprocessable_content
-          )
-        end
-      end
     end
   end
 
   def destroy
     @token.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: @token })
-      end
-    end
+    respond_after_delete(t(".notice"))
   end
 
   def delete
     @token.delete
-
-    respond_to do |format|
-      format.html { redirect_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: @token })
-      end
-    end
+    respond_after_delete(t(".notice"))
   end
 
   def destroy_all
     authorize(Token)
 
     scope.destroy_all
-
-    respond_to do |format|
-      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: nil })
-      end
-    end
+    respond_after_delete_all(t(".notice"))
   end
 
   def delete_all
     authorize(Token)
 
     scope.delete_all
-
-    respond_to do |format|
-      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: nil })
-      end
-    end
+    respond_after_delete_all(t(".notice"))
   end
 
   private

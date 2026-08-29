@@ -177,108 +177,34 @@ class SubscriptionsController < ApplicationController
       end
 
     if created
-      respond_to do |format|
-        format.html do
-          redirect_to(
-            subscription_billing_path(@subscription),
-            notice: t(".notice")
-          )
-        end
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [t(".notice")],
-              data: @subscription
-            }
-          )
-        end
-      end
+      respond_after_persist(
+        t(".notice"),
+        redirect_url: subscription_billing_path(@subscription)
+      )
     else
       @subscription.prepare_values
-      flash.now.alert = @subscription.alert
-      respond_to do |format|
-        format.html { render(:new, status: :unprocessable_content) }
-        format.json do
-          render(
-            json: {
-              status: :unprocessable_content,
-              messages: [@subscription.alert],
-              data: @subscription
-            },
-            status: :unprocessable_content
-          )
-        end
-      end
+      respond_after_invalid(:new)
     end
   rescue StripeBilling::PricingError => e
     @subscription.errors.add(:base, e.message)
     @subscription.prepare_values
-    flash.now.alert = @subscription.alert
-    respond_to do |format|
-      format.html { render(:new, status: :unprocessable_content) }
-      format.json do
-        render(
-          json: {
-            status: :unprocessable_content,
-            messages: [@subscription.alert],
-            data: @subscription
-          },
-          status: :unprocessable_content
-        )
-      end
-    end
+    respond_after_invalid(:new)
   end
 
   def update
     @subscription.assign_attributes(subscription_params)
     if @subscription.save(context: :controller)
-      respond_to do |format|
-        format.html { redirect_to(show_url, notice: t(".notice")) }
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [t(".notice")],
-              data: @subscription
-            }
-          )
-        end
-      end
+      respond_after_persist(t(".notice"))
     else
       @subscription.prepare_values
-      flash.now.alert = @subscription.alert
-      respond_to do |format|
-        format.html { render(:edit, status: :unprocessable_content) }
-        format.json do
-          render(
-            json: {
-              status: :unprocessable_content,
-              messages: [@subscription.alert],
-              data: @subscription
-            },
-            status: :unprocessable_content
-          )
-        end
-      end
+      respond_after_invalid(:edit)
     end
   end
 
   def destroy
     StripeBilling.destroy!(@subscription)
     @subscription.destroy!
-    respond_to do |format|
-      format.html { redirect_to(index_url, notice: t(".notice")) }
-      format.json do
-        render(
-          json: {
-            status: :ok,
-            messages: [t(".notice")],
-            data: @subscription
-          }
-        )
-      end
-    end
+    respond_after_delete(t(".notice"))
   rescue Stripe::StripeError => e
     respond_to do |format|
       format.html { redirect_to(show_url, alert: e.message) }
@@ -297,40 +223,19 @@ class SubscriptionsController < ApplicationController
 
   def delete
     @subscription.delete
-    respond_to do |format|
-      format.html { redirect_to(index_url, notice: t(".notice")) }
-      format.json do
-        render(
-          json: {
-            status: :ok,
-            messages: [t(".notice")],
-            data: @subscription
-          }
-        )
-      end
-    end
+    respond_after_delete(t(".notice"))
   end
 
   def destroy_all
     authorize(Subscription)
     scope.destroy_all
-    respond_to do |format|
-      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: nil })
-      end
-    end
+    respond_after_delete_all(t(".notice"))
   end
 
   def delete_all
     authorize(Subscription)
     scope.delete_all
-    respond_to do |format|
-      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: nil })
-      end
-    end
+    respond_after_delete_all(t(".notice"))
   end
 
   private

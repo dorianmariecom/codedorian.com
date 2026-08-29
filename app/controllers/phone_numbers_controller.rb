@@ -60,138 +60,42 @@ class PhoneNumbersController < ApplicationController
 
   def create
     @phone_number = authorize(scope.new(phone_number_params))
-
-    if @phone_number.save(context: :controller)
+    persist(:new, t(".notice")) do
       log_in(@phone_number.user)
       @user = @phone_number.user
-      respond_to do |format|
-        format.html { redirect_to(show_url, notice: t(".notice")) }
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [t(".notice")],
-              data: @phone_number
-            }
-          )
-        end
-      end
-    else
-      flash.now.alert = @phone_number.alert
-      respond_to do |format|
-        format.html { render(:new, status: :unprocessable_content) }
-        format.json do
-          render(
-            json: {
-              status: :unprocessable_content,
-              messages: [@phone_number.alert],
-              data: @phone_number
-            },
-            status: :unprocessable_content
-          )
-        end
-      end
     end
   end
 
   def update
     @phone_number.assign_attributes(phone_number_params)
-
-    if @phone_number.save(context: :controller)
+    persist(:edit, t(".notice")) do
       log_in(@phone_number.user)
       @user = @phone_number.user
-      respond_to do |format|
-        format.html { redirect_to(show_url, notice: t(".notice")) }
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [t(".notice")],
-              data: @phone_number
-            }
-          )
-        end
-      end
-    else
-      flash.now.alert = @phone_number.alert
-      respond_to do |format|
-        format.html { render(:edit, status: :unprocessable_content) }
-        format.json do
-          render(
-            json: {
-              status: :unprocessable_content,
-              messages: [@phone_number.alert],
-              data: @phone_number
-            },
-            status: :unprocessable_content
-          )
-        end
-      end
     end
   end
 
   def destroy
     @phone_number.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(
-          json: {
-            status: :ok,
-            messages: [t(".notice")],
-            data: @phone_number
-          }
-        )
-      end
-    end
+    respond_after_delete(t(".notice"))
   end
 
   def delete
     @phone_number.delete
-
-    respond_to do |format|
-      format.html { redirect_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(
-          json: {
-            status: :ok,
-            messages: [t(".notice")],
-            data: @phone_number
-          }
-        )
-      end
-    end
+    respond_after_delete(t(".notice"))
   end
 
   def destroy_all
     authorize(PhoneNumber)
 
     scope.destroy_all
-
-    respond_to do |format|
-      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: nil })
-      end
-    end
+    respond_after_delete_all(t(".notice"))
   end
 
   def delete_all
     authorize(PhoneNumber)
 
     scope.delete_all
-
-    respond_to do |format|
-      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: nil })
-      end
-    end
+    respond_after_delete_all(t(".notice"))
   end
 
   private

@@ -61,44 +61,34 @@ class StripeEventsController < ApplicationController
 
   def create
     @stripe_event = authorize(scope.new(stripe_event_params))
-
-    if @stripe_event.save(context: :controller)
-      render_saved
-    else
-      render_invalid(:new)
-    end
+    persist(:new, t(".notice"))
   end
 
   def update
     @stripe_event.assign_attributes(stripe_event_params)
-
-    if @stripe_event.save(context: :controller)
-      render_saved
-    else
-      render_invalid(:edit)
-    end
+    persist(:edit, t(".notice"))
   end
 
   def destroy
     @stripe_event.destroy!
-    render_deleted
+    respond_after_delete(t(".notice"))
   end
 
   def delete
     @stripe_event.delete
-    render_deleted
+    respond_after_delete(t(".notice"))
   end
 
   def destroy_all
     authorize(StripeEvent)
     scope.destroy_all
-    render_all_deleted
+    respond_after_delete_all(t(".notice"))
   end
 
   def delete_all
     authorize(StripeEvent)
     scope.delete_all
-    render_all_deleted
+    respond_after_delete_all(t(".notice"))
   end
 
   private
@@ -130,61 +120,5 @@ class StripeEventsController < ApplicationController
         payload
       ]
     )
-  end
-
-  def render_saved
-    respond_to do |format|
-      format.html { redirect_to(show_url, notice: t(".notice")) }
-      format.json do
-        render(
-          json: {
-            status: :ok,
-            messages: [t(".notice")],
-            data: @stripe_event
-          }
-        )
-      end
-    end
-  end
-
-  def render_invalid(template)
-    flash.now.alert = @stripe_event.alert
-    respond_to do |format|
-      format.html { render(template, status: :unprocessable_content) }
-      format.json do
-        render(
-          json: {
-            status: :unprocessable_content,
-            messages: [@stripe_event.alert],
-            data: @stripe_event
-          },
-          status: :unprocessable_content
-        )
-      end
-    end
-  end
-
-  def render_deleted
-    respond_to do |format|
-      format.html { redirect_to(index_url, notice: t(".notice")) }
-      format.json do
-        render(
-          json: {
-            status: :ok,
-            messages: [t(".notice")],
-            data: @stripe_event
-          }
-        )
-      end
-    end
-  end
-
-  def render_all_deleted
-    respond_to do |format|
-      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: nil })
-      end
-    end
   end
 end

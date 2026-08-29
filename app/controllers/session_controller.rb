@@ -98,6 +98,8 @@ class SessionController < ApplicationController
     end
   end
 
+  private
+
   def email_address_param
     params.dig(:session, :email_address)
   end

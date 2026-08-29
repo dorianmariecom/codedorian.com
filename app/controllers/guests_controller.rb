@@ -49,65 +49,16 @@ class GuestsController < ApplicationController
     @guest = authorize(scope.new(guest_params.merge(id: nil)))
 
     Current.with(guest: @guest) do
-      if @guest.save(context: :controller)
+      persist(:new, t(".notice")) do
         log_in_guest(@guest)
-        respond_to do |format|
-          format.html { redirect_to(show_url, notice: t(".notice")) }
-          format.json do
-            render(
-              json: {
-                status: :ok,
-                messages: [t(".notice")],
-                data: @guest
-              }
-            )
-          end
-        end
-      else
-        flash.now.alert = @guest.alert
-        respond_to do |format|
-          format.html { render(:new, status: :unprocessable_content) }
-          format.json do
-            render(
-              json: {
-                status: :unprocessable_content,
-                messages: [@guest.alert],
-                data: @guest
-              },
-              status: :unprocessable_content
-            )
-          end
-        end
       end
     end
   end
 
   def update
     @guest.assign_attributes(guest_params)
-
-    if @guest.save(context: :controller)
+    persist(:edit, t(".notice")) do
       log_in_guest(@guest)
-      respond_to do |format|
-        format.html { redirect_to(show_url, notice: t(".notice")) }
-        format.json do
-          render(json: { status: :ok, messages: [t(".notice")], data: @guest })
-        end
-      end
-    else
-      flash.now.alert = @guest.alert
-      respond_to do |format|
-        format.html { render(:edit, status: :unprocessable_content) }
-        format.json do
-          render(
-            json: {
-              status: :unprocessable_content,
-              messages: [@guest.alert],
-              data: @guest
-            },
-            status: :unprocessable_content
-          )
-        end
-      end
     end
   end
 
@@ -115,56 +66,28 @@ class GuestsController < ApplicationController
     @guest.destroy!
 
     log_out(@guest)
-
-    respond_to do |format|
-      format.html { redirect_to(root_path, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: @guest })
-      end
-    end
+    respond_after_delete(t(".notice"), redirect_url: root_path)
   end
 
   def delete
     @guest.delete
 
     log_out(@guest)
-
-    respond_to do |format|
-      format.html { redirect_to(root_path, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: @guest })
-      end
-    end
+    respond_after_delete(t(".notice"), redirect_url: root_path)
   end
 
   def destroy_all
     authorize(Guest)
 
     scope.destroy_all
-
-    respond_to do |format|
-      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: nil })
-      end
-    end
+    respond_after_delete_all(t(".notice"))
   end
 
   def delete_all
     authorize(Guest)
 
     scope.delete_all
-
-    respond_to do |format|
-      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: nil })
-      end
-    end
+    respond_after_delete_all(t(".notice"))
   end
 
   private

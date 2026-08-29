@@ -56,116 +56,42 @@ class DevicesController < ApplicationController
 
   def create
     @device = authorize(scope.new(device_params))
-
-    if @device.save(context: :controller)
+    persist(:new, t(".notice")) do
       log_in(@device.user)
       @user = @device.user
-      respond_to do |format|
-        format.html { redirect_to(show_url, notice: t(".notice")) }
-        format.json do
-          render(json: { status: :ok, messages: [t(".notice")], data: @device })
-        end
-      end
-    else
-      respond_to do |format|
-        format.html do
-          flash.now.alert = @device.alert
-          render(:new, status: :unprocessable_content)
-        end
-        format.json do
-          render(
-            json: {
-              status: :unprocessable_content,
-              messages: [@device.alert],
-              data: @device
-            },
-            status: :unprocessable_content
-          )
-        end
-      end
     end
   end
 
   def update
     @device.assign_attributes(device_params)
-
-    if @device.save(context: :controller)
+    persist(:edit, t(".notice")) do
       log_in(@device.user)
       @user = @device.user
-      respond_to do |format|
-        format.html { redirect_to(show_url, notice: t(".notice")) }
-        format.json do
-          render(json: { status: :ok, messages: [t(".notice")], data: @device })
-        end
-      end
-    else
-      flash.now.alert = @device.alert
-      respond_to do |format|
-        format.html { render(:edit, status: :unprocessable_content) }
-        format.json do
-          render(
-            json: {
-              status: :unprocessable_content,
-              messages: [@device.alert],
-              data: @device
-            },
-            status: :unprocessable_content
-          )
-        end
-      end
     end
   end
 
   def destroy
     @device.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: @device })
-      end
-    end
+    respond_after_delete(t(".notice"))
   end
 
   def delete
     @device.delete
-
-    respond_to do |format|
-      format.html { redirect_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: @device })
-      end
-    end
+    respond_after_delete(t(".notice"))
   end
 
   def destroy_all
     authorize(Device)
 
     scope.destroy_all
-
-    respond_to do |format|
-      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: nil })
-      end
-    end
+    respond_after_delete_all(t(".notice"))
   end
 
   def delete_all
     authorize(Device)
 
     scope.delete_all
-
-    respond_to do |format|
-      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-
-      format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: nil })
-      end
-    end
+    respond_after_delete_all(t(".notice"))
   end
 
   private

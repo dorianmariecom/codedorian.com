@@ -19,6 +19,30 @@ class FullCrudCoverageTest < ActiveSupport::TestCase
     end
   end
 
+  test "controllers only expose routed actions" do
+    routed_actions =
+      Rails.application.routes.routes.each_with_object({}) do |route, result|
+        controller_name = route.defaults[:controller]
+        action_name = route.defaults[:action]
+        next if controller_name.blank? || action_name.blank?
+
+        result[controller_name] ||= Set.new
+        result[controller_name] << action_name.to_s
+      end
+
+    ApplicationController.descendants.each do |controller|
+      controller_name = controller.controller_path
+      unexpected_actions =
+        controller.action_methods.to_set - routed_actions.fetch(controller_name, Set.new)
+
+      assert_empty(
+        unexpected_actions,
+        "#{controller.name} exposes non-routed actions: " \
+          "#{unexpected_actions.to_a.sort.join(', ')}"
+      )
+    end
+  end
+
   private
 
   def app_models
