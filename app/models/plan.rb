@@ -72,7 +72,7 @@ class Plan < ApplicationRecord
     end
 
     { amount_cents: amount_cents, amount_currency: amount_currency }
-  rescue KeyError, TypeError
+  rescue Code::Error, KeyError, TypeError
     raise StripeBilling::PricingError, t("pricing_invalid")
   end
 

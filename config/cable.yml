@@ -5,5 +5,8 @@ development:
 production:
   adapter: solid_cable
   polling_interval: 0.01.seconds
+staging:
+  adapter: solid_cable
+  polling_interval: 0.01.seconds
 test:
   adapter: test

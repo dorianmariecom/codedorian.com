@@ -199,6 +199,8 @@ class Current < ActiveSupport::CurrentAttributes
           :test
         when :development
           first_subdomain == :dev ? :development : :localhost
+        when :staging
+          :staging
         when :production
           first_subdomain == :staging ? :staging : :production
         else

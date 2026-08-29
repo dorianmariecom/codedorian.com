@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
+require "digest"
+
 class StripeBilling
+  CUSTOMER_IDEMPOTENCY_VERSION = 2
   CHECKOUT_IDEMPOTENCY_VERSION = 3
 
   class PricingError < StandardError
@@ -11,24 +14,31 @@ class StripeBilling
       Config.stripe.publishable_key
     end
 
-    def webhook_secret
-      Config.stripe.webhook_secret
+    def webhook_secrets
+      Config.stripe.webhook_secrets
     end
 
     def ensure_customer!(user)
       return user.stripe_customer_id if user.stripe_customer_id.present?
 
+      customer_params = {
+        metadata: {
+          env: Current.env,
+          user_id: user.id
+        }
+      }
+      request_digest = Digest::SHA256.hexdigest(customer_params.to_json)
+      idempotency_key =
+        "user-#{user.id}-stripe-customer-" \
+          "v#{CUSTOMER_IDEMPOTENCY_VERSION}-#{request_digest}"
       customer =
         Stripe::Customer.create(
-          {
-            email: user.email_address,
-            metadata: {
-              env: Current.env,
-              user_id: user.id
-            }
-          },
-          { idempotency_key: "user-#{user.id}-stripe-customer" }
+          customer_params,
+          { idempotency_key: idempotency_key }
         )
+      if user.email_address.present?
+        Stripe::Customer.update(customer.id, { email: user.email_address })
+      end
       user.update!(stripe_customer_id: customer.id)
       customer.id
     rescue ActiveRecord::RecordNotUnique

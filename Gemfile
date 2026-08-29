@@ -76,4 +76,4 @@ gem "webmock"
 gem "with_advisory_lock"
 gem "zxcvbn-ruby"
 
-group(:production) { gem "cloudflare-rails" }
+group(:production, :staging) { gem "cloudflare-rails" }

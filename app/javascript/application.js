@@ -6,7 +6,7 @@ import LocalTime from "local-time";
 import consumer from "consumer";
 import * as Sentry from "@sentry/browser";
 
-if (window.RAILS_ENV === "production") {
+if (["production", "staging"].includes(window.RAILS_ENV)) {
   window.Sentry = Sentry;
 
   Sentry.init({

@@ -27,6 +27,7 @@ class Subscription < ApplicationRecord
             },
             allow_nil: true
   validates :amount_currency, format: { with: /\A[a-z]{3}\z/ }, allow_nil: true
+  validate :required_values_present
   validate { can!(:update, user) }
 
   def self.search_fields
@@ -234,6 +235,22 @@ class Subscription < ApplicationRecord
   end
 
   private
+
+  def required_values_present
+    return unless plan
+
+    values =
+      subscription_values
+        .reject(&:marked_for_destruction?)
+        .index_by(&:key)
+
+    plan.fields.select(&:required?).each do |field|
+      next if values[field.key]&.value.to_s.strip.present?
+
+      name = field.name&.to_plain_text.presence || field.key
+      errors.add(:base, :required_value_missing, field: name)
+    end
+  end
 
   def initial_scheduled_at
     first_plan_at = plan_schedules.minimum(:starts_at)

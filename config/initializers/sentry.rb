@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-if !ENV["DUMMY"] && Rails.env.production?
+if !ENV["DUMMY"] && (Rails.env.production? || Rails.env.staging?)
   Sentry.init do |config|
     config.breadcrumbs_logger = %i[active_support_logger http_logger]
     config.dsn = Config.sentry.dsn.ruby

@@ -305,6 +305,10 @@ en:
         phone_number:
           impossible: impossible
           invalid: invalid
+        subscription:
+          attributes:
+            base:
+              required_value_missing: "%{field} can't be blank"
   addresses:
     create:
       notice: address created

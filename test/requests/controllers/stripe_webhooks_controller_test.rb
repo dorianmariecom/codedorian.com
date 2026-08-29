@@ -52,6 +52,28 @@ class StripeWebhooksControllerTest < ActionDispatch::IntegrationTest
     assert_response(:bad_request)
   end
 
+  test "accepts a signature from another configured webhook secret" do
+    payload = event_payload
+
+    assert_difference("StripeEvent.count", 1) do
+      assert_enqueued_with(job: StripeEventProcessJob) do
+        post(
+          stripe_webhooks_path,
+          params: payload,
+          headers: {
+            "Content-Type" => "application/json",
+            "Stripe-Signature" =>
+              signature_for(
+                payload,
+                webhook_secret: Config.stripe.webhook_secrets.second
+              )
+          }
+        )
+      end
+    end
+    assert_response(:success)
+  end
+
   test "re-enqueues a previously failed event" do
     payload = event_payload
     event =
@@ -106,13 +128,13 @@ class StripeWebhooksControllerTest < ActionDispatch::IntegrationTest
     }.to_json
   end
 
-  def signature_for(payload)
+  def signature_for(payload, webhook_secret: Config.stripe.webhook_secrets.first)
     timestamp = Time.current
     signature =
       Stripe::Webhook::Signature.compute_signature(
         timestamp,
         payload,
-        Config.stripe.webhook_secret
+        webhook_secret
       )
     Stripe::Webhook::Signature.generate_header(timestamp, signature)
   end

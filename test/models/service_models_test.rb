@@ -346,6 +346,23 @@ class ServiceModelsTest < ActiveSupport::TestCase
     assert_equal("eur", subscription.amount_currency)
   end
 
+  test "pricing code errors are reported as pricing errors" do
+    subscription = subscriptions(:subscription)
+    plan = subscription.plan
+
+    Current.with(user: subscription.user) do
+      plan.update!(
+        pricing_input: "Current.subscription.values.missing_value"
+      )
+
+      error =
+        assert_raises(StripeBilling::PricingError) do
+          plan.price_for(subscription)
+        end
+      assert_equal(I18n.t("plans.model.pricing_invalid"), error.message)
+    end
+  end
+
   test "a subscription uses its service and plan as its string representation" do
     Current.with(user: users(:admin)) do
       services(:service).update!(name_en: "Named service")

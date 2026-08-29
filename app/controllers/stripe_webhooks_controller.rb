@@ -2,12 +2,7 @@
 
 class StripeWebhooksController < ActionController::API
   def create
-    event =
-      Stripe::Webhook.construct_event(
-        request.raw_post,
-        request.headers.fetch("Stripe-Signature"),
-        StripeBilling.webhook_secret
-      )
+    event = construct_event
     stripe_event = StripeEvent.find_by(stripe_event_id: event.id)
     if stripe_event
       stripe_event.with_lock do
@@ -40,5 +35,24 @@ class StripeWebhooksController < ActionController::API
       },
       status: :bad_request
     )
+  end
+
+  private
+
+  def construct_event
+    signature = request.headers.fetch("Stripe-Signature")
+    signature_error = nil
+
+    StripeBilling.webhook_secrets.each do |webhook_secret|
+      return Stripe::Webhook.construct_event(
+        request.raw_post,
+        signature,
+        webhook_secret
+      )
+    rescue Stripe::SignatureVerificationError => e
+      signature_error = e
+    end
+
+    raise signature_error
   end
 end

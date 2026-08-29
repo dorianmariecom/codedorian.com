@@ -102,6 +102,12 @@ Rails/ThreeStateBooleanColumn:
   Enabled: false
 Rails/TimeZone:
   Enabled: false
+Rails/UnknownEnv:
+  Environments:
+  - development
+  - test
+  - staging
+  - production
 Security/Eval:
   Enabled: false
 Style/CaseEquality:

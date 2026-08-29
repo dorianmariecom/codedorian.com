@@ -121,6 +121,60 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
     assert_predicate(subscription.reload, :inactive?)
   end
 
+  test "required inherited values cannot be omitted before pricing" do
+    Current.with(user: users(:admin)) do
+      ServiceField.create!(
+        service: @service,
+        key: "x_username",
+        kind: "text",
+        name_en: "X username",
+        name_fr: "Nom d'utilisateur X",
+        position: 10,
+        required: true
+      )
+      @plan.update!(
+        pricing_input: <<~CODE.squish
+          {
+            amount_cents:
+              Current.subscription.values.x_username.to_string.length * 100,
+            amount_currency: "eur"
+          }
+        CODE
+      )
+    end
+
+    post(
+      login_path,
+      params: {
+        session: {
+          email_address: email_addresses(:other_email).email_address,
+          password: "MorningCoffee9"
+        }
+      }
+    )
+
+    assert_no_difference(%w[Subscription.count SubscriptionValue.count]) do
+      post(
+        service_subscriptions_path(service_id: @service.id),
+        params: {
+          subscription: {
+            plan_id: @plan.id,
+            subscription_values_attributes: {
+              "0" => {
+                key: "x_username",
+                value: "",
+                _destroy: "1"
+              }
+            }
+          }
+        }
+      )
+    end
+
+    assert_response(:unprocessable_content)
+    assert_select("body", text: /X username can't be blank/)
+  end
+
   test "login preserves a safe redirect and ignores an unsafe redirect" do
     post(
       login_path,
