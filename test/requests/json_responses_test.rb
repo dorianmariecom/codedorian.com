@@ -14,11 +14,7 @@ class JsonResponsesTest < ActionDispatch::IntegrationTest
   end
 
   test "explicit json responses are wrapped" do
-    post(
-      check_passwords_path,
-      params: { password: "password" },
-      as: :json
-    )
+    post(check_passwords_path, params: { password: "password" }, as: :json)
 
     assert_response(:success)
     assert_equal("ok", response.parsed_body["status"])

@@ -6,221 +6,185 @@ class PlanSchedulesController < ApplicationController
   before_action :load_plan_schedule, only: %i[show edit update destroy delete]
 
   def index
-      authorize(PlanSchedule)
-      @plan_schedules = scope.page(params[:page]).order(created_at: :desc)
+    authorize(PlanSchedule)
+    @plan_schedules = scope.page(params[:page]).order(created_at: :desc)
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @plan_schedules
-            }
-          )
-        end
+    respond_to do |format|
+      format.html
+      format.json do
+        render(json: { status: :ok, messages: [], data: @plan_schedules })
       end
+    end
   end
 
   def show
-      @versions =
-        policy_scope(Version)
-          .where(item: @plan_schedule)
-          .order(created_at: :desc)
-          .page(params[:page])
-      @logs =
-        policy_scope(Log)
-          .where_plan_schedule(@plan_schedule)
-          .order(created_at: :desc)
-          .page(params[:page])
+    @versions =
+      policy_scope(Version)
+        .where(item: @plan_schedule)
+        .order(created_at: :desc)
+        .page(params[:page])
+    @logs =
+      policy_scope(Log)
+        .where_plan_schedule(@plan_schedule)
+        .order(created_at: :desc)
+        .page(params[:page])
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @plan_schedule
-            }
-          )
-        end
+    respond_to do |format|
+      format.html
+      format.json do
+        render(json: { status: :ok, messages: [], data: @plan_schedule })
       end
+    end
   end
 
   def new
-      @plan_schedule =
-        authorize(
-          scope.new(
-            params.fetch(:plan_schedule, ActionController::Parameters.new).permit(
-              :plan_id
-            )
+    @plan_schedule =
+      authorize(
+        scope.new(
+          params.fetch(:plan_schedule, ActionController::Parameters.new).permit(
+            :plan_id
           )
         )
-      add_breadcrumb
+      )
+    add_breadcrumb
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @plan_schedule
-            }
-          )
-        end
+    respond_to do |format|
+      format.html
+      format.json do
+        render(json: { status: :ok, messages: [], data: @plan_schedule })
       end
+    end
   end
 
   def edit
-      add_breadcrumb
+    add_breadcrumb
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @plan_schedule
-            }
-          )
-        end
+    respond_to do |format|
+      format.html
+      format.json do
+        render(json: { status: :ok, messages: [], data: @plan_schedule })
       end
+    end
   end
 
   def create
-      @plan_schedule = authorize(scope.new(plan_schedule_params))
-      if @plan_schedule.save(context: :controller)
-        respond_to do |format|
-          format.html { redirect_to(show_url, notice: t(".notice")) }
-          format.json do
-            render(
-              json: {
-                status: :ok,
-                messages: [t(".notice")],
-                data: @plan_schedule
-              }
-            )
-          end
-        end
-      else
-        flash.now.alert = @plan_schedule.alert
-        respond_to do |format|
-          format.html { render(:new, status: :unprocessable_content) }
-          format.json do
-            render(
-              json: {
-                status: :unprocessable_content,
-                messages: [@plan_schedule.alert],
-                data: @plan_schedule
-              },
-              status: :unprocessable_content
-            )
-          end
+    @plan_schedule = authorize(scope.new(plan_schedule_params))
+    if @plan_schedule.save(context: :controller)
+      respond_to do |format|
+        format.html { redirect_to(show_url, notice: t(".notice")) }
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [t(".notice")],
+              data: @plan_schedule
+            }
+          )
         end
       end
+    else
+      flash.now.alert = @plan_schedule.alert
+      respond_to do |format|
+        format.html { render(:new, status: :unprocessable_content) }
+        format.json do
+          render(
+            json: {
+              status: :unprocessable_content,
+              messages: [@plan_schedule.alert],
+              data: @plan_schedule
+            },
+            status: :unprocessable_content
+          )
+        end
+      end
+    end
   end
 
   def update
-      @plan_schedule.assign_attributes(plan_schedule_params)
-      if @plan_schedule.save(context: :controller)
-        respond_to do |format|
-          format.html { redirect_to(show_url, notice: t(".notice")) }
-          format.json do
-            render(
-              json: {
-                status: :ok,
-                messages: [t(".notice")],
-                data: @plan_schedule
-              }
-            )
-          end
-        end
-      else
-        flash.now.alert = @plan_schedule.alert
-        respond_to do |format|
-          format.html { render(:edit, status: :unprocessable_content) }
-          format.json do
-            render(
-              json: {
-                status: :unprocessable_content,
-                messages: [@plan_schedule.alert],
-                data: @plan_schedule
-              },
-              status: :unprocessable_content
-            )
-          end
+    @plan_schedule.assign_attributes(plan_schedule_params)
+    if @plan_schedule.save(context: :controller)
+      respond_to do |format|
+        format.html { redirect_to(show_url, notice: t(".notice")) }
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [t(".notice")],
+              data: @plan_schedule
+            }
+          )
         end
       end
+    else
+      flash.now.alert = @plan_schedule.alert
+      respond_to do |format|
+        format.html { render(:edit, status: :unprocessable_content) }
+        format.json do
+          render(
+            json: {
+              status: :unprocessable_content,
+              messages: [@plan_schedule.alert],
+              data: @plan_schedule
+            },
+            status: :unprocessable_content
+          )
+        end
+      end
+    end
   end
 
   def destroy
-      @plan_schedule.destroy!
-      respond_to do |format|
-        format.html { redirect_to(index_url, notice: t(".notice")) }
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [t(".notice")],
-              data: @plan_schedule
-            }
-          )
-        end
+    @plan_schedule.destroy!
+    respond_to do |format|
+      format.html { redirect_to(index_url, notice: t(".notice")) }
+      format.json do
+        render(
+          json: {
+            status: :ok,
+            messages: [t(".notice")],
+            data: @plan_schedule
+          }
+        )
       end
+    end
   end
 
   def delete
-      @plan_schedule.delete
-      respond_to do |format|
-        format.html { redirect_to(index_url, notice: t(".notice")) }
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [t(".notice")],
-              data: @plan_schedule
-            }
-          )
-        end
+    @plan_schedule.delete
+    respond_to do |format|
+      format.html { redirect_to(index_url, notice: t(".notice")) }
+      format.json do
+        render(
+          json: {
+            status: :ok,
+            messages: [t(".notice")],
+            data: @plan_schedule
+          }
+        )
       end
+    end
   end
 
   def destroy_all
-      authorize(PlanSchedule)
-      scope.destroy_all
-      respond_to do |format|
-        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [t(".notice")],
-              data: nil
-            }
-          )
-        end
+    authorize(PlanSchedule)
+    scope.destroy_all
+    respond_to do |format|
+      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: nil })
       end
+    end
   end
 
   def delete_all
-      authorize(PlanSchedule)
-      scope.delete_all
-      respond_to do |format|
-        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [t(".notice")],
-              data: nil
-            }
-          )
-        end
+    authorize(PlanSchedule)
+    scope.delete_all
+    respond_to do |format|
+      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: nil })
       end
+    end
   end
 
   private

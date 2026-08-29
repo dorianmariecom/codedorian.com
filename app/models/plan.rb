@@ -37,6 +37,7 @@ class Plan < ApplicationRecord
       **base_search_fields
     }
   end
+
   def name = fr? ? name_fr : name_en
   def description = fr? ? description_fr : description_en
   def body = fr? ? body_fr : body_en

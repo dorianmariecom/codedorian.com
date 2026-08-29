@@ -12,9 +12,7 @@ class SessionController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json do
-        render(json: { status: :ok, messages: [], data: nil })
-      end
+      format.json { render(json: { status: :ok, messages: [], data: nil }) }
     end
   end
 
@@ -76,13 +74,7 @@ class SessionController < ApplicationController
           redirect_to(requested_redirect_path || @user, notice: t(".notice"))
         end
         format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [t(".notice")],
-              data: @user
-            }
-          )
+          render(json: { status: :ok, messages: [t(".notice")], data: @user })
         end
       end
     end

@@ -6,241 +6,157 @@ class TokensController < ApplicationController
   before_action(:load_token, only: %i[show edit update destroy delete])
 
   def index
-      authorize(Token)
+    authorize(Token)
 
-      @tokens = scope.page(params[:page]).order(created_at: :asc)
+    @tokens = scope.page(params[:page]).order(created_at: :asc)
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @tokens
-            }
-          )
-        end
-      end
+    respond_to do |format|
+      format.html
+      format.json { render(json: { status: :ok, messages: [], data: @tokens }) }
+    end
   end
 
   def show
-      @versions = versions_scope.order(created_at: :desc).page(params[:page])
-      @logs = logs_scope.order(created_at: :desc).page(params[:page])
+    @versions = versions_scope.order(created_at: :desc).page(params[:page])
+    @logs = logs_scope.order(created_at: :desc).page(params[:page])
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @token
-            }
-          )
-        end
-      end
+    respond_to do |format|
+      format.html
+      format.json { render(json: { status: :ok, messages: [], data: @token }) }
+    end
   end
 
   def new
-      @token =
-        authorize(scope.new(user: @user, primary: user_or_guest.tokens.none?))
+    @token =
+      authorize(scope.new(user: @user, primary: user_or_guest.tokens.none?))
 
-      add_breadcrumb
+    add_breadcrumb
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @token
-            }
-          )
-        end
-      end
+    respond_to do |format|
+      format.html
+      format.json { render(json: { status: :ok, messages: [], data: @token }) }
+    end
   end
 
   def edit
-      add_breadcrumb
+    add_breadcrumb
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @token
-            }
-          )
-        end
-      end
+    respond_to do |format|
+      format.html
+      format.json { render(json: { status: :ok, messages: [], data: @token }) }
+    end
   end
 
   def create
-      @token = authorize(scope.new(token_params))
+    @token = authorize(scope.new(token_params))
 
-      if @token.save(context: :controller)
-        log_in(@token.user)
-        @user = @token.user
-        respond_to do |format|
-          format.html { redirect_to(show_url, notice: t(".notice")) }
-          format.json do
-            render(
-              json: {
-                status: :ok,
-                messages: [t(".notice")],
-                data: @token
-              }
-            )
-          end
-        end
-      else
-        flash.now.alert = @token.alert
-        respond_to do |format|
-          format.html { render(:new, status: :unprocessable_content) }
-          format.json do
-            render(
-              json: {
-                status: :unprocessable_content,
-                messages: [@token.alert],
-                data: @token
-              },
-              status: :unprocessable_content
-            )
-          end
+    if @token.save(context: :controller)
+      log_in(@token.user)
+      @user = @token.user
+      respond_to do |format|
+        format.html { redirect_to(show_url, notice: t(".notice")) }
+        format.json do
+          render(json: { status: :ok, messages: [t(".notice")], data: @token })
         end
       end
+    else
+      flash.now.alert = @token.alert
+      respond_to do |format|
+        format.html { render(:new, status: :unprocessable_content) }
+        format.json do
+          render(
+            json: {
+              status: :unprocessable_content,
+              messages: [@token.alert],
+              data: @token
+            },
+            status: :unprocessable_content
+          )
+        end
+      end
+    end
   end
 
   def update
-      @token.assign_attributes(token_params)
+    @token.assign_attributes(token_params)
 
-      if @token.save(context: :controller)
-        log_in(@token.user)
-        @user = @token.user
-        respond_to do |format|
-          format.html { redirect_to(show_url, notice: t(".notice")) }
-          format.json do
-            render(
-              json: {
-                status: :ok,
-                messages: [t(".notice")],
-                data: @token
-              }
-            )
-          end
-        end
-      else
-        flash.now.alert = @token.alert
-        respond_to do |format|
-          format.html { render(:edit, status: :unprocessable_content) }
-          format.json do
-            render(
-              json: {
-                status: :unprocessable_content,
-                messages: [@token.alert],
-                data: @token
-              },
-              status: :unprocessable_content
-            )
-          end
+    if @token.save(context: :controller)
+      log_in(@token.user)
+      @user = @token.user
+      respond_to do |format|
+        format.html { redirect_to(show_url, notice: t(".notice")) }
+        format.json do
+          render(json: { status: :ok, messages: [t(".notice")], data: @token })
         end
       end
+    else
+      flash.now.alert = @token.alert
+      respond_to do |format|
+        format.html { render(:edit, status: :unprocessable_content) }
+        format.json do
+          render(
+            json: {
+              status: :unprocessable_content,
+              messages: [@token.alert],
+              data: @token
+            },
+            status: :unprocessable_content
+          )
+        end
+      end
+    end
   end
 
   def destroy
-      @token.destroy!
+    @token.destroy!
 
-      respond_to do |format|
-        format.html { redirect_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: @token
-
-            }
-          )
-        end
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: @token })
       end
+    end
   end
 
   def delete
-      @token.delete
+    @token.delete
 
-      respond_to do |format|
-        format.html { redirect_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: @token
-
-            }
-          )
-        end
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: @token })
       end
+    end
   end
 
   def destroy_all
-      authorize(Token)
+    authorize(Token)
 
-      scope.destroy_all
+    scope.destroy_all
 
-      respond_to do |format|
-        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: nil
-
-            }
-          )
-        end
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: nil })
       end
+    end
   end
 
   def delete_all
-      authorize(Token)
+    authorize(Token)
 
-      scope.delete_all
+    scope.delete_all
 
-      respond_to do |format|
-        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: nil
-
-            }
-          )
-        end
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: nil })
       end
+    end
   end
 
   private

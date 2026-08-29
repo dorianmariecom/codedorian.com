@@ -8,20 +8,25 @@ class SubscriptionBillingsController < ApplicationController
     if params[:setup_intent].present?
       StripeBilling.apply_setup_intent!(@subscription, params[:setup_intent])
       message = t("subscription_billings.setup_payment_method.notice")
-      return respond_to do |format|
-        format.html do
-          redirect_to(subscription_billing_path(@subscription), notice: message)
+      return(
+        respond_to do |format|
+          format.html do
+            redirect_to(
+              subscription_billing_path(@subscription),
+              notice: message
+            )
+          end
+          format.json do
+            render(
+              json: {
+                status: :ok,
+                messages: [message],
+                data: @subscription
+              }
+            )
+          end
         end
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [message],
-              data: @subscription
-            }
-          )
-        end
-      end
+      )
     end
     load_billing
 
@@ -67,14 +72,20 @@ class SubscriptionBillingsController < ApplicationController
       )
     respond_to do |format|
       format.html do
-        redirect_to(subscription_billing_path(@subscription), notice: t(".notice"))
+        redirect_to(
+          subscription_billing_path(@subscription),
+          notice: t(".notice")
+        )
       end
       format.json do
         render(
           json: {
             status: :ok,
             messages: [t(".notice")],
-            data: { subscription: @subscription, checkout_session: session }
+            data: {
+              subscription: @subscription,
+              checkout_session: session
+            }
           }
         )
       end
@@ -102,10 +113,19 @@ class SubscriptionBillingsController < ApplicationController
     StripeBilling.cancel!(@subscription)
     respond_to do |format|
       format.html do
-        redirect_to(subscription_billing_path(@subscription), notice: t(".notice"))
+        redirect_to(
+          subscription_billing_path(@subscription),
+          notice: t(".notice")
+        )
       end
       format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: @subscription })
+        render(
+          json: {
+            status: :ok,
+            messages: [t(".notice")],
+            data: @subscription
+          }
+        )
       end
     end
   end
@@ -115,10 +135,19 @@ class SubscriptionBillingsController < ApplicationController
     StripeBilling.resume!(@subscription)
     respond_to do |format|
       format.html do
-        redirect_to(subscription_billing_path(@subscription), notice: t(".notice"))
+        redirect_to(
+          subscription_billing_path(@subscription),
+          notice: t(".notice")
+        )
       end
       format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: @subscription })
+        render(
+          json: {
+            status: :ok,
+            messages: [t(".notice")],
+            data: @subscription
+          }
+        )
       end
     end
   end
@@ -128,10 +157,19 @@ class SubscriptionBillingsController < ApplicationController
     StripeBilling.retry_latest_invoice!(@subscription)
     respond_to do |format|
       format.html do
-        redirect_to(subscription_billing_path(@subscription), notice: t(".notice"))
+        redirect_to(
+          subscription_billing_path(@subscription),
+          notice: t(".notice")
+        )
       end
       format.json do
-        render(json: { status: :ok, messages: [t(".notice")], data: @subscription })
+        render(
+          json: {
+            status: :ok,
+            messages: [t(".notice")],
+            data: @subscription
+          }
+        )
       end
     end
   end

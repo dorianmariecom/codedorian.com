@@ -19,13 +19,7 @@ class LocalesController < ApplicationController
         redirect_to(requested_redirect_path || root_path(locale: locale))
       end
       format.json do
-        render(
-          json: {
-            status: :ok,
-            messages: [],
-            data: { locale: locale }
-          }
-        )
+        render(json: { status: :ok, messages: [], data: { locale: locale } })
       end
     end
   end

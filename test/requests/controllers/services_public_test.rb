@@ -22,7 +22,9 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
       subscriptions_path,
       subscription_executions_path,
       step_executions_path
-    ].each { |resource_path| assert_select("a[href=?]", resource_path, count: 1) }
+    ].each do |resource_path|
+      assert_select("a[href=?]", resource_path, count: 1)
+    end
   end
 
   test "services index hides resources a guest cannot index" do
@@ -37,7 +39,9 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
       subscriptions_path,
       subscription_executions_path,
       step_executions_path
-    ].each { |resource_path| assert_select("a[href=?]", resource_path, count: 0) }
+    ].each do |resource_path|
+      assert_select("a[href=?]", resource_path, count: 0)
+    end
   end
 
   test "guest sees a simple localized plan page with a subscribe button" do

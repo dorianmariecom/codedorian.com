@@ -10,23 +10,23 @@ class CountryCodeIpAddressesController < ApplicationController
   )
 
   def index
-      authorize(CountryCodeIpAddress)
+    authorize(CountryCodeIpAddress)
 
-      @country_code_ip_addresses =
-        scope.page(params[:page]).order(created_at: :asc)
+    @country_code_ip_addresses =
+      scope.page(params[:page]).order(created_at: :asc)
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @country_code_ip_addresses
-            }
-          )
-        end
+    respond_to do |format|
+      format.html
+      format.json do
+        render(
+          json: {
+            status: :ok,
+            messages: [],
+            data: @country_code_ip_addresses
+          }
+        )
       end
+    end
   end
 
   def show
@@ -50,222 +50,190 @@ class CountryCodeIpAddressesController < ApplicationController
   end
 
   def lookup
-      @country_code_ip_address.lookup!
+    @country_code_ip_address.lookup!
 
-      respond_to do |format|
-        format.html { redirect_back_or_to(show_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_back_or_to(show_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: @country_code_ip_address
-
-            }
-          )
-        end
+      format.json do
+        render(
+          json: {
+            status: :ok,
+            messages: [t(".notice")],
+            data: @country_code_ip_address
+          }
+        )
       end
+    end
   end
 
   def new
-      @country_code_ip_address = authorize(scope.new(ip_address: request.ip))
+    @country_code_ip_address = authorize(scope.new(ip_address: request.ip))
 
-      add_breadcrumb
+    add_breadcrumb
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @country_code_ip_address
-            }
-          )
-        end
+    respond_to do |format|
+      format.html
+      format.json do
+        render(
+          json: {
+            status: :ok,
+            messages: [],
+            data: @country_code_ip_address
+          }
+        )
       end
+    end
   end
 
   def edit
-      add_breadcrumb
+    add_breadcrumb
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @country_code_ip_address
-            }
-          )
-        end
+    respond_to do |format|
+      format.html
+      format.json do
+        render(
+          json: {
+            status: :ok,
+            messages: [],
+            data: @country_code_ip_address
+          }
+        )
       end
+    end
   end
 
   def create
-      @country_code_ip_address =
-        authorize(scope.new(country_code_ip_address_params))
+    @country_code_ip_address =
+      authorize(scope.new(country_code_ip_address_params))
 
-      if @country_code_ip_address.save(context: :controller)
-        respond_to do |format|
-          format.html { redirect_to(show_url, notice: t(".notice")) }
-          format.json do
-            render(
-              json: {
-                status: :ok,
-                messages: [t(".notice")],
-                data: @country_code_ip_address
-              }
-            )
-          end
-        end
-      else
-        flash.now.alert = @country_code_ip_address.alert
-        respond_to do |format|
-          format.html { render(:new, status: :unprocessable_content) }
-          format.json do
-            render(
-              json: {
-                status: :unprocessable_content,
-                messages: [@country_code_ip_address.alert],
-                data: @country_code_ip_address
-              },
-              status: :unprocessable_content
-            )
-          end
+    if @country_code_ip_address.save(context: :controller)
+      respond_to do |format|
+        format.html { redirect_to(show_url, notice: t(".notice")) }
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [t(".notice")],
+              data: @country_code_ip_address
+            }
+          )
         end
       end
+    else
+      flash.now.alert = @country_code_ip_address.alert
+      respond_to do |format|
+        format.html { render(:new, status: :unprocessable_content) }
+        format.json do
+          render(
+            json: {
+              status: :unprocessable_content,
+              messages: [@country_code_ip_address.alert],
+              data: @country_code_ip_address
+            },
+            status: :unprocessable_content
+          )
+        end
+      end
+    end
   end
 
   def update
-      @country_code_ip_address.assign_attributes(country_code_ip_address_params)
+    @country_code_ip_address.assign_attributes(country_code_ip_address_params)
 
-      if @country_code_ip_address.save(context: :controller)
-        respond_to do |format|
-          format.html { redirect_to(show_url, notice: t(".notice")) }
-          format.json do
-            render(
-              json: {
-                status: :ok,
-                messages: [t(".notice")],
-                data: @country_code_ip_address
-              }
-            )
-          end
-        end
-      else
-        flash.now.alert = @country_code_ip_address.alert
-        respond_to do |format|
-          format.html { render(:edit, status: :unprocessable_content) }
-          format.json do
-            render(
-              json: {
-                status: :unprocessable_content,
-                messages: [@country_code_ip_address.alert],
-                data: @country_code_ip_address
-              },
-              status: :unprocessable_content
-            )
-          end
+    if @country_code_ip_address.save(context: :controller)
+      respond_to do |format|
+        format.html { redirect_to(show_url, notice: t(".notice")) }
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [t(".notice")],
+              data: @country_code_ip_address
+            }
+          )
         end
       end
+    else
+      flash.now.alert = @country_code_ip_address.alert
+      respond_to do |format|
+        format.html { render(:edit, status: :unprocessable_content) }
+        format.json do
+          render(
+            json: {
+              status: :unprocessable_content,
+              messages: [@country_code_ip_address.alert],
+              data: @country_code_ip_address
+            },
+            status: :unprocessable_content
+          )
+        end
+      end
+    end
   end
 
   def destroy
-      @country_code_ip_address.destroy!
+    @country_code_ip_address.destroy!
 
-      respond_to do |format|
-        format.html { redirect_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: @country_code_ip_address
-
-            }
-          )
-        end
+      format.json do
+        render(
+          json: {
+            status: :ok,
+            messages: [t(".notice")],
+            data: @country_code_ip_address
+          }
+        )
       end
+    end
   end
 
   def delete
-      @country_code_ip_address.delete
+    @country_code_ip_address.delete
 
-      respond_to do |format|
-        format.html { redirect_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: @country_code_ip_address
-
-            }
-          )
-        end
+      format.json do
+        render(
+          json: {
+            status: :ok,
+            messages: [t(".notice")],
+            data: @country_code_ip_address
+          }
+        )
       end
+    end
   end
 
   def destroy_all
-      authorize(CountryCodeIpAddress)
+    authorize(CountryCodeIpAddress)
 
-      scope.destroy_all
+    scope.destroy_all
 
-      respond_to do |format|
-        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: nil
-
-            }
-          )
-        end
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: nil })
       end
+    end
   end
 
   def delete_all
-      authorize(CountryCodeIpAddress)
+    authorize(CountryCodeIpAddress)
 
-      scope.delete_all
+    scope.delete_all
 
-      respond_to do |format|
-        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: nil
-
-            }
-          )
-        end
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: nil })
       end
+    end
   end
 
   private

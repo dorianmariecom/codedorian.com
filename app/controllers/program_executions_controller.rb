@@ -13,251 +13,199 @@ class ProgramExecutionsController < ApplicationController
   )
 
   def index
-      authorize(ProgramExecution)
+    authorize(ProgramExecution)
 
-      @program_executions = scope.page(params[:page]).order(created_at: :desc)
+    @program_executions = scope.page(params[:page]).order(created_at: :desc)
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @program_executions
-            }
-          )
-        end
+    respond_to do |format|
+      format.html
+      format.json do
+        render(json: { status: :ok, messages: [], data: @program_executions })
       end
+    end
   end
 
   def show
-      @versions = versions_scope.order(created_at: :desc).page(params[:page])
-      @logs = logs_scope.order(created_at: :desc).page(params[:page])
+    @versions = versions_scope.order(created_at: :desc).page(params[:page])
+    @logs = logs_scope.order(created_at: :desc).page(params[:page])
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @program_execution
-            }
-          )
-        end
+    respond_to do |format|
+      format.html
+      format.json do
+        render(json: { status: :ok, messages: [], data: @program_execution })
       end
+    end
   end
 
   def new
-      @program_execution = authorize(scope.new(program: @program))
+    @program_execution = authorize(scope.new(program: @program))
 
-      add_breadcrumb
+    add_breadcrumb
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @program_execution
-            }
-          )
-        end
+    respond_to do |format|
+      format.html
+      format.json do
+        render(json: { status: :ok, messages: [], data: @program_execution })
       end
+    end
   end
 
   def edit
-      add_breadcrumb
+    add_breadcrumb
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @program_execution
-            }
-          )
-        end
+    respond_to do |format|
+      format.html
+      format.json do
+        render(json: { status: :ok, messages: [], data: @program_execution })
       end
+    end
   end
 
   def create
-      @program_execution =
-        authorize(
-          scope.new(
-            if @program.present?
-              program_execution_params.except(:program_id).merge(
-                program: @program
-              )
-            else
-              program_execution_params
-            end
-          )
+    @program_execution =
+      authorize(
+        scope.new(
+          if @program.present?
+            program_execution_params.except(:program_id).merge(
+              program: @program
+            )
+          else
+            program_execution_params
+          end
         )
+      )
 
-      if @program_execution.save(context: :controller)
-        log_in(@program_execution.user)
-        @user = @program_execution.user
-        respond_to do |format|
-          format.html { redirect_to(show_url, notice: t(".notice")) }
-          format.json do
-            render(
-              json: {
-                status: :ok,
-                messages: [t(".notice")],
-                data: @program_execution
-              }
-            )
-          end
-        end
-      else
-        flash.now.alert = @program_execution.alert
-        respond_to do |format|
-          format.html { render(:new, status: :unprocessable_content) }
-          format.json do
-            render(
-              json: {
-                status: :unprocessable_content,
-                messages: [@program_execution.alert],
-                data: @program_execution
-              },
-              status: :unprocessable_content
-            )
-          end
+    if @program_execution.save(context: :controller)
+      log_in(@program_execution.user)
+      @user = @program_execution.user
+      respond_to do |format|
+        format.html { redirect_to(show_url, notice: t(".notice")) }
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [t(".notice")],
+              data: @program_execution
+            }
+          )
         end
       end
+    else
+      flash.now.alert = @program_execution.alert
+      respond_to do |format|
+        format.html { render(:new, status: :unprocessable_content) }
+        format.json do
+          render(
+            json: {
+              status: :unprocessable_content,
+              messages: [@program_execution.alert],
+              data: @program_execution
+            },
+            status: :unprocessable_content
+          )
+        end
+      end
+    end
   end
 
   def update
-      @program_execution.assign_attributes(program_execution_params)
+    @program_execution.assign_attributes(program_execution_params)
 
-      if @program_execution.save(context: :controller)
-        log_in(@program_execution.user)
-        @user = @program_execution.user
-        respond_to do |format|
-          format.html { redirect_to(show_url, notice: t(".notice")) }
-          format.json do
-            render(
-              json: {
-                status: :ok,
-                messages: [t(".notice")],
-                data: @program_execution
-              }
-            )
-          end
-        end
-      else
-        flash.now.alert = @program_execution.alert
-        respond_to do |format|
-          format.html { render(:edit, status: :unprocessable_content) }
-          format.json do
-            render(
-              json: {
-                status: :unprocessable_content,
-                messages: [@program_execution.alert],
-                data: @program_execution
-              },
-              status: :unprocessable_content
-            )
-          end
+    if @program_execution.save(context: :controller)
+      log_in(@program_execution.user)
+      @user = @program_execution.user
+      respond_to do |format|
+        format.html { redirect_to(show_url, notice: t(".notice")) }
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [t(".notice")],
+              data: @program_execution
+            }
+          )
         end
       end
+    else
+      flash.now.alert = @program_execution.alert
+      respond_to do |format|
+        format.html { render(:edit, status: :unprocessable_content) }
+        format.json do
+          render(
+            json: {
+              status: :unprocessable_content,
+              messages: [@program_execution.alert],
+              data: @program_execution
+            },
+            status: :unprocessable_content
+          )
+        end
+      end
+    end
   end
 
   def destroy
-      @program_execution.destroy!
+    @program_execution.destroy!
 
-      respond_to do |format|
-        format.html { redirect_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: @program_execution
-
-            }
-          )
-        end
+      format.json do
+        render(
+          json: {
+            status: :ok,
+            messages: [t(".notice")],
+            data: @program_execution
+          }
+        )
       end
+    end
   end
 
   def delete
-      @program_execution.delete
+    @program_execution.delete
 
-      respond_to do |format|
-        format.html { redirect_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: @program_execution
-
-            }
-          )
-        end
+      format.json do
+        render(
+          json: {
+            status: :ok,
+            messages: [t(".notice")],
+            data: @program_execution
+          }
+        )
       end
+    end
   end
 
   def destroy_all
-      authorize(ProgramExecution)
+    authorize(ProgramExecution)
 
-      scope.destroy_all
+    scope.destroy_all
 
-      respond_to do |format|
-        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: nil
-
-            }
-          )
-        end
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: nil })
       end
+    end
   end
 
   def delete_all
-      authorize(ProgramExecution)
+    authorize(ProgramExecution)
 
-      scope.delete_all
+    scope.delete_all
 
-      respond_to do |format|
-        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: nil
-
-            }
-          )
-        end
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: nil })
       end
+    end
   end
 
   private

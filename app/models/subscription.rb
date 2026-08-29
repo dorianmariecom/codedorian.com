@@ -50,10 +50,7 @@ class Subscription < ApplicationRecord
     with_lock do
       if stripe_checkout_idempotency_key.blank?
         price = plan.price_for(self)
-        update!(
-          **price,
-          stripe_checkout_idempotency_key: SecureRandom.uuid
-        )
+        update!(**price, stripe_checkout_idempotency_key: SecureRandom.uuid)
       end
       stripe_checkout_idempotency_key
     end

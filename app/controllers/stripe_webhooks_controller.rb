@@ -33,7 +33,11 @@ class StripeWebhooksController < ActionController::API
     render(json: { status: :ok, messages: [], data: nil })
   rescue KeyError, JSON::ParserError, Stripe::SignatureVerificationError
     render(
-      json: { status: :bad_request, messages: ["Invalid webhook"], data: nil },
+      json: {
+        status: :bad_request,
+        messages: ["Invalid webhook"],
+        data: nil
+      },
       status: :bad_request
     )
   end

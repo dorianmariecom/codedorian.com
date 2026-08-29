@@ -83,7 +83,8 @@ class StepExecution < ApplicationRecord
   def error_app_backtrace = Backtrace.app(error_backtrace)
 
   def to_s
-    [step.to_s, translated_status].compact_blank.join(" - ").presence || t("to_s", id: id)
+    [step.to_s, translated_status].compact_blank.join(" - ").presence ||
+      t("to_s", id: id)
   end
 
   def to_code

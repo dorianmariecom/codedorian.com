@@ -124,7 +124,11 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.json do
         render(
-          json: { status: :unauthorized, messages: [message], data: nil },
+          json: {
+            status: :unauthorized,
+            messages: [message],
+            data: nil
+          },
           status: :unauthorized
         )
       end
@@ -142,7 +146,11 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.json do
         render(
-          json: { status: :unauthorized, messages: [message], data: nil },
+          json: {
+            status: :unauthorized,
+            messages: [message],
+            data: nil
+          },
           status: :unauthorized
         )
       end
@@ -323,7 +331,9 @@ class ApplicationController < ActionController::Base
           json: {
             status: :moved_permanently,
             messages: [],
-            data: { location: Current.base_url }
+            data: {
+              location: Current.base_url
+            }
           },
           status: :moved_permanently
         )

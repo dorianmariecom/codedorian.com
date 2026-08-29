@@ -5,237 +5,153 @@ class LinksController < ApplicationController
   before_action(:load_link, only: %i[show update edit destroy delete])
 
   def index
-      authorize(Link)
+    authorize(Link)
 
-      @links =
-        scope.page(params[:page]).order(kind: :asc, position: :asc, id: :asc)
+    @links =
+      scope.page(params[:page]).order(kind: :asc, position: :asc, id: :asc)
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @links
-            }
-          )
-        end
-      end
+    respond_to do |format|
+      format.html
+      format.json { render(json: { status: :ok, messages: [], data: @links }) }
+    end
   end
 
   def show
-      @versions = versions_scope.order(created_at: :desc).page(params[:page])
-      @logs = logs_scope.order(created_at: :desc).page(params[:page])
+    @versions = versions_scope.order(created_at: :desc).page(params[:page])
+    @logs = logs_scope.order(created_at: :desc).page(params[:page])
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @link
-            }
-          )
-        end
-      end
+    respond_to do |format|
+      format.html
+      format.json { render(json: { status: :ok, messages: [], data: @link }) }
+    end
   end
 
   def new
-      @link = authorize(scope.new)
+    @link = authorize(scope.new)
 
-      add_breadcrumb
+    add_breadcrumb
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @link
-            }
-          )
-        end
-      end
+    respond_to do |format|
+      format.html
+      format.json { render(json: { status: :ok, messages: [], data: @link }) }
+    end
   end
 
   def edit
-      add_breadcrumb
+    add_breadcrumb
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @link
-            }
-          )
-        end
-      end
+    respond_to do |format|
+      format.html
+      format.json { render(json: { status: :ok, messages: [], data: @link }) }
+    end
   end
 
   def create
-      @link = authorize(scope.new(link_params))
+    @link = authorize(scope.new(link_params))
 
-      if @link.save(context: :controller)
-        respond_to do |format|
-          format.html { redirect_to(show_url, notice: t(".notice")) }
-          format.json do
-            render(
-              json: {
-                status: :ok,
-                messages: [t(".notice")],
-                data: @link
-              }
-            )
-          end
-        end
-      else
-        flash.now.alert = @link.alert
-        respond_to do |format|
-          format.html { render(:new, status: :unprocessable_content) }
-          format.json do
-            render(
-              json: {
-                status: :unprocessable_content,
-                messages: [@link.alert],
-                data: @link
-              },
-              status: :unprocessable_content
-            )
-          end
+    if @link.save(context: :controller)
+      respond_to do |format|
+        format.html { redirect_to(show_url, notice: t(".notice")) }
+        format.json do
+          render(json: { status: :ok, messages: [t(".notice")], data: @link })
         end
       end
+    else
+      flash.now.alert = @link.alert
+      respond_to do |format|
+        format.html { render(:new, status: :unprocessable_content) }
+        format.json do
+          render(
+            json: {
+              status: :unprocessable_content,
+              messages: [@link.alert],
+              data: @link
+            },
+            status: :unprocessable_content
+          )
+        end
+      end
+    end
   end
 
   def update
-      @link.assign_attributes(link_params)
+    @link.assign_attributes(link_params)
 
-      if @link.save(context: :controller)
-        respond_to do |format|
-          format.html { redirect_to(show_url, notice: t(".notice")) }
-          format.json do
-            render(
-              json: {
-                status: :ok,
-                messages: [t(".notice")],
-                data: @link
-              }
-            )
-          end
-        end
-      else
-        flash.now.alert = @link.alert
-        respond_to do |format|
-          format.html { render(:edit, status: :unprocessable_content) }
-          format.json do
-            render(
-              json: {
-                status: :unprocessable_content,
-                messages: [@link.alert],
-                data: @link
-              },
-              status: :unprocessable_content
-            )
-          end
+    if @link.save(context: :controller)
+      respond_to do |format|
+        format.html { redirect_to(show_url, notice: t(".notice")) }
+        format.json do
+          render(json: { status: :ok, messages: [t(".notice")], data: @link })
         end
       end
+    else
+      flash.now.alert = @link.alert
+      respond_to do |format|
+        format.html { render(:edit, status: :unprocessable_content) }
+        format.json do
+          render(
+            json: {
+              status: :unprocessable_content,
+              messages: [@link.alert],
+              data: @link
+            },
+            status: :unprocessable_content
+          )
+        end
+      end
+    end
   end
 
   def destroy
-      @link.destroy!
+    @link.destroy!
 
-      respond_to do |format|
-        format.html { redirect_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: @link
-
-            }
-          )
-        end
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: @link })
       end
+    end
   end
 
   def delete
-      @link.delete
+    @link.delete
 
-      respond_to do |format|
-        format.html { redirect_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: @link
-
-            }
-          )
-        end
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: @link })
       end
+    end
   end
 
   def destroy_all
-      authorize(Link)
+    authorize(Link)
 
-      scope.destroy_all
+    scope.destroy_all
 
-      respond_to do |format|
-        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: nil
-
-            }
-          )
-        end
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: nil })
       end
+    end
   end
 
   def delete_all
-      authorize(Link)
+    authorize(Link)
 
-      scope.delete_all
+    scope.delete_all
 
-      respond_to do |format|
-        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: nil
-
-            }
-          )
-        end
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: nil })
       end
+    end
   end
 
   private

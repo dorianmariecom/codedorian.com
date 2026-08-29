@@ -7,241 +7,189 @@ class TimeZonesController < ApplicationController
   before_action(:load_time_zone, only: %i[show edit update destroy delete])
 
   def index
-      authorize(TimeZone)
+    authorize(TimeZone)
 
-      @time_zones = scope.page(params[:page]).order(created_at: :asc)
+    @time_zones = scope.page(params[:page]).order(created_at: :asc)
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @time_zones
-            }
-          )
-        end
+    respond_to do |format|
+      format.html
+      format.json do
+        render(json: { status: :ok, messages: [], data: @time_zones })
       end
+    end
   end
 
   def show
-      @versions = versions_scope.order(created_at: :desc).page(params[:page])
-      @logs = logs_scope.order(created_at: :desc).page(params[:page])
+    @versions = versions_scope.order(created_at: :desc).page(params[:page])
+    @logs = logs_scope.order(created_at: :desc).page(params[:page])
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @time_zone
-            }
-          )
-        end
+    respond_to do |format|
+      format.html
+      format.json do
+        render(json: { status: :ok, messages: [], data: @time_zone })
       end
+    end
   end
 
   def new
-      @time_zone =
-        authorize(scope.new(user: @user, primary: user_or_guest.time_zones.none?))
+    @time_zone =
+      authorize(scope.new(user: @user, primary: user_or_guest.time_zones.none?))
 
-      add_breadcrumb
+    add_breadcrumb
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @time_zone
-            }
-          )
-        end
+    respond_to do |format|
+      format.html
+      format.json do
+        render(json: { status: :ok, messages: [], data: @time_zone })
       end
+    end
   end
 
   def edit
-      add_breadcrumb
+    add_breadcrumb
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @time_zone
-            }
-          )
-        end
+    respond_to do |format|
+      format.html
+      format.json do
+        render(json: { status: :ok, messages: [], data: @time_zone })
       end
+    end
   end
 
   def create
-      @time_zone = authorize(scope.new(time_zone_params))
+    @time_zone = authorize(scope.new(time_zone_params))
 
-      if @time_zone.save(context: :controller)
-        log_in(@time_zone.user)
-        @user = @time_zone.user
-        respond_to do |format|
-          format.html { redirect_to(show_url, notice: t(".notice")) }
-          format.json do
-            render(
-              json: {
-                status: :ok,
-                messages: [t(".notice")],
-                data: @time_zone
-              }
-            )
-          end
-        end
-      else
-        flash.now.alert = @time_zone.alert
-        respond_to do |format|
-          format.html { render(:new, status: :unprocessable_content) }
-          format.json do
-            render(
-              json: {
-                status: :unprocessable_content,
-                messages: [@time_zone.alert],
-                data: @time_zone
-              },
-              status: :unprocessable_content
-            )
-          end
+    if @time_zone.save(context: :controller)
+      log_in(@time_zone.user)
+      @user = @time_zone.user
+      respond_to do |format|
+        format.html { redirect_to(show_url, notice: t(".notice")) }
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [t(".notice")],
+              data: @time_zone
+            }
+          )
         end
       end
+    else
+      flash.now.alert = @time_zone.alert
+      respond_to do |format|
+        format.html { render(:new, status: :unprocessable_content) }
+        format.json do
+          render(
+            json: {
+              status: :unprocessable_content,
+              messages: [@time_zone.alert],
+              data: @time_zone
+            },
+            status: :unprocessable_content
+          )
+        end
+      end
+    end
   end
 
   def update
-      @time_zone.assign_attributes(time_zone_params)
+    @time_zone.assign_attributes(time_zone_params)
 
-      if @time_zone.save(context: :controller)
-        log_in(@time_zone.user)
-        @user = @time_zone.user
-        respond_to do |format|
-          format.html { redirect_to(show_url, notice: t(".notice")) }
-          format.json do
-            render(
-              json: {
-                status: :ok,
-                messages: [t(".notice")],
-                data: @time_zone
-              }
-            )
-          end
-        end
-      else
-        flash.now.alert = @time_zone.alert
-        respond_to do |format|
-          format.html { render(:edit, status: :unprocessable_content) }
-          format.json do
-            render(
-              json: {
-                status: :unprocessable_content,
-                messages: [@time_zone.alert],
-                data: @time_zone
-              },
-              status: :unprocessable_content
-            )
-          end
+    if @time_zone.save(context: :controller)
+      log_in(@time_zone.user)
+      @user = @time_zone.user
+      respond_to do |format|
+        format.html { redirect_to(show_url, notice: t(".notice")) }
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [t(".notice")],
+              data: @time_zone
+            }
+          )
         end
       end
+    else
+      flash.now.alert = @time_zone.alert
+      respond_to do |format|
+        format.html { render(:edit, status: :unprocessable_content) }
+        format.json do
+          render(
+            json: {
+              status: :unprocessable_content,
+              messages: [@time_zone.alert],
+              data: @time_zone
+            },
+            status: :unprocessable_content
+          )
+        end
+      end
+    end
   end
 
   def destroy
-      @time_zone.destroy!
+    @time_zone.destroy!
 
-      respond_to do |format|
-        format.html { redirect_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: @time_zone
-
-            }
-          )
-        end
+      format.json do
+        render(
+          json: {
+            status: :ok,
+            messages: [t(".notice")],
+            data: @time_zone
+          }
+        )
       end
+    end
   end
 
   def delete
-      @time_zone.delete
+    @time_zone.delete
 
-      respond_to do |format|
-        format.html { redirect_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: @time_zone
-
-            }
-          )
-        end
+      format.json do
+        render(
+          json: {
+            status: :ok,
+            messages: [t(".notice")],
+            data: @time_zone
+          }
+        )
       end
+    end
   end
 
   def destroy_all
-      authorize(TimeZone)
+    authorize(TimeZone)
 
-      scope.destroy_all
+    scope.destroy_all
 
-      respond_to do |format|
-        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: nil
-
-            }
-          )
-        end
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: nil })
       end
+    end
   end
 
   def delete_all
-      authorize(TimeZone)
+    authorize(TimeZone)
 
-      scope.delete_all
+    scope.delete_all
 
-      respond_to do |format|
-        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: nil
-
-            }
-          )
-        end
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: nil })
       end
+    end
   end
 
   private

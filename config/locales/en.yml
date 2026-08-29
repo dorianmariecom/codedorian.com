@@ -152,6 +152,7 @@ en:
         primary: primary?
         user_id: user
         verified: verified?
+      name_fr: french name
       page:
         authorization: authorization
         body_en: body en
@@ -181,9 +182,6 @@ en:
         description_en: english description
         description_fr: french description
         name_en: english name
-      name_fr: french name
-      slug: slug
-      service_id: service
       plan_schedule:
         interval: interval
         plan_id: plan
@@ -214,6 +212,8 @@ en:
         name_en: english name
         name_fr: french name
         user_id: user
+      service_id: service
+      slug: slug
       step:
         body_en: english body
         body_fr: french body
@@ -2602,7 +2602,6 @@ en:
     index:
       delete_all: delete all
       destroy_all: destroy all
-      format_all: format all
       new: new plan schedule
       title: plan schedules
     model:
@@ -2746,7 +2745,6 @@ en:
       error_message: error message
       id: id
       input: input
-      format: format
       jobs: jobs
       logs: logs
       new_job: new job
@@ -3039,14 +3037,14 @@ en:
       delete_all: delete all
       destroy_all: destroy all
       new: new service
-      plans:
-        one: "%{count} plan"
-        other: "%{count} plans"
-        zero: "%{count} plans"
       plan_fields:
         one: "%{count} plan field"
         other: "%{count} plan fields"
         zero: "%{count} plan fields"
+      plans:
+        one: "%{count} plan"
+        other: "%{count} plans"
+        zero: "%{count} plans"
       service_fields:
         one: "%{count} service field"
         other: "%{count} service fields"
@@ -3059,14 +3057,14 @@ en:
         one: "%{count} step"
         other: "%{count} steps"
         zero: "%{count} steps"
-      subscriptions:
-        one: "%{count} subscription"
-        other: "%{count} subscriptions"
-        zero: "%{count} subscriptions"
       subscription_executions:
         one: "%{count} subscription execution"
         other: "%{count} subscription executions"
         zero: "%{count} subscription executions"
+      subscriptions:
+        one: "%{count} subscription"
+        other: "%{count} subscriptions"
+        zero: "%{count} subscriptions"
       title: services
     model:
       to_s: service#%{id}
@@ -3399,12 +3397,6 @@ en:
     update:
       notice: step execution updated
   steps:
-    format:
-      alert: 'format failed: %{message}'
-      notice: step formatted
-    format_all:
-      alert: 'format all failed: %{message}'
-      notice: steps formatted
     create:
       notice: step created
     delete:
@@ -3418,9 +3410,16 @@ en:
     edit:
       submit: update step
       title: edit step
+    format:
+      alert: 'format failed: %{message}'
+      notice: step formatted
+    format_all:
+      alert: 'format all failed: %{message}'
+      notice: steps formatted
     index:
       delete_all: delete all
       destroy_all: destroy all
+      format_all: format all
       new: new step
       step_executions:
         one: "%{count} step execution"
@@ -3442,6 +3441,7 @@ en:
       description_fr: french description
       destroy: destroy step
       edit: edit step
+      format: format
       id: id
       input: input
       logs: logs

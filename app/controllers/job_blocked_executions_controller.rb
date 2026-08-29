@@ -14,235 +14,207 @@ class JobBlockedExecutionsController < ApplicationController
   )
 
   def index
-      authorize(JobBlockedExecution)
+    authorize(JobBlockedExecution)
 
-      @job_blocked_executions = scope.page(params[:page]).order(created_at: :desc)
+    @job_blocked_executions = scope.page(params[:page]).order(created_at: :desc)
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @job_blocked_executions
-            }
-          )
-        end
+    respond_to do |format|
+      format.html
+      format.json do
+        render(
+          json: {
+            status: :ok,
+            messages: [],
+            data: @job_blocked_executions
+          }
+        )
       end
+    end
   end
 
   def show
-      @logs = logs_scope.order(created_at: :desc).page(params[:page])
+    @logs = logs_scope.order(created_at: :desc).page(params[:page])
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @job_blocked_execution
-            }
-          )
-        end
+    respond_to do |format|
+      format.html
+      format.json do
+        render(
+          json: {
+            status: :ok,
+            messages: [],
+            data: @job_blocked_execution
+          }
+        )
       end
+    end
   end
 
   def new
-      @job_blocked_execution = authorize(scope.new)
+    @job_blocked_execution = authorize(scope.new)
 
-      add_breadcrumb
+    add_breadcrumb
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @job_blocked_execution
-            }
-          )
-        end
+    respond_to do |format|
+      format.html
+      format.json do
+        render(
+          json: {
+            status: :ok,
+            messages: [],
+            data: @job_blocked_execution
+          }
+        )
       end
+    end
   end
 
   def edit
-      add_breadcrumb
+    add_breadcrumb
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @job_blocked_execution
-            }
-          )
-        end
+    respond_to do |format|
+      format.html
+      format.json do
+        render(
+          json: {
+            status: :ok,
+            messages: [],
+            data: @job_blocked_execution
+          }
+        )
       end
+    end
   end
 
   def create
-      @job_blocked_execution = authorize(scope.new(job_blocked_execution_params))
+    @job_blocked_execution = authorize(scope.new(job_blocked_execution_params))
 
-      if @job_blocked_execution.save(context: :controller)
-        respond_to do |format|
-          format.html { redirect_to(show_url, notice: t(".notice")) }
-          format.json do
-            render(
-              json: {
-                status: :ok,
-                messages: [t(".notice")],
-                data: @job_blocked_execution
-              }
-            )
-          end
-        end
-      else
-        flash.now.alert = @job_blocked_execution.alert
-        respond_to do |format|
-          format.html { render(:new, status: :unprocessable_content) }
-          format.json do
-            render(
-              json: {
-                status: :unprocessable_content,
-                messages: [@job_blocked_execution.alert],
-                data: @job_blocked_execution
-              },
-              status: :unprocessable_content
-            )
-          end
+    if @job_blocked_execution.save(context: :controller)
+      respond_to do |format|
+        format.html { redirect_to(show_url, notice: t(".notice")) }
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [t(".notice")],
+              data: @job_blocked_execution
+            }
+          )
         end
       end
+    else
+      flash.now.alert = @job_blocked_execution.alert
+      respond_to do |format|
+        format.html { render(:new, status: :unprocessable_content) }
+        format.json do
+          render(
+            json: {
+              status: :unprocessable_content,
+              messages: [@job_blocked_execution.alert],
+              data: @job_blocked_execution
+            },
+            status: :unprocessable_content
+          )
+        end
+      end
+    end
   end
 
   def update
-      @job_blocked_execution.assign_attributes(job_blocked_execution_params)
+    @job_blocked_execution.assign_attributes(job_blocked_execution_params)
 
-      if @job_blocked_execution.save(context: :controller)
-        respond_to do |format|
-          format.html { redirect_to(show_url, notice: t(".notice")) }
-          format.json do
-            render(
-              json: {
-                status: :ok,
-                messages: [t(".notice")],
-                data: @job_blocked_execution
-              }
-            )
-          end
-        end
-      else
-        flash.now.alert = @job_blocked_execution.alert
-        respond_to do |format|
-          format.html { render(:edit, status: :unprocessable_content) }
-          format.json do
-            render(
-              json: {
-                status: :unprocessable_content,
-                messages: [@job_blocked_execution.alert],
-                data: @job_blocked_execution
-              },
-              status: :unprocessable_content
-            )
-          end
+    if @job_blocked_execution.save(context: :controller)
+      respond_to do |format|
+        format.html { redirect_to(show_url, notice: t(".notice")) }
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [t(".notice")],
+              data: @job_blocked_execution
+            }
+          )
         end
       end
+    else
+      flash.now.alert = @job_blocked_execution.alert
+      respond_to do |format|
+        format.html { render(:edit, status: :unprocessable_content) }
+        format.json do
+          render(
+            json: {
+              status: :unprocessable_content,
+              messages: [@job_blocked_execution.alert],
+              data: @job_blocked_execution
+            },
+            status: :unprocessable_content
+          )
+        end
+      end
+    end
   end
 
   def destroy
-      @job_blocked_execution.destroy!
+    @job_blocked_execution.destroy!
 
-      respond_to do |format|
-        format.html { redirect_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: @job_blocked_execution
-
-            }
-          )
-        end
+      format.json do
+        render(
+          json: {
+            status: :ok,
+            messages: [t(".notice")],
+            data: @job_blocked_execution
+          }
+        )
       end
+    end
   end
 
   def delete
-      @job_blocked_execution.delete
+    @job_blocked_execution.delete
 
-      respond_to do |format|
-        format.html { redirect_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: @job_blocked_execution
-
-            }
-          )
-        end
+      format.json do
+        render(
+          json: {
+            status: :ok,
+            messages: [t(".notice")],
+            data: @job_blocked_execution
+          }
+        )
       end
+    end
   end
 
   def destroy_all
-      authorize(JobBlockedExecution)
+    authorize(JobBlockedExecution)
 
-      scope.destroy_all
+    scope.destroy_all
 
-      respond_to do |format|
-        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: nil
-
-            }
-          )
-        end
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: nil })
       end
+    end
   end
 
   def delete_all
-      authorize(JobBlockedExecution)
+    authorize(JobBlockedExecution)
 
-      scope.delete_all
+    scope.delete_all
 
-      respond_to do |format|
-        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: nil
-
-            }
-          )
-        end
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: nil })
       end
+    end
   end
 
   private

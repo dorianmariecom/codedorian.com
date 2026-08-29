@@ -7,241 +7,177 @@ class AddressesController < ApplicationController
   before_action(:load_address, only: %i[show edit update destroy delete])
 
   def index
-      authorize(Address)
+    authorize(Address)
 
-      @addresses = scope.page(params[:page]).order(created_at: :asc)
+    @addresses = scope.page(params[:page]).order(created_at: :asc)
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @addresses
-            }
-          )
-        end
+    respond_to do |format|
+      format.html
+      format.json do
+        render(json: { status: :ok, messages: [], data: @addresses })
       end
+    end
   end
 
   def show
-      @versions = versions_scope.order(created_at: :desc).page(params[:page])
-      @logs = logs_scope.order(created_at: :desc).page(params[:page])
+    @versions = versions_scope.order(created_at: :desc).page(params[:page])
+    @logs = logs_scope.order(created_at: :desc).page(params[:page])
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @address
-            }
-          )
-        end
+    respond_to do |format|
+      format.html
+      format.json do
+        render(json: { status: :ok, messages: [], data: @address })
       end
+    end
   end
 
   def new
-      @address =
-        authorize(scope.new(user: @user, primary: user_or_guest.addresses.none?))
+    @address =
+      authorize(scope.new(user: @user, primary: user_or_guest.addresses.none?))
 
-      add_breadcrumb
+    add_breadcrumb
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @address
-            }
-          )
-        end
+    respond_to do |format|
+      format.html
+      format.json do
+        render(json: { status: :ok, messages: [], data: @address })
       end
+    end
   end
 
   def edit
-      add_breadcrumb
+    add_breadcrumb
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @address
-            }
-          )
-        end
+    respond_to do |format|
+      format.html
+      format.json do
+        render(json: { status: :ok, messages: [], data: @address })
       end
+    end
   end
 
   def create
-      @address = authorize(scope.new(address_params))
+    @address = authorize(scope.new(address_params))
 
-      if @address.save(context: :controller)
-        log_in(@address.user)
-        @user = @address.user
-        respond_to do |format|
-          format.html { redirect_to(show_url, notice: t(".notice")) }
-          format.json do
-            render(
-              json: {
-                status: :ok,
-                messages: [t(".notice")],
-                data: @address
-              }
-            )
-          end
-        end
-      else
-        flash.now.alert = @address.alert
-        respond_to do |format|
-          format.html { render(:new, status: :unprocessable_content) }
-          format.json do
-            render(
-              json: {
-                status: :unprocessable_content,
-                messages: [@address.alert],
-                data: @address
-              },
-              status: :unprocessable_content
-            )
-          end
+    if @address.save(context: :controller)
+      log_in(@address.user)
+      @user = @address.user
+      respond_to do |format|
+        format.html { redirect_to(show_url, notice: t(".notice")) }
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [t(".notice")],
+              data: @address
+            }
+          )
         end
       end
+    else
+      flash.now.alert = @address.alert
+      respond_to do |format|
+        format.html { render(:new, status: :unprocessable_content) }
+        format.json do
+          render(
+            json: {
+              status: :unprocessable_content,
+              messages: [@address.alert],
+              data: @address
+            },
+            status: :unprocessable_content
+          )
+        end
+      end
+    end
   end
 
   def update
-      @address.assign_attributes(address_params)
+    @address.assign_attributes(address_params)
 
-      if @address.save(context: :controller)
-        log_in(@address.user)
-        @user = @address.user
-        respond_to do |format|
-          format.html { redirect_to(show_url, notice: t(".notice")) }
-          format.json do
-            render(
-              json: {
-                status: :ok,
-                messages: [t(".notice")],
-                data: @address
-              }
-            )
-          end
-        end
-      else
-        flash.now.alert = @address.alert
-        respond_to do |format|
-          format.html { render(:edit, status: :unprocessable_content) }
-          format.json do
-            render(
-              json: {
-                status: :unprocessable_content,
-                messages: [@address.alert],
-                data: @address
-              },
-              status: :unprocessable_content
-            )
-          end
+    if @address.save(context: :controller)
+      log_in(@address.user)
+      @user = @address.user
+      respond_to do |format|
+        format.html { redirect_to(show_url, notice: t(".notice")) }
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [t(".notice")],
+              data: @address
+            }
+          )
         end
       end
+    else
+      flash.now.alert = @address.alert
+      respond_to do |format|
+        format.html { render(:edit, status: :unprocessable_content) }
+        format.json do
+          render(
+            json: {
+              status: :unprocessable_content,
+              messages: [@address.alert],
+              data: @address
+            },
+            status: :unprocessable_content
+          )
+        end
+      end
+    end
   end
 
   def destroy
-      @address.destroy!
+    @address.destroy!
 
-      respond_to do |format|
-        format.html { redirect_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: @address
-
-            }
-          )
-        end
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: @address })
       end
+    end
   end
 
   def delete
-      @address.delete
+    @address.delete
 
-      respond_to do |format|
-        format.html { redirect_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: @address
-
-            }
-          )
-        end
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: @address })
       end
+    end
   end
 
   def destroy_all
-      authorize(Address)
+    authorize(Address)
 
-      scope.destroy_all
+    scope.destroy_all
 
-      respond_to do |format|
-        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: nil
-
-            }
-          )
-        end
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: nil })
       end
+    end
   end
 
   def delete_all
-      authorize(Address)
+    authorize(Address)
 
-      scope.delete_all
+    scope.delete_all
 
-      respond_to do |format|
-        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: nil
-
-            }
-          )
-        end
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: nil })
       end
+    end
   end
 
   private

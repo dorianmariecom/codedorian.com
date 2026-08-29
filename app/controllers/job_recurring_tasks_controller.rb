@@ -10,235 +10,183 @@ class JobRecurringTasksController < ApplicationController
   )
 
   def index
-      authorize(JobRecurringTask)
+    authorize(JobRecurringTask)
 
-      @job_recurring_tasks = scope.page(params[:page]).order(created_at: :desc)
+    @job_recurring_tasks = scope.page(params[:page]).order(created_at: :desc)
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @job_recurring_tasks
-            }
-          )
-        end
+    respond_to do |format|
+      format.html
+      format.json do
+        render(json: { status: :ok, messages: [], data: @job_recurring_tasks })
       end
+    end
   end
 
   def show
-      @logs = logs_scope.order(created_at: :desc).page(params[:page])
+    @logs = logs_scope.order(created_at: :desc).page(params[:page])
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @job_recurring_task
-            }
-          )
-        end
+    respond_to do |format|
+      format.html
+      format.json do
+        render(json: { status: :ok, messages: [], data: @job_recurring_task })
       end
+    end
   end
 
   def new
-      @job_recurring_task = authorize(scope.new)
+    @job_recurring_task = authorize(scope.new)
 
-      add_breadcrumb
+    add_breadcrumb
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @job_recurring_task
-            }
-          )
-        end
+    respond_to do |format|
+      format.html
+      format.json do
+        render(json: { status: :ok, messages: [], data: @job_recurring_task })
       end
+    end
   end
 
   def edit
-      add_breadcrumb
+    add_breadcrumb
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @job_recurring_task
-            }
-          )
-        end
+    respond_to do |format|
+      format.html
+      format.json do
+        render(json: { status: :ok, messages: [], data: @job_recurring_task })
       end
+    end
   end
 
   def create
-      @job_recurring_task = authorize(scope.new(job_recurring_task_params))
+    @job_recurring_task = authorize(scope.new(job_recurring_task_params))
 
-      if @job_recurring_task.save(context: :controller)
-        respond_to do |format|
-          format.html { redirect_to(show_url, notice: t(".notice")) }
-          format.json do
-            render(
-              json: {
-                status: :ok,
-                messages: [t(".notice")],
-                data: @job_recurring_task
-              }
-            )
-          end
-        end
-      else
-        flash.now.alert = @job_recurring_task.alert
-        respond_to do |format|
-          format.html { render(:new, status: :unprocessable_content) }
-          format.json do
-            render(
-              json: {
-                status: :unprocessable_content,
-                messages: [@job_recurring_task.alert],
-                data: @job_recurring_task
-              },
-              status: :unprocessable_content
-            )
-          end
+    if @job_recurring_task.save(context: :controller)
+      respond_to do |format|
+        format.html { redirect_to(show_url, notice: t(".notice")) }
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [t(".notice")],
+              data: @job_recurring_task
+            }
+          )
         end
       end
+    else
+      flash.now.alert = @job_recurring_task.alert
+      respond_to do |format|
+        format.html { render(:new, status: :unprocessable_content) }
+        format.json do
+          render(
+            json: {
+              status: :unprocessable_content,
+              messages: [@job_recurring_task.alert],
+              data: @job_recurring_task
+            },
+            status: :unprocessable_content
+          )
+        end
+      end
+    end
   end
 
   def update
-      @job_recurring_task.assign_attributes(job_recurring_task_params)
+    @job_recurring_task.assign_attributes(job_recurring_task_params)
 
-      if @job_recurring_task.save(context: :controller)
-        respond_to do |format|
-          format.html { redirect_to(show_url, notice: t(".notice")) }
-          format.json do
-            render(
-              json: {
-                status: :ok,
-                messages: [t(".notice")],
-                data: @job_recurring_task
-              }
-            )
-          end
-        end
-      else
-        flash.now.alert = @job_recurring_task.alert
-        respond_to do |format|
-          format.html { render(:edit, status: :unprocessable_content) }
-          format.json do
-            render(
-              json: {
-                status: :unprocessable_content,
-                messages: [@job_recurring_task.alert],
-                data: @job_recurring_task
-              },
-              status: :unprocessable_content
-            )
-          end
+    if @job_recurring_task.save(context: :controller)
+      respond_to do |format|
+        format.html { redirect_to(show_url, notice: t(".notice")) }
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [t(".notice")],
+              data: @job_recurring_task
+            }
+          )
         end
       end
+    else
+      flash.now.alert = @job_recurring_task.alert
+      respond_to do |format|
+        format.html { render(:edit, status: :unprocessable_content) }
+        format.json do
+          render(
+            json: {
+              status: :unprocessable_content,
+              messages: [@job_recurring_task.alert],
+              data: @job_recurring_task
+            },
+            status: :unprocessable_content
+          )
+        end
+      end
+    end
   end
 
   def destroy
-      @job_recurring_task.destroy!
+    @job_recurring_task.destroy!
 
-      respond_to do |format|
-        format.html { redirect_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: @job_recurring_task
-
-            }
-          )
-        end
+      format.json do
+        render(
+          json: {
+            status: :ok,
+            messages: [t(".notice")],
+            data: @job_recurring_task
+          }
+        )
       end
+    end
   end
 
   def delete
-      @job_recurring_task.delete
+    @job_recurring_task.delete
 
-      respond_to do |format|
-        format.html { redirect_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: @job_recurring_task
-
-            }
-          )
-        end
+      format.json do
+        render(
+          json: {
+            status: :ok,
+            messages: [t(".notice")],
+            data: @job_recurring_task
+          }
+        )
       end
+    end
   end
 
   def destroy_all
-      authorize(JobRecurringTask)
+    authorize(JobRecurringTask)
 
-      scope.destroy_all
+    scope.destroy_all
 
-      respond_to do |format|
-        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: nil
-
-            }
-          )
-        end
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: nil })
       end
+    end
   end
 
   def delete_all
-      authorize(JobRecurringTask)
+    authorize(JobRecurringTask)
 
-      scope.delete_all
+    scope.delete_all
 
-      respond_to do |format|
-        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: nil
-
-            }
-          )
-        end
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: nil })
       end
+    end
   end
 
   private

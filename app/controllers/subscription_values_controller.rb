@@ -9,62 +9,44 @@ class SubscriptionValuesController < ApplicationController
                 only: %i[show edit update destroy delete]
 
   def index
-      authorize(SubscriptionValue)
-      @subscription_values = scope.page(params[:page]).order(created_at: :desc)
+    authorize(SubscriptionValue)
+    @subscription_values = scope.page(params[:page]).order(created_at: :desc)
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @subscription_values
-            }
-          )
-        end
+    respond_to do |format|
+      format.html
+      format.json do
+        render(json: { status: :ok, messages: [], data: @subscription_values })
       end
+    end
   end
 
   def show
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @subscription_value
-            }
-          )
-        end
+    respond_to do |format|
+      format.html
+      format.json do
+        render(json: { status: :ok, messages: [], data: @subscription_value })
       end
+    end
   end
 
   def new
-      @subscription_value =
-        authorize(
-          scope.new(
-            params.fetch(
-              :subscription_value,
-              ActionController::Parameters.new
-            ).permit(:subscription_id)
-          )
+    @subscription_value =
+      authorize(
+        scope.new(
+          params.fetch(
+            :subscription_value,
+            ActionController::Parameters.new
+          ).permit(:subscription_id)
         )
-      add_breadcrumb
+      )
+    add_breadcrumb
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @subscription_value
-            }
-          )
-        end
+    respond_to do |format|
+      format.html
+      format.json do
+        render(json: { status: :ok, messages: [], data: @subscription_value })
       end
+    end
   end
 
   def edit
@@ -78,135 +60,123 @@ class SubscriptionValuesController < ApplicationController
   end
 
   def create
-      @subscription_value = authorize(scope.new(subscription_value_params))
-      if @subscription_value.save(context: :controller)
-        respond_to do |format|
-          format.html { redirect_to(show_url, notice: t(".notice")) }
-          format.json do
-            render(
-              json: {
-                status: :ok,
-                messages: [t(".notice")],
-                data: @subscription_value
-              }
-            )
-          end
-        end
-      else
-        flash.now.alert = @subscription_value.alert
-        respond_to do |format|
-          format.html { render(:new, status: :unprocessable_content) }
-          format.json do
-            render(
-              json: {
-                status: :unprocessable_content,
-                messages: [@subscription_value.alert],
-                data: @subscription_value
-              },
-              status: :unprocessable_content
-            )
-          end
+    @subscription_value = authorize(scope.new(subscription_value_params))
+    if @subscription_value.save(context: :controller)
+      respond_to do |format|
+        format.html { redirect_to(show_url, notice: t(".notice")) }
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [t(".notice")],
+              data: @subscription_value
+            }
+          )
         end
       end
+    else
+      flash.now.alert = @subscription_value.alert
+      respond_to do |format|
+        format.html { render(:new, status: :unprocessable_content) }
+        format.json do
+          render(
+            json: {
+              status: :unprocessable_content,
+              messages: [@subscription_value.alert],
+              data: @subscription_value
+            },
+            status: :unprocessable_content
+          )
+        end
+      end
+    end
   end
 
   def update
-      @subscription_value.assign_attributes(subscription_value_params)
-      if @subscription_value.save(context: :controller)
-        respond_to do |format|
-          format.html { redirect_to(show_url, notice: t(".notice")) }
-          format.json do
-            render(
-              json: {
-                status: :ok,
-                messages: [t(".notice")],
-                data: @subscription_value
-              }
-            )
-          end
-        end
-      else
-        flash.now.alert = @subscription_value.alert
-        respond_to do |format|
-          format.html { render(:edit, status: :unprocessable_content) }
-          format.json do
-            render(
-              json: {
-                status: :unprocessable_content,
-                messages: [@subscription_value.alert],
-                data: @subscription_value
-              },
-              status: :unprocessable_content
-            )
-          end
+    @subscription_value.assign_attributes(subscription_value_params)
+    if @subscription_value.save(context: :controller)
+      respond_to do |format|
+        format.html { redirect_to(show_url, notice: t(".notice")) }
+        format.json do
+          render(
+            json: {
+              status: :ok,
+              messages: [t(".notice")],
+              data: @subscription_value
+            }
+          )
         end
       end
+    else
+      flash.now.alert = @subscription_value.alert
+      respond_to do |format|
+        format.html { render(:edit, status: :unprocessable_content) }
+        format.json do
+          render(
+            json: {
+              status: :unprocessable_content,
+              messages: [@subscription_value.alert],
+              data: @subscription_value
+            },
+            status: :unprocessable_content
+          )
+        end
+      end
+    end
   end
 
   def destroy
-      @subscription_value.destroy!
-      respond_to do |format|
-        format.html { redirect_to(index_url, notice: t(".notice")) }
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [t(".notice")],
-              data: @subscription_value
-            }
-          )
-        end
+    @subscription_value.destroy!
+    respond_to do |format|
+      format.html { redirect_to(index_url, notice: t(".notice")) }
+      format.json do
+        render(
+          json: {
+            status: :ok,
+            messages: [t(".notice")],
+            data: @subscription_value
+          }
+        )
       end
+    end
   end
 
   def delete
-      @subscription_value.delete
-      respond_to do |format|
-        format.html { redirect_to(index_url, notice: t(".notice")) }
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [t(".notice")],
-              data: @subscription_value
-            }
-          )
-        end
+    @subscription_value.delete
+    respond_to do |format|
+      format.html { redirect_to(index_url, notice: t(".notice")) }
+      format.json do
+        render(
+          json: {
+            status: :ok,
+            messages: [t(".notice")],
+            data: @subscription_value
+          }
+        )
       end
+    end
   end
 
   def destroy_all
-      authorize(SubscriptionValue)
-      scope.destroy_all
-      respond_to do |format|
-        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [t(".notice")],
-              data: nil
-            }
-          )
-        end
+    authorize(SubscriptionValue)
+    scope.destroy_all
+    respond_to do |format|
+      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: nil })
       end
+    end
   end
 
   def delete_all
-      authorize(SubscriptionValue)
-      scope.delete_all
-      respond_to do |format|
-        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [t(".notice")],
-              data: nil
-            }
-          )
-        end
+    authorize(SubscriptionValue)
+    scope.delete_all
+    respond_to do |format|
+      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: nil })
       end
+    end
   end
 
   private

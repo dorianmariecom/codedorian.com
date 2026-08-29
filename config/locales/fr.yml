@@ -152,6 +152,7 @@ fr:
         primary: principal ?
         user_id: utilisateur
         verified: vérifié ?
+      name_fr: nom français
       page:
         authorization: autorisation
         body_en: corps anglais
@@ -181,9 +182,6 @@ fr:
         description_en: description anglaise
         description_fr: description française
         name_en: nom anglais
-      name_fr: nom français
-      slug: identifiant
-      service_id: service
       plan_schedule:
         interval: intervalle
         plan_id: offre
@@ -214,6 +212,8 @@ fr:
         name_en: nom anglais
         name_fr: nom français
         user_id: utilisateur
+      service_id: service
+      slug: identifiant
       step:
         body_en: corps anglais
         body_fr: corps français
@@ -2606,7 +2606,6 @@ fr:
     index:
       delete_all: tout supprimer
       destroy_all: tout détruire
-      format_all: tout formater
       new: nouvelle planification
       title: planifications des offres
     model:
@@ -2750,7 +2749,6 @@ fr:
       error_message: message d'erreur
       id: identifiant
       input: entrée
-      format: formater
       jobs: tâches
       logs: logs
       new_job: nouvelle tâche
@@ -3043,14 +3041,14 @@ fr:
       delete_all: tout supprimer
       destroy_all: tout détruire
       new: nouveau service
-      plans:
-        one: "%{count} offre"
-        other: "%{count} offres"
-        zero: "%{count} offres"
       plan_fields:
         one: "%{count} champ d’offre"
         other: "%{count} champs d’offre"
         zero: "%{count} champs d’offre"
+      plans:
+        one: "%{count} offre"
+        other: "%{count} offres"
+        zero: "%{count} offres"
       service_fields:
         one: "%{count} champ de service"
         other: "%{count} champs de service"
@@ -3063,14 +3061,14 @@ fr:
         one: "%{count} étape"
         other: "%{count} étapes"
         zero: "%{count} étapes"
-      subscriptions:
-        one: "%{count} abonnement"
-        other: "%{count} abonnements"
-        zero: "%{count} abonnements"
       subscription_executions:
         one: "%{count} exécution d'abonnement"
         other: "%{count} exécutions d'abonnement"
         zero: "%{count} exécutions d'abonnement"
+      subscriptions:
+        one: "%{count} abonnement"
+        other: "%{count} abonnements"
+        zero: "%{count} abonnements"
       title: services
     model:
       to_s: service#%{id}
@@ -3403,12 +3401,6 @@ fr:
     update:
       notice: exécution d'étape mise à jour
   steps:
-    format:
-      alert: 'échec du formatage : %{message}'
-      notice: étape formatée
-    format_all:
-      alert: 'échec du formatage : %{message}'
-      notice: étapes formatées
     create:
       notice: étape créée
     delete:
@@ -3422,9 +3414,16 @@ fr:
     edit:
       submit: mettre à jour l'étape
       title: modifier l'étape
+    format:
+      alert: 'échec du formatage : %{message}'
+      notice: étape formatée
+    format_all:
+      alert: 'échec du formatage : %{message}'
+      notice: étapes formatées
     index:
       delete_all: tout supprimer
       destroy_all: tout détruire
+      format_all: tout formater
       new: nouvelle étape
       step_executions:
         one: "%{count} exécution d'étape"
@@ -3446,6 +3445,7 @@ fr:
       description_fr: description française
       destroy: détruire l'étape
       edit: modifier l'étape
+      format: formater
       id: id
       input: entrée
       logs: logs

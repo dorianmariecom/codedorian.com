@@ -11,251 +11,167 @@ class PagesController < ApplicationController
   helper_method(:page_displayed?)
 
   def index
-      authorize(Page)
+    authorize(Page)
 
-      @pages = scope.page(params[:page]).order(path: :asc, id: :asc)
+    @pages = scope.page(params[:page]).order(path: :asc, id: :asc)
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @pages
-            }
-          )
-        end
-      end
+    respond_to do |format|
+      format.html
+      format.json { render(json: { status: :ok, messages: [], data: @pages }) }
+    end
   end
 
   def show
-      if !@page.authorized?
-        raise(ActiveRecord::RecordNotFound)
-      elsif page_displayed?
-        @page.ancestors.each do |page|
-          add_breadcrumb(text: page, path: page.path)
-        end
-      else
-        add_breadcrumb(key: "pages.index", path: index_url)
-        add_breadcrumb(text: @page, path: show_url)
-
-        @versions = versions_scope.order(created_at: :desc).page(params[:page])
-        @logs = logs_scope.order(created_at: :desc).page(params[:page])
+    if !@page.authorized?
+      raise(ActiveRecord::RecordNotFound)
+    elsif page_displayed?
+      @page.ancestors.each do |page|
+        add_breadcrumb(text: page, path: page.path)
       end
+    else
+      add_breadcrumb(key: "pages.index", path: index_url)
+      add_breadcrumb(text: @page, path: show_url)
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @page
-            }
-          )
-        end
-      end
+      @versions = versions_scope.order(created_at: :desc).page(params[:page])
+      @logs = logs_scope.order(created_at: :desc).page(params[:page])
+    end
+
+    respond_to do |format|
+      format.html
+      format.json { render(json: { status: :ok, messages: [], data: @page }) }
+    end
   end
 
   def new
-      @page = authorize(scope.new(user: @user))
+    @page = authorize(scope.new(user: @user))
 
-      add_breadcrumb
+    add_breadcrumb
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @page
-            }
-          )
-        end
-      end
+    respond_to do |format|
+      format.html
+      format.json { render(json: { status: :ok, messages: [], data: @page }) }
+    end
   end
 
   def edit
-      add_breadcrumb
+    add_breadcrumb
 
-      respond_to do |format|
-        format.html
-        format.json do
-          render(
-            json: {
-              status: :ok,
-              messages: [],
-              data: @page
-            }
-          )
-        end
-      end
+    respond_to do |format|
+      format.html
+      format.json { render(json: { status: :ok, messages: [], data: @page }) }
+    end
   end
 
   def create
-      @page = authorize(scope.new(page_params))
+    @page = authorize(scope.new(page_params))
 
-      if @page.save(context: :controller)
-        log_in(@page.user)
-        @user = @page.user
-        respond_to do |format|
-          format.html { redirect_to(show_url, notice: t(".notice")) }
-          format.json do
-            render(
-              json: {
-                status: :ok,
-                messages: [t(".notice")],
-                data: @page
-              }
-            )
-          end
-        end
-      else
-        flash.now.alert = @page.alert
-        respond_to do |format|
-          format.html { render(:new, status: :unprocessable_content) }
-          format.json do
-            render(
-              json: {
-                status: :unprocessable_content,
-                messages: [@page.alert],
-                data: @page
-              },
-              status: :unprocessable_content
-            )
-          end
+    if @page.save(context: :controller)
+      log_in(@page.user)
+      @user = @page.user
+      respond_to do |format|
+        format.html { redirect_to(show_url, notice: t(".notice")) }
+        format.json do
+          render(json: { status: :ok, messages: [t(".notice")], data: @page })
         end
       end
+    else
+      flash.now.alert = @page.alert
+      respond_to do |format|
+        format.html { render(:new, status: :unprocessable_content) }
+        format.json do
+          render(
+            json: {
+              status: :unprocessable_content,
+              messages: [@page.alert],
+              data: @page
+            },
+            status: :unprocessable_content
+          )
+        end
+      end
+    end
   end
 
   def update
-      @page.assign_attributes(page_params)
+    @page.assign_attributes(page_params)
 
-      if @page.save(context: :controller)
-        log_in(@page.user)
-        @user = @page.user
-        respond_to do |format|
-          format.html { redirect_to(show_url, notice: t(".notice")) }
-          format.json do
-            render(
-              json: {
-                status: :ok,
-                messages: [t(".notice")],
-                data: @page
-              }
-            )
-          end
-        end
-      else
-        flash.now.alert = @page.alert
-        respond_to do |format|
-          format.html { render(:edit, status: :unprocessable_content) }
-          format.json do
-            render(
-              json: {
-                status: :unprocessable_content,
-                messages: [@page.alert],
-                data: @page
-              },
-              status: :unprocessable_content
-            )
-          end
+    if @page.save(context: :controller)
+      log_in(@page.user)
+      @user = @page.user
+      respond_to do |format|
+        format.html { redirect_to(show_url, notice: t(".notice")) }
+        format.json do
+          render(json: { status: :ok, messages: [t(".notice")], data: @page })
         end
       end
+    else
+      flash.now.alert = @page.alert
+      respond_to do |format|
+        format.html { render(:edit, status: :unprocessable_content) }
+        format.json do
+          render(
+            json: {
+              status: :unprocessable_content,
+              messages: [@page.alert],
+              data: @page
+            },
+            status: :unprocessable_content
+          )
+        end
+      end
+    end
   end
 
   def destroy
-      @page.destroy!
+    @page.destroy!
 
-      respond_to do |format|
-        format.html { redirect_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: @page
-
-            }
-          )
-        end
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: @page })
       end
+    end
   end
 
   def delete
-      @page.delete
+    @page.delete
 
-      respond_to do |format|
-        format.html { redirect_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: @page
-
-            }
-          )
-        end
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: @page })
       end
+    end
   end
 
   def destroy_all
-      authorize(Page)
+    authorize(Page)
 
-      scope.destroy_all
+    scope.destroy_all
 
-      respond_to do |format|
-        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: nil
-
-            }
-          )
-        end
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: nil })
       end
+    end
   end
 
   def delete_all
-      authorize(Page)
+    authorize(Page)
 
-      scope.delete_all
+    scope.delete_all
 
-      respond_to do |format|
-        format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+    respond_to do |format|
+      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
 
-        format.json do
-          render(
-            json: {
-
-              status: :ok,
-
-              messages: [t(".notice")],
-
-              data: nil
-
-            }
-          )
-        end
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: nil })
       end
+    end
   end
 
   private
