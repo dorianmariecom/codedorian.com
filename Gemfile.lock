@@ -127,7 +127,7 @@ GEM
     cmdparse (3.0.7)
     cmdstan (0.6.0)
       csv
-    code-ruby (5.0.2)
+    code-ruby (5.0.3)
       activesupport (>= 7.1.6, < 9)
       base64 (>= 0.3.0, < 1)
       bigdecimal (>= 4.1.2, < 5)
@@ -690,7 +690,7 @@ DEPENDENCIES
   bundler-audit
   capybara
   cloudflare-rails
-  code-ruby
+  code-ruby (~> 5.0)
   countries
   dorian
   dorian-arguments
