@@ -56,9 +56,19 @@ class Program < ApplicationRecord
   end
 
   def evaluate!(program_execution:)
+    program_execution.update!(
+      input: input,
+      output: nil,
+      error: nil,
+      result: nil,
+      error_class: nil,
+      error_message: nil,
+      error_backtrace: nil,
+      status: :in_progress
+    )
     context = Code::Object::Context.new
-    output = StringIO.new
-    error = StringIO.new
+    output = program_execution.stream_io(:output)
+    error = program_execution.stream_io(:error)
     result =
       Code.evaluate(
         input,

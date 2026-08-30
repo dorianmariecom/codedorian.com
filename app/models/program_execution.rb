@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ProgramExecution < ApplicationRecord
+  include(ExecutionStreamConcern)
+
   STATUSES = %w[initialized created in_progress done errored].freeze
 
   scope(:initialized, -> { where(status: :initialized) })

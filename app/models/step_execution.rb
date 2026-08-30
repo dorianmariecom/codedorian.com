@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class StepExecution < ApplicationRecord
+  include(ExecutionStreamConcern)
+
   TIMEOUT = Program::TIMEOUT
   STATUSES = SubscriptionExecution::STATUSES
   belongs_to :subscription_execution, touch: true
@@ -73,10 +75,18 @@ class StepExecution < ApplicationRecord
   def scheduled_job? = scheduled_job.present?
 
   def evaluate!
-    update!(status: :in_progress)
+    update!(
+      status: :in_progress,
+      output: nil,
+      error: nil,
+      result: nil,
+      error_class: nil,
+      error_message: nil,
+      error_backtrace: nil
+    )
     context = Code::Object::Context.new
-    output_io = StringIO.new
-    error_io = StringIO.new
+    output_io = stream_io(:output)
+    error_io = stream_io(:error)
     value =
       Code.evaluate(
         input,
