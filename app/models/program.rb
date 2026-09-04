@@ -13,7 +13,7 @@ class Program < ApplicationRecord
   has_many(:program_executions, dependent: :destroy)
   has_one(
     :program_execution,
-    -> { order(created_at: :desc) },
+    -> { order(created_at: :desc, id: :desc) },
     dependent: :destroy,
     inverse_of: :program
   )

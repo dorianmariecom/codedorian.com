@@ -7,7 +7,7 @@ class SchedulingJob < ContextJob
 
   def perform_with_context
     Program
-      .includes(:program_schedules, :program_execution, user: :time_zones)
+      .preload(user: :time_zones)
       .find_each do |program|
         perform_later(
           SchedulingProgramJob,
@@ -28,12 +28,7 @@ class SchedulingJob < ContextJob
       end
 
     Subscription
-      .includes(
-        :plan_schedules,
-        :subscription_execution,
-        service: :steps,
-        user: :time_zones
-      )
+      .preload(user: :time_zones)
       .find_each do |subscription|
         perform_later(
           SchedulingSubscriptionJob,
