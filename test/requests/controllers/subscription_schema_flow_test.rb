@@ -201,6 +201,49 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
     assert_predicate(subscription.reload, :inactive?)
   end
 
+  test "pricing uses service owner data and subscriber values" do
+    Current.with(user: users(:admin)) do
+      Datum.create!(
+        user: @service.user,
+        key: "subscription_price",
+        value: 1_200
+      )
+      @plan.update!(
+        pricing_input: <<~CODE
+          phone_number = Current.subscription.values.phone_number
+          {
+            amount_cents: Datum.value!("subscription_price") + phone_number.to_string.length,
+            amount_currency: :eur
+          }
+        CODE
+      )
+    end
+    user = users(:other_user)
+    sign_in(
+      email_addresses(:other_email).email_address,
+      passwords(:other_password).hint
+    )
+
+    assert_difference("Subscription.count", 1) do
+      post(
+        service_subscriptions_path(@service),
+        params: {
+          subscription: {
+            plan_id: @plan.id,
+            subscription_values_attributes: {
+              "0" => { key: "phone_number", value: "+33611223344" }
+            }
+          }
+        }
+      )
+    end
+
+    subscription = user.subscriptions.order(:id).last
+    assert_redirected_to(subscription_billing_path(subscription))
+    assert_equal(1_212, subscription.amount_cents)
+    assert_equal("eur", subscription.amount_currency)
+  end
+
   test "required inherited values cannot be omitted before pricing" do
     Current.with(user: users(:admin)) do
       ServiceField.create!(

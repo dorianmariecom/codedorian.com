@@ -61,7 +61,7 @@ class Plan < ApplicationRecord
 
     value =
       Current.with(
-        user: subscription.user,
+        user: service.user,
         subscription: subscription,
         plan: self,
         service: service
