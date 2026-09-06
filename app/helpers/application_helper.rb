@@ -61,11 +61,8 @@ module ApplicationHelper
           selected_locale: switched_locale,
           redirect_to:
             url_for(
-              {
-                plan_id: params[:plan_id],
-                redirect_to: params[:redirect_to],
-                locale: switched_locale
-              }
+              locale: switched_locale,
+              params: request.query_parameters
             )
         ),
       "locale_prefix" => params[:locale].present? ? "/#{params[:locale]}" : ""
