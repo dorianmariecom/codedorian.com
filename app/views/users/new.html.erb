@@ -1,9 +1,13 @@
-<%= render("users/form", submit: t(".submit")) %>
+<% if current_user? %>
+  <%= render("users/form", submit: t(".submit")) %>
+<% else %>
+  <%= render("users/registration") %>
+<% end %>
 
 <div class="p">
   <%= link_to(
     t(".log_in"),
-    new_session_path(redirect_to: params[:redirect_to]),
+    new_login_path(redirect_to: params[:redirect_to]),
     class: :link
   ) %>
 </div>

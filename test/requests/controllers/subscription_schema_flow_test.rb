@@ -8,6 +8,66 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
     @service = @plan.service
   end
 
+  test "admin can change a subscription plan from the edit form" do
+    subscription = subscriptions(:subscription)
+    replacement_plan =
+      Current.with(user: users(:admin)) do
+        Plan.create!(service: @service, slug: "replacement")
+      end
+    sign_in(
+      email_addresses(:admin_email).email_address,
+      passwords(:password).hint
+    )
+
+    get(edit_subscription_path(subscription))
+
+    assert_response(:success)
+    assert_select(
+      "select[name='subscription[plan_id]'] option[value=?]",
+      replacement_plan.id.to_s
+    )
+
+    patch(
+      subscription_path(subscription),
+      params: { subscription: { plan_id: replacement_plan.id } }
+    )
+
+    assert_redirected_to(subscription_path(subscription))
+    assert_equal(replacement_plan, subscription.reload.plan)
+  end
+
+  test "owner cannot change a subscription plan through submitted parameters" do
+    user = users(:other_user)
+    replacement_plan =
+      Current.with(user: users(:admin)) do
+        Plan.create!(service: @service, slug: "replacement")
+      end
+    subscription =
+      Current.with(user: user) do
+        Subscription.create!(user: user, plan: @plan)
+      end
+    sign_in(
+      email_addresses(:other_email).email_address,
+      passwords(:other_password).hint
+    )
+
+    patch(
+      subscription_path(subscription),
+      params: {
+        subscription: {
+          plan_id: replacement_plan.id,
+          subscription_values_attributes: {
+            "0" => { key: "phone_number", value: "+33611223344" }
+          }
+        }
+      }
+    )
+
+    assert_redirected_to(subscription_path(subscription))
+    assert_equal(@plan, subscription.reload.plan)
+    assert_equal("+33611223344", subscription.values.fetch("phone_number").value)
+  end
+
   test "user chooses a plan before loading the subscription form" do
     sign_in(
       email_addresses(:other_email).email_address,

@@ -1,5 +1,12 @@
 ---
 en:
+  session_mailer:
+    magic_link:
+      subject: your codedorian login link
+      instructions: open the link below, then press “log in” to access your account.
+      expiration: this link expires in 15 minutes. If you did not request it, you can ignore
+        this email.
+      submit: log in
   activerecord:
     attributes:
       address:
@@ -567,6 +574,8 @@ en:
       index: services
       new: new
     session:
+      new_magic_link: log in by email
+      magic_link: log in
       create: log in
       new: log in
     sessions:
@@ -2591,6 +2600,10 @@ en:
     update:
       notice: phone number updated
   plan_fields:
+    nested_form:
+      remove: remove plan schedule
+    nested:
+      add: add plan schedule
     create:
       notice: plan field created
     delete:
@@ -2679,6 +2692,8 @@ en:
     update:
       notice: plan schedule updated
   plans:
+    public_plan:
+      subscribe: subscribe
     create:
       notice: plan created
     delete:
@@ -3021,6 +3036,10 @@ en:
     update:
       notice: program updated
   service_fields:
+    nested_form:
+      remove: remove plan schedule
+    nested:
+      add: add plan schedule
     create:
       notice: service field created
     delete:
@@ -3065,6 +3084,13 @@ en:
     update:
       notice: service field updated
   services:
+    plan_comparison:
+      subscribe: subscribe
+      details: plan details
+      subscription: subscription
+      includes: what's included
+      plan: plan
+      compare_plans: compare plans
     create:
       notice: service created
     delete:
@@ -3117,6 +3143,7 @@ en:
       submit: create service
       title: new service
     show:
+      how_it_works: how it works
       body_en: english body
       body_fr: french body
       created_at: created at
@@ -3184,6 +3211,20 @@ en:
     update:
       notice: service updated
   session:
+    request_magic_link:
+      notice: if this email address belongs to an account, you will receive a login link
+        shortly.
+    new_magic_link:
+      title: log in by email
+      submit: send login link
+      password: log in with a password
+      description: receive a link to log in to your codedorian account.
+    magic_link:
+      title: log in
+      invalid: this login link is invalid or has expired. Please request a new one.
+      description: confirm your email login.
+      confirmation: log in as %{email_address}?
+      submit: log in
     create:
       notice: logged in
       wrong_email_address: wrong email address
@@ -3191,6 +3232,7 @@ en:
     destroy:
       notice: logged out
     new:
+      magic_link: log in by email
       description: sign in to manage your codedorian account.
       register: register
       submit: log in
@@ -4337,6 +4379,9 @@ en:
       log_in: log in
       submit: create user
       title: new user
+    registration:
+      email: email
+      submit: register
     show:
       address: address
       admin: admin

@@ -114,9 +114,13 @@ class SubscriptionValuesController < ApplicationController
   end
 
   def load_subscription_value
-    @subscription_value = authorize(scope.find(params.expect(:id)))
+    @subscription_value = authorize(scope.find(id))
     set_context(subscription_value: @subscription_value)
     add_breadcrumb(text: @subscription_value, path: show_url)
+  end
+
+  def id
+    params[:subscription_value_id].presence || params[:id]
   end
 
   def subscription_value_params

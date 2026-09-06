@@ -1,0 +1,50 @@
+<%= form_for(show_url) do |f| %>
+  <%= hidden_field_tag(:redirect_to, params[:redirect_to], autocomplete: :off) %>
+  <%= f.hidden_field(:locale, value: I18n.locale, autocomplete: :off) %>
+
+  <%= f.fields_for(:email_addresses, f.object.email_addresses.first || EmailAddress.new) do |email_f| %>
+    <%= email_f.hidden_field(:primary, value: true, autocomplete: :off) %>
+    <div
+      class="p"
+      data-controller="validation"
+      data-validation-trim-value="true"
+      data-validation-gender-value="feminine"
+    >
+      <%= email_f.label(:email_address, t(".email"), class: :label, data: { validation_target: :label }) %>
+      <%= email_f.email_field(
+        :email_address,
+        class: :input,
+        required: true,
+        autocomplete: "email",
+        data: { validation_target: :input, action: "validation#input" }
+      ) %>
+      <div class="text-red-600" hidden data-validation-target="error"></div>
+    </div>
+  <% end %>
+
+  <%= f.fields_for(:passwords, f.object.passwords.first || Password.new) do |password_f| %>
+    <%= password_f.hidden_field(:primary, value: true, autocomplete: :off) %>
+    <div class="p" data-controller="password">
+      <%= password_f.label(:password, class: :label, data: { password_target: :label }) %>
+      <%= password_f.password_field(
+        :password,
+        class: :input,
+        required: true,
+        autocomplete: "new-password",
+        data: { password_target: :input, action: "password#input" }
+      ) %>
+      <div class="text-red-600" hidden data-password-target="error"></div>
+    </div>
+  <% end %>
+
+  <div class="p">
+    <%= f.submit(
+      t(".submit"),
+      class: "button",
+      data: {
+        controller: "bridge--button",
+        bridge__button_title_value: t(".submit")
+      }
+    ) %>
+  </div>
+<% end %>

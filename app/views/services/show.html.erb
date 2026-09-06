@@ -58,20 +58,22 @@
   <% end %>
 <% else %>
   <% if @service.name.present? %>
-    <div class="p font-bold"><%= @service.name %></div>
+    <div class="p font-bold">
+      <p><b><%= @service.name.to_plain_text %></b></p>
+    </div>
   <% end %>
   <% if @service.description.present? %>
     <div class="p italic"><%= @service.description %></div>
   <% end %>
-  <% if @service.body.present? %>
-    <div class="p"><%= @service.body %></div>
-  <% end %>
   <% if @plans.any? %>
-    <div class="p font-bold"><%= t(".plans") %></div>
-    <%= render(partial: "plans/public_plan", collection: @plans, as: :plan) %>
+    <%= render("services/plan_comparison", plans: @plans) %>
     <% if @plans.total_pages > 1 %>
       <div class="p p--flex"><%= paginate(@plans) %></div>
     <% end %>
+  <% end %>
+  <% if @service.body.present? %>
+    <p class="p"><b><%= t(".how_it_works") %></b></p>
+    <div class="p"><%= @service.body %></div>
   <% end %>
 <% end %>
 

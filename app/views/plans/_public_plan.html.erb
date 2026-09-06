@@ -25,7 +25,7 @@
       }
     ) %>
   <%= link_to(
-    t("services.show.subscribe"),
+    t(".subscribe"),
     current_user? ? destination : new_user_path(redirect_to: destination),
     class: "button"
   ) %>

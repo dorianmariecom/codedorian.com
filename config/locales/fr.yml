@@ -1,5 +1,13 @@
 ---
 fr:
+  session_mailer:
+    magic_link:
+      subject: votre lien de connexion codedorian
+      instructions: ouvrez le lien ci-dessous, puis appuyez sur « se connecter » pour accéder
+        à votre compte.
+      expiration: ce lien expire dans 15 minutes. Si vous ne l’avez pas demandé, vous pouvez
+        ignorer cet e-mail.
+      submit: se connecter
   activerecord:
     attributes:
       address:
@@ -568,6 +576,8 @@ fr:
       index: services
       new: nouveau
     session:
+      new_magic_link: se connecter par e-mail
+      magic_link: se connecter
       create: connexion
       new: connexion
     sessions:
@@ -2595,6 +2605,10 @@ fr:
     update:
       notice: numéro de téléphone mis à jour
   plan_fields:
+    nested_form:
+      remove: supprimer la planification
+    nested:
+      add: ajouter une planification
     create:
       notice: champ d’offre créé
     delete:
@@ -2683,6 +2697,8 @@ fr:
     update:
       notice: planification mise à jour
   plans:
+    public_plan:
+      subscribe: s'abonner
     create:
       notice: offre créée
     delete:
@@ -3025,6 +3041,10 @@ fr:
     update:
       notice: programme mis à jour
   service_fields:
+    nested_form:
+      remove: supprimer la planification
+    nested:
+      add: ajouter une planification
     create:
       notice: champ de service créé
     delete:
@@ -3069,6 +3089,13 @@ fr:
     update:
       notice: champ de service modifié
   services:
+    plan_comparison:
+      subscribe: s'abonner
+      details: détails de l'offre
+      subscription: abonnement
+      includes: ce qui est inclus
+      plan: offre
+      compare_plans: comparer les offres
     create:
       notice: service créé
     delete:
@@ -3121,6 +3148,7 @@ fr:
       submit: créer le service
       title: nouveau service
     show:
+      how_it_works: comment ça marche
       body_en: corps anglais
       body_fr: corps français
       created_at: créé à
@@ -3188,6 +3216,20 @@ fr:
     update:
       notice: service mis à jour
   session:
+    request_magic_link:
+      notice: si cette adresse e-mail correspond à un compte, vous recevrez un lien de
+        connexion sous peu.
+    new_magic_link:
+      title: se connecter par e-mail
+      submit: envoyer le lien de connexion
+      password: se connecter avec un mot de passe
+      description: recevez un lien pour vous connecter à votre compte codedorian.
+    magic_link:
+      title: se connecter
+      invalid: ce lien de connexion est invalide ou a expiré. Veuillez en demander un nouveau.
+      description: confirmez votre connexion par e-mail.
+      confirmation: se connecter en tant que %{email_address} ?
+      submit: se connecter
     create:
       notice: connecté
       wrong_email_address: mauvaise adresse e-mail
@@ -3195,6 +3237,7 @@ fr:
     destroy:
       notice: déconnecté
     new:
+      magic_link: se connecter par e-mail
       description: se connecter pour gérer votre compte codedorian.
       register: s'inscrire
       submit: se connecter
@@ -4342,6 +4385,9 @@ fr:
       log_in: se connecter
       submit: créer un utilisateur
       title: nouvel utilisateur
+    registration:
+      email: email
+      submit: s'inscrire
     show:
       address: adresse
       admin: admin

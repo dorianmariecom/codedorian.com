@@ -1,0 +1,22 @@
+<p class="p">
+  <%= t(".confirmation", email_address: @magic_link_email_address.email_address) %>
+</p>
+<%= form_with(url: authenticate_magic_link_login_path) do |f| %>
+  <%= hidden_field_tag(
+    :email_address_id,
+    params[:email_address_id],
+    autocomplete: :off
+  ) %>
+  <%= hidden_field_tag(:token, params[:token], autocomplete: :off) %>
+  <%= hidden_field_tag(:redirect_to, params[:redirect_to], autocomplete: :off) %>
+  <div class="p">
+    <%= f.submit(
+      t(".submit"),
+      class: :button,
+      data: {
+        controller: "bridge--button",
+        bridge__button_title_value: t(".submit")
+      }
+    ) %>
+  </div>
+<% end %>

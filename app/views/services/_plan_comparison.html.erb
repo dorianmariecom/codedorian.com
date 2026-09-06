@@ -1,0 +1,22 @@
+<% plans.each do |plan| %>
+  <div class="p">
+    <div class="p font-bold">
+      <%= link_to(plan.name.to_plain_text.presence || plan.slug, plan, class: :link) %>
+    </div>
+    <% if plan.description.present? %>
+      <div class="p italic"><%= plan.description %></div>
+    <% end %>
+    <div class="p">
+      <% destination =
+        new_service_subscription_path(
+          plan.service,
+          subscription: { plan_id: plan.id }
+        ) %>
+      <%= link_to(
+        t(".subscribe"),
+        current_user? ? destination : new_user_path(redirect_to: destination),
+        class: "button"
+      ) %>
+    </div>
+  </div>
+<% end %>

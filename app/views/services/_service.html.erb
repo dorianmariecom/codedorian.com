@@ -1,1 +1,6 @@
-<div class="p"><%= link_to(service, service, class: :link) %></div>
+<div class="p">
+  <%= link_to(service, service, class: :link) %>
+</div>
+<% if service.description.present? %>
+  <div class="p italic"><%= service.description %></div>
+<% end %>

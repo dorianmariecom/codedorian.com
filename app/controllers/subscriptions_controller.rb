@@ -303,6 +303,7 @@ class SubscriptionsController < ApplicationController
   end
 
   def plan_id
-    params[:plan_id].presence || params.dig(:subscription, :plan_id)
+    params[:plan_id].presence ||
+      (params.dig(:subscription, :plan_id) if action_name.in?(%w[new create]))
   end
 end

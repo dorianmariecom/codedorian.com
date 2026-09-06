@@ -7,9 +7,13 @@ class PlanPolicy < ApplicationPolicy
     end
   end
 
-  def index? = true
+  def index?
+    admin? || advanced?
+  end
 
-  def show? = true
+  def show?
+    true
+  end
 
   def create?
     admin?

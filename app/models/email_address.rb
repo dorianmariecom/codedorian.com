@@ -2,6 +2,7 @@
 
 class EmailAddress < ApplicationRecord
   EMAIL_ADDRESS_REGEXP = URI::MailTo::EMAIL_REGEXP
+  MAGIC_LINK_EXPIRATION = 15.minutes
 
   belongs_to(:user, default: -> { Current.user! }, touch: true)
 
@@ -23,6 +24,22 @@ class EmailAddress < ApplicationRecord
   before_validation { self.user ||= Current.user! }
 
   before_update { not_verified! if email_address_changed? && verified? }
+
+  def self.find_by_magic_link(id, token)
+    address = find_by(id: id)
+    return unless address
+
+    signed_address = find_signed(token.to_s, purpose: address.magic_link_purpose)
+    address if signed_address == address
+  end
+
+  def magic_link_purpose
+    [:magic_login, email_address, user_id, updated_at.utc.iso8601(6)]
+  end
+
+  def magic_link_token
+    signed_id(purpose: magic_link_purpose, expires_in: MAGIC_LINK_EXPIRATION)
+  end
 
   def self.search_fields
     {

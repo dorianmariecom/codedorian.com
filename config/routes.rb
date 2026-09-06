@@ -145,6 +145,10 @@ Rails.application.routes.draw do
     patch(:time_zone, to: "users#update_time_zone")
 
     resource(:session, controller: :session, as: :login) do
+      get(:new_magic_link)
+      post(:request_magic_link)
+      get(:magic_link)
+      post(:authenticate_magic_link)
       delete(:delete)
       delete(:destroy)
     end

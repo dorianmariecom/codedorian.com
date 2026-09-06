@@ -20,7 +20,6 @@
       autocomplete: :email
     ) %>
     <div class="text-red-600" hidden data-validation-target="error"></div>
-    <div class="text-gray-600"><%= Faker::Internet.email %></div>
   </div>
 
   <div class="p" data-controller="password">
@@ -56,7 +55,6 @@
       </a>
     </div>
     <div class="text-red-600" hidden data-password-target="error"></div>
-    <div class="text-gray-600"><%= Faker::Internet.password %></div>
   </div>
 
   <div class="p">
@@ -75,6 +73,14 @@
   <%= link_to(
     t(".register"),
     new_user_path(redirect_to: params[:redirect_to]),
+    class: :link
+  ) %>
+</div>
+
+<div class="p">
+  <%= link_to(
+    t(".magic_link"),
+    new_magic_link_login_path(redirect_to: params[:redirect_to]),
     class: :link
   ) %>
 </div>

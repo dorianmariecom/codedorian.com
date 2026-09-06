@@ -114,7 +114,7 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
     assert_select("div.text-gray-600", count: 0)
   end
 
-  test "guest sees localized plans with plan links and schedules" do
+  test "guest sees localized plan summaries with plan links and subscribe buttons" do
     service = services(:service)
     plan = plans(:plan)
     Current.with(user: users(:admin)) do
@@ -131,12 +131,13 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
     get(service_path(service, locale: :fr))
 
     assert_response(:success)
+    assert_select("table", count: 0)
     assert_select("div.font-bold", text: /Nom français de l’offre/)
     assert_select("div.italic", text: /Description française de l’offre/)
-    assert_select("body", text: /Corps français de l’offre/)
+    assert_select("body", text: /Corps français de l’offre/, count: 0)
     assert_select("body", text: /English plan/, count: 0)
     assert_select("a[href=?]", plan_path(plan), text: /Nom français de l’offre/)
-    assert_select("body", text: /tous les jours à \d{1,2} h \d{2}/)
+    assert_select("body", text: /tous les jours à \d{1,2} h \d{2}/, count: 0)
     destination =
       new_service_subscription_path(
         service,
@@ -154,12 +155,13 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
     get(service_path(service, locale: :en))
 
     assert_response(:success)
+    assert_select("table", count: 0)
     assert_select("div.font-bold", text: /English plan name/)
     assert_select("div.italic", text: /English plan description/)
-    assert_select("body", text: /English plan body/)
+    assert_select("body", text: /English plan body/, count: 0)
     assert_select("body", text: /français de l’offre/, count: 0)
     assert_select("a[href=?]", plan_path(plan), text: /English plan name/)
-    assert_select("body", text: /every day at \d{1,2}:\d{2}(?:am|pm)/)
+    assert_select("body", text: /every day at \d{1,2}:\d{2}(?:am|pm)/, count: 0)
     destination =
       new_service_subscription_path(
         service,
