@@ -145,6 +145,7 @@ class SessionController < ApplicationController
   private
 
   def load_magic_link_email_address
+    no_store
     @magic_link_email_address = EmailAddress.find_by_magic_link(
       params[:email_address_id],
       params[:token]

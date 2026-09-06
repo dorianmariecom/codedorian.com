@@ -51,6 +51,7 @@ class MagicLinkTest < ActionDispatch::IntegrationTest
     params = Rack::Utils.parse_nested_query(URI.parse(url).query)
     post(authenticate_magic_link_login_path, params: params)
     assert_redirected_to(redirect_path)
+    assert_equal("no-store", response.headers["Cache-Control"])
     assert_equal(address.user_id, session[:user_id])
   end
 
@@ -174,9 +175,11 @@ class MagicLinkTest < ActionDispatch::IntegrationTest
     params = { email_address_id: id, token: token }
     get(magic_link_login_path, params: params)
     assert_redirected_to(new_magic_link_login_path)
+    assert_equal("no-store", response.headers["Cache-Control"])
     assert_nil(session[:user_id])
     post(authenticate_magic_link_login_path, params: params)
     assert_redirected_to(new_magic_link_login_path)
+    assert_equal("no-store", response.headers["Cache-Control"])
     assert_nil(session[:user_id])
   end
 end

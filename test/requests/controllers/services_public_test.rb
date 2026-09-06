@@ -31,8 +31,8 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
     get(services_path)
 
     assert_response(:success)
-    assert_select("a[href=?]", plans_path, count: 1)
     [
+      plans_path,
       steps_path,
       plan_fields_path,
       service_fields_path,
