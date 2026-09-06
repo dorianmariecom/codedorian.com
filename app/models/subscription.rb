@@ -255,16 +255,17 @@ class Subscription < ApplicationRecord
     return unless plan
 
     values =
-      subscription_values
-        .reject(&:marked_for_destruction?)
-        .index_by(&:key)
+      subscription_values.reject(&:marked_for_destruction?).index_by(&:key)
 
-    plan.fields.select(&:required?).each do |field|
-      next if values[field.key]&.value.to_s.strip.present?
+    plan
+      .fields
+      .select(&:required?)
+      .each do |field|
+        next if values[field.key]&.value.to_s.strip.present?
 
-      name = field.name&.to_plain_text.presence || field.key
-      errors.add(:base, :required_value_missing, field: name)
-    end
+        name = field.name&.to_plain_text.presence || field.key
+        errors.add(:base, :required_value_missing, field: name)
+      end
   end
 
   def initial_scheduled_at

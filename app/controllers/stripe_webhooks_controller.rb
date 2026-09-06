@@ -44,10 +44,12 @@ class StripeWebhooksController < ActionController::API
     signature_error = nil
 
     StripeBilling.webhook_secrets.each do |webhook_secret|
-      return Stripe::Webhook.construct_event(
-        request.raw_post,
-        signature,
-        webhook_secret
+      return(
+        Stripe::Webhook.construct_event(
+          request.raw_post,
+          signature,
+          webhook_secret
+        )
       )
     rescue Stripe::SignatureVerificationError => e
       signature_error = e

@@ -59,7 +59,9 @@
 <% else %>
   <% if @service.name.present? %>
     <div class="p font-bold">
-      <p><b><%= @service.name.to_plain_text %></b></p>
+      <p>
+        <b><%= @service.name.to_plain_text %></b>
+      </p>
     </div>
   <% end %>
   <% if @service.description.present? %>
@@ -72,7 +74,9 @@
     <% end %>
   <% end %>
   <% if @service.body.present? %>
-    <p class="p"><b><%= t(".how_it_works") %></b></p>
+    <p class="p">
+      <b><%= t(".how_it_works") %></b>
+    </p>
     <div class="p"><%= @service.body %></div>
   <% end %>
 <% end %>

@@ -46,7 +46,9 @@ class User < ApplicationRecord
   scope :where_email_address,
         ->(email_address) do
           joins(:email_addresses).where(
-            email_addresses: { email_address: email_address }
+            email_addresses: {
+              email_address: email_address
+            }
           )
         end
 

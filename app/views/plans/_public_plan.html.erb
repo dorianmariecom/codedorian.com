@@ -26,7 +26,13 @@
     ) %>
   <%= link_to(
     t(".subscribe"),
-    current_user? ? destination : new_user_path(redirect_to: destination),
+    (
+      if current_user?
+        destination
+      else
+        new_user_path(plan_id: plan.id, redirect_to: destination)
+      end
+    ),
     class: "button"
   ) %>
 </div>

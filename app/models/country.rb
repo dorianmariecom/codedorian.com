@@ -4,10 +4,36 @@ class Country < ApplicationRecord
   STRUCTURED_FIELDS = %w[asn company privacy abuse domains carrier].freeze
   JSON_FIELDS = [*STRUCTURED_FIELDS, "raw_payload"].freeze
   EDITABLE_FIELDS = %i[
-    ip_address name alpha2 alpha3 numeric_code hostname city region region_code
-    continent continent_code latitude longitude postal_code time_zone
-    organization anycast bogon anonymous hosting mobile satellite asn company
-    privacy abuse domains carrier raw_payload primary
+    ip_address
+    name
+    alpha2
+    alpha3
+    numeric_code
+    hostname
+    city
+    region
+    region_code
+    continent
+    continent_code
+    latitude
+    longitude
+    postal_code
+    time_zone
+    organization
+    anycast
+    bogon
+    anonymous
+    hosting
+    mobile
+    satellite
+    asn
+    company
+    privacy
+    abuse
+    domains
+    carrier
+    raw_payload
+    primary
   ].freeze
   BOOLEAN_FIELDS = {
     anycast: %w[is_anycast anycast],
@@ -47,14 +73,38 @@ class Country < ApplicationRecord
 
   def self.search_fields
     {
-      ip_address: { node: -> { arel_table[:ip_address] }, type: :string },
-      name: { node: -> { arel_table[:name] }, type: :string },
-      alpha2: { node: -> { arel_table[:alpha2] }, type: :string },
-      alpha3: { node: -> { arel_table[:alpha3] }, type: :string },
-      city: { node: -> { arel_table[:city] }, type: :string },
-      region: { node: -> { arel_table[:region] }, type: :string },
-      primary: { node: -> { arel_table[:primary] }, type: :boolean },
-      verified: { node: -> { arel_table[:verified] }, type: :boolean },
+      ip_address: {
+        node: -> { arel_table[:ip_address] },
+        type: :string
+      },
+      name: {
+        node: -> { arel_table[:name] },
+        type: :string
+      },
+      alpha2: {
+        node: -> { arel_table[:alpha2] },
+        type: :string
+      },
+      alpha3: {
+        node: -> { arel_table[:alpha3] },
+        type: :string
+      },
+      city: {
+        node: -> { arel_table[:city] },
+        type: :string
+      },
+      region: {
+        node: -> { arel_table[:region] },
+        type: :string
+      },
+      primary: {
+        node: -> { arel_table[:primary] },
+        type: :boolean
+      },
+      verified: {
+        node: -> { arel_table[:verified] },
+        type: :boolean
+      },
       **base_search_fields,
       **User.associated_search_fields
     }
@@ -91,12 +141,13 @@ class Country < ApplicationRecord
       region: geo["region"].presence || payload["region"],
       region_code: geo["region_code"].presence || payload["region_code"],
       continent: geo["continent"].presence || payload["continent"],
-      continent_code: geo["continent_code"].presence ||
-        payload["continent_code"],
+      continent_code:
+        geo["continent_code"].presence || payload["continent_code"],
       latitude: latitude,
       longitude: longitude,
-      postal_code: geo["postal_code"].presence || payload["postal"].presence ||
-        payload["postal_code"],
+      postal_code:
+        geo["postal_code"].presence || payload["postal"].presence ||
+          payload["postal_code"],
       time_zone: geo["timezone"].presence || payload["timezone"],
       organization: payload["org"].presence || payload.dig("as", "name"),
       **boolean_attributes(payload),
@@ -106,14 +157,17 @@ class Country < ApplicationRecord
   end
 
   def self.coordinates(payload:, geo:)
-    return [geo["latitude"], geo["longitude"]] if geo["latitude"].present?
+    return geo["latitude"], geo["longitude"] if geo["latitude"].present?
 
     payload["loc"].to_s.split(",", 2)
   end
 
   def self.boolean_attributes(payload)
     BOOLEAN_FIELDS.to_h do |attribute, keys|
-      [attribute, keys.lazy.map { |key| payload[key] }.find { |value| !value.nil? }]
+      [
+        attribute,
+        keys.lazy.map { |key| payload[key] }.find { |value| !value.nil? }
+      ]
     end
   end
 
@@ -133,8 +187,10 @@ class Country < ApplicationRecord
   def not_verified! = update!(verified: false)
 
   def to_s
-    Utils.join(name.presence || alpha2.presence || ip_address, id_sample).presence ||
-      t("to_s", id:)
+    Utils.join(
+      name.presence || alpha2.presence || ip_address,
+      id_sample
+    ).presence || t("to_s", id:)
   end
 
   def to_code

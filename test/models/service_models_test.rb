@@ -353,9 +353,7 @@ class ServiceModelsTest < ActiveSupport::TestCase
     plan = subscription.plan
 
     Current.with(user: subscription.user) do
-      plan.update!(
-        pricing_input: "Current.subscription.values.missing_value"
-      )
+      plan.update!(pricing_input: "Current.subscription.values.missing_value")
 
       error =
         assert_raises(StripeBilling::PricingError) do

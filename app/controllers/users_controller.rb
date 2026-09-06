@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
+  helper_method(:registration_plan)
+
   before_action { add_breadcrumb(key: "users.index", path: index_url) }
   before_action(
     :load_user,
@@ -181,9 +183,7 @@ class UsersController < ApplicationController
 
   def update
     @user.assign_attributes(user_params)
-    persist(:edit, t(".notice")) do
-      log_in(@user)
-    end
+    persist(:edit, t(".notice")) { log_in(@user) }
   end
 
   def destroy
@@ -215,6 +215,12 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def registration_plan
+    return if params[:plan_id].blank?
+
+    policy_scope(Plan).find_by(id: params.expect(:plan_id))
+  end
 
   def load_user
     @user =

@@ -1,12 +1,5 @@
 ---
 en:
-  session_mailer:
-    magic_link:
-      subject: your codedorian login link
-      instructions: open the link below, then press “log in” to access your account.
-      expiration: this link expires in 15 minutes. If you did not request it, you can ignore
-        this email.
-      submit: log in
   activerecord:
     attributes:
       address:
@@ -31,8 +24,8 @@ en:
         continent: continent
         continent_code: continent code
         domains: domains
-        hostname: hostname
         hosting: hosting?
+        hostname: hostname
         ip_address: ip address
         latitude: latitude
         longitude: longitude
@@ -409,6 +402,10 @@ en:
       edit: edit
       index: configurations
       new: new
+    countries:
+      edit: edit
+      index: countries
+      new: new
     country_code_ip_addresses:
       edit: edit
       index: country code ip addresses
@@ -574,10 +571,10 @@ en:
       index: services
       new: new
     session:
-      new_magic_link: log in by email
-      magic_link: log in
       create: log in
+      magic_link: log in
       new: log in
+      new_magic_link: log in by email
     sessions:
       edit: edit
       index: sessions
@@ -642,10 +639,6 @@ en:
       edit: edit
       index: time zones
       new: new
-    countries:
-      edit: edit
-      index: countries
-      new: new
     tokens:
       edit: edit
       index: tokens
@@ -702,6 +695,78 @@ en:
       versions: versions
     update:
       notice: configuration updated
+  countries:
+    create:
+      notice: country created
+    delete:
+      notice: country deleted
+    delete_all:
+      notice: countries deleted
+    destroy:
+      notice: country deleted
+    destroy_all:
+      notice: countries destroyed
+    edit:
+      description: update a country and its ip lookup data.
+      submit: update country
+      title: edit country
+    index:
+      delete_all: delete all
+      description: manage countries and ip lookup data.
+      destroy_all: destroy all
+      new: new country
+      title: countries
+    model:
+      to_s: country#%{id}
+    new:
+      description: add a country for a user.
+      submit: create country
+      title: new country
+    show:
+      abuse: abuse
+      alpha2: iso alpha-2
+      alpha3: iso alpha-3
+      anonymous: anonymous?
+      anycast: anycast?
+      asn: asn
+      bogon: bogon?
+      carrier: carrier
+      city: city
+      company: company
+      continent: continent
+      continent_code: continent code
+      created_at: created at
+      delete: delete country
+      description: view country and ip lookup details.
+      destroy: destroy country
+      domains: domains
+      edit: edit country
+      hosting: hosting?
+      hostname: hostname
+      id: id
+      ip_address: ip address
+      latitude: latitude
+      logs: logs
+      longitude: longitude
+      mobile: mobile?
+      name: name
+      numeric_code: iso numeric code
+      organization: organization
+      postal_code: postal code
+      primary: primary?
+      privacy: privacy
+      raw_payload: raw payload
+      region: region
+      region_code: region code
+      satellite: satellite?
+      time_zone: time zone
+      title: country
+      updated_at: updated at
+      user: user
+      verified: verified?
+      versions: versions
+    update:
+      notice: country updated
   country_code_ip_addresses:
     create:
       notice: country code ip address created
@@ -2600,10 +2665,6 @@ en:
     update:
       notice: phone number updated
   plan_fields:
-    nested_form:
-      remove: remove plan schedule
-    nested:
-      add: add plan schedule
     create:
       notice: plan field created
     delete:
@@ -2626,6 +2687,10 @@ en:
       title: plan fields
     model:
       to_s: plan_field#%{id}
+    nested:
+      add: add plan schedule
+    nested_form:
+      remove: remove plan schedule
     new:
       description: create a plan schema field.
       submit: create plan field
@@ -2692,8 +2757,6 @@ en:
     update:
       notice: plan schedule updated
   plans:
-    public_plan:
-      subscribe: subscribe
     create:
       notice: plan created
     delete:
@@ -2727,6 +2790,8 @@ en:
     new:
       submit: create plan
       title: new plan
+    public_plan:
+      subscribe: subscribe
     show:
       body_en: english body
       body_fr: french body
@@ -3036,10 +3101,6 @@ en:
     update:
       notice: program updated
   service_fields:
-    nested_form:
-      remove: remove plan schedule
-    nested:
-      add: add plan schedule
     create:
       notice: service field created
     delete:
@@ -3062,6 +3123,10 @@ en:
       title: service fields
     model:
       to_s: service_field#%{id}
+    nested:
+      add: add plan schedule
+    nested_form:
+      remove: remove plan schedule
     new:
       description: create a service schema field.
       submit: create service field
@@ -3084,13 +3149,6 @@ en:
     update:
       notice: service field updated
   services:
-    plan_comparison:
-      subscribe: subscribe
-      details: plan details
-      subscription: subscription
-      includes: what's included
-      plan: plan
-      compare_plans: compare plans
     create:
       notice: service created
     delete:
@@ -3142,8 +3200,14 @@ en:
     new:
       submit: create service
       title: new service
+    plan_comparison:
+      compare_plans: compare plans
+      details: plan details
+      includes: what's included
+      plan: plan
+      subscribe: subscribe
+      subscription: subscription
     show:
-      how_it_works: how it works
       body_en: english body
       body_fr: french body
       created_at: created at
@@ -3153,6 +3217,7 @@ en:
       description_fr: french description
       destroy: destroy service
       edit: edit service
+      how_it_works: how it works
       id: id
       logs: logs
       name_en: english name
@@ -3211,32 +3276,39 @@ en:
     update:
       notice: service updated
   session:
-    request_magic_link:
-      notice: if this email address belongs to an account, you will receive a login link
-        shortly.
-    new_magic_link:
-      title: log in by email
-      submit: send login link
-      password: log in with a password
-      description: receive a link to log in to your codedorian account.
-    magic_link:
-      title: log in
-      invalid: this login link is invalid or has expired. Please request a new one.
-      description: confirm your email login.
-      confirmation: log in as %{email_address}?
-      submit: log in
     create:
       notice: logged in
       wrong_email_address: wrong email address
       wrong_password: wrong password
     destroy:
       notice: logged out
+    magic_link:
+      confirmation: log in as %{email_address}?
+      description: confirm your email login.
+      invalid: this login link is invalid or has expired. Please request a new one.
+      submit: log in
+      title: log in
     new:
-      magic_link: log in by email
       description: sign in to manage your codedorian account.
+      magic_link: log in by email
       register: register
       submit: log in
       title: log in
+    new_magic_link:
+      description: receive a link to log in to your codedorian account.
+      password: log in with a password
+      submit: send login link
+      title: log in by email
+    request_magic_link:
+      notice: if this email address belongs to an account, you will receive a login
+        link shortly.
+  session_mailer:
+    magic_link:
+      expiration: this link expires in 15 minutes. If you did not request it, you
+        can ignore this email.
+      instructions: open the link below, then press “log in” to access your account.
+      subject: your codedorian login link
+      submit: log in
   sessions:
     create:
       notice: session created
@@ -3357,78 +3429,6 @@ en:
     search:
       placeholder: enter your search query
       submit: search
-  countries:
-    create:
-      notice: country created
-    delete:
-      notice: country deleted
-    delete_all:
-      notice: countries deleted
-    destroy:
-      notice: country deleted
-    destroy_all:
-      notice: countries destroyed
-    edit:
-      description: update a country and its ip lookup data.
-      submit: update country
-      title: edit country
-    index:
-      delete_all: delete all
-      description: manage countries and ip lookup data.
-      destroy_all: destroy all
-      new: new country
-      title: countries
-    model:
-      to_s: country#%{id}
-    new:
-      description: add a country for a user.
-      submit: create country
-      title: new country
-    show:
-      abuse: abuse
-      alpha2: iso alpha-2
-      alpha3: iso alpha-3
-      anonymous: anonymous?
-      anycast: anycast?
-      asn: asn
-      bogon: bogon?
-      carrier: carrier
-      city: city
-      company: company
-      continent: continent
-      continent_code: continent code
-      created_at: created at
-      delete: delete country
-      description: view country and ip lookup details.
-      destroy: destroy country
-      domains: domains
-      edit: edit country
-      hostname: hostname
-      hosting: hosting?
-      id: id
-      ip_address: ip address
-      latitude: latitude
-      logs: logs
-      longitude: longitude
-      mobile: mobile?
-      name: name
-      numeric_code: iso numeric code
-      organization: organization
-      postal_code: postal code
-      primary: primary?
-      privacy: privacy
-      raw_payload: raw payload
-      region: region
-      region_code: region code
-      satellite: satellite?
-      time_zone: time zone
-      updated_at: updated at
-      user: user
-      verified: verified?
-      versions: versions
-      title: country
-    update:
-      notice: country updated
   solid_cable_messages:
     create:
       notice: solid cable message created

@@ -25,11 +25,7 @@
       ) %>
     </div>
   <% else %>
-    <%= f.hidden_field(
-      :plan_id,
-      id: :subscription_selected_plan_id,
-      autocomplete: :off
-    ) %>
+    <%= f.hidden_field(:plan_id, id: :subscription_selected_plan_id, autocomplete: :off) %>
   <% end %>
 
   <% values = f.object.subscription_values.index_by(&:key) %>

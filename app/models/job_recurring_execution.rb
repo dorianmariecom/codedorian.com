@@ -80,7 +80,6 @@ class JobRecurringExecution < SolidQueue::RecurringExecution
       task_key_sample.presence || run_at_sample,
       job_sample,
       id_sample
-    ).presence ||
-      t("to_s", id:)
+    ).presence || t("to_s", id:)
   end
 end

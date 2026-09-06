@@ -29,7 +29,8 @@ class EmailAddress < ApplicationRecord
     address = find_by(id: id)
     return unless address
 
-    signed_address = find_signed(token.to_s, purpose: address.magic_link_purpose)
+    signed_address =
+      find_signed(token.to_s, purpose: address.magic_link_purpose)
     address if signed_address == address
   end
 
@@ -108,8 +109,7 @@ class EmailAddress < ApplicationRecord
     Utils.join(
       email_address_sample.presence || user_sample,
       id_sample
-    ).presence ||
-      t("to_s", id:)
+    ).presence || t("to_s", id:)
   end
 
   def to_code

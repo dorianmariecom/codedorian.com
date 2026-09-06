@@ -115,7 +115,6 @@ class Version < PaperTrail::Version
       object_changes_sample.presence || object_sample,
       item_sample,
       id_sample
-    ).presence ||
-      t("to_s", id:)
+    ).presence || t("to_s", id:)
   end
 end

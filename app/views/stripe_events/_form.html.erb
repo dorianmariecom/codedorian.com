@@ -9,7 +9,9 @@
       required: true,
       class: :input,
       autocomplete: :off,
-      data: { form_type: :other }
+      data: {
+        form_type: :other
+      }
     ) %>
   </div>
 
@@ -20,7 +22,9 @@
       required: true,
       class: :input,
       autocomplete: :off,
-      data: { form_type: :other }
+      data: {
+        form_type: :other
+      }
     ) %>
   </div>
 
@@ -33,17 +37,15 @@
       required: true,
       class: :input,
       autocomplete: :off,
-      data: { form_type: :other }
+      data: {
+        form_type: :other
+      }
     ) %>
   </div>
 
   <div class="p">
     <%= f.label(:livemode, class: :label) %>
-    <%= f.check_box(
-      :livemode,
-      autocomplete: :off,
-      data: { form_type: :other }
-    ) %>
+    <%= f.check_box(:livemode, autocomplete: :off, data: { form_type: :other }) %>
   </div>
 
   <div class="p">
@@ -53,7 +55,9 @@
       required: true,
       class: :input,
       autocomplete: :off,
-      data: { form_type: :other }
+      data: {
+        form_type: :other
+      }
     ) %>
   </div>
 
@@ -63,7 +67,9 @@
       :processed_at,
       class: :input,
       autocomplete: :off,
-      data: { form_type: :other }
+      data: {
+        form_type: :other
+      }
     ) %>
   </div>
 
@@ -73,7 +79,9 @@
       :processing_error,
       class: :input,
       autocomplete: :off,
-      data: { form_type: :other }
+      data: {
+        form_type: :other
+      }
     ) %>
   </div>
 
@@ -84,7 +92,10 @@
         :payload,
         value: payload,
         autocomplete: :off,
-        data: { editor_target: :input, form_type: :other }
+        data: {
+          editor_target: :input,
+          form_type: :other
+        }
       ) %>
       <div data-editor-target="editor"></div>
     </div>

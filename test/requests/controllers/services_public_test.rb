@@ -3,6 +3,79 @@
 require "test_helper"
 
 class ServicesPublicTest < ActionDispatch::IntegrationTest
+  test "registration shows the selected service and plan in the current language" do
+    locale = I18n.locale
+    plan = plans(:plan)
+    Current.with(user: users(:admin)) do
+      plan.service.update!(name_en: "Birthdays", name_fr: "Anniversaires")
+      plan.update!(
+        name_en: "Email",
+        name_fr: "E-mail",
+        description_en: "Birthday reminders by email for €2/month.",
+        description_fr: "Rappels d’anniversaire par e-mail pour 2 €/mois."
+      )
+    end
+    destination =
+      new_service_subscription_path(
+        plan.service,
+        locale: :en,
+        subscription: {
+          plan_id: plan.id
+        }
+      )
+
+    get(
+      new_user_path(locale: locale, plan_id: plan.id, redirect_to: destination)
+    )
+
+    assert_response(:success)
+    expected_name =
+      locale == :fr ? "Anniversaires — E-mail" : "Birthdays — Email"
+    expected_description =
+      (
+        if locale == :fr
+          "Rappels d’anniversaire par e-mail pour 2 €/mois."
+        else
+          "Birthday reminders by email for €2/month."
+        end
+      )
+    assert_select("section .font-bold", text: expected_name)
+    assert_select("h1, h2, h3, h4, h5, h6", count: 0)
+    assert_select("section", text: /#{Regexp.escape(expected_description)}/)
+    assert_select("input[name=redirect_to][value=?]", destination)
+
+    post(
+      users_path(locale: locale),
+      params: {
+        plan_id: plan.id,
+        redirect_to: destination,
+        user: {
+          locale: locale,
+          email_addresses_attributes: {
+            "0" => {
+              email_address: "invalid"
+            }
+          }
+        }
+      }
+    )
+
+    assert_response(:unprocessable_content)
+    assert_select("section .font-bold", count: 1)
+    assert_select("input[name=plan_id][value=?]", plan.id.to_s)
+  end
+
+  test "registration ignores missing or invalid subscription context" do
+    locale = I18n.locale
+    [nil, "0"].each do |plan_id|
+      get(new_user_path(locale: locale, plan_id: plan_id))
+
+      assert_response(:success)
+      assert_select("section", count: 0)
+      assert_select("input[type=email][required]", count: 1)
+    end
+  end
+
   test "services index links every resource an advanced user can index" do
     user = users(:other_user)
     user.update!(interface: :advanced)
@@ -77,7 +150,7 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
       )
     assert_select(
       "a.button[href=?]",
-      new_user_path(locale: :en, redirect_to: destination),
+      new_user_path(locale: :en, plan_id: plan.id, redirect_to: destination),
       text: "subscribe"
     )
   end
@@ -148,7 +221,7 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
       )
     assert_select(
       "a.button[href=?]",
-      new_user_path(locale: :fr, redirect_to: destination),
+      new_user_path(locale: :fr, plan_id: plan.id, redirect_to: destination),
       text: "s'abonner"
     )
 
@@ -172,7 +245,7 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
       )
     assert_select(
       "a.button[href=?]",
-      new_user_path(locale: :en, redirect_to: destination),
+      new_user_path(locale: :en, plan_id: plan.id, redirect_to: destination),
       text: "subscribe"
     )
   end

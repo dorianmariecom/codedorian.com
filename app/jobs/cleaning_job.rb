@@ -28,9 +28,11 @@ class CleaningJob < ContextJob
 
   def obsolete(model, parent_key)
     latest =
-      model
-        .select("DISTINCT ON (#{parent_key}) id")
-        .order(parent_key, created_at: :desc, id: :desc)
+      model.select("DISTINCT ON (#{parent_key}) id").order(
+        parent_key,
+        created_at: :desc,
+        id: :desc
+      )
 
     model.where(status: %w[done errored]).where.not(id: latest)
   end

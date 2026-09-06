@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class CountryCodeIpAddress < ApplicationRecord
-  class LookupError < StandardError; end
+  class LookupError < StandardError
+  end
 
   validates :ip_address, uniqueness: true, presence: true
   validate { can!(:update, self) }
@@ -38,8 +39,9 @@ class CountryCodeIpAddress < ApplicationRecord
 
     json = JSON.parse(response.body)
     self.country_code =
-      json.dig("geo", "country_code").presence || json["country_code"].presence ||
-        json["country"].presence || PhoneNumber::DEFAULT_COUNTRY_CODE
+      json.dig("geo", "country_code").presence ||
+        json["country_code"].presence || json["country"].presence ||
+        PhoneNumber::DEFAULT_COUNTRY_CODE
     self.raw_payload = json
     self.looked_up_at = Time.current
     self.lookup_enqueued_at = nil

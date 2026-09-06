@@ -28,22 +28,34 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       assert_select("input[type=email][required]", count: 1)
       assert_select("input[type=password][required]", count: 1)
       assert_select("select, input[type=checkbox]", count: 0)
-      assert_select("input[type=submit][value=?]", I18n.t("users.registration.submit"))
+      assert_select(
+        "input[type=submit][value=?]",
+        I18n.t("users.registration.submit")
+      )
     end
 
     assert_difference("User.count", 1) do
-      post(users_path, params: {
-             redirect_to: destination,
-        user: {
-          locale: I18n.locale,
-          email_addresses_attributes: {
-            "0" => { email_address: "registration@example.com", primary: "true" }
-          },
-          passwords_attributes: {
-            "0" => { password: "registration-password", primary: "true" }
+      post(
+        users_path,
+        params: {
+          redirect_to: destination,
+          user: {
+            locale: I18n.locale,
+            email_addresses_attributes: {
+              "0" => {
+                email_address: "registration@example.com",
+                primary: "true"
+              }
+            },
+            passwords_attributes: {
+              "0" => {
+                password: "registration-password",
+                primary: "true"
+              }
+            }
           }
         }
-           })
+      )
     end
 
     assert_redirected_to(destination)
@@ -61,17 +73,31 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "invalid guest registration keeps both simple fields" do
     delete(login_path)
-    post(users_path, params: {
-           user: {
-             email_addresses_attributes: { "0" => { email_address: "invalid" } },
-             passwords_attributes: { "0" => { password: "" } }
-           }
-         })
+    post(
+      users_path,
+      params: {
+        user: {
+          email_addresses_attributes: {
+            "0" => {
+              email_address: "invalid"
+            }
+          },
+          passwords_attributes: {
+            "0" => {
+              password: ""
+            }
+          }
+        }
+      }
+    )
 
     assert_response(:unprocessable_content)
     assert_select("input[type=email][value=invalid]", count: 1)
     assert_select("input[type=password][required]", count: 1)
-    assert_select("input[name*='[hint]'], select[name='user[interface]']", count: 0)
+    assert_select(
+      "input[name*='[hint]'], select[name='user[interface]']",
+      count: 0
+    )
   end
 
   test "invalid create renders validation errors without setting an unsaved current user" do

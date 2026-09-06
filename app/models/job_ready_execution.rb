@@ -80,7 +80,6 @@ class JobReadyExecution < SolidQueue::ReadyExecution
       queue_name_sample.presence || priority_sample,
       job_sample,
       id_sample
-    ).presence ||
-      t("to_s", id:)
+    ).presence || t("to_s", id:)
   end
 end

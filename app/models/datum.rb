@@ -66,7 +66,6 @@ class Datum < ApplicationRecord
     Utils.join(
       key_sample.presence || value_sample.presence || user_sample,
       id_sample
-    ).presence ||
-      t("to_s", id:)
+    ).presence || t("to_s", id:)
   end
 end

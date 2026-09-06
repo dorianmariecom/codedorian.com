@@ -29,7 +29,11 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
 
     patch(
       subscription_path(subscription),
-      params: { subscription: { plan_id: replacement_plan.id } }
+      params: {
+        subscription: {
+          plan_id: replacement_plan.id
+        }
+      }
     )
 
     assert_redirected_to(subscription_path(subscription))
@@ -43,9 +47,7 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
         Plan.create!(service: @service, slug: "replacement")
       end
     subscription =
-      Current.with(user: user) do
-        Subscription.create!(user: user, plan: @plan)
-      end
+      Current.with(user: user) { Subscription.create!(user: user, plan: @plan) }
     sign_in(
       email_addresses(:other_email).email_address,
       passwords(:other_password).hint
@@ -57,7 +59,10 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
         subscription: {
           plan_id: replacement_plan.id,
           subscription_values_attributes: {
-            "0" => { key: "phone_number", value: "+33611223344" }
+            "0" => {
+              key: "phone_number",
+              value: "+33611223344"
+            }
           }
         }
       }
@@ -65,7 +70,10 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to(subscription_path(subscription))
     assert_equal(@plan, subscription.reload.plan)
-    assert_equal("+33611223344", subscription.values.fetch("phone_number").value)
+    assert_equal(
+      "+33611223344",
+      subscription.values.fetch("phone_number").value
+    )
   end
 
   test "user chooses a plan before loading the subscription form" do
@@ -128,10 +136,7 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
       "form[method='get'][action=?]",
       new_service_subscription_path(@service)
     )
-    assert_select(
-      "select#subscription_plan_id option[value=?]",
-      @plan.id.to_s
-    )
+    assert_select("select#subscription_plan_id option[value=?]", @plan.id.to_s)
     assert_select(
       "select#subscription_plan_id option[value=?]",
       other_plan.id.to_s,
@@ -149,14 +154,10 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
         }
       )
 
-    Current.with(user: users(:admin)) do
-      @plan.update!(
-        pricing_input: <<~CODE
+    Current.with(user: users(:admin)) { @plan.update!(pricing_input: <<~CODE) }
           phone_number = Current.subscription.values.phone_number
           { amount_cents: 1000, amount_currency: "eur" }
         CODE
-      )
-    end
 
     counts = [User.count, EmailAddress.count, Password.count]
     post(
@@ -268,15 +269,13 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
         key: "subscription_price",
         value: 1_200
       )
-      @plan.update!(
-        pricing_input: <<~CODE
+      @plan.update!(pricing_input: <<~CODE)
           phone_number = Current.subscription.values.phone_number
           {
             amount_cents: Datum.value!("subscription_price") + phone_number.to_string.length,
             amount_currency: :eur
           }
         CODE
-      )
     end
     user = users(:other_user)
     sign_in(
@@ -291,7 +290,10 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
           subscription: {
             plan_id: @plan.id,
             subscription_values_attributes: {
-              "0" => { key: "phone_number", value: "+33611223344" }
+              "0" => {
+                key: "phone_number",
+                value: "+33611223344"
+              }
             }
           }
         }
@@ -315,15 +317,13 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
         position: 10,
         required: true
       )
-      @plan.update!(
-        pricing_input: <<~CODE.squish
+      @plan.update!(pricing_input: <<~CODE.squish)
           {
             amount_cents:
               Current.subscription.values.x_username.to_string.length * 100,
             amount_currency: "eur"
           }
         CODE
-      )
     end
 
     post(

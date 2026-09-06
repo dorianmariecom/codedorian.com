@@ -156,9 +156,7 @@ class Log < ApplicationRecord
   end
 
   def to_s
-    Utils.join(
-      context_sample.presence || message_sample,
-      id_sample
-    ).presence || t("to_s", id:)
+    Utils.join(context_sample.presence || message_sample, id_sample).presence ||
+      t("to_s", id:)
   end
 end

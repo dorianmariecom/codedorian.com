@@ -8,14 +8,28 @@
         {},
         class: :input,
         autocomplete: :off,
-        data: { form_type: :other }
+        data: {
+          form_type: :other
+        }
       ) %>
     </div>
   <% end %>
 
   <% %i[
-    ip_address name alpha2 alpha3 numeric_code hostname city region region_code
-    continent continent_code postal_code time_zone organization
+    ip_address
+    name
+    alpha2
+    alpha3
+    numeric_code
+    hostname
+    city
+    region
+    region_code
+    continent
+    continent_code
+    postal_code
+    time_zone
+    organization
   ].each do |attribute| %>
     <div class="p">
       <%= f.label(attribute, class: :label) %>
@@ -24,7 +38,9 @@
         required: attribute == :ip_address,
         class: :input,
         autocomplete: :off,
-        data: { form_type: :other }
+        data: {
+          form_type: :other
+        }
       ) %>
     </div>
   <% end %>
@@ -37,7 +53,9 @@
         step: :any,
         class: :input,
         autocomplete: :off,
-        data: { form_type: :other }
+        data: {
+          form_type: :other
+        }
       ) %>
     </div>
   <% end %>
@@ -49,7 +67,9 @@
         attribute,
         class: :input,
         autocomplete: :off,
-        data: { form_type: :other }
+        data: {
+          form_type: :other
+        }
       ) %>
     </div>
   <% end %>
@@ -62,7 +82,9 @@
         value: JSON.pretty_generate(f.object.public_send(attribute)),
         class: :input,
         autocomplete: :off,
-        data: { form_type: :other }
+        data: {
+          form_type: :other
+        }
       ) %>
     </div>
   <% end %>
@@ -74,7 +96,9 @@
         :verified,
         class: :input,
         autocomplete: :off,
-        data: { form_type: :other }
+        data: {
+          form_type: :other
+        }
       ) %>
     </div>
   <% end %>

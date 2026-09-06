@@ -72,7 +72,7 @@
 <div class="p">
   <%= link_to(
     t(".register"),
-    new_user_path(redirect_to: params[:redirect_to]),
+    new_user_path(plan_id: params[:plan_id], redirect_to: params[:redirect_to]),
     class: :link
   ) %>
 </div>
@@ -80,7 +80,10 @@
 <div class="p">
   <%= link_to(
     t(".magic_link"),
-    new_magic_link_login_path(redirect_to: params[:redirect_to]),
+    new_magic_link_login_path(
+      plan_id: params[:plan_id],
+      redirect_to: params[:redirect_to]
+    ),
     class: :link
   ) %>
 </div>

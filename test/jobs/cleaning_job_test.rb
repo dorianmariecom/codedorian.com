@@ -29,10 +29,9 @@ class CleaningJobTest < ActiveJob::TestCase
       latest = copy(original, created_at: first.created_at)
       backdated = copy(original, created_at: original.created_at - 1.day)
       other = nil
-      other_parent = original.is_a?(ProgramExecution) ? programs(:other_program) : nil
-      if other_parent
-        other = copy(original, program_id: other_parent.id)
-      end
+      other_parent =
+        original.is_a?(ProgramExecution) ? programs(:other_program) : nil
+      other = copy(original, program_id: other_parent.id) if other_parent
 
       CleaningJob.perform_now
 
@@ -48,11 +47,12 @@ class CleaningJobTest < ActiveJob::TestCase
     original = subscription_executions(:subscription_execution)
     latest = copy(original, created_at: original.created_at + 1.day)
     old_step = step_executions(:step_execution)
-    latest_step = copy(
-      old_step,
-      subscription_execution_id: latest.id,
-      created_at: old_step.created_at + 1.day
-    )
+    latest_step =
+      copy(
+        old_step,
+        subscription_execution_id: latest.id,
+        created_at: old_step.created_at + 1.day
+      )
 
     CleaningJob.perform_now
 
@@ -76,7 +76,8 @@ class CleaningJobTest < ActiveJob::TestCase
   test "preserves unfinished executions until they finish" do
     original = program_executions(:program_execution)
     original.update_columns(status: "in_progress")
-    latest = copy(original, status: "done", created_at: original.created_at + 1.day)
+    latest =
+      copy(original, status: "done", created_at: original.created_at + 1.day)
 
     CleaningJob.perform_now
     assert(ProgramExecution.exists?(original.id))
@@ -91,10 +92,11 @@ class CleaningJobTest < ActiveJob::TestCase
   private
 
   def copy(record, **attributes)
-    result = record.class.insert_all!(
-      [record.attributes.except("id").merge(attributes.stringify_keys)],
-      returning: %w[id]
-    )
+    result =
+      record.class.insert_all!(
+        [record.attributes.except("id").merge(attributes.stringify_keys)],
+        returning: %w[id]
+      )
     record.class.find(result.rows.first.first)
   end
 

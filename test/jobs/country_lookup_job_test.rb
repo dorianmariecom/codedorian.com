@@ -10,8 +10,11 @@ class CountryLookupJobTest < ActiveJob::TestCase
     CountryLookupJob.perform_now(
       user:,
       ip_address:,
-      current: { user: user },
-      context: {}
+      current: {
+        user: user
+      },
+      context: {
+      }
     )
 
     lookup = CountryCodeIpAddress.find_by!(ip_address:)
@@ -28,14 +31,20 @@ class CountryLookupJobTest < ActiveJob::TestCase
     CountryCodeIpAddress.create!(
       ip_address:,
       country_code: "FR",
-      raw_payload: { ip: ip_address, country: "FR" }
+      raw_payload: {
+        ip: ip_address,
+        country: "FR"
+      }
     )
 
     CountryLookupJob.perform_now(
       user:,
       ip_address:,
-      current: { user: user },
-      context: {}
+      current: {
+        user: user
+      },
+      context: {
+      }
     )
 
     assert_not_requested(:get, /ipinfo\.io/)

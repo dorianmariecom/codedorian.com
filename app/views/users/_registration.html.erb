@@ -1,8 +1,26 @@
+<% if (plan = registration_plan) %>
+  <section
+    class="p"
+    aria-label="<%= plan.name.to_plain_text.presence || plan.slug %>"
+  >
+    <div class="p font-bold">
+      <%= plan.service.name.to_plain_text %> — <%= plan.name.to_plain_text.presence || plan.slug %>
+    </div>
+    <% if plan.description.present? %>
+      <div class="p italic"><%= plan.description %></div>
+    <% end %>
+  </section>
+<% end %>
+
 <%= form_for(show_url) do |f| %>
+  <%= hidden_field_tag(:plan_id, params[:plan_id], autocomplete: :off) %>
   <%= hidden_field_tag(:redirect_to, params[:redirect_to], autocomplete: :off) %>
   <%= f.hidden_field(:locale, value: I18n.locale, autocomplete: :off) %>
 
-  <%= f.fields_for(:email_addresses, f.object.email_addresses.first || EmailAddress.new) do |email_f| %>
+  <%= f.fields_for(
+    :email_addresses,
+    f.object.email_addresses.first || EmailAddress.new
+  ) do |email_f| %>
     <%= email_f.hidden_field(:primary, value: true, autocomplete: :off) %>
     <div
       class="p"
@@ -10,13 +28,23 @@
       data-validation-trim-value="true"
       data-validation-gender-value="feminine"
     >
-      <%= email_f.label(:email_address, t(".email"), class: :label, data: { validation_target: :label }) %>
+      <%= email_f.label(
+        :email_address,
+        t(".email"),
+        class: :label,
+        data: {
+          validation_target: :label
+        }
+      ) %>
       <%= email_f.email_field(
         :email_address,
         class: :input,
         required: true,
         autocomplete: "email",
-        data: { validation_target: :input, action: "validation#input" }
+        data: {
+          validation_target: :input,
+          action: "validation#input"
+        }
       ) %>
       <div class="text-red-600" hidden data-validation-target="error"></div>
     </div>
@@ -31,7 +59,10 @@
         class: :input,
         required: true,
         autocomplete: "new-password",
-        data: { password_target: :input, action: "password#input" }
+        data: {
+          password_target: :input,
+          action: "password#input"
+        }
       ) %>
       <div class="text-red-600" hidden data-password-target="error"></div>
     </div>

@@ -210,13 +210,21 @@ class ApplicationController < ActionController::Base
           payload: lookup.raw_payload
         )
     elsif lookup.lookup_enqueued_at.blank? ||
-        lookup.lookup_enqueued_at < 10.minutes.ago
+          lookup.lookup_enqueued_at < 10.minutes.ago
       lookup.update_columns(lookup_enqueued_at: Time.current)
       perform_later(
         CountryLookupJob,
-        arguments: { user: current_user, ip_address: request.ip },
-        current: { user: current_user },
-        context: { user: current_user, ip_address: request.ip }
+        arguments: {
+          user: current_user,
+          ip_address: request.ip
+        },
+        current: {
+          user: current_user
+        },
+        context: {
+          user: current_user,
+          ip_address: request.ip
+        }
       )
     end
   rescue ActiveRecord::RecordNotUnique
@@ -482,9 +490,7 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.html { redirect_to(redirect_url, notice: notice) }
       format.json do
-        render(
-          json: { status: :ok, messages: [notice], data: model_instance }
-        )
+        render(json: { status: :ok, messages: [notice], data: model_instance })
       end
     end
   end
@@ -512,9 +518,7 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.html { redirect_to(redirect_url, notice: notice) }
       format.json do
-        render(
-          json: { status: :ok, messages: [notice], data: model_instance }
-        )
+        render(json: { status: :ok, messages: [notice], data: model_instance })
       end
     end
   end

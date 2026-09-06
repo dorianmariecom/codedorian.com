@@ -49,17 +49,13 @@ class GuestsController < ApplicationController
     @guest = authorize(scope.new(guest_params.merge(id: nil)))
 
     Current.with(guest: @guest) do
-      persist(:new, t(".notice")) do
-        log_in_guest(@guest)
-      end
+      persist(:new, t(".notice")) { log_in_guest(@guest) }
     end
   end
 
   def update
     @guest.assign_attributes(guest_params)
-    persist(:edit, t(".notice")) do
-      log_in_guest(@guest)
-    end
+    persist(:edit, t(".notice")) { log_in_guest(@guest) }
   end
 
   def destroy

@@ -51,7 +51,9 @@
     partial: "versions/version",
     collection: @versions,
     as: :version,
-    locals: { nested: [] }
+    locals: {
+      nested: []
+    }
   ) %>
 <% end %>
 
@@ -61,6 +63,8 @@
     partial: "logs/log",
     collection: @logs,
     as: :log,
-    locals: { nested: [] }
+    locals: {
+      nested: []
+    }
   ) %>
 <% end %>

@@ -11,8 +11,9 @@ module ExecutionStreamConcern
 
   def append_to_stream!(channel, content)
     channel = channel.to_s
-    raise ArgumentError, "invalid stream channel: #{channel}" unless
-      channel.in?(STREAM_CHANNELS)
+    unless channel.in?(STREAM_CHANNELS)
+      raise ArgumentError, "invalid stream channel: #{channel}"
+    end
 
     content = content.to_s
     return if content.empty?
@@ -21,7 +22,8 @@ module ExecutionStreamConcern
     column = connection.quote_column_name(channel)
     updated_at = connection.quote_column_name(:updated_at)
     updated =
-      self.class
+      self
+        .class
         .where(id: id)
         .update_all(
           [

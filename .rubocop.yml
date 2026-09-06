@@ -4,7 +4,7 @@ AllCops:
   - "**/node_modules/**/*"
   - "**/vendor/**/*"
   - "**/db/schema.rb"
-  - "tmp/**/*"
+  - tmp/**/*
   NewCops: enable
   TargetRubyVersion: 4.0
 Layout/ClosingHeredocIndentation:

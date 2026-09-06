@@ -15,18 +15,20 @@ class SessionController < ApplicationController
 
   def request_magic_link
     addresses = EmailAddress.where(email_address: email_address_param).to_a
-    addresses.uniq(&:user_id).each do |address|
-      url =
-        magic_link_login_url(
-          email_address_id: address.id,
-          token: address.magic_link_token,
-          redirect_to: requested_redirect_path
-        )
-      SessionMailer.magic_link(
-        email_address: address.email_address,
-        url: url
-      ).deliver_later
-    end
+    addresses
+      .uniq(&:user_id)
+      .each do |address|
+        url =
+          magic_link_login_url(
+            email_address_id: address.id,
+            token: address.magic_link_token,
+            redirect_to: requested_redirect_path
+          )
+        SessionMailer.magic_link(
+          email_address: address.email_address,
+          url: url
+        ).deliver_later
+      end
 
     redirect_to(new_magic_link_login_path, notice: t(".notice"))
   end
@@ -64,9 +66,9 @@ class SessionController < ApplicationController
     add_breadcrumb
 
     @users =
-      User
-        .includes(:passwords, :email_addresses)
-        .where_email_address(email_address_param)
+      User.includes(:passwords, :email_addresses).where_email_address(
+        email_address_param
+      )
 
     @user =
       @users.detect do |user|
@@ -146,10 +148,8 @@ class SessionController < ApplicationController
 
   def load_magic_link_email_address
     no_store
-    @magic_link_email_address = EmailAddress.find_by_magic_link(
-      params[:email_address_id],
-      params[:token]
-    )
+    @magic_link_email_address =
+      EmailAddress.find_by_magic_link(params[:email_address_id], params[:token])
     return true if @magic_link_email_address
 
     redirect_to(

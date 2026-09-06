@@ -6,7 +6,11 @@
   <div class="p">
     <div class="text-gray-600"><%= t(".subscription") %></div>
     <div class="font-bold">
-      <%= link_to(@stripe_invoice.subscription, @stripe_invoice.subscription, class: :link) %>
+      <%= link_to(
+        @stripe_invoice.subscription,
+        @stripe_invoice.subscription,
+        class: :link
+      ) %>
     </div>
   </div>
 <% end %>
@@ -67,7 +71,9 @@
     partial: "versions/version",
     collection: @versions,
     as: :version,
-    locals: { nested: [] }
+    locals: {
+      nested: []
+    }
   ) %>
 <% end %>
 
@@ -77,6 +83,8 @@
     partial: "logs/log",
     collection: @logs,
     as: :log,
-    locals: { nested: [] }
+    locals: {
+      nested: []
+    }
   ) %>
 <% end %>

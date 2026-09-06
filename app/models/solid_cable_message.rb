@@ -29,9 +29,7 @@ class SolidCableMessage < SolidCable::Message
   end
 
   def to_s
-    Utils.join(
-      channel_sample.presence || payload_sample,
-      id_sample
-    ).presence || t("to_s", id:)
+    Utils.join(channel_sample.presence || payload_sample, id_sample).presence ||
+      t("to_s", id:)
   end
 end

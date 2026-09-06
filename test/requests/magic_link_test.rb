@@ -70,7 +70,9 @@ class MagicLinkTest < ActionDispatch::IntegrationTest
         post(
           request_magic_link_login_path,
           params: {
-            session: { email_address: address.email_address },
+            session: {
+              email_address: address.email_address
+            },
             redirect_to: redirect_path
           }
         )
@@ -80,23 +82,36 @@ class MagicLinkTest < ActionDispatch::IntegrationTest
     assert_equal(I18n.t("session.request_magic_link.notice"), flash[:notice])
     assert_nil(session[:user_id])
 
-    user_ids = ActionMailer::Base.deliveries.last(2).map do |mail|
-      assert_equal([address.email_address], mail.to)
-      assert_equal(I18n.t("session_mailer.magic_link.subject"), mail.subject)
-      url = mail.text_part.body.decoded.lines.map(&:strip).find do |line|
-        line.start_with?(Current.base_url)
-      end
-      assert(url)
-      params = Rack::Utils.parse_nested_query(URI.parse(url).query)
-      assert_equal(redirect_path, params["redirect_to"])
-      assert_equal(link_path, URI.parse(url).path)
-      linked_address = EmailAddress.find_by_magic_link(
-        params["email_address_id"],
-        params["token"]
-      )
-      assert(linked_address)
-      linked_address.user_id
-    end
+    user_ids =
+      ActionMailer::Base
+        .deliveries
+        .last(2)
+        .map do |mail|
+          assert_equal([address.email_address], mail.to)
+          assert_equal(
+            I18n.t("session_mailer.magic_link.subject"),
+            mail.subject
+          )
+          url =
+            mail
+              .text_part
+              .body
+              .decoded
+              .lines
+              .map(&:strip)
+              .find { |line| line.start_with?(Current.base_url) }
+          assert(url)
+          params = Rack::Utils.parse_nested_query(URI.parse(url).query)
+          assert_equal(redirect_path, params["redirect_to"])
+          assert_equal(link_path, URI.parse(url).path)
+          linked_address =
+            EmailAddress.find_by_magic_link(
+              params["email_address_id"],
+              params["token"]
+            )
+          assert(linked_address)
+          linked_address.user_id
+        end
     assert_equal([address.user_id, other_address.user_id].sort, user_ids.sort)
   end
 

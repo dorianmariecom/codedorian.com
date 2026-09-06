@@ -128,7 +128,10 @@ class StripeWebhooksControllerTest < ActionDispatch::IntegrationTest
     }.to_json
   end
 
-  def signature_for(payload, webhook_secret: Config.stripe.webhook_secrets.first)
+  def signature_for(
+    payload,
+    webhook_secret: Config.stripe.webhook_secrets.first
+  )
     timestamp = Time.current
     signature =
       Stripe::Webhook::Signature.compute_signature(

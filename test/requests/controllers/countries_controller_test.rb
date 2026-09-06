@@ -57,7 +57,10 @@ class CountriesControllerTest < ActionDispatch::IntegrationTest
     CountryCodeIpAddress.create!(
       ip_address: "127.0.0.1",
       country_code: "FR",
-      raw_payload: { ip: "127.0.0.1", country: "FR" }
+      raw_payload: {
+        ip: "127.0.0.1",
+        country: "FR"
+      }
     )
 
     get(user_path(@admin))
@@ -102,7 +105,11 @@ class CountriesControllerTest < ActionDispatch::IntegrationTest
 
     patch(
       country_path(countries(:country)),
-      params: { country: { city: "Lyon" } }
+      params: {
+        country: {
+          city: "Lyon"
+        }
+      }
     )
 
     assert_redirected_to(root_path)

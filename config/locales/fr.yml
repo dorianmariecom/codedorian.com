@@ -1,13 +1,5 @@
 ---
 fr:
-  session_mailer:
-    magic_link:
-      subject: votre lien de connexion codedorian
-      instructions: ouvrez le lien ci-dessous, puis appuyez sur « se connecter » pour accéder
-        à votre compte.
-      expiration: ce lien expire dans 15 minutes. Si vous ne l’avez pas demandé, vous pouvez
-        ignorer cet e-mail.
-      submit: se connecter
   activerecord:
     attributes:
       address:
@@ -32,8 +24,8 @@ fr:
         continent: continent
         continent_code: code continent
         domains: domaines
-        hostname: nom d'hôte
         hosting: hébergement ?
+        hostname: nom d'hôte
         ip_address: adresse ip
         latitude: latitude
         longitude: longitude
@@ -411,6 +403,10 @@ fr:
       edit: modifier
       index: configurations
       new: nouvelle
+    countries:
+      edit: modifier
+      index: pays
+      new: nouveau
     country_code_ip_addresses:
       edit: modifier
       index: code pay adresse ip
@@ -576,10 +572,10 @@ fr:
       index: services
       new: nouveau
     session:
-      new_magic_link: se connecter par e-mail
-      magic_link: se connecter
       create: connexion
+      magic_link: se connecter
       new: connexion
+      new_magic_link: se connecter par e-mail
     sessions:
       edit: modifier
       index: sessions
@@ -644,10 +640,6 @@ fr:
       edit: modifier
       index: fuseaux horaires
       new: nouveau
-    countries:
-      edit: modifier
-      index: pays
-      new: nouveau
     tokens:
       edit: modifier
       index: jetons
@@ -704,6 +696,78 @@ fr:
       versions: versions
     update:
       notice: configuration mise à jour
+  countries:
+    create:
+      notice: pays créé
+    delete:
+      notice: pays supprimé
+    delete_all:
+      notice: pays supprimés
+    destroy:
+      notice: pays supprimé
+    destroy_all:
+      notice: pays détruits
+    edit:
+      description: mettre à jour un pays et ses données ip.
+      submit: mettre à jour le pays
+      title: modifier le pays
+    index:
+      delete_all: supprimer tout
+      description: gérer les pays et les données ip.
+      destroy_all: détruire tout
+      new: nouveau pays
+      title: pays
+    model:
+      to_s: pays#%{id}
+    new:
+      description: ajouter un pays pour un utilisateur.
+      submit: créer le pays
+      title: nouveau pays
+    show:
+      abuse: abus
+      alpha2: iso alpha-2
+      alpha3: iso alpha-3
+      anonymous: anonyme ?
+      anycast: anycast ?
+      asn: asn
+      bogon: bogon ?
+      carrier: opérateur
+      city: ville
+      company: entreprise
+      continent: continent
+      continent_code: code continent
+      created_at: créé à
+      delete: supprimer le pays
+      description: voir les détails du pays et de la recherche ip.
+      destroy: détruire le pays
+      domains: domaines
+      edit: modifier le pays
+      hosting: hébergement ?
+      hostname: nom d'hôte
+      id: identifiant
+      ip_address: adresse ip
+      latitude: latitude
+      logs: logs
+      longitude: longitude
+      mobile: mobile ?
+      name: nom
+      numeric_code: code numérique iso
+      organization: organisation
+      postal_code: code postal
+      primary: principal ?
+      privacy: confidentialité
+      raw_payload: données brutes
+      region: région
+      region_code: code région
+      satellite: satellite ?
+      time_zone: fuseau horaire
+      title: pays
+      updated_at: mis à jour à
+      user: utilisateur
+      verified: vérifié ?
+      versions: versions
+    update:
+      notice: pays mis à jour
   country_code_ip_addresses:
     create:
       notice: code pays adresse ip créée
@@ -2605,10 +2669,6 @@ fr:
     update:
       notice: numéro de téléphone mis à jour
   plan_fields:
-    nested_form:
-      remove: supprimer la planification
-    nested:
-      add: ajouter une planification
     create:
       notice: champ d’offre créé
     delete:
@@ -2631,6 +2691,10 @@ fr:
       title: champs d’offre
     model:
       to_s: champ_offre#%{id}
+    nested:
+      add: ajouter une planification
+    nested_form:
+      remove: supprimer la planification
     new:
       description: créer un champ du schéma d’offre.
       submit: créer le champ d’offre
@@ -2697,8 +2761,6 @@ fr:
     update:
       notice: planification mise à jour
   plans:
-    public_plan:
-      subscribe: s'abonner
     create:
       notice: offre créée
     delete:
@@ -2732,6 +2794,8 @@ fr:
     new:
       submit: créer l'offre
       title: nouvelle offre
+    public_plan:
+      subscribe: s'abonner
     show:
       body_en: corps anglais
       body_fr: corps français
@@ -3041,10 +3105,6 @@ fr:
     update:
       notice: programme mis à jour
   service_fields:
-    nested_form:
-      remove: supprimer la planification
-    nested:
-      add: ajouter une planification
     create:
       notice: champ de service créé
     delete:
@@ -3067,6 +3127,10 @@ fr:
       title: champs de service
     model:
       to_s: champ_service#%{id}
+    nested:
+      add: ajouter une planification
+    nested_form:
+      remove: supprimer la planification
     new:
       description: créer un champ du schéma de service.
       submit: créer le champ de service
@@ -3089,13 +3153,6 @@ fr:
     update:
       notice: champ de service modifié
   services:
-    plan_comparison:
-      subscribe: s'abonner
-      details: détails de l'offre
-      subscription: abonnement
-      includes: ce qui est inclus
-      plan: offre
-      compare_plans: comparer les offres
     create:
       notice: service créé
     delete:
@@ -3147,8 +3204,14 @@ fr:
     new:
       submit: créer le service
       title: nouveau service
+    plan_comparison:
+      compare_plans: comparer les offres
+      details: détails de l'offre
+      includes: ce qui est inclus
+      plan: offre
+      subscribe: s'abonner
+      subscription: abonnement
     show:
-      how_it_works: comment ça marche
       body_en: corps anglais
       body_fr: corps français
       created_at: créé à
@@ -3158,6 +3221,7 @@ fr:
       description_fr: description française
       destroy: détruire le service
       edit: modifier le service
+      how_it_works: comment ça marche
       id: id
       logs: logs
       name_en: nom anglais
@@ -3216,32 +3280,41 @@ fr:
     update:
       notice: service mis à jour
   session:
-    request_magic_link:
-      notice: si cette adresse e-mail correspond à un compte, vous recevrez un lien de
-        connexion sous peu.
-    new_magic_link:
-      title: se connecter par e-mail
-      submit: envoyer le lien de connexion
-      password: se connecter avec un mot de passe
-      description: recevez un lien pour vous connecter à votre compte codedorian.
-    magic_link:
-      title: se connecter
-      invalid: ce lien de connexion est invalide ou a expiré. Veuillez en demander un nouveau.
-      description: confirmez votre connexion par e-mail.
-      confirmation: se connecter en tant que %{email_address} ?
-      submit: se connecter
     create:
       notice: connecté
       wrong_email_address: mauvaise adresse e-mail
       wrong_password: mot de passe incorrect
     destroy:
       notice: déconnecté
+    magic_link:
+      confirmation: se connecter en tant que %{email_address} ?
+      description: confirmez votre connexion par e-mail.
+      invalid: ce lien de connexion est invalide ou a expiré. Veuillez en demander
+        un nouveau.
+      submit: se connecter
+      title: se connecter
     new:
-      magic_link: se connecter par e-mail
       description: se connecter pour gérer votre compte codedorian.
+      magic_link: se connecter par e-mail
       register: s'inscrire
       submit: se connecter
       title: connexion
+    new_magic_link:
+      description: recevez un lien pour vous connecter à votre compte codedorian.
+      password: se connecter avec un mot de passe
+      submit: envoyer le lien de connexion
+      title: se connecter par e-mail
+    request_magic_link:
+      notice: si cette adresse e-mail correspond à un compte, vous recevrez un lien
+        de connexion sous peu.
+  session_mailer:
+    magic_link:
+      expiration: ce lien expire dans 15 minutes. Si vous ne l’avez pas demandé, vous
+        pouvez ignorer cet e-mail.
+      instructions: ouvrez le lien ci-dessous, puis appuyez sur « se connecter » pour
+        accéder à votre compte.
+      subject: votre lien de connexion codedorian
+      submit: se connecter
   sessions:
     create:
       notice: session créée
@@ -3362,78 +3435,6 @@ fr:
     search:
       placeholder: saisissez votre requête de recherche
       submit: recherche
-  countries:
-    create:
-      notice: pays créé
-    delete:
-      notice: pays supprimé
-    delete_all:
-      notice: pays supprimés
-    destroy:
-      notice: pays supprimé
-    destroy_all:
-      notice: pays détruits
-    edit:
-      description: mettre à jour un pays et ses données ip.
-      submit: mettre à jour le pays
-      title: modifier le pays
-    index:
-      delete_all: supprimer tout
-      description: gérer les pays et les données ip.
-      destroy_all: détruire tout
-      new: nouveau pays
-      title: pays
-    model:
-      to_s: pays#%{id}
-    new:
-      description: ajouter un pays pour un utilisateur.
-      submit: créer le pays
-      title: nouveau pays
-    show:
-      abuse: abus
-      alpha2: iso alpha-2
-      alpha3: iso alpha-3
-      anonymous: anonyme ?
-      anycast: anycast ?
-      asn: asn
-      bogon: bogon ?
-      carrier: opérateur
-      city: ville
-      company: entreprise
-      continent: continent
-      continent_code: code continent
-      created_at: créé à
-      delete: supprimer le pays
-      description: voir les détails du pays et de la recherche ip.
-      destroy: détruire le pays
-      domains: domaines
-      edit: modifier le pays
-      hostname: nom d'hôte
-      hosting: hébergement ?
-      id: identifiant
-      ip_address: adresse ip
-      latitude: latitude
-      logs: logs
-      longitude: longitude
-      mobile: mobile ?
-      name: nom
-      numeric_code: code numérique iso
-      organization: organisation
-      postal_code: code postal
-      primary: principal ?
-      privacy: confidentialité
-      raw_payload: données brutes
-      region: région
-      region_code: code région
-      satellite: satellite ?
-      time_zone: fuseau horaire
-      updated_at: mis à jour à
-      user: utilisateur
-      verified: vérifié ?
-      versions: versions
-      title: pays
-    update:
-      notice: pays mis à jour
   solid_cable_messages:
     create:
       notice: message solid cable créé
@@ -3653,7 +3654,8 @@ fr:
     show:
       created_at: créé le
       delete: supprimer l'événement Stripe
-      description: consulter la charge utile, le traitement et l'historique de l'événement Stripe.
+      description: consulter la charge utile, le traitement et l'historique de l'événement
+        Stripe.
       destroy: détruire l'événement Stripe
       edit: modifier l'événement Stripe
       event_type: type d'événement
@@ -3703,7 +3705,8 @@ fr:
       created_at: créée le
       currency: devise
       delete: supprimer la facture Stripe
-      description: consulter les montants, la période, les liens et l'historique de la facture Stripe.
+      description: consulter les montants, la période, les liens et l'historique de
+        la facture Stripe.
       destroy: détruire la facture Stripe
       edit: modifier la facture Stripe
       hosted_invoice_url: URL de la facture hébergée

@@ -100,8 +100,7 @@ class Address < ApplicationRecord
       formatted_address_sample.presence || address_sample.presence ||
         user_sample,
       id_sample
-    ).presence ||
-      t("to_s", id:)
+    ).presence || t("to_s", id:)
   end
 
   def to_code

@@ -21,24 +21,29 @@ class FullCrudCoverageTest < ActiveSupport::TestCase
 
   test "controllers only expose routed actions" do
     routed_actions =
-      Rails.application.routes.routes.each_with_object({}) do |route, result|
-        controller_name = route.defaults[:controller]
-        action_name = route.defaults[:action]
-        next if controller_name.blank? || action_name.blank?
+      Rails
+        .application
+        .routes
+        .routes
+        .each_with_object({}) do |route, result|
+          controller_name = route.defaults[:controller]
+          action_name = route.defaults[:action]
+          next if controller_name.blank? || action_name.blank?
 
-        result[controller_name] ||= Set.new
-        result[controller_name] << action_name.to_s
-      end
+          result[controller_name] ||= Set.new
+          result[controller_name] << action_name.to_s
+        end
 
     ApplicationController.descendants.each do |controller|
       controller_name = controller.controller_path
       unexpected_actions =
-        controller.action_methods.to_set - routed_actions.fetch(controller_name, Set.new)
+        controller.action_methods.to_set -
+          routed_actions.fetch(controller_name, Set.new)
 
       assert_empty(
         unexpected_actions,
         "#{controller.name} exposes non-routed actions: " \
-          "#{unexpected_actions.to_a.sort.join(', ')}"
+          "#{unexpected_actions.to_a.sort.join(", ")}"
       )
     end
   end
@@ -62,34 +67,39 @@ class FullCrudCoverageTest < ActiveSupport::TestCase
     controller = model.model_name.route_key
     route_actions =
       Rails.application.routes.routes.filter_map do |route|
-        route.defaults[:action].to_s if route.defaults[:controller] == controller
+        if route.defaults[:controller] == controller
+          route.defaults[:action].to_s
+        end
       end
 
     required_actions = CRUD_ACTIONS + EXTENDED_DELETE_ACTIONS
     missing_actions = required_actions - route_actions
     assert_empty(
       missing_actions,
-      "#{model.name} is missing routes for: #{missing_actions.join(', ')}"
+      "#{model.name} is missing routes for: #{missing_actions.join(", ")}"
     )
   end
 
   def assert_crud_controller(model)
-    controller_class = "#{model.model_name.route_key}_controller".camelize.constantize
+    controller_class =
+      "#{model.model_name.route_key}_controller".camelize.constantize
     required_actions = CRUD_ACTIONS + EXTENDED_DELETE_ACTIONS
     missing_actions = required_actions - controller_class.action_methods.to_a
     assert_empty(
       missing_actions,
-      "#{controller_class.name} is missing actions: #{missing_actions.join(', ')}"
+      "#{controller_class.name} is missing actions: #{missing_actions.join(", ")}"
     )
   end
 
   def assert_crud_views(model)
     views_path = Rails.root.join("app/views", model.model_name.route_key)
     missing_views =
-      REQUIRED_VIEWS.reject { |view| views_path.join("#{view}.html.erb").exist? }
+      REQUIRED_VIEWS.reject do |view|
+        views_path.join("#{view}.html.erb").exist?
+      end
     assert_empty(
       missing_views,
-      "#{model.name} is missing views: #{missing_views.join(', ')}"
+      "#{model.name} is missing views: #{missing_views.join(", ")}"
     )
   end
 

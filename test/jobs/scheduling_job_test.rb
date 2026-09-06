@@ -19,11 +19,11 @@ class SchedulingJobTest < ActiveJob::TestCase
 
     SchedulingJob.perform_now
 
-    assert_not(queries.any? { |query| query.include?('FROM "program_executions"') })
     assert_not(
-      queries.any? do |query|
-        query.include?('FROM "subscription_executions"')
-      end
+      queries.any? { |query| query.include?('FROM "program_executions"') }
+    )
+    assert_not(
+      queries.any? { |query| query.include?('FROM "subscription_executions"') }
     )
   ensure
     ActiveSupport::Notifications.unsubscribe(subscriber) if subscriber
@@ -46,9 +46,6 @@ class SchedulingJobTest < ActiveJob::TestCase
     query = program.reload.association(:program_execution).scope.to_sql
 
     assert_equal(latest, program.program_execution)
-    assert_match(
-      /ORDER BY .*created_at.* DESC, .*id.* DESC LIMIT 1/,
-      query
-    )
+    assert_match(/ORDER BY .*created_at.* DESC, .*id.* DESC LIMIT 1/, query)
   end
 end

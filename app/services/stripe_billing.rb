@@ -21,12 +21,7 @@ class StripeBilling
     def ensure_customer!(user)
       return user.stripe_customer_id if user.stripe_customer_id.present?
 
-      customer_params = {
-        metadata: {
-          env: Current.env,
-          user_id: user.id
-        }
-      }
+      customer_params = { metadata: { env: Current.env, user_id: user.id } }
       request_digest = Digest::SHA256.hexdigest(customer_params.to_json)
       idempotency_key =
         "user-#{user.id}-stripe-customer-" \

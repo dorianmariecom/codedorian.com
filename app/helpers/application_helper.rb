@@ -59,7 +59,14 @@ module ApplicationHelper
       "switch_locale_url" =>
         locale_path(
           selected_locale: switched_locale,
-          redirect_to: url_for(locale: switched_locale)
+          redirect_to:
+            url_for(
+              {
+                plan_id: params[:plan_id],
+                redirect_to: params[:redirect_to],
+                locale: switched_locale
+              }
+            )
         ),
       "locale_prefix" => params[:locale].present? ? "/#{params[:locale]}" : ""
     }

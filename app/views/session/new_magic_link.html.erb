@@ -24,7 +24,7 @@
 <div class="p">
   <%= link_to(
     t(".password"),
-    new_login_path(redirect_to: params[:redirect_to]),
+    new_login_path(plan_id: params[:plan_id], redirect_to: params[:redirect_to]),
     class: :link
   ) %>
 </div>

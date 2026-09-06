@@ -9,7 +9,9 @@
       { include_blank: true },
       class: :input,
       autocomplete: :off,
-      data: { form_type: :other }
+      data: {
+        form_type: :other
+      }
     ) %>
   </div>
 
@@ -29,7 +31,9 @@
         required: attribute.in?(%i[stripe_invoice_id currency]),
         class: :input,
         autocomplete: :off,
-        data: { form_type: :other }
+        data: {
+          form_type: :other
+        }
       ) %>
     </div>
   <% end %>
@@ -42,7 +46,9 @@
         required: true,
         class: :input,
         autocomplete: :off,
-        data: { form_type: :other }
+        data: {
+          form_type: :other
+        }
       ) %>
     </div>
   <% end %>
@@ -54,7 +60,9 @@
         attribute,
         class: :input,
         autocomplete: :off,
-        data: { form_type: :other }
+        data: {
+          form_type: :other
+        }
       ) %>
     </div>
   <% end %>

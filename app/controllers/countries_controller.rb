@@ -11,7 +11,9 @@ class CountriesController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render(json: { status: :ok, messages: [], data: @countries }) }
+      format.json do
+        render(json: { status: :ok, messages: [], data: @countries })
+      end
     end
   end
 
@@ -21,7 +23,9 @@ class CountriesController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render(json: { status: :ok, messages: [], data: @country }) }
+      format.json do
+        render(json: { status: :ok, messages: [], data: @country })
+      end
     end
   end
 
@@ -31,7 +35,9 @@ class CountriesController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render(json: { status: :ok, messages: [], data: @country }) }
+      format.json do
+        render(json: { status: :ok, messages: [], data: @country })
+      end
     end
   end
 
@@ -40,7 +46,9 @@ class CountriesController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render(json: { status: :ok, messages: [], data: @country }) }
+      format.json do
+        render(json: { status: :ok, messages: [], data: @country })
+      end
     end
   end
 

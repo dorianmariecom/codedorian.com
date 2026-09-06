@@ -159,9 +159,7 @@ class StepExecutionsController < ApplicationController
     return if params[:subscription_execution_id].blank?
 
     executions = policy_scope(SubscriptionExecution)
-    if @subscription
-      executions = executions.where_subscription(@subscription)
-    end
+    executions = executions.where_subscription(@subscription) if @subscription
     @subscription_execution =
       executions.find(params.expect(:subscription_execution_id))
     set_context(subscription_execution: @subscription_execution)

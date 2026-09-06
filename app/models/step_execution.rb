@@ -19,19 +19,25 @@ class StepExecution < ApplicationRecord
   scope :where_subscription,
         ->(subscription) do
           joins(:subscription_execution).where(
-            subscription_executions: { subscription_id: subscription }
+            subscription_executions: {
+              subscription_id: subscription
+            }
           )
         end
   scope :where_plan,
         ->(plan) do
           joins(subscription_execution: :subscription).where(
-            subscriptions: { plan_id: plan }
+            subscriptions: {
+              plan_id: plan
+            }
           )
         end
   scope :where_service,
         ->(service) do
           joins(subscription_execution: { subscription: :plan }).where(
-            plans: { service_id: service }
+            plans: {
+              service_id: service
+            }
           )
         end
   validates :status, inclusion: { in: STATUSES }
@@ -133,8 +139,7 @@ class StepExecution < ApplicationRecord
       step_sample,
       subscription_execution_sample,
       id_sample
-    ).presence ||
-      t("to_s", id:)
+    ).presence || t("to_s", id:)
   end
 
   def to_code

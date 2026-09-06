@@ -25,16 +25,14 @@ class StripeEventsControllerTest < ActionDispatch::IntegrationTest
             status: "pending",
             livemode: "0",
             stripe_created_at: Time.current,
-            payload: {
-              id: "evt_controller_create",
-              object: "event"
-            }.to_json
+            payload: { id: "evt_controller_create", object: "event" }.to_json
           }
         }
       )
     end
 
-    stripe_event = StripeEvent.find_by!(stripe_event_id: "evt_controller_create")
+    stripe_event =
+      StripeEvent.find_by!(stripe_event_id: "evt_controller_create")
     assert_redirected_to(stripe_event_path(stripe_event))
     assert_equal("event", stripe_event.payload.fetch("object"))
 

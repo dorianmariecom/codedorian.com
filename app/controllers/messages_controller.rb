@@ -89,16 +89,12 @@ class MessagesController < ApplicationController
 
   def create
     @message = authorize(scope.new(message_params))
-    persist(:new, t(".notice")) do
-      log_in(@message.from_user)
-    end
+    persist(:new, t(".notice")) { log_in(@message.from_user) }
   end
 
   def update
     @message.assign_attributes(message_params)
-    persist(:edit, t(".notice")) do
-      log_in(@message.from_user)
-    end
+    persist(:edit, t(".notice")) { log_in(@message.from_user) }
   end
 
   def destroy

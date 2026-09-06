@@ -138,9 +138,7 @@ Rails.application.routes.draw do
       solid_cache_entries
       stripe_events
       stripe_invoices
-    ].each do |resource|
-      resources(resource, concerns: :deletable)
-    end
+    ].each { |resource| resources(resource, concerns: :deletable) }
 
     patch(:time_zone, to: "users#update_time_zone")
 

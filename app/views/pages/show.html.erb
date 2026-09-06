@@ -4,7 +4,9 @@
 <%= turbo_stream_from(@page) %>
 
 <% if page_displayed? %>
-  <p class="p"><b><%= @page.title.to_plain_text %></b></p>
+  <p class="p">
+    <b><%= @page.title.to_plain_text %></b>
+  </p>
   <div class="p"><%= @page.body %></div>
 <% else %>
   <% if @page.id.present? %>

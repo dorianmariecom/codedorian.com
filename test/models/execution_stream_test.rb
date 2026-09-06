@@ -38,13 +38,11 @@ class ExecutionStreamTest < ActiveSupport::TestCase
     execution = nil
 
     Current.with(user: program.user, program: program) do
-      program.update!(
-        input: <<~CODE
+      program.update!(input: <<~CODE)
           puts("hello")
           print("world")
           warn("careful")
         CODE
-      )
       execution = program.program_executions.create!(status: :in_progress)
 
       assert_broadcasts(execution.to_gid_param, 3) do
@@ -64,13 +62,11 @@ class ExecutionStreamTest < ActiveSupport::TestCase
       user: execution.step.service.user,
       step_execution: execution
     ) do
-      execution.update!(
-        input: <<~CODE
+      execution.update!(input: <<~CODE)
           puts("before")
           warn("careful")
           UnknownConstant
         CODE
-      )
 
       assert_broadcasts(execution.to_gid_param, 2) { execution.evaluate! }
     end

@@ -195,7 +195,6 @@ class Program < ApplicationRecord
     Utils.join(
       name_sample.presence || input_sample.presence || user_sample,
       id_sample
-    ).presence ||
-      t("to_s", id:)
+    ).presence || t("to_s", id:)
   end
 end

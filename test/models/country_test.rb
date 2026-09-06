@@ -44,8 +44,13 @@ class CountryTest < ActiveSupport::TestCase
             latitude: 48.8534,
             longitude: 2.3488
           },
-          as: { asn: "AS123", name: "Example" },
-          privacy: { vpn: true },
+          as: {
+            asn: "AS123",
+            name: "Example"
+          },
+          privacy: {
+            vpn: true
+          },
           is_anonymous: true
         }
       )
@@ -82,7 +87,10 @@ class CountryTest < ActiveSupport::TestCase
         Country.sync_from_ipinfo!(
           user:,
           ip_address: "203.0.113.22",
-          payload: { ip: "203.0.113.22", country: "US" }
+          payload: {
+            ip: "203.0.113.22",
+            country: "US"
+          }
         )
 
       assert_predicate(country, :primary?)

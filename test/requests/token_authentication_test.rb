@@ -27,7 +27,9 @@ class TokenAuthenticationTest < ActionDispatch::IntegrationTest
           format: :json
         ),
         params: {
-          configuration: { content: { maintenance: true }.to_json }
+          configuration: {
+            content: { maintenance: true }.to_json
+          }
         },
         headers: token_headers
       )
@@ -46,7 +48,9 @@ class TokenAuthenticationTest < ActionDispatch::IntegrationTest
           format: :json
         ),
         params: {
-          configuration: { content: { maintenance: true }.to_json }
+          configuration: {
+            content: { maintenance: true }.to_json
+          }
         },
         headers: token_headers
       )
