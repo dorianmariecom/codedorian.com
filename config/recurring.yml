@@ -14,7 +14,7 @@ blazer_send_failing_checks:
 cleaning:
   class: CleaningJob
   queue: default
-  schedule: every second
+  schedule: every 5 minutes
 scheduling:
   class: SchedulingJob
   queue: scheduling
