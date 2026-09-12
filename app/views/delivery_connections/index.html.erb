@@ -1,14 +1,27 @@
-<% content_for :description, t(".manage") %>
-<% content_for :title, t(".manage") %>
-<% if can?(:create, model_class) %>
-  <div class="p"><%= link_to t(".add"), new_url, class: :button %></div>
+<% content_for(:title, t(".title")) %>
+<% content_for(:description, t(".description")) %>
+<%= turbo_stream_from(@delivery_connections) %>
+<% if can?(:create, DeliveryConnection) %>
+  <% if can?(:create, model_class) %>
+    <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
+  <% end %>
 <% end %>
-<% @delivery_connections.each do |record| %>
-  <div class="p">
-    <%= link_to record, record, class: :link %>
-    <% if !record.enabled? %>
-      — <%= t(".disabled") %>
-    <% end %>
-  </div>
-<% end %>
-<%= paginate @delivery_connections %>
+<%= render("shared/search") %>
+
+<turbo-frame id="search" target="_top">
+  <% if @delivery_connections.any? %>
+    <div class="p p--flex">
+      <% if can?(:destroy_all, DeliveryConnection) %>
+        <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
+      <% end %>
+      <% if can?(:delete_all, DeliveryConnection) %>
+        <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
+      <% end %>
+    </div>
+  <% end %>
+  <%= render_collection(
+    partial: "delivery_connections/delivery_connection",
+    collection: @delivery_connections,
+    as: :delivery_connection
+  ) %>
+</turbo-frame>

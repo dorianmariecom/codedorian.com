@@ -1,3 +1,4 @@
+---
 fr:
   activerecord:
     attributes:
@@ -48,6 +49,63 @@ fr:
       datum:
         key: clé
         value: valeur
+      delivery:
+        attempts: tentatives
+        body_html: corps html
+        body_text: corps texte
+        channel: canal
+        connection_id: connexion
+        delivery_destination_id: destination de livraison
+        error_code: code d’erreur
+        event_key: clé d’événement
+        locale: langue
+        next_attempt_at: prochaine tentative
+        provider_id: identifiant fournisseur
+        recipient: destinataire
+        status: statut
+        step_execution_id: exécution de l’étape
+        subject: sujet
+        subscription_id: abonnement
+        url: url
+        visibility: visibilité
+      delivery_channel:
+        amount_cents: montant en centimes
+        amount_currency: devise
+        callback_base_url: url de rappel
+        content_sid_en: identifiant du contenu anglais
+        content_sid_fr: identifiant du contenu français
+        delivery_connection_id: connexion de livraison
+        enabled: activé
+        key: clé
+        messaging_service_sid: identifiant du service de messagerie
+        private_delivery_enabled: livraison privée activée
+        show_recipient: afficher le destinataire
+        show_visibility: afficher la visibilité
+      delivery_connection:
+        access_token: jeton d’accès
+        account_sid: identifiant du compte
+        api_key: clé api
+        auth_token: jeton d’authentification
+        base_url: url de base
+        enabled: activé
+        name: nom
+        provider: fournisseur
+        sender: expéditeur
+        smtp_address: adresse smtp
+        smtp_authentication: authentification smtp
+        smtp_from: expéditeur smtp
+        smtp_password: mot de passe smtp
+        smtp_port: port smtp
+        smtp_user_name: nom d’utilisateur smtp
+        user_id: utilisateur
+      delivery_destination:
+        delivery_channel_id: canal de livraison
+        delivery_connection_id: connexion de livraison
+        enabled: activé
+        name: nom
+        recipient: destinataire
+        user_id: utilisateur
+        visibility: visibilité
       device:
         platform: appareil
         primary: principal ?
@@ -307,6 +365,14 @@ fr:
         plan_id: offre
         status: statut
         user_id: utilisateur
+      subscription_destination:
+        active: actif
+        amount_cents: montant en centimes
+        amount_currency: devise
+        delivery_destination_id: destination de livraison
+        name: nom
+        selected: sélectionné
+        subscription_id: abonnement
       subscription_execution:
         status: statut
         subscription_id: abonnement
@@ -414,6 +480,22 @@ fr:
       edit: modifier
       index: données
       new: nouvelle
+    deliveries:
+      edit: modifier
+      index: livraisons
+      new: nouveau
+    delivery_channels:
+      edit: modifier
+      index: canaux de livraison
+      new: nouveau
+    delivery_connections:
+      edit: modifier
+      index: connexions de livraison
+      new: nouveau
+    delivery_destinations:
+      edit: modifier
+      index: destinations de livraison
+      new: nouveau
     devices:
       edit: modifier
       index: appareils
@@ -623,6 +705,10 @@ fr:
       edit: modifier
       index: soumissions
       new: nouvelle
+    subscription_destinations:
+      edit: modifier
+      index: destinations d’abonnement
+      new: nouveau
     subscription_executions:
       edit: modifier
       index: exécutions d'abonnement
@@ -917,6 +1003,362 @@ fr:
     - octobre
     - novembre
     - décembre
+  deliveries:
+    create:
+      notice: 'livraison : création effectuée'
+    delete:
+      notice: 'livraison : suppression effectuée'
+    delete_all:
+      notice: 'livraisons : suppression effectuée'
+    destroy:
+      notice: 'livraison : destruction effectuée'
+    destroy_all:
+      notice: 'livraisons : destruction effectuée'
+    edit:
+      description: 'modifier : livraison'
+      submit: modifier
+      title: 'modifier : livraison'
+    form:
+      destinations: destinations
+      save: enregistrer
+      statuses:
+        accepted: accepté
+        canceled: annulé
+        delivered: livré
+        failed: échec
+        pending: en attente
+        sending: en cours
+        uncertain: incertain
+    index:
+      add: ajouter
+      delete_all: 'supprimer : livraisons'
+      description: livraisons
+      destroy_all: 'détruire : livraisons'
+      history: historique des livraisons
+      manage: livraison
+      new: 'ajouter : livraison'
+      title: livraisons
+    model:
+      statuses:
+        accepted: accepté
+        canceled: annulé
+        delivered: livré
+        failed: échec
+        pending: en attente
+        sending: en cours
+        uncertain: incertain
+      to_s: "#%{id}"
+    new:
+      description: 'ajouter : livraison'
+      submit: créer
+      title: 'ajouter : livraison'
+    reconcile:
+      notice: enregistré
+    retry:
+      notice: enregistré
+    show:
+      delete: supprimer
+      description: livraison
+      destroy: détruire
+      edit: modifier
+      history: historique des livraisons
+      logs: journaux
+      manage: livraison
+      new_log: nouveau journal
+      new_version: nouvelle version
+      remove: supprimer
+      retry: réessayer
+      statuses:
+        accepted: accepté
+        canceled: annulé
+        delivered: livré
+        failed: échec
+        pending: en attente
+        sending: en cours
+        uncertain: incertain
+      versions: versions
+    update:
+      notice: 'livraison : modification effectuée'
+  delivery:
+    add: ajouter
+    add_destination: ajouter une destination
+    base: prix du service
+    change_pending: une modification du prix attend la confirmation du paiement
+    channel: canal
+    channels:
+      apple: apple messages for business
+      email: e-mail
+      mastodon: mastodon
+      messages: messagerie code dorian
+      push: notifications push
+      rcs: rcs
+      reddit: reddit
+      slack: slack
+      sms: sms
+      whatsapp: whatsapp
+      x: x
+    choose_destination: choisissez au moins une destination
+    confirm_price: confirmer ce prix
+    connection: connexion
+    connections: connexions
+    credentials:
+      access_token: jeton d’accès utilisateur
+      account_sid: sid du compte twilio
+      api_key: clé api infobip
+      auth_token: jeton twilio
+      base_url: url du fournisseur ou de l’instance mastodon
+      from: adresse e-mail d’expédition
+      sender: identifiant professionnel apple
+    currency: devise
+    currency_mismatch: les tarifs des destinations doivent utiliser la devise de l’offre
+    destinations: destinations
+    disabled: désactivé
+    edit: modifier
+    enabled: activé
+    history: historique des livraisons
+    invalid_destinations: choisissez des destinations disponibles appartenant à ce
+      compte
+    manage: livraison
+    month: mois
+    monthly_cents: prix mensuel par destination (centimes)
+    name: nom
+    price_changed: le prix a changé. vérifiez à nouveau votre sélection
+    private: privé
+    provider: fournisseur
+    public: public
+    rates: tarifs des canaux
+    recipient: destinataire
+    reddit_private_verified: l’accès api à la livraison privée reddit a été vérifié
+    remove: supprimer
+    retry: réessayer
+    save: enregistrer
+    selections: destinations des abonnements
+    statuses:
+      accepted: accepté
+      canceled: annulé
+      delivered: livré
+      failed: échec
+      pending: en attente
+      sending: en cours
+      uncertain: incertain
+    total: total mensuel
+    unconfigured: non configuré
+    visibility: visibilité
+  delivery_channels:
+    create:
+      notice: 'canal de livraison : création effectuée'
+    delete:
+      notice: 'canal de livraison : suppression effectuée'
+    delete_all:
+      notice: 'canaux de livraison : suppression effectuée'
+    destroy:
+      notice: 'canal de livraison : destruction effectuée'
+    destroy_all:
+      notice: 'canaux de livraison : destruction effectuée'
+    edit:
+      description: 'modifier : canal de livraison'
+      submit: modifier
+      title: 'modifier : canal de livraison'
+    form:
+      channel: canal
+      channels:
+        apple: apple messages for business
+        email: e-mail
+        mastodon: mastodon
+        messages: messagerie code dorian
+        push: notifications push
+        rcs: rcs
+        reddit: reddit
+        slack: slack
+        sms: sms
+        whatsapp: whatsapp
+        x: x
+      connection: connexion
+      currency: devise
+      enabled: activé
+      manage: livraison
+      monthly_cents: prix mensuel par destination (centimes)
+      reddit_private_verified: l’accès api à la livraison privée reddit a été vérifié
+      save: enregistrer
+      show_recipient: destinataire
+      show_visibility: visibilité
+    index:
+      add: ajouter
+      delete_all: 'supprimer : canaux de livraison'
+      description: canaux de livraison
+      destroy_all: 'détruire : canaux de livraison'
+      disabled: désactivé
+      manage: livraison
+      new: 'ajouter : canal de livraison'
+      title: canaux de livraison
+      unconfigured: non configuré
+    model:
+      keys:
+        apple: apple messages for business
+        email: e-mail
+        mastodon: mastodon
+        messages: messagerie code dorian
+        push: notifications push
+        rcs: rcs
+        reddit: reddit
+        slack: slack
+        sms: sms
+        whatsapp: whatsapp
+        x: x
+      to_s: "#%{id}"
+    new:
+      description: 'ajouter : canal de livraison'
+      submit: créer
+      title: 'ajouter : canal de livraison'
+    reconcile:
+      notice: enregistré
+    retry:
+      notice: enregistré
+    show:
+      delete: supprimer
+      description: canal de livraison
+      destroy: détruire
+      edit: modifier
+      logs: journaux
+      manage: livraison
+      new_log: nouveau journal
+      new_version: nouvelle version
+      remove: supprimer
+      versions: versions
+    update:
+      notice: 'canal de livraison : modification effectuée'
+  delivery_connections:
+    create:
+      notice: 'connexion de livraison : création effectuée'
+    delete:
+      notice: 'connexion de livraison : suppression effectuée'
+    delete_all:
+      notice: 'connexions de livraison : suppression effectuée'
+    destroy:
+      notice: 'connexion de livraison : destruction effectuée'
+    destroy_all:
+      notice: 'connexions de livraison : destruction effectuée'
+    edit:
+      description: 'modifier : connexion de livraison'
+      submit: modifier
+      title: 'modifier : connexion de livraison'
+    form:
+      credentials:
+        access_token: jeton d’accès utilisateur
+        account_sid: sid du compte twilio
+        api_key: clé api infobip
+        auth_token: jeton twilio
+        base_url: url du fournisseur ou de l’instance mastodon
+        from: adresse e-mail d’expédition
+        sender: identifiant professionnel apple
+      enabled: activé
+      manage: livraison
+      name: nom
+      provider: fournisseur
+      save: enregistrer
+    index:
+      add: ajouter
+      delete_all: 'supprimer : connexions de livraison'
+      description: connexions de livraison
+      destroy_all: 'détruire : connexions de livraison'
+      disabled: désactivé
+      manage: livraison
+      new: 'ajouter : connexion de livraison'
+      title: connexions de livraison
+    model:
+      providers:
+        infobip: infobip
+        mastodon: mastodon
+        reddit: reddit
+        slack: slack
+        smtp: smtp
+        twilio: twilio
+        x: x
+      to_s: "#%{id}"
+    new:
+      description: 'ajouter : connexion de livraison'
+      submit: créer
+      title: 'ajouter : connexion de livraison'
+    reconcile:
+      notice: enregistré
+    retry:
+      notice: enregistré
+    show:
+      delete: supprimer
+      description: connexion de livraison
+      destroy: détruire
+      edit: modifier
+      logs: journaux
+      manage: livraison
+      new_log: nouveau journal
+      new_version: nouvelle version
+      remove: supprimer
+      versions: versions
+    update:
+      notice: 'connexion de livraison : modification effectuée'
+  delivery_content:
+    show:
+      description: livraison
+  delivery_destinations:
+    create:
+      notice: 'destination de livraison : création effectuée'
+    delete:
+      notice: 'destination de livraison : suppression effectuée'
+    delete_all:
+      notice: 'destinations de livraison : suppression effectuée'
+    destroy:
+      notice: 'destination de livraison : destruction effectuée'
+    destroy_all:
+      notice: 'destinations de livraison : destruction effectuée'
+    edit:
+      description: 'modifier : destination de livraison'
+      submit: modifier
+      title: 'modifier : destination de livraison'
+    form:
+      channel: canal
+      connection: connexion
+      enabled: activé
+      manage: livraison
+      name: nom
+      private: privé
+      public: public
+      recipient: destinataire
+      save: enregistrer
+      visibility: visibilité
+    index:
+      add: ajouter
+      delete_all: 'supprimer : destinations de livraison'
+      description: destinations de livraison
+      destroy_all: 'détruire : destinations de livraison'
+      disabled: désactivé
+      manage: livraison
+      new: 'ajouter : destination de livraison'
+      title: destinations de livraison
+    model:
+      to_s: "#%{id}"
+    new:
+      description: 'ajouter : destination de livraison'
+      submit: créer
+      title: 'ajouter : destination de livraison'
+    reconcile:
+      notice: enregistré
+    retry:
+      notice: enregistré
+    show:
+      delete: supprimer
+      description: destination de livraison
+      destroy: détruire
+      edit: modifier
+      logs: journaux
+      manage: livraison
+      new_log: nouveau journal
+      new_version: nouvelle version
+      private: privé
+      public: public
+      remove: supprimer
+      versions: versions
+    update:
+      notice: 'destination de livraison : modification effectuée'
   devices:
     create:
       notice: appareil créé
@@ -4094,6 +4536,58 @@ fr:
       unpaid: impayé
       update_payment_method: modifier le moyen de paiement
       view_invoice: voir la facture
+  subscription_destinations:
+    create:
+      notice: 'destination d’abonnement : création effectuée'
+    delete:
+      notice: 'destination d’abonnement : suppression effectuée'
+    delete_all:
+      notice: 'destinations d’abonnement : suppression effectuée'
+    destroy:
+      notice: 'destination d’abonnement : destruction effectuée'
+    destroy_all:
+      notice: 'destinations d’abonnement : destruction effectuée'
+    edit:
+      description: 'modifier : destination d’abonnement'
+      submit: modifier
+      title: 'modifier : destination d’abonnement'
+    form:
+      currency: devise
+      destinations: destinations
+      manage: livraison
+      monthly_cents: prix mensuel par destination (centimes)
+      save: enregistrer
+    index:
+      add: ajouter
+      delete_all: 'supprimer : destinations d’abonnement'
+      description: destinations d’abonnement
+      destroy_all: 'détruire : destinations d’abonnement'
+      manage: livraison
+      new: 'ajouter : destination d’abonnement'
+      title: destinations d’abonnement
+    model:
+      to_s: "#%{id}"
+    new:
+      description: 'ajouter : destination d’abonnement'
+      submit: créer
+      title: 'ajouter : destination d’abonnement'
+    reconcile:
+      notice: enregistré
+    retry:
+      notice: enregistré
+    show:
+      delete: supprimer
+      description: destination d’abonnement
+      destroy: détruire
+      edit: modifier
+      logs: journaux
+      manage: livraison
+      new_log: nouveau journal
+      new_version: nouvelle version
+      remove: supprimer
+      versions: versions
+    update:
+      notice: 'destination d’abonnement : modification effectuée'
   subscription_executions:
     create:
       notice: exécution d'abonnement créée
@@ -4193,6 +4687,26 @@ fr:
       notice: abonnement supprimé
     delete_all:
       notice: abonnements supprimés
+    destination_fields:
+      channel: canal
+      connection: connexion
+      month: mois
+      name: nom
+      private: privé
+      public: public
+      recipient: destinataire
+      recipient_help: laissez vide pour votre messagerie code dorian ou les notifications
+        push.
+      remove: supprimer
+      visibility: visibilité
+    destinations:
+      add_destination: ajouter une destination
+      base: prix du service
+      change_pending: une modification du prix attend la confirmation du paiement.
+      destinations: destinations
+      month: mois
+      total: total mensuel
+      unavailable: aucun mode de livraison n’est disponible pour le moment.
     destroy:
       notice: abonnement détruit
     destroy_all:

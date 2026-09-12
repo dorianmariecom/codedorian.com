@@ -1,47 +1,46 @@
-<% content_for :description, t(".manage") %>
-<% content_for :title, t(".manage") %>
 <%= form_with model: subscription_destination do |f| %>
-  <% subscription_destination.errors.full_messages.each do |message| %>
-    <div class="p text-red-600"><%= message %></div>
-  <% end %>
   <div class="p">
-    <%= f.label :subscription_id, Subscription.model_name.human, class: :label %>
+    <%= f.label :subscription_id, class: :label %>
     <%= f.select :subscription_id,
-             policy_scope(Subscription).map { |subscription|
-               [subscription.to_s, subscription.id]
-             },
-             {},
+             subscription_options(subscription_id: f.object.subscription_id),
+             { include_blank: true },
              class: :input %>
   </div>
   <div class="p">
-    <%= f.label :delivery_destination_id, t(".destinations"), class: :label %>
+    <%= f.label :delivery_destination_id, class: :label %>
     <%= f.select :delivery_destination_id,
-             policy_scope(DeliveryDestination).map { |destination|
-               [destination, destination.id]
-             },
-             {},
+             delivery_destination_options(
+               delivery_destination_id: f.object.delivery_destination_id
+             ),
+             { include_blank: true },
              class: :input %>
   </div>
   <div class="p">
-    <%= f.label :amount_cents, t(".monthly_cents"), class: :label %>
-    <%= f.number_field :amount_cents, min: 0, class: :input %>
+    <%= f.label :name, class: :label %>
+    <%= f.text_field :name, class: :input %>
   </div>
   <div class="p">
-    <%= f.label :amount_currency, t(".currency"), class: :label %>
+    <%= f.label :amount_cents, class: :label %>
+    <%= f.number_field :amount_cents, class: :input %>
+  </div>
+  <div class="p">
+    <%= f.label :amount_currency, class: :label %>
     <%= f.text_field :amount_currency, class: :input %>
   </div>
   <div class="p">
-    <%= f.check_box :active %><%= f.label :active %>
+    <%= f.label :active, class: :label %>
+    <%= f.check_box :active, class: :input %>
   </div>
   <div class="p">
-    <%= f.check_box :selected %><%= f.label :selected %>
+    <%= f.label :selected, class: :label %>
+    <%= f.check_box :selected, class: :input %>
   </div>
   <div class="p">
-    <%= f.submit t(".save"),
+    <%= f.submit submit,
              class: :button,
              data: {
                controller: "bridge--button",
-               bridge__button_title_value: t(".save")
+               bridge__button_title_value: submit
              } %>
   </div>
 <% end %>

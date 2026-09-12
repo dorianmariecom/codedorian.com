@@ -1,3 +1,4 @@
+---
 en:
   activerecord:
     attributes:
@@ -48,6 +49,63 @@ en:
       datum:
         key: key
         value: value
+      delivery:
+        attempts: attempts
+        body_html: body html
+        body_text: body text
+        channel: channel
+        connection_id: connection id
+        delivery_destination_id: delivery destination
+        error_code: error code
+        event_key: event key
+        locale: locale
+        next_attempt_at: next attempt at
+        provider_id: provider id
+        recipient: recipient
+        status: status
+        step_execution_id: step execution
+        subject: subject
+        subscription_id: subscription
+        url: url
+        visibility: visibility
+      delivery_channel:
+        amount_cents: amount cents
+        amount_currency: amount currency
+        callback_base_url: callback base url
+        content_sid_en: content sid en
+        content_sid_fr: content sid fr
+        delivery_connection_id: delivery connection
+        enabled: enabled
+        key: key
+        messaging_service_sid: messaging service sid
+        private_delivery_enabled: private delivery enabled
+        show_recipient: show recipient
+        show_visibility: show visibility
+      delivery_connection:
+        access_token: access token
+        account_sid: account sid
+        api_key: api key
+        auth_token: auth token
+        base_url: base url
+        enabled: enabled
+        name: name
+        provider: provider
+        sender: sender
+        smtp_address: smtp address
+        smtp_authentication: smtp authentication
+        smtp_from: smtp from
+        smtp_password: smtp password
+        smtp_port: smtp port
+        smtp_user_name: smtp user name
+        user_id: user
+      delivery_destination:
+        delivery_channel_id: delivery channel
+        delivery_connection_id: delivery connection
+        enabled: enabled
+        name: name
+        recipient: recipient
+        user_id: user
+        visibility: visibility
       device:
         platform: platform
         primary: primary?
@@ -307,6 +365,14 @@ en:
         plan_id: plan
         status: status
         user_id: user
+      subscription_destination:
+        active: active
+        amount_cents: amount cents
+        amount_currency: amount currency
+        delivery_destination_id: delivery destination
+        name: name
+        selected: selected
+        subscription_id: subscription
       subscription_execution:
         status: status
         subscription_id: subscription
@@ -412,6 +478,22 @@ en:
     data:
       edit: edit
       index: data
+      new: new
+    deliveries:
+      edit: edit
+      index: deliveries
+      new: new
+    delivery_channels:
+      edit: edit
+      index: delivery channels
+      new: new
+    delivery_connections:
+      edit: edit
+      index: delivery connections
+      new: new
+    delivery_destinations:
+      edit: edit
+      index: delivery destinations
       new: new
     devices:
       edit: edit
@@ -621,6 +703,10 @@ en:
     submissions:
       edit: edit
       index: submissions
+      new: new
+    subscription_destinations:
+      edit: edit
+      index: subscription destinations
       new: new
     subscription_executions:
       edit: edit
@@ -916,6 +1002,361 @@ en:
     - october
     - november
     - december
+  deliveries:
+    create:
+      notice: delivery created
+    delete:
+      notice: delivery deleted
+    delete_all:
+      notice: deliveries deleted
+    destroy:
+      notice: delivery destroyed
+    destroy_all:
+      notice: deliveries destroyed
+    edit:
+      description: edit delivery
+      submit: update
+      title: edit delivery
+    form:
+      destinations: destinations
+      save: save
+      statuses:
+        accepted: accepted
+        canceled: canceled
+        delivered: delivered
+        failed: failed
+        pending: pending
+        sending: sending
+        uncertain: uncertain
+    index:
+      add: add
+      delete_all: delete all deliveries
+      description: deliveries
+      destroy_all: destroy all deliveries
+      history: delivery history
+      manage: delivery
+      new: new delivery
+      title: deliveries
+    model:
+      statuses:
+        accepted: accepted
+        canceled: canceled
+        delivered: delivered
+        failed: failed
+        pending: pending
+        sending: sending
+        uncertain: uncertain
+      to_s: "#%{id}"
+    new:
+      description: new delivery
+      submit: create
+      title: new delivery
+    reconcile:
+      notice: saved
+    retry:
+      notice: saved
+    show:
+      delete: delete
+      description: delivery
+      destroy: destroy
+      edit: edit
+      history: delivery history
+      logs: logs
+      manage: delivery
+      new_log: new log
+      new_version: new version
+      remove: remove
+      retry: retry
+      statuses:
+        accepted: accepted
+        canceled: canceled
+        delivered: delivered
+        failed: failed
+        pending: pending
+        sending: sending
+        uncertain: uncertain
+      versions: versions
+    update:
+      notice: delivery updated
+  delivery:
+    add: add
+    add_destination: add a destination
+    base: service price
+    change_pending: a delivery price change is awaiting billing confirmation
+    channel: channel
+    channels:
+      apple: apple messages for business
+      email: email
+      mastodon: mastodon
+      messages: code dorian inbox
+      push: push notifications
+      rcs: rcs
+      reddit: reddit
+      slack: slack
+      sms: sms
+      whatsapp: whatsapp
+      x: x
+    choose_destination: choose at least one delivery destination
+    confirm_price: confirm this price
+    connection: connection
+    connections: connections
+    credentials:
+      access_token: user access token
+      account_sid: twilio account sid
+      api_key: infobip api key
+      auth_token: twilio auth token
+      base_url: provider or mastodon instance url
+      from: sender email address
+      sender: apple business sender id
+    currency: currency
+    currency_mismatch: destination rates must use the plan currency
+    destinations: destinations
+    disabled: disabled
+    edit: edit
+    enabled: enabled
+    history: delivery history
+    invalid_destinations: choose available destinations belonging to this account
+    manage: delivery
+    month: month
+    monthly_cents: monthly price per destination (cents)
+    name: name
+    price_changed: the price changed. review the selection again
+    private: private
+    provider: provider
+    public: public
+    rates: channel rates
+    recipient: recipient
+    reddit_private_verified: reddit private delivery api access has been verified
+    remove: remove
+    retry: retry
+    save: save
+    selections: subscription destinations
+    statuses:
+      accepted: accepted
+      canceled: canceled
+      delivered: delivered
+      failed: failed
+      pending: pending
+      sending: sending
+      uncertain: uncertain
+    total: monthly total
+    unconfigured: not configured
+    visibility: visibility
+  delivery_channels:
+    create:
+      notice: delivery channel created
+    delete:
+      notice: delivery channel deleted
+    delete_all:
+      notice: delivery channels deleted
+    destroy:
+      notice: delivery channel destroyed
+    destroy_all:
+      notice: delivery channels destroyed
+    edit:
+      description: edit delivery channel
+      submit: update
+      title: edit delivery channel
+    form:
+      channel: channel
+      channels:
+        apple: apple messages for business
+        email: email
+        mastodon: mastodon
+        messages: code dorian inbox
+        push: push notifications
+        rcs: rcs
+        reddit: reddit
+        slack: slack
+        sms: sms
+        whatsapp: whatsapp
+        x: x
+      connection: connection
+      currency: currency
+      enabled: enabled
+      manage: delivery
+      monthly_cents: monthly price per destination (cents)
+      reddit_private_verified: reddit private delivery api access has been verified
+      save: save
+      show_recipient: recipient
+      show_visibility: visibility
+    index:
+      add: add
+      delete_all: delete all delivery channels
+      description: delivery channels
+      destroy_all: destroy all delivery channels
+      disabled: disabled
+      manage: delivery
+      new: new delivery channel
+      title: delivery channels
+      unconfigured: not configured
+    model:
+      keys:
+        apple: apple messages for business
+        email: email
+        mastodon: mastodon
+        messages: code dorian inbox
+        push: push notifications
+        rcs: rcs
+        reddit: reddit
+        slack: slack
+        sms: sms
+        whatsapp: whatsapp
+        x: x
+      to_s: "#%{id}"
+    new:
+      description: new delivery channel
+      submit: create
+      title: new delivery channel
+    reconcile:
+      notice: saved
+    retry:
+      notice: saved
+    show:
+      delete: delete
+      description: delivery channel
+      destroy: destroy
+      edit: edit
+      logs: logs
+      manage: delivery
+      new_log: new log
+      new_version: new version
+      remove: remove
+      versions: versions
+    update:
+      notice: delivery channel updated
+  delivery_connections:
+    create:
+      notice: delivery connection created
+    delete:
+      notice: delivery connection deleted
+    delete_all:
+      notice: delivery connections deleted
+    destroy:
+      notice: delivery connection destroyed
+    destroy_all:
+      notice: delivery connections destroyed
+    edit:
+      description: edit delivery connection
+      submit: update
+      title: edit delivery connection
+    form:
+      credentials:
+        access_token: user access token
+        account_sid: twilio account sid
+        api_key: infobip api key
+        auth_token: twilio auth token
+        base_url: provider or mastodon instance url
+        from: sender email address
+        sender: apple business sender id
+      enabled: enabled
+      manage: delivery
+      name: name
+      provider: provider
+      save: save
+    index:
+      add: add
+      delete_all: delete all delivery connections
+      description: delivery connections
+      destroy_all: destroy all delivery connections
+      disabled: disabled
+      manage: delivery
+      new: new delivery connection
+      title: delivery connections
+    model:
+      providers:
+        infobip: infobip
+        mastodon: mastodon
+        reddit: reddit
+        slack: slack
+        smtp: smtp
+        twilio: twilio
+        x: x
+      to_s: "#%{id}"
+    new:
+      description: new delivery connection
+      submit: create
+      title: new delivery connection
+    reconcile:
+      notice: saved
+    retry:
+      notice: saved
+    show:
+      delete: delete
+      description: delivery connection
+      destroy: destroy
+      edit: edit
+      logs: logs
+      manage: delivery
+      new_log: new log
+      new_version: new version
+      remove: remove
+      versions: versions
+    update:
+      notice: delivery connection updated
+  delivery_content:
+    show:
+      description: delivery
+  delivery_destinations:
+    create:
+      notice: delivery destination created
+    delete:
+      notice: delivery destination deleted
+    delete_all:
+      notice: delivery destinations deleted
+    destroy:
+      notice: delivery destination destroyed
+    destroy_all:
+      notice: delivery destinations destroyed
+    edit:
+      description: edit delivery destination
+      submit: update
+      title: edit delivery destination
+    form:
+      channel: channel
+      connection: connection
+      enabled: enabled
+      manage: delivery
+      name: name
+      private: private
+      public: public
+      recipient: recipient
+      save: save
+      visibility: visibility
+    index:
+      add: add
+      delete_all: delete all delivery destinations
+      description: delivery destinations
+      destroy_all: destroy all delivery destinations
+      disabled: disabled
+      manage: delivery
+      new: new delivery destination
+      title: delivery destinations
+    model:
+      to_s: "#%{id}"
+    new:
+      description: new delivery destination
+      submit: create
+      title: new delivery destination
+    reconcile:
+      notice: saved
+    retry:
+      notice: saved
+    show:
+      delete: delete
+      description: delivery destination
+      destroy: destroy
+      edit: edit
+      logs: logs
+      manage: delivery
+      new_log: new log
+      new_version: new version
+      private: private
+      public: public
+      remove: remove
+      versions: versions
+    update:
+      notice: delivery destination updated
   devices:
     create:
       notice: device created
@@ -4085,6 +4526,58 @@ en:
       unpaid: unpaid
       update_payment_method: update payment method
       view_invoice: view invoice
+  subscription_destinations:
+    create:
+      notice: subscription destination created
+    delete:
+      notice: subscription destination deleted
+    delete_all:
+      notice: subscription destinations deleted
+    destroy:
+      notice: subscription destination destroyed
+    destroy_all:
+      notice: subscription destinations destroyed
+    edit:
+      description: edit subscription destination
+      submit: update
+      title: edit subscription destination
+    form:
+      currency: currency
+      destinations: destinations
+      manage: delivery
+      monthly_cents: monthly price per destination (cents)
+      save: save
+    index:
+      add: add
+      delete_all: delete all subscription destinations
+      description: subscription destinations
+      destroy_all: destroy all subscription destinations
+      manage: delivery
+      new: new subscription destination
+      title: subscription destinations
+    model:
+      to_s: "#%{id}"
+    new:
+      description: new subscription destination
+      submit: create
+      title: new subscription destination
+    reconcile:
+      notice: saved
+    retry:
+      notice: saved
+    show:
+      delete: delete
+      description: subscription destination
+      destroy: destroy
+      edit: edit
+      logs: logs
+      manage: delivery
+      new_log: new log
+      new_version: new version
+      remove: remove
+      versions: versions
+    update:
+      notice: subscription destination updated
   subscription_executions:
     create:
       notice: subscription execution created
@@ -4184,6 +4677,25 @@ en:
       notice: subscription deleted
     delete_all:
       notice: subscriptions deleted
+    destination_fields:
+      channel: channel
+      connection: connection
+      month: month
+      name: name
+      private: private
+      public: public
+      recipient: recipient
+      recipient_help: leave blank for your code dorian inbox or push notifications.
+      remove: remove
+      visibility: visibility
+    destinations:
+      add_destination: add a destination
+      base: service price
+      change_pending: a delivery price change is awaiting billing confirmation.
+      destinations: destinations
+      month: month
+      total: monthly total
+      unavailable: no delivery methods are available yet.
     destroy:
       notice: subscription destroyed
     destroy_all:
@@ -4245,7 +4757,7 @@ en:
     formats:
       default: "%a %d %b %y at %H:%M:%S"
       long: "%b %d, %y at %H:%M"
-      schedule_time: "%-I:%M%p"
+      schedule_time: "%-I:%M%P"
       short: "%H:%M"
   time_zones:
     create:

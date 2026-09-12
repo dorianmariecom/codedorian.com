@@ -5,14 +5,11 @@ class DeliveryContentController < ApplicationController
   skip_after_action :verify_authorized, :verify_policy_scoped, only: :show
   def show
     @delivery = Delivery.find_public(params[:token])
-    unless @delivery&.destination_snapshot&.fetch("visibility", nil) == "public"
-      return head :not_found
-    end
-    unless @delivery.delivery_destination.enabled? &&
-             @delivery.delivery_destination.public?
-      return head :not_found
-    end
+    return head :not_found unless @delivery&.visibility_public?
 
-    render :show, layout: false
+    unless @delivery.delivery_destination.enabled? &&
+             @delivery.delivery_destination.visibility_public?
+      head :not_found
+    end
   end
 end

@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   mount(Blazer::Engine, at: :blazer)
   mount(ActionCable.server => "/cable")
   post("stripe/webhooks", to: "stripe_webhooks#create")
-  get("delivery_content/:token", to: "delivery_content#show")
+  get("x/:token", to: "delivery_content#show", as: :delivery_content)
   post("delivery_callbacks/twilio/:id", to: "delivery_callbacks#twilio")
 
   concern :deletable do

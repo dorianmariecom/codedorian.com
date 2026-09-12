@@ -3,14 +3,7 @@
 class SubscriptionDestinationPolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
-      return scope.all if current_user&.admin?
-      return scope.none unless current_user
-
-      scope.joins(:subscription).where(
-        subscriptions: {
-          user_id: current_user.id
-        }
-      )
+      scope.where_subscription(policy_scope(Subscription))
     end
   end
 

@@ -1,19 +1,18 @@
 # frozen_string_literal: true
 
 class DeliveryConnection < ApplicationRecord
-  PROVIDERS = %w[smtp twilio infobip slack x mastodon reddit].freeze
-  scope :twilio, -> { where(provider: "twilio") }
-  def twilio? = provider == "twilio"
+  PROVIDERS = %i[smtp twilio infobip slack x mastodon reddit].freeze
+  scope :twilio, -> { where(provider: :twilio) }
 
   belongs_to :user, default: -> { Current.user! }
   scope :where_user, ->(user) { where(user: user) }
   scope :where_admin, -> { joins(:user).where(users: { admin: true }) }
-  has_many :delivery_destinations, dependent: :restrict_with_error
-  has_many :delivery_channels, dependent: :restrict_with_error
-  self.paper_trail_options =
-    paper_trail_options.merge(skip: ["encrypted_credentials"])
+  has_many :delivery_destinations, dependent: :nullify
+  has_many :delivery_channels, dependent: :nullify
+  encrypts :access_token, :auth_token, :api_key, :smtp_password
+
   validates :name, presence: true
-  validates :provider, inclusion: { in: PROVIDERS }
+  validates :provider, inclusion: { in: PROVIDERS.map(&:to_s) }
   validate do
     if persisted? &&
          (will_save_change_to_provider? || will_save_change_to_user_id?) &&
@@ -23,53 +22,112 @@ class DeliveryConnection < ApplicationRecord
   end
   validate { can!(:update, self) }
 
+  def twilio? = provider == "twilio"
+
   def ready?
-    required =
-      case provider
-      when "smtp"
-        %w[from smtp_settings]
-      when "twilio"
-        %w[account_sid auth_token]
-      when "infobip"
-        %w[api_key base_url sender]
-      when "mastodon"
-        %w[access_token base_url]
-      else
-        %w[access_token]
-      end
-    enabled? && required.all? { |key| credentials[key].present? }
-  end
+    return false unless enabled?
 
-  def credentials
-    return {} if encrypted_credentials.blank?
-
-    JSON.parse(encryptor.decrypt_and_verify(encrypted_credentials))
-  end
-
-  def credentials=(value)
-    parsed = value.is_a?(String) ? JSON.parse(value) : value
-    unless parsed.is_a?(Hash)
-      raise ArgumentError, "Credentials must be an object"
+    case provider
+    when "smtp"
+      smtp_from.present? && smtp_address.present?
+    when "twilio"
+      account_sid.present? && auth_token.present?
+    when "infobip"
+      api_key.present? && base_url.present? && sender.present?
+    when "mastodon"
+      access_token.present? && base_url.present?
+    else
+      access_token.present?
     end
-
-    self.encrypted_credentials = encryptor.encrypt_and_sign(parsed.to_json)
   end
 
-  def serializable_hash(options = {})
-    super((options || {}).merge(except: [:encrypted_credentials]))
+  def smtp_settings
+    {
+      address: smtp_address,
+      port: smtp_port,
+      user_name: smtp_user_name,
+      password: smtp_password,
+      authentication: smtp_authentication
+    }.compact_blank
   end
 
-  def self.search_fields = base_search_fields
-  def to_s = name
+  def self.search_fields
+    {
+      user_id: {
+        node: -> { arel_table[:user_id] },
+        type: :integer
+      },
+      name: {
+        node: -> { arel_table[:name] },
+        type: :string
+      },
+      provider: {
+        node: -> { arel_table[:provider] },
+        type: :string
+      },
+      enabled: {
+        node: -> { arel_table[:enabled] },
+        type: :boolean
+      },
+      base_url: {
+        node: -> { arel_table[:base_url] },
+        type: :string
+      },
+      account_sid: {
+        node: -> { arel_table[:account_sid] },
+        type: :string
+      },
+      sender: {
+        node: -> { arel_table[:sender] },
+        type: :string
+      },
+      smtp_from: {
+        node: -> { arel_table[:smtp_from] },
+        type: :string
+      },
+      smtp_address: {
+        node: -> { arel_table[:smtp_address] },
+        type: :string
+      },
+      smtp_port: {
+        node: -> { arel_table[:smtp_port] },
+        type: :integer
+      },
+      smtp_user_name: {
+        node: -> { arel_table[:smtp_user_name] },
+        type: :string
+      },
+      smtp_authentication: {
+        node: -> { arel_table[:smtp_authentication] },
+        type: :string
+      },
+      **base_search_fields
+    }
+  end
 
-  private
+  def to_s = Utils.join(name, id_sample)
 
-  def encryptor
-    key =
-      Rails.application.key_generator.generate_key(
-        "delivery-connections-v1",
-        32
-      )
-    ActiveSupport::MessageEncryptor.new(key, cipher: "aes-256-gcm")
+  def to_code
+    {
+      access_token: access_token,
+      api_key: api_key,
+      auth_token: auth_token,
+      smtp_password: smtp_password,
+      id: id,
+      user_id: user_id,
+      name: name,
+      provider: provider,
+      enabled: enabled,
+      base_url: base_url,
+      account_sid: account_sid,
+      sender: sender,
+      smtp_from: smtp_from,
+      smtp_address: smtp_address,
+      smtp_port: smtp_port,
+      smtp_user_name: smtp_user_name,
+      smtp_authentication: smtp_authentication,
+      created_at: created_at,
+      updated_at: updated_at
+    }.to_code
   end
 end

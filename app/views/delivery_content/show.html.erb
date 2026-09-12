@@ -1,14 +1,4 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title><%= @delivery.payload["subject"] %></title>
-  </head>
-  <body>
-    <h1><%= @delivery.payload["subject"] %></h1>
-    <div style="white-space: pre-wrap">
-      <%= @delivery.payload["body_text"] %>
-    </div>
-  </body>
-</html>
+<% content_for(:title, @delivery.subject) %>
+<% content_for(:description, t(".description")) %>
+<div class="p font-bold"><%= @delivery.subject %></div>
+<div class="p whitespace-pre-wrap"><%= @delivery.body_text %></div>

@@ -1,22 +1,27 @@
-<% content_for :description, t(".manage") %>
-<% content_for :title, t(".manage") %>
-<% if can?(:create, model_class) %>
-  <div class="p"><%= link_to t(".add"), new_url, class: :button %></div>
+<% content_for(:title, t(".title")) %>
+<% content_for(:description, t(".description")) %>
+<%= turbo_stream_from(@delivery_channels) %>
+<% if can?(:create, DeliveryChannel) %>
+  <% if can?(:create, model_class) %>
+    <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
+  <% end %>
 <% end %>
-<% @delivery_channels.each do |record| %>
-  <div class="p">
-    <%= link_to record, record, class: :link %>
-    — <%= if record.amount_cents
-      number_to_currency(
-        record.amount_cents / 100.0,
-        unit: record.amount_currency.upcase
-      )
-    else
-      t(".unconfigured")
-    end %>
-    <% if !record.enabled? %>
-      — <%= t(".disabled") %>
-    <% end %>
-  </div>
-<% end %>
-<%= paginate @delivery_channels %>
+<%= render("shared/search") %>
+
+<turbo-frame id="search" target="_top">
+  <% if @delivery_channels.any? %>
+    <div class="p p--flex">
+      <% if can?(:destroy_all, DeliveryChannel) %>
+        <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
+      <% end %>
+      <% if can?(:delete_all, DeliveryChannel) %>
+        <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
+      <% end %>
+    </div>
+  <% end %>
+  <%= render_collection(
+    partial: "delivery_channels/delivery_channel",
+    collection: @delivery_channels,
+    as: :delivery_channel
+  ) %>
+</turbo-frame>

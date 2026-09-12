@@ -114,23 +114,19 @@ class DeliveryChannelsController < ApplicationController
     return {} unless admin?
 
     params.expect(
-      delivery_channel: [
-        :key,
-        :enabled,
-        :amount_cents,
-        :show_recipient,
-        :show_visibility,
-        :amount_currency,
-        :delivery_connection_id,
-        {
-          settings: %i[
-            messaging_service_sid
-            content_sid_en
-            content_sid_fr
-            callback_base_url
-            private_delivery_enabled
-          ]
-        }
+      delivery_channel: %i[
+        key
+        enabled
+        amount_cents
+        show_recipient
+        show_visibility
+        amount_currency
+        delivery_connection_id
+        messaging_service_sid
+        content_sid_en
+        content_sid_fr
+        callback_base_url
+        private_delivery_enabled
       ]
     )
   end

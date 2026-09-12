@@ -1,42 +1,222 @@
-<% content_for :description, t(".manage") %>
-<% content_for :title, @delivery.payload["subject"].presence || t(".history") %>
-<div class="p font-bold"><%= @delivery.payload["subject"] %></div>
-<div class="p whitespace-pre-wrap"><%= @delivery.payload["body_text"] %></div>
-<div class="p"><%= @delivery %></div>
-<% if @delivery.error_code.present? %>
-  <div class="p"><%= @delivery.error_code %></div>
-<% end %>
-<% if admin? && @delivery.status == "failed" %>
-  <%= button_to t(".retry"), retry_delivery_path(@delivery), class: :button %>
-<% end %>
-<% if admin? && @delivery.status == "uncertain" %>
-  <p class="p"><%= t(".reconcile_help") %></p>
-  <% %w[accepted delivered failed].each do |outcome| %>
-    <%= button_to t(".statuses.#{outcome}"),
-              reconcile_delivery_path(@delivery),
-              params: {
-                outcome: outcome
-              },
-              class: :button %>
-  <% end %>
-<% end %>
-
+<% content_for(:title, @delivery) %>
+<% content_for(:description, t(".description")) %>
+<%= turbo_stream_from(@delivery) %>
 <% if admin? %>
   <div class="p">
-    <%= link_to t(".edit"), edit_delivery_path(@delivery), class: :button %>
+    <div class="text-gray-600"><%= Delivery.human_attribute_name(:id) %></div>
+    <div class="font-bold whitespace-pre-wrap"><%= @delivery.id %></div>
   </div>
-  <%= button_to t(".remove"), @delivery, method: :delete, class: :link %>
-<% end %>
-
-<% @versions.each do |version| %>
   <div class="p">
-    <%= link_to version.event, version, class: :link %>
-    <%= l(version.created_at) %>
+    <div class="text-gray-600">
+      <%= Delivery.human_attribute_name(:subscription_id) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @delivery.subscription_id %>
+    </div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= Delivery.human_attribute_name(:delivery_destination_id) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @delivery.delivery_destination_id %>
+    </div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= Delivery.human_attribute_name(:step_execution_id) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @delivery.step_execution_id %>
+    </div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= Delivery.human_attribute_name(:event_key) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap"><%= @delivery.event_key %></div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= Delivery.human_attribute_name(:status) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap"><%= @delivery.status %></div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= Delivery.human_attribute_name(:subject) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap"><%= @delivery.subject %></div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= Delivery.human_attribute_name(:body_text) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap"><%= @delivery.body_text %></div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= Delivery.human_attribute_name(:body_html) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap"><%= @delivery.body_html %></div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600"><%= Delivery.human_attribute_name(:url) %></div>
+    <div class="font-bold whitespace-pre-wrap"><%= @delivery.url %></div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= Delivery.human_attribute_name(:locale) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap"><%= @delivery.locale %></div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= Delivery.human_attribute_name(:channel) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap"><%= @delivery.channel %></div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= Delivery.human_attribute_name(:recipient) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap"><%= @delivery.recipient %></div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= Delivery.human_attribute_name(:visibility) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap"><%= @delivery.visibility %></div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= Delivery.human_attribute_name(:connection_id) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @delivery.connection_id %>
+    </div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= Delivery.human_attribute_name(:provider_id) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @delivery.provider_id %>
+    </div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= Delivery.human_attribute_name(:error_code) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap"><%= @delivery.error_code %></div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= Delivery.human_attribute_name(:attempts) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap"><%= @delivery.attempts %></div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= Delivery.human_attribute_name(:next_attempt_at) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @delivery.next_attempt_at %>
+    </div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= Delivery.human_attribute_name(:created_at) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap"><%= @delivery.created_at %></div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= Delivery.human_attribute_name(:updated_at) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap"><%= @delivery.updated_at %></div>
+  </div>
+<% else %>
+  <div class="p font-bold"><%= @delivery.subject %></div>
+  <div class="p whitespace-pre-wrap"><%= @delivery.body_text %></div>
+<% end %>
+<div class="p p--flex">
+  <% if can?(:update, @delivery) %>
+    <%= link_to(t(".edit"), edit_url, class: :link) %>
+  <% end %>
+  <% if can?(:destroy, @delivery) %>
+    <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+  <% end %>
+  <% if can?(:delete, @delivery) %>
+    <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
+  <% end %>
+</div>
+<% if can?(:retry, @delivery) && @delivery.failed? %>
+  <%= button_to t(".retry"), retry_delivery_path(@delivery), class: :button %>
+<% end %>
+<% if can?(:reconcile, @delivery) && @delivery.uncertain? %>
+  <div class="p p--flex">
+    <%= button_to t(".statuses.accepted"),
+              reconcile_delivery_path(@delivery),
+              params: {
+                outcome: :accepted
+              },
+              class: :button %>
+    <%= button_to t(".statuses.delivered"),
+              reconcile_delivery_path(@delivery),
+              params: {
+                outcome: :delivered
+              },
+              class: :button %>
+    <%= button_to t(".statuses.failed"),
+              reconcile_delivery_path(@delivery),
+              params: {
+                outcome: :failed
+              },
+              class: :button %>
   </div>
 <% end %>
-<%= paginate @versions %>
-
-<% @logs.each do |log| %>
-  <div class="p"><%= link_to log, log, class: :link %></div>
+<% if can?(:index, Version) %>
+  <div class="p font-bold">
+    <%= link_to t(".versions"),
+            { controller: :versions, action: :index, delivery_id: @delivery.id },
+            class: :link %>
+  </div>
+  <% if can?(:create, Version) %>
+    <div class="p">
+      <%= link_to t(".new_version"),
+              { controller: :versions, action: :new, delivery_id: @delivery.id },
+              class: :button %>
+    </div>
+  <% end %>
+  <%= render_collection(
+    partial: "versions/version",
+    collection: @versions,
+    as: :version,
+    locals: {
+      nested: [*nested, @delivery]
+    }
+  ) %>
 <% end %>
-<%= paginate @logs %>
+<% if can?(:index, Log) %>
+  <div class="p font-bold">
+    <%= link_to t(".logs"),
+            { controller: :logs, action: :index, delivery_id: @delivery.id },
+            class: :link %>
+  </div>
+  <% if can?(:create, Log) %>
+    <div class="p">
+      <%= link_to t(".new_log"),
+              { controller: :logs, action: :new, delivery_id: @delivery.id },
+              class: :button %>
+    </div>
+  <% end %>
+  <%= render_collection(
+    partial: "logs/log",
+    collection: @logs,
+    as: :log,
+    locals: {
+      nested: [*nested, @delivery]
+    }
+  ) %>
+<% end %>

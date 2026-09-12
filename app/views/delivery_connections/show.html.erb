@@ -1,22 +1,230 @@
-<% content_for :description, t(".manage") %>
-<% content_for :title, @delivery_connection.to_s %>
-<div class="p font-bold"><%= @delivery_connection %></div>
-<% if can?(:update, @delivery_connection) %>
-  <div class="p"><%= link_to t(".edit"), edit_url, class: :button %></div>
-<% end %>
-<% if can?(:destroy, @delivery_connection) %>
-  <%= button_to t(".remove"), @delivery_connection, method: :delete, class: :link %>
-<% end %>
-<% @versions.each do |version| %>
+<% content_for(:title, @delivery_connection) %>
+<% content_for(:description, t(".description")) %>
+<%= turbo_stream_from(@delivery_connection) %>
+<% if admin? %>
   <div class="p">
-    <%= link_to version.event, version, class: :link %>
-    <%= l(version.created_at) %>
+    <div class="text-gray-600">
+      <%= DeliveryConnection.human_attribute_name(:id) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @delivery_connection.id %>
+    </div>
   </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= DeliveryConnection.human_attribute_name(:user_id) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @delivery_connection.user_id %>
+    </div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= DeliveryConnection.human_attribute_name(:name) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @delivery_connection.name %>
+    </div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= DeliveryConnection.human_attribute_name(:provider) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @delivery_connection.provider %>
+    </div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= DeliveryConnection.human_attribute_name(:enabled) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @delivery_connection.enabled %>
+    </div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= DeliveryConnection.human_attribute_name(:access_token) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @delivery_connection.access_token %>
+    </div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= DeliveryConnection.human_attribute_name(:base_url) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @delivery_connection.base_url %>
+    </div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= DeliveryConnection.human_attribute_name(:account_sid) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @delivery_connection.account_sid %>
+    </div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= DeliveryConnection.human_attribute_name(:auth_token) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @delivery_connection.auth_token %>
+    </div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= DeliveryConnection.human_attribute_name(:api_key) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @delivery_connection.api_key %>
+    </div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= DeliveryConnection.human_attribute_name(:sender) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @delivery_connection.sender %>
+    </div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= DeliveryConnection.human_attribute_name(:smtp_from) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @delivery_connection.smtp_from %>
+    </div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= DeliveryConnection.human_attribute_name(:smtp_address) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @delivery_connection.smtp_address %>
+    </div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= DeliveryConnection.human_attribute_name(:smtp_port) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @delivery_connection.smtp_port %>
+    </div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= DeliveryConnection.human_attribute_name(:smtp_user_name) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @delivery_connection.smtp_user_name %>
+    </div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= DeliveryConnection.human_attribute_name(:smtp_password) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @delivery_connection.smtp_password %>
+    </div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= DeliveryConnection.human_attribute_name(:smtp_authentication) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @delivery_connection.smtp_authentication %>
+    </div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= DeliveryConnection.human_attribute_name(:created_at) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @delivery_connection.created_at %>
+    </div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= DeliveryConnection.human_attribute_name(:updated_at) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @delivery_connection.updated_at %>
+    </div>
+  </div>
+<% else %>
+  <div class="p"><%= @delivery_connection %></div>
 <% end %>
-
-<% @logs.each do |log| %>
-  <div class="p"><%= link_to log, log, class: :link %></div>
+<div class="p p--flex">
+  <% if can?(:update, @delivery_connection) %>
+    <%= link_to(t(".edit"), edit_url, class: :link) %>
+  <% end %>
+  <% if can?(:destroy, @delivery_connection) %>
+    <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+  <% end %>
+  <% if can?(:delete, @delivery_connection) %>
+    <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
+  <% end %>
+</div>
+<% if can?(:index, Version) %>
+  <div class="p font-bold">
+    <%= link_to t(".versions"),
+            {
+              controller: :versions,
+              action: :index,
+              delivery_connection_id: @delivery_connection.id
+            },
+            class: :link %>
+  </div>
+  <% if can?(:create, Version) %>
+    <div class="p">
+      <%= link_to t(".new_version"),
+              {
+                controller: :versions,
+                action: :new,
+                delivery_connection_id: @delivery_connection.id
+              },
+              class: :button %>
+    </div>
+  <% end %>
+  <%= render_collection(
+    partial: "versions/version",
+    collection: @versions,
+    as: :version,
+    locals: {
+      nested: [*nested, @delivery_connection]
+    }
+  ) %>
 <% end %>
-
-<%= paginate @versions %>
-<%= paginate @logs %>
+<% if can?(:index, Log) %>
+  <div class="p font-bold">
+    <%= link_to t(".logs"),
+            {
+              controller: :logs,
+              action: :index,
+              delivery_connection_id: @delivery_connection.id
+            },
+            class: :link %>
+  </div>
+  <% if can?(:create, Log) %>
+    <div class="p">
+      <%= link_to t(".new_log"),
+              {
+                controller: :logs,
+                action: :new,
+                delivery_connection_id: @delivery_connection.id
+              },
+              class: :button %>
+    </div>
+  <% end %>
+  <%= render_collection(
+    partial: "logs/log",
+    collection: @logs,
+    as: :log,
+    locals: {
+      nested: [*nested, @delivery_connection]
+    }
+  ) %>
+<% end %>

@@ -19,12 +19,9 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
         subscription: @subscription,
         delivery_destination: destination,
         event_key: "test",
-        payload: {
-          subject: "Hello",
-          body_text: "World",
-          locale: "fr"
-        },
-        destination_snapshot: destination.snapshot
+        subject: "Hello",
+        body_text: "World",
+        locale: "fr"
       )
   end
 
@@ -34,11 +31,9 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
     %w[sms rcs whatsapp].each do |key|
       configure(key, "twilio", { account_sid: "ACtest", auth_token: "test" })
       @delivery.delivery_destination.delivery_channel.update!(
-        settings: {
-          messaging_service_sid: "MG#{key}",
-          content_sid_en: "HXen",
-          content_sid_fr: "HXfr"
-        }
+        messaging_service_sid: "MG#{key}",
+        content_sid_en: "HXen",
+        content_sid_fr: "HXfr"
       )
       sent =
         stub_request(
@@ -70,7 +65,7 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
             true
           end
           .to_return(status: 201, body: { sid: "SMtest" }.to_json)
-      assert_equal "SMtest", DeliveryAdapters.deliver(@delivery)[:provider_id]
+      assert_equal "SMtest", DeliveryAdapters.deliver(@delivery).provider_id
       assert_requested sent
       WebMock.reset!
     end
@@ -83,15 +78,15 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
         :post,
         "https://api.x.com/2/dm_conversations/with/123/messages"
       ).to_return(status: 201, body: { data: { dm_event_id: "dm123" } }.to_json)
-    assert_equal "dm123", DeliveryAdapters.deliver(@delivery)[:provider_id]
+    assert_equal "dm123", DeliveryAdapters.deliver(@delivery).provider_id
     assert_requested direct
-    @delivery.destination_snapshot["visibility"] = "public"
+    @delivery.visibility = "public"
     public_post =
       stub_request(:post, "https://api.x.com/2/tweets").to_return(
         status: 201,
         body: { data: { id: "post123" } }.to_json
       )
-    assert_equal "post123", DeliveryAdapters.deliver(@delivery)[:provider_id]
+    assert_equal "post123", DeliveryAdapters.deliver(@delivery).provider_id
     assert_requested public_post
   end
 
@@ -129,7 +124,7 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
       { access_token: "test" },
       recipient: "testing"
     )
-    @delivery.destination_snapshot["visibility"] = "public"
+    @delivery.visibility = "public"
     sent =
       stub_request(:post, "https://oauth.reddit.com/api/submit").with(
         body: {
@@ -143,7 +138,7 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
         status: 200,
         body: { json: { errors: [], data: { name: "t3_test" } } }.to_json
       )
-    assert_equal "t3_test", DeliveryAdapters.deliver(@delivery)[:provider_id]
+    assert_equal "t3_test", DeliveryAdapters.deliver(@delivery).provider_id
     assert_requested sent
   end
 
@@ -151,15 +146,10 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
     configure(
       "email",
       "smtp",
-      {
-        from: "sender@example.com",
-        smtp_settings: {
-          address: "smtp.example.com"
-        }
-      },
+      { smtp_from: "sender@example.com", smtp_address: "smtp.example.com" },
       recipient: "recipient@example.com"
     )
-    @delivery.payload["body_html"] = "<p>World</p>"
+    @delivery.body_html = "<p>World</p>"
     # Mail's test transport keeps this test independent of SMTP servers.
     original = Mail::SMTP.instance_method(:deliver!)
     captured = []
@@ -212,7 +202,7 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
         )
     with_public_provider do
       assert_equal "apple-message",
-                   DeliveryAdapters.deliver(@delivery)[:provider_id]
+                   DeliveryAdapters.deliver(@delivery).provider_id
     end
     assert_requested sent
   end
@@ -236,7 +226,7 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
         .to_return(status: 200, body: { id: "mastodon-message" }.to_json)
     with_public_provider do
       assert_equal "mastodon-message",
-                   DeliveryAdapters.deliver(@delivery)[:provider_id]
+                   DeliveryAdapters.deliver(@delivery).provider_id
     end
     assert_requested sent
   end
@@ -259,13 +249,12 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
         user: @subscription.user,
         name: provider,
         provider: provider,
-        credentials: credentials
+        **credentials
       )
-    @delivery.destination_snapshot =
-      @delivery.destination_snapshot.merge(
-        "channel" => channel,
-        "connection_id" => connection.id,
-        "recipient" => recipient
-      )
+    @delivery.assign_attributes(
+      channel: channel,
+      connection_id: connection.id,
+      recipient: recipient
+    )
   end
 end

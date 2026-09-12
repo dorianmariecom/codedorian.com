@@ -178,7 +178,7 @@ class ServicesAdminCrudTest < ActionDispatch::IntegrationTest
           subscription: {
             user_id: @admin.id,
             plan_id: plan.id,
-            new_delivery_destinations_attributes: {
+            delivery_destinations_attributes: {
               "0" => {
                 delivery_channel_id: channel.id
               }
@@ -218,7 +218,7 @@ class ServicesAdminCrudTest < ActionDispatch::IntegrationTest
           subscription: {
             user_id: @admin.id,
             plan_id: plan.id,
-            new_delivery_destinations_attributes: {
+            delivery_destinations_attributes: {
               "0" => {
                 delivery_channel_id: channel.id
               }

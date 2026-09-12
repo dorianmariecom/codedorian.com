@@ -1,61 +1,77 @@
-<% content_for :description, t(".manage") %>
-<% content_for :title, t(".manage") %>
 <%= form_with model: delivery_connection do |f| %>
-  <% if admin? %>
-    <div class="p">
-      <%= f.label :user_id, class: :label %>
-      <%= f.select :user_id,
-               policy_scope(User).order(:id).map { |user| [user.to_s, user.id] },
-               {},
-               class: :input %>
-    </div>
-  <% end %>
-  <% delivery_connection.errors.full_messages.each do |message| %>
-    <div class="p text-red-600"><%= message %></div>
-  <% end %>
   <div class="p">
-    <%= f.label :name, t(".name"), class: :label %>
-    <%= f.text_field :name, required: true, class: :input %>
+    <%= f.label :user_id, class: :label %>
+    <%= f.select :user_id, user_options(user_id: f.object.user_id), {}, class: :input %>
   </div>
   <div class="p">
-    <%= f.label :provider, t(".provider"), class: :label %>
-    <%= f.select :provider, DeliveryConnection::PROVIDERS, {}, class: :input %>
-  </div>
-  <p class="p"><%= t(".connection_help") %></p>
-  <% %w[access_token base_url account_sid auth_token api_key sender from].each do |key| %>
-    <div class="p">
-      <%= label_tag "connection_#{key}", t(".credentials.#{key}"), class: :label %>
-      <%= password_field_tag "delivery_connection[credentials][#{key}]",
-                         nil,
-                         id: "connection_#{key}",
-                         autocomplete: "new-password",
-                         class: :input %>
-    </div>
-  <% end %>
-  <% if admin? %>
-    <fieldset class="p">
-      <legend>SMTP</legend>
-      <% %w[address port user_name password authentication].each do |key| %>
-        <div class="p">
-          <%= label_tag "smtp_#{key}", key.humanize, class: :label %>
-          <%= password_field_tag "delivery_connection[credentials][smtp_settings][#{key}]",
-                             nil,
-                             id: "smtp_#{key}",
-                             autocomplete: "new-password",
-                             class: :input %>
-        </div>
-      <% end %>
-    </fieldset>
-  <% end %>
-  <div class="p">
-    <%= f.check_box :enabled %><%= f.label :enabled, t(".enabled") %>
+    <%= f.label :name, class: :label %>
+    <%= f.text_field :name, class: :input %>
   </div>
   <div class="p">
-    <%= f.submit t(".save"),
+    <%= f.label :provider, class: :label %>
+    <%= f.select :provider,
+             delivery_connection_provider_options(provider: f.object.provider),
+             {},
+             class: :input %>
+  </div>
+  <div class="p">
+    <%= f.label :enabled, class: :label %>
+    <%= f.check_box :enabled, class: :input %>
+  </div>
+  <div class="p">
+    <%= f.label :access_token, class: :label %>
+    <%= f.text_field :access_token, class: :input %>
+  </div>
+  <div class="p">
+    <%= f.label :base_url, class: :label %>
+    <%= f.text_field :base_url, class: :input %>
+  </div>
+  <div class="p">
+    <%= f.label :account_sid, class: :label %>
+    <%= f.text_field :account_sid, class: :input %>
+  </div>
+  <div class="p">
+    <%= f.label :auth_token, class: :label %>
+    <%= f.text_field :auth_token, class: :input %>
+  </div>
+  <div class="p">
+    <%= f.label :api_key, class: :label %>
+    <%= f.text_field :api_key, class: :input %>
+  </div>
+  <div class="p">
+    <%= f.label :sender, class: :label %>
+    <%= f.text_field :sender, class: :input %>
+  </div>
+  <div class="p">
+    <%= f.label :smtp_from, class: :label %>
+    <%= f.text_field :smtp_from, class: :input %>
+  </div>
+  <div class="p">
+    <%= f.label :smtp_address, class: :label %>
+    <%= f.text_field :smtp_address, class: :input %>
+  </div>
+  <div class="p">
+    <%= f.label :smtp_port, class: :label %>
+    <%= f.number_field :smtp_port, class: :input %>
+  </div>
+  <div class="p">
+    <%= f.label :smtp_user_name, class: :label %>
+    <%= f.text_field :smtp_user_name, class: :input %>
+  </div>
+  <div class="p">
+    <%= f.label :smtp_password, class: :label %>
+    <%= f.text_field :smtp_password, class: :input %>
+  </div>
+  <div class="p">
+    <%= f.label :smtp_authentication, class: :label %>
+    <%= f.text_field :smtp_authentication, class: :input %>
+  </div>
+  <div class="p">
+    <%= f.submit submit,
              class: :button,
              data: {
                controller: "bridge--button",
-               bridge__button_title_value: t(".save")
+               bridge__button_title_value: submit
              } %>
   </div>
 <% end %>

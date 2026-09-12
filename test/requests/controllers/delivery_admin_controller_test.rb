@@ -130,9 +130,12 @@ class DeliveryAdminControllerTest < ActionDispatch::IntegrationTest
                     destination.id
     get delivery_destination_path(destination)
     assert_response :success
-    assert_select "a[href=?]", log_path(log)
+    assert_select "a[href=?]",
+                  log_path(log, delivery_destination_id: destination.id)
     get delivery_destination_path(destination), params: { page: 2 }
     assert_response :success
-    assert_select "a[href=?]", log_path(log), count: 0
+    assert_select "a[href=?]",
+                  log_path(log, delivery_destination_id: destination.id),
+                  count: 0
   end
 end

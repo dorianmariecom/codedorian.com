@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class DeliveryChannel < ApplicationRecord
-  KEYS = %w[
+  KEYS = %i[
     email
     push
     messages
@@ -15,20 +15,20 @@ class DeliveryChannel < ApplicationRecord
     reddit
   ].freeze
   PROVIDERS = {
-    "email" => "smtp",
-    "sms" => "twilio",
-    "whatsapp" => "twilio",
-    "rcs" => "twilio",
-    "apple" => "infobip",
-    "slack" => "slack",
-    "x" => "x",
-    "mastodon" => "mastodon",
-    "reddit" => "reddit"
+    email: :smtp,
+    sms: :twilio,
+    whatsapp: :twilio,
+    rcs: :twilio,
+    apple: :infobip,
+    slack: :slack,
+    x: :x,
+    mastodon: :mastodon,
+    reddit: :reddit
   }.freeze
-  PERSONAL = %w[slack x mastodon reddit].freeze
+  PERSONAL = %i[slack x mastodon reddit].freeze
   belongs_to :delivery_connection, optional: true
-  has_many :delivery_destinations, dependent: :restrict_with_error
-  validates :key, inclusion: { in: KEYS }, uniqueness: true
+  has_many :delivery_destinations, dependent: :destroy
+  validates :key, inclusion: { in: KEYS.map(&:to_s) }, uniqueness: true
   validates :amount_cents,
             numericality: {
               only_integer: true,
@@ -36,44 +36,105 @@ class DeliveryChannel < ApplicationRecord
             },
             allow_nil: true
   validates :amount_currency, format: { with: /\A[a-z]{3}\z/ }
-  before_validation do
-    if settings.key?("private_delivery_enabled")
-      self.settings =
-        settings.merge(
-          "private_delivery_enabled" =>
-            ActiveModel::Type::Boolean.new.cast(
-              settings["private_delivery_enabled"]
-            )
-        )
-    end
-  end
   validate :valid_connection
 
   def available?
     return false unless enabled? && amount_cents.present?
-    if key.in?(%w[sms whatsapp rcs]) && settings["messaging_service_sid"].blank?
+    if key.in?(%w[sms whatsapp rcs]) && messaging_service_sid.blank?
       return false
     end
-    if key == "whatsapp" &&
-         %w[content_sid_en content_sid_fr].any? do |field|
-           settings[field].blank?
-         end
+    if key == "whatsapp" && (content_sid_en.blank? || content_sid_fr.blank?)
       return false
     end
 
-    PERSONAL.include?(key) || %w[push messages].include?(key) ||
+    PERSONAL.include?(key.to_sym) || %w[push messages].include?(key) ||
       delivery_connection&.ready?
   end
 
-  def self.search_fields = base_search_fields
-  def to_s = I18n.t("delivery.channels.#{key}")
+  def self.search_fields
+    {
+      key: {
+        node: -> { arel_table[:key] },
+        type: :string
+      },
+      enabled: {
+        node: -> { arel_table[:enabled] },
+        type: :boolean
+      },
+      amount_cents: {
+        node: -> { arel_table[:amount_cents] },
+        type: :integer
+      },
+      amount_currency: {
+        node: -> { arel_table[:amount_currency] },
+        type: :string
+      },
+      delivery_connection_id: {
+        node: -> { arel_table[:delivery_connection_id] },
+        type: :integer
+      },
+      messaging_service_sid: {
+        node: -> { arel_table[:messaging_service_sid] },
+        type: :string
+      },
+      content_sid_en: {
+        node: -> { arel_table[:content_sid_en] },
+        type: :string
+      },
+      content_sid_fr: {
+        node: -> { arel_table[:content_sid_fr] },
+        type: :string
+      },
+      callback_base_url: {
+        node: -> { arel_table[:callback_base_url] },
+        type: :string
+      },
+      private_delivery_enabled: {
+        node: -> { arel_table[:private_delivery_enabled] },
+        type: :boolean
+      },
+      show_recipient: {
+        node: -> { arel_table[:show_recipient] },
+        type: :boolean
+      },
+      show_visibility: {
+        node: -> { arel_table[:show_visibility] },
+        type: :boolean
+      },
+      **base_search_fields
+    }
+  end
+
+  def translated_key = t("keys.#{key}")
+
+  def to_s = Utils.join(translated_key, id_sample)
+
+  def to_code
+    {
+      id: id,
+      key: key,
+      enabled: enabled,
+      amount_cents: amount_cents,
+      amount_currency: amount_currency,
+      delivery_connection_id: delivery_connection_id,
+      messaging_service_sid: messaging_service_sid,
+      content_sid_en: content_sid_en,
+      content_sid_fr: content_sid_fr,
+      callback_base_url: callback_base_url,
+      private_delivery_enabled: private_delivery_enabled,
+      show_recipient: show_recipient,
+      show_visibility: show_visibility,
+      created_at: created_at,
+      updated_at: updated_at
+    }.to_code
+  end
 
   private
 
   def valid_connection
     return unless delivery_connection
     if delivery_connection.user.admin? &&
-         delivery_connection.provider == PROVIDERS[key]
+         delivery_connection.provider == PROVIDERS[key.to_sym]&.to_s
       return
     end
 

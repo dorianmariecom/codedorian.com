@@ -1,67 +1,66 @@
-<% content_for :description, t(".manage") %>
-<% content_for :title, t(".manage") %>
 <%= form_with model: delivery_channel do |f| %>
-  <% delivery_channel.errors.full_messages.each do |message| %>
-    <div class="p text-red-600"><%= message %></div>
-  <% end %>
   <div class="p">
-    <%= f.label :key, t(".channel"), class: :label %>
+    <%= f.label :key, class: :label %>
     <%= f.select :key,
-             DeliveryChannel::KEYS.map { |key| [t(".channels.#{key}"), key] },
+             delivery_channel_key_options(key: f.object.key),
              {},
              class: :input %>
   </div>
   <div class="p">
-    <%= f.label :amount_cents, t(".monthly_cents"), class: :label %>
-    <%= f.number_field :amount_cents, min: 0, class: :input %>
+    <%= f.label :amount_cents, class: :label %>
+    <%= f.number_field :amount_cents, class: :input %>
   </div>
   <div class="p">
-    <%= f.label :amount_currency, t(".currency"), class: :label %>
+    <%= f.label :amount_currency, class: :label %>
     <%= f.text_field :amount_currency, class: :input %>
   </div>
   <div class="p">
-    <%= f.check_box :show_recipient %>
-    <%= f.label :show_recipient, t(".show_recipient") %>
-  </div>
-  <div class="p">
-    <%= f.check_box :show_visibility %>
-    <%= f.label :show_visibility, t(".show_visibility") %>
-  </div>
-  <div class="p">
-    <%= f.label :delivery_connection_id, t(".connection"), class: :label %>
+    <%= f.label :delivery_connection_id, class: :label %>
     <%= f.select :delivery_connection_id,
-             policy_scope(DeliveryConnection).where_admin.map { |connection|
-               [connection.name, connection.id]
-             },
+             delivery_connection_options(
+               delivery_connection_id: f.object.delivery_connection_id
+             ),
              { include_blank: true },
              class: :input %>
   </div>
   <div class="p">
-    <%= hidden_field_tag "delivery_channel[settings][private_delivery_enabled]", "0" %>
-    <%= check_box_tag "delivery_channel[settings][private_delivery_enabled]",
-                  "1",
-                  delivery_channel.settings["private_delivery_enabled"] == true,
-                  id: "private_delivery_enabled" %>
-    <%= label_tag "private_delivery_enabled", t(".reddit_private_verified") %>
-  </div>
-  <% %w[messaging_service_sid content_sid_en content_sid_fr callback_base_url].each do |key| %>
-    <div class="p">
-      <%= label_tag key, key.humanize, class: :label %>
-      <%= text_field_tag "delivery_channel[settings][#{key}]",
-                     delivery_channel.settings[key],
-                     id: key,
-                     class: :input %>
-    </div>
-  <% end %>
-  <div class="p">
-    <%= f.check_box :enabled %><%= f.label :enabled, t(".enabled") %>
+    <%= f.label :enabled, class: :label %>
+    <%= f.check_box :enabled, class: :input %>
   </div>
   <div class="p">
-    <%= f.submit t(".save"),
+    <%= f.label :show_recipient, class: :label %>
+    <%= f.check_box :show_recipient, class: :input %>
+  </div>
+  <div class="p">
+    <%= f.label :show_visibility, class: :label %>
+    <%= f.check_box :show_visibility, class: :input %>
+  </div>
+  <div class="p">
+    <%= f.label :messaging_service_sid, class: :label %>
+    <%= f.text_field :messaging_service_sid, class: :input %>
+  </div>
+  <div class="p">
+    <%= f.label :content_sid_en, class: :label %>
+    <%= f.text_field :content_sid_en, class: :input %>
+  </div>
+  <div class="p">
+    <%= f.label :content_sid_fr, class: :label %>
+    <%= f.text_field :content_sid_fr, class: :input %>
+  </div>
+  <div class="p">
+    <%= f.label :callback_base_url, class: :label %>
+    <%= f.text_field :callback_base_url, class: :input %>
+  </div>
+  <div class="p">
+    <%= f.label :private_delivery_enabled, class: :label %>
+    <%= f.check_box :private_delivery_enabled, class: :input %>
+  </div>
+  <div class="p">
+    <%= f.submit submit,
              class: :button,
              data: {
                controller: "bridge--button",
-               bridge__button_title_value: t(".save")
+               bridge__button_title_value: submit
              } %>
   </div>
 <% end %>

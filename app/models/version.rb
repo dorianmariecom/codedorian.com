@@ -4,6 +4,11 @@ class Version < PaperTrail::Version
   include(RecordConcern)
 
   %i[
+    delivery
+    delivery_channel
+    delivery_connection
+    delivery_destination
+    subscription_destination
     address
     configuration
     country
@@ -42,23 +47,6 @@ class Version < PaperTrail::Version
   ].each do |model|
     scope(:"where_#{model}", ->(record) { where(item: record) })
   end
-
-  scope :where_delivery,
-        ->(record) { where(item_type: "Delivery", item_id: record.id) }
-  scope :where_delivery_channel,
-        ->(record) { where(item_type: "DeliveryChannel", item_id: record.id) }
-  scope :where_delivery_connection,
-        ->(record) do
-          where(item_type: "DeliveryConnection", item_id: record.id)
-        end
-  scope :where_delivery_destination,
-        ->(record) do
-          where(item_type: "DeliveryDestination", item_id: record.id)
-        end
-  scope :where_subscription_destination,
-        ->(record) do
-          where(item_type: "SubscriptionDestination", item_id: record.id)
-        end
 
   validates(:event, :item_id, :item_type, presence: true, on: :controller)
 

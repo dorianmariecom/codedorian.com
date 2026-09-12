@@ -17,11 +17,7 @@
   <div class="p"><%= plan_schedule_description(plan_schedule) %></div>
 <% end %>
 <div class="p">
-  <% destination =
-    new_service_subscription_path(
-      plan.service,
-      plan_id: plan.id
-    ) %>
+  <% destination = new_service_subscription_path(plan.service, plan_id: plan.id) %>
   <%= link_to(
     t(".subscribe"),
     (

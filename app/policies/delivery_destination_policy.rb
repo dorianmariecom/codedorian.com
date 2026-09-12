@@ -3,17 +3,14 @@
 class DeliveryDestinationPolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
-      return scope.all if current_user&.admin?
-      return scope.none unless current_user
-
-      scope.where(user_id: current_user.id)
+      admin? ? scope.all : scope.where_user(current_user)
     end
   end
 
-  def index? = admin?
-  def show? = admin?
-  def create? = admin?
-  def update? = admin?
+  def index? = current_user?
+  def show? = admin? || owner?
+  def create? = current_user?
+  def update? = admin? || owner?
   def destroy? = admin?
   def destroy_all? = admin?
 end

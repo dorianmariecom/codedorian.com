@@ -1,6 +1,17 @@
 # frozen_string_literal: true
 
 class DeliveryAdapters
+  PUSH_BODY_LIMIT = 2000
+  WHATSAPP_BODY_LIMIT = 1000
+  TWILIO_BODY_LIMIT = 1500
+  PROVIDER_BODY_LIMIT = 4000
+  X_PUBLIC_BODY_LIMIT = 280
+  X_PRIVATE_BODY_LIMIT = 10_000
+  MASTODON_BODY_LIMIT = 400
+  REDDIT_TITLE_LIMIT = 300
+  REDDIT_SUBJECT_LIMIT = 100
+  TWILIO_API_VERSION = "2010-04-01"
+
   class Rejected < StandardError
     attr_reader :code, :retryable
 
@@ -11,14 +22,19 @@ class DeliveryAdapters
     end
   end
 
-  def self.deliver(delivery) = new(delivery).call
+  Result = Data.define(:status, :provider_id)
+
+  def self.deliver(delivery)
+    result = new(delivery).call
+    Result.new(
+      status: result.fetch(:status, :accepted),
+      provider_id: result[:provider_id]
+    )
+  end
 
   def initialize(delivery)
     @delivery = delivery
-    @destination = delivery.destination_snapshot
-    @payload = delivery.payload
-    @connection = DeliveryConnection.find_by(id: @destination["connection_id"])
-    @credentials = @connection&.credentials || {}
+    @connection = delivery.connection
   end
 
   def call
@@ -26,7 +42,12 @@ class DeliveryAdapters
       raise Rejected, "connection_disabled"
     end
 
-    case @destination.fetch("channel")
+    if DeliveryChannel::PROVIDERS.key?(@delivery.channel.to_s.to_sym) &&
+         !@connection&.ready?
+      raise Rejected, "configuration_missing"
+    end
+
+    case @delivery.channel
     when "messages"
       inbox
     when "push"
@@ -56,16 +77,16 @@ class DeliveryAdapters
 
   private
 
-  def recipient = @destination.fetch("recipient")
-  def public? = @destination["visibility"] == "public"
-  def subject = @payload.fetch("subject")
-  def settings = @delivery.delivery_destination.delivery_channel.settings
-  def token = @credentials.fetch("access_token")
+  def recipient = @delivery.recipient
+  def public? = @delivery.visibility == "public"
+  def subject = @delivery.subject
+  def channel_settings = @delivery.delivery_destination.delivery_channel
+  def token = @connection.access_token
   def authorization = { "Authorization" => "Bearer #{token}" }
   def idempotency_key = Digest::SHA256.hexdigest("delivery-#{@delivery.id}")
 
   def text(limit = nil)
-    value = [subject, @payload.fetch("body_text")].compact_blank.join("\n\n")
+    value = [subject, @delivery.body_text].compact_blank.join("\n\n")
     compact_text(value, limit)
   end
 
@@ -73,9 +94,9 @@ class DeliveryAdapters
     return value unless limit && value.length > limit
 
     url =
-      @payload["url"].presence ||
+      @delivery.url.presence ||
         if public?
-          "#{Current.base_url}/delivery_content/#{@delivery.public_token}"
+          "#{Current.base_url}/x/#{@delivery.public_token}"
         else
           "#{Current.base_url}/deliveries/#{@delivery.id}"
         end
@@ -89,12 +110,12 @@ class DeliveryAdapters
   def inbox
     message =
       Message.create!(
-        from_user: @delivery.subscription.service.user,
+        from_user: @delivery.service.user,
         to_user: @delivery.user,
         subject: subject,
         body:
-          @payload["body_html"].presence ||
-            ERB::Util.html_escape(@payload.fetch("body_text"))
+          @delivery.body_html.presence ||
+            ERB::Util.html_escape(@delivery.body_text)
       )
     { status: "delivered", provider_id: message.id.to_s }
   end
@@ -110,7 +131,7 @@ class DeliveryAdapters
     Code::Object::Notification.code_create!(
       to: user.to_code,
       subject: subject,
-      body: @payload.fetch("body_text").truncate(2000),
+      body: @delivery.body_text.truncate(PUSH_BODY_LIMIT),
       path: "/deliveries/#{@delivery.id}",
       sound: "default",
       thread_id: "subscription-#{@delivery.subscription_id}",
@@ -122,59 +143,60 @@ class DeliveryAdapters
 
   def email
     mail = Mail.new
-    mail.from = @credentials.fetch("from")
+    mail.from = @connection.smtp_from
     mail.to = recipient
     mail.subject = subject
     mail.message_id = "delivery-#{@delivery.id}@codedorian.com"
     mail.text_part =
       Mail::Part.new(
-        body: @payload.fetch("body_text"),
+        body: @delivery.body_text,
         content_type: "text/plain; charset=UTF-8"
       )
-    if @payload["body_html"].present?
+    if @delivery.body_html.present?
       mail.html_part =
         Mail::Part.new(
-          body: @payload["body_html"],
+          body: @delivery.body_html,
           content_type: "text/html; charset=UTF-8"
         )
     end
-    mail.delivery_method(
-      :smtp,
-      @credentials.fetch("smtp_settings").symbolize_keys
-    )
+    mail.delivery_method(:smtp, @connection.smtp_settings.symbolize_keys)
     mail.deliver!
     { status: "accepted", provider_id: mail.message_id }
   end
 
   def twilio
-    account = @credentials.fetch("account_sid")
-    channel = @destination.fetch("channel")
+    account = @connection.account_sid
+    channel = @delivery.channel
     to = channel.in?(%w[whatsapp rcs]) ? "#{channel}:#{recipient}" : recipient
     data = {
       "To" => to,
-      "MessagingServiceSid" => settings.fetch("messaging_service_sid")
+      "MessagingServiceSid" => channel_settings.messaging_service_sid
     }
     if channel == "whatsapp"
-      data["ContentSid"] = settings.fetch(
-        "content_sid_#{@payload.fetch("locale", "en")}"
+      data["ContentSid"] = (
+        if @delivery.locale == "fr"
+          channel_settings.content_sid_fr
+        else
+          channel_settings.content_sid_en
+        end
       )
       data["ContentVariables"] = {
         "1" => subject,
-        "2" => compact_text(@payload.fetch("body_text"), 1000)
+        "2" => compact_text(@delivery.body_text, 1000)
       }.to_json
     else
-      data["Body"] = text(1500)
+      data["Body"] = text(TWILIO_BODY_LIMIT)
     end
-    if settings["callback_base_url"].present?
-      data["StatusCallback"] = settings["callback_base_url"].to_s +
+    if channel_settings.callback_base_url.present?
+      data["StatusCallback"] = channel_settings.callback_base_url.to_s +
         "/delivery_callbacks/twilio/#{@delivery.id}"
     end
     response =
       request(
-        "https://api.twilio.com/2010-04-01/Accounts/#{ERB::Util.url_encode(account)}/Messages.json",
+        "https://api.twilio.com/#{TWILIO_API_VERSION}/Accounts/#{ERB::Util.url_encode(account)}/Messages.json",
         data,
         form: true,
-        basic: [account, @credentials.fetch("auth_token")]
+        basic: [account, @connection.auth_token]
       )
     { provider_id: response.fetch("sid") }
   end
@@ -187,19 +209,19 @@ class DeliveryAdapters
           messages: [
             {
               channel: "APPLE_MB",
-              sender: @credentials.fetch("sender"),
+              sender: @connection.sender,
               destinations: [{ to: recipient }],
               content: {
                 body: {
                   type: "TEXT",
-                  text: text(4000)
+                  text: text(PROVIDER_BODY_LIMIT)
                 }
               }
             }
           ]
         },
         headers: {
-          "Authorization" => "App #{@credentials.fetch("api_key")}"
+          "Authorization" => "App #{@connection.api_key}"
         }
       )
     { provider_id: response.fetch("messages").first.fetch("messageId") }
@@ -211,7 +233,7 @@ class DeliveryAdapters
         "https://slack.com/api/chat.postMessage",
         {
           channel: recipient,
-          text: text(4000),
+          text: text(PROVIDER_BODY_LIMIT),
           unfurl_links: false,
           unfurl_media: false
         },
@@ -236,7 +258,7 @@ class DeliveryAdapters
     response =
       request(
         endpoint,
-        { text: text(public? ? 280 : 10_000) },
+        { text: text(public? ? X_PUBLIC_BODY_LIMIT : X_PRIVATE_BODY_LIMIT) },
         headers: authorization
       )
     {
@@ -245,7 +267,7 @@ class DeliveryAdapters
   end
 
   def mastodon
-    content = text(400)
+    content = text(MASTODON_BODY_LIMIT)
     content = "#{recipient.split.join(" ")} #{content}" unless public?
     response =
       request(
@@ -266,8 +288,8 @@ class DeliveryAdapters
             api_type: "json",
             kind: "self",
             sr: recipient,
-            title: subject.truncate(300),
-            text: @payload.fetch("body_text")
+            title: subject.truncate(REDDIT_TITLE_LIMIT),
+            text: @delivery.body_text
           },
           form: true,
           headers: headers
@@ -278,7 +300,7 @@ class DeliveryAdapters
 
       { provider_id: response.fetch("json").fetch("data").fetch("name") }
     else
-      unless settings["private_delivery_enabled"] == true
+      unless channel_settings.private_delivery_enabled == true
         raise Rejected, "reddit_private_unavailable"
       end
 
@@ -288,8 +310,8 @@ class DeliveryAdapters
           {
             api_type: "json",
             to: recipient,
-            subject: subject.truncate(100),
-            text: @payload.fetch("body_text")
+            subject: subject.truncate(REDDIT_SUBJECT_LIMIT),
+            text: @delivery.body_text
           },
           form: true,
           headers: headers
@@ -303,7 +325,7 @@ class DeliveryAdapters
   end
 
   def provider_origin
-    origin = URI.parse(@credentials.fetch("base_url"))
+    origin = URI.parse(@connection.base_url)
     unless origin.scheme == "https" && origin.host.present? &&
              origin.userinfo.nil? && origin.path.in?(["", "/"]) &&
              origin.query.nil? && origin.fragment.nil?

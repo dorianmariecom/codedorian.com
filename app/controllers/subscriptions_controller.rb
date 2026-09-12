@@ -167,12 +167,9 @@ class SubscriptionsController < ApplicationController
 
   def create
     attributes = subscription_params
-    destination_ids = attributes.delete(:delivery_destination_ids)
     attributes[:plan_id] = @plan.id if @plan
     @subscription = authorize(scope.new(attributes))
-    @selected_delivery_ids =
-      SubscriptionDeliveryBilling.normalize_ids(destination_ids)
-    created = @subscription.save_with_delivery_destinations(destination_ids)
+    created = @subscription.save_with_delivery_destinations
 
     if created
       respond_after_persist(
@@ -191,59 +188,25 @@ class SubscriptionsController < ApplicationController
 
   def update
     attributes = subscription_params
-    destination_ids = attributes.delete(:delivery_destination_ids)
     @subscription.assign_attributes(attributes)
-    if destination_ids || @subscription.new_delivery_destinations.any?
-      @delivery_preview =
-        SubscriptionDeliveryBilling.preview(@subscription, destination_ids)
-      @selected_delivery_ids =
-        SubscriptionDeliveryBilling.normalize_ids(destination_ids)
-      expected = {
-        "subscription_id" => @subscription.id,
-        "attributes" => attributes.to_h,
-        "quote" => @delivery_preview
-      }
-      verified =
-        Rails
-          .application
-          .message_verifier(:delivery_price)
-          .verified(
-            params[:delivery_confirmation].to_s,
-            purpose: :delivery_price
-          )
-      unless verified == expected
-        @delivery_confirmation =
-          Rails
-            .application
-            .message_verifier(:delivery_price)
-            .generate(
-              expected,
-              purpose: :delivery_price,
-              expires_in: 15.minutes
-            )
-        return(
-          respond_to do |format|
-            format.html { render :edit }
-            format.json do
-              render json: {
-                status: :confirmation_required,
-                       quote: @delivery_preview,
-                       delivery_confirmation: @delivery_confirmation
-              }
-            end
+    unless @subscription.confirm_delivery_changes?(
+             attributes,
+             params[:delivery_confirmation]
+           )
+      return(
+        respond_to do |format|
+          format.html { render :edit }
+          format.json do
+            render json: {
+              status: :confirmation_required,
+                     quote: @subscription.delivery_preview,
+                     delivery_confirmation: @subscription.delivery_confirmation
+            }
           end
-        )
-      end
-    end
-    saved =
-      @subscription.save_with_delivery_destinations(
-        destination_ids,
-        expected_quote: @delivery_preview
+        end
       )
-    if saved
-      if @subscription.delivery_change_key.present?
-        SubscriptionDeliveryBilling.sync!(@subscription)
-      end
+    end
+    if @subscription.save_with_delivery_destinations
       respond_after_persist(t(".notice"))
     else
       @subscription.prepare_values
@@ -324,9 +287,10 @@ class SubscriptionsController < ApplicationController
           :plan_id,
           :status,
           {
-            delivery_destination_ids: [],
-            new_delivery_destinations_attributes: [
+            delivery_destinations_attributes: [
               %i[
+                id
+                _destroy
                 delivery_channel_id
                 delivery_connection_id
                 recipient
@@ -339,9 +303,15 @@ class SubscriptionsController < ApplicationController
       )
     else
       params.fetch(:subscription, ActionController::Parameters.new).permit(
-        delivery_destination_ids: [],
-        new_delivery_destinations_attributes: [
-          %i[delivery_channel_id delivery_connection_id recipient visibility]
+        delivery_destinations_attributes: [
+          %i[
+            id
+            _destroy
+            delivery_channel_id
+            delivery_connection_id
+            recipient
+            visibility
+          ]
         ],
         subscription_values_attributes: [%i[id _destroy key value]]
       )

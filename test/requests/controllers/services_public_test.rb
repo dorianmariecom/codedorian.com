@@ -16,11 +16,7 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
       )
     end
     destination =
-      new_service_subscription_path(
-        plan.service,
-        locale: :en,
-        plan_id: plan.id
-      )
+      new_service_subscription_path(plan.service, locale: :en, plan_id: plan.id)
 
     get(
       new_user_path(locale: locale, plan_id: plan.id, redirect_to: destination)
@@ -139,11 +135,7 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
     assert_select("a[href=?]", edit_plan_path(plan), count: 0)
 
     destination =
-      new_service_subscription_path(
-        plan.service,
-        locale: :en,
-        plan_id: plan.id
-      )
+      new_service_subscription_path(plan.service, locale: :en, plan_id: plan.id)
     assert_select(
       "a.button[href=?]",
       new_user_path(locale: :en, plan_id: plan.id, redirect_to: destination),
@@ -208,11 +200,7 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
     assert_select("a[href=?]", plan_path(plan), text: /Nom français de l’offre/)
     assert_select("body", text: /tous les jours à \d{1,2} h \d{2}/, count: 0)
     destination =
-      new_service_subscription_path(
-        service,
-        locale: :fr,
-        plan_id: plan.id
-      )
+      new_service_subscription_path(service, locale: :fr, plan_id: plan.id)
     assert_select(
       "a.button[href=?]",
       new_user_path(locale: :fr, plan_id: plan.id, redirect_to: destination),
@@ -230,11 +218,7 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
     assert_select("a[href=?]", plan_path(plan), text: /English plan name/)
     assert_select("body", text: /every day at \d{1,2}:\d{2}(?:am|pm)/, count: 0)
     destination =
-      new_service_subscription_path(
-        service,
-        locale: :en,
-        plan_id: plan.id
-      )
+      new_service_subscription_path(service, locale: :en, plan_id: plan.id)
     assert_select(
       "a.button[href=?]",
       new_user_path(locale: :en, plan_id: plan.id, redirect_to: destination),

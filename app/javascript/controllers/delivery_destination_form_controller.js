@@ -6,7 +6,7 @@ export default class extends Controller {
     "recipientRow",
     "recipient",
     "visibilityRow",
-    "visibility"
+    "visibility",
   ];
 
   connect() {
@@ -18,25 +18,25 @@ export default class extends Controller {
   change() {
     const selectedChannel = this.channelTarget?.selectedOptions?.[0];
     const showRecipient = this.parseBoolean(
-      selectedChannel?.dataset?.deliveryDestinationFormShowRecipient
+      selectedChannel?.dataset?.deliveryDestinationFormShowRecipient,
     );
     const showVisibility = this.parseBoolean(
-      selectedChannel?.dataset?.deliveryDestinationFormShowVisibility
+      selectedChannel?.dataset?.deliveryDestinationFormShowVisibility,
     );
 
     this.updateField(
       this.recipientRowTarget,
       this.recipientTarget,
       showRecipient,
-      { clearValue: true }
+      { clearValue: true },
     );
     this.updateField(
       this.visibilityRowTarget,
       this.visibilityTarget,
       showVisibility,
       {
-        forcePrivate: true
-      }
+        forcePrivate: true,
+      },
     );
     const channel = selectedChannel?.dataset?.deliveryDestinationFormChannel;
     const publicWithoutRecipient =

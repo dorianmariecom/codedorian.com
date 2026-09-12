@@ -497,7 +497,7 @@ GEM
       io-console (~> 0.5)
     request_store (1.7.0)
       rack (>= 1.4)
-    resolv (0.7.0)
+    resolv (0.7.2)
     rexml (3.4.4)
     rover-df (1.1.0)
       numo-narray-alt (>= 0.10)

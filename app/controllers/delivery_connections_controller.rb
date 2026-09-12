@@ -113,30 +113,25 @@ class DeliveryConnectionsController < ApplicationController
   def delivery_connection_params
     return {} unless admin?
 
-    attributes =
-      params.expect(
-        delivery_connection: [
-          :user_id,
-          :name,
-          :provider,
-          :enabled,
-          { credentials: {} }
-        ]
-      )
-    credentials =
-      attributes
-        .delete(:credentials)
-        &.to_h
-        &.reject { |_key, value| value.blank? }
-    if credentials&.key?("smtp_settings")
-      credentials["smtp_settings"].reject! { |_key, value| value.blank? }
-      credentials.delete("smtp_settings") if credentials["smtp_settings"].empty?
-    end
-    if credentials.present?
-      attributes[:credentials] = (
-        @delivery_connection&.credentials || {}
-      ).deep_merge(credentials)
-    end
-    attributes
+    params.expect(
+      delivery_connection: %i[
+        user_id
+        name
+        provider
+        enabled
+        access_token
+        base_url
+        account_sid
+        auth_token
+        api_key
+        sender
+        smtp_from
+        smtp_address
+        smtp_port
+        smtp_user_name
+        smtp_password
+        smtp_authentication
+      ]
+    )
   end
 end

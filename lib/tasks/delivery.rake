@@ -5,8 +5,8 @@ namespace :delivery do
   task install: :environment do
     DeliveryChannel::KEYS.each do |key|
       DeliveryChannel.find_or_create_by!(key: key) do |channel|
-        channel.show_recipient = !key.in?(%w[messages push])
-        channel.show_visibility = !key.in?(%w[messages push])
+        channel.show_recipient = !key.in?(%i[messages push])
+        channel.show_visibility = !key.in?(%i[messages push])
       end
     end
     puts "Delivery channels installed. Configure connections and rates before enabling them."

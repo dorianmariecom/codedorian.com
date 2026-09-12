@@ -8,13 +8,13 @@ registerHooks({
       return {
         url: new URL(
           "../../vendor/javascript/@hotwired--stimulus.js",
-          import.meta.url
+          import.meta.url,
         ).href,
-        shortCircuit: true
+        shortCircuit: true,
       };
     }
     return nextResolve(specifier, context);
-  }
+  },
 });
 
 const { default: DeliveryDestinationFormController } =
@@ -28,10 +28,10 @@ function form(channel) {
         dataset: {
           deliveryDestinationFormChannel: channel,
           deliveryDestinationFormShowRecipient: "true",
-          deliveryDestinationFormShowVisibility: "true"
-        }
-      }
-    ]
+          deliveryDestinationFormShowVisibility: "true",
+        },
+      },
+    ],
   };
   controller.recipientRowTarget = {};
   controller.recipientTarget = { value: "" };

@@ -1,13 +1,11 @@
 <div
   class="subscription-delivery-destination border-l border-black pl-5"
-  data-new-record="true"
+  data-new-record="<%= f.object.new_record? %>"
   data-controller="delivery-destination-form"
 >
-  <% f.object.errors.full_messages.each do |message| %>
-    <div class="p text-red-600"><%= message %></div>
-  <% end %>
+  <%= f.hidden_field :_destroy %>
   <div class="p">
-    <%= f.label :delivery_channel_id, t(".channel"), class: :label %>
+    <%= f.label :delivery_channel_id, class: :label %>
     <%= f.select :delivery_channel_id,
              channels.map { |channel|
                [
@@ -33,16 +31,17 @@
              } %>
   </div>
   <div class="p" data-delivery-destination-form-target="recipientRow">
-    <%= f.label :recipient, t(".recipient"), class: :label %>
+    <%= f.label :recipient, class: :label %>
     <%= f.text_field :recipient,
-             class: :input,
-             autocomplete: :off,
-             data: { "delivery-destination-form-target": "recipient" } %>
-    <p><%= t(".recipient_help") %></p>
+                 class: :input,
+                 autocomplete: :off,
+                 data: {
+                   "delivery-destination-form-target": "recipient"
+                 } %>
   </div>
   <% if connections.any? %>
     <div class="p">
-      <%= f.label :delivery_connection_id, t(".connection"), class: :label %>
+      <%= f.label :delivery_connection_id, class: :label %>
       <%= f.select :delivery_connection_id,
                connections.map { |connection| [connection.name, connection.id] },
                { include_blank: true },
@@ -50,7 +49,7 @@
     </div>
   <% end %>
   <div class="p" data-delivery-destination-form-target="visibilityRow">
-    <%= f.label :visibility, t(".visibility"), class: :label %>
+    <%= f.label :visibility, class: :label %>
     <%= f.select :visibility,
              [[t(".private"), "private"], [t(".public"), "public"]],
              {},

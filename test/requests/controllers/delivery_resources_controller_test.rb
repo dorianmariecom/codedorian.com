@@ -30,7 +30,7 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
           plan_id: plans(:plan).id
         }
     assert_response :success
-    assert_select "form template input[name*='[new_delivery_destinations_attributes]'][name$='[name]']",
+    assert_select "form template input[name*='[delivery_destinations_attributes]'][name$='[name]']",
                   false
     assert_select "a[href=?]", new_delivery_destination_path, count: 0
     assert_difference %w[
@@ -49,7 +49,7 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
                    value: "example"
                  }
                },
-               new_delivery_destinations_attributes: {
+               delivery_destinations_attributes: {
                  "0" => {
                    delivery_channel_id: @channel.id
                  }
@@ -57,11 +57,13 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
              }
            },
            as: :json
+      assert_response :success, response.body
     end
     assert_response :success
     subscription = Subscription.order(:id).last
     assert_equal users(:admin), subscription.delivery_destinations.sole.user
-    assert_equal @channel.to_s, subscription.delivery_destinations.sole.name
+    assert_equal @channel.translated_key,
+                 subscription.delivery_destinations.sole.name
     assert_equal 1000, subscription.amount_cents
   end
 
@@ -73,7 +75,7 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
            params: {
              subscription: {
                plan_id: plans(:plan).id,
-               new_delivery_destinations_attributes: {
+               delivery_destinations_attributes: {
                  "0" => {
                    delivery_channel_id: @channel.id,
                    visibility: "public"
@@ -83,7 +85,7 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
            }
     end
     assert_response :unprocessable_content
-    assert_select "input[name*='[new_delivery_destinations_attributes]'][name$='[name]']",
+    assert_select "input[name*='[delivery_destinations_attributes]'][name$='[name]']",
                   false
   end
 
@@ -99,7 +101,7 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
       end
     attributes = {
       subscription: {
-        new_delivery_destinations_attributes: {
+        delivery_destinations_attributes: {
           "0" => {
             delivery_channel_id: @channel.id
           }
@@ -116,9 +118,10 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
       patch subscription_path(subscription),
             params: attributes.merge(delivery_confirmation: confirmation),
             as: :json
+      assert_response :success, response.body
     end
     assert_response :success
-    assert_equal @channel.to_s,
+    assert_equal @channel.translated_key,
                  subscription.reload.delivery_destinations.sole.name
   end
 
@@ -158,17 +161,24 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "owners can read delivery content but cannot retry deliveries" do
-    delivery = Current.with(user: users(:admin)) do
-      subscription = Subscription.create!(user: users(:other_user), plan: plans(:plan))
-      destination = DeliveryDestination.create!(user: subscription.user, delivery_channel: @channel)
-      Delivery.create!(
-        subscription: subscription,
-        delivery_destination: destination,
-        event_key: "private-content",
-        status: "failed",
-        payload: { subject: "Private update", body_text: "Full delivery content" }
-      )
-    end
+    delivery =
+      Current.with(user: users(:admin)) do
+        subscription =
+          Subscription.create!(user: users(:other_user), plan: plans(:plan))
+        destination =
+          DeliveryDestination.create!(
+            user: subscription.user,
+            delivery_channel: @channel
+          )
+        Delivery.create!(
+          subscription: subscription,
+          delivery_destination: destination,
+          event_key: "private-content",
+          status: "failed",
+          subject: "Private update",
+          body_text: "Full delivery content"
+        )
+      end
 
     get delivery_path(delivery)
     assert_response :success
@@ -176,37 +186,52 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
     assert_select "form[action=?]", retry_delivery_path(delivery), count: 0
     get delivery_path(delivery), as: :json
     assert_response :success
-    assert_equal "Full delivery content", response.parsed_body.dig("data", "payload", "body_text")
+    assert_equal "Full delivery content",
+                 response.parsed_body.dig("data", "body_text")
     post retry_delivery_path(delivery), as: :json
     assert_response :bad_request
     assert_equal "failed", delivery.reload.status
 
-    other_delivery = Current.with(user: users(:admin)) do
-      destination = DeliveryDestination.create!(user: users(:admin), delivery_channel: @channel)
-      Delivery.create!(
-        subscription: subscriptions(:subscription),
-        delivery_destination: destination,
-        event_key: "other-content"
-      )
-    end
+    other_delivery =
+      Current.with(user: users(:admin)) do
+        destination =
+          DeliveryDestination.create!(
+            user: users(:admin),
+            delivery_channel: @channel
+          )
+        Delivery.create!(
+          subscription: subscriptions(:subscription),
+          delivery_destination: destination,
+          event_key: "other-content"
+        )
+      end
     get delivery_path(other_delivery), as: :json
     assert_response :bad_request
   end
 
   test "editing preserves a destination whose channel is unavailable" do
     sign_in_admin
-    destination = Current.with(user: users(:admin)) do
-      DeliveryDestination.create!(user: users(:admin), delivery_channel: @channel)
-    end
+    destination =
+      Current.with(user: users(:admin)) do
+        DeliveryDestination.create!(
+          user: users(:admin),
+          delivery_channel: @channel
+        )
+      end
     @channel.update!(enabled: false)
     DeliveryChannel.create!(key: "push", enabled: true, amount_cents: 0)
 
     get edit_delivery_destination_path(destination)
     assert_response :success
-    assert_select "select[name='delivery_destination[delivery_channel_id]'] option[selected][value=?]", @channel.id.to_s
-    patch delivery_destination_path(destination), params: {
-      delivery_destination: { delivery_channel_id: @channel.id, enabled: false }
-    }
+    assert_select "select[name='delivery_destination[delivery_channel_id]'] option[selected][value=?]",
+                  @channel.id.to_s
+    patch delivery_destination_path(destination),
+          params: {
+            delivery_destination: {
+              delivery_channel_id: @channel.id,
+              enabled: false
+            }
+          }
     assert_redirected_to destination
     assert_equal @channel, destination.reload.delivery_channel
     assert_not destination.enabled?
@@ -261,25 +286,23 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
     assert_equal "uncertain", delivery.reload.status
   end
 
-  test "credentials never appear in connection responses or forms" do
+  test "admins can inspect normalized connection attributes" do
     sign_in_admin
     post delivery_connections_path,
          params: {
            delivery_connection: {
              name: "Slack",
              provider: "slack",
-             credentials: {
-               access_token: "private-test-token"
-             }
+             access_token: "private-test-token"
            }
          },
          as: :json
     assert_response :success
-    assert_not_includes response.body, "private-test-token"
+    assert_includes response.body, "private-test-token"
     connection = DeliveryConnection.order(:id).last
     get edit_delivery_connection_path(connection)
     assert_response :success
-    assert_not_includes response.body, "private-test-token"
+    assert_includes response.body, "private-test-token"
     get delivery_connection_path(connection)
     assert_response :success
   end
@@ -298,20 +321,24 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
          params: {
            subscription: {
              plan_id: plans(:plan).id,
-             delivery_destination_ids: [destination.id]
+             delivery_destinations_attributes: [
+               { delivery_channel_id: @channel.id }
+             ]
            }
          }
     subscription = Subscription.order(:id).last
     assert_redirected_to subscription_billing_path(subscription)
     assert_equal users(:other_user), subscription.user
     assert_equal 1000, subscription.amount_cents
-    assert_equal [destination.id],
-                 subscription.subscription_destinations.pluck(
-                   :delivery_destination_id
-                 )
+    assert_equal @channel.id,
+                 subscription
+                   .reload
+                   .delivery_destinations
+                   .sole
+                   .delivery_channel_id
     get subscription_billing_path(subscription)
     assert_response :success
-    assert_includes response.body, destination.to_s
+    assert_includes response.body, subscription.delivery_destinations.sole.name
   end
 
   test "editing destinations reviews the price before saving" do
@@ -330,7 +357,7 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
       end
     attributes = {
       subscription: {
-        delivery_destination_ids: [destination.id]
+        delivery_destinations_attributes: [{ delivery_channel_id: @channel.id }]
       }
     }
     patch subscription_path(subscription), params: attributes, as: :json
@@ -342,10 +369,12 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
           params: attributes.merge(delivery_confirmation: confirmation),
           as: :json
     assert_response :success
-    assert_equal [destination.id],
-                 subscription.subscription_destinations.pluck(
-                   :delivery_destination_id
-                 )
+    assert_equal @channel.id,
+                 subscription
+                   .reload
+                   .delivery_destinations
+                   .sole
+                   .delivery_channel_id
   end
 
   test "signup links retain their plan" do
@@ -358,13 +387,13 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
                   plans(:plan).id.to_s
   end
 
-  test "non admin cannot create destinations inline" do
-    assert_no_difference %w[Subscription.count DeliveryDestination.count] do
+  test "non admin can create destinations inline" do
+    assert_difference %w[Subscription.count DeliveryDestination.count], 1 do
       post service_subscriptions_path(services(:service)),
            params: {
              subscription: {
                plan_id: plans(:plan).id,
-               new_delivery_destinations_attributes: {
+               delivery_destinations_attributes: {
                  "0" => {
                    delivery_channel_id: @channel.id
                  }
@@ -372,12 +401,13 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
              }
            },
            as: :json
+      assert_response :success, response.body
     end
-    assert_response :unprocessable_content
+    assert_response :success
   end
 
-  test "non admin cannot create delivery resources" do
-    assert_no_difference "DeliveryDestination.count" do
+  test "non admin can create destinations but cannot create connections" do
+    assert_difference "DeliveryDestination.count", 1 do
       post delivery_destinations_path,
            params: {
              delivery_destination: {
@@ -385,8 +415,9 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
              }
            },
            as: :json
+      assert_response :success, response.body
     end
-    assert_response :bad_request
+    assert_response :success
     assert_no_difference "DeliveryConnection.count" do
       post delivery_connections_path,
            params: {
@@ -396,6 +427,7 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
              }
            },
            as: :json
+      assert_response :bad_request
     end
     assert_response :bad_request
   end
@@ -418,6 +450,55 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
          params: {
            delivery_destination: {
              user_id: users(:other_user).id,
+             delivery_channel_id: @channel.id
+           }
+         },
+         as: :json
+    assert_response :success
+    assert_equal users(:other_user), DeliveryDestination.order(:id).last.user
+  end
+
+  test "nested destination removal requires confirmation and preserves the remaining selection" do
+    sign_in_admin
+    subscription = subscriptions(:subscription)
+    first, second =
+      Current.with(user: users(:admin)) do
+        destinations =
+          Array.new(2) do
+            DeliveryDestination.create!(
+              user: subscription.user,
+              delivery_channel: @channel
+            )
+          end
+        SubscriptionDeliveryBilling.select!(
+          subscription,
+          destinations.map(&:id)
+        )
+        destinations
+      end
+    attributes = {
+      subscription: {
+        delivery_destinations_attributes: [{ id: first.id, _destroy: "1" }]
+      }
+    }
+    patch subscription_path(subscription), params: attributes, as: :json
+    assert_response :success
+    assert_equal "confirmation_required", response.parsed_body["status"]
+    assert DeliveryDestination.exists?(first.id)
+    confirmation = response.parsed_body.fetch("delivery_confirmation")
+    patch subscription_path(subscription),
+          params: attributes.merge(delivery_confirmation: confirmation),
+          as: :json
+    assert_response :success, response.body
+    assert_equal [second.id], subscription.reload.delivery_destinations.ids
+    assert_equal 1000, subscription.amount_cents
+  end
+
+  test "subscriber cannot assign a destination to another user" do
+    post delivery_destinations_path,
+         params: {
+           delivery_destination: {
+             user_id: users(:admin).id,
              delivery_channel_id: @channel.id
            }
          },

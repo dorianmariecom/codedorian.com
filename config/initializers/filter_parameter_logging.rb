@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 Rails.application.config.filter_parameters += %i[
-  credentials
-  encrypted_credentials
+  access_token
+  auth_token
+  api_key
+  smtp_password
   passw
   secret
   token

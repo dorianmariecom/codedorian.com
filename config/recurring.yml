@@ -19,7 +19,3 @@ scheduling:
   class: SchedulingJob
   queue: scheduling
   schedule: every second
-delivery_dispatch:
-  class: DispatchPendingDeliveriesJob
-  queue: default
-  schedule: every minute

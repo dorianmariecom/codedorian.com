@@ -4,10 +4,9 @@ class SubscriptionDeliveryBilling
   def self.price_for(subscription)
     base = subscription.plan.price_for(subscription)
     selections =
-      subscription
-        .subscription_destinations
-        .where(selected: true)
-        .includes(delivery_destination: :delivery_channel)
+      subscription.subscription_destinations.selected.preload(
+        delivery_destination: :delivery_channel
+      )
     if selections.empty?
       raise StripeBilling::PricingError, I18n.t("delivery.choose_destination")
     end
@@ -17,21 +16,12 @@ class SubscriptionDeliveryBilling
       raise StripeBilling::PricingError, I18n.t("delivery.currency_mismatch")
     end
 
-    items =
-      selections.map do |selection|
-        {
-          "destination_id" => selection.delivery_destination_id,
-          "name" => selection.delivery_destination.to_s,
-          "amount_cents" => selection.amount_cents
-        }
-      end
-    total = base[:amount_cents] + items.sum { |item| item["amount_cents"] }
-    subscription.delivery_pricing = {
-      "base_amount_cents" => base[:amount_cents],
-      "items" => items,
-      "amount_cents" => total,
-      "amount_currency" => base[:amount_currency]
-    }
+    total = base[:amount_cents] + selections.sum(&:amount_cents)
+    subscription.assign_attributes(
+      delivery_base_amount_cents: base[:amount_cents],
+      delivery_amount_cents: total,
+      delivery_amount_currency: base[:amount_currency]
+    )
     { amount_cents: total, amount_currency: base[:amount_currency] }
   end
 
@@ -41,38 +31,26 @@ class SubscriptionDeliveryBilling
     raise StripeBilling::PricingError, I18n.t("delivery.invalid_destinations")
   end
 
-  def self.preview(subscription, ids)
-    ids = normalize_ids(ids)
+  def self.preview(subscription)
     destinations =
-      DeliveryDestination
-        .where_user(subscription.user)
-        .where_id(ids)
-        .includes(:delivery_channel)
-        .to_a
-    unless destinations.size == ids.size && destinations.all?(&:available?)
+      subscription.delivery_destinations.reject(&:marked_for_destruction?)
+    destinations.each do |destination|
+      destination.user = subscription.user if destination.new_record?
+    end
+    unless destinations.any? &&
+             destinations.all? do |destination|
+               destination.valid? && destination.available?
+             end
       raise StripeBilling::PricingError, I18n.t("delivery.invalid_destinations")
     end
-
-    new_destinations = subscription.new_delivery_destinations
-    raise Pundit::NotAuthorizedError if new_destinations.any? && !Current.admin?
-
-    new_destinations.each { |destination| destination.user = subscription.user }
-    unless new_destinations.all? do |destination|
-             destination.valid? && destination.available?
-           end && (destinations.any? || new_destinations.any?)
-      raise StripeBilling::PricingError, I18n.t("delivery.invalid_destinations")
-    end
-
-    destinations += new_destinations
 
     base = subscription.plan.price_for(subscription)
     existing =
-      subscription
-        .subscription_destinations
-        .where(selected: true)
-        .index_by(&:delivery_destination_id)
+      subscription.subscription_destinations.selected.index_by(
+        &:delivery_destination_id
+      )
     items =
-      destinations.map do |destination|
+      destinations.each_with_index.map do |destination, index|
         selection = existing[destination.id]
         currency =
           selection&.amount_currency ||
@@ -82,9 +60,8 @@ class SubscriptionDeliveryBilling
                 I18n.t("delivery.currency_mismatch")
         end
         {
-          "destination_id" =>
-            destination.id || "new_#{new_destinations.index(destination)}",
-          "name" => destination.to_s,
+          "destination_id" => destination.id || "new_#{index}",
+          "name" => destination.name,
           "amount_cents" =>
             selection&.amount_cents || destination.delivery_channel.amount_cents
         }
@@ -101,10 +78,9 @@ class SubscriptionDeliveryBilling
   def self.select!(subscription, ids, sync: true, expected_quote: nil)
     ids = normalize_ids(ids)
     destinations =
-      DeliveryDestination.where(
-        user_id: subscription.user_id,
-        id: ids
-      ).includes(:delivery_channel)
+      DeliveryDestination.where(user_id: subscription.user_id, id: ids).preload(
+        :delivery_channel
+      )
     unless destinations.size == ids.size && destinations.all?(&:available?) &&
              ids.any?
       raise StripeBilling::PricingError, I18n.t("delivery.invalid_destinations")
@@ -132,6 +108,7 @@ class SubscriptionDeliveryBilling
             amount_currency: destination.delivery_channel.amount_currency
           )
         end
+        selection.name = destination.name
         selection.selected = true
         selection.active = subscription.active? unless subscription.billed?
         selection.save!
@@ -210,10 +187,7 @@ class SubscriptionDeliveryBilling
     end
 
     subscription.with_lock do
-      subscription
-        .subscription_destinations
-        .where(selected: true)
-        .find_each { |selection| selection.update!(active: true) }
+      subscription.subscription_destinations.selected.find_each(&:active!)
       subscription.update!(
         amount_cents: quote.fetch("amount_cents"),
         amount_currency: quote.fetch("amount_currency"),

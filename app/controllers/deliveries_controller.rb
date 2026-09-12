@@ -122,15 +122,19 @@ class DeliveriesController < ApplicationController
     return {} unless admin?
 
     params.expect(
-      delivery: [
-        :subscription_id,
-        :delivery_destination_id,
-        :step_execution_id,
-        :event_key,
-        :status,
-        :provider_id,
-        :error_code,
-        { payload: %i[subject body_text body_html url locale] }
+      delivery: %i[
+        subscription_id
+        delivery_destination_id
+        step_execution_id
+        event_key
+        status
+        provider_id
+        error_code
+        subject
+        body_text
+        body_html
+        url
+        locale
       ]
     )
   end

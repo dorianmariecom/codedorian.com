@@ -9,7 +9,7 @@ class DeliveryCallbacksController < ActionController::API
     end
 
     data = request.request_parameters
-    unless data["AccountSid"] == connection.credentials.fetch("account_sid")
+    unless data["AccountSid"] == connection.account_sid
       return head :unprocessable_content
     end
 
@@ -30,11 +30,7 @@ class DeliveryCallbacksController < ActionController::API
   def valid_signature?(connection)
     expected =
       Base64.strict_encode64(
-        OpenSSL::HMAC.digest(
-          "sha1",
-          connection.credentials.fetch("auth_token"),
-          request_url_sorted
-        )
+        OpenSSL::HMAC.digest("sha1", connection.auth_token, request_url_sorted)
       )
     ActiveSupport::SecurityUtils.secure_compare(
       expected,

@@ -83,11 +83,8 @@ class StripeEventProcessor
                subscription.delivery_change_key.blank?
             item = stripe_subscription.items&.data&.first
             price = item&.price
-            unless price &&
-                     price.unit_amount ==
-                       subscription.delivery_pricing["amount_cents"] &&
-                     price.currency ==
-                       subscription.delivery_pricing["amount_currency"]
+            unless price && price.unit_amount == subscription.amount_cents &&
+                     price.currency == subscription.amount_currency
               subscription.billing_inactive!
               return
             end

@@ -31,7 +31,9 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
         params: {
           subscription: {
             plan_id: plan.id,
-            delivery_destination_ids: [destination_for(user).id]
+            delivery_destinations_attributes: [
+              { delivery_channel_id: destination_for(user).delivery_channel_id }
+            ]
           }
         }
       )
@@ -260,7 +262,9 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
         params: {
           subscription: {
             plan_id: @plan.id,
-            delivery_destination_ids: [destination_for(user).id],
+            delivery_destinations_attributes: [
+              { delivery_channel_id: destination_for(user).delivery_channel_id }
+            ],
             status: "active",
             subscription_values_attributes: {
               "0" => {
@@ -337,7 +341,9 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
         params: {
           subscription: {
             plan_id: @plan.id,
-            delivery_destination_ids: [destination_for(user).id],
+            delivery_destinations_attributes: [
+              { delivery_channel_id: destination_for(user).delivery_channel_id }
+            ],
             subscription_values_attributes: {
               "0" => {
                 key: "phone_number",
@@ -448,7 +454,11 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
         params: {
           subscription: {
             plan_id: @plan.id,
-            delivery_destination_ids: [destination_for(admin).id],
+            delivery_destinations_attributes: [
+              {
+                delivery_channel_id: destination_for(admin).delivery_channel_id
+              }
+            ],
             status: "inactive",
             subscription_values_attributes: {
               "0" => {

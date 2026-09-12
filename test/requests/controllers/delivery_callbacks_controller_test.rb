@@ -10,10 +10,8 @@ class DeliveryCallbacksControllerTest < ActionDispatch::IntegrationTest
           user: users(:admin),
           name: "Twilio",
           provider: "twilio",
-          credentials: {
-            account_sid: "ACtest",
-            auth_token: "test-secret"
-          }
+          account_sid: "ACtest",
+          auth_token: "test-secret"
         )
       channel =
         DeliveryChannel.create!(
@@ -21,9 +19,7 @@ class DeliveryCallbacksControllerTest < ActionDispatch::IntegrationTest
           delivery_connection: connection,
           amount_cents: 100,
           enabled: true,
-          settings: {
-            messaging_service_sid: "MGtest"
-          }
+          messaging_service_sid: "MGtest"
         )
       destination =
         DeliveryDestination.create!(
@@ -37,7 +33,6 @@ class DeliveryCallbacksControllerTest < ActionDispatch::IntegrationTest
           subscription: subscriptions(:subscription),
           delivery_destination: destination,
           event_key: "callback",
-          destination_snapshot: destination.snapshot,
           status: "sending"
         )
     end
@@ -82,7 +77,7 @@ class DeliveryCallbacksControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "private delivery content never has a public link" do
-    get "/delivery_content/#{@delivery.public_token}"
+    get "/x/#{@delivery.public_token}"
     assert_response :not_found
   end
 
@@ -102,16 +97,14 @@ class DeliveryCallbacksControllerTest < ActionDispatch::IntegrationTest
         recipient: ""
       )
       @delivery.update!(
-        destination_snapshot: @delivery.delivery_destination.snapshot,
-        payload: {
-          "subject" => "Public update",
-          "body_text" => "Hello"
-        }
+        visibility: "public",
+        subject: "Public update",
+        body_text: "Hello"
       )
     end
 
     assert_difference "Guest.count", 1 do
-      get "/delivery_content/#{@delivery.public_token}"
+      get "/x/#{@delivery.public_token}"
     end
     assert_response :success
     assert_includes response.body, "Public update"
@@ -121,7 +114,7 @@ class DeliveryCallbacksControllerTest < ActionDispatch::IntegrationTest
     Current.with(user: users(:admin)) do
       @delivery.delivery_destination.update!(visibility: "private")
     end
-    get "/delivery_content/#{@delivery.public_token}"
+    get "/x/#{@delivery.public_token}"
     assert_response :not_found
   end
 

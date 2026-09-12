@@ -111,17 +111,18 @@ class DeliveryDestinationsController < ApplicationController
   end
 
   def delivery_destination_params
-    return {} unless admin?
-
-    params.expect(
-      delivery_destination: %i[
-        user_id
-        delivery_channel_id
-        delivery_connection_id
-        recipient
-        visibility
-        enabled
-      ]
-    )
+    attributes =
+      params.expect(
+        delivery_destination: %i[
+          user_id
+          delivery_channel_id
+          delivery_connection_id
+          recipient
+          visibility
+          enabled
+        ]
+      )
+    attributes.delete(:user_id) unless admin?
+    attributes
   end
 end

@@ -5,16 +5,26 @@ require "test_helper"
 class ServiceModelsTest < ActiveSupport::TestCase
   test "scheduled subscriptions execute as their owner without granting edit access" do
     subscriber = users(:other_user)
-    subscription = Current.with(user: subscriber) do
-      Subscription.create!(user: subscriber, plan: plans(:plan), status: "active")
-    end
+    subscription =
+      Current.with(user: subscriber) do
+        Subscription.create!(
+          user: subscriber,
+          plan: plans(:plan),
+          status: "active"
+        )
+      end
 
     assert_not SubscriptionPolicy.new(subscriber, subscription).update?
     assert_difference "subscription.subscription_executions.count", 1 do
       SchedulingSubscriptionJob.perform_now(
         subscription: subscription,
-        current: { user: subscriber, subscription: subscription },
-        context: { subscription: subscription }
+        current: {
+          user: subscriber,
+          subscription: subscription
+        },
+        context: {
+          subscription: subscription
+        }
       )
     end
     assert subscription.subscription_executions.sole.step_executions.exists?
