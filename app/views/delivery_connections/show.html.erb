@@ -1,0 +1,22 @@
+<% content_for :description, t(".manage") %>
+<% content_for :title, @delivery_connection.to_s %>
+<div class="p font-bold"><%= @delivery_connection %></div>
+<% if can?(:update, @delivery_connection) %>
+  <div class="p"><%= link_to t(".edit"), edit_url, class: :button %></div>
+<% end %>
+<% if can?(:destroy, @delivery_connection) %>
+  <%= button_to t(".remove"), @delivery_connection, method: :delete, class: :link %>
+<% end %>
+<% @versions.each do |version| %>
+  <div class="p">
+    <%= link_to version.event, version, class: :link %>
+    <%= l(version.created_at) %>
+  </div>
+<% end %>
+
+<% @logs.each do |log| %>
+  <div class="p"><%= link_to log, log, class: :link %></div>
+<% end %>
+
+<%= paginate @versions %>
+<%= paginate @logs %>

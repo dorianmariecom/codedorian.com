@@ -20,9 +20,7 @@
   <% destination =
     new_service_subscription_path(
       plan.service,
-      subscription: {
-        plan_id: plan.id
-      }
+      plan_id: plan.id
     ) %>
   <%= link_to(
     t(".subscribe"),

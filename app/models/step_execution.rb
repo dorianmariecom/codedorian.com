@@ -6,6 +6,7 @@ class StepExecution < ApplicationRecord
   TIMEOUT = Program::TIMEOUT
   STATUSES = SubscriptionExecution::STATUSES
   belongs_to :subscription_execution, touch: true
+  has_many :deliveries, dependent: :nullify
   belongs_to :step
   has_one :subscription, through: :subscription_execution
   has_one :plan, through: :subscription

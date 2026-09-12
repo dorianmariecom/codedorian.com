@@ -1,0 +1,9 @@
+<% content_for :description, t(".manage") %>
+<% content_for :title, t(".manage") %>
+<% if can?(:create, model_class) %>
+  <div class="p"><%= link_to t(".add"), new_url, class: :button %></div>
+<% end %>
+<% @subscription_destinations.each do |record| %>
+  <div class="p"><%= link_to record, record, class: :link %></div>
+<% end %>
+<%= paginate @subscription_destinations %>

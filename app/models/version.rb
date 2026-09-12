@@ -43,6 +43,23 @@ class Version < PaperTrail::Version
     scope(:"where_#{model}", ->(record) { where(item: record) })
   end
 
+  scope :where_delivery,
+        ->(record) { where(item_type: "Delivery", item_id: record.id) }
+  scope :where_delivery_channel,
+        ->(record) { where(item_type: "DeliveryChannel", item_id: record.id) }
+  scope :where_delivery_connection,
+        ->(record) do
+          where(item_type: "DeliveryConnection", item_id: record.id)
+        end
+  scope :where_delivery_destination,
+        ->(record) do
+          where(item_type: "DeliveryDestination", item_id: record.id)
+        end
+  scope :where_subscription_destination,
+        ->(record) do
+          where(item_type: "SubscriptionDestination", item_id: record.id)
+        end
+
   validates(:event, :item_id, :item_type, presence: true, on: :controller)
 
   validate(:parse_and_validate_object, on: :controller)

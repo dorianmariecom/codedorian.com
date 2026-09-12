@@ -1,3 +1,25 @@
+<% if @subscription.delivery_change_key.present? %>
+  <div class="p"><%= t("delivery.change_pending") %></div>
+  <%= button_to t("delivery.retry"),
+            retry_payment_subscription_billing_path(@subscription),
+            class: :button %>
+<% end %>
+<% if @subscription.delivery_pricing.present? %>
+  <div class="p">
+    <%= t("delivery.base") %>: <%= Money.new(
+      @subscription.delivery_pricing["base_amount_cents"],
+      @subscription.delivery_pricing["amount_currency"]
+    ).format(locale: I18n.locale) %>
+  </div>
+  <% @subscription.delivery_pricing.fetch("items", []).each do |item| %>
+    <div class="p">
+      <%= item["name"] %>: <%= Money.new(
+        item["amount_cents"],
+        @subscription.delivery_pricing["amount_currency"]
+      ).format(locale: I18n.locale) %>
+    </div>
+  <% end %>
+<% end %>
 <% content_for(:title, t(".title", subscription: @subscription)) %>
 <%= turbo_stream_from(@subscription) %>
 <div class="p">

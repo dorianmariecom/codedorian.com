@@ -1,0 +1,22 @@
+previous_followers = followers_by_subscription[subscription_key]
+
+if previous_followers.is_a?(List)
+  follower_ids = followers.map { |follower| follower.id.to_string.strip }
+  unfollowers = previous_followers.reject { |follower|
+    follower_ids.include?(follower.id.to_string.strip)
+  }
+
+  if unfollowers.present?
+    unfollower_ids = unfollowers.map { |follower| follower.id.to_string.strip }.sort
+    french = subscription.user.locale.to_string == "fr"
+    subject = french ? "Désabonnements sur X" : "X unfollow alerts"
+    introduction = french ? "Ces comptes ne suivent plus @{x_username} :" : "These accounts no longer follow @{x_username}:"
+    links = unfollower_ids.map { |id| "https://x.com/i/user/{id}" }.join("\n")
+
+    subscription.deliver(
+      key: "x-unfollows:{Date.today}:{unfollower_ids.join(',')}",
+      subject: subject,
+      body_text: "{introduction}\n{links}"
+    )
+  end
+end

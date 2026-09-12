@@ -1,6 +1,39 @@
 # frozen_string_literal: true
 
 class Log < ApplicationRecord
+  scope :where_delivery,
+        ->(record) do
+          where("logs.context @> ?", { delivery: { id: record.id } }.to_json)
+        end
+  scope :where_delivery_channel,
+        ->(record) do
+          where(
+            "logs.context @> ?",
+            { delivery_channel: { id: record.id } }.to_json
+          )
+        end
+  scope :where_delivery_connection,
+        ->(record) do
+          where(
+            "logs.context @> ?",
+            { delivery_connection: { id: record.id } }.to_json
+          )
+        end
+  scope :where_delivery_destination,
+        ->(record) do
+          where(
+            "logs.context @> ?",
+            { delivery_destination: { id: record.id } }.to_json
+          )
+        end
+  scope :where_subscription_destination,
+        ->(record) do
+          where(
+            "logs.context @> ?",
+            { subscription_destination: { id: record.id } }.to_json
+          )
+        end
+
   validate(:parse_and_validate_context, on: :controller)
 
   %i[

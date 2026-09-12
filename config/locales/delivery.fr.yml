@@ -1,0 +1,336 @@
+fr:
+  breadcrumbs:
+    deliveries:
+      edit: modifier
+      index: historique des livraisons
+      new: nouveau
+    delivery_channels:
+      edit: modifier
+      index: tarifs des canaux
+      new: nouveau
+    delivery_connections:
+      edit: modifier
+      index: connexions
+      new: nouveau
+    delivery_destinations:
+      edit: modifier
+      index: destinations
+      new: nouveau
+    subscription_destinations:
+      edit: modifier
+      index: destinations des abonnements
+      new: nouveau
+  deliveries:
+    create:
+      notice: enregistré.
+    delete:
+      notice: supprimé.
+    delete_all:
+      notice: supprimé.
+    destroy:
+      notice: supprimé.
+    destroy_all:
+      notice: supprimé.
+    edit:
+      description: mettre à jour une livraison.
+      title: modifier la livraison
+    form:
+      destinations: destinations
+      save: enregistrer
+      statuses:
+        accepted: accepté
+        canceled: annulé
+        delivered: livré
+        failed: échec
+        pending: en attente
+        sending: en cours
+        uncertain: incertain
+    index:
+      add: ajouter
+      history: historique des livraisons
+      manage: livraison
+    new:
+      description: créer une nouvelle livraison.
+      title: nouvelle livraison
+    reconcile:
+      notice: enregistré.
+    retry:
+      notice: enregistré.
+    show:
+      edit: modifier
+      history: historique des livraisons
+      manage: livraison
+      reconcile_help: vérifiez le fournisseur avant de résoudre cette livraison incertaine.
+        indiquez un échec uniquement si le fournisseur ne l’a pas acceptée.
+      remove: supprimer
+      retry: réessayer
+      statuses:
+        accepted: accepté
+        canceled: annulé
+        delivered: livré
+        failed: échec
+        pending: en attente
+        sending: en cours
+        uncertain: incertain
+    update:
+      notice: enregistré.
+  delivery:
+    add: ajouter
+    add_destination: ajouter une destination
+    base: prix du service
+    change_pending: une modification du prix attend la confirmation du paiement.
+    channel: canal
+    channels:
+      apple: apple messages for business
+      email: e-mail
+      mastodon: mastodon
+      messages: messagerie code dorian
+      push: notifications push
+      rcs: rcs
+      reddit: reddit
+      slack: slack
+      sms: sms
+      whatsapp: whatsapp
+      x: x
+    choose_destination: choisissez au moins une destination.
+    confirm_price: confirmer ce prix
+    connection: connexion
+    connection_help: saisissez les identifiants du fournisseur. les champs vides conservent
+      les identifiants existants. les comptes sociaux utilisent un jeton d’accès utilisateur
+      ; mastodon nécessite aussi l’url https de l’instance.
+    connections: connexions
+    credentials:
+      access_token: jeton d’accès utilisateur
+      account_sid: sid du compte twilio
+      api_key: clé api infobip
+      auth_token: jeton twilio
+      base_url: url du fournisseur ou de l’instance mastodon
+      from: adresse e-mail d’expédition
+      sender: identifiant professionnel apple
+    currency: devise
+    currency_mismatch: les tarifs des destinations doivent utiliser la devise de l’offre.
+    destination_help: utilisez une adresse e-mail, un numéro international, un identifiant
+      de conversation slack, un destinataire social, un subreddit ou un identifiant
+      de conversation professionnelle apple. laissez vide pour votre messagerie, les
+      notifications push et vos publications x/mastodon. les destinations publiques
+      publient sur le compte ou la communauté sélectionnés.
+    destinations: destinations
+    disabled: désactivé
+    edit: modifier
+    enabled: activé
+    history: historique des livraisons
+    invalid_destinations: choisissez des destinations disponibles appartenant à ce
+      compte.
+    manage: livraison
+    month: mois
+    monthly_cents: prix mensuel par destination (centimes)
+    name: nom
+    price_changed: le prix a changé. vérifiez à nouveau votre sélection.
+    private: privé
+    provider: fournisseur
+    public: public
+    rates: tarifs des canaux
+    recipient: destinataire
+    reconcile_help: vérifiez le fournisseur avant de résoudre cette livraison incertaine.
+      indiquez un échec uniquement si le fournisseur ne l’a pas acceptée.
+    reddit_private_verified: l’accès api à la livraison privée reddit a été vérifié
+    remove: supprimer
+    retry: réessayer
+    save: enregistrer
+    selections: destinations des abonnements
+    statuses:
+      accepted: accepté
+      canceled: annulé
+      delivered: livré
+      failed: échec
+      pending: en attente
+      sending: en cours
+      uncertain: incertain
+    total: total mensuel
+    unconfigured: non configuré
+    visibility: visibilité
+  delivery_channels:
+    create:
+      notice: enregistré.
+    delete:
+      notice: supprimé.
+    delete_all:
+      notice: supprimé.
+    destroy:
+      notice: supprimé.
+    destroy_all:
+      notice: supprimé.
+    form:
+      channel: canal
+      channels:
+        apple: apple messages for business
+        email: e-mail
+        mastodon: mastodon
+        messages: messagerie code dorian
+        push: notifications push
+        rcs: rcs
+        reddit: reddit
+        slack: slack
+        sms: sms
+        whatsapp: whatsapp
+        x: x
+      connection: connexion
+      currency: devise
+      enabled: activé
+      manage: livraison
+      monthly_cents: prix mensuel par destination (centimes)
+      show_recipient: destinataire
+      show_visibility: visibilité
+      reddit_private_verified: l’accès api à la livraison privée reddit a été vérifié
+      save: enregistrer
+    index:
+      add: ajouter
+      disabled: désactivé
+      manage: livraison
+      unconfigured: non configuré
+    reconcile:
+      notice: enregistré.
+    retry:
+      notice: enregistré.
+    show:
+      edit: modifier
+      manage: livraison
+      remove: supprimer
+    update:
+      notice: enregistré.
+  delivery_connections:
+    create:
+      notice: enregistré.
+    delete:
+      notice: supprimé.
+    delete_all:
+      notice: supprimé.
+    destroy:
+      notice: supprimé.
+    destroy_all:
+      notice: supprimé.
+    form:
+      connection_help: saisissez les identifiants du fournisseur. les champs vides
+        conservent les identifiants existants. les comptes sociaux utilisent un jeton
+        d’accès utilisateur ; mastodon nécessite aussi l’url https de l’instance.
+      credentials:
+        access_token: jeton d’accès utilisateur
+        account_sid: sid du compte twilio
+        api_key: clé api infobip
+        auth_token: jeton twilio
+        base_url: url du fournisseur ou de l’instance mastodon
+        from: adresse e-mail d’expédition
+        sender: identifiant professionnel apple
+      enabled: activé
+      manage: livraison
+      name: nom
+      provider: fournisseur
+      save: enregistrer
+    index:
+      add: ajouter
+      disabled: désactivé
+      manage: livraison
+    reconcile:
+      notice: enregistré.
+    retry:
+      notice: enregistré.
+    show:
+      edit: modifier
+      manage: livraison
+      remove: supprimer
+    update:
+      notice: enregistré.
+  delivery_destinations:
+    create:
+      notice: enregistré.
+    delete:
+      notice: supprimé.
+    delete_all:
+      notice: supprimé.
+    destroy:
+      notice: supprimé.
+    destroy_all:
+      notice: supprimé.
+    form:
+      channel: canal
+      connection: connexion
+      destination_help: utilisez une adresse e-mail, un numéro international, un identifiant
+        de conversation slack, un destinataire social, un subreddit ou un identifiant
+        de conversation professionnelle apple. laissez vide pour votre messagerie,
+        les notifications push et vos publications x/mastodon. les destinations publiques
+        publient sur le compte ou la communauté sélectionnés.
+      enabled: activé
+      manage: livraison
+      name: nom
+      private: privé
+      public: public
+      recipient: destinataire
+      save: enregistrer
+      visibility: visibilité
+    index:
+      add: ajouter
+      disabled: désactivé
+      manage: livraison
+    reconcile:
+      notice: enregistré.
+    retry:
+      notice: enregistré.
+    show:
+      edit: modifier
+      manage: livraison
+      private: privé
+      public: public
+      remove: supprimer
+    update:
+      notice: enregistré.
+  subscription_destinations:
+    create:
+      notice: enregistré.
+    delete:
+      notice: supprimé.
+    delete_all:
+      notice: supprimé.
+    destroy:
+      notice: supprimé.
+    destroy_all:
+      notice: supprimé.
+    form:
+      currency: devise
+      destinations: destinations
+      manage: livraison
+      monthly_cents: prix mensuel par destination (centimes)
+      save: enregistrer
+    index:
+      add: ajouter
+      manage: livraison
+    reconcile:
+      notice: enregistré.
+    retry:
+      notice: enregistré.
+    show:
+      edit: modifier
+      manage: livraison
+      remove: supprimer
+    update:
+      notice: enregistré.
+  subscriptions:
+    destination_fields:
+      channel: canal
+      connection: connexion
+      month: mois
+      name: nom
+      private: privé
+      public: public
+      recipient: destinataire
+      recipient_help: laissez vide pour votre messagerie code dorian ou les notifications
+        push.
+      remove: supprimer
+      visibility: visibilité
+    destinations:
+      add_destination: ajouter une destination
+      base: prix du service
+      change_pending: une modification du prix attend la confirmation du paiement.
+      destinations: destinations
+      month: mois
+      total: total mensuel
+      unavailable: aucun mode de livraison n’est disponible pour le moment.

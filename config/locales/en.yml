@@ -1,4 +1,3 @@
----
 en:
   activerecord:
     attributes:
@@ -597,11 +596,11 @@ en:
       new: new
     stripe_events:
       edit: edit
-      index: Stripe events
+      index: stripe events
       new: new
     stripe_invoices:
       edit: edit
-      index: Stripe invoices
+      index: stripe invoices
       new: new
     submission_deliveries:
       edit: edit
@@ -668,7 +667,7 @@ en:
       title: edit configuration
     index:
       delete_all: delete all
-      description: review and manage configuration entries and JSON content.
+      description: review and manage configuration entries and json content.
       destroy_all: destroy all
       new: new configuration
       title: configurations
@@ -779,12 +778,12 @@ en:
     destroy_all:
       notice: country code ip addresses destroyed
     edit:
-      description: update a country code IP address entry.
+      description: update a country code ip address entry.
       submit: update country code ip address
       title: edit country code ip address
     index:
       delete_all: delete all
-      description: review country code IP entries and lookup data.
+      description: review country code ip entries and lookup data.
       destroy_all: destroy all
       new: new country code ip address
       title: country code ip addresses
@@ -793,14 +792,14 @@ en:
     model:
       to_s: country_code_ip_address#%{id}
     new:
-      description: add a country code IP address record.
+      description: add a country code ip address record.
       submit: create country code ip address
       title: new country code ip address
     show:
       country_code: country code
       created_at: created at
       delete: delete country code ip address
-      description: view IP address metadata and lookup details.
+      description: view ip address metadata and lookup details.
       destroy: destroy country code ip address
       edit: edit country code ip address
       id: id
@@ -833,7 +832,7 @@ en:
     destroy_all:
       notice: data destroyed
     edit:
-      description: update a data record and its JSON content.
+      description: update a data record and its json content.
       submit: update datum
       title: edit datum
     index:
@@ -900,8 +899,8 @@ en:
     - friday
     - saturday
     formats:
-      default: "%Y-%m-%d"
-      long: "%B %d, %Y"
+      default: "%y-%m-%d"
+      long: "%b %d, %y"
       short: "%b %d"
     month_names:
     -
@@ -2218,8 +2217,8 @@ en:
             - friday
             - saturday
             formats:
-              default: "%A %d %B %Y"
-              thisYear: "%A %d %B"
+              default: "%a %d %b %y"
+              thisYear: "%a %d %b"
             monthNames:
             - january
             - february
@@ -2240,19 +2239,19 @@ en:
           datetime:
             at: "{date} at {time}"
             formats:
-              default: "%A %d %B %Y at %H:%M:%S"
-              default_24h: "%A %d %B %Y at %H:%M:%S"
+              default: "%a %d %b %y at %H:%M:%S"
+              default_24h: "%a %d %b %y at %H:%M:%S"
           time:
-            am: AM
+            am: am
             elapsed: "{time} ago"
-            format:
+            formats:
               default: "%H:%M:%S"
               default_24h: "%H:%M:%S"
             hour: hour
             hours: hours
             minute: minute
             minutes: minutes
-            pm: PM
+            pm: pm
             second: second
             seconds: seconds
             signularAn: "{time}"
@@ -3285,7 +3284,7 @@ en:
     magic_link:
       confirmation: log in as %{email_address}?
       description: confirm your email login.
-      invalid: this login link is invalid or has expired. Please request a new one.
+      invalid: this login link is invalid or has expired. please request a new one.
       submit: log in
       title: log in
     new:
@@ -3304,7 +3303,7 @@ en:
         link shortly.
   session_mailer:
     magic_link:
-      expiration: this link expires in 15 minutes. If you did not request it, you
+      expiration: this link expires in 15 minutes. if you did not request it, you
         can ignore this email.
       instructions: open the link below, then press “log in” to access your account.
       subject: your codedorian login link
@@ -3619,38 +3618,38 @@ en:
       notice: step updated
   stripe_events:
     create:
-      notice: Stripe event created
+      notice: stripe event created
     delete:
-      notice: Stripe event deleted
+      notice: stripe event deleted
     delete_all:
-      notice: Stripe events deleted
+      notice: stripe events deleted
     destroy:
-      notice: Stripe event destroyed
+      notice: stripe event destroyed
     destroy_all:
-      notice: Stripe events destroyed
+      notice: stripe events destroyed
     edit:
-      description: update an archived Stripe webhook event.
-      submit: update Stripe event
-      title: edit Stripe event
+      description: update an archived stripe webhook event.
+      submit: update stripe event
+      title: edit stripe event
     index:
       delete_all: delete all
-      description: review and manage archived Stripe webhook events.
+      description: review and manage archived stripe webhook events.
       destroy_all: destroy all
-      new: new Stripe event
-      title: Stripe events
+      new: new stripe event
+      title: stripe events
     model:
-      invalid_json: invalid JSON
-      to_s: Stripe event#%{id}
+      invalid_json: invalid json
+      to_s: stripe event#%{id}
     new:
-      description: create an archived Stripe webhook event.
-      submit: create Stripe event
-      title: new Stripe event
+      description: create an archived stripe webhook event.
+      submit: create stripe event
+      title: new stripe event
     show:
       created_at: created at
-      delete: delete Stripe event
-      description: view the Stripe event payload, processing state, and audit history.
-      destroy: destroy Stripe event
-      edit: edit Stripe event
+      delete: delete stripe event
+      description: view the stripe event payload, processing state, and audit history.
+      destroy: destroy stripe event
+      edit: edit stripe event
       event_type: event type
       id: id
       livemode: live mode?
@@ -3659,64 +3658,64 @@ en:
       processed_at: processed at
       processing_error: processing error
       status: status
-      stripe_created_at: created at Stripe
-      stripe_event_id: Stripe event id
+      stripe_created_at: created at stripe
+      stripe_event_id: stripe event id
       updated_at: updated at
       versions: versions
     update:
-      notice: Stripe event updated
+      notice: stripe event updated
   stripe_invoices:
     create:
-      notice: Stripe invoice created
+      notice: stripe invoice created
     delete:
-      notice: Stripe invoice deleted
+      notice: stripe invoice deleted
     delete_all:
-      notice: Stripe invoices deleted
+      notice: stripe invoices deleted
     destroy:
-      notice: Stripe invoice destroyed
+      notice: stripe invoice destroyed
     destroy_all:
-      notice: Stripe invoices destroyed
+      notice: stripe invoices destroyed
     edit:
-      description: update a locally archived Stripe invoice.
-      submit: update Stripe invoice
-      title: edit Stripe invoice
+      description: update a locally archived stripe invoice.
+      submit: update stripe invoice
+      title: edit stripe invoice
     index:
       delete_all: delete all
-      description: review and manage locally archived Stripe invoices.
+      description: review and manage locally archived stripe invoices.
       destroy_all: destroy all
-      new: new Stripe invoice
-      title: Stripe invoices
+      new: new stripe invoice
+      title: stripe invoices
     model:
-      to_s: Stripe invoice#%{id}
+      to_s: stripe invoice#%{id}
     new:
-      description: create a locally archived Stripe invoice.
-      submit: create Stripe invoice
-      title: new Stripe invoice
+      description: create a locally archived stripe invoice.
+      submit: create stripe invoice
+      title: new stripe invoice
     show:
       amount_due: amount due
       amount_paid: amount paid
       created_at: created at
       currency: currency
-      delete: delete Stripe invoice
-      description: view Stripe invoice amounts, billing period, links, and audit history.
-      destroy: destroy Stripe invoice
-      edit: edit Stripe invoice
-      hosted_invoice_url: hosted invoice URL
+      delete: delete stripe invoice
+      description: view stripe invoice amounts, billing period, links, and audit history.
+      destroy: destroy stripe invoice
+      edit: edit stripe invoice
+      hosted_invoice_url: hosted invoice url
       id: id
-      invoice_pdf: invoice PDF
+      invoice_pdf: invoice pdf
       logs: logs
       number: number
       paid_at: paid at
       period_end: period end
       period_start: period start
       status: status
-      stripe_invoice_id: Stripe invoice id
-      stripe_payment_intent_id: Stripe payment intent id
+      stripe_invoice_id: stripe invoice id
+      stripe_payment_intent_id: stripe payment intent id
       subscription: subscription
       updated_at: updated at
       versions: versions
     update:
-      notice: Stripe invoice updated
+      notice: stripe invoice updated
   submission_deliveries:
     create:
       notice: submission delivery created
@@ -4059,14 +4058,14 @@ en:
     retry_payment:
       notice: payment retry requested
     setup_payment_method:
-      description: Update the subscription payment method.
+      description: update the subscription payment method.
       notice: payment method updated
     show:
       cancel: cancel subscription
       cancel_at_period_end: cancel at period end
       current_period_start: current period starts at
-      description: Manage subscription payments and invoices.
-      download_invoice: download PDF
+      description: manage subscription payments and invoices.
+      download_invoice: download pdf
       ends_at: ends at
       invoices: invoices
       month: month
@@ -4244,9 +4243,9 @@ en:
       notice: subscription updated
   time:
     formats:
-      default: "%A %d %B %Y at %H:%M:%S"
-      long: "%B %d, %Y at %H:%M"
-      schedule_time: "%-I:%M%P"
+      default: "%a %d %b %y at %H:%M:%S"
+      long: "%b %d, %y at %H:%M"
+      schedule_time: "%-I:%M%p"
       short: "%H:%M"
   time_zones:
     create:

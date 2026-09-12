@@ -7,6 +7,22 @@ class Code
         operator = args.fetch(:operator, nil).to_code.to_s
 
         case operator
+        when "deliver"
+          sig(args) do
+            {
+              key: String,
+              subject: String,
+              body_text: String,
+              body_html: String.maybe,
+              url: String.maybe
+            }
+          end
+          attributes =
+            args.fetch(:arguments, []).to_code.code_first.as_json.symbolize_keys
+          subscription!
+            .deliver(**attributes)
+            .map { |delivery| { id: delivery.id, status: delivery.status } }
+            .to_code
         when "user"
           sig(args)
           code_user

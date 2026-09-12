@@ -3,6 +3,29 @@
 require "test_helper"
 
 class ServiceModelsTest < ActiveSupport::TestCase
+  test "scheduled subscriptions execute as their owner without granting edit access" do
+    subscriber = users(:other_user)
+    subscription = Current.with(user: subscriber) do
+      Subscription.create!(user: subscriber, plan: plans(:plan), status: "active")
+    end
+
+    assert_not SubscriptionPolicy.new(subscriber, subscription).update?
+    assert_difference "subscription.subscription_executions.count", 1 do
+      SchedulingSubscriptionJob.perform_now(
+        subscription: subscription,
+        current: { user: subscriber, subscription: subscription },
+        context: { subscription: subscription }
+      )
+    end
+    assert subscription.subscription_executions.sole.step_executions.exists?
+
+    Current.with(user: subscriber) do
+      assert_raises(Pundit::NotAuthorizedError) do
+        subscriptions(:subscription).create_execution!
+      end
+    end
+  end
+
   test "code objects expose every model attribute" do
     records = [
       users(:admin),
@@ -335,6 +358,15 @@ class ServiceModelsTest < ActiveSupport::TestCase
       plan.update!(
         pricing_input: '{ amount_cents: 1000, amount_currency: "eur" }'
       )
+      channel =
+        DeliveryChannel.create!(key: "messages", enabled: true, amount_cents: 0)
+      destination =
+        DeliveryDestination.create!(
+          user: subscription.user,
+          delivery_channel: channel,
+          name: "Inbox"
+        )
+      SubscriptionDeliveryBilling.select!(subscription, [destination.id])
       first_key = subscription.ensure_checkout_snapshot!
       assert_equal(1_000, subscription.reload.amount_cents)
 

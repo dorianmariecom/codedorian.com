@@ -8,6 +8,56 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
     @service = @plan.service
   end
 
+  test "user can create and update a subscription with no fields" do
+    plan =
+      Current.with(user: users(:admin)) do
+        service = Service.create!
+        Plan.create!(
+          service: service,
+          slug: "no-fields",
+          pricing_input: @plan.pricing_input
+        )
+      end
+    user = users(:other_user)
+    sign_in(
+      email_addresses(:other_email).email_address,
+      passwords(:other_password).hint
+    )
+
+    assert_empty(plan.fields)
+    assert_difference("Subscription.count", 1) do
+      post(
+        subscriptions_path,
+        params: {
+          subscription: {
+            plan_id: plan.id,
+            delivery_destination_ids: [destination_for(user).id]
+          }
+        }
+      )
+    end
+
+    subscription = user.subscriptions.order(:id).last
+    assert_redirected_to(subscription_billing_path(subscription))
+    assert_equal(plan, subscription.plan)
+    assert_predicate(subscription, :inactive?)
+    assert_empty(subscription.subscription_values)
+
+    patch(
+      subscription_path(subscription),
+      params: {
+        subscription: {
+          plan_id: @plan.id,
+          status: "active"
+        }
+      }
+    )
+
+    assert_redirected_to(root_path)
+    assert_equal(plan, subscription.reload.plan)
+    assert_predicate(subscription, :inactive?)
+  end
+
   test "admin can change a subscription plan from the edit form" do
     subscription = subscriptions(:subscription)
     replacement_plan =
@@ -68,12 +118,9 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
       }
     )
 
-    assert_redirected_to(subscription_path(subscription))
+    assert_redirected_to(root_path)
     assert_equal(@plan, subscription.reload.plan)
-    assert_equal(
-      "+33611223344",
-      subscription.values.fetch("phone_number").value
-    )
+    assert_nil(subscription.values["phone_number"])
   end
 
   test "user chooses a plan before loading the subscription form" do
@@ -213,6 +260,7 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
         params: {
           subscription: {
             plan_id: @plan.id,
+            delivery_destination_ids: [destination_for(user).id],
             status: "active",
             subscription_values_attributes: {
               "0" => {
@@ -250,10 +298,10 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
         }
       }
     )
-    assert_redirected_to(subscription_path(subscription))
+    assert_redirected_to(root_path)
     assert(subscription.reload.inactive?)
     assert_equal(
-      "+33611223345",
+      "+33611223344",
       subscription.values.fetch("phone_number").value
     )
 
@@ -289,6 +337,7 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
         params: {
           subscription: {
             plan_id: @plan.id,
+            delivery_destination_ids: [destination_for(user).id],
             subscription_values_attributes: {
               "0" => {
                 key: "phone_number",
@@ -399,6 +448,7 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
         params: {
           subscription: {
             plan_id: @plan.id,
+            delivery_destination_ids: [destination_for(admin).id],
             status: "inactive",
             subscription_values_attributes: {
               "0" => {
@@ -467,5 +517,22 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
     end
 
     assert_requested(cancellation)
+  end
+
+  private
+
+  def destination_for(user)
+    Current.with(user: users(:admin)) do
+      channel =
+        DeliveryChannel.find_or_create_by!(key: "messages") do |record|
+          record.enabled = true
+          record.amount_cents = 0
+        end
+      DeliveryDestination.create!(
+        user: user,
+        delivery_channel: channel,
+        name: "Inbox"
+      )
+    end
   end
 end

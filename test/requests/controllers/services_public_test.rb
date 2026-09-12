@@ -19,9 +19,7 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
       new_service_subscription_path(
         plan.service,
         locale: :en,
-        subscription: {
-          plan_id: plan.id
-        }
+        plan_id: plan.id
       )
 
     get(
@@ -144,9 +142,7 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
       new_service_subscription_path(
         plan.service,
         locale: :en,
-        subscription: {
-          plan_id: plan.id
-        }
+        plan_id: plan.id
       )
     assert_select(
       "a.button[href=?]",
@@ -215,9 +211,7 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
       new_service_subscription_path(
         service,
         locale: :fr,
-        subscription: {
-          plan_id: plan.id
-        }
+        plan_id: plan.id
       )
     assert_select(
       "a.button[href=?]",
@@ -239,9 +233,7 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
       new_service_subscription_path(
         service,
         locale: :en,
-        subscription: {
-          plan_id: plan.id
-        }
+        plan_id: plan.id
       )
     assert_select(
       "a.button[href=?]",

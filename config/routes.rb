@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   mount(Blazer::Engine, at: :blazer)
   mount(ActionCable.server => "/cable")
   post("stripe/webhooks", to: "stripe_webhooks#create")
+  get("delivery_content/:token", to: "delivery_content#show")
+  post("delivery_callbacks/twilio/:id", to: "delivery_callbacks#twilio")
 
   concern :deletable do
     delete(:delete)
@@ -119,6 +121,17 @@ Rails.application.routes.draw do
         selected_locale: /en|fr/
       }
     )
+
+    %i[
+      delivery_connections
+      delivery_destinations
+      delivery_channels
+      subscription_destinations
+    ].each { |resource| resources resource, concerns: :deletable }
+    resources :deliveries, concerns: :deletable do
+      post :retry, on: :member
+      post :reconcile, on: :member
+    end
 
     resources(:users, concerns: :deletable) do
       post(:impersonate)

@@ -1,0 +1,42 @@
+<% content_for :description, t(".manage") %>
+<% content_for :title, @delivery.payload["subject"].presence || t(".history") %>
+<div class="p font-bold"><%= @delivery.payload["subject"] %></div>
+<div class="p whitespace-pre-wrap"><%= @delivery.payload["body_text"] %></div>
+<div class="p"><%= @delivery %></div>
+<% if @delivery.error_code.present? %>
+  <div class="p"><%= @delivery.error_code %></div>
+<% end %>
+<% if admin? && @delivery.status == "failed" %>
+  <%= button_to t(".retry"), retry_delivery_path(@delivery), class: :button %>
+<% end %>
+<% if admin? && @delivery.status == "uncertain" %>
+  <p class="p"><%= t(".reconcile_help") %></p>
+  <% %w[accepted delivered failed].each do |outcome| %>
+    <%= button_to t(".statuses.#{outcome}"),
+              reconcile_delivery_path(@delivery),
+              params: {
+                outcome: outcome
+              },
+              class: :button %>
+  <% end %>
+<% end %>
+
+<% if admin? %>
+  <div class="p">
+    <%= link_to t(".edit"), edit_delivery_path(@delivery), class: :button %>
+  </div>
+  <%= button_to t(".remove"), @delivery, method: :delete, class: :link %>
+<% end %>
+
+<% @versions.each do |version| %>
+  <div class="p">
+    <%= link_to version.event, version, class: :link %>
+    <%= l(version.created_at) %>
+  </div>
+<% end %>
+<%= paginate @versions %>
+
+<% @logs.each do |log| %>
+  <div class="p"><%= link_to log, log, class: :link %></div>
+<% end %>
+<%= paginate @logs %>

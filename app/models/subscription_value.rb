@@ -12,7 +12,13 @@ class SubscriptionValue < ApplicationRecord
   validates :key, presence: true
   validates :key, uniqueness: { scope: :subscription_id }
   validate :valid_value_for_field, if: :will_save_change_to_value?
-  validate { can!(:update, subscription) }
+  validate do
+    if subscription.new_record?
+      can!(:create, subscription)
+    else
+      can!(:update, subscription)
+    end
+  end
 
   scope :where_user, ->(user) { where(subscription: user.subscriptions) }
   scope :where_subscription,

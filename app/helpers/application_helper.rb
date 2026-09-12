@@ -199,6 +199,16 @@ module ApplicationHelper
     end
   end
 
+  def delivery_status_options(status: nil)
+    Delivery::STATUSES.map do |option_status|
+      [
+        t("delivery.statuses.#{option_status}"),
+        option_status,
+        { selected: option_status == status }
+      ]
+    end
+  end
+
   def device_platform_options(platform: nil)
     Device::PLATFORMS.map do |device_platform|
       [
@@ -220,6 +230,30 @@ module ApplicationHelper
       .order(:id)
       .map do |program|
         [program&.to_s, program&.id, { selected: program_id == program&.id }]
+      end
+  end
+
+  def subscription_options(subscription_id: nil)
+    policy_scope(Subscription)
+      .order(:id)
+      .map do |subscription|
+        [
+          subscription.to_s,
+          subscription.id,
+          { selected: subscription_id == subscription.id }
+        ]
+      end
+  end
+
+  def delivery_destination_options(delivery_destination_id: nil)
+    policy_scope(DeliveryDestination)
+      .order(:id)
+      .map do |delivery_destination|
+        [
+          delivery_destination.to_s,
+          delivery_destination.id,
+          { selected: delivery_destination_id == delivery_destination.id }
+        ]
       end
   end
 

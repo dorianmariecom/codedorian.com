@@ -1,0 +1,99 @@
+<fieldset class="p">
+  <legend class="font-bold"><%= t(".destinations") %></legend>
+  <%= hidden_field_tag "subscription[delivery_destination_ids][]", "" %>
+  <% selected =
+    selected_delivery_ids ||
+      f
+        .object
+        .subscription_destinations
+        .select(&:selected?)
+        .map(&:delivery_destination_id) %>
+  <% if delivery_confirmation %>
+    <%= hidden_field_tag :delivery_confirmation, delivery_confirmation %>
+  <% end %>
+  <% quote = delivery_preview || f.object.delivery_pricing %>
+  <% policy_scope(DeliveryDestination)
+    .where_user(f.object.user || current_user)
+    .includes(:delivery_channel)
+    .select do |destination|
+      destination.available? || selected.include?(destination.id)
+    end
+    .each do |destination| %>
+    <div class="p">
+      <%= check_box_tag "subscription[delivery_destination_ids][]",
+                    destination.id,
+                    selected.include?(destination.id),
+                    id: "delivery_destination_#{destination.id}" %>
+      <%= label_tag "delivery_destination_#{destination.id}",
+                "#{destination} · #{
+                  number_to_currency(
+                    destination.delivery_channel.amount_cents.to_i / 100.0,
+                    unit: destination.delivery_channel.amount_currency.upcase
+                  )
+                } / #{t(".month")}" %>
+    </div>
+  <% end %>
+  <% channels = policy_scope(DeliveryChannel).order(:id).select(&:available?) %>
+  <% connections =
+    policy_scope(DeliveryConnection).where_user(
+      f.object.user || current_user
+    ).order(:id) %>
+  <% if admin? && channels.any? %>
+    <div
+      data-controller="nested"
+      data-nested-selector-value=".subscription-delivery-destination"
+    >
+      <template data-nested-target="template">
+        <%= f.fields_for(
+          :new_delivery_destinations,
+          DeliveryDestination.new,
+          child_index: "NEW_RECORD"
+        ) do |destination_f| %>
+          <%= render "subscriptions/destination_fields",
+                 f: destination_f,
+                 channels: channels,
+                 connections: connections %>
+        <% end %>
+      </template>
+      <%= f.fields_for(:new_delivery_destinations) do |destination_f| %>
+        <%= render "subscriptions/destination_fields",
+               f: destination_f,
+               channels: channels,
+               connections: connections %>
+      <% end %>
+      <div data-nested-target="target"></div>
+      <div class="p">
+        <button type="button" class="link" data-action="nested#add">
+          <%= t(".add_destination") %>
+        </button>
+      </div>
+    </div>
+  <% else %>
+    <p class="p"><%= t(".unavailable") %></p>
+  <% end %>
+  <% if quote.present? %>
+    <% quote.fetch("items", []).each do |item| %>
+      <div class="p">
+        <%= item["name"] %>: <%= number_to_currency(
+          item["amount_cents"].to_i / 100.0,
+          unit: quote["amount_currency"].upcase
+        ) %>
+      </div>
+    <% end %>
+    <div class="p">
+      <%= t(".base") %>: <%= number_to_currency(
+        quote["base_amount_cents"].to_i / 100.0,
+        unit: quote["amount_currency"].to_s.upcase
+      ) %>
+    </div>
+    <div class="p font-bold">
+      <%= t(".total") %>: <%= number_to_currency(
+        quote["amount_cents"].to_i / 100.0,
+        unit: quote["amount_currency"].to_s.upcase
+      ) %> / <%= t(".month") %>
+    </div>
+  <% end %>
+  <% if f.object.delivery_change_key.present? %>
+    <p class="p"><%= t(".change_pending") %></p>
+  <% end %>
+</fieldset>

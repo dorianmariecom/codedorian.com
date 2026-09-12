@@ -1,0 +1,25 @@
+<% content_for :description, t(".manage") %>
+<% content_for :title, @delivery_destination.to_s %>
+<div class="p font-bold"><%= @delivery_destination %></div>
+<div class="p">
+  <%= @delivery_destination.delivery_channel %> · <%= @delivery_destination.recipient %> · <%= t(".#{@delivery_destination.visibility}") %>
+</div>
+<% if can?(:update, @delivery_destination) %>
+  <div class="p"><%= link_to t(".edit"), edit_url, class: :button %></div>
+<% end %>
+<% if can?(:destroy, @delivery_destination) %>
+  <%= button_to t(".remove"), @delivery_destination, method: :delete, class: :link %>
+<% end %>
+<% @versions.each do |version| %>
+  <div class="p">
+    <%= link_to version.event, version, class: :link %>
+    <%= l(version.created_at) %>
+  </div>
+<% end %>
+
+<% @logs.each do |log| %>
+  <div class="p"><%= link_to log, log, class: :link %></div>
+<% end %>
+
+<%= paginate @versions %>
+<%= paginate @logs %>

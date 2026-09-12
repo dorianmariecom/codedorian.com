@@ -64,7 +64,7 @@ class SubscriptionBillingsController < ApplicationController
   end
 
   def checkout
-    authorize(@subscription, :update?)
+    authorize(@subscription, :manage_billing?)
     session =
       StripeBilling.create_checkout_session!(
         @subscription,
@@ -109,7 +109,7 @@ class SubscriptionBillingsController < ApplicationController
   end
 
   def cancel
-    authorize(@subscription, :update?)
+    authorize(@subscription, :manage_billing?)
     StripeBilling.cancel!(@subscription)
     respond_to do |format|
       format.html do
@@ -131,7 +131,7 @@ class SubscriptionBillingsController < ApplicationController
   end
 
   def resume
-    authorize(@subscription, :update?)
+    authorize(@subscription, :manage_billing?)
     StripeBilling.resume!(@subscription)
     respond_to do |format|
       format.html do
@@ -153,8 +153,11 @@ class SubscriptionBillingsController < ApplicationController
   end
 
   def retry_payment
-    authorize(@subscription, :update?)
+    authorize(@subscription, :manage_billing?)
     StripeBilling.retry_latest_invoice!(@subscription)
+    if @subscription.delivery_change_key.present?
+      SubscriptionDeliveryBilling.sync!(@subscription)
+    end
     respond_to do |format|
       format.html do
         redirect_to(
@@ -175,7 +178,7 @@ class SubscriptionBillingsController < ApplicationController
   end
 
   def setup_payment_method
-    authorize(@subscription, :update?)
+    authorize(@subscription, :manage_billing?)
     setup_intent = StripeBilling.create_setup_intent!(@subscription)
     @setup_client_secret = setup_intent.client_secret
     @setup_return_url = subscription_billing_url(@subscription)
