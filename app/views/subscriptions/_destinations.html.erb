@@ -1,0 +1,67 @@
+<% if f.object.delivery_confirmation %>
+  <%= hidden_field_tag :delivery_confirmation, f.object.delivery_confirmation %>
+<% end %>
+<% quote = f.object.delivery_preview || f.object.delivery_pricing %>
+<% channels = policy_scope(DeliveryChannel).order(:id).select(&:available?) %>
+<% connections =
+  policy_scope(DeliveryConnection).where_user(
+    f.object.user || current_user
+  ).order(:id) %>
+<% if channels.any? %>
+  <div
+    data-controller="nested"
+    data-nested-selector-value=".subscription-delivery-destination"
+  >
+    <template data-nested-target="template">
+      <%= f.fields_for(
+        :delivery_destinations,
+        DeliveryDestination.new,
+        child_index: "NEW_RECORD"
+      ) do |destination_f| %>
+        <%= render "subscriptions/destination_fields",
+               f: destination_f,
+               channels: channels,
+               connections: connections %>
+      <% end %>
+    </template>
+    <%= f.fields_for(:delivery_destinations) do |destination_f| %>
+      <%= render "subscriptions/destination_fields",
+             f: destination_f,
+             channels: channels,
+             connections: connections %>
+    <% end %>
+    <div data-nested-target="target"></div>
+    <div class="p">
+      <button type="button" class="link" data-action="nested#add">
+        <%= t(".add_destination") %>
+      </button>
+    </div>
+  </div>
+<% else %>
+  <p class="p"><%= t(".unavailable") %></p>
+<% end %>
+<% if quote.present? %>
+  <% quote.fetch("items", []).each do |item| %>
+    <div class="p">
+      <%= item["name"] %>: <%= number_to_currency(
+        item["amount_cents"].to_i / 100.0,
+        unit: quote["amount_currency"].upcase
+      ) %>
+    </div>
+  <% end %>
+  <div class="p">
+    <%= t(".base") %>: <%= number_to_currency(
+      quote["base_amount_cents"].to_i / 100.0,
+      unit: quote["amount_currency"].to_s.upcase
+    ) %>
+  </div>
+  <div class="p font-bold">
+    <%= t(".total") %>: <%= number_to_currency(
+      quote["amount_cents"].to_i / 100.0,
+      unit: quote["amount_currency"].to_s.upcase
+    ) %> / <%= t(".month") %>
+  </div>
+<% end %>
+<% if f.object.delivery_change_key.present? %>
+  <p class="p"><%= t(".change_pending") %></p>
+<% end %>

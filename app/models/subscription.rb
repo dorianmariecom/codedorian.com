@@ -1,6 +1,21 @@
 # frozen_string_literal: true
 
 class Subscription < ApplicationRecord
+  has_many :subscription_destinations, dependent: :destroy
+  has_many :delivery_destinations,
+           -> { where(subscription_destinations: { selected: true }) },
+           through: :subscription_destinations
+  accepts_nested_attributes_for :delivery_destinations, allow_destroy: true
+  has_many :deliveries, dependent: :destroy
+
+  attr_accessor :delivery_preview, :delivery_confirmation
+
+  before_validation :assign_delivery_users
+
+  def deliver!(**attributes)
+    ProgramDelivery.call(subscription: self, **attributes)
+  end
+
   STATUSES = %w[active inactive].freeze
   belongs_to :user, default: -> { Current.user! }, touch: true
   belongs_to :plan, touch: true
@@ -30,8 +45,112 @@ class Subscription < ApplicationRecord
             },
             allow_nil: true
   validates :amount_currency, format: { with: /\A[a-z]{3}\z/ }, allow_nil: true
+  validate do
+    if persisted? && will_save_change_to_user_id? &&
+         subscription_destinations.exists?
+      errors.add(:user, :invalid)
+    end
+    if persisted? && billed? && will_save_change_to_plan_id? &&
+         delivery_pricing.present?
+      errors.add(:plan, :invalid)
+    end
+  end
   validate :required_values_present
+  validate :valid_delivery_destinations
   validate { can!(:update, user) }
+
+  def prepare_delivery_destinations
+    return unless plan && delivery_destinations.empty?
+
+    delivery_destinations.build(user: user)
+  end
+
+  def delivery_pricing
+    return {} if delivery_amount_cents.nil?
+
+    {
+      "base_amount_cents" => delivery_base_amount_cents,
+      "amount_cents" => delivery_amount_cents,
+      "amount_currency" => delivery_amount_currency,
+      "items" =>
+        subscription_destinations
+          .selected
+          .order(:delivery_destination_id)
+          .map do |selection|
+            {
+              "destination_id" => selection.delivery_destination_id,
+              "name" => selection.name,
+              "amount_cents" => selection.amount_cents
+            }
+          end
+    }
+  end
+
+  def confirm_delivery_changes?(attributes, confirmation)
+    return true unless attributes.key?(:delivery_destinations_attributes)
+
+    self.delivery_preview = SubscriptionDeliveryBilling.preview(self)
+    expected = {
+      "subscription_id" => id,
+      "attributes" => attributes.to_h,
+      "quote" => delivery_preview
+    }
+    verifier = Rails.application.message_verifier(:delivery_price)
+    if verifier.verified(confirmation.to_s, purpose: :delivery_price) ==
+         expected
+      return true
+    end
+
+    self.delivery_confirmation =
+      verifier.generate(
+        expected,
+        purpose: :delivery_price,
+        expires_in: 15.minutes
+      )
+    false
+  end
+
+  def save_with_delivery_destinations
+    creating = new_record?
+    changing_destinations =
+      delivery_destinations.any? do |destination|
+        destination.new_record? || destination.changed? ||
+          destination.marked_for_destruction?
+      end
+    destinations = delivery_destinations.reject(&:marked_for_destruction?)
+    saved =
+      self.class.transaction do
+        raise ActiveRecord::Rollback unless save(context: :controller)
+
+        if creating || changing_destinations || delivery_preview
+          quote = delivery_preview&.deep_dup
+          destinations.each_with_index do |destination, index|
+            quote
+              &.fetch("items")
+              &.each do |item|
+                item["destination_id"] = destination.id if item[
+                  "destination_id"
+                ] == "new_#{index}"
+              end
+          end
+          SubscriptionDeliveryBilling.select!(
+            self,
+            destinations.map(&:id),
+            sync: false,
+            expected_quote: quote
+          )
+        end
+        true
+      end
+    if saved && (creating || changing_destinations || delivery_preview) &&
+         delivery_change_key.present?
+      SubscriptionDeliveryBilling.sync!(self)
+    end
+    saved
+  rescue StripeBilling::PricingError, Stripe::StripeError => e
+    errors.add(:base, e.message)
+    false
+  end
 
   def self.search_fields
     {
@@ -53,7 +172,7 @@ class Subscription < ApplicationRecord
   def ensure_checkout_snapshot!
     with_lock do
       if stripe_checkout_idempotency_key.blank?
-        price = plan.price_for(self)
+        price = SubscriptionDeliveryBilling.price_for(self)
         update!(**price, stripe_checkout_idempotency_key: SecureRandom.uuid)
       end
       stripe_checkout_idempotency_key
@@ -69,6 +188,9 @@ class Subscription < ApplicationRecord
 
   def billing_active!
     update!(status: "active")
+    return unless delivery_change_key.blank?
+
+    subscription_destinations.selected.find_each(&:active!)
   end
 
   def billing_inactive!
@@ -136,7 +258,7 @@ class Subscription < ApplicationRecord
 
     execution
       .step_executions
-      .includes(:step)
+      .preload(:step)
       .joins(:step)
       .order("steps.position")
       .each do |step_execution|
@@ -231,6 +353,11 @@ class Subscription < ApplicationRecord
 
   def to_code
     Code::Object::Subscription.new(
+      delivery_pricing: delivery_pricing,
+      delivery_amount_cents: delivery_amount_cents,
+      delivery_amount_currency: delivery_amount_currency,
+      delivery_base_amount_cents: delivery_base_amount_cents,
+      delivery_change_key: delivery_change_key,
       amount_cents: amount_cents,
       amount_currency: amount_currency,
       cancel_at_period_end: cancel_at_period_end,
@@ -250,6 +377,24 @@ class Subscription < ApplicationRecord
   end
 
   private
+
+  def assign_delivery_users
+    self.user ||= Current.user!
+    delivery_destinations.each do |destination|
+      destination.user = user if destination.new_record?
+    end
+  end
+
+  def valid_delivery_destinations
+    delivery_destinations
+      .reject(&:marked_for_destruction?)
+      .each do |destination|
+        unless destination.user == user && destination.valid? &&
+                 destination.available?
+          errors.add(:base, I18n.t("delivery.invalid_destinations"))
+        end
+      end
+  end
 
   def required_values_present
     return unless plan

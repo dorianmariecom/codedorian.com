@@ -1,4 +1,5 @@
 <%= form_for(show_url) do |f| %>
+  <%= render "subscriptions/destinations", f: f if f.object.plan %>
   <% if admin? %>
     <div class="p">
       <%= f.label(:user_id, class: :label) %>
@@ -130,7 +131,7 @@
 
   <div class="p">
     <%= f.submit(
-      submit,
+      f.object.delivery_confirmation ? t("delivery.confirm_price") : submit,
       class: "button",
       data: {
         controller: "bridge--button",

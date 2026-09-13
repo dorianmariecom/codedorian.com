@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_04_190000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_12_191141) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -203,6 +203,99 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_04_190000) do
     t.bigint "user_id", null: false
     t.jsonb "value"
     t.index ["user_id"], name: "index_data_on_user_id"
+  end
+
+  create_table "deliveries", force: :cascade do |t|
+    t.integer "attempts", default: 0, null: false
+    t.text "body_html"
+    t.text "body_text"
+    t.string "channel"
+    t.bigint "connection_id"
+    t.datetime "created_at", null: false
+    t.bigint "delivery_destination_id", null: false
+    t.string "error_code"
+    t.text "event_key", null: false
+    t.string "event_key_digest", null: false
+    t.string "locale"
+    t.datetime "next_attempt_at"
+    t.string "provider_id"
+    t.text "recipient"
+    t.string "status", default: "pending", null: false
+    t.bigint "step_execution_id"
+    t.text "subject"
+    t.bigint "subscription_id", null: false
+    t.datetime "updated_at", null: false
+    t.text "url"
+    t.string "visibility"
+    t.index ["connection_id"], name: "index_deliveries_on_connection_id"
+    t.index ["delivery_destination_id"],
+            name: "index_deliveries_on_delivery_destination_id"
+    t.index %w[status next_attempt_at],
+            name: "index_deliveries_on_status_and_next_attempt_at"
+    t.index ["step_execution_id"], name: "index_deliveries_on_step_execution_id"
+    t.index %w[subscription_id event_key_digest delivery_destination_id],
+            name: "index_delivery_event_destination_uniqueness",
+            unique: true
+    t.index ["subscription_id"], name: "index_deliveries_on_subscription_id"
+  end
+
+  create_table "delivery_channels", force: :cascade do |t|
+    t.integer "amount_cents"
+    t.string "amount_currency", default: "eur", null: false
+    t.string "callback_base_url"
+    t.string "content_sid_en"
+    t.string "content_sid_fr"
+    t.datetime "created_at", null: false
+    t.bigint "delivery_connection_id"
+    t.boolean "enabled", default: false, null: false
+    t.string "key", null: false
+    t.string "messaging_service_sid"
+    t.boolean "private_delivery_enabled", default: false, null: false
+    t.boolean "show_recipient", default: false, null: false
+    t.boolean "show_visibility", default: false, null: false
+    t.datetime "updated_at", null: false
+    t.index ["delivery_connection_id"],
+            name: "index_delivery_channels_on_delivery_connection_id"
+    t.index ["key"], name: "index_delivery_channels_on_key", unique: true
+  end
+
+  create_table "delivery_connections", force: :cascade do |t|
+    t.text "access_token"
+    t.text "account_sid"
+    t.text "api_key"
+    t.text "auth_token"
+    t.text "base_url"
+    t.datetime "created_at", null: false
+    t.boolean "enabled", default: true, null: false
+    t.string "name", null: false
+    t.string "provider", null: false
+    t.text "sender"
+    t.text "smtp_address"
+    t.text "smtp_authentication"
+    t.text "smtp_from"
+    t.text "smtp_password"
+    t.integer "smtp_port"
+    t.text "smtp_user_name"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_delivery_connections_on_user_id"
+  end
+
+  create_table "delivery_destinations", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "delivery_channel_id", null: false
+    t.bigint "delivery_connection_id"
+    t.boolean "enabled", default: true, null: false
+    t.string "name", null: false
+    t.string "recipient"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.string "visibility", default: "private", null: false
+    t.index ["delivery_channel_id"],
+            name: "index_delivery_destinations_on_delivery_channel_id"
+    t.index ["delivery_connection_id"],
+            name: "index_delivery_destinations_on_delivery_connection_id"
+    t.index ["user_id"], name: "index_delivery_destinations_on_user_id"
   end
 
   create_table "devices", force: :cascade do |t|
@@ -818,6 +911,25 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_04_190000) do
             name: "index_stripe_invoices_on_subscription_id"
   end
 
+  create_table "subscription_destinations", force: :cascade do |t|
+    t.boolean "active", default: false, null: false
+    t.integer "amount_cents", null: false
+    t.string "amount_currency", null: false
+    t.datetime "created_at", null: false
+    t.bigint "delivery_destination_id", null: false
+    t.string "name"
+    t.boolean "selected", default: true, null: false
+    t.bigint "subscription_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["delivery_destination_id"],
+            name: "index_subscription_destinations_on_delivery_destination_id"
+    t.index %w[subscription_id delivery_destination_id],
+            name: "index_subscription_destination_uniqueness",
+            unique: true
+    t.index ["subscription_id"],
+            name: "index_subscription_destinations_on_subscription_id"
+  end
+
   create_table "subscription_executions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "status", default: "initialized", null: false
@@ -848,6 +960,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_04_190000) do
     t.datetime "created_at", null: false
     t.datetime "current_period_end"
     t.datetime "current_period_start"
+    t.integer "delivery_amount_cents"
+    t.string "delivery_amount_currency"
+    t.integer "delivery_base_amount_cents"
+    t.string "delivery_change_key"
     t.bigint "plan_id", null: false
     t.string "status", default: "inactive", null: false
     t.string "stripe_checkout_idempotency_key"
@@ -934,6 +1050,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_04_190000) do
                   column: "blob_id"
   add_foreign_key "countries", "users"
   add_foreign_key "data", "users"
+  add_foreign_key "deliveries", "delivery_destinations"
+  add_foreign_key "deliveries", "step_executions"
+  add_foreign_key "deliveries", "subscriptions"
+  add_foreign_key "delivery_channels", "delivery_connections"
+  add_foreign_key "delivery_connections", "users"
+  add_foreign_key "delivery_destinations", "delivery_channels"
+  add_foreign_key "delivery_destinations", "delivery_connections"
+  add_foreign_key "delivery_destinations", "users"
   add_foreign_key "devices", "users"
   add_foreign_key "email_addresses", "users"
   add_foreign_key "handles", "users"
@@ -980,6 +1104,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_04_190000) do
   add_foreign_key "step_executions", "subscription_executions"
   add_foreign_key "steps", "services"
   add_foreign_key "stripe_invoices", "subscriptions"
+  add_foreign_key "subscription_destinations", "delivery_destinations"
+  add_foreign_key "subscription_destinations", "subscriptions"
   add_foreign_key "subscription_executions", "subscriptions"
   add_foreign_key "subscription_values", "subscriptions"
   add_foreign_key "subscriptions", "plans"

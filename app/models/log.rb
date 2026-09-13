@@ -4,6 +4,11 @@ class Log < ApplicationRecord
   validate(:parse_and_validate_context, on: :controller)
 
   %i[
+    delivery
+    delivery_channel
+    delivery_connection
+    delivery_destination
+    subscription_destination
     address
     configuration
     country

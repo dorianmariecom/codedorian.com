@@ -169,6 +169,8 @@ class ServicesAdminCrudTest < ActionDispatch::IntegrationTest
         )
       end
 
+    channel =
+      DeliveryChannel.create!(key: "messages", enabled: true, amount_cents: 0)
     assert_difference("@admin.subscriptions.count", 1) do
       post(
         subscriptions_path,
@@ -176,6 +178,11 @@ class ServicesAdminCrudTest < ActionDispatch::IntegrationTest
           subscription: {
             user_id: @admin.id,
             plan_id: plan.id,
+            delivery_destinations_attributes: {
+              "0" => {
+                delivery_channel_id: channel.id
+              }
+            },
             status: "active"
           }
         }
@@ -202,6 +209,8 @@ class ServicesAdminCrudTest < ActionDispatch::IntegrationTest
         )
       end
 
+    channel =
+      DeliveryChannel.create!(key: "messages", enabled: true, amount_cents: 0)
     assert_difference("@admin.subscriptions.count", 1) do
       post(
         subscriptions_path,
@@ -209,6 +218,11 @@ class ServicesAdminCrudTest < ActionDispatch::IntegrationTest
           subscription: {
             user_id: @admin.id,
             plan_id: plan.id,
+            delivery_destinations_attributes: {
+              "0" => {
+                delivery_channel_id: channel.id
+              }
+            },
             status: "active"
           }
         }

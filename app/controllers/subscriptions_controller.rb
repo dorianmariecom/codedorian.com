@@ -142,6 +142,7 @@ class SubscriptionsController < ApplicationController
   def new
     @subscription = authorize(scope.new(user: current_user, plan: @plan))
     @subscription.prepare_values
+    @subscription.prepare_delivery_destinations
     add_breadcrumb
 
     respond_to do |format|
@@ -165,16 +166,10 @@ class SubscriptionsController < ApplicationController
   end
 
   def create
-    @subscription = authorize(scope.new(subscription_params))
-    created =
-      Subscription.transaction do
-        unless @subscription.save(context: :controller)
-          raise ActiveRecord::Rollback
-        end
-
-        @subscription.update!(@subscription.plan.price_for(@subscription))
-        true
-      end
+    attributes = subscription_params
+    attributes[:plan_id] = @plan.id if @plan
+    @subscription = authorize(scope.new(attributes))
+    created = @subscription.save_with_delivery_destinations
 
     if created
       respond_after_persist(
@@ -192,13 +187,34 @@ class SubscriptionsController < ApplicationController
   end
 
   def update
-    @subscription.assign_attributes(subscription_params)
-    if @subscription.save(context: :controller)
+    attributes = subscription_params
+    @subscription.assign_attributes(attributes)
+    unless @subscription.confirm_delivery_changes?(
+             attributes,
+             params[:delivery_confirmation]
+           )
+      return(
+        respond_to do |format|
+          format.html { render :edit }
+          format.json do
+            render json: {
+              status: :confirmation_required,
+                     quote: @subscription.delivery_preview,
+                     delivery_confirmation: @subscription.delivery_confirmation
+            }
+          end
+        end
+      )
+    end
+    if @subscription.save_with_delivery_destinations
       respond_after_persist(t(".notice"))
     else
       @subscription.prepare_values
       respond_after_invalid(:edit)
     end
+  rescue StripeBilling::PricingError, Stripe::StripeError => e
+    @subscription.errors.add(:base, e.message)
+    respond_after_invalid(:edit)
   end
 
   def destroy
@@ -270,14 +286,34 @@ class SubscriptionsController < ApplicationController
           :user_id,
           :plan_id,
           :status,
-          { subscription_values_attributes: [%i[id _destroy key value]] }
+          {
+            delivery_destinations_attributes: [
+              %i[
+                id
+                _destroy
+                delivery_channel_id
+                delivery_connection_id
+                recipient
+                visibility
+              ]
+            ],
+            subscription_values_attributes: [%i[id _destroy key value]]
+          }
         ]
       )
     else
-      params.expect(
-        subscription: [
-          { subscription_values_attributes: [%i[id _destroy key value]] }
-        ]
+      params.fetch(:subscription, ActionController::Parameters.new).permit(
+        delivery_destinations_attributes: [
+          %i[
+            id
+            _destroy
+            delivery_channel_id
+            delivery_connection_id
+            recipient
+            visibility
+          ]
+        ],
+        subscription_values_attributes: [%i[id _destroy key value]]
       )
     end
   end
@@ -291,7 +327,7 @@ class SubscriptionsController < ApplicationController
   def load_plan
     return if plan_id.blank?
 
-    plans = @plans || policy_scope(Plan)
+    plans = policy_scope(Plan)
     plans = plans.where_service(@service) if @service
     @plan = plans.find(plan_id)
   end

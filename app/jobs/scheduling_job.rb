@@ -6,6 +6,9 @@ class SchedulingJob < ContextJob
   limits_concurrency(key: "SchedulingJob", on_conflict: :discard)
 
   def perform_with_context
+    Delivery.due.find_each(&:enqueue)
+    Delivery.sending.late.find_each(&:worker_interrupted!)
+
     Program
       .preload(user: :time_zones)
       .find_each do |program|

@@ -7,6 +7,17 @@ class Code
         operator = args.fetch(:operator, nil).to_code.to_s
 
         case operator
+        when "deliver!"
+          sig(args) do
+            {
+              key: String,
+              subject: String,
+              body_text: String,
+              body_html: String.maybe,
+              url: String.maybe
+            }
+          end
+          code_deliver!(args)
         when "user"
           sig(args)
           code_user
@@ -34,6 +45,12 @@ class Code
         else
           super
         end
+      end
+
+      def code_deliver!(args)
+        attributes =
+          args.fetch(:arguments, []).to_code.code_first.as_json.symbolize_keys
+        subscription!.deliver!(**attributes).map(&:to_code).to_code
       end
 
       def id = code_get("id").to_s.to_i

@@ -1,0 +1,46 @@
+<%= form_with model: subscription_destination do |f| %>
+  <div class="p">
+    <%= f.label :subscription_id, class: :label %>
+    <%= f.select :subscription_id,
+             subscription_options(subscription_id: f.object.subscription_id),
+             { include_blank: true },
+             class: :input %>
+  </div>
+  <div class="p">
+    <%= f.label :delivery_destination_id, class: :label %>
+    <%= f.select :delivery_destination_id,
+             delivery_destination_options(
+               delivery_destination_id: f.object.delivery_destination_id
+             ),
+             { include_blank: true },
+             class: :input %>
+  </div>
+  <div class="p">
+    <%= f.label :name, class: :label %>
+    <%= f.text_field :name, class: :input %>
+  </div>
+  <div class="p">
+    <%= f.label :amount_cents, class: :label %>
+    <%= f.number_field :amount_cents, class: :input %>
+  </div>
+  <div class="p">
+    <%= f.label :amount_currency, class: :label %>
+    <%= f.text_field :amount_currency, class: :input %>
+  </div>
+  <div class="p">
+    <%= f.label :active, class: :label %>
+    <%= f.check_box :active, class: :input %>
+  </div>
+  <div class="p">
+    <%= f.label :selected, class: :label %>
+    <%= f.check_box :selected, class: :input %>
+  </div>
+  <div class="p">
+    <%= f.submit submit,
+             class: :button,
+             data: {
+               controller: "bridge--button",
+               bridge__button_title_value: submit
+             } %>
+  </div>
+<% end %>

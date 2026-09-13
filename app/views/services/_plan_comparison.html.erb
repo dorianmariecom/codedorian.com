@@ -7,13 +7,7 @@
       <div class="p italic"><%= plan.description %></div>
     <% end %>
     <div class="p">
-      <% destination =
-        new_service_subscription_path(
-          plan.service,
-          subscription: {
-            plan_id: plan.id
-          }
-        ) %>
+      <% destination = new_service_subscription_path(plan.service, plan_id: plan.id) %>
       <%= link_to(
         t(".subscribe"),
         (

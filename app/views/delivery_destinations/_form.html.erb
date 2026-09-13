@@ -1,0 +1,81 @@
+<%= form_with(model: delivery_destination) do |f| %>
+  <% if admin? %>
+    <div class="p">
+      <%= f.label :user_id, class: :label %>
+      <%= f.select :user_id, user_options(user_id: f.object.user_id), {}, class: :input %>
+    </div>
+  <% end %>
+  <% channels =
+    policy_scope(DeliveryChannel).select do |channel|
+      channel.available? || channel.id == delivery_destination.delivery_channel_id
+    end %>
+  <div data-controller="delivery-destination-form">
+    <div class="p">
+      <%= f.label :delivery_channel_id, class: :label %>
+      <%= f.select :delivery_channel_id,
+               channels.map { |channel|
+                 [
+                   channel.to_s,
+                   channel.id,
+                   {
+                     data: {
+                       "delivery-destination-form-channel": channel.key,
+                       "delivery-destination-form-show-recipient":
+                         channel.show_recipient,
+                       "delivery-destination-form-show-visibility":
+                         channel.show_visibility
+                     }
+                   }
+                 ]
+               },
+               {},
+               class: :input,
+               required: true,
+               data: {
+                 action: "change->delivery-destination-form#change",
+                 "delivery-destination-form-target": "channel"
+               } %>
+    </div>
+    <div class="p" data-delivery-destination-form-target="recipientRow">
+      <%= f.label :recipient, class: :label %>
+      <%= f.text_field :recipient,
+                   class: :input,
+                   data: {
+                     "delivery-destination-form-target": "recipient"
+                   } %>
+    </div>
+    <div class="p">
+      <%= f.label :delivery_connection_id, class: :label %>
+      <%= f.select :delivery_connection_id,
+               policy_scope(DeliveryConnection).map { |connection|
+                 [connection.name, connection.id]
+               },
+               { include_blank: true },
+               class: :input %>
+    </div>
+    <div class="p" data-delivery-destination-form-target="visibilityRow">
+      <%= f.label :visibility, class: :label %>
+      <%= f.select :visibility,
+               %w[private public].map { |visibility|
+                 [t(".#{visibility}"), visibility]
+               },
+               {},
+               class: :input,
+               data: {
+                 action: "change->delivery-destination-form#change",
+                 "delivery-destination-form-target": "visibility"
+               } %>
+    </div>
+    <div class="p">
+      <%= f.check_box :enabled %><%= f.label :enabled, t(".enabled") %>
+    </div>
+    <div class="p">
+      <%= f.submit submit,
+               class: :button,
+               data: {
+                 controller: "bridge--button",
+                 bridge__button_title_value: submit
+               } %>
+    </div>
+  </div>
+<% end %>

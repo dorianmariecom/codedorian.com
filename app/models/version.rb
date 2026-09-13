@@ -4,6 +4,11 @@ class Version < PaperTrail::Version
   include(RecordConcern)
 
   %i[
+    delivery
+    delivery_channel
+    delivery_connection
+    delivery_destination
+    subscription_destination
     address
     configuration
     country

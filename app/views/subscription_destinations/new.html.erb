@@ -1,0 +1,5 @@
+<% content_for(:title, t(".title")) %>
+<% content_for(:description, t(".description")) %>
+<%= render "form",
+       subscription_destination: @subscription_destination,
+       submit: t(".submit") %>

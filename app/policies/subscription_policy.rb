@@ -18,6 +18,14 @@ class SubscriptionPolicy < ApplicationPolicy
   def create? = current_user?
 
   def update?
+    admin?
+  end
+
+  def manage_billing?
+    admin? || owner?
+  end
+
+  def execute?
     admin? || owner?
   end
 

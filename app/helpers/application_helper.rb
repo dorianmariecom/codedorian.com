@@ -60,10 +60,7 @@ module ApplicationHelper
         locale_path(
           selected_locale: switched_locale,
           redirect_to:
-            url_for(
-              locale: switched_locale,
-              params: request.query_parameters
-            )
+            url_for(locale: switched_locale, params: request.query_parameters)
         ),
       "locale_prefix" => params[:locale].present? ? "/#{params[:locale]}" : ""
     }
@@ -194,7 +191,49 @@ module ApplicationHelper
       [
         t("program_executions.model.statuses.#{option_status}"),
         option_status,
-        { selected: option_status == status }
+        { selected: option_status.to_s == status.to_s }
+      ]
+    end
+  end
+
+  def delivery_connection_options(delivery_connection_id: nil)
+    policy_scope(DeliveryConnection)
+      .order(:id)
+      .map do |connection|
+        [
+          connection.to_s,
+          connection.id,
+          { selected: delivery_connection_id == connection.id }
+        ]
+      end
+  end
+
+  def delivery_connection_provider_options(provider: nil)
+    DeliveryConnection::PROVIDERS.map do |value|
+      [
+        t("delivery_connections.model.providers.#{value}"),
+        value,
+        { selected: value.to_s == provider }
+      ]
+    end
+  end
+
+  def delivery_channel_key_options(key: nil)
+    DeliveryChannel::KEYS.map do |value|
+      [
+        t("delivery_channels.model.keys.#{value}"),
+        value,
+        { selected: value.to_s == key }
+      ]
+    end
+  end
+
+  def delivery_status_options(status: nil)
+    Delivery::STATUSES.map do |option_status|
+      [
+        t("deliveries.model.statuses.#{option_status}"),
+        option_status,
+        { selected: option_status.to_s == status.to_s }
       ]
     end
   end
@@ -220,6 +259,30 @@ module ApplicationHelper
       .order(:id)
       .map do |program|
         [program&.to_s, program&.id, { selected: program_id == program&.id }]
+      end
+  end
+
+  def subscription_options(subscription_id: nil)
+    policy_scope(Subscription)
+      .order(:id)
+      .map do |subscription|
+        [
+          subscription.to_s,
+          subscription.id,
+          { selected: subscription_id == subscription.id }
+        ]
+      end
+  end
+
+  def delivery_destination_options(delivery_destination_id: nil)
+    policy_scope(DeliveryDestination)
+      .order(:id)
+      .map do |delivery_destination|
+        [
+          delivery_destination.to_s,
+          delivery_destination.id,
+          { selected: delivery_destination_id == delivery_destination.id }
+        ]
       end
   end
 

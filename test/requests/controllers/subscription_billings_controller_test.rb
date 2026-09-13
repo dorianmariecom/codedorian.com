@@ -5,10 +5,15 @@ require "test_helper"
 class SubscriptionBillingsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @admin = users(:admin)
+    @subscriber = users(:other_user)
     @subscription = subscriptions(:subscription)
+    Current.with(user: @admin) do
+      @subscription.update!(user: @subscriber)
+      @subscriber.update!(verified: false)
+    end
     sign_in(
-      email_addresses(:admin_email).email_address,
-      passwords(:password).hint
+      email_addresses(:other_email).email_address,
+      passwords(:other_password).hint
     )
   end
 
@@ -32,16 +37,34 @@ class SubscriptionBillingsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "another user cannot view billing" do
-    delete(login_path)
-    user = users(:other_user)
-    sign_in(
-      email_addresses(:other_email).email_address,
-      passwords(:other_password).hint
-    )
+    Current.with(user: @admin) { @subscription.update!(user: @admin) }
 
     get(subscription_billing_path(@subscription))
 
     assert_redirected_to(root_path)
+  end
+
+  test "another user cannot manage billing" do
+    Current.with(user: @admin) { @subscription.update!(user: @admin) }
+
+    [
+      checkout_subscription_billing_path(@subscription),
+      cancel_subscription_billing_path(@subscription),
+      resume_subscription_billing_path(@subscription),
+      retry_payment_subscription_billing_path(@subscription),
+      setup_payment_method_subscription_billing_path(@subscription)
+    ].each do |path|
+      post(path)
+
+      assert_redirected_to(root_path)
+    end
+    assert_not_requested(:post, %r{https://api\.stripe\.com/})
+  end
+
+  test "billing access does not allow subscribers to edit subscription records" do
+    assert_not(SubscriptionPolicy.new(@subscriber, @subscription).update?)
+    assert(SubscriptionPolicy.new(@admin, @subscription).manage_billing?)
+    assert_not(SubscriptionPolicy.new(nil, @subscription).manage_billing?)
   end
 
   test "advanced subscriber sees detailed billing attributes" do
@@ -89,7 +112,16 @@ class SubscriptionBillingsControllerTest < ActionDispatch::IntegrationTest
 
   test "subscriber can start elements checkout with managed payments disabled" do
     Current.with(user: @admin) do
-      @admin.update!(stripe_customer_id: "cus_test")
+      channel =
+        DeliveryChannel.create!(key: "messages", enabled: true, amount_cents: 0)
+      destination =
+        DeliveryDestination.create!(
+          user: @subscription.user,
+          delivery_channel: channel,
+          name: "Inbox"
+        )
+      SubscriptionDeliveryBilling.select!(@subscription, [destination.id])
+      @subscriber.update!(stripe_customer_id: "cus_test")
     end
     checkout_request =
       stub_request(:post, "https://api.stripe.com/v1/checkout/sessions")
@@ -200,7 +232,7 @@ class SubscriptionBillingsControllerTest < ActionDispatch::IntegrationTest
 
   test "subscriber can open the payment method form" do
     Current.with(user: @admin) do
-      @admin.update!(stripe_customer_id: "cus_test")
+      @subscriber.update!(stripe_customer_id: "cus_test")
       @subscription.update!(stripe_subscription_id: "sub_test")
     end
     stub_request(:post, "https://api.stripe.com/v1/setup_intents").to_return(
@@ -225,7 +257,7 @@ class SubscriptionBillingsControllerTest < ActionDispatch::IntegrationTest
 
   test "setup intent cannot be applied to a different subscription" do
     Current.with(user: @admin) do
-      @admin.update!(stripe_customer_id: "cus_test")
+      @subscriber.update!(stripe_customer_id: "cus_test")
       @subscription.update!(stripe_subscription_id: "sub_test")
     end
     stub_request(
@@ -279,6 +311,31 @@ class SubscriptionBillingsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to(subscription_billing_path(@subscription))
     assert_predicate(@subscription.reload, :canceling?)
+  end
+
+  test "subscriber can retry an unpaid invoice" do
+    Current.with(user: @admin) do
+      stripe_invoices(:stripe_invoice).update!(
+        subscription: @subscription,
+        status: "open"
+      )
+    end
+    payment_request =
+      stub_request(
+        :post,
+        "https://api.stripe.com/v1/invoices/in_fixture/pay"
+      ).to_return(
+        status: 200,
+        body: { id: "in_fixture", object: "invoice", status: "paid" }.to_json,
+        headers: {
+          "Content-Type" => "application/json"
+        }
+      )
+
+    post(retry_payment_subscription_billing_path(@subscription), as: :json)
+
+    assert_response(:success)
+    assert_requested(payment_request)
   end
 
   test "subscriber can resume billing immediately" do

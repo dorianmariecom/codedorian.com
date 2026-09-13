@@ -1,0 +1,27 @@
+<% content_for(:title, t(".title")) %>
+<% content_for(:description, t(".description")) %>
+<%= turbo_stream_from(@delivery_destinations) %>
+<% if can?(:create, DeliveryDestination) %>
+  <% if can?(:create, model_class) %>
+    <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
+  <% end %>
+<% end %>
+<%= render("shared/search") %>
+
+<turbo-frame id="search" target="_top">
+  <% if @delivery_destinations.any? %>
+    <div class="p p--flex">
+      <% if can?(:destroy_all, DeliveryDestination) %>
+        <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
+      <% end %>
+      <% if can?(:delete_all, DeliveryDestination) %>
+        <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
+      <% end %>
+    </div>
+  <% end %>
+  <%= render_collection(
+    partial: "delivery_destinations/delivery_destination",
+    collection: @delivery_destinations,
+    as: :delivery_destination
+  ) %>
+</turbo-frame>

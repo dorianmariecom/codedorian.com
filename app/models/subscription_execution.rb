@@ -22,7 +22,7 @@ class SubscriptionExecution < ApplicationRecord
           joins(subscription: :plan).where(plans: { service_id: service })
         end
   validates :status, inclusion: { in: STATUSES }
-  validate { can!(:update, subscription) }
+  validate { can!(:execute, subscription) }
 
   def self.search_fields
     {

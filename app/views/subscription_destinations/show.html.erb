@@ -1,0 +1,158 @@
+<% content_for(:title, @subscription_destination) %>
+<% content_for(:description, t(".description")) %>
+<%= turbo_stream_from(@subscription_destination) %>
+<% if admin? %>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= SubscriptionDestination.human_attribute_name(:id) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @subscription_destination.id %>
+    </div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= SubscriptionDestination.human_attribute_name(:subscription_id) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @subscription_destination.subscription_id %>
+    </div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= SubscriptionDestination.human_attribute_name(:delivery_destination_id) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @subscription_destination.delivery_destination_id %>
+    </div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= SubscriptionDestination.human_attribute_name(:name) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @subscription_destination.name %>
+    </div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= SubscriptionDestination.human_attribute_name(:amount_cents) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @subscription_destination.amount_cents %>
+    </div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= SubscriptionDestination.human_attribute_name(:amount_currency) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @subscription_destination.amount_currency %>
+    </div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= SubscriptionDestination.human_attribute_name(:active) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @subscription_destination.active %>
+    </div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= SubscriptionDestination.human_attribute_name(:selected) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @subscription_destination.selected %>
+    </div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= SubscriptionDestination.human_attribute_name(:created_at) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @subscription_destination.created_at %>
+    </div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600">
+      <%= SubscriptionDestination.human_attribute_name(:updated_at) %>
+    </div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @subscription_destination.updated_at %>
+    </div>
+  </div>
+<% else %>
+  <div class="p"><%= @subscription_destination %></div>
+<% end %>
+<div class="p p--flex">
+  <% if can?(:update, @subscription_destination) %>
+    <%= link_to(t(".edit"), edit_url, class: :link) %>
+  <% end %>
+  <% if can?(:destroy, @subscription_destination) %>
+    <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+  <% end %>
+  <% if can?(:delete, @subscription_destination) %>
+    <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
+  <% end %>
+</div>
+<% if can?(:index, Version) %>
+  <div class="p font-bold">
+    <%= link_to t(".versions"),
+            {
+              controller: :versions,
+              action: :index,
+              subscription_destination_id: @subscription_destination.id
+            },
+            class: :link %>
+  </div>
+  <% if can?(:create, Version) %>
+    <div class="p">
+      <%= link_to t(".new_version"),
+              {
+                controller: :versions,
+                action: :new,
+                subscription_destination_id: @subscription_destination.id
+              },
+              class: :button %>
+    </div>
+  <% end %>
+  <%= render_collection(
+    partial: "versions/version",
+    collection: @versions,
+    as: :version,
+    locals: {
+      nested: [*nested, @subscription_destination]
+    }
+  ) %>
+<% end %>
+<% if can?(:index, Log) %>
+  <div class="p font-bold">
+    <%= link_to t(".logs"),
+            {
+              controller: :logs,
+              action: :index,
+              subscription_destination_id: @subscription_destination.id
+            },
+            class: :link %>
+  </div>
+  <% if can?(:create, Log) %>
+    <div class="p">
+      <%= link_to t(".new_log"),
+              {
+                controller: :logs,
+                action: :new,
+                subscription_destination_id: @subscription_destination.id
+              },
+              class: :button %>
+    </div>
+  <% end %>
+  <%= render_collection(
+    partial: "logs/log",
+    collection: @logs,
+    as: :log,
+    locals: {
+      nested: [*nested, @subscription_destination]
+    }
+  ) %>
+<% end %>

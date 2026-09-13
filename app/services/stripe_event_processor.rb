@@ -79,7 +79,21 @@ class StripeEventProcessor
           current_period_end: timestamp(period_end)
         )
         if stripe_subscription.status == "active"
+          if subscription.delivery_pricing.present? &&
+               subscription.delivery_change_key.blank?
+            item = stripe_subscription.items&.data&.first
+            price = item&.price
+            unless price && price.unit_amount == subscription.amount_cents &&
+                     price.currency == subscription.amount_currency
+              subscription.billing_inactive!
+              return
+            end
+          end
           subscription.billing_active!
+          SubscriptionDeliveryBilling.confirm!(
+            subscription,
+            stripe_subscription
+          )
         elsif ACCESS_INACTIVE_STATUSES.include?(stripe_subscription.status)
           subscription.billing_inactive!
         end
@@ -129,11 +143,9 @@ class StripeEventProcessor
 
     with_subscription_context(subscription) do
       subscription.with_lock do
-        if invoice.status == "paid" && stripe_subscription_active?(invoice)
-          subscription.billing_active!
-        elsif event_type.in?(
-              %w[invoice.payment_failed invoice.finalization_failed]
-            )
+        if event_type.in?(
+             %w[invoice.payment_failed invoice.finalization_failed]
+           )
           subscription.billing_inactive!
         end
       end
