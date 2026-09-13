@@ -4,6 +4,13 @@ class DeliveryDestination < ApplicationRecord
   belongs_to :user, default: -> { Current.user! }
   scope :where_user, ->(user) { where(user: user) }
   scope :where_id, ->(ids) { where(id: ids) }
+  scope :where_verification_email,
+        ->(email) do
+          where(
+            "LOWER(BTRIM(delivery_destinations.recipient)) = ?",
+            email.to_s.strip.downcase
+          )
+        end
   belongs_to :delivery_channel
   belongs_to :delivery_connection, optional: true
   has_many :subscription_destinations, dependent: :destroy
@@ -26,6 +33,55 @@ class DeliveryDestination < ApplicationRecord
   validate { can!(:update, user) }
   before_validation :normalize_recipient
   before_validation :normalize_name
+  before_validation :inherit_verification
+
+  def verification_email = recipient
+  def verification_complete? = recipient_verified?
+
+  def verification_purpose
+    [
+      :destination_email_confirmation,
+      recipient,
+      user_id,
+      delivery_channel_id,
+      updated_at.utc.iso8601(6)
+    ]
+  end
+
+  def self.find_by_verification(id, token)
+    destination =
+      joins(:delivery_channel).where(
+        delivery_channels: {
+          key: "email"
+        }
+      ).find_by(id: id)
+    return unless destination && !destination.recipient_verified?
+
+    if find_signed(token.to_s, purpose: destination.verification_purpose) ==
+         destination
+      destination
+    end
+  end
+
+  def verification_token
+    signed_id(purpose: verification_purpose, expires_in: 24.hours)
+  end
+
+  def inherit_verification
+    unless new_record? || will_save_change_to_recipient? ||
+             will_save_change_to_user_id? ||
+             will_save_change_to_delivery_channel_id?
+      return
+    end
+
+    self.recipient_verified =
+      delivery_channel&.key == "email" &&
+        SharedEmailVerification.verified?(
+          user_id: user_id,
+          email: recipient,
+          except_destination: id
+        )
+  end
 
   def visibility_public? = visibility == "public"
   def visibility_private? = visibility == "private"

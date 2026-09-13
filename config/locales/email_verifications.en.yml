@@ -1,0 +1,19 @@
+en:
+  email_verifications:
+    verified: email confirmed
+    unverified: email not confirmed
+    request: send or resend confirmation email
+    delivery_pending: email delivery awaits confirmation. execution and billing continue; skipped messages will not be resent.
+    sent: confirmation email sent. check your inbox.
+    already_verified: this email is already confirmed.
+    limited: too many confirmation requests. please try again in a minute.
+    confirmation: confirm this email for your account and subscriptions.
+    submit: confirm email
+    confirmed: email confirmed for your account and subscriptions.
+    invalid: this confirmation link is invalid or expired. please request a new email.
+  email_verification_mailer:
+    confirmation:
+      subject: confirm your email
+      instructions: confirm this email for your account and subscription deliveries.
+      submit: confirm email
+      expiration: this link expires in 24 hours. if you did not request it, you can ignore this email.

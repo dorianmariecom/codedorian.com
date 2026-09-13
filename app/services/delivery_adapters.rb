@@ -25,6 +25,10 @@ class DeliveryAdapters
   Result = Data.define(:status, :provider_id)
 
   def self.deliver(delivery)
+    unless delivery.recipient_verified_for_delivery?
+      delivery.recipient_unverified!
+      return Result.new(status: :canceled, provider_id: nil)
+    end
     result = new(delivery).call
     Result.new(
       status: result.fetch(:status, :accepted),
@@ -160,6 +164,10 @@ class DeliveryAdapters
         )
     end
     mail.delivery_method(:smtp, @connection.smtp_settings.symbolize_keys)
+    unless @delivery.recipient_verified_for_delivery?
+      @delivery.recipient_unverified!
+      return { status: :canceled }
+    end
     mail.deliver!
     { status: "accepted", provider_id: mail.message_id }
   end

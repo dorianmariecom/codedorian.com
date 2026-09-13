@@ -147,6 +147,76 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "turbo subscription updates can confirm destinations added with a dynamic form index" do
+    sign_in_admin
+    subscription = subscriptions(:subscription)
+    attributes = {
+      user_id: subscription.user_id.to_s,
+      plan_id: subscription.plan_id.to_s,
+      status: subscription.status,
+      subscription_values_attributes: {
+        "0" =>
+          subscription
+            .subscription_values
+            .sole
+            .attributes
+            .slice("id", "key", "value")
+            .transform_values(&:to_s)
+      },
+      delivery_destinations_attributes: {
+        "1789326877082" => {
+          _destroy: "false",
+          delivery_channel_id: @channel.id.to_s,
+          recipient: "",
+          visibility: "private"
+        }
+      }
+    }
+    headers = { "Accept" => "text/vnd.turbo-stream.html, text/html" }
+    assert_no_difference "DeliveryDestination.count" do
+      patch subscription_path(subscription),
+            params: { subscription: attributes },
+            headers: headers
+    end
+    assert_response :unprocessable_content
+    assert_equal "text/html", response.media_type
+    form = css_select("form").find do |node|
+      node["action"] == subscription_path(subscription)
+    end
+    assert form
+    form.css("template").remove
+    fields = form.css("input[name], select[name]").filter_map do |field|
+      next if field["type"].in?(%w[submit button])
+
+      value =
+        if field.name == "select"
+          field.at_css("option[selected]")&.[]("value")
+        else
+          field["value"]
+        end
+      [field["name"], value.to_s]
+    end
+    confirmation_params =
+      Rack::Utils.parse_nested_query(URI.encode_www_form(fields))
+    assert confirmation_params["delivery_confirmation"].present?
+    changed_params = confirmation_params.deep_dup
+    changed_params["subscription"]["delivery_destinations_attributes"].values.first[
+      "recipient"
+    ] = "changed recipient"
+    assert_no_difference "DeliveryDestination.count" do
+      patch subscription_path(subscription), params: changed_params, as: :json
+    end
+    assert_equal "confirmation_required", response.parsed_body["status"]
+    assert_difference "DeliveryDestination.count", 1 do
+      patch subscription_path(subscription),
+            params: confirmation_params,
+            headers: headers
+      assert_redirected_to subscription
+    end
+    assert_equal @channel.id,
+                 subscription.reload.delivery_destinations.sole.delivery_channel_id
+  end
+
   test "owner cannot view another users destination" do
     destination =
       Current.with(user: users(:admin)) do

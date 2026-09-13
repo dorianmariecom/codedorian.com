@@ -11,6 +11,13 @@ class EmailAddress < ApplicationRecord
   scope(:verified, -> { where(verified: true) })
   scope(:not_verified, -> { where(verified: false) })
   scope(:where_user, ->(user) { where(user: user) })
+  scope :where_verification_email,
+        ->(email) do
+          where(
+            "LOWER(BTRIM(email_addresses.email_address)) = ?",
+            email.to_s.strip.downcase
+          )
+        end
 
   normalizes(
     :email_address,
@@ -23,7 +30,47 @@ class EmailAddress < ApplicationRecord
 
   before_validation { self.user ||= Current.user! }
 
-  before_update { not_verified! if email_address_changed? && verified? }
+  before_validation :inherit_verification
+
+  def verification_email = email_address
+  def verification_complete? = verified?
+
+  def verification_purpose
+    [
+      :account_email_confirmation,
+      email_address,
+      user_id,
+      updated_at.utc.iso8601(6)
+    ]
+  end
+
+  def self.find_by_verification(id, token)
+    address = find_by(id: id)
+    return unless address && !address.verified?
+
+    return unless find_signed(token.to_s, purpose: address.verification_purpose) == address
+
+    address
+  end
+
+  def verification_token
+    signed_id(purpose: verification_purpose, expires_in: 24.hours)
+  end
+
+  def inherit_verification
+    unless new_record? || will_save_change_to_email_address? ||
+             will_save_change_to_user_id?
+      return
+    end
+
+    inherited =
+      SharedEmailVerification.verified?(
+        user_id: user_id,
+        email: email_address,
+        except_address: id
+      )
+    self.verified = (new_record? && verified?) || inherited
+  end
 
   def self.find_by_magic_link(id, token)
     address = find_by(id: id)

@@ -149,6 +149,12 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
       { smtp_from: "sender@example.com", smtp_address: "smtp.example.com" },
       recipient: "recipient@example.com"
     )
+    destination = @delivery.delivery_destination.reload
+    destination.update!(
+      delivery_channel: DeliveryChannel.create!(key: "email"),
+      recipient: @delivery.recipient
+    )
+    SharedEmailVerification.confirm(destination, destination.verification_token)
     @delivery.body_html = "<p>World</p>"
     # Mail's test transport keeps this test independent of SMTP servers.
     original = Mail::SMTP.instance_method(:deliver!)

@@ -90,9 +90,16 @@ class Subscription < ApplicationRecord
     return true unless attributes.key?(:delivery_destinations_attributes)
 
     self.delivery_preview = SubscriptionDeliveryBilling.preview(self)
+    confirmation_attributes = attributes.to_h.deep_stringify_keys
+    %w[delivery_destinations_attributes subscription_values_attributes].each do |key|
+      nested_attributes = confirmation_attributes[key]
+      if nested_attributes.is_a?(Hash)
+        confirmation_attributes[key] = nested_attributes.values
+      end
+    end
     expected = {
       "subscription_id" => id,
-      "attributes" => attributes.to_h,
+      "attributes" => confirmation_attributes,
       "quote" => delivery_preview
     }
     verifier = Rails.application.message_verifier(:delivery_price)

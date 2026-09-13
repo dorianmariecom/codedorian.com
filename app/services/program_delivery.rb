@@ -43,11 +43,16 @@ class ProgramDelivery
                 delivery.visibility = destination.visibility
                 delivery.connection = destination.connection
                 delivery.step_execution = Current.step_execution
+                if destination.channel == "email" &&
+                     !destination.recipient_verified?
+                  delivery.status = :canceled
+                  delivery.error_code = :recipient_unverified
+                end
               end
           end
       end
     deliveries.each do |delivery|
-      delivery.enqueue if delivery.previously_new_record?
+      delivery.enqueue if delivery.previously_new_record? && delivery.pending?
     end
     deliveries
   end

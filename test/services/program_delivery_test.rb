@@ -405,7 +405,107 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
     end
   end
 
+  test "unverified email is canceled without replay while execution and pricing continue" do
+    email_destination = select_email_destination
+    amount = @subscription.reload.amount_cents
+    deliveries = nil
+    assert_enqueued_jobs 1, only: DeliveryJob do
+      deliveries =
+        @subscription.deliver!(
+          key: "unverified",
+          subject: "Hello",
+          body_text: "World"
+        )
+    end
+    skipped = deliveries.find { |delivery| delivery.channel == "email" }
+    assert skipped.canceled?
+    assert_equal "recipient_unverified", skipped.error_code
+    assert @subscription.reload.active?
+    assert_equal amount, @subscription.amount_cents
+    SharedEmailVerification.confirm(
+      email_destination,
+      email_destination.verification_token
+    )
+    assert_no_enqueued_jobs only: DeliveryJob do
+      @subscription.deliver!(
+        key: "unverified",
+        subject: "Hello",
+        body_text: "World"
+      )
+    end
+    assert skipped.reload.canceled?
+    assert_equal 2,
+                 @subscription.deliver!(
+                   key: "next",
+                   subject: "Hello",
+                   body_text: "World"
+                 ).size
+    assert @subscription
+             .deliveries
+             .find_by!(event_key: "next", channel: "email")
+             .pending?
+  end
+
+  test "claim cancels email after recipient changes even if the new recipient is verified" do
+    destination = select_email_destination
+    SharedEmailVerification.confirm(destination, destination.verification_token)
+    delivery =
+      @subscription
+        .deliver!(key: "queued", subject: "Hello", body_text: "World")
+        .find { |item| item.channel == "email" }
+    destination.reload.update!(
+      recipient: email_addresses(:admin_email).email_address
+    )
+    assert destination.recipient_verified?
+    assert_not delivery.claim!
+    assert_equal "recipient_unverified", delivery.reload.error_code
+    assert delivery.canceled?
+  end
+
+  test "adapter rechecks verification after claim and cancels without submitting" do
+    destination = select_email_destination
+    SharedEmailVerification.confirm(destination, destination.verification_token)
+    delivery =
+      @subscription
+        .deliver!(key: "claimed", subject: "Hello", body_text: "World")
+        .find { |item| item.channel == "email" }
+    assert delivery.claim!
+    destination.reload.update!(recipient: "changed@example.com")
+    assert_equal :canceled, DeliveryAdapters.deliver(delivery).status
+    assert delivery.reload.canceled?
+    assert_equal "recipient_unverified", delivery.error_code
+  end
+
   private
+
+  def select_email_destination
+    connection =
+      DeliveryConnection.create!(
+        user: @subscription.user,
+        name: "SMTP",
+        provider: "smtp",
+        smtp_from: "sender@example.com",
+        smtp_address: "smtp.example.com"
+      )
+    channel =
+      DeliveryChannel.create!(
+        key: "email",
+        enabled: true,
+        amount_cents: 50,
+        delivery_connection: connection
+      )
+    destination =
+      DeliveryDestination.create!(
+        user: @subscription.user,
+        delivery_channel: channel,
+        recipient: "unverified@example.com"
+      )
+    SubscriptionDeliveryBilling.select!(
+      @subscription,
+      [@destination.id, destination.id]
+    )
+    destination
+  end
 
   def slack_delivery!(delivery)
     connection =

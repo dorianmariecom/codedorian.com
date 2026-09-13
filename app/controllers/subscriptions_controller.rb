@@ -195,7 +195,7 @@ class SubscriptionsController < ApplicationController
            )
       return(
         respond_to do |format|
-          format.html { render :edit }
+          format.html { render :edit, status: :unprocessable_content }
           format.json do
             render json: {
               status: :confirmation_required,

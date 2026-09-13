@@ -252,6 +252,10 @@ class Delivery < ApplicationRecord
         canceled!
         return false
       end
+      unless recipient_verified_for_delivery?
+        recipient_unverified!
+        return false
+      end
       unless available?
         destination_unavailable!
         return false
@@ -260,6 +264,23 @@ class Delivery < ApplicationRecord
       sending!
       true
     end
+  end
+
+  def recipient_verified_for_delivery?
+    return true unless channel == "email"
+
+    destination = delivery_destination.reload
+    destination.channel == "email" && destination.recipient_verified? &&
+      destination.user_id == subscription.user_id &&
+      destination.recipient.to_s.strip.downcase == recipient.to_s.strip.downcase
+  end
+
+  def recipient_unverified!
+    update!(
+      status: :canceled,
+      error_code: :recipient_unverified,
+      next_attempt_at: nil
+    )
   end
 
   def canceled! = update!(status: :canceled)

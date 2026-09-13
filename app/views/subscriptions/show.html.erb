@@ -54,6 +54,38 @@
   <%= link_to(t(".billing"), subscription_billing_path(@subscription), class: :link) %>
 </div>
 
+<% @subscription
+  .subscription_destinations
+  .selected
+  .preload(delivery_destination: :delivery_channel)
+  .each do |selection| %>
+  <% destination = selection.delivery_destination %>
+  <% if destination.channel == "email" %>
+    <div class="p">
+      <div class="font-bold"><%= destination.recipient %></div>
+      <div>
+        <%= t(
+          (
+            if destination.recipient_verified?
+              "email_verifications.verified"
+            else
+              "email_verifications.unverified"
+            end
+          )
+        ) %>
+      </div>
+      <% unless destination.recipient_verified? %>
+        <p><%= t("email_verifications.delivery_pending") %></p>
+        <%= button_to(
+          t("email_verifications.request"),
+          subscription_destination_verification_path(@subscription, selection),
+          class: :button
+        ) %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
+
 <% if !admin? && !advanced? %>
   <% @subscription.plan.fields.each do |field| %>
     <% subscription_value = @subscription.values[field.key] %>

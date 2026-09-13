@@ -12,7 +12,11 @@ class EmailAddressPolicy < ApplicationPolicy
   end
 
   def show?
-    (admin? || owner?) && advanced?
+    admin? || owner?
+  end
+
+  def request_verification?
+    admin? || owner?
   end
 
   def create?

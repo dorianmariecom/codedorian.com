@@ -1,6 +1,16 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  get "email_verification",
+      to: "email_verifications#show",
+      as: :email_verification
+  post "email_verification", to: "email_verifications#create"
+  post "email_addresses/:email_address_id/verification",
+       to: "email_verifications#request_account",
+       as: :email_address_verification
+  post "subscriptions/:subscription_id/destinations/:subscription_destination_id/verification",
+       to: "email_verifications#request_destination",
+       as: :subscription_destination_verification
   mount(Blazer::Engine, at: :blazer)
   mount(ActionCable.server => "/cable")
   post("stripe/webhooks", to: "stripe_webhooks#create")
