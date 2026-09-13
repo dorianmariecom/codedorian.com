@@ -102,6 +102,7 @@ module ActionDispatch
     include ActionDispatch::TestProcess
 
     setup do
+      ActionController::Base.cache_store.clear
       uri = URI.parse(Current.base_url)
       host!(
         [uri.host, uri.port == uri.default_port ? nil : uri.port].compact.join(

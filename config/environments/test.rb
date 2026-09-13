@@ -16,6 +16,7 @@ Rails.application.configure do
   config.active_support.disallowed_deprecation_warnings = []
   config.cache_classes = false
   config.cache_store = :null_store
+  config.action_controller.cache_store = ActiveSupport::Cache::MemoryStore.new
   config.consider_all_requests_local = true
   config.eager_load = ENV["CI"].present?
   config.enable_reloading = false

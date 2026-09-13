@@ -1359,6 +1359,18 @@ fr:
       versions: versions
     update:
       notice: 'destination de livraison : modification effectuée'
+    request_verification:
+      sent: e-mail de confirmation envoyé. consultez votre boîte de réception.
+      already_verified: cette adresse e-mail est déjà confirmée.
+    verification:
+      confirmation: confirmez cette adresse e-mail pour votre compte et vos abonnements.
+      invalid: ce lien de confirmation est invalide ou a expiré. demandez un nouvel e-mail.
+      submit: confirmer l’adresse e-mail
+      title: confirmer l’adresse e-mail
+      description: confirmez cette adresse e-mail pour votre compte et vos abonnements.
+    confirm_verification:
+      confirmed: adresse e-mail confirmée pour votre compte et vos abonnements.
+      invalid: ce lien de confirmation est invalide ou a expiré. demandez un nouvel e-mail.
   devices:
     create:
       notice: appareil créé
@@ -1456,10 +1468,24 @@ fr:
       primary: principal ?
       updated_at: mis à jour à
       user: utilisateur
-      verified: vérifié ?
+      verified: adresse e-mail confirmée
       versions: versions
+      unverified: adresse e-mail non confirmée
+      request_verification: envoyer ou renvoyer l’e-mail de confirmation
     update:
       notice: adresse e-mail mise à jour
+    request_verification:
+      sent: e-mail de confirmation envoyé. consultez votre boîte de réception.
+      already_verified: cette adresse e-mail est déjà confirmée.
+    verification:
+      confirmation: confirmez cette adresse e-mail pour votre compte et vos abonnements.
+      invalid: ce lien de confirmation est invalide ou a expiré. demandez un nouvel e-mail.
+      submit: confirmer l’adresse e-mail
+      title: confirmer l’adresse e-mail
+      description: confirmez cette adresse e-mail pour votre compte et vos abonnements.
+    confirm_verification:
+      confirmed: adresse e-mail confirmée pour votre compte et vos abonnements.
+      invalid: ce lien de confirmation est invalide ou a expiré. demandez un nouvel e-mail.
   error_occurrences:
     create:
       notice: occurence d'erreur créée
@@ -4695,8 +4721,7 @@ fr:
       private: privé
       public: public
       recipient: destinataire
-      recipient_help: laissez vide pour votre messagerie code dorian ou les notifications
-        push.
+      recipient_help: laissez vide pour votre messagerie code dorian ou les notifications push.
       remove: supprimer
       visibility: visibilité
     destinations:
@@ -4762,6 +4787,10 @@ fr:
       updated_at: mis à jour à
       user_id: utilisateur
       versions: versions
+      recipient_verified: adresse e-mail confirmée
+      recipient_unverified: adresse e-mail non confirmée
+      request_verification: envoyer ou renvoyer l’e-mail de confirmation
+      delivery_pending: l’envoi des e-mails attend votre confirmation. l’exécution et la facturation continuent ; les messages ignorés ne seront pas renvoyés.
     update:
       notice: abonnement mis à jour
   time:
@@ -4992,3 +5021,9 @@ fr:
       next: suivant
       previous: précédent
       truncate: "…"
+  email_verification_mailer:
+    confirmation:
+      subject: confirmez votre adresse e-mail
+      instructions: confirmez cette adresse e-mail pour votre compte et les envois de vos abonnements.
+      submit: confirmer l’adresse e-mail
+      expiration: ce lien expire dans 24 heures. si vous ne l’avez pas demandé, ignorez cet e-mail.

@@ -35,17 +35,17 @@
     <%= t(
       (
         if @email_address.verified?
-          "email_verifications.verified"
+          ".verified"
         else
-          "email_verifications.unverified"
+          ".unverified"
         end
       )
     ) %>
   </div>
   <% unless @email_address.verified? %>
     <%= button_to(
-      t("email_verifications.request"),
-      email_address_verification_path(@email_address),
+      t(".request_verification"),
+      request_verification_email_address_path(id: @email_address),
       class: :button
     ) %>
   <% end %>

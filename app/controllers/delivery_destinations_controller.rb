@@ -1,11 +1,85 @@
 # frozen_string_literal: true
 
 class DeliveryDestinationsController < ApplicationController
+  VERIFICATION_REQUEST_LIMIT = 5
+  VERIFICATION_REQUEST_WINDOW = 1.minute
+
+  before_action :current_user!, only: :request_verification
+  before_action only: %i[
+    request_verification
+    verification
+    confirm_verification
+  ] do
+    no_store
+    set_current_locale
+  end
+  rate_limit to: VERIFICATION_REQUEST_LIMIT,
+             within: VERIFICATION_REQUEST_WINDOW,
+             only: :request_verification
+
   before_action do
     add_breadcrumb(key: "delivery_destinations.index", path: index_url)
   end
   before_action :load_delivery_destination,
                 only: %i[show edit update destroy delete]
+
+  def request_verification
+    subscription =
+      authorize(
+        policy_scope(Subscription).find(params.expect(:subscription_id)),
+        :request_verification?
+      )
+    destination =
+      authorize(
+        policy_scope(DeliveryDestination).where_user(subscription.user).find(
+          params.expect(:id)
+        )
+      )
+    subscription.subscription_destinations.selected.find_by!(
+      delivery_destination_id: destination.id
+    )
+    unless destination.recipient_verified?
+      destination.request_verification!(
+        url:
+          verification_delivery_destination_url(
+            id: destination,
+            token: destination.verification_token
+          )
+      )
+    end
+    respond_verification(
+      destination.recipient_verified? ? :already_verified : :sent,
+      path: subscription_path(subscription)
+    )
+  end
+
+  def verification
+    record =
+      policy_scope([:public, DeliveryDestination]).find_by_verification(
+        params[:id],
+        params[:token]
+      )
+    authorize([:public, record || DeliveryDestination])
+    if record
+      respond_verification(:confirmation)
+    else
+      respond_verification(:invalid, status: :unprocessable_content)
+    end
+  end
+
+  def confirm_verification
+    record =
+      policy_scope([:public, DeliveryDestination]).find_by_verification(
+        params[:id],
+        params[:token]
+      )
+    authorize([:public, record || DeliveryDestination])
+    if record && SharedEmailVerification.confirm(record, params[:token])
+      respond_verification(:confirmed)
+    else
+      respond_verification(:invalid, status: :unprocessable_content)
+    end
+  end
 
   def index
     authorize(DeliveryDestination)
@@ -97,6 +171,28 @@ class DeliveryDestinationsController < ApplicationController
   end
 
   private
+
+  def respond_verification(key, status: :ok, path: nil)
+    @message = t(".#{key}")
+    @confirmation = key == :confirmation
+    respond_to do |format|
+      format.html do
+        if path
+          redirect_to(path, notice: @message)
+        else
+          render :verification, status: status
+        end
+      end
+      format.json do
+        render json: {
+                 status: status,
+                 messages: [@message],
+                 data: nil
+               },
+               status: status
+      end
+    end
+  end
 
   def scope = searched_policy_scope(DeliveryDestination)
   def model_class = DeliveryDestination

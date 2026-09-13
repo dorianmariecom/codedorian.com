@@ -67,18 +67,21 @@
         <%= t(
           (
             if destination.recipient_verified?
-              "email_verifications.verified"
+              ".recipient_verified"
             else
-              "email_verifications.unverified"
+              ".recipient_unverified"
             end
           )
         ) %>
       </div>
       <% unless destination.recipient_verified? %>
-        <p><%= t("email_verifications.delivery_pending") %></p>
+        <p><%= t(".delivery_pending") %></p>
         <%= button_to(
-          t("email_verifications.request"),
-          subscription_destination_verification_path(@subscription, selection),
+          t(".request_verification"),
+          request_verification_subscription_delivery_destination_path(
+            subscription_id: @subscription.id,
+            id: destination.id
+          ),
           class: :button
         ) %>
       <% end %>

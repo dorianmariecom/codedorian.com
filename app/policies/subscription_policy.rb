@@ -21,6 +21,10 @@ class SubscriptionPolicy < ApplicationPolicy
     admin?
   end
 
+  def request_verification?
+    admin? || owner?
+  end
+
   def manage_billing?
     admin? || owner?
   end

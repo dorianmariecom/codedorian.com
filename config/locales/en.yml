@@ -1357,6 +1357,18 @@ en:
       versions: versions
     update:
       notice: delivery destination updated
+    request_verification:
+      sent: confirmation email sent. check your inbox.
+      already_verified: this email is already confirmed.
+    verification:
+      confirmation: confirm this email for your account and subscriptions.
+      invalid: this confirmation link is invalid or expired. please request a new email.
+      submit: confirm email
+      title: confirm email
+      description: confirm this email for your account and subscriptions.
+    confirm_verification:
+      confirmed: email confirmed for your account and subscriptions.
+      invalid: this confirmation link is invalid or expired. please request a new email.
   devices:
     create:
       notice: device created
@@ -1454,10 +1466,24 @@ en:
       primary: primary?
       updated_at: updated at
       user: user
-      verified: verified?
+      verified: email confirmed
       versions: versions
+      unverified: email not confirmed
+      request_verification: send or resend confirmation email
     update:
       notice: email address updated
+    request_verification:
+      sent: confirmation email sent. check your inbox.
+      already_verified: this email is already confirmed.
+    verification:
+      confirmation: confirm this email for your account and subscriptions.
+      invalid: this confirmation link is invalid or expired. please request a new email.
+      submit: confirm email
+      title: confirm email
+      description: confirm this email for your account and subscriptions.
+    confirm_verification:
+      confirmed: email confirmed for your account and subscriptions.
+      invalid: this confirmation link is invalid or expired. please request a new email.
   error_occurrences:
     create:
       notice: error occurrence created
@@ -4751,6 +4777,10 @@ en:
       updated_at: updated at
       user_id: user
       versions: versions
+      recipient_verified: email confirmed
+      recipient_unverified: email not confirmed
+      request_verification: send or resend confirmation email
+      delivery_pending: email delivery awaits confirmation. execution and billing continue; skipped messages will not be resent.
     update:
       notice: subscription updated
   time:
@@ -4981,3 +5011,9 @@ en:
       next: next
       previous: previous
       truncate: "…"
+  email_verification_mailer:
+    confirmation:
+      subject: confirm your email
+      instructions: confirm this email for your account and subscription deliveries.
+      submit: confirm email
+      expiration: this link expires in 24 hours. if you did not request it, you can ignore this email.

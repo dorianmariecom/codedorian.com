@@ -1,12 +1,75 @@
 # frozen_string_literal: true
 
 class EmailAddressesController < ApplicationController
-  before_action(:load_guest)
-  before_action(:load_user)
+  VERIFICATION_REQUEST_LIMIT = 5
+  VERIFICATION_REQUEST_WINDOW = 1.minute
+
+  before_action :current_user!, only: :request_verification
+  before_action only: %i[
+    request_verification
+    verification
+    confirm_verification
+  ] do
+    no_store
+    set_current_locale
+  end
+  rate_limit to: VERIFICATION_REQUEST_LIMIT,
+             within: VERIFICATION_REQUEST_WINDOW,
+             only: :request_verification
+
+  before_action(:load_guest, except: %i[verification confirm_verification])
+  before_action(:load_user, except: %i[verification confirm_verification])
   before_action do
     add_breadcrumb(key: "email_addresses.index", path: index_url)
   end
-  before_action(:load_email_address, only: %i[show edit update destroy delete])
+  before_action(
+    :load_email_address,
+    only: %i[show edit update destroy delete request_verification]
+  )
+
+  def request_verification
+    unless @email_address.verified?
+      @email_address.request_verification!(
+        url:
+          verification_email_address_url(
+            id: @email_address,
+            token: @email_address.verification_token
+          )
+      )
+    end
+    respond_verification(
+      @email_address.verified? ? :already_verified : :sent,
+      path: email_address_path(@email_address)
+    )
+  end
+
+  def verification
+    record =
+      policy_scope([:public, EmailAddress]).find_by_verification(
+        params[:id],
+        params[:token]
+      )
+    authorize([:public, record || EmailAddress])
+    if record
+      respond_verification(:confirmation)
+    else
+      respond_verification(:invalid, status: :unprocessable_content)
+    end
+  end
+
+  def confirm_verification
+    record =
+      policy_scope([:public, EmailAddress]).find_by_verification(
+        params[:id],
+        params[:token]
+      )
+    authorize([:public, record || EmailAddress])
+    if record && SharedEmailVerification.confirm(record, params[:token])
+      respond_verification(:confirmed)
+    else
+      respond_verification(:invalid, status: :unprocessable_content)
+    end
+  end
 
   def index
     authorize(EmailAddress)
@@ -101,6 +164,28 @@ class EmailAddressesController < ApplicationController
   end
 
   private
+
+  def respond_verification(key, status: :ok, path: nil)
+    @message = t(".#{key}")
+    @confirmation = key == :confirmation
+    respond_to do |format|
+      format.html do
+        if path
+          redirect_to(path, notice: @message)
+        else
+          render :verification, status: status
+        end
+      end
+      format.json do
+        render json: {
+                 status: status,
+                 messages: [@message],
+                 data: nil
+               },
+               status: status
+      end
+    end
+  end
 
   def load_guest
     return if params[:guest_id].blank?

@@ -1,16 +1,6 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  get "email_verification",
-      to: "email_verifications#show",
-      as: :email_verification
-  post "email_verification", to: "email_verifications#create"
-  post "email_addresses/:email_address_id/verification",
-       to: "email_verifications#request_account",
-       as: :email_address_verification
-  post "subscriptions/:subscription_id/destinations/:subscription_destination_id/verification",
-       to: "email_verifications#request_destination",
-       as: :subscription_destination_verification
   mount(Blazer::Engine, at: :blazer)
   mount(ActionCable.server => "/cable")
   post("stripe/webhooks", to: "stripe_webhooks#create")
@@ -58,7 +48,6 @@ Rails.application.routes.draw do
         countries
         data
         devices
-        email_addresses
         error_occurrences
         errors
         handles
@@ -93,6 +82,12 @@ Rails.application.routes.draw do
         versions
       ].each { |resource| resources(resource, concerns: :deletable) }
 
+      resources(:email_addresses, concerns: :deletable) do
+        get(:verification, on: :member)
+        post(:confirm_verification, on: :member)
+        post(:request_verification, on: :member)
+      end
+
       resources(:steps, concerns: :deletable) do
         post(:format, on: :member)
         post(:format_all, on: :collection)
@@ -100,6 +95,9 @@ Rails.application.routes.draw do
 
       resources(:services, concerns: :deletable) do
         resources(:subscriptions, concerns: :deletable) do
+          resources(:delivery_destinations, only: []) do
+            post(:request_verification, on: :member)
+          end
           post(:activate, on: :member)
           post(:deactivate, on: :member)
           post(:evaluate, on: :member)
@@ -107,6 +105,9 @@ Rails.application.routes.draw do
       end
 
       resources(:subscriptions, concerns: :deletable) do
+        resources(:delivery_destinations, only: []) do
+          post(:request_verification, on: :member)
+        end
         post(:activate, on: :member)
         post(:deactivate, on: :member)
         post(:evaluate, on: :member)
@@ -134,10 +135,13 @@ Rails.application.routes.draw do
 
     %i[
       delivery_connections
-      delivery_destinations
       delivery_channels
       subscription_destinations
     ].each { |resource| resources resource, concerns: :deletable }
+    resources :delivery_destinations, concerns: :deletable do
+      get :verification, on: :member
+      post :confirm_verification, on: :member
+    end
     resources :deliveries, concerns: :deletable do
       post :retry, on: :member
       post :reconcile, on: :member

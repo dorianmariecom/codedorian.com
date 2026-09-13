@@ -48,9 +48,21 @@ class EmailAddress < ApplicationRecord
     address = find_by(id: id)
     return unless address && !address.verified?
 
-    return unless find_signed(token.to_s, purpose: address.verification_purpose) == address
+    unless find_signed(token.to_s, purpose: address.verification_purpose) ==
+             address
+      return
+    end
 
     address
+  end
+
+  def request_verification!(url:)
+    return if verification_complete?
+
+    EmailVerificationMailer
+      .with(locale: I18n.locale)
+      .confirmation(email_address: verification_email, url: url)
+      .deliver_later
   end
 
   def verification_token

@@ -19,7 +19,6 @@ Rails.application.configure do
   config.active_support.disallowed_deprecation = :raise
   config.active_support.disallowed_deprecation_warnings = []
   config.assets.quiet = true
-  config.cache_store = :solid_cache_store
   config.consider_all_requests_local = true
   config.eager_load = false
   config.enable_reloading = true

@@ -63,6 +63,15 @@ class DeliveryDestination < ApplicationRecord
     end
   end
 
+  def request_verification!(url:)
+    return if verification_complete?
+
+    EmailVerificationMailer
+      .with(locale: I18n.locale)
+      .confirmation(email_address: verification_email, url: url)
+      .deliver_later
+  end
+
   def verification_token
     signed_id(purpose: verification_purpose, expires_in: 24.hours)
   end
