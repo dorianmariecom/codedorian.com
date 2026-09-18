@@ -26,7 +26,7 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
      new_service_subscription_path(services(:service), plan_id: plans(:plan).id)].each do |path|
       get path
       assert_response :success
-      assert_select "select[name*='[delivery_connection_id]'] option[value=?]", owned.id.to_s, text: owned.name
+      assert_select "select[name*='[delivery_connection_id]'] option[value=?]", owned.id.to_s, text: owned.to_s
       assert_select "select[name*='[delivery_connection_id]'] option[value=?]", other.id.to_s, count: 0
       assert_not_includes response.body, "owned-secret"
       assert_not_includes response.body, "other-secret"
@@ -52,9 +52,10 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
       assert_response :unprocessable_content
     end
     get delivery_connection_path(owned), as: :json
-    assert_response :bad_request
+    assert_response :success
+    assert_equal "owned-secret", response.parsed_body.fetch("data").fetch("access_token")
     get delivery_connections_path, as: :json
-    assert_response :bad_request
+    assert_response :success
   end
 
   test "subscribers cannot access delivery audit pages" do
@@ -176,7 +177,7 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
                delivery_destinations_attributes: {
                  "0" => {
                    delivery_channel_id: @channel.id,
-                   visibility: "public"
+                   visibility: "invalid"
                  }
                }
              }
@@ -266,6 +267,7 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
           _destroy: "false",
           delivery_channel_id: @channel.id.to_s,
           recipient: "",
+          delivery_connection_id: "",
           visibility: "private"
         }
       }

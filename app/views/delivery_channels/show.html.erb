@@ -97,11 +97,23 @@
     </div>
   </div>
   <div class="p">
+    <div class="text-gray-600"><%= DeliveryChannel.human_attribute_name(:public_pattern) %></div>
+    <div class="font-bold whitespace-pre-wrap"><%= @delivery_channel.public_pattern %></div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600"><%= DeliveryChannel.human_attribute_name(:private_pattern) %></div>
+    <div class="font-bold whitespace-pre-wrap"><%= @delivery_channel.private_pattern %></div>
+  </div>
+  <div class="p">
+    <div class="text-gray-600"><%= DeliveryChannel.human_attribute_name(:show_connection) %></div>
+    <div class="font-bold whitespace-pre-wrap"><%= @delivery_channel.show_connection %></div>
+  </div>
+  <div class="p">
     <div class="text-gray-600">
-      <%= DeliveryChannel.human_attribute_name(:private_delivery_enabled) %>
+      <%= DeliveryChannel.human_attribute_name(:only) %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery_channel.private_delivery_enabled %>
+      <%= @delivery_channel.only %>
     </div>
   </div>
   <div class="p">

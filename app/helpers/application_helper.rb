@@ -196,6 +196,19 @@ module ApplicationHelper
     end
   end
 
+  def delivery_channel_form_data(channel)
+    {
+      "delivery-destination-form-show-recipient": channel.show_recipient,
+      "delivery-destination-form-show-visibility": channel.show_visibility,
+      "delivery-destination-form-show-connection": channel.show_connection,
+      "delivery-destination-form-only": channel.only,
+      "delivery-destination-form-public-pattern": channel.public_pattern,
+      "delivery-destination-form-private-pattern": channel.private_pattern,
+      "delivery-destination-form-public-required": channel.recipient_required?("public"),
+      "delivery-destination-form-private-required": channel.recipient_required?("private")
+    }
+  end
+
   def delivery_connection_options(delivery_connection_id: nil)
     policy_scope(DeliveryConnection)
       .order(:id)

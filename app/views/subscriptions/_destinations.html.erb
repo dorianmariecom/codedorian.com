@@ -3,8 +3,6 @@
 <% end %>
 <% quote = f.object.delivery_preview || f.object.delivery_pricing %>
 <% channels = policy_scope(DeliveryChannel).order(:id).select(&:available?) %>
-<% facebook_accounts = selectable_facebook_accounts(user: f.object.user) %>
-<% connections = selectable_delivery_connections(user: f.object.user) %>
 <% if channels.any? %>
   <div
     data-controller="nested"
@@ -18,17 +16,13 @@
       ) do |destination_f| %>
         <%= render "subscriptions/destination_fields",
                f: destination_f,
-               channels: channels,
-               connections: connections,
-               facebook_accounts: facebook_accounts %>
+               channels: channels %>
       <% end %>
     </template>
     <%= f.fields_for(:delivery_destinations) do |destination_f| %>
       <%= render "subscriptions/destination_fields",
              f: destination_f,
-             channels: channels,
-             connections: connections,
-               facebook_accounts: facebook_accounts %>
+             channels: channels %>
     <% end %>
     <div data-nested-target="target"></div>
     <div class="p">

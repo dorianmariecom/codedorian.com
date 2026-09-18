@@ -503,7 +503,7 @@ class DeliveryAdapters
   end
 
   def reddit
-    if !public? && !channel_settings.private_delivery_enabled?
+    if !public? && channel_settings.only == "public"
       raise Rejected, "reddit_private_unavailable"
     end
 
@@ -531,7 +531,7 @@ class DeliveryAdapters
 
       { provider_id: response.fetch("json").fetch("data").fetch("name") }
     else
-      unless channel_settings.private_delivery_enabled == true
+      if channel_settings.only == "public"
         raise Rejected, "reddit_private_unavailable"
       end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_16_204159) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_18_194429) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -203,7 +203,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_16_204159) do
     t.string "error_code"
     t.text "event_key", null: false
     t.string "event_key_digest", null: false
-    t.bigint "facebook_account_id"
     t.string "locale"
     t.datetime "next_attempt_at"
     t.string "provider_id"
@@ -217,7 +216,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_16_204159) do
     t.string "visibility"
     t.index ["connection_id"], name: "index_deliveries_on_connection_id"
     t.index ["delivery_destination_id"], name: "index_deliveries_on_delivery_destination_id"
-    t.index ["facebook_account_id"], name: "index_deliveries_on_facebook_account_id"
     t.index ["status", "next_attempt_at"], name: "index_deliveries_on_status_and_next_attempt_at"
     t.index ["step_execution_id"], name: "index_deliveries_on_step_execution_id"
     t.index ["subscription_id", "event_key_digest", "delivery_destination_id"], name: "index_delivery_event_destination_uniqueness", unique: true
@@ -235,7 +233,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_16_204159) do
     t.boolean "enabled", default: false, null: false
     t.string "key", null: false
     t.string "messaging_service_sid"
-    t.boolean "private_delivery_enabled", default: false, null: false
+    t.string "only"
+    t.string "private_pattern"
+    t.string "public_pattern"
+    t.boolean "show_connection", default: false, null: false
     t.boolean "show_recipient", default: false, null: false
     t.boolean "show_visibility", default: false, null: false
     t.datetime "updated_at", null: false
@@ -278,7 +279,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_16_204159) do
     t.bigint "delivery_channel_id", null: false
     t.bigint "delivery_connection_id"
     t.boolean "enabled", default: true, null: false
-    t.bigint "facebook_account_id"
     t.string "name", null: false
     t.string "recipient"
     t.boolean "recipient_verified", default: false, null: false
@@ -287,7 +287,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_16_204159) do
     t.string "visibility", default: "private", null: false
     t.index ["delivery_channel_id"], name: "index_delivery_destinations_on_delivery_channel_id"
     t.index ["delivery_connection_id"], name: "index_delivery_destinations_on_delivery_connection_id"
-    t.index ["facebook_account_id"], name: "index_delivery_destinations_on_facebook_account_id"
     t.index ["user_id"], name: "index_delivery_destinations_on_user_id"
   end
 
@@ -314,20 +313,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_16_204159) do
     t.boolean "verified", default: false, null: false
     t.index ["user_id", "verified", "primary"], name: "index_email_addresses_on_user_id_and_verified_and_primary"
     t.index ["user_id"], name: "index_email_addresses_on_user_id"
-  end
-
-  create_table "facebook_accounts", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.boolean "enabled", default: true, null: false
-    t.string "facebook_id", null: false
-    t.string "messenger_page_id"
-    t.string "messenger_recipient_id"
-    t.string "messenger_status", default: "pending", null: false
-    t.string "name", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
-    t.index ["user_id", "facebook_id"], name: "index_facebook_accounts_on_user_id_and_facebook_id", unique: true
-    t.index ["user_id"], name: "index_facebook_accounts_on_user_id"
   end
 
   create_table "guests", force: :cascade do |t|
@@ -963,18 +948,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_16_204159) do
   add_foreign_key "countries", "users"
   add_foreign_key "data", "users"
   add_foreign_key "deliveries", "delivery_destinations"
-  add_foreign_key "deliveries", "facebook_accounts"
   add_foreign_key "deliveries", "step_executions"
   add_foreign_key "deliveries", "subscriptions"
   add_foreign_key "delivery_channels", "delivery_connections"
   add_foreign_key "delivery_connections", "users"
   add_foreign_key "delivery_destinations", "delivery_channels"
   add_foreign_key "delivery_destinations", "delivery_connections"
-  add_foreign_key "delivery_destinations", "facebook_accounts"
   add_foreign_key "delivery_destinations", "users"
   add_foreign_key "devices", "users"
   add_foreign_key "email_addresses", "users"
-  add_foreign_key "facebook_accounts", "users"
   add_foreign_key "handles", "users"
   add_foreign_key "messages", "users", column: "from_user_id"
   add_foreign_key "messages", "users", column: "to_user_id"

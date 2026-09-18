@@ -63,6 +63,42 @@ class DeliveryConnectionsController < ApplicationController
     persist(:new, t(".notice"))
   end
 
+  def connect
+    authorize(DeliveryConnection.new(user: current_user, provider: params[:provider]))
+    scope
+    pending = DeliveryConnectionOauth.pending(user: current_user, provider: params[:provider], redirect_uri: callback_url, server: params[:server])
+    session[:delivery_connection_oauth] = pending
+    redirect_to DeliveryConnectionOauth.authorization_url(pending: pending, redirect_uri: callback_url), allow_other_host: true
+  rescue *DeliveryConnectionOauth::ERRORS
+    redirect_to delivery_connections_path, alert: t(".failed")
+  end
+
+  def callback
+    authorize(DeliveryConnection.new(user: current_user, provider: params[:provider]))
+    connections = scope.where_user(current_user).where_provider(params[:provider])
+    pending = session.delete(:delivery_connection_oauth)
+    unless DeliveryConnectionOauth.valid_state?(pending: pending, user: current_user, provider: params[:provider], state: params[:state])
+      redirect_to delivery_connections_path, alert: t(".invalid_state")
+      return
+    end
+    if params[:error].present? || !params[:code].is_a?(String) || params[:code].blank?
+      redirect_to delivery_connections_path, alert: t(".failed")
+      return
+    end
+
+    attributes = DeliveryConnectionOauth.exchange(pending: pending, code: params[:code], redirect_uri: callback_url)
+    current_user.with_lock do
+      attributes.each do |account|
+        connection = connections.find_or_initialize_by(sender: account[:sender], account_sid: account[:account_sid], base_url: account[:base_url])
+        connection.assign_attributes(account)
+        connection.save!
+      end
+    end
+    redirect_to delivery_connections_path, notice: t(".connected")
+  rescue *DeliveryConnectionOauth::ERRORS
+    redirect_to delivery_connections_path, alert: t(".failed")
+  end
+
   def update
     @delivery_connection.assign_attributes(delivery_connection_params)
     persist(:edit, t(".notice"))
@@ -97,6 +133,10 @@ class DeliveryConnectionsController < ApplicationController
   end
 
   private
+
+  def callback_url
+    "#{Current.base_url}#{callback_delivery_connections_path(provider: params[:provider], locale: nil)}"
+  end
 
   def scope = searched_policy_scope(DeliveryConnection)
   def model_class = DeliveryConnection

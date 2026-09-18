@@ -114,6 +114,7 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
       { access_token: "test" },
       recipient: "recipient"
     )
+    @delivery.delivery_destination.delivery_channel.update!(only: "public")
     error =
       assert_raises(DeliveryAdapters::Rejected) do
         DeliveryAdapters.deliver(@delivery)
@@ -156,7 +157,7 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
     ].each do |provider, recipient, visibility, endpoint, response, field, target|
       configure(provider, provider, { access_token: "test" }, recipient: recipient)
       channel = DeliveryChannel.find_or_create_by!(key: provider)
-      channel.update!(enabled: true, private_delivery_enabled: true)
+      channel.update!(enabled: true, only: nil)
       destination = @delivery.delivery_destination
       destination.update_columns(delivery_channel_id: channel.id, delivery_connection_id: @delivery.connection_id, recipient: recipient, visibility: visibility)
       destination.reload.update!(name: "Legacy destination")

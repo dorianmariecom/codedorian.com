@@ -78,10 +78,15 @@ fr:
         enabled: activé
         key: clé
         messaging_service_sid: identifiant du service de messagerie
-        private_delivery_enabled: livraison privée activée
+        only: restriction de visibilité
+        public_pattern: motif du destinataire public
+        private_pattern: motif du destinataire privé
+        show_connection: afficher la connexion
         show_recipient: afficher le destinataire
         show_visibility: afficher la visibilité
       delivery_connection:
+        refresh_token: jeton de renouvellement
+        token_expires_at: expiration du jeton
         access_token: jeton d’accès
         account_sid: identifiant du compte
         api_key: clé api
@@ -112,7 +117,6 @@ fr:
         recipient: destinataire
         user_id: utilisateur
         visibility: visibilité
-        facebook_account: compte facebook
       device:
         platform: appareil
         primary: principal ?
@@ -1175,6 +1179,8 @@ fr:
       submit: modifier
       title: 'modifier : canal de livraison'
     form:
+      private: privé
+      public: public
       channel: canal
       channels:
         apple: apple messages for business
@@ -1283,14 +1289,9 @@ fr:
       name: nom
       provider: fournisseur
       save: enregistrer
-      provider_help: facebook utilise un jeton d’accès de page et l’identifiant numérique
-        de la page dans le champ expéditeur. les fournisseurs email utilisent smtp
-        from comme adresse d’expédition. les api email utilisent api key ; les messageries
-        utilisent access token. messenger et instagram utilisent l’identifiant du
-        compte dans sender ; viber utilise le nom affiché. connectez gmail, workspace
-        et outlook depuis la page des comptes email. la région mailgun est us ou eu
-        ; la région aws est celle de ses.
     index:
+      connect: connecter %{provider}
+      server: serveur mastodon
       add: ajouter
       delete_all: 'supprimer : connexions de livraison'
       description: connexions de livraison
@@ -1299,7 +1300,6 @@ fr:
       manage: livraison
       new: 'ajouter : connexion de livraison'
       title: connexions de livraison
-      mailboxes: connecter des comptes email
     model:
       providers:
         infobip: infobip
@@ -1344,6 +1344,15 @@ fr:
       versions: versions
     update:
       notice: 'connexion de livraison : modification effectuée'
+    connect:
+      failed: échec de la connexion
+    callback:
+      failed: échec de la connexion
+      invalid_state: connexion expirée ou invalide, veuillez réessayer
+      connected: connexion créée
+    senders:
+      bot: bot
+      user: utilisateur
   delivery_content:
     show:
       description: livraison
@@ -1421,23 +1430,6 @@ fr:
       confirmed: adresse e-mail confirmée pour votre compte et vos abonnements.
       invalid: ce lien de confirmation est invalide ou a expiré. demandez un nouvel
         e-mail.
-    facebook_help:
-      description: publie publiquement sur la page facebook configurée par un administrateur.
-        aucun destinataire nécessaire. utilisez messenger pour les messages privés.
-    messaging_help:
-      description: 'saisissez l’identifiant du destinataire pour ce compte : identifiant
-        lié à la page messenger, identifiant instagram, identifiant numérique de chat
-        telegram ou identifiant d’abonné viber. le destinataire doit avoir contacté
-        le compte ou s’y être abonné. messenger et instagram peuvent refuser les messages
-        programmés hors de la fenêtre de conversation autorisée.'
-    facebook_recipient:
-      label: compte facebook connecté
-      placeholder: sélectionnez votre compte facebook
-      connect: gérer les comptes facebook connectés
-      help: les messages sont envoyés à la personne ayant connecté facebook. les comptes
-        indiqués comme indisponibles doivent être liés à messenger pour recevoir des
-        messages.
-      unavailable: "%{name} (messenger indisponible)"
   devices:
     create:
       notice: appareil créé
@@ -5005,6 +4997,7 @@ fr:
       email: email
       submit: s'inscrire
     show:
+      delivery_connections: connexions de livraison
       address: adresse
       admin: admin
       created_at: créé à
@@ -5100,177 +5093,3 @@ fr:
       submit: confirmer l’adresse e-mail
       expiration: ce lien expire dans 24 heures. si vous ne l’avez pas demandé, ignorez
         cet e-mail.
-  mailbox_connections:
-    index:
-      title: comptes email
-      description: connectez une boîte mail administrateur, puis sélectionnez sa connexion
-        sur le canal de livraison email.
-      connect: connecter %{provider}
-      unavailable: oauth %{provider} n’est pas configuré
-      connected: connecté
-      disconnected: déconnecté
-      disconnect: déconnecter
-    callback:
-      invalid_state: autorisation expirée ou invalide ; veuillez vous reconnecter
-      failed: échec de connexion ; vérifiez les autorisations et réessayez
-      connected: compte email connecté
-    destroy:
-      notice: compte email déconnecté
-  facebook_connections:
-    index:
-      title: pages facebook
-      description: connectez des pages facebook pour publier les livraisons des abonnements.
-        après la connexion, sélectionnez une page dans le canal de livraison facebook.
-      connect: connecter des pages facebook
-      disconnect: déconnecter
-      connected: connecté
-      disconnected: déconnecté
-      unavailable: les connexions facebook ne sont pas encore configurées.
-    callback:
-      missing_permissions: facebook n’a pas accordé toutes les autorisations nécessaires.
-        activez pages_show_list, pages_read_engagement et pages_manage_posts dans
-        la configuration de connexion, puis reconnectez-vous.
-      no_pages: facebook n’a renvoyé aucune page sur laquelle vous pouvez publier.
-        autorisez cette application à accéder à une page avec les droits de publication,
-        puis reconnectez-vous.
-      invalid_state: cette demande de connexion a expiré ou est invalide. veuillez
-        réessayer.
-      failed: la connexion à facebook a échoué. veuillez réessayer.
-      connected: facebook connecté.
-    destroy:
-      notice: facebook déconnecté. les livraisons utilisant cette connexion sont suspendues.
-  facebook_accounts:
-    index:
-      title: comptes facebook connectés
-      description: connectez votre compte facebook personnel pour recevoir les livraisons
-        messenger. envoyez un message à la page de livraison, puis actualisez votre
-        connexion messenger. la fenêtre de conversation de messenger reste applicable.
-      login_unavailable: la connexion facebook personnelle n’est pas configurée. demandez
-        à l’administrateur de configurer une application facebook login standard.
-      connect: connecter un compte facebook
-      disconnect: déconnecter
-      disconnected: déconnecté
-      refresh: actualiser la connexion messenger
-      ready: prêt à recevoir des messages messenger
-      pending: envoyez un message à la page dans messenger, puis actualisez cette
-        connexion.
-      unavailable: la liaison messenger est indisponible. l’administrateur doit configurer
-        facebook login et vérifier que l’application et la page d’envoi appartiennent
-        à la même entreprise meta.
-    create:
-      unavailable: la connexion facebook personnelle n’est pas configurée. demandez
-        à l’administrateur de configurer une application facebook login standard.
-    callback:
-      invalid_state: cette demande de connexion a expiré ou est invalide. veuillez
-        réessayer.
-      failed: la connexion à facebook a échoué. veuillez réessayer.
-      connected: compte facebook connecté.
-    destroy:
-      notice: compte facebook déconnecté. les livraisons messenger vers ce compte
-        sont suspendues.
-  mastodon_connections:
-    index:
-      title: comptes mastodon
-      description: connectez votre compte mastodon pour publier et envoyer des messages
-        directs.
-      server: serveur mastodon
-      connect: connecter mastodon
-      disconnect: déconnecter
-      connected: connecté
-      disconnected: déconnecté
-    create:
-      failed: impossible de se connecter à ce serveur mastodon. saisissez une adresse
-        publique comme mastodon.social.
-    callback:
-      invalid_state: cette demande de connexion a expiré ou est invalide. veuillez
-        réessayer.
-      failed: la connexion à mastodon a échoué. veuillez réessayer.
-      connected: mastodon connecté.
-    destroy:
-      notice: mastodon déconnecté. les livraisons utilisant cette connexion sont suspendues.
-    destination_help:
-      instructions: sélectionnez votre compte mastodon. les publications publiques
-        peuvent avoir un destinataire vide. les messages directs nécessitent une mention
-        @utilisateur@serveur. les administrateurs du serveur peuvent lire les messages
-        directs.
-      connect: gérer mes connexions mastodon
-  reddit_connections:
-    index:
-      title: comptes reddit
-      description: 'connectez reddit pour publier avec votre compte. utilisez r/subreddit
-        ou #subreddit pour une publication. les messages privés, lorsqu’ils sont disponibles,
-        utilisent u/utilisateur ou @utilisateur. les noms sans préfixe ne sont pas
-        acceptés.'
-      connect: connecter reddit
-      disconnect: déconnecter
-      connected: connecté
-      disconnected: déconnecté
-      unavailable: les connexions reddit nécessitent une application web approuvée
-        par reddit.
-    callback:
-      invalid_state: cette demande de connexion a expiré ou est invalide. veuillez
-        réessayer.
-      failed: la connexion à reddit a échoué. veuillez réessayer.
-      connected: reddit connecté.
-    destroy:
-      notice: reddit déconnecté. les livraisons utilisant cette connexion sont suspendues.
-    destination_help:
-      instructions: 'sélectionnez un compte reddit appartenant à l’utilisateur de
-        l’abonnement. utilisez r/subreddit ou #subreddit pour une publication. les
-        messages privés ne sont disponibles que lorsqu’ils sont activés pour cette
-        intégration.'
-      connect: gérer mes connexions reddit
-  slack_connections:
-    destination_help:
-      instructions: 'sélectionnez une connexion slack appartenant à l’utilisateur
-        de l’abonnement. si aucune n’est proposée, cet utilisateur doit connecter
-        slack, puis recharger ce formulaire. saisissez @utilisateur pour une personne
-        ou #canal pour un canal ; les noms sans préfixe ne sont pas acceptés. invitez
-        l’application code dans le canal pour envoyer en son nom.'
-      connect: gérer mes connexions slack
-    senders:
-      bot: application code
-      user: votre compte slack
-    index:
-      title: comptes slack
-      description: 'connectez slack pour envoyer les livraisons au nom de l’application
-        code ou de votre compte slack. choisissez l’expéditeur dans la destination.
-        invitez l’application code dans le canal pour envoyer en son nom. après la
-        connexion, sélectionnez le compte et saisissez @utilisateur ou #canal dans
-        les destinations de votre abonnement.'
-      connect: connecter slack
-      disconnect: déconnecter
-      connected: connecté
-      disconnected: déconnecté
-      unavailable: les connexions slack ne sont pas encore configurées.
-    callback:
-      invalid_state: cette demande de connexion a expiré ou est invalide. veuillez
-        réessayer.
-      failed: la connexion à slack a échoué. veuillez réessayer.
-      connected: slack connecté.
-    destroy:
-      notice: slack déconnecté. les livraisons utilisant cette connexion sont suspendues.
-  x_connections:
-    index:
-      title: comptes x
-      description: 'connectez un compte x pour envoyer des messages privés ou publier.
-        utilisez @utilisateur pour un message privé. pour une publication, utilisez
-        @utilisateur ou #hashtag, ou laissez le destinataire vide. les envois proviennent
-        du compte x connecté.'
-      connect: connecter x
-      disconnect: déconnecter
-      connected: connecté
-      disconnected: déconnecté
-      unavailable: les connexions x ne sont pas encore configurées.
-    callback:
-      invalid_state: cette demande de connexion a expiré ou est invalide. veuillez
-        réessayer.
-      failed: la connexion à x a échoué. veuillez réessayer.
-      connected: x connecté.
-    destroy:
-      notice: x déconnecté. les livraisons utilisant cette connexion sont suspendues.
-    destination_help:
-      instructions: 'sélectionnez un compte x appartenant à l’utilisateur de l’abonnement.
-        utilisez @utilisateur pour un message privé. pour une publication, utilisez
-        @utilisateur ou #hashtag, ou laissez le destinataire vide.'
-      connect: gérer mes connexions x

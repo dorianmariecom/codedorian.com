@@ -13,13 +13,13 @@ class SlackRecipientTest < ActiveSupport::TestCase
 
   test "destinations accept prefixed names and legacy IDs" do
     Current.with(user: users(:admin)) do
-      channel = DeliveryChannel.create!(key: "slack", enabled: true, amount_cents: 0)
+      channel = DeliveryChannel.create!(key: "slack", private_pattern: '(?:[@#][^\\s@#<>]+|[CGDUW][A-Z0-9]+)', enabled: true, amount_cents: 0)
       connection = DeliveryConnection.create!(provider: "slack", name: "Slack", access_token: "test")
       destination = DeliveryDestination.new(delivery_channel: channel, delivery_connection: connection)
       %w[dorian C123/invalid @ #].each do |recipient|
         destination.recipient = recipient
         assert_not destination.valid?
-        assert destination.errors.of_kind?(:recipient, :slack_format)
+        assert destination.errors.of_kind?(:recipient, :invalid)
       end
       %w[@dorian #dorian C123 G123 D123 U123 W123].each do |recipient|
         destination.recipient = recipient

@@ -271,9 +271,10 @@ class ApplicationController < ActionController::Base
 
     Current.user = nil
     Current.guest = nil
-    session[:user_id] = nil
-    session[:time_zone] = nil
     cookies.delete(:locale)
+    session.delete(:user_id)
+    session.delete(:time_zone)
+    session.delete(:delivery_connection_oauth)
 
     reset_session if session[:previous_user_ids].blank?
 

@@ -6,7 +6,7 @@ class WebhookDeliveryTest < ActiveSupport::TestCase
   setup do
     Current.user = users(:admin)
     @channel = DeliveryChannel.create!(
-      key: "webhook", enabled: true, amount_cents: 0, show_recipient: true
+      key: "webhook", only: "private", enabled: true, amount_cents: 0, show_recipient: true
     )
     @destination = DeliveryDestination.create!(
       user: subscriptions(:subscription).user,
@@ -37,8 +37,8 @@ class WebhookDeliveryTest < ActiveSupport::TestCase
     end
     @destination.recipient = "https://example.com/hook"
     @destination.visibility = "public"
-    assert_not @destination.valid?
-    assert @destination.errors[:visibility].present?
+    assert @destination.valid?
+    assert_equal "private", @destination.visibility
   end
 
   test "posts full JSON content with a stable idempotency key and accepts empty or text success responses" do

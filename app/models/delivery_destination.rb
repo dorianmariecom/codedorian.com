@@ -13,7 +13,6 @@ class DeliveryDestination < ApplicationRecord
         end
   belongs_to :delivery_channel
   belongs_to :delivery_connection, optional: true
-  belongs_to :facebook_account, optional: true
   has_many :subscription_destinations, dependent: :destroy
   has_many :deliveries, dependent: :destroy
   validates :name, presence: true
@@ -32,7 +31,7 @@ class DeliveryDestination < ApplicationRecord
   end
   validate :valid_destination
   validate { can!(:update, user) }
-  before_validation :use_facebook_account
+  before_validation :normalize_visibility
   before_validation :normalize_recipient
   before_validation :normalize_name
   before_validation :inherit_verification
@@ -102,8 +101,7 @@ class DeliveryDestination < ApplicationRecord
 
   def available?
     enabled? && delivery_channel.available? &&
-      (connection.nil? || connection.ready?) &&
-      (facebook_account.nil? || facebook_account.ready_for?(connection))
+      (!DeliveryChannel::PROVIDERS.key?(channel.to_sym) || connection&.ready?)
   end
 
   def self.search_fields
@@ -150,7 +148,6 @@ class DeliveryDestination < ApplicationRecord
       user_id: user_id,
       delivery_channel_id: delivery_channel_id,
       delivery_connection_id: delivery_connection_id,
-      facebook_account_id: facebook_account_id,
       name: name,
       recipient: recipient,
       visibility: visibility,
@@ -162,11 +159,8 @@ class DeliveryDestination < ApplicationRecord
 
   private
 
-  def use_facebook_account
-    self.facebook_account = nil if delivery_channel && delivery_channel.key != "messenger"
-    return unless delivery_channel&.key == "messenger" && facebook_account
-
-    self.recipient = facebook_account.messenger_recipient_id
+  def normalize_visibility
+    self.visibility = delivery_channel.only if delivery_channel&.only.present?
   end
 
   def normalize_recipient
@@ -183,9 +177,7 @@ class DeliveryDestination < ApplicationRecord
 
     channel_name = delivery_channel&.translated_key
     self.name =
-      if channel_name && delivery_channel.key == "messenger" && facebook_account
-        [channel_name, facebook_account.name].join(" · ")
-      elsif recipient.present?
+      if recipient.present?
         [channel_name, recipient].compact_blank.join(" · ")
       else
         channel_name.presence || "destination"
@@ -195,36 +187,14 @@ class DeliveryDestination < ApplicationRecord
   def valid_destination
     return unless delivery_channel
 
-    if facebook_account && !(channel == "messenger" && facebook_account.user_id == user_id && facebook_account.ready_for?(connection))
-      errors.add(:facebook_account, :invalid)
-    end
-    if visibility == "public" && !channel.in?(%w[x mastodon reddit facebook])
+    if delivery_channel.only.present? && visibility != delivery_channel.only
       errors.add(:visibility, :invalid)
     end
-    if delivery_channel.show_recipient && recipient.blank? &&
-         !(visibility == "public" && channel.in?(%w[x mastodon facebook]))
+    if delivery_channel.recipient_required?(visibility) && recipient.blank?
       errors.add(:recipient, :blank)
     end
-    if channel == "facebook"
-      errors.add(:visibility, :invalid) unless visibility == "public"
-      errors.add(:recipient, :invalid) if recipient.present?
-    end
-    if channel == "reddit" && !RedditRecipient.valid?(recipient, public: visibility_public?)
-      errors.add(:recipient, :reddit_format)
-    end
-    if channel == "x" && !XRecipient.valid?(recipient, public: visibility_public?)
-      errors.add(:recipient, :x_format)
-    end
-    if channel == "slack" && !SlackRecipient.valid?(recipient)
-      errors.add(:recipient, :slack_format)
-    end
-    if channel.in?(%w[messenger instagram]) && !recipient.to_s.match?(/\A[0-9]+\z/)
-      errors.add(:recipient, :invalid)
-    end
-    if channel == "telegram" && !recipient.to_s.match?(/\A-?[0-9]+\z/)
-      errors.add(:recipient, :invalid)
-    end
-    if channel == "viber" && (recipient.blank? || recipient.match?(/\s/))
+    pattern = delivery_channel.recipient_pattern(visibility)
+    if pattern && !Regexp.new("\\A(?:#{pattern})\\z").match?(recipient.to_s)
       errors.add(:recipient, :invalid)
     end
     if channel == "webhook" && !WebhookRecipient.valid?(recipient)
@@ -245,10 +215,6 @@ class DeliveryDestination < ApplicationRecord
       end
     elsif delivery_connection
       errors.add(:delivery_connection, :invalid)
-    end
-    if channel == "reddit" && visibility == "private" &&
-         !delivery_channel.private_delivery_enabled?
-      errors.add(:visibility, :invalid)
     end
   end
 end

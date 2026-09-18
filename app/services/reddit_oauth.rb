@@ -28,7 +28,7 @@ class RedditOauth
   end
 
   def self.scopes
-    if DeliveryChannel.exists?(key: "reddit", private_delivery_enabled: true)
+    if DeliveryChannel.where(key: "reddit").exists?(only: [nil, "private"])
       SCOPES + ["privatemessages"]
     else
       SCOPES

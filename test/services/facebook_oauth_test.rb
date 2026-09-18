@@ -100,36 +100,6 @@ class FacebookOauthTest < ActiveSupport::TestCase
     assert_raises(FacebookOauth::Error) { exchange }
   end
 
-  test "personal login identifies users without business configuration or page permissions" do
-    ENV["FACEBOOK_CONFIG_ID"] = nil
-    query = URI.decode_www_form(URI(FacebookOauth.personal_authorization_url(state: "personal-state", redirect_uri: "https://codedorian.com/facebook_accounts/callback")).query).to_h
-    assert_equal "client", query["client_id"]
-    assert_equal "public_profile", query["scope"]
-    assert_nil query["config_id"]
-    stub_request(:get, "https://graph.facebook.com/v25.0/me")
-      .with(query: { "fields" => "id,name", "appsecret_proof" => OpenSSL::HMAC.hexdigest("SHA256", "secret", "user-token") })
-      .to_return(body: { id: "456", name: "Alice" }.to_json)
-    assert_equal({ facebook_id: "456", name: "Alice" }, FacebookOauth.exchange_identity(code: "code", redirect_uri: "https://codedorian.com/facebook_accounts/callback"))
-    assert_not_requested :get, %r{/me/accounts}
-    assert_not_requested :get, %r{/me/permissions}
-    assert_requested :get, %r{/oauth/access_token}, times: 1 do |request|
-      query = URI.decode_www_form(request.uri.query).to_h
-      query["client_id"] == "client" && query["client_secret"] == "secret"
-    end
-  end
-
-  test "messenger mapping never substitutes app scoped ids or other page ids" do
-    connection = DeliveryConnection.new(user: users(:admin), provider: "messenger", name: "Page", sender: "123", access_token: "page-token")
-    request = stub_request(:get, "https://graph.facebook.com/v25.0/456/ids_for_pages")
-      .with(query: hash_including("page" => "123"), headers: { "Authorization" => "Bearer page-token" })
-    request.to_return(body: { data: [{ id: "999", page: { id: "other-page" } }] }.to_json)
-    assert_nil FacebookOauth.messenger_recipient(facebook_id: "456", connection: connection)
-    request.to_return(body: { data: [{ id: "123", page: { id: "123" } }] }.to_json)
-    assert_raises(FacebookOauth::Error) { FacebookOauth.messenger_recipient(facebook_id: "456", connection: connection) }
-    request.to_return(body: { data: [{ id: "789", page: "malformed" }] }.to_json)
-    assert_raises(FacebookOauth::Error) { FacebookOauth.messenger_recipient(facebook_id: "456", connection: connection) }
-  end
-
   private
 
   def page

@@ -15,7 +15,6 @@ class Delivery < ApplicationRecord
 
   belongs_to :connection, class_name: "DeliveryConnection", optional: true
   belongs_to :subscription
-  belongs_to :facebook_account, optional: true
   has_one :service, through: :subscription
   belongs_to :delivery_destination
   belongs_to :step_execution, optional: true
@@ -268,12 +267,6 @@ class Delivery < ApplicationRecord
   end
 
   def recipient_verified_for_delivery?
-    if channel == "messenger" && facebook_account_id
-      account = facebook_account.reload
-      return account.user_id == subscription.user_id && account.ready_for?(connection) &&
-        account.messenger_recipient_id == recipient &&
-        delivery_destination.reload.facebook_account_id == facebook_account_id
-    end
     return true unless channel == "email"
 
     destination = delivery_destination.reload
@@ -375,7 +368,6 @@ class Delivery < ApplicationRecord
   def copy_destination
     return unless delivery_destination
 
-    self.facebook_account ||= delivery_destination.facebook_account
     self.channel ||= delivery_destination.channel
     self.recipient ||= delivery_destination.recipient
     self.visibility ||= delivery_destination.visibility

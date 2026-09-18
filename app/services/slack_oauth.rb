@@ -49,12 +49,12 @@ class SlackOauth
     [
       {
         account_sid: team["id"], sender: data["bot_user_id"],
-        name: "Slack · #{workspace} · #{I18n.t('slack_connections.senders.bot')}",
+        name: "Slack · #{workspace} · #{I18n.t('delivery_connections.senders.bot')}",
         access_token: data["access_token"], enabled: true
       },
       {
         account_sid: team["id"], sender: user["id"],
-        name: "Slack · #{workspace} · #{I18n.t('slack_connections.senders.user')} · #{user['id']}",
+        name: "Slack · #{workspace} · #{I18n.t('delivery_connections.senders.user')} · #{user['id']}",
         access_token: user["access_token"], enabled: true
       }
     ]

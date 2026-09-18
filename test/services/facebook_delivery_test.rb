@@ -6,7 +6,7 @@ class FacebookDeliveryTest < ActiveSupport::TestCase
   setup do
     Current.user = users(:admin)
     @connection = DeliveryConnection.create!(provider: "facebook", name: "Page", access_token: "page-token", sender: "123456")
-    @channel = DeliveryChannel.create!(key: "facebook", enabled: true, amount_cents: 0, delivery_connection: @connection, show_visibility: true)
+    @channel = DeliveryChannel.create!(key: "facebook", only: "public", public_pattern: "(?:)", show_recipient: false, enabled: true, amount_cents: 0, delivery_connection: @connection, show_visibility: true)
     @subscription = subscriptions(:subscription)
     @destination = DeliveryDestination.create!(user: @subscription.user, delivery_channel: @channel, visibility: "public")
     @delivery = Delivery.create!(subscription: @subscription, delivery_destination: @destination, event_key: "facebook", subject: "Bonjour", body_text: "Le monde", url: "https://example.com/article")
@@ -40,7 +40,8 @@ class FacebookDeliveryTest < ActiveSupport::TestCase
 
   test "private or recipient addressed posts are rejected before sending" do
     @destination.visibility = "private"
-    assert_not @destination.valid?
+    assert @destination.valid?
+    assert_equal "public", @destination.visibility
     @delivery.visibility = "private"
     assert_equal "facebook_public_only", assert_raises(DeliveryAdapters::Rejected) { DeliveryAdapters.deliver(@delivery) }.code
     @destination.visibility = "public"

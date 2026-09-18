@@ -133,37 +133,12 @@ Rails.application.routes.draw do
       }
     )
 
-    resources :facebook_accounts, only: %i[index create destroy] do
-      get :callback, on: :collection
-      post :refresh, on: :member
-    end
-
-    resources :facebook_connections, only: %i[index create destroy] do
-      get :callback, on: :collection
-    end
-
-    resources :mailbox_connections, only: %i[index create destroy] do
-      get :callback, on: :collection
-    end
-
-    resources :mastodon_connections, only: %i[index create destroy] do
-      get :callback, on: :collection
-    end
-
-    resources :reddit_connections, only: %i[index create destroy] do
-      get :callback, on: :collection
-    end
-
-    resources :x_connections, only: %i[index create destroy] do
-      get :callback, on: :collection
-    end
-
-    resources :slack_connections, only: %i[index create destroy] do
-      get :callback, on: :collection
+    resources :delivery_connections, concerns: :deletable do
+      post "connect/:provider", action: :connect, on: :collection, as: :connect
+      get "callback/:provider", action: :callback, on: :collection, as: :callback
     end
 
     %i[
-      delivery_connections
       delivery_channels
       subscription_destinations
     ].each { |resource| resources resource, concerns: :deletable }

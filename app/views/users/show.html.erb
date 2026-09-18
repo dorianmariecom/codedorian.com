@@ -2,12 +2,8 @@
 
 <%= turbo_stream_from(@user) %>
 
-<% if current_user == @user %>
-  <div class="p"><%= link_to t("facebook_accounts.index.title"), facebook_accounts_path, class: :link %></div>
-  <div class="p"><%= link_to t("slack_connections.index.title"), slack_connections_path, class: :link %></div>
-  <div class="p"><%= link_to t("x_connections.index.title"), x_connections_path, class: :link %></div>
-  <div class="p"><%= link_to t("reddit_connections.index.title"), reddit_connections_path, class: :link %></div>
-  <div class="p"><%= link_to t("mastodon_connections.index.title"), mastodon_connections_path, class: :link %></div>
+<% if can?(:index, DeliveryConnection) %>
+  <div class="p"><%= link_to t(".delivery_connections"), delivery_connections_path, class: :link %></div>
 <% end %>
 
 <% if @user.id.present? %>

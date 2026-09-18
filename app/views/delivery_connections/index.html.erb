@@ -1,4 +1,3 @@
-<% content_for(:title, t(".title")) %>
 <% content_for(:description, t(".description")) %>
 <%= turbo_stream_from(@delivery_connections) %>
 <% if can?(:create, DeliveryConnection) %>
@@ -6,9 +5,16 @@
     <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
   <% end %>
 <% end %>
-<% if admin? %>
-  <div class="p"><%= link_to t("facebook_connections.index.title"), facebook_connections_path, class: :button %></div>
-  <div class="p"><%= link_to t(".mailboxes"), mailbox_connections_path, class: :button %></div>
+<% DeliveryConnectionOauth::PROVIDERS.each do |provider| %>
+  <% if can?(:connect, DeliveryConnection.new(user: current_user, provider: provider)) %>
+    <%= form_with url: connect_delivery_connections_path(provider: provider), data: { turbo: false }, class: :p do |f| %>
+      <% if provider == "mastodon" %>
+        <%= f.label :server, t(".server"), class: :label %>
+        <%= f.url_field :server, required: true, class: :input %>
+      <% end %>
+      <%= f.submit t(".connect", provider: t("delivery_connections.model.providers.#{provider}")), class: :button %>
+    <% end %>
+  <% end %>
 <% end %>
 <%= render("shared/search") %>
 

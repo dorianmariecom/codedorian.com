@@ -126,7 +126,10 @@ class DeliveryChannelsController < ApplicationController
         content_sid_en
         content_sid_fr
         callback_base_url
-        private_delivery_enabled
+        only
+        public_pattern
+        private_pattern
+        show_connection
       ]
     )
   end

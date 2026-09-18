@@ -49,11 +49,12 @@ class DeliveryProvidersTest < ActiveSupport::TestCase
   test "new messaging destinations validate account scoped recipients and disallow personal connections" do
     %w[messenger instagram telegram viber].each do |provider|
       connection = DeliveryConnection.create!(provider: provider, name: provider, access_token: "123:token", sender: "sender")
-      channel = DeliveryChannel.create!(key: provider, enabled: true, amount_cents: 0, delivery_connection: connection, show_recipient: true)
+      channel = DeliveryChannel.create!(key: provider, only: "private", enabled: true, amount_cents: 0, delivery_connection: connection, show_recipient: true)
       destination = DeliveryDestination.new(user: users(:other_user), delivery_channel: channel, name: provider, recipient: "123456", visibility: "private")
       assert destination.valid?, destination.errors.full_messages.join(", ")
       destination.visibility = "public"
-      assert_not destination.valid?
+      assert destination.valid?
+      assert_equal "private", destination.visibility
       destination.visibility = "private"
       destination.recipient = ""
       assert_not destination.valid?

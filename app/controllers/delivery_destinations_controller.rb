@@ -213,7 +213,6 @@ class DeliveryDestinationsController < ApplicationController
           user_id
           delivery_channel_id
           delivery_connection_id
-          facebook_account_id
           recipient
           visibility
           enabled

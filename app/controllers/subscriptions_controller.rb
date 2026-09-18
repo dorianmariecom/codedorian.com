@@ -295,7 +295,6 @@ class SubscriptionsController < ApplicationController
                 _destroy
                 delivery_channel_id
                 delivery_connection_id
-                facebook_account_id
                 recipient
                 visibility
               ]
@@ -312,7 +311,6 @@ class SubscriptionsController < ApplicationController
             _destroy
             delivery_channel_id
             delivery_connection_id
-            facebook_account_id
             recipient
             visibility
           ]

@@ -119,7 +119,7 @@ class Current < ActiveSupport::CurrentAttributes
   end
 
   def base_url
-    ENV.fetch("BASE_URL", nil).presence || DEFAULT_BASE_URL
+    (ENV.fetch("BASE_URL", nil).presence || DEFAULT_BASE_URL).delete_suffix("/")
   end
 
   def public_suffix

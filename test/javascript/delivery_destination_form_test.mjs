@@ -16,175 +16,84 @@ registerHooks({
     return nextResolve(specifier, context);
   },
 });
-
-const { default: DeliveryDestinationFormController } =
+const { default: Controller } =
   await import("../../app/javascript/controllers/delivery_destination_form_controller.js");
 
-function form(channel) {
-  const controller = new DeliveryDestinationFormController({});
-  controller.channelTarget = {
-    selectedOptions: [
-      {
-        dataset: {
-          deliveryDestinationFormChannel: channel,
-          deliveryDestinationFormShowRecipient: "true",
-          deliveryDestinationFormShowVisibility: "true",
-        },
-      },
-    ],
-  };
+function form(data = {}) {
+  const controller = new Controller({});
+  controller.channelTarget = { selectedOptions: [{ dataset: data }] };
   controller.recipientRowTarget = {};
-  controller.recipientTarget = { value: "" };
+  controller.recipientTarget = {
+    value: "",
+    removeAttribute(name) {
+      delete this[name];
+    },
+  };
   controller.visibilityRowTarget = {};
-  controller.visibilityTarget = { value: "private" };
+  controller.visibilityTarget = {
+    value: "private",
+    options: [{ value: "private" }, { value: "public" }],
+  };
+  controller.hasConnectionTarget = true;
+  controller.connectionRowTarget = {};
+  controller.connectionTarget = { value: "123" };
   return controller;
 }
 
-test("X and Mastodon require recipients only for private destinations", () => {
-  for (const channel of ["x", "mastodon"]) {
-    const controller = form(channel);
-    controller.change();
-    assert.equal(controller.recipientTarget.required, true);
-    controller.visibilityTarget.value = "public";
-    controller.change();
-    assert.equal(controller.recipientTarget.required, false);
-    controller.visibilityTarget.value = "private";
-    controller.change();
-    assert.equal(controller.recipientTarget.required, true);
-  }
-});
-
-test("public Reddit destinations still require a subreddit", () => {
-  const controller = form("reddit");
-  controller.visibilityTarget.value = "public";
+test("visibility and patterns follow channel data without provider names", () => {
+  const controller = form({
+    deliveryDestinationFormShowRecipient: "true",
+    deliveryDestinationFormShowVisibility: "true",
+    deliveryDestinationFormShowConnection: "true",
+    deliveryDestinationFormPublicPattern: "#[a-z]+",
+    deliveryDestinationFormPrivatePattern: "@[a-z]+",
+    deliveryDestinationFormPublicRequired: "false",
+    deliveryDestinationFormPrivateRequired: "true",
+  });
   controller.change();
+  assert.equal(controller.recipientTarget.pattern, "@[a-z]+");
   assert.equal(controller.recipientTarget.required, true);
-});
-
-test("hidden visibility resets to private before validating the recipient", () => {
-  const controller = form("x");
-  controller.visibilityTarget.value = "public";
-  controller.channelTarget.selectedOptions[0].dataset.deliveryDestinationFormShowVisibility =
-    "false";
-  controller.change();
-  assert.equal(controller.visibilityTarget.value, "private");
-  assert.equal(controller.recipientTarget.required, true);
-});
-
-test("Slack ignores public visibility even when the channel flag is enabled", () => {
-  const controller = form("slack");
-  controller.visibilityTarget.value = "public";
-  controller.change();
-  assert.equal(controller.visibilityRowTarget.hidden, true);
-  assert.equal(controller.visibilityTarget.value, "private");
-  assert.equal(controller.recipientTarget.required, true);
-});
-
-test("Slack requires a matching connection and explains how to connect", () => {
-  const controller = form("slack");
-  controller.hasConnectionTarget = true;
-  controller.hasSlackHelpTarget = true;
-  controller.connectionRowTarget = {};
-  controller.slackHelpTarget = {};
-  controller.connectionTarget = {
-    value: "2",
-    options: [
-      { value: "", dataset: {} },
-      { value: "1", dataset: { provider: "slack" } },
-      { value: "2", selected: true, dataset: { provider: "mastodon" } },
-    ],
-  };
-  controller.change();
-  assert.equal(controller.connectionTarget.required, true);
   assert.equal(controller.connectionRowTarget.hidden, false);
-  assert.equal(controller.connectionTarget.value, "");
-  assert.equal(controller.connectionTarget.options[1].disabled, false);
-  assert.equal(controller.connectionTarget.options[2].disabled, true);
-  assert.equal(controller.slackHelpTarget.hidden, false);
-});
-
-test("X public posts accept hashtags with browser pattern semantics", () => {
-  const controller = form("x");
   controller.visibilityTarget.value = "public";
   controller.change();
-  const pattern = new RegExp(`^(?:${controller.recipientTarget.pattern})$`, "v");
-  for (const recipient of ["#testing", "#été", "@dorian", ""]) {
-    assert.equal(pattern.test(recipient), true, recipient);
-  }
-  assert.equal(pattern.test("testing"), false);
-  controller.visibilityTarget.value = "private";
-  controller.change();
-  const privatePattern = new RegExp(`^(?:${controller.recipientTarget.pattern})$`, "v");
-  assert.equal(privatePattern.test("#testing"), false);
-  assert.equal(privatePattern.test("@dorian"), true);
+  assert.equal(controller.recipientTarget.pattern, "#[a-z]+");
+  assert.equal(controller.recipientTarget.required, false);
+  assert.equal(controller.visibilityRowTarget.hidden, false);
 });
 
-test("Slack recipient pattern accepts names but rejects whitespace", () => {
-  const controller = form("slack");
-  controller.change();
-  const pattern = new RegExp(`^(?:${controller.recipientTarget.pattern})$`, "v");
-  assert.equal(pattern.test("#testing"), true);
-  assert.equal(pattern.test("@sam"), true);
-  assert.equal(pattern.test("#two words"), false);
-});
-
-test("new messaging channels use private recipients and admin-managed senders", () => {
-  for (const channel of ["messenger", "instagram", "telegram", "viber"]) {
-    const controller = form(channel);
-    controller.hasConnectionTarget = true;
-    controller.hasMessagingHelpTarget = true;
-    controller.connectionRowTarget = {};
-    controller.messagingHelpTarget = {};
-    controller.connectionTarget = { value: "1", options: [] };
-    controller.visibilityTarget.value = "public";
-    controller.change();
-    assert.equal(controller.visibilityTarget.value, "private");
-    assert.equal(controller.visibilityRowTarget.hidden, true);
-    assert.equal(controller.recipientTarget.required, true);
-    assert.equal(controller.connectionRowTarget.hidden, true);
-    assert.equal(controller.connectionTarget.value, "");
-    assert.equal(controller.messagingHelpTarget.hidden, channel === "messenger");
-  }
-});
-
-test("Facebook forces public page posts without a recipient even with hidden visibility", () => {
-  const controller = form("facebook");
-  controller.channelTarget.selectedOptions[0].dataset.deliveryDestinationFormShowVisibility = "false";
-  controller.visibilityTarget.options = [{ value: "private" }, { value: "public" }];
-  controller.hasFacebookHelpTarget = true;
-  controller.facebookHelpTarget = {};
-  controller.recipientTarget.value = "old-recipient";
+test("restricted hidden fields remain enabled and use the configured visibility", () => {
+  const controller = form({
+    deliveryDestinationFormOnly: "public",
+    deliveryDestinationFormPublicPattern: "",
+  });
+  controller.recipientTarget.value = "old";
   controller.change();
   assert.equal(controller.visibilityTarget.value, "public");
-  assert.equal(controller.visibilityRowTarget.hidden, false);
-  assert.equal(controller.visibilityTarget.options[0].disabled, true);
+  assert.equal(controller.visibilityRowTarget.hidden, true);
+  assert.equal(controller.visibilityTarget.options[0].hidden, true);
+  assert.equal(controller.visibilityTarget.options[0].disabled, undefined);
   assert.equal(controller.recipientRowTarget.hidden, true);
-  assert.equal(controller.recipientTarget.required, false);
   assert.equal(controller.recipientTarget.value, "");
-  assert.equal(controller.facebookHelpTarget.hidden, false);
-  controller.channelTarget.selectedOptions[0].dataset.deliveryDestinationFormChannel = "messenger";
+  assert.equal(controller.recipientTarget.disabled, undefined);
+  assert.equal(controller.recipientTarget.pattern, "");
+  assert.equal(controller.connectionTarget.value, "");
+  controller.channelTarget.selectedOptions[0].dataset = {
+    deliveryDestinationFormOnly: "private",
+  };
   controller.change();
   assert.equal(controller.visibilityTarget.value, "private");
-  assert.equal(controller.visibilityTarget.options[0].disabled, false);
-  assert.equal(controller.facebookHelpTarget.hidden, true);
+  assert.equal(controller.recipientTarget.pattern, undefined);
+  assert.equal(controller.visibilityTarget.options[0].hidden, false);
 });
 
-test("Messenger selects a connected Facebook person instead of a raw recipient", () => {
-  const controller = form("messenger");
-  controller.hasFacebookRecipientTarget = true;
-  controller.facebookRecipientRowTarget = {};
-  controller.facebookRecipientTarget = { value: "account-id" };
+test("changing to an unrestricted channel restores both visibility options", () => {
+  const controller = form({ deliveryDestinationFormOnly: "public" });
   controller.change();
-  assert.equal(controller.facebookRecipientRowTarget.hidden, false);
-  assert.equal(controller.facebookRecipientTarget.required, true);
-  assert.equal(controller.facebookRecipientTarget.disabled, false);
-  assert.equal(controller.recipientRowTarget.hidden, true);
-  assert.equal(controller.recipientTarget.disabled, true);
-  assert.equal(controller.recipientTarget.required, false);
-  controller.channelTarget.selectedOptions[0].dataset.deliveryDestinationFormChannel = "instagram";
+  controller.channelTarget.selectedOptions[0].dataset = {
+    deliveryDestinationFormShowVisibility: "true",
+  };
   controller.change();
-  assert.equal(controller.facebookRecipientRowTarget.hidden, true);
-  assert.equal(controller.facebookRecipientTarget.required, false);
-  assert.equal(controller.facebookRecipientTarget.disabled, true);
-  assert.equal(controller.recipientTarget.disabled, false);
+  assert.equal(controller.visibilityRowTarget.hidden, false);
+  for (const option of controller.visibilityTarget.options)
+    assert.equal(option.hidden, false);
 });

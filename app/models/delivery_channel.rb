@@ -51,6 +51,9 @@ class DeliveryChannel < ApplicationRecord
             },
             allow_nil: true
   validates :amount_currency, format: { with: /\A[a-z]{3}\z/ }
+  normalizes :only, :public_pattern, :private_pattern, with: ->(value) { value.presence }
+  validates :only, inclusion: { in: %w[private public] }, allow_nil: true
+  validate :valid_recipient_patterns
   validate :valid_connection
 
   def available?
@@ -104,10 +107,10 @@ class DeliveryChannel < ApplicationRecord
         node: -> { arel_table[:callback_base_url] },
         type: :string
       },
-      private_delivery_enabled: {
-        node: -> { arel_table[:private_delivery_enabled] },
-        type: :boolean
-      },
+      only: { node: -> { arel_table[:only] }, type: :string },
+      public_pattern: { node: -> { arel_table[:public_pattern] }, type: :string },
+      private_pattern: { node: -> { arel_table[:private_pattern] }, type: :string },
+      show_connection: { node: -> { arel_table[:show_connection] }, type: :boolean },
       show_recipient: {
         node: -> { arel_table[:show_recipient] },
         type: :boolean
@@ -118,6 +121,17 @@ class DeliveryChannel < ApplicationRecord
       },
       **base_search_fields
     }
+  end
+
+  def recipient_pattern(visibility)
+    visibility == "public" ? public_pattern : private_pattern
+  end
+
+  def recipient_required?(visibility)
+    return false unless show_recipient?
+
+    pattern = recipient_pattern(visibility)
+    pattern.nil? || !Regexp.new("\\A(?:#{pattern})\\z").match?("")
   end
 
   def translated_key = t("keys.#{key}")
@@ -136,7 +150,10 @@ class DeliveryChannel < ApplicationRecord
       content_sid_en: content_sid_en,
       content_sid_fr: content_sid_fr,
       callback_base_url: callback_base_url,
-      private_delivery_enabled: private_delivery_enabled,
+      only: only,
+      public_pattern: public_pattern,
+      private_pattern: private_pattern,
+      show_connection: show_connection,
       show_recipient: show_recipient,
       show_visibility: show_visibility,
       created_at: created_at,
@@ -145,6 +162,14 @@ class DeliveryChannel < ApplicationRecord
   end
 
   private
+
+  def valid_recipient_patterns
+    { public_pattern: public_pattern, private_pattern: private_pattern }.each do |attribute, pattern|
+      Regexp.new("\\A(?:#{pattern})\\z") if pattern
+    rescue RegexpError
+      errors.add(attribute, :invalid)
+    end
+  end
 
   def valid_connection
     return unless delivery_connection

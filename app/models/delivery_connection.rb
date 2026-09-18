@@ -3,6 +3,7 @@
 class DeliveryConnection < ApplicationRecord
   PROVIDERS = %i[smtp twilio infobip slack x mastodon reddit facebook messenger instagram telegram viber gmail google_workspace outlook aws_ses sendgrid resend mailgun mailchimp].freeze
   ADMIN_PROVIDERS = %w[facebook messenger instagram telegram viber gmail google_workspace outlook aws_ses sendgrid resend mailgun mailchimp].freeze
+  scope :where_provider, ->(provider) { where(provider: provider) }
   scope :twilio, -> { where(provider: :twilio) }
 
   belongs_to :user, default: -> { Current.user! }
@@ -137,6 +138,10 @@ class DeliveryConnection < ApplicationRecord
   def to_code
     {
       access_token: access_token,
+      refresh_token: refresh_token,
+      token_expires_at: token_expires_at,
+      aws_secret_access_key: aws_secret_access_key,
+      aws_session_token: aws_session_token,
       api_key: api_key,
       auth_token: auth_token,
       smtp_password: smtp_password,
