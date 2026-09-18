@@ -7,7 +7,7 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
     Current.user = users(:admin)
     @subscription = subscriptions(:subscription)
     @channel = DeliveryChannel.create!(key: "email", enabled: true, amount_cents: 0)
-    @destination = DeliveryDestination.create!(user: @subscription.user, name: "Email", delivery_channel: @channel, recipient: "recipient@example.com")
+    @destination = DeliveryDestination.create!(user: @subscription.user, delivery_channel: @channel, recipient: "recipient@example.com")
     SharedEmailVerification.confirm(@destination, @destination.verification_token)
     @delivery = Delivery.create!(subscription: @subscription, delivery_destination: @destination, event_key: "new-providers", subject: "Bonjour", body_text: "Le monde", body_html: "<p>Le monde</p>")
     @old_meta = ENV.fetch("META_DELIVERY_API_VERSION", nil)

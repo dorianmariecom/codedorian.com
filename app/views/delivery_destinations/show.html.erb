@@ -4,7 +4,7 @@
 <% if admin? %>
   <div class="p">
     <div class="text-gray-600">
-      <%= DeliveryDestination.human_attribute_name(:id) %>
+      <%= t(".id") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_destination.id %>
@@ -12,7 +12,7 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= DeliveryDestination.human_attribute_name(:user_id) %>
+      <%= t(".user_id") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_destination.user_id %>
@@ -20,15 +20,7 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= DeliveryDestination.human_attribute_name(:name) %>
-    </div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery_destination.name %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600">
-      <%= DeliveryDestination.human_attribute_name(:delivery_channel_id) %>
+      <%= t(".delivery_channel_id") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_destination.delivery_channel_id %>
@@ -36,7 +28,7 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= DeliveryDestination.human_attribute_name(:delivery_connection_id) %>
+      <%= t(".delivery_connection_id") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_destination.delivery_connection_id %>
@@ -44,7 +36,7 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= DeliveryDestination.human_attribute_name(:recipient) %>
+      <%= t(".recipient") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_destination.recipient %>
@@ -52,7 +44,7 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= DeliveryDestination.human_attribute_name(:visibility) %>
+      <%= t(".visibility") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_destination.visibility %>
@@ -60,7 +52,7 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= DeliveryDestination.human_attribute_name(:enabled) %>
+      <%= t(".enabled") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_destination.enabled %>
@@ -68,7 +60,7 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= DeliveryDestination.human_attribute_name(:created_at) %>
+      <%= t(".created_at") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_destination.created_at %>
@@ -76,7 +68,7 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= DeliveryDestination.human_attribute_name(:updated_at) %>
+      <%= t(".updated_at") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_destination.updated_at %>

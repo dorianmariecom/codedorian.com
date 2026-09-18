@@ -113,7 +113,6 @@ fr:
         delivery_channel_id: canal de livraison
         delivery_connection_id: connexion de livraison
         enabled: activé
-        name: nom
         recipient: destinataire
         user_id: utilisateur
         visibility: visibilité
@@ -381,7 +380,6 @@ fr:
         amount_cents: montant en centimes
         amount_currency: devise
         delivery_destination_id: destination de livraison
-        name: nom
         selected: sélectionné
         subscription_id: abonnement
       subscription_execution:
@@ -1076,6 +1074,27 @@ fr:
     retry:
       notice: enregistré
     show:
+      id: "id"
+      subscription_id: "abonnement"
+      delivery_destination_id: "destination de livraison"
+      step_execution_id: "exécution de l’étape"
+      event_key: "clé d’événement"
+      status: "statut"
+      subject: "sujet"
+      body_text: "corps texte"
+      body_html: "corps html"
+      url: "url"
+      locale: "langue"
+      channel: "canal"
+      recipient: "destinataire"
+      visibility: "visibilité"
+      connection_id: "connexion"
+      provider_id: "identifiant fournisseur"
+      error_code: "code d’erreur"
+      attempts: "tentatives"
+      next_attempt_at: "prochaine tentative"
+      created_at: "créé le"
+      updated_at: "mis à jour le"
       delete: supprimer
       description: livraison
       destroy: détruire
@@ -1248,6 +1267,24 @@ fr:
     retry:
       notice: enregistré
     show:
+      id: "id"
+      key: "clé"
+      amount_cents: "montant en centimes"
+      amount_currency: "devise"
+      delivery_connection_id: "connexion de livraison"
+      enabled: "activé"
+      show_recipient: "afficher le destinataire"
+      show_visibility: "afficher la visibilité"
+      messaging_service_sid: "identifiant du service de messagerie"
+      content_sid_en: "identifiant du contenu anglais"
+      content_sid_fr: "identifiant du contenu français"
+      callback_base_url: "url de rappel"
+      public_pattern: "motif du destinataire public"
+      private_pattern: "motif du destinataire privé"
+      show_connection: "afficher la connexion"
+      only: "restriction de visibilité"
+      created_at: "créé le"
+      updated_at: "mis à jour le"
       delete: supprimer
       description: canal de livraison
       destroy: détruire
@@ -1332,6 +1369,33 @@ fr:
     retry:
       notice: enregistré
     show:
+      id: "id"
+      user_id: "utilisateur"
+      name: "nom"
+      provider: "fournisseur"
+      enabled: "activé"
+      access_token: "jeton d’accès"
+      base_url: "url de base"
+      account_sid: "identifiant du compte"
+      auth_token: "jeton d’authentification"
+      api_key: "clé api"
+      sender: "expéditeur"
+      smtp_from: "expéditeur smtp"
+      smtp_address: "adresse smtp"
+      smtp_port: "port smtp"
+      smtp_user_name: "nom d’utilisateur smtp"
+      smtp_password: "mot de passe smtp"
+      smtp_authentication: "authentification smtp"
+      refresh_token: "jeton de renouvellement"
+      token_expires_at: "expiration du jeton"
+      aws_access_key_id: "identifiant de clé aws"
+      aws_secret_access_key: "clé secrète aws"
+      aws_session_token: "jeton de session aws (facultatif)"
+      aws_region: "région aws"
+      mailgun_domain: "domaine d’envoi mailgun"
+      mailgun_region: "région mailgun (us / eu)"
+      created_at: "créé le"
+      updated_at: "mis à jour le"
       delete: supprimer
       description: connexion de livraison
       destroy: détruire
@@ -1376,7 +1440,6 @@ fr:
       connection: connexion
       enabled: activé
       manage: livraison
-      name: nom
       private: privé
       public: public
       recipient: destinataire
@@ -1402,6 +1465,15 @@ fr:
     retry:
       notice: enregistré
     show:
+      id: "id"
+      user_id: "utilisateur"
+      delivery_channel_id: "canal de livraison"
+      delivery_connection_id: "connexion de livraison"
+      recipient: "destinataire"
+      visibility: "visibilité"
+      enabled: "activé"
+      created_at: "créé le"
+      updated_at: "mis à jour le"
       delete: supprimer
       description: destination de livraison
       destroy: détruire
@@ -4663,6 +4735,15 @@ fr:
     retry:
       notice: enregistré
     show:
+      id: "id"
+      subscription_id: "abonnement"
+      delivery_destination_id: "destination de livraison"
+      amount_cents: "montant en centimes"
+      amount_currency: "devise"
+      active: "actif"
+      selected: "sélectionné"
+      created_at: "créé le"
+      updated_at: "mis à jour le"
       delete: supprimer
       description: destination d’abonnement
       destroy: détruire
@@ -4818,6 +4899,7 @@ fr:
         inactive: inactif
       to_s: subscription#%{id}
     new:
+      plan_id: "offre"
       submit: créer l'abonnement
       title: nouvel abonnement
     show:

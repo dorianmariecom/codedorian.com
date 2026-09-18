@@ -86,21 +86,19 @@ class RedditOauth
     request = Net::HTTP::Post.new(uri)
     request.basic_auth(client_id, client_secret)
     request.set_form_data(parameters)
-    request_json(uri, request)
+    request_json(request)
   end
 
   def self.get(path, token:)
     uri = URI("https://oauth.reddit.com/#{path}")
     request = Net::HTTP::Get.new(uri)
     request["Authorization"] = "Bearer #{token}"
-    request_json(uri, request)
+    request_json(request)
   end
 
-  def self.request_json(uri, request)
+  def self.request_json(request)
     request["User-Agent"] = user_agent
-    response = Net::HTTP.start(uri.host, uri.port, use_ssl: true, open_timeout: 10, read_timeout: 30, write_timeout: 30) do |http|
-      http.request(request)
-    end
+    response = Http.request(request)
     unless response.is_a?(Net::HTTPSuccess)
       status = response.code.to_i
       raise Error.new("reddit_http_#{status}", retryable: status == 429 || status >= 500)

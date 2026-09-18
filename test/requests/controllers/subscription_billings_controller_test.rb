@@ -117,8 +117,7 @@ class SubscriptionBillingsControllerTest < ActionDispatch::IntegrationTest
       destination =
         DeliveryDestination.create!(
           user: @subscription.user,
-          delivery_channel: channel,
-          name: "Inbox"
+          delivery_channel: channel
         )
       SubscriptionDeliveryBilling.select!(@subscription, [destination.id])
       @subscriber.update!(stripe_customer_id: "cus_test")

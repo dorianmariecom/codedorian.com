@@ -162,7 +162,7 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
     subscription = Subscription.order(:id).last
     assert_equal users(:admin), subscription.delivery_destinations.sole.user
     assert_equal @channel.translated_key,
-                 subscription.delivery_destinations.sole.name
+                 subscription.delivery_destinations.sole.to_s
     assert_equal 1000, subscription.amount_cents
   end
 
@@ -221,7 +221,7 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
     end
     assert_response :success
     assert_equal @channel.translated_key,
-                 subscription.reload.delivery_destinations.sole.name
+                 subscription.reload.delivery_destinations.sole.to_s
   end
 
   test "admin creates and edits reusable destination" do
@@ -322,8 +322,7 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
       Current.with(user: users(:admin)) do
         DeliveryDestination.create!(
           user: users(:admin),
-          delivery_channel: @channel,
-          name: "Private inbox"
+          delivery_channel: @channel
         )
       end
     get delivery_destination_path(destination), as: :json
@@ -427,8 +426,7 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
         destination =
           DeliveryDestination.create!(
             user: users(:other_user),
-            delivery_channel: @channel,
-            name: "Inbox"
+            delivery_channel: @channel
           )
         Delivery.create!(
           subscription: subscription,
@@ -483,8 +481,7 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
       Current.with(user: users(:other_user)) do
         DeliveryDestination.create!(
           user: users(:other_user),
-          delivery_channel: @channel,
-          name: "Inbox"
+          delivery_channel: @channel
         )
       end
     post service_subscriptions_path(service),
@@ -508,7 +505,7 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
                    .delivery_channel_id
     get subscription_billing_path(subscription)
     assert_response :success
-    assert_includes response.body, subscription.delivery_destinations.sole.name
+    assert_includes response.body, subscription.delivery_destinations.sole.to_s
   end
 
   test "editing destinations reviews the price before saving" do
@@ -520,8 +517,7 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
           Subscription.create!(user: users(:other_user), plan: plans(:plan)),
           DeliveryDestination.create!(
             user: users(:other_user),
-            delivery_channel: @channel,
-            name: "Inbox"
+            delivery_channel: @channel
           )
         ]
       end

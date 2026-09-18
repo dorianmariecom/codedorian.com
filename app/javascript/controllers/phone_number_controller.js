@@ -1,6 +1,7 @@
 import { Controller } from "@hotwired/stimulus";
 import intlTelInput from "intl-tel-input";
 import I18n from "i18n";
+import http from "http";
 import {
   VALID_CLASSES,
   INVALID_CLASSES,
@@ -110,9 +111,7 @@ export default class extends Controller {
 
   async initialCountryLookup() {
     try {
-      const response = await fetch("/country_code_ip_addresses/me", {
-        headers: { Accept: "application/json" },
-      });
+      const response = await http("/country_code_ip_addresses/me");
 
       if (!response.ok) throw new Error("country code lookup failed");
 

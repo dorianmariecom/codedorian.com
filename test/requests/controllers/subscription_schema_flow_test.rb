@@ -540,8 +540,7 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
         end
       DeliveryDestination.create!(
         user: user,
-        delivery_channel: channel,
-        name: "Inbox"
+        delivery_channel: channel
       )
     end
   end

@@ -1,6 +1,7 @@
 import { Controller } from "@hotwired/stimulus";
 import I18n from "i18n";
 import debounce from "debounce";
+import http from "http";
 import {
   VALID_CLASSES,
   INVALID_CLASSES,
@@ -31,15 +32,9 @@ export default class extends Controller {
   }
 
   async validate() {
-    const csrfToken = document.querySelector("[name='csrf-token']")?.content;
-
-    const response = await fetch("/passwords/check", {
+    const response = await http("/passwords/check", {
       method: "POST",
-      headers: {
-        "X-CSRF-Token": csrfToken,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ password: this.inputTarget.value }),
+      json: { password: this.inputTarget.value },
     });
 
     const json = await response.json();

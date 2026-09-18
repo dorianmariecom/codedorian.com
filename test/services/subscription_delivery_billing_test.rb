@@ -11,14 +11,12 @@ class SubscriptionDeliveryBillingTest < ActiveSupport::TestCase
     @first =
       DeliveryDestination.create!(
         user: @subscription.user,
-        delivery_channel: channel,
-        name: "First"
+        delivery_channel: channel
       )
     @second =
       DeliveryDestination.create!(
         user: @subscription.user,
-        delivery_channel: channel,
-        name: "Second"
+        delivery_channel: channel
       )
     SubscriptionDeliveryBilling.select!(@subscription, [@first.id])
     @subscription.update!(
@@ -133,7 +131,7 @@ class SubscriptionDeliveryBillingTest < ActiveSupport::TestCase
     assert_raises(StripeBilling::PricingError) do
       SubscriptionDeliveryBilling.select!(@subscription, [@first.id])
     end
-    @subscription.delivery_destinations.to_a.first.name = "Changed"
+    @subscription.delivery_destinations.to_a.first.recipient = "changed"
     assert_not @subscription.valid?
   end
 

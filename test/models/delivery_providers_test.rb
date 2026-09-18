@@ -35,7 +35,7 @@ class DeliveryProvidersTest < ActiveSupport::TestCase
     resend = DeliveryConnection.create!(provider: "resend", name: "Resend", smtp_from: "sender@example.com", api_key: "key")
     channel = DeliveryChannel.create!(key: "email", enabled: true, amount_cents: 120, delivery_connection: smtp)
     subscription = subscriptions(:subscription)
-    destination = DeliveryDestination.create!(user: subscription.user, delivery_channel: channel, name: "Mail", recipient: "recipient@example.com")
+    destination = DeliveryDestination.create!(user: subscription.user, delivery_channel: channel, recipient: "recipient@example.com")
     SharedEmailVerification.confirm(destination, destination.verification_token)
     delivery = Delivery.create!(subscription: subscription, delivery_destination: destination, event_key: "queued")
     channel.update!(delivery_connection: resend)
@@ -50,7 +50,7 @@ class DeliveryProvidersTest < ActiveSupport::TestCase
     %w[messenger instagram telegram viber].each do |provider|
       connection = DeliveryConnection.create!(provider: provider, name: provider, access_token: "123:token", sender: "sender")
       channel = DeliveryChannel.create!(key: provider, only: "private", enabled: true, amount_cents: 0, delivery_connection: connection, show_recipient: true)
-      destination = DeliveryDestination.new(user: users(:other_user), delivery_channel: channel, name: provider, recipient: "123456", visibility: "private")
+      destination = DeliveryDestination.new(user: users(:other_user), delivery_channel: channel, recipient: "123456", visibility: "private")
       assert destination.valid?, destination.errors.full_messages.join(", ")
       destination.visibility = "public"
       assert destination.valid?

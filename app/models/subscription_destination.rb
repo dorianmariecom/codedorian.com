@@ -14,7 +14,6 @@ class SubscriptionDestination < ApplicationRecord
     self.amount_cents ||= delivery_destination&.delivery_channel&.amount_cents
     self.amount_currency ||=
       delivery_destination&.delivery_channel&.amount_currency
-    self.name ||= delivery_destination&.name
   end
 
   validates :delivery_destination_id, uniqueness: { scope: :subscription_id }
@@ -41,10 +40,6 @@ class SubscriptionDestination < ApplicationRecord
       delivery_destination_id: {
         node: -> { arel_table[:delivery_destination_id] },
         type: :integer
-      },
-      name: {
-        node: -> { arel_table[:name] },
-        type: :string
       },
       selected: {
         node: -> { arel_table[:selected] },
@@ -73,7 +68,6 @@ class SubscriptionDestination < ApplicationRecord
       id: id,
       subscription_id: subscription_id,
       delivery_destination_id: delivery_destination_id,
-      name: name,
       selected: selected,
       active: active,
       amount_cents: amount_cents,

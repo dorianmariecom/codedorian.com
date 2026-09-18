@@ -3,12 +3,12 @@
 <%= turbo_stream_from(@delivery) %>
 <% if admin? %>
   <div class="p">
-    <div class="text-gray-600"><%= Delivery.human_attribute_name(:id) %></div>
+    <div class="text-gray-600"><%= t(".id") %></div>
     <div class="font-bold whitespace-pre-wrap"><%= @delivery.id %></div>
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= Delivery.human_attribute_name(:subscription_id) %>
+      <%= t(".subscription_id") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery.subscription_id %>
@@ -16,7 +16,7 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= Delivery.human_attribute_name(:delivery_destination_id) %>
+      <%= t(".delivery_destination_id") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery.delivery_destination_id %>
@@ -24,7 +24,7 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= Delivery.human_attribute_name(:step_execution_id) %>
+      <%= t(".step_execution_id") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery.step_execution_id %>
@@ -32,65 +32,65 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= Delivery.human_attribute_name(:event_key) %>
+      <%= t(".event_key") %>
     </div>
     <div class="font-bold whitespace-pre-wrap"><%= @delivery.event_key %></div>
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= Delivery.human_attribute_name(:status) %>
+      <%= t(".status") %>
     </div>
     <div class="font-bold whitespace-pre-wrap"><%= @delivery.status %></div>
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= Delivery.human_attribute_name(:subject) %>
+      <%= t(".subject") %>
     </div>
     <div class="font-bold whitespace-pre-wrap"><%= @delivery.subject %></div>
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= Delivery.human_attribute_name(:body_text) %>
+      <%= t(".body_text") %>
     </div>
     <div class="font-bold whitespace-pre-wrap"><%= @delivery.body_text %></div>
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= Delivery.human_attribute_name(:body_html) %>
+      <%= t(".body_html") %>
     </div>
     <div class="font-bold whitespace-pre-wrap"><%= @delivery.body_html %></div>
   </div>
   <div class="p">
-    <div class="text-gray-600"><%= Delivery.human_attribute_name(:url) %></div>
+    <div class="text-gray-600"><%= t(".url") %></div>
     <div class="font-bold whitespace-pre-wrap"><%= @delivery.url %></div>
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= Delivery.human_attribute_name(:locale) %>
+      <%= t(".locale") %>
     </div>
     <div class="font-bold whitespace-pre-wrap"><%= @delivery.locale %></div>
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= Delivery.human_attribute_name(:channel) %>
+      <%= t(".channel") %>
     </div>
     <div class="font-bold whitespace-pre-wrap"><%= @delivery.channel %></div>
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= Delivery.human_attribute_name(:recipient) %>
+      <%= t(".recipient") %>
     </div>
     <div class="font-bold whitespace-pre-wrap"><%= @delivery.recipient %></div>
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= Delivery.human_attribute_name(:visibility) %>
+      <%= t(".visibility") %>
     </div>
     <div class="font-bold whitespace-pre-wrap"><%= @delivery.visibility %></div>
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= Delivery.human_attribute_name(:connection_id) %>
+      <%= t(".connection_id") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery.connection_id %>
@@ -98,7 +98,7 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= Delivery.human_attribute_name(:provider_id) %>
+      <%= t(".provider_id") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery.provider_id %>
@@ -106,19 +106,19 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= Delivery.human_attribute_name(:error_code) %>
+      <%= t(".error_code") %>
     </div>
     <div class="font-bold whitespace-pre-wrap"><%= @delivery.error_code %></div>
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= Delivery.human_attribute_name(:attempts) %>
+      <%= t(".attempts") %>
     </div>
     <div class="font-bold whitespace-pre-wrap"><%= @delivery.attempts %></div>
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= Delivery.human_attribute_name(:next_attempt_at) %>
+      <%= t(".next_attempt_at") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery.next_attempt_at %>
@@ -126,13 +126,13 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= Delivery.human_attribute_name(:created_at) %>
+      <%= t(".created_at") %>
     </div>
     <div class="font-bold whitespace-pre-wrap"><%= @delivery.created_at %></div>
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= Delivery.human_attribute_name(:updated_at) %>
+      <%= t(".updated_at") %>
     </div>
     <div class="font-bold whitespace-pre-wrap"><%= @delivery.updated_at %></div>
   </div>

@@ -16,8 +16,7 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
     @destination =
       DeliveryDestination.create!(
         user: @subscription.user,
-        delivery_channel: @channel,
-        name: "Inbox"
+        delivery_channel: @channel
       )
     SubscriptionDeliveryBilling.select!(@subscription, [@destination.id])
   end
@@ -58,8 +57,7 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
     second =
       DeliveryDestination.create!(
         user: @subscription.user,
-        delivery_channel: @channel,
-        name: "Second inbox"
+        delivery_channel: @channel
       )
     SubscriptionDeliveryBilling.select!(
       @subscription,
@@ -112,8 +110,7 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
     other =
       DeliveryDestination.create!(
         user: users(:other_user),
-        delivery_channel: @channel,
-        name: "Other"
+        delivery_channel: @channel
       )
     assert_raises(StripeBilling::PricingError) do
       SubscriptionDeliveryBilling.select!(@subscription, [other.id])
@@ -141,8 +138,7 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
   test "ordinary saves and destination edits preserve deselected destinations" do
     removed = DeliveryDestination.create!(
       user: @subscription.user,
-      delivery_channel: @channel,
-      name: "Removed"
+      delivery_channel: @channel
     )
     SubscriptionDeliveryBilling.select!(@subscription, [@destination.id, removed.id])
     SubscriptionDeliveryBilling.select!(@subscription, [@destination.id])
@@ -152,9 +148,9 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
     assert_equal [@destination.id], @subscription.delivery_destinations.ids
 
     @subscription.assign_attributes(
-      delivery_destinations_attributes: [{ id: @destination.id, name: "Updated" }]
+      delivery_destinations_attributes: [{ id: @destination.id, recipient: "updated" }]
     )
-    attributes = { delivery_destinations_attributes: [{ id: @destination.id, name: "Updated" }] }
+    attributes = { delivery_destinations_attributes: [{ id: @destination.id, recipient: "updated" }] }
     assert_not @subscription.confirm_delivery_changes?(attributes, nil)
     quoted_ids = @subscription.delivery_preview.fetch("items").map do |item|
       item.fetch("destination_id")
@@ -185,7 +181,7 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
     attributes = {
       delivery_destinations_attributes: [
         { id: @destination.id, _destroy: "1" },
-        { delivery_channel_id: channel.id, name: "Push" }
+        { delivery_channel_id: channel.id }
       ]
     }.with_indifferent_access
     @subscription.reload.assign_attributes(attributes)
@@ -242,8 +238,7 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
         user: @subscription.user,
         delivery_channel: channel,
         delivery_connection: connection,
-        recipient: "#general",
-        name: "Slack"
+        recipient: "#general"
       )
     assert_not destination.valid?
     assert_includes destination.errors.attribute_names, :delivery_connection

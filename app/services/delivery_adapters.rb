@@ -607,17 +607,12 @@ class DeliveryAdapters
       req["Content-Type"] = "application/json"
       req.body = data.to_json
     end
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true
-    http.max_retries = 0
-    http.open_timeout = 10
-    http.read_timeout = 30
-    http.write_timeout = 30
+    ipaddr = nil
     if @delivery.channel == "webhook" || @connection&.provider.in?(%w[mastodon infobip])
-      http.ipaddr = DeliveryProviderAddress.resolve!(uri.host)
+      ipaddr = DeliveryProviderAddress.resolve!(uri.host)
     end
     @submitted = true
-    response = http.start { |client| client.request(req) }
+    response = Http.request(req, max_retries: 0, ipaddr: ipaddr)
     status = response.code.to_i
     if @connection&.provider.in?(%w[facebook messenger instagram]) && status >= 400 && status < 500 && status != 408
       begin

@@ -121,19 +121,17 @@ class MailboxOauth
     uri = URI(endpoint)
     request = Net::HTTP::Post.new(uri)
     request.set_form_data(parameters.merge(client_id: client_id, client_secret: client_secret))
-    request_json(uri, request)
+    request_json(request)
   end
 
   def get_profile(token)
     endpoint = microsoft? ? "https://graph.microsoft.com/v1.0/me?$select=id,mail,userPrincipalName" : "https://openidconnect.googleapis.com/v1/userinfo"
     uri = URI(endpoint)
-    request_json(uri, Net::HTTP::Get.new(uri, "Authorization" => "Bearer #{token}"))
+    request_json(Net::HTTP::Get.new(uri, "Authorization" => "Bearer #{token}"))
   end
 
-  def request_json(uri, request)
-    response = Net::HTTP.start(uri.host, uri.port, use_ssl: true, open_timeout: 10, read_timeout: 30, write_timeout: 30) do |http|
-      http.request(request)
-    end
+  def request_json(request)
+    response = Http.request(request)
     unless response.is_a?(Net::HTTPSuccess)
       status = response.code.to_i
       raise Error.new(status.in?([400, 401, 403]) ? "mailbox_reconnect_required" : "mailbox_http_#{status}", retryable: status == 429 || status >= 500)

@@ -26,9 +26,7 @@ class SlackOauth
     request = Net::HTTP::Post.new(uri)
     request.basic_auth(client_id, client_secret)
     request.set_form_data(code: code, redirect_uri: redirect_uri)
-    response = Net::HTTP.start(uri.host, uri.port, use_ssl: true, open_timeout: 10, read_timeout: 30, write_timeout: 30) do |http|
-      http.request(request)
-    end
+    response = Http.request(request)
     raise Error unless response.is_a?(Net::HTTPSuccess)
 
     data = JSON.parse(response.body)

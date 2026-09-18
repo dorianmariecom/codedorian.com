@@ -61,7 +61,7 @@ class SubscriptionDeliveryBilling
         end
         {
           "destination_id" => destination.id || "new_#{index}",
-          "name" => destination.name,
+          "name" => destination.to_s,
           "amount_cents" =>
             selection&.amount_cents || destination.delivery_channel.amount_cents
         }
@@ -108,7 +108,6 @@ class SubscriptionDeliveryBilling
             amount_currency: destination.delivery_channel.amount_currency
           )
         end
-        selection.name = destination.name
         selection.selected = true
         selection.active = subscription.active? unless subscription.billed?
         selection.save!

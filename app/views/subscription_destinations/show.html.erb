@@ -4,7 +4,7 @@
 <% if admin? %>
   <div class="p">
     <div class="text-gray-600">
-      <%= SubscriptionDestination.human_attribute_name(:id) %>
+      <%= t(".id") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @subscription_destination.id %>
@@ -12,7 +12,7 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= SubscriptionDestination.human_attribute_name(:subscription_id) %>
+      <%= t(".subscription_id") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @subscription_destination.subscription_id %>
@@ -20,7 +20,7 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= SubscriptionDestination.human_attribute_name(:delivery_destination_id) %>
+      <%= t(".delivery_destination_id") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @subscription_destination.delivery_destination_id %>
@@ -28,15 +28,7 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= SubscriptionDestination.human_attribute_name(:name) %>
-    </div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @subscription_destination.name %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600">
-      <%= SubscriptionDestination.human_attribute_name(:amount_cents) %>
+      <%= t(".amount_cents") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @subscription_destination.amount_cents %>
@@ -44,7 +36,7 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= SubscriptionDestination.human_attribute_name(:amount_currency) %>
+      <%= t(".amount_currency") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @subscription_destination.amount_currency %>
@@ -52,7 +44,7 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= SubscriptionDestination.human_attribute_name(:active) %>
+      <%= t(".active") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @subscription_destination.active %>
@@ -60,7 +52,7 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= SubscriptionDestination.human_attribute_name(:selected) %>
+      <%= t(".selected") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @subscription_destination.selected %>
@@ -68,7 +60,7 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= SubscriptionDestination.human_attribute_name(:created_at) %>
+      <%= t(".created_at") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @subscription_destination.created_at %>
@@ -76,7 +68,7 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= SubscriptionDestination.human_attribute_name(:updated_at) %>
+      <%= t(".updated_at") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @subscription_destination.updated_at %>

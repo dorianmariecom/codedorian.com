@@ -257,7 +257,7 @@ class ApplicationController < ActionController::Base
       log_out_guest(current_guest)
     else
       Current.user = nil
-      session[:user_id] = nil
+      session.delete(:user_id)
     end
   end
 
@@ -291,7 +291,7 @@ class ApplicationController < ActionController::Base
 
   def log_out_guest(_guest)
     Current.guest = nil
-    session[:guest_id] = nil
+    session.delete(:guest_id)
   end
 
   def delete_link_header

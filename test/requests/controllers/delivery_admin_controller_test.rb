@@ -46,8 +46,7 @@ class DeliveryAdminControllerTest < ActionDispatch::IntegrationTest
     destination =
       DeliveryDestination.create!(
         user: subscriptions(:subscription).user,
-        delivery_channel: channel,
-        name: "Inbox"
+        delivery_channel: channel
       )
     delivery =
       Delivery.create!(
@@ -111,8 +110,7 @@ class DeliveryAdminControllerTest < ActionDispatch::IntegrationTest
     destination =
       DeliveryDestination.create!(
         user: users(:admin),
-        delivery_channel: channel,
-        name: "Inbox"
+        delivery_channel: channel
       )
     log =
       Log.create!(

@@ -373,8 +373,7 @@ class ServiceModelsTest < ActiveSupport::TestCase
       destination =
         DeliveryDestination.create!(
           user: subscription.user,
-          delivery_channel: channel,
-          name: "Inbox"
+          delivery_channel: channel
         )
       SubscriptionDeliveryBilling.select!(subscription, [destination.id])
       first_key = subscription.ensure_checkout_snapshot!

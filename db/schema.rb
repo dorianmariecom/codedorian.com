@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_18_194429) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_18_202037) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -279,7 +279,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_18_194429) do
     t.bigint "delivery_channel_id", null: false
     t.bigint "delivery_connection_id"
     t.boolean "enabled", default: true, null: false
-    t.string "name", null: false
     t.string "recipient"
     t.boolean "recipient_verified", default: false, null: false
     t.datetime "updated_at", null: false
@@ -835,7 +834,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_18_194429) do
     t.string "amount_currency", null: false
     t.datetime "created_at", null: false
     t.bigint "delivery_destination_id", null: false
-    t.string "name"
     t.boolean "selected", default: true, null: false
     t.bigint "subscription_id", null: false
     t.datetime "updated_at", null: false

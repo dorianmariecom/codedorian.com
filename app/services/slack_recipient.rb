@@ -70,9 +70,7 @@ class SlackRecipient
     request = post ? Net::HTTP::Post.new(uri) : Net::HTTP::Get.new(uri)
     request["Authorization"] = "Bearer #{@token}"
     request.set_form_data(parameters) if post
-    response = Net::HTTP.start(uri.host, uri.port, use_ssl: true, open_timeout: 10, read_timeout: 30, write_timeout: 30) do |http|
-      http.request(request)
-    end
+    response = Http.request(request)
     unless response.is_a?(Net::HTTPSuccess)
       raise DeliveryAdapters::Rejected.new("slack_lookup_http_#{response.code}", retryable: response.code == "429" || response.code.to_i >= 500)
     end

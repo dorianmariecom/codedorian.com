@@ -61,13 +61,7 @@ class MastodonOauth
   end
 
   def self.request_json(uri, request)
-    http = Net::HTTP.new(uri.host, uri.port, nil)
-    http.use_ssl = true
-    http.ipaddr = DeliveryProviderAddress.resolve!(uri.host)
-    http.open_timeout = 10
-    http.read_timeout = 30
-    http.write_timeout = 30
-    response = http.start { |client| client.request(request) }
+    response = Http.request(request, ipaddr: DeliveryProviderAddress.resolve!(uri.host), proxy: nil)
     raise Error unless response.is_a?(Net::HTTPSuccess)
 
     data = JSON.parse(response.body)

@@ -25,14 +25,7 @@ class CountryCodeIpAddress < ApplicationRecord
     uri = URI.parse("https://ipinfo.io/#{ip_address}")
     uri.query = URI.encode_www_form(token: token)
     request = Net::HTTP::Get.new(uri)
-    response =
-      Net::HTTP.start(
-        uri.hostname,
-        uri.port,
-        use_ssl: true,
-        open_timeout: 5,
-        read_timeout: 5
-      ) { |http| http.request(request) }
+    response = Http.request(request, open_timeout: 5, read_timeout: 5, write_timeout: 60)
     unless response.is_a?(Net::HTTPSuccess)
       raise(LookupError, "IPinfo lookup failed with HTTP #{response.code}")
     end

@@ -4,13 +4,13 @@
 <% if admin? %>
   <div class="p">
     <div class="text-gray-600">
-      <%= DeliveryChannel.human_attribute_name(:id) %>
+      <%= t(".id") %>
     </div>
     <div class="font-bold whitespace-pre-wrap"><%= @delivery_channel.id %></div>
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= DeliveryChannel.human_attribute_name(:key) %>
+      <%= t(".key") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_channel.key %>
@@ -18,7 +18,7 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= DeliveryChannel.human_attribute_name(:amount_cents) %>
+      <%= t(".amount_cents") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_channel.amount_cents %>
@@ -26,7 +26,7 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= DeliveryChannel.human_attribute_name(:amount_currency) %>
+      <%= t(".amount_currency") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_channel.amount_currency %>
@@ -34,7 +34,7 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= DeliveryChannel.human_attribute_name(:delivery_connection_id) %>
+      <%= t(".delivery_connection_id") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_channel.delivery_connection_id %>
@@ -42,7 +42,7 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= DeliveryChannel.human_attribute_name(:enabled) %>
+      <%= t(".enabled") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_channel.enabled %>
@@ -50,7 +50,7 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= DeliveryChannel.human_attribute_name(:show_recipient) %>
+      <%= t(".show_recipient") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_channel.show_recipient %>
@@ -58,7 +58,7 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= DeliveryChannel.human_attribute_name(:show_visibility) %>
+      <%= t(".show_visibility") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_channel.show_visibility %>
@@ -66,7 +66,7 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= DeliveryChannel.human_attribute_name(:messaging_service_sid) %>
+      <%= t(".messaging_service_sid") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_channel.messaging_service_sid %>
@@ -74,7 +74,7 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= DeliveryChannel.human_attribute_name(:content_sid_en) %>
+      <%= t(".content_sid_en") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_channel.content_sid_en %>
@@ -82,7 +82,7 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= DeliveryChannel.human_attribute_name(:content_sid_fr) %>
+      <%= t(".content_sid_fr") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_channel.content_sid_fr %>
@@ -90,27 +90,27 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= DeliveryChannel.human_attribute_name(:callback_base_url) %>
+      <%= t(".callback_base_url") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_channel.callback_base_url %>
     </div>
   </div>
   <div class="p">
-    <div class="text-gray-600"><%= DeliveryChannel.human_attribute_name(:public_pattern) %></div>
+    <div class="text-gray-600"><%= t(".public_pattern") %></div>
     <div class="font-bold whitespace-pre-wrap"><%= @delivery_channel.public_pattern %></div>
   </div>
   <div class="p">
-    <div class="text-gray-600"><%= DeliveryChannel.human_attribute_name(:private_pattern) %></div>
+    <div class="text-gray-600"><%= t(".private_pattern") %></div>
     <div class="font-bold whitespace-pre-wrap"><%= @delivery_channel.private_pattern %></div>
   </div>
   <div class="p">
-    <div class="text-gray-600"><%= DeliveryChannel.human_attribute_name(:show_connection) %></div>
+    <div class="text-gray-600"><%= t(".show_connection") %></div>
     <div class="font-bold whitespace-pre-wrap"><%= @delivery_channel.show_connection %></div>
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= DeliveryChannel.human_attribute_name(:only) %>
+      <%= t(".only") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_channel.only %>
@@ -118,7 +118,7 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= DeliveryChannel.human_attribute_name(:created_at) %>
+      <%= t(".created_at") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_channel.created_at %>
@@ -126,7 +126,7 @@
   </div>
   <div class="p">
     <div class="text-gray-600">
-      <%= DeliveryChannel.human_attribute_name(:updated_at) %>
+      <%= t(".updated_at") %>
     </div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_channel.updated_at %>

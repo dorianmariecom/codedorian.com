@@ -25,7 +25,6 @@ class DeliveryCallbacksControllerTest < ActionDispatch::IntegrationTest
         DeliveryDestination.create!(
           user: users(:admin),
           delivery_channel: channel,
-          name: "Phone",
           recipient: "+33611223344"
         )
       @delivery =

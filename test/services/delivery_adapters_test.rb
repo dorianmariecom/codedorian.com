@@ -11,8 +11,7 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
     destination =
       DeliveryDestination.create!(
         user: @subscription.user,
-        delivery_channel: channel,
-        name: "Inbox"
+        delivery_channel: channel
       )
     @delivery =
       Delivery.create!(
@@ -160,7 +159,7 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
       channel.update!(enabled: true, only: nil)
       destination = @delivery.delivery_destination
       destination.update_columns(delivery_channel_id: channel.id, delivery_connection_id: @delivery.connection_id, recipient: recipient, visibility: visibility)
-      destination.reload.update!(name: "Legacy destination")
+      destination.reload.update!(enabled: true)
       @delivery.update!(visibility: visibility)
       @delivery.reload
       # Changing the destination must not retarget an already queued delivery.

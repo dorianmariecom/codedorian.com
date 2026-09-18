@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus";
+import http from "http";
 
 export default class extends Controller {
   async connect() {
@@ -6,18 +7,12 @@ export default class extends Controller {
       return;
     }
 
-    const csrfToken = document.querySelector("[name='csrf-token']")?.content;
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     try {
-      await fetch("/time_zone", {
+      await http("/time_zone", {
         method: "PATCH",
-        headers: {
-          "X-CSRF-Token": csrfToken,
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({ time_zone: timeZone }),
+        json: { time_zone: timeZone },
       });
     } catch {
       // Updating the time zone is optional and should not interrupt the page.

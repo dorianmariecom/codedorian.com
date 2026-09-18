@@ -143,7 +143,7 @@ class FacebookOauth
     uri.query = URI.encode_www_form(params) if params.any?
     request = Net::HTTP::Get.new(uri)
     request["Authorization"] = "Bearer #{token}" if token
-    response = Net::HTTP.start(uri.host, uri.port, use_ssl: true, open_timeout: 10, read_timeout: 30, write_timeout: 30) { |http| http.request(request) }
+    response = Http.request(request)
     data = JSON.parse(response.body)
     provider_error = data.is_a?(Hash) && data["error"].is_a?(Hash) ? data["error"] : {}
     unless response.is_a?(Net::HTTPSuccess) && data.is_a?(Hash) && !data.key?("error")

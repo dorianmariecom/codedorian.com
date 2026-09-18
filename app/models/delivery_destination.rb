@@ -15,7 +15,6 @@ class DeliveryDestination < ApplicationRecord
   belongs_to :delivery_connection, optional: true
   has_many :subscription_destinations, dependent: :destroy
   has_many :deliveries, dependent: :destroy
-  validates :name, presence: true
   validates :visibility, inclusion: { in: %w[private public] }
   validate do
     if persisted? && will_save_change_to_user_id? &&
@@ -33,7 +32,6 @@ class DeliveryDestination < ApplicationRecord
   validate { can!(:update, user) }
   before_validation :normalize_visibility
   before_validation :normalize_recipient
-  before_validation :normalize_name
   before_validation :inherit_verification
 
   def verification_email = recipient
@@ -118,10 +116,6 @@ class DeliveryDestination < ApplicationRecord
         node: -> { arel_table[:delivery_connection_id] },
         type: :integer
       },
-      name: {
-        node: -> { arel_table[:name] },
-        type: :string
-      },
       recipient: {
         node: -> { arel_table[:recipient] },
         type: :string
@@ -139,7 +133,7 @@ class DeliveryDestination < ApplicationRecord
   end
 
   def to_s
-    Utils.join(delivery_channel, recipient, name, id_sample)
+    Utils.join(delivery_channel&.translated_key, recipient)
   end
 
   def to_code
@@ -148,7 +142,6 @@ class DeliveryDestination < ApplicationRecord
       user_id: user_id,
       delivery_channel_id: delivery_channel_id,
       delivery_connection_id: delivery_connection_id,
-      name: name,
       recipient: recipient,
       visibility: visibility,
       enabled: enabled,
@@ -170,18 +163,6 @@ class DeliveryDestination < ApplicationRecord
 
     phone = Phonelib.parse(recipient)
     self.recipient = phone.e164 if phone.valid?
-  end
-
-  def normalize_name
-    return if name.present?
-
-    channel_name = delivery_channel&.translated_key
-    self.name =
-      if recipient.present?
-        [channel_name, recipient].compact_blank.join(" · ")
-      else
-        channel_name.presence || "destination"
-      end
   end
 
   def valid_destination

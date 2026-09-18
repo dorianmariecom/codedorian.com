@@ -74,12 +74,13 @@ class Subscription < ApplicationRecord
       "amount_currency" => delivery_amount_currency,
       "items" =>
         subscription_destinations
+          .preload(delivery_destination: :delivery_channel)
           .selected
           .order(:delivery_destination_id)
           .map do |selection|
             {
               "destination_id" => selection.delivery_destination_id,
-              "name" => selection.name,
+              "name" => selection.delivery_destination.to_s,
               "amount_cents" => selection.amount_cents
             }
           end

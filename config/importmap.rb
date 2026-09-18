@@ -35,6 +35,7 @@ pin "constants", integrity: true
 pin "consumer", integrity: true # @1.2.2
 pin "crelt", integrity: true # @1.0.6
 pin "debounce", integrity: true
+pin "http", integrity: true
 pin "i18n", integrity: true
 pin "intl-tel-input", integrity: true # @29.1.1
 pin "intl-tel-input/utils", to: "intl-tel-input--utils.js", integrity: true # @29.1.1

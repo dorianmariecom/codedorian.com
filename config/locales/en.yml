@@ -113,7 +113,6 @@ en:
         delivery_channel_id: delivery channel
         delivery_connection_id: delivery connection
         enabled: enabled
-        name: name
         recipient: recipient
         user_id: user
         visibility: visibility
@@ -381,7 +380,6 @@ en:
         amount_cents: amount cents
         amount_currency: amount currency
         delivery_destination_id: delivery destination
-        name: name
         selected: selected
         subscription_id: subscription
       subscription_execution:
@@ -1075,6 +1073,27 @@ en:
     retry:
       notice: saved
     show:
+      id: "id"
+      subscription_id: "subscription"
+      delivery_destination_id: "delivery destination"
+      step_execution_id: "step execution"
+      event_key: "event key"
+      status: "status"
+      subject: "subject"
+      body_text: "body text"
+      body_html: "body html"
+      url: "url"
+      locale: "locale"
+      channel: "channel"
+      recipient: "recipient"
+      visibility: "visibility"
+      connection_id: "connection id"
+      provider_id: "provider id"
+      error_code: "error code"
+      attempts: "attempts"
+      next_attempt_at: "next attempt at"
+      created_at: "created at"
+      updated_at: "updated at"
       delete: delete
       description: delivery
       destroy: destroy
@@ -1246,6 +1265,24 @@ en:
     retry:
       notice: saved
     show:
+      id: "id"
+      key: "key"
+      amount_cents: "amount cents"
+      amount_currency: "amount currency"
+      delivery_connection_id: "delivery connection"
+      enabled: "enabled"
+      show_recipient: "show recipient"
+      show_visibility: "show visibility"
+      messaging_service_sid: "messaging service sid"
+      content_sid_en: "content sid en"
+      content_sid_fr: "content sid fr"
+      callback_base_url: "callback base url"
+      public_pattern: "public recipient pattern"
+      private_pattern: "private recipient pattern"
+      show_connection: "show connection"
+      only: "visibility restriction"
+      created_at: "created at"
+      updated_at: "updated at"
       delete: delete
       description: delivery channel
       destroy: destroy
@@ -1330,6 +1367,33 @@ en:
     retry:
       notice: saved
     show:
+      id: "id"
+      user_id: "user"
+      name: "name"
+      provider: "provider"
+      enabled: "enabled"
+      access_token: "access token"
+      base_url: "base url"
+      account_sid: "account sid"
+      auth_token: "auth token"
+      api_key: "api key"
+      sender: "sender"
+      smtp_from: "smtp from"
+      smtp_address: "smtp address"
+      smtp_port: "smtp port"
+      smtp_user_name: "smtp user name"
+      smtp_password: "smtp password"
+      smtp_authentication: "smtp authentication"
+      refresh_token: "refresh token"
+      token_expires_at: "token expires at"
+      aws_access_key_id: "aws access key id"
+      aws_secret_access_key: "aws secret access key"
+      aws_session_token: "aws session token (optional)"
+      aws_region: "aws region"
+      mailgun_domain: "mailgun sending domain"
+      mailgun_region: "mailgun region (us / eu)"
+      created_at: "created at"
+      updated_at: "updated at"
       delete: delete
       description: delivery connection
       destroy: destroy
@@ -1374,7 +1438,6 @@ en:
       connection: connection
       enabled: enabled
       manage: delivery
-      name: name
       private: private
       public: public
       recipient: recipient
@@ -1400,6 +1463,15 @@ en:
     retry:
       notice: saved
     show:
+      id: "id"
+      user_id: "user"
+      delivery_channel_id: "delivery channel"
+      delivery_connection_id: "delivery connection"
+      recipient: "recipient"
+      visibility: "visibility"
+      enabled: "enabled"
+      created_at: "created at"
+      updated_at: "updated at"
       delete: delete
       description: delivery destination
       destroy: destroy
@@ -4653,6 +4725,15 @@ en:
     retry:
       notice: saved
     show:
+      id: "id"
+      subscription_id: "subscription"
+      delivery_destination_id: "delivery destination"
+      amount_cents: "amount cents"
+      amount_currency: "amount currency"
+      active: "active"
+      selected: "selected"
+      created_at: "created at"
+      updated_at: "updated at"
       delete: delete
       description: subscription destination
       destroy: destroy
@@ -4807,6 +4888,7 @@ en:
         inactive: inactive
       to_s: subscription#%{id}
     new:
+      plan_id: "plan"
       submit: create subscription
       title: new subscription
     show:
