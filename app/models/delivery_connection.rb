@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class DeliveryConnection < ApplicationRecord
-  PROVIDERS = %i[smtp twilio infobip slack x mastodon reddit].freeze
+  PROVIDERS = %i[smtp twilio infobip slack x mastodon reddit facebook messenger instagram telegram viber gmail google_workspace outlook aws_ses sendgrid resend mailgun mailchimp].freeze
+  ADMIN_PROVIDERS = %w[facebook messenger instagram telegram viber gmail google_workspace outlook aws_ses sendgrid resend mailgun mailchimp].freeze
   scope :twilio, -> { where(provider: :twilio) }
 
   belongs_to :user, default: -> { Current.user! }
@@ -9,7 +10,16 @@ class DeliveryConnection < ApplicationRecord
   scope :where_admin, -> { joins(:user).where(users: { admin: true }) }
   has_many :delivery_destinations, dependent: :nullify
   has_many :delivery_channels, dependent: :nullify
-  encrypts :access_token, :auth_token, :api_key, :smtp_password
+  encrypts :refresh_token, :access_token, :auth_token, :api_key, :smtp_password, :aws_secret_access_key, :aws_session_token
+
+  validates :aws_region, format: { with: /\A[a-z]{2}(?:-gov)?-[a-z]+-\d\z/ }, allow_blank: true
+  validates :mailgun_region, inclusion: { in: %w[us eu] }, allow_blank: true
+  validates :mailgun_domain, format: { with: /\A[a-zA-Z0-9](?:[a-zA-Z0-9.-]*[a-zA-Z0-9])?\z/ }, allow_blank: true
+  validate do
+    if provider.in?(ADMIN_PROVIDERS) && !user&.admin?
+      errors.add(:user, :invalid)
+    end
+  end
 
   validates :name, presence: true
   validates :provider, inclusion: { in: PROVIDERS.map(&:to_s) }
@@ -20,12 +30,13 @@ class DeliveryConnection < ApplicationRecord
       errors.add(:provider, :invalid)
     end
   end
-  validate { can!(:update, self) }
+  validate { can!(:save_credentials, self) }
 
   def twilio? = provider == "twilio"
 
   def ready?
     return false unless enabled?
+    return false if provider.in?(ADMIN_PROVIDERS) && !user&.admin?
 
     case provider
     when "smtp"
@@ -34,6 +45,18 @@ class DeliveryConnection < ApplicationRecord
       account_sid.present? && auth_token.present?
     when "infobip"
       api_key.present? && base_url.present? && sender.present?
+    when "gmail", "google_workspace", "outlook"
+      smtp_from.present? && access_token.present? && refresh_token.present?
+    when "aws_ses"
+      smtp_from.present? && aws_access_key_id.present? && aws_secret_access_key.present? && aws_region.present?
+    when "sendgrid", "resend", "mailchimp"
+      smtp_from.present? && api_key.present?
+    when "mailgun"
+      smtp_from.present? && api_key.present? && mailgun_domain.present? && mailgun_region.in?(%w[us eu])
+    when "facebook"
+      access_token.present? && sender.to_s.match?(/\A[0-9]+\z/)
+    when "messenger", "instagram", "viber"
+      access_token.present? && sender.present?
     when "mastodon"
       access_token.present? && base_url.present?
     else
@@ -101,6 +124,10 @@ class DeliveryConnection < ApplicationRecord
         node: -> { arel_table[:smtp_authentication] },
         type: :string
       },
+      aws_access_key_id: { node: -> { arel_table[:aws_access_key_id] }, type: :string },
+      aws_region: { node: -> { arel_table[:aws_region] }, type: :string },
+      mailgun_domain: { node: -> { arel_table[:mailgun_domain] }, type: :string },
+      mailgun_region: { node: -> { arel_table[:mailgun_region] }, type: :string },
       **base_search_fields
     }
   end
@@ -126,6 +153,10 @@ class DeliveryConnection < ApplicationRecord
       smtp_port: smtp_port,
       smtp_user_name: smtp_user_name,
       smtp_authentication: smtp_authentication,
+      aws_access_key_id: aws_access_key_id,
+      aws_region: aws_region,
+      mailgun_domain: mailgun_domain,
+      mailgun_region: mailgun_region,
       created_at: created_at,
       updated_at: updated_at
     }.to_code

@@ -1,0 +1,17 @@
+<% content_for(:title, t(".title")) %>
+<p class="p"><%= t(".description") %></p>
+<%= form_with url: mastodon_connections_path, data: { turbo: false }, class: "p" do |form| %>
+  <%= form.label :server, t(".server") %>
+  <%= form.text_field :server, placeholder: "mastodon.social", required: true, class: :input %>
+  <%= form.submit t(".connect"), class: :button %>
+<% end %>
+<% @connections.each do |connection| %>
+  <div class="p">
+    <div class="font-bold"><%= connection.name %></div>
+    <p><%= connection.ready? ? t(".connected") : t(".disconnected") %></p>
+    <% if connection.ready? %>
+      <%= button_to t(".disconnect"), mastodon_connection_path(connection), method: :delete, class: :link %>
+    <% end %>
+  </div>
+<% end %>
+<%= paginate @connections %>

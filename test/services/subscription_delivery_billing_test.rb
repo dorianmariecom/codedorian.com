@@ -116,6 +116,44 @@ class SubscriptionDeliveryBillingTest < ActiveSupport::TestCase
                  .active?
   end
 
+  test "billing updates survive unavailable selected destinations" do
+    @first.update!(enabled: false)
+    @subscription.reload.billing_inactive!
+    assert @subscription.reload.inactive?
+    @subscription.billing_active!
+    assert @subscription.reload.active?
+
+    @first.update!(enabled: true)
+    @first.delivery_channel.update!(enabled: false)
+    @subscription.reload.billing_inactive!
+    @subscription.update!(stripe_status: "canceled", cancel_at_period_end: true)
+    assert @subscription.reload.inactive?
+    assert_equal "canceled", @subscription.stripe_status
+
+    assert_raises(StripeBilling::PricingError) do
+      SubscriptionDeliveryBilling.select!(@subscription, [@first.id])
+    end
+    @subscription.delivery_destinations.to_a.first.name = "Changed"
+    assert_not @subscription.valid?
+  end
+
+  test "billing deactivation survives an unavailable personal connection" do
+    connection = DeliveryConnection.create!(
+      user: @subscription.user, provider: "slack", name: "Slack",
+      access_token: "test-secret", enabled: true
+    )
+    channel = DeliveryChannel.create!(key: "slack", enabled: true, amount_cents: 0)
+    destination = DeliveryDestination.create!(
+      user: @subscription.user, delivery_channel: channel,
+      delivery_connection: connection, recipient: "#general"
+    )
+    @subscription.update!(stripe_subscription_id: nil)
+    SubscriptionDeliveryBilling.select!(@subscription, [destination.id])
+    connection.update!(enabled: false)
+    @subscription.reload.billing_inactive!
+    assert @subscription.reload.inactive?
+  end
+
   private
 
   def remote(amount:, pending: nil)

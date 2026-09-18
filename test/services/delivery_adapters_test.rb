@@ -72,7 +72,8 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
   end
 
   test "X private and public deliveries use different endpoints" do
-    configure("x", "x", { access_token: "test" }, recipient: "123")
+    configure("x", "x", { access_token: "test" }, recipient: "@dorian")
+    stub_request(:get, "https://api.x.com/2/users/by/username/dorian").to_return(body: { data: { id: "123" } }.to_json)
     direct =
       stub_request(
         :post,
@@ -91,7 +92,10 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
   end
 
   test "Slack application errors are recorded as rejections" do
-    configure("slack", "slack", { access_token: "test" }, recipient: "C123")
+    stub_request(:get, %r{https://slack.com/api/conversations.list}).to_return(
+      body: { ok: true, channels: [{ id: "C123", name: "general" }] }.to_json
+    )
+    configure("slack", "slack", { access_token: "test" }, recipient: "#general")
     stub_request(:post, "https://slack.com/api/chat.postMessage").to_return(
       status: 200,
       body: { ok: false, error: "channel_not_found" }.to_json
@@ -122,7 +126,7 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
       "reddit",
       "reddit",
       { access_token: "test" },
-      recipient: "testing"
+      recipient: "r/testing"
     )
     @delivery.visibility = "public"
     sent =
@@ -140,6 +144,36 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
       )
     assert_equal "t3_test", DeliveryAdapters.deliver(@delivery).provider_id
     assert_requested sent
+  end
+
+  test "legacy destinations and queued snapshots keep their provider targets" do
+    [
+      ["slack", "C123", "private", "https://slack.com/api/chat.postMessage", { ok: true, ts: "slack123" }, "channel", "C123"],
+      ["x", "123", "private", "https://api.x.com/2/dm_conversations/with/123/messages", { data: { dm_event_id: "dm123" } }, "text", "Hello\n\nWorld"],
+      ["x", "123", "public", "https://api.x.com/2/tweets", { data: { id: "post123" } }, "text", "Hello\n\nWorld"],
+      ["reddit", "testing", "public", "https://oauth.reddit.com/api/submit", { json: { errors: [], data: { name: "t3_test" } } }, "sr", "testing"],
+      ["reddit", "recipient", "private", "https://oauth.reddit.com/api/compose", { json: { errors: [] } }, "to", "recipient"]
+    ].each do |provider, recipient, visibility, endpoint, response, field, target|
+      configure(provider, provider, { access_token: "test" }, recipient: recipient)
+      channel = DeliveryChannel.find_or_create_by!(key: provider)
+      channel.update!(enabled: true, private_delivery_enabled: true)
+      destination = @delivery.delivery_destination
+      destination.update_columns(delivery_channel_id: channel.id, delivery_connection_id: @delivery.connection_id, recipient: recipient, visibility: visibility)
+      destination.reload.update!(name: "Legacy destination")
+      @delivery.update!(visibility: visibility)
+      @delivery.reload
+      # Changing the destination must not retarget an already queued delivery.
+      destination.update!(recipient: { "slack" => "#changed", "x" => "@changed", "reddit" => visibility == "public" ? "r/changed" : "u/changed" }.fetch(provider))
+      sent = stub_request(:post, endpoint).with do |request|
+        body = provider == "reddit" ? URI.decode_www_form(request.body).to_h : JSON.parse(request.body)
+        assert_equal target, body.fetch(field)
+        true
+      end.to_return(body: response.to_json)
+      assert DeliveryAdapters.deliver(@delivery).status.present?
+      assert_requested sent
+      assert_not_requested :get, %r{https://(?:slack.com/api/|api.x.com/2/users/)}
+      WebMock.reset!
+    end
   end
 
   test "SMTP uses text and HTML with stable message identifier" do

@@ -244,12 +244,14 @@ class SubscriptionsController < ApplicationController
 
   def destroy_all
     authorize(Subscription)
+    scope.find_each { |subscription| StripeBilling.destroy!(subscription) }
     scope.destroy_all
     respond_after_delete_all(t(".notice"))
   end
 
   def delete_all
     authorize(Subscription)
+    scope.find_each { |subscription| StripeBilling.destroy!(subscription) }
     scope.delete_all
     respond_after_delete_all(t(".notice"))
   end
@@ -293,6 +295,7 @@ class SubscriptionsController < ApplicationController
                 _destroy
                 delivery_channel_id
                 delivery_connection_id
+                facebook_account_id
                 recipient
                 visibility
               ]
@@ -309,6 +312,7 @@ class SubscriptionsController < ApplicationController
             _destroy
             delivery_channel_id
             delivery_connection_id
+            facebook_account_id
             recipient
             visibility
           ]

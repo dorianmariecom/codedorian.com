@@ -3,6 +3,11 @@
 class DeliveryChannel < ApplicationRecord
   KEYS = %i[
     email
+    facebook
+    messenger
+    instagram
+    telegram
+    viber
     push
     messages
     sms
@@ -13,9 +18,15 @@ class DeliveryChannel < ApplicationRecord
     x
     mastodon
     reddit
+    webhook
   ].freeze
   PROVIDERS = {
-    email: :smtp,
+    email: %i[smtp gmail google_workspace outlook aws_ses sendgrid resend mailgun mailchimp],
+    facebook: :facebook,
+    messenger: :messenger,
+    instagram: :instagram,
+    telegram: :telegram,
+    viber: :viber,
     sms: :twilio,
     whatsapp: :twilio,
     rcs: :twilio,
@@ -25,6 +36,10 @@ class DeliveryChannel < ApplicationRecord
     mastodon: :mastodon,
     reddit: :reddit
   }.freeze
+  def self.supports_provider?(key, provider)
+    Array(PROVIDERS[key.to_s.to_sym]).map(&:to_s).include?(provider.to_s)
+  end
+
   PERSONAL = %i[slack x mastodon reddit].freeze
   belongs_to :delivery_connection, optional: true
   has_many :delivery_destinations, dependent: :destroy
@@ -47,7 +62,7 @@ class DeliveryChannel < ApplicationRecord
       return false
     end
 
-    PERSONAL.include?(key.to_sym) || %w[push messages].include?(key) ||
+    PERSONAL.include?(key.to_sym) || %w[push messages webhook].include?(key) ||
       delivery_connection&.ready?
   end
 
@@ -134,7 +149,7 @@ class DeliveryChannel < ApplicationRecord
   def valid_connection
     return unless delivery_connection
     if delivery_connection.user.admin? &&
-         delivery_connection.provider == PROVIDERS[key.to_sym]&.to_s
+         self.class.supports_provider?(key, delivery_connection.provider)
       return
     end
 

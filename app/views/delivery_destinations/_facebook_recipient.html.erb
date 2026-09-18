@@ -1,0 +1,14 @@
+<div class="p" data-delivery-destination-form-target="facebookRecipientRow" hidden>
+  <%= f.label :facebook_account_id, t(".label"), class: :label %>
+  <% connection = DeliveryChannel.find_by(key: "messenger")&.delivery_connection %>
+  <%= f.select :facebook_account_id,
+               accounts.map { |account|
+                 ready = account.ready_for?(connection)
+                 [ready ? account.name : t(".unavailable", name: account.name), account.id, { disabled: !ready }]
+               },
+               { include_blank: t(".placeholder") },
+               class: :input, disabled: f.object.delivery_channel&.key != "messenger",
+               data: { "delivery-destination-form-target": "facebookRecipient" } %>
+  <p><%= t(".help") %></p>
+  <%= link_to t(".connect"), facebook_accounts_path, class: :link %>
+</div>

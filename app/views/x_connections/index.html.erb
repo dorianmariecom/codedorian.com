@@ -1,0 +1,19 @@
+<% content_for(:title, t(".title")) %>
+<p class="p"><%= t(".description") %></p>
+<% if XOauth.configured? %>
+  <div class="p">
+    <%= button_to t(".connect"), x_connections_path, class: :button, data: { turbo: false } %>
+  </div>
+<% else %>
+  <p class="p"><%= t(".unavailable") %></p>
+<% end %>
+<% @connections.each do |connection| %>
+  <div class="p">
+    <div class="font-bold"><%= connection.name %></div>
+    <p><%= connection.ready? ? t(".connected") : t(".disconnected") %></p>
+    <% if connection.ready? %>
+      <%= button_to t(".disconnect"), x_connection_path(connection), method: :delete, class: :link %>
+    <% end %>
+  </div>
+<% end %>
+<%= paginate @connections %>

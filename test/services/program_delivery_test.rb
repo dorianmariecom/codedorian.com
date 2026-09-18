@@ -6,6 +6,9 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
   include ActiveJob::TestHelper
 
   setup do
+    stub_request(:get, %r{https://slack.com/api/conversations.list}).to_return(
+      body: { ok: true, channels: [{ id: "C123", name: "general" }] }.to_json
+    )
     Current.user = users(:admin)
     @subscription = subscriptions(:subscription)
     @channel =
@@ -239,7 +242,7 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
         user: @subscription.user,
         delivery_channel: channel,
         delivery_connection: connection,
-        recipient: "C123",
+        recipient: "#general",
         name: "Slack"
       )
     assert_not destination.valid?
@@ -294,11 +297,11 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
     assert @channel.show_visibility?
   end
 
-  test "non admins cannot configure personal delivery connections" do
+  test "non admins cannot configure another users personal delivery connections" do
     Current.user = users(:other_user)
     assert_raises(Pundit::NotAuthorizedError) do
       DeliveryConnection.create!(
-        user: users(:other_user),
+        user: users(:admin),
         name: "Slack",
         provider: "slack"
       )
@@ -518,7 +521,7 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
     delivery.update!(
       channel: "slack",
       connection_id: connection.id,
-      recipient: "C123"
+      recipient: "#general"
     )
   end
 end

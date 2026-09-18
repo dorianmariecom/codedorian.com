@@ -98,6 +98,12 @@ en:
         smtp_port: smtp port
         smtp_user_name: smtp user name
         user_id: user
+        aws_access_key_id: aws access key id
+        aws_secret_access_key: aws secret access key
+        aws_session_token: aws session token (optional)
+        aws_region: aws region
+        mailgun_domain: mailgun sending domain
+        mailgun_region: mailgun region (us / eu)
       delivery_destination:
         delivery_channel_id: delivery channel
         delivery_connection_id: delivery connection
@@ -106,6 +112,7 @@ en:
         recipient: recipient
         user_id: user
         visibility: visibility
+        facebook_account: facebook account
       device:
         platform: platform
         primary: primary?
@@ -407,6 +414,14 @@ en:
           attributes:
             base:
               required_value_missing: "%{field} can't be blank"
+        delivery_destination:
+          attributes:
+            recipient:
+              reddit_format: 'must be r/subreddit or #subreddit for posts, or u/username
+                or @username for private messages'
+              slack_format: 'must be @username or #channel'
+              x_format: 'must be @username for a direct message, or @username / #hashtag
+                for a public post'
   addresses:
     create:
       notice: address created
@@ -1169,8 +1184,14 @@ en:
         reddit: reddit
         slack: slack
         sms: sms
+        webhook: webhook
         whatsapp: whatsapp
         x: x
+        facebook: facebook
+        messenger: messenger
+        instagram: instagram
+        telegram: telegram
+        viber: viber
       connection: connection
       currency: currency
       enabled: enabled
@@ -1201,8 +1222,14 @@ en:
         reddit: reddit
         slack: slack
         sms: sms
+        webhook: webhook
         whatsapp: whatsapp
         x: x
+        facebook: facebook
+        messenger: messenger
+        instagram: instagram
+        telegram: telegram
+        viber: viber
       to_s: "#%{id}"
     new:
       description: new delivery channel
@@ -1254,6 +1281,12 @@ en:
       name: name
       provider: provider
       save: save
+      provider_help: facebook uses a page access token and the numeric page id in
+        sender. email providers use sender email (smtp from). api providers use api
+        key; messaging platforms use access token. messenger and instagram use sender
+        account id; viber uses sender display name. connect gmail, workspace and outlook
+        from the email accounts page. mailgun region is us or eu; aws region is the
+        ses region.
     index:
       add: add
       delete_all: delete all delivery connections
@@ -1263,6 +1296,7 @@ en:
       manage: delivery
       new: new delivery connection
       title: delivery connections
+      mailboxes: connect email accounts
     model:
       providers:
         infobip: infobip
@@ -1272,6 +1306,19 @@ en:
         smtp: smtp
         twilio: twilio
         x: x
+        facebook: facebook
+        messenger: messenger
+        instagram: instagram
+        telegram: telegram
+        viber: viber
+        gmail: gmail
+        google_workspace: google workspace
+        outlook: outlook
+        aws_ses: aws ses
+        sendgrid: sendgrid
+        resend: resend
+        mailgun: mailgun
+        mailchimp: mailchimp transactional
       to_s: "#%{id}"
     new:
       description: new delivery connection
@@ -1362,13 +1409,31 @@ en:
       already_verified: this email is already confirmed.
     verification:
       confirmation: confirm this email for your account and subscriptions.
-      invalid: this confirmation link is invalid or expired. please request a new email.
+      invalid: this confirmation link is invalid or expired. please request a new
+        email.
       submit: confirm email
       title: confirm email
       description: confirm this email for your account and subscriptions.
     confirm_verification:
       confirmed: email confirmed for your account and subscriptions.
-      invalid: this confirmation link is invalid or expired. please request a new email.
+      invalid: this confirmation link is invalid or expired. please request a new
+        email.
+    facebook_help:
+      description: publishes publicly to the facebook page configured by an administrator.
+        no recipient is needed. use messenger for private messages.
+    messaging_help:
+      description: 'enter the recipient id for this sending account: page-scoped id
+        for messenger, instagram-scoped id for instagram, numeric chat id for telegram,
+        or subscriber id for viber. recipients must have contacted or subscribed to
+        the account. messenger and instagram can reject scheduled messages outside
+        the permitted conversation window.'
+    facebook_recipient:
+      label: connected facebook account
+      placeholder: select your facebook account
+      connect: manage connected facebook accounts
+      help: messages go to the person who connected facebook. accounts marked unavailable
+        need messenger linking before they can receive messages.
+      unavailable: "%{name} (messenger unavailable)"
   devices:
     create:
       notice: device created
@@ -1477,13 +1542,15 @@ en:
       already_verified: this email is already confirmed.
     verification:
       confirmation: confirm this email for your account and subscriptions.
-      invalid: this confirmation link is invalid or expired. please request a new email.
+      invalid: this confirmation link is invalid or expired. please request a new
+        email.
       submit: confirm email
       title: confirm email
       description: confirm this email for your account and subscriptions.
     confirm_verification:
       confirmed: email confirmed for your account and subscriptions.
-      invalid: this confirmation link is invalid or expired. please request a new email.
+      invalid: this confirmation link is invalid or expired. please request a new
+        email.
   error_occurrences:
     create:
       notice: error occurrence created
@@ -4780,7 +4847,8 @@ en:
       recipient_verified: email confirmed
       recipient_unverified: email not confirmed
       request_verification: send or resend confirmation email
-      delivery_pending: email delivery awaits confirmation. execution and billing continue; skipped messages will not be resent.
+      delivery_pending: email delivery awaits confirmation. execution and billing
+        continue; skipped messages will not be resent.
     update:
       notice: subscription updated
   time:
@@ -5016,4 +5084,171 @@ en:
       subject: confirm your email
       instructions: confirm this email for your account and subscription deliveries.
       submit: confirm email
-      expiration: this link expires in 24 hours. if you did not request it, you can ignore this email.
+      expiration: this link expires in 24 hours. if you did not request it, you can
+        ignore this email.
+  mailbox_connections:
+    index:
+      title: email accounts
+      description: connect an administrator mailbox, then select its connection on
+        the email delivery channel.
+      connect: connect %{provider}
+      unavailable: "%{provider} oauth is not configured"
+      connected: connected
+      disconnected: disconnected
+      disconnect: disconnect
+    callback:
+      invalid_state: authorization expired or invalid; please reconnect
+      failed: connection failed; check permissions and try again
+      connected: email account connected
+    destroy:
+      notice: email account disconnected
+  facebook_connections:
+    index:
+      title: facebook pages
+      description: connect facebook pages to publish subscription deliveries. after
+        connecting, select a page connection in the facebook delivery channel.
+      connect: connect facebook pages
+      disconnect: disconnect
+      connected: connected
+      disconnected: disconnected
+      unavailable: facebook connections are not configured yet.
+    callback:
+      missing_permissions: facebook did not grant all required permissions. enable
+        pages_show_list, pages_read_engagement and pages_manage_posts in the login
+        configuration, then reconnect.
+      no_pages: facebook returned no pages you can publish to. grant this app access
+        to a page with publishing permissions, then reconnect.
+      invalid_state: this connection request has expired or is invalid. please try
+        again.
+      failed: facebook could not be connected. please try again.
+      connected: facebook connected.
+    destroy:
+      notice: facebook disconnected. deliveries using this connection are paused.
+  facebook_accounts:
+    index:
+      title: connected facebook accounts
+      description: connect your personal facebook account to receive messenger deliveries.
+        send a message to the delivery page, then refresh your messenger connection.
+        messenger’s conversation window still applies.
+      login_unavailable: personal facebook login is not configured. ask the administrator
+        to configure a standard facebook login app.
+      connect: connect facebook account
+      disconnect: disconnect
+      disconnected: disconnected
+      refresh: refresh messenger connection
+      ready: ready to receive messenger messages
+      pending: message the delivery page in messenger, then refresh this connection.
+      unavailable: messenger linking is unavailable. the administrator must configure
+        facebook login and ensure the app and sending page belong to the same meta
+        business.
+    create:
+      unavailable: personal facebook login is not configured. ask the administrator
+        to configure a standard facebook login app.
+    callback:
+      invalid_state: this connection request expired or is invalid. please try again.
+      failed: facebook could not be connected. please try again.
+      connected: facebook account connected.
+    destroy:
+      notice: facebook account disconnected. messenger deliveries to this account
+        are paused.
+  mastodon_connections:
+    index:
+      title: mastodon accounts
+      description: connect your mastodon account to publish posts and send direct
+        messages.
+      server: mastodon server
+      connect: connect mastodon
+      disconnect: disconnect
+      connected: connected
+      disconnected: disconnected
+    create:
+      failed: could not connect to this mastodon server. enter a public server address
+        such as mastodon.social.
+    callback:
+      invalid_state: this connection request has expired or is invalid. please try
+        again.
+      failed: mastodon could not be connected. please try again.
+      connected: mastodon connected.
+    destroy:
+      notice: mastodon disconnected. deliveries using this connection are paused.
+    destination_help:
+      instructions: select your mastodon account. public posts can leave the recipient
+        empty. direct messages require an @username@server mention. server administrators
+        can read direct messages.
+      connect: manage my mastodon connections
+  reddit_connections:
+    index:
+      title: reddit accounts
+      description: 'connect reddit to publish as your account. public posts require
+        r/subreddit or #subreddit. private messages, when available, require u/username
+        or @username. bare names are not accepted.'
+      connect: connect reddit
+      disconnect: disconnect
+      connected: connected
+      disconnected: disconnected
+      unavailable: reddit connections need an approved reddit web app before they
+        can be enabled.
+    callback:
+      invalid_state: this connection request has expired or is invalid. please try
+        again.
+      failed: reddit could not be connected. please try again.
+      connected: reddit connected.
+    destroy:
+      notice: reddit disconnected. deliveries using this connection are paused.
+    destination_help:
+      instructions: 'select a reddit account belonging to the subscription’s user.
+        use r/subreddit or #subreddit for a public post. private messages are available
+        only when enabled for this integration.'
+      connect: manage my reddit connections
+  slack_connections:
+    destination_help:
+      instructions: 'select a slack connection belonging to the subscription’s user.
+        if none is listed, that user must connect slack first, then reload this form.
+        enter @username for a person or #channel for a channel; bare names are not
+        accepted. invite the code app to the channel when sending as the app.'
+      connect: manage my slack connections
+    senders:
+      bot: code app
+      user: your slack account
+    index:
+      title: slack accounts
+      description: 'connect slack to send subscription deliveries as the code app
+        or your slack account. choose the sender in your delivery destination. invite
+        the code app to the channel when sending as the app. after connecting, select
+        the connection and enter @username or #channel in your subscription’s delivery
+        destinations.'
+      connect: connect slack
+      disconnect: disconnect
+      connected: connected
+      disconnected: disconnected
+      unavailable: slack connections are not configured yet.
+    callback:
+      invalid_state: this connection request has expired or is invalid. please try
+        again.
+      failed: slack could not be connected. please try again.
+      connected: slack connected.
+    destroy:
+      notice: slack disconnected. deliveries using this connection are paused.
+  x_connections:
+    index:
+      title: x accounts
+      description: 'connect an x account to send direct messages or publish posts.
+        use @username for direct messages. public posts may include @username or #hashtag,
+        or leave the recipient blank. all deliveries are sent by the connected x account.'
+      connect: connect x
+      disconnect: disconnect
+      connected: connected
+      disconnected: disconnected
+      unavailable: x connections are not configured yet.
+    callback:
+      invalid_state: this connection request has expired or is invalid. please try
+        again.
+      failed: x could not be connected. please try again.
+      connected: x connected.
+    destroy:
+      notice: x disconnected. deliveries using this connection are paused.
+    destination_help:
+      instructions: 'select an x account belonging to the subscription’s user. use
+        @username for a direct message. for public posts, use @username or #hashtag,
+        or leave the recipient blank.'
+      connect: manage my x connections

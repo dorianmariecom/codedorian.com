@@ -396,6 +396,8 @@ class Subscription < ApplicationRecord
     delivery_destinations
       .reject(&:marked_for_destruction?)
       .each do |destination|
+        next unless new_record? || destination.new_record? || destination.changed?
+
         unless destination.user == user && destination.valid? &&
                  destination.available?
           errors.add(:base, I18n.t("delivery.invalid_destinations"))

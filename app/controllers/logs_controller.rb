@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 class LogsController < ApplicationController
+  before_action(:load_delivery)
+  before_action(:load_delivery_channel)
+  before_action(:load_delivery_connection)
+  before_action(:load_delivery_destination)
+  before_action(:load_subscription_destination)
   before_action(:load_guest)
   before_action(:load_user)
   before_action(:load_program)
@@ -111,6 +116,66 @@ class LogsController < ApplicationController
   end
 
   private
+
+  def load_delivery
+    return if params[:delivery_id].blank?
+
+    @delivery =
+      authorize(
+        policy_scope(Delivery).find(params.expect(:delivery_id)),
+        :show?
+      )
+    set_context(delivery: @delivery)
+    add_breadcrumb(text: @delivery, path: @delivery)
+  end
+
+  def load_delivery_channel
+    return if params[:delivery_channel_id].blank?
+
+    @delivery_channel =
+      authorize(
+        policy_scope(DeliveryChannel).find(params.expect(:delivery_channel_id)),
+        :show?
+      )
+    set_context(delivery_channel: @delivery_channel)
+    add_breadcrumb(text: @delivery_channel, path: @delivery_channel)
+  end
+
+  def load_delivery_connection
+    return if params[:delivery_connection_id].blank?
+
+    @delivery_connection =
+      authorize(
+        policy_scope(DeliveryConnection).find(params.expect(:delivery_connection_id)),
+        :show?
+      )
+    set_context(delivery_connection: @delivery_connection)
+    add_breadcrumb(text: @delivery_connection, path: @delivery_connection)
+  end
+
+  def load_delivery_destination
+    return if params[:delivery_destination_id].blank?
+
+    @delivery_destination =
+      authorize(
+        policy_scope(DeliveryDestination).find(params.expect(:delivery_destination_id)),
+        :show?
+      )
+    set_context(delivery_destination: @delivery_destination)
+    add_breadcrumb(text: @delivery_destination, path: @delivery_destination)
+  end
+
+  def load_subscription_destination
+    return if params[:subscription_destination_id].blank?
+
+    @subscription_destination =
+      authorize(
+        policy_scope(SubscriptionDestination).find(params.expect(:subscription_destination_id)),
+        :show?
+      )
+    set_context(subscription_destination: @subscription_destination)
+    add_breadcrumb(text: @subscription_destination, path: @subscription_destination)
+  end
 
   def load_guest
     return if params[:guest_id].blank?
@@ -507,6 +572,18 @@ class LogsController < ApplicationController
   def scope
     scope = searched_policy_scope(Log)
 
+    scope = scope.where_delivery(@delivery) if @delivery
+    scope = scope.where_delivery_channel(@delivery_channel) if @delivery_channel
+    if @delivery_connection
+      scope = scope.where_delivery_connection(@delivery_connection)
+    end
+    if @delivery_destination
+      scope = scope.where_delivery_destination(@delivery_destination)
+    end
+    if @subscription_destination
+      scope = scope.where_subscription_destination(@subscription_destination)
+    end
+
     if @name
       scope = scope.where_name(@name)
     elsif @password
@@ -595,6 +672,11 @@ class LogsController < ApplicationController
   end
 
   def nested(
+    delivery: @delivery,
+    delivery_channel: @delivery_channel,
+    delivery_connection: @delivery_connection,
+    delivery_destination: @delivery_destination,
+    subscription_destination: @subscription_destination,
     user: @user,
     guest: @guest,
     program: @program,
@@ -631,8 +713,14 @@ class LogsController < ApplicationController
     token: @token
   )
     chain = []
+
     chain << user if user
     chain << guest if guest && !user
+    chain << delivery if delivery
+    chain << delivery_channel if delivery_channel
+    chain << delivery_connection if delivery_connection
+    chain << delivery_destination if delivery_destination
+    chain << subscription_destination if subscription_destination
 
     job_leaf =
       job_context || job_process || job_pause || job_semaphore ||

@@ -3,10 +3,11 @@
 class DeliveryConnectionPolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
-      admin? ? scope.all : scope.none
+      admin? ? scope.all : scope.where_user(current_user)
     end
   end
 
+  def save_credentials? = admin? || owner?
   def index? = admin?
   def show? = admin?
   def create? = admin?

@@ -1,0 +1,18 @@
+<% content_for(:title, t(".title")) %>
+<p class="p"><%= t(".description") %></p>
+<% if FacebookOauth.personal_configured? %>
+  <div class="p"><%= button_to t(".connect"), facebook_accounts_path, class: :button, data: { turbo: false } %></div>
+<% else %>
+  <p class="p"><%= t(".login_unavailable") %></p>
+<% end %>
+<% @facebook_accounts.each do |account| %>
+  <div class="p">
+    <p class="font-bold"><%= account.name %></p>
+    <p><%= t(".#{account.enabled? ? account.messenger_status : 'disconnected'}") %></p>
+    <% if account.enabled? %>
+      <%= button_to t(".refresh"), refresh_facebook_account_path(account), class: :link %>
+      <%= button_to t(".disconnect"), facebook_account_path(account), method: :delete, class: :link %>
+    <% end %>
+  </div>
+<% end %>
+<%= paginate @facebook_accounts %>

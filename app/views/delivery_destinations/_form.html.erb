@@ -23,7 +23,8 @@
                        "delivery-destination-form-show-recipient":
                          channel.show_recipient,
                        "delivery-destination-form-show-visibility":
-                         channel.show_visibility
+                         channel.show_visibility,
+                       "delivery-destination-form-private-enabled": channel.private_delivery_enabled
                      }
                    }
                  ]
@@ -39,20 +40,29 @@
     <div class="p" data-delivery-destination-form-target="recipientRow">
       <%= f.label :recipient, class: :label %>
       <%= f.text_field :recipient,
+                   disabled: f.object.delivery_channel&.key == "messenger",
                    class: :input,
                    data: {
                      "delivery-destination-form-target": "recipient"
                    } %>
     </div>
-    <div class="p">
+    <div class="p" data-delivery-destination-form-target="connectionRow">
       <%= f.label :delivery_connection_id, class: :label %>
       <%= f.select :delivery_connection_id,
-               policy_scope(DeliveryConnection).map { |connection|
-                 [connection.name, connection.id]
+               selectable_delivery_connections(user: delivery_destination.user).map { |connection|
+                 [connection.name, connection.id, { data: { provider: connection.provider } }]
                },
                { include_blank: true },
-               class: :input %>
+               class: :input,
+               data: { "delivery-destination-form-target": "connection" } %>
     </div>
+    <%= render "delivery_destinations/facebook_recipient", f: f, accounts: selectable_facebook_accounts(user: f.object.user) %>
+  <%= render "delivery_destinations/messaging_help" %>
+  <%= render "delivery_destinations/facebook_help" %>
+    <%= render "slack_connections/destination_help" %>
+  <%= render "x_connections/destination_help" %>
+  <%= render "reddit_connections/destination_help" %>
+  <%= render "mastodon_connections/destination_help" %>
     <div class="p" data-delivery-destination-form-target="visibilityRow">
       <%= f.label :visibility, class: :label %>
       <%= f.select :visibility,
