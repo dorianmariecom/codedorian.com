@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery(with: :exception)
 
-  skip_forgery_protection(if: :current_token?)
+  skip_forgery_protection(if: :token_authenticated_request?)
 
   before_action(:set_current_user)
   before_action(:set_current_guest)
@@ -334,6 +334,10 @@ class ApplicationController < ActionController::Base
 
   def current_token?
     !!current_token
+  end
+
+  def token_authenticated_request?
+    current_user_from_session.nil? && current_token?
   end
 
   def set_current_locale
