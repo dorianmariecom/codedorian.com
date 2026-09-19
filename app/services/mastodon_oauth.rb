@@ -48,7 +48,7 @@ class MastodonOauth
     account = request_json(uri, request)
     raise Error unless account["id"].present? && account["username"].present?
 
-    { base_url: base_url, sender: account["id"], name: "Mastodon · @#{account['username']}@#{uri.host}", access_token: data["access_token"], enabled: true }
+    { scope: data["scope"].to_s.split.join(" "), base_url: base_url, sender: account["id"], name: "Mastodon · @#{account['username']}@#{uri.host}", access_token: data["access_token"], enabled: true }
   rescue KeyError, ActiveRecord::Encryption::Errors::Decryption
     raise Error
   end

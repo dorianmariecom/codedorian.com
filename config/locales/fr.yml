@@ -1126,6 +1126,7 @@ fr:
     channels:
       apple: apple messages for business
       email: e-mail
+      github: github
       mastodon: mastodon
       messages: messagerie code dorian
       push: notifications push
@@ -1204,6 +1205,7 @@ fr:
       channels:
         apple: apple messages for business
         email: e-mail
+        github: github
         mastodon: mastodon
         messages: messagerie code dorian
         push: notifications push
@@ -1242,6 +1244,7 @@ fr:
       keys:
         apple: apple messages for business
         email: e-mail
+        github: github
         mastodon: mastodon
         messages: messagerie code dorian
         push: notifications push
@@ -1326,7 +1329,12 @@ fr:
       name: nom
       provider: fournisseur
       save: enregistrer
+    delivery_connection:
+      calendar_allowed: accès aux agendas autorisé (lecture seule)
+      calendar_not_allowed: accès aux agendas non autorisé
     index:
+      calendar_access: autoriser l’accès en lecture seule à mes agendas
+      calendar_access_description: consulter vos agendas et événements pour vous envoyer des rappels. vos événements ne seront pas modifiés.
       connect: connecter %{provider}
       server: serveur mastodon
       add: ajouter
@@ -1339,7 +1347,9 @@ fr:
       title: connexions de livraison
     model:
       providers:
+        google: google
         infobip: infobip
+        github: github
         mastodon: mastodon
         reddit: reddit
         slack: slack

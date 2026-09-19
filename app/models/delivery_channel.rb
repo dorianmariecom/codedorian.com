@@ -2,6 +2,7 @@
 
 class DeliveryChannel < ApplicationRecord
   KEYS = %i[
+    github
     email
     facebook
     messenger
@@ -21,6 +22,7 @@ class DeliveryChannel < ApplicationRecord
     webhook
   ].freeze
   PROVIDERS = {
+    github: :github,
     email: %i[smtp gmail google_workspace outlook aws_ses sendgrid resend mailgun mailchimp],
     facebook: :facebook,
     messenger: :messenger,
@@ -40,7 +42,7 @@ class DeliveryChannel < ApplicationRecord
     Array(PROVIDERS[key.to_s.to_sym]).map(&:to_s).include?(provider.to_s)
   end
 
-  PERSONAL = %i[slack x mastodon reddit].freeze
+  PERSONAL = %i[github slack x mastodon reddit].freeze
   belongs_to :delivery_connection, optional: true
   has_many :delivery_destinations, dependent: :destroy
   validates :key, inclusion: { in: KEYS.map(&:to_s) }, uniqueness: true

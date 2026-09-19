@@ -185,7 +185,7 @@ class Delivery < ApplicationRecord
   def to_s = Utils.join(delivery_destination, translated_status, id_sample)
 
   def public_token
-    key = Rails.application.credentials.delivery.fetch(:public_token_secret)
+    key = Config.delivery.public_token_secret
     "#{id}-#{OpenSSL::HMAC.hexdigest("SHA256", key, id.to_s)}"
   end
 

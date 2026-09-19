@@ -90,6 +90,8 @@ class DeliveryAdapters
       mastodon
     when "webhook"
       webhook
+    when "github"
+      github
     when "reddit"
       reddit
     else
@@ -227,7 +229,7 @@ class DeliveryAdapters
   end
 
   def meta_api_version
-    version = ENV["META_DELIVERY_API_VERSION"].presence || Rails.application.credentials.dig(:meta_delivery, :api_version)
+    version = Config.meta_delivery.api_version
     raise Rejected, "configuration_missing" unless version.to_s.match?(/\Av[0-9]+\.0\z/)
 
     version
@@ -502,6 +504,29 @@ class DeliveryAdapters
     { provider_id: response.fetch("id") }
   end
 
+  def github
+    raise Rejected, "invalid_github_recipient" unless GithubRecipient.valid?(recipient)
+
+    access_token = GithubOauth.access_token_for(@connection)
+    repository = GithubApi.get("https://api.github.com/repos/#{recipient}", token: access_token)
+    unless repository.is_a?(Hash) && repository["private"] == !public?
+      raise Rejected, "github_repository_visibility_mismatch"
+    end
+
+    response = request(
+      "https://api.github.com/repos/#{recipient}/issues",
+      { title: subject, body: @delivery.body_text },
+      headers: GithubApi.headers(access_token)
+    )
+    unless response.is_a?(Hash) && response["id"].is_a?(Integer) && response["id"].positive?
+      raise IOError, "GitHub response is incomplete"
+    end
+
+    { provider_id: response.fetch("id").to_s }
+  rescue GithubOauth::Error => e
+    raise Rejected.new(e.code, retryable: e.retryable)
+  end
+
   def reddit
     if !public? && channel_settings.only == "public"
       raise Rejected, "reddit_private_unavailable"
@@ -626,6 +651,9 @@ class DeliveryAdapters
       end
     end
     raise Rejected.new("http_429", retryable: true) if status == 429
+    if @connection&.provider == "github" && status == 403 && (response["X-RateLimit-Remaining"] == "0" || response["Retry-After"].present?)
+      raise Rejected.new("http_403", retryable: true)
+    end
     if status >= 400 && status < 500 && status != 408
       raise Rejected, "http_#{status}"
     end

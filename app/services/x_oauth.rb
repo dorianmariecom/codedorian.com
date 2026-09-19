@@ -14,11 +14,11 @@ class XOauth
   end
 
   def self.client_id
-    ENV["X_CLIENT_ID"].presence || Rails.application.credentials.dig(:x, :client_id)
+    Config.x.client_id
   end
 
   def self.client_secret
-    ENV["X_CLIENT_SECRET"].presence || Rails.application.credentials.dig(:x, :client_secret)
+    Config.x.client_secret
   end
 
   def self.configured? = client_id.present? && client_secret.present?
@@ -66,7 +66,7 @@ class XOauth
       raise Error
     end
 
-    { access_token: data["access_token"], refresh_token: data["refresh_token"], token_expires_at: data["expires_in"].seconds.from_now }
+    { scope: data["scope"].to_s.split.join(" "), access_token: data["access_token"], refresh_token: data["refresh_token"], token_expires_at: data["expires_in"].seconds.from_now }
   end
 
   def self.token_request(parameters)

@@ -4,15 +4,12 @@ require "test_helper"
 
 class SlackOauthTest < ActiveSupport::TestCase
   setup do
-    @previous_id = ENV.fetch("SLACK_CLIENT_ID", nil)
-    @previous_secret = ENV.fetch("SLACK_CLIENT_SECRET", nil)
-    ENV["SLACK_CLIENT_ID"] = "client"
-    ENV["SLACK_CLIENT_SECRET"] = "secret"
+    @previous_slack_credentials = Config.slack
+    Config.slack = { client_id: "client", client_secret: "secret" }.to_deep_struct
   end
 
   teardown do
-    ENV["SLACK_CLIENT_ID"] = @previous_id
-    ENV["SLACK_CLIENT_SECRET"] = @previous_secret
+    Config.slack = @previous_slack_credentials
   end
 
   test "malformed missing permission and expiring tokens are rejected" do

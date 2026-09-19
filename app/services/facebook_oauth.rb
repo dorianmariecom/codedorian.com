@@ -17,19 +17,19 @@ class FacebookOauth
   PUBLISHING_TASKS = %w[CREATE_CONTENT MANAGE PROFILE_PLUS_CREATE_CONTENT PROFILE_PLUS_FULL_CONTROL PROFILE_PLUS_MANAGE].freeze
 
   def self.client_id
-    ENV["FACEBOOK_CLIENT_ID"].presence || ENV["META_DELIVERY_APP_ID"].presence || Rails.application.credentials.dig(:facebook, :client_id)
+    Config.facebook.client_id
   end
 
   def self.client_secret
-    ENV["FACEBOOK_CLIENT_SECRET"].presence || ENV["META_DELIVERY_APP_SECRET"].presence || Rails.application.credentials.dig(:facebook, :client_secret)
+    Config.facebook.client_secret
   end
 
   def self.config_id
-    ENV["FACEBOOK_CONFIG_ID"].presence || Rails.application.credentials.dig(:facebook, :config_id)
+    Config.facebook.config_id
   end
 
   def self.api_version
-    ENV["META_DELIVERY_API_VERSION"].presence || Rails.application.credentials.dig(:meta_delivery, :api_version)
+    Config.meta_delivery.api_version
   end
 
   def self.configured?

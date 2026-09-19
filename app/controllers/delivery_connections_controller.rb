@@ -66,7 +66,7 @@ class DeliveryConnectionsController < ApplicationController
   def connect
     authorize(DeliveryConnection.new(user: current_user, provider: params[:provider]))
     scope
-    pending = DeliveryConnectionOauth.pending(user: current_user, provider: params[:provider], redirect_uri: callback_url, server: params[:server])
+    pending = DeliveryConnectionOauth.pending(user: current_user, provider: params[:provider], redirect_uri: callback_url, server: params[:server], scope: params[:scope])
     session[:delivery_connection_oauth] = pending
     redirect_to DeliveryConnectionOauth.authorization_url(pending: pending, redirect_uri: callback_url), allow_other_host: true
   rescue *DeliveryConnectionOauth::ERRORS
@@ -160,6 +160,7 @@ class DeliveryConnectionsController < ApplicationController
         provider
         enabled
         access_token
+        scope
         base_url
         account_sid
         auth_token

@@ -4,16 +4,13 @@ require "test_helper"
 
 class XOauthTest < ActiveSupport::TestCase
   setup do
-    @old_id = ENV.fetch("X_CLIENT_ID", nil)
-    @old_secret = ENV.fetch("X_CLIENT_SECRET", nil)
-    ENV["X_CLIENT_ID"] = "client"
-    ENV["X_CLIENT_SECRET"] = "secret"
+    @previous_x_credentials = Config.x
+    Config.x = { client_id: "client", client_secret: "secret" }.to_deep_struct
     Current.user = users(:admin)
   end
 
   teardown do
-    ENV["X_CLIENT_ID"] = @old_id
-    ENV["X_CLIENT_SECRET"] = @old_secret
+    Config.x = @previous_x_credentials
     Current.reset
   end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_18_202037) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_19_194421) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -261,6 +261,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_18_202037) do
     t.string "name", null: false
     t.string "provider", null: false
     t.text "refresh_token"
+    t.text "scope", default: "", null: false
     t.text "sender"
     t.text "smtp_address"
     t.text "smtp_authentication"

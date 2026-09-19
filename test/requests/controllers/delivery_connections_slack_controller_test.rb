@@ -4,16 +4,13 @@ require "test_helper"
 
 class DeliveryConnectionsSlackControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @previous_id = ENV.fetch("SLACK_CLIENT_ID", nil)
-    @previous_secret = ENV.fetch("SLACK_CLIENT_SECRET", nil)
-    ENV["SLACK_CLIENT_ID"] = "slack-client"
-    ENV["SLACK_CLIENT_SECRET"] = "slack-secret"
+    @previous_slack_credentials = Config.slack
+    Config.slack = { client_id: "slack-client", client_secret: "slack-secret" }.to_deep_struct
     sign_in(email_addresses(:other_email).email_address, passwords(:other_password).hint)
   end
 
   teardown do
-    ENV["SLACK_CLIENT_ID"] = @previous_id
-    ENV["SLACK_CLIENT_SECRET"] = @previous_secret
+    Config.slack = @previous_slack_credentials
   end
 
   test "connect reconnect list and disconnect with full owned data" do

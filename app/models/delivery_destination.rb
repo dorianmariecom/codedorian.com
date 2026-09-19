@@ -178,6 +178,9 @@ class DeliveryDestination < ApplicationRecord
     if pattern && !Regexp.new("\\A(?:#{pattern})\\z").match?(recipient.to_s)
       errors.add(:recipient, :invalid)
     end
+    if channel == "github" && !GithubRecipient.valid?(recipient)
+      errors.add(:recipient, :invalid)
+    end
     if channel == "webhook" && !WebhookRecipient.valid?(recipient)
       errors.add(:recipient, :invalid)
     end

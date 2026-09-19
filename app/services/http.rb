@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "net/http"
-
 class Http
   # Return the original response so callers can handle provider-specific errors.
   # A pinned address keeps TLS verification tied to the URI's hostname.

@@ -4,16 +4,13 @@ require "test_helper"
 
 class DeliveryConnectionsXControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @old_id = ENV.fetch("X_CLIENT_ID", nil)
-    @old_secret = ENV.fetch("X_CLIENT_SECRET", nil)
-    ENV["X_CLIENT_ID"] = "client"
-    ENV["X_CLIENT_SECRET"] = "secret"
+    @previous_x_credentials = Config.x
+    Config.x = { client_id: "client", client_secret: "secret" }.to_deep_struct
     sign_in(email_addresses(:other_email).email_address, passwords(:other_password).hint)
   end
 
   teardown do
-    ENV["X_CLIENT_ID"] = @old_id
-    ENV["X_CLIENT_SECRET"] = @old_secret
+    Config.x = @previous_x_credentials
   end
 
   test "PKCE connect reconnect list and disconnect return full owned data" do

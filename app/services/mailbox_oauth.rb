@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class MailboxOauth
-  PROVIDERS = %w[gmail google_workspace outlook].freeze
+  PROVIDERS = %w[google gmail google_workspace outlook].freeze
   GOOGLE_SCOPES = %w[openid email https://www.googleapis.com/auth/gmail.send].freeze
+  GOOGLE_CALENDAR_SCOPES = %w[https://www.googleapis.com/auth/calendar.calendarlist.readonly https://www.googleapis.com/auth/calendar.events.readonly].freeze
   MICROSOFT_SCOPES = %w[offline_access https://graph.microsoft.com/Mail.Send https://graph.microsoft.com/User.Read].freeze
 
   class Error < StandardError
@@ -25,28 +26,28 @@ class MailboxOauth
 
   def client_id
     if microsoft?
-      ENV["MICROSOFT_DELIVERY_CLIENT_ID"].presence || Rails.application.credentials.dig(:microsoft_delivery, :client_id)
+      Config.microsoft_delivery.client_id
     else
-      ENV["GOOGLE_DELIVERY_CLIENT_ID"].presence || Rails.application.credentials.dig(:google_delivery, :client_id)
+      Config.google_delivery.client_id
     end
   end
 
   def client_secret
     if microsoft?
-      ENV["MICROSOFT_DELIVERY_CLIENT_SECRET"].presence || Rails.application.credentials.dig(:microsoft_delivery, :client_secret)
+      Config.microsoft_delivery.client_secret
     else
-      ENV["GOOGLE_DELIVERY_CLIENT_SECRET"].presence || Rails.application.credentials.dig(:google_delivery, :client_secret)
+      Config.google_delivery.client_secret
     end
   end
 
   def configured? = client_id.present? && client_secret.present?
 
-  def authorization_url(state:, verifier:, redirect_uri:)
+  def authorization_url(state:, verifier:, redirect_uri:, scope: nil)
     raise Error, "mailbox_not_configured" unless configured?
 
     parameters = {
       client_id: client_id, response_type: "code", redirect_uri: redirect_uri, state: state,
-      scope: (microsoft? ? MICROSOFT_SCOPES : GOOGLE_SCOPES).join(" "),
+      scope: scopes(scope: scope).join(" "),
       code_challenge: Base64.urlsafe_encode64(Digest::SHA256.digest(verifier), padding: false),
       code_challenge_method: "S256", prompt: "consent"
     }
@@ -55,9 +56,17 @@ class MailboxOauth
     "#{endpoint}?#{URI.encode_www_form(parameters)}"
   end
 
-  def exchange(code:, verifier:, redirect_uri:)
+  def scopes(scope: nil)
+    return MICROSOFT_SCOPES if microsoft?
+
+    scopes = @provider == "google" ? %w[openid email] : GOOGLE_SCOPES
+    scopes + (scope.to_s.split & GOOGLE_CALENDAR_SCOPES)
+  end
+
+  def exchange(code:, verifier:, redirect_uri:, scope: nil)
     data = token_request(grant_type: "authorization_code", code: code, code_verifier: verifier, redirect_uri: redirect_uri)
     attributes = token_attributes(data)
+    attributes[:scope] = (data["scope"].to_s.split & scopes(scope: scope)).join(" ")
     raise Error, "mailbox_reconnect_required" if attributes[:refresh_token].blank?
 
     profile = get_profile(attributes.fetch(:access_token))
@@ -78,10 +87,14 @@ class MailboxOauth
   end
 
   def access_token_for(connection)
-    connection.with_lock do
+    access_token = connection.with_lock do
       raise Error, "connection_disabled" unless connection.enabled?
-      unless connection.provider == @provider && connection.user.admin?
+      unless connection.provider == @provider && (@provider == "google" || connection.user.admin?)
         raise Error, "invalid_connection"
+      end
+
+      if @provider == "google" && !connection.calendar_access?
+        raise Error, "calendar_permission_missing"
       end
 
       if connection.token_expires_at.nil? || connection.token_expires_at <= 1.minute.from_now
@@ -89,10 +102,16 @@ class MailboxOauth
 
         data = token_request(grant_type: "refresh_token", refresh_token: connection.refresh_token)
         attributes = token_attributes(data)
+        attributes[:scope] = (connection.scope.to_s.split & data["scope"].to_s.split).join(" ") if data.key?("scope")
         Current.with(user: connection.user) { connection.update!(attributes) }
       end
       connection.access_token
     end
+    if @provider == "google" && !connection.calendar_access?
+      raise Error, "calendar_permission_missing"
+    end
+
+    access_token
   end
 
   private
@@ -103,7 +122,7 @@ class MailboxOauth
       raise Error
     end
 
-    if data["scope"].present?
+    if @provider != "google" && data["scope"].present?
       scopes = data["scope"].split
       allowed = microsoft? ? ["Mail.Send", "https://graph.microsoft.com/Mail.Send"] : ["https://www.googleapis.com/auth/gmail.send"]
       raise Error, "mailbox_send_permission_missing" unless scopes.intersect?(allowed)

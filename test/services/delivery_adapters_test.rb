@@ -271,6 +271,68 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
     assert_requested sent
   end
 
+  test "GitHub creates an issue with the snapshotted repository and checks visibility" do
+    configure("github", "github", { access_token: "test" }, recipient: "octocat/repository")
+    @delivery.visibility = "private"
+    stub_request(:get, "https://api.github.com/repos/octocat/repository")
+      .to_return(body: { private: true }.to_json)
+    sent = stub_request(:post, "https://api.github.com/repos/octocat/repository/issues")
+      .with(headers: { "Authorization" => "Bearer test" }, body: { title: "Hello", body: "World" }.to_json)
+      .to_return(status: 201, body: { id: 123 }.to_json)
+    assert_equal "123", DeliveryAdapters.deliver(@delivery).provider_id
+    assert_requested sent, times: 1
+    stub_request(:get, "https://api.github.com/repos/octocat/repository")
+      .to_return(body: { private: false }.to_json)
+    error = assert_raises(DeliveryAdapters::Rejected) { DeliveryAdapters.deliver(@delivery) }
+    assert_equal "github_repository_visibility_mismatch", error.code
+    assert_requested sent, times: 1
+    @delivery.visibility = "public"
+    assert_equal "123", DeliveryAdapters.deliver(@delivery).provider_id
+    assert_requested sent, times: 2
+  end
+
+  test "GitHub issue writes retry rate limits but permanently reject other forbidden responses" do
+    configure("github", "github", { access_token: "test" }, recipient: "octocat/repository")
+    @delivery.visibility = "private"
+    stub_request(:get, "https://api.github.com/repos/octocat/repository").to_return(body: { private: true }.to_json)
+
+    [
+      [403, { "Retry-After" => "60" }, true],
+      [403, { "X-RateLimit-Remaining" => "0" }, true],
+      [403, {}, false],
+      [403, { "X-RateLimit-Remaining" => "1" }, false],
+      [429, {}, true]
+    ].each do |status, headers, retryable|
+      stub_request(:post, "https://api.github.com/repos/octocat/repository/issues").to_return(status: status, headers: headers)
+      error = assert_raises(DeliveryAdapters::Rejected) { DeliveryAdapters.deliver(@delivery) }
+      assert_equal "http_#{status}", error.code
+      assert_equal retryable, error.retryable
+    end
+  end
+
+  test "GitHub issue writes preserve uncertain outcomes for server errors and timeouts" do
+    configure("github", "github", { access_token: "test" }, recipient: "octocat/repository")
+    @delivery.visibility = "private"
+    stub_request(:get, "https://api.github.com/repos/octocat/repository").to_return(body: { private: true }.to_json)
+
+    [408, 500, 503].each do |status|
+      stub_request(:post, "https://api.github.com/repos/octocat/repository/issues").to_return(status: status, headers: { "Retry-After" => "60" })
+      assert_raises(IOError) { DeliveryAdapters.deliver(@delivery) }
+    end
+    stub_request(:post, "https://api.github.com/repos/octocat/repository/issues").to_timeout
+    assert_raises(Timeout::Error) { DeliveryAdapters.deliver(@delivery) }
+  end
+
+  test "GitHub rejects invalid repositories and treats incomplete writes as uncertain" do
+    configure("github", "github", { access_token: "test" }, recipient: "octocat/../issues")
+    assert_raises(DeliveryAdapters::Rejected) { DeliveryAdapters.deliver(@delivery) }
+    @delivery.recipient = "octocat/repository"
+    @delivery.visibility = "private"
+    stub_request(:get, "https://api.github.com/repos/octocat/repository").to_return(body: { private: true }.to_json)
+    stub_request(:post, "https://api.github.com/repos/octocat/repository/issues").to_return(status: 201, body: "{}")
+    assert_raises(IOError) { DeliveryAdapters.deliver(@delivery) }
+  end
+
   private
 
   def with_public_provider

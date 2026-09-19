@@ -10,12 +10,12 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
     @destination = DeliveryDestination.create!(user: @subscription.user, delivery_channel: @channel, recipient: "recipient@example.com")
     SharedEmailVerification.confirm(@destination, @destination.verification_token)
     @delivery = Delivery.create!(subscription: @subscription, delivery_destination: @destination, event_key: "new-providers", subject: "Bonjour", body_text: "Le monde", body_html: "<p>Le monde</p>")
-    @old_meta = ENV.fetch("META_DELIVERY_API_VERSION", nil)
-    ENV["META_DELIVERY_API_VERSION"] = "v25.0"
+    @previous_meta_credentials = Config.meta_delivery
+    Config.meta_delivery = { api_version: "v25.0" }.to_deep_struct
   end
 
   teardown do
-    ENV["META_DELIVERY_API_VERSION"] = @old_meta
+    Config.meta_delivery = @previous_meta_credentials
     Current.reset
   end
 

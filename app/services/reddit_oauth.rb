@@ -14,17 +14,17 @@ class RedditOauth
   end
 
   def self.client_id
-    ENV["REDDIT_CLIENT_ID"].presence || Rails.application.credentials.dig(:reddit, :client_id)
+    Config.reddit.client_id
   end
 
   def self.client_secret
-    ENV["REDDIT_CLIENT_SECRET"].presence || Rails.application.credentials.dig(:reddit, :client_secret)
+    Config.reddit.client_secret
   end
 
   def self.configured? = client_id.present? && client_secret.present?
 
   def self.user_agent
-    ENV["REDDIT_USER_AGENT"].presence || "web:codedorian.com:1.0 (by /u/dorianmariecom)"
+    Config.reddit.user_agent
   end
 
   def self.scopes
@@ -76,7 +76,7 @@ class RedditOauth
       raise Error
     end
 
-    { access_token: data["access_token"], refresh_token: data["refresh_token"].presence || refresh_token, token_expires_at: data["expires_in"].seconds.from_now }
+    { scope: data["scope"].to_s.split.join(" "), access_token: data["access_token"], refresh_token: data["refresh_token"].presence || refresh_token, token_expires_at: data["expires_in"].seconds.from_now }
   end
 
   def self.token_request(parameters)

@@ -10,12 +10,12 @@ class FacebookDeliveryTest < ActiveSupport::TestCase
     @subscription = subscriptions(:subscription)
     @destination = DeliveryDestination.create!(user: @subscription.user, delivery_channel: @channel, visibility: "public")
     @delivery = Delivery.create!(subscription: @subscription, delivery_destination: @destination, event_key: "facebook", subject: "Bonjour", body_text: "Le monde", url: "https://example.com/article")
-    @old_meta = ENV.fetch("META_DELIVERY_API_VERSION", nil)
-    ENV["META_DELIVERY_API_VERSION"] = "v25.0"
+    @previous_meta_credentials = Config.meta_delivery
+    Config.meta_delivery = { api_version: "v25.0" }.to_deep_struct
   end
 
   teardown do
-    ENV["META_DELIVERY_API_VERSION"] = @old_meta
+    Config.meta_delivery = @previous_meta_credentials
     Current.reset
   end
 
@@ -69,7 +69,7 @@ class FacebookDeliveryTest < ActiveSupport::TestCase
   end
 
   test "missing API configuration prevents sending" do
-    ENV["META_DELIVERY_API_VERSION"] = "invalid"
+    Config.meta_delivery = { api_version: "invalid" }.to_deep_struct
     assert_equal "configuration_missing", assert_raises(DeliveryAdapters::Rejected) { DeliveryAdapters.deliver(@delivery) }.code
     assert_not_requested :post, /graph.facebook.com/
   end

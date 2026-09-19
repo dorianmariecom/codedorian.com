@@ -7,6 +7,18 @@ class Code
         operator = args.fetch(:operator, nil).to_code.to_s
 
         case operator
+        when "delivery_connection"
+          sig(args) { { provider: String, id: String.maybe } }
+          attributes = args.fetch(:arguments, []).to_code.code_first.as_json.symbolize_keys
+          connections = policy_scope(subscription!.user.delivery_connections).where_provider(attributes.fetch(:provider)).where(enabled: true)
+          connections = connections.where(id: attributes[:id]) if attributes[:id].present?
+          begin
+            connections.sole.credentials_for_code
+          rescue *DeliveryConnectionOauth::ERRORS => e
+            raise ::Code::Error, e.code
+          rescue ActiveRecord::RecordNotFound, ActiveRecord::SoleRecordExceeded
+            raise ::Code::Error, "delivery_connection_required"
+          end
         when "deliver!"
           sig(args) do
             {

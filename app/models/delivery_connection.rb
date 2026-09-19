@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class DeliveryConnection < ApplicationRecord
-  PROVIDERS = %i[smtp twilio infobip slack x mastodon reddit facebook messenger instagram telegram viber gmail google_workspace outlook aws_ses sendgrid resend mailgun mailchimp].freeze
+  PROVIDERS = %i[google github smtp twilio infobip slack x mastodon reddit facebook messenger instagram telegram viber gmail google_workspace outlook aws_ses sendgrid resend mailgun mailchimp].freeze
   ADMIN_PROVIDERS = %w[facebook messenger instagram telegram viber gmail google_workspace outlook aws_ses sendgrid resend mailgun mailchimp].freeze
   scope :where_provider, ->(provider) { where(provider: provider) }
   scope :twilio, -> { where(provider: :twilio) }
@@ -33,6 +33,29 @@ class DeliveryConnection < ApplicationRecord
   end
   validate { can!(:save_credentials, self) }
 
+  def calendar_access?
+    return false unless provider.in?(%w[google gmail google_workspace])
+
+    granted = scope.to_s.split
+    (MailboxOauth::GOOGLE_CALENDAR_SCOPES - granted).empty? ||
+      granted.include?("https://www.googleapis.com/auth/calendar.readonly") ||
+      granted.include?("https://www.googleapis.com/auth/calendar")
+  end
+
+  def credentials_for_code
+    case provider
+    when "x"
+      XOauth.access_token_for(self)
+    when "reddit"
+      RedditOauth.access_token_for(self)
+    when "github"
+      GithubOauth.access_token_for(self)
+    when "google", "gmail", "google_workspace", "outlook"
+      MailboxOauth.new(provider).access_token_for(self)
+    end
+    to_code
+  end
+
   def twilio? = provider == "twilio"
 
   def ready?
@@ -46,6 +69,8 @@ class DeliveryConnection < ApplicationRecord
       account_sid.present? && auth_token.present?
     when "infobip"
       api_key.present? && base_url.present? && sender.present?
+    when "google"
+      calendar_access? && access_token.present? && refresh_token.present?
     when "gmail", "google_workspace", "outlook"
       smtp_from.present? && access_token.present? && refresh_token.present?
     when "aws_ses"
@@ -89,6 +114,7 @@ class DeliveryConnection < ApplicationRecord
         node: -> { arel_table[:provider] },
         type: :string
       },
+      scope: { node: -> { arel_table[:scope] }, type: :string },
       enabled: {
         node: -> { arel_table[:enabled] },
         type: :boolean
@@ -150,6 +176,7 @@ class DeliveryConnection < ApplicationRecord
       name: name,
       provider: provider,
       enabled: enabled,
+      scope: scope,
       base_url: base_url,
       account_sid: account_sid,
       sender: sender,

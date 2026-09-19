@@ -5,12 +5,15 @@ require "test_helper"
 class MailboxOauthTest < ActiveSupport::TestCase
   setup do
     Current.user = users(:admin)
-    @old_env = %w[GOOGLE_DELIVERY_CLIENT_ID GOOGLE_DELIVERY_CLIENT_SECRET MICROSOFT_DELIVERY_CLIENT_ID MICROSOFT_DELIVERY_CLIENT_SECRET].index_with { |key| ENV.fetch(key, nil) }
-    @old_env.each_key { |key| ENV[key] = "test-client" }
+    @previous_google_credentials = Config.google_delivery
+    @previous_microsoft_credentials = Config.microsoft_delivery
+    Config.google_delivery = { client_id: "test-client", client_secret: "test-client" }.to_deep_struct
+    Config.microsoft_delivery = { client_id: "test-client", client_secret: "test-client" }.to_deep_struct
   end
 
   teardown do
-    @old_env.each { |key, value| ENV[key] = value }
+    Config.google_delivery = @previous_google_credentials
+    Config.microsoft_delivery = @previous_microsoft_credentials
     Current.reset
   end
 

@@ -4,16 +4,18 @@ require "test_helper"
 
 class DeliveryConnectionsFacebookControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @old_env = %w[FACEBOOK_CLIENT_ID FACEBOOK_CLIENT_SECRET FACEBOOK_CONFIG_ID META_DELIVERY_API_VERSION].index_with { |key| ENV.fetch(key, nil) }
-    ENV["FACEBOOK_CLIENT_ID"] = "client"
-    ENV["FACEBOOK_CLIENT_SECRET"] = "secret"
-    ENV["FACEBOOK_CONFIG_ID"] = "config"
-    ENV["META_DELIVERY_API_VERSION"] = "v25.0"
+    @previous_facebook_credentials = Config.facebook
+    @previous_meta_credentials = Config.meta_delivery
+    Config.facebook = { client_id: "client", client_secret: "secret", config_id: "config" }.to_deep_struct
+    Config.meta_delivery = { api_version: "v25.0" }.to_deep_struct
     stub_request(:get, %r{/debug_token}).to_return(body: { data: { is_valid: true, type: "USER", app_id: "client", granular_scopes: [] } }.to_json)
     sign_in(email_addresses(:admin_email).email_address, passwords(:password).hint)
   end
 
-  teardown { @old_env.each { |key, value| ENV[key] = value } }
+  teardown do
+    Config.facebook = @previous_facebook_credentials
+    Config.meta_delivery = @previous_meta_credentials
+  end
 
   test "admin connects reconnects lists and disconnects pages with full owned data" do
     2.times do |index|

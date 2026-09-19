@@ -6,11 +6,11 @@ class SlackOauth
   SCOPES = %w[chat:write users:read channels:read groups:read im:write].freeze
 
   def self.client_id
-    ENV["SLACK_CLIENT_ID"].presence || Rails.application.credentials.dig(:slack, :client_id)
+    Config.slack.client_id
   end
 
   def self.client_secret
-    ENV["SLACK_CLIENT_SECRET"].presence || Rails.application.credentials.dig(:slack, :client_secret)
+    Config.slack.client_secret
   end
 
   def self.configured? = client_id.present? && client_secret.present?
@@ -48,12 +48,12 @@ class SlackOauth
       {
         account_sid: team["id"], sender: data["bot_user_id"],
         name: "Slack · #{workspace} · #{I18n.t('delivery_connections.senders.bot')}",
-        access_token: data["access_token"], enabled: true
+        scope: data["scope"].to_s.split(",").join(" "), access_token: data["access_token"], enabled: true
       },
       {
         account_sid: team["id"], sender: user["id"],
         name: "Slack · #{workspace} · #{I18n.t('delivery_connections.senders.user')} · #{user['id']}",
-        access_token: user["access_token"], enabled: true
+        scope: user["scope"].to_s.split(",").join(" "), access_token: user["access_token"], enabled: true
       }
     ]
   rescue JSON::ParserError, IOError, SystemCallError, Timeout::Error, OpenSSL::SSL::SSLError

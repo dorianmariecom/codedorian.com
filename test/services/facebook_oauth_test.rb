@@ -4,17 +4,19 @@ require "test_helper"
 
 class FacebookOauthTest < ActiveSupport::TestCase
   setup do
-    @old_env = %w[FACEBOOK_CLIENT_ID FACEBOOK_CLIENT_SECRET FACEBOOK_CONFIG_ID META_DELIVERY_API_VERSION].index_with { |key| ENV.fetch(key, nil) }
-    ENV["FACEBOOK_CLIENT_ID"] = "client"
-    ENV["FACEBOOK_CLIENT_SECRET"] = "secret"
-    ENV["FACEBOOK_CONFIG_ID"] = "config"
-    ENV["META_DELIVERY_API_VERSION"] = "v25.0"
+    @previous_facebook_credentials = Config.facebook
+    @previous_meta_credentials = Config.meta_delivery
+    Config.facebook = { client_id: "client", client_secret: "secret", config_id: "config" }.to_deep_struct
+    Config.meta_delivery = { api_version: "v25.0" }.to_deep_struct
     stub_request(:get, %r{/debug_token}).to_return(body: { data: { is_valid: true, type: "USER", app_id: "client", granular_scopes: [] } }.to_json)
     stub_request(:get, %r{/oauth/access_token}).to_return(body: { access_token: "user-token" }.to_json)
     stub_request(:get, %r{/me/permissions}).to_return(body: { data: FacebookOauth::SCOPES.map { |permission| { permission: permission, status: "granted" } } }.to_json)
   end
 
-  teardown { @old_env.each { |key, value| ENV[key] = value } }
+  teardown do
+    Config.facebook = @previous_facebook_credentials
+    Config.meta_delivery = @previous_meta_credentials
+  end
 
   test "explicit publishing grants recover pages omitted by the accounts endpoint" do
     stub_request(:get, %r{/me/accounts}).to_return(body: { data: [] }.to_json)
