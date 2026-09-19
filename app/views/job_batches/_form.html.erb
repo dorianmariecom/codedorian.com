@@ -1,0 +1,121 @@
+<%= form_for(show_url) do |f| %>
+  <div class="p">
+    <%= f.label(:active_job_batch_id, class: :label) %>
+    <%= f.text_field(
+      :active_job_batch_id,
+      class: :input,
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:description, class: :label) %>
+    <%= f.text_field(
+      :description,
+      class: :input,
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:total_jobs, class: :label) %>
+    <%= f.number_field(
+      :total_jobs,
+      class: :input,
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:completed_jobs, class: :label) %>
+    <%= f.number_field(
+      :completed_jobs,
+      class: :input,
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:failed_jobs, class: :label) %>
+    <%= f.number_field(
+      :failed_jobs,
+      class: :input,
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:enqueued_at, class: :label) %>
+    <%= f.datetime_field(
+      :enqueued_at,
+      class: :input,
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:finished_at, class: :label) %>
+    <%= f.datetime_field(
+      :finished_at,
+      class: :input,
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:failed_at, class: :label) %>
+    <%= f.datetime_field(
+      :failed_at,
+      class: :input,
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.label(:metadata, class: :label) %>
+    <%= f.text_area(
+      :metadata,
+      value: @job_batch.metadata_json,
+      class: :input,
+      autocomplete: :off,
+      data: {
+        form_type: :other
+      }
+    ) %>
+  </div>
+
+  <div class="p">
+    <%= f.submit(
+      submit,
+      class: "button",
+      data: {
+        controller: "bridge--button",
+        bridge__button_title_value: submit
+      }
+    ) %>
+  </div>
+<% end %>

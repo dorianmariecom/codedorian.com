@@ -140,7 +140,9 @@ class VersionsController < ApplicationController
 
     @delivery_connection =
       authorize(
-        policy_scope(DeliveryConnection).find(params.expect(:delivery_connection_id)),
+        policy_scope(DeliveryConnection).find(
+          params.expect(:delivery_connection_id)
+        ),
         :show?
       )
     set_context(delivery_connection: @delivery_connection)
@@ -152,7 +154,9 @@ class VersionsController < ApplicationController
 
     @delivery_destination =
       authorize(
-        policy_scope(DeliveryDestination).find(params.expect(:delivery_destination_id)),
+        policy_scope(DeliveryDestination).find(
+          params.expect(:delivery_destination_id)
+        ),
         :show?
       )
     set_context(delivery_destination: @delivery_destination)
@@ -164,11 +168,16 @@ class VersionsController < ApplicationController
 
     @subscription_destination =
       authorize(
-        policy_scope(SubscriptionDestination).find(params.expect(:subscription_destination_id)),
+        policy_scope(SubscriptionDestination).find(
+          params.expect(:subscription_destination_id)
+        ),
         :show?
       )
     set_context(subscription_destination: @subscription_destination)
-    add_breadcrumb(text: @subscription_destination, path: @subscription_destination)
+    add_breadcrumb(
+      text: @subscription_destination,
+      path: @subscription_destination
+    )
   end
 
   def load_guest

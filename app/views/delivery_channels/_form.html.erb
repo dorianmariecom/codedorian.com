@@ -53,7 +53,10 @@
   </div>
   <div class="p">
     <%= f.label :only, class: :label %>
-    <%= f.select :only, [[t(".private"), "private"], [t(".public"), "public"]], { include_blank: true }, class: :input %>
+    <%= f.select :only,
+             [[t(".private"), "private"], [t(".public"), "public"]],
+             { include_blank: true },
+             class: :input %>
   </div>
   <div class="p">
     <%= f.label :public_pattern, class: :label %>

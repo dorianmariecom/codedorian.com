@@ -5,11 +5,40 @@ require "test_helper"
 class FacebookDeliveryTest < ActiveSupport::TestCase
   setup do
     Current.user = users(:admin)
-    @connection = DeliveryConnection.create!(provider: "facebook", name: "Page", access_token: "page-token", sender: "123456")
-    @channel = DeliveryChannel.create!(key: "facebook", only: "public", public_pattern: "(?:)", show_recipient: false, enabled: true, amount_cents: 0, delivery_connection: @connection, show_visibility: true)
+    @connection =
+      DeliveryConnection.create!(
+        provider: "facebook",
+        name: "Page",
+        access_token: "page-token",
+        sender: "123456"
+      )
+    @channel =
+      DeliveryChannel.create!(
+        key: "facebook",
+        only: "public",
+        public_pattern: "(?:)",
+        show_recipient: false,
+        enabled: true,
+        amount_cents: 0,
+        delivery_connection: @connection,
+        show_visibility: true
+      )
     @subscription = subscriptions(:subscription)
-    @destination = DeliveryDestination.create!(user: @subscription.user, delivery_channel: @channel, visibility: "public")
-    @delivery = Delivery.create!(subscription: @subscription, delivery_destination: @destination, event_key: "facebook", subject: "Bonjour", body_text: "Le monde", url: "https://example.com/article")
+    @destination =
+      DeliveryDestination.create!(
+        user: @subscription.user,
+        delivery_channel: @channel,
+        visibility: "public"
+      )
+    @delivery =
+      Delivery.create!(
+        subscription: @subscription,
+        delivery_destination: @destination,
+        event_key: "facebook",
+        subject: "Bonjour",
+        body_text: "Le monde",
+        url: "https://example.com/article"
+      )
     @previous_meta_credentials = Config.meta_delivery
     Config.meta_delivery = { api_version: "v25.0" }.to_deep_struct
   end
@@ -20,9 +49,16 @@ class FacebookDeliveryTest < ActiveSupport::TestCase
   end
 
   test "publishes text and link to the configured page" do
-    sent = stub_request(:post, "https://graph.facebook.com/v25.0/123456/feed")
-      .with(headers: { "Authorization" => "Bearer page-token" }, body: { message: "Bonjour\n\nLe monde", link: "https://example.com/article" }.to_json)
-      .to_return(body: { id: "123456_789" }.to_json)
+    sent =
+      stub_request(:post, "https://graph.facebook.com/v25.0/123456/feed").with(
+        headers: {
+          "Authorization" => "Bearer page-token"
+        },
+        body: {
+          message: "Bonjour\n\nLe monde",
+          link: "https://example.com/article"
+        }.to_json
+      ).to_return(body: { id: "123456_789" }.to_json)
     result = DeliveryAdapters.deliver(@delivery)
     assert_equal :accepted, result.status
     assert_equal "123456_789", result.provider_id
@@ -31,9 +67,10 @@ class FacebookDeliveryTest < ActiveSupport::TestCase
 
   test "text only posts omit the link" do
     @delivery.url = nil
-    sent = stub_request(:post, "https://graph.facebook.com/v25.0/123456/feed")
-      .with(body: { message: "Bonjour\n\nLe monde" }.to_json)
-      .to_return(body: { id: "123456_789" }.to_json)
+    sent =
+      stub_request(:post, "https://graph.facebook.com/v25.0/123456/feed").with(
+        body: { message: "Bonjour\n\nLe monde" }.to_json
+      ).to_return(body: { id: "123456_789" }.to_json)
     DeliveryAdapters.deliver(@delivery)
     assert_requested sent
   end
@@ -43,13 +80,19 @@ class FacebookDeliveryTest < ActiveSupport::TestCase
     assert @destination.valid?
     assert_equal "public", @destination.visibility
     @delivery.visibility = "private"
-    assert_equal "facebook_public_only", assert_raises(DeliveryAdapters::Rejected) { DeliveryAdapters.deliver(@delivery) }.code
+    assert_equal "facebook_public_only",
+                 assert_raises(DeliveryAdapters::Rejected) {
+                   DeliveryAdapters.deliver(@delivery)
+                 }.code
     @destination.visibility = "public"
     @destination.recipient = "987654"
     assert_not @destination.valid?
     @delivery.visibility = "public"
     @delivery.recipient = "987654"
-    assert_equal "invalid_recipient", assert_raises(DeliveryAdapters::Rejected) { DeliveryAdapters.deliver(@delivery) }.code
+    assert_equal "invalid_recipient",
+                 assert_raises(DeliveryAdapters::Rejected) {
+                   DeliveryAdapters.deliver(@delivery)
+                 }.code
     assert_not_requested :post, /graph.facebook.com/
   end
 
@@ -70,22 +113,36 @@ class FacebookDeliveryTest < ActiveSupport::TestCase
 
   test "missing API configuration prevents sending" do
     Config.meta_delivery = { api_version: "invalid" }.to_deep_struct
-    assert_equal "configuration_missing", assert_raises(DeliveryAdapters::Rejected) { DeliveryAdapters.deliver(@delivery) }.code
+    assert_equal "configuration_missing",
+                 assert_raises(DeliveryAdapters::Rejected) {
+                   DeliveryAdapters.deliver(@delivery)
+                 }.code
     assert_not_requested :post, /graph.facebook.com/
   end
 
   test "provider errors retain codes without exposing messages" do
-    stub_request(:post, "https://graph.facebook.com/v25.0/123456/feed")
-      .to_return(status: 400, body: { error: { code: 190, message: "secret provider detail" } }.to_json)
-    error = assert_raises(DeliveryAdapters::Rejected) { DeliveryAdapters.deliver(@delivery) }
+    stub_request(
+      :post,
+      "https://graph.facebook.com/v25.0/123456/feed"
+    ).to_return(
+      status: 400,
+      body: { error: { code: 190, message: "secret provider detail" } }.to_json
+    )
+    error =
+      assert_raises(DeliveryAdapters::Rejected) do
+        DeliveryAdapters.deliver(@delivery)
+      end
     assert_equal "facebook_190", error.code
     assert_not error.retryable
   end
 
   test "rate limits are retryable but missing ids and server errors are uncertain" do
-    request = stub_request(:post, "https://graph.facebook.com/v25.0/123456/feed")
+    request =
+      stub_request(:post, "https://graph.facebook.com/v25.0/123456/feed")
     request.to_return(status: 429, body: { error: { code: 4 } }.to_json)
-    assert assert_raises(DeliveryAdapters::Rejected) { DeliveryAdapters.deliver(@delivery) }.retryable
+    assert assert_raises(DeliveryAdapters::Rejected) {
+             DeliveryAdapters.deliver(@delivery)
+           }.retryable
     request.to_return(body: { id: "" }.to_json)
     assert_raises(IOError) { DeliveryAdapters.deliver(@delivery) }
     request.to_return(body: {}.to_json)

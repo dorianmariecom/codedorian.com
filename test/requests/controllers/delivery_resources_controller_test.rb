@@ -13,58 +13,114 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "subscriber connection pickers expose only owned names and ids" do
-    owned, other = Current.with(user: users(:admin)) do
-      [
-        DeliveryConnection.create!(user: users(:other_user), provider: "slack",
-                                   name: "Owned Slack", access_token: "owned-secret", enabled: true),
-        DeliveryConnection.create!(user: users(:admin), provider: "slack",
-                                   name: "Other Slack", access_token: "other-secret", enabled: true)
-      ]
-    end
-    channel = DeliveryChannel.create!(key: "slack", enabled: true, amount_cents: 0)
-    [new_delivery_destination_path,
-     new_service_subscription_path(services(:service), plan_id: plans(:plan).id)].each do |path|
+    owned, other =
+      Current.with(user: users(:admin)) do
+        [
+          DeliveryConnection.create!(
+            user: users(:other_user),
+            provider: "slack",
+            name: "Owned Slack",
+            access_token: "owned-secret",
+            enabled: true
+          ),
+          DeliveryConnection.create!(
+            user: users(:admin),
+            provider: "slack",
+            name: "Other Slack",
+            access_token: "other-secret",
+            enabled: true
+          )
+        ]
+      end
+    channel =
+      DeliveryChannel.create!(key: "slack", enabled: true, amount_cents: 0)
+    [
+      new_delivery_destination_path,
+      new_service_subscription_path(
+        services(:service),
+        plan_id: plans(:plan).id
+      )
+    ].each do |path|
       get path
       assert_response :success
-      assert_select "select[name*='[delivery_connection_id]'] option[value=?]", owned.id.to_s, text: owned.to_s
-      assert_select "select[name*='[delivery_connection_id]'] option[value=?]", other.id.to_s, count: 0
+      assert_select "select[name*='[delivery_connection_id]'] option[value=?]",
+                    owned.id.to_s,
+                    text: owned.to_s
+      assert_select "select[name*='[delivery_connection_id]'] option[value=?]",
+                    other.id.to_s,
+                    count: 0
       assert_not_includes response.body, "owned-secret"
       assert_not_includes response.body, "other-secret"
     end
-    post service_subscriptions_path(services(:service)), params: {
-      subscription: { plan_id: plans(:plan).id, delivery_destinations_attributes: [
-        { delivery_channel_id: channel.id, delivery_connection_id: owned.id, recipient: "#general" }
-      ] }
-    }, as: :json
+    post service_subscriptions_path(services(:service)),
+         params: {
+           subscription: {
+             plan_id: plans(:plan).id,
+             delivery_destinations_attributes: [
+               {
+                 delivery_channel_id: channel.id,
+                 delivery_connection_id: owned.id,
+                 recipient: "#general"
+               }
+             ]
+           }
+         },
+         as: :json
     assert_response :success
-    assert_equal owned, Subscription.order(:id).last.delivery_destinations.sole.delivery_connection
-    post delivery_destinations_path, params: {
-      delivery_destination: { delivery_channel_id: channel.id,
-        delivery_connection_id: owned.id, recipient: "#general" }
-    }, as: :json
+    assert_equal owned,
+                 Subscription
+                   .order(:id)
+                   .last
+                   .delivery_destinations
+                   .sole
+                   .delivery_connection
+    post delivery_destinations_path,
+         params: {
+           delivery_destination: {
+             delivery_channel_id: channel.id,
+             delivery_connection_id: owned.id,
+             recipient: "#general"
+           }
+         },
+         as: :json
     assert_response :success
     assert_equal owned, DeliveryDestination.order(:id).last.delivery_connection
     assert_no_difference "DeliveryDestination.count" do
-      post delivery_destinations_path, params: {
-        delivery_destination: { delivery_channel_id: channel.id,
-          delivery_connection_id: other.id, recipient: "#general" }
-      }, as: :json
+      post delivery_destinations_path,
+           params: {
+             delivery_destination: {
+               delivery_channel_id: channel.id,
+               delivery_connection_id: other.id,
+               recipient: "#general"
+             }
+           },
+           as: :json
       assert_response :unprocessable_content
     end
     get delivery_connection_path(owned), as: :json
     assert_response :success
-    assert_equal "owned-secret", response.parsed_body.fetch("data").fetch("access_token")
+    assert_equal "owned-secret",
+                 response.parsed_body.fetch("data").fetch("access_token")
     get delivery_connections_path, as: :json
     assert_response :success
   end
 
   test "subscribers cannot access delivery audit pages" do
-    destination = Current.with(user: users(:other_user)) do
-      DeliveryDestination.create!(delivery_channel: @channel)
-    end
-    get logs_path, params: { delivery_destination_id: destination.id }, as: :json
+    destination =
+      Current.with(user: users(:other_user)) do
+        DeliveryDestination.create!(delivery_channel: @channel)
+      end
+    get logs_path,
+        params: {
+          delivery_destination_id: destination.id
+        },
+        as: :json
     assert_response :bad_request
-    get versions_path, params: { delivery_destination_id: destination.id }, as: :json
+    get versions_path,
+        params: {
+          delivery_destination_id: destination.id
+        },
+        as: :json
     assert_response :bad_request
   end
 
@@ -72,21 +128,44 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
     sign_in_admin
     Current.user = users(:admin)
     destination = DeliveryDestination.create!(delivery_channel: @channel)
-    connection = DeliveryConnection.create!(provider: "slack", name: "Audit Slack")
-    selection = SubscriptionDestination.create!(
-      subscription: subscriptions(:subscription), delivery_destination: destination
-    )
-    delivery = Delivery.create!(subscription: subscriptions(:subscription),
-                                delivery_destination: destination, event_key: "audit")
+    connection =
+      DeliveryConnection.create!(provider: "slack", name: "Audit Slack")
+    selection =
+      SubscriptionDestination.create!(
+        subscription: subscriptions(:subscription),
+        delivery_destination: destination
+      )
+    delivery =
+      Delivery.create!(
+        subscription: subscriptions(:subscription),
+        delivery_destination: destination,
+        event_key: "audit"
+      )
     {
-      delivery: delivery, delivery_channel: @channel,
-      delivery_connection: connection, delivery_destination: destination,
+      delivery: delivery,
+      delivery_channel: @channel,
+      delivery_connection: connection,
+      delivery_destination: destination,
       subscription_destination: selection
     }.each do |key, parent|
-      matching_log = Log.create!(message: "Matching", context: { key => { id: parent.id } })
-      unrelated_log = Log.create!(message: "Unrelated", context: { key => { id: parent.id + 1000 } })
+      matching_log =
+        Log.create!(message: "Matching", context: { key => { id: parent.id } })
+      unrelated_log =
+        Log.create!(
+          message: "Unrelated",
+          context: {
+            key => {
+              id: parent.id + 1000
+            }
+          }
+        )
       matching_version = Version.create!(item: parent, event: "update")
-      unrelated_version = Version.create!(item_type: parent.class.name, item_id: parent.id + 1000, event: "update")
+      unrelated_version =
+        Version.create!(
+          item_type: parent.class.name,
+          item_id: parent.id + 1000,
+          event: "update"
+        )
       params = { "#{key}_id" => parent.id }
       get logs_path, params: params, as: :json
       assert_response :success
@@ -275,32 +354,40 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
     headers = { "Accept" => "text/vnd.turbo-stream.html, text/html" }
     assert_no_difference "DeliveryDestination.count" do
       patch subscription_path(subscription),
-            params: { subscription: attributes },
+            params: {
+              subscription: attributes
+            },
             headers: headers
     end
     assert_response :unprocessable_content
     assert_equal "text/html", response.media_type
-    form = css_select("form").find do |node|
-      node["action"] == subscription_path(subscription)
-    end
+    form =
+      css_select("form").find do |node|
+        node["action"] == subscription_path(subscription)
+      end
     assert form
     form.css("template").remove
-    fields = form.css("input[name], select[name]").filter_map do |field|
-      next if field["type"].in?(%w[submit button]) || field["disabled"]
+    fields =
+      form
+        .css("input[name], select[name]")
+        .filter_map do |field|
+          next if field["type"].in?(%w[submit button]) || field["disabled"]
 
-      value =
-        if field.name == "select"
-          field.at_css("option[selected]")&.[]("value")
-        else
-          field["value"]
+          value =
+            if field.name == "select"
+              field.at_css("option[selected]")&.[]("value")
+            else
+              field["value"]
+            end
+          [field["name"], value.to_s]
         end
-      [field["name"], value.to_s]
-    end
     confirmation_params =
       Rack::Utils.parse_nested_query(URI.encode_www_form(fields))
     assert confirmation_params["delivery_confirmation"].present?
     changed_params = confirmation_params.deep_dup
-    changed_params["subscription"]["delivery_destinations_attributes"].values.first[
+    changed_params["subscription"][
+      "delivery_destinations_attributes"
+    ].values.first[
       "recipient"
     ] = "changed recipient"
     assert_no_difference "DeliveryDestination.count" do
@@ -314,7 +401,11 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
       assert_redirected_to subscription
     end
     assert_equal @channel.id,
-                 subscription.reload.delivery_destinations.sole.delivery_channel_id
+                 subscription
+                   .reload
+                   .delivery_destinations
+                   .sole
+                   .delivery_channel_id
   end
 
   test "owner cannot view another users destination" do

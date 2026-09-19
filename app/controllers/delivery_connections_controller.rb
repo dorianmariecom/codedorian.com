@@ -64,32 +64,64 @@ class DeliveryConnectionsController < ApplicationController
   end
 
   def connect
-    authorize(DeliveryConnection.new(user: current_user, provider: params[:provider]))
+    authorize(
+      DeliveryConnection.new(user: current_user, provider: params[:provider])
+    )
     scope
-    pending = DeliveryConnectionOauth.pending(user: current_user, provider: params[:provider], redirect_uri: callback_url, server: params[:server], scope: params[:scope])
+    pending =
+      DeliveryConnectionOauth.pending(
+        user: current_user,
+        provider: params[:provider],
+        redirect_uri: callback_url,
+        server: params[:server],
+        scope: params[:scope]
+      )
     session[:delivery_connection_oauth] = pending
-    redirect_to DeliveryConnectionOauth.authorization_url(pending: pending, redirect_uri: callback_url), allow_other_host: true
+    redirect_to DeliveryConnectionOauth.authorization_url(
+                  pending: pending,
+                  redirect_uri: callback_url
+                ),
+                allow_other_host: true
   rescue *DeliveryConnectionOauth::ERRORS
     redirect_to delivery_connections_path, alert: t(".failed")
   end
 
   def callback
-    authorize(DeliveryConnection.new(user: current_user, provider: params[:provider]))
-    connections = scope.where_user(current_user).where_provider(params[:provider])
+    authorize(
+      DeliveryConnection.new(user: current_user, provider: params[:provider])
+    )
+    connections =
+      scope.where_user(current_user).where_provider(params[:provider])
     pending = session.delete(:delivery_connection_oauth)
-    unless DeliveryConnectionOauth.valid_state?(pending: pending, user: current_user, provider: params[:provider], state: params[:state])
+    unless DeliveryConnectionOauth.valid_state?(
+             pending: pending,
+             user: current_user,
+             provider: params[:provider],
+             state: params[:state]
+           )
       redirect_to delivery_connections_path, alert: t(".invalid_state")
       return
     end
-    if params[:error].present? || !params[:code].is_a?(String) || params[:code].blank?
+    if params[:error].present? || !params[:code].is_a?(String) ||
+         params[:code].blank?
       redirect_to delivery_connections_path, alert: t(".failed")
       return
     end
 
-    attributes = DeliveryConnectionOauth.exchange(pending: pending, code: params[:code], redirect_uri: callback_url)
+    attributes =
+      DeliveryConnectionOauth.exchange(
+        pending: pending,
+        code: params[:code],
+        redirect_uri: callback_url
+      )
     current_user.with_lock do
       attributes.each do |account|
-        connection = connections.find_or_initialize_by(sender: account[:sender], account_sid: account[:account_sid], base_url: account[:base_url])
+        connection =
+          connections.find_or_initialize_by(
+            sender: account[:sender],
+            account_sid: account[:account_sid],
+            base_url: account[:base_url]
+          )
         connection.assign_attributes(account)
         connection.save!
       end

@@ -3,8 +3,15 @@
 class Http
   # Return the original response so callers can handle provider-specific errors.
   # A pinned address keeps TLS verification tied to the URI's hostname.
-  def self.request(request, open_timeout: 10, read_timeout: 30, write_timeout: 30,
-                   max_retries: 1, ipaddr: nil, proxy: :ENV)
+  def self.request(
+    request,
+    open_timeout: 10,
+    read_timeout: 30,
+    write_timeout: 30,
+    max_retries: 1,
+    ipaddr: nil,
+    proxy: :ENV
+  )
     uri = request.uri
     http = Net::HTTP.new(uri.hostname, uri.port, proxy)
     http.use_ssl = uri.scheme == "https"

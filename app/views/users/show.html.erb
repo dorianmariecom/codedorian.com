@@ -3,7 +3,9 @@
 <%= turbo_stream_from(@user) %>
 
 <% if can?(:index, DeliveryConnection) %>
-  <div class="p"><%= link_to t(".delivery_connections"), delivery_connections_path, class: :link %></div>
+  <div class="p">
+    <%= link_to t(".delivery_connections"), delivery_connections_path, class: :link %>
+  </div>
 <% end %>
 
 <% if @user.id.present? %>

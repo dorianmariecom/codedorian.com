@@ -538,10 +538,7 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
           record.enabled = true
           record.amount_cents = 0
         end
-      DeliveryDestination.create!(
-        user: user,
-        delivery_channel: channel
-      )
+      DeliveryDestination.create!(user: user, delivery_channel: channel)
     end
   end
 end

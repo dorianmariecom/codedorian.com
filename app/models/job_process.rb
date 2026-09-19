@@ -84,4 +84,8 @@ class JobProcess < SolidQueue::Process
         metadata_sample.presence
     Utils.join(label, supervisor_sample, id_sample).presence || t("to_s", id:)
   end
+
+  def to_code
+    Code::Object::JobProcess.new(attributes)
+  end
 end

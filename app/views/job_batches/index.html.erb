@@ -1,0 +1,29 @@
+<%= turbo_stream_from(@job_batches) %>
+
+<% if can?(:create, JobBatch) %>
+  <% if can?(:create, model_class) %>
+    <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
+  <% end %>
+<% end %>
+
+<%= render("shared/search") %>
+
+<turbo-frame id="search" target="_top">
+  <% if @job_batches.any? &&
+    (can?(:destroy_all, JobBatch) || can?(:delete_all, JobBatch)) %>
+    <div class="p p--flex">
+      <% if can?(:destroy_all, JobBatch) %>
+        <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
+      <% end %>
+      <% if can?(:delete_all, JobBatch) %>
+        <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "job_batches/job_batch",
+    collection: @job_batches,
+    as: :job_batch
+  ) %>
+</turbo-frame>

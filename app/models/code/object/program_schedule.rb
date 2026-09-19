@@ -3,6 +3,19 @@
 class Code
   class Object
     class ProgramSchedule < Dictionary
+      def record!
+        Pundit.policy_scope!(::Current.user, ::ProgramSchedule).find(
+          code_get("id").to_s
+        )
+      end
+
+      def initialize(*, **)
+        super
+        return if code_get("id").to_s.blank?
+
+        super(record!.attributes, *, **)
+      end
+
       CLASS_DOCUMENTATION = {
         name: "ProgramSchedule",
         description: "finds and inspects program schedules in code.",
@@ -65,6 +78,12 @@ class Code
         code_value = code_arguments.code_first
 
         case code_operator.to_s
+        when "all"
+          sig(args)
+          code_all
+        when "where"
+          sig(args) { Dictionary }
+          code_where(args.fetch(:arguments, []).to_code.code_first)
         when "find"
           sig(args) { String }
           code_find(code_value)
@@ -77,6 +96,22 @@ class Code
         else
           super
         end
+      end
+
+      def self.code_all
+        Pundit.policy_scope!(::Current.user, ::ProgramSchedule).to_code
+      end
+
+      def self.code_where(value)
+        attributes = value.to_code.as_json
+        unless (attributes.keys - ::ProgramSchedule.column_names).empty?
+          raise ::Code::Error, "invalid_record_attributes"
+        end
+
+        Pundit
+          .policy_scope!(::Current.user, ::ProgramSchedule)
+          .where(attributes)
+          .to_code
       end
 
       def self.code_find(value)
@@ -123,6 +158,9 @@ class Code
         code_operator = args.fetch(:operator, nil).to_code
 
         case code_operator.to_s
+        when "versions"
+          sig(args)
+          code_versions
         when "program"
           sig(args)
           code_program
@@ -132,6 +170,13 @@ class Code
         else
           super
         end
+      end
+
+      def code_versions
+        Pundit
+          .policy_scope!(::Current.user, ::Version)
+          .where(id: record!.versions.select(:id))
+          .to_code
       end
 
       def code_program

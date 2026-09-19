@@ -36,20 +36,34 @@ class RedditOauth
   end
 
   def self.authorization_url(state:, redirect_uri:)
-    query = URI.encode_www_form(
-      response_type: "code", client_id: client_id, redirect_uri: redirect_uri,
-      scope: scopes.join(" "), state: state, duration: "permanent"
-    )
+    query =
+      URI.encode_www_form(
+        response_type: "code",
+        client_id: client_id,
+        redirect_uri: redirect_uri,
+        scope: scopes.join(" "),
+        state: state,
+        duration: "permanent"
+      )
     "https://www.reddit.com/api/v1/authorize?#{query}"
   end
 
   def self.exchange(code:, redirect_uri:)
-    data = token_request(grant_type: "authorization_code", code: code, redirect_uri: redirect_uri)
+    data =
+      token_request(
+        grant_type: "authorization_code",
+        code: code,
+        redirect_uri: redirect_uri
+      )
     attributes = token_attributes(data)
     user = get("api/v1/me", token: attributes[:access_token])
     raise Error unless user["id"].present? && user["name"].present?
 
-    attributes.merge(sender: user["id"], name: "Reddit · u/#{user['name']}", enabled: true)
+    attributes.merge(
+      sender: user["id"],
+      name: "Reddit · u/#{user["name"]}",
+      enabled: true
+    )
   rescue KeyError
     raise Error
   end
@@ -58,11 +72,19 @@ class RedditOauth
     connection.with_lock do
       raise Error, "connection_disabled" unless connection.enabled?
 
-      if connection.token_expires_at && connection.token_expires_at <= 1.minute.from_now
-        raise Error, "reddit_reconnect_required" if connection.refresh_token.blank?
+      if connection.token_expires_at &&
+           connection.token_expires_at <= 1.minute.from_now
+        if connection.refresh_token.blank?
+          raise Error, "reddit_reconnect_required"
+        end
 
-        data = token_request(grant_type: "refresh_token", refresh_token: connection.refresh_token)
-        attributes = token_attributes(data, refresh_token: connection.refresh_token)
+        data =
+          token_request(
+            grant_type: "refresh_token",
+            refresh_token: connection.refresh_token
+          )
+        attributes =
+          token_attributes(data, refresh_token: connection.refresh_token)
         Current.with(user: connection.user) { connection.update!(attributes) }
       end
       connection.access_token
@@ -70,13 +92,21 @@ class RedditOauth
   end
 
   def self.token_attributes(data, refresh_token: nil)
-    unless data["token_type"].to_s.casecmp?("bearer") && data["access_token"].present? &&
-             (data["refresh_token"].presence || refresh_token).present? && data["expires_in"].is_a?(Integer) && data["expires_in"].positive? &&
+    unless data["token_type"].to_s.casecmp?("bearer") &&
+             data["access_token"].present? &&
+             (data["refresh_token"].presence || refresh_token).present? &&
+             data["expires_in"].is_a?(Integer) &&
+             data["expires_in"].positive? &&
              (SCOPES - data["scope"].to_s.split).empty?
       raise Error
     end
 
-    { scope: data["scope"].to_s.split.join(" "), access_token: data["access_token"], refresh_token: data["refresh_token"].presence || refresh_token, token_expires_at: data["expires_in"].seconds.from_now }
+    {
+      scope: data["scope"].to_s.split.join(" "),
+      access_token: data["access_token"],
+      refresh_token: data["refresh_token"].presence || refresh_token,
+      token_expires_at: data["expires_in"].seconds.from_now
+    }
   end
 
   def self.token_request(parameters)
@@ -101,13 +131,20 @@ class RedditOauth
     response = Http.request(request)
     unless response.is_a?(Net::HTTPSuccess)
       status = response.code.to_i
-      raise Error.new("reddit_http_#{status}", retryable: status == 429 || status >= 500)
+      raise Error.new(
+              "reddit_http_#{status}",
+              retryable: status == 429 || status >= 500
+            )
     end
     data = JSON.parse(response.body)
     raise Error unless data.is_a?(Hash)
 
     data
-  rescue JSON::ParserError, IOError, SystemCallError, Timeout::Error, OpenSSL::SSL::SSLError
+  rescue JSON::ParserError,
+         IOError,
+         SystemCallError,
+         Timeout::Error,
+         OpenSSL::SSL::SSLError
     raise Error.new("reddit_connection_failed", retryable: true)
   end
 end

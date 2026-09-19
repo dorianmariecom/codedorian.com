@@ -79,22 +79,27 @@ fr:
         key: clé
         messaging_service_sid: identifiant du service de messagerie
         only: restriction de visibilité
-        public_pattern: motif du destinataire public
         private_pattern: motif du destinataire privé
+        public_pattern: motif du destinataire public
         show_connection: afficher la connexion
         show_recipient: afficher le destinataire
         show_visibility: afficher la visibilité
       delivery_connection:
-        refresh_token: jeton de renouvellement
-        token_expires_at: expiration du jeton
         access_token: jeton d’accès
         account_sid: identifiant du compte
         api_key: clé api
         auth_token: jeton d’authentification
+        aws_access_key_id: identifiant de clé aws
+        aws_region: région aws
+        aws_secret_access_key: clé secrète aws
+        aws_session_token: jeton de session aws (facultatif)
         base_url: url de base
         enabled: activé
+        mailgun_domain: domaine d’envoi mailgun
+        mailgun_region: région mailgun (us / eu)
         name: nom
         provider: fournisseur
+        refresh_token: jeton de renouvellement
         sender: expéditeur
         smtp_address: adresse smtp
         smtp_authentication: authentification smtp
@@ -102,13 +107,8 @@ fr:
         smtp_password: mot de passe smtp
         smtp_port: port smtp
         smtp_user_name: nom d’utilisateur smtp
+        token_expires_at: expiration du jeton
         user_id: utilisateur
-        aws_access_key_id: identifiant de clé aws
-        aws_secret_access_key: clé secrète aws
-        aws_session_token: jeton de session aws (facultatif)
-        aws_region: région aws
-        mailgun_domain: domaine d’envoi mailgun
-        mailgun_region: région mailgun (us / eu)
       delivery_destination:
         delivery_channel_id: canal de livraison
         delivery_connection_id: connexion de livraison
@@ -172,12 +172,26 @@ fr:
       job:
         active_job_id: identifiant de tâche active
         arguments: arguments
+        batch_id: lot
         class_name: nom de la classe
         concurrency_key: clé de concurrence
         finished_at: terminée à
         priority: priorité
         queue_name: nom de la file d'attente
         scheduled_at: prévue à
+      job_batch:
+        active_job_batch_id: identifiant du lot
+        completed_jobs: tâches terminées
+        description: description
+        enqueued_at: mis en file le
+        failed_at: échoué le
+        failed_jobs: tâches échouées
+        finished_at: terminé le
+        metadata: métadonnées
+        total_jobs: total des tâches
+      job_batch_execution:
+        batch_id: lot
+        job_id: tâche
       job_blocked_execution:
         concurrency_key: clé de concurrence
         expires_at: expire à
@@ -409,13 +423,6 @@ fr:
         whodunnit: auteur
     errors:
       models:
-        phone_number:
-          impossible: impossible
-          invalid: invalide
-        subscription:
-          attributes:
-            base:
-              required_value_missing: "%{field} ne peut pas être vide"
         delivery_destination:
           attributes:
             recipient:
@@ -424,6 +431,13 @@ fr:
               slack_format: 'doit être @utilisateur ou #canal'
               x_format: 'doit être @utilisateur pour un message privé, ou @utilisateur
                 / #hashtag pour une publication'
+        phone_number:
+          impossible: impossible
+          invalid: invalide
+        subscription:
+          attributes:
+            base:
+              required_value_missing: "%{field} ne peut pas être vide"
   addresses:
     create:
       notice: adresse créée
@@ -558,6 +572,14 @@ fr:
       edit: modifier
       index: identifiants
       new: nouveau
+    job_batch_executions:
+      edit: modifier
+      index: exécutions de lots de tâches
+      new: nouvelle
+    job_batches:
+      edit: modifier
+      index: lots de tâches
+      new: nouvelle
     job_blocked_executions:
       edit: modifier
       index: exécutions de tâches bloquées
@@ -1074,38 +1096,32 @@ fr:
     retry:
       notice: enregistré
     show:
-      id: "id"
-      subscription_id: "abonnement"
-      delivery_destination_id: "destination de livraison"
-      step_execution_id: "exécution de l’étape"
-      event_key: "clé d’événement"
-      status: "statut"
-      subject: "sujet"
-      body_text: "corps texte"
-      body_html: "corps html"
-      url: "url"
-      locale: "langue"
-      channel: "canal"
-      recipient: "destinataire"
-      visibility: "visibilité"
-      connection_id: "connexion"
-      provider_id: "identifiant fournisseur"
-      error_code: "code d’erreur"
-      attempts: "tentatives"
-      next_attempt_at: "prochaine tentative"
-      created_at: "créé le"
-      updated_at: "mis à jour le"
+      attempts: tentatives
+      body_html: corps html
+      body_text: corps texte
+      channel: canal
+      connection_id: connexion
+      created_at: créé le
       delete: supprimer
+      delivery_destination_id: destination de livraison
       description: livraison
       destroy: détruire
       edit: modifier
+      error_code: code d’erreur
+      event_key: clé d’événement
       history: historique des livraisons
+      id: id
+      locale: langue
       logs: journaux
       manage: livraison
       new_log: nouveau journal
       new_version: nouvelle version
+      next_attempt_at: prochaine tentative
+      provider_id: identifiant fournisseur
+      recipient: destinataire
       remove: supprimer
       retry: réessayer
+      status: statut
       statuses:
         accepted: accepté
         canceled: annulé
@@ -1114,7 +1130,13 @@ fr:
         pending: en attente
         sending: en cours
         uncertain: incertain
+      step_execution_id: exécution de l’étape
+      subject: sujet
+      subscription_id: abonnement
+      updated_at: mis à jour le
+      url: url
       versions: versions
+      visibility: visibilité
     update:
       notice: 'livraison : modification effectuée'
   delivery:
@@ -1199,33 +1221,33 @@ fr:
       submit: modifier
       title: 'modifier : canal de livraison'
     form:
-      private: privé
-      public: public
       channel: canal
       channels:
         apple: apple messages for business
         email: e-mail
+        facebook: facebook
         github: github
+        instagram: instagram
         mastodon: mastodon
         messages: messagerie code dorian
+        messenger: messenger
         push: notifications push
         rcs: rcs
         reddit: reddit
         slack: slack
         sms: sms
+        telegram: telegram
+        viber: viber
         webhook: webhook
         whatsapp: whatsapp
         x: x
-        facebook: facebook
-        messenger: messenger
-        instagram: instagram
-        telegram: telegram
-        viber: viber
       connection: connexion
       currency: devise
       enabled: activé
       manage: livraison
       monthly_cents: prix mensuel par destination (centimes)
+      private: privé
+      public: public
       reddit_private_verified: l’accès api à la livraison privée reddit a été vérifié
       save: enregistrer
       show_recipient: destinataire
@@ -1244,22 +1266,22 @@ fr:
       keys:
         apple: apple messages for business
         email: e-mail
+        facebook: facebook
         github: github
+        instagram: instagram
         mastodon: mastodon
         messages: messagerie code dorian
+        messenger: messenger
         push: notifications push
         rcs: rcs
         reddit: reddit
         slack: slack
         sms: sms
+        telegram: telegram
+        viber: viber
         webhook: webhook
         whatsapp: whatsapp
         x: x
-        facebook: facebook
-        messenger: messenger
-        instagram: instagram
-        telegram: telegram
-        viber: viber
       to_s: "#%{id}"
     new:
       description: 'ajouter : canal de livraison'
@@ -1270,43 +1292,52 @@ fr:
     retry:
       notice: enregistré
     show:
-      id: "id"
-      key: "clé"
-      amount_cents: "montant en centimes"
-      amount_currency: "devise"
-      delivery_connection_id: "connexion de livraison"
-      enabled: "activé"
-      show_recipient: "afficher le destinataire"
-      show_visibility: "afficher la visibilité"
-      messaging_service_sid: "identifiant du service de messagerie"
-      content_sid_en: "identifiant du contenu anglais"
-      content_sid_fr: "identifiant du contenu français"
-      callback_base_url: "url de rappel"
-      public_pattern: "motif du destinataire public"
-      private_pattern: "motif du destinataire privé"
-      show_connection: "afficher la connexion"
-      only: "restriction de visibilité"
-      created_at: "créé le"
-      updated_at: "mis à jour le"
+      amount_cents: montant en centimes
+      amount_currency: devise
+      callback_base_url: url de rappel
+      content_sid_en: identifiant du contenu anglais
+      content_sid_fr: identifiant du contenu français
+      created_at: créé le
       delete: supprimer
+      delivery_connection_id: connexion de livraison
       description: canal de livraison
       destroy: détruire
       edit: modifier
+      enabled: activé
+      id: id
+      key: clé
       logs: journaux
       manage: livraison
+      messaging_service_sid: identifiant du service de messagerie
       new_log: nouveau journal
       new_version: nouvelle version
+      only: restriction de visibilité
+      private_pattern: motif du destinataire privé
+      public_pattern: motif du destinataire public
       remove: supprimer
+      show_connection: afficher la connexion
+      show_recipient: afficher le destinataire
+      show_visibility: afficher la visibilité
+      updated_at: mis à jour le
       versions: versions
     update:
       notice: 'canal de livraison : modification effectuée'
   delivery_connections:
+    callback:
+      connected: connexion créée
+      failed: échec de la connexion
+      invalid_state: connexion expirée ou invalide, veuillez réessayer
+    connect:
+      failed: échec de la connexion
     create:
       notice: 'connexion de livraison : création effectuée'
     delete:
       notice: 'connexion de livraison : suppression effectuée'
     delete_all:
       notice: 'connexions de livraison : suppression effectuée'
+    delivery_connection:
+      calendar_allowed: accès aux agendas autorisé (lecture seule)
+      calendar_not_allowed: accès aux agendas non autorisé
     destroy:
       notice: 'connexion de livraison : destruction effectuée'
     destroy_all:
@@ -1329,46 +1360,44 @@ fr:
       name: nom
       provider: fournisseur
       save: enregistrer
-    delivery_connection:
-      calendar_allowed: accès aux agendas autorisé (lecture seule)
-      calendar_not_allowed: accès aux agendas non autorisé
     index:
-      calendar_access: autoriser l’accès en lecture seule à mes agendas
-      calendar_access_description: consulter vos agendas et événements pour vous envoyer des rappels. vos événements ne seront pas modifiés.
-      connect: connecter %{provider}
-      server: serveur mastodon
       add: ajouter
+      calendar_access: autoriser l’accès en lecture seule à mes agendas
+      calendar_access_description: consulter vos agendas et événements pour vous envoyer
+        des rappels. vos événements ne seront pas modifiés.
+      connect: connecter %{provider}
       delete_all: 'supprimer : connexions de livraison'
       description: connexions de livraison
       destroy_all: 'détruire : connexions de livraison'
       disabled: désactivé
       manage: livraison
       new: 'ajouter : connexion de livraison'
+      server: serveur mastodon
       title: connexions de livraison
     model:
       providers:
-        google: google
-        infobip: infobip
+        aws_ses: aws ses
+        facebook: facebook
         github: github
+        gmail: gmail
+        google: google
+        google_workspace: google workspace
+        infobip: infobip
+        instagram: instagram
+        mailchimp: mailchimp transactional
+        mailgun: mailgun
         mastodon: mastodon
+        messenger: messenger
+        outlook: outlook
         reddit: reddit
+        resend: resend
+        sendgrid: sendgrid
         slack: slack
         smtp: smtp
-        twilio: twilio
-        x: x
-        facebook: facebook
-        messenger: messenger
-        instagram: instagram
         telegram: telegram
+        twilio: twilio
         viber: viber
-        gmail: gmail
-        google_workspace: google workspace
-        outlook: outlook
-        aws_ses: aws ses
-        sendgrid: sendgrid
-        resend: resend
-        mailgun: mailgun
-        mailchimp: mailchimp transactional
+        x: x
       to_s: "#%{id}"
     new:
       description: 'ajouter : connexion de livraison'
@@ -1378,59 +1407,57 @@ fr:
       notice: enregistré
     retry:
       notice: enregistré
+    senders:
+      bot: bot
+      user: utilisateur
     show:
-      id: "id"
-      user_id: "utilisateur"
-      name: "nom"
-      provider: "fournisseur"
-      enabled: "activé"
-      access_token: "jeton d’accès"
-      base_url: "url de base"
-      account_sid: "identifiant du compte"
-      auth_token: "jeton d’authentification"
-      api_key: "clé api"
-      sender: "expéditeur"
-      smtp_from: "expéditeur smtp"
-      smtp_address: "adresse smtp"
-      smtp_port: "port smtp"
-      smtp_user_name: "nom d’utilisateur smtp"
-      smtp_password: "mot de passe smtp"
-      smtp_authentication: "authentification smtp"
-      refresh_token: "jeton de renouvellement"
-      token_expires_at: "expiration du jeton"
-      aws_access_key_id: "identifiant de clé aws"
-      aws_secret_access_key: "clé secrète aws"
-      aws_session_token: "jeton de session aws (facultatif)"
-      aws_region: "région aws"
-      mailgun_domain: "domaine d’envoi mailgun"
-      mailgun_region: "région mailgun (us / eu)"
-      created_at: "créé le"
-      updated_at: "mis à jour le"
+      access_token: jeton d’accès
+      account_sid: identifiant du compte
+      api_key: clé api
+      auth_token: jeton d’authentification
+      aws_access_key_id: identifiant de clé aws
+      aws_region: région aws
+      aws_secret_access_key: clé secrète aws
+      aws_session_token: jeton de session aws (facultatif)
+      base_url: url de base
+      created_at: créé le
       delete: supprimer
       description: connexion de livraison
       destroy: détruire
       edit: modifier
+      enabled: activé
+      id: id
       logs: journaux
+      mailgun_domain: domaine d’envoi mailgun
+      mailgun_region: région mailgun (us / eu)
       manage: livraison
+      name: nom
       new_log: nouveau journal
       new_version: nouvelle version
+      provider: fournisseur
+      refresh_token: jeton de renouvellement
       remove: supprimer
+      sender: expéditeur
+      smtp_address: adresse smtp
+      smtp_authentication: authentification smtp
+      smtp_from: expéditeur smtp
+      smtp_password: mot de passe smtp
+      smtp_port: port smtp
+      smtp_user_name: nom d’utilisateur smtp
+      token_expires_at: expiration du jeton
+      updated_at: mis à jour le
+      user_id: utilisateur
       versions: versions
     update:
       notice: 'connexion de livraison : modification effectuée'
-    connect:
-      failed: échec de la connexion
-    callback:
-      failed: échec de la connexion
-      invalid_state: connexion expirée ou invalide, veuillez réessayer
-      connected: connexion créée
-    senders:
-      bot: bot
-      user: utilisateur
   delivery_content:
     show:
       description: livraison
   delivery_destinations:
+    confirm_verification:
+      confirmed: adresse e-mail confirmée pour votre compte et vos abonnements.
+      invalid: ce lien de confirmation est invalide ou a expiré. demandez un nouvel
+        e-mail.
     create:
       notice: 'destination de livraison : création effectuée'
     delete:
@@ -1472,46 +1499,42 @@ fr:
       title: 'ajouter : destination de livraison'
     reconcile:
       notice: enregistré
+    request_verification:
+      already_verified: cette adresse e-mail est déjà confirmée.
+      sent: e-mail de confirmation envoyé. consultez votre boîte de réception.
     retry:
       notice: enregistré
     show:
-      id: "id"
-      user_id: "utilisateur"
-      delivery_channel_id: "canal de livraison"
-      delivery_connection_id: "connexion de livraison"
-      recipient: "destinataire"
-      visibility: "visibilité"
-      enabled: "activé"
-      created_at: "créé le"
-      updated_at: "mis à jour le"
+      created_at: créé le
       delete: supprimer
+      delivery_channel_id: canal de livraison
+      delivery_connection_id: connexion de livraison
       description: destination de livraison
       destroy: détruire
       edit: modifier
+      enabled: activé
+      id: id
       logs: journaux
       manage: livraison
       new_log: nouveau journal
       new_version: nouvelle version
       private: privé
       public: public
+      recipient: destinataire
       remove: supprimer
+      updated_at: mis à jour le
+      user_id: utilisateur
       versions: versions
+      visibility: visibilité
     update:
       notice: 'destination de livraison : modification effectuée'
-    request_verification:
-      sent: e-mail de confirmation envoyé. consultez votre boîte de réception.
-      already_verified: cette adresse e-mail est déjà confirmée.
     verification:
       confirmation: confirmez cette adresse e-mail pour votre compte et vos abonnements.
+      description: confirmez cette adresse e-mail pour votre compte et vos abonnements.
       invalid: ce lien de confirmation est invalide ou a expiré. demandez un nouvel
         e-mail.
       submit: confirmer l’adresse e-mail
       title: confirmer l’adresse e-mail
-      description: confirmez cette adresse e-mail pour votre compte et vos abonnements.
-    confirm_verification:
-      confirmed: adresse e-mail confirmée pour votre compte et vos abonnements.
-      invalid: ce lien de confirmation est invalide ou a expiré. demandez un nouvel
-        e-mail.
   devices:
     create:
       notice: appareil créé
@@ -1561,6 +1584,10 @@ fr:
     update:
       notice: appareil mis à jour
   email_addresses:
+    confirm_verification:
+      confirmed: adresse e-mail confirmée pour votre compte et vos abonnements.
+      invalid: ce lien de confirmation est invalide ou a expiré. demandez un nouvel
+        e-mail.
     create:
       notice: adresse e-mail créée
     delete:
@@ -1593,6 +1620,9 @@ fr:
       description: ajouter une adresse e-mail pour un utilisateur.
       submit: créer une adresse e-mail
       title: nouvelle adresse e-mail
+    request_verification:
+      already_verified: cette adresse e-mail est déjà confirmée.
+      sent: e-mail de confirmation envoyé. consultez votre boîte de réception.
     show:
       created_at: créé à
       delete: supprimer l'adresse e-mail
@@ -1607,28 +1637,29 @@ fr:
       new_log: nouveau log
       new_version: nouvelle version
       primary: principal ?
+      request_verification: envoyer ou renvoyer l’e-mail de confirmation
+      unverified: adresse e-mail non confirmée
       updated_at: mis à jour à
       user: utilisateur
       verified: adresse e-mail confirmée
       versions: versions
-      unverified: adresse e-mail non confirmée
-      request_verification: envoyer ou renvoyer l’e-mail de confirmation
     update:
       notice: adresse e-mail mise à jour
-    request_verification:
-      sent: e-mail de confirmation envoyé. consultez votre boîte de réception.
-      already_verified: cette adresse e-mail est déjà confirmée.
     verification:
       confirmation: confirmez cette adresse e-mail pour votre compte et vos abonnements.
+      description: confirmez cette adresse e-mail pour votre compte et vos abonnements.
       invalid: ce lien de confirmation est invalide ou a expiré. demandez un nouvel
         e-mail.
       submit: confirmer l’adresse e-mail
       title: confirmer l’adresse e-mail
-      description: confirmez cette adresse e-mail pour votre compte et vos abonnements.
-    confirm_verification:
-      confirmed: adresse e-mail confirmée pour votre compte et vos abonnements.
-      invalid: ce lien de confirmation est invalide ou a expiré. demandez un nouvel
-        e-mail.
+  email_verification_mailer:
+    confirmation:
+      expiration: ce lien expire dans 24 heures. si vous ne l’avez pas demandé, ignorez
+        cet e-mail.
+      instructions: confirmez cette adresse e-mail pour votre compte et les envois
+        de vos abonnements.
+      subject: confirmez votre adresse e-mail
+      submit: confirmer l’adresse e-mail
   error_occurrences:
     create:
       notice: occurence d'erreur créée
@@ -2169,6 +2200,102 @@ fr:
       messages: messages
       programs: programmes
       register: s'inscrire
+  job_batch_executions:
+    create:
+      notice: exécution de lot de tâche créée
+    delete:
+      notice: exécution de lot de tâche supprimée
+    delete_all:
+      notice: exécutions de lots de tâches supprimées
+    destroy:
+      notice: exécution de lot de tâche supprimée
+    destroy_all:
+      notice: exécutions de lots de tâches détruites
+    edit:
+      description: mettre à jour une exécution de lot.
+      submit: mettre à jour l'exécution de lot de tâche
+      title: modifier l'exécution de lot de tâche
+    index:
+      delete_all: supprimer tout
+      description: consulter les exécutions de lots.
+      destroy_all: détruire tout
+      new: nouvelle exécution de lot de tâche
+      title: exécutions de lots de tâches
+    model:
+      to_s: job_batch_execution#%{id}
+    new:
+      description: créer un enregistrement d'exécution de lot.
+      submit: créer l'exécution de lot de tâche
+      title: nouvelle exécution de lot de tâche
+    show:
+      batch_id: lot
+      created_at: créée à
+      delete: supprimer l'exécution de lot de tâche
+      description: voir la date d'exécution et l'état.
+      destroy: détruire l'exécution de lot de tâche
+      edit: modifier l'exécution de lot de tâche
+      id: identifiant
+      job: tâche
+      job_id: tâche
+      logs: logs
+      new_log: nouveau log
+      new_version: nouvelle version
+      updated_at: mise à jour à
+      versions: versions
+    update:
+      notice: exécution de lot de tâche mise à jour
+  job_batches:
+    create:
+      notice: lot de tâches créé
+    delete:
+      notice: lot de tâches supprimé
+    delete_all:
+      notice: lots de tâches supprimés
+    destroy:
+      notice: lot de tâches supprimé
+    destroy_all:
+      notice: lots de tâches détruits
+    edit:
+      description: mettre à jour le lot de tâches.
+      submit: mettre à jour le lot de tâches
+      title: modifier le lot de tâches
+    index:
+      delete_all: supprimer tout
+      description: gérer les lots de tâches.
+      destroy_all: détruire tout
+      new: nouveau lot de tâches
+      title: lots de tâches
+    model:
+      invalid_json: json invalide
+      to_s: job_batch#%{id}
+    new:
+      description: créer un lot de tâches.
+      submit: créer le lot de tâches
+      title: nouveau lot de tâches
+    show:
+      active_job_batch_id: identifiant du lot
+      batch_executions: exécutions de lots
+      completed_jobs: tâches terminées
+      created_at: créée à
+      delete: supprimer le lot de tâches
+      description: description
+      destroy: détruire le lot de tâches
+      edit: modifier le lot de tâches
+      enqueued_at: mis en file le
+      failed_at: échoué le
+      failed_jobs: tâches échouées
+      finished_at: terminé le
+      id: identifiant
+      jobs: tâches
+      logs: logs
+      metadata: métadonnées
+      new_log: nouveau log
+      new_version: nouvelle version
+      total_jobs: total des tâches
+      updated_at: mise à jour à
+      versions: versions
+    update:
+      notice: lot de tâches mis à jour
   job_blocked_executions:
     create:
       notice: exécution de tâche bloquée créée
@@ -2696,6 +2823,14 @@ fr:
       description: parcourir les tâches en file et exécutées.
       destroy_all: détruire tout
       discard_all: abandonner tout
+      job_batch_executions:
+        one: 1 exécution de lot de tâche
+        other: "%{count} exécutions de lots de tâches"
+        zero: 0 exécutions de lots de tâches
+      job_batches:
+        one: 1 lot de tâches
+        other: "%{count} lots de tâches"
+        zero: 0 lots de tâches
       job_blocked_executions:
         one: 1 exécution de tâche bloquée
         other: "%{count} exécutions de tâches bloquées"
@@ -2756,6 +2891,7 @@ fr:
       notice: tâches réessayées
     show:
       arguments: arguments
+      batch: lot
       class_name: nom de la classe
       concurrency_key: clé de concurrence
       created_at: créée à
@@ -2766,6 +2902,7 @@ fr:
       edit: modifier la tâche
       finished_at: terminée à
       id: identifiant
+      job_batch_executions: exécutions de lots de tâches
       job_blocked_executions: exécutions de tâches bloquées
       job_claimed_executions: exécutions de tâches revendiquées
       job_contexts: contextes de tâches
@@ -2774,6 +2911,7 @@ fr:
       job_recurring_executions: exécutions récurrentes de tâches
       job_scheduled_executions: exécutions de tâches programmées
       logs: logs
+      new_job_batch_execution: nouvelle exécution de lot de tâche
       new_job_blocked_execution: nouvelle exécution de tâche bloquée
       new_job_claimed_execution: nouvelle exécution de tâche revendiquée
       new_job_context: nouveau contexte de tâche
@@ -4745,24 +4883,24 @@ fr:
     retry:
       notice: enregistré
     show:
-      id: "id"
-      subscription_id: "abonnement"
-      delivery_destination_id: "destination de livraison"
-      amount_cents: "montant en centimes"
-      amount_currency: "devise"
-      active: "actif"
-      selected: "sélectionné"
-      created_at: "créé le"
-      updated_at: "mis à jour le"
+      active: actif
+      amount_cents: montant en centimes
+      amount_currency: devise
+      created_at: créé le
       delete: supprimer
+      delivery_destination_id: destination de livraison
       description: destination d’abonnement
       destroy: détruire
       edit: modifier
+      id: id
       logs: journaux
       manage: livraison
       new_log: nouveau journal
       new_version: nouvelle version
       remove: supprimer
+      selected: sélectionné
+      subscription_id: abonnement
+      updated_at: mis à jour le
       versions: versions
     update:
       notice: 'destination d’abonnement : modification effectuée'
@@ -4909,7 +5047,7 @@ fr:
         inactive: inactif
       to_s: subscription#%{id}
     new:
-      plan_id: "offre"
+      plan_id: offre
       submit: créer l'abonnement
       title: nouvel abonnement
     show:
@@ -4918,6 +5056,8 @@ fr:
       created_at: créé à
       deactivate: désactiver
       delete: supprimer l'abonnement
+      delivery_pending: l’envoi des e-mails attend votre confirmation. l’exécution
+        et la facturation continuent ; les messages ignorés ne seront pas renvoyés.
       description: consulter les détails de l'abonnement.
       destroy: détruire l'abonnement
       edit: modifier l'abonnement
@@ -4931,6 +5071,9 @@ fr:
       next_at: prochain à
       plan_id: offre
       previous_at: précédent à
+      recipient_unverified: adresse e-mail non confirmée
+      recipient_verified: adresse e-mail confirmée
+      request_verification: envoyer ou renvoyer l’e-mail de confirmation
       service: service
       stale: obsolète
       starts_at: commence à
@@ -4941,11 +5084,6 @@ fr:
       updated_at: mis à jour à
       user_id: utilisateur
       versions: versions
-      recipient_verified: adresse e-mail confirmée
-      recipient_unverified: adresse e-mail non confirmée
-      request_verification: envoyer ou renvoyer l’e-mail de confirmation
-      delivery_pending: l’envoi des e-mails attend votre confirmation. l’exécution
-        et la facturation continuent ; les messages ignorés ne seront pas renvoyés.
     update:
       notice: abonnement mis à jour
   time:
@@ -5089,10 +5227,10 @@ fr:
       email: email
       submit: s'inscrire
     show:
-      delivery_connections: connexions de livraison
       address: adresse
       admin: admin
       created_at: créé à
+      delivery_connections: connexions de livraison
       description: description
       destroy: détruire l'utilisateur
       device: appareil
@@ -5177,11 +5315,3 @@ fr:
       next: suivant
       previous: précédent
       truncate: "…"
-  email_verification_mailer:
-    confirmation:
-      subject: confirmez votre adresse e-mail
-      instructions: confirmez cette adresse e-mail pour votre compte et les envois
-        de vos abonnements.
-      submit: confirmer l’adresse e-mail
-      expiration: ce lien expire dans 24 heures. si vous ne l’avez pas demandé, ignorez
-        cet e-mail.

@@ -3,131 +3,107 @@
 <%= turbo_stream_from(@delivery_channel) %>
 <% if admin? %>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".id") %>
-    </div>
+    <div class="text-gray-600"><%= t(".id") %></div>
     <div class="font-bold whitespace-pre-wrap"><%= @delivery_channel.id %></div>
   </div>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".key") %>
-    </div>
+    <div class="text-gray-600"><%= t(".key") %></div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_channel.key %>
     </div>
   </div>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".amount_cents") %>
-    </div>
+    <div class="text-gray-600"><%= t(".amount_cents") %></div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_channel.amount_cents %>
     </div>
   </div>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".amount_currency") %>
-    </div>
+    <div class="text-gray-600"><%= t(".amount_currency") %></div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_channel.amount_currency %>
     </div>
   </div>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".delivery_connection_id") %>
-    </div>
+    <div class="text-gray-600"><%= t(".delivery_connection_id") %></div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_channel.delivery_connection_id %>
     </div>
   </div>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".enabled") %>
-    </div>
+    <div class="text-gray-600"><%= t(".enabled") %></div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_channel.enabled %>
     </div>
   </div>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".show_recipient") %>
-    </div>
+    <div class="text-gray-600"><%= t(".show_recipient") %></div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_channel.show_recipient %>
     </div>
   </div>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".show_visibility") %>
-    </div>
+    <div class="text-gray-600"><%= t(".show_visibility") %></div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_channel.show_visibility %>
     </div>
   </div>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".messaging_service_sid") %>
-    </div>
+    <div class="text-gray-600"><%= t(".messaging_service_sid") %></div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_channel.messaging_service_sid %>
     </div>
   </div>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".content_sid_en") %>
-    </div>
+    <div class="text-gray-600"><%= t(".content_sid_en") %></div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_channel.content_sid_en %>
     </div>
   </div>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".content_sid_fr") %>
-    </div>
+    <div class="text-gray-600"><%= t(".content_sid_fr") %></div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_channel.content_sid_fr %>
     </div>
   </div>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".callback_base_url") %>
-    </div>
+    <div class="text-gray-600"><%= t(".callback_base_url") %></div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_channel.callback_base_url %>
     </div>
   </div>
   <div class="p">
     <div class="text-gray-600"><%= t(".public_pattern") %></div>
-    <div class="font-bold whitespace-pre-wrap"><%= @delivery_channel.public_pattern %></div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @delivery_channel.public_pattern %>
+    </div>
   </div>
   <div class="p">
     <div class="text-gray-600"><%= t(".private_pattern") %></div>
-    <div class="font-bold whitespace-pre-wrap"><%= @delivery_channel.private_pattern %></div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @delivery_channel.private_pattern %>
+    </div>
   </div>
   <div class="p">
     <div class="text-gray-600"><%= t(".show_connection") %></div>
-    <div class="font-bold whitespace-pre-wrap"><%= @delivery_channel.show_connection %></div>
+    <div class="font-bold whitespace-pre-wrap">
+      <%= @delivery_channel.show_connection %>
+    </div>
   </div>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".only") %>
-    </div>
+    <div class="text-gray-600"><%= t(".only") %></div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_channel.only %>
     </div>
   </div>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".created_at") %>
-    </div>
+    <div class="text-gray-600"><%= t(".created_at") %></div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_channel.created_at %>
     </div>
   </div>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".updated_at") %>
-    </div>
+    <div class="text-gray-600"><%= t(".updated_at") %></div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_channel.updated_at %>
     </div>

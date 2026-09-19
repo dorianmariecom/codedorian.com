@@ -20,14 +20,27 @@ class XRecipient
       raise DeliveryAdapters::Rejected, "invalid_x_recipient"
     end
 
-    key = ["x-recipient-v1", connection.id, Digest::SHA256.hexdigest(connection.access_token), recipient.downcase]
-    Rails.cache.fetch(key, expires_in: 5.minutes) do
-      data = XOauth.get("users/by/username/#{recipient.delete_prefix('@')}", token: connection.access_token)
-      id = data.dig("data", "id")
-      raise DeliveryAdapters::Rejected, "x_user_not_found" unless id.to_s.match?(/\A\d+\z/)
+    key = [
+      "x-recipient-v1",
+      connection.id,
+      Digest::SHA256.hexdigest(connection.access_token),
+      recipient.downcase
+    ]
+    Rails
+      .cache
+      .fetch(key, expires_in: 5.minutes) do
+        data =
+          XOauth.get(
+            "users/by/username/#{recipient.delete_prefix("@")}",
+            token: connection.access_token
+          )
+        id = data.dig("data", "id")
+        unless id.to_s.match?(/\A\d+\z/)
+          raise DeliveryAdapters::Rejected, "x_user_not_found"
+        end
 
-      id
-    end
+        id
+      end
   rescue XOauth::Error => e
     raise DeliveryAdapters::Rejected.new(e.code, retryable: e.retryable)
   end

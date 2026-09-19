@@ -137,17 +137,7 @@ class DeliveryDestination < ApplicationRecord
   end
 
   def to_code
-    {
-      id: id,
-      user_id: user_id,
-      delivery_channel_id: delivery_channel_id,
-      delivery_connection_id: delivery_connection_id,
-      recipient: recipient,
-      visibility: visibility,
-      enabled: enabled,
-      created_at: created_at,
-      updated_at: updated_at
-    }.to_code
+    Code::Object::DeliveryDestination.new(attributes)
   end
 
   private

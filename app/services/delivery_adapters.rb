@@ -30,8 +30,21 @@ class DeliveryAdapters
       return Result.new(status: :canceled, provider_id: nil)
     end
     result = new(delivery).call
-    if delivery.connection&.provider.in?(%w[gmail google_workspace aws_ses resend mailgun mailchimp facebook messenger instagram telegram viber]) &&
-         result[:status].to_s != "canceled" && result[:provider_id].blank?
+    if delivery.connection&.provider.in?(
+         %w[
+           gmail
+           google_workspace
+           aws_ses
+           resend
+           mailgun
+           mailchimp
+           facebook
+           messenger
+           instagram
+           telegram
+           viber
+         ]
+       ) && result[:status].to_s != "canceled" && result[:provider_id].blank?
       raise IOError, "Provider response is incomplete"
     end
 
@@ -56,8 +69,12 @@ class DeliveryAdapters
       raise Rejected, "configuration_missing"
     end
 
-    if @connection && DeliveryChannel::PROVIDERS.key?(@delivery.channel.to_s.to_sym) &&
-         !DeliveryChannel.supports_provider?(@delivery.channel, @connection.provider)
+    if @connection &&
+         DeliveryChannel::PROVIDERS.key?(@delivery.channel.to_s.to_sym) &&
+         !DeliveryChannel.supports_provider?(
+           @delivery.channel,
+           @connection.provider
+         )
       raise Rejected, "invalid_connection"
     end
 
@@ -202,35 +219,51 @@ class DeliveryAdapters
     raise Rejected, "facebook_public_only" unless public?
     raise Rejected, "invalid_recipient" if recipient.present?
 
-    response = request(
-      "https://graph.facebook.com/#{meta_api_version}/#{@connection.sender}/feed",
-      { message: text(PROVIDER_BODY_LIMIT), link: @delivery.url.presence }.compact,
-      headers: authorization
-    )
+    response =
+      request(
+        "https://graph.facebook.com/#{meta_api_version}/#{@connection.sender}/feed",
+        {
+          message: text(PROVIDER_BODY_LIMIT),
+          link: @delivery.url.presence
+        }.compact,
+        headers: authorization
+      )
     { provider_id: response.fetch("id") }
   end
 
   def messenger
-    response = request(
-      "https://graph.facebook.com/#{meta_api_version}/#{ERB::Util.url_encode(@connection.sender)}/messages",
-      { recipient: { id: recipient }, messaging_type: "RESPONSE", message: { text: text(2000) } },
-      headers: authorization
-    )
+    response =
+      request(
+        "https://graph.facebook.com/#{meta_api_version}/#{ERB::Util.url_encode(@connection.sender)}/messages",
+        {
+          recipient: {
+            id: recipient
+          },
+          messaging_type: "RESPONSE",
+          message: {
+            text: text(2000)
+          }
+        },
+        headers: authorization
+      )
     { provider_id: response.fetch("message_id") }
   end
 
   def instagram
-    response = request(
-      "https://graph.instagram.com/#{meta_api_version}/#{ERB::Util.url_encode(@connection.sender)}/messages",
-      { recipient: { id: recipient }, message: { text: text(1000) } },
-      headers: authorization
-    )
+    response =
+      request(
+        "https://graph.instagram.com/#{meta_api_version}/#{ERB::Util.url_encode(@connection.sender)}/messages",
+        { recipient: { id: recipient }, message: { text: text(1000) } },
+        headers: authorization
+      )
     { provider_id: response.fetch("message_id") }
   end
 
   def meta_api_version
     version = Config.meta_delivery.api_version
-    raise Rejected, "configuration_missing" unless version.to_s.match?(/\Av[0-9]+\.0\z/)
+    unless version.to_s.match?(/\Av[0-9]+\.0\z/)
+      raise Rejected, "configuration_missing"
+    end
 
     version
   end
@@ -240,10 +273,17 @@ class DeliveryAdapters
       raise Rejected, "invalid_telegram_token"
     end
 
-    response = request(
-      "https://api.telegram.org/bot#{token}/sendMessage",
-      { chat_id: recipient, text: text(4096), link_preview_options: { is_disabled: true } }
-    )
+    response =
+      request(
+        "https://api.telegram.org/bot#{token}/sendMessage",
+        {
+          chat_id: recipient,
+          text: text(4096),
+          link_preview_options: {
+            is_disabled: true
+          }
+        }
+      )
     unless response["ok"] == true
       code = response.fetch("error_code", "rejected").to_s
       raise Rejected.new("telegram_#{code}", retryable: code == "429")
@@ -253,13 +293,25 @@ class DeliveryAdapters
   end
 
   def viber
-    response = request(
-      "https://chatapi.viber.com/pa/send_message",
-      { receiver: recipient, type: "text", text: text(7000), sender: { name: @connection.sender } },
-      headers: { "X-Viber-Auth-Token" => token }
-    )
+    response =
+      request(
+        "https://chatapi.viber.com/pa/send_message",
+        {
+          receiver: recipient,
+          type: "text",
+          text: text(7000),
+          sender: {
+            name: @connection.sender
+          }
+        },
+        headers: {
+          "X-Viber-Auth-Token" => token
+        }
+      )
     status = response.fetch("status")
-    raise Rejected.new("viber_#{status}", retryable: status == 12) unless status.zero?
+    unless status.zero?
+      raise Rejected.new("viber_#{status}", retryable: status == 12)
+    end
 
     { provider_id: response.fetch("message_token").to_s }
   end
@@ -270,9 +322,17 @@ class DeliveryAdapters
     mail.to = recipient
     mail.subject = subject
     mail.message_id = "delivery-#{@delivery.id}@codedorian.com"
-    mail.text_part = Mail::Part.new(body: @delivery.body_text, content_type: "text/plain; charset=UTF-8")
+    mail.text_part =
+      Mail::Part.new(
+        body: @delivery.body_text,
+        content_type: "text/plain; charset=UTF-8"
+      )
     if @delivery.body_html.present?
-      mail.html_part = Mail::Part.new(body: @delivery.body_html, content_type: "text/html; charset=UTF-8")
+      mail.html_part =
+        Mail::Part.new(
+          body: @delivery.body_html,
+          content_type: "text/html; charset=UTF-8"
+        )
     end
     mail
   end
@@ -288,54 +348,114 @@ class DeliveryAdapters
 
     case @connection.provider
     when "gmail", "google_workspace"
-      response = request(
-        "https://gmail.googleapis.com/gmail/v1/users/me/messages/send",
-        { raw: Base64.urlsafe_encode64(email_message.encoded, padding: false) }, headers: authorization
-      )
+      response =
+        request(
+          "https://gmail.googleapis.com/gmail/v1/users/me/messages/send",
+          {
+            raw: Base64.urlsafe_encode64(email_message.encoded, padding: false)
+          },
+          headers: authorization
+        )
       { provider_id: response.fetch("id") }
     when "outlook"
       # Graph accepts MIME and returns HTTP 202 without a message identifier.
-      request("https://graph.microsoft.com/v1.0/me/sendMail", Base64.strict_encode64(email_message.encoded),
-              headers: authorization, mime: true, parse_response: false)
+      request(
+        "https://graph.microsoft.com/v1.0/me/sendMail",
+        Base64.strict_encode64(email_message.encoded),
+        headers: authorization,
+        mime: true,
+        parse_response: false
+      )
       { status: "accepted" }
     when "aws_ses"
       aws_ses
     when "sendgrid"
       content = [{ type: "text/plain", value: @delivery.body_text }]
-      content << { type: "text/html", value: @delivery.body_html } if @delivery.body_html.present?
-      response = request("https://api.sendgrid.com/v3/mail/send", {
-                           personalizations: [{ to: [{ email: recipient }] }],
-        from: email_sender, subject: subject, content: content
-                         }, headers: { "Authorization" => "Bearer #{@connection.api_key}" }, parse_response: false)
+      if @delivery.body_html.present?
+        content << { type: "text/html", value: @delivery.body_html }
+      end
+      response =
+        request(
+          "https://api.sendgrid.com/v3/mail/send",
+          {
+            personalizations: [{ to: [{ email: recipient }] }],
+            from: email_sender,
+            subject: subject,
+            content: content
+          },
+          headers: {
+            "Authorization" => "Bearer #{@connection.api_key}"
+          },
+          parse_response: false
+        )
       { provider_id: response["X-Message-Id"] }
     when "resend"
-      response = request("https://api.resend.com/emails", {
-        from: @connection.smtp_from, to: [recipient], subject: subject,
-        text: @delivery.body_text, html: @delivery.body_html.presence
-      }.compact, headers: { "Authorization" => "Bearer #{@connection.api_key}", "Idempotency-Key" => idempotency_key })
+      response =
+        request(
+          "https://api.resend.com/emails",
+          {
+            from: @connection.smtp_from,
+            to: [recipient],
+            subject: subject,
+            text: @delivery.body_text,
+            html: @delivery.body_html.presence
+          }.compact,
+          headers: {
+            "Authorization" => "Bearer #{@connection.api_key}",
+            "Idempotency-Key" => idempotency_key
+          }
+        )
       { provider_id: response.fetch("id") }
     when "mailgun"
-      host = @connection.mailgun_region == "eu" ? "api.eu.mailgun.net" : "api.mailgun.net"
-      response = request("https://#{host}/v3/#{ERB::Util.url_encode(@connection.mailgun_domain)}/messages", {
-        "from" => @connection.smtp_from, "to" => recipient, "subject" => subject,
-        "text" => @delivery.body_text, "html" => @delivery.body_html.presence
-      }.compact, form: true, basic: ["api", @connection.api_key])
+      host =
+        (
+          if @connection.mailgun_region == "eu"
+            "api.eu.mailgun.net"
+          else
+            "api.mailgun.net"
+          end
+        )
+      response =
+        request(
+          "https://#{host}/v3/#{ERB::Util.url_encode(@connection.mailgun_domain)}/messages",
+          {
+            "from" => @connection.smtp_from,
+            "to" => recipient,
+            "subject" => subject,
+            "text" => @delivery.body_text,
+            "html" => @delivery.body_html.presence
+          }.compact,
+          form: true,
+          basic: ["api", @connection.api_key]
+        )
       { provider_id: response.fetch("id") }
     when "mailchimp"
-      response = request("https://mandrillapp.com/api/1.0/messages/send.json", {
-                           key: @connection.api_key,
-        message: { from_email: email_sender[:email], from_name: email_sender[:name],
-          to: [{ email: recipient, type: "to" }], subject: subject,
-          text: @delivery.body_text, html: @delivery.body_html.presence }.compact
-                         })
+      response =
+        request(
+          "https://mandrillapp.com/api/1.0/messages/send.json",
+          {
+            key: @connection.api_key,
+            message: {
+              from_email: email_sender[:email],
+              from_name: email_sender[:name],
+              to: [{ email: recipient, type: "to" }],
+              subject: subject,
+              text: @delivery.body_text,
+              html: @delivery.body_html.presence
+            }.compact
+          }
+        )
       if response.is_a?(Hash) && response["status"] == "error"
         raise Rejected, "mailchimp_rejected"
       end
-      raise IOError, "Provider response is incomplete" unless response.is_a?(Array) && response.size == 1 && response.first.is_a?(Hash)
+      unless response.is_a?(Array) && response.size == 1 &&
+               response.first.is_a?(Hash)
+        raise IOError, "Provider response is incomplete"
+      end
 
       result = response.fetch(0)
       unless result.fetch("status").in?(%w[sent queued scheduled])
-        raise Rejected, "mailchimp_#{result.fetch('status')}"
+        raise Rejected, "mailchimp_#{result.fetch("status")}"
       end
 
       { provider_id: result.fetch("_id") }
@@ -358,8 +478,14 @@ class DeliveryAdapters
     path = "/v2/email/outbound-emails"
     data = {
       FromEmailAddress: @connection.smtp_from,
-      Destination: { ToAddresses: [recipient] },
-      Content: { Raw: { Data: Base64.strict_encode64(email_message.encoded) } }
+      Destination: {
+        ToAddresses: [recipient]
+      },
+      Content: {
+        Raw: {
+          Data: Base64.strict_encode64(email_message.encoded)
+        }
+      }
     }
     timestamp = Time.now.utc.strftime("%Y%m%dT%H%M%SZ")
     date = timestamp[0, 8]
@@ -373,15 +499,35 @@ class DeliveryAdapters
       headers["x-amz-security-token"] = @connection.aws_session_token
     end
     signed_headers = headers.keys.join(";")
-    canonical_headers = headers.map { |key, value| "#{key}:#{value.strip}\n" }.join
-    canonical_request = ["POST", path, "", canonical_headers, signed_headers, Digest::SHA256.hexdigest(data.to_json)].join("\n")
-    string_to_sign = ["AWS4-HMAC-SHA256", timestamp, scope, Digest::SHA256.hexdigest(canonical_request)].join("\n")
-    date_key = OpenSSL::HMAC.digest("SHA256", "AWS4#{@connection.aws_secret_access_key}", date)
+    canonical_headers =
+      headers.map { |key, value| "#{key}:#{value.strip}\n" }.join
+    canonical_request = [
+      "POST",
+      path,
+      "",
+      canonical_headers,
+      signed_headers,
+      Digest::SHA256.hexdigest(data.to_json)
+    ].join("\n")
+    string_to_sign = [
+      "AWS4-HMAC-SHA256",
+      timestamp,
+      scope,
+      Digest::SHA256.hexdigest(canonical_request)
+    ].join("\n")
+    date_key =
+      OpenSSL::HMAC.digest(
+        "SHA256",
+        "AWS4#{@connection.aws_secret_access_key}",
+        date
+      )
     region_key = OpenSSL::HMAC.digest("SHA256", date_key, region)
     service_key = OpenSSL::HMAC.digest("SHA256", region_key, "ses")
     signing_key = OpenSSL::HMAC.digest("SHA256", service_key, "aws4_request")
     signature = OpenSSL::HMAC.hexdigest("SHA256", signing_key, string_to_sign)
-    headers["Authorization"] = "AWS4-HMAC-SHA256 Credential=#{@connection.aws_access_key_id}/#{scope}, SignedHeaders=#{signed_headers}, Signature=#{signature}"
+    headers[
+      "Authorization"
+    ] = "AWS4-HMAC-SHA256 Credential=#{@connection.aws_access_key_id}/#{scope}, SignedHeaders=#{signed_headers}, Signature=#{signature}"
 
     response = request("https://#{host}#{path}", data, headers: headers)
     { provider_id: response.fetch("MessageId") }
@@ -480,14 +626,17 @@ class DeliveryAdapters
     if public?
       endpoint = "https://api.x.com/2/tweets"
       if recipient.present? && !recipient.match?(XRecipient::ID_FORMAT)
-        content = "#{recipient} #{text(X_PUBLIC_BODY_LIMIT - recipient.length - 1)}"
+        content =
+          "#{recipient} #{text(X_PUBLIC_BODY_LIMIT - recipient.length - 1)}"
       end
     else
       user_id = XRecipient.resolve(@connection, recipient)
       endpoint = "https://api.x.com/2/dm_conversations/with/#{user_id}/messages"
     end
     response = request(endpoint, { text: content }, headers: authorization)
-    { provider_id: response.fetch("data").fetch(public? ? "id" : "dm_event_id") }
+    {
+      provider_id: response.fetch("data").fetch(public? ? "id" : "dm_event_id")
+    }
   rescue XOauth::Error => e
     raise Rejected.new(e.code, retryable: e.retryable)
   end
@@ -505,20 +654,28 @@ class DeliveryAdapters
   end
 
   def github
-    raise Rejected, "invalid_github_recipient" unless GithubRecipient.valid?(recipient)
+    unless GithubRecipient.valid?(recipient)
+      raise Rejected, "invalid_github_recipient"
+    end
 
     access_token = GithubOauth.access_token_for(@connection)
-    repository = GithubApi.get("https://api.github.com/repos/#{recipient}", token: access_token)
+    repository =
+      GithubApi.get(
+        "https://api.github.com/repos/#{recipient}",
+        token: access_token
+      )
     unless repository.is_a?(Hash) && repository["private"] == !public?
       raise Rejected, "github_repository_visibility_mismatch"
     end
 
-    response = request(
-      "https://api.github.com/repos/#{recipient}/issues",
-      { title: subject, body: @delivery.body_text },
-      headers: GithubApi.headers(access_token)
-    )
-    unless response.is_a?(Hash) && response["id"].is_a?(Integer) && response["id"].positive?
+    response =
+      request(
+        "https://api.github.com/repos/#{recipient}/issues",
+        { title: subject, body: @delivery.body_text },
+        headers: GithubApi.headers(access_token)
+      )
+    unless response.is_a?(Hash) && response["id"].is_a?(Integer) &&
+             response["id"].positive?
       raise IOError, "GitHub response is incomplete"
     end
 
@@ -551,7 +708,10 @@ class DeliveryAdapters
         )
       if response.dig("json", "errors").present?
         code = response["json"]["errors"].first.first.to_s
-        raise Rejected.new("reddit_#{code.downcase}", retryable: code == "RATELIMIT")
+        raise Rejected.new(
+                "reddit_#{code.downcase}",
+                retryable: code == "RATELIMIT"
+              )
       end
 
       { provider_id: response.fetch("json").fetch("data").fetch("name") }
@@ -574,10 +734,15 @@ class DeliveryAdapters
         )
       if response.dig("json", "errors").present?
         code = response["json"]["errors"].first.first.to_s
-        raise Rejected.new("reddit_#{code.downcase}", retryable: code == "RATELIMIT")
+        raise Rejected.new(
+                "reddit_#{code.downcase}",
+                retryable: code == "RATELIMIT"
+              )
       end
 
-      raise IOError, "Reddit response is incomplete" unless response["json"].is_a?(Hash)
+      unless response["json"].is_a?(Hash)
+        raise IOError, "Reddit response is incomplete"
+      end
 
       { status: "accepted" }
     end
@@ -601,7 +766,9 @@ class DeliveryAdapters
         url: @delivery.url,
         locale: @delivery.locale
       },
-      headers: { "Idempotency-Key" => idempotency_key },
+      headers: {
+        "Idempotency-Key" => idempotency_key
+      },
       parse_response: false
     )
     { status: "accepted" }
@@ -619,7 +786,15 @@ class DeliveryAdapters
     origin.to_s.delete_suffix("/")
   end
 
-  def request(url, data, form: false, headers: {}, basic: nil, parse_response: true, mime: false)
+  def request(
+    url,
+    data,
+    form: false,
+    headers: {},
+    basic: nil,
+    parse_response: true,
+    mime: false
+  )
     uri = URI.parse(url)
     req = Net::HTTP::Post.new(uri, headers)
     req.basic_auth(*basic) if basic
@@ -633,25 +808,34 @@ class DeliveryAdapters
       req.body = data.to_json
     end
     ipaddr = nil
-    if @delivery.channel == "webhook" || @connection&.provider.in?(%w[mastodon infobip])
+    if @delivery.channel == "webhook" ||
+         @connection&.provider.in?(%w[mastodon infobip])
       ipaddr = DeliveryProviderAddress.resolve!(uri.host)
     end
     @submitted = true
     response = Http.request(req, max_retries: 0, ipaddr: ipaddr)
     status = response.code.to_i
-    if @connection&.provider.in?(%w[facebook messenger instagram]) && status >= 400 && status < 500 && status != 408
+    if @connection&.provider.in?(%w[facebook messenger instagram]) &&
+         status >= 400 && status < 500 && status != 408
       begin
         error = JSON.parse(response.body)["error"]
         if error.is_a?(Hash) && error["code"].is_a?(Integer)
           code = error["code"]
-          raise Rejected.new("#{@connection.provider}_#{code}", retryable: status == 429 || error["is_transient"] == true)
+          raise Rejected.new(
+                  "#{@connection.provider}_#{code}",
+                  retryable: status == 429 || error["is_transient"] == true
+                )
         end
       rescue JSON::ParserError, TypeError
         # An unstructured rejection still has a reliable HTTP status.
       end
     end
     raise Rejected.new("http_429", retryable: true) if status == 429
-    if @connection&.provider == "github" && status == 403 && (response["X-RateLimit-Remaining"] == "0" || response["Retry-After"].present?)
+    if @connection&.provider == "github" && status == 403 &&
+         (
+           response["X-RateLimit-Remaining"] == "0" ||
+             response["Retry-After"].present?
+         )
       raise Rejected.new("http_403", retryable: true)
     end
     if status >= 400 && status < 500 && status != 408
@@ -662,9 +846,13 @@ class DeliveryAdapters
     return response unless parse_response
 
     result = JSON.parse(response.body)
-    if @connection&.provider.in?(%w[facebook messenger instagram]) && result.is_a?(Hash) && result["error"].is_a?(Hash)
+    if @connection&.provider.in?(%w[facebook messenger instagram]) &&
+         result.is_a?(Hash) && result["error"].is_a?(Hash)
       code = result["error"]["code"].to_s.gsub(/[^0-9]/, "")
-      raise Rejected.new("#{@connection.provider}_#{code}", retryable: result["error"]["is_transient"] == true)
+      raise Rejected.new(
+              "#{@connection.provider}_#{code}",
+              retryable: result["error"]["is_transient"] == true
+            )
     end
     result
   end

@@ -92,6 +92,15 @@
   </div>
 <% end %>
 
+<% if @job_batch_executions.any? %>
+  <div class="p p--flex">
+    <%= link_to(
+      t(".job_batch_executions", count: @job_batch_executions.size),
+      [*nested, :job_batch_executions],
+      class: :link
+    ) %>
+  </div>
+<% end %>
 <% if @job_recurring_executions.any? %>
   <div class="p p--flex">
     <%= link_to(
@@ -140,3 +149,13 @@
 
   <%= render_collection(partial: "jobs/job", collection: @jobs, as: :job) %>
 </turbo-frame>
+
+<% if can?(:index, JobBatch) %>
+  <div class="p">
+    <%= link_to(
+      t(".job_batches", count: @job_batches.size),
+      job_batches_path,
+      class: :link
+    ) %>
+  </div>
+<% end %>

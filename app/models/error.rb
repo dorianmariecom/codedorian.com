@@ -82,4 +82,8 @@ class Error < SolidErrors::Error
       id_sample
     ).presence || t("to_s", id:)
   end
+
+  def to_code
+    Code::Object::ErrorRecord.new(attributes)
+  end
 end

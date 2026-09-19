@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-class ReplaceCalendarAccessWithScopeOnDeliveryConnections < ActiveRecord::Migration[8.1]
+class ReplaceCalendarAccessWithScopeOnDeliveryConnections < ActiveRecord::Migration[
+  8.1
+]
   def up
     add_column :delivery_connections, :scope, :text, default: "", null: false
     execute <<~SQL.squish
@@ -12,7 +14,11 @@ class ReplaceCalendarAccessWithScopeOnDeliveryConnections < ActiveRecord::Migrat
   end
 
   def down
-    add_column :delivery_connections, :calendar_access, :boolean, default: false, null: false
+    add_column :delivery_connections,
+               :calendar_access,
+               :boolean,
+               default: false,
+               null: false
     execute <<~SQL.squish
       UPDATE delivery_connections
       SET calendar_access = TRUE

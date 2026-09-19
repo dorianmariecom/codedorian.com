@@ -73,7 +73,9 @@ class TokenAuthenticationTest < ActionDispatch::IntegrationTest
             content: { maintenance: true }.to_json
           }
         },
-        headers: { "Token" => tokens(:other_token).token }
+        headers: {
+          "Token" => tokens(:other_token).token
+        }
       )
     end
 
@@ -132,7 +134,8 @@ class TokenAuthenticationTest < ActionDispatch::IntegrationTest
     with_forgery_protection do
       get(new_login_path)
       assert_response(:success)
-      csrf_token = response.parsed_body.at_css('meta[name="csrf-token"]')["content"]
+      csrf_token =
+        response.parsed_body.at_css('meta[name="csrf-token"]')["content"]
 
       patch(
         configuration_path(

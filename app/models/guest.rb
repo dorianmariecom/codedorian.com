@@ -25,4 +25,8 @@ class Guest < ApplicationRecord
 
   def to_s = Utils.join(id_sample).presence || t("to_s", id:)
   def to_param = :me
+
+  def to_code
+    Code::Object::Guest.new(attributes)
+  end
 end

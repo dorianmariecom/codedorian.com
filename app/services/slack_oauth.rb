@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class SlackOauth
-  class Error < StandardError; end
+  class Error < StandardError
+  end
 
   SCOPES = %w[chat:write users:read channels:read groups:read im:write].freeze
 
@@ -36,9 +37,11 @@ class SlackOauth
     team = data["team"]
     raise Error unless user.is_a?(Hash) && team.is_a?(Hash)
     unless data["access_token"].present? && data["token_type"] == "bot" &&
-             data["bot_user_id"].present? && user["id"].present? && team["id"].present? &&
+             data["bot_user_id"].present? && user["id"].present? &&
+             team["id"].present? &&
              data["scope"].to_s.split(",").include?("chat:write") &&
-             user["access_token"].present? && user["scope"].to_s.split(",").include?("chat:write") &&
+             user["access_token"].present? &&
+             user["scope"].to_s.split(",").include?("chat:write") &&
              data["expires_in"].nil? && user["expires_in"].nil?
       raise Error
     end
@@ -46,17 +49,29 @@ class SlackOauth
     workspace = team["name"].presence || team["id"]
     [
       {
-        account_sid: team["id"], sender: data["bot_user_id"],
-        name: "Slack · #{workspace} · #{I18n.t('delivery_connections.senders.bot')}",
-        scope: data["scope"].to_s.split(",").join(" "), access_token: data["access_token"], enabled: true
+        account_sid: team["id"],
+        sender: data["bot_user_id"],
+        name:
+          "Slack · #{workspace} · #{I18n.t("delivery_connections.senders.bot")}",
+        scope: data["scope"].to_s.split(",").join(" "),
+        access_token: data["access_token"],
+        enabled: true
       },
       {
-        account_sid: team["id"], sender: user["id"],
-        name: "Slack · #{workspace} · #{I18n.t('delivery_connections.senders.user')} · #{user['id']}",
-        scope: user["scope"].to_s.split(",").join(" "), access_token: user["access_token"], enabled: true
+        account_sid: team["id"],
+        sender: user["id"],
+        name:
+          "Slack · #{workspace} · #{I18n.t("delivery_connections.senders.user")} · #{user["id"]}",
+        scope: user["scope"].to_s.split(",").join(" "),
+        access_token: user["access_token"],
+        enabled: true
       }
     ]
-  rescue JSON::ParserError, IOError, SystemCallError, Timeout::Error, OpenSSL::SSL::SSLError
+  rescue JSON::ParserError,
+         IOError,
+         SystemCallError,
+         Timeout::Error,
+         OpenSSL::SSL::SSLError
     raise Error
   end
 end

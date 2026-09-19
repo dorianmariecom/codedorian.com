@@ -16,6 +16,7 @@ class JobsController < ApplicationController
     @jobs = scope.page(params[:page]).order(created_at: :desc)
     @job_contexts = job_contexts_scope
     @job_processes = job_processes_scope
+    @job_batches = policy_scope(JobBatch).page(params[:page])
     @job_pauses = job_pauses_scope
     @job_semaphores = job_semaphores_scope
     @job_ready_executions = job_ready_executions_scope
@@ -23,6 +24,8 @@ class JobsController < ApplicationController
     @job_scheduled_executions = job_scheduled_executions_scope
     @job_blocked_executions = job_blocked_executions_scope
     @job_claimed_executions = job_claimed_executions_scope
+    @job_batch_executions = job_batch_executions_scope
+
     @job_recurring_executions = job_recurring_executions_scope
     @job_recurring_tasks = job_recurring_tasks_scope
 
@@ -47,6 +50,9 @@ class JobsController < ApplicationController
       job_blocked_executions_scope.order(created_at: :desc).page(params[:page])
     @job_claimed_executions =
       job_claimed_executions_scope.order(created_at: :desc).page(params[:page])
+    @job_batch_executions =
+      job_batch_executions_scope.order(created_at: :desc).page(params[:page])
+
     @job_recurring_executions =
       job_recurring_executions_scope.order(created_at: :desc).page(
         params[:page]
@@ -349,6 +355,22 @@ class JobsController < ApplicationController
     scope
   end
 
+  def job_batch_executions_scope
+    scope = policy_scope(JobBatchExecution)
+
+    if @job
+      scope = scope.where_job(@job)
+    elsif @program
+      scope = scope.where_program(@program)
+    elsif @user
+      scope = scope.where_user(@user)
+    elsif @guest
+      scope = scope.where_guest(@guest)
+    end
+
+    scope
+  end
+
   def job_recurring_executions_scope
     scope = policy_scope(JobRecurringExecution)
 
@@ -398,6 +420,7 @@ class JobsController < ApplicationController
       params.expect(
         job: %i[
           active_job_id
+          batch_id
           arguments
           class_name
           concurrency_key

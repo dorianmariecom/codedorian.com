@@ -137,4 +137,8 @@ class ErrorOccurrence < SolidErrors::Occurrence
         context_sample.presence
     Utils.join(label, error_sample, id_sample).presence || t("to_s", id:)
   end
+
+  def to_code
+    Code::Object::ErrorOccurrence.new(attributes)
+  end
 end

@@ -82,4 +82,8 @@ class JobRecurringExecution < SolidQueue::RecurringExecution
       id_sample
     ).presence || t("to_s", id:)
   end
+
+  def to_code
+    Code::Object::JobRecurringExecution.new(attributes)
+  end
 end

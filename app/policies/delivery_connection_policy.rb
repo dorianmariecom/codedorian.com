@@ -10,7 +10,8 @@ class DeliveryConnectionPolicy < ApplicationPolicy
   end
 
   def connect?
-    current_user? && DeliveryConnectionOauth::PROVIDERS.include?(record.provider) &&
+    current_user? &&
+      DeliveryConnectionOauth::PROVIDERS.include?(record.provider) &&
       (admin? || !DeliveryConnection::ADMIN_PROVIDERS.include?(record.provider))
   end
 

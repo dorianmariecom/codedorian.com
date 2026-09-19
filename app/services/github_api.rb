@@ -12,7 +12,8 @@ class GithubApi
 
   def self.get(url, token:, query: {})
     uri = URI.parse(url)
-    unless uri.scheme == "https" && uri.host == "api.github.com" && uri.port == 443 && uri.userinfo.nil? && uri.fragment.nil?
+    unless uri.scheme == "https" && uri.host == "api.github.com" &&
+             uri.port == 443 && uri.userinfo.nil? && uri.fragment.nil?
       raise GithubOauth::Error, "invalid_github_url"
     end
 
@@ -27,14 +28,29 @@ class GithubApi
     response = Http.request(request, max_retries: 0)
     unless response.is_a?(Net::HTTPSuccess)
       status = response.code.to_i
-      limited = status == 429 || (status == 403 && (response["X-RateLimit-Remaining"] == "0" || response["Retry-After"].present?))
-      raise GithubOauth::Error.new("github_http_#{status}", retryable: limited || status >= 500)
+      limited =
+        status == 429 ||
+          (
+            status == 403 &&
+              (
+                response["X-RateLimit-Remaining"] == "0" ||
+                  response["Retry-After"].present?
+              )
+          )
+      raise GithubOauth::Error.new(
+              "github_http_#{status}",
+              retryable: limited || status >= 500
+            )
     end
     data = JSON.parse(response.body)
     raise GithubOauth::Error unless data.is_a?(Hash) || data.is_a?(Array)
 
     data
-  rescue JSON::ParserError, IOError, SystemCallError, Timeout::Error, OpenSSL::SSL::SSLError
+  rescue JSON::ParserError,
+         IOError,
+         SystemCallError,
+         Timeout::Error,
+         OpenSSL::SSL::SSLError
     raise GithubOauth::Error.new("github_connection_failed", retryable: true)
   end
 end

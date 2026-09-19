@@ -51,6 +51,8 @@ Rails.application.routes.draw do
         error_occurrences
         errors
         handles
+        job_batches
+        job_batch_executions
         job_blocked_executions
         job_claimed_executions
         job_contexts
@@ -135,13 +137,15 @@ Rails.application.routes.draw do
 
     resources :delivery_connections, concerns: :deletable do
       post "connect/:provider", action: :connect, on: :collection, as: :connect
-      get "callback/:provider", action: :callback, on: :collection, as: :callback
+      get "callback/:provider",
+          action: :callback,
+          on: :collection,
+          as: :callback
     end
 
-    %i[
-      delivery_channels
-      subscription_destinations
-    ].each { |resource| resources resource, concerns: :deletable }
+    %i[delivery_channels subscription_destinations].each do |resource|
+      resources resource, concerns: :deletable
+    end
     resources :delivery_destinations, concerns: :deletable do
       get :verification, on: :member
       post :confirm_verification, on: :member

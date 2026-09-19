@@ -3,73 +3,55 @@
 <%= turbo_stream_from(@delivery_destination) %>
 <% if admin? %>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".id") %>
-    </div>
+    <div class="text-gray-600"><%= t(".id") %></div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_destination.id %>
     </div>
   </div>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".user_id") %>
-    </div>
+    <div class="text-gray-600"><%= t(".user_id") %></div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_destination.user_id %>
     </div>
   </div>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".delivery_channel_id") %>
-    </div>
+    <div class="text-gray-600"><%= t(".delivery_channel_id") %></div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_destination.delivery_channel_id %>
     </div>
   </div>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".delivery_connection_id") %>
-    </div>
+    <div class="text-gray-600"><%= t(".delivery_connection_id") %></div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_destination.delivery_connection_id %>
     </div>
   </div>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".recipient") %>
-    </div>
+    <div class="text-gray-600"><%= t(".recipient") %></div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_destination.recipient %>
     </div>
   </div>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".visibility") %>
-    </div>
+    <div class="text-gray-600"><%= t(".visibility") %></div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_destination.visibility %>
     </div>
   </div>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".enabled") %>
-    </div>
+    <div class="text-gray-600"><%= t(".enabled") %></div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_destination.enabled %>
     </div>
   </div>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".created_at") %>
-    </div>
+    <div class="text-gray-600"><%= t(".created_at") %></div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_destination.created_at %>
     </div>
   </div>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".updated_at") %>
-    </div>
+    <div class="text-gray-600"><%= t(".updated_at") %></div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @delivery_destination.updated_at %>
     </div>

@@ -89,4 +89,8 @@ class JobScheduledExecution < SolidQueue::ScheduledExecution
         priority_sample.presence
     Utils.join(label, job_sample, id_sample).presence || t("to_s", id:)
   end
+
+  def to_code
+    Code::Object::JobScheduledExecution.new(attributes)
+  end
 end

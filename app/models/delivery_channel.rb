@@ -23,7 +23,17 @@ class DeliveryChannel < ApplicationRecord
   ].freeze
   PROVIDERS = {
     github: :github,
-    email: %i[smtp gmail google_workspace outlook aws_ses sendgrid resend mailgun mailchimp],
+    email: %i[
+      smtp
+      gmail
+      google_workspace
+      outlook
+      aws_ses
+      sendgrid
+      resend
+      mailgun
+      mailchimp
+    ],
     facebook: :facebook,
     messenger: :messenger,
     instagram: :instagram,
@@ -53,7 +63,10 @@ class DeliveryChannel < ApplicationRecord
             },
             allow_nil: true
   validates :amount_currency, format: { with: /\A[a-z]{3}\z/ }
-  normalizes :only, :public_pattern, :private_pattern, with: ->(value) { value.presence }
+  normalizes :only,
+             :public_pattern,
+             :private_pattern,
+             with: ->(value) { value.presence }
   validates :only, inclusion: { in: %w[private public] }, allow_nil: true
   validate :valid_recipient_patterns
   validate :valid_connection
@@ -109,10 +122,22 @@ class DeliveryChannel < ApplicationRecord
         node: -> { arel_table[:callback_base_url] },
         type: :string
       },
-      only: { node: -> { arel_table[:only] }, type: :string },
-      public_pattern: { node: -> { arel_table[:public_pattern] }, type: :string },
-      private_pattern: { node: -> { arel_table[:private_pattern] }, type: :string },
-      show_connection: { node: -> { arel_table[:show_connection] }, type: :boolean },
+      only: {
+        node: -> { arel_table[:only] },
+        type: :string
+      },
+      public_pattern: {
+        node: -> { arel_table[:public_pattern] },
+        type: :string
+      },
+      private_pattern: {
+        node: -> { arel_table[:private_pattern] },
+        type: :string
+      },
+      show_connection: {
+        node: -> { arel_table[:show_connection] },
+        type: :boolean
+      },
       show_recipient: {
         node: -> { arel_table[:show_recipient] },
         type: :boolean
@@ -141,32 +166,16 @@ class DeliveryChannel < ApplicationRecord
   def to_s = Utils.join(translated_key, id_sample)
 
   def to_code
-    {
-      id: id,
-      key: key,
-      enabled: enabled,
-      amount_cents: amount_cents,
-      amount_currency: amount_currency,
-      delivery_connection_id: delivery_connection_id,
-      messaging_service_sid: messaging_service_sid,
-      content_sid_en: content_sid_en,
-      content_sid_fr: content_sid_fr,
-      callback_base_url: callback_base_url,
-      only: only,
-      public_pattern: public_pattern,
-      private_pattern: private_pattern,
-      show_connection: show_connection,
-      show_recipient: show_recipient,
-      show_visibility: show_visibility,
-      created_at: created_at,
-      updated_at: updated_at
-    }.to_code
+    Code::Object::DeliveryChannel.new(attributes)
   end
 
   private
 
   def valid_recipient_patterns
-    { public_pattern: public_pattern, private_pattern: private_pattern }.each do |attribute, pattern|
+    {
+      public_pattern: public_pattern,
+      private_pattern: private_pattern
+    }.each do |attribute, pattern|
       Regexp.new("\\A(?:#{pattern})\\z") if pattern
     rescue RegexpError
       errors.add(attribute, :invalid)

@@ -204,8 +204,10 @@ module ApplicationHelper
       "delivery-destination-form-only": channel.only,
       "delivery-destination-form-public-pattern": channel.public_pattern,
       "delivery-destination-form-private-pattern": channel.private_pattern,
-      "delivery-destination-form-public-required": channel.recipient_required?("public"),
-      "delivery-destination-form-private-required": channel.recipient_required?("private")
+      "delivery-destination-form-public-required":
+        channel.recipient_required?("public"),
+      "delivery-destination-form-private-required":
+        channel.recipient_required?("private")
     }
   end
 

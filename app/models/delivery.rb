@@ -337,30 +337,7 @@ class Delivery < ApplicationRecord
   end
 
   def to_code
-    {
-      id: id,
-      subscription_id: subscription_id,
-      delivery_destination_id: delivery_destination_id,
-      step_execution_id: step_execution_id,
-      connection_id: connection_id,
-      event_key: event_key,
-      event_key_digest: event_key_digest,
-      subject: subject,
-      body_text: body_text,
-      body_html: body_html,
-      url: url,
-      locale: locale,
-      channel: channel,
-      recipient: recipient,
-      visibility: visibility,
-      status: status,
-      provider_id: provider_id,
-      error_code: error_code,
-      attempts: attempts,
-      next_attempt_at: next_attempt_at,
-      created_at: created_at,
-      updated_at: updated_at
-    }.to_code
+    Code::Object::Delivery.new(attributes)
   end
 
   private

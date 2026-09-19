@@ -79,22 +79,27 @@ en:
         key: key
         messaging_service_sid: messaging service sid
         only: visibility restriction
-        public_pattern: public recipient pattern
         private_pattern: private recipient pattern
+        public_pattern: public recipient pattern
         show_connection: show connection
         show_recipient: show recipient
         show_visibility: show visibility
       delivery_connection:
-        refresh_token: refresh token
-        token_expires_at: token expires at
         access_token: access token
         account_sid: account sid
         api_key: api key
         auth_token: auth token
+        aws_access_key_id: aws access key id
+        aws_region: aws region
+        aws_secret_access_key: aws secret access key
+        aws_session_token: aws session token (optional)
         base_url: base url
         enabled: enabled
+        mailgun_domain: mailgun sending domain
+        mailgun_region: mailgun region (us / eu)
         name: name
         provider: provider
+        refresh_token: refresh token
         sender: sender
         smtp_address: smtp address
         smtp_authentication: smtp authentication
@@ -102,13 +107,8 @@ en:
         smtp_password: smtp password
         smtp_port: smtp port
         smtp_user_name: smtp user name
+        token_expires_at: token expires at
         user_id: user
-        aws_access_key_id: aws access key id
-        aws_secret_access_key: aws secret access key
-        aws_session_token: aws session token (optional)
-        aws_region: aws region
-        mailgun_domain: mailgun sending domain
-        mailgun_region: mailgun region (us / eu)
       delivery_destination:
         delivery_channel_id: delivery channel
         delivery_connection_id: delivery connection
@@ -172,12 +172,26 @@ en:
       job:
         active_job_id: active job id
         arguments: arguments
+        batch_id: batch
         class_name: class name
         concurrency_key: concurrency key
         finished_at: finished at
         priority: priority
         queue_name: queue name
         scheduled_at: scheduled at
+      job_batch:
+        active_job_batch_id: active job batch id
+        completed_jobs: completed jobs
+        description: description
+        enqueued_at: enqueued at
+        failed_at: failed at
+        failed_jobs: failed jobs
+        finished_at: finished at
+        metadata: metadata
+        total_jobs: total jobs
+      job_batch_execution:
+        batch_id: batch
+        job_id: job
       job_blocked_execution:
         concurrency_key: concurrency key
         expires_at: expires at
@@ -409,13 +423,6 @@ en:
         whodunnit: whodunnit
     errors:
       models:
-        phone_number:
-          impossible: impossible
-          invalid: invalid
-        subscription:
-          attributes:
-            base:
-              required_value_missing: "%{field} can't be blank"
         delivery_destination:
           attributes:
             recipient:
@@ -424,6 +431,13 @@ en:
               slack_format: 'must be @username or #channel'
               x_format: 'must be @username for a direct message, or @username / #hashtag
                 for a public post'
+        phone_number:
+          impossible: impossible
+          invalid: invalid
+        subscription:
+          attributes:
+            base:
+              required_value_missing: "%{field} can't be blank"
   addresses:
     create:
       notice: address created
@@ -556,6 +570,14 @@ en:
     handles:
       edit: edit
       index: handles
+      new: new
+    job_batch_executions:
+      edit: edit
+      index: job batch executions
+      new: new
+    job_batches:
+      edit: edit
+      index: job batches
       new: new
     job_blocked_executions:
       edit: edit
@@ -1073,38 +1095,32 @@ en:
     retry:
       notice: saved
     show:
-      id: "id"
-      subscription_id: "subscription"
-      delivery_destination_id: "delivery destination"
-      step_execution_id: "step execution"
-      event_key: "event key"
-      status: "status"
-      subject: "subject"
-      body_text: "body text"
-      body_html: "body html"
-      url: "url"
-      locale: "locale"
-      channel: "channel"
-      recipient: "recipient"
-      visibility: "visibility"
-      connection_id: "connection id"
-      provider_id: "provider id"
-      error_code: "error code"
-      attempts: "attempts"
-      next_attempt_at: "next attempt at"
-      created_at: "created at"
-      updated_at: "updated at"
+      attempts: attempts
+      body_html: body html
+      body_text: body text
+      channel: channel
+      connection_id: connection id
+      created_at: created at
       delete: delete
+      delivery_destination_id: delivery destination
       description: delivery
       destroy: destroy
       edit: edit
+      error_code: error code
+      event_key: event key
       history: delivery history
+      id: id
+      locale: locale
       logs: logs
       manage: delivery
       new_log: new log
       new_version: new version
+      next_attempt_at: next attempt at
+      provider_id: provider id
+      recipient: recipient
       remove: remove
       retry: retry
+      status: status
       statuses:
         accepted: accepted
         canceled: canceled
@@ -1113,7 +1129,13 @@ en:
         pending: pending
         sending: sending
         uncertain: uncertain
+      step_execution_id: step execution
+      subject: subject
+      subscription_id: subscription
+      updated_at: updated at
+      url: url
       versions: versions
+      visibility: visibility
     update:
       notice: delivery updated
   delivery:
@@ -1197,33 +1219,33 @@ en:
       submit: update
       title: edit delivery channel
     form:
-      private: private
-      public: public
       channel: channel
       channels:
         apple: apple messages for business
         email: email
+        facebook: facebook
         github: github
+        instagram: instagram
         mastodon: mastodon
         messages: code dorian inbox
+        messenger: messenger
         push: push notifications
         rcs: rcs
         reddit: reddit
         slack: slack
         sms: sms
+        telegram: telegram
+        viber: viber
         webhook: webhook
         whatsapp: whatsapp
         x: x
-        facebook: facebook
-        messenger: messenger
-        instagram: instagram
-        telegram: telegram
-        viber: viber
       connection: connection
       currency: currency
       enabled: enabled
       manage: delivery
       monthly_cents: monthly price per destination (cents)
+      private: private
+      public: public
       reddit_private_verified: reddit private delivery api access has been verified
       save: save
       show_recipient: recipient
@@ -1242,22 +1264,22 @@ en:
       keys:
         apple: apple messages for business
         email: email
+        facebook: facebook
         github: github
+        instagram: instagram
         mastodon: mastodon
         messages: code dorian inbox
+        messenger: messenger
         push: push notifications
         rcs: rcs
         reddit: reddit
         slack: slack
         sms: sms
+        telegram: telegram
+        viber: viber
         webhook: webhook
         whatsapp: whatsapp
         x: x
-        facebook: facebook
-        messenger: messenger
-        instagram: instagram
-        telegram: telegram
-        viber: viber
       to_s: "#%{id}"
     new:
       description: new delivery channel
@@ -1268,43 +1290,52 @@ en:
     retry:
       notice: saved
     show:
-      id: "id"
-      key: "key"
-      amount_cents: "amount cents"
-      amount_currency: "amount currency"
-      delivery_connection_id: "delivery connection"
-      enabled: "enabled"
-      show_recipient: "show recipient"
-      show_visibility: "show visibility"
-      messaging_service_sid: "messaging service sid"
-      content_sid_en: "content sid en"
-      content_sid_fr: "content sid fr"
-      callback_base_url: "callback base url"
-      public_pattern: "public recipient pattern"
-      private_pattern: "private recipient pattern"
-      show_connection: "show connection"
-      only: "visibility restriction"
-      created_at: "created at"
-      updated_at: "updated at"
+      amount_cents: amount cents
+      amount_currency: amount currency
+      callback_base_url: callback base url
+      content_sid_en: content sid en
+      content_sid_fr: content sid fr
+      created_at: created at
       delete: delete
+      delivery_connection_id: delivery connection
       description: delivery channel
       destroy: destroy
       edit: edit
+      enabled: enabled
+      id: id
+      key: key
       logs: logs
       manage: delivery
+      messaging_service_sid: messaging service sid
       new_log: new log
       new_version: new version
+      only: visibility restriction
+      private_pattern: private recipient pattern
+      public_pattern: public recipient pattern
       remove: remove
+      show_connection: show connection
+      show_recipient: show recipient
+      show_visibility: show visibility
+      updated_at: updated at
       versions: versions
     update:
       notice: delivery channel updated
   delivery_connections:
+    callback:
+      connected: connection created
+      failed: connection failed
+      invalid_state: connection expired or invalid, please try again
+    connect:
+      failed: connection failed
     create:
       notice: delivery connection created
     delete:
       notice: delivery connection deleted
     delete_all:
       notice: delivery connections deleted
+    delivery_connection:
+      calendar_allowed: calendar access allowed (read-only)
+      calendar_not_allowed: calendar access not allowed
     destroy:
       notice: delivery connection destroyed
     destroy_all:
@@ -1327,46 +1358,44 @@ en:
       name: name
       provider: provider
       save: save
-    delivery_connection:
-      calendar_allowed: calendar access allowed (read-only)
-      calendar_not_allowed: calendar access not allowed
     index:
-      calendar_access: allow read-only access to my calendars
-      calendar_access_description: view your calendar list and events to provide reminders. your events will not be changed.
-      connect: connect %{provider}
-      server: mastodon server
       add: add
+      calendar_access: allow read-only access to my calendars
+      calendar_access_description: view your calendar list and events to provide reminders.
+        your events will not be changed.
+      connect: connect %{provider}
       delete_all: delete all delivery connections
       description: delivery connections
       destroy_all: destroy all delivery connections
       disabled: disabled
       manage: delivery
       new: new delivery connection
+      server: mastodon server
       title: delivery connections
     model:
       providers:
-        google: google
-        infobip: infobip
+        aws_ses: aws ses
+        facebook: facebook
         github: github
+        gmail: gmail
+        google: google
+        google_workspace: google workspace
+        infobip: infobip
+        instagram: instagram
+        mailchimp: mailchimp transactional
+        mailgun: mailgun
         mastodon: mastodon
+        messenger: messenger
+        outlook: outlook
         reddit: reddit
+        resend: resend
+        sendgrid: sendgrid
         slack: slack
         smtp: smtp
-        twilio: twilio
-        x: x
-        facebook: facebook
-        messenger: messenger
-        instagram: instagram
         telegram: telegram
+        twilio: twilio
         viber: viber
-        gmail: gmail
-        google_workspace: google workspace
-        outlook: outlook
-        aws_ses: aws ses
-        sendgrid: sendgrid
-        resend: resend
-        mailgun: mailgun
-        mailchimp: mailchimp transactional
+        x: x
       to_s: "#%{id}"
     new:
       description: new delivery connection
@@ -1376,59 +1405,57 @@ en:
       notice: saved
     retry:
       notice: saved
+    senders:
+      bot: bot
+      user: user
     show:
-      id: "id"
-      user_id: "user"
-      name: "name"
-      provider: "provider"
-      enabled: "enabled"
-      access_token: "access token"
-      base_url: "base url"
-      account_sid: "account sid"
-      auth_token: "auth token"
-      api_key: "api key"
-      sender: "sender"
-      smtp_from: "smtp from"
-      smtp_address: "smtp address"
-      smtp_port: "smtp port"
-      smtp_user_name: "smtp user name"
-      smtp_password: "smtp password"
-      smtp_authentication: "smtp authentication"
-      refresh_token: "refresh token"
-      token_expires_at: "token expires at"
-      aws_access_key_id: "aws access key id"
-      aws_secret_access_key: "aws secret access key"
-      aws_session_token: "aws session token (optional)"
-      aws_region: "aws region"
-      mailgun_domain: "mailgun sending domain"
-      mailgun_region: "mailgun region (us / eu)"
-      created_at: "created at"
-      updated_at: "updated at"
+      access_token: access token
+      account_sid: account sid
+      api_key: api key
+      auth_token: auth token
+      aws_access_key_id: aws access key id
+      aws_region: aws region
+      aws_secret_access_key: aws secret access key
+      aws_session_token: aws session token (optional)
+      base_url: base url
+      created_at: created at
       delete: delete
       description: delivery connection
       destroy: destroy
       edit: edit
+      enabled: enabled
+      id: id
       logs: logs
+      mailgun_domain: mailgun sending domain
+      mailgun_region: mailgun region (us / eu)
       manage: delivery
+      name: name
       new_log: new log
       new_version: new version
+      provider: provider
+      refresh_token: refresh token
       remove: remove
+      sender: sender
+      smtp_address: smtp address
+      smtp_authentication: smtp authentication
+      smtp_from: smtp from
+      smtp_password: smtp password
+      smtp_port: smtp port
+      smtp_user_name: smtp user name
+      token_expires_at: token expires at
+      updated_at: updated at
+      user_id: user
       versions: versions
     update:
       notice: delivery connection updated
-    connect:
-      failed: connection failed
-    callback:
-      failed: connection failed
-      invalid_state: connection expired or invalid, please try again
-      connected: connection created
-    senders:
-      bot: bot
-      user: user
   delivery_content:
     show:
       description: delivery
   delivery_destinations:
+    confirm_verification:
+      confirmed: email confirmed for your account and subscriptions.
+      invalid: this confirmation link is invalid or expired. please request a new
+        email.
     create:
       notice: delivery destination created
     delete:
@@ -1470,46 +1497,42 @@ en:
       title: new delivery destination
     reconcile:
       notice: saved
+    request_verification:
+      already_verified: this email is already confirmed.
+      sent: confirmation email sent. check your inbox.
     retry:
       notice: saved
     show:
-      id: "id"
-      user_id: "user"
-      delivery_channel_id: "delivery channel"
-      delivery_connection_id: "delivery connection"
-      recipient: "recipient"
-      visibility: "visibility"
-      enabled: "enabled"
-      created_at: "created at"
-      updated_at: "updated at"
+      created_at: created at
       delete: delete
+      delivery_channel_id: delivery channel
+      delivery_connection_id: delivery connection
       description: delivery destination
       destroy: destroy
       edit: edit
+      enabled: enabled
+      id: id
       logs: logs
       manage: delivery
       new_log: new log
       new_version: new version
       private: private
       public: public
+      recipient: recipient
       remove: remove
+      updated_at: updated at
+      user_id: user
       versions: versions
+      visibility: visibility
     update:
       notice: delivery destination updated
-    request_verification:
-      sent: confirmation email sent. check your inbox.
-      already_verified: this email is already confirmed.
     verification:
       confirmation: confirm this email for your account and subscriptions.
+      description: confirm this email for your account and subscriptions.
       invalid: this confirmation link is invalid or expired. please request a new
         email.
       submit: confirm email
       title: confirm email
-      description: confirm this email for your account and subscriptions.
-    confirm_verification:
-      confirmed: email confirmed for your account and subscriptions.
-      invalid: this confirmation link is invalid or expired. please request a new
-        email.
   devices:
     create:
       notice: device created
@@ -1559,6 +1582,10 @@ en:
     update:
       notice: device updated
   email_addresses:
+    confirm_verification:
+      confirmed: email confirmed for your account and subscriptions.
+      invalid: this confirmation link is invalid or expired. please request a new
+        email.
     create:
       notice: email address created
     delete:
@@ -1591,6 +1618,9 @@ en:
       description: add an email address for a user.
       submit: create email address
       title: new email address
+    request_verification:
+      already_verified: this email is already confirmed.
+      sent: confirmation email sent. check your inbox.
     show:
       created_at: created at
       delete: delete email address
@@ -1605,28 +1635,28 @@ en:
       new_log: new log
       new_version: new version
       primary: primary?
+      request_verification: send or resend confirmation email
+      unverified: email not confirmed
       updated_at: updated at
       user: user
       verified: email confirmed
       versions: versions
-      unverified: email not confirmed
-      request_verification: send or resend confirmation email
     update:
       notice: email address updated
-    request_verification:
-      sent: confirmation email sent. check your inbox.
-      already_verified: this email is already confirmed.
     verification:
       confirmation: confirm this email for your account and subscriptions.
+      description: confirm this email for your account and subscriptions.
       invalid: this confirmation link is invalid or expired. please request a new
         email.
       submit: confirm email
       title: confirm email
-      description: confirm this email for your account and subscriptions.
-    confirm_verification:
-      confirmed: email confirmed for your account and subscriptions.
-      invalid: this confirmation link is invalid or expired. please request a new
-        email.
+  email_verification_mailer:
+    confirmation:
+      expiration: this link expires in 24 hours. if you did not request it, you can
+        ignore this email.
+      instructions: confirm this email for your account and subscription deliveries.
+      subject: confirm your email
+      submit: confirm email
   error_occurrences:
     create:
       notice: error occurrence created
@@ -2167,6 +2197,102 @@ en:
       messages: messages
       programs: programs
       register: register
+  job_batch_executions:
+    create:
+      notice: job batch execution created
+    delete:
+      notice: job batch execution deleted
+    delete_all:
+      notice: job batch executions deleted
+    destroy:
+      notice: job batch execution deleted
+    destroy_all:
+      notice: job batch executions destroyed
+    edit:
+      description: update a batch execution record.
+      submit: update job batch execution
+      title: edit job batch execution
+    index:
+      delete_all: delete all
+      description: review job batch executions.
+      destroy_all: destroy all
+      new: new job batch execution
+      title: job batch executions
+    model:
+      to_s: job_batch_execution#%{id}
+    new:
+      description: create a batch execution record.
+      submit: create job batch execution
+      title: new job batch execution
+    show:
+      batch_id: batch
+      created_at: created at
+      delete: delete job batch execution
+      description: view batch execution timing and status.
+      destroy: destroy job batch execution
+      edit: edit job batch execution
+      id: id
+      job: job
+      job_id: job
+      logs: logs
+      new_log: new log
+      new_version: new version
+      updated_at: updated at
+      versions: versions
+    update:
+      notice: job batch execution updated
+  job_batches:
+    create:
+      notice: job batch created
+    delete:
+      notice: job batch deleted
+    delete_all:
+      notice: job batches deleted
+    destroy:
+      notice: job batch deleted
+    destroy_all:
+      notice: job batches destroyed
+    edit:
+      description: update job batch settings.
+      submit: update job batch
+      title: edit job batch
+    index:
+      delete_all: delete all
+      description: manage job batches.
+      destroy_all: destroy all
+      new: new job batch
+      title: job batches
+    model:
+      invalid_json: invalid json
+      to_s: job_batch#%{id}
+    new:
+      description: create a job batch.
+      submit: create job batch
+      title: new job batch
+    show:
+      active_job_batch_id: active job batch id
+      batch_executions: batch executions
+      completed_jobs: completed jobs
+      created_at: created at
+      delete: delete job batch
+      description: description
+      destroy: destroy job batch
+      edit: edit job batch
+      enqueued_at: enqueued at
+      failed_at: failed at
+      failed_jobs: failed jobs
+      finished_at: finished at
+      id: id
+      jobs: jobs
+      logs: logs
+      metadata: metadata
+      new_log: new log
+      new_version: new version
+      total_jobs: total jobs
+      updated_at: updated at
+      versions: versions
+    update:
+      notice: job batch updated
   job_blocked_executions:
     create:
       notice: job blocked execution created
@@ -2694,6 +2820,14 @@ en:
       description: browse enqueued and processed jobs.
       destroy_all: destroy all
       discard_all: discard all
+      job_batch_executions:
+        one: 1 job batch execution
+        other: "%{count} job batch executions"
+        zero: 0 job batch executions
+      job_batches:
+        one: 1 job batch
+        other: "%{count} job batches"
+        zero: 0 job batches
       job_blocked_executions:
         one: 1 job blocked execution
         other: "%{count} job blocked executions"
@@ -2754,6 +2888,7 @@ en:
       notice: jobs retried
     show:
       arguments: arguments
+      batch: batch
       class_name: class name
       concurrency_key: concurrency key
       created_at: created at
@@ -2764,6 +2899,7 @@ en:
       edit: edit job
       finished_at: finished at
       id: id
+      job_batch_executions: job batch executions
       job_blocked_executions: job blocked executions
       job_claimed_executions: job claimed executions
       job_contexts: job contexts
@@ -2772,6 +2908,7 @@ en:
       job_recurring_executions: job recurring executions
       job_scheduled_executions: job scheduled executions
       logs: logs
+      new_job_batch_execution: new job batch execution
       new_job_blocked_execution: new job blocked execution
       new_job_claimed_execution: new job claimed execution
       new_job_context: new job context
@@ -4735,24 +4872,24 @@ en:
     retry:
       notice: saved
     show:
-      id: "id"
-      subscription_id: "subscription"
-      delivery_destination_id: "delivery destination"
-      amount_cents: "amount cents"
-      amount_currency: "amount currency"
-      active: "active"
-      selected: "selected"
-      created_at: "created at"
-      updated_at: "updated at"
+      active: active
+      amount_cents: amount cents
+      amount_currency: amount currency
+      created_at: created at
       delete: delete
+      delivery_destination_id: delivery destination
       description: subscription destination
       destroy: destroy
       edit: edit
+      id: id
       logs: logs
       manage: delivery
       new_log: new log
       new_version: new version
       remove: remove
+      selected: selected
+      subscription_id: subscription
+      updated_at: updated at
       versions: versions
     update:
       notice: subscription destination updated
@@ -4898,7 +5035,7 @@ en:
         inactive: inactive
       to_s: subscription#%{id}
     new:
-      plan_id: "plan"
+      plan_id: plan
       submit: create subscription
       title: new subscription
     show:
@@ -4907,6 +5044,8 @@ en:
       created_at: created at
       deactivate: deactivate
       delete: delete subscription
+      delivery_pending: email delivery awaits confirmation. execution and billing
+        continue; skipped messages will not be resent.
       description: view subscription details.
       destroy: destroy subscription
       edit: edit subscription
@@ -4920,6 +5059,9 @@ en:
       next_at: next at
       plan_id: plan
       previous_at: previous at
+      recipient_unverified: email not confirmed
+      recipient_verified: email confirmed
+      request_verification: send or resend confirmation email
       service: service
       stale: stale
       starts_at: starts at
@@ -4930,11 +5072,6 @@ en:
       updated_at: updated at
       user_id: user
       versions: versions
-      recipient_verified: email confirmed
-      recipient_unverified: email not confirmed
-      request_verification: send or resend confirmation email
-      delivery_pending: email delivery awaits confirmation. execution and billing
-        continue; skipped messages will not be resent.
     update:
       notice: subscription updated
   time:
@@ -5078,10 +5215,10 @@ en:
       email: email
       submit: register
     show:
-      delivery_connections: delivery connections
       address: address
       admin: admin
       created_at: created at
+      delivery_connections: delivery connections
       description: description
       destroy: destroy user
       device: device
@@ -5166,10 +5303,3 @@ en:
       next: next
       previous: previous
       truncate: "…"
-  email_verification_mailer:
-    confirmation:
-      subject: confirm your email
-      instructions: confirm this email for your account and subscription deliveries.
-      submit: confirm email
-      expiration: this link expires in 24 hours. if you did not request it, you can
-        ignore this email.

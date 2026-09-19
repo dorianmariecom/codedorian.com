@@ -92,7 +92,10 @@ class Subscription < ApplicationRecord
 
     self.delivery_preview = SubscriptionDeliveryBilling.preview(self)
     confirmation_attributes = attributes.to_h.deep_stringify_keys
-    %w[delivery_destinations_attributes subscription_values_attributes].each do |key|
+    %w[
+      delivery_destinations_attributes
+      subscription_values_attributes
+    ].each do |key|
       nested_attributes = confirmation_attributes[key]
       if nested_attributes.is_a?(Hash)
         confirmation_attributes[key] = nested_attributes.values
@@ -397,7 +400,9 @@ class Subscription < ApplicationRecord
     delivery_destinations
       .reject(&:marked_for_destruction?)
       .each do |destination|
-        next unless new_record? || destination.new_record? || destination.changed?
+        unless new_record? || destination.new_record? || destination.changed?
+          next
+        end
 
         unless destination.user == user && destination.valid? &&
                  destination.available?

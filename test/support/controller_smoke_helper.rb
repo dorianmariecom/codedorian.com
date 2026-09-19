@@ -144,6 +144,8 @@ module ControllerSmokeHelper
       test_case.job_failed_executions(:job_failed_execution).id
     when :job_ready_execution_id
       test_case.job_ready_executions(:job_ready_execution).id
+    when :job_batch_execution_id
+      test_case.job_batch_executions(:job_batch_execution).id
     when :job_recurring_execution_id
       test_case.job_recurring_executions(:job_recurring_execution).id
     when :job_scheduled_execution_id
@@ -152,6 +154,8 @@ module ControllerSmokeHelper
       test_case.job_processes(:job_process).id
     when :job_recurring_task_id
       test_case.job_recurring_tasks(:job_recurring_task).id
+    when :job_batch_id
+      test_case.job_batches(:job_batch).id
     when :job_pause_id
       test_case.job_pauses(:job_pause).id
     when :job_semaphore_id
@@ -231,6 +235,8 @@ module ControllerSmokeHelper
       test_case.job_failed_executions(:job_failed_execution).id
     when "job_ready_executions"
       test_case.job_ready_executions(:job_ready_execution).id
+    when "job_batch_executions"
+      test_case.job_batch_executions(:job_batch_execution).id
     when "job_recurring_executions"
       test_case.job_recurring_executions(:job_recurring_execution).id
     when "job_scheduled_executions"
@@ -241,6 +247,8 @@ module ControllerSmokeHelper
       test_case.job_recurring_tasks(:job_recurring_task).id
     when "job_processes"
       test_case.job_processes(:job_process).id
+    when "job_batches"
+      test_case.job_batches(:job_batch).id
     when "job_pauses"
       test_case.job_pauses(:job_pause).id
     when "job_semaphores"

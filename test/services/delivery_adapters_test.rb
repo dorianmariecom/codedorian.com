@@ -72,7 +72,10 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
 
   test "X private and public deliveries use different endpoints" do
     configure("x", "x", { access_token: "test" }, recipient: "@dorian")
-    stub_request(:get, "https://api.x.com/2/users/by/username/dorian").to_return(body: { data: { id: "123" } }.to_json)
+    stub_request(
+      :get,
+      "https://api.x.com/2/users/by/username/dorian"
+    ).to_return(body: { data: { id: "123" } }.to_json)
     direct =
       stub_request(
         :post,
@@ -148,30 +151,97 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
 
   test "legacy destinations and queued snapshots keep their provider targets" do
     [
-      ["slack", "C123", "private", "https://slack.com/api/chat.postMessage", { ok: true, ts: "slack123" }, "channel", "C123"],
-      ["x", "123", "private", "https://api.x.com/2/dm_conversations/with/123/messages", { data: { dm_event_id: "dm123" } }, "text", "Hello\n\nWorld"],
-      ["x", "123", "public", "https://api.x.com/2/tweets", { data: { id: "post123" } }, "text", "Hello\n\nWorld"],
-      ["reddit", "testing", "public", "https://oauth.reddit.com/api/submit", { json: { errors: [], data: { name: "t3_test" } } }, "sr", "testing"],
-      ["reddit", "recipient", "private", "https://oauth.reddit.com/api/compose", { json: { errors: [] } }, "to", "recipient"]
+      [
+        "slack",
+        "C123",
+        "private",
+        "https://slack.com/api/chat.postMessage",
+        { ok: true, ts: "slack123" },
+        "channel",
+        "C123"
+      ],
+      [
+        "x",
+        "123",
+        "private",
+        "https://api.x.com/2/dm_conversations/with/123/messages",
+        { data: { dm_event_id: "dm123" } },
+        "text",
+        "Hello\n\nWorld"
+      ],
+      [
+        "x",
+        "123",
+        "public",
+        "https://api.x.com/2/tweets",
+        { data: { id: "post123" } },
+        "text",
+        "Hello\n\nWorld"
+      ],
+      [
+        "reddit",
+        "testing",
+        "public",
+        "https://oauth.reddit.com/api/submit",
+        { json: { errors: [], data: { name: "t3_test" } } },
+        "sr",
+        "testing"
+      ],
+      [
+        "reddit",
+        "recipient",
+        "private",
+        "https://oauth.reddit.com/api/compose",
+        { json: { errors: [] } },
+        "to",
+        "recipient"
+      ]
     ].each do |provider, recipient, visibility, endpoint, response, field, target|
-      configure(provider, provider, { access_token: "test" }, recipient: recipient)
+      configure(
+        provider,
+        provider,
+        { access_token: "test" },
+        recipient: recipient
+      )
       channel = DeliveryChannel.find_or_create_by!(key: provider)
       channel.update!(enabled: true, only: nil)
       destination = @delivery.delivery_destination
-      destination.update_columns(delivery_channel_id: channel.id, delivery_connection_id: @delivery.connection_id, recipient: recipient, visibility: visibility)
+      destination.update_columns(
+        delivery_channel_id: channel.id,
+        delivery_connection_id: @delivery.connection_id,
+        recipient: recipient,
+        visibility: visibility
+      )
       destination.reload.update!(enabled: true)
       @delivery.update!(visibility: visibility)
       @delivery.reload
       # Changing the destination must not retarget an already queued delivery.
-      destination.update!(recipient: { "slack" => "#changed", "x" => "@changed", "reddit" => visibility == "public" ? "r/changed" : "u/changed" }.fetch(provider))
-      sent = stub_request(:post, endpoint).with do |request|
-        body = provider == "reddit" ? URI.decode_www_form(request.body).to_h : JSON.parse(request.body)
-        assert_equal target, body.fetch(field)
-        true
-      end.to_return(body: response.to_json)
+      destination.update!(
+        recipient: {
+          "slack" => "#changed",
+          "x" => "@changed",
+          "reddit" => visibility == "public" ? "r/changed" : "u/changed"
+        }.fetch(provider)
+      )
+      sent =
+        stub_request(:post, endpoint)
+          .with do |request|
+            body =
+              (
+                if provider == "reddit"
+                  URI.decode_www_form(request.body).to_h
+                else
+                  JSON.parse(request.body)
+                end
+              )
+            assert_equal target, body.fetch(field)
+            true
+          end
+          .to_return(body: response.to_json)
       assert DeliveryAdapters.deliver(@delivery).status.present?
       assert_requested sent
-      assert_not_requested :get, %r{https://(?:slack.com/api/|api.x.com/2/users/)}
+      assert_not_requested :get,
+                           %r{https://(?:slack.com/api/|api.x.com/2/users/)}
       WebMock.reset!
     end
   end
@@ -272,18 +342,37 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
   end
 
   test "GitHub creates an issue with the snapshotted repository and checks visibility" do
-    configure("github", "github", { access_token: "test" }, recipient: "octocat/repository")
+    configure(
+      "github",
+      "github",
+      { access_token: "test" },
+      recipient: "octocat/repository"
+    )
     @delivery.visibility = "private"
-    stub_request(:get, "https://api.github.com/repos/octocat/repository")
-      .to_return(body: { private: true }.to_json)
-    sent = stub_request(:post, "https://api.github.com/repos/octocat/repository/issues")
-      .with(headers: { "Authorization" => "Bearer test" }, body: { title: "Hello", body: "World" }.to_json)
-      .to_return(status: 201, body: { id: 123 }.to_json)
+    stub_request(
+      :get,
+      "https://api.github.com/repos/octocat/repository"
+    ).to_return(body: { private: true }.to_json)
+    sent =
+      stub_request(
+        :post,
+        "https://api.github.com/repos/octocat/repository/issues"
+      ).with(
+        headers: {
+          "Authorization" => "Bearer test"
+        },
+        body: { title: "Hello", body: "World" }.to_json
+      ).to_return(status: 201, body: { id: 123 }.to_json)
     assert_equal "123", DeliveryAdapters.deliver(@delivery).provider_id
     assert_requested sent, times: 1
-    stub_request(:get, "https://api.github.com/repos/octocat/repository")
-      .to_return(body: { private: false }.to_json)
-    error = assert_raises(DeliveryAdapters::Rejected) { DeliveryAdapters.deliver(@delivery) }
+    stub_request(
+      :get,
+      "https://api.github.com/repos/octocat/repository"
+    ).to_return(body: { private: false }.to_json)
+    error =
+      assert_raises(DeliveryAdapters::Rejected) do
+        DeliveryAdapters.deliver(@delivery)
+      end
     assert_equal "github_repository_visibility_mismatch", error.code
     assert_requested sent, times: 1
     @delivery.visibility = "public"
@@ -292,9 +381,17 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
   end
 
   test "GitHub issue writes retry rate limits but permanently reject other forbidden responses" do
-    configure("github", "github", { access_token: "test" }, recipient: "octocat/repository")
+    configure(
+      "github",
+      "github",
+      { access_token: "test" },
+      recipient: "octocat/repository"
+    )
     @delivery.visibility = "private"
-    stub_request(:get, "https://api.github.com/repos/octocat/repository").to_return(body: { private: true }.to_json)
+    stub_request(
+      :get,
+      "https://api.github.com/repos/octocat/repository"
+    ).to_return(body: { private: true }.to_json)
 
     [
       [403, { "Retry-After" => "60" }, true],
@@ -303,33 +400,66 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
       [403, { "X-RateLimit-Remaining" => "1" }, false],
       [429, {}, true]
     ].each do |status, headers, retryable|
-      stub_request(:post, "https://api.github.com/repos/octocat/repository/issues").to_return(status: status, headers: headers)
-      error = assert_raises(DeliveryAdapters::Rejected) { DeliveryAdapters.deliver(@delivery) }
+      stub_request(
+        :post,
+        "https://api.github.com/repos/octocat/repository/issues"
+      ).to_return(status: status, headers: headers)
+      error =
+        assert_raises(DeliveryAdapters::Rejected) do
+          DeliveryAdapters.deliver(@delivery)
+        end
       assert_equal "http_#{status}", error.code
       assert_equal retryable, error.retryable
     end
   end
 
   test "GitHub issue writes preserve uncertain outcomes for server errors and timeouts" do
-    configure("github", "github", { access_token: "test" }, recipient: "octocat/repository")
+    configure(
+      "github",
+      "github",
+      { access_token: "test" },
+      recipient: "octocat/repository"
+    )
     @delivery.visibility = "private"
-    stub_request(:get, "https://api.github.com/repos/octocat/repository").to_return(body: { private: true }.to_json)
+    stub_request(
+      :get,
+      "https://api.github.com/repos/octocat/repository"
+    ).to_return(body: { private: true }.to_json)
 
     [408, 500, 503].each do |status|
-      stub_request(:post, "https://api.github.com/repos/octocat/repository/issues").to_return(status: status, headers: { "Retry-After" => "60" })
+      stub_request(
+        :post,
+        "https://api.github.com/repos/octocat/repository/issues"
+      ).to_return(status: status, headers: { "Retry-After" => "60" })
       assert_raises(IOError) { DeliveryAdapters.deliver(@delivery) }
     end
-    stub_request(:post, "https://api.github.com/repos/octocat/repository/issues").to_timeout
+    stub_request(
+      :post,
+      "https://api.github.com/repos/octocat/repository/issues"
+    ).to_timeout
     assert_raises(Timeout::Error) { DeliveryAdapters.deliver(@delivery) }
   end
 
   test "GitHub rejects invalid repositories and treats incomplete writes as uncertain" do
-    configure("github", "github", { access_token: "test" }, recipient: "octocat/../issues")
-    assert_raises(DeliveryAdapters::Rejected) { DeliveryAdapters.deliver(@delivery) }
+    configure(
+      "github",
+      "github",
+      { access_token: "test" },
+      recipient: "octocat/../issues"
+    )
+    assert_raises(DeliveryAdapters::Rejected) do
+      DeliveryAdapters.deliver(@delivery)
+    end
     @delivery.recipient = "octocat/repository"
     @delivery.visibility = "private"
-    stub_request(:get, "https://api.github.com/repos/octocat/repository").to_return(body: { private: true }.to_json)
-    stub_request(:post, "https://api.github.com/repos/octocat/repository/issues").to_return(status: 201, body: "{}")
+    stub_request(
+      :get,
+      "https://api.github.com/repos/octocat/repository"
+    ).to_return(body: { private: true }.to_json)
+    stub_request(
+      :post,
+      "https://api.github.com/repos/octocat/repository/issues"
+    ).to_return(status: 201, body: "{}")
     assert_raises(IOError) { DeliveryAdapters.deliver(@delivery) }
   end
 

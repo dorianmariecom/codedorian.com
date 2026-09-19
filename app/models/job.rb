@@ -15,6 +15,9 @@ class Job < SolidQueue::Job
   has_many(:job_claimed_executions, dependent: :destroy)
   has_many(:job_failed_executions, dependent: :destroy)
   has_many(:job_ready_executions, dependent: :destroy)
+  belongs_to(:batch, class_name: "JobBatch", optional: true)
+  has_many(:job_batch_executions, dependent: :destroy)
+
   has_many(:job_recurring_executions, dependent: :destroy)
   has_many(:job_scheduled_executions, dependent: :destroy)
 
@@ -62,6 +65,10 @@ class Job < SolidQueue::Job
 
   def self.search_fields
     {
+      batch_id: {
+        node: -> { arel_table[:batch_id] },
+        type: :integer
+      },
       active_job_id: {
         node: -> { arel_table[:active_job_id] },
         type: :string
@@ -146,5 +153,9 @@ class Job < SolidQueue::Job
       class_name_sample.presence || queue_name_sample.presence ||
         concurrency_key_sample.presence || arguments_sample.presence
     Utils.join(label, id_sample).presence || t("to_s", id:)
+  end
+
+  def to_code
+    Code::Object::Job.new(attributes)
   end
 end

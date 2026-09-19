@@ -85,4 +85,8 @@ class Session < ActiveRecord::SessionStore::Session
       id_sample
     ).presence || t("to_s", id:)
   end
+
+  def to_code
+    Code::Object::Session.new(attributes)
+  end
 end

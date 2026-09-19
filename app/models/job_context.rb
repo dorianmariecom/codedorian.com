@@ -66,4 +66,8 @@ class JobContext < ApplicationRecord
   def to_s
     Utils.join(context_sample, job_sample, id_sample).presence || t("to_s", id:)
   end
+
+  def to_code
+    Code::Object::JobContext.new(attributes)
+  end
 end

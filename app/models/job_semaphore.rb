@@ -48,4 +48,8 @@ class JobSemaphore < SolidQueue::Semaphore
       key_sample.presence || value_sample.presence || expires_at_sample.presence
     Utils.join(label, id_sample).presence || t("to_s", id:)
   end
+
+  def to_code
+    Code::Object::JobSemaphore.new(attributes)
+  end
 end

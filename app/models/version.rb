@@ -122,4 +122,8 @@ class Version < PaperTrail::Version
       id_sample
     ).presence || t("to_s", id:)
   end
+
+  def to_code
+    Code::Object::Version.new(attributes)
+  end
 end

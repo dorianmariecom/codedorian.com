@@ -11,12 +11,21 @@ class SlackRecipient
   def self.resolve(connection, recipient)
     return recipient if recipient.to_s.match?(ID_FORMAT)
 
-    raise DeliveryAdapters::Rejected, "invalid_slack_recipient" unless recipient.to_s.match?(FORMAT)
-
-    key = ["slack-recipient-v1", connection.id, Digest::SHA256.hexdigest(connection.access_token), recipient.downcase]
-    Rails.cache.fetch(key, expires_in: 5.minutes) do
-      new(connection.access_token).resolve(recipient)
+    unless recipient.to_s.match?(FORMAT)
+      raise DeliveryAdapters::Rejected, "invalid_slack_recipient"
     end
+
+    key = [
+      "slack-recipient-v1",
+      connection.id,
+      Digest::SHA256.hexdigest(connection.access_token),
+      recipient.downcase
+    ]
+    Rails
+      .cache
+      .fetch(key, expires_in: 5.minutes) do
+        new(connection.access_token).resolve(recipient)
+      end
   end
 
   def initialize(token)
@@ -26,24 +35,49 @@ class SlackRecipient
   def resolve(recipient)
     name = recipient.delete_prefix("@").delete_prefix("#").downcase
     if recipient.start_with?("#")
-      channel = entries("conversations.list", "channels", types: "public_channel,private_channel", exclude_archived: true)
-        .find { |item| item["name"].to_s.downcase == name }
+      channel =
+        entries(
+          "conversations.list",
+          "channels",
+          types: "public_channel,private_channel",
+          exclude_archived: true
+        ).find { |item| item["name"].to_s.downcase == name }
       raise DeliveryAdapters::Rejected, "channel_not_found" unless channel
 
       channel.fetch("id")
     else
-      users = entries("users.list", "members").reject { |user| user["deleted"] || user["is_bot"] }
+      users =
+        entries("users.list", "members").reject do |user|
+          user["deleted"] || user["is_bot"]
+        end
       matches = users.select { |user| user["name"].to_s.downcase == name }
       if matches.empty?
-        matches = users.select { |user| user.dig("profile", "display_name").to_s.downcase == name }
+        matches =
+          users.select do |user|
+            user.dig("profile", "display_name").to_s.downcase == name
+          end
       end
       raise DeliveryAdapters::Rejected, "user_not_found" if matches.empty?
-      raise DeliveryAdapters::Rejected, "ambiguous_slack_user" unless matches.one?
+      unless matches.one?
+        raise DeliveryAdapters::Rejected, "ambiguous_slack_user"
+      end
 
-      request("conversations.open", { users: matches.first.fetch("id") }, post: true).fetch("channel").fetch("id")
+      request(
+        "conversations.open",
+        { users: matches.first.fetch("id") },
+        post: true
+      ).fetch("channel").fetch("id")
     end
-  rescue KeyError, JSON::ParserError, IOError, SystemCallError, Timeout::Error, OpenSSL::SSL::SSLError
-    raise DeliveryAdapters::Rejected.new("slack_recipient_lookup_failed", retryable: true)
+  rescue KeyError,
+         JSON::ParserError,
+         IOError,
+         SystemCallError,
+         Timeout::Error,
+         OpenSSL::SSL::SSLError
+    raise DeliveryAdapters::Rejected.new(
+            "slack_recipient_lookup_failed",
+            retryable: true
+          )
   end
 
   private
@@ -53,7 +87,8 @@ class SlackRecipient
     cursor = nil
     seen = []
     loop do
-      data = request(method, parameters.merge(limit: 200, cursor: cursor).compact)
+      data =
+        request(method, parameters.merge(limit: 200, cursor: cursor).compact)
       results.concat(data.fetch(key))
       cursor = data.dig("response_metadata", "next_cursor").presence
       break unless cursor
@@ -72,7 +107,10 @@ class SlackRecipient
     request.set_form_data(parameters) if post
     response = Http.request(request)
     unless response.is_a?(Net::HTTPSuccess)
-      raise DeliveryAdapters::Rejected.new("slack_lookup_http_#{response.code}", retryable: response.code == "429" || response.code.to_i >= 500)
+      raise DeliveryAdapters::Rejected.new(
+              "slack_lookup_http_#{response.code}",
+              retryable: response.code == "429" || response.code.to_i >= 500
+            )
     end
 
     data = JSON.parse(response.body)
@@ -80,7 +118,10 @@ class SlackRecipient
 
     unless data["ok"] == true
       error = data.fetch("error", "slack_lookup_failed")
-      raise DeliveryAdapters::Rejected.new(error, retryable: error == "ratelimited")
+      raise DeliveryAdapters::Rejected.new(
+              error,
+              retryable: error == "ratelimited"
+            )
     end
 
     data

@@ -75,6 +75,10 @@ class Link < ApplicationRecord
     Utils.join(title_sample, id_sample).presence || t("to_s", id:)
   end
 
+  def to_code
+    Code::Object::Link.new(attributes)
+  end
+
   private
 
   def evaluate(input, context)

@@ -5,23 +5,30 @@ require "test_helper"
 class WebhookDeliveryTest < ActiveSupport::TestCase
   setup do
     Current.user = users(:admin)
-    @channel = DeliveryChannel.create!(
-      key: "webhook", only: "private", enabled: true, amount_cents: 0, show_recipient: true
-    )
-    @destination = DeliveryDestination.create!(
-      user: subscriptions(:subscription).user,
-      delivery_channel: @channel,
-      recipient: "https://hooks.example.com/events?source=code"
-    )
-    @delivery = Delivery.create!(
-      subscription: subscriptions(:subscription),
-      delivery_destination: @destination,
-      event_key: "webhook-test",
-      subject: "hello",
-      body_text: "world",
-      body_html: "<p>world</p>",
-      locale: "fr"
-    )
+    @channel =
+      DeliveryChannel.create!(
+        key: "webhook",
+        only: "private",
+        enabled: true,
+        amount_cents: 0,
+        show_recipient: true
+      )
+    @destination =
+      DeliveryDestination.create!(
+        user: subscriptions(:subscription).user,
+        delivery_channel: @channel,
+        recipient: "https://hooks.example.com/events?source=code"
+      )
+    @delivery =
+      Delivery.create!(
+        subscription: subscriptions(:subscription),
+        delivery_destination: @destination,
+        event_key: "webhook-test",
+        subject: "hello",
+        body_text: "world",
+        body_html: "<p>world</p>",
+        locale: "fr"
+      )
   end
 
   teardown { Current.reset }
@@ -30,7 +37,13 @@ class WebhookDeliveryTest < ActiveSupport::TestCase
     assert @channel.available?
     assert @destination.available?
     assert_nil @destination.connection
-    ["", "http://example.com", "https://user:password@example.com", "https://example.com/#fragment", "not a url"].each do |recipient|
+    [
+      "",
+      "http://example.com",
+      "https://user:password@example.com",
+      "https://example.com/#fragment",
+      "not a url"
+    ].each do |recipient|
       @destination.recipient = recipient
       assert_not @destination.valid?, recipient
       assert @destination.errors[:recipient].present?
@@ -42,21 +55,27 @@ class WebhookDeliveryTest < ActiveSupport::TestCase
   end
 
   test "posts full JSON content with a stable idempotency key and accepts empty or text success responses" do
-    sent = stub_request(:post, @delivery.recipient).with(
-      headers: {
-        "Content-Type" => "application/json",
-        "Idempotency-Key" => Digest::SHA256.hexdigest("delivery-#{@delivery.id}")
-      },
-      body: {
-        id: @delivery.id,
-        event_key: "webhook-test",
-        subject: "hello",
-        body_text: "world",
-        body_html: "<p>world</p>",
-        url: nil,
-        locale: "fr"
-      }.to_json
-    ).to_return(status: 204, body: "").then.to_return(status: 200, body: "ok")
+    sent =
+      stub_request(:post, @delivery.recipient)
+        .with(
+          headers: {
+            "Content-Type" => "application/json",
+            "Idempotency-Key" =>
+              Digest::SHA256.hexdigest("delivery-#{@delivery.id}")
+          },
+          body: {
+            id: @delivery.id,
+            event_key: "webhook-test",
+            subject: "hello",
+            body_text: "world",
+            body_html: "<p>world</p>",
+            url: nil,
+            locale: "fr"
+          }.to_json
+        )
+        .to_return(status: 204, body: "")
+        .then
+        .to_return(status: 200, body: "ok")
     with_public_provider do
       2.times do
         result = DeliveryAdapters.deliver(@delivery)
@@ -69,14 +88,20 @@ class WebhookDeliveryTest < ActiveSupport::TestCase
 
   test "validates snapshotted URLs again before sending" do
     @delivery.recipient = "http://example.com/hook"
-    error = assert_raises(DeliveryAdapters::Rejected) { DeliveryAdapters.deliver(@delivery) }
+    error =
+      assert_raises(DeliveryAdapters::Rejected) do
+        DeliveryAdapters.deliver(@delivery)
+      end
     assert_equal "invalid_webhook_url", error.code
     assert_not_requested :post, /example.com/
   end
 
   test "blocks internal addresses before sending" do
     @delivery.recipient = "https://127.0.0.1/hook"
-    error = assert_raises(DeliveryAdapters::Rejected) { DeliveryAdapters.deliver(@delivery) }
+    error =
+      assert_raises(DeliveryAdapters::Rejected) do
+        DeliveryAdapters.deliver(@delivery)
+      end
     assert_equal "invalid_provider_host", error.code
     assert_not_requested :post, /127.0.0.1/
   end
@@ -85,12 +110,20 @@ class WebhookDeliveryTest < ActiveSupport::TestCase
     with_public_provider do
       [400, 429].each do |status|
         stub_request(:post, @delivery.recipient).to_return(status: status)
-        error = assert_raises(DeliveryAdapters::Rejected) { DeliveryAdapters.deliver(@delivery) }
+        error =
+          assert_raises(DeliveryAdapters::Rejected) do
+            DeliveryAdapters.deliver(@delivery)
+          end
         assert_equal "http_#{status}", error.code
         assert_equal status == 429, error.retryable
       end
       [302, 408, 500].each do |status|
-        stub_request(:post, @delivery.recipient).to_return(status: status, headers: { "Location" => "https://other.example.com" })
+        stub_request(:post, @delivery.recipient).to_return(
+          status: status,
+          headers: {
+            "Location" => "https://other.example.com"
+          }
+        )
         assert_raises(IOError) { DeliveryAdapters.deliver(@delivery) }
       end
       assert_not_requested :post, "https://other.example.com"

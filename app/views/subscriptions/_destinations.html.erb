@@ -14,15 +14,11 @@
         DeliveryDestination.new,
         child_index: "NEW_RECORD"
       ) do |destination_f| %>
-        <%= render "subscriptions/destination_fields",
-               f: destination_f,
-               channels: channels %>
+        <%= render "subscriptions/destination_fields", f: destination_f, channels: channels %>
       <% end %>
     </template>
     <%= f.fields_for(:delivery_destinations) do |destination_f| %>
-      <%= render "subscriptions/destination_fields",
-             f: destination_f,
-             channels: channels %>
+      <%= render "subscriptions/destination_fields", f: destination_f, channels: channels %>
     <% end %>
     <div data-nested-target="target"></div>
     <div class="p">

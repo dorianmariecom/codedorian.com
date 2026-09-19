@@ -73,6 +73,10 @@ class StripeEvent < ApplicationRecord
     Utils.join(stripe_event_id_sample, id_sample).presence || t("to_s", id:)
   end
 
+  def to_code
+    Code::Object::StripeEvent.new(attributes)
+  end
+
   private
 
   def parse_and_validate_payload

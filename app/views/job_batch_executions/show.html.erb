@@ -1,0 +1,89 @@
+<% content_for(:title, @job_batch_execution) %>
+
+<%= turbo_stream_from(@job_batch_execution) %>
+
+<% if @job_batch_execution.id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".id") %></div>
+    <div class="font-bold"><%= @job_batch_execution.id %></div>
+  </div>
+<% end %>
+
+<% if @job_batch_execution.job_id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".job_id") %></div>
+    <div class="font-bold">
+      <%= link_to(@job_batch_execution.job, @job_batch_execution.job, class: :link) %>
+    </div>
+  </div>
+<% end %>
+
+<% if @job_batch_execution.batch_id.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".batch_id") %></div>
+    <div class="font-bold">
+      <%= link_to(@job_batch_execution.batch, @job_batch_execution.batch, class: :link) %>
+    </div>
+  </div>
+<% end %>
+
+<% if @job_batch_execution.created_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".created_at") %></div>
+    <div class="font-bold">
+      <%= local_time(@job_batch_execution.created_at, format: :default) %>
+    </div>
+  </div>
+<% end %>
+
+<% if @job_batch_execution.updated_at.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".updated_at") %></div>
+    <div class="font-bold">
+      <%= local_time(@job_batch_execution.updated_at, format: :default) %>
+    </div>
+  </div>
+<% end %>
+
+<div class="p p--flex">
+  <%= link_to(t(".edit"), edit_url, class: :link) %>
+  <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+  <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
+</div>
+
+<% if can?(:index, Log) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".logs"),
+      {
+        controller: :logs,
+        action: :index,
+        job_batch_execution_id: @job_batch_execution&.id
+      },
+      class: :link
+    ) %>
+  </div>
+
+  <% if can?(:create, Log) %>
+    <div class="p">
+      <%= link_to(
+        t(".new_log"),
+        {
+          controller: :logs,
+          action: :new,
+          job_batch_execution_id: @job_batch_execution&.id
+        },
+        class: "button"
+      ) %>
+    </div>
+  <% end %>
+
+  <%= render_collection(
+    partial: "logs/log",
+    collection: @logs,
+    as: :log,
+    locals: {
+      nested: [*nested, @job_batch_execution]
+    }
+  ) %>
+<% end %>

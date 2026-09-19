@@ -78,4 +78,8 @@ class JobClaimedExecution < SolidQueue::ClaimedExecution
       id_sample
     ).presence || t("to_s", id:)
   end
+
+  def to_code
+    Code::Object::JobClaimedExecution.new(attributes)
+  end
 end

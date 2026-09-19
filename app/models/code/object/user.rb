@@ -3,6 +3,17 @@
 class Code
   class Object
     class User < Dictionary
+      def record!
+        Pundit.policy_scope!(::Current.user, ::User).find(code_get("id").to_s)
+      end
+
+      def initialize(*, **)
+        super
+        return if code_get("id").to_s.blank?
+
+        super(record!.attributes, *, **)
+      end
+
       CLASS_DOCUMENTATION = {
         name: "User",
         description: "accesses users by id or handle from code.",
@@ -63,6 +74,12 @@ class Code
         code_value = code_arguments.code_first
 
         case code_operator.to_s
+        when "all"
+          sig(args)
+          code_all
+        when "where"
+          sig(args) { Dictionary }
+          code_where(args.fetch(:arguments, []).to_code.code_first)
         when "find"
           sig(args) { String }
           code_find(code_value)
@@ -74,10 +91,35 @@ class Code
         end
       end
 
+      def self.code_all
+        Pundit.policy_scope!(::Current.user, ::User).to_code
+      end
+
+      def self.code_where(value)
+        attributes = value.to_code.as_json
+        unless (attributes.keys - ::User.column_names).empty?
+          raise ::Code::Error, "invalid_record_attributes"
+        end
+
+        Pundit.policy_scope!(::Current.user, ::User).where(attributes).to_code
+      end
+
       def call(**args)
         code_operator = args.fetch(:operator, nil).to_code
 
         case code_operator.to_s
+        when "versions"
+          sig(args)
+          code_versions
+        when "delivery_destinations"
+          sig(args)
+          code_delivery_destinations
+        when "delivery_connections"
+          sig(args)
+          code_delivery_connections
+        when "stripe_invoices"
+          sig(args)
+          code_stripe_invoices
         when "addresses"
           sig(args)
           code_addresses
@@ -141,6 +183,34 @@ class Code
         else
           super
         end
+      end
+
+      def code_versions
+        Pundit
+          .policy_scope!(::Current.user, ::Version)
+          .where(id: record!.versions.select(:id))
+          .to_code
+      end
+
+      def code_delivery_destinations
+        Pundit
+          .policy_scope!(::Current.user, ::DeliveryDestination)
+          .where(id: record!.delivery_destinations.select(:id))
+          .to_code
+      end
+
+      def code_delivery_connections
+        Pundit
+          .policy_scope!(::Current.user, ::DeliveryConnection)
+          .where(id: record!.delivery_connections.select(:id))
+          .to_code
+      end
+
+      def code_stripe_invoices
+        Pundit
+          .policy_scope!(::Current.user, ::StripeInvoice)
+          .where(id: record!.stripe_invoices.select(:id))
+          .to_code
       end
 
       def self.code_find(value)

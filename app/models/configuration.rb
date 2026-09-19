@@ -47,4 +47,8 @@ class Configuration < ApplicationRecord
     Utils.join(name_sample.presence || content_sample, id_sample).presence ||
       t("to_s", id:)
   end
+
+  def to_code
+    Code::Object::Configuration.new(attributes)
+  end
 end

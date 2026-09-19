@@ -3,6 +3,80 @@
 class Code
   class Object
     class Message < Dictionary
+      def record!
+        Pundit.policy_scope!(::Current.user, ::Message).find(
+          code_get("id").to_s
+        )
+      end
+
+      def initialize(*, **)
+        super
+        return if code_get("id").to_s.blank?
+
+        super(record!.attributes, *, **)
+      end
+
+      def call(**args)
+        case args.fetch(:operator, nil).to_code.to_s
+        when "versions"
+          sig(args)
+          code_versions
+        when "from_user"
+          sig(args)
+          code_from_user
+        when "to_user"
+          sig(args)
+          code_to_user
+        when "rich_text_subject"
+          sig(args)
+          code_rich_text_subject
+        when "rich_text_body"
+          sig(args)
+          code_rich_text_body
+        else
+          super
+        end
+      end
+
+      def code_versions
+        Pundit
+          .policy_scope!(::Current.user, ::Version)
+          .where(id: record!.versions.select(:id))
+          .to_code
+      end
+
+      def code_from_user
+        Pundit
+          .policy_scope!(::Current.user, ::User)
+          .find_by(id: record!.from_user&.id)
+          .to_code
+      end
+
+      def code_to_user
+        Pundit
+          .policy_scope!(::Current.user, ::User)
+          .find_by(id: record!.to_user&.id)
+          .to_code
+      end
+
+      def code_rich_text_subject
+        rich_text = record!.rich_text_subject
+        if rich_text
+          rich_text.attributes.merge("body" => rich_text.body.to_html).to_code
+        else
+          nil.to_code
+        end
+      end
+
+      def code_rich_text_body
+        rich_text = record!.rich_text_body
+        if rich_text
+          rich_text.attributes.merge("body" => rich_text.body.to_html).to_code
+        else
+          nil.to_code
+        end
+      end
+
       CLASS_DOCUMENTATION = {
         name: "Message",
         description: "creates and reads direct user messages.",
@@ -48,6 +122,18 @@ class Code
         code_value = code_arguments.code_first
 
         case code_operator.to_s
+        when "all"
+          sig(args)
+          code_all
+        when "where"
+          sig(args) { Dictionary }
+          code_where(args.fetch(:arguments, []).to_code.code_first)
+        when "find"
+          sig(args) { String | Integer }
+          code_find(args.fetch(:arguments, []).to_code.code_first)
+        when "find!"
+          sig(args) { String | Integer }
+          code_find!(args.fetch(:arguments, []).to_code.code_first)
         when "create!"
           sig(args) do
             {
@@ -91,6 +177,32 @@ class Code
         else
           super
         end
+      end
+
+      def self.code_all
+        Pundit.policy_scope!(::Current.user, ::Message).to_code
+      end
+
+      def self.code_where(value)
+        attributes = value.to_code.as_json
+        unless (attributes.keys - ::Message.column_names).empty?
+          raise ::Code::Error, "invalid_record_attributes"
+        end
+
+        Pundit
+          .policy_scope!(::Current.user, ::Message)
+          .where(attributes)
+          .to_code
+      end
+
+      def self.code_find(value)
+        id = value.to_code.to_s
+        Pundit.policy_scope!(::Current.user, ::Message).find_by(id: id).to_code
+      end
+
+      def self.code_find!(value)
+        id = value.to_code.to_s
+        Pundit.policy_scope!(::Current.user, ::Message).find(id).to_code
       end
 
       def self.code_create(from: nil, to: nil, subject: nil, body: nil)

@@ -3,22 +3,86 @@
 class Code
   class Object
     class Subscription < Dictionary
+      def record!
+        Pundit.policy_scope!(::Current.user, ::Subscription).find(
+          code_get("id").to_s
+        )
+      end
+
+      def initialize(*, **)
+        super
+        return if code_get("id").to_s.blank?
+
+        super(record!.attributes, *, **)
+      end
+
+      def self.call(**args)
+        case args.fetch(:operator, nil).to_code.to_s
+        when "all"
+          sig(args)
+          code_all
+        when "where"
+          sig(args) { Dictionary }
+          code_where(args.fetch(:arguments, []).to_code.code_first)
+        when "find"
+          sig(args) { String | Integer }
+          code_find(args.fetch(:arguments, []).to_code.code_first)
+        when "find!"
+          sig(args) { String | Integer }
+          code_find!(args.fetch(:arguments, []).to_code.code_first)
+        else
+          super
+        end
+      end
+
+      def self.code_all
+        Pundit.policy_scope!(::Current.user, ::Subscription).to_code
+      end
+
+      def self.code_where(value)
+        attributes = value.to_code.as_json
+        unless (attributes.keys - ::Subscription.column_names).empty?
+          raise ::Code::Error, "invalid_record_attributes"
+        end
+
+        Pundit
+          .policy_scope!(::Current.user, ::Subscription)
+          .where(attributes)
+          .to_code
+      end
+
+      def self.code_find(value)
+        id = value.to_code.to_s
+        Pundit
+          .policy_scope!(::Current.user, ::Subscription)
+          .find_by(id: id)
+          .to_code
+      end
+
+      def self.code_find!(value)
+        id = value.to_code.to_s
+        Pundit.policy_scope!(::Current.user, ::Subscription).find(id).to_code
+      end
+
       def call(**args)
         operator = args.fetch(:operator, nil).to_code.to_s
 
         case operator
-        when "delivery_connection"
-          sig(args) { { provider: String, id: String.maybe } }
-          attributes = args.fetch(:arguments, []).to_code.code_first.as_json.symbolize_keys
-          connections = policy_scope(subscription!.user.delivery_connections).where_provider(attributes.fetch(:provider)).where(enabled: true)
-          connections = connections.where(id: attributes[:id]) if attributes[:id].present?
-          begin
-            connections.sole.credentials_for_code
-          rescue *DeliveryConnectionOauth::ERRORS => e
-            raise ::Code::Error, e.code
-          rescue ActiveRecord::RecordNotFound, ActiveRecord::SoleRecordExceeded
-            raise ::Code::Error, "delivery_connection_required"
-          end
+        when "versions"
+          sig(args)
+          code_versions
+        when "subscription_destinations"
+          sig(args)
+          code_subscription_destinations
+        when "delivery_destinations"
+          sig(args)
+          code_delivery_destinations
+        when "deliveries"
+          sig(args)
+          code_deliveries
+        when "stripe_invoices"
+          sig(args)
+          code_stripe_invoices
         when "deliver!"
           sig(args) do
             {
@@ -57,6 +121,41 @@ class Code
         else
           super
         end
+      end
+
+      def code_versions
+        Pundit
+          .policy_scope!(::Current.user, ::Version)
+          .where(id: record!.versions.select(:id))
+          .to_code
+      end
+
+      def code_subscription_destinations
+        Pundit
+          .policy_scope!(::Current.user, ::SubscriptionDestination)
+          .where(id: record!.subscription_destinations.select(:id))
+          .to_code
+      end
+
+      def code_delivery_destinations
+        Pundit
+          .policy_scope!(::Current.user, ::DeliveryDestination)
+          .where(id: record!.delivery_destinations.select(:id))
+          .to_code
+      end
+
+      def code_deliveries
+        Pundit
+          .policy_scope!(::Current.user, ::Delivery)
+          .where(id: record!.deliveries.select(:id))
+          .to_code
+      end
+
+      def code_stripe_invoices
+        Pundit
+          .policy_scope!(::Current.user, ::StripeInvoice)
+          .where(id: record!.stripe_invoices.select(:id))
+          .to_code
       end
 
       def code_deliver!(args)

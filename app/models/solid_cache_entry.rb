@@ -59,6 +59,10 @@ class SolidCacheEntry < SolidCache::Entry
       t("to_s", id:)
   end
 
+  def to_code
+    Code::Object::SolidCacheEntry.new(attributes)
+  end
+
   private
 
   def decode_key_base64

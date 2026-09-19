@@ -15,7 +15,9 @@ class Service < ApplicationRecord
                                 allow_destroy: true,
                                 reject_if: :all_blank
   has_many :subscriptions, through: :plans
-  has_many :subscription_executions, through: :subscriptions
+  has_many :subscription_executions,
+           through: :subscriptions,
+           source: :subscription_executions
   has_many :step_executions, through: :subscription_executions
   has_rich_text :name_en
   has_rich_text :name_fr

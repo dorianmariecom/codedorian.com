@@ -14,6 +14,7 @@ class LogsController < ApplicationController
   before_action(:load_job)
   before_action(:load_job_context)
   before_action(:load_job_process)
+  before_action(:load_job_batch)
   before_action(:load_job_pause)
   before_action(:load_job_semaphore)
   before_action(:load_job_ready_execution)
@@ -21,6 +22,7 @@ class LogsController < ApplicationController
   before_action(:load_job_scheduled_execution)
   before_action(:load_job_blocked_execution)
   before_action(:load_job_claimed_execution)
+  before_action(:load_job_batch_execution)
   before_action(:load_job_recurring_execution)
   before_action(:load_job_recurring_task)
   before_action(:load_error)
@@ -146,7 +148,9 @@ class LogsController < ApplicationController
 
     @delivery_connection =
       authorize(
-        policy_scope(DeliveryConnection).find(params.expect(:delivery_connection_id)),
+        policy_scope(DeliveryConnection).find(
+          params.expect(:delivery_connection_id)
+        ),
         :show?
       )
     set_context(delivery_connection: @delivery_connection)
@@ -158,7 +162,9 @@ class LogsController < ApplicationController
 
     @delivery_destination =
       authorize(
-        policy_scope(DeliveryDestination).find(params.expect(:delivery_destination_id)),
+        policy_scope(DeliveryDestination).find(
+          params.expect(:delivery_destination_id)
+        ),
         :show?
       )
     set_context(delivery_destination: @delivery_destination)
@@ -170,11 +176,16 @@ class LogsController < ApplicationController
 
     @subscription_destination =
       authorize(
-        policy_scope(SubscriptionDestination).find(params.expect(:subscription_destination_id)),
+        policy_scope(SubscriptionDestination).find(
+          params.expect(:subscription_destination_id)
+        ),
         :show?
       )
     set_context(subscription_destination: @subscription_destination)
-    add_breadcrumb(text: @subscription_destination, path: @subscription_destination)
+    add_breadcrumb(
+      text: @subscription_destination,
+      path: @subscription_destination
+    )
   end
 
   def load_guest
@@ -278,6 +289,15 @@ class LogsController < ApplicationController
     add_breadcrumb(text: @job_process, path: [*nested, @job_process].uniq)
   end
 
+  def load_job_batch
+    return if params[:job_batch_id].blank?
+
+    @job_batch = job_batches_scope.find(params.expect(:job_batch_id))
+
+    set_context(job_batch: @job_batch)
+    add_breadcrumb(text: @job_batch, path: [*nested, @job_batch].uniq)
+  end
+
   def load_job_pause
     return if params[:job_pause_id].blank?
 
@@ -364,6 +384,19 @@ class LogsController < ApplicationController
     add_breadcrumb(
       text: @job_claimed_execution,
       path: [*nested, @job_claimed_execution].uniq
+    )
+  end
+
+  def load_job_batch_execution
+    return if params[:job_batch_execution_id].blank?
+
+    @job_batch_execution =
+      job_batch_executions_scope.find(params.expect(:job_batch_execution_id))
+
+    set_context(job_batch_execution: @job_batch_execution)
+    add_breadcrumb(
+      text: @job_batch_execution,
+      path: [*nested, @job_batch_execution].uniq
     )
   end
 
@@ -616,6 +649,8 @@ class LogsController < ApplicationController
       scope = scope.where_job_context(@job_context)
     elsif @job_process
       scope = scope.where_job_process(@job_process)
+    elsif @job_batch
+      scope = scope.where_job_batch(@job_batch)
     elsif @job_pause
       scope = scope.where_job_pause(@job_pause)
     elsif @job_semaphore
@@ -630,6 +665,8 @@ class LogsController < ApplicationController
       scope = scope.where_job_blocked_execution(@job_blocked_execution)
     elsif @job_claimed_execution
       scope = scope.where_job_claimed_execution(@job_claimed_execution)
+    elsif @job_batch_execution
+      scope = scope.where_job_batch_execution(@job_batch_execution)
     elsif @job_recurring_execution
       scope = scope.where_job_recurring_execution(@job_recurring_execution)
     elsif @job_recurring_task
@@ -685,6 +722,7 @@ class LogsController < ApplicationController
     job: @job,
     job_context: @job_context,
     job_process: @job_process,
+    job_batch: @job_batch,
     job_pause: @job_pause,
     job_semaphore: @job_semaphore,
     job_ready_execution: @job_ready_execution,
@@ -692,6 +730,7 @@ class LogsController < ApplicationController
     job_scheduled_execution: @job_scheduled_execution,
     job_blocked_execution: @job_blocked_execution,
     job_claimed_execution: @job_claimed_execution,
+    job_batch_execution: @job_batch_execution,
     job_recurring_execution: @job_recurring_execution,
     job_recurring_task: @job_recurring_task,
     error: @error,
@@ -723,10 +762,11 @@ class LogsController < ApplicationController
     chain << subscription_destination if subscription_destination
 
     job_leaf =
-      job_context || job_process || job_pause || job_semaphore ||
-        job_ready_execution || job_failed_execution ||
-        job_scheduled_execution || job_blocked_execution ||
-        job_claimed_execution || job_recurring_execution || job_recurring_task
+      job_batch_execution || job_batch || job_context || job_process ||
+        job_pause || job_semaphore || job_ready_execution ||
+        job_failed_execution || job_scheduled_execution ||
+        job_blocked_execution || job_claimed_execution ||
+        job_recurring_execution || job_recurring_task
 
     if program || program_execution || program_schedule
       chain << program if program
@@ -971,6 +1011,10 @@ class LogsController < ApplicationController
     policy_scope(JobProcess)
   end
 
+  def job_batches_scope
+    policy_scope(JobBatch)
+  end
+
   def job_pauses_scope
     policy_scope(JobPause)
   end
@@ -1045,6 +1089,22 @@ class LogsController < ApplicationController
 
   def job_claimed_executions_scope
     scope = policy_scope(JobClaimedExecution)
+
+    if @job
+      scope = scope.where_job(@job)
+    elsif @program
+      scope = scope.where_program(@program)
+    elsif @user
+      scope = scope.where_user(@user)
+    elsif @guest
+      scope = scope.where_guest(@guest)
+    end
+
+    scope
+  end
+
+  def job_batch_executions_scope
+    scope = policy_scope(JobBatchExecution)
 
     if @job
       scope = scope.where_job(@job)

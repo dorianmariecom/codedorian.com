@@ -2,6 +2,15 @@
 
 <%= turbo_stream_from(@job) %>
 
+<% if @job.batch.present? && can?(:show, @job.batch) %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".batch") %></div>
+    <div class="font-bold">
+      <%= link_to(@job.batch, @job.batch, class: :link) %>
+    </div>
+  </div>
+<% end %>
+
 <% if @job.id.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".id") %></div>
@@ -251,6 +260,33 @@
   partial: "job_claimed_executions/job_claimed_execution",
   collection: @job_claimed_executions,
   as: :job_claimed_execution,
+  locals: {
+    nested: [*nested, @job]
+  }
+) %>
+
+<div class="p font-bold">
+  <%= link_to(
+    t(".job_batch_executions"),
+    [*nested, @job, :job_batch_executions],
+    class: :link
+  ) %>
+</div>
+
+<% if can?(:create, JobBatchExecution) %>
+  <div class="p">
+    <%= link_to(
+      t(".new_job_batch_execution"),
+      [:new, *nested, @job, :job_batch_execution],
+      class: "button"
+    ) %>
+  </div>
+<% end %>
+
+<%= render_collection(
+  partial: "job_batch_executions/job_batch_execution",
+  collection: @job_batch_executions,
+  as: :job_batch_execution,
   locals: {
     nested: [*nested, @job]
   }

@@ -93,4 +93,8 @@ class JobRecurringTask < SolidQueue::RecurringTask
         arguments_sample.presence
     Utils.join(label, id_sample).presence || t("to_s", id:)
   end
+
+  def to_code
+    Code::Object::JobRecurringTask.new(attributes)
+  end
 end

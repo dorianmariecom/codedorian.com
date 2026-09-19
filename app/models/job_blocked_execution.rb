@@ -97,4 +97,8 @@ class JobBlockedExecution < SolidQueue::BlockedExecution
         priority_sample.presence || expires_at_sample.presence
     Utils.join(label, job_sample, id_sample).presence || t("to_s", id:)
   end
+
+  def to_code
+    Code::Object::JobBlockedExecution.new(attributes)
+  end
 end

@@ -136,36 +136,60 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
   end
 
   test "ordinary saves and destination edits preserve deselected destinations" do
-    removed = DeliveryDestination.create!(
-      user: @subscription.user,
-      delivery_channel: @channel
+    removed =
+      DeliveryDestination.create!(
+        user: @subscription.user,
+        delivery_channel: @channel
+      )
+    SubscriptionDeliveryBilling.select!(
+      @subscription,
+      [@destination.id, removed.id]
     )
-    SubscriptionDeliveryBilling.select!(@subscription, [@destination.id, removed.id])
     SubscriptionDeliveryBilling.select!(@subscription, [@destination.id])
 
     assert @subscription.reload.save_with_delivery_destinations
-    assert_equal [@destination.id], @subscription.subscription_destinations.selected.pluck(:delivery_destination_id)
+    assert_equal [@destination.id],
+                 @subscription.subscription_destinations.selected.pluck(
+                   :delivery_destination_id
+                 )
     assert_equal [@destination.id], @subscription.delivery_destinations.ids
 
     @subscription.assign_attributes(
-      delivery_destinations_attributes: [{ id: @destination.id, recipient: "updated" }]
+      delivery_destinations_attributes: [
+        { id: @destination.id, recipient: "updated" }
+      ]
     )
-    attributes = { delivery_destinations_attributes: [{ id: @destination.id, recipient: "updated" }] }
+    attributes = {
+      delivery_destinations_attributes: [
+        { id: @destination.id, recipient: "updated" }
+      ]
+    }
     assert_not @subscription.confirm_delivery_changes?(attributes, nil)
-    quoted_ids = @subscription.delivery_preview.fetch("items").map do |item|
-      item.fetch("destination_id")
-    end
+    quoted_ids =
+      @subscription
+        .delivery_preview
+        .fetch("items")
+        .map { |item| item.fetch("destination_id") }
     assert_equal [@destination.id], quoted_ids
     assert @subscription.save_with_delivery_destinations
-    assert_equal [@destination.id], @subscription.subscription_destinations.selected.pluck(:delivery_destination_id)
-    assert_not @subscription.subscription_destinations.find_by!(delivery_destination: removed).active?
+    assert_equal [@destination.id],
+                 @subscription.subscription_destinations.selected.pluck(
+                   :delivery_destination_id
+                 )
+    assert_not @subscription
+                 .subscription_destinations
+                 .find_by!(delivery_destination: removed)
+                 .active?
     assert_equal 1050, @subscription.reload.amount_cents
   end
 
   test "nested edits cannot keep the old rate when switching channels" do
-    channel = DeliveryChannel.create!(key: "push", enabled: true, amount_cents: 500)
+    channel =
+      DeliveryChannel.create!(key: "push", enabled: true, amount_cents: 500)
     attributes = {
-      delivery_destinations_attributes: [{ id: @destination.id, delivery_channel_id: channel.id }]
+      delivery_destinations_attributes: [
+        { id: @destination.id, delivery_channel_id: channel.id }
+      ]
     }
     @subscription.reload.assign_attributes(attributes)
     assert_raises(StripeBilling::PricingError) do
@@ -177,7 +201,8 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
   end
 
   test "replacing a destination confirms and saves the new channel price" do
-    channel = DeliveryChannel.create!(key: "push", enabled: true, amount_cents: 500)
+    channel =
+      DeliveryChannel.create!(key: "push", enabled: true, amount_cents: 500)
     attributes = {
       delivery_destinations_attributes: [
         { id: @destination.id, _destroy: "1" },
@@ -186,16 +211,28 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
     }.with_indifferent_access
     @subscription.reload.assign_attributes(attributes)
     assert_not @subscription.confirm_delivery_changes?(attributes, nil)
-    assert_equal 500, @subscription.delivery_preview.fetch("items").sole.fetch("amount_cents")
+    assert_equal 500,
+                 @subscription
+                   .delivery_preview
+                   .fetch("items")
+                   .sole
+                   .fetch("amount_cents")
     confirmation = @subscription.delivery_confirmation
 
     @subscription = Subscription.find(@subscription.id)
     @subscription.assign_attributes(attributes)
     assert @subscription.confirm_delivery_changes?(attributes, confirmation)
-    assert @subscription.save_with_delivery_destinations, @subscription.errors.full_messages.to_sentence
+    assert @subscription.save_with_delivery_destinations,
+           @subscription.errors.full_messages.to_sentence
     assert_equal 1500, @subscription.reload.amount_cents
-    assert_equal 500, @subscription.subscription_destinations.selected.sole.amount_cents
-    assert_equal channel, @subscription.delivery_destinations.sole.delivery_channel
+    assert_equal 500,
+                 @subscription
+                   .subscription_destinations
+                   .selected
+                   .sole
+                   .amount_cents
+    assert_equal channel,
+                 @subscription.delivery_destinations.sole.delivery_channel
   end
 
   test "connection secrets are encrypted at rest and versioned" do

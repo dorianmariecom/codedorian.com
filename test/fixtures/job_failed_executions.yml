@@ -1,6 +1,7 @@
 ---
 job_failed_execution:
   created_at: '2025-03-05 09:05:00'
-  error: ProgramEvaluateJob timed out after 60s
+  error: '{"exception_class":"Timeout::Error","message":"ProgramEvaluateJob timed
+    out after 60s","backtrace":[]}'
   job: job
   updated_at: '2025-03-05 09:05:00'

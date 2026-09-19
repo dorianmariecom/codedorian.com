@@ -81,4 +81,8 @@ class JobFailedExecution < SolidQueue::FailedExecution
   def to_s
     Utils.join(error_sample, job_sample, id_sample).presence || t("to_s", id:)
   end
+
+  def to_code
+    Code::Object::JobFailedExecution.new(attributes)
+  end
 end

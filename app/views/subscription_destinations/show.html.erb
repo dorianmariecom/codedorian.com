@@ -3,73 +3,55 @@
 <%= turbo_stream_from(@subscription_destination) %>
 <% if admin? %>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".id") %>
-    </div>
+    <div class="text-gray-600"><%= t(".id") %></div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @subscription_destination.id %>
     </div>
   </div>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".subscription_id") %>
-    </div>
+    <div class="text-gray-600"><%= t(".subscription_id") %></div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @subscription_destination.subscription_id %>
     </div>
   </div>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".delivery_destination_id") %>
-    </div>
+    <div class="text-gray-600"><%= t(".delivery_destination_id") %></div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @subscription_destination.delivery_destination_id %>
     </div>
   </div>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".amount_cents") %>
-    </div>
+    <div class="text-gray-600"><%= t(".amount_cents") %></div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @subscription_destination.amount_cents %>
     </div>
   </div>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".amount_currency") %>
-    </div>
+    <div class="text-gray-600"><%= t(".amount_currency") %></div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @subscription_destination.amount_currency %>
     </div>
   </div>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".active") %>
-    </div>
+    <div class="text-gray-600"><%= t(".active") %></div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @subscription_destination.active %>
     </div>
   </div>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".selected") %>
-    </div>
+    <div class="text-gray-600"><%= t(".selected") %></div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @subscription_destination.selected %>
     </div>
   </div>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".created_at") %>
-    </div>
+    <div class="text-gray-600"><%= t(".created_at") %></div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @subscription_destination.created_at %>
     </div>
   </div>
   <div class="p">
-    <div class="text-gray-600">
-      <%= t(".updated_at") %>
-    </div>
+    <div class="text-gray-600"><%= t(".updated_at") %></div>
     <div class="font-bold whitespace-pre-wrap">
       <%= @subscription_destination.updated_at %>
     </div>

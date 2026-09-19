@@ -51,7 +51,7 @@ class Datum < ApplicationRecord
   end
 
   def to_code
-    Code::Object::Datum.new(id: id, key: key, value: value)
+    Code::Object::Datum.new(attributes, load_record: !destroyed?)
   end
 
   def key_json

@@ -11,9 +11,7 @@
                [
                  "#{channel} · #{number_to_currency(channel.amount_cents / 100.0, unit: channel.amount_currency.upcase)} / #{t(".month")}",
                  channel.id,
-                 {
-                   data: delivery_channel_form_data(channel)
-                 }
+                 { data: delivery_channel_form_data(channel) }
                ]
              },
              { include_blank: true },
@@ -36,10 +34,14 @@
   <div class="p" data-delivery-destination-form-target="connectionRow">
     <%= f.label :delivery_connection_id, class: :label %>
     <%= f.select :delivery_connection_id,
-             delivery_connection_options(delivery_connection_id: f.object.delivery_connection_id),
+             delivery_connection_options(
+               delivery_connection_id: f.object.delivery_connection_id
+             ),
              { include_blank: true },
              class: :input,
-             data: { "delivery-destination-form-target": "connection" } %>
+             data: {
+               "delivery-destination-form-target": "connection"
+             } %>
   </div>
   <div class="p" data-delivery-destination-form-target="visibilityRow">
     <%= f.label :visibility, class: :label %>

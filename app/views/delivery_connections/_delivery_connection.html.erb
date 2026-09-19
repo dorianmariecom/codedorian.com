@@ -1,4 +1,16 @@
-<div class="p"><%= link_to(delivery_connection, delivery_connection, class: :link) %></div>
+<div class="p">
+  <%= link_to(delivery_connection, delivery_connection, class: :link) %>
+</div>
 <% if delivery_connection.provider.in?(%w[google gmail google_workspace]) %>
-  <p><%= t(delivery_connection.calendar_access? ? ".calendar_allowed" : ".calendar_not_allowed") %></p>
+  <p>
+    <%= t(
+      (
+        if delivery_connection.calendar_access?
+          ".calendar_allowed"
+        else
+          ".calendar_not_allowed"
+        end
+      )
+    ) %>
+  </p>
 <% end %>

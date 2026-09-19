@@ -129,4 +129,8 @@ class Page < ApplicationRecord
       id_sample
     ).presence || t("to_s", id:)
   end
+
+  def to_code
+    Code::Object::Page.new(attributes)
+  end
 end

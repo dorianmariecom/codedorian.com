@@ -21,6 +21,8 @@ class Log < ApplicationRecord
     guest
     handle
     job
+    job_batch
+    job_batch_execution
     job_blocked_execution
     job_claimed_execution
     job_context
@@ -163,5 +165,9 @@ class Log < ApplicationRecord
   def to_s
     Utils.join(context_sample.presence || message_sample, id_sample).presence ||
       t("to_s", id:)
+  end
+
+  def to_code
+    Code::Object::Log.new(attributes)
   end
 end

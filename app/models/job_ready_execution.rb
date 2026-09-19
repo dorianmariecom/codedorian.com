@@ -82,4 +82,8 @@ class JobReadyExecution < SolidQueue::ReadyExecution
       id_sample
     ).presence || t("to_s", id:)
   end
+
+  def to_code
+    Code::Object::JobReadyExecution.new(attributes)
+  end
 end

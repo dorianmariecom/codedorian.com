@@ -63,11 +63,13 @@ class ServiceModelsTest < ActiveSupport::TestCase
       subscription_values(:phone)
     ]
 
-    records.each do |record|
-      assert_empty(
-        record.attribute_names - record.to_code.raw.keys.map(&:to_s),
-        record.class.name
-      )
+    Current.with(user: users(:admin)) do
+      records.each do |record|
+        assert_empty(
+          record.attribute_names - record.to_code.raw.keys.map(&:to_s),
+          record.class.name
+        )
+      end
     end
   end
 
@@ -76,7 +78,7 @@ class ServiceModelsTest < ActiveSupport::TestCase
     user.association(:email_addresses).reset
     user.association(:phone_numbers).reset
 
-    user.to_code
+    Current.with(user: user) { user.to_code }
 
     assert_not(user.association(:email_addresses).loaded?)
     assert_not(user.association(:phone_numbers).loaded?)
@@ -269,7 +271,7 @@ class ServiceModelsTest < ActiveSupport::TestCase
     program.association(:program_schedules).reset
     program.association(:program_executions).reset
 
-    program.to_code
+    Current.with(user: program.user) { program.to_code }
 
     assert_not(program.association(:program_schedules).loaded?)
     assert_not(program.association(:program_executions).loaded?)
