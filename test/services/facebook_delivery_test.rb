@@ -39,18 +39,15 @@ class FacebookDeliveryTest < ActiveSupport::TestCase
         body_text: "Le monde",
         url: "https://example.com/article"
       )
-    @previous_meta_credentials = Config.meta_delivery
-    Config.meta_delivery = { api_version: "v25.0" }.to_deep_struct
   end
 
   teardown do
-    Config.meta_delivery = @previous_meta_credentials
     Current.reset
   end
 
   test "publishes text and link to the configured page" do
     sent =
-      stub_request(:post, "https://graph.facebook.com/v25.0/123456/feed").with(
+      stub_request(:post, "https://graph.facebook.com/v26.0/123456/feed").with(
         headers: {
           "Authorization" => "Bearer page-token"
         },
@@ -68,7 +65,7 @@ class FacebookDeliveryTest < ActiveSupport::TestCase
   test "text only posts omit the link" do
     @delivery.url = nil
     sent =
-      stub_request(:post, "https://graph.facebook.com/v25.0/123456/feed").with(
+      stub_request(:post, "https://graph.facebook.com/v26.0/123456/feed").with(
         body: { message: "Bonjour\n\nLe monde" }.to_json
       ).to_return(body: { id: "123456_789" }.to_json)
     DeliveryAdapters.deliver(@delivery)
@@ -111,19 +108,10 @@ class FacebookDeliveryTest < ActiveSupport::TestCase
     assert_not @destination.valid?
   end
 
-  test "missing API configuration prevents sending" do
-    Config.meta_delivery = { api_version: "invalid" }.to_deep_struct
-    assert_equal "configuration_missing",
-                 assert_raises(DeliveryAdapters::Rejected) {
-                   DeliveryAdapters.deliver(@delivery)
-                 }.code
-    assert_not_requested :post, /graph.facebook.com/
-  end
-
   test "provider errors retain codes without exposing messages" do
     stub_request(
       :post,
-      "https://graph.facebook.com/v25.0/123456/feed"
+      "https://graph.facebook.com/v26.0/123456/feed"
     ).to_return(
       status: 400,
       body: { error: { code: 190, message: "secret provider detail" } }.to_json
@@ -138,7 +126,7 @@ class FacebookDeliveryTest < ActiveSupport::TestCase
 
   test "rate limits are retryable but missing ids and server errors are uncertain" do
     request =
-      stub_request(:post, "https://graph.facebook.com/v25.0/123456/feed")
+      stub_request(:post, "https://graph.facebook.com/v26.0/123456/feed")
     request.to_return(status: 429, body: { error: { code: 4 } }.to_json)
     assert assert_raises(DeliveryAdapters::Rejected) {
              DeliveryAdapters.deliver(@delivery)

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class FacebookOauth
+  META_API_VERSION = "v26.0"
+
   class Error < StandardError
     attr_reader :reason, :stage, :provider_code, :provider_subcode
 
@@ -18,14 +20,7 @@ class FacebookOauth
     end
   end
 
-  SCOPES = %w[pages_show_list pages_read_engagement pages_manage_posts].freeze
-  PUBLISHING_TASKS = %w[
-    CREATE_CONTENT
-    MANAGE
-    PROFILE_PLUS_CREATE_CONTENT
-    PROFILE_PLUS_FULL_CONTROL
-    PROFILE_PLUS_MANAGE
-  ].freeze
+  SCOPES = %w[public_profile].freeze
 
   def self.client_id
     Config.facebook.client_id
@@ -35,17 +30,8 @@ class FacebookOauth
     Config.facebook.client_secret
   end
 
-  def self.config_id
-    Config.facebook.config_id
-  end
-
-  def self.api_version
-    Config.meta_delivery.api_version
-  end
-
   def self.configured?
-    client_id.present? && client_secret.present? && config_id.present? &&
-      api_version.to_s.match?(/\Av[0-9]+\.0\z/)
+    client_id.present? && client_secret.present?
   end
 
   def self.authorization_url(state:, redirect_uri:)
@@ -54,24 +40,17 @@ class FacebookOauth
     query =
       URI.encode_www_form(
         client_id: client_id,
-        config_id: config_id,
         response_type: "code",
-        override_default_response_type: true,
-        auth_type: "rerequest",
         state: state,
         redirect_uri: redirect_uri
       )
-    "https://www.facebook.com/#{api_version}/dialog/oauth?#{query}"
+    "https://www.facebook.com/#{META_API_VERSION}/dialog/oauth?#{query}"
   end
 
   def self.exchange(code:, redirect_uri:)
-    pages(exchange_token(code: code, redirect_uri: redirect_uri))
-  end
-
-  def self.exchange_token(code:, redirect_uri:)
     raise Error unless configured?
 
-    short =
+    data =
       get(
         "oauth/access_token",
         stage: "code_exchange",
@@ -82,163 +61,29 @@ class FacebookOauth
           redirect_uri: redirect_uri
         }
       )
-    unless short["access_token"].is_a?(String) && short["access_token"].present?
+    token = data["access_token"]
+    raise Error unless token.is_a?(String) && token.present?
+
+    user = get("me", token: token, params: { fields: "id,name" })
+    unless user["id"].is_a?(String) && user["id"].match?(/\A[0-9]+\z/)
       raise Error
     end
 
-    long =
-      get(
-        "oauth/access_token",
-        stage: "long_lived_token",
-        params: {
-          client_id: client_id,
-          client_secret: client_secret,
-          grant_type: "fb_exchange_token",
-          fb_exchange_token: short["access_token"]
-        }
-      )
-    token = long["access_token"]
-    raise Error unless token.is_a?(String) && token.present?
+    name = user["name"].is_a?(String) ? user["name"].presence : nil
 
-    token
-  end
-  private_class_method :exchange_token
-
-  def self.pages(token)
-    permissions = get("me/permissions", token: token)["data"]
-    raise Error unless permissions.is_a?(Array) && permissions.all?(Hash)
-
-    granted =
-      permissions
-        .select { |permission| permission["status"] == "granted" }
-        .pluck("permission")
-    raise Error, "missing_permissions" unless (SCOPES - granted).empty?
-
-    accounts = []
-    page_count = 0
-    publishing_page_count = 0
-    cursor = nil
-    seen = []
-    loop do
-      data =
-        get(
-          "me/accounts",
-          token: token,
-          params: {
-            fields: "id,name,access_token,tasks",
-            limit: 100,
-            after: cursor
-          }.compact
-        )
-      pages = data["data"]
-      raise Error unless pages.is_a?(Array) && pages.all?(Hash)
-
-      page_count += pages.length
-      pages.each do |page|
-        unless page["tasks"].is_a?(Array) &&
-                 page["tasks"].intersect?(PUBLISHING_TASKS)
-          next
-        end
-
-        publishing_page_count += 1
-        unless page["id"].is_a?(String) && page["id"].match?(/\A[0-9]+\z/) &&
-                 page["access_token"].is_a?(String) &&
-                 page["access_token"].present?
-          raise Error
-        end
-
-        accounts << {
-          sender: page["id"],
-          name: "Facebook · #{page["name"].presence || page["id"]}",
-          access_token: page["access_token"],
-          enabled: true
-        }
-      end
-      paging = data["paging"]
-      raise Error unless paging.nil? || paging.is_a?(Hash)
-      break unless paging && paging["next"].present?
-
-      cursors = paging["cursors"]
-      raise Error unless cursors.is_a?(Hash)
-
-      cursor = cursors["after"]
-      unless cursor.is_a?(String) && cursor.present? &&
-               !seen.include?(cursor) && seen.length < 100
-        raise Error
-      end
-
-      seen << cursor
-    end
-    accounts = selected_pages(token) if page_count.zero?
-    if accounts.empty?
-      Rails.logger.warn(
-        "Facebook OAuth pages: returned=#{page_count} publishing=#{publishing_page_count}"
-      )
-      raise Error, "no_pages"
-    end
-
-    accounts.uniq { |account| account[:sender] }
-  end
-
-  private_class_method :pages
-
-  # Business Login can grant Page IDs without exposing them through /me/accounts.
-  def self.selected_pages(token)
-    metadata =
-      get(
-        "debug_token",
-        params: {
-          input_token: token
-        },
-        token: "#{client_id}|#{client_secret}"
-      )[
-        "data"
-      ]
-    unless metadata.is_a?(Hash) && metadata["is_valid"] == true &&
-             metadata["type"] == "USER" &&
-             metadata["app_id"].to_s == client_id.to_s
-      raise Error.new("provider_error", stage: "page_grant")
-    end
-
-    grants = metadata["granular_scopes"]
-    return [] unless grants.is_a?(Array) && grants.all?(Hash)
-
-    publishing = grants.find { |grant| grant["scope"] == "pages_manage_posts" }
-    return [] unless publishing && publishing["target_ids"].is_a?(Array)
-
-    page_ids = publishing["target_ids"]
-    unless page_ids.all? { |id| id.is_a?(String) && id.match?(/\A[0-9]+\z/) } &&
-             page_ids.length <= 100
-      raise Error.new("provider_error", stage: "page_grant")
-    end
-
-    page_ids.uniq.map do |id|
-      page =
-        get(
-          id,
-          params: {
-            fields: "id,name,access_token"
-          },
-          token: token,
-          stage: "selected_page"
-        )
-      unless page["id"] == id && page["access_token"].is_a?(String) &&
-               page["access_token"].present?
-        raise Error.new("provider_error", stage: "selected_page")
-      end
-
+    [
       {
-        sender: id,
-        name: "Facebook · #{page["name"].presence || id}",
-        access_token: page["access_token"],
+        sender: user["id"],
+        name: "Facebook · #{name || user["id"]}",
+        access_token: token,
+        scope: SCOPES.join(" "),
         enabled: true
       }
-    end
+    ]
   end
-  private_class_method :selected_pages
 
   def self.get(path, params: {}, token: nil, stage: path, secret: client_secret)
-    uri = URI("https://graph.facebook.com/#{api_version}/#{path}")
+    uri = URI("https://graph.facebook.com/#{META_API_VERSION}/#{path}")
     if token
       params =
         params.merge(

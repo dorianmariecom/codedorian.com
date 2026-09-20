@@ -27,12 +27,9 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
         body_text: "Le monde",
         body_html: "<p>Le monde</p>"
       )
-    @previous_meta_credentials = Config.meta_delivery
-    Config.meta_delivery = { api_version: "v25.0" }.to_deep_struct
   end
 
   teardown do
-    Config.meta_delivery = @previous_meta_credentials
     Current.reset
   end
 
@@ -238,7 +235,7 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
       host =
         provider == "messenger" ? "graph.facebook.com" : "graph.instagram.com"
       sent =
-        stub_request(:post, "https://#{host}/v25.0/sender-id/messages")
+        stub_request(:post, "https://#{host}/v26.0/sender-id/messages")
           .with do |request|
             body = JSON.parse(request.body)
             assert_equal "Bearer access", request.headers["Authorization"]
@@ -314,8 +311,8 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
       "resend" => "https://api.resend.com/emails",
       "mailgun" => "https://api.mailgun.net/v3/mail.example.com/messages",
       "mailchimp" => "https://mandrillapp.com/api/1.0/messages/send.json",
-      "messenger" => "https://graph.facebook.com/v25.0/sender-id/messages",
-      "instagram" => "https://graph.instagram.com/v25.0/sender-id/messages",
+      "messenger" => "https://graph.facebook.com/v26.0/sender-id/messages",
+      "instagram" => "https://graph.instagram.com/v26.0/sender-id/messages",
       "telegram" => "https://api.telegram.org/bot123:bot-token/sendMessage",
       "viber" => "https://chatapi.viber.com/pa/send_message"
     }
@@ -368,7 +365,7 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
     configure("messenger", channel: "messenger")
     stub_request(
       :post,
-      "https://graph.facebook.com/v25.0/sender-id/messages"
+      "https://graph.facebook.com/v26.0/sender-id/messages"
     ).to_return(
       status: 400,
       body: {

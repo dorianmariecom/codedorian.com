@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class DeliveryAdapters
+  META_API_VERSION = "v26.0"
   PUSH_BODY_LIMIT = 2000
   WHATSAPP_BODY_LIMIT = 1000
   TWILIO_BODY_LIMIT = 1500
@@ -221,7 +222,7 @@ class DeliveryAdapters
 
     response =
       request(
-        "https://graph.facebook.com/#{meta_api_version}/#{@connection.sender}/feed",
+        "https://graph.facebook.com/#{META_API_VERSION}/#{@connection.sender}/feed",
         {
           message: text(PROVIDER_BODY_LIMIT),
           link: @delivery.url.presence
@@ -234,7 +235,7 @@ class DeliveryAdapters
   def messenger
     response =
       request(
-        "https://graph.facebook.com/#{meta_api_version}/#{ERB::Util.url_encode(@connection.sender)}/messages",
+        "https://graph.facebook.com/#{META_API_VERSION}/#{ERB::Util.url_encode(@connection.sender)}/messages",
         {
           recipient: {
             id: recipient
@@ -252,20 +253,11 @@ class DeliveryAdapters
   def instagram
     response =
       request(
-        "https://graph.instagram.com/#{meta_api_version}/#{ERB::Util.url_encode(@connection.sender)}/messages",
+        "https://graph.instagram.com/#{META_API_VERSION}/#{ERB::Util.url_encode(@connection.sender)}/messages",
         { recipient: { id: recipient }, message: { text: text(1000) } },
         headers: authorization
       )
     { provider_id: response.fetch("message_id") }
-  end
-
-  def meta_api_version
-    version = Config.meta_delivery.api_version
-    unless version.to_s.match?(/\Av[0-9]+\.0\z/)
-      raise Rejected, "configuration_missing"
-    end
-
-    version
   end
 
   def telegram
