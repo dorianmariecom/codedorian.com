@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class RedditOauth
+  USER_AGENT = "web:codedorian.com:1.0 (by /u/dorianmariecom)"
   SCOPES = %w[identity submit].freeze
 
   class Error < StandardError
@@ -22,10 +23,6 @@ class RedditOauth
   end
 
   def self.configured? = client_id.present? && client_secret.present?
-
-  def self.user_agent
-    Config.reddit.user_agent
-  end
 
   def self.scopes
     if DeliveryChannel.where(key: "reddit").exists?(only: [nil, "private"])
@@ -127,7 +124,7 @@ class RedditOauth
   end
 
   def self.request_json(request)
-    request["User-Agent"] = user_agent
+    request["User-Agent"] = USER_AGENT
     response = Http.request(request)
     unless response.is_a?(Net::HTTPSuccess)
       status = response.code.to_i

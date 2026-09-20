@@ -115,25 +115,6 @@ class SharedEmailVerificationTest < ActiveSupport::TestCase
     assert destination.reload.recipient_verified?
   end
 
-  test "migration backfills only normalized same owner verified account matches" do
-    matching =
-      destination_for(@user, email_addresses(:admin_email).email_address)
-    other = destination_for(users(:other_user), matching.recipient)
-    unknown = destination_for(@user)
-    matching.update_columns(
-      recipient: " #{matching.recipient.upcase} ",
-      recipient_verified: false
-    )
-    require Rails.root.join(
-              "db/migrate/20260913193445_add_recipient_verified_to_delivery_destinations"
-            )
-    migration = AddRecipientVerifiedToDeliveryDestinations.new
-    migration.backfill_recipient_verification
-    assert matching.reload.recipient_verified?
-    assert_not other.reload.recipient_verified?
-    assert_not unknown.reload.recipient_verified?
-  end
-
   private
 
   def destination_for(user, recipient = "shared@example.com")

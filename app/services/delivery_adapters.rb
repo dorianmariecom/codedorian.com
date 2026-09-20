@@ -683,7 +683,7 @@ class DeliveryAdapters
 
     target = RedditRecipient.resolve(recipient, public: public?)
     RedditOauth.access_token_for(@connection)
-    headers = authorization.merge("User-Agent" => RedditOauth.user_agent)
+    headers = authorization.merge("User-Agent" => RedditOauth::USER_AGENT)
     if public?
       response =
         request(
