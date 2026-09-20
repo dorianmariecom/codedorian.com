@@ -9,7 +9,11 @@
     policy_scope(DeliveryChannel).select do |channel|
       channel.available? || channel.id == delivery_destination.delivery_channel_id
     end %>
-  <div data-controller="delivery-destination-form">
+  <% channel = channels.find { |record| record.id == f.object.delivery_channel_id } || channels.first %>
+  <div
+    data-controller="delivery-destination-form"
+    data-action="turbo:morph@document->delivery-destination-form#change"
+  >
     <div class="p">
       <%= f.label :delivery_channel_id, class: :label %>
       <%= f.select :delivery_channel_id,
@@ -28,7 +32,11 @@
                  "delivery-destination-form-target": "channel"
                } %>
     </div>
-    <div class="p" data-delivery-destination-form-target="recipientRow">
+    <div
+      class="p"
+      data-delivery-destination-form-target="recipientRow"
+      <%= "hidden" unless channel&.show_recipient? %>
+    >
       <%= f.label :recipient, class: :label %>
       <%= f.text_field :recipient,
                    class: :input,
@@ -36,7 +44,11 @@
                      "delivery-destination-form-target": "recipient"
                    } %>
     </div>
-    <div class="p" data-delivery-destination-form-target="connectionRow">
+    <div
+      class="p"
+      data-delivery-destination-form-target="connectionRow"
+      <%= "hidden" unless channel&.show_connection? %>
+    >
       <%= f.label :delivery_connection_id, class: :label %>
       <%= f.select :delivery_connection_id,
                delivery_connection_options(
@@ -48,7 +60,11 @@
                  "delivery-destination-form-target": "connection"
                } %>
     </div>
-    <div class="p" data-delivery-destination-form-target="visibilityRow">
+    <div
+      class="p"
+      data-delivery-destination-form-target="visibilityRow"
+      <%= "hidden" unless channel&.show_visibility? %>
+    >
       <%= f.label :visibility, class: :label %>
       <%= f.select :visibility,
                %w[private public].map { |visibility|

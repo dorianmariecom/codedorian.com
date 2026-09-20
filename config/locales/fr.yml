@@ -3169,6 +3169,7 @@ fr:
       submit: créer un message
       title: nouveau message
     show:
+      body: corps
       body_en: corps anglais
       body_fr: corps français
       created_at: créé à

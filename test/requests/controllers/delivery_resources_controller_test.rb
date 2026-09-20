@@ -12,6 +12,43 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
     )
   end
 
+  test "destination forms render channel visibility before JavaScript runs" do
+    sign_in_admin
+    subscription = subscriptions(:subscription)
+    destination = Current.with(user: users(:admin)) do
+      record = DeliveryDestination.create!(
+        user: subscription.user,
+        delivery_channel: @channel
+      )
+      subscription.subscription_destinations.create!(delivery_destination: record)
+      record
+    end
+
+    fields = %w[recipient connection visibility]
+    [false, true].each do |visible|
+      @channel.update!(
+        show_recipient: visible,
+        show_connection: visible,
+        show_visibility: visible
+      )
+      [edit_subscription_path(subscription), edit_delivery_destination_path(destination)].each do |path|
+        get path
+        assert_response :success
+        assert_select "[data-controller='delivery-destination-form']" do |forms|
+          forms.each do |form|
+            next if form.ancestors.any? { |ancestor| ancestor.name == "template" }
+
+            assert_equal "turbo:morph@document->delivery-destination-form#change", form["data-action"]
+            fields.each do |field|
+              row = form.at_css("[data-delivery-destination-form-target='#{field}Row']")
+              assert_equal !visible, row.key?("hidden")
+            end
+          end
+        end
+      end
+    end
+  end
+
   test "subscriber connection pickers expose only owned names and ids" do
     owned, other =
       Current.with(user: users(:admin)) do
@@ -293,6 +330,44 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_equal @channel.translated_key,
                  subscription.reload.delivery_destinations.sole.to_s
+  end
+
+  test "subscription updates accept destinations selected in a different order" do
+    sign_in_admin
+    subscription = subscriptions(:subscription)
+    webhook_channel =
+      DeliveryChannel.create!(key: "webhook", enabled: true, amount_cents: 0)
+    first, second =
+      Current.with(user: users(:admin)) do
+        destinations =
+          %w[https://example.com/first https://example.com/second].map do |recipient|
+            DeliveryDestination.create!(
+              user: subscription.user,
+              delivery_channel: webhook_channel,
+              recipient: recipient
+            )
+          end
+        destinations.reverse_each do |destination|
+          subscription.subscription_destinations.create!(
+            delivery_destination: destination
+          )
+        end
+        destinations
+      end
+
+    patch subscription_path(subscription),
+          params: {
+            subscription: {
+              delivery_destinations_attributes: {
+                "0" => { id: second.id, recipient: "https://example.com/updated" },
+                "1" => { id: first.id, recipient: first.recipient }
+              }
+            }
+          }
+
+    assert_redirected_to subscription
+    assert_equal "https://example.com/updated", second.reload.recipient
+    assert_equal 1000, subscription.reload.amount_cents
   end
 
   test "admin creates and edits reusable destination" do

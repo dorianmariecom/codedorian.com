@@ -77,6 +77,15 @@ class SubscriptionDeliveryBilling
 
   def self.select!(subscription, ids, sync: true, expected_quote: nil)
     ids = normalize_ids(ids)
+    if expected_quote
+      expected_quote =
+        expected_quote.merge(
+          "items" =>
+            expected_quote.fetch("items").sort_by do |item|
+              item.fetch("destination_id")
+            end
+        )
+    end
     destinations =
       DeliveryDestination.where(user_id: subscription.user_id, id: ids).preload(
         :delivery_channel

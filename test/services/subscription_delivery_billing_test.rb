@@ -34,6 +34,45 @@ class SubscriptionDeliveryBillingTest < ActiveSupport::TestCase
 
   teardown { Current.reset }
 
+  test "unchanged quotes accept destinations in a different order" do
+    @subscription.update!(stripe_subscription_id: nil)
+    SubscriptionDeliveryBilling.select!(@subscription, [@first.id, @second.id])
+    quote = @subscription.reload.delivery_pricing
+    quote["items"].reverse!
+
+    SubscriptionDeliveryBilling.select!(
+      @subscription,
+      [@second.id, @first.id],
+      expected_quote: quote
+    )
+
+    assert_equal 1100, @subscription.reload.amount_cents
+    assert_equal 2, @subscription.subscription_destinations.selected.count
+  end
+
+  test "changed prices still reject the quote and roll back selections" do
+    @subscription.update!(stripe_subscription_id: nil)
+    @subscription.delivery_destinations << @second
+    @subscription.subscription_destinations.find_by!(
+      delivery_destination: @second
+    ).update!(selected: false)
+    quote = SubscriptionDeliveryBilling.preview(@subscription)
+    @second.delivery_channel.update!(amount_cents: 75)
+
+    assert_raises(StripeBilling::PricingError) do
+      SubscriptionDeliveryBilling.select!(
+        @subscription,
+        [@first.id, @second.id],
+        expected_quote: quote
+      )
+    end
+
+    assert_equal 1050, @subscription.reload.amount_cents
+    assert_not @subscription.subscription_destinations.find_by!(
+      delivery_destination: @second
+    ).selected?
+  end
+
   test "unpaid additions remain inactive until matching pending update completes" do
     stub_remote(amount: 1050)
     update = stub_update(amount: 1050, pending: { expires_at: 12_345 })
