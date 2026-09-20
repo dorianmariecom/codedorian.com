@@ -3,6 +3,21 @@
 require "test_helper"
 
 class ApplicationHelperTest < ActionView::TestCase
+  test "form_with includes recaptcha fields and controller" do
+    html = form_with(url: "/confirmation") { "" }
+    assert_recaptcha_form(html)
+  end
+
+  test "form_for includes recaptcha only once through form_with" do
+    html = form_for(:confirmation, url: "/confirmation") { "" }
+    assert_recaptcha_form(html)
+  end
+
+  test "button_to includes recaptcha only once" do
+    html = button_to("confirm", "/confirmation")
+    assert_recaptcha_form(html)
+  end
+
   test "describes every supported schedule interval in both locales" do
     ScheduleConcern::INTERVALS
       .product(%i[en fr])
@@ -54,6 +69,15 @@ class ApplicationHelperTest < ActionView::TestCase
   end
 
   private
+
+  def assert_recaptcha_form(html)
+    form = Nokogiri::HTML.fragment(html).at_css("form")
+    assert_equal 1, form.css('[data-controller="recaptcha"]').size
+    assert_equal 1, form.css('input[name="g-recaptcha-response"]').size
+    actions = form.css('input[name="g-recaptcha-action"]')
+    assert_equal 1, actions.size
+    assert_equal "post/confirmation", actions.first["value"]
+  end
 
   def description_for(interval)
     I18n.with_locale(:en) do

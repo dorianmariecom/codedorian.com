@@ -405,7 +405,7 @@ module ApplicationHelper
     ).html_safe
   end
 
-  def form_for(...)
+  def form_with(...)
     insert_recaptcha_tag(super)
   end
 
