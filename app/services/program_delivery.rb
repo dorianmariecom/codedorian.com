@@ -43,7 +43,7 @@ class ProgramDelivery
                 delivery.visibility = destination.visibility
                 delivery.connection = destination.connection
                 delivery.step_execution = Current.step_execution
-                if destination.channel == "email" &&
+                if destination.verification_required? &&
                      !destination.recipient_verified?
                   delivery.status = :canceled
                   delivery.error_code = :recipient_unverified

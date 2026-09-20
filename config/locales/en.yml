@@ -1453,9 +1453,9 @@ en:
       description: delivery
   delivery_destinations:
     confirm_verification:
-      confirmed: email confirmed for your account and subscriptions.
+      confirmed: delivery destination confirmed.
       invalid: this confirmation link is invalid or expired. please request a new
-        email.
+        confirmation message.
     create:
       notice: delivery destination created
     delete:
@@ -1498,8 +1498,8 @@ en:
     reconcile:
       notice: saved
     request_verification:
-      already_verified: this email is already confirmed.
-      sent: confirmation email sent. check your inbox.
+      already_verified: this destination is already confirmed.
+      sent: confirmation message sent. check your inbox.
     retry:
       notice: saved
     show:
@@ -1527,12 +1527,12 @@ en:
     update:
       notice: delivery destination updated
     verification:
-      confirmation: confirm this email for your account and subscriptions.
-      description: confirm this email for your account and subscriptions.
+      confirmation: confirm this delivery destination.
+      description: confirm this delivery destination.
       invalid: this confirmation link is invalid or expired. please request a new
-        email.
-      submit: confirm email
-      title: confirm email
+        confirmation message.
+      submit: confirm destination
+      title: confirm destination
   devices:
     create:
       notice: device created
@@ -5044,7 +5044,7 @@ en:
       created_at: created at
       deactivate: deactivate
       delete: delete subscription
-      delivery_pending: email delivery awaits confirmation. execution and billing
+      delivery_pending: delivery awaits confirmation. execution and billing
         continue; skipped messages will not be resent.
       description: view subscription details.
       destroy: destroy subscription
@@ -5059,9 +5059,9 @@ en:
       next_at: next at
       plan_id: plan
       previous_at: previous at
-      recipient_unverified: email not confirmed
-      recipient_verified: email confirmed
-      request_verification: send or resend confirmation email
+      recipient_unverified: destination not confirmed
+      recipient_verified: destination confirmed
+      request_verification: send or resend confirmation message
       service: service
       stale: stale
       starts_at: starts at
@@ -5303,3 +5303,6 @@ en:
       next: next
       previous: previous
       truncate: "…"
+  reddit_verification:
+    subject: confirm your reddit delivery destination
+    body: "confirm this destination to receive private messages from u/%{username}: %{url}"

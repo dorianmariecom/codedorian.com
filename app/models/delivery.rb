@@ -267,10 +267,10 @@ class Delivery < ApplicationRecord
   end
 
   def recipient_verified_for_delivery?
-    return true unless channel == "email"
+    return true unless channel.in?(%w[email reddit])
 
     destination = delivery_destination.reload
-    destination.channel == "email" && destination.recipient_verified? &&
+    destination.channel == channel && destination.recipient_verified? &&
       destination.user_id == subscription.user_id &&
       destination.recipient.to_s.strip.downcase == recipient.to_s.strip.downcase
   end

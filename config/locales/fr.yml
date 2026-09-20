@@ -1455,9 +1455,9 @@ fr:
       description: livraison
   delivery_destinations:
     confirm_verification:
-      confirmed: adresse e-mail confirmée pour votre compte et vos abonnements.
-      invalid: ce lien de confirmation est invalide ou a expiré. demandez un nouvel
-        e-mail.
+      confirmed: destination de livraison confirmée.
+      invalid: ce lien de confirmation est invalide ou a expiré. demandez un nouveau
+        message de confirmation.
     create:
       notice: 'destination de livraison : création effectuée'
     delete:
@@ -1500,8 +1500,8 @@ fr:
     reconcile:
       notice: enregistré
     request_verification:
-      already_verified: cette adresse e-mail est déjà confirmée.
-      sent: e-mail de confirmation envoyé. consultez votre boîte de réception.
+      already_verified: cette destination est déjà confirmée.
+      sent: message de confirmation envoyé. consultez votre boîte de réception.
     retry:
       notice: enregistré
     show:
@@ -1529,12 +1529,12 @@ fr:
     update:
       notice: 'destination de livraison : modification effectuée'
     verification:
-      confirmation: confirmez cette adresse e-mail pour votre compte et vos abonnements.
-      description: confirmez cette adresse e-mail pour votre compte et vos abonnements.
-      invalid: ce lien de confirmation est invalide ou a expiré. demandez un nouvel
-        e-mail.
-      submit: confirmer l’adresse e-mail
-      title: confirmer l’adresse e-mail
+      confirmation: confirmez cette destination de livraison.
+      description: confirmez cette destination de livraison.
+      invalid: ce lien de confirmation est invalide ou a expiré. demandez un nouveau
+        message de confirmation.
+      submit: confirmer la destination
+      title: confirmer la destination
   devices:
     create:
       notice: appareil créé
@@ -5056,7 +5056,7 @@ fr:
       created_at: créé à
       deactivate: désactiver
       delete: supprimer l'abonnement
-      delivery_pending: l’envoi des e-mails attend votre confirmation. l’exécution
+      delivery_pending: la livraison attend votre confirmation. l’exécution
         et la facturation continuent ; les messages ignorés ne seront pas renvoyés.
       description: consulter les détails de l'abonnement.
       destroy: détruire l'abonnement
@@ -5071,9 +5071,9 @@ fr:
       next_at: prochain à
       plan_id: offre
       previous_at: précédent à
-      recipient_unverified: adresse e-mail non confirmée
-      recipient_verified: adresse e-mail confirmée
-      request_verification: envoyer ou renvoyer l’e-mail de confirmation
+      recipient_unverified: destination non confirmée
+      recipient_verified: destination confirmée
+      request_verification: envoyer ou renvoyer le message de confirmation
       service: service
       stale: obsolète
       starts_at: commence à
@@ -5315,3 +5315,6 @@ fr:
       next: suivant
       previous: précédent
       truncate: "…"
+  reddit_verification:
+    subject: confirmez votre destination de livraison reddit
+    body: "confirmez cette destination pour recevoir des messages privés de u/%{username} : %{url}"

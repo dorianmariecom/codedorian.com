@@ -6,7 +6,6 @@ class DeliveryConnectionOauth
     github
     slack
     x
-    reddit
     mastodon
     facebook
     gmail
@@ -17,7 +16,6 @@ class DeliveryConnectionOauth
     GithubOauth::Error,
     SlackOauth::Error,
     XOauth::Error,
-    RedditOauth::Error,
     MastodonOauth::Error,
     FacebookOauth::Error,
     MailboxOauth::Error
@@ -74,8 +72,6 @@ class DeliveryConnectionOauth
         verifier: verifier,
         redirect_uri: redirect_uri
       )
-    when "reddit"
-      RedditOauth.authorization_url(state: state, redirect_uri: redirect_uri)
     when "mastodon"
       MastodonOauth.authorization_url(
         registration: pending,
@@ -114,8 +110,6 @@ class DeliveryConnectionOauth
           redirect_uri: redirect_uri
         )
       ]
-    when "reddit"
-      [RedditOauth.exchange(code: code, redirect_uri: redirect_uri)]
     when "mastodon"
       [
         MastodonOauth.exchange(

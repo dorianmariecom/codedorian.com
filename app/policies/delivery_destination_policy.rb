@@ -11,7 +11,7 @@ class DeliveryDestinationPolicy < ApplicationPolicy
   def show? = admin? || owner?
 
   def request_verification?
-    (admin? || owner?) && record.channel == "email"
+    (admin? || owner?) && record.verification_required?
   end
 
   def create? = current_user?

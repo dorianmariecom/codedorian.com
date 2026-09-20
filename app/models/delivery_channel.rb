@@ -45,14 +45,13 @@ class DeliveryChannel < ApplicationRecord
     apple: :infobip,
     slack: :slack,
     x: :x,
-    mastodon: :mastodon,
-    reddit: :reddit
+    mastodon: :mastodon
   }.freeze
   def self.supports_provider?(key, provider)
     Array(PROVIDERS[key.to_s.to_sym]).map(&:to_s).include?(provider.to_s)
   end
 
-  PERSONAL = %i[github slack x mastodon reddit].freeze
+  PERSONAL = %i[github slack x mastodon].freeze
   belongs_to :delivery_connection, optional: true
   has_many :delivery_destinations, dependent: :destroy
   validates :key, inclusion: { in: KEYS.map(&:to_s) }, uniqueness: true
@@ -71,8 +70,20 @@ class DeliveryChannel < ApplicationRecord
   validate :valid_recipient_patterns
   validate :valid_connection
 
+  before_validation do
+    if key == "reddit"
+      self.only = "private"
+      self.show_connection = false
+      self.show_visibility = false
+      self.show_recipient = true
+      self.private_pattern = "(?:u/|@)?[a-zA-Z0-9_-]{3,20}"
+      self.delivery_connection = nil
+    end
+  end
+
   def available?
     return false unless enabled? && amount_cents.present?
+    return RedditScript.configured? if key == "reddit"
     if key.in?(%w[sms whatsapp rcs]) && messaging_service_sid.blank?
       return false
     end

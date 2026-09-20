@@ -109,46 +109,6 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
     assert_equal "channel_not_found", error.code
   end
 
-  test "Reddit private delivery is unavailable until capability is explicitly enabled" do
-    configure(
-      "reddit",
-      "reddit",
-      { access_token: "test" },
-      recipient: "recipient"
-    )
-    @delivery.delivery_destination.delivery_channel.update!(only: "public")
-    error =
-      assert_raises(DeliveryAdapters::Rejected) do
-        DeliveryAdapters.deliver(@delivery)
-      end
-    assert_equal "reddit_private_unavailable", error.code
-  end
-
-  test "Reddit posting uses subreddit destination" do
-    configure(
-      "reddit",
-      "reddit",
-      { access_token: "test" },
-      recipient: "r/testing"
-    )
-    @delivery.visibility = "public"
-    sent =
-      stub_request(:post, "https://oauth.reddit.com/api/submit").with(
-        body: {
-          api_type: "json",
-          kind: "self",
-          sr: "testing",
-          title: "Hello",
-          text: "World"
-        }
-      ).to_return(
-        status: 200,
-        body: { json: { errors: [], data: { name: "t3_test" } } }.to_json
-      )
-    assert_equal "t3_test", DeliveryAdapters.deliver(@delivery).provider_id
-    assert_requested sent
-  end
-
   test "legacy destinations and queued snapshots keep their provider targets" do
     [
       [
@@ -177,24 +137,6 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
         { data: { id: "post123" } },
         "text",
         "Hello\n\nWorld"
-      ],
-      [
-        "reddit",
-        "testing",
-        "public",
-        "https://oauth.reddit.com/api/submit",
-        { json: { errors: [], data: { name: "t3_test" } } },
-        "sr",
-        "testing"
-      ],
-      [
-        "reddit",
-        "recipient",
-        "private",
-        "https://oauth.reddit.com/api/compose",
-        { json: { errors: [] } },
-        "to",
-        "recipient"
       ]
     ].each do |provider, recipient, visibility, endpoint, response, field, target|
       configure(

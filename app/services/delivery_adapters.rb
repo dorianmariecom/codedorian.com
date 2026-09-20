@@ -9,8 +9,6 @@ class DeliveryAdapters
   X_PUBLIC_BODY_LIMIT = 280
   X_PRIVATE_BODY_LIMIT = 10_000
   MASTODON_BODY_LIMIT = 400
-  REDDIT_TITLE_LIMIT = 300
-  REDDIT_SUBJECT_LIMIT = 100
   TWILIO_API_VERSION = "2010-04-01"
 
   class Rejected < StandardError
@@ -677,68 +675,18 @@ class DeliveryAdapters
   end
 
   def reddit
-    if !public? && channel_settings.only == "public"
-      raise Rejected, "reddit_private_unavailable"
+    raise Rejected, "reddit_public_unavailable" if public?
+    unless @delivery.recipient_verified_for_delivery?
+      raise Rejected, "recipient_unverified"
     end
 
-    target = RedditRecipient.resolve(recipient, public: public?)
-    RedditOauth.access_token_for(@connection)
-    headers = authorization.merge("User-Agent" => RedditOauth::USER_AGENT)
-    if public?
-      response =
-        request(
-          "https://oauth.reddit.com/api/submit",
-          {
-            api_type: "json",
-            kind: "self",
-            sr: target,
-            title: subject.truncate(REDDIT_TITLE_LIMIT),
-            text: @delivery.body_text
-          },
-          form: true,
-          headers: headers
-        )
-      if response.dig("json", "errors").present?
-        code = response["json"]["errors"].first.first.to_s
-        raise Rejected.new(
-                "reddit_#{code.downcase}",
-                retryable: code == "RATELIMIT"
-              )
-      end
-
-      { provider_id: response.fetch("json").fetch("data").fetch("name") }
-    else
-      if channel_settings.only == "public"
-        raise Rejected, "reddit_private_unavailable"
-      end
-
-      response =
-        request(
-          "https://oauth.reddit.com/api/compose",
-          {
-            api_type: "json",
-            to: target,
-            subject: subject.truncate(REDDIT_SUBJECT_LIMIT),
-            text: @delivery.body_text
-          },
-          form: true,
-          headers: headers
-        )
-      if response.dig("json", "errors").present?
-        code = response["json"]["errors"].first.first.to_s
-        raise Rejected.new(
-                "reddit_#{code.downcase}",
-                retryable: code == "RATELIMIT"
-              )
-      end
-
-      unless response["json"].is_a?(Hash)
-        raise IOError, "Reddit response is incomplete"
-      end
-
-      { status: "accepted" }
-    end
-  rescue RedditOauth::Error => e
+    RedditScript.compose(
+      recipient: recipient,
+      subject: subject,
+      text: @delivery.body_text
+    )
+    { status: "accepted" }
+  rescue RedditScript::Error => e
     raise Rejected.new(e.code, retryable: e.retryable)
   end
 

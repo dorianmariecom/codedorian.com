@@ -34,12 +34,14 @@ class DeliveryDestination < ApplicationRecord
   before_validation :normalize_recipient
   before_validation :inherit_verification
 
+  def verification_required? = channel.in?(%w[email reddit])
+
   def verification_email = recipient
   def verification_complete? = recipient_verified?
 
   def verification_purpose
     [
-      :destination_email_confirmation,
+      channel == "email" ? :destination_email_confirmation : :destination_reddit_confirmation,
       recipient,
       user_id,
       delivery_channel_id,
@@ -51,7 +53,7 @@ class DeliveryDestination < ApplicationRecord
     destination =
       joins(:delivery_channel).where(
         delivery_channels: {
-          key: "email"
+          key: %w[email reddit]
         }
       ).find_by(id: id)
     return unless destination && !destination.recipient_verified?
@@ -65,10 +67,38 @@ class DeliveryDestination < ApplicationRecord
   def request_verification!(url:)
     return if verification_complete?
 
+    if channel == "reddit"
+      RedditVerificationJob.perform_later(
+        destination: self,
+        token: verification_token,
+        url: url,
+        locale: I18n.locale.to_s
+      )
+      return
+    end
+
     EmailVerificationMailer
       .with(locale: I18n.locale)
       .confirmation(email_address: verification_email, url: url)
       .deliver_later
+  end
+
+  def confirm_verification(token)
+    return SharedEmailVerification.confirm(self, token) if channel == "email"
+    return false unless channel == "reddit"
+
+    with_lock do
+      return false if recipient_verified?
+      unless self.class.find_signed(
+               token.to_s,
+               purpose: verification_purpose
+             ) == self
+        return false
+      end
+
+      Current.with(user: user) { update!(recipient_verified: true) }
+      true
+    end
   end
 
   def verification_token
@@ -149,6 +179,9 @@ class DeliveryDestination < ApplicationRecord
   def normalize_recipient
     self.recipient = recipient.to_s.strip
     self.recipient = recipient.downcase if delivery_channel&.key == "email"
+    if delivery_channel&.key == "reddit"
+      self.recipient = recipient.delete_prefix("u/").delete_prefix("@").downcase
+    end
     return unless delivery_channel&.key.in?(%w[sms whatsapp rcs])
 
     phone = Phonelib.parse(recipient)
@@ -166,6 +199,13 @@ class DeliveryDestination < ApplicationRecord
     end
     pattern = delivery_channel.recipient_pattern(visibility)
     if pattern && !Regexp.new("\\A(?:#{pattern})\\z").match?(recipient.to_s)
+      errors.add(:recipient, :invalid)
+    end
+    if channel == "reddit" &&
+         (
+           !RedditRecipient.valid?(recipient, public: false) ||
+             visibility != "private"
+         )
       errors.add(:recipient, :invalid)
     end
     if channel == "github" && !GithubRecipient.valid?(recipient)

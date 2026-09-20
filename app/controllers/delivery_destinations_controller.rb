@@ -74,7 +74,7 @@ class DeliveryDestinationsController < ApplicationController
         params[:token]
       )
     authorize([:public, record || DeliveryDestination])
-    if record && SharedEmailVerification.confirm(record, params[:token])
+    if record&.confirm_verification(params[:token])
       respond_verification(:confirmed)
     else
       respond_verification(:invalid, status: :unprocessable_content)

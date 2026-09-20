@@ -60,7 +60,7 @@
   .preload(delivery_destination: :delivery_channel)
   .each do |selection| %>
   <% destination = selection.delivery_destination %>
-  <% if destination.channel == "email" %>
+  <% if destination.verification_required? %>
     <div class="p">
       <div class="font-bold"><%= destination.recipient %></div>
       <div>

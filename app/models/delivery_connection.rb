@@ -26,6 +26,7 @@ class DeliveryConnection < ApplicationRecord
     mailchimp
   ].freeze
   ADMIN_PROVIDERS = %w[
+    reddit
     facebook
     messenger
     instagram
@@ -97,8 +98,6 @@ class DeliveryConnection < ApplicationRecord
     case provider
     when "x"
       XOauth.access_token_for(self)
-    when "reddit"
-      RedditOauth.access_token_for(self)
     when "github"
       GithubOauth.access_token_for(self)
     when "google", "gmail", "google_workspace", "outlook"
