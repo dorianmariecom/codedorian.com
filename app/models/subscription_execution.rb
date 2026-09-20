@@ -23,6 +23,8 @@ class SubscriptionExecution < ApplicationRecord
         end
   validates :status, inclusion: { in: STATUSES }
   validate { can!(:execute, subscription) }
+  after_save_commit :enqueue_heartbeat,
+                    if: -> { saved_change_to_status? && done? }
 
   def self.search_fields
     {
@@ -35,7 +37,11 @@ class SubscriptionExecution < ApplicationRecord
   end
 
   def done? = status == "done"
-  def done! = update!(status: :done)
+
+  def done!
+    with_lock { update!(status: :done) unless done? }
+  end
+
   def errored? = status == "errored"
   def errored! = update!(status: :errored)
   def generating? = status.in?(%w[initialized in_progress])
@@ -74,6 +80,28 @@ class SubscriptionExecution < ApplicationRecord
       status: status,
       subscription_id: subscription_id,
       updated_at: updated_at
+    )
+  end
+
+  private
+
+  def enqueue_heartbeat
+    url = subscription.heartbeats_url
+    return if url.blank?
+
+    perform_later(
+      SubscriptionHeartbeatJob,
+      arguments: {
+        url: url
+      },
+      context: {
+        subscription: subscription,
+        subscription_execution: self
+      },
+      current: {
+        user: Current.user,
+        locale: I18n.locale
+      }
     )
   end
 end

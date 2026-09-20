@@ -286,16 +286,8 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
         }
       }
     }
-    assert_no_difference "DeliveryDestination.count" do
-      patch subscription_path(subscription), params: attributes, as: :json
-    end
-    assert_response :success
-    assert_equal "confirmation_required", response.parsed_body["status"]
-    confirmation = response.parsed_body.fetch("delivery_confirmation")
     assert_difference "DeliveryDestination.count", 1 do
-      patch subscription_path(subscription),
-            params: attributes.merge(delivery_confirmation: confirmation),
-            as: :json
+      patch subscription_path(subscription), params: attributes, as: :json
       assert_response :success, response.body
     end
     assert_response :success
@@ -325,13 +317,14 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "turbo subscription updates can confirm destinations added with a dynamic form index" do
+  test "turbo subscription updates save destinations added with a dynamic form index" do
     sign_in_admin
     subscription = subscriptions(:subscription)
     attributes = {
       user_id: subscription.user_id.to_s,
       plan_id: subscription.plan_id.to_s,
       status: subscription.status,
+      heartbeats_url: subscription.heartbeats_url.to_s,
       subscription_values_attributes: {
         "0" =>
           subscription
@@ -352,51 +345,9 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
       }
     }
     headers = { "Accept" => "text/vnd.turbo-stream.html, text/html" }
-    assert_no_difference "DeliveryDestination.count" do
-      patch subscription_path(subscription),
-            params: {
-              subscription: attributes
-            },
-            headers: headers
-    end
-    assert_response :unprocessable_content
-    assert_equal "text/html", response.media_type
-    form =
-      css_select("form").find do |node|
-        node["action"] == subscription_path(subscription)
-      end
-    assert form
-    form.css("template").remove
-    fields =
-      form
-        .css("input[name], select[name]")
-        .filter_map do |field|
-          next if field["type"].in?(%w[submit button]) || field["disabled"]
-
-          value =
-            if field.name == "select"
-              field.at_css("option[selected]")&.[]("value")
-            else
-              field["value"]
-            end
-          [field["name"], value.to_s]
-        end
-    confirmation_params =
-      Rack::Utils.parse_nested_query(URI.encode_www_form(fields))
-    assert confirmation_params["delivery_confirmation"].present?
-    changed_params = confirmation_params.deep_dup
-    changed_params["subscription"][
-      "delivery_destinations_attributes"
-    ].values.first[
-      "recipient"
-    ] = "changed recipient"
-    assert_no_difference "DeliveryDestination.count" do
-      patch subscription_path(subscription), params: changed_params, as: :json
-    end
-    assert_equal "confirmation_required", response.parsed_body["status"]
     assert_difference "DeliveryDestination.count", 1 do
       patch subscription_path(subscription),
-            params: confirmation_params,
+            params: { subscription: attributes },
             headers: headers
       assert_redirected_to subscription
     end
@@ -599,7 +550,7 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, subscription.delivery_destinations.sole.to_s
   end
 
-  test "editing destinations reviews the price before saving" do
+  test "editing destinations saves the price immediately" do
     sign_in_admin
     service = services(:service)
     subscription, destination =
@@ -619,13 +570,7 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
     }
     patch subscription_path(subscription), params: attributes, as: :json
     assert_response :success
-    assert_equal "confirmation_required", response.parsed_body["status"]
-    assert_equal 0, subscription.subscription_destinations.count
-    confirmation = response.parsed_body.fetch("delivery_confirmation")
-    patch subscription_path(subscription),
-          params: attributes.merge(delivery_confirmation: confirmation),
-          as: :json
-    assert_response :success
+    assert_equal "ok", response.parsed_body["status"]
     assert_equal @channel.id,
                  subscription
                    .reload
@@ -715,7 +660,7 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
     assert_equal users(:other_user), DeliveryDestination.order(:id).last.user
   end
 
-  test "nested destination removal requires confirmation and preserves the remaining selection" do
+  test "nested destination removal immediately preserves the remaining selection" do
     sign_in_admin
     subscription = subscriptions(:subscription)
     first, second =
@@ -740,13 +685,7 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
     }
     patch subscription_path(subscription), params: attributes, as: :json
     assert_response :success
-    assert_equal "confirmation_required", response.parsed_body["status"]
-    assert DeliveryDestination.exists?(first.id)
-    confirmation = response.parsed_body.fetch("delivery_confirmation")
-    patch subscription_path(subscription),
-          params: attributes.merge(delivery_confirmation: confirmation),
-          as: :json
-    assert_response :success, response.body
+    assert_equal "ok", response.parsed_body["status"]
     assert_equal [second.id], subscription.reload.delivery_destinations.ids
     assert_equal 1000, subscription.amount_cents
   end

@@ -159,12 +159,8 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
         { id: @destination.id, recipient: "updated" }
       ]
     )
-    attributes = {
-      delivery_destinations_attributes: [
-        { id: @destination.id, recipient: "updated" }
-      ]
-    }
-    assert_not @subscription.confirm_delivery_changes?(attributes, nil)
+    @subscription.delivery_preview =
+      SubscriptionDeliveryBilling.preview(@subscription)
     quoted_ids =
       @subscription
         .delivery_preview
@@ -193,14 +189,14 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
     }
     @subscription.reload.assign_attributes(attributes)
     assert_raises(StripeBilling::PricingError) do
-      @subscription.confirm_delivery_changes?(attributes, nil)
+      SubscriptionDeliveryBilling.preview(@subscription)
     end
     assert_not @subscription.save_with_delivery_destinations
     assert_equal @channel, @destination.reload.delivery_channel
     assert_equal 1050, @subscription.reload.amount_cents
   end
 
-  test "replacing a destination confirms and saves the new channel price" do
+  test "replacing a destination saves the new channel price" do
     channel =
       DeliveryChannel.create!(key: "push", enabled: true, amount_cents: 500)
     attributes = {
@@ -210,18 +206,14 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
       ]
     }.with_indifferent_access
     @subscription.reload.assign_attributes(attributes)
-    assert_not @subscription.confirm_delivery_changes?(attributes, nil)
+    @subscription.delivery_preview =
+      SubscriptionDeliveryBilling.preview(@subscription)
     assert_equal 500,
                  @subscription
                    .delivery_preview
                    .fetch("items")
                    .sole
                    .fetch("amount_cents")
-    confirmation = @subscription.delivery_confirmation
-
-    @subscription = Subscription.find(@subscription.id)
-    @subscription.assign_attributes(attributes)
-    assert @subscription.confirm_delivery_changes?(attributes, confirmation)
     assert @subscription.save_with_delivery_destinations,
            @subscription.errors.full_messages.to_sentence
     assert_equal 1500, @subscription.reload.amount_cents

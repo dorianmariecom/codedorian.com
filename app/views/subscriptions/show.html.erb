@@ -2,6 +2,19 @@
 <% content_for(:description, t(".description")) %>
 <%= turbo_stream_from(@subscription) %>
 
+<% if (admin? || advanced?) && @subscription.heartbeats_url.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= t(".heartbeats_url") %></div>
+    <div class="font-bold">
+      <%= link_to(
+        @subscription.heartbeats_url,
+        @subscription.heartbeats_url,
+        class: :link
+      ) %>
+    </div>
+  </div>
+<% end %>
+
 <% if @subscription.id.present? %>
   <div class="p">
     <div class="text-gray-600"><%= t(".id") %></div>

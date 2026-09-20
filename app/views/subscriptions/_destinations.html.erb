@@ -1,6 +1,3 @@
-<% if f.object.delivery_confirmation %>
-  <%= hidden_field_tag :delivery_confirmation, f.object.delivery_confirmation %>
-<% end %>
 <% quote = f.object.delivery_preview || f.object.delivery_pricing %>
 <% channels = policy_scope(DeliveryChannel).order(:id).select(&:available?) %>
 <% if channels.any? %>

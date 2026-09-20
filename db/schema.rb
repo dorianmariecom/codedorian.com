@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_20_113712) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_20_183443) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -1010,6 +1010,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_20_113712) do
     t.string "delivery_amount_currency"
     t.integer "delivery_base_amount_cents"
     t.string "delivery_change_key"
+    t.string "heartbeats_url"
     t.bigint "plan_id", null: false
     t.string "status", default: "inactive", null: false
     t.string "stripe_checkout_idempotency_key"

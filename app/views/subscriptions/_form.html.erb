@@ -2,6 +2,10 @@
   <%= render "subscriptions/destinations", f: f if f.object.plan %>
   <% if admin? %>
     <div class="p">
+      <%= f.label(:heartbeats_url, class: :label) %>
+      <%= f.url_field(:heartbeats_url, class: :input, autocomplete: :off) %>
+    </div>
+    <div class="p">
       <%= f.label(:user_id, class: :label) %>
       <%= f.select(
         :user_id,
@@ -131,7 +135,7 @@
 
   <div class="p">
     <%= f.submit(
-      f.object.delivery_confirmation ? t("delivery.confirm_price") : submit,
+      submit,
       class: "button",
       data: {
         controller: "bridge--button",

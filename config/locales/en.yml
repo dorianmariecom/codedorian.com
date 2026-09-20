@@ -386,6 +386,7 @@ en:
         name: name
         submission_id: submission
       subscription:
+        heartbeats_url: heartbeats url
         plan_id: plan
         status: status
         user_id: user
@@ -1158,7 +1159,6 @@ en:
       whatsapp: whatsapp
       x: x
     choose_destination: choose at least one delivery destination
-    confirm_price: confirm this price
     connection: connection
     connections: connections
     credentials:
@@ -5049,6 +5049,7 @@ en:
       description: view subscription details.
       destroy: destroy subscription
       edit: edit subscription
+      heartbeats_url: heartbeats url
       evaluate: evaluate
       id: id
       logs: logs

@@ -19,7 +19,8 @@ class FullCrudCoverageTest < ActiveSupport::TestCase
     end
   end
 
-  test "controllers only expose routed actions" do
+  test "application controllers only expose routed actions" do
+    Rails.application.eager_load!
     routed_actions =
       Rails
         .application
@@ -34,7 +35,7 @@ class FullCrudCoverageTest < ActiveSupport::TestCase
           result[controller_name] << action_name.to_s
         end
 
-    ApplicationController.descendants.each do |controller|
+    app_controllers.each do |controller|
       controller_name = controller.controller_path
       unexpected_actions =
         controller.action_methods.to_set -
@@ -49,6 +50,18 @@ class FullCrudCoverageTest < ActiveSupport::TestCase
   end
 
   private
+
+  def app_controllers
+    controllers_path = Rails.root.join("app/controllers").to_s
+
+    ApplicationController
+      .descendants
+      .select do |controller|
+        source_path = Object.const_source_location(controller.name)&.first
+        source_path&.start_with?(controllers_path)
+      end
+      .sort_by(&:name)
+  end
 
   def app_models
     models_path = Rails.root.join("app/models").to_s

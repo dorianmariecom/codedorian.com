@@ -8,9 +8,11 @@ class Subscription < ApplicationRecord
   accepts_nested_attributes_for :delivery_destinations, allow_destroy: true
   has_many :deliveries, dependent: :destroy
 
-  attr_accessor :delivery_preview, :delivery_confirmation
+  attr_accessor :delivery_preview
 
   before_validation :assign_delivery_users
+  normalizes :heartbeats_url, with: ->(value) { value.strip.presence }
+  validate :valid_heartbeats_url
 
   def deliver!(**attributes)
     ProgramDelivery.call(subscription: self, **attributes)
@@ -85,40 +87,6 @@ class Subscription < ApplicationRecord
             }
           end
     }
-  end
-
-  def confirm_delivery_changes?(attributes, confirmation)
-    return true unless attributes.key?(:delivery_destinations_attributes)
-
-    self.delivery_preview = SubscriptionDeliveryBilling.preview(self)
-    confirmation_attributes = attributes.to_h.deep_stringify_keys
-    %w[
-      delivery_destinations_attributes
-      subscription_values_attributes
-    ].each do |key|
-      nested_attributes = confirmation_attributes[key]
-      if nested_attributes.is_a?(Hash)
-        confirmation_attributes[key] = nested_attributes.values
-      end
-    end
-    expected = {
-      "subscription_id" => id,
-      "attributes" => confirmation_attributes,
-      "quote" => delivery_preview
-    }
-    verifier = Rails.application.message_verifier(:delivery_price)
-    if verifier.verified(confirmation.to_s, purpose: :delivery_price) ==
-         expected
-      return true
-    end
-
-    self.delivery_confirmation =
-      verifier.generate(
-        expected,
-        purpose: :delivery_price,
-        expires_in: 15.minutes
-      )
-    false
   end
 
   def save_with_delivery_destinations
@@ -388,6 +356,17 @@ class Subscription < ApplicationRecord
   end
 
   private
+
+  def valid_heartbeats_url
+    return if heartbeats_url.blank?
+
+    uri = URI.parse(heartbeats_url)
+    return if uri.is_a?(URI::HTTP) && uri.host.present?
+
+    errors.add(:heartbeats_url, :invalid)
+  rescue URI::InvalidURIError
+    errors.add(:heartbeats_url, :invalid)
+  end
 
   def assign_delivery_users
     self.user ||= Current.user!

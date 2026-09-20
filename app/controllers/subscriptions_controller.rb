@@ -189,22 +189,9 @@ class SubscriptionsController < ApplicationController
   def update
     attributes = subscription_params
     @subscription.assign_attributes(attributes)
-    unless @subscription.confirm_delivery_changes?(
-             attributes,
-             params[:delivery_confirmation]
-           )
-      return(
-        respond_to do |format|
-          format.html { render :edit, status: :unprocessable_content }
-          format.json do
-            render json: {
-              status: :confirmation_required,
-                     quote: @subscription.delivery_preview,
-                     delivery_confirmation: @subscription.delivery_confirmation
-            }
-          end
-        end
-      )
+    if attributes.key?(:delivery_destinations_attributes)
+      @subscription.delivery_preview =
+        SubscriptionDeliveryBilling.preview(@subscription)
     end
     if @subscription.save_with_delivery_destinations
       respond_after_persist(t(".notice"))
@@ -288,6 +275,7 @@ class SubscriptionsController < ApplicationController
           :user_id,
           :plan_id,
           :status,
+          :heartbeats_url,
           {
             delivery_destinations_attributes: [
               %i[
