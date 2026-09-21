@@ -1,59 +1,29 @@
 <% content_for(:title, @plan_field) %>
 <% content_for(:description, @plan_field.name) %>
 <%= turbo_stream_from(@plan_field) %>
-<% if @plan_field.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @plan_field.id %></div>
-  </div>
-<% end %>
-<% if @plan_field.plan_id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".plan_id") %></div>
-    <div class="font-bold">
-      <%= link_to_if(
-        can?(:show, @plan_field.plan),
-        @plan_field.plan,
-        @plan_field.plan,
-        class: :link
-      ) %>
-    </div>
-  </div>
-<% end %>
-<% if @plan_field.key.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".key") %></div>
-    <div class="font-bold"><%= @plan_field.key %></div>
-  </div>
-<% end %>
-<% if @plan_field.name_en.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".name_en") %></div>
-    <%= @plan_field.name_en %>
-  </div>
-<% end %>
-<% if @plan_field.name_fr.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".name_fr") %></div>
-    <%= @plan_field.name_fr %>
-  </div>
-<% end %>
-<% if @plan_field.kind.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".kind") %></div>
-    <div class="font-bold"><%= @plan_field.kind %></div>
-  </div>
-<% end %>
-<div class="p">
-  <div class="text-gray-600"><%= t(".required") %></div>
-  <div class="font-bold"><%= @plan_field.required? %></div>
-</div>
-<% if @plan_field.position.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".position") %></div>
-    <div class="font-bold"><%= @plan_field.position %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".id"), value: @plan_field.id) %>
+<%= render(
+  "shared/attribute",
+  label: t(".plan_id"),
+  value: @plan_field.plan,
+  type: :record
+) %>
+<%= render("shared/attribute", label: t(".key"), value: @plan_field.key) %>
+<%= render(
+  "shared/attribute",
+  label: t(".name_en"),
+  value: @plan_field.name_en,
+  type: :content
+) %>
+<%= render(
+  "shared/attribute",
+  label: t(".name_fr"),
+  value: @plan_field.name_fr,
+  type: :content
+) %>
+<%= render("shared/attribute", label: t(".kind"), value: @plan_field.kind) %>
+<%= render("shared/attribute", label: t(".required"), value: @plan_field.required?) %>
+<%= render("shared/attribute", label: t(".position"), value: @plan_field.position) %>
 <div class="p p--flex">
   <% if can?(:update, @plan_field) %>
     <%= link_to(t(".edit"), edit_url, class: :link) %>

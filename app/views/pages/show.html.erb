@@ -9,106 +9,83 @@
   </p>
   <div class="p"><%= @page.body %></div>
 <% else %>
-  <% if @page.id.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".id") %></div>
-      <div class="font-bold"><%= @page.id %></div>
-    </div>
-  <% end %>
+  <%= render("shared/attribute", label: t(".id"), value: @page.id) %>
 
-  <% if @page.user.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".user") %></div>
-      <%= render("shared/user", user: @page.user) %>
-    </div>
-  <% end %>
+  <%= render("shared/attribute", label: t(".user"), value: @page.user, type: :record) %>
 
-  <% if @page.parent.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".parent") %></div>
-      <%= link_to(@page.parent, [*nested, @page.parent], class: :link) %>
-    </div>
-  <% end %>
+  <%= render(
+    "shared/attribute",
+    label: t(".parent"),
+    value: @page.parent,
+    type: :record,
+    url: [*nested, @page.parent]
+  ) %>
 
-  <% if @page.path.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".path") %></div>
-      <div class="font-bold"><%= @page.path %></div>
-    </div>
-  <% end %>
+  <%= render("shared/attribute", label: t(".path"), value: @page.path) %>
 
-  <% if @page.title_en.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".title_en") %></div>
-      <%= @page.title_en %>
-    </div>
-  <% end %>
+  <%= render(
+    "shared/attribute",
+    label: t(".title_en"),
+    value: @page.title_en,
+    type: :content
+  ) %>
 
-  <% if @page.title_fr.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".title_fr") %></div>
-      <%= @page.title_fr %>
-    </div>
-  <% end %>
+  <%= render(
+    "shared/attribute",
+    label: t(".title_fr"),
+    value: @page.title_fr,
+    type: :content
+  ) %>
 
-  <% if @page.description_en.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".description_en") %></div>
-      <%= @page.description_en %>
-    </div>
-  <% end %>
+  <%= render(
+    "shared/attribute",
+    label: t(".description_en"),
+    value: @page.description_en,
+    type: :content
+  ) %>
 
-  <% if @page.description_fr.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".description_fr") %></div>
-      <%= @page.description_fr %>
-    </div>
-  <% end %>
+  <%= render(
+    "shared/attribute",
+    label: t(".description_fr"),
+    value: @page.description_fr,
+    type: :content
+  ) %>
 
-  <% if @page.body_en.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".body_en") %></div>
-      <%= @page.body_en %>
-    </div>
-  <% end %>
+  <%= render(
+    "shared/attribute",
+    label: t(".body_en"),
+    value: @page.body_en,
+    type: :content
+  ) %>
 
-  <% if @page.body_fr.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".body_fr") %></div>
-      <%= @page.body_fr %>
-    </div>
-  <% end %>
+  <%= render(
+    "shared/attribute",
+    label: t(".body_fr"),
+    value: @page.body_fr,
+    type: :content
+  ) %>
 
-  <% if @page.authorization_input.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".authorization_input") %></div>
-      <% if can?(:update, @page) %>
-        <%= link_to(edit_url, class: "block") do %>
-          <%= code_highlight(@page.authorization_input) %>
-        <% end %>
-      <% else %>
-        <%= code_highlight(@page.authorization_input) %>
-      <% end %>
-    </div>
-  <% end %>
+  <%= render(
+    "shared/attribute",
+    label: t(".authorization_input"),
+    value: @page.authorization_input,
+    type: :code,
+    url: can?(:update, @page) ? edit_url : nil
+  ) %>
 
-  <% if @page.updated_at.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".updated_at") %></div>
-      <div class="font-bold">
-        <%= local_time(@page.updated_at, format: :default) %>
-      </div>
-    </div>
-  <% end %>
+  <%= render(
+    "shared/attribute",
+    label: t(".updated_at"),
+    value: @page.updated_at,
+    type: :time
+  ) %>
 
-  <% if @page.created_at.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".created_at") %></div>
-      <div class="font-bold">
-        <%= local_time(@page.created_at, format: :default) %>
-      </div>
-    </div>
-  <% end %>
+  <%= render(
+    "shared/attribute",
+    label: t(".created_at"),
+    value: @page.created_at,
+    type: :time
+  ) %>
 
   <div class="p p--flex">
     <%= link_to(t(".edit"), edit_url, class: :link) %>

@@ -2,65 +2,50 @@
 
 <%= turbo_stream_from(@error_occurrence) %>
 
-<% if @error_occurrence.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @error_occurrence.id %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".id"), value: @error_occurrence.id) %>
 
-<% if @error_occurrence.error.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".error") %></div>
+<%= render(
+  "shared/attribute",
+  label: t(".error"),
+  value: @error_occurrence.error,
+  type: :record,
+  url: [@user, @error_occurrence.error]
+) %>
 
-    <% if can?(:show, @error_occurrence.error) %>
-      <div class="font-bold">
-        <%= link_to(@error_occurrence.error, [@user, @error_occurrence.error], class: :link) %>
-      </div>
-    <% else %>
-      <div class="font-bold"><%= @error_occurrence.error %></div>
-    <% end %>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".context"),
+  value: @error_occurrence.context_json,
+  type: :json
+) %>
 
-<% if @error_occurrence.context.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".context") %></div>
-    <%= json_highlight(@error_occurrence.context_json) %>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".app_backtrace"),
+  value: @error_occurrence.app_backtrace,
+  type: :code
+) %>
 
-<% if @error_occurrence.app_backtrace.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".app_backtrace") %></div>
-    <%= code_highlight(@error_occurrence.app_backtrace) %>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".full_backtrace"),
+  value: @error_occurrence.backtrace,
+  type: :code
+) %>
 
-<% if @error_occurrence.backtrace.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".full_backtrace") %></div>
-    <%= code_highlight(@error_occurrence.backtrace) %>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".updated_at"),
+  value: @error_occurrence.updated_at,
+  type: :time
+) %>
 
-<% if @error_occurrence.updated_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@error_occurrence.updated_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
-
-<% if @error_occurrence.created_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@error_occurrence.created_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".created_at"),
+  value: @error_occurrence.created_at,
+  type: :time
+) %>
 
 <div class="p p--flex">
   <%= link_to(t(".edit"), edit_url, class: :link) %>

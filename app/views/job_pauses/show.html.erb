@@ -2,37 +2,27 @@
 
 <%= turbo_stream_from(@job_pause) %>
 
-<% if @job_pause.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @job_pause.id %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".id"), value: @job_pause.id) %>
 
-<% if @job_pause.queue_name.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".queue_name") %></div>
-    <div class="font-bold"><%= @job_pause.queue_name %></div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".queue_name"),
+  value: @job_pause.queue_name
+) %>
 
-<% if @job_pause.updated_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@job_pause.updated_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".updated_at"),
+  value: @job_pause.updated_at,
+  type: :time
+) %>
 
-<% if @job_pause.created_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@job_pause.created_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".created_at"),
+  value: @job_pause.created_at,
+  type: :time
+) %>
 
 <div class="p p--flex">
   <%= link_to(t(".edit"), edit_url, class: :link) %>

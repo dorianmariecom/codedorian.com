@@ -2,54 +2,31 @@
 
 <%= turbo_stream_from(@token) %>
 
-<% if @token.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @token.id %></div>
-  </div>
+<%= render("shared/attribute", label: t(".id"), value: @token.id) %>
+
+<%= render("shared/attribute", label: t(".user"), value: @token.user, type: :record) %>
+
+<%= render("shared/attribute", label: t(".token"), value: @token.token) %>
+
+<%= render("shared/attribute", label: t(".primary"), value: @token.primary?) %>
+
+<% if admin? %>
+  <%= render("shared/attribute", label: t(".verified"), value: @token.verified?) %>
 <% end %>
 
-<% if @token.user.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".user") %></div>
-    <%= render("shared/user", user: @token.user) %>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".updated_at"),
+  value: @token.updated_at,
+  type: :time
+) %>
 
-<% if @token.token.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".token") %></div>
-    <strong><%= @token.token %></strong>
-  </div>
-<% end %>
-
-<% if @token.primary.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".primary") %></div>
-    <div class="font-bold"><%= @token.primary? %></div>
-  </div>
-<% end %>
-
-<% if admin? && @token.verified.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".verified") %></div>
-    <div class="font-bold"><%= @token.verified? %></div>
-  </div>
-<% end %>
-
-<% if @token.updated_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <strong><%= local_time(@token.updated_at, format: :default) %></strong>
-  </div>
-<% end %>
-
-<% if @token.created_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <strong><%= local_time(@token.created_at, format: :default) %></strong>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".created_at"),
+  value: @token.created_at,
+  type: :time
+) %>
 
 <div class="p p--flex">
   <%= link_to(t(".edit"), edit_url, class: :link) %>

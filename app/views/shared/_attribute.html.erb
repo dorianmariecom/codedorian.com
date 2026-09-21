@@ -1,0 +1,41 @@
+<% type = local_assigns.fetch(:type, :text) %>
+
+<% if label.present? && value.present? %>
+  <div class="p">
+    <div class="text-gray-600"><%= label %></div>
+    <% case type %>
+    <% when :time %>
+      <div class="font-bold"><%= local_time(value, format: :default) %></div>
+    <% when :date %>
+      <div class="font-bold"><%= l(value, format: :default) %></div>
+    <% when :json %>
+      <%= json_highlight(value) %>
+    <% when :code %>
+      <% if local_assigns[:url].present? %>
+        <%= link_to(local_assigns[:url], class: "block") do %>
+          <%= code_highlight(value) %>
+        <% end %>
+      <% else %>
+        <%= code_highlight(value) %>
+      <% end %>
+    <% when :content %>
+      <%= value %>
+    <% when :password %>
+      <div class="font-bold">***</div>
+    <% when :link %>
+      <div class="font-bold">
+        <%= link_to(value, local_assigns.fetch(:url, value), class: :link) %>
+      </div>
+    <% when :record %>
+      <div class="font-bold">
+        <% if value.persisted? && can?(:show, value) %>
+          <%= link_to(value, local_assigns.fetch(:url, value), class: :link) %>
+        <% else %>
+          <%= value %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="font-bold"><%= value %></div>
+    <% end %>
+  </div>
+<% end %>

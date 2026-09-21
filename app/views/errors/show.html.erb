@@ -2,74 +2,42 @@
 
 <%= turbo_stream_from(@error) %>
 
-<% if @error.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @error.id %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".id"), value: @error.id) %>
 
-<% if @error.exception_class.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".exception_class") %></div>
-    <div class="font-bold"><%= @error.exception_class %></div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".exception_class"),
+  value: @error.exception_class
+) %>
 
-<% if @error.fingerprint.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".fingerprint") %></div>
-    <div class="font-bold"><%= @error.fingerprint %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".fingerprint"), value: @error.fingerprint) %>
 
-<% if @error.message.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".message") %></div>
-    <div class="font-bold"><%= @error.message %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".message"), value: @error.message) %>
 
-<% if @error.severity.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".severity") %></div>
-    <div class="font-bold"><%= @error.severity %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".severity"), value: @error.severity) %>
 
-<% if @error.source.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".source") %></div>
-    <div class="font-bold"><%= @error.source %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".source"), value: @error.source) %>
 
-<% if @error.resolved_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".resolved_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@error.resolved_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".resolved_at"),
+  value: @error.resolved_at,
+  type: :time
+) %>
 
-<% if @error.updated_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@error.updated_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".updated_at"),
+  value: @error.updated_at,
+  type: :time
+) %>
 
-<% if @error.created_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@error.created_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".created_at"),
+  value: @error.created_at,
+  type: :time
+) %>
 
 <div class="p p--flex">
   <%= link_to(t(".edit"), edit_url, class: :link) %>

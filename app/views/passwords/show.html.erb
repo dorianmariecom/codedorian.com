@@ -2,65 +2,43 @@
 
 <%= turbo_stream_from(@password) %>
 
-<% if @password.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @password.id %></div>
-  </div>
+<%= render("shared/attribute", label: t(".id"), value: @password.id) %>
+
+<%= render(
+  "shared/attribute",
+  label: t(".user"),
+  value: @password.user,
+  type: :record
+) %>
+
+<%= render("shared/attribute", label: t(".hint"), value: @password.hint) %>
+
+<%= render(
+  "shared/attribute",
+  label: t(".password"),
+  value: @password.password_digest,
+  type: :password
+) %>
+
+<%= render("shared/attribute", label: t(".primary"), value: @password.primary?) %>
+
+<% if admin? %>
+  <%= render("shared/attribute", label: t(".verified"), value: @password.verified?) %>
 <% end %>
 
-<% if @password.user.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".user") %></div>
-    <%= render("shared/user", user: @password.user) %>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".updated_at"),
+  value: @password.updated_at,
+  type: :time
+) %>
 
-<% if @password.hint.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".hint") %></div>
-    <div class="font-bold"><%= @password.hint %></div>
-  </div>
-<% end %>
-
-<% if @password.password_digest.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".password") %></div>
-    <div class="font-bold">***</div>
-  </div>
-<% end %>
-
-<% if @password.primary.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".primary") %></div>
-    <div class="font-bold"><%= @password.primary? %></div>
-  </div>
-<% end %>
-
-<% if admin? && @password.verified.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".verified") %></div>
-    <div class="font-bold"><%= @password.verified? %></div>
-  </div>
-<% end %>
-
-<% if @password.updated_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@password.updated_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
-
-<% if @password.created_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@password.created_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".created_at"),
+  value: @password.created_at,
+  type: :time
+) %>
 
 <div class="p p--flex">
   <%= link_to(t(".edit"), edit_url, class: :link) %>

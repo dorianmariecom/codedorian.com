@@ -2,44 +2,30 @@
 
 <%= turbo_stream_from(@log) %>
 
-<% if @log.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @log.id %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".id"), value: @log.id) %>
 
-<% if @log.message.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".message") %></div>
-    <div class="font-bold"><%= @log.message %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".message"), value: @log.message) %>
 
-<% if @log.context.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".context") %></div>
-    <%= json_highlight(@log.context_json) %>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".context"),
+  value: @log.context_json,
+  type: :json
+) %>
 
-<% if @log.updated_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@log.updated_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".updated_at"),
+  value: @log.updated_at,
+  type: :time
+) %>
 
-<% if @log.created_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@log.created_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".created_at"),
+  value: @log.created_at,
+  type: :time
+) %>
 
 <div class="p p--flex">
   <%= link_to(t(".edit"), edit_url, class: :link) %>

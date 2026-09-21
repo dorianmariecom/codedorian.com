@@ -2,57 +2,32 @@
 <% content_for(:description, t(".description")) %>
 <%= turbo_stream_from(@subscription_value) %>
 
-<% if @subscription_value.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @subscription_value.id %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".id"), value: @subscription_value.id) %>
 
-<% if @subscription_value.subscription_id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".subscription_id") %></div>
-    <div class="font-bold">
-      <%= link_to(
-        @subscription_value.subscription,
-        @subscription_value.subscription,
-        class: :link
-      ) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".subscription_id"),
+  value: @subscription_value.subscription,
+  type: :record
+) %>
 
-<% if @subscription_value.key.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".key") %></div>
-    <div class="font-bold"><%= @subscription_value.key %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".key"), value: @subscription_value.key) %>
 
-<% if @subscription_value.value.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".value") %></div>
-    <div class="font-bold"><%= @subscription_value.value %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".value"), value: @subscription_value.value) %>
 
-<% if @subscription_value.updated_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@subscription_value.updated_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".updated_at"),
+  value: @subscription_value.updated_at,
+  type: :time
+) %>
 
-<% if @subscription_value.created_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@subscription_value.created_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".created_at"),
+  value: @subscription_value.created_at,
+  type: :time
+) %>
 
 <% if can?(:update, @subscription_value) %>
   <div class="p p--flex">

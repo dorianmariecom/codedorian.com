@@ -2,51 +2,37 @@
 
 <%= turbo_stream_from(@datum) %>
 
-<% if @datum.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @datum.id %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".id"), value: @datum.id) %>
 
-<% if @datum.user.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".user") %></div>
-    <%= render("shared/user", user: @datum.user) %>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".user"), value: @datum.user, type: :record) %>
 
-<% if @datum.key.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".key") %></div>
-    <%= json_highlight(@datum.key_json) %>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".key"),
+  value: @datum.key_json,
+  type: :json
+) %>
 
-<% if @datum.value.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".value") %></div>
-    <%= json_highlight(@datum.value_json) %>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".value"),
+  value: @datum.value_json,
+  type: :json
+) %>
 
-<% if @datum.updated_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@datum.updated_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".updated_at"),
+  value: @datum.updated_at,
+  type: :time
+) %>
 
-<% if @datum.created_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@datum.created_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".created_at"),
+  value: @datum.created_at,
+  type: :time
+) %>
 
 <div class="p p--flex">
   <%= link_to(t(".edit"), edit_url, class: :link) %>

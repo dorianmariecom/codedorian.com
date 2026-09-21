@@ -2,91 +2,61 @@
 
 <%= turbo_stream_from(@program) %>
 
-<% if @program.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @program.id %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".id"), value: @program.id) %>
 
-<% if @program.user.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".user") %></div>
-    <%= render("shared/user", user: @program.user) %>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".user"),
+  value: @program.user,
+  type: :record
+) %>
 
-<% if @program.name.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".name") %></div>
-    <div class="font-bold"><%= @program.name %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".name"), value: @program.name) %>
 
-<% if @program.input.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".input") %></div>
-    <% if can?(:update, @program) %>
-      <%= link_to(edit_url, class: "block") do %>
-        <%= code_highlight(@program.input) %>
-      <% end %>
-    <% else %>
-      <%= code_highlight(@program.input) %>
-    <% end %>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".input"),
+  value: @program.input,
+  type: :code,
+  url: can?(:update, @program) ? edit_url : nil
+) %>
 
-<% if @program.scheduled.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".scheduled") %></div>
-    <div class="font-bold"><%= @program.scheduled %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".scheduled"), value: @program.scheduled) %>
 
-<% if @program.starts_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".starts_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@program.starts_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".starts_at"),
+  value: @program.starts_at,
+  type: :time
+) %>
 
-<% if @program.previous_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".previous_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@program.previous_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".previous_at"),
+  value: @program.previous_at,
+  type: :time
+) %>
 
-<% if @program.next_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".next_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@program.next_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".next_at"),
+  value: @program.next_at,
+  type: :time
+) %>
 
-<% if @program.updated_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@program.updated_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".updated_at"),
+  value: @program.updated_at,
+  type: :time
+) %>
 
-<% if @program.created_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@program.created_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".created_at"),
+  value: @program.created_at,
+  type: :time
+) %>
 
 <% if @program.scheduled? %>
   <div class="p">

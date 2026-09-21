@@ -2,58 +2,36 @@
 
 <%= turbo_stream_from(@time_zone) %>
 
-<% if @time_zone.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @time_zone.id %></div>
-  </div>
+<%= render("shared/attribute", label: t(".id"), value: @time_zone.id) %>
+
+<%= render(
+  "shared/attribute",
+  label: t(".user"),
+  value: @time_zone.user,
+  type: :record
+) %>
+
+<%= render("shared/attribute", label: t(".time_zone"), value: @time_zone.time_zone) %>
+
+<%= render("shared/attribute", label: t(".primary"), value: @time_zone.primary?) %>
+
+<% if admin? %>
+  <%= render("shared/attribute", label: t(".verified"), value: @time_zone.verified?) %>
 <% end %>
 
-<% if @time_zone.user.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".user") %></div>
-    <%= render("shared/user", user: @time_zone.user) %>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".updated_at"),
+  value: @time_zone.updated_at,
+  type: :time
+) %>
 
-<% if @time_zone.time_zone.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".time_zone") %></div>
-    <div class="font-bold"><%= @time_zone.time_zone %></div>
-  </div>
-<% end %>
-
-<% if @time_zone.primary.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".primary") %></div>
-    <div class="font-bold"><%= @time_zone.primary? %></div>
-  </div>
-<% end %>
-
-<% if admin? && @time_zone.verified.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".verified") %></div>
-    <div class="font-bold"><%= @time_zone.verified? %></div>
-  </div>
-<% end %>
-
-<% if @time_zone.updated_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@time_zone.updated_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
-
-<% if @time_zone.created_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@time_zone.created_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".created_at"),
+  value: @time_zone.created_at,
+  type: :time
+) %>
 
 <div class="p p--flex">
   <%= link_to(t(".edit"), edit_url, class: :link) %>

@@ -2,65 +2,33 @@
 
 <%= turbo_stream_from(@name) %>
 
-<% if @name.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @name.id %></div>
-  </div>
+<%= render("shared/attribute", label: t(".id"), value: @name.id) %>
+
+<%= render("shared/attribute", label: t(".user"), value: @name.user, type: :record) %>
+
+<%= render("shared/attribute", label: t(".given_name"), value: @name.given_name) %>
+
+<%= render("shared/attribute", label: t(".family_name"), value: @name.family_name) %>
+
+<%= render("shared/attribute", label: t(".primary"), value: @name.primary?) %>
+
+<% if admin? %>
+  <%= render("shared/attribute", label: t(".verified"), value: @name.verified?) %>
 <% end %>
 
-<% if @name.user.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".user") %></div>
-    <%= render("shared/user", user: @name.user) %>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".updated_at"),
+  value: @name.updated_at,
+  type: :time
+) %>
 
-<% if @name.given_name.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".given_name") %></div>
-    <div class="font-bold"><%= @name.given_name %></div>
-  </div>
-<% end %>
-
-<% if @name.family_name.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".family_name") %></div>
-    <div class="font-bold"><%= @name.family_name %></div>
-  </div>
-<% end %>
-
-<% if @name.primary.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".primary") %></div>
-    <div class="font-bold"><%= @name.primary? %></div>
-  </div>
-<% end %>
-
-<% if admin? && @name.verified.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".verified") %></div>
-    <div class="font-bold"><%= @name.verified? %></div>
-  </div>
-<% end %>
-
-<% if @name.updated_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@name.updated_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
-
-<% if @name.created_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@name.created_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".created_at"),
+  value: @name.created_at,
+  type: :time
+) %>
 
 <div class="p p--flex">
   <%= link_to(t(".edit"), edit_url, class: :link) %>

@@ -2,58 +2,44 @@
 
 <%= turbo_stream_from(@phone_number) %>
 
-<% if @phone_number.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @phone_number.id %></div>
-  </div>
+<%= render("shared/attribute", label: t(".id"), value: @phone_number.id) %>
+
+<%= render(
+  "shared/attribute",
+  label: t(".user"),
+  value: @phone_number.user,
+  type: :record
+) %>
+
+<%= render(
+  "shared/attribute",
+  label: t(".phone_number"),
+  value: @phone_number.phone_number
+) %>
+
+<%= render("shared/attribute", label: t(".primary"), value: @phone_number.primary?) %>
+
+<% if admin? %>
+  <%= render(
+    "shared/attribute",
+    label: t(".verified"),
+    value: @phone_number.verified?
+  ) %>
 <% end %>
 
-<% if @phone_number.user.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".user") %></div>
-    <%= render("shared/user", user: @phone_number.user) %>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".updated_at"),
+  value: @phone_number.updated_at,
+  type: :time
+) %>
 
-<% if @phone_number.phone_number.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".phone_number") %></div>
-    <div class="font-bold"><%= @phone_number.phone_number %></div>
-  </div>
-<% end %>
-
-<% if @phone_number.primary.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".primary") %></div>
-    <div class="font-bold"><%= @phone_number.primary? %></div>
-  </div>
-<% end %>
-
-<% if admin? && @phone_number.verified.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".verified") %></div>
-    <div class="font-bold"><%= @phone_number.verified? %></div>
-  </div>
-<% end %>
-
-<% if @phone_number.updated_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@phone_number.updated_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
-
-<% if @phone_number.created_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@phone_number.created_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".created_at"),
+  value: @phone_number.created_at,
+  type: :time
+) %>
 
 <div class="p p--flex">
   <%= link_to(t(".edit"), edit_url, class: :link) %>

@@ -2,42 +2,147 @@
 
 <%= turbo_stream_from(@country) %>
 
-<% fields = %i[
-  id user ip_address name alpha2 alpha3 numeric_code hostname city region
-  region_code continent continent_code latitude longitude postal_code time_zone
-  organization anycast bogon anonymous hosting mobile satellite primary verified
-] %>
-<% fields.each do |attribute| %>
-  <% value = @country.public_send(attribute) %>
-  <% next if value.nil? %>
-  <% next if attribute == :verified && !admin? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".#{attribute}") %></div>
-    <div class="font-bold">
-      <% if attribute == :user %>
-        <%= render("shared/user", user: value) %>
-      <% else %>
-        <%= value %>
-      <% end %>
-    </div>
-  </div>
+<%= render("shared/attribute", label: t(".id"), value: @country.id) %>
+
+<%= render(
+  "shared/attribute",
+  label: t(".user"),
+  value: @country.user,
+  type: :record
+) %>
+
+<%= render("shared/attribute", label: t(".ip_address"), value: @country.ip_address) %>
+
+<%= render("shared/attribute", label: t(".name"), value: @country.name) %>
+
+<%= render("shared/attribute", label: t(".alpha2"), value: @country.alpha2) %>
+
+<%= render("shared/attribute", label: t(".alpha3"), value: @country.alpha3) %>
+
+<%= render(
+  "shared/attribute",
+  label: t(".numeric_code"),
+  value: @country.numeric_code
+) %>
+
+<%= render("shared/attribute", label: t(".hostname"), value: @country.hostname) %>
+
+<%= render("shared/attribute", label: t(".city"), value: @country.city) %>
+
+<%= render("shared/attribute", label: t(".region"), value: @country.region) %>
+
+<%= render(
+  "shared/attribute",
+  label: t(".region_code"),
+  value: @country.region_code
+) %>
+
+<%= render("shared/attribute", label: t(".continent"), value: @country.continent) %>
+
+<%= render(
+  "shared/attribute",
+  label: t(".continent_code"),
+  value: @country.continent_code
+) %>
+
+<%= render("shared/attribute", label: t(".latitude"), value: @country.latitude) %>
+
+<%= render("shared/attribute", label: t(".longitude"), value: @country.longitude) %>
+
+<%= render(
+  "shared/attribute",
+  label: t(".postal_code"),
+  value: @country.postal_code
+) %>
+
+<%= render("shared/attribute", label: t(".time_zone"), value: @country.time_zone) %>
+
+<%= render(
+  "shared/attribute",
+  label: t(".organization"),
+  value: @country.organization
+) %>
+
+<%= render("shared/attribute", label: t(".anycast"), value: @country.anycast) %>
+
+<%= render("shared/attribute", label: t(".bogon"), value: @country.bogon) %>
+
+<%= render("shared/attribute", label: t(".anonymous"), value: @country.anonymous) %>
+
+<%= render("shared/attribute", label: t(".hosting"), value: @country.hosting) %>
+
+<%= render("shared/attribute", label: t(".mobile"), value: @country.mobile) %>
+
+<%= render("shared/attribute", label: t(".satellite"), value: @country.satellite) %>
+
+<%= render("shared/attribute", label: t(".primary"), value: @country.primary) %>
+
+<% if admin? %>
+  <%= render("shared/attribute", label: t(".verified"), value: @country.verified) %>
 <% end %>
 
-<% Country::JSON_FIELDS.each do |attribute| %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".#{attribute}") %></div>
-    <pre class="overflow-auto"><%= JSON.pretty_generate(@country.public_send(attribute)) %></pre>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".asn"),
+  value: JSON.pretty_generate(@country.asn),
+  type: :json
+) %>
 
-<% %i[updated_at created_at].each do |attribute| %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".#{attribute}") %></div>
-    <div class="font-bold">
-      <%= local_time(@country.public_send(attribute), format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".company"),
+  value: JSON.pretty_generate(@country.company),
+  type: :json
+) %>
+
+<%= render(
+  "shared/attribute",
+  label: t(".privacy"),
+  value: JSON.pretty_generate(@country.privacy),
+  type: :json
+) %>
+
+<%= render(
+  "shared/attribute",
+  label: t(".abuse"),
+  value: JSON.pretty_generate(@country.abuse),
+  type: :json
+) %>
+
+<%= render(
+  "shared/attribute",
+  label: t(".domains"),
+  value: JSON.pretty_generate(@country.domains),
+  type: :json
+) %>
+
+<%= render(
+  "shared/attribute",
+  label: t(".carrier"),
+  value: JSON.pretty_generate(@country.carrier),
+  type: :json
+) %>
+
+<%= render(
+  "shared/attribute",
+  label: t(".raw_payload"),
+  value: JSON.pretty_generate(@country.raw_payload),
+  type: :json
+) %>
+
+<%= render(
+  "shared/attribute",
+  label: t(".updated_at"),
+  value: @country.updated_at,
+  type: :time
+) %>
+
+<%= render(
+  "shared/attribute",
+  label: t(".created_at"),
+  value: @country.created_at,
+  type: :time
+) %>
 
 <div class="p p--flex">
   <%= link_to(t(".edit"), edit_url, class: :link) %>
@@ -57,7 +162,9 @@
     partial: "versions/version",
     collection: @versions,
     as: :version,
-    locals: { nested: [*nested, @country] }
+    locals: {
+      nested: [*nested, @country]
+    }
   ) %>
 <% end %>
 
@@ -73,6 +180,8 @@
     partial: "logs/log",
     collection: @logs,
     as: :log,
-    locals: { nested: [*nested, @country] }
+    locals: {
+      nested: [*nested, @country]
+    }
   ) %>
 <% end %>

@@ -2,58 +2,42 @@
 
 <%= turbo_stream_from(@job_context) %>
 
-<% if @job_context.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @job_context.id %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".id"), value: @job_context.id) %>
 
-<% if @job_context.active_job_id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".active_job_id") %></div>
-    <div class="font-bold"><%= @job_context.active_job_id %></div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".active_job_id"),
+  value: @job_context.active_job_id
+) %>
 
-<% if @job_context.job.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".job") %></div>
+<%= render(
+  "shared/attribute",
+  label: t(".job"),
+  value: @job_context.job,
+  type: :record,
+  url: [*nested(job: nil), @job_context.job]
+) %>
 
-    <% if can?(:show, @job_context.job) %>
-      <div class="font-bold">
-        <%= link_to(@job_context.job, [*nested(job: nil), @job_context.job], class: :link) %>
-      </div>
-    <% else %>
-      <div class="font-bold"><%= @job_context.job %></div>
-    <% end %>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".context"),
+  value: @job_context.context_json,
+  type: :json
+) %>
 
-<% if @job_context.context.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".context") %></div>
-    <%= json_highlight(@job_context.context_json) %>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".updated_at"),
+  value: @job_context.updated_at,
+  type: :time
+) %>
 
-<% if @job_context.updated_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@job_context.updated_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
-
-<% if @job_context.created_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@job_context.created_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".created_at"),
+  value: @job_context.created_at,
+  type: :time
+) %>
 
 <div class="p p--flex">
   <%= link_to(t(".edit"), edit_url, class: :link) %>

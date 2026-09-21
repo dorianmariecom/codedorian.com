@@ -2,51 +2,38 @@
 
 <%= turbo_stream_from(@solid_cache_entry) %>
 
-<% if @solid_cache_entry.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @solid_cache_entry.id %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".id"), value: @solid_cache_entry.id) %>
 
-<% if @solid_cache_entry.key_hash.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".key_hash") %></div>
-    <div class="font-bold"><%= @solid_cache_entry.key_hash %></div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".key_hash"),
+  value: @solid_cache_entry.key_hash
+) %>
 
-<% if @solid_cache_entry.byte_size.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".byte_size") %></div>
-    <div class="font-bold"><%= @solid_cache_entry.byte_size %></div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".byte_size"),
+  value: @solid_cache_entry.byte_size
+) %>
 
-<% if @solid_cache_entry.key_base64.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".key_base64") %></div>
-    <div class="font-bold break-all"><%= @solid_cache_entry.key_base64 %></div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".key_base64"),
+  value: @solid_cache_entry.key_base64
+) %>
 
-<% if @solid_cache_entry.value_base64.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".value_base64") %></div>
-    <div class="font-bold break-all">
-      <%= @solid_cache_entry.value_base64 %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".value_base64"),
+  value: @solid_cache_entry.value_base64
+) %>
 
-<% if @solid_cache_entry.created_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@solid_cache_entry.created_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".created_at"),
+  value: @solid_cache_entry.created_at,
+  type: :time
+) %>
 
 <div class="p p--flex">
   <%= link_to(t(".edit"), edit_url, class: :link) %>

@@ -2,53 +2,42 @@
 
 <%= turbo_stream_from(@job_semaphore) %>
 
-<% if @job_semaphore.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @job_semaphore.id %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".id"), value: @job_semaphore.id) %>
 
-<% if @job_semaphore.key.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".key") %></div>
-    <%= json_highlight(@job_semaphore.key_json) %>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".key"),
+  value: @job_semaphore.key_json,
+  type: :json
+) %>
 
-<% if @job_semaphore.value.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".value") %></div>
-    <%= json_highlight(@job_semaphore.value_json) %>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".value"),
+  value: @job_semaphore.value_json,
+  type: :json
+) %>
 
-<% if @job_semaphore.expires_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".expires_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@job_semaphore.expires_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".expires_at"),
+  value: @job_semaphore.expires_at,
+  type: :time
+) %>
 
-<% if @job_semaphore.updated_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@job_semaphore.updated_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".updated_at"),
+  value: @job_semaphore.updated_at,
+  type: :time
+) %>
 
-<% if @job_semaphore.created_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@job_semaphore.created_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".created_at"),
+  value: @job_semaphore.created_at,
+  type: :time
+) %>
 
 <div class="p p--flex">
   <%= link_to(t(".edit"), edit_url, class: :link) %>

@@ -2,99 +2,78 @@
 
 <%= turbo_stream_from(@job_batch) %>
 
-<% if @job_batch.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @job_batch.id %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".id"), value: @job_batch.id) %>
 
-<% if @job_batch.active_job_batch_id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".active_job_batch_id") %></div>
-    <div class="font-bold"><%= @job_batch.active_job_batch_id %></div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".active_job_batch_id"),
+  value: @job_batch.active_job_batch_id
+) %>
 
-<% if @job_batch.description.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".description") %></div>
-    <div class="font-bold"><%= @job_batch.description %></div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".description"),
+  value: @job_batch.description
+) %>
 
-<% if @job_batch.total_jobs.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".total_jobs") %></div>
-    <div class="font-bold"><%= @job_batch.total_jobs %></div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".total_jobs"),
+  value: @job_batch.total_jobs
+) %>
 
-<% if @job_batch.completed_jobs.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".completed_jobs") %></div>
-    <div class="font-bold"><%= @job_batch.completed_jobs %></div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".completed_jobs"),
+  value: @job_batch.completed_jobs
+) %>
 
-<% if @job_batch.failed_jobs.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".failed_jobs") %></div>
-    <div class="font-bold"><%= @job_batch.failed_jobs %></div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".failed_jobs"),
+  value: @job_batch.failed_jobs
+) %>
 
-<% if @job_batch.enqueued_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".enqueued_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@job_batch.enqueued_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".enqueued_at"),
+  value: @job_batch.enqueued_at,
+  type: :time
+) %>
 
-<% if @job_batch.finished_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".finished_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@job_batch.finished_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".finished_at"),
+  value: @job_batch.finished_at,
+  type: :time
+) %>
 
-<% if @job_batch.failed_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".failed_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@job_batch.failed_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".failed_at"),
+  value: @job_batch.failed_at,
+  type: :time
+) %>
 
-<% if @job_batch.metadata.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".metadata") %></div>
-    <div class="font-bold"><%= @job_batch.metadata_json %></div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".metadata"),
+  value: @job_batch.metadata_json
+) %>
 
-<% if @job_batch.created_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@job_batch.created_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".created_at"),
+  value: @job_batch.created_at,
+  type: :time
+) %>
 
-<% if @job_batch.updated_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@job_batch.updated_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".updated_at"),
+  value: @job_batch.updated_at,
+  type: :time
+) %>
 
 <div class="p p--flex">
   <%= link_to(t(".edit"), edit_url, class: :link) %>

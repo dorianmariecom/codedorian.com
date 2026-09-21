@@ -8,128 +8,67 @@
   </div>
 <% end %>
 
-<% if @user.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @user.id %></div>
-  </div>
+<%= render("shared/attribute", label: t(".id"), value: @user.id) %>
+
+<% if admin? %>
+  <%= render("shared/attribute", label: t(".admin"), value: @user.admin) %>
 <% end %>
 
-<% if admin? && @user.admin.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".admin") %></div>
-    <div class="font-bold"><%= @user.admin %></div>
-  </div>
+<% if (admin? || advanced?) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".stripe_customer_id"),
+    value: @user.stripe_customer_id
+  ) %>
 <% end %>
 
-<% if (admin? || advanced?) && @user.stripe_customer_id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".stripe_customer_id") %></div>
-    <div class="font-bold"><%= @user.stripe_customer_id %></div>
-  </div>
+<%= render("shared/attribute", label: t(".locale"), value: @user.translated_locale) %>
+
+<%= render(
+  "shared/attribute",
+  label: t(".interface"),
+  value: @user.translated_interface
+) %>
+
+<%= render("shared/attribute", label: t(".name"), value: @user.name) %>
+
+<%= render("shared/attribute", label: t(".description"), value: @user.description) %>
+
+<%= render("shared/attribute", label: t(".handle"), value: @user.handle) %>
+
+<%= render(
+  "shared/attribute",
+  label: t(".email_address"),
+  value: @user.email_address
+) %>
+
+<%= render("shared/attribute", label: t(".phone_number"), value: @user.phone_number) %>
+
+<%= render("shared/attribute", label: t(".address"), value: @user.address) %>
+
+<%= render("shared/attribute", label: t(".password"), value: @user.password) %>
+
+<%= render("shared/attribute", label: t(".time_zone"), value: @user.time_zone) %>
+
+<%= render("shared/attribute", label: t(".device"), value: @user.device) %>
+
+<% if admin? %>
+  <%= render("shared/attribute", label: t(".verified"), value: @user.verified) %>
 <% end %>
 
-<% if @user.locale.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".locale") %></div>
-    <div class="font-bold"><%= @user.translated_locale %></div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".updated_at"),
+  value: @user.updated_at,
+  type: :time
+) %>
 
-<% if @user.interface.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".interface") %></div>
-    <div class="font-bold"><%= @user.translated_interface %></div>
-  </div>
-<% end %>
-
-<% if @user.name.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".name") %></div>
-    <div class="font-bold"><%= @user.name %></div>
-  </div>
-<% end %>
-
-<% if @user.description.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".description") %></div>
-    <div class="font-bold"><%= @user.description %></div>
-  </div>
-<% end %>
-
-<% if @user.handle.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".handle") %></div>
-    <div class="font-bold"><%= @user.handle %></div>
-  </div>
-<% end %>
-
-<% if @user.email_address.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".email_address") %></div>
-    <div class="font-bold"><%= @user.email_address %></div>
-  </div>
-<% end %>
-
-<% if @user.phone_number.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".phone_number") %></div>
-    <div class="font-bold"><%= @user.phone_number %></div>
-  </div>
-<% end %>
-
-<% if @user.address.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".address") %></div>
-    <div class="font-bold"><%= @user.address %></div>
-  </div>
-<% end %>
-
-<% if @user.password.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".password") %></div>
-    <div class="font-bold"><%= @user.password %></div>
-  </div>
-<% end %>
-
-<% if @user.time_zone.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".time_zone") %></div>
-    <div class="font-bold"><%= @user.time_zone %></div>
-  </div>
-<% end %>
-
-<% if @user.device.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".device") %></div>
-    <div class="font-bold"><%= @user.device %></div>
-  </div>
-<% end %>
-
-<% if admin? && @user.verified.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".verified") %></div>
-    <div class="font-bold"><%= @user.verified %></div>
-  </div>
-<% end %>
-
-<% if @user.updated_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@user.updated_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
-
-<% if @user.created_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@user.created_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".created_at"),
+  value: @user.created_at,
+  type: :time
+) %>
 
 <div class="p p--flex">
   <% if admin? %>

@@ -2,65 +2,43 @@
 
 <%= turbo_stream_from(@address) %>
 
-<% if @address.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @address.id %></div>
-  </div>
+<%= render("shared/attribute", label: t(".id"), value: @address.id) %>
+
+<%= render(
+  "shared/attribute",
+  label: t(".user"),
+  value: @address.user,
+  type: :record
+) %>
+
+<%= render("shared/attribute", label: t(".address"), value: @address.address) %>
+
+<%= render(
+  "shared/attribute",
+  label: t(".autocomplete"),
+  value: @address.autocomplete_json,
+  type: :json
+) %>
+
+<%= render("shared/attribute", label: t(".primary"), value: @address.primary?) %>
+
+<% if admin? %>
+  <%= render("shared/attribute", label: t(".verified"), value: @address.verified?) %>
 <% end %>
 
-<% if @address.user.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".user") %></div>
-    <%= render("shared/user", user: @address.user) %>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".updated_at"),
+  value: @address.updated_at,
+  type: :time
+) %>
 
-<% if @address.address.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".address") %></div>
-    <div class="font-bold"><%= @address.address %></div>
-  </div>
-<% end %>
-
-<% if @address.autocomplete.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".autocomplete") %></div>
-    <%= json_highlight(@address.autocomplete_json) %>
-  </div>
-<% end %>
-
-<% if @address.primary.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".primary") %></div>
-    <div class="font-bold"><%= @address.primary? %></div>
-  </div>
-<% end %>
-
-<% if admin? && @address.verified.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".verified") %></div>
-    <div class="font-bold"><%= @address.verified? %></div>
-  </div>
-<% end %>
-
-<% if @address.updated_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@address.updated_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
-
-<% if @address.created_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@address.created_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".created_at"),
+  value: @address.created_at,
+  type: :time
+) %>
 
 <div class="p p--flex">
   <%= link_to(t(".edit"), edit_url, class: :link) %>

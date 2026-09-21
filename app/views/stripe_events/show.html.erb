@@ -3,41 +3,36 @@
 <%= turbo_stream_from(@stripe_event) %>
 
 <% %i[id stripe_event_id event_type status].each do |attribute| %>
-  <% if @stripe_event.public_send(attribute).present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".#{attribute}") %></div>
-      <div class="font-bold"><%= @stripe_event.public_send(attribute) %></div>
-    </div>
-  <% end %>
+  <%= render(
+    "shared/attribute",
+    label: t(".#{attribute}"),
+    value: @stripe_event.public_send(attribute)
+  ) %>
 <% end %>
 
-<div class="p">
-  <div class="text-gray-600"><%= t(".livemode") %></div>
-  <div class="font-bold"><%= @stripe_event.livemode %></div>
-</div>
+<%= render("shared/attribute", label: t(".livemode"), value: @stripe_event.livemode) %>
 
 <% %i[stripe_created_at processed_at updated_at created_at].each do |attribute| %>
-  <% if @stripe_event.public_send(attribute).present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".#{attribute}") %></div>
-      <div class="font-bold">
-        <%= local_time(@stripe_event.public_send(attribute), format: :default) %>
-      </div>
-    </div>
-  <% end %>
+  <%= render(
+    "shared/attribute",
+    label: t(".#{attribute}"),
+    value: @stripe_event.public_send(attribute),
+    type: :time
+  ) %>
 <% end %>
 
-<% if @stripe_event.processing_error.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".processing_error") %></div>
-    <div class="font-bold"><%= @stripe_event.processing_error %></div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".processing_error"),
+  value: @stripe_event.processing_error
+) %>
 
-<div class="p">
-  <div class="text-gray-600"><%= t(".payload") %></div>
-  <%= json_highlight(@stripe_event.payload_json) %>
-</div>
+<%= render(
+  "shared/attribute",
+  label: t(".payload"),
+  value: @stripe_event.payload_json,
+  type: :json
+) %>
 
 <div class="p p--flex">
   <%= link_to(t(".edit"), edit_url, class: :link) %>

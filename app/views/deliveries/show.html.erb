@@ -2,102 +2,51 @@
 <% content_for(:description, t(".description")) %>
 <%= turbo_stream_from(@delivery) %>
 <% if admin? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold whitespace-pre-wrap"><%= @delivery.id %></div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".subscription_id") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery.subscription_id %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".delivery_destination_id") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery.delivery_destination_id %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".step_execution_id") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery.step_execution_id %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".event_key") %></div>
-    <div class="font-bold whitespace-pre-wrap"><%= @delivery.event_key %></div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".status") %></div>
-    <div class="font-bold whitespace-pre-wrap"><%= @delivery.status %></div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".subject") %></div>
-    <div class="font-bold whitespace-pre-wrap"><%= @delivery.subject %></div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".body_text") %></div>
-    <div class="font-bold whitespace-pre-wrap"><%= @delivery.body_text %></div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".body_html") %></div>
-    <div class="font-bold whitespace-pre-wrap"><%= @delivery.body_html %></div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".url") %></div>
-    <div class="font-bold whitespace-pre-wrap"><%= @delivery.url %></div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".locale") %></div>
-    <div class="font-bold whitespace-pre-wrap"><%= @delivery.locale %></div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".channel") %></div>
-    <div class="font-bold whitespace-pre-wrap"><%= @delivery.channel %></div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".recipient") %></div>
-    <div class="font-bold whitespace-pre-wrap"><%= @delivery.recipient %></div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".visibility") %></div>
-    <div class="font-bold whitespace-pre-wrap"><%= @delivery.visibility %></div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".connection_id") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery.connection_id %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".provider_id") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery.provider_id %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".error_code") %></div>
-    <div class="font-bold whitespace-pre-wrap"><%= @delivery.error_code %></div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".attempts") %></div>
-    <div class="font-bold whitespace-pre-wrap"><%= @delivery.attempts %></div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".next_attempt_at") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery.next_attempt_at %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold whitespace-pre-wrap"><%= @delivery.created_at %></div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold whitespace-pre-wrap"><%= @delivery.updated_at %></div>
-  </div>
+  <%= render("shared/attribute", label: t(".id"), value: @delivery.id) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".subscription_id"),
+    value: @delivery.subscription_id
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".delivery_destination_id"),
+    value: @delivery.delivery_destination_id
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".step_execution_id"),
+    value: @delivery.step_execution_id
+  ) %>
+  <%= render("shared/attribute", label: t(".event_key"), value: @delivery.event_key) %>
+  <%= render("shared/attribute", label: t(".status"), value: @delivery.status) %>
+  <%= render("shared/attribute", label: t(".subject"), value: @delivery.subject) %>
+  <%= render("shared/attribute", label: t(".body_text"), value: @delivery.body_text) %>
+  <%= render("shared/attribute", label: t(".body_html"), value: @delivery.body_html) %>
+  <%= render("shared/attribute", label: t(".url"), value: @delivery.url) %>
+  <%= render("shared/attribute", label: t(".locale"), value: @delivery.locale) %>
+  <%= render("shared/attribute", label: t(".channel"), value: @delivery.channel) %>
+  <%= render("shared/attribute", label: t(".recipient"), value: @delivery.recipient) %>
+  <%= render("shared/attribute", label: t(".visibility"), value: @delivery.visibility) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".connection_id"),
+    value: @delivery.connection_id
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".provider_id"),
+    value: @delivery.provider_id
+  ) %>
+  <%= render("shared/attribute", label: t(".error_code"), value: @delivery.error_code) %>
+  <%= render("shared/attribute", label: t(".attempts"), value: @delivery.attempts) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".next_attempt_at"),
+    value: @delivery.next_attempt_at
+  ) %>
+  <%= render("shared/attribute", label: t(".created_at"), value: @delivery.created_at, type: :time) %>
+  <%= render("shared/attribute", label: t(".updated_at"), value: @delivery.updated_at, type: :time) %>
 <% else %>
   <div class="p font-bold"><%= @delivery.subject %></div>
   <div class="p whitespace-pre-wrap"><%= @delivery.body_text %></div>

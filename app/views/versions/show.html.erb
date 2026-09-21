@@ -2,72 +2,43 @@
 
 <%= turbo_stream_from(@version) %>
 
-<% if @version.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @version.id %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".id"), value: @version.id) %>
 
-<% if @version.event.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".event") %></div>
-    <div class="font-bold"><%= @version.event %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".event"), value: @version.event) %>
 
-<% if @version.item_type.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".item_type") %></div>
-    <div class="font-bold"><%= @version.item_type %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".item_type"), value: @version.item_type) %>
 
-<% if @version.item_id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".item_id") %></div>
-    <div class="font-bold"><%= @version.item_id %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".item_id"), value: @version.item_id) %>
 
-<% if @version.whodunnit.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".whodunnit") %></div>
-    <div class="font-bold"><%= @version.whodunnit %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".whodunnit"), value: @version.whodunnit) %>
 
-<% if @version.object.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".object") %></div>
-    <%= json_highlight(@version.object_json) %>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".object"),
+  value: @version.object_json,
+  type: :json
+) %>
 
-<% if @version.object_changes.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".object_changes") %></div>
-    <%= json_highlight(@version.object_changes_json) %>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".object_changes"),
+  value: @version.object_changes_json,
+  type: :json
+) %>
 
-<% if @version.updated_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@version.updated_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".updated_at"),
+  value: @version.updated_at,
+  type: :time
+) %>
 
-<% if @version.created_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@version.created_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".created_at"),
+  value: @version.created_at,
+  type: :time
+) %>
 
 <% if can?(:update, @version) || can?(:destroy, @version) %>
   <div class="p">

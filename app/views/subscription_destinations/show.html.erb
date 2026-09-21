@@ -2,60 +2,49 @@
 <% content_for(:description, t(".description")) %>
 <%= turbo_stream_from(@subscription_destination) %>
 <% if admin? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @subscription_destination.id %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".subscription_id") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @subscription_destination.subscription_id %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".delivery_destination_id") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @subscription_destination.delivery_destination_id %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".amount_cents") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @subscription_destination.amount_cents %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".amount_currency") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @subscription_destination.amount_currency %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".active") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @subscription_destination.active %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".selected") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @subscription_destination.selected %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @subscription_destination.created_at %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @subscription_destination.updated_at %>
-    </div>
-  </div>
+  <%= render("shared/attribute", label: t(".id"), value: @subscription_destination.id) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".subscription_id"),
+    value: @subscription_destination.subscription_id
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".delivery_destination_id"),
+    value: @subscription_destination.delivery_destination_id
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".amount_cents"),
+    value: @subscription_destination.amount_cents
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".amount_currency"),
+    value: @subscription_destination.amount_currency
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".active"),
+    value: @subscription_destination.active
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".selected"),
+    value: @subscription_destination.selected
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".created_at"),
+    value: @subscription_destination.created_at,
+    type: :time
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".updated_at"),
+    value: @subscription_destination.updated_at,
+    type: :time
+  ) %>
 <% else %>
   <div class="p"><%= @subscription_destination %></div>
 <% end %>

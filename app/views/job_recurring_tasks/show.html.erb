@@ -2,93 +2,74 @@
 
 <%= turbo_stream_from(@job_recurring_task) %>
 
-<% if @job_recurring_task.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @job_recurring_task.id %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".id"), value: @job_recurring_task.id) %>
 
-<% if @job_recurring_task.key.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".key") %></div>
-    <div class="font-bold"><%= @job_recurring_task.key %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".key"), value: @job_recurring_task.key) %>
 
-<% if @job_recurring_task.class_name.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".class_name") %></div>
-    <div class="font-bold"><%= @job_recurring_task.class_name %></div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".class_name"),
+  value: @job_recurring_task.class_name
+) %>
 
-<% if @job_recurring_task.command.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".command") %></div>
-    <%= code_highlight(@job_recurring_task.command) %>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".command"),
+  value: @job_recurring_task.command,
+  type: :code
+) %>
 
-<% if @job_recurring_task.schedule.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".schedule") %></div>
-    <div class="font-bold"><%= @job_recurring_task.schedule %></div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".schedule"),
+  value: @job_recurring_task.schedule
+) %>
 
-<% if @job_recurring_task.queue_name.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".queue_name") %></div>
-    <div class="font-bold"><%= @job_recurring_task.queue_name %></div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".queue_name"),
+  value: @job_recurring_task.queue_name
+) %>
 
-<% if @job_recurring_task.priority.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".priority") %></div>
-    <div class="font-bold"><%= @job_recurring_task.priority %></div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".priority"),
+  value: @job_recurring_task.priority
+) %>
 
-<% if @job_recurring_task.static.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".static") %></div>
-    <div class="font-bold"><%= @job_recurring_task.static? %></div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".static"),
+  value: @job_recurring_task.static?
+) %>
 
-<% if @job_recurring_task.arguments.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".arguments") %></div>
-    <%= json_highlight(@job_recurring_task.arguments_json) %>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".arguments"),
+  value: @job_recurring_task.arguments_json,
+  type: :json
+) %>
 
-<% if @job_recurring_task.description.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".description") %></div>
-    <%= code_highlight(@job_recurring_task.description) %>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".description"),
+  value: @job_recurring_task.description,
+  type: :code
+) %>
 
-<% if @job_recurring_task.updated_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@job_recurring_task.updated_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".updated_at"),
+  value: @job_recurring_task.updated_at,
+  type: :time
+) %>
 
-<% if @job_recurring_task.created_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@job_recurring_task.created_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".created_at"),
+  value: @job_recurring_task.created_at,
+  type: :time
+) %>
 
 <div class="p p--flex">
   <%= link_to(t(".edit"), edit_url, class: :link) %>

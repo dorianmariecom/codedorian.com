@@ -2,18 +2,12 @@
 <% content_for(:description, t(".description")) %>
 <%= turbo_stream_from(@stripe_invoice) %>
 
-<% if @stripe_invoice.subscription.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".subscription") %></div>
-    <div class="font-bold">
-      <%= link_to(
-        @stripe_invoice.subscription,
-        @stripe_invoice.subscription,
-        class: :link
-      ) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".subscription"),
+  value: @stripe_invoice.subscription,
+  type: :record
+) %>
 
 <% %i[
   id
@@ -25,38 +19,29 @@
   amount_due
   amount_paid
 ].each do |attribute| %>
-  <% if @stripe_invoice.public_send(attribute).present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".#{attribute}") %></div>
-      <div class="font-bold"><%= @stripe_invoice.public_send(attribute) %></div>
-    </div>
-  <% end %>
+  <%= render(
+    "shared/attribute",
+    label: t(".#{attribute}"),
+    value: @stripe_invoice.public_send(attribute)
+  ) %>
 <% end %>
 
 <% %i[period_start period_end paid_at updated_at created_at].each do |attribute| %>
-  <% if @stripe_invoice.public_send(attribute).present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".#{attribute}") %></div>
-      <div class="font-bold">
-        <%= local_time(@stripe_invoice.public_send(attribute), format: :default) %>
-      </div>
-    </div>
-  <% end %>
+  <%= render(
+    "shared/attribute",
+    label: t(".#{attribute}"),
+    value: @stripe_invoice.public_send(attribute),
+    type: :time
+  ) %>
 <% end %>
 
 <% %i[hosted_invoice_url invoice_pdf].each do |attribute| %>
-  <% if @stripe_invoice.public_send(attribute).present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".#{attribute}") %></div>
-      <div class="font-bold">
-        <%= link_to(
-          @stripe_invoice.public_send(attribute),
-          @stripe_invoice.public_send(attribute),
-          class: :link
-        ) %>
-      </div>
-    </div>
-  <% end %>
+  <%= render(
+    "shared/attribute",
+    label: t(".#{attribute}"),
+    value: @stripe_invoice.public_send(attribute),
+    type: :link
+  ) %>
 <% end %>
 
 <div class="p p--flex">

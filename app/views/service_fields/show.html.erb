@@ -1,59 +1,37 @@
 <% content_for(:title, @service_field) %>
 <% content_for(:description, @service_field.name) %>
 <%= turbo_stream_from(@service_field) %>
-<% if @service_field.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @service_field.id %></div>
-  </div>
-<% end %>
-<% if @service_field.service_id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".service_id") %></div>
-    <div class="font-bold">
-      <%= link_to_if(
-        can?(:show, @service_field.service),
-        @service_field.service,
-        @service_field.service,
-        class: :link
-      ) %>
-    </div>
-  </div>
-<% end %>
-<% if @service_field.key.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".key") %></div>
-    <div class="font-bold"><%= @service_field.key %></div>
-  </div>
-<% end %>
-<% if @service_field.name_en.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".name_en") %></div>
-    <%= @service_field.name_en %>
-  </div>
-<% end %>
-<% if @service_field.name_fr.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".name_fr") %></div>
-    <%= @service_field.name_fr %>
-  </div>
-<% end %>
-<% if @service_field.kind.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".kind") %></div>
-    <div class="font-bold"><%= @service_field.kind %></div>
-  </div>
-<% end %>
-<div class="p">
-  <div class="text-gray-600"><%= t(".required") %></div>
-  <div class="font-bold"><%= @service_field.required? %></div>
-</div>
-<% if @service_field.position.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".position") %></div>
-    <div class="font-bold"><%= @service_field.position %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".id"), value: @service_field.id) %>
+<%= render(
+  "shared/attribute",
+  label: t(".service_id"),
+  value: @service_field.service,
+  type: :record
+) %>
+<%= render("shared/attribute", label: t(".key"), value: @service_field.key) %>
+<%= render(
+  "shared/attribute",
+  label: t(".name_en"),
+  value: @service_field.name_en,
+  type: :content
+) %>
+<%= render(
+  "shared/attribute",
+  label: t(".name_fr"),
+  value: @service_field.name_fr,
+  type: :content
+) %>
+<%= render("shared/attribute", label: t(".kind"), value: @service_field.kind) %>
+<%= render(
+  "shared/attribute",
+  label: t(".required"),
+  value: @service_field.required?
+) %>
+<%= render(
+  "shared/attribute",
+  label: t(".position"),
+  value: @service_field.position
+) %>
 <div class="p p--flex">
   <% if can?(:update, @service_field) %>
     <%= link_to(t(".edit"), edit_url, class: :link) %>

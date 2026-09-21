@@ -2,56 +2,41 @@
 <% content_for(:description, t(".description")) %>
 <%= turbo_stream_from(@plan_schedule) %>
 
-<% if @plan_schedule.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @plan_schedule.id %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".id"), value: @plan_schedule.id) %>
 
-<% if @plan_schedule.plan_id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".plan_id") %></div>
-    <% association = @plan_schedule.plan %>
-    <div class="font-bold">
-      <%= link_to_if(can?(:show, association), association, association, class: :link) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".plan_id"),
+  value: @plan_schedule.plan,
+  type: :record
+) %>
 
-<% if @plan_schedule.starts_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".starts_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@plan_schedule.starts_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".starts_at"),
+  value: @plan_schedule.starts_at,
+  type: :time
+) %>
 
-<% if @plan_schedule.interval.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".interval") %></div>
-    <div class="font-bold"><%= @plan_schedule.interval %></div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".interval"),
+  value: @plan_schedule.interval
+) %>
 
-<% if @plan_schedule.updated_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@plan_schedule.updated_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".updated_at"),
+  value: @plan_schedule.updated_at,
+  type: :time
+) %>
 
-<% if @plan_schedule.created_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@plan_schedule.created_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".created_at"),
+  value: @plan_schedule.created_at,
+  type: :time
+) %>
 
 <div class="p p--flex">
   <%= link_to(t(".edit"), edit_url, class: :link) %>

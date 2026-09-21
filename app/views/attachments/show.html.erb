@@ -2,19 +2,14 @@
 
 <%= turbo_stream_from(@attachment) %>
 
-<% if @attachment.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @attachment.id %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".id"), value: @attachment.id) %>
 
-<% if @attachment.user.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".user") %></div>
-    <%= render("shared/user", user: @attachment.user) %>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".user"),
+  value: @attachment.user,
+  type: :record
+) %>
 
 <% if @attachment.file.attached? %>
   <div class="p">
@@ -30,23 +25,19 @@
   </div>
 <% end %>
 
-<% if @attachment.updated_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@attachment.updated_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".updated_at"),
+  value: @attachment.updated_at,
+  type: :time
+) %>
 
-<% if @attachment.created_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@attachment.created_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".created_at"),
+  value: @attachment.created_at,
+  type: :time
+) %>
 
 <div class="p p--flex">
   <%= link_to(t(".edit"), edit_url, class: :link) %>

@@ -2,44 +2,33 @@
 
 <%= turbo_stream_from(@country_code_ip_address) %>
 
-<% if @country_code_ip_address.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @country_code_ip_address.id %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".id"), value: @country_code_ip_address.id) %>
 
-<% if @country_code_ip_address.ip_address.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".ip_address") %></div>
-    <div class="font-bold"><%= @country_code_ip_address.ip_address %></div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".ip_address"),
+  value: @country_code_ip_address.ip_address
+) %>
 
-<% if @country_code_ip_address.country_code.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".country_code") %></div>
-    <div class="font-bold"><%= @country_code_ip_address.country_code %></div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".country_code"),
+  value: @country_code_ip_address.country_code
+) %>
 
-<% if @country_code_ip_address.updated_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@country_code_ip_address.updated_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".updated_at"),
+  value: @country_code_ip_address.updated_at,
+  type: :time
+) %>
 
-<% if @country_code_ip_address.created_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@country_code_ip_address.created_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".created_at"),
+  value: @country_code_ip_address.created_at,
+  type: :time
+) %>
 
 <div class="p">
   <%= render(

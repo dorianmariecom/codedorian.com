@@ -2,66 +2,43 @@
 <% content_for(:description, t(".description")) %>
 <%= turbo_stream_from(@subscription) %>
 
-<% if (admin? || advanced?) && @subscription.heartbeats_url.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".heartbeats_url") %></div>
-    <div class="font-bold">
-      <%= link_to(
-        @subscription.heartbeats_url,
-        @subscription.heartbeats_url,
-        class: :link
-      ) %>
-    </div>
-  </div>
+<% if (admin? || advanced?) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".heartbeats_url"),
+    value: @subscription.heartbeats_url,
+    type: :link
+  ) %>
 <% end %>
 
-<% if @subscription.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @subscription.id %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".id"), value: @subscription.id) %>
 
-<% if @subscription.user_id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".user_id") %></div>
-    <% association = @subscription.user %>
-    <div class="font-bold">
-      <%= link_to_if(can?(:show, association), association, association, class: :link) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".user_id"),
+  value: @subscription.user,
+  type: :record
+) %>
 
-<% if @subscription.plan_id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".plan_id") %></div>
-    <% association = @subscription.plan %>
-    <div class="font-bold">
-      <%= link_to_if(can?(:show, association), association, association, class: :link) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".plan_id"),
+  value: @subscription.plan,
+  type: :record
+) %>
 
-<% if @subscription.service.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".service") %></div>
-    <div class="font-bold">
-      <%= link_to_if(
-        can?(:show, @subscription.service),
-        @subscription.service,
-        @subscription.service,
-        class: :link
-      ) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".service"),
+  value: @subscription.service,
+  type: :record
+) %>
 
-<% if @subscription.status.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".status") %></div>
-    <div class="font-bold"><%= @subscription.translated_status %></div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".status"),
+  value: @subscription.translated_status
+) %>
 
 <div class="p">
   <%= link_to(t(".billing"), subscription_billing_path(@subscription), class: :link) %>
@@ -106,58 +83,45 @@
   <% @subscription.plan.fields.each do |field| %>
     <% subscription_value = @subscription.values[field.key] %>
     <% if subscription_value&.value.present? %>
-      <div class="p">
-        <div class="text-gray-600"><%= field.name %></div>
-        <div class="font-bold"><%= subscription_value.value %></div>
-      </div>
+      <%= render("shared/attribute", label: field.name, value: subscription_value.value) %>
     <% end %>
   <% end %>
 <% end %>
 
-<% if @subscription.starts_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".starts_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@subscription.starts_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".starts_at"),
+  value: @subscription.starts_at,
+  type: :time
+) %>
 
-<% if @subscription.previous_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".previous_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@subscription.previous_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".previous_at"),
+  value: @subscription.previous_at,
+  type: :time
+) %>
 
-<% if @subscription.next_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".next_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@subscription.next_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".next_at"),
+  value: @subscription.next_at,
+  type: :time
+) %>
 
-<% if @subscription.updated_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@subscription.updated_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".updated_at"),
+  value: @subscription.updated_at,
+  type: :time
+) %>
 
-<% if @subscription.created_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@subscription.created_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".created_at"),
+  value: @subscription.created_at,
+  type: :time
+) %>
 
 <% if can?(:evaluate, @subscription) %>
   <div class="p">

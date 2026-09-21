@@ -22,80 +22,70 @@
 <% end %>
 <% content_for(:title, t(".title", subscription: @subscription)) %>
 <%= turbo_stream_from(@subscription) %>
-<div class="p">
-  <div class="text-gray-600"><%= t(".subscription") %></div>
-  <div class="font-bold">
-    <%= link_to(@subscription, @subscription, class: :link) %>
-  </div>
-</div>
+<%= render(
+  "shared/attribute",
+  label: t(".subscription"),
+  value: @subscription,
+  type: :record
+) %>
 
 <% if admin? || advanced? %>
-  <% if @subscription.user.stripe_customer_id.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".stripe_customer_id") %></div>
-      <div class="font-bold"><%= @subscription.user.stripe_customer_id %></div>
-    </div>
-  <% end %>
+  <%= render(
+    "shared/attribute",
+    label: t(".stripe_customer_id"),
+    value: @subscription.user.stripe_customer_id
+  ) %>
 
-  <% if @subscription.stripe_subscription_id.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".stripe_subscription_id") %></div>
-      <div class="font-bold"><%= @subscription.stripe_subscription_id %></div>
-    </div>
-  <% end %>
+  <%= render(
+    "shared/attribute",
+    label: t(".stripe_subscription_id"),
+    value: @subscription.stripe_subscription_id
+  ) %>
 
-  <% if @subscription.stripe_checkout_session_id.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".stripe_checkout_session_id") %></div>
-      <div class="font-bold">
-        <%= @subscription.stripe_checkout_session_id %>
-      </div>
-    </div>
-  <% end %>
+  <%= render(
+    "shared/attribute",
+    label: t(".stripe_checkout_session_id"),
+    value: @subscription.stripe_checkout_session_id
+  ) %>
 
-  <% if @subscription.current_period_start.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".current_period_start") %></div>
-      <div class="font-bold">
-        <%= local_time(@subscription.current_period_start) %>
-      </div>
-    </div>
-  <% end %>
+  <%= render(
+    "shared/attribute",
+    label: t(".current_period_start"),
+    value: @subscription.current_period_start,
+    type: :time
+  ) %>
 
-  <div class="p">
-    <div class="text-gray-600"><%= t(".cancel_at_period_end") %></div>
-    <div class="font-bold"><%= @subscription.cancel_at_period_end? %></div>
-  </div>
+  <%= render(
+    "shared/attribute",
+    label: t(".cancel_at_period_end"),
+    value: @subscription.cancel_at_period_end?
+  ) %>
 <% end %>
 
 <% if @subscription.amount_cents.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".price") %></div>
-    <div class="font-bold">
-      <%= Money.new(@subscription.amount_cents, @subscription.amount_currency).format(
-        locale: I18n.locale
-      ) %> / <%= t(".month") %>
-    </div>
-  </div>
+  <% price =
+    Money.new(@subscription.amount_cents, @subscription.amount_currency).format(
+      locale: I18n.locale
+    ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".price"),
+    value: "#{price} / #{t(".month")}"
+  ) %>
 <% end %>
 
-<div class="p">
-  <div class="text-gray-600"><%= t(".status") %></div>
-  <div class="font-bold">
-    <%= @subscription.stripe_status.presence || t(".unpaid") %>
-  </div>
-</div>
+<%= render(
+  "shared/attribute",
+  label: t(".status"),
+  value: @subscription.stripe_status.presence || t(".unpaid")
+) %>
 
-<% if @subscription.current_period_end.present? %>
-  <div class="p">
-    <div class="text-gray-600">
-      <%= @subscription.canceling? ? t(".ends_at") : t(".renews_at") %>
-    </div>
-    <div class="font-bold">
-      <%= local_time(@subscription.current_period_end) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: @subscription.canceling? ? t(".ends_at") : t(".renews_at"),
+  value: @subscription.current_period_end,
+  type: :time
+) %>
 
 <% if @billing_error.present? %>
   <div class="p text-red-600"><%= @billing_error %></div>

@@ -3,69 +3,47 @@
 <%= turbo_stream_from(@plan) %>
 
 <% if can?(:update, @plan) || advanced? %>
-  <% if @plan.id.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".id") %></div>
-      <div class="font-bold"><%= @plan.id %></div>
-    </div>
-  <% end %>
+  <%= render("shared/attribute", label: t(".id"), value: @plan.id) %>
 
-  <% if @plan.service_id.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".service_id") %></div>
-      <% association = @plan.service %>
-      <div class="font-bold">
-        <%= link_to_if(can?(:show, association), association, association, class: :link) %>
-      </div>
-    </div>
-  <% end %>
+  <%= render(
+    "shared/attribute",
+    label: t(".service_id"),
+    value: @plan.service,
+    type: :record
+  ) %>
 
-  <% if @plan.slug.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".slug") %></div>
-      <div class="font-bold"><%= @plan.slug %></div>
-    </div>
-  <% end %>
+  <%= render("shared/attribute", label: t(".slug"), value: @plan.slug) %>
 
   <% %i[name_en name_fr description_en description_fr body_en body_fr].each do |attribute| %>
-    <% if @plan.public_send(attribute).present? %>
-      <div class="p">
-        <div class="text-gray-600"><%= t(".#{attribute}") %></div>
-        <%= @plan.public_send(attribute) %>
-      </div>
-    <% end %>
+    <%= render(
+      "shared/attribute",
+      label: t(".#{attribute}"),
+      value: @plan.public_send(attribute),
+      type: :content
+    ) %>
   <% end %>
 
-  <% if @plan.pricing_input.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".pricing_input") %></div>
-      <% if can?(:update, @plan) %>
-        <%= link_to(edit_url, class: "block") do %>
-          <%= code_highlight(@plan.pricing_input) %>
-        <% end %>
-      <% else %>
-        <%= code_highlight(@plan.pricing_input) %>
-      <% end %>
-    </div>
-  <% end %>
+  <%= render(
+    "shared/attribute",
+    label: t(".pricing_input"),
+    value: @plan.pricing_input,
+    type: :code,
+    url: can?(:update, @plan) ? edit_url : nil
+  ) %>
 
-  <% if @plan.updated_at.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".updated_at") %></div>
-      <div class="font-bold">
-        <%= local_time(@plan.updated_at, format: :default) %>
-      </div>
-    </div>
-  <% end %>
+  <%= render(
+    "shared/attribute",
+    label: t(".updated_at"),
+    value: @plan.updated_at,
+    type: :time
+  ) %>
 
-  <% if @plan.created_at.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".created_at") %></div>
-      <div class="font-bold">
-        <%= local_time(@plan.created_at, format: :default) %>
-      </div>
-    </div>
-  <% end %>
+  <%= render(
+    "shared/attribute",
+    label: t(".created_at"),
+    value: @plan.created_at,
+    type: :time
+  ) %>
 
   <% if can?(:update, @plan) %>
     <div class="p p--flex">

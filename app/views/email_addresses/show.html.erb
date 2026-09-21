@@ -2,33 +2,22 @@
 
 <%= turbo_stream_from(@email_address) %>
 
-<% if @email_address.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @email_address.id %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".id"), value: @email_address.id) %>
 
-<% if @email_address.user.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".user") %></div>
-    <%= render("shared/user", user: @email_address.user) %>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".user"),
+  value: @email_address.user,
+  type: :record
+) %>
 
-<% if @email_address.email_address.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".email_address") %></div>
-    <strong class="font-bold"><%= @email_address.email_address %></strong>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".email_address"),
+  value: @email_address.email_address
+) %>
 
-<% if @email_address.primary.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".primary") %></div>
-    <div class="font-bold"><%= @email_address.primary? %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".primary"), value: @email_address.primary?) %>
 
 <div class="p">
   <div>
@@ -51,23 +40,19 @@
   <% end %>
 </div>
 
-<% if @email_address.updated_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <strong class="font-bold">
-      <%= local_time(@email_address.updated_at, format: :default) %>
-    </strong>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".updated_at"),
+  value: @email_address.updated_at,
+  type: :time
+) %>
 
-<% if @email_address.created_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <strong class="font-bold">
-      <%= local_time(@email_address.created_at, format: :default) %>
-    </strong>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".created_at"),
+  value: @email_address.created_at,
+  type: :time
+) %>
 
 <div class="p p--flex">
   <%= link_to(t(".edit"), edit_url, class: :link) if can?(:update, @email_address) %>

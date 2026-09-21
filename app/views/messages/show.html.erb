@@ -13,58 +13,49 @@
     <div class="p"><%= @message.body %></div>
   <% end %>
 <% else %>
-  <% if @message.id.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".id") %></div>
-      <div class="font-bold"><%= @message.id %></div>
-    </div>
-  <% end %>
+  <%= render("shared/attribute", label: t(".id"), value: @message.id) %>
 
-  <% if @message.from_user.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".from_user") %></div>
-      <%= render("shared/user", user: @message.from_user) %>
-    </div>
-  <% end %>
+  <%= render(
+    "shared/attribute",
+    label: t(".from_user"),
+    value: @message.from_user,
+    type: :record
+  ) %>
 
-  <% if @message.to_user.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".to_user") %></div>
-      <%= render("shared/user", user: @message.to_user) %>
-    </div>
-  <% end %>
+  <%= render(
+    "shared/attribute",
+    label: t(".to_user"),
+    value: @message.to_user,
+    type: :record
+  ) %>
 
-  <% if @message.subject.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".subject") %></div>
-      <%= @message.subject %>
-    </div>
-  <% end %>
+  <%= render(
+    "shared/attribute",
+    label: t(".subject"),
+    value: @message.subject,
+    type: :content
+  ) %>
 
-  <% if @message.body.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".body") %></div>
-      <%= @message.body %>
-    </div>
-  <% end %>
+  <%= render(
+    "shared/attribute",
+    label: t(".body"),
+    value: @message.body,
+    type: :content
+  ) %>
 
-  <% if @message.updated_at.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".updated_at") %></div>
-      <div class="font-bold">
-        <%= local_time(@message.updated_at, format: :default) %>
-      </div>
-    </div>
-  <% end %>
+  <%= render(
+    "shared/attribute",
+    label: t(".updated_at"),
+    value: @message.updated_at,
+    type: :time
+  ) %>
 
-  <% if @message.created_at.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".created_at") %></div>
-      <div class="font-bold">
-        <%= local_time(@message.created_at, format: :default) %>
-      </div>
-    </div>
-  <% end %>
+  <%= render(
+    "shared/attribute",
+    label: t(".created_at"),
+    value: @message.created_at,
+    type: :time
+  ) %>
 
   <div class="p p--flex">
     <%= link_to(t(".edit"), edit_url, class: :link) %>

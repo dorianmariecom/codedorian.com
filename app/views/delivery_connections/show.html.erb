@@ -2,168 +2,135 @@
 <% content_for(:description, t(".description")) %>
 <%= turbo_stream_from(@delivery_connection) %>
 <% if can?(:show, @delivery_connection) %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery_connection.id %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".user_id") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery_connection.user_id %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".name") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery_connection.name %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".provider") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery_connection.provider %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".enabled") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery_connection.enabled %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".access_token") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery_connection.access_token %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".base_url") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery_connection.base_url %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".account_sid") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery_connection.account_sid %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".auth_token") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery_connection.auth_token %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".api_key") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery_connection.api_key %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".sender") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery_connection.sender %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".smtp_from") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery_connection.smtp_from %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".smtp_address") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery_connection.smtp_address %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".smtp_port") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery_connection.smtp_port %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".smtp_user_name") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery_connection.smtp_user_name %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".smtp_password") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery_connection.smtp_password %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".smtp_authentication") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery_connection.smtp_authentication %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".refresh_token") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery_connection.refresh_token %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".token_expires_at") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery_connection.token_expires_at %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".aws_access_key_id") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery_connection.aws_access_key_id %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".aws_secret_access_key") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery_connection.aws_secret_access_key %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".aws_session_token") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery_connection.aws_session_token %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".aws_region") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery_connection.aws_region %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".mailgun_domain") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery_connection.mailgun_domain %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".mailgun_region") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery_connection.mailgun_region %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery_connection.created_at %>
-    </div>
-  </div>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold whitespace-pre-wrap">
-      <%= @delivery_connection.updated_at %>
-    </div>
-  </div>
+  <%= render("shared/attribute", label: t(".id"), value: @delivery_connection.id) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".user_id"),
+    value: @delivery_connection.user_id
+  ) %>
+  <%= render("shared/attribute", label: t(".name"), value: @delivery_connection.name) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".provider"),
+    value: @delivery_connection.provider
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".enabled"),
+    value: @delivery_connection.enabled
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".access_token"),
+    value: @delivery_connection.access_token
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".base_url"),
+    value: @delivery_connection.base_url
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".account_sid"),
+    value: @delivery_connection.account_sid
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".auth_token"),
+    value: @delivery_connection.auth_token
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".api_key"),
+    value: @delivery_connection.api_key
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".sender"),
+    value: @delivery_connection.sender
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".smtp_from"),
+    value: @delivery_connection.smtp_from
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".smtp_address"),
+    value: @delivery_connection.smtp_address
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".smtp_port"),
+    value: @delivery_connection.smtp_port
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".smtp_user_name"),
+    value: @delivery_connection.smtp_user_name
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".smtp_password"),
+    value: @delivery_connection.smtp_password
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".smtp_authentication"),
+    value: @delivery_connection.smtp_authentication
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".refresh_token"),
+    value: @delivery_connection.refresh_token
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".token_expires_at"),
+    value: @delivery_connection.token_expires_at
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".aws_access_key_id"),
+    value: @delivery_connection.aws_access_key_id
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".aws_secret_access_key"),
+    value: @delivery_connection.aws_secret_access_key
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".aws_session_token"),
+    value: @delivery_connection.aws_session_token
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".aws_region"),
+    value: @delivery_connection.aws_region
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".mailgun_domain"),
+    value: @delivery_connection.mailgun_domain
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".mailgun_region"),
+    value: @delivery_connection.mailgun_region
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".created_at"),
+    value: @delivery_connection.created_at,
+    type: :time
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".updated_at"),
+    value: @delivery_connection.updated_at,
+    type: :time
+  ) %>
 <% else %>
   <div class="p"><%= @delivery_connection %></div>
 <% end %>

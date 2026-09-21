@@ -2,60 +2,56 @@
 <% content_for(:description, @service.description) %>
 <%= turbo_stream_from(@service) %>
 
-<% if (can?(:update, @service) || advanced?) && @service.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @service.id %></div>
-  </div>
+<% if (can?(:update, @service) || advanced?) %>
+  <%= render("shared/attribute", label: t(".id"), value: @service.id) %>
 <% end %>
 
-<% if (can?(:update, @service) || advanced?) && @service.user_id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".user_id") %></div>
-    <% association = @service.user %>
-    <div class="font-bold">
-      <%= link_to_if(can?(:show, association), association, association, class: :link) %>
-    </div>
-  </div>
+<% if (can?(:update, @service) || advanced?) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".user_id"),
+    value: @service.user,
+    type: :record
+  ) %>
 <% end %>
 
 <% if can?(:update, @service) || advanced? %>
-  <% if @service.name_en.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".name_en") %></div>
-      <%= @service.name_en %>
-    </div>
-  <% end %>
-  <% if @service.name_fr.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".name_fr") %></div>
-      <%= @service.name_fr %>
-    </div>
-  <% end %>
-  <% if @service.description_en.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".description_en") %></div>
-      <%= @service.description_en %>
-    </div>
-  <% end %>
-  <% if @service.description_fr.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".description_fr") %></div>
-      <%= @service.description_fr %>
-    </div>
-  <% end %>
-  <% if @service.body_en.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".body_en") %></div>
-      <%= @service.body_en %>
-    </div>
-  <% end %>
-  <% if @service.body_fr.present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".body_fr") %></div>
-      <%= @service.body_fr %>
-    </div>
-  <% end %>
+  <%= render(
+    "shared/attribute",
+    label: t(".name_en"),
+    value: @service.name_en,
+    type: :content
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".name_fr"),
+    value: @service.name_fr,
+    type: :content
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".description_en"),
+    value: @service.description_en,
+    type: :content
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".description_fr"),
+    value: @service.description_fr,
+    type: :content
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".body_en"),
+    value: @service.body_en,
+    type: :content
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".body_fr"),
+    value: @service.body_fr,
+    type: :content
+  ) %>
 <% else %>
   <% if @service.name.present? %>
     <div class="p font-bold">
@@ -81,22 +77,22 @@
   <% end %>
 <% end %>
 
-<% if (can?(:update, @service) || advanced?) && @service.updated_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@service.updated_at, format: :default) %>
-    </div>
-  </div>
+<% if (can?(:update, @service) || advanced?) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".updated_at"),
+    value: @service.updated_at,
+    type: :time
+  ) %>
 <% end %>
 
-<% if (can?(:update, @service) || advanced?) && @service.created_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@service.created_at, format: :default) %>
-    </div>
-  </div>
+<% if (can?(:update, @service) || advanced?) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".created_at"),
+    value: @service.created_at,
+    type: :time
+  ) %>
 <% end %>
 
 <% if can?(:update, @service) %>

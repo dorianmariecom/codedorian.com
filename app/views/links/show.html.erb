@@ -2,75 +2,33 @@
 
 <%= turbo_stream_from(@link) %>
 
-<% if @link.kind.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".kind") %></div>
-    <div class="font-bold"><%= @link.kind %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".kind"), value: @link.kind) %>
 
-<% if @link.verb.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".verb") %></div>
-    <div class="font-bold"><%= @link.verb %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".verb"), value: @link.verb) %>
 
-<% if @link.title_en.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".title_en") %></div>
-    <div class="font-bold"><%= @link.title_en %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".title_en"), value: @link.title_en) %>
 
-<% if @link.title_fr.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".title_fr") %></div>
-    <div class="font-bold"><%= @link.title_fr %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".title_fr"), value: @link.title_fr) %>
 
-<% if @link.path_input.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".path_input") %></div>
-    <div class="font-bold"><%= @link.path_input %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".path_input"), value: @link.path_input) %>
 
-<% if @link.visibility_input.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".visibility_input") %></div>
-    <div class="font-bold"><%= @link.visibility_input %></div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".visibility_input"),
+  value: @link.visibility_input
+) %>
 
-<% if @link.image_ios.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".image_ios") %></div>
-    <div class="font-bold"><%= @link.image_ios %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".image_ios"), value: @link.image_ios) %>
 
-<% if @link.image_android.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".image_android") %></div>
-    <div class="font-bold"><%= @link.image_android %></div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".image_android"),
+  value: @link.image_android
+) %>
 
-<% if @link.position.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".position") %></div>
-    <div class="font-bold"><%= @link.position %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".position"), value: @link.position) %>
 
-<% if @link.default.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".default") %></div>
-    <div class="font-bold"><%= @link.default %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".default"), value: @link.default) %>
 
 <div class="p p--flex">
   <%= link_to(t(".edit"), edit_url, class: :link) %>

@@ -2,58 +2,36 @@
 
 <%= turbo_stream_from(@handle) %>
 
-<% if @handle.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @handle.id %></div>
-  </div>
+<%= render("shared/attribute", label: t(".id"), value: @handle.id) %>
+
+<%= render(
+  "shared/attribute",
+  label: t(".user"),
+  value: @handle.user,
+  type: :record
+) %>
+
+<%= render("shared/attribute", label: t(".handle"), value: @handle.handle) %>
+
+<%= render("shared/attribute", label: t(".primary"), value: @handle.primary?) %>
+
+<% if admin? %>
+  <%= render("shared/attribute", label: t(".verified"), value: @handle.verified?) %>
 <% end %>
 
-<% if @handle.user.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".user") %></div>
-    <%= render("shared/user", user: @handle.user) %>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".updated_at"),
+  value: @handle.updated_at,
+  type: :time
+) %>
 
-<% if @handle.handle.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".handle") %></div>
-    <div class="font-bold"><%= @handle.handle %></div>
-  </div>
-<% end %>
-
-<% if @handle.primary.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".primary") %></div>
-    <div class="font-bold"><%= @handle.primary? %></div>
-  </div>
-<% end %>
-
-<% if admin? && @handle.verified.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".verified") %></div>
-    <div class="font-bold"><%= @handle.verified? %></div>
-  </div>
-<% end %>
-
-<% if @handle.updated_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@handle.updated_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
-
-<% if @handle.created_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@handle.created_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".created_at"),
+  value: @handle.created_at,
+  type: :time
+) %>
 
 <div class="p p--flex">
   <%= link_to(t(".edit"), edit_url, class: :link) %>

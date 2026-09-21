@@ -2,67 +2,49 @@
 
 <%= turbo_stream_from(@job_ready_execution) %>
 
-<% if @job_ready_execution.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @job_ready_execution.id %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".id"), value: @job_ready_execution.id) %>
 
 <% if @job_ready_execution.job.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".job") %></div>
-
-    <% if can?(:show, @job_ready_execution.job) %>
-      <div class="font-bold">
-        <%= link_to(
-          @job_ready_execution.job,
-          [*nested(job: nil), @job_ready_execution.job],
-          class: :link
-        ) %>
-      </div>
-    <% else %>
-      <div class="font-bold"><%= @job_ready_execution.job %></div>
-    <% end %>
-  </div>
+  <%= render(
+    "shared/attribute",
+    label: t(".job"),
+    value: @job_ready_execution.job,
+    type: :record,
+    url: [*nested(job: nil), @job_ready_execution.job]
+  ) %>
 <% else %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".job_id") %></div>
-    <div class="font-bold"><%= @job_ready_execution.job_id %></div>
-  </div>
+  <%= render(
+    "shared/attribute",
+    label: t(".job_id"),
+    value: @job_ready_execution.job_id
+  ) %>
 <% end %>
 
-<% if @job_ready_execution.queue_name.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".queue_name") %></div>
-    <div class="font-bold"><%= @job_ready_execution.queue_name %></div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".queue_name"),
+  value: @job_ready_execution.queue_name
+) %>
 
-<% if @job_ready_execution.priority.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".priority") %></div>
-    <div class="font-bold"><%= @job_ready_execution.priority %></div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".priority"),
+  value: @job_ready_execution.priority
+) %>
 
-<% if @job_ready_execution.updated_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@job_ready_execution.updated_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".updated_at"),
+  value: @job_ready_execution.updated_at,
+  type: :time
+) %>
 
-<% if @job_ready_execution.created_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@job_ready_execution.created_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".created_at"),
+  value: @job_ready_execution.created_at,
+  type: :time
+) %>
 
 <div class="p p--flex">
   <%= link_to(t(".edit"), edit_url, class: :link) %>

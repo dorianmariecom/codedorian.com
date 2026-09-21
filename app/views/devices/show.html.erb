@@ -2,61 +2,38 @@
 
 <%= turbo_stream_from(@device) %>
 
-<% if @device.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @device.id %></div>
-  </div>
+<%= render("shared/attribute", label: t(".id"), value: @device.id) %>
+
+<%= render(
+  "shared/attribute",
+  label: t(".user"),
+  value: @device.user,
+  type: :record
+) %>
+
+<%= render("shared/attribute", label: t(".platform"), value: @device.platform) %>
+
+<%= render("shared/attribute", label: t(".token"), value: @device.token) %>
+
+<%= render("shared/attribute", label: t(".primary"), value: @device.primary?) %>
+
+<% if admin? %>
+  <%= render("shared/attribute", label: t(".verified"), value: @device.verified?) %>
 <% end %>
 
-<% if @device.user.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".user") %></div>
-    <%= render("shared/user", user: @device.user) %>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".updated_at"),
+  value: @device.updated_at,
+  type: :time
+) %>
 
-<% if @device.platform.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".platform") %></div>
-    <strong><%= @device.platform %></strong>
-  </div>
-<% end %>
-
-<% if @device.token.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".token") %></div>
-    <strong><%= @device.token %></strong>
-  </div>
-<% end %>
-
-<% if @device.primary.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".primary") %></div>
-    <div class="font-bold"><%= @device.primary? %></div>
-  </div>
-<% end %>
-
-<% if admin? && @device.verified.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".verified") %></div>
-    <div class="font-bold"><%= @device.verified? %></div>
-  </div>
-<% end %>
-
-<% if @device.updated_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <strong><%= local_time(@device.updated_at, format: :default) %></strong>
-  </div>
-<% end %>
-
-<% if @device.created_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <strong><%= local_time(@device.created_at, format: :default) %></strong>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".created_at"),
+  value: @device.created_at,
+  type: :time
+) %>
 
 <div class="p p--flex">
   <%= link_to(t(".edit"), edit_url, class: :link) %>

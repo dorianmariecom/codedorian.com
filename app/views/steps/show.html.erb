@@ -2,76 +2,53 @@
 <% content_for(:description, t(".description")) %>
 <%= turbo_stream_from(@step) %>
 
-<% if @step.id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".id") %></div>
-    <div class="font-bold"><%= @step.id %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".id"), value: @step.id) %>
 
-<% if @step.service_id.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".service_id") %></div>
-    <% association = @step.service %>
-    <div class="font-bold">
-      <%= link_to_if(can?(:show, association), association, association, class: :link) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".service_id"),
+  value: @step.service,
+  type: :record
+) %>
 
 <% %i[name_en name_fr description_en description_fr body_en body_fr].each do |attribute| %>
-  <% if @step.public_send(attribute).present? %>
-    <div class="p">
-      <div class="text-gray-600"><%= t(".#{attribute}") %></div>
-      <%= @step.public_send(attribute) %>
-    </div>
-  <% end %>
+  <%= render(
+    "shared/attribute",
+    label: t(".#{attribute}"),
+    value: @step.public_send(attribute),
+    type: :content
+  ) %>
 <% end %>
 
-<% if @step.position.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".position") %></div>
-    <div class="font-bold"><%= @step.position %></div>
-  </div>
-<% end %>
+<%= render("shared/attribute", label: t(".position"), value: @step.position) %>
 
-<% if @step.input.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".input") %></div>
-    <% if can?(:update, @step) %>
-      <%= link_to(edit_url, class: "block") do %>
-        <%= code_highlight(@step.input) %>
-      <% end %>
-    <% else %>
-      <%= code_highlight(@step.input) %>
-    <% end %>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".input"),
+  value: @step.input,
+  type: :code,
+  url: can?(:update, @step) ? edit_url : nil
+) %>
 
-<% if @step.offset_seconds.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".offset_seconds") %></div>
-    <div class="font-bold"><%= @step.offset_seconds %></div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".offset_seconds"),
+  value: @step.offset_seconds
+) %>
 
-<% if @step.updated_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".updated_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@step.updated_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".updated_at"),
+  value: @step.updated_at,
+  type: :time
+) %>
 
-<% if @step.created_at.present? %>
-  <div class="p">
-    <div class="text-gray-600"><%= t(".created_at") %></div>
-    <div class="font-bold">
-      <%= local_time(@step.created_at, format: :default) %>
-    </div>
-  </div>
-<% end %>
+<%= render(
+  "shared/attribute",
+  label: t(".created_at"),
+  value: @step.created_at,
+  type: :time
+) %>
 
 <% if can?(:update, @step) %>
   <div class="p p--flex">
