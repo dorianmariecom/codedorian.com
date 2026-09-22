@@ -63,15 +63,14 @@ class RedditDestinationVerificationTest < ActionDispatch::IntegrationTest
     assert_redirected_to subscription_path(@subscription)
   end
 
-  test "confirmation does not redirect another user to a private subscription" do
+  test "confirmation redirects another user to the homepage" do
     sign_in(
       email_addresses(:other_email).email_address,
       passwords(:other_password).hint
     )
     post confirm_verification_delivery_destination_path(id: @destination),
          params: { token: @destination.verification_token, subscription_id: @subscription.id }
-    assert_response :success
-    assert_nil response.headers["Location"]
+    assert_redirected_to root_path
     assert @destination.reload.recipient_verified?
   end
 
