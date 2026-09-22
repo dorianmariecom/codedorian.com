@@ -9,6 +9,7 @@ export default class extends Controller {
     "visibility",
     "connectionRow",
     "connection",
+    "connectionOptions",
   ];
 
   connect() {
@@ -17,12 +18,15 @@ export default class extends Controller {
 
   change() {
     const data = this.channelTarget.selectedOptions[0]?.dataset || {};
-    const only = data.deliveryDestinationFormOnly;
-    if (only) this.visibilityTarget.value = only;
+    const visibilityRestriction =
+      data.deliveryDestinationFormVisibilityRestriction;
+    if (visibilityRestriction)
+      this.visibilityTarget.value = visibilityRestriction;
     this.visibilityRowTarget.hidden =
       data.deliveryDestinationFormShowVisibility !== "true";
     for (const option of this.visibilityTarget.options || []) {
-      option.hidden = !!only && option.value !== only;
+      option.hidden =
+        !!visibilityRestriction && option.value !== visibilityRestriction;
     }
 
     const publicVisibility = this.visibilityTarget.value === "public";
@@ -43,6 +47,24 @@ export default class extends Controller {
     if (this.hasConnectionTarget) {
       const showConnection =
         data.deliveryDestinationFormShowConnection === "true";
+      const selected = this.connectionTarget.value;
+      const providers = (data.deliveryDestinationFormProviders || "").split(
+        " ",
+      );
+      const options = Array.from(this.connectionOptionsTarget.content.children)
+        .filter((option) =>
+          providers.includes(option.dataset.deliveryDestinationFormProvider),
+        )
+        .map((option) => option.cloneNode(true));
+      this.connectionTarget.replaceChildren(
+        this.connectionTarget.options[0].cloneNode(true),
+        ...options,
+      );
+      this.connectionTarget.value = options.some(
+        (option) => option.value === selected,
+      )
+        ? selected
+        : "";
       this.connectionRowTarget.hidden = !showConnection;
       this.connectionTarget.required = showConnection;
       if (!showConnection) this.connectionTarget.value = "";

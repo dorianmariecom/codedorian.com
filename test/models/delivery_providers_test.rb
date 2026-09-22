@@ -112,7 +112,7 @@ class DeliveryProvidersTest < ActiveSupport::TestCase
       channel =
         DeliveryChannel.create!(
           key: provider,
-          only: "private",
+          visibility_restriction: "private",
           enabled: true,
           amount_cents: 0,
           delivery_connection: connection,

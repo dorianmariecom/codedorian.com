@@ -27,6 +27,48 @@ class DeliveryDestinationVerificationTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "signed in owners return to their subscription after confirmation" do
+    @subscription.update_column(:user_id, users(:other_user).id)
+    @destination.update_column(:user_id, users(:other_user).id)
+    sign_in(
+      email_addresses(:other_email).email_address,
+      passwords(:other_password).hint
+    )
+    token = @destination.reload.verification_token
+    get verification_delivery_destination_path(id: @destination),
+        params: { token: token, subscription_id: @subscription.id }
+    assert_response :success
+    assert_select "input[name=subscription_id][value=?]", @subscription.id.to_s
+    post confirm_verification_delivery_destination_path(id: @destination),
+         params: { token: token, subscription_id: @subscription.id }
+    assert_redirected_to subscription_path(@subscription)
+    assert @destination.reload.recipient_verified?
+    follow_redirect!
+    assert_response :success
+  end
+
+  test "existing confirmation links return signed in owners to their subscription" do
+    sign_in(
+      email_addresses(:admin_email).email_address,
+      passwords(:password).hint
+    )
+    post confirm_verification_delivery_destination_path(id: @destination),
+         params: { token: @destination.verification_token }
+    assert_redirected_to subscription_path(@subscription)
+  end
+
+  test "confirmation does not redirect another user to a private subscription" do
+    sign_in(
+      email_addresses(:other_email).email_address,
+      passwords(:other_password).hint
+    )
+    post confirm_verification_delivery_destination_path(id: @destination),
+         params: { token: @destination.verification_token, subscription_id: @subscription.id }
+    assert_response :success
+    assert_nil response.headers["Location"]
+    assert @destination.reload.recipient_verified?
+  end
+
   test "requests use destination ids and require a selected destination scoped to the subscription owner" do
     assert_no_enqueued_emails do
       post request_verification_subscription_delivery_destination_path(

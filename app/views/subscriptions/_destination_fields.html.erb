@@ -42,11 +42,18 @@
     data-delivery-destination-form-target="connectionRow"
     <%= "hidden" unless channel&.show_connection? %>
   >
+    <% connections = delivery_connection_options(delivery_connection_id: f.object.delivery_connection_id) %>
+    <template data-delivery-destination-form-target="connectionOptions">
+      <%= options_for_select(connections) %>
+    </template>
     <%= f.label :delivery_connection_id, class: :label %>
     <%= f.select :delivery_connection_id,
-             delivery_connection_options(
-               delivery_connection_id: f.object.delivery_connection_id
-             ),
+             connections.select { |option|
+                 channel && DeliveryChannel.supports_provider?(
+                   channel.key,
+                   option[2][:data][:"delivery-destination-form-provider"]
+                 )
+               },
              { include_blank: true },
              class: :input,
              data: {

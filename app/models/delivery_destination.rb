@@ -173,7 +173,9 @@ class DeliveryDestination < ApplicationRecord
   private
 
   def normalize_visibility
-    self.visibility = delivery_channel.only if delivery_channel&.only.present?
+    return if delivery_channel&.visibility_restriction.blank?
+
+    self.visibility = delivery_channel.visibility_restriction
   end
 
   def normalize_recipient
@@ -191,7 +193,8 @@ class DeliveryDestination < ApplicationRecord
   def valid_destination
     return unless delivery_channel
 
-    if delivery_channel.only.present? && visibility != delivery_channel.only
+    if delivery_channel.visibility_restriction.present? &&
+         visibility != delivery_channel.visibility_restriction
       errors.add(:visibility, :invalid)
     end
     if delivery_channel.recipient_required?(visibility) && recipient.blank?

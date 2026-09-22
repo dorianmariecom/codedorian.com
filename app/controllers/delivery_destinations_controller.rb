@@ -43,6 +43,7 @@ class DeliveryDestinationsController < ApplicationController
         url:
           verification_delivery_destination_url(
             id: destination,
+            subscription_id: subscription.id,
             token: destination.verification_token
           )
       )
@@ -75,7 +76,7 @@ class DeliveryDestinationsController < ApplicationController
       )
     authorize([:public, record || DeliveryDestination])
     if record&.confirm_verification(params[:token])
-      respond_verification(:confirmed)
+      respond_verification(:confirmed, path: verification_subscription_path(record))
     else
       respond_verification(:invalid, status: :unprocessable_content)
     end
@@ -171,6 +172,25 @@ class DeliveryDestinationsController < ApplicationController
   end
 
   private
+
+  def verification_subscription_path(destination)
+    return root_path unless current_user
+
+    subscriptions = policy_scope(Subscription).where(
+      id: destination.subscription_destinations.selected.select(:subscription_id)
+    )
+    subscription = if params[:subscription_id].present?
+      subscriptions.find_by(id: params[:subscription_id])
+    else
+      subscriptions.order(:id).first
+    end
+
+    if subscription && policy(subscription).show?
+      subscription_path(subscription)
+    else
+      root_path
+    end
+  end
 
   def respond_verification(key, status: :ok, path: nil)
     @message = t(".#{key}")

@@ -146,7 +146,7 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
         recipient: recipient
       )
       channel = DeliveryChannel.find_or_create_by!(key: provider)
-      channel.update!(enabled: true, only: nil)
+      channel.update!(enabled: true, visibility_restriction: nil)
       destination = @delivery.delivery_destination
       destination.update_columns(
         delivery_channel_id: channel.id,

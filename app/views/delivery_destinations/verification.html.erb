@@ -4,6 +4,7 @@
 <% if @confirmation %>
   <%= form_with(url: confirm_verification_delivery_destination_path(id: params[:id])) do |form| %>
     <%= hidden_field_tag(:token, params[:token], autocomplete: :off) %>
+    <%= hidden_field_tag(:subscription_id, params[:subscription_id], autocomplete: :off) %>
     <div class="p">
       <%= form.submit(
         t(".submit"),

@@ -52,8 +52,8 @@
     <%= f.text_field :callback_base_url, class: :input %>
   </div>
   <div class="p">
-    <%= f.label :only, class: :label %>
-    <%= f.select :only,
+    <%= f.label :visibility_restriction, class: :label %>
+    <%= f.select :visibility_restriction,
              [[t(".private"), "private"], [t(".public"), "public"]],
              { include_blank: true },
              class: :input %>

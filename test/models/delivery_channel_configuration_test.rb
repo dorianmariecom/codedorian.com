@@ -10,7 +10,7 @@ class DeliveryChannelConfigurationTest < ActiveSupport::TestCase
     channel =
       DeliveryChannel.create!(
         key: "messages",
-        only: "public",
+        visibility_restriction: "public",
         show_recipient: true,
         public_pattern: "#[a-z]+",
         private_pattern: "@[a-z]+"
@@ -25,7 +25,7 @@ class DeliveryChannelConfigurationTest < ActiveSupport::TestCase
     assert_equal "public", destination.visibility
     destination.recipient = "@hello"
     assert_not destination.valid?
-    channel.reload.update!(only: nil)
+    channel.reload.update!(visibility_restriction: nil)
     destination.visibility = "private"
     assert destination.valid?
     channel.reload.update!(private_pattern: "[0-9]+")
@@ -47,9 +47,9 @@ class DeliveryChannelConfigurationTest < ActiveSupport::TestCase
     channel.private_pattern = "["
     assert_not channel.valid?
     channel.private_pattern = nil
-    channel.only = ""
+    channel.visibility_restriction = ""
     assert channel.valid?
-    assert_nil channel.only
+    assert_nil channel.visibility_restriction
   end
 
   test "messenger uses a regular recipient and shared delivery connection" do
@@ -63,7 +63,7 @@ class DeliveryChannelConfigurationTest < ActiveSupport::TestCase
     channel =
       DeliveryChannel.create!(
         key: "messenger",
-        only: "private",
+        visibility_restriction: "private",
         private_pattern: "[0-9]+",
         delivery_connection: connection,
         enabled: true,

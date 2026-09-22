@@ -19,6 +19,16 @@ registerHooks({
 const { default: Controller } =
   await import("../../app/javascript/controllers/delivery_destination_form_controller.js");
 
+function option(value, provider) {
+  return {
+    value,
+    dataset: { deliveryDestinationFormProvider: provider },
+    cloneNode() {
+      return option(value, provider);
+    },
+  };
+}
+
 function form(data = {}) {
   const controller = new Controller({});
   controller.channelTarget = { selectedOptions: [{ dataset: data }] };
@@ -36,7 +46,22 @@ function form(data = {}) {
   };
   controller.hasConnectionTarget = true;
   controller.connectionRowTarget = {};
-  controller.connectionTarget = { value: "123" };
+  controller.connectionOptionsTarget = {
+    content: {
+      children: [
+        option("123", "slack"),
+        option("456", "github"),
+        option("789", "slack"),
+      ],
+    },
+  };
+  controller.connectionTarget = {
+    value: "123",
+    options: [option("", "")],
+    replaceChildren(...options) {
+      this.options = options;
+    },
+  };
   return controller;
 }
 
@@ -63,7 +88,7 @@ test("visibility and patterns follow channel data without provider names", () =>
 
 test("restricted hidden fields remain enabled and use the configured visibility", () => {
   const controller = form({
-    deliveryDestinationFormOnly: "public",
+    deliveryDestinationFormVisibilityRestriction: "public",
     deliveryDestinationFormPublicPattern: "",
   });
   controller.recipientTarget.value = "old";
@@ -78,7 +103,7 @@ test("restricted hidden fields remain enabled and use the configured visibility"
   assert.equal(controller.recipientTarget.pattern, "");
   assert.equal(controller.connectionTarget.value, "");
   controller.channelTarget.selectedOptions[0].dataset = {
-    deliveryDestinationFormOnly: "private",
+    deliveryDestinationFormVisibilityRestriction: "private",
   };
   controller.change();
   assert.equal(controller.visibilityTarget.value, "private");
@@ -87,7 +112,9 @@ test("restricted hidden fields remain enabled and use the configured visibility"
 });
 
 test("changing to an unrestricted channel restores both visibility options", () => {
-  const controller = form({ deliveryDestinationFormOnly: "public" });
+  const controller = form({
+    deliveryDestinationFormVisibilityRestriction: "public",
+  });
   controller.change();
   controller.channelTarget.selectedOptions[0].dataset = {
     deliveryDestinationFormShowVisibility: "true",
@@ -96,4 +123,56 @@ test("changing to an unrestricted channel restores both visibility options", () 
   assert.equal(controller.visibilityRowTarget.hidden, false);
   for (const option of controller.visibilityTarget.options)
     assert.equal(option.hidden, false);
+});
+
+test("connection options follow the channel and retain only compatible selections", () => {
+  const controller = form({
+    deliveryDestinationFormShowConnection: "true",
+    deliveryDestinationFormProviders: "slack",
+  });
+  controller.change();
+  assert.deepEqual(
+    controller.connectionTarget.options.map((option) => option.value),
+    ["", "123", "789"],
+  );
+  assert.equal(controller.connectionTarget.value, "123");
+
+  controller.channelTarget.selectedOptions[0].dataset.deliveryDestinationFormProviders =
+    "github";
+  controller.change();
+  assert.deepEqual(
+    controller.connectionTarget.options.map((option) => option.value),
+    ["", "456"],
+  );
+  assert.equal(controller.connectionTarget.value, "");
+
+  controller.channelTarget.selectedOptions[0].dataset.deliveryDestinationFormProviders =
+    "slack";
+  controller.change();
+  assert.deepEqual(
+    controller.connectionTarget.options.map((option) => option.value),
+    ["", "123", "789"],
+  );
+  assert.equal(controller.connectionTarget.value, "");
+
+  controller.channelTarget.selectedOptions[0].dataset = {};
+  controller.change();
+  assert.deepEqual(
+    controller.connectionTarget.options.map((option) => option.value),
+    [""],
+  );
+});
+
+test("channels can accept multiple connection providers", () => {
+  const controller = form({ deliveryDestinationFormProviders: "gmail smtp" });
+  controller.connectionOptionsTarget.content.children = [
+    option("1", "gmail"),
+    option("2", "smtp"),
+    option("3", "google"),
+  ];
+  controller.change();
+  assert.deepEqual(
+    controller.connectionTarget.options.map((option) => option.value),
+    ["", "1", "2"],
+  );
 });

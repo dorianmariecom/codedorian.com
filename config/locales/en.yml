@@ -78,7 +78,7 @@ en:
         enabled: enabled
         key: key
         messaging_service_sid: messaging service sid
-        only: visibility restriction
+        visibility_restriction: visibility restriction
         private_pattern: private recipient pattern
         public_pattern: public recipient pattern
         show_connection: show connection
@@ -1102,11 +1102,11 @@ en:
       channel: channel
       connection_id: connection id
       created_at: created at
-      delete: delete
+      delete: delete delivery
       delivery_destination_id: delivery destination
       description: delivery
-      destroy: destroy
-      edit: edit
+      destroy: destroy delivery
+      edit: edit delivery
       error_code: error code
       event_key: event key
       history: delivery history
@@ -1296,11 +1296,11 @@ en:
       content_sid_en: content sid en
       content_sid_fr: content sid fr
       created_at: created at
-      delete: delete
+      delete: delete delivery channel
       delivery_connection_id: delivery connection
       description: delivery channel
-      destroy: destroy
-      edit: edit
+      destroy: destroy delivery channel
+      edit: edit delivery channel
       enabled: enabled
       id: id
       key: key
@@ -1309,7 +1309,7 @@ en:
       messaging_service_sid: messaging service sid
       new_log: new log
       new_version: new version
-      only: visibility restriction
+      visibility_restriction: visibility restriction
       private_pattern: private recipient pattern
       public_pattern: public recipient pattern
       remove: remove
@@ -1419,10 +1419,10 @@ en:
       aws_session_token: aws session token (optional)
       base_url: base url
       created_at: created at
-      delete: delete
+      delete: delete delivery connection
       description: delivery connection
-      destroy: destroy
-      edit: edit
+      destroy: destroy delivery connection
+      edit: edit delivery connection
       enabled: enabled
       id: id
       logs: logs
@@ -1504,12 +1504,12 @@ en:
       notice: saved
     show:
       created_at: created at
-      delete: delete
+      delete: delete delivery destination
       delivery_channel_id: delivery channel
       delivery_connection_id: delivery connection
       description: delivery destination
-      destroy: destroy
-      edit: edit
+      destroy: destroy delivery destination
+      edit: edit delivery destination
       enabled: enabled
       id: id
       logs: logs
@@ -1692,7 +1692,7 @@ en:
       delete: delete error occurrence
       description: inspect occurrence context, backtrace, and timing.
       destroy: destroy error occurrence
-      edit: edit
+      edit: edit error occurrence
       error: error
       full_backtrace: full backtrace
       id: id
@@ -1747,7 +1747,7 @@ en:
       delete: delete error
       description: review error details, sources, and related occurrences.
       destroy: destroy error
-      edit: edit
+      edit: edit error
       error_occurrences: error occurrences
       exception_class: exception class
       fingerprint: fingerprint
@@ -4877,11 +4877,11 @@ en:
       amount_cents: amount cents
       amount_currency: amount currency
       created_at: created at
-      delete: delete
+      delete: delete subscription destination
       delivery_destination_id: delivery destination
       description: subscription destination
-      destroy: destroy
-      edit: edit
+      destroy: destroy subscription destination
+      edit: edit subscription destination
       id: id
       logs: logs
       manage: delivery

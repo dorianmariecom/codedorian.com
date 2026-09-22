@@ -49,6 +49,41 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "destination connection selects initially contain only compatible providers" do
+    slack, github = Current.with(user: users(:admin)) do
+      %w[slack github].map do |provider|
+        DeliveryConnection.create!(
+          user: users(:admin),
+          provider: provider,
+          name: provider,
+          access_token: "secret",
+          enabled: true
+        )
+      end
+    end
+    channel = DeliveryChannel.create!(key: "slack", enabled: true, amount_cents: 0, show_connection: true)
+    subscription = subscriptions(:subscription)
+    destination = Current.with(user: users(:admin)) do
+      DeliveryDestination.create!(
+        user: users(:admin),
+        delivery_channel: channel,
+        delivery_connection: slack,
+        recipient: "#general"
+      )
+    end
+    sign_in_admin
+    subscription.subscription_destinations.create!(delivery_destination: destination)
+
+    [edit_delivery_destination_path(destination), edit_subscription_path(subscription)].each do |path|
+      get path
+      assert_response :success
+      assert_select "select[name*='[delivery_connection_id]'] option[value=?][selected]", slack.id.to_s
+      assert_select "select[name*='[delivery_connection_id]'] option[value=?]", github.id.to_s, count: 0
+      assert_select "option[data-delivery-destination-form-providers='slack']"
+      assert_select "template[data-delivery-destination-form-target='connectionOptions'] option[value=?][data-delivery-destination-form-provider='github']", github.id.to_s
+    end
+  end
+
   test "subscriber connection pickers expose only owned names and ids" do
     owned, other =
       Current.with(user: users(:admin)) do
@@ -80,10 +115,10 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
     ].each do |path|
       get path
       assert_response :success
-      assert_select "select[name*='[delivery_connection_id]'] option[value=?]",
+      assert_select "template[data-delivery-destination-form-target='connectionOptions'] option[value=?]",
                     owned.id.to_s,
                     text: owned.to_s
-      assert_select "select[name*='[delivery_connection_id]'] option[value=?]",
+      assert_select "option[value=?][data-delivery-destination-form-provider]",
                     other.id.to_s,
                     count: 0
       assert_not_includes response.body, "owned-secret"

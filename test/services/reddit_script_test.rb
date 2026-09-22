@@ -114,7 +114,7 @@ class RedditScriptTest < ActiveSupport::TestCase
   end
 
   test "reddit is private only with no user connection or oauth flow" do
-    assert_equal "private", @channel.only
+    assert_equal "private", @channel.visibility_restriction
     assert_not @channel.show_connection?
     assert_not @channel.show_visibility?
     assert_not_includes DeliveryConnectionOauth::PROVIDERS, "reddit"

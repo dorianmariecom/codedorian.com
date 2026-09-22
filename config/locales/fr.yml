@@ -78,7 +78,7 @@ fr:
         enabled: activé
         key: clé
         messaging_service_sid: identifiant du service de messagerie
-        only: restriction de visibilité
+        visibility_restriction: restriction de visibilité
         private_pattern: motif du destinataire privé
         public_pattern: motif du destinataire public
         show_connection: afficher la connexion
@@ -1103,11 +1103,11 @@ fr:
       channel: canal
       connection_id: connexion
       created_at: créé le
-      delete: supprimer
+      delete: supprimer la livraison
       delivery_destination_id: destination de livraison
       description: livraison
-      destroy: détruire
-      edit: modifier
+      destroy: détruire la livraison
+      edit: modifier la livraison
       error_code: code d’erreur
       event_key: clé d’événement
       history: historique des livraisons
@@ -1298,11 +1298,11 @@ fr:
       content_sid_en: identifiant du contenu anglais
       content_sid_fr: identifiant du contenu français
       created_at: créé le
-      delete: supprimer
+      delete: supprimer le canal de livraison
       delivery_connection_id: connexion de livraison
       description: canal de livraison
-      destroy: détruire
-      edit: modifier
+      destroy: détruire le canal de livraison
+      edit: modifier le canal de livraison
       enabled: activé
       id: id
       key: clé
@@ -1311,7 +1311,7 @@ fr:
       messaging_service_sid: identifiant du service de messagerie
       new_log: nouveau journal
       new_version: nouvelle version
-      only: restriction de visibilité
+      visibility_restriction: restriction de visibilité
       private_pattern: motif du destinataire privé
       public_pattern: motif du destinataire public
       remove: supprimer
@@ -1421,10 +1421,10 @@ fr:
       aws_session_token: jeton de session aws (facultatif)
       base_url: url de base
       created_at: créé le
-      delete: supprimer
+      delete: supprimer la connexion de livraison
       description: connexion de livraison
-      destroy: détruire
-      edit: modifier
+      destroy: détruire la connexion de livraison
+      edit: modifier la connexion de livraison
       enabled: activé
       id: id
       logs: journaux
@@ -1506,12 +1506,12 @@ fr:
       notice: enregistré
     show:
       created_at: créé le
-      delete: supprimer
+      delete: supprimer la destination de livraison
       delivery_channel_id: canal de livraison
       delivery_connection_id: connexion de livraison
       description: destination de livraison
-      destroy: détruire
-      edit: modifier
+      destroy: détruire la destination de livraison
+      edit: modifier la destination de livraison
       enabled: activé
       id: id
       logs: journaux
@@ -4888,11 +4888,11 @@ fr:
       amount_cents: montant en centimes
       amount_currency: devise
       created_at: créé le
-      delete: supprimer
+      delete: supprimer la destination d’abonnement
       delivery_destination_id: destination de livraison
       description: destination d’abonnement
-      destroy: détruire
-      edit: modifier
+      destroy: détruire la destination d’abonnement
+      edit: modifier la destination d’abonnement
       id: id
       logs: journaux
       manage: livraison

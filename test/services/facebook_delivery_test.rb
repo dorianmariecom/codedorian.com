@@ -15,7 +15,7 @@ class FacebookDeliveryTest < ActiveSupport::TestCase
     @channel =
       DeliveryChannel.create!(
         key: "facebook",
-        only: "public",
+        visibility_restriction: "public",
         public_pattern: "(?:)",
         show_recipient: false,
         enabled: true,

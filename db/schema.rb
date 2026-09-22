@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_20_183443) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_21_185312) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -251,13 +251,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_20_183443) do
     t.boolean "enabled", default: false, null: false
     t.string "key", null: false
     t.string "messaging_service_sid"
-    t.string "only"
     t.string "private_pattern"
     t.string "public_pattern"
     t.boolean "show_connection", default: false, null: false
     t.boolean "show_recipient", default: false, null: false
     t.boolean "show_visibility", default: false, null: false
     t.datetime "updated_at", null: false
+    t.string "visibility_restriction"
     t.index ["delivery_connection_id"],
             name: "index_delivery_channels_on_delivery_connection_id"
     t.index ["key"], name: "index_delivery_channels_on_key", unique: true

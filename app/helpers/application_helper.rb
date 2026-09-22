@@ -198,10 +198,12 @@ module ApplicationHelper
 
   def delivery_channel_form_data(channel)
     {
+      "delivery-destination-form-providers":
+        Array(DeliveryChannel::PROVIDERS[channel.key.to_sym]).join(" "),
       "delivery-destination-form-show-recipient": channel.show_recipient,
       "delivery-destination-form-show-visibility": channel.show_visibility,
       "delivery-destination-form-show-connection": channel.show_connection,
-      "delivery-destination-form-only": channel.only,
+      "delivery-destination-form-visibility-restriction": channel.visibility_restriction,
       "delivery-destination-form-public-pattern": channel.public_pattern,
       "delivery-destination-form-private-pattern": channel.private_pattern,
       "delivery-destination-form-public-required":
@@ -218,7 +220,10 @@ module ApplicationHelper
         [
           connection.to_s,
           connection.id,
-          { selected: delivery_connection_id == connection.id }
+          {
+            selected: delivery_connection_id == connection.id,
+            data: { "delivery-destination-form-provider": connection.provider }
+          }
         ]
       end
   end

@@ -8,7 +8,7 @@ class WebhookDeliveryTest < ActiveSupport::TestCase
     @channel =
       DeliveryChannel.create!(
         key: "webhook",
-        only: "private",
+        visibility_restriction: "private",
         enabled: true,
         amount_cents: 0,
         show_recipient: true

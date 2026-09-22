@@ -15,7 +15,7 @@ class FacebookDeliveryControllerTest < ActionDispatch::IntegrationTest
           )
         DeliveryChannel.create!(
           key: "facebook",
-          only: "public",
+          visibility_restriction: "public",
           public_pattern: "(?:)",
           show_recipient: false,
           enabled: true,
@@ -40,7 +40,7 @@ class FacebookDeliveryControllerTest < ActionDispatch::IntegrationTest
     ].each do |path|
       get path
       assert_response :success
-      assert_select "option[data-delivery-destination-form-only=public]",
+      assert_select "option[data-delivery-destination-form-visibility-restriction=public]",
                     minimum: 1
       assert_select "[data-delivery-destination-form-target=facebookHelp]",
                     count: 0

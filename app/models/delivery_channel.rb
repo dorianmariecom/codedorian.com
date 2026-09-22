@@ -62,17 +62,19 @@ class DeliveryChannel < ApplicationRecord
             },
             allow_nil: true
   validates :amount_currency, format: { with: /\A[a-z]{3}\z/ }
-  normalizes :only,
+  normalizes :visibility_restriction,
              :public_pattern,
              :private_pattern,
              with: ->(value) { value.presence }
-  validates :only, inclusion: { in: %w[private public] }, allow_nil: true
+  validates :visibility_restriction,
+            inclusion: { in: %w[private public] },
+            allow_nil: true
   validate :valid_recipient_patterns
   validate :valid_connection
 
   before_validation do
     if key == "reddit"
-      self.only = "private"
+      self.visibility_restriction = "private"
       self.show_connection = false
       self.show_visibility = false
       self.show_recipient = true
@@ -133,8 +135,8 @@ class DeliveryChannel < ApplicationRecord
         node: -> { arel_table[:callback_base_url] },
         type: :string
       },
-      only: {
-        node: -> { arel_table[:only] },
+      visibility_restriction: {
+        node: -> { arel_table[:visibility_restriction] },
         type: :string
       },
       public_pattern: {

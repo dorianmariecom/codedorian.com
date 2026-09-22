@@ -69,7 +69,7 @@
     label: t(".show_connection"),
     value: @delivery_channel.show_connection
   ) %>
-  <%= render("shared/attribute", label: t(".only"), value: @delivery_channel.only) %>
+  <%= render("shared/attribute", label: t(".visibility_restriction"), value: @delivery_channel.visibility_restriction) %>
   <%= render(
     "shared/attribute",
     label: t(".created_at"),
