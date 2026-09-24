@@ -46,7 +46,14 @@ class DeliveryConnectionsGithubControllerTest < ActionDispatch::IntegrationTest
           "Authorization" => "Bearer access-secret",
           "X-GitHub-Api-Version" => "2026-03-10"
         }
-      ).to_return(body: { id: 123, login: "octocat" }.to_json)
+      ).to_return(
+        body: {
+          id: 123,
+          login: "octocat",
+          name: "Octo Cat",
+          email: index.zero? ? "octo@example.com" : nil
+        }.to_json
+      )
       assert_difference "DeliveryConnection.count", index.zero? ? 1 : 0 do
         get callback_delivery_connections_path(provider: "github", locale: nil),
             params: {
@@ -61,6 +68,9 @@ class DeliveryConnectionsGithubControllerTest < ActionDispatch::IntegrationTest
         .where_user(users(:other_user))
         .where_provider("github")
         .sole
+    assert_equal "octocat", connection.username
+    assert_equal "octo@example.com", connection.email
+    assert_equal "123", connection.external_id
     assert_equal "123", connection.sender
     assert_equal "repo notifications", connection.scope
     assert connection.ready?
@@ -136,7 +146,7 @@ class DeliveryConnectionsGithubControllerTest < ActionDispatch::IntegrationTest
       Current.with(user: users(:admin)) do
         DeliveryConnection.create!(
           provider: "github",
-          name: "GitHub",
+          username: "GitHub",
           access_token: "secret"
         )
       end

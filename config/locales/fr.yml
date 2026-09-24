@@ -85,6 +85,9 @@ fr:
         show_recipient: afficher le destinataire
         show_visibility: afficher la visibilité
       delivery_connection:
+        email: e-mail
+        username: nom d’utilisateur
+        external_id: identifiant externe
         access_token: jeton d’accès
         account_sid: identifiant du compte
         api_key: clé api
@@ -97,7 +100,6 @@ fr:
         enabled: activé
         mailgun_domain: domaine d’envoi mailgun
         mailgun_region: région mailgun (us / eu)
-        name: nom
         provider: fournisseur
         refresh_token: jeton de renouvellement
         sender: expéditeur
@@ -1357,7 +1359,6 @@ fr:
         sender: identifiant professionnel apple
       enabled: activé
       manage: livraison
-      name: nom
       provider: fournisseur
       save: enregistrer
     index:
@@ -1431,7 +1432,6 @@ fr:
       mailgun_domain: domaine d’envoi mailgun
       mailgun_region: région mailgun (us / eu)
       manage: livraison
-      name: nom
       new_log: nouveau journal
       new_version: nouvelle version
       provider: fournisseur
@@ -5320,3 +5320,7 @@ fr:
   reddit_verification:
     subject: confirmez votre destination de livraison reddit
     body: "confirmez cette destination pour recevoir des messages privés de u/%{username} : %{url}"
+  subscription_price:
+    included: inclus
+    free: gratuit
+    month: mois

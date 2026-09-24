@@ -12,17 +12,65 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
     )
   end
 
+  test "subscription selectors and quotes render localized readable prices" do
+    sign_in_admin
+    subscription = subscriptions(:subscription)
+    selection =
+      Current.with(user: users(:admin)) do
+        destination =
+          DeliveryDestination.create!(
+            user: subscription.user,
+            delivery_channel: @channel
+          )
+        subscription.subscription_destinations.create!(
+          delivery_destination: destination
+        )
+      end
+    cases = [
+      [:en, 0, "eur", "included", "free"],
+      [:en, 500, "eur", "5€ / month", "5€ / month"],
+      [:en, 550, "eur", "5.50€ / month", "5.50€ / month"],
+      [:en, 550, "usd", "5.50 USD / month", "5.50 USD / month"],
+      [:fr, 0, "eur", "inclus", "gratuit"],
+      [:fr, 500, "eur", "5€ / mois", "5€ / mois"],
+      [:fr, 550, "eur", "5,50€ / mois", "5,50€ / mois"],
+      [:fr, 550, "usd", "5,50 USD / mois", "5,50 USD / mois"]
+    ]
+    cases.each do |locale, amount, currency, price, total|
+      @channel.update!(amount_cents: amount, amount_currency: currency)
+      subscription.update_columns(
+        delivery_base_amount_cents: 0,
+        delivery_amount_cents: amount,
+        delivery_amount_currency: currency
+      )
+      selection.update_columns(amount_cents: amount)
+      get edit_subscription_path(subscription, locale: locale)
+      assert_response :success
+      assert_select "select[name$='[delivery_channel_id]'] option[value=?]",
+                    @channel.id.to_s,
+                    text: "#{@channel} (#{price})"
+      assert_select "div.p", text: "#{selection.delivery_destination}: #{price}"
+      assert_select "div.p.font-bold",
+                    text:
+                      "#{I18n.t("subscriptions.destinations.total")}: #{total}"
+    end
+  end
+
   test "destination forms render channel visibility before JavaScript runs" do
     sign_in_admin
     subscription = subscriptions(:subscription)
-    destination = Current.with(user: users(:admin)) do
-      record = DeliveryDestination.create!(
-        user: subscription.user,
-        delivery_channel: @channel
-      )
-      subscription.subscription_destinations.create!(delivery_destination: record)
-      record
-    end
+    destination =
+      Current.with(user: users(:admin)) do
+        record =
+          DeliveryDestination.create!(
+            user: subscription.user,
+            delivery_channel: @channel
+          )
+        subscription.subscription_destinations.create!(
+          delivery_destination: record
+        )
+        record
+      end
 
     fields = %w[recipient connection visibility]
     [false, true].each do |visible|
@@ -31,16 +79,25 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
         show_connection: visible,
         show_visibility: visible
       )
-      [edit_subscription_path(subscription), edit_delivery_destination_path(destination)].each do |path|
+      [
+        edit_subscription_path(subscription),
+        edit_delivery_destination_path(destination)
+      ].each do |path|
         get path
         assert_response :success
         assert_select "[data-controller='delivery-destination-form']" do |forms|
           forms.each do |form|
-            next if form.ancestors.any? { |ancestor| ancestor.name == "template" }
+            if form.ancestors.any? { |ancestor| ancestor.name == "template" }
+              next
+            end
 
-            assert_equal "turbo:morph@document->delivery-destination-form#change", form["data-action"]
+            assert_equal "turbo:morph@document->delivery-destination-form#change",
+                         form["data-action"]
             fields.each do |field|
-              row = form.at_css("[data-delivery-destination-form-target='#{field}Row']")
+              row =
+                form.at_css(
+                  "[data-delivery-destination-form-target='#{field}Row']"
+                )
               assert_equal !visible, row.key?("hidden")
             end
           end
@@ -50,55 +107,72 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "destination connection selects initially contain only compatible providers" do
-    slack, github = Current.with(user: users(:admin)) do
-      %w[slack github].map do |provider|
-        DeliveryConnection.create!(
+    slack, github =
+      Current.with(user: users(:admin)) do
+        %w[slack github].map do |provider|
+          DeliveryConnection.create!(
+            user: users(:admin),
+            provider: provider,
+            username: provider,
+            access_token: "secret",
+            enabled: true
+          )
+        end
+      end
+    channel =
+      DeliveryChannel.create!(
+        key: "slack",
+        enabled: true,
+        amount_cents: 0,
+        show_connection: true
+      )
+    subscription = subscriptions(:subscription)
+    destination =
+      Current.with(user: users(:admin)) do
+        DeliveryDestination.create!(
           user: users(:admin),
-          provider: provider,
-          name: provider,
-          access_token: "secret",
-          enabled: true
+          delivery_channel: channel,
+          delivery_connection: slack,
+          recipient: "#general"
         )
       end
-    end
-    channel = DeliveryChannel.create!(key: "slack", enabled: true, amount_cents: 0, show_connection: true)
-    subscription = subscriptions(:subscription)
-    destination = Current.with(user: users(:admin)) do
-      DeliveryDestination.create!(
-        user: users(:admin),
-        delivery_channel: channel,
-        delivery_connection: slack,
-        recipient: "#general"
-      )
-    end
     sign_in_admin
-    subscription.subscription_destinations.create!(delivery_destination: destination)
+    subscription.subscription_destinations.create!(
+      delivery_destination: destination
+    )
 
-    [edit_delivery_destination_path(destination), edit_subscription_path(subscription)].each do |path|
+    [
+      edit_delivery_destination_path(destination),
+      edit_subscription_path(subscription)
+    ].each do |path|
       get path
       assert_response :success
-      assert_select "select[name*='[delivery_connection_id]'] option[value=?][selected]", slack.id.to_s
-      assert_select "select[name*='[delivery_connection_id]'] option[value=?]", github.id.to_s, count: 0
+      assert_select "select[name*='[delivery_connection_id]'] option[value=?][selected]",
+                    slack.id.to_s
+      assert_select "select[name*='[delivery_connection_id]'] option[value=?]",
+                    github.id.to_s,
+                    count: 0
       assert_select "option[data-delivery-destination-form-providers='slack']"
-      assert_select "template[data-delivery-destination-form-target='connectionOptions'] option[value=?][data-delivery-destination-form-provider='github']", github.id.to_s
+      assert_select "template[data-delivery-destination-form-target='connectionOptions'] option[value=?][data-delivery-destination-form-provider='github']",
+                    github.id.to_s
     end
   end
 
-  test "subscriber connection pickers expose only owned names and ids" do
+  test "subscriber connection pickers expose only owned identities and ids" do
     owned, other =
       Current.with(user: users(:admin)) do
         [
           DeliveryConnection.create!(
             user: users(:other_user),
             provider: "slack",
-            name: "Owned Slack",
+            username: "Owned Slack",
             access_token: "owned-secret",
             enabled: true
           ),
           DeliveryConnection.create!(
             user: users(:admin),
             provider: "slack",
-            name: "Other Slack",
+            username: "Other Slack",
             access_token: "other-secret",
             enabled: true
           )
@@ -201,7 +275,7 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
     Current.user = users(:admin)
     destination = DeliveryDestination.create!(delivery_channel: @channel)
     connection =
-      DeliveryConnection.create!(provider: "slack", name: "Audit Slack")
+      DeliveryConnection.create!(provider: "slack", username: "Audit Slack")
     selection =
       SubscriptionDestination.create!(
         subscription: subscriptions(:subscription),
@@ -375,7 +449,10 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
     first, second =
       Current.with(user: users(:admin)) do
         destinations =
-          %w[https://example.com/first https://example.com/second].map do |recipient|
+          %w[
+            https://example.com/first
+            https://example.com/second
+          ].map do |recipient|
             DeliveryDestination.create!(
               user: subscription.user,
               delivery_channel: webhook_channel,
@@ -394,8 +471,14 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
           params: {
             subscription: {
               delivery_destinations_attributes: {
-                "0" => { id: second.id, recipient: "https://example.com/updated" },
-                "1" => { id: first.id, recipient: first.recipient }
+                "0" => {
+                  id: second.id,
+                  recipient: "https://example.com/updated"
+                },
+                "1" => {
+                  id: first.id,
+                  recipient: first.recipient
+                }
               }
             }
           }
@@ -457,7 +540,9 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
     headers = { "Accept" => "text/vnd.turbo-stream.html, text/html" }
     assert_difference "DeliveryDestination.count", 1 do
       patch subscription_path(subscription),
-            params: { subscription: attributes },
+            params: {
+              subscription: attributes
+            },
             headers: headers
       assert_redirected_to subscription
     end
@@ -611,7 +696,9 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
     post delivery_connections_path,
          params: {
            delivery_connection: {
-             name: "Slack",
+             username: "Workspace bot",
+             email: "bot@example.com",
+             external_id: "B123",
              provider: "slack",
              access_token: "private-test-token"
            }
@@ -620,11 +707,38 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_includes response.body, "private-test-token"
     connection = DeliveryConnection.order(:id).last
+    assert_equal "Workspace bot", connection.username
+    assert_equal "bot@example.com", connection.email
+    assert_equal "B123", connection.external_id
+    patch delivery_connection_path(connection),
+          params: {
+            delivery_connection: {
+              username: "Updated bot"
+            }
+          },
+          as: :json
+    assert_response :success
+    assert_equal "Updated bot", connection.reload.username
     get edit_delivery_connection_path(connection)
     assert_response :success
     assert_includes response.body, "private-test-token"
+    assert_select "input[name=?]", "delivery_connection[name]", count: 0
+    assert_select "select[name=?]", "delivery_connection[provider]"
+    assert_select "textarea[name=?]",
+                  "delivery_connection[description]",
+                  count: 0
+    assert_select "input[name=?][value=?]",
+                  "delivery_connection[email]",
+                  "bot@example.com"
+    assert_select "input[name=?][value=?]",
+                  "delivery_connection[external_id]",
+                  "B123"
+    assert_select "input[name=?][value=?]",
+                  "delivery_connection[username]",
+                  "Updated bot"
     get delivery_connection_path(connection)
     assert_response :success
+    assert_includes response.body, "Updated bot"
   end
 
   test "subscription creation snapshots selected destination rates" do
@@ -734,7 +848,7 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
       post delivery_connections_path,
            params: {
              delivery_connection: {
-               name: "Slack",
+               username: "Slack",
                provider: "slack"
              }
            },
@@ -750,7 +864,9 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
          params: {
            delivery_connection: {
              user_id: users(:other_user).id,
-             name: "Slack",
+             username: "Workspace bot",
+             email: "bot@example.com",
+             external_id: "B123",
              provider: "slack"
            }
          },

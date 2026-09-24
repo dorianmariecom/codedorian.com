@@ -8,7 +8,7 @@ class DeliveryCallbacksControllerTest < ActionDispatch::IntegrationTest
       connection =
         DeliveryConnection.create!(
           user: users(:admin),
-          name: "Twilio",
+          username: "Twilio",
           provider: "twilio",
           account_sid: "ACtest",
           auth_token: "test-secret"
@@ -85,7 +85,7 @@ class DeliveryCallbacksControllerTest < ActionDispatch::IntegrationTest
       connection =
         DeliveryConnection.create!(
           user: users(:admin),
-          name: "Mastodon",
+          username: "Mastodon",
           provider: "mastodon"
         )
       channel = DeliveryChannel.create!(key: "mastodon")

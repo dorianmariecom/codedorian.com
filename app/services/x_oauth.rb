@@ -62,7 +62,10 @@ class XOauth
 
     attributes.merge(
       sender: user["id"],
-      name: "X · @#{user["username"]}",
+      **DeliveryConnectionOauth.identity(
+        username: user["username"],
+        external_id: user["id"]
+      ),
       enabled: true
     )
   rescue KeyError

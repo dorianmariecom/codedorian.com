@@ -21,7 +21,7 @@ class GithubDeliveryTest < ActiveSupport::TestCase
       DeliveryConnection.create!(
         user: owner,
         provider: "github",
-        name: "GitHub",
+        username: "GitHub",
         access_token: "secret"
       )
     destination =
@@ -50,7 +50,7 @@ class GithubDeliveryTest < ActiveSupport::TestCase
       DeliveryConnection.create!(
         user: users(:other_user),
         provider: "github",
-        name: "Other",
+        username: "Other",
         access_token: "other"
       )
     assert_not destination.valid?

@@ -5,35 +5,60 @@ require "test_helper"
 class FacebookOauthTest < ActiveSupport::TestCase
   setup do
     @previous_facebook_credentials = Config.facebook
-    Config.facebook = { client_id: "client", client_secret: "secret" }.to_deep_struct
+    Config.facebook = {
+      client_id: "client",
+      client_secret: "secret"
+    }.to_deep_struct
     stub_request(:get, %r{/oauth/access_token}).to_return(
       body: { access_token: "user-token" }.to_json
     )
   end
 
-  teardown do
-    Config.facebook = @previous_facebook_credentials
-  end
+  teardown { Config.facebook = @previous_facebook_credentials }
 
   test "profile connects without a configuration or page permissions" do
     proof = OpenSSL::HMAC.hexdigest("SHA256", "secret", "user-token")
     stub_request(:get, "https://graph.facebook.com/v26.0/me").with(
-      query: { fields: "id,name", appsecret_proof: proof },
-      headers: { "Authorization" => "Bearer user-token" }
+      query: {
+        fields: "id,name",
+        appsecret_proof: proof
+      },
+      headers: {
+        "Authorization" => "Bearer user-token"
+      }
     ).to_return(body: { id: "123456", name: "Profile" }.to_json)
-    assert_equal [{ sender: "123456", name: "Facebook · Profile",
-                    access_token: "user-token", scope: "public_profile", enabled: true }], exchange
+    assert_equal [
+      {
+        sender: "123456",
+        external_id: "123456",
+        access_token: "user-token",
+        scope: "public_profile",
+        enabled: true
+      }
+    ],
+                 exchange
     assert_not_requested :get, %r{/me/accounts|/me/permissions|/debug_token}
     assert_requested :get, %r{/oauth/access_token}, times: 1
   end
 
   test "missing names fall back to the facebook id" do
-    stub_request(:get, %r{/v26.0/me\?}).to_return(body: { id: "123456" }.to_json)
-    assert_equal "Facebook · 123456", exchange.sole[:name]
+    stub_request(:get, %r{/v26.0/me\?}).to_return(
+      body: { id: "123456" }.to_json
+    )
+    assert_equal "123456", exchange.sole[:external_id]
   end
 
   test "invalid profile responses are rejected" do
-    ["null", "[]", "not json", {}, { id: nil }, { id: 123 }, { id: "invalid" }, { id: "" }].each do |profile|
+    [
+      "null",
+      "[]",
+      "not json",
+      {},
+      { id: nil },
+      { id: 123 },
+      { id: "invalid" },
+      { id: "" }
+    ].each do |profile|
       body = profile.is_a?(String) ? profile : profile.to_json
       stub_request(:get, %r{/v26.0/me\?}).to_return(body: body)
       assert_raises(FacebookOauth::Error) { exchange }
@@ -42,7 +67,9 @@ class FacebookOauthTest < ActiveSupport::TestCase
 
   test "invalid access tokens cannot fetch profiles" do
     [nil, "", 123].each do |token|
-      stub_request(:get, %r{/oauth/access_token}).to_return(body: { access_token: token }.to_json)
+      stub_request(:get, %r{/oauth/access_token}).to_return(
+        body: { access_token: token }.to_json
+      )
       assert_raises(FacebookOauth::Error) { exchange }
     end
     assert_not_requested :get, %r{/v26.0/me\?}
@@ -84,7 +111,8 @@ class FacebookOauthTest < ActiveSupport::TestCase
   def exchange
     FacebookOauth.exchange(
       code: "code",
-      redirect_uri: "https://codedorian.com/delivery_connections/callback/facebook"
+      redirect_uri:
+        "https://codedorian.com/delivery_connections/callback/facebook"
     )
   end
 end

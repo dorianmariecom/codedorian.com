@@ -29,7 +29,7 @@ class MailboxOauthTest < ActiveSupport::TestCase
       connection =
         DeliveryConnection.create!(
           provider: provider,
-          name: "Mailbox",
+          username: "Mailbox",
           smtp_from: "sender@example.com",
           access_token: "old",
           refresh_token: "original",
@@ -72,7 +72,7 @@ class MailboxOauthTest < ActiveSupport::TestCase
     connection =
       DeliveryConnection.create!(
         provider: "gmail",
-        name: "Mailbox",
+        username: "Mailbox",
         smtp_from: "sender@example.com",
         access_token: "old",
         refresh_token: "refresh",
@@ -95,7 +95,7 @@ class MailboxOauthTest < ActiveSupport::TestCase
     connection =
       DeliveryConnection.create!(
         provider: "gmail",
-        name: "Mailbox",
+        username: "Mailbox",
         smtp_from: "sender@example.com",
         access_token: "old",
         refresh_token: "refresh",
@@ -120,7 +120,7 @@ class MailboxOauthTest < ActiveSupport::TestCase
     connection =
       DeliveryConnection.create!(
         provider: "outlook",
-        name: "Mailbox",
+        username: "Mailbox",
         smtp_from: "sender@example.com",
         access_token: "old",
         refresh_token: "refresh",

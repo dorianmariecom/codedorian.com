@@ -4,15 +4,23 @@
     <%= f.select :user_id, user_options(user_id: f.object.user_id), {}, class: :input %>
   </div>
   <div class="p">
-    <%= f.label :name, class: :label %>
-    <%= f.text_field :name, class: :input %>
-  </div>
-  <div class="p">
     <%= f.label :provider, class: :label %>
     <%= f.select :provider,
              delivery_connection_provider_options(provider: f.object.provider),
              {},
              class: :input %>
+  </div>
+  <div class="p">
+    <%= f.label :email, class: :label %>
+    <%= f.email_field :email, class: :input %>
+  </div>
+  <div class="p">
+    <%= f.label :username, class: :label %>
+    <%= f.text_field :username, class: :input %>
+  </div>
+  <div class="p">
+    <%= f.label :external_id, class: :label %>
+    <%= f.text_field :external_id, class: :input %>
   </div>
   <div class="p">
     <%= f.label :enabled, class: :label %>

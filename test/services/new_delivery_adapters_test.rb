@@ -417,7 +417,7 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
     connection =
       DeliveryConnection.create!(
         user: users(:admin),
-        name: provider,
+        username: provider,
         provider: provider,
         smtp_from: "sender@example.com",
         access_token: "access",

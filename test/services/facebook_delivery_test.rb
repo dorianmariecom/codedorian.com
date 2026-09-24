@@ -8,7 +8,7 @@ class FacebookDeliveryTest < ActiveSupport::TestCase
     @connection =
       DeliveryConnection.create!(
         provider: "facebook",
-        name: "Page",
+        username: "Page",
         access_token: "page-token",
         sender: "123456"
       )

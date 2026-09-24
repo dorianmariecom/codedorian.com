@@ -29,7 +29,7 @@ class CodeModelAccessTest < ActiveSupport::TestCase
       DeliveryConnection.create!(
         user: owner,
         provider: "github",
-        name: "GitHub",
+        username: "GitHub",
         access_token: "secret"
       )
     result =
@@ -80,7 +80,7 @@ class CodeModelAccessTest < ActiveSupport::TestCase
       DeliveryConnection.create!(
         user: owner,
         provider: "github",
-        name: "GitHub",
+        username: "GitHub",
         access_token: "secret"
       )
     Current.user = owner

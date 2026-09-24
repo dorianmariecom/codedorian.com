@@ -59,6 +59,9 @@ class DeliveryConnectionsXControllerTest < ActionDispatch::IntegrationTest
         .where_user(users(:other_user))
         .where(provider: "x")
         .sole
+    assert_equal "dorian", connection.username
+    assert_equal "123", connection.external_id
+    assert_nil connection.email
     assert_equal "refresh-secret", connection.refresh_token
     assert_not_includes connection.refresh_token_before_type_cast,
                         "refresh-secret"
@@ -100,7 +103,7 @@ class DeliveryConnectionsXControllerTest < ActionDispatch::IntegrationTest
       Current.with(user: users(:admin)) do
         DeliveryConnection.create!(
           provider: "x",
-          name: "Private",
+          username: "Private",
           access_token: "private",
           enabled: true
         )

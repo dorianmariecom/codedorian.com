@@ -9,7 +9,7 @@ class FacebookDeliveryControllerTest < ActionDispatch::IntegrationTest
         connection =
           DeliveryConnection.create!(
             provider: "facebook",
-            name: "Facebook Page",
+            username: "Facebook Page",
             sender: "123456",
             access_token: "private-page-token"
           )

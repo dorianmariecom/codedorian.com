@@ -112,7 +112,7 @@ module RecordConcern
   end
 
   def id_sample
-    t("to_s", id:) if id.present? && Current.user&.admin?
+    t("to_s", id:) if id.present? && Current.debug?
   end
 
   def fr?

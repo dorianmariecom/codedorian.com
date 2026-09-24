@@ -69,12 +69,10 @@ class FacebookOauth
       raise Error
     end
 
-    name = user["name"].is_a?(String) ? user["name"].presence : nil
-
     [
       {
         sender: user["id"],
-        name: "Facebook · #{name || user["id"]}",
+        **DeliveryConnectionOauth.identity(external_id: user["id"]),
         access_token: token,
         scope: SCOPES.join(" "),
         enabled: true

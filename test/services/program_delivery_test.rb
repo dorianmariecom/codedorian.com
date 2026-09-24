@@ -231,7 +231,7 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
     connection =
       DeliveryConnection.create!(
         user: users(:admin),
-        name: "Slack",
+        username: "Slack",
         provider: "slack",
         access_token: "unique-test-secret"
       )
@@ -259,7 +259,7 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
     connection =
       DeliveryConnection.create!(
         user: users(:other_user),
-        name: "Other",
+        username: "Other",
         provider: "slack"
       )
     destination =
@@ -326,7 +326,7 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
     assert_raises(Pundit::NotAuthorizedError) do
       DeliveryConnection.create!(
         user: users(:admin),
-        name: "Slack",
+        username: "Slack",
         provider: "slack"
       )
     end
@@ -385,7 +385,7 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
   end
 
   test "deleting a connection clears associations" do
-    connection = DeliveryConnection.create!(name: "Twilio", provider: :twilio)
+    connection = DeliveryConnection.create!(username: "Twilio", provider: :twilio)
     channel =
       DeliveryChannel.create!(key: :sms, delivery_connection: connection)
     connection.destroy!
@@ -509,7 +509,7 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
     connection =
       DeliveryConnection.create!(
         user: @subscription.user,
-        name: "SMTP",
+        username: "SMTP",
         provider: "smtp",
         smtp_from: "sender@example.com",
         smtp_address: "smtp.example.com"
@@ -538,7 +538,7 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
     connection =
       DeliveryConnection.create!(
         user: @subscription.user,
-        name: "Slack",
+        username: "Slack",
         provider: "slack",
         access_token: "test"
       )

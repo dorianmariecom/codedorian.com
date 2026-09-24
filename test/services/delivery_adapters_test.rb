@@ -421,7 +421,7 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
     connection =
       DeliveryConnection.create!(
         user: @subscription.user,
-        name: provider,
+        username: provider,
         provider: provider,
         **credentials
       )

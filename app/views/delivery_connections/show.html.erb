@@ -8,7 +8,21 @@
     label: t(".user_id"),
     value: @delivery_connection.user_id
   ) %>
-  <%= render("shared/attribute", label: t(".name"), value: @delivery_connection.name) %>
+  <%= render(
+    "shared/attribute",
+    label: DeliveryConnection.human_attribute_name(:email),
+    value: @delivery_connection.email
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: DeliveryConnection.human_attribute_name(:username),
+    value: @delivery_connection.username
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: DeliveryConnection.human_attribute_name(:external_id),
+    value: @delivery_connection.external_id
+  ) %>
   <%= render(
     "shared/attribute",
     label: t(".provider"),

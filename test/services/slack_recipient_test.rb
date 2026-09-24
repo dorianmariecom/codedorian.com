@@ -23,7 +23,7 @@ class SlackRecipientTest < ActiveSupport::TestCase
       connection =
         DeliveryConnection.create!(
           provider: "slack",
-          name: "Slack",
+          username: "Slack",
           access_token: "test"
         )
       destination =

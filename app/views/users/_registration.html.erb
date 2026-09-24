@@ -1,15 +1,10 @@
 <% if (plan = registration_plan) %>
-  <section
-    class="p"
-    aria-label="<%= plan.name.to_plain_text.presence || plan.slug %>"
-  >
-    <div class="p font-bold">
-      <%= plan.service.name.to_plain_text %> — <%= plan.name.to_plain_text.presence || plan.slug %>
-    </div>
-    <% if plan.description.present? %>
-      <div class="p italic"><%= plan.description %></div>
-    <% end %>
-  </section>
+  <div class="p font-bold">
+    <%= link_to(plan, plan, class: "link") %>
+  </div>
+  <% if plan.description.present? %>
+    <div class="p italic"><%= plan.description %></div>
+  <% end %>
 <% end %>
 
 <%= form_for(show_url) do |f| %>

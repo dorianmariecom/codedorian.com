@@ -179,7 +179,7 @@ class SubscriptionDeliveryBillingTest < ActiveSupport::TestCase
       DeliveryConnection.create!(
         user: @subscription.user,
         provider: "slack",
-        name: "Slack",
+        username: "Slack",
         access_token: "test-secret",
         enabled: true
       )

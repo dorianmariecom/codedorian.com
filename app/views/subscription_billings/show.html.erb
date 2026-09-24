@@ -6,17 +6,17 @@
 <% end %>
 <% if @subscription.delivery_pricing.present? %>
   <div class="p">
-    <%= t("delivery.base") %>: <%= Money.new(
+    <%= t("delivery.base") %>: <%= subscription_price(
       @subscription.delivery_pricing["base_amount_cents"],
       @subscription.delivery_pricing["amount_currency"]
-    ).format(locale: I18n.locale) %>
+    ) %>
   </div>
   <% @subscription.delivery_pricing.fetch("items", []).each do |item| %>
     <div class="p">
-      <%= item["name"] %>: <%= Money.new(
+      <%= item["name"] %>: <%= subscription_price(
         item["amount_cents"],
         @subscription.delivery_pricing["amount_currency"]
-      ).format(locale: I18n.locale) %>
+      ) %>
     </div>
   <% end %>
 <% end %>
@@ -63,14 +63,15 @@
 <% end %>
 
 <% if @subscription.amount_cents.present? %>
-  <% price =
-    Money.new(@subscription.amount_cents, @subscription.amount_currency).format(
-      locale: I18n.locale
-    ) %>
   <%= render(
     "shared/attribute",
     label: t(".price"),
-    value: "#{price} / #{t(".month")}"
+    value:
+      subscription_price(
+        @subscription.amount_cents,
+        @subscription.amount_currency,
+        total: true
+      )
   ) %>
 <% end %>
 
@@ -177,7 +178,7 @@
         <%= invoice.number || invoice.stripe_invoice_id %>
       </div>
       <div>
-        <%= invoice.status %> —
+        <%= invoice.status %> -
         <%= Money.new(invoice.amount_paid, invoice.currency).format(locale: I18n.locale) %>
       </div>
       <% if invoice.hosted_invoice_url.present? %>

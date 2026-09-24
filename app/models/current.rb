@@ -65,6 +65,10 @@ class Current < ActiveSupport::CurrentAttributes
   attribute(:context, default: -> { {} })
   attribute(:locale)
 
+  def debug?
+    admin? && request && request.params.include?("debug")
+  end
+
   def program
     super || program_execution&.program || program_schedule&.program
   end

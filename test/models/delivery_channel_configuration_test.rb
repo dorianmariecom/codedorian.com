@@ -56,7 +56,7 @@ class DeliveryChannelConfigurationTest < ActiveSupport::TestCase
     connection =
       DeliveryConnection.create!(
         provider: "messenger",
-        name: "Page",
+        username: "Page",
         sender: "123",
         access_token: "token"
       )
@@ -95,7 +95,7 @@ class DeliveryChannelConfigurationTest < ActiveSupport::TestCase
     connection =
       DeliveryConnection.create!(
         provider: "slack",
-        name: "Slack",
+        username: "Slack",
         access_token: "token"
       )
     channel =

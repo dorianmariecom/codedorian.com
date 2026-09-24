@@ -32,7 +32,7 @@ class SubscriptionBillingsControllerTest < ActionDispatch::IntegrationTest
     )
     assert_includes(
       response.body,
-      Money.new(1_000, "eur").format(locale: I18n.locale)
+      "10€ / #{I18n.t("subscription_price.month")}"
     )
   end
 

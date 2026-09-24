@@ -203,7 +203,8 @@ module ApplicationHelper
       "delivery-destination-form-show-recipient": channel.show_recipient,
       "delivery-destination-form-show-visibility": channel.show_visibility,
       "delivery-destination-form-show-connection": channel.show_connection,
-      "delivery-destination-form-visibility-restriction": channel.visibility_restriction,
+      "delivery-destination-form-visibility-restriction":
+        channel.visibility_restriction,
       "delivery-destination-form-public-pattern": channel.public_pattern,
       "delivery-destination-form-private-pattern": channel.private_pattern,
       "delivery-destination-form-public-required":
@@ -211,6 +212,25 @@ module ApplicationHelper
       "delivery-destination-form-private-required":
         channel.recipient_required?("private")
     }
+  end
+
+  def subscription_price(amount_cents, currency, total: false)
+    if amount_cents.to_i.zero?
+      return(
+        t(total ? "subscription_price.free" : "subscription_price.included")
+      )
+    end
+
+    currency = currency.to_s.upcase
+    amount =
+      number_with_precision(
+        BigDecimal(amount_cents.to_s) / 100,
+        precision: (amount_cents.to_i % 100).zero? ? 0 : 2,
+        separator: I18n.locale == :fr ? "," : ".",
+        delimiter: ""
+      )
+    price = currency == "EUR" ? "#{amount}€" : "#{amount} #{currency}"
+    "#{price} / #{t("subscription_price.month")}"
   end
 
   def delivery_connection_options(delivery_connection_id: nil)
@@ -222,7 +242,9 @@ module ApplicationHelper
           connection.id,
           {
             selected: delivery_connection_id == connection.id,
-            data: { "delivery-destination-form-provider": connection.provider }
+            data: {
+              "delivery-destination-form-provider": connection.provider
+            }
           }
         ]
       end

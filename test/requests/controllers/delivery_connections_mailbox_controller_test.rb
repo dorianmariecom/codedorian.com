@@ -64,7 +64,11 @@ class DeliveryConnectionsMailboxControllerTest < ActionDispatch::IntegrationTest
             :get,
             "https://graph.microsoft.com/v1.0/me?$select=id,mail,userPrincipalName"
           ).to_return(
-            body: { id: "account", mail: "admin@example.com" }.to_json
+            body: {
+              id: "account",
+              mail: "admin@example.com",
+              userPrincipalName: "admin@tenant.example"
+            }.to_json
           )
         else
           stub_request(
@@ -95,6 +99,13 @@ class DeliveryConnectionsMailboxControllerTest < ActionDispatch::IntegrationTest
           provider: provider
         )
       assert_equal "admin@example.com", connection.smtp_from
+      assert_equal "admin@example.com", connection.email
+      assert_equal "account", connection.external_id
+      if microsoft
+        assert_equal "admin@tenant.example", connection.username
+      else
+        assert_nil connection.username
+      end
       assert_not_includes connection.refresh_token_before_type_cast,
                           "mailbox-refresh"
       assert_not_includes connection.versions.to_json, "mailbox-refresh"

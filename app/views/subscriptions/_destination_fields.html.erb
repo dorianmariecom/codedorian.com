@@ -11,7 +11,7 @@
     <%= f.select :delivery_channel_id,
              channels.map { |channel|
                [
-                 "#{channel} · #{number_to_currency(channel.amount_cents / 100.0, unit: channel.amount_currency.upcase)} / #{t(".month")}",
+                 "#{channel} (#{subscription_price(channel.amount_cents, channel.amount_currency)})",
                  channel.id,
                  { data: delivery_channel_form_data(channel) }
                ]

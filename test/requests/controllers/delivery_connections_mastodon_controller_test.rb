@@ -55,6 +55,9 @@ class DeliveryConnectionsMastodonControllerTest < ActionDispatch::IntegrationTes
         .where_user(users(:other_user))
         .where(provider: "mastodon")
         .sole
+    assert_equal "dorian", connection.username
+    assert_equal "123", connection.external_id
+    assert_nil connection.email
     assert_equal "https://mastodon.example", connection.base_url
     assert_equal "access-secret", connection.access_token
     assert_not_includes connection.access_token_before_type_cast,
@@ -101,7 +104,7 @@ class DeliveryConnectionsMastodonControllerTest < ActionDispatch::IntegrationTes
       Current.with(user: users(:admin)) do
         DeliveryConnection.create!(
           provider: "mastodon",
-          name: "Private",
+          username: "Private",
           access_token: "private",
           base_url: "https://mastodon.example",
           enabled: true

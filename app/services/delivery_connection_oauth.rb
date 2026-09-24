@@ -21,6 +21,14 @@ class DeliveryConnectionOauth
     MailboxOauth::Error
   ].freeze
 
+  def self.identity(email: nil, username: nil, external_id: nil)
+    {
+      email: email,
+      username: username,
+      external_id: external_id&.to_s
+    }.compact_blank
+  end
+
   def self.pending(user:, provider:, redirect_uri:, server: nil, scope: nil)
     pending = {
       "state" => SecureRandom.hex(32),

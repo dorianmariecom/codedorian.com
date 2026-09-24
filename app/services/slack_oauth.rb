@@ -46,13 +46,11 @@ class SlackOauth
       raise Error
     end
 
-    workspace = team["name"].presence || team["id"]
     [
       {
         account_sid: team["id"],
         sender: data["bot_user_id"],
-        name:
-          "Slack · #{workspace} · #{I18n.t("delivery_connections.senders.bot")}",
+        external_id: data["bot_user_id"],
         scope: data["scope"].to_s.split(",").join(" "),
         access_token: data["access_token"],
         enabled: true
@@ -60,8 +58,7 @@ class SlackOauth
       {
         account_sid: team["id"],
         sender: user["id"],
-        name:
-          "Slack · #{workspace} · #{I18n.t("delivery_connections.senders.user")} · #{user["id"]}",
+        external_id: user["id"],
         scope: user["scope"].to_s.split(",").join(" "),
         access_token: user["access_token"],
         enabled: true

@@ -74,7 +74,6 @@ class DeliveryConnection < ApplicationRecord
     end
   end
 
-  validates :name, presence: true
   validates :provider, inclusion: { in: PROVIDERS.map(&:to_s) }
   validate do
     if persisted? &&
@@ -158,8 +157,16 @@ class DeliveryConnection < ApplicationRecord
         node: -> { arel_table[:user_id] },
         type: :integer
       },
-      name: {
-        node: -> { arel_table[:name] },
+      email: {
+        node: -> { arel_table[:email] },
+        type: :string
+      },
+      username: {
+        node: -> { arel_table[:username] },
+        type: :string
+      },
+      external_id: {
+        node: -> { arel_table[:external_id] },
         type: :string
       },
       provider: {
@@ -226,7 +233,9 @@ class DeliveryConnection < ApplicationRecord
     }
   end
 
-  def to_s = Utils.join(name, id_sample)
+  def to_s
+    Utils.join(*[provider, email, username, external_id, id_sample].uniq)
+  end
 
   def to_code
     Pundit.policy_scope!(Current.user, DeliveryConnection).find(id)

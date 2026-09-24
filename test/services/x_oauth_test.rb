@@ -18,7 +18,7 @@ class XOauthTest < ActiveSupport::TestCase
     connection =
       DeliveryConnection.create!(
         provider: "x",
-        name: "X",
+        username: "X",
         enabled: true,
         access_token: "old",
         refresh_token: "refresh-old",
@@ -51,7 +51,7 @@ class XOauthTest < ActiveSupport::TestCase
     connection =
       DeliveryConnection.create!(
         provider: "x",
-        name: "X",
+        username: "X",
         enabled: false,
         access_token: "old",
         refresh_token: "refresh-old",

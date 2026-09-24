@@ -42,7 +42,11 @@ class DeliveryConnectionsSlackControllerTest < ActionDispatch::IntegrationTest
     user_connection =
       DeliveryConnection.where_user(users(:other_user)).find_by!(sender: "U123")
     assert_equal "user-token", user_connection.access_token
-    assert_not_equal connection.name, user_connection.name
+    assert_equal "B123", connection.external_id
+    assert_equal "U123", user_connection.external_id
+    assert_nil connection.email
+    assert_nil connection.username
+    assert_not_equal connection.to_s, user_connection.to_s
     assert connection.ready?
     assert_not_includes connection.access_token_before_type_cast, "bot-token"
     assert_not_includes connection.versions.to_json, "bot-token"
@@ -112,7 +116,7 @@ class DeliveryConnectionsSlackControllerTest < ActionDispatch::IntegrationTest
         DeliveryConnection.create!(
           user: users(:admin),
           provider: "slack",
-          name: "private",
+          username: "private",
           access_token: "private-token",
           enabled: true
         )

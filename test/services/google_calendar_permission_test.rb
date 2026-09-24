@@ -14,7 +14,7 @@ class GoogleCalendarPermissionTest < ActiveSupport::TestCase
       DeliveryConnection.create!(
         user: users(:other_user),
         provider: "google",
-        name: "Google",
+        username: "Google",
         access_token: "old",
         refresh_token: "refresh",
         token_expires_at: 1.minute.ago,

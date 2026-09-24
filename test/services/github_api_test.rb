@@ -10,7 +10,7 @@ class GithubApiTest < ActiveSupport::TestCase
       DeliveryConnection.create!(
         user: @subscription.user,
         provider: "github",
-        name: "GitHub",
+        username: "GitHub",
         access_token: "secret"
       )
   end
@@ -47,7 +47,7 @@ class GithubApiTest < ActiveSupport::TestCase
       DeliveryConnection.create!(
         user: @subscription.user,
         provider: "github",
-        name: "Second",
+        username: "Second",
         access_token: "second-secret",
         scope: "repo notifications"
       )
@@ -55,7 +55,7 @@ class GithubApiTest < ActiveSupport::TestCase
       DeliveryConnection.create!(
         user: users(:other_user),
         provider: "github",
-        name: "Other",
+        username: "Other",
         access_token: "other-secret"
       )
     Current.subscription = @subscription

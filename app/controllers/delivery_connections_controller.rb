@@ -188,7 +188,9 @@ class DeliveryConnectionsController < ApplicationController
     params.expect(
       delivery_connection: %i[
         user_id
-        name
+        email
+        username
+        external_id
         provider
         enabled
         access_token

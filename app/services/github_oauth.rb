@@ -63,7 +63,11 @@ class GithubOauth
 
     attributes.merge(
       sender: user["id"].to_s,
-      name: "GitHub · #{user["login"]}",
+      **DeliveryConnectionOauth.identity(
+        email: user["email"],
+        username: user["login"],
+        external_id: user["id"]
+      ),
       enabled: true
     )
   end

@@ -85,6 +85,9 @@ en:
         show_recipient: show recipient
         show_visibility: show visibility
       delivery_connection:
+        email: email
+        username: username
+        external_id: external id
         access_token: access token
         account_sid: account sid
         api_key: api key
@@ -97,7 +100,6 @@ en:
         enabled: enabled
         mailgun_domain: mailgun sending domain
         mailgun_region: mailgun region (us / eu)
-        name: name
         provider: provider
         refresh_token: refresh token
         sender: sender
@@ -1355,7 +1357,6 @@ en:
         sender: apple business sender id
       enabled: enabled
       manage: delivery
-      name: name
       provider: provider
       save: save
     index:
@@ -1429,7 +1430,6 @@ en:
       mailgun_domain: mailgun sending domain
       mailgun_region: mailgun region (us / eu)
       manage: delivery
-      name: name
       new_log: new log
       new_version: new version
       provider: provider
@@ -5308,3 +5308,7 @@ en:
   reddit_verification:
     subject: confirm your reddit delivery destination
     body: "confirm this destination to receive private messages from u/%{username}: %{url}"
+  subscription_price:
+    included: included
+    free: free
+    month: month

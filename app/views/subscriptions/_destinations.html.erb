@@ -30,23 +30,14 @@
 <% if quote.present? %>
   <% quote.fetch("items", []).each do |item| %>
     <div class="p">
-      <%= item["name"] %>: <%= number_to_currency(
-        item["amount_cents"].to_i / 100.0,
-        unit: quote["amount_currency"].upcase
-      ) %>
+      <%= item["name"] %>: <%= subscription_price(item["amount_cents"], quote["amount_currency"]) %>
     </div>
   <% end %>
   <div class="p">
-    <%= t(".base") %>: <%= number_to_currency(
-      quote["base_amount_cents"].to_i / 100.0,
-      unit: quote["amount_currency"].to_s.upcase
-    ) %>
+    <%= t(".base") %>: <%= subscription_price(quote["base_amount_cents"], quote["amount_currency"]) %>
   </div>
   <div class="p font-bold">
-    <%= t(".total") %>: <%= number_to_currency(
-      quote["amount_cents"].to_i / 100.0,
-      unit: quote["amount_currency"].to_s.upcase
-    ) %> / <%= t(".month") %>
+    <%= t(".total") %>: <%= subscription_price(quote["amount_cents"], quote["amount_currency"], total: true) %>
   </div>
 <% end %>
 <% if f.object.delivery_change_key.present? %>

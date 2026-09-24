@@ -21,7 +21,7 @@ class DeliveryProvidersTest < ActiveSupport::TestCase
       mailchimp
     ].each do |provider|
       connection =
-        DeliveryConnection.create!(provider: provider, name: provider)
+        DeliveryConnection.create!(provider: provider, username: provider)
       channel.delivery_connection = connection
       assert channel.valid?, channel.errors.full_messages.join(", ")
       assert_not channel.available?
@@ -29,7 +29,7 @@ class DeliveryProvidersTest < ActiveSupport::TestCase
     channel.delivery_connection =
       DeliveryConnection.create!(
         provider: "telegram",
-        name: "Bot",
+        username: "Bot",
         access_token: "123:token"
       )
     assert_not channel.valid?
@@ -39,7 +39,7 @@ class DeliveryProvidersTest < ActiveSupport::TestCase
     connection =
       DeliveryConnection.new(
         provider: "aws_ses",
-        name: "SES",
+        username: "SES",
         user: users(:other_user),
         aws_secret_access_key: "secret-value",
         aws_session_token: "session-value"
@@ -60,14 +60,14 @@ class DeliveryProvidersTest < ActiveSupport::TestCase
     smtp =
       DeliveryConnection.create!(
         provider: "smtp",
-        name: "SMTP",
+        username: "SMTP",
         smtp_from: "sender@example.com",
         smtp_address: "smtp.example.com"
       )
     resend =
       DeliveryConnection.create!(
         provider: "resend",
-        name: "Resend",
+        username: "Resend",
         smtp_from: "sender@example.com",
         api_key: "key"
       )
@@ -105,7 +105,7 @@ class DeliveryProvidersTest < ActiveSupport::TestCase
       connection =
         DeliveryConnection.create!(
           provider: provider,
-          name: provider,
+          username: provider,
           access_token: "123:token",
           sender: "sender"
         )
@@ -143,7 +143,7 @@ class DeliveryProvidersTest < ActiveSupport::TestCase
       DeliveryConnection.new(
         user: users(:admin),
         provider: "aws_ses",
-        name: "SES",
+        username: "SES",
         smtp_from: "sender@example.com",
         aws_access_key_id: "key",
         aws_region: "eu-west-1"
@@ -157,7 +157,7 @@ class DeliveryProvidersTest < ActiveSupport::TestCase
       DeliveryConnection.new(
         user: users(:admin),
         provider: "mailgun",
-        name: "Mailgun",
+        username: "Mailgun",
         smtp_from: "sender@example.com",
         api_key: "key",
         mailgun_domain: "mail.example.com"
