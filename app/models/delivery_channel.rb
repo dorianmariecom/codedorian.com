@@ -67,7 +67,9 @@ class DeliveryChannel < ApplicationRecord
              :private_pattern,
              with: ->(value) { value.presence }
   validates :visibility_restriction,
-            inclusion: { in: %w[private public] },
+            inclusion: {
+              in: %w[private public]
+            },
             allow_nil: true
   validate :valid_recipient_patterns
   validate :valid_connection

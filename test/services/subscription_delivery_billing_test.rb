@@ -53,9 +53,10 @@ class SubscriptionDeliveryBillingTest < ActiveSupport::TestCase
   test "changed prices still reject the quote and roll back selections" do
     @subscription.update!(stripe_subscription_id: nil)
     @subscription.delivery_destinations << @second
-    @subscription.subscription_destinations.find_by!(
-      delivery_destination: @second
-    ).update!(selected: false)
+    @subscription
+      .subscription_destinations
+      .find_by!(delivery_destination: @second)
+      .update!(selected: false)
     quote = SubscriptionDeliveryBilling.preview(@subscription)
     @second.delivery_channel.update!(amount_cents: 75)
 
@@ -68,9 +69,10 @@ class SubscriptionDeliveryBillingTest < ActiveSupport::TestCase
     end
 
     assert_equal 1050, @subscription.reload.amount_cents
-    assert_not @subscription.subscription_destinations.find_by!(
-      delivery_destination: @second
-    ).selected?
+    assert_not @subscription
+                 .subscription_destinations
+                 .find_by!(delivery_destination: @second)
+                 .selected?
   end
 
   test "unpaid additions remain inactive until matching pending update completes" do

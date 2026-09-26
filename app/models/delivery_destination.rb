@@ -41,7 +41,13 @@ class DeliveryDestination < ApplicationRecord
 
   def verification_purpose
     [
-      channel == "email" ? :destination_email_confirmation : :destination_reddit_confirmation,
+      (
+        if channel == "email"
+          :destination_email_confirmation
+        else
+          :destination_reddit_confirmation
+        end
+      ),
       recipient,
       user_id,
       delivery_channel_id,

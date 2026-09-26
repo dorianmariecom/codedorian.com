@@ -385,7 +385,8 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
   end
 
   test "deleting a connection clears associations" do
-    connection = DeliveryConnection.create!(username: "Twilio", provider: :twilio)
+    connection =
+      DeliveryConnection.create!(username: "Twilio", provider: :twilio)
     channel =
       DeliveryChannel.create!(key: :sms, delivery_connection: connection)
     connection.destroy!

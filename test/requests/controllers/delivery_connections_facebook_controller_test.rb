@@ -15,9 +15,7 @@ class DeliveryConnectionsFacebookControllerTest < ActionDispatch::IntegrationTes
     )
   end
 
-  teardown do
-    Config.facebook = @previous_facebook_credentials
-  end
+  teardown { Config.facebook = @previous_facebook_credentials }
 
   test "admin connects reconnects lists and disconnects profiles with full owned data" do
     2.times do |index|
@@ -109,7 +107,10 @@ class DeliveryConnectionsFacebookControllerTest < ActionDispatch::IntegrationTes
     stub_request(:get, %r{/v26.0/me\?}).to_return(body: { id: nil }.to_json)
     assert_no_difference "DeliveryConnection.count" do
       get callback_delivery_connections_path(provider: "facebook", locale: nil),
-          params: { state: state, code: "code" }
+          params: {
+            state: state,
+            code: "code"
+          }
     end
     assert_redirected_to delivery_connections_path
     assert_equal I18n.t("delivery_connections.callback.failed"), flash[:alert]
@@ -170,8 +171,13 @@ class DeliveryConnectionsFacebookControllerTest < ActionDispatch::IntegrationTes
     ).to_return(body: { access_token: "user-token" }.to_json)
     proof = OpenSSL::HMAC.hexdigest("SHA256", "secret", "user-token")
     stub_request(:get, "https://graph.facebook.com/v26.0/me").with(
-      query: { appsecret_proof: proof, fields: "id,name" },
-      headers: { "Authorization" => "Bearer user-token" }
+      query: {
+        appsecret_proof: proof,
+        fields: "id,name"
+      },
+      headers: {
+        "Authorization" => "Bearer user-token"
+      }
     ).to_return(body: { id: "123456", name: "My Profile" }.to_json)
   end
 end

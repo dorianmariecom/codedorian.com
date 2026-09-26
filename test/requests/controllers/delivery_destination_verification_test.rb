@@ -36,11 +36,17 @@ class DeliveryDestinationVerificationTest < ActionDispatch::IntegrationTest
     )
     token = @destination.reload.verification_token
     get verification_delivery_destination_path(id: @destination),
-        params: { token: token, subscription_id: @subscription.id }
+        params: {
+          token: token,
+          subscription_id: @subscription.id
+        }
     assert_response :success
     assert_select "input[name=subscription_id][value=?]", @subscription.id.to_s
     post confirm_verification_delivery_destination_path(id: @destination),
-         params: { token: token, subscription_id: @subscription.id }
+         params: {
+           token: token,
+           subscription_id: @subscription.id
+         }
     assert_redirected_to subscription_path(@subscription)
     assert @destination.reload.recipient_verified?
     follow_redirect!
@@ -53,7 +59,9 @@ class DeliveryDestinationVerificationTest < ActionDispatch::IntegrationTest
       passwords(:password).hint
     )
     post confirm_verification_delivery_destination_path(id: @destination),
-         params: { token: @destination.verification_token }
+         params: {
+           token: @destination.verification_token
+         }
     assert_redirected_to subscription_path(@subscription)
   end
 
@@ -63,7 +71,10 @@ class DeliveryDestinationVerificationTest < ActionDispatch::IntegrationTest
       passwords(:other_password).hint
     )
     post confirm_verification_delivery_destination_path(id: @destination),
-         params: { token: @destination.verification_token, subscription_id: @subscription.id }
+         params: {
+           token: @destination.verification_token,
+           subscription_id: @subscription.id
+         }
     assert_redirected_to root_path
     assert @destination.reload.recipient_verified?
   end

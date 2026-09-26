@@ -16,14 +16,14 @@
         <%= f.label :server, t(".server"), class: :label %>
         <%= f.url_field :server, required: true, class: :input %>
       <% end %>
-      <% if provider.in?(%w[google gmail google_workspace]) %>
+      <% if provider == "google" %>
         <div>
           <%= f.check_box :scope,
                       { id: "#{provider}_calendar_access", checked: false },
                       MailboxOauth::GOOGLE_CALENDAR_SCOPES.join(" "),
                       "" %>
           <%= f.label :scope, t(".calendar_access"), for: "#{provider}_calendar_access" %>
-          <p><%= t(".calendar_access_description") %></p>
+          <div class="p"><%= t(".calendar_access_description") %></div>
         </div>
       <% end %>
       <%= f.submit t(

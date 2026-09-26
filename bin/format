@@ -1,6 +1,21 @@
-#!/bin/bash
+#!/usr/bin/env ruby
+# frozen_string_literal: true
 
-set -e
+require "open3"
 
-dorian format
-rubocop --autocorrect-all
+output, status = Open3.capture2("git", "ls-files", "-z")
+exit status.exitstatus unless status.success?
+
+ignored = %w[
+  .dockerignore
+  .gitattributes
+  Dockerfile
+  app/assets/images/android-en.svg
+  app/assets/images/android-fr.svg
+  app/assets/images/ios-en.svg
+  app/assets/images/ios-fr.svg
+  config/brakeman.ignore
+]
+files = output.split("\0") - ignored
+system("dorian", "format", *files, exception: true) unless files.empty?
+system("rubocop", "--autocorrect-all", exception: true)

@@ -41,9 +41,7 @@ class FacebookDeliveryTest < ActiveSupport::TestCase
       )
   end
 
-  teardown do
-    Current.reset
-  end
+  teardown { Current.reset }
 
   test "publishes text and link to the configured page" do
     sent =

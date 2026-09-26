@@ -78,16 +78,13 @@ en:
         enabled: enabled
         key: key
         messaging_service_sid: messaging service sid
-        visibility_restriction: visibility restriction
         private_pattern: private recipient pattern
         public_pattern: public recipient pattern
         show_connection: show connection
         show_recipient: show recipient
         show_visibility: show visibility
+        visibility_restriction: visibility restriction
       delivery_connection:
-        email: email
-        username: username
-        external_id: external id
         access_token: access token
         account_sid: account sid
         api_key: api key
@@ -97,7 +94,9 @@ en:
         aws_secret_access_key: aws secret access key
         aws_session_token: aws session token (optional)
         base_url: base url
+        email: email
         enabled: enabled
+        external_id: external id
         mailgun_domain: mailgun sending domain
         mailgun_region: mailgun region (us / eu)
         provider: provider
@@ -111,6 +110,7 @@ en:
         smtp_user_name: smtp user name
         token_expires_at: token expires at
         user_id: user
+        username: username
       delivery_destination:
         delivery_channel_id: delivery channel
         delivery_connection_id: delivery connection
@@ -1311,7 +1311,6 @@ en:
       messaging_service_sid: messaging service sid
       new_log: new log
       new_version: new version
-      visibility_restriction: visibility restriction
       private_pattern: private recipient pattern
       public_pattern: public recipient pattern
       remove: remove
@@ -1320,6 +1319,7 @@ en:
       show_visibility: show visibility
       updated_at: updated at
       versions: versions
+      visibility_restriction: visibility restriction
     update:
       notice: delivery channel updated
   delivery_connections:
@@ -3847,6 +3847,10 @@ en:
       notice: programs unscheduled
     update:
       notice: program updated
+  reddit_verification:
+    body: 'confirm this destination to receive private messages from u/%{username}:
+      %{url}'
+    subject: confirm your reddit delivery destination
   service_fields:
     create:
       notice: service field created
@@ -4943,6 +4947,10 @@ en:
       versions: versions
     update:
       notice: subscription execution updated
+  subscription_price:
+    free: free
+    included: included
+    month: month
   subscription_values:
     create:
       notice: subscription value created
@@ -5045,13 +5053,13 @@ en:
       created_at: created at
       deactivate: deactivate
       delete: delete subscription
-      delivery_pending: delivery awaits confirmation. execution and billing
-        continue; skipped messages will not be resent.
+      delivery_pending: delivery awaits confirmation. execution and billing continue;
+        skipped messages will not be resent.
       description: view subscription details.
       destroy: destroy subscription
       edit: edit subscription
-      heartbeats_url: heartbeats url
       evaluate: evaluate
+      heartbeats_url: heartbeats url
       id: id
       logs: logs
       new_log: new log
@@ -5305,10 +5313,3 @@ en:
       next: next
       previous: previous
       truncate: "…"
-  reddit_verification:
-    subject: confirm your reddit delivery destination
-    body: "confirm this destination to receive private messages from u/%{username}: %{url}"
-  subscription_price:
-    included: included
-    free: free
-    month: month

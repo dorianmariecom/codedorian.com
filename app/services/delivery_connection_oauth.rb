@@ -3,14 +3,14 @@
 class DeliveryConnectionOauth
   PROVIDERS = %w[
     google
+    gmail
+    google_workspace
     github
     slack
     x
-    mastodon
     facebook
-    gmail
-    google_workspace
     outlook
+    mastodon
   ].freeze
   ERRORS = [
     GithubOauth::Error,

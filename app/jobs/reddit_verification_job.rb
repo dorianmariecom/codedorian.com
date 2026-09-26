@@ -14,7 +14,12 @@ class RedditVerificationJob < ApplicationJob
       RedditScript.compose(
         recipient: destination.recipient,
         subject: I18n.t("reddit_verification.subject"),
-        text: I18n.t("reddit_verification.body", url: url, username: RedditScript.username)
+        text:
+          I18n.t(
+            "reddit_verification.body",
+            url: url,
+            username: RedditScript.username
+          )
       )
     end
   end

@@ -29,9 +29,7 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
       )
   end
 
-  teardown do
-    Current.reset
-  end
+  teardown { Current.reset }
 
   test "Google providers send encoded multipart MIME" do
     %w[gmail google_workspace].each_with_index do |provider, index|

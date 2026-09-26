@@ -81,9 +81,9 @@ class SubscriptionDeliveryBilling
       expected_quote =
         expected_quote.merge(
           "items" =>
-            expected_quote.fetch("items").sort_by do |item|
-              item.fetch("destination_id")
-            end
+            expected_quote
+              .fetch("items")
+              .sort_by { |item| item.fetch("destination_id") }
         )
     end
     destinations =

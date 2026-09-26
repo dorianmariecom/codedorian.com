@@ -1,7 +1,5 @@
 <% if (plan = registration_plan) %>
-  <div class="p font-bold">
-    <%= link_to(plan, plan, class: "link") %>
-  </div>
+  <div class="p font-bold"><%= link_to(plan, plan, class: "link") %></div>
   <% if plan.description.present? %>
     <div class="p italic"><%= plan.description %></div>
   <% end %>

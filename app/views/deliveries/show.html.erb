@@ -45,8 +45,18 @@
     label: t(".next_attempt_at"),
     value: @delivery.next_attempt_at
   ) %>
-  <%= render("shared/attribute", label: t(".created_at"), value: @delivery.created_at, type: :time) %>
-  <%= render("shared/attribute", label: t(".updated_at"), value: @delivery.updated_at, type: :time) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".created_at"),
+    value: @delivery.created_at,
+    type: :time
+  ) %>
+  <%= render(
+    "shared/attribute",
+    label: t(".updated_at"),
+    value: @delivery.updated_at,
+    type: :time
+  ) %>
 <% else %>
   <div class="p font-bold"><%= @delivery.subject %></div>
   <div class="p whitespace-pre-wrap"><%= @delivery.body_text %></div>

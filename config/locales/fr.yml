@@ -78,16 +78,13 @@ fr:
         enabled: activé
         key: clé
         messaging_service_sid: identifiant du service de messagerie
-        visibility_restriction: restriction de visibilité
         private_pattern: motif du destinataire privé
         public_pattern: motif du destinataire public
         show_connection: afficher la connexion
         show_recipient: afficher le destinataire
         show_visibility: afficher la visibilité
+        visibility_restriction: restriction de visibilité
       delivery_connection:
-        email: e-mail
-        username: nom d’utilisateur
-        external_id: identifiant externe
         access_token: jeton d’accès
         account_sid: identifiant du compte
         api_key: clé api
@@ -97,7 +94,9 @@ fr:
         aws_secret_access_key: clé secrète aws
         aws_session_token: jeton de session aws (facultatif)
         base_url: url de base
+        email: e-mail
         enabled: activé
+        external_id: identifiant externe
         mailgun_domain: domaine d’envoi mailgun
         mailgun_region: région mailgun (us / eu)
         provider: fournisseur
@@ -111,6 +110,7 @@ fr:
         smtp_user_name: nom d’utilisateur smtp
         token_expires_at: expiration du jeton
         user_id: utilisateur
+        username: nom d’utilisateur
       delivery_destination:
         delivery_channel_id: canal de livraison
         delivery_connection_id: connexion de livraison
@@ -1313,7 +1313,6 @@ fr:
       messaging_service_sid: identifiant du service de messagerie
       new_log: nouveau journal
       new_version: nouvelle version
-      visibility_restriction: restriction de visibilité
       private_pattern: motif du destinataire privé
       public_pattern: motif du destinataire public
       remove: supprimer
@@ -1322,6 +1321,7 @@ fr:
       show_visibility: afficher la visibilité
       updated_at: mis à jour le
       versions: versions
+      visibility_restriction: restriction de visibilité
     update:
       notice: 'canal de livraison : modification effectuée'
   delivery_connections:
@@ -3853,6 +3853,10 @@ fr:
       notice: programmes deprogrammés
     update:
       notice: programme mis à jour
+  reddit_verification:
+    body: 'confirmez cette destination pour recevoir des messages privés de u/%{username}
+      : %{url}'
+    subject: confirmez votre destination de livraison reddit
   service_fields:
     create:
       notice: champ de service créé
@@ -4954,6 +4958,10 @@ fr:
       versions: versions
     update:
       notice: exécution d'abonnement mise à jour
+  subscription_price:
+    free: gratuit
+    included: inclus
+    month: mois
   subscription_values:
     create:
       notice: valeur d'abonnement créée
@@ -5057,13 +5065,13 @@ fr:
       created_at: créé à
       deactivate: désactiver
       delete: supprimer l'abonnement
-      delivery_pending: la livraison attend votre confirmation. l’exécution
-        et la facturation continuent ; les messages ignorés ne seront pas renvoyés.
+      delivery_pending: la livraison attend votre confirmation. l’exécution et la
+        facturation continuent ; les messages ignorés ne seront pas renvoyés.
       description: consulter les détails de l'abonnement.
       destroy: détruire l'abonnement
       edit: modifier l'abonnement
-      heartbeats_url: url des heartbeats
       evaluate: évaluer
+      heartbeats_url: url des heartbeats
       id: id
       logs: logs
       new_log: nouveau log
@@ -5317,10 +5325,3 @@ fr:
       next: suivant
       previous: précédent
       truncate: "…"
-  reddit_verification:
-    subject: confirmez votre destination de livraison reddit
-    body: "confirmez cette destination pour recevoir des messages privés de u/%{username} : %{url}"
-  subscription_price:
-    included: inclus
-    free: gratuit
-    month: mois

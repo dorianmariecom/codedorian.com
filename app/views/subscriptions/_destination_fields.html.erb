@@ -24,11 +24,12 @@
                "delivery-destination-form-target": "channel"
              } %>
   </div>
-  <div
-    class="p"
-    data-delivery-destination-form-target="recipientRow"
-    <%= "hidden" unless channel&.show_recipient? %>
-  >
+  <%= content_tag :div,
+              class: :p,
+              hidden: !channel&.show_recipient?,
+              data: {
+                "delivery-destination-form-target": "recipientRow"
+              } do %>
     <%= f.label :recipient, class: :label %>
     <%= f.text_field :recipient,
                  class: :input,
@@ -36,35 +37,41 @@
                  data: {
                    "delivery-destination-form-target": "recipient"
                  } %>
-  </div>
-  <div
-    class="p"
-    data-delivery-destination-form-target="connectionRow"
-    <%= "hidden" unless channel&.show_connection? %>
-  >
-    <% connections = delivery_connection_options(delivery_connection_id: f.object.delivery_connection_id) %>
+  <% end %>
+  <%= content_tag :div,
+              class: :p,
+              hidden: !channel&.show_connection?,
+              data: {
+                "delivery-destination-form-target": "connectionRow"
+              } do %>
+    <% connections =
+      delivery_connection_options(
+        delivery_connection_id: f.object.delivery_connection_id
+      ) %>
     <template data-delivery-destination-form-target="connectionOptions">
       <%= options_for_select(connections) %>
     </template>
     <%= f.label :delivery_connection_id, class: :label %>
     <%= f.select :delivery_connection_id,
              connections.select { |option|
-                 channel && DeliveryChannel.supports_provider?(
+               channel &&
+                 DeliveryChannel.supports_provider?(
                    channel.key,
                    option[2][:data][:"delivery-destination-form-provider"]
                  )
-               },
+             },
              { include_blank: true },
              class: :input,
              data: {
                "delivery-destination-form-target": "connection"
              } %>
-  </div>
-  <div
-    class="p"
-    data-delivery-destination-form-target="visibilityRow"
-    <%= "hidden" unless channel&.show_visibility? %>
-  >
+  <% end %>
+  <%= content_tag :div,
+              class: :p,
+              hidden: !channel&.show_visibility?,
+              data: {
+                "delivery-destination-form-target": "visibilityRow"
+              } do %>
     <%= f.label :visibility, class: :label %>
     <%= f.select :visibility,
              [[t(".private"), "private"], [t(".public"), "public"]],
@@ -74,7 +81,7 @@
                action: "change->delivery-destination-form#change",
                "delivery-destination-form-target": "visibility"
              } %>
-  </div>
+  <% end %>
   <div class="p">
     <button type="button" class="link" data-action="nested#remove">
       <%= t(".remove") %>

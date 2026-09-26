@@ -291,8 +291,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_24_193745) do
     t.text "smtp_user_name"
     t.datetime "token_expires_at"
     t.datetime "updated_at", null: false
-    t.string "username"
     t.bigint "user_id", null: false
+    t.string "username"
     t.index ["user_id"], name: "index_delivery_connections_on_user_id"
   end
 

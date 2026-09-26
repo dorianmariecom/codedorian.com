@@ -6,9 +6,9 @@ stripe_invoice:
   hosted_invoice_url: https://invoice.example.test/fixture
   invoice_pdf: https://invoice.example.test/fixture.pdf
   number: FIXTURE-1
-  paid_at: 2025-03-01 10:02:00
-  period_end: 2025-04-01 10:00:00
-  period_start: 2025-03-01 10:00:00
+  paid_at: '2025-03-01 10:02:00'
+  period_end: '2025-04-01 10:00:00'
+  period_start: '2025-03-01 10:00:00'
   status: paid
   stripe_invoice_id: in_fixture
   stripe_payment_intent_id: pi_fixture
