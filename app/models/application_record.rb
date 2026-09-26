@@ -12,7 +12,9 @@ class ApplicationRecord < ActiveRecord::Base
     content = super
 
     return content if Current.admin?
-    return content if !attribute_name.to_sym.in?(self.class.encrypted_attributes)
+    unless self.class.encrypted_attributes&.include?(attribute_name.to_sym)
+      return content
+    end
     return content if content.blank?
 
     Password.hidden

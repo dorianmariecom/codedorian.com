@@ -17,7 +17,7 @@ class DeliveryConnectionsSlackControllerTest < ActionDispatch::IntegrationTest
 
   teardown { Config.slack = @previous_slack_credentials }
 
-  test "connect reconnect list and disconnect with full owned data" do
+  test "connect reconnect list and disconnect with masked credentials" do
     2.times do |index|
       state = start_connection
       exchange = stub_exchange
@@ -54,8 +54,13 @@ class DeliveryConnectionsSlackControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     get delivery_connections_path, as: :json
     assert_response :success
-    assert_includes response.body, "bot-token"
-    assert_includes response.body, "user-token"
+    assert_not_includes response.body, "bot-token"
+    assert_not_includes response.body, "user-token"
+    data = response.parsed_body.fetch("data")
+    assert_equal %w[B123 U123], data.pluck("sender").sort
+    data.each do |attributes|
+      assert_match(/\A\*{3,10}\z/, attributes.fetch("access_token"))
+    end
     delete delivery_connection_path(connection)
     assert_redirected_to delivery_connections_path
     assert_not DeliveryConnection.exists?(connection.id)

@@ -33,7 +33,7 @@ class DeliveryConnectionsMastodonControllerTest < ActionDispatch::IntegrationTes
     )
   end
 
-  test "connect reconnect list and disconnect return full owned data" do
+  test "connect reconnect list and disconnect return masked credentials" do
     with_addresses(["93.184.216.34"]) do
       2.times do |index|
         query = start_connection
@@ -66,7 +66,11 @@ class DeliveryConnectionsMastodonControllerTest < ActionDispatch::IntegrationTes
     get delivery_connections_path
     assert_response :success
     get delivery_connections_path, as: :json
-    assert_includes response.body, "access-secret"
+    assert_response :success
+    assert_not_includes response.body, "access-secret"
+    data = response.parsed_body.fetch("data").sole
+    assert_equal "123", data.fetch("external_id")
+    assert_match(/\A\*{3,10}\z/, data.fetch("access_token"))
     delete delivery_connection_path(connection)
     assert_not DeliveryConnection.exists?(connection.id)
   end

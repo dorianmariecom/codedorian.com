@@ -100,6 +100,13 @@ class ApplicationController < ActionController::Base
   rescue_from(Pundit::NotAuthorizedError, &RESCUE_FROM)
   rescue_from(Recaptcha::VerifyError, &RESCUE_FROM)
 
+  def render_to_body(options = {})
+    body = super
+    return body unless response.media_type == "application/json" && body.present?
+
+    JSON.pretty_generate(JSON.parse(body))
+  end
+
   private
 
   def registered?

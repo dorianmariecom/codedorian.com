@@ -11,6 +11,8 @@ class JsonResponsesTest < ActionDispatch::IntegrationTest
     assert_equal("ok", response.parsed_body["status"])
     assert_equal([], response.parsed_body["messages"])
     assert_kind_of(Hash, response.parsed_body["data"])
+    assert_equal("application/json", response.media_type)
+    assert_equal(JSON.pretty_generate(response.parsed_body), response.body)
   end
 
   test "explicit json responses are wrapped" do
@@ -20,6 +22,7 @@ class JsonResponsesTest < ActionDispatch::IntegrationTest
     assert_equal("ok", response.parsed_body["status"])
     assert_kind_of(Array, response.parsed_body["messages"])
     assert_includes([true, false], response.parsed_body.dig("data", "success"))
+    assert_equal(JSON.pretty_generate(response.parsed_body), response.body)
   end
 
   test "json errors keep messages separate from data" do
@@ -29,5 +32,6 @@ class JsonResponsesTest < ActionDispatch::IntegrationTest
     assert_equal("bad_request", response.parsed_body["status"])
     assert_predicate(response.parsed_body["messages"], :present?)
     assert_nil(response.parsed_body["data"])
+    assert_equal(JSON.pretty_generate(response.parsed_body), response.body)
   end
 end

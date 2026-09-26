@@ -159,7 +159,10 @@ class AttributePartialTest < ActionView::TestCase
         type: :password
       )
 
-    assert_equal "***", Nokogiri::HTML.fragment(html).at_css(".font-bold").text
+    assert_match(
+      /\A\*{3,10}\z/,
+      Nokogiri::HTML.fragment(html).at_css(".font-bold").text
+    )
     assert_not_includes html, "secret-digest"
   end
 

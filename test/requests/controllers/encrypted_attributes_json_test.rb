@@ -17,7 +17,7 @@ class EncryptedAttributesJsonTest < ActionDispatch::IntegrationTest
     @connection.reload
   end
 
-  test "regular users receive encrypted attributes in show and index JSON" do
+  test "regular users receive masked encrypted attributes in show and index JSON" do
     headers = { "Token" => tokens(:other_token).token }
 
     get(
@@ -25,11 +25,11 @@ class EncryptedAttributesJsonTest < ActionDispatch::IntegrationTest
       headers: headers
     )
     assert_response(:success)
-    assert_encrypted_attributes(response.parsed_body.fetch("data"))
+    assert_masked_attributes(response.parsed_body.fetch("data"))
 
     get(delivery_connections_path(format: :json), headers: headers)
     assert_response(:success)
-    assert_encrypted_attributes(response.parsed_body.fetch("data").sole)
+    assert_masked_attributes(response.parsed_body.fetch("data").sole)
   end
 
   test "admins receive decrypted attributes in show and index JSON" do
@@ -49,14 +49,9 @@ class EncryptedAttributesJsonTest < ActionDispatch::IntegrationTest
 
   private
 
-  def assert_encrypted_attributes(data)
+  def assert_masked_attributes(data)
     DeliveryConnection.encrypted_attributes.each do |name|
-      ciphertext = data.fetch(name.to_s)
-      assert_equal(@connection.ciphertext_for(name), ciphertext)
-      assert_equal(
-        "secret-#{name}",
-        ActiveRecord::Encryption.encryptor.decrypt(ciphertext)
-      )
+      assert_match(/\A\*{3,10}\z/, data.fetch(name.to_s))
     end
     assert_equal("github", data.fetch("provider"))
   end

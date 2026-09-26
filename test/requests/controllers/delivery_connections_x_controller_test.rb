@@ -14,7 +14,7 @@ class DeliveryConnectionsXControllerTest < ActionDispatch::IntegrationTest
 
   teardown { Config.x = @previous_x_credentials }
 
-  test "PKCE connect reconnect list and disconnect return full owned data" do
+  test "PKCE connect reconnect list and disconnect return masked credentials" do
     2.times do |index|
       query = start_connection
       stub_request(:post, "https://api.x.com/2/oauth2/token")
@@ -69,8 +69,13 @@ class DeliveryConnectionsXControllerTest < ActionDispatch::IntegrationTest
     get delivery_connections_path
     assert_response :success
     get delivery_connections_path, as: :json
-    assert_includes response.body, "access-secret"
-    assert_includes response.body, "refresh-secret"
+    assert_response :success
+    assert_not_includes response.body, "access-secret"
+    assert_not_includes response.body, "refresh-secret"
+    data = response.parsed_body.fetch("data").sole
+    assert_equal "123", data.fetch("external_id")
+    assert_match(/\A\*{3,10}\z/, data.fetch("access_token"))
+    assert_match(/\A\*{3,10}\z/, data.fetch("refresh_token"))
     delete delivery_connection_path(connection)
     assert_not DeliveryConnection.exists?(connection.id)
   end
