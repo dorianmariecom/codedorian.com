@@ -411,7 +411,6 @@ fr:
     show:
       address: adresse
       autocomplete: saisie semi-automatique
-      backtrace: backtrace
       created_at: créé à
       delete: supprimer l'adresse
       description: voir les détails de l'adresse, le propriétaire et l'historique.
@@ -2585,9 +2584,6 @@ fr:
       description: voir le sujet du message.
     update:
       notice: message mis à jour
-  meta:
-    description: programmer des messages, notifications et programmes avec code.
-    site_name: codedorian
   names:
     create:
       notice: nom créé
