@@ -5,7 +5,7 @@ require "test_helper"
 class StripeBillingTest < ActiveSupport::TestCase
   test "customer creation idempotency ignores email changes" do
     user = users(:admin)
-    original_email_address = user.email_address
+    original_email_address = user.email_address&.email_address
     idempotency_keys = []
     create_request =
       stub_request(:post, "https://api.stripe.com/v1/customers")

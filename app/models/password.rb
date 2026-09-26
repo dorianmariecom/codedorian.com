@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class Password < ApplicationRecord
+  HIDDEN_CHARACTER = "*"
+  MIN_LENGTH_HIDDEN = 3
+  MAX_LENGTH_HIDDEN = 10
+
   attr_accessor :password_changed
 
   has_secure_password
@@ -21,6 +25,10 @@ class Password < ApplicationRecord
 
   before_validation { self.user ||= Current.user! }
   before_update { not_verified! if password_changed && verified? }
+
+  def self.hidden
+    HIDDEN_CHARACTER * rand(MIN_LENGTH_HIDDEN..MAX_LENGTH_HIDDEN)
+  end
 
   def self.search_fields
     {

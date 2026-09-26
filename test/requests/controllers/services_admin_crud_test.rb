@@ -437,29 +437,37 @@ class ServicesAdminCrudTest < ActionDispatch::IntegrationTest
   test "service domain forms use translated association labels" do
     {
       new_service_path(locale: I18n.locale) => {
-        service_user_id: Service.human_attribute_name(:user_id)
+        service_user_id: I18n.t("activerecord.attributes.service.user_id")
       },
       new_step_path(locale: I18n.locale) => {
-        step_service_id: Step.human_attribute_name(:service_id)
+        step_service_id: I18n.t("activerecord.attributes.step.service_id")
       },
       new_plan_path(locale: I18n.locale) => {
-        plan_service_id: Plan.human_attribute_name(:service_id)
+        plan_service_id: I18n.t("activerecord.attributes.plan.service_id")
       },
       new_plan_schedule_path(locale: I18n.locale) => {
-        plan_schedule_plan_id: PlanSchedule.human_attribute_name(:plan_id)
+        plan_schedule_plan_id:
+          I18n.t("activerecord.attributes.plan_schedule.plan_id")
       },
       new_subscription_path(locale: I18n.locale, plan_id: plans(:plan).id) => {
-        subscription_user_id: Subscription.human_attribute_name(:user_id),
-        subscription_plan_id: Subscription.human_attribute_name(:plan_id)
+        subscription_user_id:
+          I18n.t("activerecord.attributes.subscription.user_id"),
+        subscription_plan_id:
+          I18n.t("activerecord.attributes.subscription.plan_id")
       },
       new_subscription_execution_path(locale: I18n.locale) => {
         subscription_execution_subscription_id:
-          SubscriptionExecution.human_attribute_name(:subscription_id)
+          I18n.t(
+            "activerecord.attributes.subscription_execution.subscription_id"
+          )
       },
       new_step_execution_path(locale: I18n.locale) => {
         step_execution_subscription_execution_id:
-          StepExecution.human_attribute_name(:subscription_execution_id),
-        step_execution_step_id: StepExecution.human_attribute_name(:step_id)
+          I18n.t(
+            "activerecord.attributes.step_execution.subscription_execution_id"
+          ),
+        step_execution_step_id:
+          I18n.t("activerecord.attributes.step_execution.step_id")
       }
     }.each do |path, labels|
       get(path)

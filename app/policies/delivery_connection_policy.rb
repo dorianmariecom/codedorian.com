@@ -23,5 +23,6 @@ class DeliveryConnectionPolicy < ApplicationPolicy
   def create? = admin?
   def update? = admin?
   def destroy? = admin? || owner?
+  def delete? = admin?
   def destroy_all? = admin?
 end

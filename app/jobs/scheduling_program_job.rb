@@ -26,7 +26,7 @@ class SchedulingProgramJob < ContextJob
         program: program,
         program_execution: program_execution,
         locale: program.user.locale,
-        time_zone: program.user.unverified_time_zone
+        time_zone: program.user.time_zone&.time_zone
       }
     )
   end

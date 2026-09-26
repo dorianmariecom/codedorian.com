@@ -14,7 +14,7 @@
   <%= render("shared/attribute", label: t(".admin"), value: @user.admin) %>
 <% end %>
 
-<% if (admin? || advanced?) %>
+<% if admin? || advanced? %>
   <%= render(
     "shared/attribute",
     label: t(".stripe_customer_id"),
@@ -30,27 +30,40 @@
   value: @user.translated_interface
 ) %>
 
-<%= render("shared/attribute", label: t(".name"), value: @user.name) %>
+<%= render("shared/attribute", label: t(".name"), value: @user.name&.full_name) %>
 
 <%= render("shared/attribute", label: t(".description"), value: @user.description) %>
 
-<%= render("shared/attribute", label: t(".handle"), value: @user.handle) %>
+<%= render("shared/attribute", label: t(".handle"), value: @user.handle&.handle) %>
 
 <%= render(
   "shared/attribute",
   label: t(".email_address"),
-  value: @user.email_address
+  value: @user.email_address&.email_address
 ) %>
 
-<%= render("shared/attribute", label: t(".phone_number"), value: @user.phone_number) %>
+<%= render(
+  "shared/attribute",
+  label: t(".phone_number"),
+  value: @user.phone_number&.formatted
+) %>
 
-<%= render("shared/attribute", label: t(".address"), value: @user.address) %>
+<%= render(
+  "shared/attribute",
+  label: t(".address"),
+  value:
+    @user.address&.formatted_address.presence || @user.address&.address.presence
+) %>
 
-<%= render("shared/attribute", label: t(".password"), value: @user.password) %>
+<%= render("shared/attribute", label: t(".password"), value: @user.password&.hint) %>
 
-<%= render("shared/attribute", label: t(".time_zone"), value: @user.time_zone) %>
+<%= render(
+  "shared/attribute",
+  label: t(".time_zone"),
+  value: @user.time_zone&.time_zone
+) %>
 
-<%= render("shared/attribute", label: t(".device"), value: @user.device) %>
+<%= render("shared/attribute", label: t(".device"), value: @user.device&.platform) %>
 
 <% if admin? %>
   <%= render("shared/attribute", label: t(".verified"), value: @user.verified) %>

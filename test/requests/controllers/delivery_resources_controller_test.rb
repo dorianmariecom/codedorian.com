@@ -245,7 +245,7 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
     end
     get delivery_connection_path(owned), as: :json
     assert_response :success
-    assert_equal "owned-secret",
+    assert_equal owned.reload.ciphertext_for(:access_token),
                  response.parsed_body.fetch("data").fetch("access_token")
     get delivery_connections_path, as: :json
     assert_response :success

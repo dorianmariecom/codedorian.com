@@ -460,4 +460,25 @@ class ServiceModelsTest < ActiveSupport::TestCase
       assert_predicate(execution.errors[:step], :present?)
     end
   end
+  test "subscription prefills use contact values and allow missing contacts" do
+    subscription = subscriptions(:subscription)
+    user = subscription.user
+    email_field = PlanField.new(kind: "email_address")
+    phone_field = PlanField.new(kind: "phone_number")
+
+    assert_equal(
+      user.email_address.email_address,
+      subscription.prefill_for(email_field)
+    )
+    assert_equal(
+      user.phone_number.formatted,
+      subscription.prefill_for(phone_field)
+    )
+
+    user.email_addresses.delete_all
+    user.phone_numbers.delete_all
+
+    assert_nil(subscription.prefill_for(email_field))
+    assert_nil(subscription.prefill_for(phone_field))
+  end
 end

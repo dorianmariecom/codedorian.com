@@ -273,6 +273,7 @@ fr:
         description_en: description anglaise
         description_fr: description française
         name_en: nom anglais
+        service_id: service
       plan_schedule:
         interval: intervalle
         plan_id: offre
@@ -1134,8 +1135,6 @@ fr:
       title: 'modifier : connexion de livraison'
     index:
       calendar_access: autoriser l’accès en lecture seule à mes agendas
-      calendar_access_description: consulter vos agendas et événements pour vous envoyer
-        des rappels. vos événements ne seront pas modifiés.
       connect: connecter %{provider}
       delete_all: 'supprimer : connexions de livraison'
       description: connexions de livraison
@@ -1187,7 +1186,9 @@ fr:
       description: connexion de livraison
       destroy: détruire la connexion de livraison
       edit: modifier la connexion de livraison
+      email: e-mail
       enabled: activé
+      external_id: identifiant externe
       id: id
       logs: journaux
       mailgun_domain: domaine d’envoi mailgun
@@ -1206,6 +1207,7 @@ fr:
       token_expires_at: expiration du jeton
       updated_at: mis à jour le
       user_id: utilisateur
+      username: nom d’utilisateur
       versions: versions
     update:
       notice: 'connexion de livraison : modification effectuée'

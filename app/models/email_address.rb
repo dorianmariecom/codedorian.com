@@ -121,7 +121,10 @@ class EmailAddress < ApplicationRecord
   end
 
   def email_address_with_name
-    ActionMailer::Base.email_address_with_name(email_address, user.name)
+    ActionMailer::Base.email_address_with_name(
+      email_address,
+      user.name&.full_name
+    )
   end
 
   def primary?

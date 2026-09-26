@@ -325,7 +325,7 @@ class SubscriptionSchedulingTest < ActiveJob::TestCase
       user: @user,
       subscription: @subscription,
       locale: I18n.locale,
-      time_zone: @user.unverified_time_zone
+      time_zone: @user.time_zone&.time_zone
     }
   end
 

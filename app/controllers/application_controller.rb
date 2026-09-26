@@ -232,7 +232,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_country
-    Current.country || current_user&.unverified_country
+    Current.country || current_user&.country
   end
 
   def set_current_version
@@ -321,12 +321,12 @@ class ApplicationController < ActionController::Base
   end
 
   def current_time_zone
-    current_user&.unverified_time_zone.presence || session[:time_zone].presence
+    current_user&.time_zone&.time_zone.presence || session[:time_zone].presence
   end
 
   def current_persisted_time_zone
     if current_user?
-      current_user.unverified_time_zone.presence
+      current_user.time_zone&.time_zone.presence
     else
       session[:time_zone].presence
     end

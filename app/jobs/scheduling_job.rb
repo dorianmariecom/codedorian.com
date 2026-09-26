@@ -25,7 +25,7 @@ class SchedulingJob < ContextJob
             user: program.user,
             program: program,
             locale: program.user.locale,
-            time_zone: program.user.unverified_time_zone
+            time_zone: program.user.time_zone&.time_zone
           }
         )
       end
@@ -46,7 +46,7 @@ class SchedulingJob < ContextJob
             user: subscription.user,
             subscription: subscription,
             locale: subscription.user.locale,
-            time_zone: subscription.user.unverified_time_zone
+            time_zone: subscription.user.time_zone&.time_zone
           }
         )
       end

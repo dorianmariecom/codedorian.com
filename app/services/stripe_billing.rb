@@ -31,8 +31,11 @@ class StripeBilling
           customer_params,
           { idempotency_key: idempotency_key }
         )
-      if user.email_address.present?
-        Stripe::Customer.update(customer.id, { email: user.email_address })
+      if user.email_address&.email_address.present?
+        Stripe::Customer.update(
+          customer.id,
+          { email: user.email_address&.email_address }
+        )
       end
       user.update!(stripe_customer_id: customer.id)
       customer.id

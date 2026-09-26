@@ -75,7 +75,7 @@ class UsersController < ApplicationController
     end
 
     if current_user?
-      if current_user.unverified_time_zone.present?
+      if current_user.time_zone&.time_zone.present?
         return(
           respond_to do |format|
             format.html { head(:bad_request) }

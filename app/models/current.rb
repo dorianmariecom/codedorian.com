@@ -225,7 +225,7 @@ class Current < ActiveSupport::CurrentAttributes
   end
 
   def user=(user)
-    self.time_zone = user&.time_zone
+    self.time_zone = user&.time_zone&.time_zone
     self.locale = user&.locale
     super
   end

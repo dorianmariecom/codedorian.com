@@ -292,9 +292,9 @@ class Subscription < ApplicationRecord
   def prefill_for(field)
     case field.kind
     when "email_address"
-      user.email_address
+      user.email_address&.email_address
     when "phone_number"
-      user.phone_number
+      user.phone_number&.formatted
     end
   end
 
@@ -436,7 +436,7 @@ class Subscription < ApplicationRecord
         subscription_execution: execution,
         step_execution: step_execution,
         locale: execution_user.locale,
-        time_zone: execution_user.unverified_time_zone
+        time_zone: execution_user.time_zone&.time_zone
       }
     )
   end

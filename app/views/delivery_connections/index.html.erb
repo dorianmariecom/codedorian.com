@@ -13,24 +13,39 @@
               },
               class: :p do |f| %>
       <% if provider == "mastodon" %>
-        <%= f.label :server, t(".server"), class: :label %>
-        <%= f.url_field :server, required: true, class: :input %>
-      <% end %>
-      <% if provider == "google" %>
-        <div>
+        <div class="flex gap-4 items-end">
+          <div>
+            <%= f.label :server, t(".server"), class: :label %>
+            <%= f.url_field :server, required: true, class: :input %>
+          </div>
+          <div>
+            <%= f.submit t(
+                       ".connect",
+                       provider: t("delivery_connections.model.providers.#{provider}")
+                     ),
+                     class: :button %>
+          </div>
+        </div>
+      <% elsif provider == "google" %>
+        <div class="p">
           <%= f.check_box :scope,
                       { id: "#{provider}_calendar_access", checked: false },
                       MailboxOauth::GOOGLE_CALENDAR_SCOPES.join(" "),
                       "" %>
           <%= f.label :scope, t(".calendar_access"), for: "#{provider}_calendar_access" %>
-          <div class="p"><%= t(".calendar_access_description") %></div>
         </div>
+        <%= f.submit t(
+                   ".connect",
+                   provider: t("delivery_connections.model.providers.#{provider}")
+                 ),
+                 class: :button %>
+      <% else %>
+        <%= f.submit t(
+                   ".connect",
+                   provider: t("delivery_connections.model.providers.#{provider}")
+                 ),
+                 class: :button %>
       <% end %>
-      <%= f.submit t(
-                 ".connect",
-                 provider: t("delivery_connections.model.providers.#{provider}")
-               ),
-               class: :button %>
     <% end %>
   <% end %>
 <% end %>

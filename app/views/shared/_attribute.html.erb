@@ -9,7 +9,13 @@
     <% when :date %>
       <div class="font-bold"><%= l(value, format: :default) %></div>
     <% when :json %>
-      <%= json_highlight(value) %>
+      <% if local_assigns[:url].present? %>
+        <%= link_to(local_assigns[:url], class: "block") do %>
+          <%= json_highlight(value) %>
+        <% end %>
+      <% else %>
+        <%= json_highlight(value) %>
+      <% end %>
     <% when :code %>
       <% if local_assigns[:url].present? %>
         <%= link_to(local_assigns[:url], class: "block") do %>
@@ -21,7 +27,7 @@
     <% when :content %>
       <%= value %>
     <% when :password %>
-      <div class="font-bold">***</div>
+      <div class="font-bold"><%= Password.hidden %></div>
     <% when :link %>
       <div class="font-bold">
         <%= link_to(value, local_assigns.fetch(:url, value), class: :link) %>

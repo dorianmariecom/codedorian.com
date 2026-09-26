@@ -273,6 +273,7 @@ en:
         description_en: english description
         description_fr: french description
         name_en: english name
+        service_id: service
       plan_schedule:
         interval: interval
         plan_id: plan
@@ -1133,8 +1134,6 @@ en:
       title: edit delivery connection
     index:
       calendar_access: allow read-only access to my calendars
-      calendar_access_description: view your calendar list and events to provide reminders.
-        your events will not be changed.
       connect: connect %{provider}
       delete_all: delete all delivery connections
       description: delivery connections
@@ -1186,7 +1185,9 @@ en:
       description: delivery connection
       destroy: destroy delivery connection
       edit: edit delivery connection
+      email: email
       enabled: enabled
+      external_id: external id
       id: id
       logs: logs
       mailgun_domain: mailgun sending domain
@@ -1205,6 +1206,7 @@ en:
       token_expires_at: token expires at
       updated_at: updated at
       user_id: user
+      username: username
       versions: versions
     update:
       notice: delivery connection updated

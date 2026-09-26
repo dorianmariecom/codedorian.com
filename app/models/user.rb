@@ -132,35 +132,27 @@ class User < ApplicationRecord
   end
 
   def name
-    names.verified.order(primary: :desc).first&.full_name
+    names.order(verified: :desc, primary: :desc, id: :asc).first
   end
 
   def address
-    record = addresses.verified.order(primary: :desc).first
-    record&.formatted_address.presence || record&.address.presence
+    addresses.order(verified: :desc, primary: :desc, id: :asc).first
   end
 
   def handle
-    handles.verified.order(primary: :desc).first&.handle
+    handles.order(verified: :desc, primary: :desc, id: :asc).first
   end
 
   def password
-    passwords.verified.order(primary: :desc).first&.hint
+    passwords.order(verified: :desc, primary: :desc, id: :asc).first
   end
 
   def email_address
-    record =
-      email_addresses.find_by(primary: true, verified: true) ||
-        email_addresses.find_by(primary: true) ||
-        email_addresses.order(:id).first
-    record&.email_address
+    email_addresses.order(verified: :desc, primary: :desc, id: :asc).first
   end
 
   def phone_number
-    record =
-      phone_numbers.find_by(primary: true, verified: true) ||
-        phone_numbers.find_by(primary: true) || phone_numbers.order(:id).first
-    record&.formatted
+    phone_numbers.order(verified: :desc, primary: :desc, id: :asc).first
   end
 
   def passwords_attributes=(attributes)
@@ -173,33 +165,19 @@ class User < ApplicationRecord
   end
 
   def time_zone
-    return @time_zone if defined?(@time_zone)
-
-    @time_zone = time_zones.verified.order(primary: :desc).first&.time_zone
+    time_zones.order(verified: :desc, primary: :desc, id: :asc).first
   end
 
   def country
-    countries.verified.order(primary: :desc).first
-  end
-
-  def unverified_country
-    countries.order(primary: :desc).first
-  end
-
-  def unverified_time_zone
-    time_zones.order(primary: :desc).first&.time_zone
+    countries.order(verified: :desc, primary: :desc, id: :asc).first
   end
 
   def device
-    devices.verified.order(primary: :desc).first&.platform
-  end
-
-  def unverified_device
-    devices.order(primary: :desc).first&.platform
+    devices.order(verified: :desc, primary: :desc, id: :asc).first
   end
 
   def token
-    tokens.verified.order(primary: :desc).first&.token
+    tokens.order(verified: :desc, primary: :desc, id: :asc).first
   end
 
   def verified!
@@ -313,9 +291,11 @@ class User < ApplicationRecord
   end
 
   def calculated_description
-    handle.presence || name.presence || email_address.presence ||
-      phone_number.presence || address.presence || device.presence ||
-      token.presence
+    handle&.handle.presence || name&.full_name.presence ||
+      email_address&.email_address.presence ||
+      phone_number&.formatted.presence || address&.formatted_address.presence ||
+      address&.address.presence || device&.platform.presence ||
+      token&.token.presence
   end
 
   def description_changed?
