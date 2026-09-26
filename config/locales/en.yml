@@ -141,31 +141,6 @@ en:
         context: context
         error: error
         error_id: error
-      feedback:
-        guest_id: guest
-        ip: ip
-        locale: locale
-        message: message
-        path: path
-        user_agent: user agent
-        user_id: user
-      form_delivery:
-        description: description
-        locale: locale
-        name: name
-        position: position
-      form_program:
-        description: description
-        locale: locale
-        name: name
-        position: position
-      form_schedule:
-        description: description
-        interval: interval
-        locale: locale
-        name: name
-        position: position
-        starts_at: starts at
       handle:
         handle: handle
         primary: primary?
@@ -352,41 +327,6 @@ en:
         status: status
         step_id: step
         subscription_execution_id: subscription execution
-      submission:
-        email_address: email address
-        family_name: family name
-        given_name: given name
-        locale: locale
-        phone_number: phone number
-        phone_number_input: phone number
-      submission_delivery:
-        description: description
-        label: label
-        locale: locale
-        name: name
-        submission_section_id: submission section
-        value: value
-      submission_program:
-        description: description
-        label: label
-        locale: locale
-        name: name
-        submission_section_id: submission section
-        value: value
-      submission_schedule:
-        description: description
-        interval: interval
-        label: label
-        locale: locale
-        name: name
-        starts_at: starts at
-        submission_section_id: submission section
-        value: value
-      submission_section:
-        description: description
-        locale: locale
-        name: name
-        submission_id: submission
       subscription:
         heartbeats_url: heartbeats url
         plan_id: plan
@@ -548,24 +488,6 @@ en:
       new: new
       not_found: not found
       unprocessable_entity: unprocessable entity
-    feedbacks:
-      edit: edit
-      index: feedbacks
-      new: new
-    form_deliveries:
-      edit: edit
-      index: form deliveries
-      new: new
-    form_programs:
-      edit: edit
-      index: form programs
-      new: new
-    form_schedules:
-      edit: edit
-      index: form schedules
-      new: new
-    forms:
-      show: form
     guests:
       edit: edit
       index: guests
@@ -725,26 +647,6 @@ en:
     stripe_invoices:
       edit: edit
       index: stripe invoices
-      new: new
-    submission_deliveries:
-      edit: edit
-      index: submission deliveries
-      new: new
-    submission_programs:
-      edit: edit
-      index: submission programs
-      new: new
-    submission_schedules:
-      edit: edit
-      index: submission schedules
-      new: new
-    submission_sections:
-      edit: edit
-      index: submission sections
-      new: new
-    submissions:
-      edit: edit
-      index: submissions
       new: new
     subscription_destinations:
       edit: edit
@@ -1059,24 +961,10 @@ en:
       description: edit delivery
       submit: update
       title: edit delivery
-    form:
-      destinations: destinations
-      save: save
-      statuses:
-        accepted: accepted
-        canceled: canceled
-        delivered: delivered
-        failed: failed
-        pending: pending
-        sending: sending
-        uncertain: uncertain
     index:
-      add: add
       delete_all: delete all deliveries
       description: deliveries
       destroy_all: destroy all deliveries
-      history: delivery history
-      manage: delivery
       new: new delivery
       title: deliveries
     model:
@@ -1111,27 +999,20 @@ en:
       edit: edit delivery
       error_code: error code
       event_key: event key
-      history: delivery history
       id: id
       locale: locale
       logs: logs
-      manage: delivery
       new_log: new log
       new_version: new version
       next_attempt_at: next attempt at
       provider_id: provider id
       recipient: recipient
-      remove: remove
       retry: retry
       status: status
       statuses:
         accepted: accepted
-        canceled: canceled
         delivered: delivered
         failed: failed
-        pending: pending
-        sending: sending
-        uncertain: uncertain
       step_execution_id: step execution
       subject: subject
       subscription_id: subscription
@@ -1142,69 +1023,13 @@ en:
     update:
       notice: delivery updated
   delivery:
-    add: add
-    add_destination: add a destination
     base: service price
     change_pending: a delivery price change is awaiting billing confirmation
-    channel: channel
-    channels:
-      apple: apple messages for business
-      email: email
-      github: github
-      mastodon: mastodon
-      messages: code dorian inbox
-      push: push notifications
-      rcs: rcs
-      reddit: reddit
-      slack: slack
-      sms: sms
-      whatsapp: whatsapp
-      x: x
     choose_destination: choose at least one delivery destination
-    connection: connection
-    connections: connections
-    credentials:
-      access_token: user access token
-      account_sid: twilio account sid
-      api_key: infobip api key
-      auth_token: twilio auth token
-      base_url: provider or mastodon instance url
-      from: sender email address
-      sender: apple business sender id
-    currency: currency
     currency_mismatch: destination rates must use the plan currency
-    destinations: destinations
-    disabled: disabled
-    edit: edit
-    enabled: enabled
-    history: delivery history
     invalid_destinations: choose available destinations belonging to this account
-    manage: delivery
-    month: month
-    monthly_cents: monthly price per destination (cents)
-    name: name
     price_changed: the price changed. review the selection again
-    private: private
-    provider: provider
-    public: public
-    rates: channel rates
-    recipient: recipient
-    reddit_private_verified: reddit private delivery api access has been verified
-    remove: remove
     retry: retry
-    save: save
-    selections: subscription destinations
-    statuses:
-      accepted: accepted
-      canceled: canceled
-      delivered: delivered
-      failed: failed
-      pending: pending
-      sending: sending
-      uncertain: uncertain
-    total: monthly total
-    unconfigured: not configured
-    visibility: visibility
   delivery_channels:
     create:
       notice: delivery channel created
@@ -1221,47 +1046,14 @@ en:
       submit: update
       title: edit delivery channel
     form:
-      channel: channel
-      channels:
-        apple: apple messages for business
-        email: email
-        facebook: facebook
-        github: github
-        instagram: instagram
-        mastodon: mastodon
-        messages: code dorian inbox
-        messenger: messenger
-        push: push notifications
-        rcs: rcs
-        reddit: reddit
-        slack: slack
-        sms: sms
-        telegram: telegram
-        viber: viber
-        webhook: webhook
-        whatsapp: whatsapp
-        x: x
-      connection: connection
-      currency: currency
-      enabled: enabled
-      manage: delivery
-      monthly_cents: monthly price per destination (cents)
       private: private
       public: public
-      reddit_private_verified: reddit private delivery api access has been verified
-      save: save
-      show_recipient: recipient
-      show_visibility: visibility
     index:
-      add: add
       delete_all: delete all delivery channels
       description: delivery channels
       destroy_all: destroy all delivery channels
-      disabled: disabled
-      manage: delivery
       new: new delivery channel
       title: delivery channels
-      unconfigured: not configured
     model:
       keys:
         apple: apple messages for business
@@ -1287,10 +1079,6 @@ en:
       description: new delivery channel
       submit: create
       title: new delivery channel
-    reconcile:
-      notice: saved
-    retry:
-      notice: saved
     show:
       amount_cents: amount cents
       amount_currency: amount currency
@@ -1307,13 +1095,11 @@ en:
       id: id
       key: key
       logs: logs
-      manage: delivery
       messaging_service_sid: messaging service sid
       new_log: new log
       new_version: new version
       private_pattern: private recipient pattern
       public_pattern: public recipient pattern
-      remove: remove
       show_connection: show connection
       show_recipient: show recipient
       show_visibility: show visibility
@@ -1337,7 +1123,6 @@ en:
       notice: delivery connections deleted
     delivery_connection:
       calendar_allowed: calendar access allowed (read-only)
-      calendar_not_allowed: calendar access not allowed
     destroy:
       notice: delivery connection destroyed
     destroy_all:
@@ -1346,21 +1131,7 @@ en:
       description: edit delivery connection
       submit: update
       title: edit delivery connection
-    form:
-      credentials:
-        access_token: user access token
-        account_sid: twilio account sid
-        api_key: infobip api key
-        auth_token: twilio auth token
-        base_url: provider or mastodon instance url
-        from: sender email address
-        sender: apple business sender id
-      enabled: enabled
-      manage: delivery
-      provider: provider
-      save: save
     index:
-      add: add
       calendar_access: allow read-only access to my calendars
       calendar_access_description: view your calendar list and events to provide reminders.
         your events will not be changed.
@@ -1368,8 +1139,6 @@ en:
       delete_all: delete all delivery connections
       description: delivery connections
       destroy_all: destroy all delivery connections
-      disabled: disabled
-      manage: delivery
       new: new delivery connection
       server: mastodon server
       title: delivery connections
@@ -1402,13 +1171,6 @@ en:
       description: new delivery connection
       submit: create
       title: new delivery connection
-    reconcile:
-      notice: saved
-    retry:
-      notice: saved
-    senders:
-      bot: bot
-      user: user
     show:
       access_token: access token
       account_sid: account sid
@@ -1429,12 +1191,10 @@ en:
       logs: logs
       mailgun_domain: mailgun sending domain
       mailgun_region: mailgun region (us / eu)
-      manage: delivery
       new_log: new log
       new_version: new version
       provider: provider
       refresh_token: refresh token
-      remove: remove
       sender: sender
       smtp_address: smtp address
       smtp_authentication: smtp authentication
@@ -1481,12 +1241,9 @@ en:
       save: save
       visibility: visibility
     index:
-      add: add
       delete_all: delete all delivery destinations
       description: delivery destinations
       destroy_all: destroy all delivery destinations
-      disabled: disabled
-      manage: delivery
       new: new delivery destination
       title: delivery destinations
     model:
@@ -1495,13 +1252,9 @@ en:
       description: new delivery destination
       submit: create
       title: new delivery destination
-    reconcile:
-      notice: saved
     request_verification:
       already_verified: this destination is already confirmed.
       sent: confirmation message sent. check your inbox.
-    retry:
-      notice: saved
     show:
       created_at: created at
       delete: delete delivery destination
@@ -1513,13 +1266,9 @@ en:
       enabled: enabled
       id: id
       logs: logs
-      manage: delivery
       new_log: new log
       new_version: new version
-      private: private
-      public: public
       recipient: recipient
-      remove: remove
       updated_at: updated at
       user_id: user
       versions: versions
@@ -1700,9 +1449,7 @@ en:
       logs: logs
       new_job: new job
       new_log: new log
-      new_version: new version
       updated_at: updated at
-      versions: versions
     update:
       notice: error occurrence updated
   errors:
@@ -1758,318 +1505,15 @@ en:
       new_error_occurrence: new error occurrence
       new_job: new job
       new_log: new log
-      new_version: new version
       resolved_at: resolved at
       severity: severity
       source: source
       updated_at: updated at
-      verified: verified?
-      versions: versions
     unprocessable_entity:
       description: the request could not be processed.
       title: unprocessable entity
     update:
       notice: error updated
-  feedback_mailer:
-    feedback_email:
-      feedback_message: feedback message
-      ip: ip
-      locale: locale
-      path: path
-      subject: "[%{env}] codedorian feedback"
-      user: user
-      user_agent: user agent
-  feedbacks:
-    _form:
-      message_label: message
-    create:
-      message_blank: message must be present
-      notice: feedback created
-    delete:
-      notice: feedback deleted
-    delete_all:
-      notice: feedbacks deleted
-    destroy:
-      notice: feedback destroyed
-    destroy_all:
-      notice: feedbacks destroyed
-    edit:
-      description: edit feedback.
-      submit: update feedback
-      title: edit feedback
-    form:
-      message_label: message
-      message_placeholder: feedback
-    index:
-      delete_all: delete all
-      description: review user feedback messages.
-      destroy_all: destroy all
-      new: new feedback
-      title: feedbacks
-    model:
-      to_s: feedback#%{id}
-    new:
-      description: create feedback manually.
-      submit: create feedback
-      title: new feedback
-    show:
-      created_at: created at
-      delete: delete feedback
-      description: review feedback details.
-      destroy: destroy feedback
-      edit: edit feedback
-      guest: guest
-      id: id
-      ip: ip
-      locale: locale
-      message: message
-      path: path
-      updated_at: updated at
-      user: user
-      user_agent: user agent
-    update:
-      notice: feedback updated
-  form_deliveries:
-    create:
-      notice: form delivery created
-    delete:
-      notice: form delivery deleted
-    delete_all:
-      notice: form deliveries deleted
-    destroy:
-      notice: form delivery deleted
-    destroy_all:
-      notice: form deliveries destroyed
-    edit:
-      description: update a form delivery option.
-      submit: update form delivery
-      title: edit form delivery
-    index:
-      delete_all: delete all
-      description: manage form delivery options.
-      destroy_all: destroy all
-      new: new form delivery
-      title: form deliveries
-    model:
-      to_s: form_delivery#%{id}
-    new:
-      description: create a new form delivery option.
-      submit: create form delivery
-      title: new form delivery
-    show:
-      created_at: created at
-      delete: delete form delivery
-      description: description
-      destroy: destroy form delivery
-      edit: edit form delivery
-      id: id
-      label: label
-      locale: locale
-      logs: logs
-      name: name
-      new_log: new log
-      new_version: new version
-      position: position
-      updated_at: updated at
-      versions: versions
-    update:
-      notice: form delivery updated
-  form_mailer:
-    summary_email:
-      delivery: delivery %{index}
-      description: description
-      email_address: email address
-      env: env
-      family_name: family name
-      given_name: given name
-      label: label
-      locale: locale
-      name: name
-      program: program %{index}
-      schedule: schedule %{index}
-      section: section %{index}
-      value: value
-  form_programs:
-    create:
-      notice: form program created
-    delete:
-      notice: form program deleted
-    delete_all:
-      notice: form programs deleted
-    destroy:
-      notice: form program deleted
-    destroy_all:
-      notice: form programs destroyed
-    edit:
-      description: update a form program option.
-      submit: update form program
-      title: edit form program
-    index:
-      delete_all: delete all
-      description: manage form program options.
-      destroy_all: destroy all
-      new: new form program
-      title: form programs
-    model:
-      to_s: form_program#%{id}
-    new:
-      description: create a new form program option.
-      submit: create form program
-      title: new form program
-    show:
-      created_at: created at
-      delete: delete form program
-      description: description
-      destroy: destroy form program
-      edit: edit form program
-      id: id
-      label: label
-      locale: locale
-      logs: logs
-      name: name
-      new_log: new log
-      new_version: new version
-      position: position
-      updated_at: updated at
-      versions: versions
-    update:
-      notice: form program updated
-  form_schedules:
-    create:
-      notice: form schedule created
-    delete:
-      notice: form schedule deleted
-    delete_all:
-      notice: form schedules deleted
-    destroy:
-      notice: form schedule deleted
-    destroy_all:
-      notice: form schedules destroyed
-    edit:
-      description: update timing and recurrence for a form schedule.
-      submit: update form schedule
-      title: edit form schedule
-    form_schedule:
-      schedule_html: starts %{local_time}, repeats every %{interval}
-      schedule_once_html: starts %{local_time}, doesn't repeat
-    index:
-      delete_all: delete all
-      description: manage form schedules.
-      destroy_all: destroy all
-      new: new form schedule
-      title: form schedules
-    model:
-      days:
-        one: 1 day
-        other: "%{count} days"
-        zero: 0 days
-      fifth_friday: fifth friday
-      fifth_monday: fifth monday
-      fifth_saturday: fifth saturday
-      fifth_sunday: fifth sunday
-      fifth_thursday: fifth thursday
-      fifth_tuesday: fifth tuesday
-      fifth_wednesday: fifth wednesday
-      first_friday: first friday
-      first_monday: first monday
-      first_saturday: first saturday
-      first_sunday: first sunday
-      first_thursday: first thursday
-      first_tuesday: first tuesday
-      first_wednesday: first wednesday
-      fourth_friday: fourth friday
-      fourth_monday: fourth monday
-      fourth_saturday: fourth saturday
-      fourth_sunday: fourth sunday
-      fourth_thursday: fourth thursday
-      fourth_tuesday: fourth tuesday
-      fourth_wednesday: fourth wednesday
-      hours:
-        one: 1 hour
-        other: "%{count} hours"
-        zero: 0 hours
-      last_friday: last friday
-      last_monday: last monday
-      last_saturday: last saturday
-      last_sunday: last sunday
-      last_thursday: last thursday
-      last_tuesday: last tuesday
-      last_wednesday: last wednesday
-      minutes:
-        one: 1 minute
-        other: "%{count} minutes"
-        zero: 0 minutes
-      months:
-        one: 1 month
-        other: "%{count} months"
-        zero: 0 months
-      once: once
-      second_friday: second friday
-      second_monday: second monday
-      second_saturday: second saturday
-      second_sunday: second sunday
-      second_thursday: second thursday
-      second_tuesday: second tuesday
-      second_wednesday: second wednesday
-      seconds:
-        one: 1 second
-        other: "%{count} seconds"
-        zero: 0 seconds
-      third_friday: third friday
-      third_monday: third monday
-      third_saturday: third saturday
-      third_sunday: third sunday
-      third_thursday: third thursday
-      third_tuesday: third tuesday
-      third_wednesday: third wednesday
-      to_s: form_schedule#%{id}
-      weeks:
-        one: 1 week
-        other: "%{count} weeks"
-        zero: 0 weeks
-      years:
-        one: 1 year
-        other: "%{count} years"
-        zero: 0 years
-    new:
-      description: create a new form schedule.
-      submit: create form schedule
-      title: new form schedule
-    show:
-      created_at: created at
-      delete: delete form schedule
-      description: description
-      destroy: destroy form schedule
-      edit: edit form schedule
-      id: id
-      interval: interval
-      label: label
-      locale: locale
-      logs: logs
-      name: name
-      new_log: new log
-      new_version: new version
-      position: position
-      schedule_html: starts %{local_time}, repeats every %{interval}
-      schedule_once_html: starts %{local_time}, doesn't repeat
-      starts_at: starts at
-      updated_at: updated at
-      versions: versions
-    update:
-      notice: schedule updated
-  forms:
-    create:
-      notice: form sent
-    new:
-      description: this is an example form to demonstrate form deliveries, programs,
-        and schedules.
-      title: form
-    show:
-      description: this is an example form to demonstrate form deliveries, programs,
-        and schedules.
-      intro: hi, it's dorian, i would like to make you some programs
-      submit: send
-      title: form
   guests:
     create:
       notice: guest created
@@ -2232,13 +1676,10 @@ en:
       destroy: destroy job batch execution
       edit: edit job batch execution
       id: id
-      job: job
       job_id: job
       logs: logs
       new_log: new log
-      new_version: new version
       updated_at: updated at
-      versions: versions
     update:
       notice: job batch execution updated
   job_batches:
@@ -2287,10 +1728,8 @@ en:
       logs: logs
       metadata: metadata
       new_log: new log
-      new_version: new version
       total_jobs: total jobs
       updated_at: updated at
-      versions: versions
     update:
       notice: job batch updated
   job_blocked_executions:
@@ -2333,11 +1772,9 @@ en:
       job_id: job
       logs: logs
       new_log: new log
-      new_version: new version
       priority: priority
       queue_name: queue name
       updated_at: updated at
-      versions: versions
     update:
       notice: job blocked execution updated
   job_claimed_executions:
@@ -2378,10 +1815,8 @@ en:
       job_id: job
       logs: logs
       new_log: new log
-      new_version: new version
       process_id: process
       updated_at: updated at
-      versions: versions
     update:
       notice: job claimed execution updated
   job_contexts:
@@ -2469,9 +1904,7 @@ en:
       job_id: job
       logs: logs
       new_log: new log
-      new_version: new version
       updated_at: updated at
-      versions: versions
     update:
       notice: job failed execution updated
   job_pauses:
@@ -2510,10 +1943,8 @@ en:
       id: id
       logs: logs
       new_log: new log
-      new_version: new version
       queue_name: queue name
       updated_at: updated at
-      versions: versions
     update:
       notice: job pause updated
   job_processes:
@@ -2558,11 +1989,9 @@ en:
       metadata: metadata
       name: name
       new_log: new log
-      new_version: new version
       pid: pid
       supervisor_id: supervisor
       updated_at: updated at
-      versions: versions
     update:
       notice: job process updated
   job_ready_executions:
@@ -2603,11 +2032,9 @@ en:
       job_id: job
       logs: logs
       new_log: new log
-      new_version: new version
       priority: priority
       queue_name: queue name
       updated_at: updated at
-      versions: versions
     update:
       notice: job ready execution updated
   job_recurring_executions:
@@ -2648,11 +2075,9 @@ en:
       job_id: job
       logs: logs
       new_log: new log
-      new_version: new version
       run_at: run at
       task_key: task key
       updated_at: updated at
-      versions: versions
     update:
       notice: job recurring execution updated
   job_recurring_tasks:
@@ -2696,13 +2121,11 @@ en:
       key: key
       logs: logs
       new_log: new log
-      new_version: new version
       priority: priority
       queue_name: queue name
       schedule: schedule
       static: static?
       updated_at: updated at
-      versions: versions
     update:
       notice: job recurring task updated
   job_scheduled_executions:
@@ -2743,12 +2166,10 @@ en:
       job_id: job
       logs: logs
       new_log: new log
-      new_version: new version
       priority: priority
       queue_name: queue name
       scheduled_at: scheduled at
       updated_at: updated at
-      versions: versions
     update:
       notice: job scheduled execution updated
   job_semaphores:
@@ -2790,10 +2211,8 @@ en:
       key: key
       logs: logs
       new_log: new log
-      new_version: new version
       updated_at: updated at
       value: value
-      versions: versions
     update:
       notice: job semaphore updated
   jobs:
@@ -2917,13 +2336,11 @@ en:
       new_job_recurring_execution: new job recurring execution
       new_job_scheduled_execution: new job scheduled execution
       new_log: new log
-      new_version: new version
       priority: priority
       queue_name: queue name
       retry: retry job
       scheduled_at: scheduled at
       updated_at: updated at
-      versions: versions
     update:
       notice: job updated
   layouts:
@@ -3027,21 +2444,7 @@ en:
           not_valid:
             feminine: must be valid
             masculine: must be valid
-      new_feedback: new feedback
       title: code
-    menu:
-      about: about
-      account: account
-      admin: admin
-      documentation: documentation
-      english: english
-      form: form
-      french: french
-      home: home
-      log_in: log in
-      messages: messages
-      programs: programs
-      register: register
   links:
     create:
       notice: link created
@@ -3070,7 +2473,6 @@ en:
       submit: create link
       title: new link
     show:
-      created_at: created at
       default: default?
       delete: delete link
       description: view link details and history.
@@ -3080,13 +2482,10 @@ en:
       image_ios: ios image
       kind: kind
       logs: logs
-      new_log: new log
-      new_version: new version
       path_input: path code
       position: position
       title_en: english title
       title_fr: french title
-      updated_at: updated at
       verb: verb
       versions: versions
       visibility_input: visibility code
@@ -3126,12 +2525,8 @@ en:
       destroy: destroy log
       edit: edit log
       id: id
-      logs: logs
       message: message
-      new_log: new log
-      new_version: new version
       updated_at: updated at
-      versions: versions
     update:
       notice: log updated
   messages:
@@ -3167,8 +2562,6 @@ en:
       title: new message
     show:
       body: body
-      body_en: english body
-      body_fr: french body
       created_at: created at
       delete: delete message
       description: view message details and recipients.
@@ -3754,8 +3147,6 @@ en:
       new_log: new log
       new_version: new version
       program: program
-      schedule_html: starts %{local_time}, repeats every %{interval}
-      schedule_once_html: starts %{local_time}, doesn't repeat
       starts_at: starts at
       updated_at: updated at
       user: user
@@ -3952,12 +3343,7 @@ en:
       submit: create service
       title: new service
     plan_comparison:
-      compare_plans: compare plans
-      details: plan details
-      includes: what's included
-      plan: plan
       subscribe: subscribe
-      subscription: subscription
     show:
       body_en: english body
       body_fr: french body
@@ -4018,7 +3404,6 @@ en:
       service_fields: service fields
       step_executions: step executions
       steps: steps
-      subscribe: subscribe
       subscription_executions: subscription executions
       subscriptions: subscriptions
       updated_at: updated at
@@ -4075,7 +3460,6 @@ en:
       title: edit session
     form:
       data_placeholder: enter json session data
-      invalid_json: data must be valid json
     index:
       delete_all: delete all
       description: review active sessions and access history.
@@ -4100,11 +3484,9 @@ en:
       id: id
       logs: logs
       new_log: new log
-      new_version: new version
       session_id: session id
       updated_at: updated at
       user: user
-      versions: versions
     update:
       notice: session updated
   shared:
@@ -4468,338 +3850,6 @@ en:
       versions: versions
     update:
       notice: stripe invoice updated
-  submission_deliveries:
-    create:
-      notice: submission delivery created
-    delete:
-      notice: submission delivery deleted
-    delete_all:
-      notice: submission deliveries deleted
-    destroy:
-      notice: submission delivery deleted
-    destroy_all:
-      notice: submission deliveries destroyed
-    edit:
-      description: update a submission delivery.
-      submit: update submission delivery
-      title: edit submission delivery
-    index:
-      delete_all: delete all
-      description: manage submission deliveries.
-      destroy_all: destroy all
-      new: new submission delivery
-      title: submission deliveries
-    model:
-      to_s: submission_delivery#%{id}
-    nested:
-      submission_deliveries: how would you like to receive your programs?
-    new:
-      description: create a new submission delivery.
-      submit: create submission delivery
-      title: new submission delivery
-    show:
-      created_at: created at
-      delete: delete submission delivery
-      description: description
-      destroy: destroy submission delivery
-      edit: edit submission delivery
-      id: id
-      label: label
-      locale: locale
-      logs: logs
-      name: name
-      new_log: new log
-      new_version: new version
-      submission: submission
-      submission_section: submission section
-      updated_at: updated at
-      value: value
-      versions: versions
-    update:
-      notice: submission delivery updated
-  submission_programs:
-    create:
-      notice: submission program created
-    delete:
-      notice: submission program deleted
-    delete_all:
-      notice: submission programs deleted
-    destroy:
-      notice: submission program deleted
-    destroy_all:
-      notice: submission programs destroyed
-    edit:
-      description: update a submission program.
-      submit: update submission program
-      title: edit submission program
-    index:
-      delete_all: delete all
-      description: manage submission programs.
-      destroy_all: destroy all
-      new: new submission program
-      title: submission programs
-    model:
-      to_s: submission_program#%{id}
-    nested:
-      submission_programs: which programs do you want in this section?
-    nested_form:
-      remove: remove submission program
-    new:
-      description: create a new submission program.
-      submit: create submission program
-      title: new submission program
-    show:
-      created_at: created at
-      delete: delete submission program
-      description: description
-      destroy: destroy submission program
-      edit: edit submission program
-      id: id
-      label: label
-      locale: locale
-      logs: logs
-      name: name
-      new_log: new log
-      new_version: new version
-      submission: submission
-      submission_section: submission section
-      updated_at: updated at
-      value: value
-      versions: versions
-    update:
-      notice: submission program updated
-  submission_schedules:
-    create:
-      notice: submission schedule created
-    delete:
-      notice: submission schedule deleted
-    delete_all:
-      notice: submission schedules deleted
-    destroy:
-      notice: submission schedule deleted
-    destroy_all:
-      notice: submission schedules destroyed
-    edit:
-      description: update a submission schedule.
-      submit: update submission schedule
-      title: edit submission schedule
-    index:
-      delete_all: delete all
-      description: manage submission schedules.
-      destroy_all: destroy all
-      new: new submission schedule
-      title: submission schedules
-    model:
-      days:
-        one: 1 day
-        other: "%{count} days"
-        zero: 0 days
-      fifth_friday: fifth friday
-      fifth_monday: fifth monday
-      fifth_saturday: fifth saturday
-      fifth_sunday: fifth sunday
-      fifth_thursday: fifth thursday
-      fifth_tuesday: fifth tuesday
-      fifth_wednesday: fifth wednesday
-      first_friday: first friday
-      first_monday: first monday
-      first_saturday: first saturday
-      first_sunday: first sunday
-      first_thursday: first thursday
-      first_tuesday: first tuesday
-      first_wednesday: first wednesday
-      fourth_friday: fourth friday
-      fourth_monday: fourth monday
-      fourth_saturday: fourth saturday
-      fourth_sunday: fourth sunday
-      fourth_thursday: fourth thursday
-      fourth_tuesday: fourth tuesday
-      fourth_wednesday: fourth wednesday
-      hours:
-        one: 1 hour
-        other: "%{count} hours"
-        zero: 0 hours
-      last_friday: last friday
-      last_monday: last monday
-      last_saturday: last saturday
-      last_sunday: last sunday
-      last_thursday: last thursday
-      last_tuesday: last tuesday
-      last_wednesday: last wednesday
-      minutes:
-        one: 1 minute
-        other: "%{count} minutes"
-        zero: 0 minutes
-      months:
-        one: 1 month
-        other: "%{count} months"
-        zero: 0 months
-      once: once
-      second_friday: second friday
-      second_monday: second monday
-      second_saturday: second saturday
-      second_sunday: second sunday
-      second_thursday: second thursday
-      second_tuesday: second tuesday
-      second_wednesday: second wednesday
-      seconds:
-        one: 1 second
-        other: "%{count} seconds"
-        zero: 0 seconds
-      third_friday: third friday
-      third_monday: third monday
-      third_saturday: third saturday
-      third_sunday: third sunday
-      third_thursday: third thursday
-      third_tuesday: third tuesday
-      third_wednesday: third wednesday
-      to_s: submission_schedule#%{id}
-      weeks:
-        one: 1 week
-        other: "%{count} weeks"
-        zero: 0 weeks
-      years:
-        one: 1 year
-        other: "%{count} years"
-        zero: 0 years
-    nested:
-      submission_schedules: when do you want to receive the programs in this section?
-    new:
-      description: create a new submission schedule.
-      submit: create submission schedule
-      title: new submission schedule
-    show:
-      created_at: created at
-      delete: delete submission schedule
-      description: description
-      destroy: destroy submission schedule
-      edit: edit submission schedule
-      id: id
-      interval: interval
-      label: label
-      locale: locale
-      logs: logs
-      name: name
-      new_log: new log
-      new_version: new version
-      starts_at: starts at
-      submission: submission
-      submission_section: submission section
-      updated_at: updated at
-      value: value
-      versions: versions
-    update:
-      notice: submission schedule updated
-  submission_sections:
-    create:
-      notice: submission section created
-    delete:
-      notice: submission section deleted
-    delete_all:
-      notice: submission sections deleted
-    destroy:
-      notice: submission section deleted
-    destroy_all:
-      notice: submission sections destroyed
-    edit:
-      description: update a submission section.
-      submit: update submission section
-      title: edit submission section
-    index:
-      delete_all: delete all
-      description: manage submission sections.
-      destroy_all: destroy all
-      new: new submission section
-      title: submission sections
-    model:
-      to_s: submission_section#%{id}
-    nested:
-      add: add section
-    nested_form:
-      description: how would you describe this section?
-      name: how would you call this section?
-      remove: remove section
-    new:
-      description: create a new submission section.
-      submit: create submission section
-      title: new submission section
-    show:
-      created_at: created at
-      delete: delete submission section
-      description: description
-      destroy: destroy submission section
-      edit: edit submission section
-      id: id
-      locale: locale
-      logs: logs
-      name: name
-      new_log: new log
-      new_submission_delivery: new submission delivery
-      new_submission_program: new submission program
-      new_submission_schedule: new submission schedule
-      new_version: new version
-      submission: submission
-      submission_deliveries: submission deliveries
-      submission_programs: submission programs
-      submission_schedules: submission schedules
-      updated_at: updated at
-      versions: versions
-    update:
-      notice: submission section updated
-  submissions:
-    create:
-      notice: submission created
-    delete:
-      notice: submission deleted
-    delete_all:
-      notice: submissions deleted
-    destroy:
-      notice: submission deleted
-    destroy_all:
-      notice: submissions destroyed
-    edit:
-      description: update a submission.
-      submit: update submission
-      title: edit submission
-    index:
-      delete_all: delete all
-      description: manage submissions.
-      destroy_all: destroy all
-      new: new submission
-      title: submissions
-    model:
-      to_s: submission#%{id}
-    new:
-      description: create a new submission.
-      submit: create submission
-      title: new submission
-    show:
-      created_at: created at
-      delete: delete submission
-      description: view submission details.
-      destroy: destroy submission
-      edit: edit submission
-      email_address: email address
-      family_name: family name
-      given_name: given name
-      id: id
-      locale: locale
-      logs: logs
-      new_log: new log
-      new_submission_delivery: new submission delivery
-      new_submission_program: new submission program
-      new_submission_schedule: new submission schedule
-      new_submission_section: new submission section
-      new_version: new version
-      phone_number: phone number
-      submission_deliveries: submission deliveries
-      submission_programs: submission programs
-      submission_schedules: submission schedules
-      submission_sections: submission sections
-      updated_at: updated at
-      versions: versions
-    update:
-      notice: submission updated
   subscription_billings:
     cancel:
       notice: subscription will end after the paid period
@@ -4820,7 +3870,6 @@ en:
       download_invoice: download pdf
       ends_at: ends at
       invoices: invoices
-      month: month
       pay: subscribe
       price: price
       renews_at: renews at
@@ -4852,18 +3901,10 @@ en:
       description: edit subscription destination
       submit: update
       title: edit subscription destination
-    form:
-      currency: currency
-      destinations: destinations
-      manage: delivery
-      monthly_cents: monthly price per destination (cents)
-      save: save
     index:
-      add: add
       delete_all: delete all subscription destinations
       description: subscription destinations
       destroy_all: destroy all subscription destinations
-      manage: delivery
       new: new subscription destination
       title: subscription destinations
     model:
@@ -4872,10 +3913,6 @@ en:
       description: new subscription destination
       submit: create
       title: new subscription destination
-    reconcile:
-      notice: saved
-    retry:
-      notice: saved
     show:
       active: active
       amount_cents: amount cents
@@ -4888,10 +3925,8 @@ en:
       edit: edit subscription destination
       id: id
       logs: logs
-      manage: delivery
       new_log: new log
       new_version: new version
-      remove: remove
       selected: selected
       subscription_id: subscription
       updated_at: updated at
@@ -5002,22 +4037,13 @@ en:
     delete_all:
       notice: subscriptions deleted
     destination_fields:
-      channel: channel
-      connection: connection
-      month: month
-      name: name
       private: private
       public: public
-      recipient: recipient
-      recipient_help: leave blank for your code dorian inbox or push notifications.
       remove: remove
-      visibility: visibility
     destinations:
       add_destination: add a destination
       base: service price
       change_pending: a delivery price change is awaiting billing confirmation.
-      destinations: destinations
-      month: month
       total: monthly total
       unavailable: no delivery methods are available yet.
     destroy:
@@ -5032,7 +4058,6 @@ en:
     index:
       delete_all: delete all
       destroy_all: destroy all
-      new: new subscription
       subscription_executions:
         one: "%{count} subscription execution"
         other: "%{count} subscription executions"
@@ -5073,7 +4098,6 @@ en:
       recipient_verified: destination confirmed
       request_verification: send or resend confirmation message
       service: service
-      stale: stale
       starts_at: starts at
       status: status
       step_executions: step executions
@@ -5242,7 +4266,6 @@ en:
       locale: language
       log_out: log out
       logs: logs
-      messages: messages
       name: name
       new_job: new job
       new_log: new log
@@ -5296,13 +4319,9 @@ en:
       id: id
       item_id: item
       item_type: item type
-      logs: logs
-      new_log: new log
-      new_version: new version
       object: object
       object_changes: object changes
       updated_at: updated at
-      versions: versions
       whodunnit: whodunnit
     update:
       notice: version updated

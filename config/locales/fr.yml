@@ -141,31 +141,6 @@ fr:
         context: contexte
         error: erreur
         error_id: erreur
-      feedback:
-        guest_id: invité
-        ip: ip
-        locale: langue
-        message: message
-        path: chemin
-        user_agent: navigateur
-        user_id: utilisateur
-      form_delivery:
-        description: description
-        locale: langage
-        name: nom
-        position: position
-      form_program:
-        description: description
-        locale: langage
-        name: nom
-        position: position
-      form_schedule:
-        description: description
-        interval: intervalle
-        locale: langage
-        name: nom
-        position: position
-        starts_at: commence à
       handle:
         handle: identifiant
         primary: principal ?
@@ -352,41 +327,6 @@ fr:
         status: statut
         step_id: étape
         subscription_execution_id: exécution d'abonnement
-      submission:
-        email_address: adresse e-mail
-        family_name: nom de famille
-        given_name: prénom
-        locale: langage
-        phone_number: numéro de téléphone
-        phone_number_input: numéro de téléphone
-      submission_delivery:
-        description: description
-        label: libellé
-        locale: langage
-        name: nom
-        submission_section_id: section de soumission
-        value: valeur
-      submission_program:
-        description: description
-        label: libellé
-        locale: langage
-        name: nom
-        submission_section_id: section de soumission
-        value: valeur
-      submission_schedule:
-        description: description
-        interval: intervalle
-        label: libellé
-        locale: langage
-        name: nom
-        starts_at: commence à
-        submission_section_id: section de soumission
-        value: valeur
-      submission_section:
-        description: description
-        locale: langage
-        name: nom
-        submission_id: soumission
       subscription:
         heartbeats_url: url des heartbeats
         plan_id: offre
@@ -549,24 +489,6 @@ fr:
       new: nouvelle
       not_found: non trouvé
       unprocessable_entity: entité non traitable
-    feedbacks:
-      edit: modifier
-      index: retours
-      new: nouveau
-    form_deliveries:
-      edit: modifier
-      index: livraisons de formulaire
-      new: nouvelle
-    form_programs:
-      edit: modifier
-      index: programmes de formulaire
-      new: nouveau
-    form_schedules:
-      edit: modifier
-      index: horaires de formulaire
-      new: nouvelle
-    forms:
-      show: formulaire
     guests:
       edit: modifier
       index: invités
@@ -726,26 +648,6 @@ fr:
     stripe_invoices:
       edit: modifier
       index: factures stripe
-      new: nouvelle
-    submission_deliveries:
-      edit: modifier
-      index: livraisons de soumission
-      new: nouvelle
-    submission_programs:
-      edit: modifier
-      index: programmes de soumission
-      new: nouveau
-    submission_schedules:
-      edit: modifier
-      index: horaires de soumission
-      new: nouveau
-    submission_sections:
-      edit: modifier
-      index: sections de soumission
-      new: nouvelle
-    submissions:
-      edit: modifier
-      index: soumissions
       new: nouvelle
     subscription_destinations:
       edit: modifier
@@ -1060,24 +962,10 @@ fr:
       description: 'modifier : livraison'
       submit: modifier
       title: 'modifier : livraison'
-    form:
-      destinations: destinations
-      save: enregistrer
-      statuses:
-        accepted: accepté
-        canceled: annulé
-        delivered: livré
-        failed: échec
-        pending: en attente
-        sending: en cours
-        uncertain: incertain
     index:
-      add: ajouter
       delete_all: 'supprimer : livraisons'
       description: livraisons
       destroy_all: 'détruire : livraisons'
-      history: historique des livraisons
-      manage: livraison
       new: 'ajouter : livraison'
       title: livraisons
     model:
@@ -1112,27 +1000,20 @@ fr:
       edit: modifier la livraison
       error_code: code d’erreur
       event_key: clé d’événement
-      history: historique des livraisons
       id: id
       locale: langue
       logs: journaux
-      manage: livraison
       new_log: nouveau journal
       new_version: nouvelle version
       next_attempt_at: prochaine tentative
       provider_id: identifiant fournisseur
       recipient: destinataire
-      remove: supprimer
       retry: réessayer
       status: statut
       statuses:
         accepted: accepté
-        canceled: annulé
         delivered: livré
         failed: échec
-        pending: en attente
-        sending: en cours
-        uncertain: incertain
       step_execution_id: exécution de l’étape
       subject: sujet
       subscription_id: abonnement
@@ -1143,70 +1024,14 @@ fr:
     update:
       notice: 'livraison : modification effectuée'
   delivery:
-    add: ajouter
-    add_destination: ajouter une destination
     base: prix du service
     change_pending: une modification du prix attend la confirmation du paiement
-    channel: canal
-    channels:
-      apple: apple messages for business
-      email: e-mail
-      github: github
-      mastodon: mastodon
-      messages: messagerie code dorian
-      push: notifications push
-      rcs: rcs
-      reddit: reddit
-      slack: slack
-      sms: sms
-      whatsapp: whatsapp
-      x: x
     choose_destination: choisissez au moins une destination
-    connection: connexion
-    connections: connexions
-    credentials:
-      access_token: jeton d’accès utilisateur
-      account_sid: sid du compte twilio
-      api_key: clé api infobip
-      auth_token: jeton twilio
-      base_url: url du fournisseur ou de l’instance mastodon
-      from: adresse e-mail d’expédition
-      sender: identifiant professionnel apple
-    currency: devise
     currency_mismatch: les tarifs des destinations doivent utiliser la devise de l’offre
-    destinations: destinations
-    disabled: désactivé
-    edit: modifier
-    enabled: activé
-    history: historique des livraisons
     invalid_destinations: choisissez des destinations disponibles appartenant à ce
       compte
-    manage: livraison
-    month: mois
-    monthly_cents: prix mensuel par destination (centimes)
-    name: nom
     price_changed: le prix a changé. vérifiez à nouveau votre sélection
-    private: privé
-    provider: fournisseur
-    public: public
-    rates: tarifs des canaux
-    recipient: destinataire
-    reddit_private_verified: l’accès api à la livraison privée reddit a été vérifié
-    remove: supprimer
     retry: réessayer
-    save: enregistrer
-    selections: destinations des abonnements
-    statuses:
-      accepted: accepté
-      canceled: annulé
-      delivered: livré
-      failed: échec
-      pending: en attente
-      sending: en cours
-      uncertain: incertain
-    total: total mensuel
-    unconfigured: non configuré
-    visibility: visibilité
   delivery_channels:
     create:
       notice: 'canal de livraison : création effectuée'
@@ -1223,47 +1048,14 @@ fr:
       submit: modifier
       title: 'modifier : canal de livraison'
     form:
-      channel: canal
-      channels:
-        apple: apple messages for business
-        email: e-mail
-        facebook: facebook
-        github: github
-        instagram: instagram
-        mastodon: mastodon
-        messages: messagerie code dorian
-        messenger: messenger
-        push: notifications push
-        rcs: rcs
-        reddit: reddit
-        slack: slack
-        sms: sms
-        telegram: telegram
-        viber: viber
-        webhook: webhook
-        whatsapp: whatsapp
-        x: x
-      connection: connexion
-      currency: devise
-      enabled: activé
-      manage: livraison
-      monthly_cents: prix mensuel par destination (centimes)
       private: privé
       public: public
-      reddit_private_verified: l’accès api à la livraison privée reddit a été vérifié
-      save: enregistrer
-      show_recipient: destinataire
-      show_visibility: visibilité
     index:
-      add: ajouter
       delete_all: 'supprimer : canaux de livraison'
       description: canaux de livraison
       destroy_all: 'détruire : canaux de livraison'
-      disabled: désactivé
-      manage: livraison
       new: 'ajouter : canal de livraison'
       title: canaux de livraison
-      unconfigured: non configuré
     model:
       keys:
         apple: apple messages for business
@@ -1289,10 +1081,6 @@ fr:
       description: 'ajouter : canal de livraison'
       submit: créer
       title: 'ajouter : canal de livraison'
-    reconcile:
-      notice: enregistré
-    retry:
-      notice: enregistré
     show:
       amount_cents: montant en centimes
       amount_currency: devise
@@ -1309,13 +1097,11 @@ fr:
       id: id
       key: clé
       logs: journaux
-      manage: livraison
       messaging_service_sid: identifiant du service de messagerie
       new_log: nouveau journal
       new_version: nouvelle version
       private_pattern: motif du destinataire privé
       public_pattern: motif du destinataire public
-      remove: supprimer
       show_connection: afficher la connexion
       show_recipient: afficher le destinataire
       show_visibility: afficher la visibilité
@@ -1339,7 +1125,6 @@ fr:
       notice: 'connexions de livraison : suppression effectuée'
     delivery_connection:
       calendar_allowed: accès aux agendas autorisé (lecture seule)
-      calendar_not_allowed: accès aux agendas non autorisé
     destroy:
       notice: 'connexion de livraison : destruction effectuée'
     destroy_all:
@@ -1348,21 +1133,7 @@ fr:
       description: 'modifier : connexion de livraison'
       submit: modifier
       title: 'modifier : connexion de livraison'
-    form:
-      credentials:
-        access_token: jeton d’accès utilisateur
-        account_sid: sid du compte twilio
-        api_key: clé api infobip
-        auth_token: jeton twilio
-        base_url: url du fournisseur ou de l’instance mastodon
-        from: adresse e-mail d’expédition
-        sender: identifiant professionnel apple
-      enabled: activé
-      manage: livraison
-      provider: fournisseur
-      save: enregistrer
     index:
-      add: ajouter
       calendar_access: autoriser l’accès en lecture seule à mes agendas
       calendar_access_description: consulter vos agendas et événements pour vous envoyer
         des rappels. vos événements ne seront pas modifiés.
@@ -1370,8 +1141,6 @@ fr:
       delete_all: 'supprimer : connexions de livraison'
       description: connexions de livraison
       destroy_all: 'détruire : connexions de livraison'
-      disabled: désactivé
-      manage: livraison
       new: 'ajouter : connexion de livraison'
       server: serveur mastodon
       title: connexions de livraison
@@ -1404,13 +1173,6 @@ fr:
       description: 'ajouter : connexion de livraison'
       submit: créer
       title: 'ajouter : connexion de livraison'
-    reconcile:
-      notice: enregistré
-    retry:
-      notice: enregistré
-    senders:
-      bot: bot
-      user: utilisateur
     show:
       access_token: jeton d’accès
       account_sid: identifiant du compte
@@ -1431,12 +1193,10 @@ fr:
       logs: journaux
       mailgun_domain: domaine d’envoi mailgun
       mailgun_region: région mailgun (us / eu)
-      manage: livraison
       new_log: nouveau journal
       new_version: nouvelle version
       provider: fournisseur
       refresh_token: jeton de renouvellement
-      remove: supprimer
       sender: expéditeur
       smtp_address: adresse smtp
       smtp_authentication: authentification smtp
@@ -1483,12 +1243,9 @@ fr:
       save: enregistrer
       visibility: visibilité
     index:
-      add: ajouter
       delete_all: 'supprimer : destinations de livraison'
       description: destinations de livraison
       destroy_all: 'détruire : destinations de livraison'
-      disabled: désactivé
-      manage: livraison
       new: 'ajouter : destination de livraison'
       title: destinations de livraison
     model:
@@ -1497,13 +1254,9 @@ fr:
       description: 'ajouter : destination de livraison'
       submit: créer
       title: 'ajouter : destination de livraison'
-    reconcile:
-      notice: enregistré
     request_verification:
       already_verified: cette destination est déjà confirmée.
       sent: message de confirmation envoyé. consultez votre boîte de réception.
-    retry:
-      notice: enregistré
     show:
       created_at: créé le
       delete: supprimer la destination de livraison
@@ -1515,13 +1268,9 @@ fr:
       enabled: activé
       id: id
       logs: journaux
-      manage: livraison
       new_log: nouveau journal
       new_version: nouvelle version
-      private: privé
-      public: public
       recipient: destinataire
-      remove: supprimer
       updated_at: mis à jour le
       user_id: utilisateur
       versions: versions
@@ -1703,9 +1452,7 @@ fr:
       logs: logs
       new_job: nouvelle tâche
       new_log: nouveau log
-      new_version: nouvelle version
       updated_at: mis à jour à
-      versions: versions
     update:
       notice: occurence d'erreur mise à jour
   errors:
@@ -1761,318 +1508,15 @@ fr:
       new_error_occurrence: nouvelle occurence d'erreur
       new_job: nouvelle tâche
       new_log: nouveau log
-      new_version: nouvelle version
       resolved_at: résolue à
       severity: gravité
       source: source
       updated_at: mis à jour à
-      verified: vérifié ?
-      versions: versions
     unprocessable_entity:
       description: la requête ne peut pas être traitée.
       title: entité non traitable
     update:
       notice: erreur mise à jour
-  feedback_mailer:
-    feedback_email:
-      feedback_message: message de retour
-      ip: ip
-      locale: langue
-      path: chemin
-      subject: "[%{env}] retour codedorian"
-      user: utilisateur
-      user_agent: navigateur
-  feedbacks:
-    _form:
-      message_label: message
-    create:
-      message_blank: le message doit être présent
-      notice: retour créé
-    delete:
-      notice: retour supprimé
-    delete_all:
-      notice: retours supprimés
-    destroy:
-      notice: retour détruit
-    destroy_all:
-      notice: retours détruits
-    edit:
-      description: modifier un retour.
-      submit: mettre à jour le retour
-      title: modifier le retour
-    form:
-      message_label: message
-      message_placeholder: retour
-    index:
-      delete_all: supprimer tout
-      description: consulter les retours utilisateurs.
-      destroy_all: détruire tout
-      new: nouveau retour
-      title: retours
-    model:
-      to_s: retour#%{id}
-    new:
-      description: créer un retour manuellement.
-      submit: créer le retour
-      title: nouveau retour
-    show:
-      created_at: créé à
-      delete: supprimer le retour
-      description: voir les détails du retour.
-      destroy: détruire le retour
-      edit: modifier le retour
-      guest: invité
-      id: identifiant
-      ip: ip
-      locale: locale
-      message: message
-      path: chemin
-      updated_at: mis à jour à
-      user: utilisateur
-      user_agent: user agent
-    update:
-      notice: retour mis à jour
-  form_deliveries:
-    create:
-      notice: livraison de formulaire créée
-    delete:
-      notice: livraison de formulaire supprimée
-    delete_all:
-      notice: livraisons de formulaire supprimées
-    destroy:
-      notice: livraison de formulaire supprimée
-    destroy_all:
-      notice: livraisons de formulaire détruites
-    edit:
-      description: mettre à jour une option de livraison du formulaire.
-      submit: mettre à jour la livraison de formulaire
-      title: modifier la livraison de formulaire
-    index:
-      delete_all: supprimer tout
-      description: gérer les options de livraison du formulaire.
-      destroy_all: détruire tout
-      new: nouvelle livraison de formulaire
-      title: livraisons de formulaire
-    model:
-      to_s: livraison_formulaire#%{id}
-    new:
-      description: créer une nouvelle option de livraison du formulaire.
-      submit: créer la livraison de formulaire
-      title: nouvelle livraison de formulaire
-    show:
-      created_at: créé à
-      delete: supprimer la livraison de formulaire
-      description: description
-      destroy: détruire la livraison de formulaire
-      edit: modifier la livraison de formulaire
-      id: identifiant
-      label: libellé
-      locale: langage
-      logs: logs
-      name: nom
-      new_log: nouveau log
-      new_version: nouvelle version
-      position: position
-      updated_at: mis à jour à
-      versions: versions
-    update:
-      notice: livraison de formulaire mise à jour
-  form_mailer:
-    summary_email:
-      delivery: livraison %{index}
-      description: description
-      email_address: adresse e-mail
-      env: environnement
-      family_name: nom de famille
-      given_name: prénom
-      label: libellé
-      locale: langue
-      name: nom
-      program: programme %{index}
-      schedule: planning %{index}
-      section: section %{index}
-      value: valeur
-  form_programs:
-    create:
-      notice: programme de formulaire créé
-    delete:
-      notice: programme de formulaire supprimé
-    delete_all:
-      notice: programmes de formulaire supprimés
-    destroy:
-      notice: programme de formulaire supprimé
-    destroy_all:
-      notice: programmes de formulaire détruits
-    edit:
-      description: mettre à jour une option de programme du formulaire.
-      submit: mettre à jour le programme de formulaire
-      title: modifier le programme de formulaire
-    index:
-      delete_all: supprimer tout
-      description: gérer les options de programmes du formulaire.
-      destroy_all: détruire tout
-      new: nouveau programme de formulaire
-      title: programmes de formulaire
-    model:
-      to_s: programme_formulaire#%{id}
-    new:
-      description: créer une nouvelle option de programme du formulaire.
-      submit: créer le programme de formulaire
-      title: nouveau programme de formulaire
-    show:
-      created_at: créé à
-      delete: supprimer le programme de formulaire
-      description: description
-      destroy: détruire le programme de formulaire
-      edit: modifier le programme de formulaire
-      id: identifiant
-      label: libellé
-      locale: langage
-      logs: logs
-      name: nom
-      new_log: nouveau log
-      new_version: nouvelle version
-      position: position
-      updated_at: mis à jour à
-      versions: versions
-    update:
-      notice: programme de formulaire mis à jour
-  form_schedules:
-    create:
-      notice: horaire de formulaire créée
-    delete:
-      notice: horaire de formulaire supprimée
-    delete_all:
-      notice: horaires de formulaire supprimées
-    destroy:
-      notice: horaire de formulaire supprimée
-    destroy_all:
-      notice: horaires de formulaire détruites
-    edit:
-      description: ajuster la planification et la récurrence.
-      submit: mettre à jour l'horaire de formulaire
-      title: modifier l'horaire de formulaire
-    form_schedule:
-      schedule_html: commence %{local_time}, se répète tous les %{interval}
-      schedule_once_html: commence %{local_time}, ne se répète pas
-    index:
-      delete_all: supprimer tout
-      description: gérer les horaires de formulaire.
-      destroy_all: détruire tout
-      new: nouvelle horaire de formulaire
-      title: horaires de formulaire
-    model:
-      days:
-        one: 1 jour
-        other: "%{count} jours"
-        zero: 0 jours
-      fifth_friday: cinquième vendredi
-      fifth_monday: cinquième lundi
-      fifth_saturday: cinquième samedi
-      fifth_sunday: cinquième dimanche
-      fifth_thursday: cinquième jeudi
-      fifth_tuesday: cinquième mardi
-      fifth_wednesday: cinquième mercredi
-      first_friday: premier vendredi
-      first_monday: premier lundi
-      first_saturday: premier samedi
-      first_sunday: premier dimanche
-      first_thursday: premier jeudi
-      first_tuesday: premier mardi
-      first_wednesday: premier mercredi
-      fourth_friday: quatrième vendredi
-      fourth_monday: quatrième lundi
-      fourth_saturday: quatrième samedi
-      fourth_sunday: quatrième dimanche
-      fourth_thursday: quatrième jeudi
-      fourth_tuesday: quatrième mardi
-      fourth_wednesday: quatrième mercredi
-      hours:
-        one: 1 heure
-        other: "%{count} heures"
-        zero: 0 heures
-      last_friday: dernier vendredi
-      last_monday: dernier lundi
-      last_saturday: dernier samedi
-      last_sunday: dernier dimanche
-      last_thursday: dernier jeudi
-      last_tuesday: dernier mardi
-      last_wednesday: dernier mercredi
-      minutes:
-        one: 1 minute
-        other: "%{count} minutes"
-        zero: 0 minutes
-      months:
-        one: 1 mois
-        other: "%{count} mois"
-        zero: 0 mois
-      once: une fois
-      second_friday: deuxième vendredi
-      second_monday: deuxième lundi
-      second_saturday: deuxième samedi
-      second_sunday: deuxième dimanche
-      second_thursday: deuxième jeudi
-      second_tuesday: deuxième mardi
-      second_wednesday: deuxième mercredi
-      seconds:
-        one: 1 seconde
-        other: "%{count} secondes"
-        zero: 0 seconde
-      third_friday: troisième vendredi
-      third_monday: troisième lundi
-      third_saturday: troisième samedi
-      third_sunday: troisième dimanche
-      third_thursday: troisième jeudi
-      third_tuesday: troisième mardi
-      third_wednesday: troisième mercredi
-      to_s: horaire_formulaire#%{id}
-      weeks:
-        one: 1 semaine
-        other: "%{count} semaines"
-        zero: 0 semaines
-      years:
-        one: 1 an
-        other: "%{count} ans"
-        zero: 0 ans
-    new:
-      description: créer une nouvelle horaire de formulaire.
-      submit: créer un horaire de formulaire
-      title: nouvelle horaire de formulaire
-    show:
-      created_at: créé à
-      delete: supprimer la horaire de formulaire
-      description: description
-      destroy: détruire la horaire de formulaire
-      edit: modifier la horaire de formulaire
-      id: identifiant
-      interval: intervalle
-      label: libellé
-      locale: langage
-      logs: logs
-      name: nom
-      new_log: nouveau log
-      new_version: nouvelle version
-      position: position
-      schedule_html: commence %{local_time}, se répète tous les %{interval}
-      schedule_once_html: commence %{local_time}, ne se répète pas
-      starts_at: commence à
-      updated_at: mis à jour à
-      versions: versions
-    update:
-      notice: horaire de formulaire mis à jour
-  forms:
-    create:
-      notice: formulaire envoyé
-    new:
-      description: ceci est un formulaire d'exemple pour démontrer les livraisons
-        de formulaire, les programmes et les horaires.
-      title: formulaire
-    show:
-      description: ceci est un formulaire d'exemple pour démontrer les livraisons
-        de formulaire, les programmes et les horaires.
-      intro: salut, c'est dorian, je voudrais te faire des programmes
-      submit: envoyer
-      title: formulaire
   guests:
     create:
       notice: invité créé
@@ -2235,13 +1679,10 @@ fr:
       destroy: détruire l'exécution de lot de tâche
       edit: modifier l'exécution de lot de tâche
       id: identifiant
-      job: tâche
       job_id: tâche
       logs: logs
       new_log: nouveau log
-      new_version: nouvelle version
       updated_at: mise à jour à
-      versions: versions
     update:
       notice: exécution de lot de tâche mise à jour
   job_batches:
@@ -2290,10 +1731,8 @@ fr:
       logs: logs
       metadata: métadonnées
       new_log: nouveau log
-      new_version: nouvelle version
       total_jobs: total des tâches
       updated_at: mise à jour à
-      versions: versions
     update:
       notice: lot de tâches mis à jour
   job_blocked_executions:
@@ -2336,11 +1775,9 @@ fr:
       job_id: tâche
       logs: logs
       new_log: nouveau log
-      new_version: nouvelle version
       priority: priorité
       queue_name: nom de la file d'attente
       updated_at: mise à jour à
-      versions: versions
     update:
       notice: exécution de tâche bloquée mise à jour
   job_claimed_executions:
@@ -2381,10 +1818,8 @@ fr:
       job_id: tâche
       logs: logs
       new_log: nouveau log
-      new_version: nouvelle version
       process_id: processus
       updated_at: mise à jour à
-      versions: versions
     update:
       notice: exécution de tâche revendiquée mise à jour
   job_contexts:
@@ -2472,9 +1907,7 @@ fr:
       job_id: tâche
       logs: logs
       new_log: nouveau log
-      new_version: nouvelle version
       updated_at: mise à jour à
-      versions: versions
     update:
       notice: exécution de tâche échouée mise à jour
   job_pauses:
@@ -2513,10 +1946,8 @@ fr:
       id: identifiant
       logs: logs
       new_log: nouveau log
-      new_version: nouvelle version
       queue_name: nom de la file d'attente
       updated_at: mise à jour à
-      versions: versions
     update:
       notice: pause de tâche mise à jour
   job_processes:
@@ -2561,11 +1992,9 @@ fr:
       metadata: métadonnées
       name: nom
       new_log: nouveau log
-      new_version: nouvelle version
       pid: pid
       supervisor_id: superviseur
       updated_at: mise à jour à
-      versions: versions
     update:
       notice: processus de tâche mis à jour
   job_ready_executions:
@@ -2606,11 +2035,9 @@ fr:
       job_id: tâche
       logs: logs
       new_log: nouveau log
-      new_version: nouvelle version
       priority: priorité
       queue_name: nom de la file d'attente
       updated_at: mise à jour à
-      versions: versions
     update:
       notice: exécution de tâche prête mise à jour
   job_recurring_executions:
@@ -2651,11 +2078,9 @@ fr:
       job_id: tâche
       logs: logs
       new_log: nouveau log
-      new_version: nouvelle version
       run_at: exécuter à
       task_key: clé de tâche
       updated_at: mise à jour à
-      versions: versions
     update:
       notice: exécution récurrente de tâche mise à jour
   job_recurring_tasks:
@@ -2699,13 +2124,11 @@ fr:
       key: clé
       logs: logs
       new_log: nouveau log
-      new_version: nouvelle version
       priority: priorité
       queue_name: nom de la file d'attente
       schedule: planification
       static: statique ?
       updated_at: mise à jour à
-      versions: versions
     update:
       notice: tâche récurrente mise à jour
   job_scheduled_executions:
@@ -2746,12 +2169,10 @@ fr:
       job_id: tâche
       logs: logs
       new_log: nouveau log
-      new_version: nouvelle version
       priority: priorité
       queue_name: nom de la file d'attente
       scheduled_at: prévue à
       updated_at: mise à jour à
-      versions: versions
     update:
       notice: exécution de tâche programmée mise à jour
   job_semaphores:
@@ -2793,10 +2214,8 @@ fr:
       key: clé
       logs: logs
       new_log: nouveau log
-      new_version: nouvelle version
       updated_at: mise à jour à
       value: valeur
-      versions: versions
     update:
       notice: sémaphore de tâche mis à jour
   jobs:
@@ -2920,13 +2339,11 @@ fr:
       new_job_recurring_execution: nouvelle exécution récurrente de tâche
       new_job_scheduled_execution: nouvelle exécution de tâche programmée
       new_log: nouveau log
-      new_version: nouvelle version
       priority: priorité
       queue_name: nom de la file d'attente
       retry: réessayer la tâche
       scheduled_at: prévue à
       updated_at: mise à jour à
-      versions: versions
     update:
       notice: tâche mise à jour
   layouts:
@@ -3030,21 +2447,7 @@ fr:
           not_valid:
             feminine: doit être valide
             masculine: doit être valide
-      new_feedback: nouveau retour
       title: code
-    menu:
-      about: à propos
-      account: compte
-      admin: admin
-      documentation: documentation
-      english: anglais
-      form: formulaire
-      french: français
-      home: accueil
-      log_in: se connecter
-      messages: messages
-      programs: programmes
-      register: s'inscrire
   links:
     create:
       notice: lien créé
@@ -3073,7 +2476,6 @@ fr:
       submit: créer un lien
       title: nouveau lien
     show:
-      created_at: créé à
       default: par défaut ?
       delete: supprimer le lien
       description: voir les détails et l'historique du lien.
@@ -3083,13 +2485,10 @@ fr:
       image_ios: image ios
       kind: type
       logs: logs
-      new_log: nouveau log
-      new_version: nouvelle version
       path_input: code du chemin
       position: position
       title_en: titre anglais
       title_fr: titre français
-      updated_at: mis à jour à
       verb: verbe
       versions: versions
       visibility_input: code de visibilité
@@ -3129,12 +2528,8 @@ fr:
       destroy: détruire le log
       edit: modifier le log
       id: identifiant
-      logs: logs
       message: message
-      new_log: nouveau log
-      new_version: nouvelle version
       updated_at: mis à jour à
-      versions: versions
     update:
       notice: log mis à jour
   messages:
@@ -3170,8 +2565,6 @@ fr:
       title: nouveau message
     show:
       body: corps
-      body_en: corps anglais
-      body_fr: corps français
       created_at: créé à
       delete: supprimer le message
       description: voir les détails du message et les destinataires.
@@ -3760,8 +3153,6 @@ fr:
       new_log: nouveau log
       new_version: nouvelle version
       program: programme
-      schedule_html: commence %{local_time}, se répète tous les %{interval}
-      schedule_once_html: commence %{local_time}, ne se répète pas
       starts_at: commence à
       updated_at: mis à jour à
       user: utilisateur
@@ -3958,12 +3349,7 @@ fr:
       submit: créer le service
       title: nouveau service
     plan_comparison:
-      compare_plans: comparer les offres
-      details: détails de l'offre
-      includes: ce qui est inclus
-      plan: offre
       subscribe: s'abonner
-      subscription: abonnement
     show:
       body_en: corps anglais
       body_fr: corps français
@@ -4024,7 +3410,6 @@ fr:
       service_fields: champs de service
       step_executions: exécutions d'étape
       steps: étapes
-      subscribe: s'abonner
       subscription_executions: exécutions d'abonnement
       subscriptions: abonnements
       updated_at: mis à jour à
@@ -4083,7 +3468,6 @@ fr:
       title: modifier la session
     form:
       data_placeholder: saisissez des données json de session
-      invalid_json: les données doivent être du json valide
     index:
       delete_all: supprimer tout
       description: consulter les sessions actives et l'historique.
@@ -4108,11 +3492,9 @@ fr:
       id: id
       logs: logs
       new_log: nouveau log
-      new_version: nouvelle version
       session_id: id de session
       updated_at: mis à jour à
       user: utilisateur
-      versions: versions
     update:
       notice: session mise à jour
   shared:
@@ -4478,339 +3860,6 @@ fr:
       versions: versions
     update:
       notice: facture stripe mise à jour
-  submission_deliveries:
-    create:
-      notice: livraison de soumission créée
-    delete:
-      notice: livraison de soumission supprimée
-    delete_all:
-      notice: livraisons de soumission supprimées
-    destroy:
-      notice: livraison de soumission supprimée
-    destroy_all:
-      notice: livraisons de soumission détruites
-    edit:
-      description: mettre à jour une livraison de soumission.
-      submit: mettre à jour la livraison de soumission
-      title: modifier la livraison de soumission
-    index:
-      delete_all: supprimer tout
-      description: gérer les livraisons de soumission.
-      destroy_all: détruire tout
-      new: nouvelle livraison de soumission
-      title: livraisons de soumission
-    model:
-      to_s: livraison_soumission#%{id}
-    nested:
-      submission_deliveries: comment souhaites-tu reçevoir tes programmes ?
-    new:
-      description: créer une nouvelle livraison de soumission.
-      submit: créer la livraison de soumission
-      title: nouvelle livraison de soumission
-    show:
-      created_at: créé à
-      delete: supprimer la livraison de soumission
-      description: description
-      destroy: détruire la livraison de soumission
-      edit: modifier la livraison de soumission
-      id: identifiant
-      label: libellé
-      locale: langage
-      logs: logs
-      name: nom
-      new_log: nouveau log
-      new_version: nouvelle version
-      submission: soumission
-      submission_section: section de soumission
-      updated_at: mis à jour à
-      value: valeur
-      versions: versions
-    update:
-      notice: livraison de soumission mise à jour
-  submission_programs:
-    create:
-      notice: programme de soumission créé
-    delete:
-      notice: programme de soumission supprimé
-    delete_all:
-      notice: programmes de soumission supprimés
-    destroy:
-      notice: programme de soumission supprimé
-    destroy_all:
-      notice: programmes de soumission détruits
-    edit:
-      description: mettre à jour un programme de soumission.
-      submit: mettre à jour le programme de soumission
-      title: modifier le programme de soumission
-    index:
-      delete_all: supprimer tout
-      description: gérer les programmes de soumission.
-      destroy_all: détruire tout
-      new: nouveau programme de soumission
-      title: programmes de soumission
-    model:
-      to_s: programme_soumission#%{id}
-    nested:
-      submission_programs: quels programmes veux-tu dans cette section ?
-    nested_form:
-      remove: supprimer le programme de soumission
-      submission_program: programme de soumission
-    new:
-      description: créer un nouveau programme de soumission.
-      submit: créer le programme de soumission
-      title: nouveau programme de soumission
-    show:
-      created_at: créé à
-      delete: supprimer le programme de soumission
-      description: description
-      destroy: détruire le programme de soumission
-      edit: modifier le programme de soumission
-      id: identifiant
-      label: libellé
-      locale: langage
-      logs: logs
-      name: nom
-      new_log: nouveau log
-      new_version: nouvelle version
-      submission: soumission
-      submission_section: section de soumission
-      updated_at: mis à jour à
-      value: valeur
-      versions: versions
-    update:
-      notice: programme de soumission mis à jour
-  submission_schedules:
-    create:
-      notice: horaire de soumission créé
-    delete:
-      notice: horaire de soumission supprimé
-    delete_all:
-      notice: horaires de soumission supprimés
-    destroy:
-      notice: horaire de soumission supprimé
-    destroy_all:
-      notice: horaires de soumission détruits
-    edit:
-      description: mettre à jour un horaire de soumission.
-      submit: mettre à jour l'horaire de soumission
-      title: modifier l'horaire de soumission
-    index:
-      delete_all: supprimer tout
-      description: gérer les horaires de soumission.
-      destroy_all: détruire tout
-      new: nouveau horaire de soumission
-      title: horaires de soumission
-    model:
-      days:
-        one: 1 jour
-        other: "%{count} jours"
-        zero: 0 jour
-      fifth_friday: cinquième vendredi
-      fifth_monday: cinquième lundi
-      fifth_saturday: cinquième samedi
-      fifth_sunday: cinquième dimanche
-      fifth_thursday: cinquième jeudi
-      fifth_tuesday: cinquième mardi
-      fifth_wednesday: cinquième mercredi
-      first_friday: premier vendredi
-      first_monday: premier lundi
-      first_saturday: premier samedi
-      first_sunday: premier dimanche
-      first_thursday: premier jeudi
-      first_tuesday: premier mardi
-      first_wednesday: premier mercredi
-      fourth_friday: quatrième vendredi
-      fourth_monday: quatrième lundi
-      fourth_saturday: quatrième samedi
-      fourth_sunday: quatrième dimanche
-      fourth_thursday: quatrième jeudi
-      fourth_tuesday: quatrième mardi
-      fourth_wednesday: quatrième mercredi
-      hours:
-        one: 1 heure
-        other: "%{count} heures"
-        zero: 0 heures
-      last_friday: dernier vendredi
-      last_monday: dernier lundi
-      last_saturday: dernier samedi
-      last_sunday: dernier dimanche
-      last_thursday: dernier jeudi
-      last_tuesday: dernier mardi
-      last_wednesday: dernier mercredi
-      minutes:
-        one: 1 minute
-        other: "%{count} minutes"
-        zero: 0 minutes
-      months:
-        one: 1 mois
-        other: "%{count} mois"
-        zero: 0 mois
-      once: une fois
-      second_friday: deuxième vendredi
-      second_monday: deuxième lundi
-      second_saturday: deuxième samedi
-      second_sunday: deuxième dimanche
-      second_thursday: deuxième jeudi
-      second_tuesday: deuxième mardi
-      second_wednesday: deuxième mercredi
-      seconds:
-        one: 1 seconde
-        other: "%{count} secondes"
-        zero: 0 seconde
-      third_friday: troisième vendredi
-      third_monday: troisième lundi
-      third_saturday: troisième samedi
-      third_sunday: troisième dimanche
-      third_thursday: troisième jeudi
-      third_tuesday: troisième mardi
-      third_wednesday: troisième mercredi
-      to_s: horaire_soumission#%{id}
-      weeks:
-        one: 1 semaine
-        other: "%{count} semaines"
-        zero: 0 semaines
-      years:
-        one: 1 an
-        other: "%{count} ans"
-        zero: 0 ans
-    nested:
-      submission_schedules: quand veux-tu reçevoir ces programmes ?
-    new:
-      description: créer un nouveau horaire de soumission.
-      submit: créer l'horaire de soumission
-      title: nouveau horaire de soumission
-    show:
-      created_at: créé à
-      delete: supprimer l'horaire de soumission
-      description: description
-      destroy: détruire l'horaire de soumission
-      edit: modifier l'horaire de soumission
-      id: identifiant
-      interval: intervalle
-      label: libellé
-      locale: langage
-      logs: logs
-      name: nom
-      new_log: nouveau log
-      new_version: nouvelle version
-      starts_at: commence à
-      submission: soumission
-      submission_section: section de soumission
-      updated_at: mis à jour à
-      value: valeur
-      versions: versions
-    update:
-      notice: horaire de soumission mis à jour
-  submission_sections:
-    create:
-      notice: section de soumission créée
-    delete:
-      notice: section de soumission supprimée
-    delete_all:
-      notice: sections de soumission supprimées
-    destroy:
-      notice: section de soumission supprimée
-    destroy_all:
-      notice: sections de soumission détruites
-    edit:
-      description: mettre à jour une section de soumission.
-      submit: mettre à jour la section de soumission
-      title: modifier la section de soumission
-    index:
-      delete_all: supprimer tout
-      description: gérer les sections de soumission.
-      destroy_all: détruire tout
-      new: nouvelle section de soumission
-      title: sections de soumission
-    model:
-      to_s: section_soumission#%{id}
-    nested:
-      add: ajouter une section
-    nested_form:
-      description: comment décrirais-tu cette section ?
-      name: comment appellerais-tu cette section ?
-      remove: retirer la section
-    new:
-      description: créer une nouvelle section de soumission.
-      submit: créer la section de soumission
-      title: nouvelle section de soumission
-    show:
-      created_at: créé à
-      delete: supprimer la section de soumission
-      description: description
-      destroy: détruire la section de soumission
-      edit: modifier la section de soumission
-      id: identifiant
-      locale: langage
-      logs: logs
-      name: nom
-      new_log: nouveau log
-      new_submission_delivery: nouvelle livraison de soumission
-      new_submission_program: nouveau programme de soumission
-      new_submission_schedule: nouvel horaire de soumission
-      new_version: nouvelle version
-      submission: soumission
-      submission_deliveries: livraisons de soumission
-      submission_programs: programmes de soumission
-      submission_schedules: horaires de soumission
-      updated_at: mis à jour à
-      versions: versions
-    update:
-      notice: section de soumission mise à jour
-  submissions:
-    create:
-      notice: soumission créée
-    delete:
-      notice: soumission supprimée
-    delete_all:
-      notice: soumissions supprimées
-    destroy:
-      notice: soumission supprimée
-    destroy_all:
-      notice: soumissions détruites
-    edit:
-      description: mettre à jour une soumission.
-      submit: mettre à jour la soumission
-      title: modifier la soumission
-    index:
-      delete_all: supprimer tout
-      description: gérer les soumissions.
-      destroy_all: détruire tout
-      new: nouvelle soumission
-      title: soumissions
-    model:
-      to_s: soumission#%{id}
-    new:
-      description: créer une nouvelle soumission.
-      submit: créer une soumission
-      title: nouvelle soumission
-    show:
-      created_at: créé à
-      delete: supprimer la soumission
-      description: consulter les détails de la soumission.
-      destroy: détruire la soumission
-      edit: modifier la soumission
-      email_address: adresse e-mail
-      family_name: nom de famille
-      given_name: prénom
-      id: identifiant
-      locale: langage
-      logs: logs
-      new_log: nouveau log
-      new_submission_delivery: nouvelle remise de soumission
-      new_submission_program: nouveau programme de soumission
-      new_submission_schedule: nouveau calendrier de soumission
-      new_submission_section: nouvelle section de soumission
-      new_version: nouvelle version
-      phone_number: numéro de téléphone
-      submission_deliveries: remises de soumission
-      submission_programs: programmes de soumission
-      submission_schedules: calendriers de soumission
-      submission_sections: sections de soumission
-      updated_at: mis à jour à
-      versions: versions
-    update:
-      notice: soumission mise à jour
   subscription_billings:
     cancel:
       notice: l'abonnement prendra fin après la période payée
@@ -4831,7 +3880,6 @@ fr:
       download_invoice: télécharger le pdf
       ends_at: se termine le
       invoices: factures
-      month: mois
       pay: s'abonner
       price: prix
       renews_at: renouvellement le
@@ -4863,18 +3911,10 @@ fr:
       description: 'modifier : destination d’abonnement'
       submit: modifier
       title: 'modifier : destination d’abonnement'
-    form:
-      currency: devise
-      destinations: destinations
-      manage: livraison
-      monthly_cents: prix mensuel par destination (centimes)
-      save: enregistrer
     index:
-      add: ajouter
       delete_all: 'supprimer : destinations d’abonnement'
       description: destinations d’abonnement
       destroy_all: 'détruire : destinations d’abonnement'
-      manage: livraison
       new: 'ajouter : destination d’abonnement'
       title: destinations d’abonnement
     model:
@@ -4883,10 +3923,6 @@ fr:
       description: 'ajouter : destination d’abonnement'
       submit: créer
       title: 'ajouter : destination d’abonnement'
-    reconcile:
-      notice: enregistré
-    retry:
-      notice: enregistré
     show:
       active: actif
       amount_cents: montant en centimes
@@ -4899,10 +3935,8 @@ fr:
       edit: modifier la destination d’abonnement
       id: id
       logs: journaux
-      manage: livraison
       new_log: nouveau journal
       new_version: nouvelle version
-      remove: supprimer
       selected: sélectionné
       subscription_id: abonnement
       updated_at: mis à jour le
@@ -5013,23 +4047,13 @@ fr:
     delete_all:
       notice: abonnements supprimés
     destination_fields:
-      channel: canal
-      connection: connexion
-      month: mois
-      name: nom
       private: privé
       public: public
-      recipient: destinataire
-      recipient_help: laissez vide pour votre messagerie code dorian ou les notifications
-        push.
       remove: supprimer
-      visibility: visibilité
     destinations:
       add_destination: ajouter une destination
       base: prix du service
       change_pending: une modification du prix attend la confirmation du paiement.
-      destinations: destinations
-      month: mois
       total: total mensuel
       unavailable: aucun mode de livraison n’est disponible pour le moment.
     destroy:
@@ -5044,7 +4068,6 @@ fr:
     index:
       delete_all: tout supprimer
       destroy_all: tout détruire
-      new: nouvel abonnement
       subscription_executions:
         one: "%{count} exécution d'abonnement"
         other: "%{count} exécutions d'abonnement"
@@ -5085,7 +4108,6 @@ fr:
       recipient_verified: destination confirmée
       request_verification: envoyer ou renvoyer le message de confirmation
       service: service
-      stale: obsolète
       starts_at: commence à
       status: statut
       step_executions: exécutions d'étape
@@ -5254,7 +4276,6 @@ fr:
       locale: langue
       log_out: se déconnecter
       logs: logs
-      messages: messages
       name: nom
       new_job: nouvelle tâche
       new_log: nouveau log
@@ -5308,13 +4329,9 @@ fr:
       id: identifiant
       item_id: élément
       item_type: type d'élément
-      logs: logs
-      new_log: nouveau log
-      new_version: nouvelle version
       object: objet
       object_changes: changements d'objet
       updated_at: mis à jour à
-      versions: versions
       whodunnit: auteur
     update:
       notice: version mise à jour

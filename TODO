@@ -1,5 +1,3 @@
-- review views
-- review locales
 - advanced / simple + admin / regular
 - replace rpush with https://github.com/rails/action_push_native
 - migrate programs
