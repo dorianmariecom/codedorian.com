@@ -1,6 +1,13 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    action_push_native (0.3.1)
+      activejob (>= 8.0)
+      activerecord (>= 8.0)
+      googleauth (~> 1.14)
+      httpx (~> 1.6)
+      jwt (>= 2)
+      railties (>= 8.0)
     action_text-trix (2.1.19)
       railties
     actioncable (8.1.4)
@@ -242,6 +249,8 @@ GEM
       reline
     http-2 (1.2.3)
     http_accept_language (2.1.1)
+    httpx (1.8.4)
+      http-2 (>= 1.2.0)
     i18n (1.15.2)
       concurrent-ruby (~> 1.0)
     i18n-tasks (1.1.2)
@@ -342,13 +351,8 @@ GEM
       bigdecimal
       i18n (~> 1.9)
     msgpack (1.8.5)
-    multi_json (1.21.2)
     net-http (0.9.1)
       uri (>= 0.11.1)
-    net-http-persistent (4.0.8)
-      connection_pool (>= 2.2.4, < 4)
-    net-http2 (0.19.0)
-      http-2 (>= 1.0)
     net-imap (0.6.7)
       date
       net-protocol
@@ -501,17 +505,6 @@ GEM
     rexml (3.4.4)
     rover-df (1.1.0)
       numo-narray-alt (>= 0.10)
-    rpush (9.2.0)
-      activesupport (>= 6.0, != 7.2.1, != 7.2.0, != 7.1.4)
-      googleauth
-      jwt (>= 1.5.6)
-      multi_json (~> 1.0)
-      net-http-persistent
-      net-http2 (~> 0.18, >= 0.18.3)
-      railties
-      rainbow
-      thor (>= 0.18.1, < 2.0)
-      web-push
     rubocop (1.91.0)
       json (>= 2.3)
       language_server-protocol (~> 3.17.0.2)
@@ -646,9 +639,6 @@ GEM
     w_syntax_tree-erb (0.12.0)
       prettier_print (~> 1.2, >= 1.2.0)
       syntax_tree (~> 6.1, >= 6.1.1)
-    web-push (3.1.0)
-      jwt (~> 3.0)
-      openssl (>= 3.0)
     webmock (3.26.4)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
@@ -674,6 +664,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  action_push_native
   active_storage_validations
   activerecord-session_store
   base64
@@ -730,7 +721,6 @@ DEPENDENCIES
   recaptcha
   redis
   resolv
-  rpush
   rubocop-capybara
   rubocop-performance
   rubocop-rails

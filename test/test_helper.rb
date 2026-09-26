@@ -4,6 +4,8 @@ ENV["RAILS_ENV"] ||= "test"
 
 require_relative "../config/environment"
 require "rails/test_help"
+require "webmock"
+require "httpx/adapters/webmock"
 require "webmock/minitest"
 require_relative "support/controller_smoke_helper"
 

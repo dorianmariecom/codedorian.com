@@ -86,6 +86,15 @@ class Device < ApplicationRecord
     platform == "android"
   end
 
+  def push_platform
+    ios? ? :apple : :google
+  end
+
+  def push(notification)
+    notification.token = token
+    ActionPushNative.service_for(push_platform, notification).push(notification)
+  end
+
   def device
     platform.presence
   end

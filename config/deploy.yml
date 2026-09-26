@@ -34,10 +34,6 @@ servers:
     cmd: bin/jobs
     hosts:
     - 138.201.175.197
-  push:
-    cmd: bin/push
-    hosts:
-    - 138.201.175.197
   web:
   - 138.201.175.197
 service: codedorian

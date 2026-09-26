@@ -95,11 +95,11 @@ class Current < ActiveSupport::CurrentAttributes
   end
 
   def ios_environments
-    Config.rpush.ios.environments
+    Config.action_push_native.ios_environments
   end
 
   def android_environments
-    Config.rpush.android.environments
+    Config.action_push_native.android_environments
   end
 
   def ios_app_name

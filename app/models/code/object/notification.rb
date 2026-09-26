@@ -130,63 +130,24 @@ class Code
         collapse_key: nil,
         data: nil
       )
-        code_from = from.to_code
-        code_to = to.to_code
-        code_subject = subject.to_s.to_code
-        code_body = body.to_s.to_code
-        code_path = path.to_s.to_code
-        code_sound = sound.to_s.to_code
-        code_category = category.to_s.to_code
-        code_thread_id = thread_id.to_s.to_code
-        code_collapse_key = collapse_key.to_s.to_code
-        code_data = data.to_code
-        code_from = Current.code_user if code_from.nothing?
-        code_to = Current.code_user if code_to.nothing?
-
-        ::ApplicationRecord.transaction do
-          policy_scope(code_to.user.devices).each do |device|
-            if device.ios?
-              ios_apps.each do |app|
-                ::Rpush::Apnsp8::Notification.create!(
-                  app: app,
-                  device_token: device.token,
-                  alert: {
-                    title: code_subject.to_s,
-                    body: code_body.to_s
-                  },
-                  data: {
-                    path: code_path.to_s,
-                    **data.as_json
-                  },
-                  thread_id: code_thread_id.to_s,
-                  sound: code_sound.to_s,
-                  category: code_category.to_s
-                )
-              end
-            elsif device.android?
-              android_apps.each do |app|
-                ::Rpush::Fcm::Notification.create!(
-                  app: app,
-                  device_token: device.token,
-                  notification: {
-                    title: code_subject.to_s,
-                    body: code_body.to_s
-                  },
-                  data: {
-                    path: code_path.to_s,
-                    **data.as_json
-                  },
-                  collapse_key: code_collapse_key.to_s,
-                  sound: code_sound.to_s,
-                  category: code_category.to_s
-                )
-              end
-            end
-          end
-        end
+        from.to_code
+        enqueue_notifications(
+          to: to,
+          subject: subject,
+          body: body,
+          path: path,
+          sound: sound,
+          category: category,
+          thread_id: thread_id,
+          collapse_key: collapse_key,
+          data: data
+        )
 
         Boolean.new(true)
-      rescue ::ActiveRecord::RecordInvalid, ::ActiveRecord::RecordNotSaved => e
+      rescue ::ActiveRecord::RecordInvalid,
+             ::ActiveRecord::RecordNotSaved,
+             ::ActiveJob::EnqueueError,
+             ::SolidQueue::Job::EnqueueError => e
         Boolean.new(false)
       end
 
@@ -202,63 +163,24 @@ class Code
         collapse_key: nil,
         data: nil
       )
-        code_from = from.to_code
-        code_to = to.to_code
-        code_subject = subject.to_s.to_code
-        code_body = body.to_s.to_code
-        code_path = path.to_s.to_code
-        code_sound = sound.to_s.to_code
-        code_category = category.to_s.to_code
-        code_thread_id = thread_id.to_s.to_code
-        code_collapse_key = collapse_key.to_s.to_code
-        code_data = data.to_code
-        code_from = Current.code_user if code_from.nothing?
-        code_to = Current.code_user if code_to.nothing?
-
-        ::ApplicationRecord.transaction do
-          policy_scope(code_to.user.devices).each do |device|
-            if device.ios?
-              ios_apps.each do |app|
-                ::Rpush::Apnsp8::Notification.create!(
-                  app: app,
-                  device_token: device.token,
-                  alert: {
-                    title: code_subject.to_s,
-                    body: code_body.to_s
-                  },
-                  data: {
-                    path: code_path.to_s,
-                    **data.as_json
-                  },
-                  thread_id: code_thread_id.to_s,
-                  sound: code_sound.to_s,
-                  category: code_category.to_s
-                )
-              end
-            elsif device.android?
-              android_apps.each do |app|
-                ::Rpush::Fcm::Notification.create!(
-                  app: app,
-                  device_token: device.token,
-                  notification: {
-                    title: code_subject.to_s,
-                    body: code_body.to_s
-                  },
-                  data: {
-                    path: code_path.to_s,
-                    **data.as_json
-                  },
-                  collapse_key: code_collapse_key.to_s,
-                  sound: code_sound.to_s,
-                  category: code_category.to_s
-                )
-              end
-            end
-          end
-        end
+        from.to_code
+        enqueue_notifications(
+          to: to,
+          subject: subject,
+          body: body,
+          path: path,
+          sound: sound,
+          category: category,
+          thread_id: thread_id,
+          collapse_key: collapse_key,
+          data: data
+        )
 
         Notification.new
-      rescue ::ActiveRecord::RecordInvalid, ::ActiveRecord::RecordNotSaved => e
+      rescue ::ActiveRecord::RecordInvalid,
+             ::ActiveRecord::RecordNotSaved,
+             ::ActiveJob::EnqueueError,
+             ::SolidQueue::Job::EnqueueError => e
         if ::Current.admin?
           raise(
             ::Code::Error,
@@ -269,21 +191,64 @@ class Code
         raise(::Code::Error, "notification not saved")
       end
 
-      def self.ios_apps
-        ::Current.ios_environments.filter_map do |environment|
-          ::Rpush::Apnsp8::App.find_by(
-            name: ::Current.ios_app_name,
-            environment: environment
-          )
-        end
-      end
+      def self.enqueue_notifications(
+        to:,
+        subject:,
+        body:,
+        path:,
+        sound:,
+        category:,
+        thread_id:,
+        collapse_key:,
+        data:
+      )
+        code_to = to.to_code
+        code_to = Current.code_user if code_to.nothing?
+        code_data = data.to_code
+        payload = { "path" => path.to_s }.merge(
+          code_data.nothing? ? {} : code_data.as_json.stringify_keys
+        )
 
-      def self.android_apps
-        ::Current.android_environments.filter_map do |environment|
-          ::Rpush::Fcm::App.find_by(
-            name: ::Current.android_app_name,
-            environment: environment
-          )
+        ::ApplicationRecord.transaction do
+          policy_scope(code_to.user.devices).each do |device|
+            ::ApplicationPushNotification
+              .applications_for(device)
+              .each do |application|
+                notification =
+                  ::ApplicationPushNotification.new(
+                    application: application,
+                    title: subject.to_s,
+                    body: body.to_s,
+                    data: payload,
+                    sound: sound.to_s,
+                    thread_id: device.ios? ? thread_id.to_s : nil,
+                    high_priority: device.ios?,
+                    apple_data: {
+                      aps: {
+                        category: category.to_s
+                      },
+                      "apns-expiration": 1.day.from_now.to_i.to_s
+                    },
+                    google_data: {
+                      notification: {
+                        title: subject.to_s,
+                        body: body.to_s
+                      },
+                      android: {
+                        collapse_key: collapse_key.to_s,
+                        priority: nil,
+                        ttl: "86400s",
+                        notification: {
+                          title: nil,
+                          body: nil,
+                          default_sound: sound.to_s == "default"
+                        }
+                      }
+                    }
+                  )
+                notification.enqueue_to(device)
+              end
+          end
         end
       end
 
