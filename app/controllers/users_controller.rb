@@ -168,7 +168,10 @@ class UsersController < ApplicationController
   def create
     @user = authorize(scope.new(user_params.merge(id: nil)))
 
-    saved = Current.with(user: @user) { @user.save(context: :controller) }
+    saved =
+      Current.with(user: @user, locale: Current.locale) do
+        @user.save(context: :controller)
+      end
 
     if saved
       log_in(@user)

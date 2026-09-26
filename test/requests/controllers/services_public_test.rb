@@ -24,7 +24,7 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
 
     assert_response(:success)
     expected_name =
-      locale == :fr ? "Anniversaires — E-mail" : "Birthdays — Email"
+      locale == :fr ? "E-mail - Anniversaires" : "Email - Birthdays"
     expected_description =
       (
         if locale == :fr
@@ -33,9 +33,9 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
           "Birthday reminders by email for €2/month."
         end
       )
-    assert_select("section .font-bold", text: expected_name)
+    assert_select(".font-bold a[href=?]", plan_path(plan), text: expected_name)
     assert_select("h1, h2, h3, h4, h5, h6", count: 0)
-    assert_select("section", text: /#{Regexp.escape(expected_description)}/)
+    assert_select(".p.italic", text: expected_description)
     assert_select("input[name=redirect_to][value=?]", destination)
 
     post(
@@ -55,7 +55,8 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
     )
 
     assert_response(:unprocessable_content)
-    assert_select("section .font-bold", count: 1)
+    assert_select(".font-bold a[href=?]", plan_path(plan), text: expected_name)
+    assert_select(".p.italic", text: expected_description)
     assert_select("input[name=plan_id][value=?]", plan.id.to_s)
   end
 
@@ -65,7 +66,8 @@ class ServicesPublicTest < ActionDispatch::IntegrationTest
       get(new_user_path(locale: locale, plan_id: plan_id))
 
       assert_response(:success)
-      assert_select("section", count: 0)
+      assert_select(".font-bold a", count: 0)
+      assert_select(".p.italic", count: 0)
       assert_select("input[type=email][required]", count: 1)
     end
   end

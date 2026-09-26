@@ -65,10 +65,9 @@ class DeliveryConnectionsGoogleCalendarControllerTest < ActionDispatch::Integrat
                         "calendar-refresh"
     get delivery_connections_path
     assert_response :success
-    assert_includes response.body,
-                    I18n.t(
-                      "delivery_connections.delivery_connection.calendar_allowed"
-                    )
+    assert_select "a[href=?]",
+                  delivery_connection_path(connection),
+                  text: "google - person@example.com - google-account"
   end
 
   test "unchecked choice requests no calendar scopes and ignores callback permission tampering" do

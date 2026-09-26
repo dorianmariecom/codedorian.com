@@ -5,9 +5,11 @@ require "test_helper"
 class RecordToSTest < ActiveSupport::TestCase
   teardown { Current.reset }
 
-  test "admins see the translated record id after the descriptive sample" do
+  test "admins see the translated record id after the descriptive sample in debug mode" do
     user = users(:other_user)
     Current.user = users(:admin)
+    Current.request = ActionDispatch::TestRequest.create
+    Current.request.path_parameters = { "debug" => "" }
 
     assert_equal(
       Utils.join(user.description_sample, user.t("to_s", id: user.id)),
@@ -15,9 +17,27 @@ class RecordToSTest < ActiveSupport::TestCase
     )
   end
 
-  test "non admins do not see the record id" do
+  test "admins do not see the record id without debug mode" do
+    user = users(:other_user)
+    Current.user = users(:admin)
+    Current.request = ActionDispatch::TestRequest.create
+
+    assert_equal(user.description_sample, user.to_s)
+  end
+
+  test "admins do not see the record id outside a request" do
+    user = users(:other_user)
+    Current.user = users(:admin)
+    Current.request = nil
+
+    assert_equal(user.description_sample, user.to_s)
+  end
+
+  test "non admins do not see the record id even with the debug parameter" do
     user = users(:other_user)
     Current.user = user
+    Current.request = ActionDispatch::TestRequest.create
+    Current.request.path_parameters = { "debug" => "" }
 
     assert_equal(user.description_sample, user.to_s)
   end
@@ -25,6 +45,8 @@ class RecordToSTest < ActiveSupport::TestCase
   test "record fields replace users and precede the record id" do
     program = programs(:other_program)
     Current.user = users(:admin)
+    Current.request = ActionDispatch::TestRequest.create
+    Current.request.path_parameters = { "debug" => "" }
 
     assert_equal(
       Utils.join(program.name_sample, program.t("to_s", id: program.id)),
@@ -37,6 +59,8 @@ class RecordToSTest < ActiveSupport::TestCase
     program.name = nil
     program.input = nil
     Current.user = users(:admin)
+    Current.request = ActionDispatch::TestRequest.create
+    Current.request.path_parameters = { "debug" => "" }
 
     assert_equal(
       Utils.join(program.user_sample, program.t("to_s", id: program.id)),
