@@ -3,4 +3,6 @@
 class ApplicationPushNotificationJob < ActionPushNative::NotificationJob
   self.log_arguments = false
   self.enqueue_after_transaction_commit = false
+
+  discard_on ActionPushNative::TokenError
 end
