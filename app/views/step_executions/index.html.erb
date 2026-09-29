@@ -1,6 +1,123 @@
 <% content_for(:description, t(".title")) %>
 <%= turbo_stream_from(@step_executions) %>
 
+<% if can?(:index, Delivery) %>
+  <%
+    records = policy_scope(Delivery)
+    records = records.where_plan(@plan) if @plan
+    records = records.where_service(@service) if @service
+    records = records.where_step(@step) if @step
+    records = records.where_subscription(@subscription) if @subscription
+    records =
+      records.where_subscription_execution(
+        @subscription_execution
+      ) if @subscription_execution
+    records = records.where_user(@user) if @user
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".deliveries", count: records.distinct.count),
+      {
+        controller: :deliveries,
+        action: :index,
+        plan_id: @plan&.id,
+        service_id: @service&.id,
+        step_id: @step&.id,
+        subscription_id: @subscription&.id,
+        subscription_execution_id: @subscription_execution&.id,
+        user_id: @user&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, Job) %>
+  <%
+    records = policy_scope(Job)
+    records = records.where_user(@user) if @user
+    records = records.where_step(@step) if @step
+    records = records.where_subscription(@subscription) if @subscription
+    records =
+      records.where_subscription_execution(
+        @subscription_execution
+      ) if @subscription_execution
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".jobs", count: records.distinct.count),
+      {
+        controller: :jobs,
+        action: :index,
+        step_id: @step&.id,
+        subscription_id: @subscription&.id,
+        subscription_execution_id: @subscription_execution&.id,
+        user_id: @user&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, Version) %>
+  <%
+    records = policy_scope(Version)
+    records = records.where_plan(@plan) if @plan
+    records = records.where_service(@service) if @service
+    records = records.where_step(@step) if @step
+    records = records.where_subscription(@subscription) if @subscription
+    records =
+      records.where_subscription_execution(
+        @subscription_execution
+      ) if @subscription_execution
+    records = records.where_user(@user) if @user
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".versions", count: records.distinct.count),
+      {
+        controller: :versions,
+        action: :index,
+        plan_id: @plan&.id,
+        service_id: @service&.id,
+        step_id: @step&.id,
+        subscription_id: @subscription&.id,
+        subscription_execution_id: @subscription_execution&.id,
+        user_id: @user&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, Log) %>
+  <%
+    records = policy_scope(Log)
+    records = records.where_plan(@plan) if @plan
+    records = records.where_service(@service) if @service
+    records = records.where_step(@step) if @step
+    records = records.where_subscription(@subscription) if @subscription
+    records =
+      records.where_subscription_execution(
+        @subscription_execution
+      ) if @subscription_execution
+    records = records.where_user(@user) if @user
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".logs", count: records.distinct.count),
+      {
+        controller: :logs,
+        action: :index,
+        plan_id: @plan&.id,
+        service_id: @service&.id,
+        step_id: @step&.id,
+        subscription_id: @subscription&.id,
+        subscription_execution_id: @subscription_execution&.id,
+        user_id: @user&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+
 <% if can?(:create, model_class) %>
   <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
 <% end %>

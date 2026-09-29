@@ -1,6 +1,16 @@
 # frozen_string_literal: true
 
 class SubscriptionValue < ApplicationRecord
+  scope :where_service,
+        ->(service) do
+          where(
+            subscription_id: Subscription.where_service(service).select(:id)
+          )
+        end
+  scope :where_plan,
+        ->(plan) do
+          where(subscription_id: Subscription.where_plan(plan).select(:id))
+        end
   belongs_to :subscription, touch: true
   has_one :plan, through: :subscription
   has_one :service, through: :subscription

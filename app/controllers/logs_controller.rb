@@ -1,6 +1,21 @@
 # frozen_string_literal: true
 
 class LogsController < ApplicationController
+  before_action :load_link
+  before_action :load_page
+  before_action :load_plan
+  before_action :load_plan_field
+  before_action :load_plan_schedule
+  before_action :load_service
+  before_action :load_service_field
+  before_action :load_step
+  before_action :load_step_execution
+  before_action :load_stripe_event
+  before_action :load_stripe_invoice
+  before_action :load_subscription
+  before_action :load_subscription_execution
+  before_action :load_subscription_value
+  before_action :load_version
   before_action(:load_delivery)
   before_action(:load_delivery_channel)
   before_action(:load_connection)
@@ -118,6 +133,159 @@ class LogsController < ApplicationController
   end
 
   private
+
+  def load_link
+    return if params[:link_id].blank?
+
+    @link = policy_scope(Link).find(params.expect(:link_id))
+    set_context(link: @link)
+    add_breadcrumb(text: @link, path: @link)
+  end
+
+  def load_page
+    return if params[:page_id].blank?
+
+    @page = policy_scope(Page).find(params.expect(:page_id))
+    set_context(page: @page)
+    add_breadcrumb(text: @page, path: @page)
+  end
+
+  def load_plan
+    return if params[:plan_id].blank?
+
+    @plan = policy_scope(Plan).find(params.expect(:plan_id))
+    set_context(plan: @plan)
+    add_breadcrumb(text: @plan, path: @plan)
+  end
+
+  def load_plan_field
+    return if params[:plan_field_id].blank?
+
+    @plan_field = policy_scope(PlanField).find(params.expect(:plan_field_id))
+    set_context(plan_field: @plan_field)
+    add_breadcrumb(text: @plan_field, path: @plan_field)
+  end
+
+  def load_plan_schedule
+    return if params[:plan_schedule_id].blank?
+
+    @plan_schedule =
+      policy_scope(PlanSchedule).find(params.expect(:plan_schedule_id))
+    set_context(plan_schedule: @plan_schedule)
+    add_breadcrumb(text: @plan_schedule, path: @plan_schedule)
+  end
+
+  def load_service
+    return if params[:service_id].blank?
+
+    @service = policy_scope(Service).find(params.expect(:service_id))
+    set_context(service: @service)
+    add_breadcrumb(text: @service, path: @service)
+  end
+
+  def load_service_field
+    return if params[:service_field_id].blank?
+
+    @service_field =
+      policy_scope(ServiceField).find(params.expect(:service_field_id))
+    set_context(service_field: @service_field)
+    add_breadcrumb(text: @service_field, path: @service_field)
+  end
+
+  def load_step
+    return if params[:step_id].blank?
+
+    @step = policy_scope(Step).find(params.expect(:step_id))
+    set_context(step: @step)
+    add_breadcrumb(text: @step, path: @step)
+  end
+
+  def load_step_execution
+    return if params[:step_execution_id].blank?
+
+    @step_execution =
+      policy_scope(StepExecution).find(params.expect(:step_execution_id))
+    set_context(step_execution: @step_execution)
+    add_breadcrumb(text: @step_execution, path: @step_execution)
+  end
+
+  def load_stripe_event
+    return if params[:stripe_event_id].blank?
+
+    @stripe_event =
+      policy_scope(StripeEvent).find(params.expect(:stripe_event_id))
+    set_context(stripe_event: @stripe_event)
+    add_breadcrumb(text: @stripe_event, path: @stripe_event)
+  end
+
+  def load_stripe_invoice
+    return if params[:stripe_invoice_id].blank?
+
+    @stripe_invoice =
+      policy_scope(StripeInvoice).find(params.expect(:stripe_invoice_id))
+    set_context(stripe_invoice: @stripe_invoice)
+    add_breadcrumb(text: @stripe_invoice, path: @stripe_invoice)
+  end
+
+  def load_subscription
+    return if params[:subscription_id].blank?
+
+    @subscription =
+      policy_scope(Subscription).find(params.expect(:subscription_id))
+    set_context(subscription: @subscription)
+    add_breadcrumb(text: @subscription, path: @subscription)
+  end
+
+  def load_subscription_execution
+    return if params[:subscription_execution_id].blank?
+
+    @subscription_execution =
+      policy_scope(SubscriptionExecution).find(
+        params.expect(:subscription_execution_id)
+      )
+    set_context(subscription_execution: @subscription_execution)
+    add_breadcrumb(text: @subscription_execution, path: @subscription_execution)
+  end
+
+  def load_subscription_value
+    return if params[:subscription_value_id].blank?
+
+    @subscription_value =
+      policy_scope(SubscriptionValue).find(
+        params.expect(:subscription_value_id)
+      )
+    set_context(subscription_value: @subscription_value)
+    add_breadcrumb(text: @subscription_value, path: @subscription_value)
+  end
+
+  def load_version
+    return if params[:version_id].blank?
+
+    @version = policy_scope(Version).find(params.expect(:version_id))
+    set_context(version: @version)
+    add_breadcrumb(text: @version, path: @version)
+  end
+
+  def parent_params
+    {
+      link_id: @link&.id,
+      message_id: @message&.id,
+      page_id: @page&.id,
+      plan_id: @plan&.id,
+      plan_field_id: @plan_field&.id,
+      plan_schedule_id: @plan_schedule&.id,
+      service_id: @service&.id,
+      service_field_id: @service_field&.id,
+      step_id: @step&.id,
+      step_execution_id: @step_execution&.id,
+      stripe_event_id: @stripe_event&.id,
+      stripe_invoice_id: @stripe_invoice&.id,
+      subscription_id: @subscription&.id,
+      subscription_execution_id: @subscription_execution&.id,
+      subscription_value_id: @subscription_value&.id,
+      version_id: @version&.id
+    }.compact
+  end
 
   def load_delivery
     return if params[:delivery_id].blank?
@@ -613,7 +781,39 @@ class LogsController < ApplicationController
       scope = scope.where_subscription_destination(@subscription_destination)
     end
 
-    if @name
+    if @link
+      scope = scope.where_link(@link)
+    elsif @message
+      scope = scope.where_message(@message)
+    elsif @page
+      scope = scope.where_page(@page)
+    elsif @stripe_event
+      scope = scope.where_stripe_event(@stripe_event)
+    elsif @stripe_invoice
+      scope = scope.where_stripe_invoice(@stripe_invoice)
+    elsif @version
+      scope = scope.where_version(@version)
+    elsif @subscription_value
+      scope = scope.where_subscription_value(@subscription_value)
+    elsif @step_execution
+      scope = scope.where_step_execution(@step_execution)
+    elsif @subscription_execution
+      scope = scope.where_subscription_execution(@subscription_execution)
+    elsif @subscription
+      scope = scope.where_subscription(@subscription)
+    elsif @plan_field
+      scope = scope.where_plan_field(@plan_field)
+    elsif @plan_schedule
+      scope = scope.where_plan_schedule(@plan_schedule)
+    elsif @plan
+      scope = scope.where_plan(@plan)
+    elsif @service_field
+      scope = scope.where_service_field(@service_field)
+    elsif @step
+      scope = scope.where_step(@step)
+    elsif @service
+      scope = scope.where_service(@service)
+    elsif @name
       scope = scope.where_name(@name)
     elsif @password
       scope = scope.where_password(@password)

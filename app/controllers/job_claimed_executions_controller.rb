@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class JobClaimedExecutionsController < ApplicationController
+  before_action :load_job_batch
+  before_action :load_job_process
   before_action(:load_guest)
   before_action(:load_user)
   before_action(:load_program)
@@ -121,6 +123,26 @@ class JobClaimedExecutionsController < ApplicationController
 
   private
 
+  def load_job_batch
+    return if params[:job_batch_id].blank?
+
+    @job_batch = policy_scope(JobBatch).find(params.expect(:job_batch_id))
+    set_context(job_batch: @job_batch)
+    add_breadcrumb(text: @job_batch, path: @job_batch)
+  end
+
+  def load_job_process
+    return if params[:job_process_id].blank?
+
+    @job_process = policy_scope(JobProcess).find(params.expect(:job_process_id))
+    set_context(job_process: @job_process)
+    add_breadcrumb(text: @job_process, path: @job_process)
+  end
+
+  def parent_params
+    { job_batch_id: @job_batch&.id, job_process_id: @job_process&.id }.compact
+  end
+
   def load_guest
     return if params[:guest_id].blank?
 
@@ -188,6 +210,8 @@ class JobClaimedExecutionsController < ApplicationController
       scope = scope.where_guest(@guest)
     end
 
+    scope = scope.where_job_batch(@job_batch) if @job_batch
+    scope = scope.where_job_process(@job_process) if @job_process
     scope
   end
 

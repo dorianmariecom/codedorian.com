@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 class DeliveryChannel < ApplicationRecord
+  scope :where_user,
+        ->(user) do
+          where(connection_id: Connection.where_user(user).select(:id))
+        end
+  scope :where_connection,
+        ->(connection) { where(connection_id: connection.id) }
   KEYS = %i[
     github
     email

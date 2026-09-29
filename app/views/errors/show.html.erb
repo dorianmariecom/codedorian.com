@@ -48,7 +48,7 @@
 <div class="p font-bold">
   <%= link_to(
     t(".error_occurrences"),
-    [@user, @error, :error_occurrences],
+    { controller: :error_occurrences, action: :index, error_id: @error.id },
     class: :link
   ) %>
 </div>
@@ -57,7 +57,12 @@
   <div class="p">
     <%= link_to(
       t(".new_error_occurrence"),
-      [:new, @user, @error, :error_occurrence],
+      {
+        controller: :error_occurrences,
+        action: :new,
+        error_id: @error.id,
+        user_id: @user&.id
+      },
       class: "button"
     ) %>
   </div>
@@ -68,7 +73,7 @@
   collection: @error_occurrences,
   as: :error_occurrence,
   locals: {
-    nested: [@user, @error]
+    nested: [@user].compact
   }
 ) %>
 
@@ -80,7 +85,11 @@
       .page(params[:page]) %>
 
   <div class="p font-bold">
-    <%= link_to(t(".jobs"), { controller: :jobs, action: :index }, class: :link) %>
+    <%= link_to(
+      t(".jobs"),
+      { controller: :jobs, action: :index, error_id: @error.id },
+      class: :link
+    ) %>
   </div>
 
   <% if can?(:create, Job) %>
@@ -103,12 +112,7 @@
   <div class="p font-bold">
     <%= link_to(
       t(".logs"),
-      {
-        controller: :logs,
-        action: :index,
-        user_id: @user&.id,
-        error_id: @error&.id
-      },
+      { controller: :logs, action: :index, error_id: @error.id },
       class: :link
     ) %>
   </div>
@@ -128,7 +132,30 @@
     collection: @logs,
     as: :log,
     locals: {
-      nested: [@user, @error]
+      nested: [@user].compact
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, JobContext) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".job_contexts"),
+      { controller: :job_contexts, action: :index, error_id: @error.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "job_contexts/job_context",
+    collection:
+      policy_scope(JobContext)
+        .where_error(@error)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :job_context,
+    locals: {
+      nested: []
     }
   ) %>
 <% end %>

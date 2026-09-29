@@ -1,6 +1,72 @@
 <% content_for(:title, t(".title")) %>
 <% content_for(:description, t(".description")) %>
 <%= turbo_stream_from(@subscription_destinations) %>
+
+<% if can?(:index, Version) %>
+  <%
+    records = policy_scope(Version)
+    records = records.where_connection(@connection) if @connection
+    records = records.where_delivery_channel(@delivery_channel) if @delivery_channel
+    records =
+      records.where_delivery_destination(
+        @delivery_destination
+      ) if @delivery_destination
+    records = records.where_plan(@plan) if @plan
+    records = records.where_service(@service) if @service
+    records = records.where_subscription(@subscription) if @subscription
+    records = records.where_user(@user) if @user
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".versions", count: records.distinct.count),
+      {
+        controller: :versions,
+        action: :index,
+        connection_id: @connection&.id,
+        delivery_channel_id: @delivery_channel&.id,
+        delivery_destination_id: @delivery_destination&.id,
+        plan_id: @plan&.id,
+        service_id: @service&.id,
+        subscription_id: @subscription&.id,
+        user_id: @user&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, Log) %>
+  <%
+    records = policy_scope(Log)
+    records = records.where_connection(@connection) if @connection
+    records = records.where_delivery_channel(@delivery_channel) if @delivery_channel
+    records =
+      records.where_delivery_destination(
+        @delivery_destination
+      ) if @delivery_destination
+    records = records.where_plan(@plan) if @plan
+    records = records.where_service(@service) if @service
+    records = records.where_subscription(@subscription) if @subscription
+    records = records.where_user(@user) if @user
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".logs", count: records.distinct.count),
+      {
+        controller: :logs,
+        action: :index,
+        connection_id: @connection&.id,
+        delivery_channel_id: @delivery_channel&.id,
+        delivery_destination_id: @delivery_destination&.id,
+        plan_id: @plan&.id,
+        service_id: @service&.id,
+        subscription_id: @subscription&.id,
+        user_id: @user&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+
 <% if can?(:create, SubscriptionDestination) %>
   <% if can?(:create, model_class) %>
     <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>

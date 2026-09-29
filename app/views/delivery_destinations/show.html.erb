@@ -119,3 +119,59 @@
     }
   ) %>
 <% end %>
+
+<% if can?(:index, SubscriptionDestination) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".subscription_destinations"),
+      {
+        controller: :subscription_destinations,
+        action: :index,
+        delivery_destination_id: @delivery_destination.id
+      },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "subscription_destinations/subscription_destination",
+    collection:
+      policy_scope(SubscriptionDestination)
+        .preload(delivery_destination: :delivery_channel)
+        .where_delivery_destination(@delivery_destination)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :subscription_destination,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, Delivery) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".deliveries"),
+      {
+        controller: :deliveries,
+        action: :index,
+        delivery_destination_id: @delivery_destination.id
+      },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "deliveries/delivery",
+    collection:
+      policy_scope(Delivery)
+        .preload(delivery_destination: :delivery_channel)
+        .where_delivery_destination(@delivery_destination)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :delivery,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>

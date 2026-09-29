@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class JobProcessesController < ApplicationController
+  before_action :load_supervisor
   before_action { add_breadcrumb(key: "job_processes.index", path: index_url) }
   before_action(:load_job_process, only: %i[show edit update destroy delete])
 
@@ -88,6 +89,18 @@ class JobProcessesController < ApplicationController
 
   private
 
+  def load_supervisor
+    return if params[:job_process_id].blank?
+
+    @supervisor = policy_scope(JobProcess).find(params.expect(:job_process_id))
+    set_context(job_process: @supervisor)
+    add_breadcrumb(text: @supervisor, path: @supervisor)
+  end
+
+  def parent_params
+    { job_process_id: @supervisor&.id }.compact
+  end
+
   def load_job_process
     @job_process = authorize(scope.find(id))
     set_context(job_process: @job_process)
@@ -99,7 +112,9 @@ class JobProcessesController < ApplicationController
   end
 
   def scope
-    searched_policy_scope(JobProcess)
+    records = searched_policy_scope(JobProcess)
+    records = records.where_job_process(@supervisor) if @supervisor
+    records
   end
 
   def logs_scope

@@ -72,7 +72,11 @@
       .page(params[:page]) %>
 
   <div class="p font-bold">
-    <%= link_to(t(".jobs"), { controller: :jobs, action: :index }, class: :link) %>
+    <%= link_to(
+      t(".jobs"),
+      { controller: :jobs, action: :index, email_address_id: @email_address.id },
+      class: :link
+    ) %>
   </div>
 
   <% if can?(:create, Job) %>
@@ -98,7 +102,7 @@
       {
         controller: :versions,
         action: :index,
-        email_address_id: @email_address&.id
+        email_address_id: @email_address.id
       },
       class: :link
     ) %>
@@ -128,7 +132,7 @@
   <div class="p font-bold">
     <%= link_to(
       t(".logs"),
-      { controller: :logs, action: :index, email_address_id: @email_address&.id },
+      { controller: :logs, action: :index, email_address_id: @email_address.id },
       class: :link
     ) %>
   </div>
@@ -149,6 +153,83 @@
     as: :log,
     locals: {
       nested: [*nested, @email_address]
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, JobContext) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".job_contexts"),
+      {
+        controller: :job_contexts,
+        action: :index,
+        email_address_id: @email_address.id
+      },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "job_contexts/job_context",
+    collection:
+      policy_scope(JobContext)
+        .where_email_address(@email_address)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :job_context,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, ::Error) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".errors"),
+      { controller: :errors, action: :index, email_address_id: @email_address.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "errors/error",
+    collection:
+      policy_scope(::Error)
+        .where_email_address(@email_address)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :error,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, ErrorOccurrence) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".error_occurrences"),
+      {
+        controller: :error_occurrences,
+        action: :index,
+        email_address_id: @email_address.id
+      },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "error_occurrences/error_occurrence",
+    collection:
+      policy_scope(ErrorOccurrence)
+        .where_email_address(@email_address)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :error_occurrence,
+    locals: {
+      nested: []
     }
   ) %>
 <% end %>

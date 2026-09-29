@@ -74,14 +74,23 @@
 </div>
 
 <div class="p font-bold">
-  <%= link_to(t(".job_contexts"), [*nested, @job, :job_contexts], class: :link) %>
+  <%= link_to(
+    t(".job_contexts"),
+    { controller: :job_contexts, action: :index, job_id: @job.id },
+    class: :link
+  ) %>
 </div>
 
 <% if can?(:create, JobContext) %>
   <div class="p">
     <%= link_to(
       t(".new_job_context"),
-      [:new, *nested, @job, :job_context],
+      {
+        controller: :job_contexts,
+        action: :new,
+        job_id: @job.id,
+        user_id: @user&.id
+      },
       class: "button"
     ) %>
   </div>
@@ -92,14 +101,14 @@
   collection: @job_contexts,
   as: :job_context,
   locals: {
-    nested: [*nested, @job]
+    nested: nested
   }
 ) %>
 
 <div class="p font-bold">
   <%= link_to(
     t(".job_ready_executions"),
-    [*nested, @job, :job_ready_executions],
+    { controller: :job_ready_executions, action: :index, job_id: @job.id },
     class: :link
   ) %>
 </div>
@@ -108,7 +117,12 @@
   <div class="p">
     <%= link_to(
       t(".new_job_ready_execution"),
-      [:new, *nested, @job, :job_ready_execution],
+      {
+        controller: :job_ready_executions,
+        action: :new,
+        job_id: @job.id,
+        user_id: @user&.id
+      },
       class: "button"
     ) %>
   </div>
@@ -119,14 +133,14 @@
   collection: @job_ready_executions,
   as: :job_ready_execution,
   locals: {
-    nested: [*nested, @job]
+    nested: nested
   }
 ) %>
 
 <div class="p font-bold">
   <%= link_to(
     t(".job_failed_executions"),
-    [*nested, @job, :job_failed_executions],
+    { controller: :job_failed_executions, action: :index, job_id: @job.id },
     class: :link
   ) %>
 </div>
@@ -135,7 +149,12 @@
   <div class="p">
     <%= link_to(
       t(".new_job_failed_execution"),
-      [:new, *nested, @job, :job_failed_execution],
+      {
+        controller: :job_failed_executions,
+        action: :new,
+        job_id: @job.id,
+        user_id: @user&.id
+      },
       class: "button"
     ) %>
   </div>
@@ -146,14 +165,14 @@
   collection: @job_failed_executions,
   as: :job_failed_execution,
   locals: {
-    nested: [*nested, @job]
+    nested: nested
   }
 ) %>
 
 <div class="p font-bold">
   <%= link_to(
     t(".job_scheduled_executions"),
-    [*nested, @job, :job_scheduled_executions],
+    { controller: :job_scheduled_executions, action: :index, job_id: @job.id },
     class: :link
   ) %>
 </div>
@@ -162,7 +181,12 @@
   <div class="p">
     <%= link_to(
       t(".new_job_scheduled_execution"),
-      [:new, *nested, @job, :job_scheduled_execution],
+      {
+        controller: :job_scheduled_executions,
+        action: :new,
+        job_id: @job.id,
+        user_id: @user&.id
+      },
       class: "button"
     ) %>
   </div>
@@ -173,14 +197,14 @@
   collection: @job_scheduled_executions,
   as: :job_scheduled_execution,
   locals: {
-    nested: [*nested, @job]
+    nested: nested
   }
 ) %>
 
 <div class="p font-bold">
   <%= link_to(
     t(".job_blocked_executions"),
-    [*nested, @job, :job_blocked_executions],
+    { controller: :job_blocked_executions, action: :index, job_id: @job.id },
     class: :link
   ) %>
 </div>
@@ -189,7 +213,12 @@
   <div class="p">
     <%= link_to(
       t(".new_job_blocked_execution"),
-      [:new, *nested, @job, :job_blocked_execution],
+      {
+        controller: :job_blocked_executions,
+        action: :new,
+        job_id: @job.id,
+        user_id: @user&.id
+      },
       class: "button"
     ) %>
   </div>
@@ -200,14 +229,14 @@
   collection: @job_blocked_executions,
   as: :job_blocked_execution,
   locals: {
-    nested: [*nested, @job]
+    nested: nested
   }
 ) %>
 
 <div class="p font-bold">
   <%= link_to(
     t(".job_claimed_executions"),
-    [*nested, @job, :job_claimed_executions],
+    { controller: :job_claimed_executions, action: :index, job_id: @job.id },
     class: :link
   ) %>
 </div>
@@ -216,7 +245,12 @@
   <div class="p">
     <%= link_to(
       t(".new_job_claimed_execution"),
-      [:new, *nested, @job, :job_claimed_execution],
+      {
+        controller: :job_claimed_executions,
+        action: :new,
+        job_id: @job.id,
+        user_id: @user&.id
+      },
       class: "button"
     ) %>
   </div>
@@ -227,14 +261,14 @@
   collection: @job_claimed_executions,
   as: :job_claimed_execution,
   locals: {
-    nested: [*nested, @job]
+    nested: nested
   }
 ) %>
 
 <div class="p font-bold">
   <%= link_to(
     t(".job_batch_executions"),
-    [*nested, @job, :job_batch_executions],
+    { controller: :job_batch_executions, action: :index, job_id: @job.id },
     class: :link
   ) %>
 </div>
@@ -243,7 +277,12 @@
   <div class="p">
     <%= link_to(
       t(".new_job_batch_execution"),
-      [:new, *nested, @job, :job_batch_execution],
+      {
+        controller: :job_batch_executions,
+        action: :new,
+        job_id: @job.id,
+        user_id: @user&.id
+      },
       class: "button"
     ) %>
   </div>
@@ -254,14 +293,14 @@
   collection: @job_batch_executions,
   as: :job_batch_execution,
   locals: {
-    nested: [*nested, @job]
+    nested: nested
   }
 ) %>
 
 <div class="p font-bold">
   <%= link_to(
     t(".job_recurring_executions"),
-    [*nested, @job, :job_recurring_executions],
+    { controller: :job_recurring_executions, action: :index, job_id: @job.id },
     class: :link
   ) %>
 </div>
@@ -270,7 +309,12 @@
   <div class="p">
     <%= link_to(
       t(".new_job_recurring_execution"),
-      [:new, *nested, @job, :job_recurring_execution],
+      {
+        controller: :job_recurring_executions,
+        action: :new,
+        job_id: @job.id,
+        user_id: @user&.id
+      },
       class: "button"
     ) %>
   </div>
@@ -281,7 +325,7 @@
   collection: @job_recurring_executions,
   as: :job_recurring_execution,
   locals: {
-    nested: [*nested, @job]
+    nested: nested
   }
 ) %>
 
@@ -289,7 +333,7 @@
   <div class="p font-bold">
     <%= link_to(
       t(".logs"),
-      { controller: :logs, action: :index, job_id: @job&.id },
+      { controller: :logs, action: :index, job_id: @job.id },
       class: :link
     ) %>
   </div>
@@ -309,7 +353,53 @@
     collection: @logs,
     as: :log,
     locals: {
-      nested: [*nested, @job]
+      nested: nested
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, ::Error) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".errors"),
+      { controller: :errors, action: :index, job_id: @job.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "errors/error",
+    collection:
+      policy_scope(::Error)
+        .where_job(@job)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :error,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, ErrorOccurrence) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".error_occurrences"),
+      { controller: :error_occurrences, action: :index, job_id: @job.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "error_occurrences/error_occurrence",
+    collection:
+      policy_scope(ErrorOccurrence)
+        .where_job(@job)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :error_occurrence,
+    locals: {
+      nested: []
     }
   ) %>
 <% end %>

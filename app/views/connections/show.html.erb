@@ -176,3 +176,110 @@
     }
   ) %>
 <% end %>
+
+<% if can?(:index, DeliveryChannel) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".delivery_channels"),
+      {
+        controller: :delivery_channels,
+        action: :index,
+        connection_id: @connection.id
+      },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "delivery_channels/delivery_channel",
+    collection:
+      policy_scope(DeliveryChannel)
+        .where_connection(@connection)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :delivery_channel,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, DeliveryDestination) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".delivery_destinations"),
+      {
+        controller: :delivery_destinations,
+        action: :index,
+        connection_id: @connection.id
+      },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "delivery_destinations/delivery_destination",
+    collection:
+      policy_scope(DeliveryDestination)
+        .preload(:delivery_channel)
+        .where_connection(@connection)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :delivery_destination,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, Delivery) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".deliveries"),
+      { controller: :deliveries, action: :index, connection_id: @connection.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "deliveries/delivery",
+    collection:
+      policy_scope(Delivery)
+        .preload(delivery_destination: :delivery_channel)
+        .where_connection(@connection)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :delivery,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, SubscriptionDestination) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".subscription_destinations"),
+      {
+        controller: :subscription_destinations,
+        action: :index,
+        connection_id: @connection.id
+      },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "subscription_destinations/subscription_destination",
+    collection:
+      policy_scope(SubscriptionDestination)
+        .preload(delivery_destination: :delivery_channel)
+        .where_connection(@connection)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :subscription_destination,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>

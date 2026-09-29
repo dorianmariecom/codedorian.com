@@ -1,6 +1,50 @@
 # frozen_string_literal: true
 
 class Delivery < ApplicationRecord
+  scope :where_user,
+        ->(user) do
+          where(subscription_id: Subscription.where_user(user).select(:id))
+        end
+  scope :where_service,
+        ->(service) do
+          where(
+            subscription_id: Subscription.where_service(service).select(:id)
+          )
+        end
+  scope :where_plan,
+        ->(plan) do
+          where(subscription_id: Subscription.where_plan(plan).select(:id))
+        end
+  scope :where_subscription_execution,
+        ->(subscription_execution) do
+          where(
+            step_execution_id:
+              StepExecution.where_subscription_execution(
+                subscription_execution
+              ).select(:id)
+          )
+        end
+  scope :where_step,
+        ->(step) do
+          where(step_execution_id: StepExecution.where_step(step).select(:id))
+        end
+  scope :where_step_execution,
+        ->(step_execution) { where(step_execution_id: step_execution.id) }
+  scope :where_connection,
+        ->(connection) { where(connection_id: connection.id) }
+  scope :where_delivery_channel,
+        ->(delivery_channel) do
+          where(
+            delivery_destination_id:
+              DeliveryDestination.where_delivery_channel(
+                delivery_channel
+              ).select(:id)
+          )
+        end
+  scope :where_delivery_destination,
+        ->(delivery_destination) do
+          where(delivery_destination_id: delivery_destination.id)
+        end
   STATUSES = %i[
     pending
     sending

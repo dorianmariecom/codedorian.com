@@ -590,13 +590,17 @@ class ApplicationController < ActionController::Base
   end
 
   def index_context_params(...)
-    index_context_records(...)
-      .compact
-      .reject { |parent| parent.is_a?(User) || parent.is_a?(Guest) }
-      .to_h do |parent|
-        ["#{parent.model_name.singular_route_key}_id", parent.to_param]
-      end
+    context =
+      index_context_records(...)
+        .compact
+        .reject { |parent| parent.is_a?(User) || parent.is_a?(Guest) }
+        .to_h do |parent|
+          ["#{parent.model_name.singular_route_key}_id", parent.to_param]
+        end
+    context.merge(parent_params.stringify_keys)
   end
+
+  def parent_params = {}
 
   def index_context_records(...) = nested(...)
 

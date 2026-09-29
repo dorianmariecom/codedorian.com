@@ -1,6 +1,40 @@
 # frozen_string_literal: true
 
 class SubscriptionDestination < ApplicationRecord
+  scope :where_user,
+        ->(user) do
+          where(subscription_id: Subscription.where_user(user).select(:id))
+        end
+  scope :where_service,
+        ->(service) do
+          where(
+            subscription_id: Subscription.where_service(service).select(:id)
+          )
+        end
+  scope :where_plan,
+        ->(plan) do
+          where(subscription_id: Subscription.where_plan(plan).select(:id))
+        end
+  scope :where_connection,
+        ->(connection) do
+          where(
+            delivery_destination_id:
+              DeliveryDestination.where_connection(connection).select(:id)
+          )
+        end
+  scope :where_delivery_channel,
+        ->(delivery_channel) do
+          where(
+            delivery_destination_id:
+              DeliveryDestination.where_delivery_channel(
+                delivery_channel
+              ).select(:id)
+          )
+        end
+  scope :where_delivery_destination,
+        ->(delivery_destination) do
+          where(delivery_destination_id: delivery_destination.id)
+        end
   scope :where_subscription,
         ->(subscription) { where(subscription: subscription) }
   scope :selected, -> { where(selected: true) }

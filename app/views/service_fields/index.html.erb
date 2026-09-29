@@ -1,4 +1,44 @@
 <%= turbo_stream_from(@service_fields) %>
+
+<% if can?(:index, Version) %>
+  <%
+    records = policy_scope(Version)
+    records = records.where_service(@service) if @service
+    records = records.where_user(@user) if @user
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".versions", count: records.distinct.count),
+      {
+        controller: :versions,
+        action: :index,
+        service_id: @service&.id,
+        user_id: @user&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, Log) %>
+  <%
+    records = policy_scope(Log)
+    records = records.where_service(@service) if @service
+    records = records.where_user(@user) if @user
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".logs", count: records.distinct.count),
+      {
+        controller: :logs,
+        action: :index,
+        service_id: @service&.id,
+        user_id: @user&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+
 <% if can?(:create, ServiceField) %>
   <% if can?(:create, model_class) %>
     <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>

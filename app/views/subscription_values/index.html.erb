@@ -1,5 +1,53 @@
 <% content_for(:description, t(".title")) %>
 <%= turbo_stream_from(@subscription_values) %>
+
+<% if can?(:index, Version) %>
+  <%
+    records = policy_scope(Version)
+    records = records.where_plan(@plan) if @plan
+    records = records.where_service(@service) if @service
+    records = records.where_subscription(@subscription) if @subscription
+    records = records.where_user(@user) if @user
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".versions", count: records.distinct.count),
+      {
+        controller: :versions,
+        action: :index,
+        plan_id: @plan&.id,
+        service_id: @service&.id,
+        subscription_id: @subscription&.id,
+        user_id: @user&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, Log) %>
+  <%
+    records = policy_scope(Log)
+    records = records.where_plan(@plan) if @plan
+    records = records.where_service(@service) if @service
+    records = records.where_subscription(@subscription) if @subscription
+    records = records.where_user(@user) if @user
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".logs", count: records.distinct.count),
+      {
+        controller: :logs,
+        action: :index,
+        plan_id: @plan&.id,
+        service_id: @service&.id,
+        subscription_id: @subscription&.id,
+        user_id: @user&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+
 <% if can?(:create, SubscriptionValue) %>
   <% if can?(:create, model_class) %>
     <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>

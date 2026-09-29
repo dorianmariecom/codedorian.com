@@ -1,4 +1,34 @@
 <%= turbo_stream_from(@job_recurring_tasks) %>
+<% if can?(:index, JobContext) %>
+  <div class="p">
+    <%= link_to(
+      t(".job_contexts", count: policy_scope(JobContext).distinct.count),
+      { controller: :job_contexts, action: :index },
+      class: :link
+    ) %>
+  </div>
+<% end %>
+
+<% if can?(:index, JobRecurringExecution) %>
+  <% records = policy_scope(JobRecurringExecution) %>
+  <div class="p">
+    <%= link_to(
+      t(".job_recurring_executions", count: records.distinct.count),
+      { controller: :job_recurring_executions, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, Log) %>
+  <% records = policy_scope(Log) %>
+  <div class="p">
+    <%= link_to(
+      t(".logs", count: records.distinct.count),
+      { controller: :logs, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
 
 <% if can?(:create, JobRecurringTask) %>
   <% if can?(:create, model_class) %>

@@ -49,7 +49,7 @@
   <div class="p font-bold">
     <%= link_to(
       t(".versions"),
-      { controller: :versions, action: :index, job_context_id: @job_context&.id },
+      { controller: :versions, action: :index, job_context_id: @job_context.id },
       class: :link
     ) %>
   </div>
@@ -78,7 +78,7 @@
   <div class="p font-bold">
     <%= link_to(
       t(".logs"),
-      { controller: :logs, action: :index, job_context_id: @job_context&.id },
+      { controller: :logs, action: :index, job_context_id: @job_context.id },
       class: :link
     ) %>
   </div>
@@ -99,6 +99,79 @@
     as: :log,
     locals: {
       nested: [*nested, @job_context]
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, Job) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".jobs"),
+      { controller: :jobs, action: :index, job_context_id: @job_context.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "jobs/job",
+    collection:
+      policy_scope(Job)
+        .where_job_context(@job_context)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :job,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, ::Error) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".errors"),
+      { controller: :errors, action: :index, job_context_id: @job_context.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "errors/error",
+    collection:
+      policy_scope(::Error)
+        .where_job_context(@job_context)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :error,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, ErrorOccurrence) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".error_occurrences"),
+      {
+        controller: :error_occurrences,
+        action: :index,
+        job_context_id: @job_context.id
+      },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "error_occurrences/error_occurrence",
+    collection:
+      policy_scope(ErrorOccurrence)
+        .where_job_context(@job_context)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :error_occurrence,
+    locals: {
+      nested: []
     }
   ) %>
 <% end %>

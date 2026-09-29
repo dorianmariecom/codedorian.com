@@ -42,7 +42,11 @@
 <div class="p font-bold">
   <%= link_to(
     t(".step_executions"),
-    step_executions_path(subscription_execution_id: @subscription_execution.id),
+    {
+      controller: :step_executions,
+      action: :index,
+      subscription_execution_id: @subscription_execution.id
+    },
     class: :link
   ) %>
 </div>
@@ -66,7 +70,17 @@
 ) %>
 
 <% if can?(:index, Version) %>
-  <div class="p font-bold"><%= t(".versions") %></div>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".versions"),
+      {
+        controller: :versions,
+        action: :index,
+        subscription_execution_id: @subscription_execution.id
+      },
+      class: :link
+    ) %>
+  </div>
   <%= render_collection(
     partial: "versions/version",
     collection: @versions,
@@ -78,11 +92,76 @@
 <% end %>
 
 <% if can?(:index, Log) %>
-  <div class="p font-bold"><%= t(".logs") %></div>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".logs"),
+      {
+        controller: :logs,
+        action: :index,
+        subscription_execution_id: @subscription_execution.id
+      },
+      class: :link
+    ) %>
+  </div>
   <%= render_collection(
     partial: "logs/log",
     collection: @logs,
     as: :log,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, Delivery) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".deliveries"),
+      {
+        controller: :deliveries,
+        action: :index,
+        subscription_execution_id: @subscription_execution.id
+      },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "deliveries/delivery",
+    collection:
+      policy_scope(Delivery)
+        .preload(delivery_destination: :delivery_channel)
+        .where_subscription_execution(@subscription_execution)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :delivery,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, Job) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".jobs"),
+      {
+        controller: :jobs,
+        action: :index,
+        subscription_execution_id: @subscription_execution.id
+      },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "jobs/job",
+    collection:
+      policy_scope(Job)
+        .where_subscription_execution(@subscription_execution)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :job,
     locals: {
       nested: []
     }

@@ -1,6 +1,90 @@
 # frozen_string_literal: true
 
 class JobContext < ApplicationRecord
+  scope :where_job_recurring_task,
+        ->(job_recurring_task) do
+          where(
+            active_job_id:
+              Job.where(
+                id:
+                  JobRecurringExecution.where_job_recurring_task(
+                    job_recurring_task
+                  ).select(:job_id)
+              ).select(:active_job_id)
+          )
+        end
+  scope :where_job_process,
+        ->(job_process) do
+          where(
+            active_job_id:
+              Job.where(
+                id:
+                  JobClaimedExecution.where_job_process(job_process).select(
+                    :job_id
+                  )
+              ).select(:active_job_id)
+          )
+        end
+
+  scope :where_job_batch,
+        ->(job_batch) do
+          where(
+            active_job_id: Job.where_job_batch(job_batch).select(:active_job_id)
+          )
+        end
+  scope :where_job_batch_execution,
+        ->(job_batch_execution) do
+          where(
+            active_job_id:
+              Job.where(id: job_batch_execution.job_id).select(:active_job_id)
+          )
+        end
+  scope :where_job_blocked_execution,
+        ->(job_blocked_execution) do
+          where(
+            active_job_id:
+              Job.where(id: job_blocked_execution.job_id).select(:active_job_id)
+          )
+        end
+  scope :where_job_claimed_execution,
+        ->(job_claimed_execution) do
+          where(
+            active_job_id:
+              Job.where(id: job_claimed_execution.job_id).select(:active_job_id)
+          )
+        end
+  scope :where_job_failed_execution,
+        ->(job_failed_execution) do
+          where(
+            active_job_id:
+              Job.where(id: job_failed_execution.job_id).select(:active_job_id)
+          )
+        end
+  scope :where_job_ready_execution,
+        ->(job_ready_execution) do
+          where(
+            active_job_id:
+              Job.where(id: job_ready_execution.job_id).select(:active_job_id)
+          )
+        end
+  scope :where_job_recurring_execution,
+        ->(job_recurring_execution) do
+          where(
+            active_job_id:
+              Job.where(id: job_recurring_execution.job_id).select(
+                :active_job_id
+              )
+          )
+        end
+  scope :where_job_scheduled_execution,
+        ->(job_scheduled_execution) do
+          where(
+            active_job_id:
+              Job.where(id: job_scheduled_execution.job_id).select(
+                :active_job_id
+              )
+          )
+        end
   belongs_to(
     :job,
     primary_key: :active_job_id,

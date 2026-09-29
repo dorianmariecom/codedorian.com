@@ -1,19 +1,457 @@
 <%= turbo_stream_from(@jobs) %>
 
+<% if can?(:index, JobContext) %>
+  <%
+    records = policy_scope(JobContext)
+    if @program
+      records = records.where_program(@program)
+    elsif @user
+      records = records.where_user(@user)
+    elsif @guest
+      records = records.where_guest(@guest)
+    end
+    records = records.where_address(@address) if @address
+    records = records.where_datum(@datum) if @datum
+    records = records.where_device(@device) if @device
+    records = records.where_email_address(@email_address) if @email_address
+    records = records.where_error(@error) if @error
+    records = records.where_error_occurrence(@error_occurrence) if @error_occurrence
+    records = records.where_handle(@handle) if @handle
+    records = records.where_job_batch(@job_batch) if @job_batch
+    records = records.where_message(@message) if @message
+    records = records.where_name(@name) if @name
+    records = records.where_password(@password) if @password
+    records = records.where_phone_number(@phone_number) if @phone_number
+    records =
+      records.where_program_execution(@program_execution) if @program_execution
+    records = records.where_program_schedule(@program_schedule) if @program_schedule
+    records = records.where_time_zone(@time_zone) if @time_zone
+    records = records.where_token(@token) if @token
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".job_contexts", count: records.distinct.count),
+      {
+        controller: :job_contexts,
+        action: :index,
+        address_id: @address&.id,
+        datum_id: @datum&.id,
+        device_id: @device&.id,
+        email_address_id: @email_address&.id,
+        error_id: @error&.id,
+        error_occurrence_id: @error_occurrence&.id,
+        guest_id: @guest&.id,
+        handle_id: @handle&.id,
+        job_batch_id: @job_batch&.id,
+        message_id: @message&.id,
+        name_id: @name&.id,
+        password_id: @password&.id,
+        phone_number_id: @phone_number&.id,
+        program_id: @program&.id,
+        program_execution_id: @program_execution&.id,
+        program_schedule_id: @program_schedule&.id,
+        time_zone_id: @time_zone&.id,
+        token_id: @token&.id,
+        user_id: @user&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, JobReadyExecution) %>
+  <%
+    records = policy_scope(JobReadyExecution)
+    if @program
+      records = records.where_program(@program)
+    elsif @user
+      records = records.where_user(@user)
+    elsif @guest
+      records = records.where_guest(@guest)
+    end
+    records = records.where_job_batch(@job_batch) if @job_batch
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".job_ready_executions", count: records.distinct.count),
+      {
+        controller: :job_ready_executions,
+        action: :index,
+        guest_id: @guest&.id,
+        job_batch_id: @job_batch&.id,
+        program_id: @program&.id,
+        user_id: @user&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, JobFailedExecution) %>
+  <%
+    records = policy_scope(JobFailedExecution)
+    if @program
+      records = records.where_program(@program)
+    elsif @user
+      records = records.where_user(@user)
+    elsif @guest
+      records = records.where_guest(@guest)
+    end
+    records = records.where_job_batch(@job_batch) if @job_batch
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".job_failed_executions", count: records.distinct.count),
+      {
+        controller: :job_failed_executions,
+        action: :index,
+        guest_id: @guest&.id,
+        job_batch_id: @job_batch&.id,
+        program_id: @program&.id,
+        user_id: @user&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, JobScheduledExecution) %>
+  <%
+    records = policy_scope(JobScheduledExecution)
+    if @program
+      records = records.where_program(@program)
+    elsif @user
+      records = records.where_user(@user)
+    elsif @guest
+      records = records.where_guest(@guest)
+    end
+    records = records.where_job_batch(@job_batch) if @job_batch
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".job_scheduled_executions", count: records.distinct.count),
+      {
+        controller: :job_scheduled_executions,
+        action: :index,
+        guest_id: @guest&.id,
+        job_batch_id: @job_batch&.id,
+        program_id: @program&.id,
+        user_id: @user&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, JobBlockedExecution) %>
+  <%
+    records = policy_scope(JobBlockedExecution)
+    if @program
+      records = records.where_program(@program)
+    elsif @user
+      records = records.where_user(@user)
+    elsif @guest
+      records = records.where_guest(@guest)
+    end
+    records = records.where_job_batch(@job_batch) if @job_batch
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".job_blocked_executions", count: records.distinct.count),
+      {
+        controller: :job_blocked_executions,
+        action: :index,
+        guest_id: @guest&.id,
+        job_batch_id: @job_batch&.id,
+        program_id: @program&.id,
+        user_id: @user&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, JobClaimedExecution) %>
+  <%
+    records = policy_scope(JobClaimedExecution)
+    if @program
+      records = records.where_program(@program)
+    elsif @user
+      records = records.where_user(@user)
+    elsif @guest
+      records = records.where_guest(@guest)
+    end
+    records = records.where_job_batch(@job_batch) if @job_batch
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".job_claimed_executions", count: records.distinct.count),
+      {
+        controller: :job_claimed_executions,
+        action: :index,
+        guest_id: @guest&.id,
+        job_batch_id: @job_batch&.id,
+        program_id: @program&.id,
+        user_id: @user&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, JobBatchExecution) %>
+  <%
+    records = policy_scope(JobBatchExecution)
+    if @program
+      records = records.where_program(@program)
+    elsif @user
+      records = records.where_user(@user)
+    elsif @guest
+      records = records.where_guest(@guest)
+    end
+    records = records.where_job_batch(@job_batch) if @job_batch
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".job_batch_executions", count: records.distinct.count),
+      {
+        controller: :job_batch_executions,
+        action: :index,
+        guest_id: @guest&.id,
+        job_batch_id: @job_batch&.id,
+        program_id: @program&.id,
+        user_id: @user&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, JobRecurringExecution) %>
+  <%
+    records = policy_scope(JobRecurringExecution)
+    if @program
+      records = records.where_program(@program)
+    elsif @user
+      records = records.where_user(@user)
+    elsif @guest
+      records = records.where_guest(@guest)
+    end
+    records = records.where_job_batch(@job_batch) if @job_batch
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".job_recurring_executions", count: records.distinct.count),
+      {
+        controller: :job_recurring_executions,
+        action: :index,
+        guest_id: @guest&.id,
+        job_batch_id: @job_batch&.id,
+        program_id: @program&.id,
+        user_id: @user&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, ::Error) %>
+  <%
+    records = policy_scope(::Error)
+    if @program_schedule
+      records = records.where_program_schedule(@program_schedule)
+    elsif @program
+      records = records.where_program(@program)
+    elsif @address
+      records = records.where_address(@address)
+    elsif @datum
+      records = records.where_datum(@datum)
+    elsif @device
+      records = records.where_device(@device)
+    elsif @email_address
+      records = records.where_email_address(@email_address)
+    elsif @handle
+      records = records.where_handle(@handle)
+    elsif @message
+      records = records.where_message(@message)
+    elsif @name
+      records = records.where_name(@name)
+    elsif @phone_number
+      records = records.where_phone_number(@phone_number)
+    elsif @time_zone
+      records = records.where_time_zone(@time_zone)
+    elsif @token
+      records = records.where_token(@token)
+    elsif @user
+      records = records.where_user(@user)
+    elsif @guest
+      records = records.where_guest(@guest)
+    end
+    records = records.where_job_context(@job_context) if @job_context
+    records = records.where_password(@password) if @password
+    records =
+      records.where_program_execution(@program_execution) if @program_execution
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".errors", count: records.distinct.count),
+      {
+        controller: :errors,
+        action: :index,
+        address_id: @address&.id,
+        datum_id: @datum&.id,
+        device_id: @device&.id,
+        email_address_id: @email_address&.id,
+        guest_id: @guest&.id,
+        handle_id: @handle&.id,
+        job_context_id: @job_context&.id,
+        message_id: @message&.id,
+        name_id: @name&.id,
+        password_id: @password&.id,
+        phone_number_id: @phone_number&.id,
+        program_id: @program&.id,
+        program_execution_id: @program_execution&.id,
+        program_schedule_id: @program_schedule&.id,
+        time_zone_id: @time_zone&.id,
+        token_id: @token&.id,
+        user_id: @user&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, ErrorOccurrence) %>
+  <%
+    records = policy_scope(ErrorOccurrence)
+    if @error
+      records = records.where_error(@error)
+    elsif @program_schedule
+      records = records.where_program_schedule(@program_schedule)
+    elsif @program
+      records = records.where_program(@program)
+    elsif @address
+      records = records.where_address(@address)
+    elsif @datum
+      records = records.where_datum(@datum)
+    elsif @device
+      records = records.where_device(@device)
+    elsif @email_address
+      records = records.where_email_address(@email_address)
+    elsif @handle
+      records = records.where_handle(@handle)
+    elsif @message
+      records = records.where_message(@message)
+    elsif @name
+      records = records.where_name(@name)
+    elsif @phone_number
+      records = records.where_phone_number(@phone_number)
+    elsif @time_zone
+      records = records.where_time_zone(@time_zone)
+    elsif @token
+      records = records.where_token(@token)
+    elsif @user
+      records = records.where_user(@user)
+    elsif @guest
+      records = records.where_guest(@guest)
+    end
+    records = records.where_job_context(@job_context) if @job_context
+    records = records.where_password(@password) if @password
+    records =
+      records.where_program_execution(@program_execution) if @program_execution
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".error_occurrences", count: records.distinct.count),
+      {
+        controller: :error_occurrences,
+        action: :index,
+        address_id: @address&.id,
+        datum_id: @datum&.id,
+        device_id: @device&.id,
+        email_address_id: @email_address&.id,
+        error_id: @error&.id,
+        guest_id: @guest&.id,
+        handle_id: @handle&.id,
+        job_context_id: @job_context&.id,
+        message_id: @message&.id,
+        name_id: @name&.id,
+        password_id: @password&.id,
+        phone_number_id: @phone_number&.id,
+        program_id: @program&.id,
+        program_execution_id: @program_execution&.id,
+        program_schedule_id: @program_schedule&.id,
+        time_zone_id: @time_zone&.id,
+        token_id: @token&.id,
+        user_id: @user&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, Log) %>
+  <%
+    records = policy_scope(Log)
+    records = records.where_address(@address) if @address
+    records = records.where_datum(@datum) if @datum
+    records = records.where_device(@device) if @device
+    records = records.where_email_address(@email_address) if @email_address
+    records = records.where_error(@error) if @error
+    records = records.where_error_occurrence(@error_occurrence) if @error_occurrence
+    records = records.where_guest(@guest) if @guest
+    records = records.where_handle(@handle) if @handle
+    records = records.where_job_batch(@job_batch) if @job_batch
+    records = records.where_job_context(@job_context) if @job_context
+    records = records.where_message(@message) if @message
+    records = records.where_name(@name) if @name
+    records = records.where_password(@password) if @password
+    records = records.where_phone_number(@phone_number) if @phone_number
+    records = records.where_program(@program) if @program
+    records =
+      records.where_program_execution(@program_execution) if @program_execution
+    records = records.where_program_schedule(@program_schedule) if @program_schedule
+    records = records.where_step(@step) if @step
+    records = records.where_step_execution(@step_execution) if @step_execution
+    records = records.where_subscription(@subscription) if @subscription
+    records =
+      records.where_subscription_execution(
+        @subscription_execution
+      ) if @subscription_execution
+    records = records.where_time_zone(@time_zone) if @time_zone
+    records = records.where_token(@token) if @token
+    records = records.where_user(@user) if @user
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".logs", count: records.distinct.count),
+      {
+        controller: :logs,
+        action: :index,
+        address_id: @address&.id,
+        datum_id: @datum&.id,
+        device_id: @device&.id,
+        email_address_id: @email_address&.id,
+        error_id: @error&.id,
+        error_occurrence_id: @error_occurrence&.id,
+        guest_id: @guest&.id,
+        handle_id: @handle&.id,
+        job_batch_id: @job_batch&.id,
+        job_context_id: @job_context&.id,
+        message_id: @message&.id,
+        name_id: @name&.id,
+        password_id: @password&.id,
+        phone_number_id: @phone_number&.id,
+        program_id: @program&.id,
+        program_execution_id: @program_execution&.id,
+        program_schedule_id: @program_schedule&.id,
+        step_id: @step&.id,
+        step_execution_id: @step_execution&.id,
+        subscription_id: @subscription&.id,
+        subscription_execution_id: @subscription_execution&.id,
+        time_zone_id: @time_zone&.id,
+        token_id: @token&.id,
+        user_id: @user&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+
 <% if can?(:create, Job) %>
   <% if can?(:create, model_class) %>
     <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
   <% end %>
-<% end %>
-
-<% if @job_contexts.any? %>
-  <div class="p p--flex">
-    <%= link_to(
-      t(".job_contexts", count: @job_contexts.size),
-      [*nested, :job_contexts],
-      class: :link
-    ) %>
-  </div>
 <% end %>
 
 <% if @job_processes.any? %>
@@ -37,75 +475,6 @@
     <%= link_to(
       t(".job_semaphores", count: @job_semaphores.size),
       :job_semaphores,
-      class: :link
-    ) %>
-  </div>
-<% end %>
-
-<% if @job_ready_executions.any? %>
-  <div class="p p--flex">
-    <%= link_to(
-      t(".job_ready_executions", count: @job_ready_executions.size),
-      [*nested, :job_ready_executions],
-      class: :link
-    ) %>
-  </div>
-<% end %>
-
-<% if @job_failed_executions.any? %>
-  <div class="p p--flex">
-    <%= link_to(
-      t(".job_failed_executions", count: @job_failed_executions.size),
-      [*nested, :job_failed_executions],
-      class: :link
-    ) %>
-  </div>
-<% end %>
-
-<% if @job_scheduled_executions.any? %>
-  <div class="p p--flex">
-    <%= link_to(
-      t(".job_scheduled_executions", count: @job_scheduled_executions.size),
-      [*nested, :job_scheduled_executions],
-      class: :link
-    ) %>
-  </div>
-<% end %>
-
-<% if @job_blocked_executions.any? %>
-  <div class="p p--flex">
-    <%= link_to(
-      t(".job_blocked_executions", count: @job_blocked_executions.size),
-      [*nested, :job_blocked_executions],
-      class: :link
-    ) %>
-  </div>
-<% end %>
-
-<% if @job_claimed_executions.any? %>
-  <div class="p p--flex">
-    <%= link_to(
-      t(".job_claimed_executions", count: @job_claimed_executions.size),
-      [*nested, :job_claimed_executions],
-      class: :link
-    ) %>
-  </div>
-<% end %>
-
-<% if @job_batch_executions.any? %>
-  <div class="p p--flex">
-    <%= link_to(
-      t(".job_batch_executions", count: @job_batch_executions.size),
-      [*nested, :job_batch_executions],
-      class: :link
-    ) %>
-  </div>
-<% end %>
-<% if @job_recurring_executions.any? %>
-  <div class="p p--flex">
-    <%= link_to(
-      t(".job_recurring_executions", count: @job_recurring_executions.size),
-      [*nested, :job_recurring_executions],
       class: :link
     ) %>
   </div>

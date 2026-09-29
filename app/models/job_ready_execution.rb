@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class JobReadyExecution < SolidQueue::ReadyExecution
+  scope :where_job_batch,
+        ->(job_batch) do
+          where(job_id: Job.where_job_batch(job_batch).select(:id))
+        end
   include(RecordConcern)
 
   belongs_to(:job, touch: true)

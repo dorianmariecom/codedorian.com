@@ -1,5 +1,61 @@
 <%= turbo_stream_from(@job_scheduled_executions) %>
 
+<% if can?(:index, JobContext) %>
+  <%
+    records = policy_scope(JobContext)
+    if @job
+      records = records.where_job(@job)
+    elsif @program
+      records = records.where_program(@program)
+    elsif @user
+      records = records.where_user(@user)
+    elsif @guest
+      records = records.where_guest(@guest)
+    end
+    records = records.where_job_batch(@job_batch) if @job_batch
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".job_contexts", count: records.distinct.count),
+      {
+        controller: :job_contexts,
+        action: :index,
+        guest_id: @guest&.id,
+        job_id: @job&.id,
+        job_batch_id: @job_batch&.id,
+        program_id: @program&.id,
+        user_id: @user&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, Log) %>
+  <%
+    records = policy_scope(Log)
+    records = records.where_guest(@guest) if @guest
+    records = records.where_job(@job) if @job
+    records = records.where_job_batch(@job_batch) if @job_batch
+    records = records.where_program(@program) if @program
+    records = records.where_user(@user) if @user
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".logs", count: records.distinct.count),
+      {
+        controller: :logs,
+        action: :index,
+        guest_id: @guest&.id,
+        job_id: @job&.id,
+        job_batch_id: @job_batch&.id,
+        program_id: @program&.id,
+        user_id: @user&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+
 <% if can?(:create, JobScheduledExecution) %>
   <% if can?(:create, model_class) %>
     <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>

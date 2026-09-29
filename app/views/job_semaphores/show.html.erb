@@ -49,7 +49,7 @@
   <div class="p font-bold">
     <%= link_to(
       t(".logs"),
-      { controller: :logs, action: :index, job_semaphore_id: @job_semaphore&.id },
+      { controller: :logs, action: :index, job_semaphore_id: @job_semaphore.id },
       class: :link
     ) %>
   </div>

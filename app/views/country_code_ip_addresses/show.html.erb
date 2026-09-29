@@ -53,7 +53,7 @@
       {
         controller: :versions,
         action: :index,
-        country_code_ip_address_id: @country_code_ip_address&.id
+        country_code_ip_address_id: @country_code_ip_address.id
       },
       class: :link
     ) %>
@@ -90,7 +90,7 @@
       {
         controller: :logs,
         action: :index,
-        country_code_ip_address_id: @country_code_ip_address&.id
+        country_code_ip_address_id: @country_code_ip_address.id
       },
       class: :link
     ) %>

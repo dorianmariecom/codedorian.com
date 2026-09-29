@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Step < ApplicationRecord
+  scope :where_plan, ->(plan) { where(service_id: plan.service_id) }
   def self.format_all
     ApplicationRecord.transaction { find_each(&:format!) }
   end

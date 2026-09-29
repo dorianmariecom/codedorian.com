@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class PagesController < ApplicationController
+  before_action :load_parent
   before_action(:load_guest)
   before_action(:load_user)
   before_action(except: :show) do
@@ -104,6 +105,18 @@ class PagesController < ApplicationController
 
   private
 
+  def load_parent
+    return if params[:page_id].blank?
+
+    @parent = policy_scope(Page).find(params.expect(:page_id))
+    set_context(page: @parent)
+    add_breadcrumb(text: @parent, path: @parent)
+  end
+
+  def parent_params
+    { page_id: @parent&.id }.compact
+  end
+
   def load_guest
     return if params[:guest_id].blank?
 
@@ -138,6 +151,7 @@ class PagesController < ApplicationController
     scope = searched_policy_scope(Page)
     scope = scope.where_guest(@guest) if @guest
     scope = scope.where_user(@user) if @user
+    scope = scope.where_page(@parent) if @parent
     scope
   end
 

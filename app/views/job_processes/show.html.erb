@@ -56,7 +56,7 @@
   <div class="p font-bold">
     <%= link_to(
       t(".logs"),
-      { controller: :logs, action: :index, job_process_id: @job_process&.id },
+      { controller: :logs, action: :index, job_process_id: @job_process.id },
       class: :link
     ) %>
   </div>
@@ -77,6 +77,87 @@
     as: :log,
     locals: {
       nested: [@job_process]
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, JobProcess) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".job_processes"),
+      {
+        controller: :job_processes,
+        action: :index,
+        job_process_id: @job_process.id
+      },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "job_processes/job_process",
+    collection:
+      policy_scope(JobProcess)
+        .where_job_process(@job_process)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :job_process,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, JobClaimedExecution) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".job_claimed_executions"),
+      {
+        controller: :job_claimed_executions,
+        action: :index,
+        job_process_id: @job_process.id
+      },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "job_claimed_executions/job_claimed_execution",
+    collection:
+      policy_scope(JobClaimedExecution)
+        .where_job_process(@job_process)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :job_claimed_execution,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, JobContext) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".job_contexts"),
+      {
+        controller: :job_contexts,
+        action: :index,
+        job_process_id: @job_process.id
+      },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "job_contexts/job_context",
+    collection:
+      policy_scope(JobContext)
+        .where_job_process(@job_process)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :job_context,
+    locals: {
+      nested: []
     }
   ) %>
 <% end %>

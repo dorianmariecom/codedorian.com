@@ -38,3 +38,57 @@
     <% end %>
   </div>
 <% end %>
+
+<% if can?(:index, Version) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".versions"),
+      {
+        controller: :versions,
+        action: :index,
+        subscription_value_id: @subscription_value.id
+      },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "versions/version",
+    collection:
+      policy_scope(Version)
+        .where_subscription_value(@subscription_value)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :version,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, Log) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".logs"),
+      {
+        controller: :logs,
+        action: :index,
+        subscription_value_id: @subscription_value.id
+      },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "logs/log",
+    collection:
+      policy_scope(Log)
+        .where_subscription_value(@subscription_value)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :log,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>

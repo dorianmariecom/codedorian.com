@@ -1,6 +1,18 @@
 # frozen_string_literal: true
 
 class StripeInvoice < ApplicationRecord
+  scope :where_service,
+        ->(service) do
+          where(
+            subscription_id: Subscription.where_service(service).select(:id)
+          )
+        end
+  scope :where_plan,
+        ->(plan) do
+          where(subscription_id: Subscription.where_plan(plan).select(:id))
+        end
+  scope :where_subscription,
+        ->(subscription) { where(subscription_id: subscription.id) }
   belongs_to :subscription, optional: true, touch: true
   has_one :user, through: :subscription
 

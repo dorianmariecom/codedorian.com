@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class DeliveryChannelsController < ApplicationController
+  before_action :load_connection
+  before_action :load_user
   before_action do
     add_breadcrumb(key: "delivery_channels.index", path: index_url)
   end
@@ -98,7 +100,42 @@ class DeliveryChannelsController < ApplicationController
 
   private
 
-  def scope = searched_policy_scope(DeliveryChannel)
+  def load_connection
+    return if params[:connection_id].blank?
+
+    @connection = policy_scope(Connection).find(params.expect(:connection_id))
+    set_context(connection: @connection)
+    add_breadcrumb(text: @connection, path: @connection)
+  end
+
+  def load_user
+    return if params[:user_id].blank?
+
+    @user =
+      policy_scope(User).find(
+        (
+          if params.expect(:user_id) == "me"
+            current_user&.id
+          else
+            params.expect(:user_id)
+          end
+        )
+      )
+    set_context(user: @user)
+    add_breadcrumb(text: @user, path: @user)
+  end
+
+  def parent_params
+    { connection_id: @connection&.id, user_id: @user&.id }.compact
+  end
+
+  def scope
+    records = searched_policy_scope(DeliveryChannel)
+    records = records.where_connection(@connection) if @connection
+    records = records.where_user(@user) if @user
+    records
+  end
+
   def model_class = DeliveryChannel
   def model_instance = @delivery_channel
   def nested = []

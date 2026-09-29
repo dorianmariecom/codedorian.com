@@ -1,5 +1,396 @@
 <%= turbo_stream_from(@users) %>
 
+<% if !simple? && can?(:index, Address) %>
+  <% records = policy_scope(Address) %>
+  <div class="p">
+    <%= link_to(
+      t(".addresses", count: records.distinct.count),
+      { controller: :addresses, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, Country) %>
+  <% records = policy_scope(Country) %>
+  <div class="p">
+    <%= link_to(
+      t(".countries", count: records.distinct.count),
+      { controller: :countries, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, Datum) %>
+  <% records = policy_scope(Datum) %>
+  <div class="p">
+    <%= link_to(
+      t(".data", count: records.distinct.count),
+      { controller: :data, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, Device) %>
+  <% records = policy_scope(Device) %>
+  <div class="p">
+    <%= link_to(
+      t(".devices", count: records.distinct.count),
+      { controller: :devices, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, EmailAddress) %>
+  <% records = policy_scope(EmailAddress) %>
+  <div class="p">
+    <%= link_to(
+      t(".email_addresses", count: records.distinct.count),
+      { controller: :email_addresses, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, Handle) %>
+  <% records = policy_scope(Handle) %>
+  <div class="p">
+    <%= link_to(
+      t(".handles", count: records.distinct.count),
+      { controller: :handles, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, Name) %>
+  <% records = policy_scope(Name) %>
+  <div class="p">
+    <%= link_to(
+      t(".names", count: records.distinct.count),
+      { controller: :names, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, Password) %>
+  <% records = policy_scope(Password) %>
+  <div class="p">
+    <%= link_to(
+      t(".passwords", count: records.distinct.count),
+      { controller: :passwords, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, PhoneNumber) %>
+  <% records = policy_scope(PhoneNumber) %>
+  <div class="p">
+    <%= link_to(
+      t(".phone_numbers", count: records.distinct.count),
+      { controller: :phone_numbers, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, Program) %>
+  <% records = policy_scope(Program) %>
+  <div class="p">
+    <%= link_to(
+      t(".programs", count: records.distinct.count),
+      { controller: :programs, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, Service) %>
+  <% records = policy_scope(Service) %>
+  <div class="p">
+    <%= link_to(
+      t(".services", count: records.distinct.count),
+      { controller: :services, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, Subscription) %>
+  <% records = policy_scope(Subscription) %>
+  <div class="p">
+    <%= link_to(
+      t(".subscriptions", count: records.distinct.count),
+      { controller: :subscriptions, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, DeliveryDestination) %>
+  <% records = policy_scope(DeliveryDestination) %>
+  <div class="p">
+    <%= link_to(
+      t(".delivery_destinations", count: records.distinct.count),
+      { controller: :delivery_destinations, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, Connection) %>
+  <% records = policy_scope(Connection) %>
+  <div class="p">
+    <%= link_to(
+      t(".connections", count: records.distinct.count),
+      { controller: :connections, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, TimeZone) %>
+  <% records = policy_scope(TimeZone) %>
+  <div class="p">
+    <%= link_to(
+      t(".time_zones", count: records.distinct.count),
+      { controller: :time_zones, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, Token) %>
+  <% records = policy_scope(Token) %>
+  <div class="p">
+    <%= link_to(
+      t(".tokens", count: records.distinct.count),
+      { controller: :tokens, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, Message) %>
+  <% records = policy_scope(Message) %>
+  <div class="p">
+    <%= link_to(
+      t(".messages", count: records.distinct.count),
+      { controller: :messages, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, Session) %>
+  <% records = policy_scope(Session) %>
+  <div class="p">
+    <%= link_to(
+      t(".sessions", count: records.distinct.count),
+      { controller: :sessions, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, Page) %>
+  <% records = policy_scope(Page) %>
+  <div class="p">
+    <%= link_to(
+      t(".pages", count: records.distinct.count),
+      { controller: :pages, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, ProgramSchedule) %>
+  <% records = policy_scope(ProgramSchedule) %>
+  <div class="p">
+    <%= link_to(
+      t(".program_schedules", count: records.distinct.count),
+      { controller: :program_schedules, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, ProgramExecution) %>
+  <% records = policy_scope(ProgramExecution) %>
+  <div class="p">
+    <%= link_to(
+      t(".program_executions", count: records.distinct.count),
+      { controller: :program_executions, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, ServiceField) %>
+  <% records = policy_scope(ServiceField) %>
+  <div class="p">
+    <%= link_to(
+      t(".service_fields", count: records.distinct.count),
+      { controller: :service_fields, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, Step) %>
+  <% records = policy_scope(Step) %>
+  <div class="p">
+    <%= link_to(
+      t(".steps", count: records.distinct.count),
+      { controller: :steps, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, Plan) %>
+  <% records = policy_scope(Plan) %>
+  <div class="p">
+    <%= link_to(
+      t(".plans", count: records.distinct.count),
+      { controller: :plans, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, SubscriptionValue) %>
+  <% records = policy_scope(SubscriptionValue) %>
+  <div class="p">
+    <%= link_to(
+      t(".subscription_values", count: records.distinct.count),
+      { controller: :subscription_values, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, SubscriptionDestination) %>
+  <% records = policy_scope(SubscriptionDestination) %>
+  <div class="p">
+    <%= link_to(
+      t(".subscription_destinations", count: records.distinct.count),
+      { controller: :subscription_destinations, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, SubscriptionExecution) %>
+  <% records = policy_scope(SubscriptionExecution) %>
+  <div class="p">
+    <%= link_to(
+      t(".subscription_executions", count: records.distinct.count),
+      { controller: :subscription_executions, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, StripeInvoice) %>
+  <% records = policy_scope(StripeInvoice) %>
+  <div class="p">
+    <%= link_to(
+      t(".stripe_invoices", count: records.distinct.count),
+      { controller: :stripe_invoices, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, Delivery) %>
+  <% records = policy_scope(Delivery) %>
+  <div class="p">
+    <%= link_to(
+      t(".deliveries", count: records.distinct.count),
+      { controller: :deliveries, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, DeliveryChannel) %>
+  <% records = policy_scope(DeliveryChannel) %>
+  <div class="p">
+    <%= link_to(
+      t(".delivery_channels", count: records.distinct.count),
+      { controller: :delivery_channels, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, StepExecution) %>
+  <% records = policy_scope(StepExecution) %>
+  <div class="p">
+    <%= link_to(
+      t(".step_executions", count: records.distinct.count),
+      { controller: :step_executions, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, PlanField) %>
+  <% records = policy_scope(PlanField) %>
+  <div class="p">
+    <%= link_to(
+      t(".plan_fields", count: records.distinct.count),
+      { controller: :plan_fields, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, PlanSchedule) %>
+  <% records = policy_scope(PlanSchedule) %>
+  <div class="p">
+    <%= link_to(
+      t(".plan_schedules", count: records.distinct.count),
+      { controller: :plan_schedules, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, Job) %>
+  <% records = policy_scope(Job) %>
+  <div class="p">
+    <%= link_to(
+      t(".jobs", count: records.distinct.count),
+      { controller: :jobs, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, JobContext) %>
+  <% records = policy_scope(JobContext) %>
+  <div class="p">
+    <%= link_to(
+      t(".job_contexts", count: records.distinct.count),
+      { controller: :job_contexts, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, ::Error) %>
+  <% records = policy_scope(::Error) %>
+  <div class="p">
+    <%= link_to(
+      t(".errors", count: records.distinct.count),
+      { controller: :errors, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, ErrorOccurrence) %>
+  <% records = policy_scope(ErrorOccurrence) %>
+  <div class="p">
+    <%= link_to(
+      t(".error_occurrences", count: records.distinct.count),
+      { controller: :error_occurrences, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, Version) %>
+  <% records = policy_scope(Version) %>
+  <div class="p">
+    <%= link_to(
+      t(".versions", count: records.distinct.count),
+      { controller: :versions, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if !simple? && can?(:index, Log) %>
+  <% records = policy_scope(Log) %>
+  <div class="p">
+    <%= link_to(
+      t(".logs", count: records.distinct.count),
+      { controller: :logs, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+
 <% if can?(:create, User) %>
   <% if can?(:create, model_class) %>
     <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>

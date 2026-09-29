@@ -61,7 +61,15 @@
       .page(params[:page]) %>
 
   <div class="p font-bold">
-    <%= link_to(t(".jobs"), { controller: :jobs, action: :index }, class: :link) %>
+    <%= link_to(
+      t(".jobs"),
+      {
+        controller: :jobs,
+        action: :index,
+        error_occurrence_id: @error_occurrence.id
+      },
+      class: :link
+    ) %>
   </div>
 
   <% if can?(:create, Job) %>
@@ -87,7 +95,7 @@
       {
         controller: :logs,
         action: :index,
-        error_occurrence_id: @error_occurrence&.id
+        error_occurrence_id: @error_occurrence.id
       },
       class: :link
     ) %>
@@ -113,6 +121,33 @@
     as: :log,
     locals: {
       nested: [*nested, @error_occurrence]
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, JobContext) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".job_contexts"),
+      {
+        controller: :job_contexts,
+        action: :index,
+        error_occurrence_id: @error_occurrence.id
+      },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "job_contexts/job_context",
+    collection:
+      policy_scope(JobContext)
+        .where_error_occurrence(@error_occurrence)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :job_context,
+    locals: {
+      nested: []
     }
   ) %>
 <% end %>

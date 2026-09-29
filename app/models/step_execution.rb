@@ -1,6 +1,13 @@
 # frozen_string_literal: true
 
 class StepExecution < ApplicationRecord
+  scope :where_user,
+        ->(user) do
+          where(
+            subscription_execution_id:
+              SubscriptionExecution.where_user(user).select(:id)
+          )
+        end
   include(ExecutionStreamConcern)
 
   TIMEOUT = Program::TIMEOUT

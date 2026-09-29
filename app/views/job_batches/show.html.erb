@@ -85,7 +85,7 @@
   <div class="p font-bold">
     <%= link_to(
       t(".logs"),
-      { controller: :logs, action: :index, job_batch_id: @job_batch&.id },
+      { controller: :logs, action: :index, job_batch_id: @job_batch.id },
       class: :link
     ) %>
   </div>
@@ -110,7 +110,13 @@
   ) %>
 <% end %>
 
-<div class="p font-bold"><%= t(".jobs") %></div>
+<div class="p font-bold">
+  <%= link_to(
+    t(".jobs"),
+    { controller: :jobs, action: :index, job_batch_id: @job_batch.id },
+    class: :link
+  ) %>
+</div>
 <%= render_collection(
   partial: "jobs/job",
   collection: @jobs,
@@ -120,7 +126,13 @@
   }
 ) %>
 
-<div class="p font-bold"><%= t(".batch_executions") %></div>
+<div class="p font-bold">
+  <%= link_to(
+    t(".batch_executions"),
+    job_batch_executions_path(job_batch_id: @job_batch.id),
+    class: :link
+  ) %>
+</div>
 <%= render_collection(
   partial: "job_batch_executions/job_batch_execution",
   collection: @batch_executions,
@@ -129,3 +141,188 @@
     nested: []
   }
 ) %>
+
+<% if can?(:index, JobContext) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".job_contexts"),
+      { controller: :job_contexts, action: :index, job_batch_id: @job_batch.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "job_contexts/job_context",
+    collection:
+      policy_scope(JobContext)
+        .where_job_batch(@job_batch)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :job_context,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, JobReadyExecution) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".job_ready_executions"),
+      {
+        controller: :job_ready_executions,
+        action: :index,
+        job_batch_id: @job_batch.id
+      },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "job_ready_executions/job_ready_execution",
+    collection:
+      policy_scope(JobReadyExecution)
+        .where_job_batch(@job_batch)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :job_ready_execution,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, JobFailedExecution) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".job_failed_executions"),
+      {
+        controller: :job_failed_executions,
+        action: :index,
+        job_batch_id: @job_batch.id
+      },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "job_failed_executions/job_failed_execution",
+    collection:
+      policy_scope(JobFailedExecution)
+        .where_job_batch(@job_batch)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :job_failed_execution,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, JobScheduledExecution) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".job_scheduled_executions"),
+      {
+        controller: :job_scheduled_executions,
+        action: :index,
+        job_batch_id: @job_batch.id
+      },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "job_scheduled_executions/job_scheduled_execution",
+    collection:
+      policy_scope(JobScheduledExecution)
+        .where_job_batch(@job_batch)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :job_scheduled_execution,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, JobBlockedExecution) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".job_blocked_executions"),
+      {
+        controller: :job_blocked_executions,
+        action: :index,
+        job_batch_id: @job_batch.id
+      },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "job_blocked_executions/job_blocked_execution",
+    collection:
+      policy_scope(JobBlockedExecution)
+        .where_job_batch(@job_batch)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :job_blocked_execution,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, JobClaimedExecution) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".job_claimed_executions"),
+      {
+        controller: :job_claimed_executions,
+        action: :index,
+        job_batch_id: @job_batch.id
+      },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "job_claimed_executions/job_claimed_execution",
+    collection:
+      policy_scope(JobClaimedExecution)
+        .where_job_batch(@job_batch)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :job_claimed_execution,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, JobRecurringExecution) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".job_recurring_executions"),
+      {
+        controller: :job_recurring_executions,
+        action: :index,
+        job_batch_id: @job_batch.id
+      },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "job_recurring_executions/job_recurring_execution",
+    collection:
+      policy_scope(JobRecurringExecution)
+        .where_job_batch(@job_batch)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :job_recurring_execution,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>

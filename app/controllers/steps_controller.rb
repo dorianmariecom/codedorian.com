@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class StepsController < ApplicationController
+  before_action :load_plan
+  before_action :load_user
   before_action(:load_service)
   before_action { add_breadcrumb(key: "steps.index", path: index_url) }
   before_action :load_step, only: %i[show edit update destroy delete format]
@@ -114,9 +116,40 @@ class StepsController < ApplicationController
 
   private
 
+  def load_plan
+    return if params[:plan_id].blank?
+
+    @plan = policy_scope(Plan).find(params.expect(:plan_id))
+    set_context(plan: @plan)
+    add_breadcrumb(text: @plan, path: @plan)
+  end
+
+  def load_user
+    return if params[:user_id].blank?
+
+    @user =
+      policy_scope(User).find(
+        (
+          if params.expect(:user_id) == "me"
+            current_user&.id
+          else
+            params.expect(:user_id)
+          end
+        )
+      )
+    set_context(user: @user)
+    add_breadcrumb(text: @user, path: @user)
+  end
+
+  def parent_params
+    { plan_id: @plan&.id, user_id: @user&.id }.compact
+  end
+
   def scope
     records = searched_policy_scope(Step)
     records = records.where_service(@service) if @service
+    records = records.where_plan(@plan) if @plan
+    records = records.where_user(@user) if @user
     records
   end
 

@@ -84,7 +84,7 @@
       {
         controller: :logs,
         action: :index,
-        job_recurring_task_id: @job_recurring_task&.id
+        job_recurring_task_id: @job_recurring_task.id
       },
       class: :link
     ) %>
@@ -110,6 +110,60 @@
     as: :log,
     locals: {
       nested: [@job_recurring_task]
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, JobRecurringExecution) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".job_recurring_executions"),
+      {
+        controller: :job_recurring_executions,
+        action: :index,
+        job_recurring_task_id: @job_recurring_task.id
+      },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "job_recurring_executions/job_recurring_execution",
+    collection:
+      policy_scope(JobRecurringExecution)
+        .where_job_recurring_task(@job_recurring_task)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :job_recurring_execution,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, JobContext) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".job_contexts"),
+      {
+        controller: :job_contexts,
+        action: :index,
+        job_recurring_task_id: @job_recurring_task.id
+      },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "job_contexts/job_context",
+    collection:
+      policy_scope(JobContext)
+        .where_job_recurring_task(@job_recurring_task)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :job_context,
+    locals: {
+      nested: []
     }
   ) %>
 <% end %>

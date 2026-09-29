@@ -2,12 +2,6 @@
 
 <%= turbo_stream_from(@user) %>
 
-<% if can?(:index, Connection) %>
-  <div class="p">
-    <%= link_to t(".connections"), connections_path, class: :link %>
-  </div>
-<% end %>
-
 <%= render("shared/attribute", label: t(".id"), value: @user.id) %>
 
 <% if admin? %>
@@ -125,7 +119,11 @@
           .page(params[:page]) %>
 
       <div class="p font-bold">
-        <%= link_to(t(".jobs"), { controller: :jobs, action: :index }, class: :link) %>
+        <%= link_to(
+          t(".jobs"),
+          { controller: :jobs, action: :index, user_id: @user.id },
+          class: :link
+        ) %>
       </div>
 
       <% if can?(:create, Job) %>
@@ -149,7 +147,7 @@
     <div class="p font-bold">
       <%= link_to(
         t(".versions"),
-        { controller: :versions, action: :index, user_id: @user&.id },
+        { controller: :versions, action: :index, user_id: @user.id },
         class: :link
       ) %>
     </div>
@@ -178,7 +176,7 @@
     <div class="p font-bold">
       <%= link_to(
         t(".logs"),
-        { controller: :logs, action: :index, user_id: @user&.id },
+        { controller: :logs, action: :index, user_id: @user.id },
         class: :link
       ) %>
     </div>
@@ -202,4 +200,483 @@
       }
     ) %>
   <% end %>
+<% end %>
+
+<% if !simple? && can?(:index, Service) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".services"),
+      { controller: :services, action: :index, user_id: @user.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "services/service",
+    collection:
+      policy_scope(Service)
+        .preload(
+          :rich_text_name_en,
+          :rich_text_name_fr,
+          :rich_text_description_en,
+          :rich_text_description_fr,
+          :user
+        )
+        .where_user(@user)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :service,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if !simple? && can?(:index, Subscription) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".subscriptions"),
+      { controller: :subscriptions, action: :index, user_id: @user.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "subscriptions/subscription",
+    collection:
+      policy_scope(Subscription)
+        .preload(
+          plan: [
+            :rich_text_name_en,
+            :rich_text_name_fr,
+            { service: %i[rich_text_name_en rich_text_name_fr user] }
+          ],
+          service: %i[rich_text_name_en rich_text_name_fr user]
+        )
+        .where_user(@user)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :subscription,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if !simple? && can?(:index, DeliveryDestination) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".delivery_destinations"),
+      { controller: :delivery_destinations, action: :index, user_id: @user.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "delivery_destinations/delivery_destination",
+    collection:
+      policy_scope(DeliveryDestination)
+        .preload(:delivery_channel)
+        .where_user(@user)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :delivery_destination,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if !simple? && can?(:index, Connection) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".connections"),
+      { controller: :connections, action: :index, user_id: @user.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "connections/connection",
+    collection:
+      policy_scope(Connection)
+        .where_user(@user)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :connection,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if !simple? && can?(:index, Session) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".sessions"),
+      { controller: :sessions, action: :index, user_id: @user.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "sessions/session",
+    collection:
+      policy_scope(Session)
+        .where_user(@user)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :session,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if !simple? && can?(:index, Page) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".pages"),
+      { controller: :pages, action: :index, user_id: @user.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "pages/page",
+    collection:
+      policy_scope(Page)
+        .where_user(@user)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :page,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if !simple? && can?(:index, ServiceField) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".service_fields"),
+      { controller: :service_fields, action: :index, user_id: @user.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "service_fields/service_field",
+    collection:
+      policy_scope(ServiceField)
+        .preload(
+          :rich_text_name_en,
+          :rich_text_name_fr,
+          service: %i[rich_text_name_en rich_text_name_fr user]
+        )
+        .where_user(@user)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :service_field,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if !simple? && can?(:index, Step) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".steps"),
+      { controller: :steps, action: :index, user_id: @user.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "steps/step",
+    collection:
+      policy_scope(Step)
+        .preload(
+          :rich_text_name_en,
+          :rich_text_name_fr,
+          service: %i[rich_text_name_en rich_text_name_fr user]
+        )
+        .where_user(@user)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :step,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if !simple? && can?(:index, Plan) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".plans"),
+      { controller: :plans, action: :index, user_id: @user.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "plans/plan",
+    collection:
+      policy_scope(Plan)
+        .preload(
+          :rich_text_name_en,
+          :rich_text_name_fr,
+          service: %i[rich_text_name_en rich_text_name_fr user]
+        )
+        .where_user(@user)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :plan,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if !simple? && can?(:index, SubscriptionValue) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".subscription_values"),
+      { controller: :subscription_values, action: :index, user_id: @user.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "subscription_values/subscription_value",
+    collection:
+      policy_scope(SubscriptionValue)
+        .where_user(@user)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :subscription_value,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if !simple? && can?(:index, SubscriptionDestination) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".subscription_destinations"),
+      { controller: :subscription_destinations, action: :index, user_id: @user.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "subscription_destinations/subscription_destination",
+    collection:
+      policy_scope(SubscriptionDestination)
+        .preload(delivery_destination: :delivery_channel)
+        .where_user(@user)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :subscription_destination,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if !simple? && can?(:index, SubscriptionExecution) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".subscription_executions"),
+      { controller: :subscription_executions, action: :index, user_id: @user.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "subscription_executions/subscription_execution",
+    collection:
+      policy_scope(SubscriptionExecution)
+        .where_user(@user)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :subscription_execution,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if !simple? && can?(:index, StripeInvoice) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".stripe_invoices"),
+      { controller: :stripe_invoices, action: :index, user_id: @user.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "stripe_invoices/stripe_invoice",
+    collection:
+      policy_scope(StripeInvoice)
+        .where_user(@user)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :stripe_invoice,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if !simple? && can?(:index, Delivery) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".deliveries"),
+      { controller: :deliveries, action: :index, user_id: @user.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "deliveries/delivery",
+    collection:
+      policy_scope(Delivery)
+        .preload(delivery_destination: :delivery_channel)
+        .where_user(@user)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :delivery,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if !simple? && can?(:index, DeliveryChannel) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".delivery_channels"),
+      { controller: :delivery_channels, action: :index, user_id: @user.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "delivery_channels/delivery_channel",
+    collection:
+      policy_scope(DeliveryChannel)
+        .where_user(@user)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :delivery_channel,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if !simple? && can?(:index, StepExecution) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".step_executions"),
+      { controller: :step_executions, action: :index, user_id: @user.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "step_executions/step_execution",
+    collection:
+      policy_scope(StepExecution)
+        .where_user(@user)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :step_execution,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if !simple? && can?(:index, PlanField) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".plan_fields"),
+      { controller: :plan_fields, action: :index, user_id: @user.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "plan_fields/plan_field",
+    collection:
+      policy_scope(PlanField)
+        .preload(
+          :rich_text_name_en,
+          :rich_text_name_fr,
+          plan: [
+            :rich_text_name_en,
+            :rich_text_name_fr,
+            { service: %i[rich_text_name_en rich_text_name_fr user] }
+          ]
+        )
+        .where_user(@user)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :plan_field,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if !simple? && can?(:index, PlanSchedule) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".plan_schedules"),
+      { controller: :plan_schedules, action: :index, user_id: @user.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "plan_schedules/plan_schedule",
+    collection:
+      policy_scope(PlanSchedule)
+        .where_user(@user)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :plan_schedule,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if !simple? && can?(:index, JobContext) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".job_contexts"),
+      { controller: :job_contexts, action: :index, user_id: @user.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "job_contexts/job_context",
+    collection:
+      policy_scope(JobContext)
+        .where_user(@user)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :job_context,
+    locals: {
+      nested: []
+    }
+  ) %>
 <% end %>

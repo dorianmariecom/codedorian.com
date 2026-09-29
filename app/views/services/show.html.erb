@@ -105,7 +105,11 @@
 
 <% if can?(:update, @service) || advanced? %>
   <div class="p font-bold">
-    <%= link_to(t(".steps"), steps_path(service_id: @service.id), class: :link) %>
+    <%= link_to(
+      t(".steps"),
+      { controller: :steps, action: :index, service_id: @service.id },
+      class: :link
+    ) %>
   </div>
   <% if can?(:create, Step) %>
     <div class="p">
@@ -119,7 +123,11 @@
   <%= render_collection(partial: "steps/step", collection: @steps, as: :step) %>
 
   <div class="p font-bold">
-    <%= link_to(t(".plans"), plans_path(service_id: @service.id), class: :link) %>
+    <%= link_to(
+      t(".plans"),
+      { controller: :plans, action: :index, service_id: @service.id },
+      class: :link
+    ) %>
   </div>
   <% if can?(:create, Plan) %>
     <div class="p">
@@ -136,7 +144,7 @@
     <div class="p font-bold">
       <%= link_to(
         t(".plan_fields"),
-        plan_fields_path(service_id: @service.id),
+        { controller: :plan_fields, action: :index, service_id: @service.id },
         class: :link
       ) %>
     </div>
@@ -156,7 +164,7 @@
     <div class="p font-bold">
       <%= link_to(
         t(".service_fields"),
-        service_fields_path(service_id: @service.id),
+        { controller: :service_fields, action: :index, service_id: @service.id },
         class: :link
       ) %>
     </div>
@@ -201,7 +209,11 @@
   <div class="p font-bold">
     <%= link_to(
       t(".subscription_executions"),
-      subscription_executions_path(service_id: @service.id),
+      {
+        controller: :subscription_executions,
+        action: :index,
+        service_id: @service.id
+      },
       class: :link
     ) %>
   </div>
@@ -223,7 +235,7 @@
   <div class="p font-bold">
     <%= link_to(
       t(".step_executions"),
-      step_executions_path(service_id: @service.id),
+      { controller: :step_executions, action: :index, service_id: @service.id },
       class: :link
     ) %>
   </div>
@@ -239,7 +251,13 @@
   ) %>
 
   <% if can?(:index, Version) %>
-    <div class="p font-bold"><%= t(".versions") %></div>
+    <div class="p font-bold">
+      <%= link_to(
+        t(".versions"),
+        { controller: :versions, action: :index, service_id: @service.id },
+        class: :link
+      ) %>
+    </div>
     <% if can?(:create, Version) %>
       <div class="p">
         <%= link_to(
@@ -260,7 +278,13 @@
   <% end %>
 
   <% if can?(:index, Log) %>
-    <div class="p font-bold"><%= t(".logs") %></div>
+    <div class="p font-bold">
+      <%= link_to(
+        t(".logs"),
+        { controller: :logs, action: :index, service_id: @service.id },
+        class: :link
+      ) %>
+    </div>
     <% if can?(:create, Log) %>
       <div class="p">
         <%= link_to(
@@ -279,4 +303,153 @@
       }
     ) %>
   <% end %>
+<% end %>
+
+<% if (can?(:update, @service) || advanced?) && can?(:index, PlanSchedule) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".plan_schedules.title"),
+      { controller: :plan_schedules, action: :index, service_id: @service.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "plan_schedules/plan_schedule",
+    collection:
+      policy_scope(PlanSchedule)
+        .where_service(@service)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :plan_schedule,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if (can?(:update, @service) || advanced?) && can?(:index, Delivery) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".deliveries"),
+      { controller: :deliveries, action: :index, service_id: @service.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "deliveries/delivery",
+    collection:
+      policy_scope(Delivery)
+        .preload(delivery_destination: :delivery_channel)
+        .where_service(@service)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :delivery,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if (can?(:update, @service) || advanced?) && can?(:index, SubscriptionValue) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".subscription_values"),
+      { controller: :subscription_values, action: :index, service_id: @service.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "subscription_values/subscription_value",
+    collection:
+      policy_scope(SubscriptionValue)
+        .where_service(@service)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :subscription_value,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if (can?(:update, @service) || advanced?) && can?(:index, SubscriptionDestination) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".subscription_destinations"),
+      {
+        controller: :subscription_destinations,
+        action: :index,
+        service_id: @service.id
+      },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "subscription_destinations/subscription_destination",
+    collection:
+      policy_scope(SubscriptionDestination)
+        .preload(delivery_destination: :delivery_channel)
+        .where_service(@service)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :subscription_destination,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if (can?(:update, @service) || advanced?) && can?(:index, DeliveryDestination) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".delivery_destinations"),
+      {
+        controller: :delivery_destinations,
+        action: :index,
+        service_id: @service.id
+      },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "delivery_destinations/delivery_destination",
+    collection:
+      policy_scope(DeliveryDestination)
+        .preload(:delivery_channel)
+        .where_service(@service)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :delivery_destination,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if (can?(:update, @service) || advanced?) && can?(:index, StripeInvoice) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".stripe_invoices"),
+      { controller: :stripe_invoices, action: :index, service_id: @service.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "stripe_invoices/stripe_invoice",
+    collection:
+      policy_scope(StripeInvoice)
+        .where_service(@service)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :stripe_invoice,
+    locals: {
+      nested: []
+    }
+  ) %>
 <% end %>

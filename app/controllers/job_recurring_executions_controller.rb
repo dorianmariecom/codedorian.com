@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class JobRecurringExecutionsController < ApplicationController
+  before_action :load_job_batch
+  before_action :load_job_recurring_task
   before_action(:load_guest)
   before_action(:load_user)
   before_action(:load_program)
@@ -123,6 +125,30 @@ class JobRecurringExecutionsController < ApplicationController
 
   private
 
+  def load_job_batch
+    return if params[:job_batch_id].blank?
+
+    @job_batch = policy_scope(JobBatch).find(params.expect(:job_batch_id))
+    set_context(job_batch: @job_batch)
+    add_breadcrumb(text: @job_batch, path: @job_batch)
+  end
+
+  def load_job_recurring_task
+    return if params[:job_recurring_task_id].blank?
+
+    @job_recurring_task =
+      policy_scope(JobRecurringTask).find(params.expect(:job_recurring_task_id))
+    set_context(job_recurring_task: @job_recurring_task)
+    add_breadcrumb(text: @job_recurring_task, path: @job_recurring_task)
+  end
+
+  def parent_params
+    {
+      job_batch_id: @job_batch&.id,
+      job_recurring_task_id: @job_recurring_task&.id
+    }.compact
+  end
+
   def load_guest
     return if params[:guest_id].blank?
 
@@ -190,6 +216,10 @@ class JobRecurringExecutionsController < ApplicationController
       scope = scope.where_guest(@guest)
     end
 
+    scope = scope.where_job_batch(@job_batch) if @job_batch
+    if @job_recurring_task
+      scope = scope.where_job_recurring_task(@job_recurring_task)
+    end
     scope
   end
 

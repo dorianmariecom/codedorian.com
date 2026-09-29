@@ -5,21 +5,36 @@
 <% singular = model.model_singular %>
 <% plural = model.model_plural %>
 <% if can?(:index, model) %>
+  <% collection = policy_scope(model) %>
   <% collection =
-    policy_scope(model)
-      .where_user(user)
-      .page(params[:page])
-      .order(created_at: :asc) %>
+    user.is_a?(Guest) ? collection.where_guest(user) : collection.where_user(user) %>
+  <% collection = collection.page(params[:page]).order(created_at: :asc) %>
   <% partial = "#{plural}/#{singular}" %>
   <% as = singular %>
 
   <div class="p font-bold">
-    <%= link_to(t(".#{plural}"), [user, plural.to_sym], class: :link) %>
+    <%= link_to(
+      t(".#{plural}"),
+      {
+        :controller => plural,
+        :action => :index,
+        (user.is_a?(Guest) ? :guest_id : :user_id) => user.id
+      },
+      class: :link
+    ) %>
   </div>
 
   <% if create && can?(:create, model) %>
     <div class="p">
-      <%= link_to(t(".new_#{singular}"), [:new, user, singular.to_sym], class: "button") %>
+      <%= link_to(
+        t(".new_#{singular}"),
+        {
+          :controller => plural,
+          :action => :new,
+          (user.is_a?(Guest) ? :guest_id : :user_id) => user.id
+        },
+        class: "button"
+      ) %>
     </div>
   <% end %>
 

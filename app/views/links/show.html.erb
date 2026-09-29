@@ -40,7 +40,7 @@
   <div class="p font-bold">
     <%= link_to(
       t(".versions"),
-      { controller: :versions, action: :index, link_id: @link&.id },
+      { controller: :versions, action: :index, link_id: @link.id },
       class: :link
     ) %>
   </div>
@@ -58,7 +58,7 @@
   <div class="p font-bold">
     <%= link_to(
       t(".logs"),
-      { controller: :logs, action: :index, link_id: @link&.id },
+      { controller: :logs, action: :index, link_id: @link.id },
       class: :link
     ) %>
   </div>

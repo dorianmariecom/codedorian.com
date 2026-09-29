@@ -1,6 +1,42 @@
 # frozen_string_literal: true
 
 class DeliveryDestinationsController < ApplicationController
+  before_action :load_connection,
+                except: %i[
+                  verification
+                  confirm_verification
+                  request_verification
+                ]
+  before_action :load_delivery_channel,
+                except: %i[
+                  verification
+                  confirm_verification
+                  request_verification
+                ]
+  before_action :load_plan,
+                except: %i[
+                  verification
+                  confirm_verification
+                  request_verification
+                ]
+  before_action :load_service,
+                except: %i[
+                  verification
+                  confirm_verification
+                  request_verification
+                ]
+  before_action :load_subscription,
+                except: %i[
+                  verification
+                  confirm_verification
+                  request_verification
+                ]
+  before_action :load_user,
+                except: %i[
+                  verification
+                  confirm_verification
+                  request_verification
+                ]
   VERIFICATION_REQUEST_LIMIT = 5
   VERIFICATION_REQUEST_WINDOW = 1.minute
 
@@ -176,6 +212,76 @@ class DeliveryDestinationsController < ApplicationController
 
   private
 
+  def load_connection
+    return if params[:connection_id].blank?
+
+    @connection = policy_scope(Connection).find(params.expect(:connection_id))
+    set_context(connection: @connection)
+    add_breadcrumb(text: @connection, path: @connection)
+  end
+
+  def load_delivery_channel
+    return if params[:delivery_channel_id].blank?
+
+    @delivery_channel =
+      policy_scope(DeliveryChannel).find(params.expect(:delivery_channel_id))
+    set_context(delivery_channel: @delivery_channel)
+    add_breadcrumb(text: @delivery_channel, path: @delivery_channel)
+  end
+
+  def load_plan
+    return if params[:plan_id].blank?
+
+    @plan = policy_scope(Plan).find(params.expect(:plan_id))
+    set_context(plan: @plan)
+    add_breadcrumb(text: @plan, path: @plan)
+  end
+
+  def load_service
+    return if params[:service_id].blank?
+
+    @service = policy_scope(Service).find(params.expect(:service_id))
+    set_context(service: @service)
+    add_breadcrumb(text: @service, path: @service)
+  end
+
+  def load_subscription
+    return if params[:subscription_id].blank?
+
+    @subscription =
+      policy_scope(Subscription).find(params.expect(:subscription_id))
+    set_context(subscription: @subscription)
+    add_breadcrumb(text: @subscription, path: @subscription)
+  end
+
+  def load_user
+    return if params[:user_id].blank?
+
+    @user =
+      policy_scope(User).find(
+        (
+          if params.expect(:user_id) == "me"
+            current_user&.id
+          else
+            params.expect(:user_id)
+          end
+        )
+      )
+    set_context(user: @user)
+    add_breadcrumb(text: @user, path: @user)
+  end
+
+  def parent_params
+    {
+      connection_id: @connection&.id,
+      delivery_channel_id: @delivery_channel&.id,
+      plan_id: @plan&.id,
+      service_id: @service&.id,
+      subscription_id: @subscription&.id,
+      user_id: @user&.id
+    }.compact
+  end
+
   def verification_subscription_path(destination)
     return root_path unless current_user
 
@@ -222,7 +328,19 @@ class DeliveryDestinationsController < ApplicationController
     end
   end
 
-  def scope = searched_policy_scope(DeliveryDestination)
+  def scope
+    records = searched_policy_scope(DeliveryDestination)
+    records = records.where_connection(@connection) if @connection
+    if @delivery_channel
+      records = records.where_delivery_channel(@delivery_channel)
+    end
+    records = records.where_plan(@plan) if @plan
+    records = records.where_service(@service) if @service
+    records = records.where_subscription(@subscription) if @subscription
+    records = records.where_user(@user) if @user
+    records
+  end
+
   def model_class = DeliveryDestination
   def model_instance = @delivery_destination
   def nested = []

@@ -1,5 +1,16 @@
 <%= turbo_stream_from(@job_pauses) %>
 
+<% if can?(:index, Log) %>
+  <% records = policy_scope(Log) %>
+  <div class="p">
+    <%= link_to(
+      t(".logs", count: records.distinct.count),
+      { controller: :logs, action: :index }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+
 <% if can?(:create, JobPause) %>
   <% if can?(:create, model_class) %>
     <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>

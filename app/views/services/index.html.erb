@@ -1,57 +1,213 @@
 <% content_for(:description, t(".title")) %>
 <%= turbo_stream_from(@services) %>
 
-<% if can?(:index, Step) %>
+<% if can?(:index, ServiceField) %>
+  <%
+    records = policy_scope(ServiceField)
+    records = records.where_user(@user) if @user
+  %>
   <div class="p">
-    <%= link_to(t(".steps", count: @steps.count), steps_path, class: :link) %>
+    <%= link_to(
+      t(".service_fields", count: records.distinct.count),
+      { controller: :service_fields, action: :index, user_id: @user&.id }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, Step) %>
+  <%
+    records = policy_scope(Step)
+    records = records.where_user(@user) if @user
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".steps", count: records.distinct.count),
+      { controller: :steps, action: :index, user_id: @user&.id }.compact,
+      class: :link
+    ) %>
   </div>
 <% end %>
 <% if can?(:index, Plan) %>
-  <div class="p">
-    <%= link_to(t(".plans", count: @plans.count), plans_path, class: :link) %>
-  </div>
-<% end %>
-<% if can?(:index, PlanField) %>
-  <div class="p">
-    <%= link_to(
-      t(".plan_fields", count: @plan_fields.count),
-      plan_fields_path,
-      class: :link
-    ) %>
-  </div>
-<% end %>
-<% if can?(:index, ServiceField) %>
+  <%
+    records = policy_scope(Plan)
+    records = records.where_user(@user) if @user
+  %>
   <div class="p">
     <%= link_to(
-      t(".service_fields", count: @service_fields.count),
-      service_fields_path,
-      class: :link
-    ) %>
-  </div>
-<% end %>
-<% if can?(:index, Subscription) %>
-  <div class="p">
-    <%= link_to(
-      t(".subscriptions", count: @subscriptions.count),
-      subscriptions_path,
-      class: :link
-    ) %>
-  </div>
-<% end %>
-<% if can?(:index, SubscriptionExecution) %>
-  <div class="p">
-    <%= link_to(
-      t(".subscription_executions", count: @subscription_executions.count),
-      subscription_executions_path,
+      t(".plans", count: records.distinct.count),
+      { controller: :plans, action: :index, user_id: @user&.id }.compact,
       class: :link
     ) %>
   </div>
 <% end %>
 <% if can?(:index, StepExecution) %>
+  <%
+    records = policy_scope(StepExecution)
+    records = records.where_user(@user) if @user
+  %>
   <div class="p">
     <%= link_to(
-      t(".step_executions", count: @step_executions.count),
-      step_executions_path,
+      t(".step_executions", count: records.distinct.count),
+      { controller: :step_executions, action: :index, user_id: @user&.id }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, PlanField) %>
+  <%
+    records = policy_scope(PlanField)
+    records = records.where_user(@user) if @user
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".plan_fields", count: records.distinct.count),
+      { controller: :plan_fields, action: :index, user_id: @user&.id }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, PlanSchedule) %>
+  <%
+    records = policy_scope(PlanSchedule)
+    records = records.where_user(@user) if @user
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".plan_schedules", count: records.distinct.count),
+      { controller: :plan_schedules, action: :index, user_id: @user&.id }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, Subscription) %>
+  <%
+    records = policy_scope(Subscription)
+    records = records.where_user(@user) if @user
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".subscriptions", count: records.distinct.count),
+      { controller: :subscriptions, action: :index, user_id: @user&.id }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, Delivery) %>
+  <%
+    records = policy_scope(Delivery)
+    records = records.where_user(@user) if @user
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".deliveries", count: records.distinct.count),
+      { controller: :deliveries, action: :index, user_id: @user&.id }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, SubscriptionValue) %>
+  <%
+    records = policy_scope(SubscriptionValue)
+    records = records.where_user(@user) if @user
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".subscription_values", count: records.distinct.count),
+      {
+        controller: :subscription_values,
+        action: :index,
+        user_id: @user&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, SubscriptionDestination) %>
+  <%
+    records = policy_scope(SubscriptionDestination)
+    records = records.where_user(@user) if @user
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".subscription_destinations", count: records.distinct.count),
+      {
+        controller: :subscription_destinations,
+        action: :index,
+        user_id: @user&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, DeliveryDestination) %>
+  <%
+    records = policy_scope(DeliveryDestination)
+    records = records.where_user(@user) if @user
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".delivery_destinations", count: records.distinct.count),
+      {
+        controller: :delivery_destinations,
+        action: :index,
+        user_id: @user&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, SubscriptionExecution) %>
+  <%
+    records = policy_scope(SubscriptionExecution)
+    records = records.where_user(@user) if @user
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".subscription_executions", count: records.distinct.count),
+      {
+        controller: :subscription_executions,
+        action: :index,
+        user_id: @user&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, StripeInvoice) %>
+  <%
+    records = policy_scope(StripeInvoice)
+    records = records.where_user(@user) if @user
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".stripe_invoices", count: records.distinct.count),
+      { controller: :stripe_invoices, action: :index, user_id: @user&.id }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, Version) %>
+  <%
+    records = policy_scope(Version)
+    records = records.where_user(@user) if @user
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".versions", count: records.distinct.count),
+      { controller: :versions, action: :index, user_id: @user&.id }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, Log) %>
+  <%
+    records = policy_scope(Log)
+    records = records.where_user(@user) if @user
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".logs", count: records.distinct.count),
+      { controller: :logs, action: :index, user_id: @user&.id }.compact,
       class: :link
     ) %>
   </div>

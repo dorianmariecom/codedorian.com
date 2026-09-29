@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 class JobRecurringExecution < SolidQueue::RecurringExecution
+  scope :where_job_batch,
+        ->(job_batch) do
+          where(job_id: Job.where_job_batch(job_batch).select(:id))
+        end
+  scope :where_job_recurring_task,
+        ->(job_recurring_task) { where(task_key: job_recurring_task.key) }
   include(RecordConcern)
 
   belongs_to(:job, touch: true)

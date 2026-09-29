@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class StepExecutionsController < ApplicationController
+  before_action :load_user
   before_action(:load_service)
   before_action(:load_plan)
   before_action(:load_subscription)
@@ -108,6 +109,27 @@ class StepExecutionsController < ApplicationController
 
   private
 
+  def load_user
+    return if params[:user_id].blank?
+
+    @user =
+      policy_scope(User).find(
+        (
+          if params.expect(:user_id) == "me"
+            current_user&.id
+          else
+            params.expect(:user_id)
+          end
+        )
+      )
+    set_context(user: @user)
+    add_breadcrumb(text: @user, path: @user)
+  end
+
+  def parent_params
+    { user_id: @user&.id }.compact
+  end
+
   def scope
     records = searched_policy_scope(StepExecution)
     if @subscription_execution
@@ -117,6 +139,7 @@ class StepExecutionsController < ApplicationController
     records = records.where_subscription(@subscription) if @subscription
     records = records.where_plan(@plan) if @plan
     records = records.where_service(@service) if @service
+    records = records.where_user(@user) if @user
     records
   end
 

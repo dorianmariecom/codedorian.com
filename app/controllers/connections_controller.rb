@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ConnectionsController < ApplicationController
+  before_action :load_user
   before_action { add_breadcrumb(key: "connections.index", path: index_url) }
   before_action :load_connection, only: %i[show edit update destroy delete]
 
@@ -159,11 +160,37 @@ class ConnectionsController < ApplicationController
 
   private
 
+  def load_user
+    return if params[:user_id].blank?
+
+    @user =
+      policy_scope(User).find(
+        (
+          if params.expect(:user_id) == "me"
+            current_user&.id
+          else
+            params.expect(:user_id)
+          end
+        )
+      )
+    set_context(user: @user)
+    add_breadcrumb(text: @user, path: @user)
+  end
+
+  def parent_params
+    { user_id: @user&.id }.compact
+  end
+
   def callback_url
     "#{Current.base_url}#{callback_connections_path(provider: params[:provider], locale: nil)}"
   end
 
-  def scope = searched_policy_scope(Connection)
+  def scope
+    records = searched_policy_scope(Connection)
+    records = records.where_user(@user) if @user
+    records
+  end
+
   def model_class = Connection
   def model_instance = @connection
   def nested = []

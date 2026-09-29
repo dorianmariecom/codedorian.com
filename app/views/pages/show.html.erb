@@ -97,13 +97,7 @@
     <div class="p font-bold">
       <%= link_to(
         t(".versions"),
-        {
-          controller: :versions,
-          action: :index,
-          user_id: @user&.id,
-          guest_id: @guest&.id,
-          page_id: @page.id
-        },
+        { controller: :versions, action: :index, page_id: @page.id },
         class: :link
       ) %>
     </div>
@@ -138,13 +132,7 @@
     <div class="p font-bold">
       <%= link_to(
         t(".logs"),
-        {
-          controller: :logs,
-          action: :index,
-          user_id: @user&.id,
-          guest_id: @guest&.id,
-          page_id: @page.id
-        },
+        { controller: :logs, action: :index, page_id: @page.id },
         class: :link
       ) %>
     </div>
@@ -174,4 +162,27 @@
       }
     ) %>
   <% end %>
+<% end %>
+
+<% if !page_displayed? && can?(:index, Page) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".pages"),
+      { controller: :pages, action: :index, page_id: @page.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "pages/page",
+    collection:
+      policy_scope(Page)
+        .where_page(@page)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :page,
+    locals: {
+      nested: []
+    }
+  ) %>
 <% end %>

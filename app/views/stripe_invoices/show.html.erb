@@ -51,7 +51,17 @@
 </div>
 
 <% if can?(:index, Version) %>
-  <div class="p font-bold"><%= t(".versions") %></div>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".versions"),
+      {
+        controller: :versions,
+        action: :index,
+        stripe_invoice_id: @stripe_invoice.id
+      },
+      class: :link
+    ) %>
+  </div>
   <%= render_collection(
     partial: "versions/version",
     collection: @versions,
@@ -63,7 +73,13 @@
 <% end %>
 
 <% if can?(:index, Log) %>
-  <div class="p font-bold"><%= t(".logs") %></div>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".logs"),
+      { controller: :logs, action: :index, stripe_invoice_id: @stripe_invoice.id },
+      class: :link
+    ) %>
+  </div>
   <%= render_collection(
     partial: "logs/log",
     collection: @logs,

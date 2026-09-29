@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Page < ApplicationRecord
+  scope :where_page, ->(page) { where(parent: page) }
   belongs_to(:user, default: -> { Current.user! }, touch: true)
   belongs_to(:parent, class_name: "Page", optional: true, touch: true)
   has_many(

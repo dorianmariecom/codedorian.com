@@ -1,5 +1,113 @@
 <%= turbo_stream_from(@logs) %>
 
+<% if can?(:index, Version) %>
+  <%
+    records = policy_scope(Version)
+    records = records.where_address(@address) if @address
+    records = records.where_configuration(@configuration) if @configuration
+    records = records.where_connection(@connection) if @connection
+    records = records.where_country(@country) if @country
+    records =
+      records.where_country_code_ip_address(
+        @country_code_ip_address
+      ) if @country_code_ip_address
+    records = records.where_datum(@datum) if @datum
+    records = records.where_delivery(@delivery) if @delivery
+    records = records.where_delivery_channel(@delivery_channel) if @delivery_channel
+    records =
+      records.where_delivery_destination(
+        @delivery_destination
+      ) if @delivery_destination
+    records = records.where_device(@device) if @device
+    records = records.where_email_address(@email_address) if @email_address
+    records = records.where_guest(@guest) if @guest
+    records = records.where_handle(@handle) if @handle
+    records = records.where_job_context(@job_context) if @job_context
+    records = records.where_link(@link) if @link
+    records = records.where_message(@message) if @message
+    records = records.where_name(@name) if @name
+    records = records.where_page(@page) if @page
+    records = records.where_password(@password) if @password
+    records = records.where_phone_number(@phone_number) if @phone_number
+    records = records.where_plan(@plan) if @plan
+    records = records.where_plan_field(@plan_field) if @plan_field
+    records = records.where_plan_schedule(@plan_schedule) if @plan_schedule
+    records = records.where_program(@program) if @program
+    records =
+      records.where_program_execution(@program_execution) if @program_execution
+    records = records.where_program_schedule(@program_schedule) if @program_schedule
+    records = records.where_service(@service) if @service
+    records = records.where_service_field(@service_field) if @service_field
+    records = records.where_step(@step) if @step
+    records = records.where_step_execution(@step_execution) if @step_execution
+    records = records.where_stripe_event(@stripe_event) if @stripe_event
+    records = records.where_stripe_invoice(@stripe_invoice) if @stripe_invoice
+    records = records.where_subscription(@subscription) if @subscription
+    records =
+      records.where_subscription_destination(
+        @subscription_destination
+      ) if @subscription_destination
+    records =
+      records.where_subscription_execution(
+        @subscription_execution
+      ) if @subscription_execution
+    records =
+      records.where_subscription_value(@subscription_value) if @subscription_value
+    records = records.where_time_zone(@time_zone) if @time_zone
+    records = records.where_token(@token) if @token
+    records = records.where_user(@user) if @user
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".versions", count: records.distinct.count),
+      {
+        controller: :versions,
+        action: :index,
+        address_id: @address&.id,
+        configuration_id: @configuration&.to_param,
+        connection_id: @connection&.id,
+        country_id: @country&.id,
+        country_code_ip_address_id: @country_code_ip_address&.id,
+        datum_id: @datum&.id,
+        delivery_id: @delivery&.id,
+        delivery_channel_id: @delivery_channel&.id,
+        delivery_destination_id: @delivery_destination&.id,
+        device_id: @device&.id,
+        email_address_id: @email_address&.id,
+        guest_id: @guest&.id,
+        handle_id: @handle&.id,
+        job_context_id: @job_context&.id,
+        link_id: @link&.id,
+        message_id: @message&.id,
+        name_id: @name&.id,
+        page_id: @page&.id,
+        password_id: @password&.id,
+        phone_number_id: @phone_number&.id,
+        plan_id: @plan&.id,
+        plan_field_id: @plan_field&.id,
+        plan_schedule_id: @plan_schedule&.id,
+        program_id: @program&.id,
+        program_execution_id: @program_execution&.id,
+        program_schedule_id: @program_schedule&.id,
+        service_id: @service&.id,
+        service_field_id: @service_field&.id,
+        step_id: @step&.id,
+        step_execution_id: @step_execution&.id,
+        stripe_event_id: @stripe_event&.id,
+        stripe_invoice_id: @stripe_invoice&.id,
+        subscription_id: @subscription&.id,
+        subscription_destination_id: @subscription_destination&.id,
+        subscription_execution_id: @subscription_execution&.id,
+        subscription_value_id: @subscription_value&.id,
+        time_zone_id: @time_zone&.id,
+        token_id: @token&.id,
+        user_id: @user&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+
 <% if can?(:create, Log) %>
   <% if can?(:create, model_class) %>
     <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>

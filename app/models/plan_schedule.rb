@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class PlanSchedule < ApplicationRecord
+  scope :where_service,
+        ->(service) { where(plan_id: Plan.where_service(service).select(:id)) }
   include ScheduleConcern
 
   belongs_to :plan, touch: true

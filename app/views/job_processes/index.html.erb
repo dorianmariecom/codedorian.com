@@ -1,4 +1,65 @@
 <%= turbo_stream_from(@job_processes) %>
+<% if can?(:index, JobContext) %>
+  <div class="p">
+    <%= link_to(
+      t(".job_contexts", count: policy_scope(JobContext).distinct.count),
+      { controller: :job_contexts, action: :index },
+      class: :link
+    ) %>
+  </div>
+<% end %>
+
+<% if can?(:index, JobProcess) %>
+  <%
+    records = policy_scope(JobProcess)
+    records = records.where_job_process(@supervisor) if @supervisor
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".job_processes", count: records.distinct.count),
+      {
+        controller: :job_processes,
+        action: :index,
+        job_process_id: @supervisor&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, JobClaimedExecution) %>
+  <%
+    records = policy_scope(JobClaimedExecution)
+    records = records.where_job_process(@supervisor) if @supervisor
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".job_claimed_executions", count: records.distinct.count),
+      {
+        controller: :job_claimed_executions,
+        action: :index,
+        job_process_id: @supervisor&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, Log) %>
+  <%
+    records = policy_scope(Log)
+    records = records.where_job_process(@supervisor) if @supervisor
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".logs", count: records.distinct.count),
+      {
+        controller: :logs,
+        action: :index,
+        job_process_id: @supervisor&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
 
 <% if can?(:create, JobProcess) %>
   <% if can?(:create, model_class) %>

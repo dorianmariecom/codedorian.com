@@ -49,7 +49,11 @@
       .page(params[:page]) %>
 
   <div class="p font-bold">
-    <%= link_to(t(".jobs"), { controller: :jobs, action: :index }, class: :link) %>
+    <%= link_to(
+      t(".jobs"),
+      { controller: :jobs, action: :index, device_id: @device.id },
+      class: :link
+    ) %>
   </div>
 
   <% if can?(:create, Job) %>
@@ -72,7 +76,7 @@
   <div class="p font-bold">
     <%= link_to(
       t(".versions"),
-      { controller: :versions, action: :index, device_id: @device&.id },
+      { controller: :versions, action: :index, device_id: @device.id },
       class: :link
     ) %>
   </div>
@@ -101,7 +105,7 @@
   <div class="p font-bold">
     <%= link_to(
       t(".logs"),
-      { controller: :logs, action: :index, device_id: @device&.id },
+      { controller: :logs, action: :index, device_id: @device.id },
       class: :link
     ) %>
   </div>
@@ -122,6 +126,75 @@
     as: :log,
     locals: {
       nested: [*nested, @device]
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, JobContext) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".job_contexts"),
+      { controller: :job_contexts, action: :index, device_id: @device.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "job_contexts/job_context",
+    collection:
+      policy_scope(JobContext)
+        .where_device(@device)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :job_context,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, ::Error) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".errors"),
+      { controller: :errors, action: :index, device_id: @device.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "errors/error",
+    collection:
+      policy_scope(::Error)
+        .where_device(@device)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :error,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, ErrorOccurrence) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".error_occurrences"),
+      { controller: :error_occurrences, action: :index, device_id: @device.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "error_occurrences/error_occurrence",
+    collection:
+      policy_scope(ErrorOccurrence)
+        .where_device(@device)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :error_occurrence,
+    locals: {
+      nested: []
     }
   ) %>
 <% end %>

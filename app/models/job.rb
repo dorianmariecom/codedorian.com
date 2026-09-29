@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Job < SolidQueue::Job
+  scope :where_job_batch, ->(job_batch) { where(batch_id: job_batch.id) }
   include(RecordConcern)
 
   has_many(

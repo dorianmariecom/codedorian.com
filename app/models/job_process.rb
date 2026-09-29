@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class JobProcess < SolidQueue::Process
+  scope :where_job_process,
+        ->(job_process) { where(supervisor_id: job_process.id) }
   include(RecordConcern)
 
   validate { can!(:update, :job_process) }

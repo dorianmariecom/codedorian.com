@@ -40,7 +40,7 @@
       {
         controller: :versions,
         action: :index,
-        configuration_id: @configuration&.id
+        configuration_id: @configuration.to_param
       },
       class: :link
     ) %>
@@ -50,7 +50,11 @@
     <div class="p">
       <%= link_to(
         t(".new_version"),
-        { controller: :versions, action: :new, configuration_id: @configuration&.id },
+        {
+          controller: :versions,
+          action: :new,
+          configuration_id: @configuration&.to_param
+        },
         class: "button"
       ) %>
     </div>
@@ -70,7 +74,11 @@
   <div class="p font-bold">
     <%= link_to(
       t(".logs"),
-      { controller: :logs, action: :index, configuration_id: @configuration&.id },
+      {
+        controller: :logs,
+        action: :index,
+        configuration_id: @configuration.to_param
+      },
       class: :link
     ) %>
   </div>
@@ -79,7 +87,11 @@
     <div class="p">
       <%= link_to(
         t(".new_log"),
-        { controller: :logs, action: :new, configuration_id: @configuration&.id },
+        {
+          controller: :logs,
+          action: :new,
+          configuration_id: @configuration&.to_param
+        },
         class: "button"
       ) %>
     </div>

@@ -54,7 +54,7 @@
       {
         controller: :logs,
         action: :index,
-        job_failed_execution_id: @job_failed_execution&.id
+        job_failed_execution_id: @job_failed_execution.id
       },
       class: :link
     ) %>
@@ -80,6 +80,33 @@
     as: :log,
     locals: {
       nested: [*nested, @job_failed_execution]
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, JobContext) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".job_contexts"),
+      {
+        controller: :job_contexts,
+        action: :index,
+        job_failed_execution_id: @job_failed_execution.id
+      },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "job_contexts/job_context",
+    collection:
+      policy_scope(JobContext)
+        .where_job_failed_execution(@job_failed_execution)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :job_context,
+    locals: {
+      nested: []
     }
   ) %>
 <% end %>

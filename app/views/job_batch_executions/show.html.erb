@@ -45,7 +45,7 @@
       {
         controller: :logs,
         action: :index,
-        job_batch_execution_id: @job_batch_execution&.id
+        job_batch_execution_id: @job_batch_execution.id
       },
       class: :link
     ) %>
@@ -71,6 +71,33 @@
     as: :log,
     locals: {
       nested: [*nested, @job_batch_execution]
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, JobContext) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".job_contexts"),
+      {
+        controller: :job_contexts,
+        action: :index,
+        job_batch_execution_id: @job_batch_execution.id
+      },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "job_contexts/job_context",
+    collection:
+      policy_scope(JobContext)
+        .where_job_batch_execution(@job_batch_execution)
+        .distinct
+        .order(created_at: :desc)
+        .page(params[:page]),
+    as: :job_context,
+    locals: {
+      nested: []
     }
   ) %>
 <% end %>

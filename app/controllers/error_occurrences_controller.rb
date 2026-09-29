@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class ErrorOccurrencesController < ApplicationController
+  before_action :load_job_context
+  before_action :load_password
+  before_action :load_program_execution
   before_action(:load_guest)
   before_action(:load_user)
   before_action(:load_program)
@@ -110,6 +113,39 @@ class ErrorOccurrencesController < ApplicationController
 
   private
 
+  def load_job_context
+    return if params[:job_context_id].blank?
+
+    @job_context = policy_scope(JobContext).find(params.expect(:job_context_id))
+    set_context(job_context: @job_context)
+    add_breadcrumb(text: @job_context, path: @job_context)
+  end
+
+  def load_password
+    return if params[:password_id].blank?
+
+    @password = policy_scope(Password).find(params.expect(:password_id))
+    set_context(password: @password)
+    add_breadcrumb(text: @password, path: @password)
+  end
+
+  def load_program_execution
+    return if params[:program_execution_id].blank?
+
+    @program_execution =
+      policy_scope(ProgramExecution).find(params.expect(:program_execution_id))
+    set_context(program_execution: @program_execution)
+    add_breadcrumb(text: @program_execution, path: @program_execution)
+  end
+
+  def parent_params
+    {
+      job_context_id: @job_context&.id,
+      password_id: @password&.id,
+      program_execution_id: @program_execution&.id
+    }.compact
+  end
+
   def load_guest
     return if params[:guest_id].blank?
 
@@ -214,6 +250,11 @@ class ErrorOccurrencesController < ApplicationController
       scope = scope.where_guest(@guest)
     end
 
+    scope = scope.where_job_context(@job_context) if @job_context
+    scope = scope.where_password(@password) if @password
+    if @program_execution
+      scope = scope.where_program_execution(@program_execution)
+    end
     scope
   end
 

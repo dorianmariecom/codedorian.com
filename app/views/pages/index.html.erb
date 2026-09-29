@@ -1,5 +1,69 @@
 <%= turbo_stream_from(@pages) %>
 
+<% if can?(:index, Page) %>
+  <%
+    records = policy_scope(Page)
+    records = records.where_guest(@guest) if @guest
+    records = records.where_page(@parent) if @parent
+    records = records.where_user(@user) if @user
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".pages", count: records.distinct.count),
+      {
+        controller: :pages,
+        action: :index,
+        guest_id: @guest&.id,
+        page_id: @parent&.id,
+        user_id: @user&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, Version) %>
+  <%
+    records = policy_scope(Version)
+    records = records.where_guest(@guest) if @guest
+    records = records.where_page(@parent) if @parent
+    records = records.where_user(@user) if @user
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".versions", count: records.distinct.count),
+      {
+        controller: :versions,
+        action: :index,
+        guest_id: @guest&.id,
+        page_id: @parent&.id,
+        user_id: @user&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+<% if can?(:index, Log) %>
+  <%
+    records = policy_scope(Log)
+    records = records.where_guest(@guest) if @guest
+    records = records.where_page(@parent) if @parent
+    records = records.where_user(@user) if @user
+  %>
+  <div class="p">
+    <%= link_to(
+      t(".logs", count: records.distinct.count),
+      {
+        controller: :logs,
+        action: :index,
+        guest_id: @guest&.id,
+        page_id: @parent&.id,
+        user_id: @user&.id
+      }.compact,
+      class: :link
+    ) %>
+  </div>
+<% end %>
+
 <% if can?(:create, Page) %>
   <% if can?(:create, model_class) %>
     <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
