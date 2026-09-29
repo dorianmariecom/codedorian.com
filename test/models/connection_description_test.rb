@@ -5,29 +5,29 @@ require_relative "../../db/migrate/20260924192010_add_description_to_delivery_co
 require_relative "../../db/migrate/20260924192353_remove_name_from_delivery_connections"
 require_relative "../../db/migrate/20260924193745_add_identity_to_delivery_connections"
 
-class DeliveryConnectionDescriptionTest < ActiveSupport::TestCase
-  teardown { DeliveryConnection.connection.clear_cache! }
+require_relative "../../db/migrate/20260929184501_rename_delivery_connections_to_connections"
+
+class ConnectionDescriptionTest < ActiveSupport::TestCase
+  teardown { Connection.connection.clear_cache! }
 
   test "identity normalizes ids and omits unavailable profile fields" do
     assert_equal(
       { email: "dorian@example.com", username: "dorian", external_id: "123" },
-      DeliveryConnectionOauth.identity(
+      ConnectionOauth.identity(
         email: "dorian@example.com",
         username: "dorian",
         external_id: 123
       )
     )
-    assert_equal({}, DeliveryConnectionOauth.identity(email: "", username: nil))
-    connection = DeliveryConnection.new(email: "existing@example.com")
-    connection.assign_attributes(
-      DeliveryConnectionOauth.identity(external_id: "123")
-    )
+    assert_equal({}, ConnectionOauth.identity(email: "", username: nil))
+    connection = Connection.new(email: "existing@example.com")
+    connection.assign_attributes(ConnectionOauth.identity(external_id: "123"))
     assert_equal "existing@example.com", connection.email
   end
 
   test "labels use provider and unique identity fields" do
     connection =
-      DeliveryConnection.new(
+      Connection.new(
         provider: "github",
         email: "dorian@example.com",
         username: "dorian",
@@ -49,12 +49,12 @@ class DeliveryConnectionDescriptionTest < ActiveSupport::TestCase
                    connection.id_sample
                  ),
                  connection.to_s
-    assert_equal "smtp", DeliveryConnection.new(provider: "smtp").to_s
+    assert_equal "smtp", Connection.new(provider: "smtp").to_s
     %i[email username external_id].each do |field|
-      assert_equal :string, DeliveryConnection.search_fields[field][:type]
+      assert_equal :string, Connection.search_fields[field][:type]
     end
-    assert_not DeliveryConnection.column_names.include?("description")
-    assert_not DeliveryConnection.column_names.include?("name")
+    assert_not Connection.column_names.include?("description")
+    assert_not Connection.column_names.include?("name")
   end
 
   test "legacy production connection formats migrate to structured identity" do
@@ -111,20 +111,21 @@ class DeliveryConnectionDescriptionTest < ActiveSupport::TestCase
     Current.with(user: users(:admin)) do
       records =
         examples.map do |example|
-          DeliveryConnection.create!(
+          Connection.create!(
             example.except(:name, :email, :username).merge(
               access_token: "secret"
             )
           )
         end
       AddDescriptionToDeliveryConnections.suppress_messages do
+        RenameDeliveryConnectionsToConnections.new.migrate(:down)
         AddIdentityToDeliveryConnections.new.migrate(:down)
         RemoveNameFromDeliveryConnections.new.migrate(:down)
         AddDescriptionToDeliveryConnections.new.migrate(:down)
         records
           .zip(examples)
           .each do |record, example|
-            database = DeliveryConnection.connection
+            database = Connection.connection
             database.execute(
               "UPDATE delivery_connections SET name = #{database.quote(example[:name])} WHERE id = #{record.id}"
             )
@@ -132,6 +133,7 @@ class DeliveryConnectionDescriptionTest < ActiveSupport::TestCase
         AddDescriptionToDeliveryConnections.new.migrate(:up)
         RemoveNameFromDeliveryConnections.new.migrate(:up)
         AddIdentityToDeliveryConnections.new.migrate(:up)
+        RenameDeliveryConnectionsToConnections.new.migrate(:up)
       end
       records
         .zip(examples)

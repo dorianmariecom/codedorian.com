@@ -3,7 +3,7 @@
 class LogsController < ApplicationController
   before_action(:load_delivery)
   before_action(:load_delivery_channel)
-  before_action(:load_delivery_connection)
+  before_action(:load_connection)
   before_action(:load_delivery_destination)
   before_action(:load_subscription_destination)
   before_action(:load_guest)
@@ -143,18 +143,16 @@ class LogsController < ApplicationController
     add_breadcrumb(text: @delivery_channel, path: @delivery_channel)
   end
 
-  def load_delivery_connection
-    return if params[:delivery_connection_id].blank?
+  def load_connection
+    return if params[:connection_id].blank?
 
-    @delivery_connection =
+    @connection =
       authorize(
-        policy_scope(DeliveryConnection).find(
-          params.expect(:delivery_connection_id)
-        ),
+        policy_scope(Connection).find(params.expect(:connection_id)),
         :show?
       )
-    set_context(delivery_connection: @delivery_connection)
-    add_breadcrumb(text: @delivery_connection, path: @delivery_connection)
+    set_context(connection: @connection)
+    add_breadcrumb(text: @connection, path: @connection)
   end
 
   def load_delivery_destination
@@ -607,9 +605,7 @@ class LogsController < ApplicationController
 
     scope = scope.where_delivery(@delivery) if @delivery
     scope = scope.where_delivery_channel(@delivery_channel) if @delivery_channel
-    if @delivery_connection
-      scope = scope.where_delivery_connection(@delivery_connection)
-    end
+    scope = scope.where_connection(@connection) if @connection
     if @delivery_destination
       scope = scope.where_delivery_destination(@delivery_destination)
     end
@@ -711,7 +707,7 @@ class LogsController < ApplicationController
   def nested(
     delivery: @delivery,
     delivery_channel: @delivery_channel,
-    delivery_connection: @delivery_connection,
+    connection: @connection,
     delivery_destination: @delivery_destination,
     subscription_destination: @subscription_destination,
     user: @user,
@@ -757,7 +753,7 @@ class LogsController < ApplicationController
     chain << guest if guest && !user
     chain << delivery if delivery
     chain << delivery_channel if delivery_channel
-    chain << delivery_connection if delivery_connection
+    chain << connection if connection
     chain << delivery_destination if delivery_destination
     chain << subscription_destination if subscription_destination
 

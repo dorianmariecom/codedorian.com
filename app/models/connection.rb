@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class DeliveryConnection < ApplicationRecord
+class Connection < ApplicationRecord
   PROVIDERS = %i[
     google
     github
@@ -238,10 +238,10 @@ class DeliveryConnection < ApplicationRecord
   end
 
   def to_code
-    Pundit.policy_scope!(Current.user, DeliveryConnection).find(id)
+    Pundit.policy_scope!(Current.user, Connection).find(id)
     refresh_credentials_for_code! if enabled?
-    Code::Object::DeliveryConnection.new(attributes)
-  rescue *DeliveryConnectionOauth::ERRORS => e
+    Code::Object::Connection.new(attributes)
+  rescue *ConnectionOauth::ERRORS => e
     raise Code::Error, e.code
   end
 end

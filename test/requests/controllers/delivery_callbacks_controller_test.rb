@@ -6,7 +6,7 @@ class DeliveryCallbacksControllerTest < ActionDispatch::IntegrationTest
   setup do
     Current.with(user: users(:admin)) do
       connection =
-        DeliveryConnection.create!(
+        Connection.create!(
           user: users(:admin),
           username: "Twilio",
           provider: "twilio",
@@ -16,7 +16,7 @@ class DeliveryCallbacksControllerTest < ActionDispatch::IntegrationTest
       channel =
         DeliveryChannel.create!(
           key: "sms",
-          delivery_connection: connection,
+          connection: connection,
           amount_cents: 100,
           enabled: true,
           messaging_service_sid: "MGtest"
@@ -83,7 +83,7 @@ class DeliveryCallbacksControllerTest < ActionDispatch::IntegrationTest
   test "public content uses the application lifecycle and follows destination visibility" do
     Current.with(user: users(:admin)) do
       connection =
-        DeliveryConnection.create!(
+        Connection.create!(
           user: users(:admin),
           username: "Mastodon",
           provider: "mastodon"
@@ -91,7 +91,7 @@ class DeliveryCallbacksControllerTest < ActionDispatch::IntegrationTest
       channel = DeliveryChannel.create!(key: "mastodon")
       @delivery.delivery_destination.update!(
         delivery_channel: channel,
-        delivery_connection: connection,
+        connection: connection,
         visibility: "public",
         recipient: ""
       )

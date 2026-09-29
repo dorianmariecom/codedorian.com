@@ -413,7 +413,7 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
 
   def configure(provider, channel: "email")
     connection =
-      DeliveryConnection.create!(
+      Connection.create!(
         user: users(:admin),
         username: provider,
         provider: provider,

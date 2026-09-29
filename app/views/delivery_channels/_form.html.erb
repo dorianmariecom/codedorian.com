@@ -15,11 +15,9 @@
     <%= f.text_field :amount_currency, class: :input %>
   </div>
   <div class="p">
-    <%= f.label :delivery_connection_id, class: :label %>
-    <%= f.select :delivery_connection_id,
-             delivery_connection_options(
-               delivery_connection_id: f.object.delivery_connection_id
-             ),
+    <%= f.label :connection_id, class: :label %>
+    <%= f.select :connection_id,
+             connection_options(connection_id: f.object.connection_id),
              { include_blank: true },
              class: :input %>
   </div>

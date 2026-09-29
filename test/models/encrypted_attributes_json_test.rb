@@ -13,7 +13,7 @@ class EncryptedAttributesSerializationTest < ActiveSupport::TestCase
   end
 
   test "unsaved encrypted attributes are masked without an admin" do
-    connection = DeliveryConnection.new(access_token: "secret")
+    connection = Connection.new(access_token: "secret")
 
     Current.with(user: nil) do
       data = connection.as_json(only: %i[access_token refresh_token])
@@ -28,23 +28,16 @@ class EncryptedAttributesSerializationTest < ActiveSupport::TestCase
   test "nested serialization respects the current user's admin status" do
     user = users(:other_user)
     connection =
-      user.delivery_connections.build(provider: :github, access_token: "secret")
-    options = {
-      only: :id,
-      include: {
-        delivery_connections: {
-          only: :access_token
-        }
-      }
-    }
+      user.connections.build(provider: :github, access_token: "secret")
+    options = { only: :id, include: { connections: { only: :access_token } } }
 
     Current.with(user: user) do
-      data = user.as_json(options).fetch("delivery_connections").sole
+      data = user.as_json(options).fetch("connections").sole
       assert_match(/\A\*{3,10}\z/, data.fetch("access_token"))
     end
 
     Current.with(user: users(:admin)) do
-      data = user.as_json(options).fetch("delivery_connections").sole
+      data = user.as_json(options).fetch("connections").sole
       assert_equal("secret", data.fetch("access_token"))
     end
 

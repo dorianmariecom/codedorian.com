@@ -50,9 +50,9 @@ class Code
         when "DeliveryChannel"
           sig(args)
           code_delivery_channel
-        when "DeliveryConnection"
+        when "Connection"
           sig(args)
-          code_delivery_connection
+          code_connection
         when "DeliveryDestination"
           sig(args)
           code_delivery_destination
@@ -285,8 +285,8 @@ class Code
         Class.new(DeliveryChannel)
       end
 
-      def code_delivery_connection
-        Class.new(DeliveryConnection)
+      def code_connection
+        Class.new(Connection)
       end
 
       def code_delivery_destination

@@ -44,15 +44,12 @@
               data: {
                 "delivery-destination-form-target": "connectionRow"
               } do %>
-    <% connections =
-      delivery_connection_options(
-        delivery_connection_id: f.object.delivery_connection_id
-      ) %>
+    <% connections = connection_options(connection_id: f.object.connection_id) %>
     <template data-delivery-destination-form-target="connectionOptions">
       <%= options_for_select(connections) %>
     </template>
-    <%= f.label :delivery_connection_id, class: :label %>
-    <%= f.select :delivery_connection_id,
+    <%= f.label :connection_id, class: :label %>
+    <%= f.select :connection_id,
              connections.select { |option|
                channel &&
                  DeliveryChannel.supports_provider?(

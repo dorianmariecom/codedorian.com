@@ -240,7 +240,7 @@ class DeliveryDestinationsController < ApplicationController
         delivery_destination: %i[
           user_id
           delivery_channel_id
-          delivery_connection_id
+          connection_id
           recipient
           visibility
           enabled

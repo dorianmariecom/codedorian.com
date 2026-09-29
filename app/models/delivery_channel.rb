@@ -52,7 +52,7 @@ class DeliveryChannel < ApplicationRecord
   end
 
   PERSONAL = %i[github slack x mastodon].freeze
-  belongs_to :delivery_connection, optional: true
+  belongs_to :connection, optional: true
   has_many :delivery_destinations, dependent: :destroy
   validates :key, inclusion: { in: KEYS.map(&:to_s) }, uniqueness: true
   validates :amount_cents,
@@ -81,7 +81,7 @@ class DeliveryChannel < ApplicationRecord
       self.show_visibility = false
       self.show_recipient = true
       self.private_pattern = "(?:u/|@)?[a-zA-Z0-9_-]{3,20}"
-      self.delivery_connection = nil
+      self.connection = nil
     end
   end
 
@@ -96,7 +96,7 @@ class DeliveryChannel < ApplicationRecord
     end
 
     PERSONAL.include?(key.to_sym) || %w[push messages webhook].include?(key) ||
-      delivery_connection&.ready?
+      connection&.ready?
   end
 
   def self.search_fields
@@ -117,8 +117,8 @@ class DeliveryChannel < ApplicationRecord
         node: -> { arel_table[:amount_currency] },
         type: :string
       },
-      delivery_connection_id: {
-        node: -> { arel_table[:delivery_connection_id] },
+      connection_id: {
+        node: -> { arel_table[:connection_id] },
         type: :integer
       },
       messaging_service_sid: {
@@ -198,12 +198,12 @@ class DeliveryChannel < ApplicationRecord
   end
 
   def valid_connection
-    return unless delivery_connection
-    if delivery_connection.user.admin? &&
-         self.class.supports_provider?(key, delivery_connection.provider)
+    return unless connection
+    if connection.user.admin? &&
+         self.class.supports_provider?(key, connection.provider)
       return
     end
 
-    errors.add(:delivery_connection, :invalid)
+    errors.add(:connection, :invalid)
   end
 end

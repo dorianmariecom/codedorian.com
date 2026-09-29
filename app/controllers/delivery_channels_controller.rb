@@ -121,7 +121,7 @@ class DeliveryChannelsController < ApplicationController
         show_recipient
         show_visibility
         amount_currency
-        delivery_connection_id
+        connection_id
         messaging_service_sid
         content_sid_en
         content_sid_fr

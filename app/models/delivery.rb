@@ -13,7 +13,7 @@ class Delivery < ApplicationRecord
   MAX_ATTEMPTS = 5
   WORKER_TIMEOUT = 15.minutes
 
-  belongs_to :connection, class_name: "DeliveryConnection", optional: true
+  belongs_to :connection, optional: true
   belongs_to :subscription
   has_one :service, through: :subscription
   belongs_to :delivery_destination
@@ -70,7 +70,7 @@ class Delivery < ApplicationRecord
   def completed? = status.in?(%w[delivered failed canceled])
 
   def connection_for_twilio!
-    DeliveryConnection.twilio.where_user(User.admin).find(connection_id)
+    Connection.twilio.where_user(User.admin).find(connection_id)
   end
 
   def receive_twilio_callback!(data)
@@ -348,7 +348,7 @@ class Delivery < ApplicationRecord
     self.channel ||= delivery_destination.channel
     self.recipient ||= delivery_destination.recipient
     self.visibility ||= delivery_destination.visibility
-    self.connection ||= delivery_destination.connection
+    self.connection ||= delivery_destination.effective_connection
     self.locale ||= subscription&.user&.locale.to_s.presence || "en"
   end
 end

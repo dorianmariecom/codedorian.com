@@ -2,9 +2,9 @@
 
 <%= turbo_stream_from(@user) %>
 
-<% if can?(:index, DeliveryConnection) %>
+<% if can?(:index, Connection) %>
   <div class="p">
-    <%= link_to t(".delivery_connections"), delivery_connections_path, class: :link %>
+    <%= link_to t(".connections"), connections_path, class: :link %>
   </div>
 <% end %>
 

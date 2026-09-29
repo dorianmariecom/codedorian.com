@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_26_205755) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_29_184501) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -141,6 +141,39 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_26_205755) do
     t.index ["name"], name: "index_configurations_on_name", unique: true
   end
 
+  create_table "connections", force: :cascade do |t|
+    t.text "access_token"
+    t.text "account_sid"
+    t.text "api_key"
+    t.text "auth_token"
+    t.string "aws_access_key_id"
+    t.string "aws_region"
+    t.text "aws_secret_access_key"
+    t.text "aws_session_token"
+    t.text "base_url"
+    t.datetime "created_at", null: false
+    t.string "email"
+    t.boolean "enabled", default: true, null: false
+    t.string "external_id"
+    t.string "mailgun_domain"
+    t.string "mailgun_region"
+    t.string "provider", null: false
+    t.text "refresh_token"
+    t.text "scope", default: "", null: false
+    t.text "sender"
+    t.text "smtp_address"
+    t.text "smtp_authentication"
+    t.text "smtp_from"
+    t.text "smtp_password"
+    t.integer "smtp_port"
+    t.text "smtp_user_name"
+    t.datetime "token_expires_at"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.string "username"
+    t.index ["user_id"], name: "index_connections_on_user_id"
+  end
+
   create_table "countries", force: :cascade do |t|
     t.jsonb "abuse", default: {}, null: false
     t.string "alpha2"
@@ -244,10 +277,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_26_205755) do
     t.integer "amount_cents"
     t.string "amount_currency", default: "eur", null: false
     t.string "callback_base_url"
+    t.bigint "connection_id"
     t.string "content_sid_en"
     t.string "content_sid_fr"
     t.datetime "created_at", null: false
-    t.bigint "delivery_connection_id"
     t.boolean "enabled", default: false, null: false
     t.string "key", null: false
     t.string "messaging_service_sid"
@@ -258,58 +291,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_26_205755) do
     t.boolean "show_visibility", default: false, null: false
     t.datetime "updated_at", null: false
     t.string "visibility_restriction"
-    t.index ["delivery_connection_id"],
-            name: "index_delivery_channels_on_delivery_connection_id"
+    t.index ["connection_id"], name: "index_delivery_channels_on_connection_id"
     t.index ["key"], name: "index_delivery_channels_on_key", unique: true
   end
 
-  create_table "delivery_connections", force: :cascade do |t|
-    t.text "access_token"
-    t.text "account_sid"
-    t.text "api_key"
-    t.text "auth_token"
-    t.string "aws_access_key_id"
-    t.string "aws_region"
-    t.text "aws_secret_access_key"
-    t.text "aws_session_token"
-    t.text "base_url"
-    t.datetime "created_at", null: false
-    t.string "email"
-    t.boolean "enabled", default: true, null: false
-    t.string "external_id"
-    t.string "mailgun_domain"
-    t.string "mailgun_region"
-    t.string "provider", null: false
-    t.text "refresh_token"
-    t.text "scope", default: "", null: false
-    t.text "sender"
-    t.text "smtp_address"
-    t.text "smtp_authentication"
-    t.text "smtp_from"
-    t.text "smtp_password"
-    t.integer "smtp_port"
-    t.text "smtp_user_name"
-    t.datetime "token_expires_at"
-    t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
-    t.string "username"
-    t.index ["user_id"], name: "index_delivery_connections_on_user_id"
-  end
-
   create_table "delivery_destinations", force: :cascade do |t|
+    t.bigint "connection_id"
     t.datetime "created_at", null: false
     t.bigint "delivery_channel_id", null: false
-    t.bigint "delivery_connection_id"
     t.boolean "enabled", default: true, null: false
     t.string "recipient"
     t.boolean "recipient_verified", default: false, null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.string "visibility", default: "private", null: false
+    t.index ["connection_id"],
+            name: "index_delivery_destinations_on_connection_id"
     t.index ["delivery_channel_id"],
             name: "index_delivery_destinations_on_delivery_channel_id"
-    t.index ["delivery_connection_id"],
-            name: "index_delivery_destinations_on_delivery_connection_id"
     t.index ["user_id"], name: "index_delivery_destinations_on_user_id"
   end
 
@@ -1024,15 +1023,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_26_205755) do
   add_foreign_key "active_storage_variant_records",
                   "active_storage_blobs",
                   column: "blob_id"
+  add_foreign_key "connections", "users"
   add_foreign_key "countries", "users"
   add_foreign_key "data", "users"
   add_foreign_key "deliveries", "delivery_destinations"
   add_foreign_key "deliveries", "step_executions"
   add_foreign_key "deliveries", "subscriptions"
-  add_foreign_key "delivery_channels", "delivery_connections"
-  add_foreign_key "delivery_connections", "users"
+  add_foreign_key "delivery_channels", "connections"
+  add_foreign_key "delivery_destinations", "connections"
   add_foreign_key "delivery_destinations", "delivery_channels"
-  add_foreign_key "delivery_destinations", "delivery_connections"
   add_foreign_key "delivery_destinations", "users"
   add_foreign_key "devices", "users"
   add_foreign_key "email_addresses", "users"

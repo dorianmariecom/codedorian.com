@@ -110,7 +110,7 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
     slack, github =
       Current.with(user: users(:admin)) do
         %w[slack github].map do |provider|
-          DeliveryConnection.create!(
+          Connection.create!(
             user: users(:admin),
             provider: provider,
             username: provider,
@@ -132,7 +132,7 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
         DeliveryDestination.create!(
           user: users(:admin),
           delivery_channel: channel,
-          delivery_connection: slack,
+          connection: slack,
           recipient: "#general"
         )
       end
@@ -147,9 +147,9 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
     ].each do |path|
       get path
       assert_response :success
-      assert_select "select[name*='[delivery_connection_id]'] option[value=?][selected]",
+      assert_select "select[name*='[connection_id]'] option[value=?][selected]",
                     slack.id.to_s
-      assert_select "select[name*='[delivery_connection_id]'] option[value=?]",
+      assert_select "select[name*='[connection_id]'] option[value=?]",
                     github.id.to_s,
                     count: 0
       assert_select "option[data-delivery-destination-form-providers='slack']"
@@ -162,14 +162,14 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
     owned, other =
       Current.with(user: users(:admin)) do
         [
-          DeliveryConnection.create!(
+          Connection.create!(
             user: users(:other_user),
             provider: "slack",
             username: "Owned Slack",
             access_token: "owned-secret",
             enabled: true
           ),
-          DeliveryConnection.create!(
+          Connection.create!(
             user: users(:admin),
             provider: "slack",
             username: "Other Slack",
@@ -205,7 +205,7 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
              delivery_destinations_attributes: [
                {
                  delivery_channel_id: channel.id,
-                 delivery_connection_id: owned.id,
+                 connection_id: owned.id,
                  recipient: "#general"
                }
              ]
@@ -219,37 +219,37 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
                    .last
                    .delivery_destinations
                    .sole
-                   .delivery_connection
+                   .connection
     post delivery_destinations_path,
          params: {
            delivery_destination: {
              delivery_channel_id: channel.id,
-             delivery_connection_id: owned.id,
+             connection_id: owned.id,
              recipient: "#general"
            }
          },
          as: :json
     assert_response :success
-    assert_equal owned, DeliveryDestination.order(:id).last.delivery_connection
+    assert_equal owned, DeliveryDestination.order(:id).last.connection
     assert_no_difference "DeliveryDestination.count" do
       post delivery_destinations_path,
            params: {
              delivery_destination: {
                delivery_channel_id: channel.id,
-               delivery_connection_id: other.id,
+               connection_id: other.id,
                recipient: "#general"
              }
            },
            as: :json
       assert_response :unprocessable_content
     end
-    get delivery_connection_path(owned), as: :json
+    get connection_path(owned), as: :json
     assert_response :success
     assert_match(
       /\A\*{3,10}\z/,
       response.parsed_body.fetch("data").fetch("access_token")
     )
-    get delivery_connections_path, as: :json
+    get connections_path, as: :json
     assert_response :success
   end
 
@@ -276,8 +276,7 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
     sign_in_admin
     Current.user = users(:admin)
     destination = DeliveryDestination.create!(delivery_channel: @channel)
-    connection =
-      DeliveryConnection.create!(provider: "slack", username: "Audit Slack")
+    connection = Connection.create!(provider: "slack", username: "Audit Slack")
     selection =
       SubscriptionDestination.create!(
         subscription: subscriptions(:subscription),
@@ -292,7 +291,7 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
     {
       delivery: delivery,
       delivery_channel: @channel,
-      delivery_connection: connection,
+      connection: connection,
       delivery_destination: destination,
       subscription_destination: selection
     }.each do |key, parent|
@@ -534,7 +533,7 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
           _destroy: "false",
           delivery_channel_id: @channel.id.to_s,
           recipient: "",
-          delivery_connection_id: "",
+          connection_id: "",
           visibility: "private"
         }
       }
@@ -695,9 +694,9 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
 
   test "admins can inspect normalized connection attributes" do
     sign_in_admin
-    post delivery_connections_path,
+    post connections_path,
          params: {
-           delivery_connection: {
+           connection: {
              username: "Workspace bot",
              email: "bot@example.com",
              external_id: "B123",
@@ -708,37 +707,33 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
          as: :json
     assert_response :success
     assert_includes response.body, "private-test-token"
-    connection = DeliveryConnection.order(:id).last
+    connection = Connection.order(:id).last
     assert_equal "Workspace bot", connection.username
     assert_equal "bot@example.com", connection.email
     assert_equal "B123", connection.external_id
-    patch delivery_connection_path(connection),
+    patch connection_path(connection),
           params: {
-            delivery_connection: {
+            connection: {
               username: "Updated bot"
             }
           },
           as: :json
     assert_response :success
     assert_equal "Updated bot", connection.reload.username
-    get edit_delivery_connection_path(connection)
+    get edit_connection_path(connection)
     assert_response :success
     assert_includes response.body, "private-test-token"
-    assert_select "input[name=?]", "delivery_connection[name]", count: 0
-    assert_select "select[name=?]", "delivery_connection[provider]"
-    assert_select "textarea[name=?]",
-                  "delivery_connection[description]",
-                  count: 0
+    assert_select "input[name=?]", "connection[name]", count: 0
+    assert_select "select[name=?]", "connection[provider]"
+    assert_select "textarea[name=?]", "connection[description]", count: 0
     assert_select "input[name=?][value=?]",
-                  "delivery_connection[email]",
+                  "connection[email]",
                   "bot@example.com"
+    assert_select "input[name=?][value=?]", "connection[external_id]", "B123"
     assert_select "input[name=?][value=?]",
-                  "delivery_connection[external_id]",
-                  "B123"
-    assert_select "input[name=?][value=?]",
-                  "delivery_connection[username]",
+                  "connection[username]",
                   "Updated bot"
-    get delivery_connection_path(connection)
+    get connection_path(connection)
     assert_response :success
     assert_includes response.body, "Updated bot"
   end
@@ -846,10 +841,10 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
       assert_response :success, response.body
     end
     assert_response :success
-    assert_no_difference "DeliveryConnection.count" do
-      post delivery_connections_path,
+    assert_no_difference "Connection.count" do
+      post connections_path,
            params: {
-             delivery_connection: {
+             connection: {
                username: "Slack",
                provider: "slack"
              }
@@ -862,9 +857,9 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
 
   test "admin can provision destinations and personal connections for a subscriber" do
     sign_in_admin
-    post delivery_connections_path,
+    post connections_path,
          params: {
-           delivery_connection: {
+           connection: {
              user_id: users(:other_user).id,
              username: "Workspace bot",
              email: "bot@example.com",
@@ -874,7 +869,7 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
          },
          as: :json
     assert_response :success
-    assert_equal users(:other_user), DeliveryConnection.order(:id).last.user
+    assert_equal users(:other_user), Connection.order(:id).last.user
 
     post delivery_destinations_path,
          params: {

@@ -50,7 +50,7 @@ class Code
 
       def code_connection
         Pundit
-          .policy_scope!(::Current.user, ::DeliveryConnection)
+          .policy_scope!(::Current.user, ::Connection)
           .find_by(id: record!.connection&.id)
           .to_code
       end

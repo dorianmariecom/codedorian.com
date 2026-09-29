@@ -52,9 +52,9 @@ class DeliveryChannelConfigurationTest < ActiveSupport::TestCase
     assert_nil channel.visibility_restriction
   end
 
-  test "messenger uses a regular recipient and shared delivery connection" do
+  test "messenger uses a regular recipient and shared connection" do
     connection =
-      DeliveryConnection.create!(
+      Connection.create!(
         provider: "messenger",
         username: "Page",
         sender: "123",
@@ -65,7 +65,7 @@ class DeliveryChannelConfigurationTest < ActiveSupport::TestCase
         key: "messenger",
         visibility_restriction: "private",
         private_pattern: "[0-9]+",
-        delivery_connection: connection,
+        connection: connection,
         enabled: true,
         amount_cents: 0,
         show_recipient: true
@@ -82,18 +82,20 @@ class DeliveryChannelConfigurationTest < ActiveSupport::TestCase
         delivery_destination: destination,
         event_key: "messenger"
       )
+    assert_nil destination.connection
+    assert_equal connection, destination.effective_connection
     assert_equal "789", delivery.recipient
     assert_equal connection, delivery.connection
     assert delivery.recipient_verified_for_delivery?
     assert destination.available?
     connection.destroy!
     assert_not destination.reload.available?
-    assert_nil channel.reload.delivery_connection
+    assert_nil channel.reload.connection
   end
 
   test "deleting a personal connection leaves its destinations unavailable" do
     connection =
-      DeliveryConnection.create!(
+      Connection.create!(
         provider: "slack",
         username: "Slack",
         access_token: "token"
@@ -103,12 +105,12 @@ class DeliveryChannelConfigurationTest < ActiveSupport::TestCase
     destination =
       DeliveryDestination.create!(
         delivery_channel: channel,
-        delivery_connection: connection,
+        connection: connection,
         recipient: "#hello"
       )
     assert destination.available?
     connection.destroy!
-    assert_nil destination.reload.delivery_connection
+    assert_nil destination.reload.connection
     assert_not destination.available?
   end
 end

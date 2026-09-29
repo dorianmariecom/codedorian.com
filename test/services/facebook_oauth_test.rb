@@ -111,8 +111,7 @@ class FacebookOauthTest < ActiveSupport::TestCase
   def exchange
     FacebookOauth.exchange(
       code: "code",
-      redirect_uri:
-        "https://codedorian.com/delivery_connections/callback/facebook"
+      redirect_uri: "https://codedorian.com/connections/callback/facebook"
     )
   end
 end

@@ -7,7 +7,7 @@ class GithubApiTest < ActiveSupport::TestCase
     Current.user = users(:admin)
     @subscription = subscriptions(:subscription)
     @connection =
-      DeliveryConnection.create!(
+      Connection.create!(
         user: @subscription.user,
         provider: "github",
         username: "GitHub",
@@ -26,7 +26,7 @@ class GithubApiTest < ActiveSupport::TestCase
     )
     Current.subscription = @subscription
     result = Code.evaluate(<<~CODE)
-      connection = Current.subscription.user.delivery_connections.first
+      connection = Current.subscription.user.connections.first
       Http.get("https://api.github.com/notifications", query: { per_page: 100 }, headers: { Authorization: "Bearer {connection.access_token}" }).body
     CODE
     assert_equal [{ "id" => "notification" }], JSON.parse(result.to_s)
@@ -35,8 +35,7 @@ class GithubApiTest < ActiveSupport::TestCase
   test "disabled connections remain readable without refreshing credentials" do
     @connection.update!(enabled: false, token_expires_at: 1.minute.ago)
     Current.subscription = @subscription
-    result =
-      Code.evaluate("Current.subscription.user.delivery_connections.first")
+    result = Code.evaluate("Current.subscription.user.connections.first")
     assert_equal "secret", result.as_json.fetch("access_token")
     assert_equal false, result.as_json.fetch("enabled")
     assert_not_requested :post, "https://github.com/login/oauth/access_token"
@@ -44,7 +43,7 @@ class GithubApiTest < ActiveSupport::TestCase
 
   test "connections are selected through the user association" do
     second =
-      DeliveryConnection.create!(
+      Connection.create!(
         user: @subscription.user,
         provider: "github",
         username: "Second",
@@ -52,7 +51,7 @@ class GithubApiTest < ActiveSupport::TestCase
         scope: "repo notifications"
       )
     foreign =
-      DeliveryConnection.create!(
+      Connection.create!(
         user: users(:other_user),
         provider: "github",
         username: "Other",
@@ -61,12 +60,12 @@ class GithubApiTest < ActiveSupport::TestCase
     Current.subscription = @subscription
     result =
       Code.evaluate(
-        %(Current.subscription.user.delivery_connections.select((connection) => { connection.id == #{second.id} }).first)
+        %(Current.subscription.user.connections.select((connection) => { connection.id == #{second.id} }).first)
       )
     assert_equal "second-secret", result.as_json.fetch("access_token")
     assert_equal "repo notifications", result.as_json.fetch("scope")
     assert_not result.as_json.key?("calendar_access")
-    result = Code.evaluate("Current.subscription.user.delivery_connections")
+    result = Code.evaluate("Current.subscription.user.connections")
     assert_equal [@connection.id, second.id].sort,
                  result.as_json.map { |connection| connection.fetch("id") }.sort
     assert_not_includes result.as_json.map { |connection|
@@ -75,7 +74,7 @@ class GithubApiTest < ActiveSupport::TestCase
                         foreign.id
     Current.user = users(:other_user)
     assert_raises(ActiveRecord::RecordNotFound) do
-      Code.evaluate("Current.subscription.user.delivery_connections")
+      Code.evaluate("Current.subscription.user.connections")
     end
   end
 
@@ -128,9 +127,7 @@ class GithubApiTest < ActiveSupport::TestCase
     )
     Current.subscription = @subscription
     result =
-      Code.evaluate(
-        "Current.subscription.user.delivery_connections.first.access_token"
-      )
+      Code.evaluate("Current.subscription.user.connections.first.access_token")
     assert_equal "rotated", result.to_s
     assert_equal "rotated-refresh", @connection.reload.refresh_token
     assert @connection.token_expires_at.future?

@@ -123,7 +123,7 @@ class MailboxOauth
     attributes.merge(
       sender: sender,
       smtp_from: email,
-      **DeliveryConnectionOauth.identity(
+      **ConnectionOauth.identity(
         email: email,
         username: microsoft? ? profile["userPrincipalName"] : nil,
         external_id: sender

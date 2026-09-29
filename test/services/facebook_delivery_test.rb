@@ -6,7 +6,7 @@ class FacebookDeliveryTest < ActiveSupport::TestCase
   setup do
     Current.user = users(:admin)
     @connection =
-      DeliveryConnection.create!(
+      Connection.create!(
         provider: "facebook",
         username: "Page",
         access_token: "page-token",
@@ -20,7 +20,7 @@ class FacebookDeliveryTest < ActiveSupport::TestCase
         show_recipient: false,
         enabled: true,
         amount_cents: 0,
-        delivery_connection: @connection,
+        connection: @connection,
         show_visibility: true
       )
     @subscription = subscriptions(:subscription)
@@ -102,7 +102,7 @@ class FacebookDeliveryTest < ActiveSupport::TestCase
     @connection.user = users(:other_user)
     assert_not @connection.valid?
     assert_not @connection.ready?
-    @destination.delivery_connection = @connection
+    @destination.connection = @connection
     assert_not @destination.valid?
   end
 

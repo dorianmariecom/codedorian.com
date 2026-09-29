@@ -117,7 +117,7 @@ class RedditScriptTest < ActiveSupport::TestCase
     assert_equal "private", @channel.visibility_restriction
     assert_not @channel.show_connection?
     assert_not @channel.show_visibility?
-    assert_not_includes DeliveryConnectionOauth::PROVIDERS, "reddit"
+    assert_not_includes ConnectionOauth::PROVIDERS, "reddit"
     assert_nil @destination.connection
     @destination.recipient = "r/community"
     assert_not @destination.valid?

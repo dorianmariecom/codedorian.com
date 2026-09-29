@@ -178,7 +178,7 @@ class SubscriptionDeliveryBillingTest < ActiveSupport::TestCase
 
   test "billing deactivation survives an unavailable personal connection" do
     connection =
-      DeliveryConnection.create!(
+      Connection.create!(
         user: @subscription.user,
         provider: "slack",
         username: "Slack",
@@ -191,7 +191,7 @@ class SubscriptionDeliveryBillingTest < ActiveSupport::TestCase
       DeliveryDestination.create!(
         user: @subscription.user,
         delivery_channel: channel,
-        delivery_connection: connection,
+        connection: connection,
         recipient: "#general"
       )
     @subscription.update!(stripe_subscription_id: nil)

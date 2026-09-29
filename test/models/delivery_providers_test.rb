@@ -20,14 +20,13 @@ class DeliveryProvidersTest < ActiveSupport::TestCase
       mailgun
       mailchimp
     ].each do |provider|
-      connection =
-        DeliveryConnection.create!(provider: provider, username: provider)
-      channel.delivery_connection = connection
+      connection = Connection.create!(provider: provider, username: provider)
+      channel.connection = connection
       assert channel.valid?, channel.errors.full_messages.join(", ")
       assert_not channel.available?
     end
-    channel.delivery_connection =
-      DeliveryConnection.create!(
+    channel.connection =
+      Connection.create!(
         provider: "telegram",
         username: "Bot",
         access_token: "123:token"
@@ -37,7 +36,7 @@ class DeliveryProvidersTest < ActiveSupport::TestCase
 
   test "new provider accounts must belong to admins and secrets remain encrypted" do
     connection =
-      DeliveryConnection.new(
+      Connection.new(
         provider: "aws_ses",
         username: "SES",
         user: users(:other_user),
@@ -58,14 +57,14 @@ class DeliveryProvidersTest < ActiveSupport::TestCase
 
   test "changing email provider preserves destinations prices and queued connection snapshots" do
     smtp =
-      DeliveryConnection.create!(
+      Connection.create!(
         provider: "smtp",
         username: "SMTP",
         smtp_from: "sender@example.com",
         smtp_address: "smtp.example.com"
       )
     resend =
-      DeliveryConnection.create!(
+      Connection.create!(
         provider: "resend",
         username: "Resend",
         smtp_from: "sender@example.com",
@@ -76,7 +75,7 @@ class DeliveryProvidersTest < ActiveSupport::TestCase
         key: "email",
         enabled: true,
         amount_cents: 120,
-        delivery_connection: smtp
+        connection: smtp
       )
     subscription = subscriptions(:subscription)
     destination =
@@ -92,9 +91,9 @@ class DeliveryProvidersTest < ActiveSupport::TestCase
         delivery_destination: destination,
         event_key: "queued"
       )
-    channel.update!(delivery_connection: resend)
+    channel.update!(connection: resend)
     assert_equal smtp, delivery.reload.connection
-    assert_equal resend, destination.reload.connection
+    assert_equal resend, destination.reload.effective_connection
     assert destination.recipient_verified?
     assert_equal 120, channel.amount_cents
     assert_equal "email", delivery.channel
@@ -103,7 +102,7 @@ class DeliveryProvidersTest < ActiveSupport::TestCase
   test "new messaging destinations validate account scoped recipients and disallow personal connections" do
     %w[messenger instagram telegram viber].each do |provider|
       connection =
-        DeliveryConnection.create!(
+        Connection.create!(
           provider: provider,
           username: provider,
           access_token: "123:token",
@@ -115,7 +114,7 @@ class DeliveryProvidersTest < ActiveSupport::TestCase
           visibility_restriction: "private",
           enabled: true,
           amount_cents: 0,
-          delivery_connection: connection,
+          connection: connection,
           show_recipient: true
         )
       destination =
@@ -133,14 +132,14 @@ class DeliveryProvidersTest < ActiveSupport::TestCase
       destination.recipient = ""
       assert_not destination.valid?
       destination.recipient = "123456"
-      destination.delivery_connection = connection
+      destination.connection = connection
       assert_not destination.valid?
     end
   end
 
   test "provider-specific required fields and invalid regions prevent readiness" do
     ses =
-      DeliveryConnection.new(
+      Connection.new(
         user: users(:admin),
         provider: "aws_ses",
         username: "SES",
@@ -154,7 +153,7 @@ class DeliveryProvidersTest < ActiveSupport::TestCase
     ses.aws_region = "https://other.example"
     assert_not ses.valid?
     mailgun =
-      DeliveryConnection.new(
+      Connection.new(
         user: users(:admin),
         provider: "mailgun",
         username: "Mailgun",

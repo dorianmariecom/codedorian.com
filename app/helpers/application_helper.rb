@@ -233,15 +233,15 @@ module ApplicationHelper
     "#{price} / #{t("subscription_price.month")}"
   end
 
-  def delivery_connection_options(delivery_connection_id: nil)
-    policy_scope(DeliveryConnection)
+  def connection_options(connection_id: nil)
+    policy_scope(Connection)
       .order(:id)
       .map do |connection|
         [
           connection.to_s,
           connection.id,
           {
-            selected: delivery_connection_id == connection.id,
+            selected: connection_id == connection.id,
             data: {
               "delivery-destination-form-provider": connection.provider
             }
@@ -250,10 +250,10 @@ module ApplicationHelper
       end
   end
 
-  def delivery_connection_provider_options(provider: nil)
-    DeliveryConnection::PROVIDERS.map do |value|
+  def connection_provider_options(provider: nil)
+    Connection::PROVIDERS.map do |value|
       [
-        t("delivery_connections.model.providers.#{value}"),
+        t("connections.model.providers.#{value}"),
         value,
         { selected: value.to_s == provider }
       ]

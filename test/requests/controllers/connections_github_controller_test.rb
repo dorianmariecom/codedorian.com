@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class DeliveryConnectionsGithubControllerTest < ActionDispatch::IntegrationTest
+class ConnectionsGithubControllerTest < ActionDispatch::IntegrationTest
   setup do
     @previous_github_credentials = Config.github
     Config.github = {
@@ -29,7 +29,7 @@ class DeliveryConnectionsGithubControllerTest < ActionDispatch::IntegrationTest
               padding: false
             )
           assert_equal query["code_challenge"], challenge
-          assert_equal "#{Current.base_url}/delivery_connections/callback/github",
+          assert_equal "#{Current.base_url}/connections/callback/github",
                        body["redirect_uri"]
           assert_equal "secret", body["client_secret"]
           true
@@ -54,20 +54,17 @@ class DeliveryConnectionsGithubControllerTest < ActionDispatch::IntegrationTest
           email: index.zero? ? "octo@example.com" : nil
         }.to_json
       )
-      assert_difference "DeliveryConnection.count", index.zero? ? 1 : 0 do
-        get callback_delivery_connections_path(provider: "github", locale: nil),
+      assert_difference "Connection.count", index.zero? ? 1 : 0 do
+        get callback_connections_path(provider: "github", locale: nil),
             params: {
               state: query["state"],
               code: "code"
             }
-        assert_redirected_to delivery_connections_path
+        assert_redirected_to connections_path
       end
     end
     connection =
-      DeliveryConnection
-        .where_user(users(:other_user))
-        .where_provider("github")
-        .sole
+      Connection.where_user(users(:other_user)).where_provider("github").sole
     assert_equal "octocat", connection.username
     assert_equal "octo@example.com", connection.email
     assert_equal "123", connection.external_id
@@ -77,32 +74,29 @@ class DeliveryConnectionsGithubControllerTest < ActionDispatch::IntegrationTest
     assert_not_includes connection.access_token_before_type_cast,
                         "access-secret"
     assert_not_includes connection.versions.to_json, "access-secret"
-    get delivery_connections_path
+    get connections_path
     assert_response :success
     assert_select "input[type=submit][value=?]",
-                  I18n.t(
-                    "delivery_connections.index.connect",
-                    provider: "github"
-                  )
-    delete delivery_connection_path(connection)
-    assert_not DeliveryConnection.exists?(connection.id)
+                  I18n.t("connections.index.connect", provider: "github")
+    delete connection_path(connection)
+    assert_not Connection.exists?(connection.id)
   end
 
   test "invalid expired and replayed states cannot exchange tokens" do
     query = start_connection
-    get callback_delivery_connections_path(provider: "github", locale: nil),
+    get callback_connections_path(provider: "github", locale: nil),
         params: {
           state: "wrong",
           code: "code"
         }
-    get callback_delivery_connections_path(provider: "github", locale: nil),
+    get callback_connections_path(provider: "github", locale: nil),
         params: {
           state: query["state"],
           code: "code"
         }
     query = start_connection
     travel 11.minutes do
-      get callback_delivery_connections_path(provider: "github", locale: nil),
+      get callback_connections_path(provider: "github", locale: nil),
           params: {
             state: query["state"],
             code: "code"
@@ -112,14 +106,14 @@ class DeliveryConnectionsGithubControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "denied authorization and insufficient scopes do not create connections" do
-    assert_no_difference "DeliveryConnection.count" do
+    assert_no_difference "Connection.count" do
       query = start_connection
-      get callback_delivery_connections_path(provider: "github", locale: nil),
+      get callback_connections_path(provider: "github", locale: nil),
           params: {
             state: query["state"],
             error: "access_denied"
           }
-      assert_redirected_to delivery_connections_path
+      assert_redirected_to connections_path
       query = start_connection
       stub_request(
         :post,
@@ -131,12 +125,12 @@ class DeliveryConnectionsGithubControllerTest < ActionDispatch::IntegrationTest
           scope: "read:user"
         }.to_json
       )
-      get callback_delivery_connections_path(provider: "github", locale: nil),
+      get callback_connections_path(provider: "github", locale: nil),
           params: {
             state: query["state"],
             code: "code"
           }
-      assert_redirected_to delivery_connections_path
+      assert_redirected_to connections_path
     end
     assert_not_requested :get, "https://api.github.com/user"
   end
@@ -144,21 +138,21 @@ class DeliveryConnectionsGithubControllerTest < ActionDispatch::IntegrationTest
   test "another user's connection cannot be disconnected" do
     connection =
       Current.with(user: users(:admin)) do
-        DeliveryConnection.create!(
+        Connection.create!(
           provider: "github",
           username: "GitHub",
           access_token: "secret"
         )
       end
-    delete delivery_connection_path(connection), as: :json
+    delete connection_path(connection), as: :json
     assert_response :bad_request
-    assert DeliveryConnection.exists?(connection.id)
+    assert Connection.exists?(connection.id)
   end
 
   private
 
   def start_connection
-    post connect_delivery_connections_path(provider: "github")
+    post connect_connections_path(provider: "github")
     assert_response :redirect
     uri = URI(response.location)
     assert_equal "github.com", uri.host

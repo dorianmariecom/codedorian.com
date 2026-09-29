@@ -21,9 +21,9 @@ class Code
         when "versions"
           sig(args)
           code_versions
-        when "delivery_connection"
+        when "connection"
           sig(args)
-          code_delivery_connection
+          code_connection
         when "delivery_destinations"
           sig(args)
           code_delivery_destinations
@@ -39,10 +39,10 @@ class Code
           .to_code
       end
 
-      def code_delivery_connection
+      def code_connection
         Pundit
-          .policy_scope!(::Current.user, ::DeliveryConnection)
-          .find_by(id: record!.delivery_connection&.id)
+          .policy_scope!(::Current.user, ::Connection)
+          .find_by(id: record!.connection&.id)
           .to_code
       end
 

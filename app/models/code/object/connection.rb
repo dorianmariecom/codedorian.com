@@ -2,9 +2,9 @@
 
 class Code
   class Object
-    class DeliveryConnection < Dictionary
+    class Connection < Dictionary
       def record!
-        Pundit.policy_scope!(::Current.user, ::DeliveryConnection).find(
+        Pundit.policy_scope!(::Current.user, ::Connection).find(
           code_get("id").to_s
         )
       end
@@ -83,17 +83,17 @@ class Code
       end
 
       def self.code_all
-        Pundit.policy_scope!(::Current.user, ::DeliveryConnection).to_code
+        Pundit.policy_scope!(::Current.user, ::Connection).to_code
       end
 
       def self.code_where(value)
         attributes = value.to_code.as_json
-        unless (attributes.keys - ::DeliveryConnection.column_names).empty?
+        unless (attributes.keys - ::Connection.column_names).empty?
           raise ::Code::Error, "invalid_record_attributes"
         end
 
         Pundit
-          .policy_scope!(::Current.user, ::DeliveryConnection)
+          .policy_scope!(::Current.user, ::Connection)
           .where(attributes)
           .to_code
       end
@@ -101,17 +101,14 @@ class Code
       def self.code_find(value)
         id = value.to_code.to_s
         Pundit
-          .policy_scope!(::Current.user, ::DeliveryConnection)
+          .policy_scope!(::Current.user, ::Connection)
           .find_by(id: id)
           .to_code
       end
 
       def self.code_find!(value)
         id = value.to_code.to_s
-        Pundit
-          .policy_scope!(::Current.user, ::DeliveryConnection)
-          .find(id)
-          .to_code
+        Pundit.policy_scope!(::Current.user, ::Connection).find(id).to_code
       end
     end
   end

@@ -114,9 +114,9 @@ class Code
         when "delivery_destinations"
           sig(args)
           code_delivery_destinations
-        when "delivery_connections"
+        when "connections"
           sig(args)
-          code_delivery_connections
+          code_connections
         when "stripe_invoices"
           sig(args)
           code_stripe_invoices
@@ -199,10 +199,10 @@ class Code
           .to_code
       end
 
-      def code_delivery_connections
+      def code_connections
         Pundit
-          .policy_scope!(::Current.user, ::DeliveryConnection)
-          .where(id: record!.delivery_connections.select(:id))
+          .policy_scope!(::Current.user, ::Connection)
+          .where(id: record!.connections.select(:id))
           .to_code
       end
 

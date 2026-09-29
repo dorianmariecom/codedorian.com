@@ -1,13 +1,13 @@
 <% content_for(:description, t(".description")) %>
-<%= turbo_stream_from(@delivery_connections) %>
-<% if can?(:create, DeliveryConnection) %>
+<%= turbo_stream_from(@connections) %>
+<% if can?(:create, Connection) %>
   <% if can?(:create, model_class) %>
     <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
   <% end %>
 <% end %>
-<% DeliveryConnectionOauth::PROVIDERS.each do |provider| %>
-  <% if can?(:connect, DeliveryConnection.new(user: current_user, provider: provider)) %>
-    <%= form_with url: connect_delivery_connections_path(provider: provider),
+<% ConnectionOauth::PROVIDERS.each do |provider| %>
+  <% if can?(:connect, Connection.new(user: current_user, provider: provider)) %>
+    <%= form_with url: connect_connections_path(provider: provider),
               data: {
                 turbo: false
               },
@@ -19,10 +19,7 @@
             <%= f.url_field :server, required: true, class: :input %>
           </div>
           <div>
-            <%= f.submit t(
-                       ".connect",
-                       provider: t("delivery_connections.model.providers.#{provider}")
-                     ),
+            <%= f.submit t(".connect", provider: t("connections.model.providers.#{provider}")),
                      class: :button %>
           </div>
         </div>
@@ -34,16 +31,10 @@
                       "" %>
           <%= f.label :scope, t(".calendar_access"), for: "#{provider}_calendar_access" %>
         </div>
-        <%= f.submit t(
-                   ".connect",
-                   provider: t("delivery_connections.model.providers.#{provider}")
-                 ),
+        <%= f.submit t(".connect", provider: t("connections.model.providers.#{provider}")),
                  class: :button %>
       <% else %>
-        <%= f.submit t(
-                   ".connect",
-                   provider: t("delivery_connections.model.providers.#{provider}")
-                 ),
+        <%= f.submit t(".connect", provider: t("connections.model.providers.#{provider}")),
                  class: :button %>
       <% end %>
     <% end %>
@@ -52,19 +43,19 @@
 <%= render("shared/search") %>
 
 <turbo-frame id="search" target="_top">
-  <% if @delivery_connections.any? %>
+  <% if @connections.any? %>
     <div class="p p--flex">
-      <% if can?(:destroy_all, DeliveryConnection) %>
+      <% if can?(:destroy_all, Connection) %>
         <%= render("shared/confirm", url: destroy_all_url, text: t(".destroy_all")) %>
       <% end %>
-      <% if can?(:delete_all, DeliveryConnection) %>
+      <% if can?(:delete_all, Connection) %>
         <%= render("shared/confirm", url: delete_all_url, text: t(".delete_all")) %>
       <% end %>
     </div>
   <% end %>
   <%= render_collection(
-    partial: "delivery_connections/delivery_connection",
-    collection: @delivery_connections,
-    as: :delivery_connection
+    partial: "connections/connection",
+    collection: @connections,
+    as: :connection
   ) %>
 </turbo-frame>

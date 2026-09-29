@@ -7,7 +7,7 @@ class FacebookDeliveryControllerTest < ActionDispatch::IntegrationTest
     @channel =
       Current.with(user: users(:admin)) do
         connection =
-          DeliveryConnection.create!(
+          Connection.create!(
             provider: "facebook",
             username: "Facebook Page",
             sender: "123456",
@@ -20,7 +20,7 @@ class FacebookDeliveryControllerTest < ActionDispatch::IntegrationTest
           show_recipient: false,
           enabled: true,
           amount_cents: 0,
-          delivery_connection: connection,
+          connection: connection,
           show_visibility: true
         )
       end

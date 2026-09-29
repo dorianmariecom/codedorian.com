@@ -23,27 +23,29 @@ class CodeModelAccessTest < ActiveSupport::TestCase
     end
   end
 
+  test "legacy connection code API is unavailable" do
+    assert_raises(Code::Error) { Code.evaluate("DeliveryConnection.all") }
+    assert_not User.reflect_on_association(:delivery_connections)
+  end
+
   test "admins can query credentials and traverse another users connections" do
     owner = users(:other_user)
     connection =
-      DeliveryConnection.create!(
+      Connection.create!(
         user: owner,
         provider: "github",
         username: "GitHub",
         access_token: "secret"
       )
-    result =
-      Code.evaluate(%(DeliveryConnection.find!(#{connection.id}).access_token))
+    result = Code.evaluate(%(Connection.find!(#{connection.id}).access_token))
     assert_equal "secret", result.to_s
     result =
       Code.evaluate(
-        %(User.where(id: #{owner.id}).first.delivery_connections.first.access_token)
+        %(User.where(id: #{owner.id}).first.connections.first.access_token)
       )
     assert_equal "secret", result.to_s
     result =
-      Code.evaluate(
-        %(DeliveryConnection.where(provider: "github").first.user.id)
-      )
+      Code.evaluate(%(Connection.where(provider: "github").first.user.id))
     assert_equal owner.id, result.as_json
   end
 
@@ -77,7 +79,7 @@ class CodeModelAccessTest < ActiveSupport::TestCase
   test "owners can read their credentials but other users and guests cannot" do
     owner = subscriptions(:subscription).user
     connection =
-      DeliveryConnection.create!(
+      Connection.create!(
         user: owner,
         provider: "github",
         username: "GitHub",
@@ -86,32 +88,30 @@ class CodeModelAccessTest < ActiveSupport::TestCase
     Current.user = owner
     assert_equal "secret",
                  Code.evaluate(
-                   "Current.user.delivery_connections.first.access_token"
+                   "Current.user.connections.first.access_token"
                  ).to_s
 
     Current.user = users(:other_user)
     assert_empty Code.evaluate(
-                   %(DeliveryConnection.where(id: #{connection.id}))
+                   %(Connection.where(id: #{connection.id}))
                  ).as_json
-    assert Code.evaluate(%(DeliveryConnection.find(#{connection.id}))).nothing?
+    assert Code.evaluate(%(Connection.find(#{connection.id}))).nothing?
     assert_raises(ActiveRecord::RecordNotFound) do
-      Code.evaluate(%(DeliveryConnection.find!(#{connection.id})))
+      Code.evaluate(%(Connection.find!(#{connection.id})))
     end
-    assert_empty Code.evaluate("Current.user.delivery_connections").as_json
+    assert_empty Code.evaluate("Current.user.connections").as_json
     assert_empty Code.evaluate("Job.all").as_json
 
     Current.user = nil
-    assert_empty Code.evaluate("DeliveryConnection.all").as_json
+    assert_empty Code.evaluate("Connection.all").as_json
     assert_empty Code.evaluate("Token.all").as_json
   end
 
   test "queries accept only model columns and do not dispatch Ruby methods" do
     assert_raises(Code::Error) do
-      Code.evaluate('DeliveryConnection.where("users.id": 1)')
+      Code.evaluate('Connection.where("users.id": 1)')
     end
-    assert_raises(Code::Error) do
-      Code.evaluate("DeliveryConnection.delete_all")
-    end
+    assert_raises(Code::Error) { Code.evaluate("Connection.delete_all") }
   end
 
   test "service associations expose subscription and step executions" do

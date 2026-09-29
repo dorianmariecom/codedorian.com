@@ -10,6 +10,33 @@ fr:
       configuration:
         content: contenu
         name: nom
+      connection:
+        access_token: jeton d’accès
+        account_sid: identifiant du compte
+        api_key: clé api
+        auth_token: jeton d’authentification
+        aws_access_key_id: identifiant de clé aws
+        aws_region: région aws
+        aws_secret_access_key: clé secrète aws
+        aws_session_token: jeton de session aws (facultatif)
+        base_url: url de base
+        email: e-mail
+        enabled: activé
+        external_id: identifiant externe
+        mailgun_domain: domaine d’envoi mailgun
+        mailgun_region: région mailgun (us / eu)
+        provider: fournisseur
+        refresh_token: jeton de renouvellement
+        sender: expéditeur
+        smtp_address: adresse smtp
+        smtp_authentication: authentification smtp
+        smtp_from: expéditeur smtp
+        smtp_password: mot de passe smtp
+        smtp_port: port smtp
+        smtp_user_name: nom d’utilisateur smtp
+        token_expires_at: expiration du jeton
+        user_id: utilisateur
+        username: nom d’utilisateur
       country:
         abuse: abus
         alpha2: iso alpha-2
@@ -72,9 +99,9 @@ fr:
         amount_cents: montant en centimes
         amount_currency: devise
         callback_base_url: url de rappel
+        connection_id: connexion
         content_sid_en: identifiant du contenu anglais
         content_sid_fr: identifiant du contenu français
-        delivery_connection_id: connexion de livraison
         enabled: activé
         key: clé
         messaging_service_sid: identifiant du service de messagerie
@@ -84,36 +111,9 @@ fr:
         show_recipient: afficher le destinataire
         show_visibility: afficher la visibilité
         visibility_restriction: restriction de visibilité
-      delivery_connection:
-        access_token: jeton d’accès
-        account_sid: identifiant du compte
-        api_key: clé api
-        auth_token: jeton d’authentification
-        aws_access_key_id: identifiant de clé aws
-        aws_region: région aws
-        aws_secret_access_key: clé secrète aws
-        aws_session_token: jeton de session aws (facultatif)
-        base_url: url de base
-        email: e-mail
-        enabled: activé
-        external_id: identifiant externe
-        mailgun_domain: domaine d’envoi mailgun
-        mailgun_region: région mailgun (us / eu)
-        provider: fournisseur
-        refresh_token: jeton de renouvellement
-        sender: expéditeur
-        smtp_address: adresse smtp
-        smtp_authentication: authentification smtp
-        smtp_from: expéditeur smtp
-        smtp_password: mot de passe smtp
-        smtp_port: port smtp
-        smtp_user_name: nom d’utilisateur smtp
-        token_expires_at: expiration du jeton
-        user_id: utilisateur
-        username: nom d’utilisateur
       delivery_destination:
+        connection_id: connexion
         delivery_channel_id: canal de livraison
-        delivery_connection_id: connexion de livraison
         enabled: activé
         recipient: destinataire
         user_id: utilisateur
@@ -442,6 +442,10 @@ fr:
       edit: modifier
       index: configurations
       new: nouvelle
+    connections:
+      edit: modifier
+      index: connexions
+      new: nouveau
     countries:
       edit: modifier
       index: pays
@@ -461,10 +465,6 @@ fr:
     delivery_channels:
       edit: modifier
       index: canaux de livraison
-      new: nouveau
-    delivery_connections:
-      edit: modifier
-      index: connexions de livraison
       new: nouveau
     delivery_destinations:
       edit: modifier
@@ -725,6 +725,107 @@ fr:
       versions: versions
     update:
       notice: configuration mise à jour
+  connections:
+    callback:
+      connected: connexion créée
+      failed: échec de la connexion
+      invalid_state: connexion expirée ou invalide, veuillez réessayer
+    connect:
+      failed: échec de la connexion
+    connection:
+      calendar_allowed: accès aux agendas autorisé (lecture seule)
+    create:
+      notice: 'connexion : création effectuée'
+    delete:
+      notice: 'connexion : suppression effectuée'
+    delete_all:
+      notice: 'connexions : suppression effectuée'
+    destroy:
+      notice: 'connexion : destruction effectuée'
+    destroy_all:
+      notice: 'connexions : destruction effectuée'
+    edit:
+      description: 'modifier : connexion'
+      submit: modifier
+      title: 'modifier : connexion'
+    index:
+      calendar_access: autoriser l’accès en lecture seule à mes agendas
+      connect: connecter %{provider}
+      delete_all: 'supprimer : connexions'
+      description: connexions
+      destroy_all: 'détruire : connexions'
+      new: 'ajouter : connexion'
+      server: serveur mastodon
+      title: connexions
+    model:
+      providers:
+        aws_ses: aws ses
+        facebook: facebook
+        github: github
+        gmail: gmail
+        google: google
+        google_workspace: google workspace
+        infobip: infobip
+        instagram: instagram
+        mailchimp: mailchimp transactional
+        mailgun: mailgun
+        mastodon: mastodon
+        messenger: messenger
+        outlook: outlook
+        reddit: reddit
+        resend: resend
+        sendgrid: sendgrid
+        slack: slack
+        smtp: smtp
+        telegram: telegram
+        twilio: twilio
+        viber: viber
+        x: x
+      to_s: "#%{id}"
+    new:
+      description: 'ajouter : connexion'
+      submit: créer
+      title: 'ajouter : connexion'
+    show:
+      access_token: jeton d’accès
+      account_sid: identifiant du compte
+      api_key: clé api
+      auth_token: jeton d’authentification
+      aws_access_key_id: identifiant de clé aws
+      aws_region: région aws
+      aws_secret_access_key: clé secrète aws
+      aws_session_token: jeton de session aws (facultatif)
+      base_url: url de base
+      created_at: créé le
+      delete: supprimer la connexion
+      description: connexion
+      destroy: détruire la connexion
+      edit: modifier la connexion
+      email: e-mail
+      enabled: activé
+      external_id: identifiant externe
+      id: id
+      logs: journaux
+      mailgun_domain: domaine d’envoi mailgun
+      mailgun_region: région mailgun (us / eu)
+      new_log: nouveau journal
+      new_version: nouvelle version
+      provider: fournisseur
+      refresh_token: jeton de renouvellement
+      sender: expéditeur
+      smtp_address: adresse smtp
+      smtp_authentication: authentification smtp
+      smtp_from: expéditeur smtp
+      smtp_password: mot de passe smtp
+      smtp_port: port smtp
+      smtp_user_name: nom d’utilisateur smtp
+      token_expires_at: expiration du jeton
+      updated_at: mis à jour le
+      user_id: utilisateur
+      username: nom d’utilisateur
+      versions: versions
+    update:
+      notice: 'connexion : modification effectuée'
   countries:
     create:
       notice: pays créé
@@ -1085,11 +1186,11 @@ fr:
       amount_cents: montant en centimes
       amount_currency: devise
       callback_base_url: url de rappel
+      connection_id: connexion
       content_sid_en: identifiant du contenu anglais
       content_sid_fr: identifiant du contenu français
       created_at: créé le
       delete: supprimer le canal de livraison
-      delivery_connection_id: connexion de livraison
       description: canal de livraison
       destroy: détruire le canal de livraison
       edit: modifier le canal de livraison
@@ -1110,107 +1211,6 @@ fr:
       visibility_restriction: restriction de visibilité
     update:
       notice: 'canal de livraison : modification effectuée'
-  delivery_connections:
-    callback:
-      connected: connexion créée
-      failed: échec de la connexion
-      invalid_state: connexion expirée ou invalide, veuillez réessayer
-    connect:
-      failed: échec de la connexion
-    create:
-      notice: 'connexion de livraison : création effectuée'
-    delete:
-      notice: 'connexion de livraison : suppression effectuée'
-    delete_all:
-      notice: 'connexions de livraison : suppression effectuée'
-    delivery_connection:
-      calendar_allowed: accès aux agendas autorisé (lecture seule)
-    destroy:
-      notice: 'connexion de livraison : destruction effectuée'
-    destroy_all:
-      notice: 'connexions de livraison : destruction effectuée'
-    edit:
-      description: 'modifier : connexion de livraison'
-      submit: modifier
-      title: 'modifier : connexion de livraison'
-    index:
-      calendar_access: autoriser l’accès en lecture seule à mes agendas
-      connect: connecter %{provider}
-      delete_all: 'supprimer : connexions de livraison'
-      description: connexions de livraison
-      destroy_all: 'détruire : connexions de livraison'
-      new: 'ajouter : connexion de livraison'
-      server: serveur mastodon
-      title: connexions de livraison
-    model:
-      providers:
-        aws_ses: aws ses
-        facebook: facebook
-        github: github
-        gmail: gmail
-        google: google
-        google_workspace: google workspace
-        infobip: infobip
-        instagram: instagram
-        mailchimp: mailchimp transactional
-        mailgun: mailgun
-        mastodon: mastodon
-        messenger: messenger
-        outlook: outlook
-        reddit: reddit
-        resend: resend
-        sendgrid: sendgrid
-        slack: slack
-        smtp: smtp
-        telegram: telegram
-        twilio: twilio
-        viber: viber
-        x: x
-      to_s: "#%{id}"
-    new:
-      description: 'ajouter : connexion de livraison'
-      submit: créer
-      title: 'ajouter : connexion de livraison'
-    show:
-      access_token: jeton d’accès
-      account_sid: identifiant du compte
-      api_key: clé api
-      auth_token: jeton d’authentification
-      aws_access_key_id: identifiant de clé aws
-      aws_region: région aws
-      aws_secret_access_key: clé secrète aws
-      aws_session_token: jeton de session aws (facultatif)
-      base_url: url de base
-      created_at: créé le
-      delete: supprimer la connexion de livraison
-      description: connexion de livraison
-      destroy: détruire la connexion de livraison
-      edit: modifier la connexion de livraison
-      email: e-mail
-      enabled: activé
-      external_id: identifiant externe
-      id: id
-      logs: journaux
-      mailgun_domain: domaine d’envoi mailgun
-      mailgun_region: région mailgun (us / eu)
-      new_log: nouveau journal
-      new_version: nouvelle version
-      provider: fournisseur
-      refresh_token: jeton de renouvellement
-      sender: expéditeur
-      smtp_address: adresse smtp
-      smtp_authentication: authentification smtp
-      smtp_from: expéditeur smtp
-      smtp_password: mot de passe smtp
-      smtp_port: port smtp
-      smtp_user_name: nom d’utilisateur smtp
-      token_expires_at: expiration du jeton
-      updated_at: mis à jour le
-      user_id: utilisateur
-      username: nom d’utilisateur
-      versions: versions
-    update:
-      notice: 'connexion de livraison : modification effectuée'
   delivery_content:
     show:
       description: livraison
@@ -1259,10 +1259,10 @@ fr:
       already_verified: cette destination est déjà confirmée.
       sent: message de confirmation envoyé. consultez votre boîte de réception.
     show:
+      connection_id: connexion
       created_at: créé le
       delete: supprimer la destination de livraison
       delivery_channel_id: canal de livraison
-      delivery_connection_id: connexion de livraison
       description: destination de livraison
       destroy: détruire la destination de livraison
       edit: modifier la destination de livraison
@@ -4259,8 +4259,8 @@ fr:
     show:
       address: adresse
       admin: admin
+      connections: connexions
       created_at: créé à
-      delivery_connections: connexions de livraison
       description: description
       destroy: détruire l'utilisateur
       device: appareil

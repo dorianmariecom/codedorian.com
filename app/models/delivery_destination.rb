@@ -12,7 +12,7 @@ class DeliveryDestination < ApplicationRecord
           )
         end
   belongs_to :delivery_channel
-  belongs_to :delivery_connection, optional: true
+  belongs_to :connection, optional: true
   has_many :subscription_destinations, dependent: :destroy
   has_many :deliveries, dependent: :destroy
   validates :visibility, inclusion: { in: %w[private public] }
@@ -131,11 +131,14 @@ class DeliveryDestination < ApplicationRecord
   def visibility_private? = visibility == "private"
 
   def channel = delivery_channel.key
-  def connection = delivery_connection || delivery_channel.delivery_connection
+  def effective_connection = connection || delivery_channel.connection
 
   def available?
     enabled? && delivery_channel.available? &&
-      (!DeliveryChannel::PROVIDERS.key?(channel.to_sym) || connection&.ready?)
+      (
+        !DeliveryChannel::PROVIDERS.key?(channel.to_sym) ||
+          effective_connection&.ready?
+      )
   end
 
   def self.search_fields
@@ -148,8 +151,8 @@ class DeliveryDestination < ApplicationRecord
         node: -> { arel_table[:delivery_channel_id] },
         type: :integer
       },
-      delivery_connection_id: {
-        node: -> { arel_table[:delivery_connection_id] },
+      connection_id: {
+        node: -> { arel_table[:connection_id] },
         type: :integer
       },
       recipient: {
@@ -231,13 +234,13 @@ class DeliveryDestination < ApplicationRecord
       errors.add(:recipient, :invalid)
     end
     if DeliveryChannel::PERSONAL.include?(channel.to_sym)
-      unless delivery_connection&.user_id == user_id &&
-               delivery_connection&.provider ==
+      unless connection&.user_id == user_id &&
+               connection&.provider ==
                  DeliveryChannel::PROVIDERS[channel.to_sym]&.to_s
-        errors.add(:delivery_connection, :invalid)
+        errors.add(:connection, :invalid)
       end
-    elsif delivery_connection
-      errors.add(:delivery_connection, :invalid)
+    elsif connection
+      errors.add(:connection, :invalid)
     end
   end
 end

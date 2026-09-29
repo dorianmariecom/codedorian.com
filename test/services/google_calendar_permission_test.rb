@@ -11,7 +11,7 @@ class GoogleCalendarPermissionTest < ActiveSupport::TestCase
       client_secret: "test-secret"
     }.to_deep_struct
     @connection =
-      DeliveryConnection.create!(
+      Connection.create!(
         user: users(:other_user),
         provider: "google",
         username: "Google",

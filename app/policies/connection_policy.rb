@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class DeliveryConnectionPolicy < ApplicationPolicy
+class ConnectionPolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
       return scope.all if admin?
@@ -10,9 +10,8 @@ class DeliveryConnectionPolicy < ApplicationPolicy
   end
 
   def connect?
-    current_user? &&
-      DeliveryConnectionOauth::PROVIDERS.include?(record.provider) &&
-      (admin? || !DeliveryConnection::ADMIN_PROVIDERS.include?(record.provider))
+    current_user? && ConnectionOauth::PROVIDERS.include?(record.provider) &&
+      (admin? || !Connection::ADMIN_PROVIDERS.include?(record.provider))
   end
 
   def callback? = connect?

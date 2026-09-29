@@ -12,7 +12,7 @@ class DeliveryAdminControllerTest < ActionDispatch::IntegrationTest
 
   test "admin CRUD forms render for every delivery resource" do
     [
-      new_delivery_connection_path,
+      new_connection_path,
       new_delivery_channel_path,
       new_delivery_destination_path,
       new_subscription_destination_path,

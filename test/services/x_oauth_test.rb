@@ -16,7 +16,7 @@ class XOauthTest < ActiveSupport::TestCase
 
   test "expired tokens are refreshed once and stored encrypted" do
     connection =
-      DeliveryConnection.create!(
+      Connection.create!(
         provider: "x",
         username: "X",
         enabled: true,
@@ -49,7 +49,7 @@ class XOauthTest < ActiveSupport::TestCase
 
   test "disabled connections never refresh and refresh rejection preserves credentials" do
     connection =
-      DeliveryConnection.create!(
+      Connection.create!(
         provider: "x",
         username: "X",
         enabled: false,
@@ -74,7 +74,7 @@ class XOauthTest < ActiveSupport::TestCase
     assert XRecipient.valid?("", public: true)
     assert_not XRecipient.valid?("dorian", public: false)
     assert_not XRecipient.valid?("#ruby", public: false)
-    connection = DeliveryConnection.new(id: 1, access_token: "token")
+    connection = Connection.new(id: 1, access_token: "token")
     stub_request(:get, "https://api.x.com/2/users/by/username/dorian").with(
       headers: {
         "Authorization" => "Bearer token"

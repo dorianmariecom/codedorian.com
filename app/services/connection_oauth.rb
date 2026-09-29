@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class DeliveryConnectionOauth
+class ConnectionOauth
   PROVIDERS = %w[
     google
     gmail

@@ -229,7 +229,7 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
 
   test "connection secrets are encrypted at rest and versioned" do
     connection =
-      DeliveryConnection.create!(
+      Connection.create!(
         user: users(:admin),
         username: "Slack",
         provider: "slack",
@@ -257,7 +257,7 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
     channel =
       DeliveryChannel.create!(key: "slack", enabled: true, amount_cents: 0)
     connection =
-      DeliveryConnection.create!(
+      Connection.create!(
         user: users(:other_user),
         username: "Other",
         provider: "slack"
@@ -266,11 +266,11 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
       DeliveryDestination.new(
         user: @subscription.user,
         delivery_channel: channel,
-        delivery_connection: connection,
+        connection: connection,
         recipient: "#general"
       )
     assert_not destination.valid?
-    assert_includes destination.errors.attribute_names, :delivery_connection
+    assert_includes destination.errors.attribute_names, :connection
   end
 
   test "repeated worker rate limit rejections eventually fail" do
@@ -321,10 +321,10 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
     assert @channel.show_visibility?
   end
 
-  test "non admins cannot configure another users personal delivery connections" do
+  test "non admins cannot configure another users personal connections" do
     Current.user = users(:other_user)
     assert_raises(Pundit::NotAuthorizedError) do
-      DeliveryConnection.create!(
+      Connection.create!(
         user: users(:admin),
         username: "Slack",
         provider: "slack"
@@ -385,12 +385,10 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
   end
 
   test "deleting a connection clears associations" do
-    connection =
-      DeliveryConnection.create!(username: "Twilio", provider: :twilio)
-    channel =
-      DeliveryChannel.create!(key: :sms, delivery_connection: connection)
+    connection = Connection.create!(username: "Twilio", provider: :twilio)
+    channel = DeliveryChannel.create!(key: :sms, connection: connection)
     connection.destroy!
-    assert_nil channel.reload.delivery_connection_id
+    assert_nil channel.reload.connection_id
   end
 
   test "subscribed destinations cannot switch channels without a new priced selection" do
@@ -508,7 +506,7 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
 
   def select_email_destination
     connection =
-      DeliveryConnection.create!(
+      Connection.create!(
         user: @subscription.user,
         username: "SMTP",
         provider: "smtp",
@@ -520,7 +518,7 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
         key: "email",
         enabled: true,
         amount_cents: 50,
-        delivery_connection: connection
+        connection: connection
       )
     destination =
       DeliveryDestination.create!(
@@ -537,7 +535,7 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
 
   def slack_delivery!(delivery)
     connection =
-      DeliveryConnection.create!(
+      Connection.create!(
         user: @subscription.user,
         username: "Slack",
         provider: "slack",

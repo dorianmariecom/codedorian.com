@@ -62,7 +62,7 @@ class XOauth
 
     attributes.merge(
       sender: user["id"],
-      **DeliveryConnectionOauth.identity(
+      **ConnectionOauth.identity(
         username: user["username"],
         external_id: user["id"]
       ),

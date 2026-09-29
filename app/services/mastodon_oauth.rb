@@ -93,7 +93,7 @@ class MastodonOauth
       scope: data["scope"].to_s.split.join(" "),
       base_url: base_url,
       sender: account["id"],
-      **DeliveryConnectionOauth.identity(
+      **ConnectionOauth.identity(
         username: account["username"],
         external_id: account["id"]
       ),

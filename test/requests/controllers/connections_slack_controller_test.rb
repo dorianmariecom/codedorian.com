@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class DeliveryConnectionsSlackControllerTest < ActionDispatch::IntegrationTest
+class ConnectionsSlackControllerTest < ActionDispatch::IntegrationTest
   setup do
     @previous_slack_credentials = Config.slack
     Config.slack = {
@@ -21,18 +21,18 @@ class DeliveryConnectionsSlackControllerTest < ActionDispatch::IntegrationTest
     2.times do |index|
       state = start_connection
       exchange = stub_exchange
-      assert_difference "DeliveryConnection.count", index.zero? ? 2 : 0 do
-        get callback_delivery_connections_path(provider: "slack", locale: nil),
+      assert_difference "Connection.count", index.zero? ? 2 : 0 do
+        get callback_connections_path(provider: "slack", locale: nil),
             params: {
               state: state,
               code: "code"
             }
-        assert_redirected_to delivery_connections_path
+        assert_redirected_to connections_path
       end
       assert_requested exchange, times: index + 1
     end
     connection =
-      DeliveryConnection
+      Connection
         .where_user(users(:other_user))
         .where(provider: "slack", sender: "B123")
         .sole
@@ -40,7 +40,7 @@ class DeliveryConnectionsSlackControllerTest < ActionDispatch::IntegrationTest
     assert_equal "T123", connection.account_sid
     assert_equal "B123", connection.sender
     user_connection =
-      DeliveryConnection.where_user(users(:other_user)).find_by!(sender: "U123")
+      Connection.where_user(users(:other_user)).find_by!(sender: "U123")
     assert_equal "user-token", user_connection.access_token
     assert_equal "B123", connection.external_id
     assert_equal "U123", user_connection.external_id
@@ -50,9 +50,9 @@ class DeliveryConnectionsSlackControllerTest < ActionDispatch::IntegrationTest
     assert connection.ready?
     assert_not_includes connection.access_token_before_type_cast, "bot-token"
     assert_not_includes connection.versions.to_json, "bot-token"
-    get delivery_connections_path
+    get connections_path
     assert_response :success
-    get delivery_connections_path, as: :json
+    get connections_path, as: :json
     assert_response :success
     assert_not_includes response.body, "bot-token"
     assert_not_includes response.body, "user-token"
@@ -61,32 +61,32 @@ class DeliveryConnectionsSlackControllerTest < ActionDispatch::IntegrationTest
     data.each do |attributes|
       assert_match(/\A\*{3,10}\z/, attributes.fetch("access_token"))
     end
-    delete delivery_connection_path(connection)
-    assert_redirected_to delivery_connections_path
-    assert_not DeliveryConnection.exists?(connection.id)
+    delete connection_path(connection)
+    assert_redirected_to connections_path
+    assert_not Connection.exists?(connection.id)
     assert user_connection.reload.ready?
   end
 
   test "invalid state and replay do not exchange tokens" do
     state = start_connection
-    get callback_delivery_connections_path(provider: "slack", locale: nil),
+    get callback_connections_path(provider: "slack", locale: nil),
         params: {
           state: "invalid",
           code: "code"
         }
-    get callback_delivery_connections_path(provider: "slack", locale: nil),
+    get callback_connections_path(provider: "slack", locale: nil),
         params: {
           state: state,
           code: "code"
         }
     assert_not_requested :post, "https://slack.com/api/oauth.v2.access"
-    assert_equal 0, DeliveryConnection.where_user(users(:other_user)).count
+    assert_equal 0, Connection.where_user(users(:other_user)).count
   end
 
   test "expired state does not exchange tokens" do
     state = start_connection
     travel 11.minutes do
-      get callback_delivery_connections_path(provider: "slack", locale: nil),
+      get callback_connections_path(provider: "slack", locale: nil),
           params: {
             state: state,
             code: "code"
@@ -97,7 +97,7 @@ class DeliveryConnectionsSlackControllerTest < ActionDispatch::IntegrationTest
 
   test "denial and provider failure leave no connection" do
     state = start_connection
-    get callback_delivery_connections_path(provider: "slack", locale: nil),
+    get callback_connections_path(provider: "slack", locale: nil),
         params: {
           state: state,
           error: "access_denied"
@@ -105,20 +105,20 @@ class DeliveryConnectionsSlackControllerTest < ActionDispatch::IntegrationTest
     assert_not_requested :post, "https://slack.com/api/oauth.v2.access"
     state = start_connection
     stub_exchange({ ok: false, error: "invalid_code" })
-    assert_no_difference "DeliveryConnection.count" do
-      get callback_delivery_connections_path(provider: "slack", locale: nil),
+    assert_no_difference "Connection.count" do
+      get callback_connections_path(provider: "slack", locale: nil),
           params: {
             state: state,
             code: "code"
           }
-      assert_redirected_to delivery_connections_path
+      assert_redirected_to connections_path
     end
   end
 
   test "other accounts and non slack credentials cannot be disconnected or read" do
     connection =
       Current.with(user: users(:admin)) do
-        DeliveryConnection.create!(
+        Connection.create!(
           user: users(:admin),
           provider: "slack",
           username: "private",
@@ -126,32 +126,32 @@ class DeliveryConnectionsSlackControllerTest < ActionDispatch::IntegrationTest
           enabled: true
         )
       end
-    get delivery_connections_path, as: :json
+    get connections_path, as: :json
     assert_not_includes response.body, "private"
-    delete delivery_connection_path(connection), as: :json
+    delete connection_path(connection), as: :json
     assert_response :bad_request
     assert connection.reload.ready?
   end
 
   test "guests cannot start or view connections" do
     delete login_path
-    post connect_delivery_connections_path(provider: "slack"), as: :json
+    post connect_connections_path(provider: "slack"), as: :json
     assert_response :bad_request
-    get delivery_connections_path, as: :json
+    get connections_path, as: :json
     assert_response :bad_request
   end
 
   private
 
   def start_connection
-    post connect_delivery_connections_path(provider: "slack")
+    post connect_connections_path(provider: "slack")
     assert_response :redirect
     uri = URI(response.location)
     assert_equal "slack.com", uri.host
     query = URI.decode_www_form(uri.query).to_h
     assert_equal SlackOauth::SCOPES.join(","), query["scope"]
     assert_equal SlackOauth::SCOPES.join(","), query["user_scope"]
-    assert_equal "#{Current.base_url}/delivery_connections/callback/slack",
+    assert_equal "#{Current.base_url}/connections/callback/slack",
                  query["redirect_uri"]
     query.fetch("state")
   end
@@ -178,7 +178,7 @@ class DeliveryConnectionsSlackControllerTest < ActionDispatch::IntegrationTest
       basic_auth: %w[slack-client slack-secret],
       body: {
         code: "code",
-        redirect_uri: "#{Current.base_url}/delivery_connections/callback/slack"
+        redirect_uri: "#{Current.base_url}/connections/callback/slack"
       }
     ).to_return(
       status: 200,

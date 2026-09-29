@@ -282,7 +282,7 @@ class SubscriptionsController < ApplicationController
                 id
                 _destroy
                 delivery_channel_id
-                delivery_connection_id
+                connection_id
                 recipient
                 visibility
               ]
@@ -294,14 +294,7 @@ class SubscriptionsController < ApplicationController
     else
       params.fetch(:subscription, ActionController::Parameters.new).permit(
         delivery_destinations_attributes: [
-          %i[
-            id
-            _destroy
-            delivery_channel_id
-            delivery_connection_id
-            recipient
-            visibility
-          ]
+          %i[id _destroy delivery_channel_id connection_id recipient visibility]
         ],
         subscription_values_attributes: [%i[id _destroy key value]]
       )

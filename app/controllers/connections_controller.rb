@@ -1,19 +1,16 @@
 # frozen_string_literal: true
 
-class DeliveryConnectionsController < ApplicationController
-  before_action do
-    add_breadcrumb(key: "delivery_connections.index", path: index_url)
-  end
-  before_action :load_delivery_connection,
-                only: %i[show edit update destroy delete]
+class ConnectionsController < ApplicationController
+  before_action { add_breadcrumb(key: "connections.index", path: index_url) }
+  before_action :load_connection, only: %i[show edit update destroy delete]
 
   def index
-    authorize(DeliveryConnection)
-    @delivery_connections = scope.order(:id).page(params[:page])
+    authorize(Connection)
+    @connections = scope.order(:id).page(params[:page])
     respond_to do |format|
       format.html
       format.json do
-        render json: { status: :ok, messages: [], data: @delivery_connections }
+        render json: { status: :ok, messages: [], data: @connections }
       end
     end
   end
@@ -21,29 +18,29 @@ class DeliveryConnectionsController < ApplicationController
   def show
     @logs =
       policy_scope(Log)
-        .where_delivery_connection(@delivery_connection)
+        .where_connection(@connection)
         .order(created_at: :desc)
         .page(params[:page])
     @versions =
       policy_scope(Version)
-        .where_delivery_connection(@delivery_connection)
+        .where_connection(@connection)
         .order(created_at: :desc)
         .page(params[:page])
     respond_to do |format|
       format.html
       format.json do
-        render json: { status: :ok, messages: [], data: @delivery_connection }
+        render json: { status: :ok, messages: [], data: @connection }
       end
     end
   end
 
   def new
-    @delivery_connection = authorize(scope.new(user: current_user))
+    @connection = authorize(scope.new(user: current_user))
     add_breadcrumb
     respond_to do |format|
       format.html
       format.json do
-        render json: { status: :ok, messages: [], data: @delivery_connection }
+        render json: { status: :ok, messages: [], data: @connection }
       end
     end
   end
@@ -53,63 +50,59 @@ class DeliveryConnectionsController < ApplicationController
     respond_to do |format|
       format.html
       format.json do
-        render json: { status: :ok, messages: [], data: @delivery_connection }
+        render json: { status: :ok, messages: [], data: @connection }
       end
     end
   end
 
   def create
-    @delivery_connection = authorize(scope.new(delivery_connection_params))
+    @connection = authorize(scope.new(connection_params))
     persist(:new, t(".notice"))
   end
 
   def connect
-    authorize(
-      DeliveryConnection.new(user: current_user, provider: params[:provider])
-    )
+    authorize(Connection.new(user: current_user, provider: params[:provider]))
     scope
     pending =
-      DeliveryConnectionOauth.pending(
+      ConnectionOauth.pending(
         user: current_user,
         provider: params[:provider],
         redirect_uri: callback_url,
         server: params[:server],
         scope: params[:scope]
       )
-    session[:delivery_connection_oauth] = pending
-    redirect_to DeliveryConnectionOauth.authorization_url(
+    session[:connection_oauth] = pending
+    redirect_to ConnectionOauth.authorization_url(
                   pending: pending,
                   redirect_uri: callback_url
                 ),
                 allow_other_host: true
-  rescue *DeliveryConnectionOauth::ERRORS
-    redirect_to delivery_connections_path, alert: t(".failed")
+  rescue *ConnectionOauth::ERRORS
+    redirect_to connections_path, alert: t(".failed")
   end
 
   def callback
-    authorize(
-      DeliveryConnection.new(user: current_user, provider: params[:provider])
-    )
+    authorize(Connection.new(user: current_user, provider: params[:provider]))
     connections =
       scope.where_user(current_user).where_provider(params[:provider])
-    pending = session.delete(:delivery_connection_oauth)
-    unless DeliveryConnectionOauth.valid_state?(
+    pending = session.delete(:connection_oauth)
+    unless ConnectionOauth.valid_state?(
              pending: pending,
              user: current_user,
              provider: params[:provider],
              state: params[:state]
            )
-      redirect_to delivery_connections_path, alert: t(".invalid_state")
+      redirect_to connections_path, alert: t(".invalid_state")
       return
     end
     if params[:error].present? || !params[:code].is_a?(String) ||
          params[:code].blank?
-      redirect_to delivery_connections_path, alert: t(".failed")
+      redirect_to connections_path, alert: t(".failed")
       return
     end
 
     attributes =
-      DeliveryConnectionOauth.exchange(
+      ConnectionOauth.exchange(
         pending: pending,
         code: params[:code],
         redirect_uri: callback_url
@@ -126,18 +119,18 @@ class DeliveryConnectionsController < ApplicationController
         connection.save!
       end
     end
-    redirect_to delivery_connections_path, notice: t(".connected")
-  rescue *DeliveryConnectionOauth::ERRORS
-    redirect_to delivery_connections_path, alert: t(".failed")
+    redirect_to connections_path, notice: t(".connected")
+  rescue *ConnectionOauth::ERRORS
+    redirect_to connections_path, alert: t(".failed")
   end
 
   def update
-    @delivery_connection.assign_attributes(delivery_connection_params)
+    @connection.assign_attributes(connection_params)
     persist(:edit, t(".notice"))
   end
 
   def destroy
-    if @delivery_connection.destroy
+    if @connection.destroy
       respond_after_delete(t(".notice"))
     else
       respond_after_invalid(:edit)
@@ -145,7 +138,7 @@ class DeliveryConnectionsController < ApplicationController
   end
 
   def delete
-    if @delivery_connection.destroy
+    if @connection.destroy
       respond_after_delete(t(".notice"))
     else
       respond_after_invalid(:edit)
@@ -153,13 +146,13 @@ class DeliveryConnectionsController < ApplicationController
   end
 
   def destroy_all
-    authorize(DeliveryConnection)
+    authorize(Connection)
     scope.destroy_all
     respond_after_delete_all(t(".notice"))
   end
 
   def delete_all
-    authorize(DeliveryConnection)
+    authorize(Connection)
     scope.destroy_all
     respond_after_delete_all(t(".notice"))
   end
@@ -167,26 +160,26 @@ class DeliveryConnectionsController < ApplicationController
   private
 
   def callback_url
-    "#{Current.base_url}#{callback_delivery_connections_path(provider: params[:provider], locale: nil)}"
+    "#{Current.base_url}#{callback_connections_path(provider: params[:provider], locale: nil)}"
   end
 
-  def scope = searched_policy_scope(DeliveryConnection)
-  def model_class = DeliveryConnection
-  def model_instance = @delivery_connection
+  def scope = searched_policy_scope(Connection)
+  def model_class = Connection
+  def model_instance = @connection
   def nested = []
   def filters = []
 
-  def load_delivery_connection
-    @delivery_connection = authorize(scope.find(params.expect(:id)))
-    set_context(delivery_connection: @delivery_connection)
-    add_breadcrumb(text: @delivery_connection, path: show_url)
+  def load_connection
+    @connection = authorize(scope.find(params.expect(:id)))
+    set_context(connection: @connection)
+    add_breadcrumb(text: @connection, path: show_url)
   end
 
-  def delivery_connection_params
+  def connection_params
     return {} unless admin?
 
     params.expect(
-      delivery_connection: %i[
+      connection: %i[
         user_id
         email
         username

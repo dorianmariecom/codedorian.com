@@ -72,7 +72,7 @@ class FacebookOauth
     [
       {
         sender: user["id"],
-        **DeliveryConnectionOauth.identity(external_id: user["id"]),
+        **ConnectionOauth.identity(external_id: user["id"]),
         access_token: token,
         scope: SCOPES.join(" "),
         enabled: true

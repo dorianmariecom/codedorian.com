@@ -4,7 +4,7 @@ require "test_helper"
 
 class SlackRecipientTest < ActiveSupport::TestCase
   setup do
-    @connection = DeliveryConnection.new(id: 123, access_token: "test-token")
+    @connection = Connection.new(id: 123, access_token: "test-token")
     @previous_cache = Rails.cache
     Rails.cache = ActiveSupport::Cache::MemoryStore.new
   end
@@ -21,7 +21,7 @@ class SlackRecipientTest < ActiveSupport::TestCase
           amount_cents: 0
         )
       connection =
-        DeliveryConnection.create!(
+        Connection.create!(
           provider: "slack",
           username: "Slack",
           access_token: "test"
@@ -29,7 +29,7 @@ class SlackRecipientTest < ActiveSupport::TestCase
       destination =
         DeliveryDestination.new(
           delivery_channel: channel,
-          delivery_connection: connection
+          connection: connection
         )
       %w[dorian C123/invalid @ #].each do |recipient|
         destination.recipient = recipient

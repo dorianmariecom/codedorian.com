@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class DeliveryConnectionsXControllerTest < ActionDispatch::IntegrationTest
+class ConnectionsXControllerTest < ActionDispatch::IntegrationTest
   setup do
     @previous_x_credentials = Config.x
     Config.x = { client_id: "client", client_secret: "secret" }.to_deep_struct
@@ -27,7 +27,7 @@ class DeliveryConnectionsXControllerTest < ActionDispatch::IntegrationTest
             )
           assert_equal query["code_challenge"], challenge
           assert_equal "authorization_code", body["grant_type"]
-          assert_equal "#{Current.base_url}/delivery_connections/callback/x",
+          assert_equal "#{Current.base_url}/connections/callback/x",
                        body["redirect_uri"]
           true
         end
@@ -45,20 +45,17 @@ class DeliveryConnectionsXControllerTest < ActionDispatch::IntegrationTest
           "Authorization" => "Bearer access-secret"
         }
       ).to_return(body: { data: { id: "123", username: "dorian" } }.to_json)
-      assert_difference "DeliveryConnection.count", index.zero? ? 1 : 0 do
-        get callback_delivery_connections_path(provider: "x", locale: nil),
+      assert_difference "Connection.count", index.zero? ? 1 : 0 do
+        get callback_connections_path(provider: "x", locale: nil),
             params: {
               state: query["state"],
               code: "code"
             }
-        assert_redirected_to delivery_connections_path
+        assert_redirected_to connections_path
       end
     end
     connection =
-      DeliveryConnection
-        .where_user(users(:other_user))
-        .where(provider: "x")
-        .sole
+      Connection.where_user(users(:other_user)).where(provider: "x").sole
     assert_equal "dorian", connection.username
     assert_equal "123", connection.external_id
     assert_nil connection.email
@@ -66,9 +63,9 @@ class DeliveryConnectionsXControllerTest < ActionDispatch::IntegrationTest
     assert_not_includes connection.refresh_token_before_type_cast,
                         "refresh-secret"
     assert_not_includes connection.versions.to_json, "refresh-secret"
-    get delivery_connections_path
+    get connections_path
     assert_response :success
-    get delivery_connections_path, as: :json
+    get connections_path, as: :json
     assert_response :success
     assert_not_includes response.body, "access-secret"
     assert_not_includes response.body, "refresh-secret"
@@ -76,25 +73,25 @@ class DeliveryConnectionsXControllerTest < ActionDispatch::IntegrationTest
     assert_equal "123", data.fetch("external_id")
     assert_match(/\A\*{3,10}\z/, data.fetch("access_token"))
     assert_match(/\A\*{3,10}\z/, data.fetch("refresh_token"))
-    delete delivery_connection_path(connection)
-    assert_not DeliveryConnection.exists?(connection.id)
+    delete connection_path(connection)
+    assert_not Connection.exists?(connection.id)
   end
 
   test "invalid expired and replayed states cannot exchange tokens" do
     query = start_connection
-    get callback_delivery_connections_path(provider: "x", locale: nil),
+    get callback_connections_path(provider: "x", locale: nil),
         params: {
           state: "wrong",
           code: "code"
         }
-    get callback_delivery_connections_path(provider: "x", locale: nil),
+    get callback_connections_path(provider: "x", locale: nil),
         params: {
           state: query["state"],
           code: "code"
         }
     query = start_connection
     travel 11.minutes do
-      get callback_delivery_connections_path(provider: "x", locale: nil),
+      get callback_connections_path(provider: "x", locale: nil),
           params: {
             state: query["state"],
             code: "code"
@@ -106,25 +103,25 @@ class DeliveryConnectionsXControllerTest < ActionDispatch::IntegrationTest
   test "another account cannot be disconnected and guests cannot connect" do
     connection =
       Current.with(user: users(:admin)) do
-        DeliveryConnection.create!(
+        Connection.create!(
           provider: "x",
           username: "Private",
           access_token: "private",
           enabled: true
         )
       end
-    delete delivery_connection_path(connection), as: :json
+    delete connection_path(connection), as: :json
     assert_response :bad_request
     assert connection.reload.enabled?
     delete login_path
-    post connect_delivery_connections_path(provider: "x"), as: :json
+    post connect_connections_path(provider: "x"), as: :json
     assert_response :bad_request
   end
 
   private
 
   def start_connection
-    post connect_delivery_connections_path(provider: "x")
+    post connect_connections_path(provider: "x")
     assert_response :redirect
     uri = URI(response.location)
     assert_equal "x.com", uri.host

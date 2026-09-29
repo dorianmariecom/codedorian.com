@@ -41,7 +41,7 @@ class ProgramDelivery
                 delivery.channel = destination.channel
                 delivery.recipient = destination.recipient
                 delivery.visibility = destination.visibility
-                delivery.connection = destination.connection
+                delivery.connection = destination.effective_connection
                 delivery.step_execution = Current.step_execution
                 if destination.verification_required? &&
                      !destination.recipient_verified?

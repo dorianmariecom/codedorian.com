@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class DeliveryConnectionsGoogleCalendarControllerTest < ActionDispatch::IntegrationTest
+class ConnectionsGoogleCalendarControllerTest < ActionDispatch::IntegrationTest
   setup do
     @previous_credentials = Config.google_delivery
     Config.google_delivery = {
@@ -28,12 +28,12 @@ class DeliveryConnectionsGoogleCalendarControllerTest < ActionDispatch::Integrat
   teardown { Config.google_delivery = @previous_credentials }
 
   test "regular users choose calendar access with an unchecked bilingual checkbox" do
-    get delivery_connections_path
+    get connections_path
     assert_response :success
     assert_select "input#google_calendar_access[type=checkbox][name=scope]"
     assert_select "input#google_calendar_access[checked]", count: 0
     assert_select "label[for=google_calendar_access]",
-                  text: I18n.t("delivery_connections.index.calendar_access")
+                  text: I18n.t("connections.index.calendar_access")
     assert_select "input#gmail_calendar_access", count: 0
 
     query =
@@ -45,28 +45,25 @@ class DeliveryConnectionsGoogleCalendarControllerTest < ActionDispatch::Integrat
       scope: query.fetch("scope"),
       challenge: query.fetch("code_challenge")
     )
-    assert_difference "DeliveryConnection.count", 1 do
-      get callback_delivery_connections_path(provider: "google", locale: nil),
+    assert_difference "Connection.count", 1 do
+      get callback_connections_path(provider: "google", locale: nil),
           params: {
             state: query.fetch("state"),
             code: "code"
           }
-      assert_redirected_to delivery_connections_path
+      assert_redirected_to connections_path
     end
     connection =
-      DeliveryConnection
-        .where_user(users(:other_user))
-        .where_provider("google")
-        .sole
+      Connection.where_user(users(:other_user)).where_provider("google").sole
     assert_equal query.fetch("scope"), connection.scope
     assert connection.calendar_access?
     assert connection.ready?
     assert_not_includes connection.refresh_token_before_type_cast,
                         "calendar-refresh"
-    get delivery_connections_path
+    get connections_path
     assert_response :success
     assert_select "a[href=?]",
-                  delivery_connection_path(connection),
+                  connection_path(connection),
                   text: "google - person@example.com - google-account"
   end
 
@@ -76,17 +73,14 @@ class DeliveryConnectionsGoogleCalendarControllerTest < ActionDispatch::Integrat
     stub_token(
       scope: (%w[openid email] + MailboxOauth::GOOGLE_CALENDAR_SCOPES).join(" ")
     )
-    get callback_delivery_connections_path(provider: "google", locale: nil),
+    get callback_connections_path(provider: "google", locale: nil),
         params: {
           state: query.fetch("state"),
           code: "code",
           scope: MailboxOauth::GOOGLE_CALENDAR_SCOPES.join(" ")
         }
     connection =
-      DeliveryConnection
-        .where_user(users(:other_user))
-        .where_provider("google")
-        .sole
+      Connection.where_user(users(:other_user)).where_provider("google").sole
     assert_equal "openid email", connection.scope
     assert_not connection.calendar_access?
     assert_not connection.ready?
@@ -101,13 +95,13 @@ class DeliveryConnectionsGoogleCalendarControllerTest < ActionDispatch::Integrat
       query =
         start_connection(scope: MailboxOauth::GOOGLE_CALENDAR_SCOPES.join(" "))
       stub_token(scope: scope)
-      get callback_delivery_connections_path(provider: "google", locale: nil),
+      get callback_connections_path(provider: "google", locale: nil),
           params: {
             state: query.fetch("state"),
             code: "code"
           }
-      assert_redirected_to delivery_connections_path
-      assert_not DeliveryConnection
+      assert_redirected_to connections_path
+      assert_not Connection
                    .where_user(users(:other_user))
                    .where_provider("google")
                    .sole
@@ -119,26 +113,26 @@ class DeliveryConnectionsGoogleCalendarControllerTest < ActionDispatch::Integrat
     query =
       start_connection(scope: MailboxOauth::GOOGLE_CALENDAR_SCOPES.join(" "))
     stub_token(scope: query.fetch("scope"))
-    get callback_delivery_connections_path(provider: "google", locale: nil),
+    get callback_connections_path(provider: "google", locale: nil),
         params: {
           state: query.fetch("state"),
           code: "code"
         }
-    assert DeliveryConnection
+    assert Connection
              .where_user(users(:other_user))
              .where_provider("google")
              .sole
              .calendar_access?
     query = start_connection(scope: "")
     stub_token(scope: query.fetch("scope"))
-    assert_no_difference "DeliveryConnection.count" do
-      get callback_delivery_connections_path(provider: "google", locale: nil),
+    assert_no_difference "Connection.count" do
+      get callback_connections_path(provider: "google", locale: nil),
           params: {
             state: query.fetch("state"),
             code: "code"
           }
     end
-    assert_not DeliveryConnection
+    assert_not Connection
                  .where_user(users(:other_user))
                  .where_provider("google")
                  .sole
@@ -148,15 +142,15 @@ class DeliveryConnectionsGoogleCalendarControllerTest < ActionDispatch::Integrat
   test "invalid state and denied consent cannot create a calendar connection" do
     query =
       start_connection(scope: MailboxOauth::GOOGLE_CALENDAR_SCOPES.join(" "))
-    assert_no_difference "DeliveryConnection.count" do
-      get callback_delivery_connections_path(provider: "google", locale: nil),
+    assert_no_difference "Connection.count" do
+      get callback_connections_path(provider: "google", locale: nil),
           params: {
             state: "wrong",
             code: "code"
           }
       query =
         start_connection(scope: MailboxOauth::GOOGLE_CALENDAR_SCOPES.join(" "))
-      get callback_delivery_connections_path(provider: "google", locale: nil),
+      get callback_connections_path(provider: "google", locale: nil),
           params: {
             state: query.fetch("state"),
             error: "access_denied"
@@ -183,12 +177,12 @@ class DeliveryConnectionsGoogleCalendarControllerTest < ActionDispatch::Integrat
                      MailboxOauth::GOOGLE_CALENDAR_SCOPES,
                    query.fetch("scope").split
       stub_token(scope: query.fetch("scope"))
-      get callback_delivery_connections_path(provider: provider, locale: nil),
+      get callback_connections_path(provider: provider, locale: nil),
           params: {
             state: query.fetch("state"),
             code: "code"
           }
-      assert DeliveryConnection
+      assert Connection
                .where_user(users(:admin))
                .where_provider(provider)
                .sole
@@ -199,16 +193,13 @@ class DeliveryConnectionsGoogleCalendarControllerTest < ActionDispatch::Integrat
   private
 
   def start_connection(scope:, provider: "google")
-    post connect_delivery_connections_path(provider: provider),
-         params: {
-           scope: scope
-         }
+    post connect_connections_path(provider: provider), params: { scope: scope }
     assert_response :redirect
     uri = URI(response.location)
     assert_equal "accounts.google.com", uri.host
     query = URI.decode_www_form(uri.query).to_h
     assert_equal "S256", query.fetch("code_challenge_method")
-    assert_equal "#{Current.base_url}/delivery_connections/callback/#{provider}",
+    assert_equal "#{Current.base_url}/connections/callback/#{provider}",
                  query.fetch("redirect_uri")
     query
   end

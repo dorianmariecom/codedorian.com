@@ -150,7 +150,7 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
       destination = @delivery.delivery_destination
       destination.update_columns(
         delivery_channel_id: channel.id,
-        delivery_connection_id: @delivery.connection_id,
+        connection_id: @delivery.connection_id,
         recipient: recipient,
         visibility: visibility
       )
@@ -419,7 +419,7 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
 
   def configure(channel, provider, credentials, recipient: "+33611223344")
     connection =
-      DeliveryConnection.create!(
+      Connection.create!(
         user: @subscription.user,
         username: provider,
         provider: provider,

@@ -18,7 +18,7 @@ class GithubDeliveryTest < ActiveSupport::TestCase
         show_visibility: true
       )
     connection =
-      DeliveryConnection.create!(
+      Connection.create!(
         user: owner,
         provider: "github",
         username: "GitHub",
@@ -28,7 +28,7 @@ class GithubDeliveryTest < ActiveSupport::TestCase
       DeliveryDestination.new(
         user: owner,
         delivery_channel: channel,
-        delivery_connection: connection,
+        connection: connection,
         recipient: "octocat/repo",
         visibility: "private"
       )
@@ -46,15 +46,15 @@ class GithubDeliveryTest < ActiveSupport::TestCase
       assert_not destination.valid?, recipient
     end
     destination.recipient = "octocat/repo"
-    destination.delivery_connection =
-      DeliveryConnection.create!(
+    destination.connection =
+      Connection.create!(
         user: users(:other_user),
         provider: "github",
         username: "Other",
         access_token: "other"
       )
     assert_not destination.valid?
-    destination.delivery_connection = connection
+    destination.connection = connection
     destination.save!
     connection.destroy!
     assert_not destination.reload.available?

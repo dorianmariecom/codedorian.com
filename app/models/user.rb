@@ -14,7 +14,7 @@ class User < ApplicationRecord
   has_many(:services, dependent: :destroy)
   has_many(:subscriptions, dependent: :destroy)
   has_many :delivery_destinations, dependent: :destroy
-  has_many :delivery_connections, dependent: :destroy
+  has_many :connections, dependent: :destroy
   has_many(:stripe_invoices, through: :subscriptions)
   has_many(
     :subscription_executions,

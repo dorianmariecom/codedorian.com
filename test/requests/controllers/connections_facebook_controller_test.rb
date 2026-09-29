@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class DeliveryConnectionsFacebookControllerTest < ActionDispatch::IntegrationTest
+class ConnectionsFacebookControllerTest < ActionDispatch::IntegrationTest
   setup do
     @previous_facebook_credentials = Config.facebook
     Config.facebook = {
@@ -21,62 +21,56 @@ class DeliveryConnectionsFacebookControllerTest < ActionDispatch::IntegrationTes
     2.times do |index|
       state = start_connection
       stub_exchange
-      assert_difference "DeliveryConnection.count", index.zero? ? 1 : 0 do
-        get callback_delivery_connections_path(
-              provider: "facebook",
-              locale: nil
-            ),
+      assert_difference "Connection.count", index.zero? ? 1 : 0 do
+        get callback_connections_path(provider: "facebook", locale: nil),
             params: {
               state: state,
               code: "code"
             }
-        assert_redirected_to delivery_connections_path
+        assert_redirected_to connections_path
       end
     end
     connection =
-      DeliveryConnection
-        .where_user(users(:admin))
-        .where(provider: "facebook")
-        .sole
+      Connection.where_user(users(:admin)).where(provider: "facebook").sole
     assert_equal "123456", connection.sender
     assert_equal "user-token", connection.access_token
     assert_equal "public_profile", connection.scope
     assert connection.ready?
     assert_not_includes connection.access_token_before_type_cast, "user-token"
     assert_not_includes connection.versions.to_json, "user-token"
-    get delivery_connections_path
+    get connections_path
     assert_response :success
     assert_not_includes response.body, "translation missing"
-    get delivery_connections_path, as: :json
+    get connections_path, as: :json
     assert_response :success
     assert_includes response.body, "user-token"
-    delete delivery_connection_path(connection), as: :json
+    delete connection_path(connection), as: :json
     assert_response :success
-    assert_not DeliveryConnection.exists?(connection.id)
+    assert_not Connection.exists?(connection.id)
   end
 
   test "invalid replayed expired and denied requests cannot exchange tokens" do
     state = start_connection
-    get callback_delivery_connections_path(provider: "facebook", locale: nil),
+    get callback_connections_path(provider: "facebook", locale: nil),
         params: {
           state: "invalid",
           code: "code"
         }
-    get callback_delivery_connections_path(provider: "facebook", locale: nil),
+    get callback_connections_path(provider: "facebook", locale: nil),
         params: {
           state: state,
           code: "code"
         }
     state = start_connection
     travel 11.minutes do
-      get callback_delivery_connections_path(provider: "facebook", locale: nil),
+      get callback_connections_path(provider: "facebook", locale: nil),
           params: {
             state: state,
             code: "code"
           }
     end
     state = start_connection
-    get callback_delivery_connections_path(provider: "facebook", locale: nil),
+    get callback_connections_path(provider: "facebook", locale: nil),
         params: {
           state: state,
           error: "access_denied"
@@ -90,30 +84,30 @@ class DeliveryConnectionsFacebookControllerTest < ActionDispatch::IntegrationTes
       status: 400,
       body: { error: { message: "private detail" } }.to_json
     )
-    assert_no_difference "DeliveryConnection.count" do
-      get callback_delivery_connections_path(provider: "facebook", locale: nil),
+    assert_no_difference "Connection.count" do
+      get callback_connections_path(provider: "facebook", locale: nil),
           params: {
             state: state,
             code: "code"
           }
-      assert_redirected_to delivery_connections_path
+      assert_redirected_to connections_path
     end
-    assert_equal I18n.t("delivery_connections.callback.failed"), flash[:alert]
+    assert_equal I18n.t("connections.callback.failed"), flash[:alert]
   end
 
   test "invalid profiles leave connections unchanged" do
     state = start_connection
     stub_exchange
     stub_request(:get, %r{/v26.0/me\?}).to_return(body: { id: nil }.to_json)
-    assert_no_difference "DeliveryConnection.count" do
-      get callback_delivery_connections_path(provider: "facebook", locale: nil),
+    assert_no_difference "Connection.count" do
+      get callback_connections_path(provider: "facebook", locale: nil),
           params: {
             state: state,
             code: "code"
           }
     end
-    assert_redirected_to delivery_connections_path
-    assert_equal I18n.t("delivery_connections.callback.failed"), flash[:alert]
+    assert_redirected_to connections_path
+    assert_equal I18n.t("connections.callback.failed"), flash[:alert]
   end
 
   test "regular users and guests cannot manage facebook connections" do
@@ -122,11 +116,11 @@ class DeliveryConnectionsFacebookControllerTest < ActionDispatch::IntegrationTes
       email_addresses(:other_email).email_address,
       passwords(:other_password).hint
     )
-    get delivery_connections_path, as: :json
+    get connections_path, as: :json
     assert_response :success
-    post connect_delivery_connections_path(provider: "facebook"), as: :json
+    post connect_connections_path(provider: "facebook"), as: :json
     assert_response :bad_request
-    get callback_delivery_connections_path(provider: "facebook"),
+    get callback_connections_path(provider: "facebook"),
         params: {
           code: "code",
           state: "state"
@@ -134,7 +128,7 @@ class DeliveryConnectionsFacebookControllerTest < ActionDispatch::IntegrationTes
         as: :json
     assert_response :bad_request
     delete login_path
-    post connect_delivery_connections_path(provider: "facebook"), as: :json
+    post connect_connections_path(provider: "facebook"), as: :json
     assert_response :bad_request
     assert_not_requested :get, /graph.facebook.com/
   end
@@ -142,7 +136,7 @@ class DeliveryConnectionsFacebookControllerTest < ActionDispatch::IntegrationTes
   private
 
   def start_connection
-    post connect_delivery_connections_path(provider: "facebook")
+    post connect_connections_path(provider: "facebook")
     assert_response :redirect
     uri = URI(response.location)
     assert_equal "www.facebook.com", uri.host
@@ -150,7 +144,7 @@ class DeliveryConnectionsFacebookControllerTest < ActionDispatch::IntegrationTes
     assert_nil query["config_id"]
     assert_not query.key?("scope")
     assert_equal "code", query["response_type"]
-    assert_equal "#{Current.base_url}/delivery_connections/callback/facebook",
+    assert_equal "#{Current.base_url}/connections/callback/facebook",
                  query["redirect_uri"]
     assert_nil query["client_secret"]
     query.fetch("state")
@@ -165,8 +159,7 @@ class DeliveryConnectionsFacebookControllerTest < ActionDispatch::IntegrationTes
         client_id: "client",
         client_secret: "secret",
         code: "code",
-        redirect_uri:
-          "#{Current.base_url}/delivery_connections/callback/facebook"
+        redirect_uri: "#{Current.base_url}/connections/callback/facebook"
       }
     ).to_return(body: { access_token: "user-token" }.to_json)
     proof = OpenSSL::HMAC.hexdigest("SHA256", "secret", "user-token")

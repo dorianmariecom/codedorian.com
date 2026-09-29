@@ -104,7 +104,9 @@ class ApplicationController < ActionController::Base
 
   def render_to_body(options = {})
     body = super
-    return body unless response.media_type == "application/json" && body.present?
+    unless response.media_type == "application/json" && body.present?
+      return body
+    end
 
     JSON.pretty_generate(JSON.parse(body))
   end
@@ -281,7 +283,7 @@ class ApplicationController < ActionController::Base
     cookies.delete(:locale)
     session.delete(:user_id)
     session.delete(:time_zone)
-    session.delete(:delivery_connection_oauth)
+    session.delete(:connection_oauth)
 
     reset_session if session[:previous_user_ids].blank?
 

@@ -27,7 +27,7 @@ class MailboxOauthTest < ActiveSupport::TestCase
     refresh_tokens = [nil, "rotated"]
     %w[gmail google_workspace outlook].each do |provider|
       connection =
-        DeliveryConnection.create!(
+        Connection.create!(
           provider: provider,
           username: "Mailbox",
           smtp_from: "sender@example.com",
@@ -70,7 +70,7 @@ class MailboxOauthTest < ActiveSupport::TestCase
 
   test "revoked tokens require reconnection without clearing existing credentials" do
     connection =
-      DeliveryConnection.create!(
+      Connection.create!(
         provider: "gmail",
         username: "Mailbox",
         smtp_from: "sender@example.com",
@@ -93,7 +93,7 @@ class MailboxOauthTest < ActiveSupport::TestCase
 
   test "temporary token failures are retryable and disabled connections never refresh" do
     connection =
-      DeliveryConnection.create!(
+      Connection.create!(
         provider: "gmail",
         username: "Mailbox",
         smtp_from: "sender@example.com",
@@ -118,7 +118,7 @@ class MailboxOauthTest < ActiveSupport::TestCase
 
   test "tokens missing send permission are not persisted" do
     connection =
-      DeliveryConnection.create!(
+      Connection.create!(
         provider: "outlook",
         username: "Mailbox",
         smtp_from: "sender@example.com",

@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class DeliveryConnectionsMastodonControllerTest < ActionDispatch::IntegrationTest
+class ConnectionsMastodonControllerTest < ActionDispatch::IntegrationTest
   setup do
     sign_in(
       email_addresses(:other_email).email_address,
@@ -37,24 +37,18 @@ class DeliveryConnectionsMastodonControllerTest < ActionDispatch::IntegrationTes
     with_addresses(["93.184.216.34"]) do
       2.times do |index|
         query = start_connection
-        assert_difference "DeliveryConnection.count", index.zero? ? 1 : 0 do
-          get callback_delivery_connections_path(
-                provider: "mastodon",
-                locale: nil
-              ),
+        assert_difference "Connection.count", index.zero? ? 1 : 0 do
+          get callback_connections_path(provider: "mastodon", locale: nil),
               params: {
                 state: query["state"],
                 code: "code"
               }
-          assert_redirected_to delivery_connections_path
+          assert_redirected_to connections_path
         end
       end
     end
     connection =
-      DeliveryConnection
-        .where_user(users(:other_user))
-        .where(provider: "mastodon")
-        .sole
+      Connection.where_user(users(:other_user)).where(provider: "mastodon").sole
     assert_equal "dorian", connection.username
     assert_equal "123", connection.external_id
     assert_nil connection.email
@@ -63,37 +57,34 @@ class DeliveryConnectionsMastodonControllerTest < ActionDispatch::IntegrationTes
     assert_not_includes connection.access_token_before_type_cast,
                         "access-secret"
     assert_not_includes connection.versions.to_json, "access-secret"
-    get delivery_connections_path
+    get connections_path
     assert_response :success
-    get delivery_connections_path, as: :json
+    get connections_path, as: :json
     assert_response :success
     assert_not_includes response.body, "access-secret"
     data = response.parsed_body.fetch("data").sole
     assert_equal "123", data.fetch("external_id")
     assert_match(/\A\*{3,10}\z/, data.fetch("access_token"))
-    delete delivery_connection_path(connection)
-    assert_not DeliveryConnection.exists?(connection.id)
+    delete connection_path(connection)
+    assert_not Connection.exists?(connection.id)
   end
 
   test "invalid expired and replayed states cannot exchange tokens" do
     with_addresses(["93.184.216.34"]) do
       query = start_connection
-      get callback_delivery_connections_path(provider: "mastodon", locale: nil),
+      get callback_connections_path(provider: "mastodon", locale: nil),
           params: {
             state: "wrong",
             code: "code"
           }
-      get callback_delivery_connections_path(provider: "mastodon", locale: nil),
+      get callback_connections_path(provider: "mastodon", locale: nil),
           params: {
             state: query["state"],
             code: "code"
           }
       query = start_connection
       travel 11.minutes do
-        get callback_delivery_connections_path(
-              provider: "mastodon",
-              locale: nil
-            ),
+        get callback_connections_path(provider: "mastodon", locale: nil),
             params: {
               state: query["state"],
               code: "code"
@@ -106,7 +97,7 @@ class DeliveryConnectionsMastodonControllerTest < ActionDispatch::IntegrationTes
   test "another account cannot be disconnected and guests cannot connect" do
     connection =
       Current.with(user: users(:admin)) do
-        DeliveryConnection.create!(
+        Connection.create!(
           provider: "mastodon",
           username: "Private",
           access_token: "private",
@@ -114,11 +105,11 @@ class DeliveryConnectionsMastodonControllerTest < ActionDispatch::IntegrationTes
           enabled: true
         )
       end
-    delete delivery_connection_path(connection), as: :json
+    delete connection_path(connection), as: :json
     assert_response :bad_request
     assert connection.reload.enabled?
     delete login_path
-    post connect_delivery_connections_path(provider: "mastodon"),
+    post connect_connections_path(provider: "mastodon"),
          params: {
            server: "mastodon.example"
          },
@@ -128,48 +119,42 @@ class DeliveryConnectionsMastodonControllerTest < ActionDispatch::IntegrationTes
 
   test "denied authorization and rejected tokens do not create connections" do
     with_addresses(["93.184.216.34"]) do
-      assert_no_difference "DeliveryConnection.count" do
+      assert_no_difference "Connection.count" do
         query = start_connection
-        get callback_delivery_connections_path(
-              provider: "mastodon",
-              locale: nil
-            ),
+        get callback_connections_path(provider: "mastodon", locale: nil),
             params: {
               state: query["state"],
               error: "access_denied"
             }
-        assert_redirected_to delivery_connections_path
+        assert_redirected_to connections_path
         assert_not_requested :post, "https://mastodon.example/oauth/token"
         query = start_connection
         stub_request(:post, "https://mastodon.example/oauth/token").to_return(
           status: 401
         )
-        get callback_delivery_connections_path(
-              provider: "mastodon",
-              locale: nil
-            ),
+        get callback_connections_path(provider: "mastodon", locale: nil),
             params: {
               state: query["state"],
               code: "code"
             }
-        assert_redirected_to delivery_connections_path
+        assert_redirected_to connections_path
       end
     end
   end
 
   test "invalid server displays an error without registering an application" do
-    post connect_delivery_connections_path(provider: "mastodon"),
+    post connect_connections_path(provider: "mastodon"),
          params: {
            server: "http://localhost"
          }
-    assert_redirected_to delivery_connections_path
+    assert_redirected_to connections_path
     assert_not_requested :post, "https://mastodon.example/api/v1/apps"
   end
 
   private
 
   def start_connection
-    post connect_delivery_connections_path(provider: "mastodon"),
+    post connect_connections_path(provider: "mastodon"),
          params: {
            server: "mastodon.example"
          }

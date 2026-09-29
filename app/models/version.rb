@@ -6,7 +6,7 @@ class Version < PaperTrail::Version
   %i[
     delivery
     delivery_channel
-    delivery_connection
+    connection
     delivery_destination
     subscription_destination
     address

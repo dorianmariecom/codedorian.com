@@ -135,7 +135,7 @@ Rails.application.routes.draw do
       }
     )
 
-    resources :delivery_connections, concerns: :deletable do
+    resources :connections, concerns: :deletable do
       post "connect/:provider", action: :connect, on: :collection, as: :connect
       get "callback/:provider",
           action: :callback,
