@@ -167,21 +167,57 @@ class DeliveryAdapters
   def push
     user = @delivery.user
     raise Rejected, "no_push_devices" unless user.devices.exists?
-    if Code::Object::Notification.ios_apps.empty? &&
-         Code::Object::Notification.android_apps.empty?
+    unless user.devices.any? do |device|
+             ApplicationPushNotification.applications_for(device).any?
+           end
       raise Rejected, "push_not_configured"
     end
 
-    Code::Object::Notification.code_create!(
-      to: user.to_code,
-      subject: subject,
-      body: @delivery.body_text.truncate(PUSH_BODY_LIMIT),
-      path: "/deliveries/#{@delivery.id}",
-      sound: "default",
-      thread_id: "subscription-#{@delivery.subscription_id}",
-      data: {
-      }
-    )
+    body = @delivery.body_text.truncate(PUSH_BODY_LIMIT)
+    ApplicationRecord.transaction do
+      user.devices.each do |device|
+        ApplicationPushNotification
+          .applications_for(device)
+          .each do |application|
+            notification =
+              ApplicationPushNotification.new(
+                application: application,
+                title: subject,
+                body: body,
+                data: {
+                  "path" => "/deliveries/#{@delivery.id}"
+                },
+                sound: "default",
+                thread_id:
+                  (
+                    if device.ios?
+                      "subscription-#{@delivery.subscription_id}"
+                    end
+                  ),
+                high_priority: device.ios?,
+                apple_data: {
+                  "apns-expiration": 1.day.from_now.to_i.to_s
+                },
+                google_data: {
+                  notification: {
+                    title: subject,
+                    body: body
+                  },
+                  android: {
+                    priority: nil,
+                    ttl: "86400s",
+                    notification: {
+                      title: nil,
+                      body: nil,
+                      default_sound: true
+                    }
+                  }
+                }
+              )
+            notification.enqueue_to(device)
+          end
+      end
+    end
     { status: "accepted" }
   end
 

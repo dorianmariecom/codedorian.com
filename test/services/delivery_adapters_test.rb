@@ -3,6 +3,8 @@
 require "test_helper"
 
 class DeliveryAdaptersTest < ActiveSupport::TestCase
+  include ActiveJob::TestHelper
+
   setup do
     Current.user = users(:admin)
     @subscription = subscriptions(:subscription)
@@ -25,6 +27,87 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
   end
 
   teardown { Current.reset }
+
+  test "push deliveries queue Rails Push notifications for recipient devices" do
+    @delivery.channel = "push"
+
+    assert_enqueued_jobs 2, only: ApplicationPushNotificationJob do
+      assert_equal "accepted", DeliveryAdapters.deliver(@delivery).status
+    end
+    enqueued_jobs
+      .select { |job| job[:job] == ApplicationPushNotificationJob }
+      .each do |job|
+        _, notification, device = ActiveJob::Arguments.deserialize(job[:args])
+        assert_equal devices(:device), device
+        assert_equal "Hello", notification.fetch(:title)
+        assert_equal "World", notification.fetch(:body)
+        assert_equal "subscription-#{@subscription.id}",
+                     notification.fetch(:thread_id)
+        assert_equal "default", notification.fetch(:sound)
+        assert_equal "/deliveries/#{@delivery.id}",
+                     notification.fetch(:data).fetch("path")
+      end
+  end
+
+  test "push deliveries queue Android notifications with bounded content" do
+    devices(:device).update!(platform: "android")
+    @delivery.channel = "push"
+    @delivery.body_text = "x" * 3000
+
+    assert_enqueued_jobs 1, only: ApplicationPushNotificationJob do
+      assert_equal "accepted", DeliveryAdapters.deliver(@delivery).status
+    end
+    job =
+      enqueued_jobs
+        .select { |entry| entry[:job] == ApplicationPushNotificationJob }
+        .sole
+    _, notification, device = ActiveJob::Arguments.deserialize(job[:args])
+    assert_equal devices(:device), device
+    assert_equal "codedorian - test/production",
+                 notification.fetch(:application)
+    assert_equal 2000, notification.fetch(:body).length
+    assert_equal notification.fetch(:body),
+                 notification.dig(:google_data, :notification, :body)
+    assert_equal true,
+                 notification.dig(
+                   :google_data,
+                   :android,
+                   :notification,
+                   :default_sound
+                 )
+    assert_nil notification[:thread_id]
+  end
+
+  test "push deliveries reject missing configuration for the recipient platform" do
+    @delivery.channel = "push"
+    original = Config.action_push_native
+    configuration = original.from_deep_struct.deep_dup
+    configuration.fetch("providers")["apple"] = {}
+    Config.action_push_native = configuration.to_deep_struct
+
+    assert_no_enqueued_jobs do
+      error =
+        assert_raises(DeliveryAdapters::Rejected) do
+          DeliveryAdapters.deliver(@delivery)
+        end
+      assert_equal "push_not_configured", error.code
+    end
+  ensure
+    Config.action_push_native = original if original
+  end
+
+  test "push deliveries reject recipients without devices" do
+    @delivery.channel = "push"
+    @delivery.user.devices.destroy_all
+
+    assert_no_enqueued_jobs do
+      error =
+        assert_raises(DeliveryAdapters::Rejected) do
+          DeliveryAdapters.deliver(@delivery)
+        end
+      assert_equal "no_push_devices", error.code
+    end
+  end
 
   test "SMS RCS and WhatsApp use explicit Twilio channels and templates" do
     %w[sms rcs whatsapp].each do |key|
