@@ -12,7 +12,7 @@ module MenuHelper
   def menu(platform:)
     context = link_context
 
-    Link.menu.ordered.filter_map do |link|
+    navigation_records("menu").filter_map do |link|
       next unless link.visible?(context: context)
 
       path = link.path(context: context)

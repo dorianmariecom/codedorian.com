@@ -4,7 +4,7 @@ module NavigationHelper
   def navigation_links
     context = link_context
 
-    Link.navigation.ordered.filter_map do |link|
+    navigation_records("navigation").filter_map do |link|
       next unless link.visible?(context: context)
 
       path = link.path(context: context)
@@ -12,5 +12,10 @@ module NavigationHelper
 
       [link.title, path, link.verb]
     end
+  end
+
+  def navigation_records(kind)
+    @navigation_records ||= Link.cached_ordered.group_by(&:kind)
+    @navigation_records.fetch(kind, [])
   end
 end

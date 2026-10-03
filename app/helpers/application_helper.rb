@@ -70,10 +70,32 @@ module ApplicationHelper
     return if input.blank?
 
     sanitize(
-      SyntaxHighlight::Formatter.format(input, language: language),
+      Rails
+        .cache
+        .fetch(
+          [
+            "syntax_highlight/v1",
+            language.to_s,
+            Digest::SHA256.hexdigest(input.to_s)
+          ],
+          expires_in: 1.day
+        ) { SyntaxHighlight::Formatter.format(input, language: language) },
       tags: ["span"],
       attributes: ["class"]
     )
+  end
+
+  def cached_count(records)
+    Rails
+      .cache
+      .fetch(
+        [
+          "counts/v1",
+          records.klass.name,
+          Digest::SHA256.hexdigest(records.to_sql)
+        ],
+        expires_in: 30.seconds
+      ) { records.count }
   end
 
   def code_highlight(input, **)

@@ -14,7 +14,7 @@ module TabsHelper
     context = link_context
 
     items =
-      Link.tabs.ordered.filter_map do |link|
+      navigation_records("tabs").filter_map do |link|
         next unless link.visible?(context: context)
 
         path = link.path(context: context)

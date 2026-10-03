@@ -15,6 +15,19 @@ class Link < ApplicationRecord
 
   validate { can!(:update, self) }
 
+  def self.cached_ordered
+    records = ordered
+    attributes =
+      Rails
+        .cache
+        .fetch(
+          ["navigation/links/v1", records.cache_key_with_version],
+          expires_in: 1.hour
+        ) { records.map(&:attributes) }
+
+    attributes.map { |attributes| instantiate(attributes) }
+  end
+
   def self.search_fields
     {
       kind: {
