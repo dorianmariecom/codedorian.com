@@ -10,6 +10,8 @@ const TOKEN_MAX_AGE_MILLISECONDS = 110000;
 let loadPromise = null;
 let recaptchaExecutionQueue = Promise.resolve();
 
+document.addEventListener("turbo:before-render", resetRecaptcha);
+
 export default class extends Controller {
   static targets = ["response", "action"];
 
@@ -23,10 +25,8 @@ export default class extends Controller {
     this.form = this._form();
     this.submitBound = this.submit.bind(this);
     this.beforeCacheBound = this.beforeCache.bind(this);
-    this.beforeRenderBound = this.beforeRender.bind(this);
     this.form?.addEventListener("submit", this.submitBound);
     document.addEventListener("turbo:before-cache", this.beforeCacheBound);
-    document.addEventListener("turbo:before-render", this.beforeRenderBound);
 
     this._enableInputs();
     this.refresh();
@@ -41,7 +41,6 @@ export default class extends Controller {
     this.submitting = false;
     this.form?.removeEventListener("submit", this.submitBound);
     document.removeEventListener("turbo:before-cache", this.beforeCacheBound);
-    document.removeEventListener("turbo:before-render", this.beforeRenderBound);
     clearInterval(this.interval);
     resetRecaptchaExecutionQueue();
     this._enableInputs();
@@ -52,10 +51,6 @@ export default class extends Controller {
     this.submitting = false;
     resetRecaptchaExecutionQueue();
     this._enableInputs();
-  }
-
-  beforeRender() {
-    resetRecaptcha();
   }
 
   async submit(event) {
