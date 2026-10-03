@@ -85,19 +85,6 @@ module ApplicationHelper
     )
   end
 
-  def cached_count(records)
-    Rails
-      .cache
-      .fetch(
-        [
-          "counts/v1",
-          records.klass.name,
-          Digest::SHA256.hexdigest(records.to_sql)
-        ],
-        expires_in: 30.seconds
-      ) { records.count }
-  end
-
   def code_highlight(input, **)
     highlight(input, language: :code, **)
   end

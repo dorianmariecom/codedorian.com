@@ -437,46 +437,47 @@
   ) %>
 <% end %>
 
+<%= render(
+  "shared/count",
+  records: @job_processes,
+  translation: "job_processes",
+  url: :job_processes
+) %>
+
+<%= render(
+  "shared/count",
+  records: @job_pauses,
+  translation: "job_pauses",
+  url: :job_pauses
+) %>
+
+<%= render(
+  "shared/count",
+  records: @job_semaphores,
+  translation: "job_semaphores",
+  url: :job_semaphores
+) %>
+
+<%= render(
+  "shared/count",
+  records: @job_recurring_tasks,
+  translation: "job_recurring_tasks",
+  url: :job_recurring_tasks
+) %>
+
+<% if can?(:index, JobBatch) %>
+  <%= render(
+    "shared/count",
+    records: @job_batches,
+    translation: "job_batches",
+    url: job_batches_path
+  ) %>
+<% end %>
+
 <% if can?(:create, Job) %>
   <% if can?(:create, model_class) %>
     <div class="p"><%= link_to(t(".new"), new_url, class: "button") %></div>
   <% end %>
-<% end %>
-
-<% if @job_processes.any? %>
-  <%= render(
-    "shared/count",
-    records: @job_processes,
-    translation: "job_processes",
-    url: :job_processes
-  ) %>
-<% end %>
-
-<% if @job_pauses.any? %>
-  <%= render(
-    "shared/count",
-    records: @job_pauses,
-    translation: "job_pauses",
-    url: :job_pauses
-  ) %>
-<% end %>
-
-<% if @job_semaphores.any? %>
-  <%= render(
-    "shared/count",
-    records: @job_semaphores,
-    translation: "job_semaphores",
-    url: :job_semaphores
-  ) %>
-<% end %>
-
-<% if @job_recurring_tasks.any? %>
-  <%= render(
-    "shared/count",
-    records: @job_recurring_tasks,
-    translation: "job_recurring_tasks",
-    url: :job_recurring_tasks
-  ) %>
 <% end %>
 
 <%= render("shared/search") %>
@@ -507,12 +508,3 @@
 
   <%= render_collection(partial: "jobs/job", collection: @jobs, as: :job) %>
 </turbo-frame>
-
-<% if can?(:index, JobBatch) %>
-  <%= render(
-    "shared/count",
-    records: @job_batches,
-    translation: "job_batches",
-    url: job_batches_path
-  ) %>
-<% end %>
