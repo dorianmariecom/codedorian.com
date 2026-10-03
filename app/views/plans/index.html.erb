@@ -7,18 +7,17 @@
     records = records.where_service(@service) if @service
     records = records.where_user(@user) if @user
   %>
-  <div class="p">
-    <%= link_to(
-      t(".steps", count: records.distinct.count),
-      {
-        controller: :steps,
-        action: :index,
-        service_id: @service&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "steps",
+    url: {
+      controller: :steps,
+      action: :index,
+      service_id: @service&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, PlanField) %>
   <%
@@ -26,18 +25,17 @@
     records = records.where_service(@service) if @service
     records = records.where_user(@user) if @user
   %>
-  <div class="p">
-    <%= link_to(
-      t(".plan_fields", count: records.distinct.count),
-      {
-        controller: :plan_fields,
-        action: :index,
-        service_id: @service&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "plan_fields",
+    url: {
+      controller: :plan_fields,
+      action: :index,
+      service_id: @service&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, PlanSchedule) %>
   <%
@@ -45,18 +43,17 @@
     records = records.where_service(@service) if @service
     records = records.where_user(@user) if @user
   %>
-  <div class="p">
-    <%= link_to(
-      t(".plan_schedules", count: records.distinct.count),
-      {
-        controller: :plan_schedules,
-        action: :index,
-        service_id: @service&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "plan_schedules",
+    url: {
+      controller: :plan_schedules,
+      action: :index,
+      service_id: @service&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, Subscription) %>
   <%
@@ -64,18 +61,17 @@
     records = records.where_service(@service) if @service
     records = records.where_user(@user) if @user
   %>
-  <div class="p">
-    <%= link_to(
-      t(".subscriptions", count: records.distinct.count),
-      {
-        controller: :subscriptions,
-        action: :index,
-        service_id: @service&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "subscriptions",
+    url: {
+      controller: :subscriptions,
+      action: :index,
+      service_id: @service&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, SubscriptionValue) %>
   <%
@@ -83,18 +79,17 @@
     records = records.where_service(@service) if @service
     records = records.where_user(@user) if @user
   %>
-  <div class="p">
-    <%= link_to(
-      t(".subscription_values", count: records.distinct.count),
-      {
-        controller: :subscription_values,
-        action: :index,
-        service_id: @service&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "subscription_values",
+    url: {
+      controller: :subscription_values,
+      action: :index,
+      service_id: @service&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, SubscriptionDestination) %>
   <%
@@ -102,18 +97,17 @@
     records = records.where_service(@service) if @service
     records = records.where_user(@user) if @user
   %>
-  <div class="p">
-    <%= link_to(
-      t(".subscription_destinations", count: records.distinct.count),
-      {
-        controller: :subscription_destinations,
-        action: :index,
-        service_id: @service&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "subscription_destinations",
+    url: {
+      controller: :subscription_destinations,
+      action: :index,
+      service_id: @service&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, DeliveryDestination) %>
   <%
@@ -121,18 +115,17 @@
     records = records.where_service(@service) if @service
     records = records.where_user(@user) if @user
   %>
-  <div class="p">
-    <%= link_to(
-      t(".delivery_destinations", count: records.distinct.count),
-      {
-        controller: :delivery_destinations,
-        action: :index,
-        service_id: @service&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "delivery_destinations",
+    url: {
+      controller: :delivery_destinations,
+      action: :index,
+      service_id: @service&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, SubscriptionExecution) %>
   <%
@@ -140,18 +133,17 @@
     records = records.where_service(@service) if @service
     records = records.where_user(@user) if @user
   %>
-  <div class="p">
-    <%= link_to(
-      t(".subscription_executions", count: records.distinct.count),
-      {
-        controller: :subscription_executions,
-        action: :index,
-        service_id: @service&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "subscription_executions",
+    url: {
+      controller: :subscription_executions,
+      action: :index,
+      service_id: @service&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, StripeInvoice) %>
   <%
@@ -159,18 +151,17 @@
     records = records.where_service(@service) if @service
     records = records.where_user(@user) if @user
   %>
-  <div class="p">
-    <%= link_to(
-      t(".stripe_invoices", count: records.distinct.count),
-      {
-        controller: :stripe_invoices,
-        action: :index,
-        service_id: @service&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "stripe_invoices",
+    url: {
+      controller: :stripe_invoices,
+      action: :index,
+      service_id: @service&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, Delivery) %>
   <%
@@ -178,18 +169,17 @@
     records = records.where_service(@service) if @service
     records = records.where_user(@user) if @user
   %>
-  <div class="p">
-    <%= link_to(
-      t(".deliveries", count: records.distinct.count),
-      {
-        controller: :deliveries,
-        action: :index,
-        service_id: @service&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "deliveries",
+    url: {
+      controller: :deliveries,
+      action: :index,
+      service_id: @service&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, StepExecution) %>
   <%
@@ -197,18 +187,17 @@
     records = records.where_service(@service) if @service
     records = records.where_user(@user) if @user
   %>
-  <div class="p">
-    <%= link_to(
-      t(".step_executions", count: records.distinct.count),
-      {
-        controller: :step_executions,
-        action: :index,
-        service_id: @service&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "step_executions",
+    url: {
+      controller: :step_executions,
+      action: :index,
+      service_id: @service&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, Version) %>
   <%
@@ -216,18 +205,17 @@
     records = records.where_service(@service) if @service
     records = records.where_user(@user) if @user
   %>
-  <div class="p">
-    <%= link_to(
-      t(".versions", count: records.distinct.count),
-      {
-        controller: :versions,
-        action: :index,
-        service_id: @service&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "versions",
+    url: {
+      controller: :versions,
+      action: :index,
+      service_id: @service&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, Log) %>
   <%
@@ -235,18 +223,17 @@
     records = records.where_service(@service) if @service
     records = records.where_user(@user) if @user
   %>
-  <div class="p">
-    <%= link_to(
-      t(".logs", count: records.distinct.count),
-      {
-        controller: :logs,
-        action: :index,
-        service_id: @service&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "logs",
+    url: {
+      controller: :logs,
+      action: :index,
+      service_id: @service&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 
 <% if can?(:create, model_class) %>

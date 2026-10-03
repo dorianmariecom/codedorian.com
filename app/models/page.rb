@@ -20,6 +20,12 @@ class Page < ApplicationRecord
   has_rich_text(:body_fr)
 
   scope(:where_user, ->(user) { where(user: user) })
+  scope(
+    :where_public,
+    -> do
+      where("authorization_input IS NULL OR authorization_input ~ ?", "^[[:space:]]*$")
+    end
+  )
 
   validates(:path, presence: true, uniqueness: true)
   validate { can!(:update, user) }

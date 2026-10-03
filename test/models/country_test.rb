@@ -79,22 +79,29 @@ class CountryTest < ActiveSupport::TestCase
     assert_predicate(country, :verified?)
   end
 
-  test "synchronizing a new IP switches the primary country" do
+  test "synchronizing a new IP preserves other primary countries without explicit locks" do
     user = users(:other_user)
 
-    Current.with(user:) do
-      country =
-        Country.sync_from_ipinfo!(
-          user:,
-          ip_address: "203.0.113.22",
-          payload: {
-            ip: "203.0.113.22",
-            country: "US"
-          }
-        )
+    queries = []
+    subscriber = ->(event) { queries << event.payload[:sql] }
 
-      assert_predicate(country, :primary?)
-      assert_not_predicate(countries(:other_country).reload, :primary?)
+    ActiveSupport::Notifications.subscribed(subscriber, "sql.active_record") do
+      Current.with(user:) do
+        country =
+          Country.sync_from_ipinfo!(
+            user:,
+            ip_address: "203.0.113.22",
+            payload: {
+              ip: "203.0.113.22",
+              country: "US"
+            }
+          )
+
+        assert_predicate(country, :primary?)
+        assert_predicate(countries(:other_country).reload, :primary?)
+      end
     end
+
+    assert_empty(queries.grep(/FOR UPDATE|FOR SHARE|pg_advisory/i))
   end
 end

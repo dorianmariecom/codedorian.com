@@ -11,19 +11,18 @@
       records = records.where_guest(@guest)
     end
   %>
-  <div class="p">
-    <%= link_to(
-      t(".jobs", count: records.distinct.count),
-      {
-        controller: :jobs,
-        action: :index,
-        guest_id: @guest&.id,
-        program_id: @program&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "jobs",
+    url: {
+      controller: :jobs,
+      action: :index,
+      guest_id: @guest&.id,
+      program_id: @program&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, JobContext) %>
   <%
@@ -36,19 +35,18 @@
       records = records.where_guest(@guest)
     end
   %>
-  <div class="p">
-    <%= link_to(
-      t(".job_contexts", count: records.distinct.count),
-      {
-        controller: :job_contexts,
-        action: :index,
-        guest_id: @guest&.id,
-        program_id: @program&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "job_contexts",
+    url: {
+      controller: :job_contexts,
+      action: :index,
+      guest_id: @guest&.id,
+      program_id: @program&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, ::Error) %>
   <%
@@ -61,19 +59,18 @@
       records = records.where_guest(@guest)
     end
   %>
-  <div class="p">
-    <%= link_to(
-      t(".errors", count: records.distinct.count),
-      {
-        controller: :errors,
-        action: :index,
-        guest_id: @guest&.id,
-        program_id: @program&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "errors",
+    url: {
+      controller: :errors,
+      action: :index,
+      guest_id: @guest&.id,
+      program_id: @program&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, ErrorOccurrence) %>
   <%
@@ -86,19 +83,18 @@
       records = records.where_guest(@guest)
     end
   %>
-  <div class="p">
-    <%= link_to(
-      t(".error_occurrences", count: records.distinct.count),
-      {
-        controller: :error_occurrences,
-        action: :index,
-        guest_id: @guest&.id,
-        program_id: @program&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "error_occurrences",
+    url: {
+      controller: :error_occurrences,
+      action: :index,
+      guest_id: @guest&.id,
+      program_id: @program&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, Version) %>
   <%
@@ -107,19 +103,18 @@
     records = records.where_program(@program) if @program
     records = records.where_user(@user) if @user
   %>
-  <div class="p">
-    <%= link_to(
-      t(".versions", count: records.distinct.count),
-      {
-        controller: :versions,
-        action: :index,
-        guest_id: @guest&.id,
-        program_id: @program&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "versions",
+    url: {
+      controller: :versions,
+      action: :index,
+      guest_id: @guest&.id,
+      program_id: @program&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, Log) %>
   <%
@@ -128,19 +123,18 @@
     records = records.where_program(@program) if @program
     records = records.where_user(@user) if @user
   %>
-  <div class="p">
-    <%= link_to(
-      t(".logs", count: records.distinct.count),
-      {
-        controller: :logs,
-        action: :index,
-        guest_id: @guest&.id,
-        program_id: @program&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "logs",
+    url: {
+      controller: :logs,
+      action: :index,
+      guest_id: @guest&.id,
+      program_id: @program&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 
 <% if can?(:create, ProgramExecution) %>

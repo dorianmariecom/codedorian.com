@@ -401,14 +401,8 @@ fr:
       delete_all: supprimer tout
       description: parcourir et gérer les adresses liées aux utilisateurs.
       destroy_all: détruire tout
-      error_occurrences: occurences d'erreur (%{count})
-      errors: erreurs (%{count})
-      job_contexts: contextes de tâches (%{count})
-      jobs: tâches (%{count})
-      logs: logs (%{count})
       new: nouvelle adresse
       title: adresses
-      versions: versions (%{count})
     model:
       to_s: adresse#%{id}
     new:
@@ -496,6 +490,7 @@ fr:
       index: erreurs
       internal_server_error: erreur interne du serveur
       new: nouvelle
+      not_acceptable: non acceptable
       not_found: non trouvé
       unprocessable_entity: entité non traitable
     guests:
@@ -709,10 +704,8 @@ fr:
       delete_all: supprimer tout
       description: consulter et gérer les entrées de configuration et leur json.
       destroy_all: détruire tout
-      logs: logs (%{count})
       new: nouvelle configuration
       title: configurations
-      versions: versions (%{count})
     model:
       invalid_json: json invalide
       to_s: configuration#%{id}
@@ -763,17 +756,11 @@ fr:
       calendar_access: autoriser l’accès en lecture seule à mes agendas
       connect: connecter %{provider}
       delete_all: 'supprimer : connexions'
-      deliveries: livraisons (%{count})
-      delivery_channels: canaux de livraison (%{count})
-      delivery_destinations: destinations de livraison (%{count})
       description: connexions
       destroy_all: 'détruire : connexions'
-      logs: logs (%{count})
       new: 'ajouter : connexion'
       server: serveur mastodon
-      subscription_destinations: destinations d’abonnement (%{count})
       title: connexions
-      versions: versions (%{count})
     model:
       providers:
         aws_ses: aws ses
@@ -866,10 +853,8 @@ fr:
       delete_all: supprimer tout
       description: gérer les pays et les données ip.
       destroy_all: détruire tout
-      logs: logs (%{count})
       new: nouveau pays
       title: pays
-      versions: versions (%{count})
     model:
       to_s: pays#%{id}
     new:
@@ -940,10 +925,8 @@ fr:
       delete_all: supprimer tout
       description: consulter les entrées ip par code pays et les recherches.
       destroy_all: détruire tout
-      logs: logs (%{count})
       new: nouveau code pays adresse ip
       title: codes pays adresses ip
-      versions: versions (%{count})
     lookup:
       notice: code pays adresse ip recherché
     model:
@@ -996,14 +979,8 @@ fr:
       delete_all: supprimer tout
       description: parcourir les données clé-valeur.
       destroy_all: détruire tout
-      error_occurrences: occurences d'erreur (%{count})
-      errors: erreurs (%{count})
-      job_contexts: contextes de tâches (%{count})
-      jobs: tâches (%{count})
-      logs: logs (%{count})
       new: nouvelle donnée
       title: données
-      versions: versions (%{count})
     model:
       invalid_json: json invalide
       to_s: donnée#%{id}
@@ -1101,10 +1078,8 @@ fr:
       delete_all: 'supprimer : livraisons'
       description: livraisons
       destroy_all: 'détruire : livraisons'
-      logs: logs (%{count})
       new: 'ajouter : livraison'
       title: livraisons
-      versions: versions (%{count})
     model:
       statuses:
         accepted: accepté
@@ -1189,15 +1164,10 @@ fr:
       public: public
     index:
       delete_all: 'supprimer : canaux de livraison'
-      deliveries: livraisons (%{count})
-      delivery_destinations: destinations de livraison (%{count})
       description: canaux de livraison
       destroy_all: 'détruire : canaux de livraison'
-      logs: logs (%{count})
       new: 'ajouter : canal de livraison'
-      subscription_destinations: destinations d’abonnement (%{count})
       title: canaux de livraison
-      versions: versions (%{count})
     model:
       keys:
         apple: apple messages for business
@@ -1289,14 +1259,10 @@ fr:
       visibility: visibilité
     index:
       delete_all: 'supprimer : destinations de livraison'
-      deliveries: livraisons (%{count})
       description: destinations de livraison
       destroy_all: 'détruire : destinations de livraison'
-      logs: logs (%{count})
       new: 'ajouter : destination de livraison'
-      subscription_destinations: destinations d’abonnement (%{count})
       title: destinations de livraison
-      versions: versions (%{count})
     model:
       to_s: "#%{id}"
     new:
@@ -1354,14 +1320,8 @@ fr:
       delete_all: supprimer tout
       description: gérer les appareils enregistrés et les plateformes.
       destroy_all: détruire tout
-      error_occurrences: occurences d'erreur (%{count})
-      errors: erreurs (%{count})
-      job_contexts: contextes de tâches (%{count})
-      jobs: tâches (%{count})
-      logs: logs (%{count})
       new: nouvel appareil
       title: appareils
-      versions: versions (%{count})
     model:
       to_s: appareil#%{id}
     new:
@@ -1417,14 +1377,8 @@ fr:
       delete_all: supprimer tout
       description: gérer les adresses e-mail et leur vérification.
       destroy_all: détruire tout
-      error_occurrences: occurences d'erreur (%{count})
-      errors: erreurs (%{count})
-      job_contexts: contextes de tâches (%{count})
-      jobs: tâches (%{count})
-      logs: logs (%{count})
       new: nouvelle adresse e-mail
       title: adresses e-mail
-      versions: versions (%{count})
     model:
       to_s: adresse_email#%{id}
     nested:
@@ -1497,9 +1451,6 @@ fr:
       delete_all: supprimer tout
       description: consulter les occurences d'erreur et leur contexte.
       destroy_all: détruire tout
-      job_contexts: contextes de tâches (%{count})
-      jobs: tâches (%{count})
-      logs: logs (%{count})
       new: nouvelle occurence d'erreur
       title: occurences d'erreur
     model:
@@ -1547,13 +1498,6 @@ fr:
       delete_all: supprimer tout
       description: parcourir les erreurs, leur gravité et leur fréquence.
       destroy_all: détruire tout
-      error_occurrences:
-        one: 1 occurence d'erreur
-        other: "%{count} occurences d'erreur"
-        zero: 0 occurence d'erreur
-      job_contexts: contextes de tâches (%{count})
-      jobs: tâches (%{count})
-      logs: logs (%{count})
       new: nouvelle erreur
       title: erreurs
     internal_server_error:
@@ -1565,6 +1509,9 @@ fr:
       description: créer un enregistrement d'erreur.
       submit: créer une erreur
       title: nouvelle erreur
+    not_acceptable:
+      description: le format de réponse demandé n’est pas pris en charge.
+      title: non acceptable
     not_found:
       description: la page demandée est introuvable.
       title: non trouvé
@@ -1610,31 +1557,11 @@ fr:
       submit: mettre à jour l'invité
       title: modifier l'invité
     index:
-      addresses: adresses (%{count})
-      data: données (%{count})
       delete_all: supprimer tout
       description: gérer les comptes invités.
       destroy_all: détruire tout
-      devices: appareils (%{count})
-      email_addresses: adresses e-mail (%{count})
-      error_occurrences: occurences d'erreur (%{count})
-      errors: erreurs (%{count})
-      handles: identifiants (%{count})
-      job_contexts: contextes de tâches (%{count})
-      jobs: tâches (%{count})
-      logs: logs (%{count})
-      messages: messages (%{count})
-      names: noms (%{count})
       new: nouvel invité
-      passwords: mots de passe (%{count})
-      phone_numbers: numéros de téléphone (%{count})
-      program_executions: exécutions de programmes (%{count})
-      program_schedules: horaires de programmes (%{count})
-      programs: programmes (%{count})
-      time_zones: fuseaux horaires (%{count})
       title: invités
-      tokens: jetons (%{count})
-      versions: versions (%{count})
     model:
       to_s: invité#%{id}
     new:
@@ -1679,14 +1606,8 @@ fr:
       delete_all: supprimer tout
       description: gérer les identifiants et la vérification.
       destroy_all: détruire tout
-      error_occurrences: occurences d'erreur (%{count})
-      errors: erreurs (%{count})
-      job_contexts: contextes de tâches (%{count})
-      jobs: tâches (%{count})
-      logs: logs (%{count})
       new: nouvelle identifiant
       title: identifiants
-      versions: versions (%{count})
     model:
       to_s: identifiant#%{id}
     new:
@@ -1770,8 +1691,6 @@ fr:
       delete_all: supprimer tout
       description: consulter les exécutions de lots.
       destroy_all: détruire tout
-      job_contexts: contextes de tâches (%{count})
-      logs: logs (%{count})
       new: nouvelle exécution de lot de tâche
       title: exécutions de lots de tâches
     model:
@@ -1814,16 +1733,6 @@ fr:
       delete_all: supprimer tout
       description: gérer les lots de tâches.
       destroy_all: détruire tout
-      job_batch_executions: exécutions de lots de tâches (%{count})
-      job_blocked_executions: exécutions de tâches bloquées (%{count})
-      job_claimed_executions: exécutions de tâches revendiquées (%{count})
-      job_contexts: contextes de tâches (%{count})
-      job_failed_executions: exécutions de tâches échouées (%{count})
-      job_ready_executions: exécutions de tâches prêtes (%{count})
-      job_recurring_executions: exécutions récurrentes de tâches (%{count})
-      job_scheduled_executions: exécutions de tâches programmées (%{count})
-      jobs: tâches (%{count})
-      logs: logs (%{count})
       new: nouveau lot de tâches
       title: lots de tâches
     model:
@@ -1881,8 +1790,6 @@ fr:
       delete_all: supprimer tout
       description: consulter les tâches bloquées par la concurrence.
       destroy_all: détruire tout
-      job_contexts: contextes de tâches (%{count})
-      logs: logs (%{count})
       new: nouvelle exécution de tâche bloquée
       title: exécutions de tâches bloquées
     model:
@@ -1929,8 +1836,6 @@ fr:
       delete_all: supprimer tout
       description: consulter les exécutions de tâches revendiquées.
       destroy_all: détruire tout
-      job_contexts: contextes de tâches (%{count})
-      logs: logs (%{count})
       new: nouvelle exécution de tâche revendiquée
       title: exécutions de tâches revendiquées
     model:
@@ -1974,13 +1879,8 @@ fr:
       delete_all: supprimer tout
       description: parcourir les contextes et métadonnées des tâches.
       destroy_all: détruire tout
-      error_occurrences: occurences d'erreur (%{count})
-      errors: erreurs (%{count})
-      jobs: tâches (%{count})
-      logs: logs (%{count})
       new: nouveau contexte de tâche
       title: contextes de tâches
-      versions: versions (%{count})
     model:
       invalid_json: json invalide
       to_s: job_context#%{id}
@@ -2027,8 +1927,6 @@ fr:
       delete_all: supprimer tout
       description: consulter les exécutions échouées et erreurs.
       destroy_all: détruire tout
-      job_contexts: contextes de tâches (%{count})
-      logs: logs (%{count})
       new: nouvelle exécution de tâche échouée
       title: exécutions de tâches échouées
     model:
@@ -2073,7 +1971,6 @@ fr:
       delete_all: supprimer tout
       description: gérer les files d'attente en pause.
       destroy_all: détruire tout
-      logs: logs (%{count})
       new: nouvelle pause de tâche
       title: pauses de tâches
     model:
@@ -2114,10 +2011,6 @@ fr:
       delete_all: supprimer tout
       description: surveiller les processus et workers.
       destroy_all: détruire tout
-      job_claimed_executions: exécutions de tâches revendiquées (%{count})
-      job_contexts: contextes de tâches (%{count})
-      job_processes: processus de tâches (%{count})
-      logs: logs (%{count})
       new: nouveau processus de tâche
       title: processus de tâches
     model:
@@ -2168,8 +2061,6 @@ fr:
       delete_all: supprimer tout
       description: consulter les tâches prêtes à exécuter.
       destroy_all: détruire tout
-      job_contexts: contextes de tâches (%{count})
-      logs: logs (%{count})
       new: nouvelle exécution de tâche prête
       title: exécutions de tâches prêtes
     model:
@@ -2214,8 +2105,6 @@ fr:
       delete_all: supprimer tout
       description: consulter les exécutions récurrentes.
       destroy_all: détruire tout
-      job_contexts: contextes de tâches (%{count})
-      logs: logs (%{count})
       new: nouvelle exécution récurrente de tâche
       title: exécutions récurrentes de tâches
     model:
@@ -2260,9 +2149,6 @@ fr:
       delete_all: supprimer tout
       description: gérer les tâches récurrentes.
       destroy_all: détruire tout
-      job_contexts: contextes de tâches (%{count})
-      job_recurring_executions: exécutions récurrentes de tâches (%{count})
-      logs: logs (%{count})
       new: nouvelle tâche récurrente
       title: tâches récurrentes
     model:
@@ -2313,8 +2199,6 @@ fr:
       delete_all: supprimer tout
       description: consulter les tâches planifiées.
       destroy_all: détruire tout
-      job_contexts: contextes de tâches (%{count})
-      logs: logs (%{count})
       new: nouvelle exécution de tâche programmée
       title: exécutions de tâches programmées
     model:
@@ -2360,7 +2244,6 @@ fr:
       delete_all: supprimer tout
       description: gérer les sémaphores et clés de concurrence.
       destroy_all: détruire tout
-      logs: logs (%{count})
       new: nouveau sémaphore de tâche
       title: sémaphores de tâches
     model:
@@ -2409,61 +2292,6 @@ fr:
       description: parcourir les tâches en file et exécutées.
       destroy_all: détruire tout
       discard_all: abandonner tout
-      error_occurrences: occurences d'erreur (%{count})
-      errors: erreurs (%{count})
-      job_batch_executions:
-        one: 1 exécution de lot de tâche
-        other: "%{count} exécutions de lots de tâches"
-        zero: 0 exécutions de lots de tâches
-      job_batches:
-        one: 1 lot de tâches
-        other: "%{count} lots de tâches"
-        zero: 0 lots de tâches
-      job_blocked_executions:
-        one: 1 exécution de tâche bloquée
-        other: "%{count} exécutions de tâches bloquées"
-        zero: 0 exécutions de tâches bloquées
-      job_claimed_executions:
-        one: 1 exécution de tâche revendiquée
-        other: "%{count} exécutions de tâches revendiquées"
-        zero: 0 exécutions de tâches revendiquées
-      job_contexts:
-        one: 1 contexte de tâche
-        other: "%{count} contextes de tâches"
-        zero: 0 contextes de tâches
-      job_failed_executions:
-        one: 1 exécution de tâche échouée
-        other: "%{count} exécutions de tâches échouées"
-        zero: 0 exécutions de tâches échouées
-      job_pauses:
-        one: 1 pause de tâche
-        other: "%{count} pauses de tâches"
-        zero: 0 pauses de tâches
-      job_processes:
-        one: 1 processus de tâche
-        other: "%{count} processus de tâches"
-        zero: 0 processus de tâches
-      job_ready_executions:
-        one: 1 exécution de tâche prête
-        other: "%{count} exécutions de tâches prêtes"
-        zero: 0 exécutions de tâches prêtes
-      job_recurring_executions:
-        one: 1 exécution récurrente de tâche
-        other: "%{count} exécutions récurrentes de tâches"
-        zero: 0 exécutions récurrentes de tâches
-      job_recurring_tasks:
-        one: 1 tâche récurrente
-        other: "%{count} tâches récurrentes"
-        zero: 0 tâches récurrentes
-      job_scheduled_executions:
-        one: 1 exécution de tâche programmée
-        other: "%{count} exécutions de tâches programmées"
-        zero: 0 exécutions de tâches programmées
-      job_semaphores:
-        one: 1 sémaphore de tâche
-        other: "%{count} sémaphores de tâches"
-        zero: 0 sémaphores de tâches
-      logs: logs (%{count})
       new: nouvelle tâche
       retry_all: réessayer tout
       title: tâches
@@ -2639,10 +2467,8 @@ fr:
       delete_all: supprimer tout
       description: gérer les liens de navigation, de menu et d'onglets.
       destroy_all: détruire tout
-      logs: logs (%{count})
       new: nouveau lien
       title: liens
-      versions: versions (%{count})
     model:
       to_s: lien#%{id}
     new:
@@ -2687,7 +2513,6 @@ fr:
       destroy_all: détruire tout
       new: nouveau log
       title: logs
-      versions: versions (%{count})
     model:
       invalid_json: json invalide
       to_s: log#%{id}
@@ -2731,14 +2556,8 @@ fr:
       delete_all: supprimer tout
       description: parcourir les messages programmés et envoyés.
       destroy_all: détruire tout
-      error_occurrences: occurences d'erreur (%{count})
-      errors: erreurs (%{count})
-      job_contexts: contextes de tâches (%{count})
-      jobs: tâches (%{count})
-      logs: logs (%{count})
       new: nouveau message
       title: messages
-      versions: versions (%{count})
     model:
       to_s: message#%{id}
     new:
@@ -2792,14 +2611,8 @@ fr:
       delete_all: supprimer tout
       description: gérer les noms d'utilisateur et la vérification.
       destroy_all: détruire tout
-      error_occurrences: occurences d'erreur (%{count})
-      errors: erreurs (%{count})
-      job_contexts: contextes de tâches (%{count})
-      jobs: tâches (%{count})
-      logs: logs (%{count})
       new: nouveau nom
       title: noms
-      versions: versions (%{count})
     model:
       to_s: nom#%{id}
     new:
@@ -2849,11 +2662,8 @@ fr:
       delete_all: supprimer tout
       description: gérer les pages publiques.
       destroy_all: détruire tout
-      logs: logs (%{count})
       new: nouvelle page
-      pages: pages (%{count})
       title: pages
-      versions: versions (%{count})
     model:
       to_s: page#%{id}
     new:
@@ -2919,14 +2729,8 @@ fr:
       delete_all: supprimer tout
       description: gérer les mots de passe enregistrés.
       destroy_all: détruire tout
-      error_occurrences: occurences d'erreur (%{count})
-      errors: erreurs (%{count})
-      job_contexts: contextes de tâches (%{count})
-      jobs: tâches (%{count})
-      logs: logs (%{count})
       new: nouveau mot de passe
       title: mots de passe
-      versions: versions (%{count})
     model:
       to_s: mot de passe#%{id}
     nested:
@@ -2982,14 +2786,8 @@ fr:
       delete_all: supprimer tout
       description: gérer les numéros de téléphone et la vérification.
       destroy_all: détruire tout
-      error_occurrences: occurences d'erreur (%{count})
-      errors: erreurs (%{count})
-      job_contexts: contextes de tâches (%{count})
-      jobs: tâches (%{count})
-      logs: logs (%{count})
       new: nouveau numéro de téléphone
       title: numéros de téléphone
-      versions: versions (%{count})
     model:
       to_s: numéro_de_téléphone#%{id}
     nested:
@@ -3042,10 +2840,8 @@ fr:
       delete_all: tout supprimer
       description: gérer les champs du schéma d’offre.
       destroy_all: tout détruire
-      logs: logs (%{count})
       new: nouveau champ d’offre
       title: champs d’offre
-      versions: versions (%{count})
     model:
       to_s: champ_offre#%{id}
     nested:
@@ -3090,10 +2886,8 @@ fr:
     index:
       delete_all: tout supprimer
       destroy_all: tout détruire
-      logs: logs (%{count})
       new: nouvelle planification
       title: planifications des offres
-      versions: versions (%{count})
     model:
       to_s: plan_schedule#%{id}
     nested:
@@ -3135,28 +2929,9 @@ fr:
       title: modifier l'offre
     index:
       delete_all: tout supprimer
-      deliveries: livraisons (%{count})
-      delivery_destinations: destinations de livraison (%{count})
       destroy_all: tout détruire
-      logs: logs (%{count})
       new: nouvelle offre
-      plan_fields: champs d’offre (%{count})
-      plan_schedules:
-        one: "%{count} planification d'offre"
-        other: "%{count} planifications d'offres"
-        zero: "%{count} planifications d'offres"
-      step_executions: exécutions d'étape (%{count})
-      steps: étapes (%{count})
-      stripe_invoices: factures stripe (%{count})
-      subscription_destinations: destinations d’abonnement (%{count})
-      subscription_executions: exécutions d'abonnement (%{count})
-      subscription_values: valeurs d'abonnement (%{count})
-      subscriptions:
-        one: "%{count} abonnement"
-        other: "%{count} abonnements"
-        zero: "%{count} abonnements"
       title: offres
-      versions: versions (%{count})
     model:
       pricing_invalid: le tarif doit retourner amount_cents et amount_currency
       pricing_missing: le tarif n'est pas configuré
@@ -3226,14 +3001,8 @@ fr:
       delete_all: supprimer tout
       description: consulter les exécutions de programme et résultats.
       destroy_all: détruire tout
-      error_occurrences: occurences d'erreur (%{count})
-      errors: erreurs (%{count})
-      job_contexts: contextes de tâches (%{count})
-      jobs: tâches (%{count})
-      logs: logs (%{count})
       new: nouvelle exécution de programme
       title: exécutions de programmes
-      versions: versions (%{count})
     model:
       statuses:
         created: créé
@@ -3294,14 +3063,8 @@ fr:
       delete_all: supprimer tout
       description: gérer les horaires de programmes.
       destroy_all: détruire tout
-      error_occurrences: occurences d'erreur (%{count})
-      errors: erreurs (%{count})
-      job_contexts: contextes de tâches (%{count})
-      jobs: tâches (%{count})
-      logs: logs (%{count})
       new: nouvelle horaire de programmes
       title: horaires de programmes
-      versions: versions (%{count})
     model:
       days:
         one: 1 jour
@@ -3437,25 +3200,11 @@ fr:
       delete_all: supprimer tout
       description: parcourir les programmes et leurs exécutions.
       destroy_all: détruire tout
-      error_occurrences: occurences d'erreur (%{count})
-      errors: erreurs (%{count})
       format_all: formater tout
-      job_contexts: contextes de tâches (%{count})
-      jobs: tâches (%{count})
-      logs: logs (%{count})
       new: nouveau programme
-      program_executions:
-        one: 1 exécution de programme
-        other: "%{count} exécutions de programme"
-        zero: 0 exécutions de programme
-      program_schedules:
-        one: 1 horaire de programmes
-        other: "%{count} horaires de programmes"
-        zero: 0 horaires de programmes
       schedule_all: programmer tout
       title: programmes
       unschedule_all: déprogrammer tout
-      versions: versions (%{count})
     model:
       to_s: programme#%{id}
     new:
@@ -3527,10 +3276,8 @@ fr:
       delete_all: tout supprimer
       description: gérer les champs du schéma de service.
       destroy_all: tout détruire
-      logs: logs (%{count})
       new: nouveau champ de service
       title: champs de service
-      versions: versions (%{count})
     model:
       to_s: champ_service#%{id}
     nested:
@@ -3574,45 +3321,9 @@ fr:
       title: modifier le service
     index:
       delete_all: tout supprimer
-      deliveries: livraisons (%{count})
-      delivery_destinations: destinations de livraison (%{count})
       destroy_all: tout détruire
-      logs: logs (%{count})
       new: nouveau service
-      plan_fields:
-        one: "%{count} champ d’offre"
-        other: "%{count} champs d’offre"
-        zero: "%{count} champs d’offre"
-      plan_schedules: planifications des offres (%{count})
-      plans:
-        one: "%{count} offre"
-        other: "%{count} offres"
-        zero: "%{count} offres"
-      service_fields:
-        one: "%{count} champ de service"
-        other: "%{count} champs de service"
-        zero: "%{count} champs de service"
-      step_executions:
-        one: "%{count} exécution d'étape"
-        other: "%{count} exécutions d'étape"
-        zero: "%{count} exécutions d'étape"
-      steps:
-        one: "%{count} étape"
-        other: "%{count} étapes"
-        zero: "%{count} étapes"
-      stripe_invoices: factures stripe (%{count})
-      subscription_destinations: destinations d’abonnement (%{count})
-      subscription_executions:
-        one: "%{count} exécution d'abonnement"
-        other: "%{count} exécutions d'abonnement"
-        zero: "%{count} exécutions d'abonnement"
-      subscription_values: valeurs d'abonnement (%{count})
-      subscriptions:
-        one: "%{count} abonnement"
-        other: "%{count} abonnements"
-        zero: "%{count} abonnements"
       title: services
-      versions: versions (%{count})
     model:
       to_s: service#%{id}
     new:
@@ -3748,7 +3459,6 @@ fr:
       delete_all: supprimer tout
       description: consulter les sessions actives et l'historique.
       destroy_all: détruire tout
-      logs: logs (%{count})
       new: nouvelle session
       title: sessions
     model:
@@ -3779,6 +3489,211 @@ fr:
       modal_cancel: non
       modal_confirm: oui
       modal_title: êtes-vous sûr?
+    count:
+      addresses:
+        one: "%{count} adresse"
+        other: "%{count} adresses"
+        zero: "%{count} adresses"
+      connections:
+        one: "%{count} connexion"
+        other: "%{count} connexions"
+        zero: "%{count} connexions"
+      countries:
+        one: "%{count} pays"
+        other: "%{count} pays"
+        zero: "%{count} pays"
+      data:
+        one: "%{count} donnée"
+        other: "%{count} données"
+        zero: "%{count} données"
+      deliveries:
+        one: "%{count} livraison"
+        other: "%{count} livraisons"
+        zero: "%{count} livraisons"
+      delivery_channels:
+        one: "%{count} canal de livraison"
+        other: "%{count} canaux de livraison"
+        zero: "%{count} canaux de livraison"
+      delivery_destinations:
+        one: "%{count} destination de livraison"
+        other: "%{count} destinations de livraison"
+        zero: "%{count} destinations de livraison"
+      devices:
+        one: "%{count} appareil"
+        other: "%{count} appareils"
+        zero: "%{count} appareils"
+      email_addresses:
+        one: "%{count} adresse e-mail"
+        other: "%{count} adresses e-mail"
+        zero: "%{count} adresses e-mail"
+      error_occurrences:
+        one: "%{count} occurrence d'erreur"
+        other: "%{count} occurrences d'erreur"
+        zero: "%{count} occurrences d'erreur"
+      errors:
+        one: "%{count} erreur"
+        other: "%{count} erreurs"
+        zero: "%{count} erreurs"
+      handles:
+        one: "%{count} identifiant"
+        other: "%{count} identifiants"
+        zero: "%{count} identifiants"
+      job_batch_executions:
+        one: "%{count} exécution de lot de tâches"
+        other: "%{count} exécutions de lots de tâches"
+        zero: "%{count} exécutions de lots de tâches"
+      job_batches:
+        one: "%{count} lot de tâches"
+        other: "%{count} lots de tâches"
+        zero: "%{count} lots de tâches"
+      job_blocked_executions:
+        one: "%{count} exécution de tâche bloquée"
+        other: "%{count} exécutions de tâches bloquées"
+        zero: "%{count} exécutions de tâches bloquées"
+      job_claimed_executions:
+        one: "%{count} exécution de tâche revendiquée"
+        other: "%{count} exécutions de tâches revendiquées"
+        zero: "%{count} exécutions de tâches revendiquées"
+      job_contexts:
+        one: "%{count} contexte de tâche"
+        other: "%{count} contextes de tâches"
+        zero: "%{count} contextes de tâches"
+      job_failed_executions:
+        one: "%{count} exécution de tâche échouée"
+        other: "%{count} exécutions de tâches échouées"
+        zero: "%{count} exécutions de tâches échouées"
+      job_pauses:
+        one: "%{count} pause de tâche"
+        other: "%{count} pauses de tâches"
+        zero: "%{count} pauses de tâches"
+      job_processes:
+        one: "%{count} processus de tâche"
+        other: "%{count} processus de tâches"
+        zero: "%{count} processus de tâches"
+      job_ready_executions:
+        one: "%{count} exécution de tâche prête"
+        other: "%{count} exécutions de tâches prêtes"
+        zero: "%{count} exécutions de tâches prêtes"
+      job_recurring_executions:
+        one: "%{count} exécution récurrente de tâche"
+        other: "%{count} exécutions récurrentes de tâches"
+        zero: "%{count} exécutions récurrentes de tâches"
+      job_recurring_tasks:
+        one: "%{count} tâche récurrente"
+        other: "%{count} tâches récurrentes"
+        zero: "%{count} tâches récurrentes"
+      job_scheduled_executions:
+        one: "%{count} exécution de tâche programmée"
+        other: "%{count} exécutions de tâches programmées"
+        zero: "%{count} exécutions de tâches programmées"
+      job_semaphores:
+        one: "%{count} sémaphore de tâche"
+        other: "%{count} sémaphores de tâches"
+        zero: "%{count} sémaphores de tâches"
+      jobs:
+        one: "%{count} tâche"
+        other: "%{count} tâches"
+        zero: "%{count} tâches"
+      logs:
+        one: "%{count} log"
+        other: "%{count} logs"
+        zero: "%{count} logs"
+      messages:
+        one: "%{count} message"
+        other: "%{count} messages"
+        zero: "%{count} messages"
+      names:
+        one: "%{count} nom"
+        other: "%{count} noms"
+        zero: "%{count} noms"
+      pages:
+        one: "%{count} page"
+        other: "%{count} pages"
+        zero: "%{count} pages"
+      passwords:
+        one: "%{count} mot de passe"
+        other: "%{count} mots de passe"
+        zero: "%{count} mots de passe"
+      phone_numbers:
+        one: "%{count} numéro de téléphone"
+        other: "%{count} numéros de téléphone"
+        zero: "%{count} numéros de téléphone"
+      plan_fields:
+        one: "%{count} champ d'offre"
+        other: "%{count} champs d'offre"
+        zero: "%{count} champs d'offre"
+      plan_schedules:
+        one: "%{count} planification d'offre"
+        other: "%{count} planifications d'offres"
+        zero: "%{count} planifications d'offres"
+      plans:
+        one: "%{count} offre"
+        other: "%{count} offres"
+        zero: "%{count} offres"
+      program_executions:
+        one: "%{count} exécution de programme"
+        other: "%{count} exécutions de programmes"
+        zero: "%{count} exécutions de programmes"
+      program_schedules:
+        one: "%{count} horaire de programme"
+        other: "%{count} horaires de programmes"
+        zero: "%{count} horaires de programmes"
+      programs:
+        one: "%{count} programme"
+        other: "%{count} programmes"
+        zero: "%{count} programmes"
+      service_fields:
+        one: "%{count} champ de service"
+        other: "%{count} champs de service"
+        zero: "%{count} champs de service"
+      services:
+        one: "%{count} service"
+        other: "%{count} services"
+        zero: "%{count} services"
+      sessions:
+        one: "%{count} session"
+        other: "%{count} sessions"
+        zero: "%{count} sessions"
+      step_executions:
+        one: "%{count} exécution d'étape"
+        other: "%{count} exécutions d'étapes"
+        zero: "%{count} exécutions d'étapes"
+      steps:
+        one: "%{count} étape"
+        other: "%{count} étapes"
+        zero: "%{count} étapes"
+      stripe_invoices:
+        one: "%{count} facture stripe"
+        other: "%{count} factures stripe"
+        zero: "%{count} factures stripe"
+      subscription_destinations:
+        one: "%{count} destination d'abonnement"
+        other: "%{count} destinations d'abonnement"
+        zero: "%{count} destinations d'abonnement"
+      subscription_executions:
+        one: "%{count} exécution d'abonnement"
+        other: "%{count} exécutions d'abonnements"
+        zero: "%{count} exécutions d'abonnements"
+      subscription_values:
+        one: "%{count} valeur d'abonnement"
+        other: "%{count} valeurs d'abonnement"
+        zero: "%{count} valeurs d'abonnement"
+      subscriptions:
+        one: "%{count} abonnement"
+        other: "%{count} abonnements"
+        zero: "%{count} abonnements"
+      time_zones:
+        one: "%{count} fuseau horaire"
+        other: "%{count} fuseaux horaires"
+        zero: "%{count} fuseaux horaires"
+      tokens:
+        one: "%{count} jeton"
+        other: "%{count} jetons"
+        zero: "%{count} jetons"
+      versions:
+        one: "%{count} version"
+        other: "%{count} versions"
+        zero: "%{count} versions"
     filter:
       address: adresse
       all: tous
@@ -3940,13 +3855,9 @@ fr:
       title: modifier l'exécution
     index:
       delete_all: tout supprimer
-      deliveries: livraisons (%{count})
       destroy_all: tout détruire
-      jobs: tâches (%{count})
-      logs: logs (%{count})
       new: nouvelle exécution
       title: exécutions d'étape
-      versions: versions (%{count})
     model:
       statuses:
         done: terminé
@@ -4003,18 +3914,10 @@ fr:
       notice: étapes formatées
     index:
       delete_all: tout supprimer
-      deliveries: livraisons (%{count})
       destroy_all: tout détruire
       format_all: tout formater
-      jobs: tâches (%{count})
-      logs: logs (%{count})
       new: nouvelle étape
-      step_executions:
-        one: "%{count} exécution d'étape"
-        other: "%{count} exécutions d'étape"
-        zero: "%{count} exécutions d'étape"
       title: étapes
-      versions: versions (%{count})
     model:
       to_s: step#%{id}
     new:
@@ -4066,10 +3969,8 @@ fr:
       delete_all: tout supprimer
       description: consulter et gérer les événements webhook stripe archivés.
       destroy_all: tout détruire
-      logs: logs (%{count})
       new: nouvel événement stripe
       title: événements stripe
-      versions: versions (%{count})
     model:
       invalid_json: json invalide
       to_s: événement stripe n°%{id}
@@ -4117,10 +4018,8 @@ fr:
       delete_all: tout supprimer
       description: consulter et gérer les factures stripe archivées localement.
       destroy_all: tout détruire
-      logs: logs (%{count})
       new: nouvelle facture stripe
       title: factures stripe
-      versions: versions (%{count})
     model:
       to_s: facture stripe n°%{id}
     new:
@@ -4208,10 +4107,8 @@ fr:
       delete_all: 'supprimer : destinations d’abonnement'
       description: destinations d’abonnement
       destroy_all: 'détruire : destinations d’abonnement'
-      logs: logs (%{count})
       new: 'ajouter : destination d’abonnement'
       title: destinations d’abonnement
-      versions: versions (%{count})
     model:
       to_s: "#%{id}"
     new:
@@ -4254,17 +4151,9 @@ fr:
       title: modifier l'exécution
     index:
       delete_all: tout supprimer
-      deliveries: livraisons (%{count})
       destroy_all: tout détruire
-      jobs: tâches (%{count})
-      logs: logs (%{count})
       new: nouvelle exécution
-      step_executions:
-        one: "%{count} exécution d'étape"
-        other: "%{count} exécutions d'étape"
-        zero: "%{count} exécutions d'étape"
       title: exécutions d'abonnement
-      versions: versions (%{count})
     model:
       statuses:
         done: terminé
@@ -4315,10 +4204,8 @@ fr:
     index:
       delete_all: tout supprimer
       destroy_all: tout détruire
-      logs: logs (%{count})
       new: nouvelle valeur d'abonnement
       title: valeurs d'abonnement
-      versions: versions (%{count})
     model:
       to_s: valeur_abonnement#%{id}
     new:
@@ -4372,21 +4259,8 @@ fr:
       notice: évaluation de l'abonnement mise en file d'attente
     index:
       delete_all: tout supprimer
-      deliveries: livraisons (%{count})
-      delivery_destinations: destinations de livraison (%{count})
       destroy_all: tout détruire
-      jobs: tâches (%{count})
-      logs: logs (%{count})
-      step_executions: exécutions d'étape (%{count})
-      stripe_invoices: factures stripe (%{count})
-      subscription_destinations: destinations d’abonnement (%{count})
-      subscription_executions:
-        one: "%{count} exécution d'abonnement"
-        other: "%{count} exécutions d'abonnement"
-        zero: "%{count} exécutions d'abonnement"
-      subscription_values: valeurs d'abonnement (%{count})
       title: abonnements
-      versions: versions (%{count})
     model:
       statuses:
         active: actif
@@ -4462,14 +4336,8 @@ fr:
       delete_all: supprimer tout
       description: gérer les fuseaux horaires et la vérification.
       destroy_all: détruire tout
-      error_occurrences: occurences d'erreur (%{count})
-      errors: erreurs (%{count})
-      job_contexts: contextes de tâches (%{count})
-      jobs: tâches (%{count})
-      logs: logs (%{count})
       new: nouveau fuseau horaire
       title: fuseaux horaires
-      versions: versions (%{count})
     model:
       to_s: fuseau horaire#%{id}
     new:
@@ -4518,14 +4386,8 @@ fr:
       delete_all: supprimer tout
       description: gérer les jetons d'accès et la vérification.
       destroy_all: détruire tout
-      error_occurrences: occurences d'erreur (%{count})
-      errors: erreurs (%{count})
-      job_contexts: contextes de tâches (%{count})
-      jobs: tâches (%{count})
-      logs: logs (%{count})
       new: nouveau jeton
       title: jetons
-      versions: versions (%{count})
     model:
       to_s: jeton#%{id}
     new:
@@ -4573,50 +4435,11 @@ fr:
     impersonate:
       notice: utilisateur usurpé
     index:
-      addresses: adresses (%{count})
-      connections: connexions (%{count})
-      countries: pays (%{count})
-      data: données (%{count})
       delete_all: supprimer tout
-      deliveries: livraisons (%{count})
-      delivery_channels: canaux de livraison (%{count})
-      delivery_destinations: destinations de livraison (%{count})
       description: parcourir les comptes utilisateurs et statut admin.
       destroy_all: détruire tout
-      devices: appareils (%{count})
-      email_addresses: adresses e-mail (%{count})
-      error_occurrences: occurences d'erreur (%{count})
-      errors: erreurs (%{count})
-      handles: identifiants (%{count})
-      job_contexts: contextes de tâches (%{count})
-      jobs: tâches (%{count})
-      logs: logs (%{count})
-      messages: messages (%{count})
-      names: noms (%{count})
       new: nouvel utilisateur
-      pages: pages (%{count})
-      passwords: mots de passe (%{count})
-      phone_numbers: numéros de téléphone (%{count})
-      plan_fields: champs d’offre (%{count})
-      plan_schedules: planifications des offres (%{count})
-      plans: offres (%{count})
-      program_executions: exécutions de programmes (%{count})
-      program_schedules: horaires de programmes (%{count})
-      programs: programmes (%{count})
-      service_fields: champs de service (%{count})
-      services: services (%{count})
-      sessions: sessions (%{count})
-      step_executions: exécutions d'étape (%{count})
-      steps: étapes (%{count})
-      stripe_invoices: factures stripe (%{count})
-      subscription_destinations: destinations d’abonnement (%{count})
-      subscription_executions: exécutions d'abonnement (%{count})
-      subscription_values: valeurs d'abonnement (%{count})
-      subscriptions: abonnements (%{count})
-      time_zones: fuseaux horaires (%{count})
       title: utilisateurs
-      tokens: jetons (%{count})
-      versions: versions (%{count})
     model:
       interfaces:
         advanced: avancée
@@ -4704,7 +4527,6 @@ fr:
       delete_all: supprimer tout
       description: consulter l'historique des changements.
       destroy_all: détruire tout
-      logs: logs (%{count})
       new: nouvelle version
       title: versions
     model:

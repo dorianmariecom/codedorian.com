@@ -2,103 +2,93 @@
 
 <% if can?(:index, Job) %>
   <% records = policy_scope(Job) %>
-  <div class="p">
-    <%= link_to(
-      t(".jobs", count: records.distinct.count),
-      { controller: :jobs, action: :index }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "jobs",
+    url: { controller: :jobs, action: :index }.compact
+  ) %>
 <% end %>
 <% if can?(:index, JobBatchExecution) %>
   <% records = policy_scope(JobBatchExecution) %>
-  <div class="p">
-    <%= link_to(
-      t(".job_batch_executions", count: records.distinct.count),
-      { controller: :job_batch_executions, action: :index }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "job_batch_executions",
+    url: { controller: :job_batch_executions, action: :index }.compact
+  ) %>
 <% end %>
 <% if can?(:index, JobContext) %>
   <% records = policy_scope(JobContext) %>
-  <div class="p">
-    <%= link_to(
-      t(".job_contexts", count: records.distinct.count),
-      { controller: :job_contexts, action: :index }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "job_contexts",
+    url: { controller: :job_contexts, action: :index }.compact
+  ) %>
 <% end %>
 <% if can?(:index, JobReadyExecution) %>
   <% records = policy_scope(JobReadyExecution) %>
-  <div class="p">
-    <%= link_to(
-      t(".job_ready_executions", count: records.distinct.count),
-      { controller: :job_ready_executions, action: :index }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "job_ready_executions",
+    url: { controller: :job_ready_executions, action: :index }.compact
+  ) %>
 <% end %>
 <% if can?(:index, JobFailedExecution) %>
   <% records = policy_scope(JobFailedExecution) %>
-  <div class="p">
-    <%= link_to(
-      t(".job_failed_executions", count: records.distinct.count),
-      { controller: :job_failed_executions, action: :index }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "job_failed_executions",
+    url: { controller: :job_failed_executions, action: :index }.compact
+  ) %>
 <% end %>
 <% if can?(:index, JobScheduledExecution) %>
   <% records = policy_scope(JobScheduledExecution) %>
-  <div class="p">
-    <%= link_to(
-      t(".job_scheduled_executions", count: records.distinct.count),
-      { controller: :job_scheduled_executions, action: :index }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "job_scheduled_executions",
+    url: { controller: :job_scheduled_executions, action: :index }.compact
+  ) %>
 <% end %>
 <% if can?(:index, JobBlockedExecution) %>
   <% records = policy_scope(JobBlockedExecution) %>
-  <div class="p">
-    <%= link_to(
-      t(".job_blocked_executions", count: records.distinct.count),
-      { controller: :job_blocked_executions, action: :index }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "job_blocked_executions",
+    url: { controller: :job_blocked_executions, action: :index }.compact
+  ) %>
 <% end %>
 <% if can?(:index, JobClaimedExecution) %>
   <% records = policy_scope(JobClaimedExecution) %>
-  <div class="p">
-    <%= link_to(
-      t(".job_claimed_executions", count: records.distinct.count),
-      { controller: :job_claimed_executions, action: :index }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "job_claimed_executions",
+    url: { controller: :job_claimed_executions, action: :index }.compact
+  ) %>
 <% end %>
 <% if can?(:index, JobRecurringExecution) %>
   <% records = policy_scope(JobRecurringExecution) %>
-  <div class="p">
-    <%= link_to(
-      t(".job_recurring_executions", count: records.distinct.count),
-      { controller: :job_recurring_executions, action: :index }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "job_recurring_executions",
+    url: { controller: :job_recurring_executions, action: :index }.compact
+  ) %>
 <% end %>
 <% if can?(:index, Log) %>
   <% records = policy_scope(Log) %>
-  <div class="p">
-    <%= link_to(
-      t(".logs", count: records.distinct.count),
-      { controller: :logs, action: :index }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "logs",
+    url: { controller: :logs, action: :index }.compact
+  ) %>
 <% end %>
 
 <% if can?(:create, JobBatch) %>

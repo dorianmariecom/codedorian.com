@@ -446,7 +446,7 @@ class ApplicationController < ActionController::Base
   end
 
   def searched_policy_scope(model)
-    policy_scope(model).search(q: q)
+    q.present? ? policy_scope(model).search(q: q) : policy_scope(model)
   end
 
   def q

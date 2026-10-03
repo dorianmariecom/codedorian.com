@@ -335,6 +335,8 @@ module ControllerSmokeHelper
       case action.to_s
       when "not_found"
         allowed << 404
+      when "not_acceptable"
+        allowed << 406
       when "unprocessable_entity"
         allowed << 422
       when "internal_server_error"

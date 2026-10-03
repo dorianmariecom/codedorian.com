@@ -16,12 +16,14 @@ class CleaningJob < ContextJob
     obsolete(ProgramExecution, :program_id).delete_all
 
     Guest.expired.delete_all
+    Session.expired_guests.delete_all
+    JobContext.where.missing(:job).delete_all
 
     cutoff = RETENTION_PERIOD.ago
 
-    [Version, Log, JobContext, SolidCableMessage].each do |model|
-      model.where(created_at: ...cutoff).limit(BATCH_SIZE).delete_all
-    end
+    Version.where(created_at: ...cutoff).delete_all
+    Log.where(created_at: ...cutoff).delete_all
+    SolidCableMessage.where(created_at: ...cutoff).delete_all
   end
 
   private

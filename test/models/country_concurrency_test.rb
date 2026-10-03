@@ -14,10 +14,15 @@ class CountryConcurrencyTest < ActiveSupport::TestCase
                    .where_user(users(:other_user))
                    .where(ip_address: "203.0.113.80")
                    .count
-    assert_equal 1, Country.where_user(users(:other_user)).primary.count
+    assert_predicate(
+      Country.where_user(users(:other_user)).find_by!(
+        ip_address: "203.0.113.80"
+      ),
+      :primary?
+    )
   end
 
-  test "concurrent synchronization of different IPs keeps one primary country" do
+  test "concurrent synchronization of different IPs allows multiple primary countries" do
     synchronize_countries(%w[203.0.113.81 203.0.113.82])
 
     assert_equal 2,
@@ -25,7 +30,12 @@ class CountryConcurrencyTest < ActiveSupport::TestCase
                    .where_user(users(:other_user))
                    .where(ip_address: %w[203.0.113.81 203.0.113.82])
                    .count
-    assert_equal 1, Country.where_user(users(:other_user)).primary.count
+    assert_equal 2,
+                 Country
+                   .where_user(users(:other_user))
+                   .where(ip_address: %w[203.0.113.81 203.0.113.82])
+                   .primary
+                   .count
   end
 
   private

@@ -9,20 +9,19 @@
     records = records.where_subscription(@subscription) if @subscription
     records = records.where_user(@user) if @user
   %>
-  <div class="p">
-    <%= link_to(
-      t(".step_executions", count: records.distinct.count),
-      {
-        controller: :step_executions,
-        action: :index,
-        plan_id: @plan&.id,
-        service_id: @service&.id,
-        subscription_id: @subscription&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "step_executions",
+    url: {
+      controller: :step_executions,
+      action: :index,
+      plan_id: @plan&.id,
+      service_id: @service&.id,
+      subscription_id: @subscription&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, Delivery) %>
   <%
@@ -32,20 +31,19 @@
     records = records.where_subscription(@subscription) if @subscription
     records = records.where_user(@user) if @user
   %>
-  <div class="p">
-    <%= link_to(
-      t(".deliveries", count: records.distinct.count),
-      {
-        controller: :deliveries,
-        action: :index,
-        plan_id: @plan&.id,
-        service_id: @service&.id,
-        subscription_id: @subscription&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "deliveries",
+    url: {
+      controller: :deliveries,
+      action: :index,
+      plan_id: @plan&.id,
+      service_id: @service&.id,
+      subscription_id: @subscription&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, Job) %>
   <%
@@ -53,18 +51,17 @@
     records = records.where_user(@user) if @user
     records = records.where_subscription(@subscription) if @subscription
   %>
-  <div class="p">
-    <%= link_to(
-      t(".jobs", count: records.distinct.count),
-      {
-        controller: :jobs,
-        action: :index,
-        subscription_id: @subscription&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "jobs",
+    url: {
+      controller: :jobs,
+      action: :index,
+      subscription_id: @subscription&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, Version) %>
   <%
@@ -74,20 +71,19 @@
     records = records.where_subscription(@subscription) if @subscription
     records = records.where_user(@user) if @user
   %>
-  <div class="p">
-    <%= link_to(
-      t(".versions", count: records.distinct.count),
-      {
-        controller: :versions,
-        action: :index,
-        plan_id: @plan&.id,
-        service_id: @service&.id,
-        subscription_id: @subscription&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "versions",
+    url: {
+      controller: :versions,
+      action: :index,
+      plan_id: @plan&.id,
+      service_id: @service&.id,
+      subscription_id: @subscription&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, Log) %>
   <%
@@ -97,20 +93,19 @@
     records = records.where_subscription(@subscription) if @subscription
     records = records.where_user(@user) if @user
   %>
-  <div class="p">
-    <%= link_to(
-      t(".logs", count: records.distinct.count),
-      {
-        controller: :logs,
-        action: :index,
-        plan_id: @plan&.id,
-        service_id: @service&.id,
-        subscription_id: @subscription&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "logs",
+    url: {
+      controller: :logs,
+      action: :index,
+      plan_id: @plan&.id,
+      service_id: @service&.id,
+      subscription_id: @subscription&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 
 <% if can?(:create, model_class) %>

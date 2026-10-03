@@ -1,8 +1,17 @@
 import { Controller } from "@hotwired/stimulus";
-import { highlightLexxyCode } from "lexxy-code";
 
 export default class extends Controller {
-  connect() {
+  async connect() {
+    if (
+      !this.element.querySelector(
+        "pre, code[data-language], code[data-highlight-language]",
+      )
+    )
+      return;
+
+    const { highlightLexxyCode } = await import("lexxy-code");
+    if (!this.element.isConnected) return;
+
     highlightLexxyCode(this.element);
   }
 }

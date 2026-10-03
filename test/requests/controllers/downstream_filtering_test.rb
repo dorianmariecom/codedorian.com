@@ -121,7 +121,7 @@ class DownstreamFilteringTest < ActionDispatch::IntegrationTest
     assert_response :success
     links = index_links("deliveries")
     assert_equal 1, links.size
-    assert_match(/\(1\)/, links.first.text)
+    assert_equal I18n.t("shared.count.deliveries", count: 1), links.first.text
     link = links.first["href"]
     assert_includes link, "service_id=#{@subscription.service.id}"
     assert_not_includes link, "search"
@@ -164,8 +164,10 @@ class DownstreamFilteringTest < ActionDispatch::IntegrationTest
     end
     get delivery_destinations_path(delivery_channel_id: @channel.id)
     assert_response :success
-    assert_match(/\(1\)/, index_links("deliveries").sole.text)
-    assert_match(/\(1\)/, index_links("subscription_destinations").sole.text)
+    assert_equal I18n.t("shared.count.deliveries", count: 1),
+                 index_links("deliveries").sole.text
+    assert_equal I18n.t("shared.count.subscription_destinations", count: 1),
+                 index_links("subscription_destinations").sole.text
     get delivery_channel_path(@channel)
     assert_response :success
     assert_select ".pagination"
@@ -174,7 +176,8 @@ class DownstreamFilteringTest < ActionDispatch::IntegrationTest
       DeliveryChannel.create!(key: "webhook", enabled: true, amount_cents: 0)
     get delivery_destinations_path(delivery_channel_id: empty_channel.id)
     assert_response :success
-    assert_match(/\(0\)/, index_links("deliveries").sole.text)
+    assert_equal I18n.t("shared.count.deliveries", count: 0),
+                 index_links("deliveries").sole.text
   end
 
   test "simple users do not see technical sections and cannot filter another user's records" do
@@ -250,7 +253,7 @@ class DownstreamFilteringTest < ActionDispatch::IntegrationTest
     assert_response :success
     links = index_links("jobs")
     assert_equal 1, links.size
-    assert_match(/\(1\)/, links.first.text)
+    assert_equal I18n.t("shared.count.jobs", count: 1), links.first.text
     get links.first["href"], headers: { "Accept" => "application/json" }
     assert_response :success
     assert_equal [job.id], response.parsed_body.fetch("data").pluck("id").uniq

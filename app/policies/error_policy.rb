@@ -35,6 +35,10 @@ class ErrorPolicy < ApplicationPolicy
     true
   end
 
+  def not_acceptable?
+    true
+  end
+
   def unprocessable_entity?
     true
   end

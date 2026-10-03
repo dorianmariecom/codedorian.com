@@ -15,6 +15,10 @@ class PagePolicy < ApplicationPolicy
     true
   end
 
+  def sitemap?
+    true
+  end
+
   def create?
     admin? && advanced?
   end

@@ -401,14 +401,8 @@ en:
       delete_all: delete all
       description: browse and manage saved addresses tied to users.
       destroy_all: destroy all
-      error_occurrences: error occurrences (%{count})
-      errors: errors (%{count})
-      job_contexts: job contexts (%{count})
-      jobs: jobs (%{count})
-      logs: logs (%{count})
       new: new address
       title: addresses
-      versions: versions (%{count})
     model:
       to_s: address#%{id}
     new:
@@ -496,6 +490,7 @@ en:
       index: errors
       internal_server_error: internal server error
       new: new
+      not_acceptable: not acceptable
       not_found: not found
       unprocessable_entity: unprocessable entity
     guests:
@@ -709,10 +704,8 @@ en:
       delete_all: delete all
       description: review and manage configuration entries and json content.
       destroy_all: destroy all
-      logs: logs (%{count})
       new: new configuration
       title: configurations
-      versions: versions (%{count})
     model:
       invalid_json: invalid json
       to_s: configuration#%{id}
@@ -763,17 +756,11 @@ en:
       calendar_access: allow read-only access to my calendars
       connect: connect %{provider}
       delete_all: delete all connections
-      deliveries: deliveries (%{count})
-      delivery_channels: delivery channels (%{count})
-      delivery_destinations: delivery destinations (%{count})
       description: connections
       destroy_all: destroy all connections
-      logs: logs (%{count})
       new: new connection
       server: mastodon server
-      subscription_destinations: subscription destinations (%{count})
       title: connections
-      versions: versions (%{count})
     model:
       providers:
         aws_ses: aws ses
@@ -866,10 +853,8 @@ en:
       delete_all: delete all
       description: manage countries and ip lookup data.
       destroy_all: destroy all
-      logs: logs (%{count})
       new: new country
       title: countries
-      versions: versions (%{count})
     model:
       to_s: country#%{id}
     new:
@@ -940,10 +925,8 @@ en:
       delete_all: delete all
       description: review country code ip entries and lookup data.
       destroy_all: destroy all
-      logs: logs (%{count})
       new: new country code ip address
       title: country code ip addresses
-      versions: versions (%{count})
     lookup:
       notice: country code ip address looked up
     model:
@@ -996,14 +979,8 @@ en:
       delete_all: delete all
       description: browse key-value data entries.
       destroy_all: destroy all
-      error_occurrences: error occurrences (%{count})
-      errors: errors (%{count})
-      job_contexts: job contexts (%{count})
-      jobs: jobs (%{count})
-      logs: logs (%{count})
       new: new datum
       title: data
-      versions: versions (%{count})
     model:
       invalid_json: invalid json
       to_s: datum#%{id}
@@ -1101,10 +1078,8 @@ en:
       delete_all: delete all deliveries
       description: deliveries
       destroy_all: destroy all deliveries
-      logs: logs (%{count})
       new: new delivery
       title: deliveries
-      versions: versions (%{count})
     model:
       statuses:
         accepted: accepted
@@ -1188,15 +1163,10 @@ en:
       public: public
     index:
       delete_all: delete all delivery channels
-      deliveries: deliveries (%{count})
-      delivery_destinations: delivery destinations (%{count})
       description: delivery channels
       destroy_all: destroy all delivery channels
-      logs: logs (%{count})
       new: new delivery channel
-      subscription_destinations: subscription destinations (%{count})
       title: delivery channels
-      versions: versions (%{count})
     model:
       keys:
         apple: apple messages for business
@@ -1288,14 +1258,10 @@ en:
       visibility: visibility
     index:
       delete_all: delete all delivery destinations
-      deliveries: deliveries (%{count})
       description: delivery destinations
       destroy_all: destroy all delivery destinations
-      logs: logs (%{count})
       new: new delivery destination
-      subscription_destinations: subscription destinations (%{count})
       title: delivery destinations
-      versions: versions (%{count})
     model:
       to_s: "#%{id}"
     new:
@@ -1353,14 +1319,8 @@ en:
       delete_all: delete all
       description: manage registered devices and platforms.
       destroy_all: destroy all
-      error_occurrences: error occurrences (%{count})
-      errors: errors (%{count})
-      job_contexts: job contexts (%{count})
-      jobs: jobs (%{count})
-      logs: logs (%{count})
       new: new device
       title: devices
-      versions: versions (%{count})
     model:
       to_s: device#%{id}
     new:
@@ -1416,14 +1376,8 @@ en:
       delete_all: delete all
       description: manage user email addresses and verification status.
       destroy_all: destroy all
-      error_occurrences: error occurrences (%{count})
-      errors: errors (%{count})
-      job_contexts: job contexts (%{count})
-      jobs: jobs (%{count})
-      logs: logs (%{count})
       new: new email address
       title: email addresses
-      versions: versions (%{count})
     model:
       to_s: email_address#%{id}
     nested:
@@ -1495,9 +1449,6 @@ en:
       delete_all: delete all
       description: review error occurrences and their context.
       destroy_all: destroy all
-      job_contexts: job contexts (%{count})
-      jobs: jobs (%{count})
-      logs: logs (%{count})
       new: new error occurrence
       title: error occurrences
     model:
@@ -1545,13 +1496,6 @@ en:
       delete_all: delete all
       description: browse errors, severity, and occurrence counts.
       destroy_all: destroy all
-      error_occurrences:
-        one: 1 error occurrence
-        other: "%{count} error occurrences"
-        zero: 0 error occurrences
-      job_contexts: job contexts (%{count})
-      jobs: jobs (%{count})
-      logs: logs (%{count})
       new: new error
       title: errors
     internal_server_error:
@@ -1563,6 +1507,9 @@ en:
       description: create an error record for tracking.
       submit: create error
       title: new error
+    not_acceptable:
+      description: the requested response format is not supported.
+      title: not acceptable
     not_found:
       description: the page you requested could not be found.
       title: not found
@@ -1608,31 +1555,11 @@ en:
       submit: update guest
       title: edit guest
     index:
-      addresses: addresses (%{count})
-      data: data (%{count})
       delete_all: delete all
       description: manage guest accounts and access.
       destroy_all: destroy all
-      devices: devices (%{count})
-      email_addresses: email addresses (%{count})
-      error_occurrences: error occurrences (%{count})
-      errors: errors (%{count})
-      handles: handles (%{count})
-      job_contexts: job contexts (%{count})
-      jobs: jobs (%{count})
-      logs: logs (%{count})
-      messages: messages (%{count})
-      names: names (%{count})
       new: new guest
-      passwords: passwords (%{count})
-      phone_numbers: phone numbers (%{count})
-      program_executions: program executions (%{count})
-      program_schedules: program schedules (%{count})
-      programs: programs (%{count})
-      time_zones: time zones (%{count})
       title: guests
-      tokens: tokens (%{count})
-      versions: versions (%{count})
     model:
       to_s: guest#%{id}
     new:
@@ -1677,14 +1604,8 @@ en:
       delete_all: delete all
       description: manage user handles and verification.
       destroy_all: destroy all
-      error_occurrences: error occurrences (%{count})
-      errors: errors (%{count})
-      job_contexts: job contexts (%{count})
-      jobs: jobs (%{count})
-      logs: logs (%{count})
       new: new handle
       title: handles
-      versions: versions (%{count})
     model:
       to_s: handle#%{id}
     new:
@@ -1768,8 +1689,6 @@ en:
       delete_all: delete all
       description: review job batch executions.
       destroy_all: destroy all
-      job_contexts: job contexts (%{count})
-      logs: logs (%{count})
       new: new job batch execution
       title: job batch executions
     model:
@@ -1812,16 +1731,6 @@ en:
       delete_all: delete all
       description: manage job batches.
       destroy_all: destroy all
-      job_batch_executions: job batch executions (%{count})
-      job_blocked_executions: job blocked executions (%{count})
-      job_claimed_executions: job claimed executions (%{count})
-      job_contexts: job contexts (%{count})
-      job_failed_executions: job failed executions (%{count})
-      job_ready_executions: job ready executions (%{count})
-      job_recurring_executions: job recurring executions (%{count})
-      job_scheduled_executions: job scheduled executions (%{count})
-      jobs: jobs (%{count})
-      logs: logs (%{count})
       new: new job batch
       title: job batches
     model:
@@ -1879,8 +1788,6 @@ en:
       delete_all: delete all
       description: review jobs blocked by concurrency limits.
       destroy_all: destroy all
-      job_contexts: job contexts (%{count})
-      logs: logs (%{count})
       new: new job blocked execution
       title: job blocked executions
     model:
@@ -1927,8 +1834,6 @@ en:
       delete_all: delete all
       description: review claimed job executions.
       destroy_all: destroy all
-      job_contexts: job contexts (%{count})
-      logs: logs (%{count})
       new: new job claimed execution
       title: job claimed executions
     model:
@@ -1972,13 +1877,8 @@ en:
       delete_all: delete all
       description: browse job contexts and metadata.
       destroy_all: destroy all
-      error_occurrences: error occurrences (%{count})
-      errors: errors (%{count})
-      jobs: jobs (%{count})
-      logs: logs (%{count})
       new: new job context
       title: job contexts
-      versions: versions (%{count})
     model:
       invalid_json: invalid json
       to_s: job_context#%{id}
@@ -2025,8 +1925,6 @@ en:
       delete_all: delete all
       description: review failed job executions and errors.
       destroy_all: destroy all
-      job_contexts: job contexts (%{count})
-      logs: logs (%{count})
       new: new job failed execution
       title: job failed executions
     model:
@@ -2071,7 +1969,6 @@ en:
       delete_all: delete all
       description: manage paused job queues.
       destroy_all: destroy all
-      logs: logs (%{count})
       new: new job pause
       title: job pauses
     model:
@@ -2112,10 +2009,6 @@ en:
       delete_all: delete all
       description: monitor job processes and workers.
       destroy_all: destroy all
-      job_claimed_executions: job claimed executions (%{count})
-      job_contexts: job contexts (%{count})
-      job_processes: job processes (%{count})
-      logs: logs (%{count})
       new: new job process
       title: job processes
     model:
@@ -2166,8 +2059,6 @@ en:
       delete_all: delete all
       description: review jobs ready to execute.
       destroy_all: destroy all
-      job_contexts: job contexts (%{count})
-      logs: logs (%{count})
       new: new job ready execution
       title: job ready executions
     model:
@@ -2212,8 +2103,6 @@ en:
       delete_all: delete all
       description: review recurring job runs.
       destroy_all: destroy all
-      job_contexts: job contexts (%{count})
-      logs: logs (%{count})
       new: new job recurring execution
       title: job recurring executions
     model:
@@ -2258,9 +2147,6 @@ en:
       delete_all: delete all
       description: manage recurring job tasks and schedules.
       destroy_all: destroy all
-      job_contexts: job contexts (%{count})
-      job_recurring_executions: job recurring executions (%{count})
-      logs: logs (%{count})
       new: new job recurring task
       title: job recurring tasks
     model:
@@ -2311,8 +2197,6 @@ en:
       delete_all: delete all
       description: review jobs scheduled for future runs.
       destroy_all: destroy all
-      job_contexts: job contexts (%{count})
-      logs: logs (%{count})
       new: new job scheduled execution
       title: job scheduled executions
     model:
@@ -2358,7 +2242,6 @@ en:
       delete_all: delete all
       description: manage job semaphores and concurrency keys.
       destroy_all: destroy all
-      logs: logs (%{count})
       new: new job semaphore
       title: job semaphores
     model:
@@ -2407,61 +2290,6 @@ en:
       description: browse enqueued and processed jobs.
       destroy_all: destroy all
       discard_all: discard all
-      error_occurrences: error occurrences (%{count})
-      errors: errors (%{count})
-      job_batch_executions:
-        one: 1 job batch execution
-        other: "%{count} job batch executions"
-        zero: 0 job batch executions
-      job_batches:
-        one: 1 job batch
-        other: "%{count} job batches"
-        zero: 0 job batches
-      job_blocked_executions:
-        one: 1 job blocked execution
-        other: "%{count} job blocked executions"
-        zero: 0 job blocked executions
-      job_claimed_executions:
-        one: 1 job claimed execution
-        other: "%{count} job claimed executions"
-        zero: 0 job claimed executions
-      job_contexts:
-        one: 1 job context
-        other: "%{count} job contexts"
-        zero: 0 job contexts
-      job_failed_executions:
-        one: 1 job failed execution
-        other: "%{count} job failed executions"
-        zero: 0 job failed executions
-      job_pauses:
-        one: 1 job pause
-        other: "%{count} job pauses"
-        zero: 0 job pauses
-      job_processes:
-        one: 1 job process
-        other: "%{count} job processes"
-        zero: 0 job processes
-      job_ready_executions:
-        one: 1 job ready execution
-        other: "%{count} job ready executions"
-        zero: 0 job ready executions
-      job_recurring_executions:
-        one: 1 job recurring execution
-        other: "%{count} job recurring executions"
-        zero: 0 job recurring executions
-      job_recurring_tasks:
-        one: 1 job recurring task
-        other: "%{count} job recurring tasks"
-        zero: 0 job recurring tasks
-      job_scheduled_executions:
-        one: 1 job scheduled execution
-        other: "%{count} job scheduled executions"
-        zero: 0 job scheduled executions
-      job_semaphores:
-        one: 1 job semaphore
-        other: "%{count} job semaphores"
-        zero: 0 job semaphores
-      logs: logs (%{count})
       new: new job
       retry_all: retry all
       title: jobs
@@ -2637,10 +2465,8 @@ en:
       delete_all: delete all
       description: manage navigation, menu, and tab links.
       destroy_all: destroy all
-      logs: logs (%{count})
       new: new link
       title: links
-      versions: versions (%{count})
     model:
       to_s: link#%{id}
     new:
@@ -2685,7 +2511,6 @@ en:
       destroy_all: destroy all
       new: new log
       title: logs
-      versions: versions (%{count})
     model:
       invalid_json: invalid json
       to_s: log#%{id}
@@ -2729,14 +2554,8 @@ en:
       delete_all: delete all
       description: browse scheduled and delivered messages.
       destroy_all: destroy all
-      error_occurrences: error occurrences (%{count})
-      errors: errors (%{count})
-      job_contexts: job contexts (%{count})
-      jobs: jobs (%{count})
-      logs: logs (%{count})
       new: new message
       title: messages
-      versions: versions (%{count})
     model:
       to_s: message#%{id}
     new:
@@ -2790,14 +2609,8 @@ en:
       delete_all: delete all
       description: manage user names and verification status.
       destroy_all: destroy all
-      error_occurrences: error occurrences (%{count})
-      errors: errors (%{count})
-      job_contexts: job contexts (%{count})
-      jobs: jobs (%{count})
-      logs: logs (%{count})
       new: new name
       title: names
-      versions: versions (%{count})
     model:
       to_s: name#%{id}
     new:
@@ -2847,11 +2660,8 @@ en:
       delete_all: delete all
       description: manage public pages.
       destroy_all: destroy all
-      logs: logs (%{count})
       new: new page
-      pages: pages (%{count})
       title: pages
-      versions: versions (%{count})
     model:
       to_s: page#%{id}
     new:
@@ -2917,14 +2727,8 @@ en:
       delete_all: delete all
       description: manage saved passwords for users.
       destroy_all: destroy all
-      error_occurrences: error occurrences (%{count})
-      errors: errors (%{count})
-      job_contexts: job contexts (%{count})
-      jobs: jobs (%{count})
-      logs: logs (%{count})
       new: new password
       title: passwords
-      versions: versions (%{count})
     model:
       to_s: password#%{id}
     nested:
@@ -2980,14 +2784,8 @@ en:
       delete_all: delete all
       description: manage user phone numbers and verification status.
       destroy_all: destroy all
-      error_occurrences: error occurrences (%{count})
-      errors: errors (%{count})
-      job_contexts: job contexts (%{count})
-      jobs: jobs (%{count})
-      logs: logs (%{count})
       new: new phone number
       title: phone numbers
-      versions: versions (%{count})
     model:
       to_s: phone_number#%{id}
     nested:
@@ -3040,10 +2838,8 @@ en:
       delete_all: delete all
       description: manage plan schema fields.
       destroy_all: destroy all
-      logs: logs (%{count})
       new: new plan field
       title: plan fields
-      versions: versions (%{count})
     model:
       to_s: plan_field#%{id}
     nested:
@@ -3088,10 +2884,8 @@ en:
     index:
       delete_all: delete all
       destroy_all: destroy all
-      logs: logs (%{count})
       new: new plan schedule
       title: plan schedules
-      versions: versions (%{count})
     model:
       to_s: plan_schedule#%{id}
     nested:
@@ -3133,28 +2927,9 @@ en:
       title: edit plan
     index:
       delete_all: delete all
-      deliveries: deliveries (%{count})
-      delivery_destinations: delivery destinations (%{count})
       destroy_all: destroy all
-      logs: logs (%{count})
       new: new plan
-      plan_fields: plan fields (%{count})
-      plan_schedules:
-        one: "%{count} plan schedule"
-        other: "%{count} plan schedules"
-        zero: "%{count} plan schedules"
-      step_executions: step executions (%{count})
-      steps: steps (%{count})
-      stripe_invoices: stripe invoices (%{count})
-      subscription_destinations: subscription destinations (%{count})
-      subscription_executions: subscription executions (%{count})
-      subscription_values: subscription values (%{count})
-      subscriptions:
-        one: "%{count} subscription"
-        other: "%{count} subscriptions"
-        zero: "%{count} subscriptions"
       title: plans
-      versions: versions (%{count})
     model:
       pricing_invalid: pricing must return amount_cents and amount_currency
       pricing_missing: pricing is not configured
@@ -3224,14 +2999,8 @@ en:
       delete_all: delete all
       description: review program runs and results.
       destroy_all: destroy all
-      error_occurrences: error occurrences (%{count})
-      errors: errors (%{count})
-      job_contexts: job contexts (%{count})
-      jobs: jobs (%{count})
-      logs: logs (%{count})
       new: new program execution
       title: program executions
-      versions: versions (%{count})
     model:
       statuses:
         created: created
@@ -3292,14 +3061,8 @@ en:
       delete_all: delete all
       description: manage schedules for programs.
       destroy_all: destroy all
-      error_occurrences: error occurrences (%{count})
-      errors: errors (%{count})
-      job_contexts: job contexts (%{count})
-      jobs: jobs (%{count})
-      logs: logs (%{count})
       new: new program schedule
       title: program schedules
-      versions: versions (%{count})
     model:
       days:
         one: 1 day
@@ -3435,25 +3198,11 @@ en:
       delete_all: delete all
       description: browse programs and their automation runs.
       destroy_all: destroy all
-      error_occurrences: error occurrences (%{count})
-      errors: errors (%{count})
       format_all: format all
-      job_contexts: job contexts (%{count})
-      jobs: jobs (%{count})
-      logs: logs (%{count})
       new: new program
-      program_executions:
-        one: 1 program execution
-        other: "%{count} program executions"
-        zero: 0 program executions
-      program_schedules:
-        one: 1 program schedule
-        other: "%{count} program schedules"
-        zero: 0 program schedules
       schedule_all: schedule all
       title: programs
       unschedule_all: unschedule all
-      versions: versions (%{count})
     model:
       to_s: program#%{id}
     new:
@@ -3525,10 +3274,8 @@ en:
       delete_all: delete all
       description: manage service schema fields.
       destroy_all: destroy all
-      logs: logs (%{count})
       new: new service field
       title: service fields
-      versions: versions (%{count})
     model:
       to_s: service_field#%{id}
     nested:
@@ -3572,45 +3319,9 @@ en:
       title: edit service
     index:
       delete_all: delete all
-      deliveries: deliveries (%{count})
-      delivery_destinations: delivery destinations (%{count})
       destroy_all: destroy all
-      logs: logs (%{count})
       new: new service
-      plan_fields:
-        one: "%{count} plan field"
-        other: "%{count} plan fields"
-        zero: "%{count} plan fields"
-      plan_schedules: plan schedules (%{count})
-      plans:
-        one: "%{count} plan"
-        other: "%{count} plans"
-        zero: "%{count} plans"
-      service_fields:
-        one: "%{count} service field"
-        other: "%{count} service fields"
-        zero: "%{count} service fields"
-      step_executions:
-        one: "%{count} step execution"
-        other: "%{count} step executions"
-        zero: "%{count} step executions"
-      steps:
-        one: "%{count} step"
-        other: "%{count} steps"
-        zero: "%{count} steps"
-      stripe_invoices: stripe invoices (%{count})
-      subscription_destinations: subscription destinations (%{count})
-      subscription_executions:
-        one: "%{count} subscription execution"
-        other: "%{count} subscription executions"
-        zero: "%{count} subscription executions"
-      subscription_values: subscription values (%{count})
-      subscriptions:
-        one: "%{count} subscription"
-        other: "%{count} subscriptions"
-        zero: "%{count} subscriptions"
       title: services
-      versions: versions (%{count})
     model:
       to_s: service#%{id}
     new:
@@ -3744,7 +3455,6 @@ en:
       delete_all: delete all
       description: review active sessions and access history.
       destroy_all: destroy all
-      logs: logs (%{count})
       new: new session
       title: sessions
     model:
@@ -3775,6 +3485,211 @@ en:
       modal_cancel: 'no'
       modal_confirm: 'yes'
       modal_title: are you sure?
+    count:
+      addresses:
+        one: "%{count} address"
+        other: "%{count} addresses"
+        zero: "%{count} addresses"
+      connections:
+        one: "%{count} connection"
+        other: "%{count} connections"
+        zero: "%{count} connections"
+      countries:
+        one: "%{count} country"
+        other: "%{count} countries"
+        zero: "%{count} countries"
+      data:
+        one: "%{count} datum"
+        other: "%{count} data"
+        zero: "%{count} data"
+      deliveries:
+        one: "%{count} delivery"
+        other: "%{count} deliveries"
+        zero: "%{count} deliveries"
+      delivery_channels:
+        one: "%{count} delivery channel"
+        other: "%{count} delivery channels"
+        zero: "%{count} delivery channels"
+      delivery_destinations:
+        one: "%{count} delivery destination"
+        other: "%{count} delivery destinations"
+        zero: "%{count} delivery destinations"
+      devices:
+        one: "%{count} device"
+        other: "%{count} devices"
+        zero: "%{count} devices"
+      email_addresses:
+        one: "%{count} email address"
+        other: "%{count} email addresses"
+        zero: "%{count} email addresses"
+      error_occurrences:
+        one: "%{count} error occurrence"
+        other: "%{count} error occurrences"
+        zero: "%{count} error occurrences"
+      errors:
+        one: "%{count} error"
+        other: "%{count} errors"
+        zero: "%{count} errors"
+      handles:
+        one: "%{count} handle"
+        other: "%{count} handles"
+        zero: "%{count} handles"
+      job_batch_executions:
+        one: "%{count} job batch execution"
+        other: "%{count} job batch executions"
+        zero: "%{count} job batch executions"
+      job_batches:
+        one: "%{count} job batch"
+        other: "%{count} job batches"
+        zero: "%{count} job batches"
+      job_blocked_executions:
+        one: "%{count} job blocked execution"
+        other: "%{count} job blocked executions"
+        zero: "%{count} job blocked executions"
+      job_claimed_executions:
+        one: "%{count} job claimed execution"
+        other: "%{count} job claimed executions"
+        zero: "%{count} job claimed executions"
+      job_contexts:
+        one: "%{count} job context"
+        other: "%{count} job contexts"
+        zero: "%{count} job contexts"
+      job_failed_executions:
+        one: "%{count} job failed execution"
+        other: "%{count} job failed executions"
+        zero: "%{count} job failed executions"
+      job_pauses:
+        one: "%{count} job pause"
+        other: "%{count} job pauses"
+        zero: "%{count} job pauses"
+      job_processes:
+        one: "%{count} job process"
+        other: "%{count} job processes"
+        zero: "%{count} job processes"
+      job_ready_executions:
+        one: "%{count} job ready execution"
+        other: "%{count} job ready executions"
+        zero: "%{count} job ready executions"
+      job_recurring_executions:
+        one: "%{count} job recurring execution"
+        other: "%{count} job recurring executions"
+        zero: "%{count} job recurring executions"
+      job_recurring_tasks:
+        one: "%{count} job recurring task"
+        other: "%{count} job recurring tasks"
+        zero: "%{count} job recurring tasks"
+      job_scheduled_executions:
+        one: "%{count} job scheduled execution"
+        other: "%{count} job scheduled executions"
+        zero: "%{count} job scheduled executions"
+      job_semaphores:
+        one: "%{count} job semaphore"
+        other: "%{count} job semaphores"
+        zero: "%{count} job semaphores"
+      jobs:
+        one: "%{count} job"
+        other: "%{count} jobs"
+        zero: "%{count} jobs"
+      logs:
+        one: "%{count} log"
+        other: "%{count} logs"
+        zero: "%{count} logs"
+      messages:
+        one: "%{count} message"
+        other: "%{count} messages"
+        zero: "%{count} messages"
+      names:
+        one: "%{count} name"
+        other: "%{count} names"
+        zero: "%{count} names"
+      pages:
+        one: "%{count} page"
+        other: "%{count} pages"
+        zero: "%{count} pages"
+      passwords:
+        one: "%{count} password"
+        other: "%{count} passwords"
+        zero: "%{count} passwords"
+      phone_numbers:
+        one: "%{count} phone number"
+        other: "%{count} phone numbers"
+        zero: "%{count} phone numbers"
+      plan_fields:
+        one: "%{count} plan field"
+        other: "%{count} plan fields"
+        zero: "%{count} plan fields"
+      plan_schedules:
+        one: "%{count} plan schedule"
+        other: "%{count} plan schedules"
+        zero: "%{count} plan schedules"
+      plans:
+        one: "%{count} plan"
+        other: "%{count} plans"
+        zero: "%{count} plans"
+      program_executions:
+        one: "%{count} program execution"
+        other: "%{count} program executions"
+        zero: "%{count} program executions"
+      program_schedules:
+        one: "%{count} program schedule"
+        other: "%{count} program schedules"
+        zero: "%{count} program schedules"
+      programs:
+        one: "%{count} program"
+        other: "%{count} programs"
+        zero: "%{count} programs"
+      service_fields:
+        one: "%{count} service field"
+        other: "%{count} service fields"
+        zero: "%{count} service fields"
+      services:
+        one: "%{count} service"
+        other: "%{count} services"
+        zero: "%{count} services"
+      sessions:
+        one: "%{count} session"
+        other: "%{count} sessions"
+        zero: "%{count} sessions"
+      step_executions:
+        one: "%{count} step execution"
+        other: "%{count} step executions"
+        zero: "%{count} step executions"
+      steps:
+        one: "%{count} step"
+        other: "%{count} steps"
+        zero: "%{count} steps"
+      stripe_invoices:
+        one: "%{count} stripe invoice"
+        other: "%{count} stripe invoices"
+        zero: "%{count} stripe invoices"
+      subscription_destinations:
+        one: "%{count} subscription destination"
+        other: "%{count} subscription destinations"
+        zero: "%{count} subscription destinations"
+      subscription_executions:
+        one: "%{count} subscription execution"
+        other: "%{count} subscription executions"
+        zero: "%{count} subscription executions"
+      subscription_values:
+        one: "%{count} subscription value"
+        other: "%{count} subscription values"
+        zero: "%{count} subscription values"
+      subscriptions:
+        one: "%{count} subscription"
+        other: "%{count} subscriptions"
+        zero: "%{count} subscriptions"
+      time_zones:
+        one: "%{count} time zone"
+        other: "%{count} time zones"
+        zero: "%{count} time zones"
+      tokens:
+        one: "%{count} token"
+        other: "%{count} tokens"
+        zero: "%{count} tokens"
+      versions:
+        one: "%{count} version"
+        other: "%{count} versions"
+        zero: "%{count} versions"
     filter:
       address: address
       all: all
@@ -3936,13 +3851,9 @@ en:
       title: edit step execution
     index:
       delete_all: delete all
-      deliveries: deliveries (%{count})
       destroy_all: destroy all
-      jobs: jobs (%{count})
-      logs: logs (%{count})
       new: new step execution
       title: step executions
-      versions: versions (%{count})
     model:
       statuses:
         done: done
@@ -3999,18 +3910,10 @@ en:
       notice: steps formatted
     index:
       delete_all: delete all
-      deliveries: deliveries (%{count})
       destroy_all: destroy all
       format_all: format all
-      jobs: jobs (%{count})
-      logs: logs (%{count})
       new: new step
-      step_executions:
-        one: "%{count} step execution"
-        other: "%{count} step executions"
-        zero: "%{count} step executions"
       title: steps
-      versions: versions (%{count})
     model:
       to_s: step#%{id}
     new:
@@ -4062,10 +3965,8 @@ en:
       delete_all: delete all
       description: review and manage archived stripe webhook events.
       destroy_all: destroy all
-      logs: logs (%{count})
       new: new stripe event
       title: stripe events
-      versions: versions (%{count})
     model:
       invalid_json: invalid json
       to_s: stripe event#%{id}
@@ -4112,10 +4013,8 @@ en:
       delete_all: delete all
       description: review and manage locally archived stripe invoices.
       destroy_all: destroy all
-      logs: logs (%{count})
       new: new stripe invoice
       title: stripe invoices
-      versions: versions (%{count})
     model:
       to_s: stripe invoice#%{id}
     new:
@@ -4202,10 +4101,8 @@ en:
       delete_all: delete all subscription destinations
       description: subscription destinations
       destroy_all: destroy all subscription destinations
-      logs: logs (%{count})
       new: new subscription destination
       title: subscription destinations
-      versions: versions (%{count})
     model:
       to_s: "#%{id}"
     new:
@@ -4248,17 +4145,9 @@ en:
       title: edit subscription execution
     index:
       delete_all: delete all
-      deliveries: deliveries (%{count})
       destroy_all: destroy all
-      jobs: jobs (%{count})
-      logs: logs (%{count})
       new: new subscription execution
-      step_executions:
-        one: "%{count} step execution"
-        other: "%{count} step executions"
-        zero: "%{count} step executions"
       title: subscription executions
-      versions: versions (%{count})
     model:
       statuses:
         done: done
@@ -4309,10 +4198,8 @@ en:
     index:
       delete_all: delete all
       destroy_all: destroy all
-      logs: logs (%{count})
       new: new subscription value
       title: subscription values
-      versions: versions (%{count})
     model:
       to_s: subscription_value#%{id}
     new:
@@ -4366,21 +4253,8 @@ en:
       notice: subscription evaluation enqueued
     index:
       delete_all: delete all
-      deliveries: deliveries (%{count})
-      delivery_destinations: delivery destinations (%{count})
       destroy_all: destroy all
-      jobs: jobs (%{count})
-      logs: logs (%{count})
-      step_executions: step executions (%{count})
-      stripe_invoices: stripe invoices (%{count})
-      subscription_destinations: subscription destinations (%{count})
-      subscription_executions:
-        one: "%{count} subscription execution"
-        other: "%{count} subscription executions"
-        zero: "%{count} subscription executions"
-      subscription_values: subscription values (%{count})
       title: subscriptions
-      versions: versions (%{count})
     model:
       statuses:
         active: active
@@ -4456,14 +4330,8 @@ en:
       delete_all: delete all
       description: manage user time zones and verification status.
       destroy_all: destroy all
-      error_occurrences: error occurrences (%{count})
-      errors: errors (%{count})
-      job_contexts: job contexts (%{count})
-      jobs: jobs (%{count})
-      logs: logs (%{count})
       new: new time zone
       title: time zones
-      versions: versions (%{count})
     model:
       to_s: time_zone#%{id}
     new:
@@ -4512,14 +4380,8 @@ en:
       delete_all: delete all
       description: manage access tokens and verification status.
       destroy_all: destroy all
-      error_occurrences: error occurrences (%{count})
-      errors: errors (%{count})
-      job_contexts: job contexts (%{count})
-      jobs: jobs (%{count})
-      logs: logs (%{count})
       new: new token
       title: tokens
-      versions: versions (%{count})
     model:
       to_s: token#%{id}
     new:
@@ -4567,50 +4429,11 @@ en:
     impersonate:
       notice: user impersonated
     index:
-      addresses: addresses (%{count})
-      connections: connections (%{count})
-      countries: countries (%{count})
-      data: data (%{count})
       delete_all: delete all
-      deliveries: deliveries (%{count})
-      delivery_channels: delivery channels (%{count})
-      delivery_destinations: delivery destinations (%{count})
       description: browse user accounts and admin status.
       destroy_all: destroy all
-      devices: devices (%{count})
-      email_addresses: email addresses (%{count})
-      error_occurrences: error occurrences (%{count})
-      errors: errors (%{count})
-      handles: handles (%{count})
-      job_contexts: job contexts (%{count})
-      jobs: jobs (%{count})
-      logs: logs (%{count})
-      messages: messages (%{count})
-      names: names (%{count})
       new: new user
-      pages: pages (%{count})
-      passwords: passwords (%{count})
-      phone_numbers: phone numbers (%{count})
-      plan_fields: plan fields (%{count})
-      plan_schedules: plan schedules (%{count})
-      plans: plans (%{count})
-      program_executions: program executions (%{count})
-      program_schedules: program schedules (%{count})
-      programs: programs (%{count})
-      service_fields: service fields (%{count})
-      services: services (%{count})
-      sessions: sessions (%{count})
-      step_executions: step executions (%{count})
-      steps: steps (%{count})
-      stripe_invoices: stripe invoices (%{count})
-      subscription_destinations: subscription destinations (%{count})
-      subscription_executions: subscription executions (%{count})
-      subscription_values: subscription values (%{count})
-      subscriptions: subscriptions (%{count})
-      time_zones: time zones (%{count})
       title: users
-      tokens: tokens (%{count})
-      versions: versions (%{count})
     model:
       interfaces:
         advanced: advanced
@@ -4698,7 +4521,6 @@ en:
       delete_all: delete all
       description: review change history and versions.
       destroy_all: destroy all
-      logs: logs (%{count})
       new: new version
       title: versions
     model:

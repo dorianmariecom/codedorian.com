@@ -16,8 +16,76 @@ class CleaningJobTest < ActiveJob::TestCase
     end
   end
 
-  test "caps deletion for each model" do
+  test "sets the retention cleanup batch size" do
     assert_equal(1_000, CleaningJob::BATCH_SIZE)
+  end
+
+  test "deletes guest sessions at one day old and preserves user sessions" do
+    travel_to(Time.zone.local(2026, 8, 16, 12)) do
+      guest_data = { guest_id: guests(:guest).id }
+      user_data = { user_id: users(:admin).id }
+      expired = [
+        { data: guest_data, created_at: 2.days.ago },
+        { data: guest_data, created_at: 1.day.ago },
+        { data: {}, created_at: 2.days.ago },
+        { data: { user_id: nil }, created_at: 2.days.ago }
+      ]
+      retained = [
+        { data: guest_data, created_at: 1.day.ago + 1.second },
+        { data: {}, created_at: Time.current },
+        { data: user_data, created_at: 2.days.ago },
+        { data: guest_data.merge(user_data), created_at: 2.days.ago }
+      ]
+      expired_sessions =
+        expired.map do |attributes|
+          Session.create!(**attributes, session_id: SecureRandom.hex)
+        end
+      retained_sessions =
+        retained.map do |attributes|
+          Session.create!(**attributes, session_id: SecureRandom.hex)
+        end
+
+      CleaningJob.perform_now
+
+      expired_sessions.each do |session|
+        assert_not(Session.exists?(session.id))
+      end
+      retained_sessions.each { |session| assert(Session.exists?(session.id)) }
+    end
+  end
+
+  test "deletes job contexts without jobs regardless of age" do
+    recent = JobContext.create!(active_job_id: SecureRandom.uuid)
+    old =
+      JobContext.create!(
+        active_job_id: SecureRandom.uuid,
+        created_at: 2.months.ago
+      )
+    retained = job_contexts(:job_context)
+    retained.update_columns(created_at: 2.months.ago)
+
+    CleaningJob.perform_now
+
+    assert_not(JobContext.exists?(recent.id))
+    assert_not(JobContext.exists?(old.id))
+    assert(JobContext.exists?(retained.id))
+    assert(Job.exists?(jobs(:job).id))
+  end
+
+  test "deletes all orphaned job contexts in one run" do
+    records =
+      JobContext.insert_all!(
+        Array.new(CleaningJob::BATCH_SIZE + 1) do
+          { active_job_id: SecureRandom.uuid }
+        end,
+        returning: %w[id]
+      )
+    orphaned = JobContext.where(id: records.rows.flatten)
+
+    CleaningJob.perform_now
+
+    assert_empty(orphaned)
+    assert(JobContext.exists?(job_contexts(:job_context).id))
   end
 
   test "keeps the newest execution per parent and resolves ties by id" do
@@ -156,11 +224,6 @@ class CleaningJobTest < ActiveJob::TestCase
         updated_at: created_at
       ),
       Log.create!(created_at: created_at, updated_at: created_at),
-      JobContext.create!(
-        active_job_id: SecureRandom.uuid,
-        created_at: created_at,
-        updated_at: created_at
-      ),
       SolidCableMessage.create!(
         channel: "cleaning:test",
         channel_hash: created_at.to_i,

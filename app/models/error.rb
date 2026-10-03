@@ -30,9 +30,12 @@ class Error < SolidErrors::Error
       :"where_#{model}",
       ->(instance) do
         value = instance.respond_to?(:id) ? instance.id : instance
-        joins(:error_occurrences).where(
-          "solid_errors_occurrences.context @> ?",
-          { model => { id: value } }.to_json
+        where(
+          id:
+            ErrorOccurrence.where(
+              "solid_errors_occurrences.context @> ?",
+              { model => { id: value } }.to_json
+            ).select(:error_id)
         )
       end
     )

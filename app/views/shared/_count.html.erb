@@ -1,0 +1,7 @@
+<% translation = local_assigns.fetch(:translation) %>
+<% url = local_assigns.fetch(:url) %>
+<% if can?(:index, records.klass) %>
+  <div class="p">
+    <%= link_to(t(".#{translation}", count: records.count), url, class: :link) %>
+  </div>
+<% end %>

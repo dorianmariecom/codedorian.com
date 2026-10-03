@@ -3,6 +3,15 @@
 class Session < ActiveRecord::SessionStore::Session
   include(RecordConcern)
 
+  GUEST_EXPIRATION_DURATION = 1.day
+
+  scope :expired_guests,
+        -> do
+          where("data ->> 'user_id' IS NULL").where(
+            created_at: ..GUEST_EXPIRATION_DURATION.ago
+          )
+        end
+
   %i[user guest].each do |model|
     scope(
       :"where_#{model}",

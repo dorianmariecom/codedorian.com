@@ -12,22 +12,21 @@
     records = records.where_subscription(@subscription) if @subscription
     records = records.where_user(@user) if @user
   %>
-  <div class="p">
-    <%= link_to(
-      t(".subscription_destinations", count: records.distinct.count),
-      {
-        controller: :subscription_destinations,
-        action: :index,
-        connection_id: @connection&.id,
-        delivery_channel_id: @delivery_channel&.id,
-        plan_id: @plan&.id,
-        service_id: @service&.id,
-        subscription_id: @subscription&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "subscription_destinations",
+    url: {
+      controller: :subscription_destinations,
+      action: :index,
+      connection_id: @connection&.id,
+      delivery_channel_id: @delivery_channel&.id,
+      plan_id: @plan&.id,
+      service_id: @service&.id,
+      subscription_id: @subscription&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, Delivery) %>
   <%
@@ -39,22 +38,21 @@
     records = records.where_subscription(@subscription) if @subscription
     records = records.where_user(@user) if @user
   %>
-  <div class="p">
-    <%= link_to(
-      t(".deliveries", count: records.distinct.count),
-      {
-        controller: :deliveries,
-        action: :index,
-        connection_id: @connection&.id,
-        delivery_channel_id: @delivery_channel&.id,
-        plan_id: @plan&.id,
-        service_id: @service&.id,
-        subscription_id: @subscription&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "deliveries",
+    url: {
+      controller: :deliveries,
+      action: :index,
+      connection_id: @connection&.id,
+      delivery_channel_id: @delivery_channel&.id,
+      plan_id: @plan&.id,
+      service_id: @service&.id,
+      subscription_id: @subscription&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, Version) %>
   <%
@@ -66,22 +64,21 @@
     records = records.where_subscription(@subscription) if @subscription
     records = records.where_user(@user) if @user
   %>
-  <div class="p">
-    <%= link_to(
-      t(".versions", count: records.distinct.count),
-      {
-        controller: :versions,
-        action: :index,
-        connection_id: @connection&.id,
-        delivery_channel_id: @delivery_channel&.id,
-        plan_id: @plan&.id,
-        service_id: @service&.id,
-        subscription_id: @subscription&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "versions",
+    url: {
+      controller: :versions,
+      action: :index,
+      connection_id: @connection&.id,
+      delivery_channel_id: @delivery_channel&.id,
+      plan_id: @plan&.id,
+      service_id: @service&.id,
+      subscription_id: @subscription&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, Log) %>
   <%
@@ -93,22 +90,21 @@
     records = records.where_subscription(@subscription) if @subscription
     records = records.where_user(@user) if @user
   %>
-  <div class="p">
-    <%= link_to(
-      t(".logs", count: records.distinct.count),
-      {
-        controller: :logs,
-        action: :index,
-        connection_id: @connection&.id,
-        delivery_channel_id: @delivery_channel&.id,
-        plan_id: @plan&.id,
-        service_id: @service&.id,
-        subscription_id: @subscription&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "logs",
+    url: {
+      controller: :logs,
+      action: :index,
+      connection_id: @connection&.id,
+      delivery_channel_id: @delivery_channel&.id,
+      plan_id: @plan&.id,
+      service_id: @service&.id,
+      subscription_id: @subscription&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 
 <% if can?(:create, DeliveryDestination) %>

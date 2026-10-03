@@ -1,6 +1,5 @@
 import "polyfills";
 import "@hotwired/turbo-rails";
-import "lexxy-code";
 import "controllers";
 import LocalTime from "local-time";
 import consumer from "consumer";

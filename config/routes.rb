@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   mount(Blazer::Engine, at: :blazer)
   mount(ActionCable.server => "/cable")
   post("stripe/webhooks", to: "stripe_webhooks#create")
+  get("sitemap.xml", to: "sitemaps#show", defaults: { format: :xml })
   get("x/:token", to: "delivery_content#show", as: :delivery_content)
   post("delivery_callbacks/twilio/:id", to: "delivery_callbacks#twilio")
 
@@ -187,6 +188,7 @@ Rails.application.routes.draw do
     end
 
     match("/404", to: "errors#not_found", via: :all)
+    match("/406", to: "errors#not_acceptable", via: :all)
     match("/422", to: "errors#unprocessable_entity", via: :all)
     match("/500", to: "errors#internal_server_error", via: :all)
     root(to: "pages#show")

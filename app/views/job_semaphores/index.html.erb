@@ -2,13 +2,12 @@
 
 <% if can?(:index, Log) %>
   <% records = policy_scope(Log) %>
-  <div class="p">
-    <%= link_to(
-      t(".logs", count: records.distinct.count),
-      { controller: :logs, action: :index }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "logs",
+    url: { controller: :logs, action: :index }.compact
+  ) %>
 <% end %>
 
 <% if can?(:create, JobSemaphore) %>

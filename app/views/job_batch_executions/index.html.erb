@@ -14,21 +14,20 @@
     end
     records = records.where_job_batch(@job_batch) if @job_batch
   %>
-  <div class="p">
-    <%= link_to(
-      t(".job_contexts", count: records.distinct.count),
-      {
-        controller: :job_contexts,
-        action: :index,
-        guest_id: @guest&.id,
-        job_id: @job&.id,
-        job_batch_id: @job_batch&.id,
-        program_id: @program&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "job_contexts",
+    url: {
+      controller: :job_contexts,
+      action: :index,
+      guest_id: @guest&.id,
+      job_id: @job&.id,
+      job_batch_id: @job_batch&.id,
+      program_id: @program&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, Log) %>
   <%
@@ -39,21 +38,20 @@
     records = records.where_program(@program) if @program
     records = records.where_user(@user) if @user
   %>
-  <div class="p">
-    <%= link_to(
-      t(".logs", count: records.distinct.count),
-      {
-        controller: :logs,
-        action: :index,
-        guest_id: @guest&.id,
-        job_id: @job&.id,
-        job_batch_id: @job_batch&.id,
-        program_id: @program&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "logs",
+    url: {
+      controller: :logs,
+      action: :index,
+      guest_id: @guest&.id,
+      job_id: @job&.id,
+      job_batch_id: @job_batch&.id,
+      program_id: @program&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 
 <% if can?(:create, JobBatchExecution) %>

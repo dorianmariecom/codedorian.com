@@ -28,35 +28,34 @@
     records = records.where_time_zone(@time_zone) if @time_zone
     records = records.where_token(@token) if @token
   %>
-  <div class="p">
-    <%= link_to(
-      t(".jobs", count: records.distinct.count),
-      {
-        controller: :jobs,
-        action: :index,
-        address_id: @address&.id,
-        datum_id: @datum&.id,
-        device_id: @device&.id,
-        email_address_id: @email_address&.id,
-        error_id: @error&.id,
-        error_occurrence_id: @error_occurrence&.id,
-        guest_id: @guest&.id,
-        handle_id: @handle&.id,
-        job_batch_id: @job_batch&.id,
-        message_id: @message&.id,
-        name_id: @name&.id,
-        password_id: @password&.id,
-        phone_number_id: @phone_number&.id,
-        program_id: @program&.id,
-        program_execution_id: @program_execution&.id,
-        program_schedule_id: @program_schedule&.id,
-        time_zone_id: @time_zone&.id,
-        token_id: @token&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "jobs",
+    url: {
+      controller: :jobs,
+      action: :index,
+      address_id: @address&.id,
+      datum_id: @datum&.id,
+      device_id: @device&.id,
+      email_address_id: @email_address&.id,
+      error_id: @error&.id,
+      error_occurrence_id: @error_occurrence&.id,
+      guest_id: @guest&.id,
+      handle_id: @handle&.id,
+      job_batch_id: @job_batch&.id,
+      message_id: @message&.id,
+      name_id: @name&.id,
+      password_id: @password&.id,
+      phone_number_id: @phone_number&.id,
+      program_id: @program&.id,
+      program_execution_id: @program_execution&.id,
+      program_schedule_id: @program_schedule&.id,
+      time_zone_id: @time_zone&.id,
+      token_id: @token&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, ::Error) %>
   <%
@@ -95,33 +94,32 @@
     records =
       records.where_program_execution(@program_execution) if @program_execution
   %>
-  <div class="p">
-    <%= link_to(
-      t(".errors", count: records.distinct.count),
-      {
-        controller: :errors,
-        action: :index,
-        address_id: @address&.id,
-        datum_id: @datum&.id,
-        device_id: @device&.id,
-        email_address_id: @email_address&.id,
-        guest_id: @guest&.id,
-        handle_id: @handle&.id,
-        job_id: @job&.id,
-        message_id: @message&.id,
-        name_id: @name&.id,
-        password_id: @password&.id,
-        phone_number_id: @phone_number&.id,
-        program_id: @program&.id,
-        program_execution_id: @program_execution&.id,
-        program_schedule_id: @program_schedule&.id,
-        time_zone_id: @time_zone&.id,
-        token_id: @token&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "errors",
+    url: {
+      controller: :errors,
+      action: :index,
+      address_id: @address&.id,
+      datum_id: @datum&.id,
+      device_id: @device&.id,
+      email_address_id: @email_address&.id,
+      guest_id: @guest&.id,
+      handle_id: @handle&.id,
+      job_id: @job&.id,
+      message_id: @message&.id,
+      name_id: @name&.id,
+      password_id: @password&.id,
+      phone_number_id: @phone_number&.id,
+      program_id: @program&.id,
+      program_execution_id: @program_execution&.id,
+      program_schedule_id: @program_schedule&.id,
+      time_zone_id: @time_zone&.id,
+      token_id: @token&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, ErrorOccurrence) %>
   <%
@@ -163,34 +161,33 @@
     records =
       records.where_program_execution(@program_execution) if @program_execution
   %>
-  <div class="p">
-    <%= link_to(
-      t(".error_occurrences", count: records.distinct.count),
-      {
-        controller: :error_occurrences,
-        action: :index,
-        address_id: @address&.id,
-        datum_id: @datum&.id,
-        device_id: @device&.id,
-        email_address_id: @email_address&.id,
-        error_id: @error&.id,
-        guest_id: @guest&.id,
-        handle_id: @handle&.id,
-        job_id: @job&.id,
-        message_id: @message&.id,
-        name_id: @name&.id,
-        password_id: @password&.id,
-        phone_number_id: @phone_number&.id,
-        program_id: @program&.id,
-        program_execution_id: @program_execution&.id,
-        program_schedule_id: @program_schedule&.id,
-        time_zone_id: @time_zone&.id,
-        token_id: @token&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "error_occurrences",
+    url: {
+      controller: :error_occurrences,
+      action: :index,
+      address_id: @address&.id,
+      datum_id: @datum&.id,
+      device_id: @device&.id,
+      email_address_id: @email_address&.id,
+      error_id: @error&.id,
+      guest_id: @guest&.id,
+      handle_id: @handle&.id,
+      job_id: @job&.id,
+      message_id: @message&.id,
+      name_id: @name&.id,
+      password_id: @password&.id,
+      phone_number_id: @phone_number&.id,
+      program_id: @program&.id,
+      program_execution_id: @program_execution&.id,
+      program_schedule_id: @program_schedule&.id,
+      time_zone_id: @time_zone&.id,
+      token_id: @token&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, Version) %>
   <%
@@ -213,32 +210,31 @@
     records = records.where_token(@token) if @token
     records = records.where_user(@user) if @user
   %>
-  <div class="p">
-    <%= link_to(
-      t(".versions", count: records.distinct.count),
-      {
-        controller: :versions,
-        action: :index,
-        address_id: @address&.id,
-        datum_id: @datum&.id,
-        device_id: @device&.id,
-        email_address_id: @email_address&.id,
-        guest_id: @guest&.id,
-        handle_id: @handle&.id,
-        message_id: @message&.id,
-        name_id: @name&.id,
-        password_id: @password&.id,
-        phone_number_id: @phone_number&.id,
-        program_id: @program&.id,
-        program_execution_id: @program_execution&.id,
-        program_schedule_id: @program_schedule&.id,
-        time_zone_id: @time_zone&.id,
-        token_id: @token&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "versions",
+    url: {
+      controller: :versions,
+      action: :index,
+      address_id: @address&.id,
+      datum_id: @datum&.id,
+      device_id: @device&.id,
+      email_address_id: @email_address&.id,
+      guest_id: @guest&.id,
+      handle_id: @handle&.id,
+      message_id: @message&.id,
+      name_id: @name&.id,
+      password_id: @password&.id,
+      phone_number_id: @phone_number&.id,
+      program_id: @program&.id,
+      program_execution_id: @program_execution&.id,
+      program_schedule_id: @program_schedule&.id,
+      time_zone_id: @time_zone&.id,
+      token_id: @token&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, Log) %>
   <%
@@ -293,43 +289,42 @@
     records = records.where_token(@token) if @token
     records = records.where_user(@user) if @user
   %>
-  <div class="p">
-    <%= link_to(
-      t(".logs", count: records.distinct.count),
-      {
-        controller: :logs,
-        action: :index,
-        address_id: @address&.id,
-        datum_id: @datum&.id,
-        device_id: @device&.id,
-        email_address_id: @email_address&.id,
-        error_id: @error&.id,
-        error_occurrence_id: @error_occurrence&.id,
-        guest_id: @guest&.id,
-        handle_id: @handle&.id,
-        job_id: @job&.id,
-        job_batch_id: @job_batch&.id,
-        job_batch_execution_id: @job_batch_execution&.id,
-        job_blocked_execution_id: @job_blocked_execution&.id,
-        job_claimed_execution_id: @job_claimed_execution&.id,
-        job_failed_execution_id: @job_failed_execution&.id,
-        job_ready_execution_id: @job_ready_execution&.id,
-        job_recurring_execution_id: @job_recurring_execution&.id,
-        job_scheduled_execution_id: @job_scheduled_execution&.id,
-        message_id: @message&.id,
-        name_id: @name&.id,
-        password_id: @password&.id,
-        phone_number_id: @phone_number&.id,
-        program_id: @program&.id,
-        program_execution_id: @program_execution&.id,
-        program_schedule_id: @program_schedule&.id,
-        time_zone_id: @time_zone&.id,
-        token_id: @token&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "logs",
+    url: {
+      controller: :logs,
+      action: :index,
+      address_id: @address&.id,
+      datum_id: @datum&.id,
+      device_id: @device&.id,
+      email_address_id: @email_address&.id,
+      error_id: @error&.id,
+      error_occurrence_id: @error_occurrence&.id,
+      guest_id: @guest&.id,
+      handle_id: @handle&.id,
+      job_id: @job&.id,
+      job_batch_id: @job_batch&.id,
+      job_batch_execution_id: @job_batch_execution&.id,
+      job_blocked_execution_id: @job_blocked_execution&.id,
+      job_claimed_execution_id: @job_claimed_execution&.id,
+      job_failed_execution_id: @job_failed_execution&.id,
+      job_ready_execution_id: @job_ready_execution&.id,
+      job_recurring_execution_id: @job_recurring_execution&.id,
+      job_scheduled_execution_id: @job_scheduled_execution&.id,
+      message_id: @message&.id,
+      name_id: @name&.id,
+      password_id: @password&.id,
+      phone_number_id: @phone_number&.id,
+      program_id: @program&.id,
+      program_execution_id: @program_execution&.id,
+      program_schedule_id: @program_schedule&.id,
+      time_zone_id: @time_zone&.id,
+      token_id: @token&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 
 <% if can?(:create, JobContext) %>

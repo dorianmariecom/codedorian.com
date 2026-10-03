@@ -5,7 +5,12 @@ class ErrorsController < ApplicationController
   before_action :load_job_context
   before_action :load_password
   before_action :load_program_execution
-  EXCEPTIONS = %i[not_found internal_server_error unprocessable_entity].freeze
+  EXCEPTIONS = %i[
+    not_found
+    not_acceptable
+    internal_server_error
+    unprocessable_entity
+  ].freeze
 
   before_action(:load_guest)
   before_action(:load_user)
@@ -100,6 +105,37 @@ class ErrorsController < ApplicationController
 
     scope.delete_all
     respond_after_delete_all(t(".notice"))
+  end
+
+  def not_acceptable
+    authorize(Error)
+
+    @exception = request.env["action_dispatch.exception"]
+    @class = @exception&.class
+    @message = @exception&.message
+    @backtrace = @exception&.backtrace
+    @app_backtrace = Backtrace.app(@backtrace)
+    set_context(error: @exception)
+    log!(:not_acceptable)
+
+    add_breadcrumb
+
+    respond_to do |format|
+      format.json do
+        render(
+          json: {
+            status: :not_acceptable,
+            messages: [@message],
+            data: nil
+          },
+          status: :not_acceptable
+        )
+      end
+      format.html { render(status: :not_acceptable) }
+      format.any do
+        render(:not_acceptable, formats: [:html], status: :not_acceptable)
+      end
+    end
   end
 
   def not_found

@@ -39,9 +39,15 @@ class JobFailedExecution < SolidQueue::FailedExecution
       :"where_#{model}",
       ->(instance) do
         value = instance.respond_to?(:id) ? instance.id : instance
-        joins(:job_contexts).where(
-          "job_contexts.context @> ?",
-          { model => { id: value } }.to_json
+        where(
+          job_id:
+            Job.where(
+              active_job_id:
+                JobContext.where(
+                  "job_contexts.context @> ?",
+                  { model => { id: value } }.to_json
+                ).select(:active_job_id)
+            ).select(:id)
         )
       end
     )

@@ -113,14 +113,16 @@ class Country < ApplicationRecord
   def self.sync_from_ipinfo!(user:, ip_address:, payload:)
     attributes = attributes_from_ipinfo(ip_address:, payload:)
 
-    transaction do
-      User.where(id: user.id).lock.take!
-      country = find_or_initialize_by(user:, ip_address:)
-      user.countries.where.not(id: country.id).update_all(primary: false)
-      country.assign_attributes(**attributes, primary: true)
-      country.save!
-      country
-    end
+    country = find_or_initialize_by(user:, ip_address:)
+    country.assign_attributes(**attributes, primary: true)
+    country.save!
+    country
+  rescue ActiveRecord::RecordNotUnique
+    find_by!(user:, ip_address:)
+  rescue ActiveRecord::RecordInvalid => e
+    raise unless e.record.errors.of_kind?(:ip_address, :taken)
+
+    find_by!(user:, ip_address:)
   end
 
   def self.attributes_from_ipinfo(ip_address:, payload:)

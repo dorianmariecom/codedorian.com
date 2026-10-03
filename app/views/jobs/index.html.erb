@@ -28,35 +28,34 @@
     records = records.where_time_zone(@time_zone) if @time_zone
     records = records.where_token(@token) if @token
   %>
-  <div class="p">
-    <%= link_to(
-      t(".job_contexts", count: records.distinct.count),
-      {
-        controller: :job_contexts,
-        action: :index,
-        address_id: @address&.id,
-        datum_id: @datum&.id,
-        device_id: @device&.id,
-        email_address_id: @email_address&.id,
-        error_id: @error&.id,
-        error_occurrence_id: @error_occurrence&.id,
-        guest_id: @guest&.id,
-        handle_id: @handle&.id,
-        job_batch_id: @job_batch&.id,
-        message_id: @message&.id,
-        name_id: @name&.id,
-        password_id: @password&.id,
-        phone_number_id: @phone_number&.id,
-        program_id: @program&.id,
-        program_execution_id: @program_execution&.id,
-        program_schedule_id: @program_schedule&.id,
-        time_zone_id: @time_zone&.id,
-        token_id: @token&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "job_contexts",
+    url: {
+      controller: :job_contexts,
+      action: :index,
+      address_id: @address&.id,
+      datum_id: @datum&.id,
+      device_id: @device&.id,
+      email_address_id: @email_address&.id,
+      error_id: @error&.id,
+      error_occurrence_id: @error_occurrence&.id,
+      guest_id: @guest&.id,
+      handle_id: @handle&.id,
+      job_batch_id: @job_batch&.id,
+      message_id: @message&.id,
+      name_id: @name&.id,
+      password_id: @password&.id,
+      phone_number_id: @phone_number&.id,
+      program_id: @program&.id,
+      program_execution_id: @program_execution&.id,
+      program_schedule_id: @program_schedule&.id,
+      time_zone_id: @time_zone&.id,
+      token_id: @token&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, JobReadyExecution) %>
   <%
@@ -70,20 +69,19 @@
     end
     records = records.where_job_batch(@job_batch) if @job_batch
   %>
-  <div class="p">
-    <%= link_to(
-      t(".job_ready_executions", count: records.distinct.count),
-      {
-        controller: :job_ready_executions,
-        action: :index,
-        guest_id: @guest&.id,
-        job_batch_id: @job_batch&.id,
-        program_id: @program&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "job_ready_executions",
+    url: {
+      controller: :job_ready_executions,
+      action: :index,
+      guest_id: @guest&.id,
+      job_batch_id: @job_batch&.id,
+      program_id: @program&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, JobFailedExecution) %>
   <%
@@ -97,20 +95,19 @@
     end
     records = records.where_job_batch(@job_batch) if @job_batch
   %>
-  <div class="p">
-    <%= link_to(
-      t(".job_failed_executions", count: records.distinct.count),
-      {
-        controller: :job_failed_executions,
-        action: :index,
-        guest_id: @guest&.id,
-        job_batch_id: @job_batch&.id,
-        program_id: @program&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "job_failed_executions",
+    url: {
+      controller: :job_failed_executions,
+      action: :index,
+      guest_id: @guest&.id,
+      job_batch_id: @job_batch&.id,
+      program_id: @program&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, JobScheduledExecution) %>
   <%
@@ -124,20 +121,19 @@
     end
     records = records.where_job_batch(@job_batch) if @job_batch
   %>
-  <div class="p">
-    <%= link_to(
-      t(".job_scheduled_executions", count: records.distinct.count),
-      {
-        controller: :job_scheduled_executions,
-        action: :index,
-        guest_id: @guest&.id,
-        job_batch_id: @job_batch&.id,
-        program_id: @program&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "job_scheduled_executions",
+    url: {
+      controller: :job_scheduled_executions,
+      action: :index,
+      guest_id: @guest&.id,
+      job_batch_id: @job_batch&.id,
+      program_id: @program&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, JobBlockedExecution) %>
   <%
@@ -151,20 +147,19 @@
     end
     records = records.where_job_batch(@job_batch) if @job_batch
   %>
-  <div class="p">
-    <%= link_to(
-      t(".job_blocked_executions", count: records.distinct.count),
-      {
-        controller: :job_blocked_executions,
-        action: :index,
-        guest_id: @guest&.id,
-        job_batch_id: @job_batch&.id,
-        program_id: @program&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "job_blocked_executions",
+    url: {
+      controller: :job_blocked_executions,
+      action: :index,
+      guest_id: @guest&.id,
+      job_batch_id: @job_batch&.id,
+      program_id: @program&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, JobClaimedExecution) %>
   <%
@@ -178,20 +173,19 @@
     end
     records = records.where_job_batch(@job_batch) if @job_batch
   %>
-  <div class="p">
-    <%= link_to(
-      t(".job_claimed_executions", count: records.distinct.count),
-      {
-        controller: :job_claimed_executions,
-        action: :index,
-        guest_id: @guest&.id,
-        job_batch_id: @job_batch&.id,
-        program_id: @program&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "job_claimed_executions",
+    url: {
+      controller: :job_claimed_executions,
+      action: :index,
+      guest_id: @guest&.id,
+      job_batch_id: @job_batch&.id,
+      program_id: @program&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, JobBatchExecution) %>
   <%
@@ -205,20 +199,19 @@
     end
     records = records.where_job_batch(@job_batch) if @job_batch
   %>
-  <div class="p">
-    <%= link_to(
-      t(".job_batch_executions", count: records.distinct.count),
-      {
-        controller: :job_batch_executions,
-        action: :index,
-        guest_id: @guest&.id,
-        job_batch_id: @job_batch&.id,
-        program_id: @program&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "job_batch_executions",
+    url: {
+      controller: :job_batch_executions,
+      action: :index,
+      guest_id: @guest&.id,
+      job_batch_id: @job_batch&.id,
+      program_id: @program&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, JobRecurringExecution) %>
   <%
@@ -232,20 +225,19 @@
     end
     records = records.where_job_batch(@job_batch) if @job_batch
   %>
-  <div class="p">
-    <%= link_to(
-      t(".job_recurring_executions", count: records.distinct.count),
-      {
-        controller: :job_recurring_executions,
-        action: :index,
-        guest_id: @guest&.id,
-        job_batch_id: @job_batch&.id,
-        program_id: @program&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "job_recurring_executions",
+    url: {
+      controller: :job_recurring_executions,
+      action: :index,
+      guest_id: @guest&.id,
+      job_batch_id: @job_batch&.id,
+      program_id: @program&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, ::Error) %>
   <%
@@ -284,33 +276,32 @@
     records =
       records.where_program_execution(@program_execution) if @program_execution
   %>
-  <div class="p">
-    <%= link_to(
-      t(".errors", count: records.distinct.count),
-      {
-        controller: :errors,
-        action: :index,
-        address_id: @address&.id,
-        datum_id: @datum&.id,
-        device_id: @device&.id,
-        email_address_id: @email_address&.id,
-        guest_id: @guest&.id,
-        handle_id: @handle&.id,
-        job_context_id: @job_context&.id,
-        message_id: @message&.id,
-        name_id: @name&.id,
-        password_id: @password&.id,
-        phone_number_id: @phone_number&.id,
-        program_id: @program&.id,
-        program_execution_id: @program_execution&.id,
-        program_schedule_id: @program_schedule&.id,
-        time_zone_id: @time_zone&.id,
-        token_id: @token&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "errors",
+    url: {
+      controller: :errors,
+      action: :index,
+      address_id: @address&.id,
+      datum_id: @datum&.id,
+      device_id: @device&.id,
+      email_address_id: @email_address&.id,
+      guest_id: @guest&.id,
+      handle_id: @handle&.id,
+      job_context_id: @job_context&.id,
+      message_id: @message&.id,
+      name_id: @name&.id,
+      password_id: @password&.id,
+      phone_number_id: @phone_number&.id,
+      program_id: @program&.id,
+      program_execution_id: @program_execution&.id,
+      program_schedule_id: @program_schedule&.id,
+      time_zone_id: @time_zone&.id,
+      token_id: @token&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, ErrorOccurrence) %>
   <%
@@ -351,34 +342,33 @@
     records =
       records.where_program_execution(@program_execution) if @program_execution
   %>
-  <div class="p">
-    <%= link_to(
-      t(".error_occurrences", count: records.distinct.count),
-      {
-        controller: :error_occurrences,
-        action: :index,
-        address_id: @address&.id,
-        datum_id: @datum&.id,
-        device_id: @device&.id,
-        email_address_id: @email_address&.id,
-        error_id: @error&.id,
-        guest_id: @guest&.id,
-        handle_id: @handle&.id,
-        job_context_id: @job_context&.id,
-        message_id: @message&.id,
-        name_id: @name&.id,
-        password_id: @password&.id,
-        phone_number_id: @phone_number&.id,
-        program_id: @program&.id,
-        program_execution_id: @program_execution&.id,
-        program_schedule_id: @program_schedule&.id,
-        time_zone_id: @time_zone&.id,
-        token_id: @token&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "error_occurrences",
+    url: {
+      controller: :error_occurrences,
+      action: :index,
+      address_id: @address&.id,
+      datum_id: @datum&.id,
+      device_id: @device&.id,
+      email_address_id: @email_address&.id,
+      error_id: @error&.id,
+      guest_id: @guest&.id,
+      handle_id: @handle&.id,
+      job_context_id: @job_context&.id,
+      message_id: @message&.id,
+      name_id: @name&.id,
+      password_id: @password&.id,
+      phone_number_id: @phone_number&.id,
+      program_id: @program&.id,
+      program_execution_id: @program_execution&.id,
+      program_schedule_id: @program_schedule&.id,
+      time_zone_id: @time_zone&.id,
+      token_id: @token&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 <% if can?(:index, Log) %>
   <%
@@ -412,40 +402,39 @@
     records = records.where_token(@token) if @token
     records = records.where_user(@user) if @user
   %>
-  <div class="p">
-    <%= link_to(
-      t(".logs", count: records.distinct.count),
-      {
-        controller: :logs,
-        action: :index,
-        address_id: @address&.id,
-        datum_id: @datum&.id,
-        device_id: @device&.id,
-        email_address_id: @email_address&.id,
-        error_id: @error&.id,
-        error_occurrence_id: @error_occurrence&.id,
-        guest_id: @guest&.id,
-        handle_id: @handle&.id,
-        job_batch_id: @job_batch&.id,
-        job_context_id: @job_context&.id,
-        message_id: @message&.id,
-        name_id: @name&.id,
-        password_id: @password&.id,
-        phone_number_id: @phone_number&.id,
-        program_id: @program&.id,
-        program_execution_id: @program_execution&.id,
-        program_schedule_id: @program_schedule&.id,
-        step_id: @step&.id,
-        step_execution_id: @step_execution&.id,
-        subscription_id: @subscription&.id,
-        subscription_execution_id: @subscription_execution&.id,
-        time_zone_id: @time_zone&.id,
-        token_id: @token&.id,
-        user_id: @user&.id
-      }.compact,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: records,
+    translation: "logs",
+    url: {
+      controller: :logs,
+      action: :index,
+      address_id: @address&.id,
+      datum_id: @datum&.id,
+      device_id: @device&.id,
+      email_address_id: @email_address&.id,
+      error_id: @error&.id,
+      error_occurrence_id: @error_occurrence&.id,
+      guest_id: @guest&.id,
+      handle_id: @handle&.id,
+      job_batch_id: @job_batch&.id,
+      job_context_id: @job_context&.id,
+      message_id: @message&.id,
+      name_id: @name&.id,
+      password_id: @password&.id,
+      phone_number_id: @phone_number&.id,
+      program_id: @program&.id,
+      program_execution_id: @program_execution&.id,
+      program_schedule_id: @program_schedule&.id,
+      step_id: @step&.id,
+      step_execution_id: @step_execution&.id,
+      subscription_id: @subscription&.id,
+      subscription_execution_id: @subscription_execution&.id,
+      time_zone_id: @time_zone&.id,
+      token_id: @token&.id,
+      user_id: @user&.id
+    }.compact
+  ) %>
 <% end %>
 
 <% if can?(:create, Job) %>
@@ -455,39 +444,39 @@
 <% end %>
 
 <% if @job_processes.any? %>
-  <div class="p p--flex">
-    <%= link_to(
-      t(".job_processes", count: @job_processes.size),
-      :job_processes,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: @job_processes,
+    translation: "job_processes",
+    url: :job_processes
+  ) %>
 <% end %>
 
 <% if @job_pauses.any? %>
-  <div class="p p--flex">
-    <%= link_to(t(".job_pauses", count: @job_pauses.size), :job_pauses, class: :link) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: @job_pauses,
+    translation: "job_pauses",
+    url: :job_pauses
+  ) %>
 <% end %>
 
 <% if @job_semaphores.any? %>
-  <div class="p p--flex">
-    <%= link_to(
-      t(".job_semaphores", count: @job_semaphores.size),
-      :job_semaphores,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: @job_semaphores,
+    translation: "job_semaphores",
+    url: :job_semaphores
+  ) %>
 <% end %>
 
 <% if @job_recurring_tasks.any? %>
-  <div class="p p--flex">
-    <%= link_to(
-      t(".job_recurring_tasks", count: @job_recurring_tasks.size),
-      :job_recurring_tasks,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: @job_recurring_tasks,
+    translation: "job_recurring_tasks",
+    url: :job_recurring_tasks
+  ) %>
 <% end %>
 
 <%= render("shared/search") %>
@@ -520,11 +509,10 @@
 </turbo-frame>
 
 <% if can?(:index, JobBatch) %>
-  <div class="p">
-    <%= link_to(
-      t(".job_batches", count: @job_batches.size),
-      job_batches_path,
-      class: :link
-    ) %>
-  </div>
+  <%= render(
+    "shared/count",
+    records: @job_batches,
+    translation: "job_batches",
+    url: job_batches_path
+  ) %>
 <% end %>
