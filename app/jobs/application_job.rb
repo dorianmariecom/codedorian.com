@@ -9,9 +9,9 @@ class ApplicationJob < ActiveJob::Base
 
   DISCARD_ON =
     lambda do |job, error|
-      set_context(job: job, error: error)
+      job.set_context(job: job, error: error)
       job.cleanup_job_contexts
-      log!(:discard_on)
+      job.log!(:discard_on)
     end
 
   discard_on(ActiveRecord::RecordNotFound, &DISCARD_ON)

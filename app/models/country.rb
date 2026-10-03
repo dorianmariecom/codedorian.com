@@ -114,6 +114,7 @@ class Country < ApplicationRecord
     attributes = attributes_from_ipinfo(ip_address:, payload:)
 
     transaction do
+      User.where(id: user.id).lock.take!
       country = find_or_initialize_by(user:, ip_address:)
       user.countries.where.not(id: country.id).update_all(primary: false)
       country.assign_attributes(**attributes, primary: true)

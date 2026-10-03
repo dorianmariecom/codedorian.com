@@ -89,6 +89,52 @@ class CleaningJobTest < ActiveJob::TestCase
     assert(ProgramExecution.exists?(latest.id))
   end
 
+  test "nullifies delivery references to obsolete executions and continues cleanup" do
+    Current.with(user: users(:admin)) do
+      original = step_executions(:step_execution)
+      latest = copy(original, created_at: original.created_at + 1.day)
+      unreferenced = copy(original, created_at: original.created_at - 1.day)
+      channel = DeliveryChannel.create!(key: "messages", enabled: true)
+      destination =
+        DeliveryDestination.create!(
+          user: original.user,
+          delivery_channel: channel
+        )
+      delivery =
+        Delivery.create!(
+          subscription: original.subscription,
+          delivery_destination: destination,
+          step_execution: original,
+          event_key: "cleaning"
+        )
+      retained_delivery =
+        Delivery.create!(
+          subscription: original.subscription,
+          delivery_destination: destination,
+          step_execution: latest,
+          event_key: "latest-execution"
+        )
+      standalone_delivery =
+        Delivery.create!(
+          subscription: original.subscription,
+          delivery_destination: destination,
+          event_key: "without-execution"
+        )
+      old_log = Log.create!(created_at: 2.months.ago)
+
+      CleaningJob.perform_now
+
+      assert_nil delivery.reload.step_execution_id
+      assert_equal latest.id, retained_delivery.reload.step_execution_id
+      assert Delivery.exists?(standalone_delivery.id)
+      assert_not StepExecution.exists?(original.id)
+      assert SubscriptionExecution.exists?(original.subscription_execution_id)
+      assert StepExecution.exists?(latest.id)
+      assert_not StepExecution.exists?(unreferenced.id)
+      assert_not Log.exists?(old_log.id)
+    end
+  end
+
   private
 
   def copy(record, **attributes)

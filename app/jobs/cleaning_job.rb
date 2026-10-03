@@ -9,7 +9,7 @@ class CleaningJob < ContextJob
   limits_concurrency(key: "CleaningJob", on_conflict: :discard)
 
   def perform_with_context
-    obsolete(StepExecution, :step_id).delete_all
+    obsolete(StepExecution, :step_id).destroy_all
     obsolete(SubscriptionExecution, :subscription_id)
       .where.not(id: StepExecution.select(:subscription_execution_id))
       .delete_all

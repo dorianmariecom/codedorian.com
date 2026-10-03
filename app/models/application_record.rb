@@ -3,7 +3,7 @@
 class ApplicationRecord < ActiveRecord::Base
   include(RecordConcern)
 
-  has_paper_trail
+  has_paper_trail on: %i[create update destroy]
   primary_abstract_class
 
   scope :where_guest, ->(_guest) { none }
