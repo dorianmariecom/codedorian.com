@@ -449,6 +449,28 @@ module ApplicationHelper
     insert_recaptcha_tag(super)
   end
 
+  def cached_pagination(collection)
+    return collection if collection.group_values.any?
+
+    records = collection.except(:offset, :limit, :order)
+    key = [
+      "pagination/counts/v1",
+      records.cache_key,
+      records.cache_version,
+      collection.max_pages,
+      collection.max_pages ? collection.limit_value : nil
+    ]
+    total_count =
+      Rails.cache.fetch(key, expires_in: 1.hour) { collection.total_count }
+
+    Kaminari.paginate_array(
+      collection.to_a,
+      limit: collection.limit_value,
+      offset: collection.offset_value,
+      total_count: total_count
+    )
+  end
+
   def render_collection(partial:, collection:, as:, content: true, **extras)
     render(
       "shared/collection",

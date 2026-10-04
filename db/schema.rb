@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_29_184501) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_04_154409) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -81,6 +81,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_29_184501) do
     t.string "data_source"
     t.bigint "query_id"
     t.text "statement"
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.bigint "user_id"
     t.index ["query_id"], name: "index_blazer_audits_on_query_id"
     t.index ["user_id"], name: "index_blazer_audits_on_user_id"
@@ -568,6 +569,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_29_184501) do
     t.bigint "channel_hash", null: false
     t.datetime "created_at", null: false
     t.binary "payload", null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["channel"], name: "index_solid_cable_messages_on_channel"
     t.index ["channel_hash"], name: "index_solid_cable_messages_on_channel_hash"
     t.index %w[created_at id],
@@ -580,6 +582,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_29_184501) do
     t.datetime "created_at", null: false
     t.binary "key", null: false
     t.bigint "key_hash", null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.binary "value", null: false
     t.index ["byte_size"], name: "index_solid_cache_entries_on_byte_size"
     t.index %w[key_hash byte_size],

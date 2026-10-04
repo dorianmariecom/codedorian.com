@@ -4,12 +4,19 @@
 <% content = local_assigns.fetch(:content, true) %>
 <% extras = local_assigns.fetch(:extras, {}) %>
 
-<div class="p text-gray-600"><%= page_entries_info(collection) %></div>
+<% pagination = cached_pagination(collection) %>
+
+<div class="p text-gray-600">
+  <%= page_entries_info(
+    pagination,
+    entry_name: collection.entry_name(count: pagination.size).downcase
+  ) %>
+</div>
 
 <% if content %>
   <%= render(partial:, collection:, as:, **extras) %>
 
-  <% if collection.total_pages > 1 %>
-    <div class="p p--flex"><%= paginate(collection) %></div>
+  <% if pagination.total_pages > 1 %>
+    <div class="p p--flex"><%= paginate(pagination) %></div>
   <% end %>
 <% end %>
