@@ -21,10 +21,7 @@ class CollectionCacheTest < ActionView::TestCase
   end
 
   test "reuses the complete rendered collection" do
-    reads = []
-    listener = ->(event) { reads << event.payload.slice(:key, :hit) }
-    first = nil
-    ActiveSupport::Notifications.subscribed(listener, "cache_read.active_support") { first = render_users }
+    first = render_users
     rendered = []
     subscriber = ->(event) { rendered << event.payload[:identifier] }
 
@@ -33,8 +30,6 @@ class CollectionCacheTest < ActionView::TestCase
       "render_collection.action_view"
     ) { assert_equal first, render_users }
 
-    ActiveSupport::Notifications.subscribed(listener, "cache_read.active_support") { render_users }
-    puts reads.inspect
     assert_empty rendered
   end
 

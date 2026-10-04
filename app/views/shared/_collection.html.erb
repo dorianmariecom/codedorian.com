@@ -14,7 +14,7 @@
         ),
         as,
         content,
-        extras,
+        ActiveSupport::Cache.expand_cache_key(extras),
         Current.user_or_guest,
         I18n.locale,
         Time.zone.name,
