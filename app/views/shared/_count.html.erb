@@ -2,7 +2,8 @@
 <% url = local_assigns.fetch(:url) %>
 
 <% if can?(:index, records.klass) %>
+  <% count = Rails.cache.fetch(["counts/v1", records.cache_key]) { records.count } %>
   <div class="p">
-    <%= link_to(t(".#{translation}", count: records.count), url, class: :link) %>
+    <%= link_to(t(".#{translation}", count: count), url, class: :link) %>
   </div>
 <% end %>

@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 class CleaningJob < ContextJob
-  BATCH_SIZE = 1_000
-  RETENTION_PERIOD = 1.month
+  RETENTION_PERIOD = 1.day
 
   queue_as(:default)
 
@@ -15,11 +14,24 @@ class CleaningJob < ContextJob
       .delete_all
     obsolete(ProgramExecution, :program_id).delete_all
 
+    cutoff = RETENTION_PERIOD.ago
+
+    Job.where(finished_at: ...cutoff).delete_all
+    JobBatch
+      .where(finished_at: ...cutoff)
+      .where
+      .missing(:jobs, :batch_executions)
+      .delete_all
     Guest.expired.delete_all
     Session.expired_guests.delete_all
     JobContext.where.missing(:job).delete_all
 
-    cutoff = RETENTION_PERIOD.ago
+    ErrorOccurrence.where(created_at: ...cutoff).delete_all
+    Error
+      .where(resolved_at: ...cutoff)
+      .where
+      .missing(:error_occurrences)
+      .delete_all
 
     Version.where(created_at: ...cutoff).delete_all
     Log.where(created_at: ...cutoff).delete_all

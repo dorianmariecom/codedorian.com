@@ -3,10 +3,10 @@
 require "test_helper"
 
 class CleaningJobTest < ActiveJob::TestCase
-  test "deletes retained records older than one month" do
+  test "deletes retained records older than one day" do
     travel_to(Time.zone.local(2026, 8, 16, 12)) do
-      old_records = retention_records(created_at: 1.month.ago - 1.second)
-      current_records = retention_records(created_at: 1.month.ago)
+      old_records = retention_records(created_at: 1.day.ago - 1.second)
+      current_records = retention_records(created_at: 1.day.ago)
       Guest.update_all(created_at: Time.current)
 
       CleaningJob.perform_now
@@ -14,10 +14,6 @@ class CleaningJobTest < ActiveJob::TestCase
       old_records.each { |record| assert_not(record.class.exists?(record.id)) }
       current_records.each { |record| assert(record.class.exists?(record.id)) }
     end
-  end
-
-  test "sets the retention cleanup batch size" do
-    assert_equal(1_000, CleaningJob::BATCH_SIZE)
   end
 
   test "deletes guest sessions at one day old and preserves user sessions" do
@@ -75,9 +71,7 @@ class CleaningJobTest < ActiveJob::TestCase
   test "deletes all orphaned job contexts in one run" do
     records =
       JobContext.insert_all!(
-        Array.new(CleaningJob::BATCH_SIZE + 1) do
-          { active_job_id: SecureRandom.uuid }
-        end,
+        Array.new(1_001) { { active_job_id: SecureRandom.uuid } },
         returning: %w[id]
       )
     orphaned = JobContext.where(id: records.rows.flatten)
@@ -201,6 +195,71 @@ class CleaningJobTest < ActiveJob::TestCase
       assert_not StepExecution.exists?(unreferenced.id)
       assert_not Log.exists?(old_log.id)
     end
+  end
+
+  test "cleans completed jobs and contexts but keeps unfinished and recent jobs" do
+    old =
+      copy(
+        jobs(:job),
+        active_job_id: SecureRandom.uuid,
+        finished_at: 2.days.ago
+      )
+    recent =
+      copy(
+        jobs(:job),
+        active_job_id: SecureRandom.uuid,
+        finished_at: Time.current
+      )
+    context = JobContext.create!(active_job_id: old.active_job_id)
+
+    CleaningJob.perform_now
+
+    assert_not Job.exists?(old.id)
+    assert_not JobContext.exists?(context.id)
+    assert Job.exists?(recent.id)
+    assert Job.exists?(jobs(:job).id)
+    assert JobFailedExecution.exists?(
+             job_failed_executions(:job_failed_execution).id
+           )
+  end
+
+  test "cleans finished empty batches and preserves batches with work" do
+    batch = job_batches(:job_batch)
+    batch.update_columns(finished_at: 2.days.ago)
+    empty = copy(batch, active_job_batch_id: SecureRandom.uuid)
+    recent =
+      copy(
+        batch,
+        active_job_batch_id: SecureRandom.uuid,
+        finished_at: Time.current
+      )
+
+    CleaningJob.perform_now
+
+    assert_not JobBatch.exists?(empty.id)
+    assert JobBatch.exists?(batch.id)
+    assert JobBatch.exists?(recent.id)
+  end
+
+  test "cleans old occurrences and resolved errors but preserves unresolved and recent errors" do
+    unresolved = errors(:error)
+    resolved =
+      copy(unresolved, fingerprint: SecureRandom.hex, resolved_at: 2.days.ago)
+    recent =
+      copy(unresolved, fingerprint: SecureRandom.hex, resolved_at: Time.current)
+    with_recent_occurrence =
+      copy(unresolved, fingerprint: SecureRandom.hex, resolved_at: 2.days.ago)
+    old = ErrorOccurrence.create!(error: resolved, created_at: 2.days.ago)
+    retained = ErrorOccurrence.create!(error: with_recent_occurrence)
+
+    CleaningJob.perform_now
+
+    assert_not ErrorOccurrence.exists?(old.id)
+    assert_not Error.exists?(resolved.id)
+    assert Error.exists?(unresolved.id)
+    assert Error.exists?(recent.id)
+    assert Error.exists?(with_recent_occurrence.id)
+    assert ErrorOccurrence.exists?(retained.id)
   end
 
   private

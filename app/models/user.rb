@@ -64,6 +64,7 @@ class User < ApplicationRecord
   validates(:interface, inclusion: { in: INTERFACES })
 
   after_save :update_description
+  after_touch :reset_profile_associations
   after_touch :update_description
 
   def self.associated_search_fields
@@ -132,27 +133,43 @@ class User < ApplicationRecord
   end
 
   def name
-    names.order(verified: :desc, primary: :desc, id: :asc).first
+    names.to_a.min_by do |name|
+      [name.verified? ? 0 : 1, name.primary? ? 0 : 1, name.id.to_i]
+    end
   end
 
   def address
-    addresses.order(verified: :desc, primary: :desc, id: :asc).first
+    addresses.to_a.min_by do |address|
+      [address.verified? ? 0 : 1, address.primary? ? 0 : 1, address.id.to_i]
+    end
   end
 
   def handle
-    handles.order(verified: :desc, primary: :desc, id: :asc).first
+    handles.to_a.min_by do |handle|
+      [handle.verified? ? 0 : 1, handle.primary? ? 0 : 1, handle.id.to_i]
+    end
   end
 
   def password
-    passwords.order(verified: :desc, primary: :desc, id: :asc).first
+    passwords.to_a.min_by do |password|
+      [password.verified? ? 0 : 1, password.primary? ? 0 : 1, password.id.to_i]
+    end
   end
 
   def email_address
-    email_addresses.order(verified: :desc, primary: :desc, id: :asc).first
+    email_addresses.to_a.min_by do |address|
+      [address.verified? ? 0 : 1, address.primary? ? 0 : 1, address.id.to_i]
+    end
   end
 
   def phone_number
-    phone_numbers.order(verified: :desc, primary: :desc, id: :asc).first
+    phone_numbers.to_a.min_by do |phone_number|
+      [
+        phone_number.verified? ? 0 : 1,
+        phone_number.primary? ? 0 : 1,
+        phone_number.id.to_i
+      ]
+    end
   end
 
   def passwords_attributes=(attributes)
@@ -165,19 +182,31 @@ class User < ApplicationRecord
   end
 
   def time_zone
-    time_zones.order(verified: :desc, primary: :desc, id: :asc).first
+    time_zones.to_a.min_by do |time_zone|
+      [
+        time_zone.verified? ? 0 : 1,
+        time_zone.primary? ? 0 : 1,
+        time_zone.id.to_i
+      ]
+    end
   end
 
   def country
-    countries.order(verified: :desc, primary: :desc, id: :asc).first
+    countries.to_a.min_by do |country|
+      [country.verified? ? 0 : 1, country.primary? ? 0 : 1, country.id.to_i]
+    end
   end
 
   def device
-    devices.order(verified: :desc, primary: :desc, id: :asc).first
+    devices.to_a.min_by do |device|
+      [device.verified? ? 0 : 1, device.primary? ? 0 : 1, device.id.to_i]
+    end
   end
 
   def token
-    tokens.order(verified: :desc, primary: :desc, id: :asc).first
+    tokens.to_a.min_by do |token|
+      [token.verified? ? 0 : 1, token.primary? ? 0 : 1, token.id.to_i]
+    end
   end
 
   def verified!
@@ -288,6 +317,19 @@ class User < ApplicationRecord
 
   def to_s
     Utils.join(description_sample, id_sample).presence || t("to_s", id:)
+  end
+
+  def reset_profile_associations
+    addresses.reset
+    countries.reset
+    devices.reset
+    email_addresses.reset
+    handles.reset
+    names.reset
+    passwords.reset
+    phone_numbers.reset
+    time_zones.reset
+    tokens.reset
   end
 
   def calculated_description

@@ -3,6 +3,41 @@
 require "test_helper"
 
 class CountryTest < ActiveSupport::TestCase
+  test "unchanged synchronization reuses loaded countries without queries" do
+    user = users(:admin)
+    payload = { country: "FR" }
+    Current.with(user:) do
+      country =
+        Country.sync_from_ipinfo!(user:, ip_address: "203.0.113.22", payload:)
+      user.countries.load
+      queries = []
+      subscriber = ->(event) { queries << event.payload[:sql] }
+
+      ActiveSupport::Notifications.subscribed(
+        subscriber,
+        "sql.active_record"
+      ) do
+        assert_equal country,
+                     Country.sync_from_ipinfo!(
+                       user:,
+                       ip_address: "203.0.113.22",
+                       payload:
+                     )
+      end
+
+      assert_empty queries
+      updated =
+        Country.sync_from_ipinfo!(
+          user:,
+          ip_address: "203.0.113.22",
+          payload: {
+            country: "US"
+          }
+        )
+      assert_equal "US", updated.reload.alpha2
+    end
+  end
+
   test "normalizes flat IPinfo payload and preserves every field" do
     attributes =
       Country.attributes_from_ipinfo(

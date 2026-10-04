@@ -113,15 +113,19 @@ class Country < ApplicationRecord
   def self.sync_from_ipinfo!(user:, ip_address:, payload:)
     attributes = attributes_from_ipinfo(ip_address:, payload:)
 
-    country = find_or_initialize_by(user:, ip_address:)
+    country =
+      user.countries.to_a.find { |country| country.ip_address == ip_address } ||
+        user.countries.build(ip_address:)
     country.assign_attributes(**attributes, primary: true)
-    country.save!
+    country.save! if country.new_record? || country.has_changes_to_save?
     country
   rescue ActiveRecord::RecordNotUnique
+    user.countries.reset
     find_by!(user:, ip_address:)
   rescue ActiveRecord::RecordInvalid => e
     raise unless e.record.errors.of_kind?(:ip_address, :taken)
 
+    user.countries.reset
     find_by!(user:, ip_address:)
   end
 

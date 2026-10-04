@@ -3,6 +3,52 @@
 require "test_helper"
 
 class UserTest < ActiveSupport::TestCase
+  test "profile lookups reuse preloaded associations without queries" do
+    user =
+      User.preload(
+        :names,
+        :addresses,
+        :handles,
+        :passwords,
+        :email_addresses,
+        :phone_numbers,
+        :time_zones,
+        :countries,
+        :devices,
+        :tokens
+      ).find(users(:admin).id)
+    queries = []
+    subscriber = ->(event) { queries << event.payload[:sql] }
+
+    ActiveSupport::Notifications.subscribed(subscriber, "sql.active_record") do
+      2.times do
+        assert user.name
+        assert user.address
+        assert user.handle
+        assert user.password
+        assert user.email_address
+        assert user.phone_number
+        assert user.time_zone
+        assert user.country
+        assert user.device
+        assert user.token
+      end
+    end
+
+    assert_empty queries
+  end
+
+  test "touching a user refreshes cached profile data and description" do
+    user = users(:admin)
+    user.handle
+    handle = Handle.find(user.handle.id)
+    Current.with(user:) { handle.update!(handle: "updated_handle") }
+    user.touch
+
+    assert_equal "updated_handle", user.handle.handle
+    assert_equal "updated_handle", user.reload.description
+  end
+
   test "interface defaults to simple" do
     user = User.new
 
@@ -28,6 +74,8 @@ class UserTest < ActiveSupport::TestCase
       record.update_columns(user_id: user.id, verified: false, primary: false)
     end
     user.names.where.not(id: records.map(&:id)).delete_all
+    records = user.names.reload.sort_by(&:id)
+    first, second = records
 
     assert_equal(first, user.name)
 
@@ -63,6 +111,8 @@ class UserTest < ActiveSupport::TestCase
       record.update_columns(user_id: user.id, verified: false, primary: false)
     end
     user.addresses.where.not(id: records.map(&:id)).delete_all
+    records = user.addresses.reload.sort_by(&:id)
+    first, second = records
 
     assert_equal(first, user.address)
 
@@ -98,6 +148,8 @@ class UserTest < ActiveSupport::TestCase
       record.update_columns(user_id: user.id, verified: false, primary: false)
     end
     user.handles.where.not(id: records.map(&:id)).delete_all
+    records = user.handles.reload.sort_by(&:id)
+    first, second = records
 
     assert_equal(first, user.handle)
 
@@ -133,6 +185,8 @@ class UserTest < ActiveSupport::TestCase
       record.update_columns(user_id: user.id, verified: false, primary: false)
     end
     user.passwords.where.not(id: records.map(&:id)).delete_all
+    records = user.passwords.reload.sort_by(&:id)
+    first, second = records
 
     assert_equal(first, user.password)
 
@@ -168,6 +222,8 @@ class UserTest < ActiveSupport::TestCase
       record.update_columns(user_id: user.id, verified: false, primary: false)
     end
     user.email_addresses.where.not(id: records.map(&:id)).delete_all
+    records = user.email_addresses.reload.sort_by(&:id)
+    first, second = records
 
     assert_equal(first, user.email_address)
 
@@ -203,6 +259,8 @@ class UserTest < ActiveSupport::TestCase
       record.update_columns(user_id: user.id, verified: false, primary: false)
     end
     user.phone_numbers.where.not(id: records.map(&:id)).delete_all
+    records = user.phone_numbers.reload.sort_by(&:id)
+    first, second = records
 
     assert_equal(first, user.phone_number)
 
@@ -238,6 +296,8 @@ class UserTest < ActiveSupport::TestCase
       record.update_columns(user_id: user.id, verified: false, primary: false)
     end
     user.time_zones.where.not(id: records.map(&:id)).delete_all
+    records = user.time_zones.reload.sort_by(&:id)
+    first, second = records
 
     assert_equal(first, user.time_zone)
 
@@ -273,6 +333,8 @@ class UserTest < ActiveSupport::TestCase
       record.update_columns(user_id: user.id, verified: false, primary: false)
     end
     user.countries.where.not(id: records.map(&:id)).delete_all
+    records = user.countries.reload.sort_by(&:id)
+    first, second = records
 
     assert_equal(first, user.country)
 
@@ -308,6 +370,8 @@ class UserTest < ActiveSupport::TestCase
       record.update_columns(user_id: user.id, verified: false, primary: false)
     end
     user.devices.where.not(id: records.map(&:id)).delete_all
+    records = user.devices.reload.sort_by(&:id)
+    first, second = records
 
     assert_equal(first, user.device)
 
@@ -343,6 +407,8 @@ class UserTest < ActiveSupport::TestCase
       record.update_columns(user_id: user.id, verified: false, primary: false)
     end
     user.tokens.where.not(id: records.map(&:id)).delete_all
+    records = user.tokens.reload.sort_by(&:id)
+    first, second = records
 
     assert_equal(first, user.token)
 
