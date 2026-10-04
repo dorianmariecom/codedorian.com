@@ -4,19 +4,39 @@
 <% content = local_assigns.fetch(:content, true) %>
 <% extras = local_assigns.fetch(:extras, {}) %>
 
-<% pagination = cached_pagination(collection) %>
+<% cache [
+        collection,
+        collection.except(:offset, :limit, :order),
+        partial,
+        ActionView::Digestor.digest(
+          name: lookup_context.find_template(partial, [], true).virtual_path,
+          finder: lookup_context
+        ),
+        as,
+        content,
+        extras,
+        Current.user_or_guest,
+        I18n.locale,
+        Time.zone.name,
+        request.base_url,
+        request.fullpath,
+        request.user_agent
+      ],
+      expires_in: 1.hour do %>
+  <% pagination = cached_pagination(collection) %>
 
-<div class="p text-gray-600">
-  <%= page_entries_info(
-    pagination,
-    entry_name: collection.entry_name(count: pagination.size).downcase
-  ) %>
-</div>
+  <div class="p text-gray-600">
+    <%= page_entries_info(
+      pagination,
+      entry_name: collection.entry_name(count: pagination.size).downcase
+    ) %>
+  </div>
 
-<% if content %>
-  <%= render(partial:, collection:, as:, **extras) %>
+  <% if content %>
+    <%= render(partial:, collection:, as:, **extras) %>
 
-  <% if pagination.total_pages > 1 %>
-    <div class="p p--flex"><%= paginate(pagination) %></div>
+    <% if pagination.total_pages > 1 %>
+      <div class="p p--flex"><%= paginate(pagination) %></div>
+    <% end %>
   <% end %>
 <% end %>
