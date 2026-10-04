@@ -126,13 +126,8 @@ class Log < ApplicationRecord
       }
     elsif object.is_an?(ActiveJob::Base)
       job = object
-      arguments =
-        begin
-          job.arguments
-        rescue ActiveJob::DeserializationError
-        end
 
-      { arguments: arguments, class: job.class, **job.serialize }
+      { class: job.class, **job.serialize }
     elsif object.is_a?(Gem::Version)
       object.to_s
     elsif object.is_a?(Hash)
