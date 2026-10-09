@@ -17,6 +17,42 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   smoke_actions_for "users"
 
+  test "show batches associations when more related records are displayed" do
+    job_contexts(:job_context).update_columns(
+      context: {
+        user: {
+          id: @admin.id
+        }
+      }
+    )
+    get(user_path(@admin))
+    baseline = user_page_queries
+
+    [
+      step_executions(:step_execution),
+      subscription_executions(:subscription_execution),
+      plan_schedules(:plan_schedule),
+      job_contexts(:job_context)
+    ].each do |record|
+      record.class.insert_all!(Array.new(10) { record.attributes.except("id") })
+    end
+
+    SubscriptionValue.insert_all!(
+      Array.new(10) do |index|
+        subscription_values(:phone)
+          .attributes
+          .except("id")
+          .merge("key" => "extra_#{index}")
+      end
+    )
+
+    queries = user_page_queries
+    assert_operator queries.size, :<=, baseline.size + 5
+    assert_select(
+      "a[href='#{step_execution_path(step_executions(:step_execution))}']"
+    )
+  end
+
   test "guest registration creates primary credentials without a hint and preserves the destination" do
     delete(login_path)
     destination = services_path
@@ -179,5 +215,21 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_select("a[href='#{user_devices_path(@other_user)}']")
     assert_select("a[href='#{new_user_device_path(@other_user)}']", count: 0)
+  end
+
+  private
+
+  def user_page_queries
+    queries = []
+    subscriber = ->(event) do
+      if event.payload[:sql].start_with?("SELECT")
+        queries << event.payload[:sql]
+      end
+    end
+    ActiveSupport::Notifications.subscribed(subscriber, "sql.active_record") do
+      get(user_path(@admin))
+    end
+    assert_response(:success)
+    queries
   end
 end

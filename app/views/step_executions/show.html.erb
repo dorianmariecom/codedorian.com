@@ -77,14 +77,14 @@
   "shared/attribute",
   label: t(".updated_at"),
   value: @step_execution.updated_at,
-  type: :time
+  type: :zoned_time
 ) %>
 
 <%= render(
   "shared/attribute",
   label: t(".created_at"),
   value: @step_execution.created_at,
-  type: :time
+  type: :zoned_time
 ) %>
 
 <% if can?(:update, @step_execution) %>

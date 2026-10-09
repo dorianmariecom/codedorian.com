@@ -2,6 +2,7 @@
 <% model = local_assigns.fetch(:model) %>
 <% content = local_assigns.fetch(:content, true) %>
 <% create = local_assigns.fetch(:create, true) %>
+<% preload = local_assigns.fetch(:preload, nil) %>
 <% singular = model.model_singular %>
 <% plural = model.model_plural %>
 <% if can?(:index, model) %>
@@ -9,6 +10,7 @@
   <% collection =
     user.is_a?(Guest) ? collection.where_guest(user) : collection.where_user(user) %>
   <% collection = collection.page(params[:page]).order(created_at: :asc) %>
+  <% collection = collection.preload(preload) if preload %>
   <% partial = "#{plural}/#{singular}" %>
   <% as = singular %>
 

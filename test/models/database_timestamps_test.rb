@@ -31,11 +31,4 @@ class DatabaseTimestampsTest < ActiveSupport::TestCase
 
     assert SolidCable::Message.find_by!(channel:).updated_at
   end
-
-  test "Blazer audit inserts without Rails timestamps use the database default" do
-    result =
-      Blazer::Audit.insert!({ statement: "SELECT 1" }, record_timestamps: false)
-
-    assert Blazer::Audit.find(result.rows.first.first).updated_at
-  end
 end

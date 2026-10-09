@@ -4,9 +4,11 @@
 <% content = local_assigns.fetch(:content, true) %>
 <% extras = local_assigns.fetch(:extras, {}) %>
 
+<% records = collection.except(:offset, :limit, :order) %>
+
 <% cache [
         collection,
-        collection.except(:offset, :limit, :order),
+        records,
         partial,
         ActionView::Digestor.digest(
           name: lookup_context.find_template(partial, [], true).virtual_path,
@@ -23,7 +25,7 @@
         request.user_agent
       ],
       expires_in: 1.hour do %>
-  <% pagination = cached_pagination(collection) %>
+  <% pagination = cached_pagination(collection, records:) %>
 
   <div class="p text-gray-600">
     <%= page_entries_info(

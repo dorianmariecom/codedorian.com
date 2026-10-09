@@ -330,7 +330,8 @@ class ApplicationController < ActionController::Base
   end
 
   def current_time_zone
-    current_user&.time_zone&.time_zone.presence || session[:time_zone].presence
+    current_user&.time_zone&.time_zone.presence ||
+      session[:time_zone].presence || Rails.application.config.time_zone
   end
 
   def current_persisted_time_zone
@@ -411,6 +412,11 @@ class ApplicationController < ActionController::Base
 
   def verify_captcha
     return if request.get? || request.head? || admin?
+
+    if (request.format.json? || current_token?) &&
+         Hashcash.redeem(request: request, user_id: current_user&.id)
+      return
+    end
 
     verify_recaptcha!(
       action: params["g-recaptcha-action"],

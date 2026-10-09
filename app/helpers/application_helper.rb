@@ -2,7 +2,7 @@
 
 module ApplicationHelper
   def plan_schedule_description(plan_schedule)
-    starts_at = plan_schedule.starts_at.in_time_zone
+    starts_at = plan_schedule.starts_at_in(time_zone: Time.zone)
     count = plan_schedule.interval.split.first
     options = {
       count: count.to_i,
@@ -449,10 +449,16 @@ module ApplicationHelper
     insert_recaptcha_tag(super)
   end
 
-  def cached_pagination(collection)
+  def cached_pagination(collection, records: nil)
     return collection if collection.group_values.any?
 
-    records = collection.except(:offset, :limit, :order)
+    collection.load
+    if collection.size < collection.limit_value &&
+         (collection.any? || collection.offset_value.zero?)
+      return collection
+    end
+
+    records ||= collection.except(:offset, :limit, :order)
     key = [
       "pagination/counts/v1",
       records.cache_key,

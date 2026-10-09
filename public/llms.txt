@@ -1,0 +1,571 @@
+# codedorian
+
+> codedorian offers recurring services for alerts, reminders, information, and discoveries, so users can receive updates without checking for them manually.
+
+Services include X unfollow alerts, birthday and Google Calendar reminders, GitHub pull request check notifications, monitoring heartbeats, daily trivia, international observances, TV schedules, and humor.
+
+The website is available in English (`/en`) and French (`/fr`). Links below lead to public HTML pages unless otherwise noted. Consult the service catalog and individual service pages for current availability, plans, and setup instructions.
+
+## English
+
+- [Home](https://codedorian.com/en): Overview of codedorian and its recurring services.
+- [Services](https://codedorian.com/en/services): Current service catalog, with links to individual services and their plans.
+- [About](https://codedorian.com/en/about): Background information about codedorian.
+
+## Français
+
+- [Accueil](https://codedorian.com/fr): Présentation de codedorian et de ses services récurrents.
+- [Services](https://codedorian.com/fr/services): Catalogue des services, avec leurs offres et instructions de configuration.
+- [À propos](https://codedorian.com/fr/about): Informations sur codedorian.
+
+## Optional
+
+- [Privacy policy](https://codedorian.com/en/privacy): Privacy information in English.
+- [Politique de confidentialité](https://codedorian.com/fr/privacy): Informations sur la confidentialité en français.
+- [Terms](https://codedorian.com/en/terms): Terms in English.
+- [Conditions](https://codedorian.com/fr/terms): Conditions en français.
+- [Sitemap](https://codedorian.com/sitemap.xml): XML index of public pages, services, and plans in both languages.
+- [Robots](https://codedorian.com/robots.txt): Crawler directives.
+
+## MCP
+
+- [MCP server](https://codedorian.com/mcp): Model Context Protocol endpoint using stateless Streamable HTTP with JSON responses. Connect an MCP client with a verified account token in the custom `Token` header (`Token: YOUR_TOKEN`). Cookies are neither accepted nor retained.
+
+Discover available tools with `tools/list` and follow pagination using `nextCursor`. Each tool maps to a JSON API endpoint and retains its existing permissions. Tool arguments support `locale` (`en` or `fr`), `path` parameters, an exact URL-encoded `query` string without a leading `?`, and a `body` string containing the exact JSON object bytes.
+
+Non-admin writes without proof return `hashcash_required` with a Hashcash challenge without running the operation. Compute the nonce as described below, then repeat the same tool call with unchanged arguments plus `hashcash: {"challenge":"...","nonce":"..."}`. Normal tool results include the API HTTP `status` and response `body`.
+
+## JSON API
+
+This reference describes the application routes and Code runtime in this checkout (2026-10-04). Base URL: `https://codedorian.com`. There is no `/api` prefix. Request JSON with `.json` or `Accept: application/json`; send JSON bodies with `Content-Type: application/json`. Optional `/en` and `/fr` prefixes select the response-message locale. The Stripe and Twilio webhook paths are outside the locale scope.
+
+### Authentication, authorization, and responses
+
+Send a verified account token in the custom `Token` header: `Token: YOUR_TOKEN`. This is not a Bearer header or a query parameter. A valid session cookie takes precedence over token login. Cookie-authenticated writes require the normal CSRF protection; token-authenticated requests without an authenticated session are exempt. Public pages and some account entry points also support guests. Every resource remains subject to its Pundit policy and policy scope; route availability does not grant permission. Operational resources and administrative fields generally require an administrator.
+
+For non-admin write actions, also complete the Hashcash challenge flow below (or pass reCAPTCHA). The `Token` header only handles authentication and the applicable CSRF exemption.
+
+Application JSON responses use this envelope:
+
+```json
+{"status":"ok","messages":[],"data":null}
+```
+
+`data` is a record, array, scalar, action-specific object, or null as documented below. Messages are localized. Record responses use the model's JSON serialization, not a universal schema or an automatic expansion of associations. Lists return arrays without a pagination metadata envelope. Most create/update/delete successes return HTTP 200, not 201 or 204. Validation failures return HTTP 422 with `status: "unprocessable_content"`, messages, and usually the invalid record. Authentication gates return HTTP 401 with `status: "unauthorized"`. Rescued missing parameters, missing records, and policy denials commonly return HTTP 400 with `status: "bad_request"`; do not assume a missing record always yields 404. Explicit error routes are listed below.
+
+Use `page=2` on paginated collections. Search uses `search[q]`, not a bare `q`: for example `curl --get --data-urlencode 'search[q]=hello' ...`. Search grammar and available fields depend on the resource. Parent IDs accepted by individual controllers can further scope a collection. Nested user routes commonly accept `me` for the signed-in user; use a concrete ID when a controller does not support that shortcut. A guest prefix does not bypass authorization or imply every resource belongs to a guest.
+
+The curl examples show request and payload structure; the POST also needs the Hashcash headers described below for non-admin callers.
+
+```sh
+curl --fail-with-body --header 'Token: YOUR_TOKEN' \
+  --header 'Accept: application/json' \
+  'https://codedorian.com/en/programs.json?page=1'
+
+curl --fail-with-body --request POST \
+  --header 'Token: YOUR_TOKEN' \
+  --header 'Content-Type: application/json' \
+  --data '{"program":{"name":"hello","input":"puts(1 + 2)"}}' \
+  'https://codedorian.com/en/programs.json'
+```
+
+### Proof of work for JSON writes
+
+For automated non-admin write actions (POST, PUT, PATCH, DELETE), obtain and solve a Hashcash challenge before sending the request. A verified `Token` alone does not bypass captcha. JSON requests and token-authenticated requests can satisfy captcha verification with Hashcash; otherwise the request falls back to reCAPTCHA. GET and HEAD requests and administrators bypass this check. Hashcash does not replace authentication, authorization, or CSRF protection.
+
+1. Serialize the exact future request body and compute its lowercase SHA-256 hex digest. For a bodyless request, hash the empty byte string.
+2. GET `/hashcashes/challenge.json` with query parameters `method` (uppercase HTTP verb), `path` (exact request path including locale, `.json`, and query string), `body_sha256`, and `content_type` (exact Content-Type header, or empty string). Use the same authenticated identity and origin as the future write.
+3. Read `data.challenge`, `data.bits`, `data.algorithm` (`sha256`), and `data.expires_at`.
+4. Find a decimal nonce of 1–20 digits for which the SHA-256 digest of `challenge + ":" + nonce`, interpreted as an unsigned integer, is less than `2 ** (256 - bits)` (at least `bits` leading zero bits).
+5. Send the write with `X-Hashcash-Challenge` and `X-Hashcash-Nonce` headers, preserving the exact method, URL path/query, body bytes, content type, origin, and user identity. Proofs expire and successful redemption is single-use, even if later authorization or validation fails. Get a fresh challenge for each retry or when any bound request value changes.
+
+The challenge accepts POST, PUT, PATCH, DELETE, OPTIONS, TRACE, and CONNECT methods; it does not create an endpoint for a verb the application otherwise does not route. The path must start with a single `/` and cannot contain whitespace, backslashes, or fragments. Challenge issuance is public and does not require access to the admin-only Hashcash CRUD records. The configured defaults are 20 bits and a five-minute lifetime; always use the returned `bits` and `expires_at`. Missing, invalid, expired, or reused proofs fall back to reCAPTCHA; if that verification fails, the JSON response is HTTP 400 with `status: "bad_request"` and a `Recaptcha::VerifyError` message. The write response does not automatically issue a challenge.
+
+Example using Python's standard library to create a program with a verified account token. Set `CODEDORIAN_TOKEN` in the environment first. This example performs a write:
+
+```python
+import hashlib
+import json
+import os
+import urllib.parse
+import urllib.request
+
+base = "https://codedorian.com"
+path = "/en/programs.json"
+method = "POST"
+content_type = "application/json"
+body = json.dumps({"program": {"name": "hello", "input": "puts(1 + 2)"}}).encode("utf-8")
+headers = {"Token": os.environ["CODEDORIAN_TOKEN"], "Accept": "application/json"}
+query = urllib.parse.urlencode({
+    "method": method,
+    "path": path,
+    "body_sha256": hashlib.sha256(body).hexdigest(),
+    "content_type": content_type,
+})
+request = urllib.request.Request(base + "/en/hashcashes/challenge.json?" + query, headers=headers)
+with urllib.request.urlopen(request) as response:
+    proof = json.load(response)["data"]
+
+nonce = 0
+threshold = 1 << (256 - proof["bits"])
+while int.from_bytes(hashlib.sha256(f'{proof["challenge"]}:{nonce}'.encode("utf-8")).digest(), "big") >= threshold:
+    nonce += 1
+
+headers.update({
+    "Content-Type": content_type,
+    "X-Hashcash-Challenge": proof["challenge"],
+    "X-Hashcash-Nonce": str(nonce),
+})
+request = urllib.request.Request(base + path, data=body, headers=headers, method=method)
+with urllib.request.urlopen(request) as response:
+    print(json.load(response))
+```
+
+### CRUD endpoints
+
+Every collection in the following resource table has every endpoint in this table. `B` is a collection base from the resource table, without a trailing slash or `.json`. Replace `:id` and `:resource_id` with the same record identifier; Rails names the alias parameter after the singular resource (for example `:program_id`, `:datum_id`, or `:email_address_id`).
+
+| Method | Path | Behavior and success data |
+| --- | --- | --- |
+| GET | `B.json` | List authorized records; data is an array. |
+| GET | `B/new.json` | Build an unsaved record with controller defaults; data is that record. |
+| POST | `B.json` | Create using the request root and permitted fields below; data is the saved record. |
+| GET | `B/:id.json` | Read one record; data is that record. |
+| GET | `B/:id/edit.json` | Read a record after edit authorization; data is that record. |
+| PATCH, PUT | `B/:id.json` | Update permitted fields; data is the saved record. |
+| DELETE | `B/:id.json` | Destroy a record; data is usually the deleted record. |
+| DELETE | `B/:resource_id/destroy.json` | Explicit destroy alias. |
+| DELETE | `B/:resource_id/delete.json` | Explicit delete action. Many controllers use direct deletion, bypassing destroy callbacks; some use destroy instead. |
+| DELETE | `B/destroy_all.json` | Destroy the entire authorized, filtered scope; data is null. |
+| DELETE | `B/delete_all.json` | Delete the entire authorized, filtered scope; data is null. Some controllers intentionally use destroy semantics here. |
+
+Bulk actions operate on the scope, not just the displayed page. Prefer the standard `DELETE B/:id.json` route for normal removal. Alias parameter handling is controller-specific. Subscription destruction returns the subscription and can refuse deletion with a 422 response.
+
+Resource scopes: `global` means the base shown; `user` adds `/users/:user_id` before that base; `guest` adds `/guests/:guest_id`. All three can optionally be prefixed by `/en` or `/fr`. The bases and scope lists below exhaust the application's CRUD route families, including service-nested subscriptions. For example a `user` scoped `/services/:service_id/subscriptions` becomes `/en/users/:user_id/services/:service_id/subscriptions.json`.
+
+| Collection base B | Scopes | JSON request root |
+| --- | --- | --- |
+| `/addresses` | global, user, guest | `address` |
+| `/configurations` | global | `configuration` |
+| `/connections` | global | `connection` |
+| `/countries` | global, user, guest | `country` |
+| `/country_code_ip_addresses` | global | `country_code_ip_address` |
+| `/data` | global, user, guest | `datum` |
+| `/deliveries` | global | `delivery` |
+| `/delivery_channels` | global | `delivery_channel` |
+| `/delivery_destinations` | global | `delivery_destination` |
+| `/devices` | global, user, guest | `device` |
+| `/email_addresses` | global, user, guest | `email_address` |
+| `/error_occurrences` | global, user, guest | `error_occurrence` |
+| `/errors` | global, user, guest | `error` |
+| `/guests` | global | `guest` |
+| `/handles` | global, user, guest | `handle` |
+| `/hashcashes` | global | `hashcash` |
+| `/job_batch_executions` | global, user, guest | `job_batch_execution` |
+| `/job_batches` | global, user, guest | `job_batch` |
+| `/job_blocked_executions` | global, user, guest | `job_blocked_execution` |
+| `/job_claimed_executions` | global, user, guest | `job_claimed_execution` |
+| `/job_contexts` | global, user, guest | `job_context` |
+| `/job_failed_executions` | global, user, guest | `job_failed_execution` |
+| `/job_pauses` | global, user, guest | `job_pause` |
+| `/job_processes` | global, user, guest | `job_process` |
+| `/job_ready_executions` | global, user, guest | `job_ready_execution` |
+| `/job_recurring_executions` | global, user, guest | `job_recurring_execution` |
+| `/job_recurring_tasks` | global, user, guest | `job_recurring_task` |
+| `/job_scheduled_executions` | global, user, guest | `job_scheduled_execution` |
+| `/job_semaphores` | global, user, guest | `job_semaphore` |
+| `/jobs` | global, user, guest | `job` |
+| `/links` | global | `link` |
+| `/logs` | global, user, guest | `log` |
+| `/messages` | global, user, guest | `message` |
+| `/names` | global, user, guest | `name` |
+| `/pages` | global, user, guest | `page` |
+| `/passwords` | global, user, guest | `password` |
+| `/phone_numbers` | global, user, guest | `phone_number` |
+| `/plan_fields` | global, user, guest | `plan_field` |
+| `/plan_schedules` | global, user, guest | `plan_schedule` |
+| `/plans` | global, user, guest | `plan` |
+| `/program_executions` | global, user, guest | `program_execution` |
+| `/program_schedules` | global, user, guest | `program_schedule` |
+| `/programs` | global, user, guest | `program` |
+| `/service_fields` | global, user, guest | `service_field` |
+| `/services` | global, user, guest | `service` |
+| `/sessions` | global, user, guest | `session` |
+| `/solid_cable_messages` | global, user, guest | `solid_cable_message` |
+| `/solid_cache_entries` | global | `solid_cache_entry` |
+| `/step_executions` | global, user, guest | `step_execution` |
+| `/steps` | global, user, guest | `step` |
+| `/stripe_events` | global | `stripe_event` |
+| `/stripe_invoices` | global | `stripe_invoice` |
+| `/subscription_destinations` | global | `subscription_destination` |
+| `/subscription_executions` | global, user, guest | `subscription_execution` |
+| `/subscription_values` | global, user, guest | `subscription_value` |
+| `/services/:service_id/subscriptions` | global, user, guest | `subscription` |
+| `/subscriptions` | global, user, guest | `subscription` |
+| `/time_zones` | global, user, guest | `time_zone` |
+| `/tokens` | global, user, guest | `token` |
+| `/users` | global | `user` |
+| `/versions` | global, user, guest | `version` |
+
+### Write fields
+
+For POST, PATCH, and PUT, wrap the fields in the request root above (for example `{"datum":{"key":"greeting","value":"hello"}}`). The table lists the union of fields permitted by each controller, including administrator fields; policies and role-specific parameter filtering still apply. Ownership IDs, verification flags, and operational fields are often admin-only. Fields omitted from a PATCH remain unchanged. These are input allowlists, not a promise that every combination validates or that every output field is writable. JSON-like text attributes may require a JSON-encoded string instead of an object because scalar strong parameters are used.
+
+Nested `*_attributes` collections take arrays of objects. Each nested object may use `id` to update and `_destroy` to remove an existing child. Nested field shapes follow the table.
+
+| Request root | Permitted fields (union across roles) |
+| --- | --- |
+| `address` | user_id, primary, verified, address, autocomplete |
+| `configuration` | name, content |
+| `connection` | user_id, email, username, external_id, provider, enabled, access_token, scope, base_url, account_sid, auth_token, api_key, sender, smtp_from, smtp_address, smtp_port, smtp_user_name, smtp_password, smtp_authentication, aws_access_key_id, aws_secret_access_key, aws_session_token, aws_region, mailgun_domain, mailgun_region |
+| `country` | user_id, verified, ip_address, name, alpha2, alpha3, numeric_code, hostname, city, region, region_code, continent, continent_code, latitude, longitude, postal_code, time_zone, organization, anycast, bogon, anonymous, hosting, mobile, satellite, asn, company, privacy, abuse, domains, carrier, raw_payload, primary |
+| `country_code_ip_address` | ip_address, country_code |
+| `datum` | user_id, key, value |
+| `delivery` | subscription_id, delivery_destination_id, step_execution_id, event_key, status, provider_id, error_code, subject, body_text, body_html, url, locale |
+| `delivery_channel` | key, enabled, amount_cents, show_recipient, show_visibility, amount_currency, connection_id, messaging_service_sid, content_sid_en, content_sid_fr, callback_base_url, visibility_restriction, public_pattern, private_pattern, show_connection |
+| `delivery_destination` | user_id, delivery_channel_id, connection_id, recipient, visibility, enabled |
+| `device` | user_id, platform, token, primary, verified |
+| `email_address` | user_id, verified, primary, email_address |
+| `error_occurrence` | backtrace, context, error_id |
+| `error` | exception_class, fingerprint, message, resolved_at, severity, source |
+| `guest` | No writable fields. |
+| `handle` | user_id, primary, verified, handle |
+| `hashcash` | challenge_id, expires_at |
+| `job_batch_execution` | job_id, batch_id |
+| `job_batch` | active_job_batch_id, description, metadata, total_jobs, completed_jobs, failed_jobs, enqueued_at, finished_at, failed_at |
+| `job_blocked_execution` | job_id, queue_name, concurrency_key, priority, expires_at |
+| `job_claimed_execution` | job_id, process_id |
+| `job_context` | active_job_id, context |
+| `job_failed_execution` | job_id, error |
+| `job_pause` | queue_name |
+| `job_process` | hostname, kind, last_heartbeat_at, metadata, name, pid, supervisor_id |
+| `job_ready_execution` | job_id, queue_name, priority |
+| `job_recurring_execution` | job_id, task_key, run_at |
+| `job_recurring_task` | key, class_name, command, schedule, queue_name, priority, static, arguments, description |
+| `job_scheduled_execution` | job_id, queue_name, priority, scheduled_at |
+| `job_semaphore` | key, value, expires_at |
+| `job` | active_job_id, batch_id, arguments, class_name, concurrency_key, finished_at, priority, queue_name, scheduled_at |
+| `link` | kind, verb, title_en, title_fr, path_input, visibility_input, image_ios, image_android, position, default |
+| `log` | message, context |
+| `message` | from_user_id, to_user_id, subject, body |
+| `name` | user_id, primary, verified, given_name, family_name |
+| `page` | user_id, parent_id, path, title_en, title_fr, description_en, description_fr, body_en, body_fr, authorization_input |
+| `password` | user_id, password, hint, primary, verified |
+| `phone_number` | user_id, primary, verified, phone_number |
+| `plan_field` | plan_id, key, name_en, name_fr, kind, required, position |
+| `plan_schedule` | plan_id, starts_at, interval |
+| `plan` | service_id, name_en, name_fr, description_en, description_fr, body_en, body_fr, pricing_input, slug; plan_schedules_attributes: [{id, _destroy, starts_at, interval}]; plan_fields_attributes: [{id, _destroy, key, name_en, name_fr, kind, required, position}] |
+| `program_execution` | program_id, status, input, output, result, error, error_class, error_message, error_backtrace |
+| `program_schedule` | program_id, starts_at, interval |
+| `program` | name, input, user_id; program_schedules_attributes: [{id, _destroy, starts_at, interval}] |
+| `service_field` | service_id, key, name_en, name_fr, kind, required, position |
+| `service` | user_id, name_en, name_fr, description_en, description_fr, body_en, body_fr; service_fields_attributes: [{id, _destroy, key, name_en, name_fr, kind, required, position}] |
+| `session` | session_id, data |
+| `solid_cable_message` | channel, payload |
+| `solid_cache_entry` | key_base64, value_base64 |
+| `step_execution` | subscription_execution_id, step_id, status, input, output, error, error_class, error_message, error_backtrace, result |
+| `step` | service_id, name_en, name_fr, description_en, description_fr, body_en, body_fr, position, input, offset_seconds |
+| `stripe_event` | stripe_event_id, event_type, status, livemode, stripe_created_at, processed_at, processing_error, payload |
+| `stripe_invoice` | subscription_id, stripe_invoice_id, stripe_payment_intent_id, number, status, currency, amount_due, amount_paid, period_start, period_end, paid_at, hosted_invoice_url, invoice_pdf |
+| `subscription_destination` | subscription_id, delivery_destination_id, amount_cents, amount_currency, active, selected |
+| `subscription_execution` | subscription_id, status |
+| `subscription_value` | subscription_id, key, value |
+| `subscription` | admin-only: user_id, plan_id, status, heartbeats_url; delivery_destinations_attributes: [{id, _destroy, delivery_channel_id, connection_id, recipient, visibility}]; subscription_values_attributes: [{id, _destroy, key, value}] |
+| `time_zone` | user_id, primary, verified, time_zone |
+| `token` | user_id, token, primary, verified |
+| `user` | interface, locale; admin-only: admin, verified; email_addresses_attributes: [{id, _destroy, email_address, primary, verified (admin)}]; phone_numbers_attributes: [{id, _destroy, phone_number, primary, verified (admin)}]; passwords_attributes: [{id, _destroy, password, hint, primary, verified (admin)}] |
+| `version` | event, item_type, item_id, object, object_changes, whodunnit |
+
+Non-admin identity edits omit `user_id` and `verified`; programs omit `user_id`; messages omit `from_user_id` and `to_user_id`; subscription values omit `subscription_id`; plan/service fields omit `plan_id`/`service_id`. Non-admin subscriptions accept only the nested destinations and values. Connections, deliveries, delivery channels, subscription destinations, configurations, pages, links, jobs and job internals, errors, logs, versions, cache entries, and cable messages have administrative write restrictions. `program_execution.status`, `error_message`, and `error_backtrace` are admin-only inputs. Consult the JSON error envelope for validation failures.
+
+### Additional JSON actions
+
+The scope column has the same meaning as in the CRUD table. Paths already include `.json`. These actions supplement CRUD; do not substitute a GET for a state-changing verb.
+
+| Method | Path | Scopes | Inputs, behavior, and success data |
+| --- | --- | --- | --- |
+| GET | `/connections/callback/:provider.json` | global | Query state and code (or error on denial); consume pending OAuth state and save connection(s). data null; invalid state, denial, or exchange failure returns 400. |
+| POST | `/connections/connect/:provider.json` | global | provider in path; optional server and scope. data is {authorization_url: ...}. Preserve session cookies and open URL in a browser to authorize. |
+| POST | `/country_code_ip_addresses/:country_code_ip_address_id/lookup.json` | global | Refresh geolocation; data is {country_code: ...}. This model uses the same compact serialization for CRUD. |
+| POST | `/deliveries/:id/reconcile.json` | global | Top-level outcome controls reconciliation; data is the delivery. See outcome values below. |
+| POST | `/deliveries/:id/retry.json` | global | Reset delivery for retry; data is the delivery. |
+| POST | `/delivery_destinations/:id/confirm_verification.json` | global | Top-level token confirms recipient; optional subscription_id; data null; invalid token returns 422. |
+| GET | `/delivery_destinations/:id/verification.json` | global | Query token validates recipient confirmation link; optional subscription_id preserves context; data null; invalid token returns 422. |
+| POST | `/services/:service_id/subscriptions/:subscription_id/delivery_destinations/:id/request_verification.json` | global, user, guest | Send verification for the destination selected on this subscription; data null. |
+| POST | `/subscriptions/:subscription_id/delivery_destinations/:id/request_verification.json` | global, user, guest | Send verification for the destination selected on this subscription; data null. |
+| POST | `/email_addresses/:id/confirm_verification.json` | global, user, guest | Top-level token confirms verification; data null; invalid token returns 422. |
+| POST | `/email_addresses/:id/request_verification.json` | global, user, guest | Send verification unless already verified; localized message; data null. |
+| GET | `/email_addresses/:id/verification.json` | global, user, guest | Query token is a verification token; validate without confirming; data null; invalid token returns 422. |
+| GET | `/hashcashes/challenge.json` | global | Query method, path, body_sha256, content_type issue signed proof-of-work challenge; no-store; data contains challenge, bits, algorithm, expires_at; invalid request returns 400. |
+| POST | `/jobs/:job_id/discard.json` | global, user, guest | Discard the job; data is the job. |
+| POST | `/jobs/:job_id/retry.json` | global, user, guest | Retry the job; data is the job. |
+| POST | `/jobs/discard_all.json` | global, user, guest | Discard jobs in scope; data null. |
+| POST | `/jobs/retry_all.json` | global, user, guest | Retry jobs in scope; data null. |
+| POST | `/locale/:selected_locale.json` | global | selected_locale in path must be en or fr; data is {locale: selected_locale}. |
+| GET | `/messages/:message_id/body.json` | global, user, guest | Read message body; data is the serialized body. |
+| GET | `/messages/:message_id/content.json` | global, user, guest | Read message content; data is the serialized content. |
+| GET | `/messages/:message_id/subject.json` | global, user, guest | Read message subject; data is the serialized subject. |
+| GET | `/*path.json` | global | Return public page record by root/path, subject to page authorization; wildcard excludes rails/ paths. |
+| GET | `/.json` | global | Return public page record by root/path, subject to page authorization; wildcard excludes rails/ paths. |
+| POST | `/passwords/check.json` | global, user, guest | Top-level password string; data is {success: boolean}; localized assessment in messages. |
+| POST | `/programs/:id/evaluate.json` | global, user, guest | Queue evaluation of stored input; data is the program, not the result. Read program_executions to monitor completion. |
+| POST | `/programs/:id/format.json` | global, user, guest | Format and persist input; data is the program; Code errors return 400. |
+| POST | `/programs/:id/schedule.json` | global, user, guest | Enable scheduling; data is the program. |
+| POST | `/programs/:id/unschedule.json` | global, user, guest | Disable scheduling; data is the program. |
+| POST | `/programs/format_all.json` | global, user, guest | Format every program in scope; data null; Code errors return 400. |
+| PATCH | `/programs/schedule_all.json` | global, user, guest | Enable scheduling for the scope; data null. |
+| PATCH | `/programs/unschedule_all.json` | global, user, guest | Disable scheduling for the scope; data null. |
+| DELETE | `/session.json` | global | Log out current session (or restore prior impersonator); data null. |
+| POST | `/session.json` | global | session: {email_address, password}; establish cookie session; data is user; invalid credentials return 422. |
+| POST | `/session/authenticate_magic_link.json` | global | email_address_id and token; optional local redirect_to for HTML; sign in and return user; no-store; invalid/expired link returns 422. |
+| DELETE | `/session/delete.json` | global | Log out current session (or restore prior impersonator); data null. |
+| GET | `/session/magic_link.json` | global | email_address_id and token validate a magic link without signing in; data null; no-store; invalid/expired link returns 422. |
+| GET | `/session/new.json` | global | Login form metadata; data null. |
+| GET | `/session/new_magic_link.json` | global | Magic-link request form metadata; data null. |
+| POST | `/session/request_magic_link.json` | global | session: {email_address}; optional local redirect_to; email links and return the same message for known/unknown addresses; data null. Rate limit: 5/minute. |
+| POST | `/steps/:id/format.json` | global, user, guest | Format and persist input; data is the step; Code errors return 400 with the step. |
+| POST | `/steps/format_all.json` | global, user, guest | Format steps in scope; data null; Code errors return 400 with null data. |
+| POST | `/stripe/webhooks.json` | global | Stripe event JSON body and Stripe-Signature header; verify signature, deduplicate, enqueue processing; data null; invalid webhook returns 400. No account Token header required. |
+| GET | `/subscriptions/:subscription_id/billing.json` | global, user, guest | data is {subscription, invoices}. Optional setup_intent applies a Stripe setup and returns the subscription; Stripe errors return 400. |
+| POST | `/subscriptions/:subscription_id/billing/cancel.json` | global, user, guest | Cancel Stripe billing; data is the subscription. |
+| POST | `/subscriptions/:subscription_id/billing/checkout.json` | global, user, guest | Create Stripe checkout; data is {subscription, checkout_session}; Stripe/pricing errors return 400. |
+| POST | `/subscriptions/:subscription_id/billing/resume.json` | global, user, guest | Resume Stripe billing; data is the subscription. |
+| POST | `/subscriptions/:subscription_id/billing/retry_payment.json` | global, user, guest | Retry latest invoice and synchronize pending delivery changes; data is the subscription. |
+| POST | `/subscriptions/:subscription_id/billing/setup_payment_method.json` | global, user, guest | Create Stripe setup intent; HTTP 422 and status unprocessable_content even on successful setup creation; data is {subscription, setup_client_secret, setup_return_url}; Stripe failure returns 400. |
+| POST | `/services/:service_id/subscriptions/:id/activate.json` | global, user, guest | Activate subscription; data is the subscription. |
+| POST | `/services/:service_id/subscriptions/:id/deactivate.json` | global, user, guest | Deactivate subscription; data is the subscription. |
+| POST | `/services/:service_id/subscriptions/:id/evaluate.json` | global, user, guest | Queue a subscription execution; data is the subscription. Read subscription_executions and step_executions for results. |
+| POST | `/subscriptions/:id/activate.json` | global, user, guest | Activate subscription; data is the subscription. |
+| POST | `/subscriptions/:id/deactivate.json` | global, user, guest | Deactivate subscription; data is the subscription. |
+| POST | `/subscriptions/:id/evaluate.json` | global, user, guest | Queue a subscription execution; data is the subscription. Read subscription_executions and step_executions for results. |
+| POST | `/impersonate.json` | user | Admin session impersonation; expands to `/users/:user_id/impersonate.json`; data is the target user. |
+| PATCH | `/time_zone.json` | global | Top-level time_zone (for example Europe/Paris); initialize account/session zone; data is {time_zone: ...}; 400 if missing, invalid, or already set. |
+
+Supported OAuth provider names are `google`, `gmail`, `google_workspace`, `github`, `slack`, `x`, `facebook`, `outlook`, and `mastodon`; provider configuration is required. Mastodon uses the `server` parameter.
+
+The root page can also be requested at `/en.json` or `/fr.json`, or at `/en` and `/fr` with `Accept: application/json`. For the unlocalized root, use `/` with that header. A wildcard page example is `/en/about.json`.
+
+OAuth requires the same cookie session at initiation and callback even when initiation uses a Token header. The authorization URL contains the provider state, but the pending exchange stays in the session; do not transfer the URL to a different browser session. The provider callback URI remains the unlocalized HTML URL `/connections/callback/:provider`, including when the initiation request uses `.json`. JSON clients may request the callback with JSON negotiation while preserving that session. Successful callbacks intentionally return no provider credentials.
+
+Magic-link emails use an HTML confirmation URL even when requested through JSON. The GET confirmation never authenticates. POST rechecks validity and creates the session. Unknown email addresses receive the same JSON response as known ones.
+
+### Other routed surfaces and format limits
+
+- `GET /x/:token`: public delivery HTML, subject to destination visibility and enabled state; not a JSON API.
+- `POST /delivery_callbacks/twilio/:id`: Twilio form callback with provider signature and AccountSid validation; empty HTTP responses rather than the application JSON envelope.
+- `GET /sitemap.xml`: XML sitemap.
+- `/cable`: Action Cable transport, not a resource JSON endpoint.
+- Rails Active Storage/Action Text routes are framework upload/content endpoints with their own contracts. Do not infer application CRUD envelopes for `/rails/...`.
+- `/session` also has generated GET show/edit and PATCH/PUT update routes, but SessionController does not implement those actions. They are not supported JSON endpoints. Use `/session/new`, POST `/session`, and the explicit login/logout/magic-link actions above.
+
+### Explicit error endpoints
+
+These routes accept any HTTP method and an optional `/en` or `/fr` prefix: `/404.json` returns HTTP 404 (`not_found`), `/406.json` returns HTTP 406 (`not_acceptable`), `/422.json` returns HTTP 422 (`unprocessable_content`), and `/500.json` returns HTTP 500 (`internal_server_error`). Their data is null and messages describe the exception when available. They use the same request lifecycle and authorization as the application's error controller.
+
+Delivery reconciliation changes only an uncertain delivery: `outcome: "accepted"` or `"delivered"` sets that status; any other outcome sets `failed` and marks it manually reconciled.
+
+### Mounted engine JSON endpoints
+
+These endpoints use the framework or engine's response shape, without the application `status/messages/data` envelope. They have no locale prefix.
+
+| Method | Path | Request and response |
+| --- | --- | --- |
+| POST | `/rails/active_storage/direct_uploads` | `blob: {filename, byte_size, checksum, content_type, metadata: {...}}`; checksum is the Base64 MD5 of the file bytes. Returns blob attributes, `signed_id`, and `direct_upload: {url, headers}`. Upload the bytes to that URL using those headers; the registration request alone does not upload the file. Rails CSRF rules apply. |
+
+Rails blob/representation/disk URLs serve or accept file bytes and redirect; Action Mailbox ingress endpoints receive provider-specific mail payloads and return HTTP acknowledgements, not this JSON envelope.
+
+## Code language
+
+Code is the application's own interpreted language, implemented by `code-ruby` (locked to 5.0.12 in this checkout). Program and step `input` fields contain Code source. It has Ruby-like syntax but uses its own parser, values, dispatch, and available functions; Ruby libraries and arbitrary Rails methods are not automatically callable.
+
+### Values and syntax
+
+- Values include Nothing, Boolean, Integer, Decimal, String, List, Dictionary, Range, Function, Date, Time, Duration, Regex, and application record wrappers.
+- Write the empty value as `nothing`; boolean literals are `true` and `false`. False and nothing are falsey; test with `truthy?`, `false?`, or `nothing?` when needed.
+- Numbers support decimal notation, underscores, and `0b`, `0o`, and `0x` bases. Examples: `1_000`, `1.5`, `0xff`.
+- Both single- and double-quoted strings support `{expression}` interpolation. `:hello` is shorthand for a string, not a Ruby Symbol. Escape literal braces when they should not interpolate.
+- Lists use `[1, 2, 3]`. Dictionaries use `{name: "Dorian", count: 2}`. Read keys with `record.name` or `record["name"]`; list indexes start at zero.
+- Assign with `name = value`; compound assignments such as `+=`, `-=`, and `||=` are supported. Separate statements with newlines. The last expression is the result.
+- Call functions as `puts(value)` and methods as `list.map { |item| item * 2 }`. Empty parentheses are optional for a no-argument method. Keyword arguments form a dictionary. Safe navigation uses `&.`.
+- Arithmetic includes `+`, `-`, `*`, `/`, `%`, `**`, `×`, and `÷`. Comparisons include `==`, `!=`, `<`, `<=`, `>`, `>=`, and `<=>`. Boolean operators include `!`, `not`, `&&`, `and`, `||`, and `or`. Use parentheses when mixing operators; precedence is defined by Code, not by a host language.
+- Ranges use `1..3` (inclusive) or `1...3` (exclusive). Conditionals can also use `condition ? yes : no`.
+- Comments start with `#` or `//`; block comments use `/* ... */`.
+
+```code
+name = "Dorian"
+numbers = [1, 2, 3]
+doubled = numbers.map { |number| number * 2 }
+profile = {name: name, scores: doubled}
+puts("Hello {profile.name}")
+profile.scores
+```
+
+### Conditions, loops, and functions
+
+`if`/`elsif`/`else`/`end` and `unless`/`elsunless` are conditional forms. `while`, `until`, and `loop` repeat a body. Postfix conditions such as `puts("yes") if true` are supported. `break`, `next`, and `return` are language control helpers. Functions use `(parameters) => { body }`; collection blocks use `{ |parameters| body }` or `do ... end`.
+
+```code
+count = 0
+while count < 3
+  count += 1
+end
+if count == 3
+  "done"
+else
+  "waiting"
+end
+```
+
+```code
+double = (number) => { number * 2 }
+[1, 2, 3].map { |number| double(number) }
+```
+
+Code supports rescue expressions for recoverable language errors. Runtime and parser errors are Code errors; API formatting failures use HTTP 400, while background evaluation failures are recorded on the execution. A successful HTTP response that queues evaluation does not mean the source executed successfully.
+
+### Core library and discoverable documentation
+
+Use built-in documentation to discover exact signatures and examples in the running version. `getting_started`, `globals`, and `classes` return structured documentation. `List.instance_functions`, `Json.class_functions`, and the general `functions` helpers describe available methods. Examples:
+
+```code
+[
+  globals.fetch(:puts).examples.first,
+  List.instance_functions.keys,
+  Json.class_functions.keys
+]
+```
+
+| Facility | Uses and examples |
+| --- | --- |
+| Output | `puts("hello")` writes a line; `print("hello")` writes without a newline. Program output is captured in execution.output. |
+| Strings | `"hello".upcase`, `"a,b".split(",")`; interpolation, searching, replacement, and conversion methods. |
+| Lists | `[1, 2, 3].map { |n| n * 2 }`, `.each`, `.select`, `.first`, `.size`, `.join`, sorting and mutation methods. |
+| Dictionaries | `{name: "Dorian"}.name`, `.keys`, `.values`, `.fetch(:name)`; key lookup and mutation. |
+| Numbers and ranges | Arithmetic, comparisons, numeric conversion, and inclusive/exclusive ranges. |
+| Json | `Json.generate({answer: 42})` serializes values; `Json.parse(...)` parses JSON text. The class name is `Json`, not `JSON`. |
+| Http | `Http.get(url)`, `Http.post(url, body: text, headers: {...})`, and head/put/patch/delete/options/trace/fetch. Options include query, headers, data, username, password, timeout, open_timeout, read_timeout, write_timeout. Results include code, status, headers, body, request, and success?. |
+| Date, Time, Duration | `Date.today`, `Time.now`, date/time calculations and duration values; the application supplies locale/time-zone context. |
+| Regex | Pattern matching and regular-expression operations; consult `Regex.class_functions` and `.instance_functions`. |
+| Html | Parse and inspect HTML through the Html library. |
+| Url | URL parsing, escaping, and URL values. |
+| Base64, Cryptography | Encoding and cryptographic helpers exposed by the runtime. |
+| Ics | Calendar parsing and calendar data. |
+| Smtp | SMTP operations provided by the runtime; use only with authorized mail configuration. |
+| Code, Context, Class, Function | Code parsing/evaluation and language introspection. |
+| wait | Pause execution; waiting counts toward the evaluation timeout. |
+
+An external JSON fetch has two separate layers: the Http response and the parsed response body. For a codedorian endpoint, the parsed body then has the `status`, `messages`, and `data` application envelope.
+
+```code
+url = "https://codedorian.com/en/services.json"
+response = Http.get(url, headers: {Accept: "application/json"})
+if response.success?
+  Json.parse(response.body).data
+else
+  nothing
+end
+```
+
+### Application context and persistence
+
+`Current` exposes the execution context: `user`, `user!`, `programs`, `program`, `program_execution`, `program_schedule`, `subscription`, `subscription_execution`, `service`, `step`, `step_execution`, `plan`, `plan_schedule`, `locale`, and `time_zone`. Context values can be absent outside their associated execution. `Current.user!` requires a signed-in user. `Current.locale = "fr"` and `Current.time_zone = "Europe/Paris"` change the current execution context.
+
+Application records are dictionary-like wrappers. Most expose `all`, `where({column: value})`, `find(id)`, and `find!(id)` at class level. `where` validates database column names and always starts from the policy scope. `find` usually returns nothing when absent; `find!` raises. Some wrappers have special lookup rules: `Program.find("name-or-id")` takes a string, `User.find(...)` supports its own identity lookup, and `Datum.find(key)` looks up a key for the current user. Do not assume that every Rails model method exists in Code or that an association bypasses authorization. Relations become Code lists, not chainable Active Record query objects.
+
+`Datum` provides durable per-user key/value storage. `Datum.create`/`create!` take `key` and `value`. `Datum.value(key)`/`value!(key)` return the stored value, and a found datum supports `update(value: ...)`, `update!(value: ...)`, `destroy`, and `destroy!`. Repeated create calls do not implement an upsert; find before creating when updating a named value.
+
+```code
+item = Datum.find("greeting")
+if item.nothing?
+  item = Datum.create!(key: "greeting", value: "hello")
+else
+  item.update!(value: "hello")
+end
+Datum.value!("greeting")
+```
+
+`Message.create`/`create!` create user messages using optional `from`, `to`, `subject`, and `body`. `Notification.create`/`create!` enqueue mobile push notifications; options include `from`, `to`, `subject`, `body`, `path`, `sound`, `category`, `thread_id`, `collapse_key`, and `data`. The default push recipient is the current user. The non-bang notification method returns a boolean; the bang method returns a Notification wrapper or raises. These methods have real side effects.
+
+Within a subscription step, `Current.subscription.values` contains the typed key/value configuration. `Current.subscription.deliver!(key: "event-key", subject: "Update", body_text: "Details")` invokes delivery to the subscription's selected destinations; optional fields are `body_html` and `url`. Treat delivery and notification calls as writes, not previews.
+
+### Running, formatting, and scheduling Code
+
+1. Create a program using POST `/programs.json` with `{program: {name, input}}`, then retain `data.id`.
+2. POST `/programs/:id/format.json` to format and persist its source.
+3. POST `/programs/:id/evaluate.json` to create an `in_progress` ProgramExecution and enqueue ProgramEvaluateJob. The response contains the program.
+4. GET `/program_executions.json?program_id=ID` and then `/program_executions/:id.json` to inspect `status`, `input`, `output`, `error`, `result`, `error_class`, `error_message`, and `error_backtrace`. `done` means evaluation completed and `errored` means it raised a Code error. The saved result is a Code inspection string, not a structured JSON value.
+5. Programs run with a fresh Code context and a one-hour evaluation timeout. The job restores the initiating user and relevant execution, locale, and time-zone context.
+6. To schedule, create ProgramSchedule records (`program_schedule: {program_id, starts_at, interval}`) or nested `program_schedules_attributes` on a program. POST the program's `schedule` or `unschedule` action to enable or disable execution. Intervals include `once`, `5 minutes`, `1 day`, and `first monday`; `ProgramSchedule.intervals` exposes the supported set.
+
+Subscriptions execute service steps through the subscription evaluation job. Each step has its own source and execution records. POST `/subscriptions/:id/evaluate.json` queues the subscription; inspect `/subscription_executions.json?subscription_id=ID` and `/step_executions.json?subscription_execution_id=ID` for outcomes. POST `/steps/:id/format.json` formats step source. Billing and delivery actions are separate from formatting.
+
+For local repository use, `bin/code '1 + 2'` evaluates source after loading Rails. `bin/code --parse '1 + 2'` prints the parse tree; `--input path/to/file` reads a file; `--timeout SECONDS` sets a timeout; `--user-id ID` supplies a user context. This application's bin/code does not implement the gem documentation's `-f` formatting option; use the JSON format endpoints or `Code.format` from Ruby instead.
+
+### Application wrapper method reference
+
+This table lists application-specific dispatch methods. It supplements inherited Dictionary/Object operations and readable record attributes. Names separated by commas are distinct supported methods or aliases. `Error` is backed by the ErrorRecord wrapper. Exact argument validation and permissions remain enforced at runtime; use the concrete examples above for writes.
+
+| Code class | Class methods | Instance methods |
+| --- | --- | --- |
+| `Address` | `all`, `where`, `find`, `find!` | `versions`, `user` |
+| `Configuration` | `all`, `where`, `find`, `find!` | `versions` |
+| `Connection` | `all`, `where`, `find`, `find!` | `versions`, `user`, `delivery_destinations`, `delivery_channels` |
+| `Country` | `all`, `where`, `find`, `find!` | `versions`, `user` |
+| `CountryCodeIpAddress` | `all`, `where`, `find`, `find!` | `versions` |
+| `Current` | `user`, `user!`, `programs`, `program`, `program_execution`, `program_schedule`, `subscription`, `subscription_execution`, `service`, `step`, `step_execution`, `plan`, `plan_schedule`, `locale`, `locale=`, `time_zone`, `time_zone=` | — |
+| `Datum` | `all`, `where`, `find`, `find!`, `value`, `value!`, `create`, `create!` | `versions`, `user`, `destroy`, `destroy!`, `update`, `update!` |
+| `Delivery` | `all`, `where`, `find`, `find!` | `versions`, `connection`, `subscription`, `service`, `delivery_destination`, `step_execution` |
+| `DeliveryChannel` | `all`, `where`, `find`, `find!` | `versions`, `connection`, `delivery_destinations` |
+| `DeliveryDestination` | `all`, `where`, `find`, `find!` | `versions`, `user`, `delivery_channel`, `connection`, `subscription_destinations`, `deliveries` |
+| `Device` | `all`, `where`, `find`, `find!` | `versions`, `user` |
+| `EmailAddress` | `all`, `where`, `find`, `find!` | `versions`, `user` |
+| `ErrorOccurrence` | `all`, `where`, `find`, `find!` | `error` |
+| `Error` | `all`, `where`, `find`, `find!` | `occurrences`, `error_occurrences` |
+| `Guest` | `all`, `where`, `find`, `find!` | `versions` |
+| `Handle` | `all`, `where`, `find`, `find!` | `versions`, `user` |
+| `Hashcash` | `all`, `where`, `find`, `find!` | `versions` |
+| `Job` | `all`, `where`, `find`, `find!` | `batch`, `batch_execution`, `job_batch_executions`, `recurring_execution`, `failed_execution`, `scheduled_execution`, `blocked_execution`, `ready_execution`, `claimed_execution`, `job_contexts`, `job_blocked_executions`, `job_claimed_executions`, `job_failed_executions`, `job_ready_executions`, `job_recurring_executions`, `job_scheduled_executions` |
+| `JobBatch` | `all`, `where`, `find`, `find!` | `jobs`, `batch_executions` |
+| `JobBatchExecution` | `all`, `where`, `find`, `find!` | `batch`, `job`, `job_contexts` |
+| `JobBlockedExecution` | `all`, `where`, `find`, `find!` | `semaphore`, `job`, `job_contexts` |
+| `JobClaimedExecution` | `all`, `where`, `find`, `find!` | `process`, `job`, `job_contexts` |
+| `JobContext` | `all`, `where`, `find`, `find!` | `versions`, `job` |
+| `JobFailedExecution` | `all`, `where`, `find`, `find!` | `job`, `job_contexts` |
+| `JobPause` | `all`, `where`, `find`, `find!` | — |
+| `JobProcess` | `all`, `where`, `find`, `find!` | `claimed_executions`, `supervisor`, `supervisees` |
+| `JobReadyExecution` | `all`, `where`, `find`, `find!` | `job`, `job_contexts` |
+| `JobRecurringExecution` | `all`, `where`, `find`, `find!` | `job`, `job_contexts` |
+| `JobRecurringTask` | `all`, `where`, `find`, `find!` | `recurring_executions` |
+| `JobScheduledExecution` | `all`, `where`, `find`, `find!` | `job`, `job_contexts` |
+| `JobSemaphore` | `all`, `where`, `find`, `find!` | — |
+| `Link` | `all`, `where`, `find`, `find!` | `versions` |
+| `Log` | `all`, `where`, `find`, `find!` | `versions` |
+| `Message` | `all`, `where`, `find`, `find!`, `create!`, `create` | `versions`, `from_user`, `to_user`, `rich_text_subject`, `rich_text_body` |
+| `Name` | `all`, `where`, `find`, `find!` | `versions`, `user` |
+| `Notification` | `create`, `create!` | — |
+| `Page` | `all`, `where`, `find`, `find!` | `versions`, `user`, `parent`, `children`, `rich_text_title_en`, `rich_text_title_fr`, `rich_text_description_en`, `rich_text_description_fr`, `rich_text_body_en`, `rich_text_body_fr` |
+| `Password` | `all`, `where`, `find`, `find!` | `versions`, `user` |
+| `PhoneNumber` | `all`, `where`, `find`, `find!` | `versions`, `user` |
+| `Plan` | `all`, `where`, `find`, `find!` | `versions`, `rich_text_name_en`, `rich_text_name_fr`, `rich_text_description_en`, `rich_text_description_fr`, `rich_text_body_en`, `rich_text_body_fr`, `service`, `user`, `steps`, `schedules`, `plan_schedules`, `subscriptions`, `fields`, `plan_fields` |
+| `PlanField` | `all`, `where`, `find`, `find!` | `versions`, `rich_text_name_en`, `rich_text_name_fr`, `plan`, `service`, `user` |
+| `PlanSchedule` | `all`, `where`, `find`, `find!` | `versions`, `plan`, `service`, `user` |
+| `Program` | `all`, `where`, `find`, `find!` | `versions`, `user`, `schedules`, `program_schedules`, `executions`, `program_executions`, `execution`, `program_execution` |
+| `ProgramExecution` | `all`, `where`, `find`, `find!` | `versions`, `program`, `user` |
+| `ProgramSchedule` | `all`, `where`, `find`, `find!`, `intervals` | `versions`, `program`, `user` |
+| `Service` | `all`, `where`, `find`, `find!` | `versions`, `rich_text_name_en`, `rich_text_name_fr`, `rich_text_description_en`, `rich_text_description_fr`, `rich_text_body_en`, `rich_text_body_fr`, `user`, `steps`, `plans`, `fields`, `service_fields`, `subscriptions`, `subscription_executions`, `step_executions` |
+| `ServiceField` | `all`, `where`, `find`, `find!` | `versions`, `rich_text_name_en`, `rich_text_name_fr`, `service`, `user` |
+| `Session` | `all`, `where`, `find`, `find!` | — |
+| `SolidCableMessage` | `all`, `where`, `find`, `find!` | — |
+| `SolidCacheEntry` | `all`, `where`, `find`, `find!` | — |
+| `Step` | `all`, `where`, `find`, `find!` | `versions`, `rich_text_name_en`, `rich_text_name_fr`, `rich_text_description_en`, `rich_text_description_fr`, `rich_text_body_en`, `rich_text_body_fr`, `service`, `user`, `executions`, `step_executions` |
+| `StepExecution` | `all`, `where`, `find`, `find!` | `versions`, `deliveries`, `step`, `subscription_execution`, `subscription`, `user`, `service`, `plan` |
+| `StripeEvent` | `all`, `where`, `find`, `find!` | `versions` |
+| `StripeInvoice` | `all`, `where`, `find`, `find!` | `versions`, `subscription`, `user` |
+| `Subscription` | `all`, `where`, `find`, `find!` | `versions`, `subscription_destinations`, `delivery_destinations`, `deliveries`, `stripe_invoices`, `deliver!`, `user`, `service`, `plan`, `executions`, `subscription_executions`, `execution`, `subscription_execution`, `schedules`, `plan_schedules`, `values`, `subscription_values` |
+| `SubscriptionDestination` | `all`, `where`, `find`, `find!` | `versions`, `subscription`, `delivery_destination` |
+| `SubscriptionExecution` | `all`, `where`, `find`, `find!` | `versions`, `subscription`, `user`, `service`, `plan`, `steps`, `step_executions` |
+| `SubscriptionValue` | `all`, `where`, `find`, `find!` | `versions`, `subscription`, `plan`, `service`, `user` |
+| `TimeZone` | `all`, `where`, `find`, `find!` | `versions`, `user` |
+| `Token` | `all`, `where`, `find`, `find!` | `versions`, `user` |
+| `User` | `all`, `where`, `find`, `find!` | `versions`, `delivery_destinations`, `connections`, `stripe_invoices`, `addresses`, `countries`, `data`, `devices`, `email_addresses`, `handles`, `names`, `passwords`, `phone_numbers`, `programs`, `services`, `subscriptions`, `subscription_executions`, `program_executions`, `time_zones`, `tokens`, `sent_messages`, `received_messages`, `simple?`, `advanced?` |
+| `Version` | `all`, `where`, `find`, `find!` | `item` |

@@ -1,1 +1,2 @@
-<%= { "shared" => Config.action_push_native.providers.from_deep_struct }.to_json %>
+--- <%= { "shared" => Config.action_push_native.providers.from_deep_struct }.to_json
+  %>

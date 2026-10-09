@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ErrorsController < ApplicationController
+  before_action :load_hashcash
   before_action :load_job
   before_action :load_job_context
   before_action :load_password
@@ -260,8 +261,17 @@ class ErrorsController < ApplicationController
     add_breadcrumb(text: @program_execution, path: @program_execution)
   end
 
+  def load_hashcash
+    return if params[:hashcash_id].blank?
+
+    @hashcash = policy_scope(Hashcash).find(params.expect(:hashcash_id))
+    set_context(hashcash: @hashcash)
+    add_breadcrumb(text: @hashcash, path: @hashcash)
+  end
+
   def parent_params
     {
+      hashcash_id: @hashcash&.id,
       job_id: @job&.id,
       job_context_id: @job_context&.id,
       password_id: @password&.id,
@@ -312,6 +322,7 @@ class ErrorsController < ApplicationController
 
   def scope
     scope = searched_policy_scope(Error)
+    scope = scope.where_hashcash(@hashcash) if @hashcash
 
     if @program_schedule
       scope = scope.where_program_schedule(@program_schedule)
@@ -354,6 +365,7 @@ class ErrorsController < ApplicationController
 
   def error_occurrences_scope
     scope = searched_policy_scope(ErrorOccurrence)
+    scope = scope.where_hashcash(@hashcash) if @hashcash
 
     if @error
       scope = scope.where_error(@error)

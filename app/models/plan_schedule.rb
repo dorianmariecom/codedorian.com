@@ -5,6 +5,34 @@ class PlanSchedule < ApplicationRecord
         ->(service) { where(plan_id: Plan.where_service(service).select(:id)) }
   include ScheduleConcern
 
+  attribute :time_zone, :string, default: -> { Time.zone.tzinfo.name }
+  validates :time_zone, presence: true
+  validate do
+    errors.add(:time_zone, :invalid) unless ActiveSupport::TimeZone[time_zone]
+  end
+
+  def starts_at=(value)
+    value = Time.find_zone!(time_zone).parse(value) if value.is_a?(String) &&
+      value.present?
+    super
+  end
+
+  def local_starts_at
+    starts_at.in_time_zone(time_zone)
+  end
+
+  def starts_at_in(time_zone:)
+    local = local_starts_at
+    Time.find_zone!(time_zone).local(
+      local.year,
+      local.month,
+      local.day,
+      local.hour,
+      local.min,
+      local.sec + local.subsec
+    )
+  end
+
   belongs_to :plan, touch: true
   has_one :service, through: :plan
   has_one :user, through: :service

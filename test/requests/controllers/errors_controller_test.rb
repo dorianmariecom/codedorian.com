@@ -32,20 +32,20 @@ class ErrorsControllerTest < ActionDispatch::IntegrationTest
   test "unsupported formats use the not acceptable error page" do
     detailed_exceptions =
       Rails.application.env_config["action_dispatch.show_detailed_exceptions"]
-    Rails.application.env_config["action_dispatch.show_detailed_exceptions"] = false
+    Rails.application.env_config[
+      "action_dispatch.show_detailed_exceptions"
+    ] = false
 
     assert_difference("Log.where(message: :not_acceptable).count", 1) do
-      get(
-        pages_url,
-        headers: { "Accept" => "application/xml" }
-      )
+      get(pages_url, headers: { "Accept" => "application/xml" })
     end
 
     assert_response(:not_acceptable)
     assert_equal("text/html", response.media_type)
   ensure
-    Rails.application.env_config["action_dispatch.show_detailed_exceptions"] =
-      detailed_exceptions
+    Rails.application.env_config[
+      "action_dispatch.show_detailed_exceptions"
+    ] = detailed_exceptions
   end
 
   test "not acceptable returns a json error response" do

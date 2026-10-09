@@ -73,13 +73,25 @@ class ConnectionsController < ApplicationController
         scope: params[:scope]
       )
     session[:connection_oauth] = pending
-    redirect_to ConnectionOauth.authorization_url(
-                  pending: pending,
-                  redirect_uri: callback_url
-                ),
-                allow_other_host: true
+    authorization_url =
+      ConnectionOauth.authorization_url(
+        pending: pending,
+        redirect_uri: callback_url
+      )
+    respond_to do |format|
+      format.html { redirect_to authorization_url, allow_other_host: true }
+      format.json do
+        render json: {
+          status: :ok,
+                 messages: [],
+                 data: {
+                   authorization_url: authorization_url
+                 }
+        }
+      end
+    end
   rescue *ConnectionOauth::ERRORS
-    redirect_to connections_path, alert: t(".failed")
+    respond_oauth_error(t(".failed"))
   end
 
   def callback
@@ -93,12 +105,12 @@ class ConnectionsController < ApplicationController
              provider: params[:provider],
              state: params[:state]
            )
-      redirect_to connections_path, alert: t(".invalid_state")
+      respond_oauth_error(t(".invalid_state"))
       return
     end
     if params[:error].present? || !params[:code].is_a?(String) ||
          params[:code].blank?
-      redirect_to connections_path, alert: t(".failed")
+      respond_oauth_error(t(".failed"))
       return
     end
 
@@ -120,9 +132,14 @@ class ConnectionsController < ApplicationController
         connection.save!
       end
     end
-    redirect_to connections_path, notice: t(".connected")
+    respond_to do |format|
+      format.html { redirect_to connections_path, notice: t(".connected") }
+      format.json do
+        render json: { status: :ok, messages: [t(".connected")], data: nil }
+      end
+    end
   rescue *ConnectionOauth::ERRORS
-    redirect_to connections_path, alert: t(".failed")
+    respond_oauth_error(t(".failed"))
   end
 
   def update
@@ -160,6 +177,20 @@ class ConnectionsController < ApplicationController
 
   private
 
+  def respond_oauth_error(message)
+    respond_to do |format|
+      format.html { redirect_to connections_path, alert: message }
+      format.json do
+        render json: {
+                 status: :bad_request,
+                 messages: [message],
+                 data: nil
+               },
+               status: :bad_request
+      end
+    end
+  end
+
   def load_user
     return if params[:user_id].blank?
 
@@ -182,7 +213,7 @@ class ConnectionsController < ApplicationController
   end
 
   def callback_url
-    "#{Current.base_url}#{callback_connections_path(provider: params[:provider], locale: nil)}"
+    "#{Current.base_url}#{callback_connections_path(provider: params[:provider], locale: nil, format: nil)}"
   end
 
   def scope

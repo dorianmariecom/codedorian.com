@@ -23,7 +23,10 @@ class Page < ApplicationRecord
   scope(
     :where_public,
     -> do
-      where("authorization_input IS NULL OR authorization_input ~ ?", "^[[:space:]]*$")
+      where(
+        "authorization_input IS NULL OR authorization_input ~ ?",
+        "^[[:space:]]*$"
+      )
     end
   )
 

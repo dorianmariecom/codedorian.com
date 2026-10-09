@@ -318,6 +318,46 @@ class SubscriptionSchedulingTest < ActiveJob::TestCase
     )
   end
 
+  test "one off schedules become due in the subscriber zone and reuse the execution" do
+    Current.with(user: @user) do
+      @subscription.subscription_executions.destroy_all
+      @subscription.user.time_zones.destroy_all
+      @subscription.user.time_zones.create!(time_zone: "America/New_York")
+      @subscription.plan_schedules.first.update!(
+        time_zone: "Europe/Paris",
+        starts_at: "2026-10-15T09:00",
+        interval: "once"
+      )
+      @subscription.service.steps.first.update!(offset_seconds: 0)
+    end
+
+    travel_to(Time.utc(2026, 10, 15, 12, 59)) do
+      assert_no_enqueued_jobs(only: StepEvaluateJob) do
+        SchedulingSubscriptionJob.perform_now(
+          subscription: @subscription,
+          current: current_context.merge(time_zone: "Asia/Tokyo"),
+          context: {
+          }
+        )
+      end
+    end
+    travel_to(Time.utc(2026, 10, 15, 13)) do
+      assert_difference("SubscriptionExecution.count", 1) do
+        assert_enqueued_jobs(1, only: StepEvaluateJob) do
+          SchedulingSubscriptionJob.perform_now(
+            subscription: @subscription,
+            current: current_context.merge(time_zone: "Asia/Tokyo"),
+            context: {
+            }
+          )
+        end
+      end
+      assert_no_difference("SubscriptionExecution.count") do
+        schedule_subscription
+      end
+    end
+  end
+
   private
 
   def current_context

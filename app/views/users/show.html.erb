@@ -106,11 +106,11 @@
   <%= render("shared/list", user: @user, model: Datum) %>
   <%= render("shared/list", user: @user, model: Message) %>
   <%= render("shared/list", user: @user, model: Program) %>
-  <%= render("shared/list", user: @user, model: ProgramExecution) %>
-  <%= render("shared/list", user: @user, model: ProgramSchedule) %>
+  <%= render("shared/list", user: @user, model: ProgramExecution, preload: :program) %>
+  <%= render("shared/list", user: @user, model: ProgramSchedule, preload: :program) %>
   <% if admin? %>
     <%= render("shared/list", user: @user, model: ::Error) %>
-    <%= render("shared/list", user: @user, model: ErrorOccurrence) %>
+    <%= render("shared/list", user: @user, model: ErrorOccurrence, preload: :error) %>
     <% if can?(:index, Job) %>
       <% jobs =
         policy_scope(Job)
@@ -452,6 +452,16 @@
     partial: "subscription_values/subscription_value",
     collection:
       policy_scope(SubscriptionValue)
+        .preload(
+          subscription: {
+            plan: [
+              :rich_text_name_en,
+              :rich_text_name_fr,
+              { service: %i[rich_text_name_en rich_text_name_fr user] }
+            ],
+            service: %i[rich_text_name_en rich_text_name_fr user]
+          }
+        )
         .where_user(@user)
         .distinct
         .order(created_at: :desc)
@@ -499,6 +509,16 @@
     partial: "subscription_executions/subscription_execution",
     collection:
       policy_scope(SubscriptionExecution)
+        .preload(
+          subscription: {
+            plan: [
+              :rich_text_name_en,
+              :rich_text_name_fr,
+              { service: %i[rich_text_name_en rich_text_name_fr user] }
+            ],
+            service: %i[rich_text_name_en rich_text_name_fr user]
+          }
+        )
         .where_user(@user)
         .distinct
         .order(created_at: :desc)
@@ -592,6 +612,23 @@
     partial: "step_executions/step_execution",
     collection:
       policy_scope(StepExecution)
+        .preload(
+          step: [
+            :rich_text_name_en,
+            :rich_text_name_fr,
+            { service: %i[rich_text_name_en rich_text_name_fr user] }
+          ],
+          subscription_execution: {
+            subscription: {
+              plan: [
+                :rich_text_name_en,
+                :rich_text_name_fr,
+                { service: %i[rich_text_name_en rich_text_name_fr user] }
+              ],
+              service: %i[rich_text_name_en rich_text_name_fr user]
+            }
+          }
+        )
         .where_user(@user)
         .distinct
         .order(created_at: :desc)
@@ -647,6 +684,13 @@
     partial: "plan_schedules/plan_schedule",
     collection:
       policy_scope(PlanSchedule)
+        .preload(
+          plan: [
+            :rich_text_name_en,
+            :rich_text_name_fr,
+            { service: %i[rich_text_name_en rich_text_name_fr user] }
+          ]
+        )
         .where_user(@user)
         .distinct
         .order(created_at: :desc)
@@ -670,6 +714,7 @@
     partial: "job_contexts/job_context",
     collection:
       policy_scope(JobContext)
+        .preload(:job)
         .where_user(@user)
         .distinct
         .order(created_at: :desc)

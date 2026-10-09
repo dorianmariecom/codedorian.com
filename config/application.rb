@@ -13,6 +13,8 @@ require_relative "../lib/middleware/errors"
 module CodeApp
   class Application < Rails::Application
     config.load_defaults(8.1)
+    config.x.hashcash.bits = 20
+    config.x.hashcash.lifetime = 5.minutes
     config.cache_store = :solid_cache_store
     config.active_job.queue_adapter = :solid_queue
     config.active_record.automatically_invert_plural_associations = true

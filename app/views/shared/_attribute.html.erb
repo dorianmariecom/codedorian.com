@@ -6,6 +6,10 @@
     <% case type %>
     <% when :time %>
       <div class="font-bold"><%= local_time(value, format: :default) %></div>
+    <% when :zoned_time %>
+      <div class="font-bold">
+        <%= time_tag(value, l(value.in_time_zone, format: :default)) %>
+      </div>
     <% when :date %>
       <div class="font-bold"><%= l(value, format: :default) %></div>
     <% when :json %>

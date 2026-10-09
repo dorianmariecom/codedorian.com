@@ -18,6 +18,7 @@ class Version < PaperTrail::Version
     email_address
     guest
     handle
+    hashcash
     link
     job_context
     log

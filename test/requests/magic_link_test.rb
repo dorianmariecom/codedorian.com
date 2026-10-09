@@ -184,6 +184,95 @@ class MagicLinkTest < ActionDispatch::IntegrationTest
     assert_equal(address.user_id, session[:user_id])
   end
 
+  test "json magic links validate without signing in and authenticate on POST" do
+    address = email_addresses(:other_email)
+    params = { email_address_id: address.id, token: address.magic_link_token }
+    get(new_magic_link_login_path, as: :json)
+    assert_response(:success)
+    assert_nil(response.parsed_body["data"])
+
+    get(magic_link_login_path, params: params, as: :json)
+    assert_response(:success)
+    assert_nil(session[:user_id])
+    assert_equal("no-store", response.headers["Cache-Control"])
+
+    post(authenticate_magic_link_login_path, params: params, as: :json)
+    assert_response(:success)
+    assert_equal(address.user_id, response.parsed_body.dig("data", "id"))
+    assert_equal(address.user_id, session[:user_id])
+    assert_equal("no-store", response.headers["Cache-Control"])
+  end
+
+  test "json invalid and expired magic links return errors without signing in" do
+    address = email_addresses(:other_email)
+    token = address.magic_link_token
+    travel(16.minutes) do
+      [token, "invalid"].each do |value|
+        params = { email_address_id: address.id, token: value }
+        get(magic_link_login_path, params: params, as: :json)
+        assert_response(:unprocessable_content)
+        assert_equal("unprocessable_content", response.parsed_body["status"])
+        assert_nil(session[:user_id])
+        post(authenticate_magic_link_login_path, params: params, as: :json)
+        assert_response(:unprocessable_content)
+        assert_nil(session[:user_id])
+        assert_equal("no-store", response.headers["Cache-Control"])
+      end
+    end
+  end
+
+  test "json magic link requests do not disclose whether an email exists" do
+    bodies =
+      [
+        email_addresses(:other_email).email_address,
+        "missing@example.test"
+      ].map do |email|
+        post(
+          request_magic_link_login_path(format: :json),
+          params: {
+            session: {
+              email_address: email
+            }
+          },
+          as: :json
+        )
+        assert_response(:success)
+        assert_nil(session[:user_id])
+        response.parsed_body
+      end
+    assert_equal(bodies.first, bodies.last)
+    assert_equal("ok", bodies.first["status"])
+    assert_nil(bodies.first["data"])
+  end
+
+  test "json magic link requests email an html confirmation URL" do
+    assert_emails(1) do
+      perform_enqueued_jobs(only: ActionMailer::MailDeliveryJob) do
+        post(
+          request_magic_link_login_path(format: :json),
+          params: {
+            session: {
+              email_address: email_addresses(:other_email).email_address
+            }
+          },
+          as: :json
+        )
+      end
+    end
+    assert_response(:success)
+    url =
+      ActionMailer::Base
+        .deliveries
+        .last
+        .text_part
+        .body
+        .decoded
+        .lines
+        .map(&:strip)
+        .find { |line| line.start_with?(Current.base_url) }
+    assert_equal(magic_link_login_path, URI(url).path)
+  end
+
   private
 
   def assert_rejected_link(id, token)

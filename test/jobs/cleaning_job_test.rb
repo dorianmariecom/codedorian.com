@@ -3,6 +3,34 @@
 require "test_helper"
 
 class CleaningJobTest < ActiveJob::TestCase
+  test "schedules cleaning in production and staging" do
+    schedules =
+      ActiveSupport::ConfigurationFile.parse(
+        Rails.root.join("config/recurring.yml")
+      )
+
+    %w[production staging].each do |environment|
+      configuration =
+        SolidQueue::Configuration.new(
+          recurring_schedule_file:
+            schedules.fetch(environment).deep_symbolize_keys
+        )
+      scheduler =
+        configuration.configured_processes.find do |process|
+          process.kind == :scheduler
+        end
+      cleaning =
+        scheduler
+          .attributes
+          .fetch(:recurring_tasks)
+          .find { |task| task.class_name == "CleaningJob" }
+
+      assert cleaning
+      assert_equal "every 5 minutes", cleaning.schedule
+      assert_equal "default", cleaning.queue_name
+    end
+  end
+
   test "deletes retained records older than one day" do
     travel_to(Time.zone.local(2026, 8, 16, 12)) do
       old_records = retention_records(created_at: 1.day.ago - 1.second)
@@ -124,15 +152,52 @@ class CleaningJobTest < ActiveJob::TestCase
     assert(StepExecution.exists?(latest_step.id))
   end
 
-  test "preserves older parents required by retained steps" do
+  test "deletes older finished parents and their remaining completed steps" do
+    step = step_executions(:step_execution)
     original = subscription_executions(:subscription_execution)
     latest = copy(original, created_at: original.created_at + 1.day)
 
     2.times { CleaningJob.perform_now }
 
-    assert(SubscriptionExecution.exists?(original.id))
+    assert_not(SubscriptionExecution.exists?(original.id))
     assert(SubscriptionExecution.exists?(latest.id))
-    assert(StepExecution.exists?(step_executions(:step_execution).id))
+    assert_not(StepExecution.exists?(step.id))
+  end
+
+  test "preserves older subscriptions with unfinished steps until they finish" do
+    original = subscription_executions(:subscription_execution)
+    latest = copy(original, created_at: original.created_at + 1.day)
+    step = step_executions(:step_execution)
+
+    %w[initialized in_progress].each do |status|
+      step.update_columns(status: status)
+      CleaningJob.perform_now
+      assert(SubscriptionExecution.exists?(original.id))
+      assert(StepExecution.exists?(step.id))
+    end
+
+    step.update_columns(status: "done")
+    CleaningJob.perform_now
+    assert_not(SubscriptionExecution.exists?(original.id))
+    assert_not(StepExecution.exists?(step.id))
+    assert(SubscriptionExecution.exists?(latest.id))
+  end
+
+  test "preserves unfinished subscription runs without steps" do
+    original = subscription_executions(:subscription_execution)
+    step_executions(:step_execution).destroy!
+    latest = copy(original, created_at: original.created_at + 1.day)
+
+    %w[initialized in_progress].each do |status|
+      original.update_columns(status: status)
+      CleaningJob.perform_now
+      assert(SubscriptionExecution.exists?(original.id))
+    end
+
+    original.update_columns(status: "errored")
+    CleaningJob.perform_now
+    assert_not(SubscriptionExecution.exists?(original.id))
+    assert(SubscriptionExecution.exists?(latest.id))
   end
 
   test "preserves unfinished executions until they finish" do

@@ -1,0 +1,84 @@
+<% content_for(:title, @hashcash) %>
+<% content_for(:description, t(".description")) %>
+<%= turbo_stream_from(@hashcash) %>
+
+<%= render("shared/attribute", label: t(".id"), value: @hashcash.id) %>
+
+<%= render(
+  "shared/attribute",
+  label: t(".challenge_id"),
+  value: @hashcash.challenge_id
+) %>
+
+<%= render(
+  "shared/attribute",
+  label: t(".expires_at"),
+  value: @hashcash.expires_at,
+  type: :time
+) %>
+
+<%= render(
+  "shared/attribute",
+  label: t(".created_at"),
+  value: @hashcash.created_at,
+  type: :time
+) %>
+
+<%= render(
+  "shared/attribute",
+  label: t(".updated_at"),
+  value: @hashcash.updated_at,
+  type: :time
+) %>
+
+<div class="p p--flex">
+  <%= link_to(t(".edit"), edit_url, class: :link) %>
+  <%= render("shared/confirm", text: t(".destroy"), url: destroy_url) %>
+  <%= render("shared/confirm", text: t(".delete"), url: delete_url) %>
+</div>
+
+<% if can?(:index, Version) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".versions"),
+      { controller: :versions, action: :index, hashcash_id: @hashcash.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "versions/version",
+    collection: @versions,
+    as: :version,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, Log) %>
+  <div class="p font-bold">
+    <%= link_to(
+      t(".logs"),
+      { controller: :logs, action: :index, hashcash_id: @hashcash.id },
+      class: :link
+    ) %>
+  </div>
+  <%= render_collection(
+    partial: "logs/log",
+    collection: @logs,
+    as: :log,
+    locals: {
+      nested: []
+    }
+  ) %>
+<% end %>
+
+<% if can?(:index, ::Error) %>
+  <div class="p">
+    <%= link_to(
+      t(".errors"),
+      { controller: :errors, action: :index, hashcash_id: @hashcash.id },
+      class: :link
+    ) %>
+  </div>
+<% end %>

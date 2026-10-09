@@ -133,7 +133,8 @@ class UsersController < ApplicationController
   end
 
   def show
-    @versions = versions_scope.order(created_at: :desc).page(params[:page])
+    @versions =
+      versions_scope.preload(:item).order(created_at: :desc).page(params[:page])
     @logs = logs_scope.order(created_at: :desc).page(params[:page])
 
     respond_to do |format|

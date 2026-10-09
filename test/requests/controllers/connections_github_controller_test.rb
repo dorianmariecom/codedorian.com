@@ -149,6 +149,80 @@ class ConnectionsGithubControllerTest < ActionDispatch::IntegrationTest
     assert Connection.exists?(connection.id)
   end
 
+  test "json oauth returns an authorization URL and completes with the same session" do
+    post connect_connections_path(provider: "github", format: :json), as: :json
+    assert_response :success
+    url = response.parsed_body.dig("data", "authorization_url")
+    query = URI.decode_www_form(URI(url).query).to_h
+    assert_equal "#{Current.base_url}/connections/callback/github",
+                 query["redirect_uri"]
+    assert_equal "ok", response.parsed_body["status"]
+
+    stub_request(
+      :post,
+      "https://github.com/login/oauth/access_token"
+    ).to_return(
+      body: {
+        access_token: "json-access-secret",
+        token_type: "bearer",
+        scope: "repo,notifications"
+      }.to_json
+    )
+    stub_request(:get, "https://api.github.com/user").to_return(
+      body: { id: 123, login: "octocat", email: "octo@example.com" }.to_json
+    )
+    params = { state: query["state"], code: "code" }
+    assert_difference "Connection.count", 1 do
+      get callback_connections_path(provider: "github", format: :json),
+          params: params,
+          as: :json
+      assert_response :success
+      assert_equal "ok", response.parsed_body["status"]
+      assert_nil response.parsed_body["data"]
+      assert_not_includes response.body, "json-access-secret"
+    end
+    get callback_connections_path(provider: "github"), params: params, as: :json
+    assert_response :bad_request
+    assert_equal [I18n.t("connections.callback.invalid_state")],
+                 response.parsed_body["messages"]
+  end
+
+  test "json oauth denial and token exchange failures return errors" do
+    [true, false].each do |denied|
+      post connect_connections_path(provider: "github"), as: :json
+      url = response.parsed_body.dig("data", "authorization_url")
+      state = URI.decode_www_form(URI(url).query).to_h.fetch("state")
+      stub_request(
+        :post,
+        "https://github.com/login/oauth/access_token"
+      ).to_return(status: 400)
+      params =
+        (
+          if denied
+            { state: state, error: "access_denied" }
+          else
+            { state: state, code: "code" }
+          end
+        )
+      get callback_connections_path(provider: "github"),
+          params: params,
+          as: :json
+      assert_response :bad_request
+      assert_equal "bad_request", response.parsed_body["status"]
+      assert_nil response.parsed_body["data"]
+    end
+  end
+
+  test "json oauth initialization failures return an error envelope" do
+    Config.github = { client_id: nil, client_secret: nil }.to_deep_struct
+    post connect_connections_path(provider: "github"), as: :json
+    assert_response :bad_request
+    assert_equal "bad_request", response.parsed_body["status"]
+    assert_equal [I18n.t("connections.connect.failed")],
+                 response.parsed_body["messages"]
+    assert_nil response.parsed_body["data"]
+  end
+
   private
 
   def start_connection

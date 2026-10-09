@@ -22,7 +22,10 @@ export default class extends BridgeComponent {
         window.Turbo.visit(item.path);
       } else {
         const pathname = new URL(item.path, window.location.href).pathname;
-        const action = `${item.verb}${pathname}`.replace(/[^a-zA-Z0-9/_]/g, "_");
+        const action = `${item.verb}${pathname}`.replace(
+          /[^a-zA-Z0-9/_]/g,
+          "_",
+        );
         const token = await recaptchaToken(action);
         const form = document.createElement("form");
         form.method = "post";

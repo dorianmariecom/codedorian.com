@@ -189,11 +189,7 @@ class DeliveryAdapters
                 },
                 sound: "default",
                 thread_id:
-                  (
-                    if device.ios?
-                      "subscription-#{@delivery.subscription_id}"
-                    end
-                  ),
+                  ("subscription-#{@delivery.subscription_id}" if device.ios?),
                 high_priority: device.ios?,
                 apple_data: {
                   "apns-expiration": 1.day.from_now.to_i.to_s

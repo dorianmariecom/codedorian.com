@@ -13,6 +13,7 @@ class ErrorOccurrence < SolidErrors::Occurrence
     email_address
     guest
     handle
+    hashcash
     job
     job_context
     message

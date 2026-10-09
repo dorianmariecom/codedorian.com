@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_04_154409) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_09_165902) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -74,64 +74,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_04_154409) do
     t.index %w[user_id verified primary],
             name: "index_addresses_on_user_id_and_verified_and_primary"
     t.index ["user_id"], name: "index_addresses_on_user_id"
-  end
-
-  create_table "blazer_audits", force: :cascade do |t|
-    t.datetime "created_at"
-    t.string "data_source"
-    t.bigint "query_id"
-    t.text "statement"
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.bigint "user_id"
-    t.index ["query_id"], name: "index_blazer_audits_on_query_id"
-    t.index ["user_id"], name: "index_blazer_audits_on_user_id"
-  end
-
-  create_table "blazer_checks", force: :cascade do |t|
-    t.string "check_type"
-    t.datetime "created_at", null: false
-    t.bigint "creator_id"
-    t.text "emails"
-    t.datetime "last_run_at"
-    t.text "message"
-    t.bigint "query_id"
-    t.string "schedule"
-    t.text "slack_channels"
-    t.string "state"
-    t.datetime "updated_at", null: false
-    t.index ["creator_id"], name: "index_blazer_checks_on_creator_id"
-    t.index ["query_id"], name: "index_blazer_checks_on_query_id"
-  end
-
-  create_table "blazer_dashboard_queries", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.bigint "dashboard_id"
-    t.integer "position"
-    t.bigint "query_id"
-    t.datetime "updated_at", null: false
-    t.index ["dashboard_id"],
-            name: "index_blazer_dashboard_queries_on_dashboard_id"
-    t.index ["query_id"], name: "index_blazer_dashboard_queries_on_query_id"
-  end
-
-  create_table "blazer_dashboards", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.bigint "creator_id"
-    t.string "name"
-    t.datetime "updated_at", null: false
-    t.index ["creator_id"], name: "index_blazer_dashboards_on_creator_id"
-  end
-
-  create_table "blazer_queries", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.bigint "creator_id"
-    t.string "data_source"
-    t.text "description"
-    t.string "name"
-    t.text "statement"
-    t.string "status"
-    t.datetime "updated_at", null: false
-    t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
   end
 
   create_table "configurations", force: :cascade do |t|
@@ -359,6 +301,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_04_154409) do
     t.index ["user_id"], name: "index_handles_on_user_id"
   end
 
+  create_table "hashcashes", force: :cascade do |t|
+    t.string "challenge_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "expires_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["challenge_id"],
+            name: "index_hashcashes_on_challenge_id",
+            unique: true
+    t.index ["expires_at"], name: "index_hashcashes_on_expires_at"
+  end
+
   create_table "job_contexts", force: :cascade do |t|
     t.string "active_job_id", null: false
     t.jsonb "context"
@@ -476,6 +429,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_04_154409) do
     t.string "interval"
     t.bigint "plan_id", null: false
     t.datetime "starts_at"
+    t.string "time_zone", null: false
     t.datetime "updated_at", null: false
     t.index ["plan_id"], name: "index_plan_schedules_on_plan_id"
   end

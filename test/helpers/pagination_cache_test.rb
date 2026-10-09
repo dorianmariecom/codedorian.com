@@ -27,11 +27,26 @@ class PaginationCacheTest < ActiveSupport::TestCase
     ) do
       assert_equal expected,
                    cached_pagination(
-                     User.order(id: :desc).page(2).per(2)
+                     User.order(id: :desc).page(1).per(2)
                    ).total_count
     end
 
     assert_equal [true], hits
+  end
+
+  test "short pages do not query aggregate counts" do
+    queries = []
+    subscriber = ->(event) { queries << event.payload[:sql] }
+    collection = User.order(:id).page(1).per(100)
+
+    ActiveSupport::Notifications.subscribed(subscriber, "sql.active_record") do
+      pagination = cached_pagination(collection)
+      assert_equal collection.size, pagination.total_count
+      assert_equal 1, pagination.total_pages
+    end
+
+    assert_equal(1, queries.count { |sql| sql.start_with?("SELECT") })
+    assert_empty queries.grep(/COUNT|MAX/)
   end
 
   test "preserves the current page records and pagination metadata" do

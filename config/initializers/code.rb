@@ -167,6 +167,9 @@ class Code
         when "StepExecution"
           sig(args)
           code_step_execution
+        when "Hashcash"
+          sig(args)
+          code_hashcash
         when "StripeEvent"
           sig(args)
           code_stripe_event
@@ -439,6 +442,10 @@ class Code
 
       def code_step_execution
         Class.new(StepExecution)
+      end
+
+      def code_hashcash
+        Class.new(Hashcash)
       end
 
       def code_stripe_event

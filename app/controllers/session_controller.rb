@@ -11,6 +11,11 @@ class SessionController < ApplicationController
 
   def new_magic_link
     add_breadcrumb
+
+    respond_to do |format|
+      format.html
+      format.json { render(json: { status: :ok, messages: [], data: nil }) }
+    end
   end
 
   def request_magic_link
@@ -20,6 +25,7 @@ class SessionController < ApplicationController
       .each do |address|
         url =
           magic_link_login_url(
+            format: nil,
             email_address_id: address.id,
             token: address.magic_link_token,
             redirect_to: requested_redirect_path
@@ -30,13 +36,25 @@ class SessionController < ApplicationController
         ).deliver_later
       end
 
-    redirect_to(new_magic_link_login_path, notice: t(".notice"))
+    respond_to do |format|
+      format.html do
+        redirect_to(new_magic_link_login_path, notice: t(".notice"))
+      end
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: nil })
+      end
+    end
   end
 
   def magic_link
     return unless load_magic_link_email_address
 
     add_breadcrumb
+
+    respond_to do |format|
+      format.html
+      format.json { render(json: { status: :ok, messages: [], data: nil }) }
+    end
   end
 
   def authenticate_magic_link
@@ -46,11 +64,24 @@ class SessionController < ApplicationController
     reset_session
     Current.user = nil
     log_in(user)
-    redirect_to(
-      requested_redirect_path || user,
-      notice: t("session.create.notice"),
-      status: :see_other
-    )
+    respond_to do |format|
+      format.html do
+        redirect_to(
+          requested_redirect_path || user,
+          notice: t("session.create.notice"),
+          status: :see_other
+        )
+      end
+      format.json do
+        render(
+          json: {
+            status: :ok,
+            messages: [t("session.create.notice")],
+            data: user
+          }
+        )
+      end
+    end
   end
 
   def new
@@ -152,11 +183,25 @@ class SessionController < ApplicationController
       EmailAddress.find_by_magic_link(params[:email_address_id], params[:token])
     return true if @magic_link_email_address
 
-    redirect_to(
-      new_magic_link_login_path,
-      alert: t("session.magic_link.invalid"),
-      status: :see_other
-    )
+    respond_to do |format|
+      format.html do
+        redirect_to(
+          new_magic_link_login_path,
+          alert: t("session.magic_link.invalid"),
+          status: :see_other
+        )
+      end
+      format.json do
+        render(
+          json: {
+            status: :unprocessable_content,
+            messages: [t("session.magic_link.invalid")],
+            data: nil
+          },
+          status: :unprocessable_content
+        )
+      end
+    end
     false
   end
 

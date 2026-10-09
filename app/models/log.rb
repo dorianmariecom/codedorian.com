@@ -20,6 +20,7 @@ class Log < ApplicationRecord
     error_occurrence
     guest
     handle
+    hashcash
     job
     job_batch
     job_batch_execution

@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  mount(Blazer::Engine, at: :blazer)
+  match(
+    "/mcp",
+    to: ->(env) { McpApi::Server.call(env) },
+    via: %i[get post delete]
+  )
   mount(ActionCable.server => "/cable")
   post("stripe/webhooks", to: "stripe_webhooks#create")
   get("sitemap.xml", to: "sitemaps#show", defaults: { format: :xml })
@@ -166,6 +170,10 @@ Rails.application.routes.draw do
 
     resources(:country_code_ip_addresses, concerns: :deletable) do
       post(:lookup)
+    end
+
+    resources(:hashcashes, concerns: :deletable) do
+      get(:challenge, on: :collection)
     end
 
     %i[

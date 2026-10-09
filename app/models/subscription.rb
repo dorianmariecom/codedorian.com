@@ -281,7 +281,10 @@ class Subscription < ApplicationRecord
     (
       [initial_scheduled_at] +
         plan_schedules.flat_map do |schedule|
-          [schedule.previous_at, schedule.next_at]
+          [
+            schedule.previous_at(time_zone: schedule_time_zone),
+            schedule.next_at(time_zone: schedule_time_zone)
+          ]
         end
     ).compact.uniq.select { |at| at + offset <= Time.zone.now }.max
   end
@@ -312,9 +315,30 @@ class Subscription < ApplicationRecord
     end
   end
 
-  def starts_at = plan_schedules.map(&:starts_at).min
-  def previous_at = plan_schedules.map(&:previous_at).select(&:past?).max
-  def next_at = plan_schedules.map(&:next_at).select(&:future?).min
+  def schedule_time_zone
+    user.time_zone&.time_zone.presence || Rails.application.config.time_zone
+  end
+
+  def starts_at
+    plan_schedules
+      .map { |schedule| schedule.starts_at_in(time_zone: schedule_time_zone) }
+      .min
+  end
+
+  def previous_at
+    plan_schedules
+      .map { |schedule| schedule.previous_at(time_zone: schedule_time_zone) }
+      .select(&:past?)
+      .max
+  end
+
+  def next_at
+    plan_schedules
+      .map { |schedule| schedule.next_at(time_zone: schedule_time_zone) }
+      .select(&:future?)
+      .min
+  end
+
   def translated_status = t("statuses.#{status}")
 
   def plan_sample
@@ -408,7 +432,7 @@ class Subscription < ApplicationRecord
   end
 
   def initial_scheduled_at
-    first_plan_at = plan_schedules.minimum(:starts_at)
+    first_plan_at = starts_at
     return if first_plan_at.present? && created_at < first_plan_at
 
     created_at

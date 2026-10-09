@@ -68,6 +68,42 @@ class ApplicationHelperTest < ActionView::TestCase
     end
   end
 
+  test "schedule descriptions retain the subscriber local hour across viewer zones" do
+    schedule =
+      PlanSchedule.new(
+        time_zone: "Europe/Paris",
+        starts_at: "2026-08-04T09:00",
+        interval: "1 week"
+      )
+    Time.use_zone("America/Los_Angeles") do
+      I18n.with_locale(:en) do
+        assert_equal(
+          "every tuesday at 9:00am",
+          plan_schedule_description(schedule)
+        )
+      end
+    end
+  end
+
+  test "zoned timestamps retain their instant without browser local formatting" do
+    Time.use_zone("America/New_York") do
+      instant = Time.utc(2026, 10, 15, 13)
+      html =
+        render(
+          partial: "shared/attribute",
+          locals: {
+            label: "time",
+            value: instant,
+            type: :zoned_time
+          }
+        )
+      tag = Nokogiri::HTML.fragment(html).at_css("time")
+      assert_equal(instant.iso8601, tag["datetime"])
+      assert_equal(I18n.l(instant.in_time_zone, format: :default), tag.text)
+      assert_nil(tag["data-local"])
+    end
+  end
+
   private
 
   def assert_recaptcha_form(html)

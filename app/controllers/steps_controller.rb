@@ -79,17 +79,58 @@ class StepsController < ApplicationController
 
   def format
     @step.format!
-    redirect_back_or_to(show_url, notice: t(".notice"))
+
+    respond_to do |format|
+      format.html { redirect_back_or_to(show_url, notice: t(".notice")) }
+
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: @step })
+      end
+    end
   rescue Code::Error => e
-    redirect_back_or_to(show_url, alert: t(".alert", message: e.message))
+    message = t(".alert", message: e.message)
+    respond_to do |format|
+      format.html { redirect_back_or_to(show_url, alert: message) }
+      format.json do
+        render(
+          json: {
+            status: :bad_request,
+            messages: [message],
+            data: @step
+          },
+          status: :bad_request
+        )
+      end
+    end
   end
 
   def format_all
     authorize(Step)
+
     scope.format_all
-    redirect_back_or_to(index_url, notice: t(".notice"))
+
+    respond_to do |format|
+      format.html { redirect_back_or_to(index_url, notice: t(".notice")) }
+
+      format.json do
+        render(json: { status: :ok, messages: [t(".notice")], data: nil })
+      end
+    end
   rescue Code::Error => e
-    redirect_back_or_to(index_url, alert: t(".alert", message: e.message))
+    message = t(".alert", message: e.message)
+    respond_to do |format|
+      format.html { redirect_back_or_to(index_url, alert: message) }
+      format.json do
+        render(
+          json: {
+            status: :bad_request,
+            messages: [message],
+            data: nil
+          },
+          status: :bad_request
+        )
+      end
+    end
   end
 
   def destroy

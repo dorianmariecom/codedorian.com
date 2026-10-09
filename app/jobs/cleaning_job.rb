@@ -10,8 +10,13 @@ class CleaningJob < ContextJob
   def perform_with_context
     obsolete(StepExecution, :step_id).destroy_all
     obsolete(SubscriptionExecution, :subscription_id)
-      .where.not(id: StepExecution.select(:subscription_execution_id))
-      .delete_all
+      .where.not(
+        id:
+          StepExecution.where(status: %w[initialized in_progress]).select(
+            :subscription_execution_id
+          )
+      )
+      .find_each(&:destroy!)
     obsolete(ProgramExecution, :program_id).delete_all
 
     cutoff = RETENTION_PERIOD.ago
@@ -22,6 +27,7 @@ class CleaningJob < ContextJob
       .where
       .missing(:jobs, :batch_executions)
       .delete_all
+    Hashcash.where(expires_at: ..Time.current).delete_all
     Guest.expired.delete_all
     Session.expired_guests.delete_all
     JobContext.where.missing(:job).delete_all

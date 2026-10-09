@@ -14,7 +14,9 @@
   <div class="p"><%= plan.body %></div>
 <% end %>
 <% plan.plan_schedules.each do |plan_schedule| %>
-  <div class="p"><%= plan_schedule_description(plan_schedule) %></div>
+  <div class="p">
+    <%= plan_schedule_description(plan_schedule) %> (<%= t("plan_schedules.subscriber_time_zone") %>)
+  </div>
 <% end %>
 <div class="p">
   <% destination = new_service_subscription_path(plan.service, plan_id: plan.id) %>

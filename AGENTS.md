@@ -4,7 +4,7 @@
 
 - This is a large Rails 8 application behind `codedorian.com`, not a simple marketing site.
 - The app combines a public-facing website, an authenticated account area, an admin-style CRUD interface, a programmable "code/program" feature, a form/submission pipeline, and mobile app integration through Hotwire Native.
-- The stack is Ruby `4.0.5`, PostgreSQL, Tailwind, Turbo, Stimulus, Importmap, Solid Queue, Solid Cable, Solid Cache, Pundit, PaperTrail, Sentry, Blazer, Recaptcha, and Rpush.
+- The stack is Ruby `4.0.5`, PostgreSQL, Tailwind, Turbo, Stimulus, Importmap, Solid Queue, Solid Cable, Solid Cache, Pundit, PaperTrail, Sentry, Recaptcha, and Rpush.
 - The repository is broad: about `66` models, `52` controllers, `52` policies, `7` jobs, `336` view files, `26` Stimulus controllers, `60` tests, and `48` fixtures.
 
 ## Major Domains
@@ -54,7 +54,7 @@
 
 - `config/routes.rb` is heavily meta-programmed with lambdas that define repeated REST resources plus `delete`, `destroy`, `delete_all`, `destroy_all`, `schedule_all`, `unschedule_all`, `retry_all`, and similar collection routes.
 - This route file is a structural hotspot. Small route changes can affect a large number of controllers, views, helpers, and tests.
-- Mounted engines and infrastructure routes include Blazer and Action Cable.
+- Mounted engines and infrastructure routes include Action Cable.
 
 ## Background Jobs And Async Work
 
@@ -93,7 +93,7 @@
 - `app/javascript/`: Stimulus controllers, bridge integration, and frontend runtime setup.
 - `app/jobs/`, `app/mailers/`: async program execution, scheduling, and submission email delivery.
 - `config/routes.rb`: primary structural map of the app.
-- `db/schema.rb`: authoritative list of tables, including app tables plus Solid Queue, Solid Cache, Solid Errors, Action Text, Active Storage, Blazer, and Rpush.
+- `db/schema.rb`: authoritative list of tables, including app tables plus Solid Queue, Solid Cache, Solid Errors, Action Text, Active Storage and Rpush.
 
 ## Commit And PR Guidance
 

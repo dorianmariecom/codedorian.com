@@ -14,8 +14,8 @@
 <%= render(
   "shared/attribute",
   label: t(".starts_at"),
-  value: @plan_schedule.starts_at,
-  type: :time
+  value: @plan_schedule.starts_at_in(time_zone: Time.zone),
+  type: :zoned_time
 ) %>
 
 <%= render(
@@ -28,14 +28,14 @@
   "shared/attribute",
   label: t(".updated_at"),
   value: @plan_schedule.updated_at,
-  type: :time
+  type: :zoned_time
 ) %>
 
 <%= render(
   "shared/attribute",
   label: t(".created_at"),
   value: @plan_schedule.created_at,
-  type: :time
+  type: :zoned_time
 ) %>
 
 <div class="p p--flex">

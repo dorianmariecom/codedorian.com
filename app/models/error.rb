@@ -13,6 +13,7 @@ class Error < SolidErrors::Error
     email_address
     guest
     handle
+    hashcash
     job
     job_context
     message

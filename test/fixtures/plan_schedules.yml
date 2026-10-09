@@ -4,4 +4,5 @@ plan_schedule:
   interval: 1 day
   plan: plan
   starts_at: '2026-08-04 10:00:00'
+  time_zone: UTC
   updated_at: '2026-08-03 10:00:00'

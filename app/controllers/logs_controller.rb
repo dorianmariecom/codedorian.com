@@ -10,6 +10,7 @@ class LogsController < ApplicationController
   before_action :load_service_field
   before_action :load_step
   before_action :load_step_execution
+  before_action :load_hashcash
   before_action :load_stripe_event
   before_action :load_stripe_invoice
   before_action :load_subscription
@@ -209,6 +210,14 @@ class LogsController < ApplicationController
     add_breadcrumb(text: @step_execution, path: @step_execution)
   end
 
+  def load_hashcash
+    return if params[:hashcash_id].blank?
+
+    @hashcash = policy_scope(Hashcash).find(params.expect(:hashcash_id))
+    set_context(hashcash: @hashcash)
+    add_breadcrumb(text: @hashcash, path: @hashcash)
+  end
+
   def load_stripe_event
     return if params[:stripe_event_id].blank?
 
@@ -278,6 +287,7 @@ class LogsController < ApplicationController
       service_field_id: @service_field&.id,
       step_id: @step&.id,
       step_execution_id: @step_execution&.id,
+      hashcash_id: @hashcash&.id,
       stripe_event_id: @stripe_event&.id,
       stripe_invoice_id: @stripe_invoice&.id,
       subscription_id: @subscription&.id,
@@ -787,6 +797,8 @@ class LogsController < ApplicationController
       scope = scope.where_message(@message)
     elsif @page
       scope = scope.where_page(@page)
+    elsif @hashcash
+      scope = scope.where_hashcash(@hashcash)
     elsif @stripe_event
       scope = scope.where_stripe_event(@stripe_event)
     elsif @stripe_invoice

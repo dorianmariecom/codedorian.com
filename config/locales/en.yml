@@ -146,6 +146,9 @@ en:
         primary: primary?
         user_id: user
         verified: verified?
+      hashcash:
+        challenge_id: challenge id
+        expires_at: expires at
       job:
         active_job_id: active job id
         arguments: arguments
@@ -500,6 +503,10 @@ en:
     handles:
       edit: edit
       index: handles
+      new: new
+    hashcashes:
+      edit: edit
+      index: hashcashes
       new: new
     job_batch_executions:
       edit: edit
@@ -1635,6 +1642,50 @@ en:
       versions: versions
     update:
       notice: handle updated
+  hashcashes:
+    challenge:
+      invalid: invalid hashcash challenge request
+    create:
+      notice: hashcash created
+    delete:
+      notice: hashcash deleted
+    delete_all:
+      notice: hashcashes deleted
+    destroy:
+      notice: hashcash destroyed
+    destroy_all:
+      notice: hashcashes destroyed
+    edit:
+      description: update a redeemed hashcash challenge.
+      submit: update hashcash
+      title: edit hashcash
+    index:
+      delete_all: delete all
+      description: review and manage redeemed hashcash challenges.
+      destroy_all: destroy all
+      new: new hashcash
+      title: hashcashes
+    model:
+      to_s: hashcash#%{id}
+    new:
+      description: create a redeemed hashcash challenge.
+      submit: create hashcash
+      title: new hashcash
+    show:
+      challenge_id: challenge id
+      created_at: created at
+      delete: delete hashcash
+      description: view the redeemed challenge and audit history.
+      destroy: destroy hashcash
+      edit: edit hashcash
+      errors: errors
+      expires_at: expires at
+      id: id
+      logs: logs
+      updated_at: updated at
+      versions: versions
+    update:
+      notice: hashcash updated
   helpers:
     label:
       session:
@@ -2868,6 +2919,7 @@ en:
     update:
       notice: plan field updated
   plan_schedules:
+    authoring_time_zone: 'entry time zone: %{time_zone}'
     create:
       notice: plan schedule created
     delete:
@@ -2909,6 +2961,7 @@ en:
       starts_at: starts at
       updated_at: updated at
       versions: versions
+    subscriber_time_zone: runs in each subscriber’s time zone
     update:
       notice: plan schedule updated
   plans:

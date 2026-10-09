@@ -146,6 +146,9 @@ fr:
         primary: principal ?
         user_id: utilisateur
         verified: vérifié ?
+      hashcash:
+        challenge_id: identifiant du défi
+        expires_at: expire le
       job:
         active_job_id: identifiant de tâche active
         arguments: arguments
@@ -500,6 +503,10 @@ fr:
     handles:
       edit: modifier
       index: identifiants
+      new: nouveau
+    hashcashes:
+      edit: modifier
+      index: hashcashes
       new: nouveau
     job_batch_executions:
       edit: modifier
@@ -1637,6 +1644,50 @@ fr:
       versions: versions
     update:
       notice: identifiant mise à jour
+  hashcashes:
+    challenge:
+      invalid: demande de défi hashcash invalide
+    create:
+      notice: hashcash créé
+    delete:
+      notice: hashcash supprimé
+    delete_all:
+      notice: hashcashes supprimés
+    destroy:
+      notice: hashcash détruit
+    destroy_all:
+      notice: hashcashes détruits
+    edit:
+      description: modifier un défi hashcash utilisé.
+      submit: modifier le hashcash
+      title: modifier le hashcash
+    index:
+      delete_all: tout supprimer
+      description: consulter et gérer les défis hashcash utilisés.
+      destroy_all: tout détruire
+      new: nouveau hashcash
+      title: hashcashes
+    model:
+      to_s: hashcash#%{id}
+    new:
+      description: créer un défi hashcash utilisé.
+      submit: créer le hashcash
+      title: nouveau hashcash
+    show:
+      challenge_id: identifiant du défi
+      created_at: créé le
+      delete: supprimer le hashcash
+      description: consulter le défi utilisé et son historique.
+      destroy: détruire le hashcash
+      edit: modifier le hashcash
+      errors: erreurs
+      expires_at: expire le
+      id: id
+      logs: journaux
+      updated_at: modifié le
+      versions: versions
+    update:
+      notice: hashcash modifié
   helpers:
     label:
       session:
@@ -2870,6 +2921,7 @@ fr:
     update:
       notice: champ d’offre modifié
   plan_schedules:
+    authoring_time_zone: 'fuseau horaire de saisie : %{time_zone}'
     create:
       notice: planification créée
     delete:
@@ -2911,6 +2963,7 @@ fr:
       starts_at: commence à
       updated_at: mis à jour à
       versions: versions
+    subscriber_time_zone: exécution dans le fuseau horaire de chaque abonné
     update:
       notice: planification mise à jour
   plans:

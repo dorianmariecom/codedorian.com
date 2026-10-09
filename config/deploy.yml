@@ -14,7 +14,6 @@ deploy_timeout: 300
 env:
   secret:
   - BASE_URL
-  - BLAZER_DATABASE_URL
   - CODE_ENV
   - DATABASE_URL
   - HOST

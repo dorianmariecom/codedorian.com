@@ -5,7 +5,7 @@ xml.urlset(xmlns: "http://www.sitemaps.org/schemas/sitemap/0.9") do
   @pages.each do |path, updated_at|
     I18n.available_locales.each do |locale|
       xml.url do
-        xml.loc("#{Current.base_url}/#{locale}#{path == "/" ? "" : path}")
+        xml.loc("#{Current.base_url}/#{locale}#{path unless path == "/"}")
         xml.lastmod(updated_at.iso8601)
       end
     end

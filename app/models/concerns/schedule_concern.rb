@@ -190,11 +190,16 @@ module ScheduleConcern
     end
   end
 
-  def next_at
+  def starts_at_in(time_zone:)
+    starts_at.in_time_zone(time_zone)
+  end
+
+  def next_at(time_zone: Time.zone)
+    starts_at = starts_at_in(time_zone: time_zone)
     if once?
       starts_at
     elsif count?
-      now = Time.zone.now
+      now = Time.current.in_time_zone(time_zone)
       return starts_at if starts_at >= now
 
       if month_based_interval?
@@ -222,11 +227,11 @@ module ScheduleConcern
       at
     else
       weekday = WEEKDAYS.index(per)
-      threshold = [starts_at, Time.zone.now].max
+      threshold = [starts_at, Time.current.in_time_zone(time_zone)].max
       month_cursor = threshold
 
       loop do
-        at = monthly_candidate(month_cursor, weekday)
+        at = monthly_candidate(month_cursor, weekday, starts_at)
         return at if at && at >= threshold
 
         month_cursor = month_cursor.next_month
@@ -234,11 +239,12 @@ module ScheduleConcern
     end
   end
 
-  def previous_at
+  def previous_at(time_zone: Time.zone)
+    starts_at = starts_at_in(time_zone: time_zone)
     if once?
       starts_at
     elsif count?
-      now = Time.zone.now
+      now = Time.current.in_time_zone(time_zone)
       return starts_at if starts_at > now
 
       if month_based_interval?
@@ -265,11 +271,11 @@ module ScheduleConcern
       end
     else
       weekday = WEEKDAYS.index(per)
-      threshold = [starts_at, Time.zone.now].max
+      threshold = [starts_at, Time.current.in_time_zone(time_zone)].max
       month_cursor = threshold
 
       loop do
-        at = monthly_candidate(month_cursor, weekday)
+        at = monthly_candidate(month_cursor, weekday, starts_at)
         return at if at && at < threshold
 
         month_cursor = month_cursor.prev_month
@@ -283,7 +289,7 @@ module ScheduleConcern
 
   private
 
-  def monthly_candidate(month_cursor, weekday)
+  def monthly_candidate(month_cursor, weekday, starts_at)
     candidate =
       if count == "last"
         last_day = month_cursor.end_of_month.beginning_of_day
@@ -300,10 +306,10 @@ module ScheduleConcern
         candidate
       end
 
-    align_to_starts_at(candidate)
+    align_to_starts_at(candidate, starts_at)
   end
 
-  def align_to_starts_at(at)
+  def align_to_starts_at(at, starts_at)
     at.change(
       hour: starts_at.hour,
       min: starts_at.min,
