@@ -88,9 +88,9 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
           assert_equal [{ "to" => [{ "email" => "recipient@example.com" }] }],
                        body["personalizations"]
           assert_equal [
-            { "type" => "text/plain", "value" => "Le monde" },
-            { "type" => "text/html", "value" => "<p>Le monde</p>" }
-          ],
+                         { "type" => "text/plain", "value" => "Le monde" },
+                         { "type" => "text/html", "value" => "<p>Le monde</p>" }
+                       ],
                        body["content"]
           true
         end

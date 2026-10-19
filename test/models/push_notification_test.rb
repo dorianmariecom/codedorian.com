@@ -24,9 +24,9 @@ class PushNotificationTest < ActiveSupport::TestCase
         ActiveJob::Arguments.deserialize(job[:args])[1]
       end
     assert_equal [
-      "codedorian - test/production",
-      "codedorian - test/development"
-    ],
+                   "codedorian - test/production",
+                   "codedorian - test/development"
+                 ],
                  notifications.pluck(:application)
     assert_equal({ "path" => "" }, notifications.first.fetch(:data))
     assert_equal "push", enqueued_jobs.first.fetch(:queue)

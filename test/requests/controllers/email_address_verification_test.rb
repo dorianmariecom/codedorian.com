@@ -37,11 +37,11 @@ class EmailAddressVerificationTest < ActionDispatch::IntegrationTest
          as: :json
     assert_response :success
     assert_equal [
-      I18n.t(
-        "email_addresses.confirm_verification.confirmed",
-        locale: locale
-      )
-    ],
+                   I18n.t(
+                     "email_addresses.confirm_verification.confirmed",
+                     locale: locale
+                   )
+                 ],
                  response.parsed_body["messages"]
     assert @address.reload.verified?
     assert_nil session[:user_id]

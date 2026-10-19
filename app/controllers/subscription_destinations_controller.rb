@@ -21,10 +21,10 @@ class SubscriptionDestinationsController < ApplicationController
       format.html
       format.json do
         render json: {
-          status: :ok,
+                 status: :ok,
                  messages: [],
                  data: @subscription_destinations
-        }
+               }
       end
     end
   end
@@ -44,10 +44,10 @@ class SubscriptionDestinationsController < ApplicationController
       format.html
       format.json do
         render json: {
-          status: :ok,
+                 status: :ok,
                  messages: [],
                  data: @subscription_destination
-        }
+               }
       end
     end
   end
@@ -59,10 +59,10 @@ class SubscriptionDestinationsController < ApplicationController
       format.html
       format.json do
         render json: {
-          status: :ok,
+                 status: :ok,
                  messages: [],
                  data: @subscription_destination
-        }
+               }
       end
     end
   end
@@ -73,10 +73,10 @@ class SubscriptionDestinationsController < ApplicationController
       format.html
       format.json do
         render json: {
-          status: :ok,
+                 status: :ok,
                  messages: [],
                  data: @subscription_destination
-        }
+               }
       end
     end
   end

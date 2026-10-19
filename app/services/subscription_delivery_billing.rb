@@ -10,9 +10,9 @@ class SubscriptionDeliveryBilling
     if selections.empty?
       raise StripeBilling::PricingError, I18n.t("delivery.choose_destination")
     end
-    unless selections.all? do |selection|
+    unless selections.all? { |selection|
              selection.amount_currency == base[:amount_currency]
-           end
+           }
       raise StripeBilling::PricingError, I18n.t("delivery.currency_mismatch")
     end
 
@@ -38,9 +38,9 @@ class SubscriptionDeliveryBilling
       destination.user = subscription.user if destination.new_record?
     end
     unless destinations.any? &&
-             destinations.all? do |destination|
+             destinations.all? { |destination|
                destination.valid? && destination.available?
-             end
+             }
       raise StripeBilling::PricingError, I18n.t("delivery.invalid_destinations")
     end
 

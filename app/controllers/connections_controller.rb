@@ -82,12 +82,12 @@ class ConnectionsController < ApplicationController
       format.html { redirect_to authorization_url, allow_other_host: true }
       format.json do
         render json: {
-          status: :ok,
+                 status: :ok,
                  messages: [],
                  data: {
                    authorization_url: authorization_url
                  }
-        }
+               }
       end
     end
   rescue *ConnectionOauth::ERRORS

@@ -28,14 +28,14 @@ class FacebookOauthTest < ActiveSupport::TestCase
       }
     ).to_return(body: { id: "123456", name: "Profile" }.to_json)
     assert_equal [
-      {
-        sender: "123456",
-        external_id: "123456",
-        access_token: "user-token",
-        scope: "public_profile",
-        enabled: true
-      }
-    ],
+                   {
+                     sender: "123456",
+                     external_id: "123456",
+                     access_token: "user-token",
+                     scope: "public_profile",
+                     enabled: true
+                   }
+                 ],
                  exchange
     assert_not_requested :get, %r{/me/accounts|/me/permissions|/debug_token}
     assert_requested :get, %r{/oauth/access_token}, times: 1

@@ -6,10 +6,10 @@ class EmailAddressesController < ApplicationController
 
   before_action :current_user!, only: :request_verification
   before_action only: %i[
-    request_verification
-    verification
-    confirm_verification
-  ] do
+                  request_verification
+                  verification
+                  confirm_verification
+                ] do
     no_store
     set_current_locale
   end

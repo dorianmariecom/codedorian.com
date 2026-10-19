@@ -167,9 +167,9 @@ class DeliveryAdapters
   def push
     user = @delivery.user
     raise Rejected, "no_push_devices" unless user.devices.exists?
-    unless user.devices.any? do |device|
+    unless user.devices.any? { |device|
              ApplicationPushNotification.applications_for(device).any?
-           end
+           }
       raise Rejected, "push_not_configured"
     end
 
