@@ -303,6 +303,8 @@ module ApplicationHelper
     ([nil] + policy_scope(User).order(:id).to_a).map do |user|
       [user&.to_s, user&.id, { selected: user_id == user&.id }]
     end
+  rescue ActiveRecord::DatabaseConnectionError, PG::ConnectionBad
+    [[nil, nil, { selected: false }]]
   end
 
   def program_options(program_id: nil)
@@ -311,6 +313,8 @@ module ApplicationHelper
       .map do |program|
         [program&.to_s, program&.id, { selected: program_id == program&.id }]
       end
+  rescue ActiveRecord::DatabaseConnectionError, PG::ConnectionBad
+    []
   end
 
   def subscription_options(subscription_id: nil)
@@ -335,6 +339,8 @@ module ApplicationHelper
           { selected: delivery_destination_id == delivery_destination.id }
         ]
       end
+  rescue ActiveRecord::DatabaseConnectionError, PG::ConnectionBad
+    []
   end
 
   def locale_options(locale: nil)
