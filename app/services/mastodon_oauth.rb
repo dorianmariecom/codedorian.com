@@ -124,7 +124,7 @@ class MastodonOauth
     raise Error unless data.is_a?(Hash)
 
     data
-  rescue DeliveryAdapters::Rejected,
+  rescue DeliveryChannel::Rejected,
          Resolv::ResolvError,
          JSON::ParserError,
          IOError,

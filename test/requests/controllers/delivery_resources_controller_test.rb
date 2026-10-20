@@ -12,6 +12,18 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
     )
   end
 
+  test "non admins cannot edit delivery programs" do
+    patch delivery_channel_path(@channel),
+          params: {
+            delivery_channel: {
+              delivery_input: '{ status: "accepted" }'
+            }
+          },
+          as: :json
+    assert_response :bad_request
+    assert_nil @channel.reload.delivery_input
+  end
+
   test "subscription selectors and quotes render localized readable prices" do
     sign_in_admin
     subscription = subscriptions(:subscription)
@@ -359,10 +371,10 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
                   false
     assert_select "a[href=?]", new_delivery_destination_path, count: 0
     assert_difference %w[
-                        Subscription.count
-                        DeliveryDestination.count
-                        SubscriptionDestination.count
-                      ],
+      Subscription.count
+      DeliveryDestination.count
+      SubscriptionDestination.count
+    ],
                       1 do
       post service_subscriptions_path(service),
            params: {

@@ -153,6 +153,7 @@ class DeliveryChannelsController < ApplicationController
     params.expect(
       delivery_channel: %i[
         key
+        delivery_input
         enabled
         amount_cents
         show_recipient

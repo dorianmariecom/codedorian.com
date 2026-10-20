@@ -78,7 +78,7 @@ class WebhookDeliveryTest < ActiveSupport::TestCase
         .to_return(status: 200, body: "ok")
     with_public_provider do
       2.times do
-        result = DeliveryAdapters.deliver(@delivery)
+        result = deliver_code(@delivery)
         assert_equal "accepted", result.status
         assert_nil result.provider_id
       end
@@ -87,22 +87,18 @@ class WebhookDeliveryTest < ActiveSupport::TestCase
   end
 
   test "validates snapshotted URLs again before sending" do
-    @delivery.recipient = "http://example.com/hook"
-    error =
-      assert_raises(DeliveryAdapters::Rejected) do
-        DeliveryAdapters.deliver(@delivery)
-      end
-    assert_equal "invalid_webhook_url", error.code
+    ["http://example.com/hook", "https://user:password@example.com/hook", "https://example.com/hook#fragment", "not a url"].each do |recipient|
+      @delivery.recipient = recipient
+      error = assert_raises(DeliveryChannel::Rejected) { deliver_code(@delivery) }
+      assert_equal "invalid_webhook_url", error.code
+    end
     assert_not_requested :post, /example.com/
   end
 
   test "blocks internal addresses before sending" do
     @delivery.recipient = "https://127.0.0.1/hook"
-    error =
-      assert_raises(DeliveryAdapters::Rejected) do
-        DeliveryAdapters.deliver(@delivery)
-      end
-    assert_equal "invalid_provider_host", error.code
+    error = assert_raises(Code::Error) { deliver_code(@delivery) }
+    assert_includes error.message, "local network requests are not allowed"
     assert_not_requested :post, /127.0.0.1/
   end
 
@@ -111,12 +107,11 @@ class WebhookDeliveryTest < ActiveSupport::TestCase
       [400, 429].each do |status|
         stub_request(:post, @delivery.recipient).to_return(status: status)
         error =
-          assert_raises(DeliveryAdapters::Rejected) do
-            DeliveryAdapters.deliver(@delivery)
-          end
+          assert_raises(DeliveryChannel::Rejected) { deliver_code(@delivery) }
         assert_equal "http_#{status}", error.code
         assert_equal status == 429, error.retryable
       end
+      redirected = stub_request(:get, "https://other.example.com/").to_return(status: 200)
       [302, 408, 500].each do |status|
         stub_request(:post, @delivery.recipient).to_return(
           status: status,
@@ -124,23 +119,22 @@ class WebhookDeliveryTest < ActiveSupport::TestCase
             "Location" => "https://other.example.com"
           }
         )
-        assert_raises(IOError) { DeliveryAdapters.deliver(@delivery) }
+        assert_raises(IOError) { deliver_code(@delivery) }
       end
+      assert_requested redirected, times: 1
       assert_not_requested :post, "https://other.example.com"
       stub_request(:post, @delivery.recipient).to_timeout
-      assert_raises(Timeout::Error) { DeliveryAdapters.deliver(@delivery) }
+      assert_raises(Code::Error) { deliver_code(@delivery) }
     end
   end
 
   private
 
   def with_public_provider
-    original = DeliveryProviderAddress.method(:resolve!)
-    DeliveryProviderAddress.define_singleton_method(:resolve!) do |_host|
-      "93.184.216.34"
-    end
+    original = Resolv.method(:getaddresses)
+    Resolv.define_singleton_method(:getaddresses) { |_host| ["93.184.216.34"] }
     yield
   ensure
-    DeliveryProviderAddress.define_singleton_method(:resolve!, original)
+    Resolv.define_singleton_method(:getaddresses, original)
   end
 end

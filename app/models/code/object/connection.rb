@@ -65,6 +65,9 @@ class Code
 
       def self.call(**args)
         case args.fetch(:operator, nil).to_code.to_s
+        when "reddit"
+          sig(args)
+          code_reddit
         when "all"
           sig(args)
           code_all
@@ -80,6 +83,17 @@ class Code
         else
           super
         end
+      end
+
+      def self.code_reddit
+        raise Pundit::NotAuthorizedError unless ::Current.user&.admin?
+
+        {
+          access_token: ::RedditScript.access_token,
+          username: ::RedditScript.username
+        }.to_code
+      rescue ::RedditScript::Error => e
+        raise ::DeliveryChannel::Rejected.new(e.code, retryable: e.retryable)
       end
 
       def self.code_all

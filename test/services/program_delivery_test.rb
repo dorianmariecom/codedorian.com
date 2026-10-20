@@ -12,7 +12,12 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
     Current.user = users(:admin)
     @subscription = subscriptions(:subscription)
     @channel =
-      DeliveryChannel.create!(key: "messages", enabled: true, amount_cents: 50)
+      DeliveryChannel.create!(
+        key: "messages",
+        enabled: true,
+        amount_cents: 50,
+        delivery_input: delivery_input_for("messages")
+      )
     @destination =
       DeliveryDestination.create!(
         user: @subscription.user,
@@ -304,7 +309,7 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
     stub_request(:post, "https://slack.com/api/chat.postMessage").to_raise(
       Net::ReadTimeout
     )
-    assert_raises(Net::ReadTimeout) do
+    assert_raises(Code::Error) do
       DeliveryJob.perform_now(delivery_id: delivery.id)
     end
     assert_equal "uncertain", delivery.reload.status
@@ -497,7 +502,7 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
         .find { |item| item.channel == "email" }
     assert delivery.claim!
     destination.reload.update!(recipient: "changed@example.com")
-    assert_equal :canceled, DeliveryAdapters.deliver(delivery).status
+    assert_equal :canceled, deliver_code(delivery).status
     assert delivery.reload.canceled?
     assert_equal "recipient_unverified", delivery.error_code
   end
@@ -534,6 +539,9 @@ class ProgramDeliveryTest < ActiveSupport::TestCase
   end
 
   def slack_delivery!(delivery)
+    delivery.delivery_destination.delivery_channel.update!(
+      delivery_input: delivery_input_for("slack")
+    )
     connection =
       Connection.create!(
         user: @subscription.user,

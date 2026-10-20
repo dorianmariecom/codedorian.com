@@ -102,6 +102,7 @@ fr:
         connection_id: connexion
         content_sid_en: identifiant du contenu anglais
         content_sid_fr: identifiant du contenu français
+        delivery_input: code de livraison
         enabled: activé
         key: clé
         messaging_service_sid: identifiant du service de messagerie
@@ -1201,6 +1202,7 @@ fr:
       submit: créer
       title: 'ajouter : canal de livraison'
     show:
+      delivery_input: code de livraison
       amount_cents: montant en centimes
       amount_currency: devise
       callback_base_url: url de rappel

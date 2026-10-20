@@ -2,6 +2,7 @@
 *.sqlite3*
 .DS_Store
 AGENTS.local.md
+**/AGENTS.local.md
 /.bundle
 /.env
 /.env.*.local

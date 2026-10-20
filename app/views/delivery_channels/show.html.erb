@@ -2,6 +2,12 @@
 <% content_for(:description, t(".description")) %>
 <%= turbo_stream_from(@delivery_channel) %>
 <% if admin? %>
+  <%= render(
+    "shared/attribute",
+    label: t(".delivery_input"),
+    value: @delivery_channel.delivery_input,
+    type: :code
+  ) %>
   <%= render("shared/attribute", label: t(".id"), value: @delivery_channel.id) %>
   <%= render("shared/attribute", label: t(".key"), value: @delivery_channel.key) %>
   <%= render(

@@ -1,4 +1,18 @@
 <%= form_with model: delivery_channel do |f| %>
+  <div class="p" data-controller="editor" data-editor-language-value="code">
+    <%= f.label(:delivery_input, class: :label) %>
+    <div class="border border-black rounded overflow-hidden">
+      <%= f.hidden_field(
+        :delivery_input,
+        autocomplete: :off,
+        data: {
+          editor_target: :input,
+          form_type: :other
+        }
+      ) %>
+      <div class="min-h-96" data-editor-target="editor"></div>
+    </div>
+  </div>
   <div class="p">
     <%= f.label :key, class: :label %>
     <%= f.select :key,

@@ -58,6 +58,9 @@ class Code
 
       def call(**args)
         case args.fetch(:operator, nil).to_code.to_s
+        when "push_configured?"
+          sig(args)
+          code_push_configured?
         when "versions"
           sig(args)
           code_versions
@@ -67,6 +70,10 @@ class Code
         else
           super
         end
+      end
+
+      def code_push_configured?
+        ::ApplicationPushNotification.applications_for(record!).any?.to_code
       end
 
       def code_versions

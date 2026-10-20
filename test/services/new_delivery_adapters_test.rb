@@ -52,10 +52,32 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
             true
           end
           .to_return(body: { id: "gmail-id" }.to_json)
-      assert_equal "gmail-id", DeliveryAdapters.deliver(@delivery).provider_id
+      assert_equal "gmail-id", deliver_code(@delivery).provider_id
       assert_requested sent, times: index + 1
       remove_request_stub(sent)
     end
+  end
+
+  test "email API MIME preserves Unicode headers and multipart bodies" do
+    configure("gmail")
+    @delivery.subject = "Été ☀️ " * 20
+    @delivery.body_text = "Bonjour\nLe monde épatant"
+    @delivery.body_html = "<p>Bonjour</p><p>Le monde épatant</p>"
+    @delivery.connection.update!(smtp_from: '"Dorian, été" <sender@example.com>')
+    sent = stub_request(:post, "https://gmail.googleapis.com/gmail/v1/users/me/messages/send").with do |request|
+      raw = Base64.urlsafe_decode64(JSON.parse(request.body).fetch("raw"))
+      mail = Mail.read_from_string(raw)
+      assert_equal @delivery.subject, mail.subject
+      assert_equal ["sender@example.com"], mail.from
+      assert_equal "Dorian, été", mail[:from].display_names.sole
+      assert_equal @delivery.body_text, mail.text_part.decoded.force_encoding(Encoding::UTF_8)
+      assert_equal @delivery.body_html, mail.html_part.decoded.force_encoding(Encoding::UTF_8)
+      assert_equal "delivery-#{@delivery.id}@codedorian.com", mail.message_id
+      assert(mail.header.encoded.lines.all? { |line| line.bytesize <= 998 })
+      true
+    end.to_return(body: { id: "unicode-id" }.to_json)
+    assert_equal "unicode-id", deliver_code(@delivery).provider_id
+    assert_requested sent
   end
 
   test "Outlook accepts MIME with an empty 202 response" do
@@ -72,7 +94,7 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
           true
         end
         .to_return(status: 202, body: "")
-    result = DeliveryAdapters.deliver(@delivery)
+    result = deliver_code(@delivery)
     assert_equal "accepted", result.status
     assert_nil result.provider_id
     assert_requested sent
@@ -88,9 +110,9 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
           assert_equal [{ "to" => [{ "email" => "recipient@example.com" }] }],
                        body["personalizations"]
           assert_equal [
-                         { "type" => "text/plain", "value" => "Le monde" },
-                         { "type" => "text/html", "value" => "<p>Le monde</p>" }
-                       ],
+            { "type" => "text/plain", "value" => "Le monde" },
+            { "type" => "text/html", "value" => "<p>Le monde</p>" }
+          ],
                        body["content"]
           true
         end
@@ -101,7 +123,7 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
             "X-Message-Id" => "sendgrid-id"
           }
         )
-    assert_equal "sendgrid-id", DeliveryAdapters.deliver(@delivery).provider_id
+    assert_equal "sendgrid-id", deliver_code(@delivery).provider_id
     assert_requested sent
   end
 
@@ -122,7 +144,7 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
           html: "<p>Le monde</p>"
         }.to_json
       ).to_return(body: { id: "resend-id" }.to_json)
-    assert_equal "resend-id", DeliveryAdapters.deliver(@delivery).provider_id
+    assert_equal "resend-id", deliver_code(@delivery).provider_id
     assert_requested sent
   end
 
@@ -145,7 +167,7 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
             html: "<p>Le monde</p>"
           }
         ).to_return(body: { id: "mailgun-id" }.to_json)
-      assert_equal "mailgun-id", DeliveryAdapters.deliver(@delivery).provider_id
+      assert_equal "mailgun-id", deliver_code(@delivery).provider_id
       assert_requested sent
     end
   end
@@ -162,16 +184,13 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
           true
         end
         .to_return(body: [{ status: "queued", _id: "mandrill-id" }].to_json)
-    assert_equal "mandrill-id", DeliveryAdapters.deliver(@delivery).provider_id
+    assert_equal "mandrill-id", deliver_code(@delivery).provider_id
     assert_requested sent
     stub_request(
       :post,
       "https://mandrillapp.com/api/1.0/messages/send.json"
     ).to_return(body: [{ status: "rejected", _id: "id" }].to_json)
-    error =
-      assert_raises(DeliveryAdapters::Rejected) do
-        DeliveryAdapters.deliver(@delivery)
-      end
+    error = assert_raises(DeliveryChannel::Rejected) { deliver_code(@delivery) }
     assert_equal "mailchimp_rejected", error.code
   end
 
@@ -184,6 +203,33 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
       )
         .with do |request|
           assert_match(/AWS4-HMAC-SHA256/, request.headers["Authorization"])
+          timestamp = request.headers.fetch("X-Amz-Date")
+          scope = "#{timestamp[0, 8]}/eu-west-1/ses/aws4_request"
+          signed_headers = "content-type;host;x-amz-date"
+          canonical_headers =
+            "content-type:application/json\nhost:email.eu-west-1.amazonaws.com\nx-amz-date:#{timestamp}\n"
+          canonical_request = [
+            "POST",
+            "/v2/email/outbound-emails",
+            "",
+            canonical_headers,
+            signed_headers,
+            Digest::SHA256.hexdigest(request.body)
+          ].join("\n")
+          string_to_sign = [
+            "AWS4-HMAC-SHA256",
+            timestamp,
+            scope,
+            Digest::SHA256.hexdigest(canonical_request)
+          ].join("\n")
+          signing_key =
+            [timestamp[0, 8], "eu-west-1", "ses", "aws4_request"].reduce(
+              "AWS4test-secret"
+            ) { |key, value| OpenSSL::HMAC.digest("SHA256", key, value) }
+          expected_signature =
+            OpenSSL::HMAC.hexdigest("SHA256", signing_key, string_to_sign)
+          assert_equal "AWS4-HMAC-SHA256 Credential=test-key/#{scope}, SignedHeaders=#{signed_headers}, Signature=#{expected_signature}",
+                       request.headers["Authorization"]
           body = JSON.parse(request.body)
           assert_equal ["recipient@example.com"],
                        body["Destination"]["ToAddresses"]
@@ -194,13 +240,13 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
           true
         end
         .to_return(body: { MessageId: "ses-id" }.to_json)
-    assert_equal "ses-id", DeliveryAdapters.deliver(@delivery).provider_id
+    assert_equal "ses-id", deliver_code(@delivery).provider_id
     assert_requested sent
     stub_request(
       :post,
       "https://email.eu-west-1.amazonaws.com/v2/email/outbound-emails"
     ).to_return(status: 500, body: "{}")
-    assert_raises(IOError) { DeliveryAdapters.deliver(@delivery) }
+    assert_raises(IOError) { deliver_code(@delivery) }
     assert_requested :post,
                      "https://email.eu-west-1.amazonaws.com/v2/email/outbound-emails",
                      times: 2
@@ -223,7 +269,7 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
           true
         end
         .to_return(body: { MessageId: "" }.to_json)
-    assert_raises(IOError) { DeliveryAdapters.deliver(@delivery) }
+    assert_raises(IOError) { deliver_code(@delivery) }
     assert_requested sent
   end
 
@@ -242,7 +288,7 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
             true
           end
           .to_return(body: { message_id: "meta-id" }.to_json)
-      assert_equal "meta-id", DeliveryAdapters.deliver(@delivery).provider_id
+      assert_equal "meta-id", deliver_code(@delivery).provider_id
       assert_requested sent
     end
   end
@@ -260,16 +306,13 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
           true
         end
         .to_return(body: { ok: true, result: { message_id: 123 } }.to_json)
-    assert_equal "123", DeliveryAdapters.deliver(@delivery).provider_id
+    assert_equal "123", deliver_code(@delivery).provider_id
     assert_requested sent
     stub_request(
       :post,
       "https://api.telegram.org/bot123:bot-token/sendMessage"
     ).to_return(body: { ok: false, error_code: 429 }.to_json)
-    error =
-      assert_raises(DeliveryAdapters::Rejected) do
-        DeliveryAdapters.deliver(@delivery)
-      end
+    error = assert_raises(DeliveryChannel::Rejected) { deliver_code(@delivery) }
     assert error.retryable
   end
 
@@ -285,15 +328,12 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
           true
         end
         .to_return(body: { status: 0, message_token: 987 }.to_json)
-    assert_equal "987", DeliveryAdapters.deliver(@delivery).provider_id
+    assert_equal "987", deliver_code(@delivery).provider_id
     assert_requested sent
     stub_request(:post, "https://chatapi.viber.com/pa/send_message").to_return(
       body: { status: 6, status_message: "not subscribed" }.to_json
     )
-    error =
-      assert_raises(DeliveryAdapters::Rejected) do
-        DeliveryAdapters.deliver(@delivery)
-      end
+    error = assert_raises(DeliveryChannel::Rejected) { deliver_code(@delivery) }
     assert_equal "viber_6", error.code
   end
 
@@ -333,21 +373,17 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
       statuses.each do |status|
         stub_request(:post, endpoint).to_return(status: status, body: "{}")
         error =
-          assert_raises(DeliveryAdapters::Rejected, provider) do
-            DeliveryAdapters.deliver(@delivery)
+          assert_raises(DeliveryChannel::Rejected, provider) do
+            deliver_code(@delivery)
           end
         assert_equal status == 429, error.retryable
       end
       stub_request(:post, endpoint).to_timeout
-      assert_raises(Timeout::Error, provider) do
-        DeliveryAdapters.deliver(@delivery)
-      end
+      assert_raises(Code::Error, provider) { deliver_code(@delivery) }
       next if provider.in?(%w[outlook sendgrid])
 
       stub_request(:post, endpoint).to_return(body: "broken json")
-      assert_raises(JSON::ParserError, provider) do
-        DeliveryAdapters.deliver(@delivery)
-      end
+      assert_raises(IOError, provider) { deliver_code(@delivery) }
     end
   end
 
@@ -356,7 +392,7 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
     stub_request(:post, "https://api.resend.com/emails").to_return(
       body: { id: nil }.to_json
     )
-    assert_raises(IOError) { DeliveryAdapters.deliver(@delivery) }
+    assert_raises(IOError) { deliver_code(@delivery) }
   end
 
   test "Meta reports provider rejection codes and Viber rate limits retry" do
@@ -373,20 +409,14 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
         }
       }.to_json
     )
-    error =
-      assert_raises(DeliveryAdapters::Rejected) do
-        DeliveryAdapters.deliver(@delivery)
-      end
+    error = assert_raises(DeliveryChannel::Rejected) { deliver_code(@delivery) }
     assert_equal "messenger_10", error.code
     assert_not error.retryable
     configure("viber", channel: "viber")
     stub_request(:post, "https://chatapi.viber.com/pa/send_message").to_return(
       body: { status: 12 }.to_json
     )
-    error =
-      assert_raises(DeliveryAdapters::Rejected) do
-        DeliveryAdapters.deliver(@delivery)
-      end
+    error = assert_raises(DeliveryChannel::Rejected) { deliver_code(@delivery) }
     assert error.retryable
   end
 
@@ -403,7 +433,7 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
     ].each do |provider|
       configure(provider)
       @destination.update!(recipient: "changed@example.com")
-      assert_equal :canceled, DeliveryAdapters.deliver(@delivery).status
+      assert_equal :canceled, deliver_code(@delivery).status
     end
     assert_not_requested :post,
                          /gmail|microsoft|amazonaws|sendgrid|resend|mailgun|mandrill/

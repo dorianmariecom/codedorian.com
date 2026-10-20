@@ -242,6 +242,10 @@ class Connection < ApplicationRecord
     refresh_credentials_for_code! if enabled?
     Code::Object::Connection.new(attributes)
   rescue *ConnectionOauth::ERRORS => e
+    if Current.delivery
+      raise DeliveryChannel::Rejected.new(e.code, retryable: e.retryable)
+    end
+
     raise Code::Error, e.code
   end
 end

@@ -56,14 +56,14 @@ class RedditScriptTest < ActiveSupport::TestCase
   end
 
   test "delivery requires confirmation and recipient changes invalidate queued delivery" do
-    assert_equal :canceled, DeliveryAdapters.deliver(@delivery).status
+    assert_equal :canceled, deliver_code(@delivery).status
     assert_not_requested @token_request
     assert @destination.confirm_verification(@destination.verification_token)
-    assert_equal "accepted", DeliveryAdapters.deliver(@delivery).status
+    assert_equal "accepted", deliver_code(@delivery).status
     assert_requested @sent
     @destination.update!(recipient: "another")
     assert_not @destination.recipient_verified?
-    assert_equal :canceled, DeliveryAdapters.deliver(@delivery).status
+    assert_equal :canceled, deliver_code(@delivery).status
     assert_requested @sent, times: 1
   end
 
@@ -71,8 +71,8 @@ class RedditScriptTest < ActiveSupport::TestCase
     @destination.confirm_verification(@destination.verification_token)
     @delivery.visibility = "public"
     assert_equal "reddit_public_unavailable",
-                 assert_raises(DeliveryAdapters::Rejected) {
-                   DeliveryAdapters.deliver(@delivery)
+                 assert_raises(DeliveryChannel::Rejected) {
+                   deliver_code(@delivery)
                  }.code
     assert_not_requested @token_request
     @delivery.visibility = "private"
@@ -80,8 +80,8 @@ class RedditScriptTest < ActiveSupport::TestCase
       body: { name: "someone_else" }.to_json
     )
     assert_equal "reddit_invalid_sender",
-                 assert_raises(DeliveryAdapters::Rejected) {
-                   DeliveryAdapters.deliver(@delivery)
+                 assert_raises(DeliveryChannel::Rejected) {
+                   deliver_code(@delivery)
                  }.code
     assert_not_requested @sent
   end
@@ -91,10 +91,7 @@ class RedditScriptTest < ActiveSupport::TestCase
     stub_request(:post, "https://oauth.reddit.com/api/compose").to_return(
       body: { json: { errors: [["RATELIMIT", "wait", ""]] } }.to_json
     )
-    error =
-      assert_raises(DeliveryAdapters::Rejected) do
-        DeliveryAdapters.deliver(@delivery)
-      end
+    error = assert_raises(DeliveryChannel::Rejected) { deliver_code(@delivery) }
     assert_equal "reddit_ratelimit", error.code
     assert error.retryable
   end
@@ -102,15 +99,15 @@ class RedditScriptTest < ActiveSupport::TestCase
   test "uncertain writes are not retried as provider rejections" do
     @destination.confirm_verification(@destination.verification_token)
     stub_request(:post, "https://oauth.reddit.com/api/compose").to_timeout
-    assert_raises(Timeout::Error) { DeliveryAdapters.deliver(@delivery) }
+    assert_raises(Code::Error) { deliver_code(@delivery) }
     stub_request(:post, "https://oauth.reddit.com/api/compose").to_return(
       status: 503
     )
-    assert_raises(IOError) { DeliveryAdapters.deliver(@delivery) }
+    assert_raises(IOError) { deliver_code(@delivery) }
     stub_request(:post, "https://oauth.reddit.com/api/compose").to_return(
       body: "{}"
     )
-    assert_raises(IOError) { DeliveryAdapters.deliver(@delivery) }
+    assert_raises(IOError) { deliver_code(@delivery) }
   end
 
   test "reddit is private only with no user connection or oauth flow" do

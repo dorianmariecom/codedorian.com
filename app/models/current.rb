@@ -47,6 +47,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   LOCALHOST_PUBLIC_SUFFIX = { sld: nil, tld: :localhost, trd: nil }.to_struct
 
+  attribute(:delivery)
   attribute(:user)
   attribute(:guest)
   attribute(:time_zone)

@@ -18,9 +18,7 @@ class DeliveryProviderAddress
 
   def self.resolve!(host)
     addresses = Resolv.getaddresses(host)
-    if addresses.empty?
-      raise DeliveryAdapters::Rejected, "invalid_provider_host"
-    end
+    raise DeliveryChannel::Rejected, "invalid_provider_host" if addresses.empty?
 
     addresses.each do |address|
       ip = IPAddr.new(address)
@@ -32,7 +30,7 @@ class DeliveryProviderAddress
             IPAddr.new("2000::/3").include?(ip)
           end
         )
-      raise DeliveryAdapters::Rejected, "invalid_provider_host" unless allowed
+      raise DeliveryChannel::Rejected, "invalid_provider_host" unless allowed
     end
     addresses.first
   end

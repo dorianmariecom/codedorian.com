@@ -8,11 +8,14 @@ require "webmock"
 require "httpx/adapters/webmock"
 require "webmock/minitest"
 require_relative "support/controller_smoke_helper"
+require_relative "support/delivery_program_helper"
 
 BCrypt::Engine.cost = BCrypt::Engine::MIN_COST
 
 module ActiveSupport
   class TestCase
+    include DeliveryProgramHelper
+
     parallelize(workers: :number_of_processors)
     fixtures :all
     set_fixture_class(solid_cable_messages: SolidCableMessage)

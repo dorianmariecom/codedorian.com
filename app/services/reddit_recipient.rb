@@ -10,7 +10,7 @@ class RedditRecipient
 
   def self.resolve(recipient, public:)
     unless valid?(recipient, public: public)
-      raise DeliveryAdapters::Rejected, "invalid_reddit_recipient"
+      raise DeliveryChannel::Rejected, "invalid_reddit_recipient"
     end
 
     if public

@@ -54,8 +54,8 @@ class FacebookDeliveryTest < ActiveSupport::TestCase
           link: "https://example.com/article"
         }.to_json
       ).to_return(body: { id: "123456_789" }.to_json)
-    result = DeliveryAdapters.deliver(@delivery)
-    assert_equal :accepted, result.status
+    result = deliver_code(@delivery)
+    assert_equal "accepted", result.status
     assert_equal "123456_789", result.provider_id
     assert_requested sent
   end
@@ -66,7 +66,7 @@ class FacebookDeliveryTest < ActiveSupport::TestCase
       stub_request(:post, "https://graph.facebook.com/v26.0/123456/feed").with(
         body: { message: "Bonjour\n\nLe monde" }.to_json
       ).to_return(body: { id: "123456_789" }.to_json)
-    DeliveryAdapters.deliver(@delivery)
+    deliver_code(@delivery)
     assert_requested sent
   end
 
@@ -76,8 +76,8 @@ class FacebookDeliveryTest < ActiveSupport::TestCase
     assert_equal "public", @destination.visibility
     @delivery.visibility = "private"
     assert_equal "facebook_public_only",
-                 assert_raises(DeliveryAdapters::Rejected) {
-                   DeliveryAdapters.deliver(@delivery)
+                 assert_raises(DeliveryChannel::Rejected) {
+                   deliver_code(@delivery)
                  }.code
     @destination.visibility = "public"
     @destination.recipient = "987654"
@@ -85,8 +85,8 @@ class FacebookDeliveryTest < ActiveSupport::TestCase
     @delivery.visibility = "public"
     @delivery.recipient = "987654"
     assert_equal "invalid_recipient",
-                 assert_raises(DeliveryAdapters::Rejected) {
-                   DeliveryAdapters.deliver(@delivery)
+                 assert_raises(DeliveryChannel::Rejected) {
+                   deliver_code(@delivery)
                  }.code
     assert_not_requested :post, /graph.facebook.com/
   end
@@ -114,10 +114,7 @@ class FacebookDeliveryTest < ActiveSupport::TestCase
       status: 400,
       body: { error: { code: 190, message: "secret provider detail" } }.to_json
     )
-    error =
-      assert_raises(DeliveryAdapters::Rejected) do
-        DeliveryAdapters.deliver(@delivery)
-      end
+    error = assert_raises(DeliveryChannel::Rejected) { deliver_code(@delivery) }
     assert_equal "facebook_190", error.code
     assert_not error.retryable
   end
@@ -126,14 +123,14 @@ class FacebookDeliveryTest < ActiveSupport::TestCase
     request =
       stub_request(:post, "https://graph.facebook.com/v26.0/123456/feed")
     request.to_return(status: 429, body: { error: { code: 4 } }.to_json)
-    assert assert_raises(DeliveryAdapters::Rejected) {
-             DeliveryAdapters.deliver(@delivery)
+    assert assert_raises(DeliveryChannel::Rejected) {
+             deliver_code(@delivery)
            }.retryable
     request.to_return(body: { id: "" }.to_json)
-    assert_raises(IOError) { DeliveryAdapters.deliver(@delivery) }
+    assert_raises(IOError) { deliver_code(@delivery) }
     request.to_return(body: {}.to_json)
-    assert_raises(IOError) { DeliveryAdapters.deliver(@delivery) }
+    assert_raises(IOError) { deliver_code(@delivery) }
     request.to_return(status: 503)
-    assert_raises(IOError) { DeliveryAdapters.deliver(@delivery) }
+    assert_raises(IOError) { deliver_code(@delivery) }
   end
 end

@@ -12,7 +12,7 @@ class SlackRecipient
     return recipient if recipient.to_s.match?(ID_FORMAT)
 
     unless recipient.to_s.match?(FORMAT)
-      raise DeliveryAdapters::Rejected, "invalid_slack_recipient"
+      raise DeliveryChannel::Rejected, "invalid_slack_recipient"
     end
 
     key = [
@@ -42,7 +42,7 @@ class SlackRecipient
           types: "public_channel,private_channel",
           exclude_archived: true
         ).find { |item| item["name"].to_s.downcase == name }
-      raise DeliveryAdapters::Rejected, "channel_not_found" unless channel
+      raise DeliveryChannel::Rejected, "channel_not_found" unless channel
 
       channel.fetch("id")
     else
@@ -57,9 +57,9 @@ class SlackRecipient
             user.dig("profile", "display_name").to_s.downcase == name
           end
       end
-      raise DeliveryAdapters::Rejected, "user_not_found" if matches.empty?
+      raise DeliveryChannel::Rejected, "user_not_found" if matches.empty?
       unless matches.one?
-        raise DeliveryAdapters::Rejected, "ambiguous_slack_user"
+        raise DeliveryChannel::Rejected, "ambiguous_slack_user"
       end
 
       request(
@@ -74,7 +74,7 @@ class SlackRecipient
          SystemCallError,
          Timeout::Error,
          OpenSSL::SSL::SSLError
-    raise DeliveryAdapters::Rejected.new(
+    raise DeliveryChannel::Rejected.new(
             "slack_recipient_lookup_failed",
             retryable: true
           )
@@ -107,7 +107,7 @@ class SlackRecipient
     request.set_form_data(parameters) if post
     response = Http.request(request)
     unless response.is_a?(Net::HTTPSuccess)
-      raise DeliveryAdapters::Rejected.new(
+      raise DeliveryChannel::Rejected.new(
               "slack_lookup_http_#{response.code}",
               retryable: response.code == "429" || response.code.to_i >= 500
             )
@@ -118,7 +118,7 @@ class SlackRecipient
 
     unless data["ok"] == true
       error = data.fetch("error", "slack_lookup_failed")
-      raise DeliveryAdapters::Rejected.new(
+      raise DeliveryChannel::Rejected.new(
               error,
               retryable: error == "ratelimited"
             )

@@ -91,6 +91,86 @@ class DeliveryChannel < ApplicationRecord
     end
   end
 
+  TIMEOUT = 10.minutes
+  Result = Data.define(:status, :provider_id)
+
+  class Rejected < StandardError
+    attr_reader :code, :retryable
+
+    def initialize(code, retryable: false)
+      @code = code.to_s
+      @retryable = retryable
+      super(@code)
+    end
+  end
+
+  def deliver(delivery:)
+    Current.with(
+      delivery: delivery,
+      user: delivery.service.user,
+      subscription: delivery.subscription,
+      locale: delivery.locale
+    ) do
+      unless delivery.recipient_verified_for_delivery?
+        delivery.recipient_unverified!
+        return Result.new(status: :canceled, provider_id: nil)
+      end
+      raise Rejected, "configuration_missing" if delivery_input.blank?
+
+      connection = delivery.connection
+      if connection && !connection.enabled?
+        raise Rejected, "connection_disabled"
+      end
+
+      if PROVIDERS.key?(delivery.channel.to_sym)
+        raise Rejected, "configuration_missing" unless connection&.ready?
+        unless self.class.supports_provider?(
+                 delivery.channel,
+                 connection.provider
+               )
+          raise Rejected, "invalid_connection"
+        end
+      end
+      validate_delivery_urls!(delivery: delivery)
+
+      context =
+        Code::Object::Context.new(
+          {
+            delivery: delivery.to_code,
+            delivery_channel: to_code,
+            connection: connection.to_code
+          }
+        )
+      value = Code.evaluate(delivery_input, context: context, timeout: TIMEOUT)
+      result = value.as_json
+      raise IOError, "Invalid delivery result" unless result.is_a?(Hash)
+
+      if result["status"] == "rejected"
+        unless result["error_code"].is_a?(String) &&
+                 result["error_code"].present? &&
+                 [true, false].include?(result["retryable"])
+          raise IOError, "Invalid delivery rejection"
+        end
+
+        raise Rejected.new(result["error_code"], retryable: result["retryable"])
+      end
+      unless %w[accepted delivered canceled].include?(result["status"]) &&
+               (
+                 result["provider_id"].nil? ||
+                   result["provider_id"].is_a?(String)
+               )
+        raise IOError, "Invalid delivery result"
+      end
+
+      Result.new(status: result["status"], provider_id: result["provider_id"])
+    rescue Rejected => e
+      raise unless e.code == "recipient_unverified"
+
+      delivery.recipient_unverified!
+      Result.new(status: :canceled, provider_id: nil)
+    end
+  end
+
   def available?
     return false unless enabled? && amount_cents.present?
     return RedditScript.configured? if key == "reddit"
@@ -107,6 +187,10 @@ class DeliveryChannel < ApplicationRecord
 
   def self.search_fields
     {
+      delivery_input: {
+        node: -> { arel_table[:delivery_input] },
+        type: :string
+      },
       key: {
         node: -> { arel_table[:key] },
         type: :string
@@ -191,6 +275,22 @@ class DeliveryChannel < ApplicationRecord
   end
 
   private
+
+  def validate_delivery_urls!(delivery:)
+    if delivery.channel == "webhook" && !WebhookRecipient.valid?(delivery.recipient)
+      raise Rejected, "invalid_webhook_url"
+    end
+    return unless delivery.channel.in?(%w[apple mastodon])
+
+    origin = URI.parse(delivery.connection.base_url)
+    unless origin.is_a?(URI::HTTPS) && origin.host.present? &&
+        origin.userinfo.nil? && origin.path.in?(["", "/"]) &&
+        origin.query.nil? && origin.fragment.nil?
+      raise Rejected, "invalid_provider_origin"
+    end
+  rescue URI::InvalidURIError
+    raise Rejected, "invalid_provider_origin"
+  end
 
   def valid_recipient_patterns
     {

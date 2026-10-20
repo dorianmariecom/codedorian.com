@@ -120,7 +120,7 @@ class SlackRecipientTest < ActiveSupport::TestCase
       }.to_json
     )
     error =
-      assert_raises(DeliveryAdapters::Rejected) do
+      assert_raises(DeliveryChannel::Rejected) do
         SlackRecipient.resolve(@connection, "@dorian")
       end
     assert_equal "ambiguous_slack_user", error.code
@@ -130,7 +130,7 @@ class SlackRecipientTest < ActiveSupport::TestCase
   test "bare strings and missing names are rejected before network access" do
     ["dorian", "C123/invalid", "@", "#", "@two people"].each do |recipient|
       error =
-        assert_raises(DeliveryAdapters::Rejected) do
+        assert_raises(DeliveryChannel::Rejected) do
           SlackRecipient.resolve(@connection, recipient)
         end
       assert_equal "invalid_slack_recipient", error.code
@@ -144,7 +144,7 @@ class SlackRecipientTest < ActiveSupport::TestCase
       }
     ).to_return(body: { ok: false, error: "missing_scope" }.to_json)
     error =
-      assert_raises(DeliveryAdapters::Rejected) do
+      assert_raises(DeliveryChannel::Rejected) do
         SlackRecipient.resolve(@connection, "@dorian")
       end
     assert_equal "missing_scope", error.code
@@ -154,7 +154,7 @@ class SlackRecipientTest < ActiveSupport::TestCase
       }
     ).to_return(status: 429)
     error =
-      assert_raises(DeliveryAdapters::Rejected) do
+      assert_raises(DeliveryChannel::Rejected) do
         SlackRecipient.resolve(@connection, "@dorian")
       end
     assert error.retryable

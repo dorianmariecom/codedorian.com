@@ -18,6 +18,21 @@ class Code
 
       def call(**args)
         case args.fetch(:operator, nil).to_code.to_s
+        when "user"
+          sig(args)
+          code_user
+        when "public_url"
+          sig(args)
+          code_public_url
+        when "private_url_path"
+          sig(args)
+          code_private_url_path
+        when "private_url"
+          sig(args)
+          code_private_url
+        when "recipient_verified?"
+          sig(args)
+          code_recipient_verified?
         when "versions"
           sig(args)
           code_versions
@@ -39,6 +54,26 @@ class Code
         else
           super
         end
+      end
+
+      def code_user
+        record!.user.to_code
+      end
+
+      def code_public_url
+        "#{::Current.base_url}/x/#{record!.public_token}".to_code
+      end
+
+      def code_private_url_path
+        "/deliveries/#{record!.id}".to_code
+      end
+
+      def code_private_url
+        "#{::Current.base_url}/deliveries/#{record!.id}".to_code
+      end
+
+      def code_recipient_verified?
+        record!.recipient_verified_for_delivery?.to_code
       end
 
       def code_versions

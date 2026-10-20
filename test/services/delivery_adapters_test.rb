@@ -32,7 +32,7 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
     @delivery.channel = "push"
 
     assert_enqueued_jobs 2, only: ApplicationPushNotificationJob do
-      assert_equal "accepted", DeliveryAdapters.deliver(@delivery).status
+      assert_equal "accepted", deliver_code(@delivery).status
     end
     enqueued_jobs
       .select { |job| job[:job] == ApplicationPushNotificationJob }
@@ -55,7 +55,7 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
     @delivery.body_text = "x" * 3000
 
     assert_enqueued_jobs 1, only: ApplicationPushNotificationJob do
-      assert_equal "accepted", DeliveryAdapters.deliver(@delivery).status
+      assert_equal "accepted", deliver_code(@delivery).status
     end
     job =
       enqueued_jobs
@@ -87,9 +87,7 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
 
     assert_no_enqueued_jobs do
       error =
-        assert_raises(DeliveryAdapters::Rejected) do
-          DeliveryAdapters.deliver(@delivery)
-        end
+        assert_raises(DeliveryChannel::Rejected) { deliver_code(@delivery) }
       assert_equal "push_not_configured", error.code
     end
   ensure
@@ -102,9 +100,7 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
 
     assert_no_enqueued_jobs do
       error =
-        assert_raises(DeliveryAdapters::Rejected) do
-          DeliveryAdapters.deliver(@delivery)
-        end
+        assert_raises(DeliveryChannel::Rejected) { deliver_code(@delivery) }
       assert_equal "no_push_devices", error.code
     end
   end
@@ -147,7 +143,7 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
             true
           end
           .to_return(status: 201, body: { sid: "SMtest" }.to_json)
-      assert_equal "SMtest", DeliveryAdapters.deliver(@delivery).provider_id
+      assert_equal "SMtest", deliver_code(@delivery).provider_id
       assert_requested sent
       WebMock.reset!
     end
@@ -164,7 +160,7 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
         :post,
         "https://api.x.com/2/dm_conversations/with/123/messages"
       ).to_return(status: 201, body: { data: { dm_event_id: "dm123" } }.to_json)
-    assert_equal "dm123", DeliveryAdapters.deliver(@delivery).provider_id
+    assert_equal "dm123", deliver_code(@delivery).provider_id
     assert_requested direct
     @delivery.visibility = "public"
     public_post =
@@ -172,7 +168,7 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
         status: 201,
         body: { data: { id: "post123" } }.to_json
       )
-    assert_equal "post123", DeliveryAdapters.deliver(@delivery).provider_id
+    assert_equal "post123", deliver_code(@delivery).provider_id
     assert_requested public_post
   end
 
@@ -185,10 +181,7 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
       status: 200,
       body: { ok: false, error: "channel_not_found" }.to_json
     )
-    error =
-      assert_raises(DeliveryAdapters::Rejected) do
-        DeliveryAdapters.deliver(@delivery)
-      end
+    error = assert_raises(DeliveryChannel::Rejected) { deliver_code(@delivery) }
     assert_equal "channel_not_found", error.code
   end
 
@@ -263,7 +256,7 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
             true
           end
           .to_return(body: response.to_json)
-      assert DeliveryAdapters.deliver(@delivery).status.present?
+      assert deliver_code(@delivery).status.present?
       assert_requested sent
       assert_not_requested :get,
                            %r{https://(?:slack.com/api/|api.x.com/2/users/)}
@@ -271,7 +264,7 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
     end
   end
 
-  test "SMTP uses text and HTML with stable message identifier" do
+  test "native SMTP sends text and HTML without a provider identifier" do
     configure(
       "email",
       "smtp",
@@ -285,26 +278,29 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
     )
     SharedEmailVerification.confirm(destination, destination.verification_token)
     @delivery.body_html = "<p>World</p>"
-    # Mail's test transport keeps this test independent of SMTP servers.
-    original = Mail::SMTP.instance_method(:deliver!)
+    original = Code::Object::Smtp.instance_method(:deliver_mail)
     captured = []
-    Mail::SMTP.define_method(:deliver!) { |mail| captured << mail }
-    DeliveryAdapters.deliver(@delivery)
+    Code::Object::Smtp.define_method(:deliver_mail) do |mail, **|
+      captured << mail
+    end
+    result = with_public_provider { deliver_code(@delivery) }
+    assert_equal "accepted", result.status
+    assert_nil result.provider_id
     assert_equal "World", captured.sole.text_part.body.decoded
     assert_equal "<p>World</p>", captured.sole.html_part.body.decoded
     assert_equal ["recipient@example.com"], captured.sole.to
   ensure
-    Mail::SMTP.define_method(:deliver!, original) if original
+    Code::Object::Smtp.define_method(:deliver_mail, original) if original
   end
 
   test "custom provider host resolution rejects internal addresses" do
-    assert_raises(DeliveryAdapters::Rejected) do
+    assert_raises(DeliveryChannel::Rejected) do
       DeliveryProviderAddress.resolve!("127.0.0.1")
     end
-    assert_raises(DeliveryAdapters::Rejected) do
+    assert_raises(DeliveryChannel::Rejected) do
       DeliveryProviderAddress.resolve!("::1")
     end
-    assert_raises(DeliveryAdapters::Rejected) do
+    assert_raises(DeliveryChannel::Rejected) do
       DeliveryProviderAddress.resolve!("169.254.169.254")
     end
   end
@@ -336,10 +332,19 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
           body: { messages: [{ messageId: "apple-message" }] }.to_json
         )
     with_public_provider do
-      assert_equal "apple-message",
-                   DeliveryAdapters.deliver(@delivery).provider_id
+      assert_equal "apple-message", deliver_code(@delivery).provider_id
     end
     assert_requested sent
+  end
+
+  test "provider origins reject credentials paths queries and fragments before sending" do
+    configure("mastodon", "mastodon", { base_url: "https://provider.example", access_token: "test" })
+    ["http://provider.example", "https://user:password@provider.example", "https://provider.example/path", "https://provider.example?query=1", "https://provider.example#fragment", "not a url"].each do |origin|
+      @delivery.connection.update!(base_url: origin)
+      error = assert_raises(DeliveryChannel::Rejected) { deliver_code(@delivery) }
+      assert_equal "invalid_provider_origin", error.code
+    end
+    assert_not_requested :post, /provider.example/
   end
 
   test "Mastodon private mentions have explicit visibility and idempotency" do
@@ -360,8 +365,7 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
         end
         .to_return(status: 200, body: { id: "mastodon-message" }.to_json)
     with_public_provider do
-      assert_equal "mastodon-message",
-                   DeliveryAdapters.deliver(@delivery).provider_id
+      assert_equal "mastodon-message", deliver_code(@delivery).provider_id
     end
     assert_requested sent
   end
@@ -388,20 +392,17 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
         },
         body: { title: "Hello", body: "World" }.to_json
       ).to_return(status: 201, body: { id: 123 }.to_json)
-    assert_equal "123", DeliveryAdapters.deliver(@delivery).provider_id
+    assert_equal "123", deliver_code(@delivery).provider_id
     assert_requested sent, times: 1
     stub_request(
       :get,
       "https://api.github.com/repos/octocat/repository"
     ).to_return(body: { private: false }.to_json)
-    error =
-      assert_raises(DeliveryAdapters::Rejected) do
-        DeliveryAdapters.deliver(@delivery)
-      end
+    error = assert_raises(DeliveryChannel::Rejected) { deliver_code(@delivery) }
     assert_equal "github_repository_visibility_mismatch", error.code
     assert_requested sent, times: 1
     @delivery.visibility = "public"
-    assert_equal "123", DeliveryAdapters.deliver(@delivery).provider_id
+    assert_equal "123", deliver_code(@delivery).provider_id
     assert_requested sent, times: 2
   end
 
@@ -430,9 +431,7 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
         "https://api.github.com/repos/octocat/repository/issues"
       ).to_return(status: status, headers: headers)
       error =
-        assert_raises(DeliveryAdapters::Rejected) do
-          DeliveryAdapters.deliver(@delivery)
-        end
+        assert_raises(DeliveryChannel::Rejected) { deliver_code(@delivery) }
       assert_equal "http_#{status}", error.code
       assert_equal retryable, error.retryable
     end
@@ -456,13 +455,13 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
         :post,
         "https://api.github.com/repos/octocat/repository/issues"
       ).to_return(status: status, headers: { "Retry-After" => "60" })
-      assert_raises(IOError) { DeliveryAdapters.deliver(@delivery) }
+      assert_raises(IOError) { deliver_code(@delivery) }
     end
     stub_request(
       :post,
       "https://api.github.com/repos/octocat/repository/issues"
     ).to_timeout
-    assert_raises(Timeout::Error) { DeliveryAdapters.deliver(@delivery) }
+    assert_raises(Code::Error) { deliver_code(@delivery) }
   end
 
   test "GitHub rejects invalid repositories and treats incomplete writes as uncertain" do
@@ -472,9 +471,7 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
       { access_token: "test" },
       recipient: "octocat/../issues"
     )
-    assert_raises(DeliveryAdapters::Rejected) do
-      DeliveryAdapters.deliver(@delivery)
-    end
+    assert_raises(DeliveryChannel::Rejected) { deliver_code(@delivery) }
     @delivery.recipient = "octocat/repository"
     @delivery.visibility = "private"
     stub_request(
@@ -485,19 +482,17 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
       :post,
       "https://api.github.com/repos/octocat/repository/issues"
     ).to_return(status: 201, body: "{}")
-    assert_raises(IOError) { DeliveryAdapters.deliver(@delivery) }
+    assert_raises(IOError) { deliver_code(@delivery) }
   end
 
   private
 
   def with_public_provider
-    original = DeliveryProviderAddress.method(:resolve!)
-    DeliveryProviderAddress.define_singleton_method(:resolve!) do |_host|
-      "93.184.216.34"
-    end
+    original = Resolv.method(:getaddresses)
+    Resolv.define_singleton_method(:getaddresses) { |_host| ["93.184.216.34"] }
     yield
   ensure
-    DeliveryProviderAddress.define_singleton_method(:resolve!, original)
+    Resolv.define_singleton_method(:getaddresses, original)
   end
 
   def configure(channel, provider, credentials, recipient: "+33611223344")

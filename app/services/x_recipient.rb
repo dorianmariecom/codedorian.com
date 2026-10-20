@@ -17,7 +17,7 @@ class XRecipient
     return recipient if recipient.to_s.match?(ID_FORMAT)
 
     unless recipient.to_s.match?(USER_FORMAT)
-      raise DeliveryAdapters::Rejected, "invalid_x_recipient"
+      raise DeliveryChannel::Rejected, "invalid_x_recipient"
     end
 
     key = [
@@ -36,12 +36,12 @@ class XRecipient
           )
         id = data.dig("data", "id")
         unless id.to_s.match?(/\A\d+\z/)
-          raise DeliveryAdapters::Rejected, "x_user_not_found"
+          raise DeliveryChannel::Rejected, "x_user_not_found"
         end
 
         id
       end
   rescue XOauth::Error => e
-    raise DeliveryAdapters::Rejected.new(e.code, retryable: e.retryable)
+    raise DeliveryChannel::Rejected.new(e.code, retryable: e.retryable)
   end
 end

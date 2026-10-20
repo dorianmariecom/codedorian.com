@@ -136,4 +136,26 @@ class DeliveryAdminControllerTest < ActionDispatch::IntegrationTest
                   log_path(log, delivery_destination_id: destination.id),
                   count: 0
   end
+  test "admins can edit delivery programs through HTML and JSON" do
+    channel = DeliveryChannel.create!(key: "messages")
+    input = '{ status: "accepted" }'
+    get edit_delivery_channel_path(channel)
+    assert_response :success
+    assert_select '[data-controller="editor"][data-editor-language-value="code"]'
+    assert_select 'input[name="delivery_channel[delivery_input]"]'
+    patch delivery_channel_path(channel),
+          params: {
+            delivery_channel: {
+              delivery_input: input
+            }
+          },
+          as: :json
+    assert_response :success
+    assert_equal input, channel.reload.delivery_input
+    assert_equal input,
+                 response.parsed_body.fetch("data").fetch("delivery_input")
+    get delivery_channel_path(channel)
+    assert_response :success
+    assert_select "div.code", text: /accepted/
+  end
 end
