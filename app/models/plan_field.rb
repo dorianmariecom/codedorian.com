@@ -1,7 +1,36 @@
 # frozen_string_literal: true
 
 class PlanField < ApplicationRecord
-  KINDS = %w[text email_address phone_number number boolean date].freeze
+  KINDS = %w[
+    text
+    email_address
+    phone_number
+    number
+    boolean
+    date
+    integer
+    string_list
+    integer_list
+    birthdays
+    time_zone
+    http_method
+    url
+  ].freeze
+  validates :minimum, :maximum, numericality: true, allow_nil: true
+  validate :valid_setting_options
+
+  def valid_setting_options
+    errors.add(:maximum, :invalid) if minimum && maximum && minimum > maximum
+    return if default_value.blank?
+
+    begin
+      SubscriptionSetting.parse(self, default_value)
+    rescue ArgumentError
+      errors.add(:default_value, :invalid)
+    end
+  end
+
+  NUMBER_KINDS = %w[number integer].freeze
   KEY_FORMAT = /\A[a-z][a-z0-9_]*\z/
 
   belongs_to :plan, touch: true
@@ -58,6 +87,9 @@ class PlanField < ApplicationRecord
       created_at: created_at,
       key: key,
       kind: kind,
+      default_value: default_value,
+      minimum: minimum,
+      maximum: maximum,
       name_en: name_en&.to_plain_text,
       name_fr: name_fr&.to_plain_text,
       plan_id: plan_id,
@@ -81,7 +113,8 @@ class PlanField < ApplicationRecord
   def date? = kind == "date"
   def email_address? = kind == "email_address"
   def name = fr? ? name_fr : name_en
-  def number? = kind == "number"
+  def number? = kind.in?(NUMBER_KINDS)
+  def integer? = kind == "integer"
   def phone_number? = kind == "phone_number"
   def text? = kind == "text"
 

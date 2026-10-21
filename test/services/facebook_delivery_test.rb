@@ -127,10 +127,10 @@ class FacebookDeliveryTest < ActiveSupport::TestCase
              deliver_code(@delivery)
            }.retryable
     request.to_return(body: { id: "" }.to_json)
-    assert_raises(IOError) { deliver_code(@delivery) }
+    assert_equal "uncertain", deliver_code(@delivery).status
     request.to_return(body: {}.to_json)
-    assert_raises(IOError) { deliver_code(@delivery) }
+    assert_equal "uncertain", deliver_code(@delivery).status
     request.to_return(status: 503)
-    assert_raises(IOError) { deliver_code(@delivery) }
+    assert_equal "uncertain", deliver_code(@delivery).status
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_20_192337) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_21_103147) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -417,6 +417,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_20_192337) do
     t.bigint "position", default: 0, null: false
     t.boolean "required", default: false, null: false
     t.datetime "updated_at", null: false
+    t.text "default_value"
+    t.decimal "minimum"
+    t.decimal "maximum"
     t.index %w[plan_id key],
             name: "index_plan_fields_on_plan_id_and_key",
             unique: true
@@ -495,6 +498,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_20_192337) do
     t.boolean "required", default: false, null: false
     t.bigint "service_id", null: false
     t.datetime "updated_at", null: false
+    t.text "default_value"
+    t.decimal "minimum"
+    t.decimal "maximum"
     t.index %w[service_id key],
             name: "index_service_fields_on_service_id_and_key",
             unique: true

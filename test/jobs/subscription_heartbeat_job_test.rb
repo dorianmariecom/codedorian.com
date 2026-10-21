@@ -30,16 +30,21 @@ class SubscriptionHeartbeatJobTest < ActiveJob::TestCase
     assert_predicate(@execution.reload, :done?)
   end
 
-  test "unfinished and errored executions do not enqueue a heartbeat" do
+  test "unfinished executions wait and errored executions report failure once" do
     Current.with(user: users(:admin)) do
       step = @subscription.service.steps.first
       step_execution =
         @execution.step_executions.create!(step: step, status: :in_progress)
       assert_no_enqueued_jobs(only: SubscriptionHeartbeatJob) do
         @execution.finish!
+      end
+      request = stub_request(:post, "#{@url}/fail").to_return(status: 200)
+      perform_enqueued_jobs(only: SubscriptionHeartbeatJob) do
         step_execution.update!(status: :errored)
         @execution.finish!
+        @execution.reload.finish!
       end
+      assert_requested(request, times: 1)
     end
     assert_predicate(@execution.reload, :errored?)
   end

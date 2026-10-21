@@ -148,4 +148,13 @@ class DeliveryChannelProgramTest < ActiveSupport::TestCase
       assert Code.parse(input)
     end
   end
+
+  test "explicit uncertainty is persisted without raising or resending" do
+    @channel.update!(delivery_input: "Delivery.uncertain")
+    assert_nothing_raised { DeliveryJob.perform_now(delivery_id: @delivery.id) }
+    assert_equal "uncertain", @delivery.reload.status
+    assert_equal 1, @delivery.attempts
+    DeliveryJob.perform_now(delivery_id: @delivery.id)
+    assert_equal 1, @delivery.reload.attempts
+  end
 end

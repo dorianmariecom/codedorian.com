@@ -152,11 +152,32 @@ class ServiceFieldsController < ApplicationController
   def service_field_params
     if admin?
       params.expect(
-        service_field: %i[service_id key name_en name_fr kind required position]
+        service_field: %i[
+          service_id
+          key
+          name_en
+          name_fr
+          kind
+          required
+          position
+          default_value
+          minimum
+          maximum
+        ]
       )
     else
       params.expect(
-        service_field: %i[key name_en name_fr kind required position]
+        service_field: %i[
+          key
+          name_en
+          name_fr
+          kind
+          required
+          position
+          default_value
+          minimum
+          maximum
+        ]
       )
     end
   end

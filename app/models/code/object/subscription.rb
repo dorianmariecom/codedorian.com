@@ -3,6 +3,19 @@
 class Code
   class Object
     class Subscription < Dictionary
+      FUNCTIONS = {
+        "state" => {
+          name: "state",
+          description:
+            "returns scoped persistent state with atomic update helpers.",
+          examples: ["Current.subscription.state"]
+        }
+      }.freeze
+
+      def self.function_documentation(scope)
+        scope == :instance ? FUNCTIONS : {}
+      end
+
       def record!
         Pundit.policy_scope!(::Current.user, ::Subscription).find(
           code_get("id").to_s
@@ -68,6 +81,9 @@ class Code
         operator = args.fetch(:operator, nil).to_code.to_s
 
         case operator
+        when "state"
+          sig(args)
+          code_state
         when "versions"
           sig(args)
           code_versions
@@ -187,9 +203,17 @@ class Code
       end
 
       def code_values
-        policy_scope(subscription!.subscription_values)
-          .index_by(&:key)
-          .transform_values(&:typed_value)
+        subscription = subscription!
+        stored = policy_scope(subscription.subscription_values).index_by(&:key)
+        subscription
+          .plan
+          .fields
+          .to_h do |field|
+            [
+              field.key,
+              ::SubscriptionSetting.parse(field, stored[field.key]&.value)
+            ]
+          end
           .to_code
       end
 
@@ -200,6 +224,12 @@ class Code
       include(::Pundit::Authorization)
 
       def current_user = ::Current.user
+
+      def code_state
+        record = record!
+        ::Pundit.authorize(::Current.user, record, :update?)
+        State.new(record)
+      end
     end
   end
 end

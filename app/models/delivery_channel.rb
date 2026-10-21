@@ -154,7 +154,9 @@ class DeliveryChannel < ApplicationRecord
 
         raise Rejected.new(result["error_code"], retryable: result["retryable"])
       end
-      unless %w[accepted delivered canceled].include?(result["status"]) &&
+      unless %w[accepted delivered canceled uncertain].include?(
+               result["status"]
+             ) &&
                (
                  result["provider_id"].nil? ||
                    result["provider_id"].is_a?(String)
@@ -277,15 +279,16 @@ class DeliveryChannel < ApplicationRecord
   private
 
   def validate_delivery_urls!(delivery:)
-    if delivery.channel == "webhook" && !WebhookRecipient.valid?(delivery.recipient)
+    if delivery.channel == "webhook" &&
+         !WebhookRecipient.valid?(delivery.recipient)
       raise Rejected, "invalid_webhook_url"
     end
     return unless delivery.channel.in?(%w[apple mastodon])
 
     origin = URI.parse(delivery.connection.base_url)
     unless origin.is_a?(URI::HTTPS) && origin.host.present? &&
-        origin.userinfo.nil? && origin.path.in?(["", "/"]) &&
-        origin.query.nil? && origin.fragment.nil?
+             origin.userinfo.nil? && origin.path.in?(["", "/"]) &&
+             origin.query.nil? && origin.fragment.nil?
       raise Rejected, "invalid_provider_origin"
     end
   rescue URI::InvalidURIError

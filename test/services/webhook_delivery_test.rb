@@ -87,9 +87,15 @@ class WebhookDeliveryTest < ActiveSupport::TestCase
   end
 
   test "validates snapshotted URLs again before sending" do
-    ["http://example.com/hook", "https://user:password@example.com/hook", "https://example.com/hook#fragment", "not a url"].each do |recipient|
+    [
+      "http://example.com/hook",
+      "https://user:password@example.com/hook",
+      "https://example.com/hook#fragment",
+      "not a url"
+    ].each do |recipient|
       @delivery.recipient = recipient
-      error = assert_raises(DeliveryChannel::Rejected) { deliver_code(@delivery) }
+      error =
+        assert_raises(DeliveryChannel::Rejected) { deliver_code(@delivery) }
       assert_equal "invalid_webhook_url", error.code
     end
     assert_not_requested :post, /example.com/
@@ -111,7 +117,8 @@ class WebhookDeliveryTest < ActiveSupport::TestCase
         assert_equal "http_#{status}", error.code
         assert_equal status == 429, error.retryable
       end
-      redirected = stub_request(:get, "https://other.example.com/").to_return(status: 200)
+      redirected =
+        stub_request(:get, "https://other.example.com/").to_return(status: 200)
       [302, 408, 500].each do |status|
         stub_request(:post, @delivery.recipient).to_return(
           status: status,
@@ -119,7 +126,7 @@ class WebhookDeliveryTest < ActiveSupport::TestCase
             "Location" => "https://other.example.com"
           }
         )
-        assert_raises(IOError) { deliver_code(@delivery) }
+        assert_equal "uncertain", deliver_code(@delivery).status
       end
       assert_requested redirected, times: 1
       assert_not_requested :post, "https://other.example.com"

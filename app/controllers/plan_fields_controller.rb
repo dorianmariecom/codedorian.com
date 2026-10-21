@@ -162,10 +162,33 @@ class PlanFieldsController < ApplicationController
   def plan_field_params
     if admin?
       params.expect(
-        plan_field: %i[plan_id key name_en name_fr kind required position]
+        plan_field: %i[
+          plan_id
+          key
+          name_en
+          name_fr
+          kind
+          required
+          position
+          default_value
+          minimum
+          maximum
+        ]
       )
     else
-      params.expect(plan_field: %i[key name_en name_fr kind required position])
+      params.expect(
+        plan_field: %i[
+          key
+          name_en
+          name_fr
+          kind
+          required
+          position
+          default_value
+          minimum
+          maximum
+        ]
+      )
     end
   end
 end

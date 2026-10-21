@@ -103,11 +103,11 @@ class RedditScriptTest < ActiveSupport::TestCase
     stub_request(:post, "https://oauth.reddit.com/api/compose").to_return(
       status: 503
     )
-    assert_raises(IOError) { deliver_code(@delivery) }
+    assert_equal "uncertain", deliver_code(@delivery).status
     stub_request(:post, "https://oauth.reddit.com/api/compose").to_return(
       body: "{}"
     )
-    assert_raises(IOError) { deliver_code(@delivery) }
+    assert_equal "uncertain", deliver_code(@delivery).status
   end
 
   test "reddit is private only with no user connection or oauth flow" do

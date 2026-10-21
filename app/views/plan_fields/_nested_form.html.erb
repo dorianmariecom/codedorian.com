@@ -47,6 +47,18 @@
     ) %>
   </div>
   <div class="p">
+    <%= f.label(:default_value, class: :label) %>
+    <%= f.text_field(:default_value, class: :input, autocomplete: :off) %>
+  </div>
+  <div class="p">
+    <%= f.label(:minimum, class: :label) %>
+    <%= f.number_field(:minimum, step: :any, class: :input) %>
+  </div>
+  <div class="p">
+    <%= f.label(:maximum, class: :label) %>
+    <%= f.number_field(:maximum, step: :any, class: :input) %>
+  </div>
+  <div class="p">
     <%= f.label(:required, class: :label) %>
     <%= f.check_box(:required, autocomplete: :off, data: { form_type: :other }) %>
   </div>

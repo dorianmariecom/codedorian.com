@@ -226,7 +226,19 @@ class ServicesController < ApplicationController
         :body_fr,
         {
           service_fields_attributes: [
-            %i[id _destroy key name_en name_fr kind required position]
+            %i[
+              id
+              _destroy
+              key
+              name_en
+              name_fr
+              kind
+              required
+              position
+              default_value
+              minimum
+              maximum
+            ]
           ]
         }
       ]

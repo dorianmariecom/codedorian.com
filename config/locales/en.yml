@@ -278,6 +278,10 @@ en:
         description_fr: french description
         name_en: english name
         service_id: service
+      plan_field:
+        default_value: default value
+        maximum: maximum
+        minimum: minimum
       plan_schedule:
         interval: interval
         plan_id: plan
@@ -308,6 +312,10 @@ en:
         name_en: english name
         name_fr: french name
         user_id: user
+      service_field:
+        default_value: default value
+        maximum: maximum
+        minimum: minimum
       service_id: service
       slug: slug
       step:
@@ -1201,7 +1209,6 @@ en:
       submit: create
       title: new delivery channel
     show:
-      delivery_input: delivery input
       amount_cents: amount cents
       amount_currency: amount currency
       callback_base_url: callback base url
@@ -1212,6 +1219,7 @@ en:
       delete: delete delivery channel
       deliveries: deliveries
       delivery_destinations: delivery destinations
+      delivery_input: delivery input
       description: delivery channel
       destroy: destroy delivery channel
       edit: edit delivery channel

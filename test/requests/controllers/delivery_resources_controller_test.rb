@@ -371,10 +371,10 @@ class DeliveryResourcesControllerTest < ActionDispatch::IntegrationTest
                   false
     assert_select "a[href=?]", new_delivery_destination_path, count: 0
     assert_difference %w[
-      Subscription.count
-      DeliveryDestination.count
-      SubscriptionDestination.count
-    ],
+                        Subscription.count
+                        DeliveryDestination.count
+                        SubscriptionDestination.count
+                      ],
                       1 do
       post service_subscriptions_path(service),
            params: {

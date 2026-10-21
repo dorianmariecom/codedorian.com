@@ -63,19 +63,30 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
     @delivery.subject = "Été ☀️ " * 20
     @delivery.body_text = "Bonjour\nLe monde épatant"
     @delivery.body_html = "<p>Bonjour</p><p>Le monde épatant</p>"
-    @delivery.connection.update!(smtp_from: '"Dorian, été" <sender@example.com>')
-    sent = stub_request(:post, "https://gmail.googleapis.com/gmail/v1/users/me/messages/send").with do |request|
-      raw = Base64.urlsafe_decode64(JSON.parse(request.body).fetch("raw"))
-      mail = Mail.read_from_string(raw)
-      assert_equal @delivery.subject, mail.subject
-      assert_equal ["sender@example.com"], mail.from
-      assert_equal "Dorian, été", mail[:from].display_names.sole
-      assert_equal @delivery.body_text, mail.text_part.decoded.force_encoding(Encoding::UTF_8)
-      assert_equal @delivery.body_html, mail.html_part.decoded.force_encoding(Encoding::UTF_8)
-      assert_equal "delivery-#{@delivery.id}@codedorian.com", mail.message_id
-      assert(mail.header.encoded.lines.all? { |line| line.bytesize <= 998 })
-      true
-    end.to_return(body: { id: "unicode-id" }.to_json)
+    @delivery.connection.update!(
+      smtp_from: '"Dorian, été" <sender@example.com>'
+    )
+    sent =
+      stub_request(
+        :post,
+        "https://gmail.googleapis.com/gmail/v1/users/me/messages/send"
+      )
+        .with do |request|
+          raw = Base64.urlsafe_decode64(JSON.parse(request.body).fetch("raw"))
+          mail = Mail.read_from_string(raw)
+          assert_equal @delivery.subject, mail.subject
+          assert_equal ["sender@example.com"], mail.from
+          assert_equal "Dorian, été", mail[:from].display_names.sole
+          assert_equal @delivery.body_text,
+                       mail.text_part.decoded.force_encoding(Encoding::UTF_8)
+          assert_equal @delivery.body_html,
+                       mail.html_part.decoded.force_encoding(Encoding::UTF_8)
+          assert_equal "delivery-#{@delivery.id}@codedorian.com",
+                       mail.message_id
+          assert(mail.header.encoded.lines.all? { |line| line.bytesize <= 998 })
+          true
+        end
+        .to_return(body: { id: "unicode-id" }.to_json)
     assert_equal "unicode-id", deliver_code(@delivery).provider_id
     assert_requested sent
   end
@@ -110,9 +121,9 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
           assert_equal [{ "to" => [{ "email" => "recipient@example.com" }] }],
                        body["personalizations"]
           assert_equal [
-            { "type" => "text/plain", "value" => "Le monde" },
-            { "type" => "text/html", "value" => "<p>Le monde</p>" }
-          ],
+                         { "type" => "text/plain", "value" => "Le monde" },
+                         { "type" => "text/html", "value" => "<p>Le monde</p>" }
+                       ],
                        body["content"]
           true
         end
@@ -246,7 +257,7 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
       :post,
       "https://email.eu-west-1.amazonaws.com/v2/email/outbound-emails"
     ).to_return(status: 500, body: "{}")
-    assert_raises(IOError) { deliver_code(@delivery) }
+    assert_equal "uncertain", deliver_code(@delivery).status
     assert_requested :post,
                      "https://email.eu-west-1.amazonaws.com/v2/email/outbound-emails",
                      times: 2
@@ -269,7 +280,7 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
           true
         end
         .to_return(body: { MessageId: "" }.to_json)
-    assert_raises(IOError) { deliver_code(@delivery) }
+    assert_equal "uncertain", deliver_code(@delivery).status
     assert_requested sent
   end
 
@@ -383,7 +394,7 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
       next if provider.in?(%w[outlook sendgrid])
 
       stub_request(:post, endpoint).to_return(body: "broken json")
-      assert_raises(IOError, provider) { deliver_code(@delivery) }
+      assert_equal "uncertain", deliver_code(@delivery).status, provider
     end
   end
 
@@ -392,7 +403,7 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
     stub_request(:post, "https://api.resend.com/emails").to_return(
       body: { id: nil }.to_json
     )
-    assert_raises(IOError) { deliver_code(@delivery) }
+    assert_equal "uncertain", deliver_code(@delivery).status
   end
 
   test "Meta reports provider rejection codes and Viber rate limits retry" do

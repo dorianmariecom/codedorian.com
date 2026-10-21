@@ -46,6 +46,11 @@ class Code
         }
       }.freeze
       INSTANCE_FUNCTIONS = {
+        "state" => {
+          name: "state",
+          description: "returns scoped persistent state for this program.",
+          examples: ["Current.program.state"]
+        },
         "id" => {
           name: "id",
           description: "returns the program id as an integer.",
@@ -134,6 +139,9 @@ class Code
         code_operator = args.fetch(:operator, nil).to_code
 
         case code_operator.to_s
+        when "state"
+          sig(args)
+          code_state
         when "versions"
           sig(args)
           code_versions
@@ -204,6 +212,12 @@ class Code
 
       def current_user
         ::Current.user
+      end
+
+      def code_state
+        record = record!
+        ::Pundit.authorize(::Current.user, record, :update?)
+        State.new(record)
       end
     end
   end

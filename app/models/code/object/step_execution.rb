@@ -3,6 +3,34 @@
 class Code
   class Object
     class StepExecution < Dictionary
+      FUNCTIONS = {
+        "checkpoint" => {
+          name: "checkpoint",
+          description: "reads a checkpoint scoped to this step execution.",
+          examples: ["Current.step_execution.checkpoint(:page)"]
+        },
+        "checkpoint!" => {
+          name: "checkpoint!",
+          description: "stores a resumable checkpoint for this execution.",
+          examples: ["Current.step_execution.checkpoint!(:page, 2)"]
+        },
+        "result_value" => {
+          name: "result_value",
+          description: "returns this completed steps structured result.",
+          examples: ["Current.step_execution.result_value"]
+        },
+        "previous_result" => {
+          name: "previous_result",
+          description:
+            "requires a successful previous step in the same execution and returns its structured result.",
+          examples: ["Current.step_execution.previous_result"]
+        }
+      }.freeze
+
+      def self.function_documentation(scope)
+        scope == :instance ? FUNCTIONS : {}
+      end
+
       def record!
         Pundit.policy_scope!(::Current.user, ::StepExecution).find(
           code_get("id").to_s
@@ -68,6 +96,18 @@ class Code
         operator = args.fetch(:operator, nil).to_code.to_s
 
         case operator
+        when "checkpoint"
+          sig(args) { String }
+          code_checkpoint(args.fetch(:arguments, []).to_code.code_first)
+        when "checkpoint!"
+          sig(args) { [String, Object] }
+          code_checkpoint!(*args.fetch(:arguments, []).to_code.raw)
+        when "result_value"
+          sig(args)
+          code_result_value
+        when "previous_result"
+          sig(args)
+          code_previous_result
         when "versions"
           sig(args)
           code_versions
@@ -138,6 +178,61 @@ class Code
       include(::Pundit::Authorization)
 
       def current_user = ::Current.user
+
+      def code_checkpoint(value)
+        State.new(
+          record!,
+          namespace: ::CodeState::CHECKPOINT_NAMESPACE
+        ).code_get(value)
+      end
+
+      def code_checkpoint!(key, value)
+        record = record!
+        ::Pundit.authorize(::Current.user, record, :update?)
+        ::CodeState
+          .new(record, namespace: ::CodeState::CHECKPOINT_NAMESPACE)
+          .update { |stored| stored.merge(key.to_s => value.to_code.as_json) }
+        value.to_code
+      end
+
+      def code_result_value
+        record = record!
+        if record.done?
+          ::CodeState
+            .new(record, namespace: ::CodeState::RESULT_NAMESPACE)
+            .read
+            .to_code
+            .code_get("value")
+        else
+          Nothing.new
+        end
+      end
+
+      def code_previous_result
+        record = record!
+        previous =
+          record
+            .subscription_execution
+            .step_executions
+            .joins(:step)
+            .where(steps: { position: ...record.step.position })
+            .order("steps.position DESC")
+            .first
+        unless previous&.done?
+          raise ::Code::Error, "previous step has not completed"
+        end
+
+        result =
+          ::CodeState.new(
+            previous,
+            namespace: ::CodeState::RESULT_NAMESPACE
+          ).read
+        unless result.key?("value")
+          raise ::Code::Error, "previous step has no structured result"
+        end
+
+        result.fetch("value").to_code
+      end
     end
   end
 end

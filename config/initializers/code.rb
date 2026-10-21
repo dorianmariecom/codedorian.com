@@ -11,6 +11,12 @@ class Code
         code_value = code_arguments.code_first
 
         case code_operator.to_s
+        when "Ai"
+          sig(args)
+          code_ai
+        when "Image"
+          sig(args)
+          code_image
         when "Message"
           sig(args) { Object.repeat }
           code_message(*code_arguments.raw)
@@ -200,6 +206,14 @@ class Code
         else
           original_call(**args)
         end
+      end
+
+      def code_ai
+        Class.new(Ai)
+      end
+
+      def code_image
+        Class.new(Image)
       end
 
       def code_message(*arguments)

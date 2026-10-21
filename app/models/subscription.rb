@@ -293,6 +293,8 @@ class Subscription < ApplicationRecord
   def values = subscription_values.index_by(&:key)
 
   def prefill_for(field)
+    return field.default_value if field.default_value.present?
+
     case field.kind
     when "email_address"
       user.email_address&.email_address
@@ -310,7 +312,7 @@ class Subscription < ApplicationRecord
 
       subscription_values.build(
         key: field.key,
-        value: new_record? ? prefill_for(field) : nil
+        value: new_record? ? prefill_for(field) : field.default_value
       )
     end
   end
@@ -424,7 +426,10 @@ class Subscription < ApplicationRecord
       .fields
       .select(&:required?)
       .each do |field|
-        next if values[field.key]&.value.to_s.strip.present?
+        if values[field.key]&.value.to_s.strip.present? ||
+             field.default_value.present?
+          next
+        end
 
         name = field.name&.to_plain_text.presence || field.key
         errors.add(:base, :required_value_missing, field: name)

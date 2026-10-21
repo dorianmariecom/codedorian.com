@@ -338,10 +338,22 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
   end
 
   test "provider origins reject credentials paths queries and fragments before sending" do
-    configure("mastodon", "mastodon", { base_url: "https://provider.example", access_token: "test" })
-    ["http://provider.example", "https://user:password@provider.example", "https://provider.example/path", "https://provider.example?query=1", "https://provider.example#fragment", "not a url"].each do |origin|
+    configure(
+      "mastodon",
+      "mastodon",
+      { base_url: "https://provider.example", access_token: "test" }
+    )
+    [
+      "http://provider.example",
+      "https://user:password@provider.example",
+      "https://provider.example/path",
+      "https://provider.example?query=1",
+      "https://provider.example#fragment",
+      "not a url"
+    ].each do |origin|
       @delivery.connection.update!(base_url: origin)
-      error = assert_raises(DeliveryChannel::Rejected) { deliver_code(@delivery) }
+      error =
+        assert_raises(DeliveryChannel::Rejected) { deliver_code(@delivery) }
       assert_equal "invalid_provider_origin", error.code
     end
     assert_not_requested :post, /provider.example/
@@ -455,7 +467,7 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
         :post,
         "https://api.github.com/repos/octocat/repository/issues"
       ).to_return(status: status, headers: { "Retry-After" => "60" })
-      assert_raises(IOError) { deliver_code(@delivery) }
+      assert_equal "uncertain", deliver_code(@delivery).status
     end
     stub_request(
       :post,
@@ -482,7 +494,7 @@ class DeliveryAdaptersTest < ActiveSupport::TestCase
       :post,
       "https://api.github.com/repos/octocat/repository/issues"
     ).to_return(status: 201, body: "{}")
-    assert_raises(IOError) { deliver_code(@delivery) }
+    assert_equal "uncertain", deliver_code(@delivery).status
   end
 
   private

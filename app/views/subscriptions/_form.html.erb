@@ -54,7 +54,7 @@
           >
             <%= value_f.email_field(
               :value,
-              required: field.required?,
+              required: field.required? && field.default_value.blank?,
               class: :input,
               autocomplete: field.autocomplete,
               data: {
@@ -82,7 +82,7 @@
             <%= value_f.phone_field(
               :value_input,
               value: value_f.object.value,
-              required: field.required?,
+              required: field.required? && field.default_value.blank?,
               class: :input,
               autocomplete: field.autocomplete,
               data: {
@@ -100,8 +100,11 @@
         <% elsif field.number? %>
           <%= value_f.number_field(
             :value,
-            step: :any,
-            required: field.required?,
+            step: field.integer? ? 1 : :any,
+            min: field.minimum,
+            max: field.maximum,
+            placeholder: field.default_value,
+            required: field.required? && field.default_value.blank?,
             class: :input,
             autocomplete: field.autocomplete
           ) %>
@@ -110,14 +113,15 @@
         <% elsif field.date? %>
           <%= value_f.date_field(
             :value,
-            required: field.required?,
+            required: field.required? && field.default_value.blank?,
             class: :input,
             autocomplete: field.autocomplete
           ) %>
         <% else %>
           <%= value_f.text_field(
             :value,
-            required: field.required?,
+            placeholder: field.default_value,
+            required: field.required? && field.default_value.blank?,
             class: :input,
             autocomplete: field.autocomplete
           ) %>

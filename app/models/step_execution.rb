@@ -109,6 +109,9 @@ class StepExecution < ApplicationRecord
         error: error_io,
         timeout: TIMEOUT
       )
+    CodeState
+      .new(self, namespace: ::CodeState::RESULT_NAMESPACE)
+      .update { { "value" => value.as_json } }
     update!(
       output: output_io.string,
       error: error_io.string,

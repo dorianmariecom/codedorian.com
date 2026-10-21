@@ -75,14 +75,9 @@ class SubscriptionValue < ApplicationRecord
   end
 
   def typed_value
-    case field&.kind
-    when "number"
-      BigDecimal(value).to_f
-    when "boolean"
-      ActiveModel::Type::Boolean.new.cast(value)
-    else
-      value
-    end
+    return value unless field
+
+    SubscriptionSetting.parse(field, value)
   end
 
   def to_code
@@ -100,46 +95,25 @@ class SubscriptionValue < ApplicationRecord
 
   def normalize_value
     self.value = value.to_s.strip
+    return if field.nil? || value.blank?
 
-    case field&.kind
-    when "email_address"
-      self.value = value.downcase
-    when "phone_number"
-      parsed = Phonelib.parse(value)
-      self.value = parsed.e164 if parsed.valid?
+    typed = SubscriptionSetting.parse(field, value)
+    case field.kind
+    when "email_address", "phone_number", "http_method", "url", "time_zone"
+      self.value = typed
     when "number"
       self.value = BigDecimal(value).to_s("F")
-    when "boolean"
-      self.value = "true" if value.in?(%w[true 1])
-      self.value = "false" if value.in?(%w[false 0])
-    when "date"
-      self.value = Date.iso8601(value).iso8601
+    when "integer", "boolean", "date"
+      self.value = typed.to_s
     end
   rescue ArgumentError
-    # Validation below reports the malformed value.
+    nil
   end
 
   def valid_value_for_field
-    return if value.blank? || field.nil?
+    return if field.nil?
 
-    valid =
-      case field.kind
-      when "email_address"
-        value.match?(EmailAddress::EMAIL_ADDRESS_REGEXP)
-      when "phone_number"
-        Phonelib.parse(value).valid?
-      when "number"
-        BigDecimal(value)
-        true
-      when "boolean"
-        value.in?(%w[true false])
-      when "date"
-        Date.iso8601(value).iso8601 == value
-      else
-        true
-      end
-
-    errors.add(:value, :invalid) unless valid
+    SubscriptionSetting.parse(field, value)
   rescue ArgumentError
     errors.add(:value, :invalid)
   end

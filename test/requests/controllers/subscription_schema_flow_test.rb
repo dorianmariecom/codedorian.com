@@ -529,6 +529,29 @@ class SubscriptionSchemaFlowTest < ActionDispatch::IntegrationTest
     assert_requested(cancellation)
   end
 
+  test "typed settings render defaults and numeric constraints" do
+    Current.with(user: users(:admin)) do
+      @service.service_fields.create!(
+        key: "interval",
+        kind: "integer",
+        name_en: "interval",
+        name_fr: "intervalle",
+        position: 20,
+        required: true,
+        default_value: "10",
+        minimum: 1,
+        maximum: 120
+      )
+    end
+    sign_in(
+      email_addresses(:admin_email).email_address,
+      passwords(:password).hint
+    )
+    get(new_subscription_path(plan_id: @plan.id))
+    assert_response :success
+    assert_select 'input[type="number"][min="1.0"][max="120.0"][step="1"][placeholder="10"]'
+  end
+
   private
 
   def destination_for(user)

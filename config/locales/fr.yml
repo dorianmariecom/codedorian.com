@@ -278,6 +278,10 @@ fr:
         description_fr: description française
         name_en: nom anglais
         service_id: service
+      plan_field:
+        default_value: valeur par défaut
+        maximum: maximum
+        minimum: minimum
       plan_schedule:
         interval: intervalle
         plan_id: offre
@@ -308,6 +312,10 @@ fr:
         name_en: nom anglais
         name_fr: nom français
         user_id: utilisateur
+      service_field:
+        default_value: valeur par défaut
+        maximum: maximum
+        minimum: minimum
       service_id: service
       slug: identifiant
       step:
@@ -1202,7 +1210,6 @@ fr:
       submit: créer
       title: 'ajouter : canal de livraison'
     show:
-      delivery_input: code de livraison
       amount_cents: montant en centimes
       amount_currency: devise
       callback_base_url: url de rappel
@@ -1213,6 +1220,7 @@ fr:
       delete: supprimer le canal de livraison
       deliveries: livraisons
       delivery_destinations: destinations de livraison
+      delivery_input: code de livraison
       description: canal de livraison
       destroy: détruire le canal de livraison
       edit: modifier le canal de livraison
