@@ -1,6 +1,7 @@
 *.gem
 *.sqlite3*
 .DS_Store
+**/.git
 AGENTS.local.md
 **/AGENTS.local.md
 /.bundle

@@ -52,7 +52,7 @@ COPY . .
 
 ENV DUMMY=1
 RUN ./bin/rails assets:precompile && \
-    rm -rf node_modules/.cache tmp/cache
+    rm -rf node_modules/.cache tmp/cache log/*
 
 FROM base AS final
 
