@@ -4,8 +4,8 @@
 AGENTS.local.md
 **/AGENTS.local.md
 /.bundle
-/.env
-/.env.*.local
+**/.env
+**/.env.*
 /.expo/*
 /.kamal/*
 /app/assets/builds/*
@@ -20,7 +20,6 @@ AGENTS.local.md
 /tmp/pids/*
 /tmp/storage/*
 /vendor/bundle/*
-!/.env*.erb
 !/.kamal/.keep
 !/app/assets/builds/.keep
 !/db/.keep
