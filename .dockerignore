@@ -5,8 +5,8 @@
 AGENTS.local.md
 **/AGENTS.local.md
 /.bundle
-**/.env
-**/.env.*
+**/.env.local
+**/.env.*.local
 /.expo/*
 /.kamal/*
 /app/assets/builds/*

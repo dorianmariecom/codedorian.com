@@ -3,6 +3,7 @@
 .DS_Store
 AGENTS.local.md
 /.bundle
+/.env.local
 /.env.*.local
 /.expo/*
 /.kamal/*
