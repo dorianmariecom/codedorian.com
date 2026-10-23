@@ -42,8 +42,14 @@ class AiGeneration
     end
 
     credentials = Datum.where_user(context[:user])
-    subscription = context[:subscription] || context[:subscription_execution]&.subscription || context[:step_execution]&.subscription_execution&.subscription
-    locale = context[:delivery]&.locale.presence || subscription&.user&.locale.presence || context[:locale].presence || context[:user]&.locale || I18n.default_locale
+    subscription =
+      context[:subscription] ||
+        context[:subscription_execution]&.subscription ||
+        context[:step_execution]&.subscription_execution&.subscription
+    locale =
+      context[:delivery]&.locale.presence ||
+        subscription&.user&.locale.presence || context[:locale].presence ||
+        context[:user]&.locale || I18n.default_locale
     api_key ||= credentials.find_by(key: API_KEY_DATUM_KEY)&.value
     model ||= credentials.find_by(key: MODEL_DATUM_KEY)&.value
     raise Code::Error, "OpenAI API key is missing" if api_key.blank?
@@ -65,7 +71,8 @@ class AiGeneration
     request = {
       model: model,
       input: messages,
-      instructions: "Write user-facing output in the language selected by locale #{locale}. Preserve JSON schema keys and identifiers.",
+      instructions:
+        "Write user-facing output in the language selected by locale #{locale}. Preserve JSON schema keys and identifiers.",
       store: false,
       max_output_tokens: max_output_tokens
     }

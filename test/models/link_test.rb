@@ -125,7 +125,13 @@ class LinkTest < ActiveSupport::TestCase
 
   test "code errors in link expressions are not hidden" do
     assert_raises(Code::Error) do
-      Link.new(visibility_input: "Current.user.unknown?").visible?(context: {})
+      Link.new(visibility_input: 'fail("broken_link")').visible?(context: {})
     end
+  end
+  test "missing link properties are not visible" do
+    assert_not Link.new(visibility_input: "Current.user.unknown?").visible?(
+                 context: {
+                 }
+               )
   end
 end

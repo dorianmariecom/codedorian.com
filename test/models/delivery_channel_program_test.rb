@@ -31,16 +31,22 @@ class DeliveryChannelProgramTest < ActiveSupport::TestCase
     Current.delivery = @delivery
     expected = Digest::SHA256.hexdigest("delivery-#{@delivery.id}")
     assert_equal expected, @delivery.idempotency_key
-    @channel.update!(delivery_input: "Delivery.accepted(delivery.idempotency_key)")
+    @channel.update!(
+      delivery_input: "Delivery.accepted(delivery.idempotency_key)"
+    )
     assert_equal expected, @channel.deliver(delivery: @delivery).provider_id
     assert_equal expected, @delivery.reload.idempotency_key
   end
 
   test "delivery visibility predicates are available to programs" do
-    @channel.update!(delivery_input: "Delivery.accepted(delivery.public?.to_string)")
+    @channel.update!(
+      delivery_input: "Delivery.accepted(delivery.public?.to_string)"
+    )
     @delivery.update!(visibility: "public")
     assert_equal "true", @channel.deliver(delivery: @delivery).provider_id
-    @channel.update!(delivery_input: "Delivery.accepted(delivery.private?.to_string)")
+    @channel.update!(
+      delivery_input: "Delivery.accepted(delivery.private?.to_string)"
+    )
     assert_equal "false", @channel.deliver(delivery: @delivery).provider_id
     @delivery.visibility = "private"
     assert_equal "true", @channel.deliver(delivery: @delivery).provider_id

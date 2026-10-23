@@ -111,7 +111,9 @@ class CodeModelAccessTest < ActiveSupport::TestCase
     assert_raises(Code::Error) do
       Code.evaluate('Connection.where("users.id": 1)')
     end
-    assert_raises(Code::Error) { Code.evaluate("Connection.delete_all") }
+    assert_no_difference("Connection.count") do
+      assert Code.evaluate("Connection.delete_all").nothing?
+    end
   end
 
   test "service associations expose subscription and step executions" do

@@ -56,9 +56,19 @@ class Code
 
       def self.function_documentation(scope)
         if scope == :instance
-          FUNCTIONS.slice("compact_text", "idempotency_key", "public?", "private?")
+          FUNCTIONS.slice(
+            "compact_text",
+            "idempotency_key",
+            "public?",
+            "private?"
+          )
         elsif scope == :class
-          FUNCTIONS.except("compact_text", "idempotency_key", "public?", "private?")
+          FUNCTIONS.except(
+            "compact_text",
+            "idempotency_key",
+            "public?",
+            "private?"
+          )
         else
           {}
         end

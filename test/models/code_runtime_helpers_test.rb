@@ -79,12 +79,26 @@ class CodeRuntimeHelpersTest < ActiveSupport::TestCase
   end
 
   test "delivery rejections accept keyword and existing positional retry decisions" do
-    assert_equal true, Code.evaluate("Delivery.rejected(:http_429, retryable?: true).retryable").as_json
-    assert_equal false, Code.evaluate("Delivery.rejected(:invalid, retryable?: false).retryable").as_json
-    assert_equal false, Code.evaluate("Delivery.rejected(:invalid).retryable").as_json
-    assert_equal true, Code.evaluate("Delivery.rejected(:http_429, true).retryable").as_json
-    assert_raises(Code::Error) { Code.evaluate('Delivery.rejected(:invalid, retryable?: "yes")') }
-    assert_raises(Code::Error) { Code.evaluate("Delivery.rejected(:invalid, retry?: true)") }
+    assert_equal true,
+                 Code.evaluate(
+                   "Delivery.rejected(:http_429, retryable?: true).retryable"
+                 ).as_json
+    assert_equal false,
+                 Code.evaluate(
+                   "Delivery.rejected(:invalid, retryable?: false).retryable"
+                 ).as_json
+    assert_equal false,
+                 Code.evaluate("Delivery.rejected(:invalid).retryable").as_json
+    assert_equal true,
+                 Code.evaluate(
+                   "Delivery.rejected(:http_429, true).retryable"
+                 ).as_json
+    assert_raises(Code::Error) do
+      Code.evaluate('Delivery.rejected(:invalid, retryable?: "yes")')
+    end
+    assert_raises(Code::Error) do
+      Code.evaluate("Delivery.rejected(:invalid, retry?: true)")
+    end
   end
 
   test "delivery result helpers follow the channel protocol" do
@@ -94,7 +108,9 @@ class CodeRuntimeHelpersTest < ActiveSupport::TestCase
         "error_code" => "rate_limited",
         "retryable" => true
       },
-      Code.evaluate("Delivery.rejected(:rate_limited, retryable?: true)").as_json
+      Code.evaluate(
+        "Delivery.rejected(:rate_limited, retryable?: true)"
+      ).as_json
     )
     assert_equal(
       { "status" => "uncertain" },

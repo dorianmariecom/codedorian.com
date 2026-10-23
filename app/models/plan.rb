@@ -65,7 +65,11 @@ class Plan < ApplicationRecord
         subscription: subscription,
         plan: self,
         service: service
-      ) { Code.evaluate(pricing_input).as_json.stringify_keys }
+      ) { Code.evaluate(pricing_input).as_json }
+    unless value.is_a?(Hash)
+      raise StripeBilling::PricingError, t("pricing_invalid")
+    end
+    value = value.stringify_keys
     amount_cents = Integer(value.fetch("amount_cents"), exception: false)
     amount_currency = value.fetch("amount_currency", nil).to_s.downcase
     unless amount_cents&.positive? && amount_currency.match?(/\A[a-z]{3}\z/)

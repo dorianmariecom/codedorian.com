@@ -391,6 +391,21 @@ class ServiceModelsTest < ActiveSupport::TestCase
     assert_equal("eur", subscription.amount_currency)
   end
 
+  test "pricing rejects non dictionary results" do
+    subscription = subscriptions(:subscription)
+    plan = subscription.plan
+    Current.with(user: subscription.user) do
+      ["nothing", "false", "true", "42", "[]", '"missing"'].each do |input|
+        plan.update!(pricing_input: input)
+        error =
+          assert_raises(StripeBilling::PricingError) do
+            plan.price_for(subscription)
+          end
+        assert_equal I18n.t("plans.model.pricing_invalid"), error.message
+      end
+    end
+  end
+
   test "pricing code errors are reported as pricing errors" do
     subscription = subscriptions(:subscription)
     plan = subscription.plan
