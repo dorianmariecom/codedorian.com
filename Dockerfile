@@ -1,7 +1,7 @@
 ARG RUBY_VERSION=4.0.9
 ARG NODE_VERSION=26.3.1
 
-FROM ruby:${RUBY_VERSION}-slim-bookworm AS base
+FROM rubylang/ruby:${RUBY_VERSION}-noble AS base
 
 ENV BUNDLER_VERSION=4.0.15 \
     NPM_VERSION=11.17.0 \
