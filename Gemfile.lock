@@ -668,7 +668,7 @@ DEPENDENCIES
   bundler-audit
   capybara
   cloudflare-rails
-  code-ruby (= 6.0.0)
+  code-ruby
   countries
   digest
   dorian
