@@ -71,7 +71,7 @@ class WebhookDeliveryTest < ActiveSupport::TestCase
             body_html: "<p>world</p>",
             url: nil,
             locale: "fr"
-          }.to_json
+          }
         )
         .to_return(status: 204, body: "")
         .then
@@ -128,7 +128,7 @@ class WebhookDeliveryTest < ActiveSupport::TestCase
         )
         assert_equal "uncertain", deliver_code(@delivery).status
       end
-      assert_requested redirected, times: 1
+      assert_not_requested redirected
       assert_not_requested :post, "https://other.example.com"
       stub_request(:post, @delivery.recipient).to_timeout
       assert_raises(Code::Error) { deliver_code(@delivery) }

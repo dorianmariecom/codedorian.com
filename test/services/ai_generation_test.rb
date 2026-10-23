@@ -31,6 +31,38 @@ class AiGenerationTest < ActiveSupport::TestCase
     }.to_json
   end
 
+  test "recipient language is derived from the subscription context" do
+    subscription = subscriptions(:subscription)
+    subscription.user.update!(locale: "en")
+    Current.locale = "fr"
+    request = stub_request(:post, @url).with do |req|
+      JSON.parse(req.body).fetch("instructions").include?("locale en")
+    end.to_return(body: completed("hello"))
+    assert_equal "hello", AiGeneration.call(messages: [], context: {user: Current.user, subscription: subscription, locale: "fr"})
+    assert_requested request
+  end
+
+  test "the supplied execution context determines credentials and language" do
+    context = {user: Current.user, locale: "en"}
+    Current.user = users(:other_user)
+    Current.locale = "fr"
+    request = stub_request(:post, @url).with(headers: {"Authorization" => "Bearer test-key"}) do |req|
+      JSON.parse(req.body).fetch("instructions").include?("locale en")
+    end.to_return(body: completed("hello"))
+    assert_equal "hello", AiGeneration.call(messages: [], context: context)
+    assert_requested request
+  end
+
+  test "output language follows the current locale" do
+    Current.locale = "fr"
+    request = stub_request(:post, @url).with do |req|
+      payload = JSON.parse(req.body)
+      payload.fetch("instructions").include?("locale fr") && !payload.key?("seed")
+    end.to_return(body: completed("bonjour"))
+    assert_equal "bonjour", AiGeneration.call(messages: [{role: "user", content: "Say hello"}])
+    assert_requested request
+  end
+
   test "AI helper sends schema and returns locally validated structured output" do
     request =
       stub_request(:post, @url)

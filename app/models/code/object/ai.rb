@@ -41,7 +41,7 @@ class Code
 
       def self.code_generate(value)
         options = value.to_code.as_json.symbolize_keys.compact
-        ::AiGeneration.call(**options).to_code
+        ::AiGeneration.call(**options, context: ::Current.attributes).to_code
       end
     end
   end

@@ -29,7 +29,22 @@ class Code
           name: "rejected",
           description:
             "builds a provider rejection with an explicit retry decision.",
-          examples: ["Delivery.rejected(:rate_limited, true)"]
+          examples: ["Delivery.rejected(:rate_limited, retryable?: true)"]
+        },
+        "private?" => {
+          name: "private?",
+          description: "reports whether this delivery is private.",
+          examples: ["delivery.private?"]
+        },
+        "public?" => {
+          name: "public?",
+          description: "reports whether this delivery is public.",
+          examples: ["delivery.public?"]
+        },
+        "idempotency_key" => {
+          name: "idempotency_key",
+          description: "returns the stable key for sending this delivery.",
+          examples: ["delivery.idempotency_key"]
         },
         "compact_text" => {
           name: "compact_text",
@@ -41,9 +56,9 @@ class Code
 
       def self.function_documentation(scope)
         if scope == :instance
-          FUNCTIONS.slice("compact_text")
+          FUNCTIONS.slice("compact_text", "idempotency_key", "public?", "private?")
         elsif scope == :class
-          FUNCTIONS.except("compact_text")
+          FUNCTIONS.except("compact_text", "idempotency_key", "public?", "private?")
         else
           {}
         end
@@ -79,6 +94,15 @@ class Code
         when "private_url"
           sig(args)
           code_private_url
+        when "private?"
+          sig(args)
+          code_private?
+        when "public?"
+          sig(args)
+          code_public?
+        when "idempotency_key"
+          sig(args)
+          code_idempotency_key
         when "recipient_verified?"
           sig(args)
           code_recipient_verified?
@@ -119,6 +143,20 @@ class Code
 
       def code_private_url
         "#{::Current.base_url}/deliveries/#{record!.id}".to_code
+      end
+
+      def code_private?
+        record!
+        (code_get("visibility").to_s == "private").to_code
+      end
+
+      def code_public?
+        record!
+        (code_get("visibility").to_s == "public").to_code
+      end
+
+      def code_idempotency_key
+        record!.idempotency_key.to_code
       end
 
       def code_recipient_verified?
@@ -182,9 +220,15 @@ class Code
           sig(args)
           code_canceled
         when "rejected"
-          sig(args) { [String, Boolean.maybe] }
           values = args.fetch(:arguments, []).to_code
-          code_rejected(values.code_first, values.code_second)
+          retryable = values.code_second
+          if retryable.is_a?(Dictionary)
+            sig(args) { [String, { retryable?: Boolean.maybe }] }
+            retryable = retryable.code_get("retryable?")
+          else
+            sig(args) { [String, Boolean.maybe] }
+          end
+          code_rejected(values.code_first, retryable)
         when "all"
           sig(args)
           code_all

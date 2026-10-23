@@ -380,6 +380,10 @@ class Delivery < ApplicationRecord
     end
   end
 
+  def idempotency_key
+    Digest::SHA256.hexdigest("delivery-#{id}")
+  end
+
   def to_code
     Code::Object::Delivery.new(attributes)
   end

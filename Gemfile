@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-ruby "4.0.5"
+ruby "4.0.9"
 
 gem "action_push_native"
 gem "activerecord-session_store"
@@ -15,7 +15,7 @@ gem "bundle-audit"
 gem "bundler-audit"
 gem "capybara"
 gem "cloudflare-rails"
-gem "code-ruby", "5.2.1"
+gem "code-ruby", "5.2.4"
 gem "countries"
 gem "digest"
 gem "dorian"

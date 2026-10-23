@@ -127,7 +127,7 @@ GEM
       railties (>= 7.2.0, < 8.2.0)
       zeitwerk (>= 2.5.0)
     cmdparse (3.0.7)
-    code-ruby (5.2.1)
+    code-ruby (5.2.4)
       activesupport (>= 7.1.6, < 9)
       base64 (>= 0.3.0, < 1)
       bigdecimal (>= 4.1.2, < 5)
@@ -668,7 +668,7 @@ DEPENDENCIES
   bundler-audit
   capybara
   cloudflare-rails
-  code-ruby (= 5.2.1)
+  code-ruby (= 5.2.4)
   countries
   digest
   dorian
@@ -738,7 +738,7 @@ DEPENDENCIES
   zxcvbn-ruby
 
 RUBY VERSION
-  ruby 4.0.5
+  ruby 4.0.9
 
 BUNDLED WITH
   4.0.15

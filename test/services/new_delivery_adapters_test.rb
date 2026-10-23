@@ -153,7 +153,7 @@ class NewDeliveryAdaptersTest < ActiveSupport::TestCase
           subject: "Bonjour",
           text: "Le monde",
           html: "<p>Le monde</p>"
-        }.to_json
+        }
       ).to_return(body: { id: "resend-id" }.to_json)
     assert_equal "resend-id", deliver_code(@delivery).provider_id
     assert_requested sent

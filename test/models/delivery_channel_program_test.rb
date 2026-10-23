@@ -27,6 +27,26 @@ class DeliveryChannelProgramTest < ActiveSupport::TestCase
 
   teardown { Current.reset }
 
+  test "delivery idempotency keys are stable and available to programs" do
+    Current.delivery = @delivery
+    expected = Digest::SHA256.hexdigest("delivery-#{@delivery.id}")
+    assert_equal expected, @delivery.idempotency_key
+    @channel.update!(delivery_input: "Delivery.accepted(delivery.idempotency_key)")
+    assert_equal expected, @channel.deliver(delivery: @delivery).provider_id
+    assert_equal expected, @delivery.reload.idempotency_key
+  end
+
+  test "delivery visibility predicates are available to programs" do
+    @channel.update!(delivery_input: "Delivery.accepted(delivery.public?.to_string)")
+    @delivery.update!(visibility: "public")
+    assert_equal "true", @channel.deliver(delivery: @delivery).provider_id
+    @channel.update!(delivery_input: "Delivery.accepted(delivery.private?.to_string)")
+    assert_equal "false", @channel.deliver(delivery: @delivery).provider_id
+    @delivery.visibility = "private"
+    assert_equal "true", @channel.deliver(delivery: @delivery).provider_id
+    assert_equal "public", @delivery.reload.visibility
+  end
+
   test "saved programs execute as the service user and restore context" do
     @channel.update!(delivery_input: <<~CODE)
       { status: "accepted", provider_id: "{Current.user.id}:{Current.subscription.id}:{Current.locale}" }
