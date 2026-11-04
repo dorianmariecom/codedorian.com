@@ -124,7 +124,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v5
-    - uses: actions/setup-node@v5
+    - uses: actions/setup-node@v7
     - run: npm audit
   rubocop:
     name: rubocop
@@ -155,7 +155,7 @@ jobs:
         - 5432:5432
     steps:
     - uses: actions/checkout@v5
-    - uses: actions/setup-node@v5
+    - uses: actions/setup-node@v7
     - run: sudo apt-get update
     - run: sudo apt-get install --yes libvips42t64
     - uses: ruby/setup-ruby@v1
@@ -182,7 +182,7 @@ jobs:
         - 5432:5432
     steps:
     - uses: actions/checkout@v5
-    - uses: actions/setup-node@v5
+    - uses: actions/setup-node@v7
     - run: sudo apt-get update
     - run: sudo apt-get install --yes libvips42t64
     - uses: ruby/setup-ruby@v1
