@@ -102,3 +102,7 @@
 - For behavior changes, explain which domain was touched: identity, program execution, forms, jobs, mobile bridge, or admin CRUD.
 
 Also read @AGENTS.local.md
+
+## Workspace conventions
+
+Read ../AGENTS.md for dorianmarie.com platform conventions. Preserve this legacy project’s runtime and existing instructions. New compatible web applications use JavaScript, Cloudflare Workers, shared libraries.dorianmarie.com elements, black-and-white presentation, white icons on black, PWA support, and account.dorianmarie.com login and registration. No emojis. A runtime migration requires preserving and validating all current features.
