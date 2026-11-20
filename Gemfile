@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-ruby "4.0.9"
+ruby "4.0.10"
 
 gem "action_push_native"
 gem "activerecord-session_store"
